@@ -175,37 +175,44 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(cluInfo, "cluInfo");
 
-		//TODO add cascading persists to all the nested entities
-
 		Clu clu = new Clu();
 
 		LuType luType = luDao.fetch(LuType.class,luTypeKey);
 		clu.setLuType(luType);
 
-		CluIdentifier officialIdentifier = new CluIdentifier();
-		BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier);
-		clu.setOfficialIdentifier(officialIdentifier);
-
+		if(cluInfo.getOfficialIdentifier()!=null){
+			CluIdentifier officialIdentifier = new CluIdentifier();
+			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier);
+			clu.setOfficialIdentifier(officialIdentifier);
+		}
+		
 		for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
 			CluIdentifier identifier = new CluIdentifier();
 			BeanUtils.copyProperties(cluIdInfo, identifier);
 			clu.getAlternateIdentifiers().add(identifier);
 		}
 
-		clu.setDesc(LuServiceAssembler.toRichText(cluInfo.getDesc()));
-		clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
-
+		if(cluInfo.getDesc()!=null){
+			clu.setDesc(LuServiceAssembler.toRichText(cluInfo.getDesc()));
+		}
+		
+		if(cluInfo.getMarketingDesc()!=null){
+			clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
+		}
+			
 		for(String orgId:cluInfo.getParticipatingOrgs()){
 			CluOrg cluOrg = new CluOrg();
 			cluOrg.setOrgId(orgId);
 			clu.getParticipatingOrgs().add(cluOrg);
 		}
 
-		CluInstructor primaryInstructor = new CluInstructor();
-		BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),primaryInstructor,new String[]{"attributes"});
-		primaryInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), primaryInstructor, luDao));
-		clu.setPrimaryInstructor(primaryInstructor);
-
+		if(cluInfo.getPrimaryInstructor()!=null){
+			CluInstructor primaryInstructor = new CluInstructor();
+			BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),primaryInstructor,new String[]{"attributes"});
+			primaryInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), primaryInstructor, luDao));
+			clu.setPrimaryInstructor(primaryInstructor);
+		}
+			
 		for(CluInstructorInfo instructorInfo: cluInfo.getInstructors()){
 			CluInstructor instructor = new CluInstructor();
 			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
@@ -213,8 +220,10 @@ public class LuServiceImpl implements LuService {
 			clu.getInstructors().add(instructor);
 		}
 
-		clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
-
+		if(cluInfo.getStdDuration()!=null){
+			clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
+		}
+			
 		for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
 			LuCode luCode = new LuCode();
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
@@ -222,25 +231,29 @@ public class LuServiceImpl implements LuService {
 			clu.getLuCodes().add(luCode);
 		}
 
-		clu.setCredit(LuServiceAssembler.toCluCredit(cluInfo.getCreditInfo()));
+		clu.setCredit(LuServiceAssembler.toCluCredit(cluInfo.getCreditInfo()));//Required field
 
-		CluPublishing cluPublishing = new CluPublishing();
-		BeanUtils.copyProperties(cluInfo.getPublishingInfo(),cluPublishing,new String[]{"attributes","instructors","primaryInstructor"});
-		cluPublishing.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), cluPublishing, luDao));
-
-		CluInstructor primaryPubInstructor = new CluInstructor();
-		BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),primaryPubInstructor,new String[]{"attributes"});
-		primaryPubInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), primaryPubInstructor, luDao));
-		cluPublishing.setPrimaryInstructor(primaryPubInstructor);
-
-		for(CluInstructorInfo instructorInfo: cluInfo.getPublishingInfo().getInstructors()){
-			CluInstructor instructor = new CluInstructor();
-			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
-			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
-			cluPublishing.getInstructors().add(instructor);
+		if(cluInfo.getPublishingInfo()!=null){
+			CluPublishing cluPublishing = new CluPublishing();
+			BeanUtils.copyProperties(cluInfo.getPublishingInfo(),cluPublishing,new String[]{"attributes","instructors","primaryInstructor"});
+			cluPublishing.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), cluPublishing, luDao));
+		
+			if(cluInfo.getPublishingInfo().getPrimaryInstructor()!=null){	
+				CluInstructor primaryPubInstructor = new CluInstructor();
+				BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),primaryPubInstructor,new String[]{"attributes"});
+				primaryPubInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), primaryPubInstructor, luDao));
+				cluPublishing.setPrimaryInstructor(primaryPubInstructor);
+			}
+				
+			for(CluInstructorInfo instructorInfo: cluInfo.getPublishingInfo().getInstructors()){
+				CluInstructor instructor = new CluInstructor();
+				BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
+				instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
+				cluPublishing.getInstructors().add(instructor);
+			}
+	
+			clu.setPublishing(cluPublishing);
 		}
-
-		clu.setPublishing(cluPublishing);
 
 		for(String atpTypeKey : cluInfo.getOfferedAtpTypes()){
 			CluAtpTypeKey cluAtpTypeKey = new CluAtpTypeKey();
@@ -248,13 +261,17 @@ public class LuServiceImpl implements LuService {
 			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
 		}
 
-		CluFee cluFee = new CluFee();
-		cluFee.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, cluInfo.getFeeInfo().getAttributes(), cluFee, luDao));
-		clu.setFee(cluFee);
+		if(cluInfo.getFeeInfo()!=null){
+			CluFee cluFee = new CluFee();
+			cluFee.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, cluInfo.getFeeInfo().getAttributes(), cluFee, luDao));
+			clu.setFee(cluFee);
+		}
 
-		CluAccounting cluAccounting = new CluAccounting();
-		cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), cluAccounting, luDao));
-		clu.setAccounting(cluAccounting);
+		if(cluInfo.getAccountingInfo()!=null){
+			CluAccounting cluAccounting = new CluAccounting();
+			cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), cluAccounting, luDao));
+			clu.setAccounting(cluAccounting);
+		}
 
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 
@@ -1256,11 +1273,15 @@ public class LuServiceImpl implements LuService {
 		LuType luType = luDao.fetch(LuType.class,cluInfo.getType());
 		clu.setLuType(luType);
 		
-		if(clu.getOfficialIdentifier()==null){
-			clu.setOfficialIdentifier(new CluIdentifier());
+		if(cluInfo.getOfficialIdentifier()!=null){
+			if(clu.getOfficialIdentifier()==null){
+				clu.setOfficialIdentifier(new CluIdentifier());
+			}
+			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier(), new String[]{"id"});
+		}else if(clu.getOfficialIdentifier()!=null){
+			luDao.delete(clu.getOfficialIdentifier());
 		}
-		BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier(), new String[]{"id"});
-
+		
 		//Update the list of Alternate Identifiers
 		//Get a map of Id->object of all the currently persisted objects in the list
 		Map<String, CluIdentifier> oldAltIdMap = new HashMap<String, CluIdentifier>();
@@ -1286,16 +1307,23 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 		
-		if(clu.getDesc() == null){
-			clu.setDesc(new RichText());
+		if(cluInfo.getDesc()!=null){
+			if(clu.getDesc() == null){
+				clu.setDesc(new RichText());
+			}
+			BeanUtils.copyProperties(cluInfo.getDesc(), clu.getDesc());
+		}else if(clu.getDesc()!=null){
+			luDao.delete(clu.getDesc());
 		}
-		BeanUtils.copyProperties(cluInfo.getDesc(), clu.getDesc());
 		
-		if(clu.getMarketingDesc() == null){
-			clu.setMarketingDesc(new RichText());
+		if(cluInfo.getMarketingDesc()!=null){
+			if(clu.getMarketingDesc() == null){
+				clu.setMarketingDesc(new RichText());
+			}
+			BeanUtils.copyProperties(cluInfo.getMarketingDesc(), clu.getMarketingDesc());
+		}else if(clu.getMarketingDesc()!=null){
+			luDao.delete(clu.getMarketingDesc());
 		}
-		BeanUtils.copyProperties(cluInfo.getMarketingDesc(), clu.getMarketingDesc());
-
 		
 		//Update the list of participating orgs
 		//Get a map of Id->object of all the currently persisted objects in the list
@@ -1322,11 +1350,15 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 		
-		if(clu.getPrimaryInstructor() == null){
-			clu.setPrimaryInstructor(new CluInstructor());
+		if(cluInfo.getPrimaryInstructor()!=null){
+			if(clu.getPrimaryInstructor() == null){
+				clu.setPrimaryInstructor(new CluInstructor());
+			}
+			BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),clu.getPrimaryInstructor(),new String[]{"attributes"});
+			clu.getPrimaryInstructor().setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), clu.getPrimaryInstructor(), luDao));
+		}else if(clu.getPrimaryInstructor()!=null){
+			luDao.delete(clu.getPrimaryInstructor());
 		}
-		BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),clu.getPrimaryInstructor(),new String[]{"attributes"});
-		clu.getPrimaryInstructor().setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), clu.getPrimaryInstructor(), luDao));
 		
 		//Update the List of instructors
 		//Get a map of Id->object of all the currently persisted objects in the list
@@ -1354,12 +1386,14 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 	
-		
-		if(clu.getStdDuration()==null){
-			clu.setStdDuration(new TimeAmount());
+		if(cluInfo.getStdDuration()!=null){
+			if(clu.getStdDuration()==null){
+				clu.setStdDuration(new TimeAmount());
+			}
+			BeanUtils.copyProperties(cluInfo.getStdDuration(), clu.getStdDuration());
+		}else if(clu.getStdDuration()!=null){
+			luDao.delete(clu.getStdDuration());
 		}
-		BeanUtils.copyProperties(cluInfo.getStdDuration(), clu.getStdDuration());
-		
 
 		//Update the LuCodes
 		//Get a map of Id->object of all the currently persisted objects in the list
@@ -1391,49 +1425,57 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 		
-		if(clu.getCredit()==null){
+		//Credit is required
+		if(clu.getCredit()==null){ 
 			clu.setCredit(new CluCredit());
 		}
 		LuServiceAssembler.copyCluCredit(cluInfo.getCreditInfo(),clu.getCredit());
 		
-		if(clu.getPublishing()==null){
-			clu.setPublishing(new CluPublishing());
-		}
-		BeanUtils.copyProperties(cluInfo.getPublishingInfo(),clu.getPublishing(),new String[]{"attributes","instructors","primaryInstructor"});
-		clu.getPublishing().setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), clu.getPublishing(), luDao));
-		
-		if(clu.getPublishing().getPrimaryInstructor()==null){
-			clu.getPublishing().setPrimaryInstructor(new CluInstructor());
-		}
-		BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),clu.getPublishing().getPrimaryInstructor(),new String[]{"attributes"});
-		clu.getPublishing().getPrimaryInstructor().setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), clu.getPublishing().getPrimaryInstructor(), luDao));
-
-		//Update the Publishing Instructors
-		//Get a map of Id->object of all the currently persisted objects in the list
-		Map<String, CluInstructor> oldPubInstructorMap = new HashMap<String, CluInstructor>();
-		for(CluInstructor cluInstructor : clu.getPublishing().getInstructors()){
-			oldPubInstructorMap.put(cluInstructor.getOrgId()+"_"+cluInstructor.getPersonId(),cluInstructor);
-		}
-		clu.getPublishing().getInstructors().clear();
-		
-		//Loop through the new list, if the item exists already update and remove from the list
-		//otherwise create a new entry
-		for(CluInstructorInfo instructorInfo : cluInfo.getPublishingInfo().getInstructors()){
-			CluInstructor cluInstructor = oldPubInstructorMap.remove(instructorInfo.getOrgId()+"_"+instructorInfo.getPersonId());
-			if(cluInstructor == null){
-				cluInstructor = new CluInstructor();
+		if(cluInfo.getPublishingInfo()!=null){
+			if(clu.getPublishing()==null){
+				clu.setPublishing(new CluPublishing());
 			}
-			//Do Copy
-			BeanUtils.copyProperties(instructorInfo,cluInstructor,new String[]{"attributes"});
-			cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
-			clu.getPublishing().getInstructors().add(cluInstructor);			
+			BeanUtils.copyProperties(cluInfo.getPublishingInfo(),clu.getPublishing(),new String[]{"attributes","instructors","primaryInstructor"});
+			clu.getPublishing().setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), clu.getPublishing(), luDao));
+			
+			if(cluInfo.getPublishingInfo().getPrimaryInstructor()!=null){
+				if(clu.getPublishing().getPrimaryInstructor()==null){
+					clu.getPublishing().setPrimaryInstructor(new CluInstructor());
+				}
+				BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),clu.getPublishing().getPrimaryInstructor(),new String[]{"attributes"});
+				clu.getPublishing().getPrimaryInstructor().setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), clu.getPublishing().getPrimaryInstructor(), luDao));
+			}else if(clu.getPublishing().getPrimaryInstructor()!=null){
+				luDao.delete(clu.getPublishing().getPrimaryInstructor());
+			}
+			
+			//Update the Publishing Instructors
+			//Get a map of Id->object of all the currently persisted objects in the list
+			Map<String, CluInstructor> oldPubInstructorMap = new HashMap<String, CluInstructor>();
+			for(CluInstructor cluInstructor : clu.getPublishing().getInstructors()){
+				oldPubInstructorMap.put(cluInstructor.getOrgId()+"_"+cluInstructor.getPersonId(),cluInstructor);
+			}
+			clu.getPublishing().getInstructors().clear();
+			
+			//Loop through the new list, if the item exists already update and remove from the list
+			//otherwise create a new entry
+			for(CluInstructorInfo instructorInfo : cluInfo.getPublishingInfo().getInstructors()){
+				CluInstructor cluInstructor = oldPubInstructorMap.remove(instructorInfo.getOrgId()+"_"+instructorInfo.getPersonId());
+				if(cluInstructor == null){
+					cluInstructor = new CluInstructor();
+				}
+				//Do Copy
+				BeanUtils.copyProperties(instructorInfo,cluInstructor,new String[]{"attributes"});
+				cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
+				clu.getPublishing().getInstructors().add(cluInstructor);			
+			}
+			
+			//Now delete anything left over
+			for(Entry<String, CluInstructor> entry:oldPubInstructorMap.entrySet()){
+				luDao.delete(entry.getValue());
+			}
+		}else if(clu.getPublishing()!=null){
+			luDao.delete(clu.getPublishing());
 		}
-		
-		//Now delete anything left over
-		for(Entry<String, CluInstructor> entry:oldPubInstructorMap.entrySet()){
-			luDao.delete(entry.getValue());
-		}
-		
 		
 		//Update the list of AtpTypeKeys
 		//Get a map of Id->object of all the currently persisted objects in the list
@@ -1460,30 +1502,32 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 		
-		
-		if(clu.getFee() == null){
-			clu.setFee(new CluFee());
+		if(cluInfo.getFeeInfo()!=null){
+			if(clu.getFee() == null){
+				clu.setFee(new CluFee());
+			}
+			clu.getFee().setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, cluInfo.getFeeInfo().getAttributes(), clu.getFee(), luDao));
+		}else if(clu.getFee()!=null){
+			luDao.delete(clu.getFee());
 		}
-		clu.getFee().setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, cluInfo.getFeeInfo().getAttributes(), clu.getFee(), luDao));
 		
-		
-		if(clu.getAccounting() == null){
-			clu.setAccounting(new CluAccounting());
+		if(cluInfo.getAccountingInfo()!=null){
+			if(clu.getAccounting() == null){
+				clu.setAccounting(new CluAccounting());
+			}
+			clu.getAccounting().setAttributes(LuServiceAssembler.toGenericAttributes(CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), clu.getAccounting(), luDao));
+		}else if(clu.getAccounting()!=null){
+			luDao.delete(clu.getAccounting());
 		}
-		clu.getAccounting().setAttributes(LuServiceAssembler.toGenericAttributes(CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), clu.getAccounting(), luDao));
-		
+			
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 		
 		//Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
 					"primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo"});
-		Clu updated;
-		try{
-			updated = luDao.update(clu);
-		}catch (Exception e){
-			e.printStackTrace();
-			return null;
-		}
+		
+		Clu updated = luDao.update(clu);
+		
 		return LuServiceAssembler.toCluInfo(updated);
 	}
 
