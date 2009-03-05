@@ -154,9 +154,15 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
 		
 	}
 	
-	public Date getSelectedDate(){
+	public Date getDate(){
 		return this.selectedDate;
 	}
 	
+	public void setDate(Date date){
+	    dateField.setText(df.format(date));
+        picker.setCurrentMonth(date);
+        picker.setValue(date, false);
+	    selectedDate = date;
+	}
 	
 }
