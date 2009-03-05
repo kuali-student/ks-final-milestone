@@ -75,6 +75,13 @@ public class DroolsRuleSetImpl
         this.setStatus(StateItem.DRAFT_STATE_NAME);
     }
 
+    /**
+     * Constructs a new rule set.
+     * 
+     * @param name Rule set name
+     * @param description Rule set description
+     * @param format Rule source format
+     */
     public DroolsRuleSetImpl(final String name, final String description, final String format) {
         super(name, description, format);
         this.setStatus(StateItem.DRAFT_STATE_NAME);
@@ -84,13 +91,15 @@ public class DroolsRuleSetImpl
      * <p>Constructs a new rule set.<p/>
      * <p>Internal use only. This is set by the repository when persisting a rule set.</p>
      * 
-     * @param uuid Rule UUID - This is created by the repository
-     * @param name Rule name
-     * @param versionNumber Rule version number
+     * @param uuid Rule set UUID - This is created by the repository
+     * @param name Rule set name
+     * @param description Rule set description
+     * @param versionNumber Rule set version number
      */
-    DroolsRuleSetImpl(final String uuid, final String name, final long versionNumber) {
+    DroolsRuleSetImpl(final String uuid, final String name, final String description, final long versionNumber) {
         super(uuid, name, versionNumber);
         this.setStatus(StateItem.DRAFT_STATE_NAME);
+        this.setDescription(description);
     }
 
     /**

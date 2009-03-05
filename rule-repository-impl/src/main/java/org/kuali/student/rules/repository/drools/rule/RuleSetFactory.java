@@ -64,7 +64,7 @@ public class RuleSetFactory {
      * @param format Rule set source code format
      * @return A new rule set
      */
-    public RuleSet createRuleSet( final String name, final String description, String format ) {
+    public RuleSet createRuleSet( final String name, final String description, final String format ) {
         return new DroolsRuleSetImpl( name, description, format );
     }
     
@@ -80,8 +80,8 @@ public class RuleSetFactory {
      * @param version Rule version number - Set by the repository implementation
      * @return A new rule set
      */
-    public DroolsRuleSetImpl createRuleSet( final String uuid, final String name, long version ) {
-        return new DroolsRuleSetImpl( uuid, name, version );
+    public DroolsRuleSetImpl createRuleSet( final String uuid, final String name, final String description, final long version ) {
+        return new DroolsRuleSetImpl( uuid, name, description, version );
     }
     
 }

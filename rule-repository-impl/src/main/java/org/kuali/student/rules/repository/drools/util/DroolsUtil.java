@@ -254,9 +254,9 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
-        DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName(), pkg.getVersionNumber() );
+        DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( 
+        		pkg.getUUID(), pkg.getName(), pkg.getDescription(), pkg.getVersionNumber() );
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
-        ruleSet.setDescription(pkg.getDescription());
         ruleSet.setFormat(pkg.getFormat());
         ruleSet.setCheckinComment(pkg.getCheckinComment());
         ruleSet.setCreatedDate(pkg.getCreatedDate());

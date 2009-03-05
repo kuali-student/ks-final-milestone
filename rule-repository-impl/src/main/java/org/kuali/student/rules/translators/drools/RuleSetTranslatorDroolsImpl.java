@@ -83,7 +83,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     	RuleSet ruleSet = null;
     	String ruleSetName = getRuleSetName(businessRule);
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
-        	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, 1);
+        	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, businessRule.getDesc(), 1);
     	} else {
         	ruleSet = ruleSetFactory.createRuleSet(ruleSetName, businessRule.getDesc());
     	}

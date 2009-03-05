@@ -31,7 +31,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -45,7 +44,6 @@ import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
 
 import org.drools.jsr94.rules.RuleServiceProviderImpl;
-import org.drools.repository.PackageItem;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -341,7 +339,8 @@ public class RuleEngineRepositoryTest {
                 expectedCheckinComment);
         RuleSet snapshot2 = brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot2", 
                 expectedCheckinComment);
-
+        assertNotNull(snapshot2);
+        
         RuleSet ruleSet2 = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
 
         assertEquals( 2, ruleSet2.getVersionNumber() );
@@ -609,7 +608,6 @@ public class RuleEngineRepositoryTest {
     @Test
     public void testCreateRuleSet_OneRuleCategory() throws Exception {
         String category = "TestCategory1";
-        String path = "/";
         brmsRepository.createCategory("/", category, "A test category 1");
         
         RuleSet ruleSet = createSimpleRuleSet("RuleSet1", null, "rule_", new String[] {category}, 2);
@@ -1492,7 +1490,7 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testRebuildAllSnapshots() throws Exception {
-        RuleSet ruleSet = createSimpleRuleSet("testRebuildAllSnapshots");
+        createSimpleRuleSet("testRebuildAllSnapshots");
         
         brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1", "Build snapshot 1");
 
@@ -1507,8 +1505,7 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testRebuildRuleSetSnapshot() throws Exception {
-        RuleSet ruleSet = createSimpleRuleSet("testRebuildAllSnapshots");
-        
+        createSimpleRuleSet("testRebuildAllSnapshots");
         brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1", "Build snapshot 1");
 
         long snapshotTime1 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
