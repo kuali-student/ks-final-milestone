@@ -25,6 +25,9 @@ public class GetCluSetInfoByIdListResponse {
     private java.util.List<CluSetInfo> _return;
 
     public java.util.List<CluSetInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<CluSetInfo>();
+		}
         return this._return;
     }
 

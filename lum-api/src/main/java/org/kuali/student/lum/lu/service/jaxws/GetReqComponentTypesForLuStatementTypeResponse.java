@@ -25,6 +25,9 @@ public class GetReqComponentTypesForLuStatementTypeResponse {
     private java.util.List<ReqComponentTypeInfo> _return;
 
     public java.util.List<ReqComponentTypeInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<ReqComponentTypeInfo>();
+		}
         return this._return;
     }
 

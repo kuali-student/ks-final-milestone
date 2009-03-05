@@ -25,6 +25,9 @@ public class GetLuDocRelationsByIdListResponse {
     private java.util.List<LuDocRelationInfo> _return;
 
     public java.util.List<LuDocRelationInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<LuDocRelationInfo>();
+		}
         return this._return;
     }
 

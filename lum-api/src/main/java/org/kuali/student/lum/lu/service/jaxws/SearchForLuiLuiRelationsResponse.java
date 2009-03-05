@@ -23,6 +23,9 @@ public class SearchForLuiLuiRelationsResponse {
     private java.util.List<String> _return;
 
     public java.util.List<String> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<String>();
+		}
         return this._return;
     }
 

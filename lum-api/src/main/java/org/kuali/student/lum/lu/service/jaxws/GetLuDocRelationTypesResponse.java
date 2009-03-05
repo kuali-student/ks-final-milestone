@@ -25,6 +25,9 @@ public class GetLuDocRelationTypesResponse {
     private java.util.List<LuDocRelationTypeInfo> _return;
 
     public java.util.List<LuDocRelationTypeInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<LuDocRelationTypeInfo>();
+		}
         return this._return;
     }
 

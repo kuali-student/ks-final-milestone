@@ -25,6 +25,9 @@ public class GetLuLuRelationTypeInfosResponse {
     private java.util.List<LuLuRelationTypeInfo> _return;
 
     public java.util.List<LuLuRelationTypeInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<LuLuRelationTypeInfo>();
+		}
         return this._return;
     }
 

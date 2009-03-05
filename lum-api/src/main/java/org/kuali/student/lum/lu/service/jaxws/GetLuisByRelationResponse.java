@@ -25,6 +25,9 @@ public class GetLuisByRelationResponse {
     private java.util.List<LuiInfo> _return;
 
     public java.util.List<LuiInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<LuiInfo>();
+		}
         return this._return;
     }
 
