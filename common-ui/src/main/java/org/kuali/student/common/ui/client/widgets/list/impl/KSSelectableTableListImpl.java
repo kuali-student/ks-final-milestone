@@ -55,6 +55,7 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
         }       
 
         table.setSelections(newSelections);
+        //table.
     }
 
     /**
