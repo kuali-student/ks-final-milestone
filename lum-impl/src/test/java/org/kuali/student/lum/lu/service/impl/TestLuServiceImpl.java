@@ -221,6 +221,18 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
+		clus = client.getAllClusInCluSet("CLUSET-4");
+		assertEquals(2, clus.size());
+
+		try {
+			ids = client.getAllCluIdsInCluSet(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+
+		clus = client.getAllClusInCluSet("CLUSET-2");
+		assertEquals(3, clus.size());
 	}
 
 	@Test
@@ -584,7 +596,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdClu.getMetaInfo().getCreateTime());
 
 		assertNotNull(createdClu.getId());
-		
+
 		//Now Update the Clu!
 		createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey1", "AccountingAttrValue1");
 		createdClu.getAccountingInfo().getAttributes().remove("AccountingAttrKey2");
@@ -613,7 +625,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getAlternateIdentifiers().get(0).setVariation("UPcluId1_variation");
 
 		createdClu.getAlternateIdentifiers().remove(1);
-		
+
 		CluIdentifierInfo cluId3 = new CluIdentifierInfo();
 		cluId3.setCode("cluId3_code");
 		cluId3.setDivision("cluId3_division");
@@ -634,16 +646,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		//CreditInfo
 		createdClu.getCreditInfo().getMaxAllowableInactivity().setAtpDurationTypeKey("UPEXT_MXAI_ID");
 		createdClu.getCreditInfo().getMaxAllowableInactivity().setTimeQuantity(new Integer(91111));
-		
+
 		createdClu.getCreditInfo().getMaxTimeResultsRecognized().setAtpDurationTypeKey("UPEXT_MXTRR_ID");
 		createdClu.getCreditInfo().getMaxTimeResultsRecognized().setTimeQuantity(new Integer(92222));
-		
+
 		createdClu.getCreditInfo().getMaxTimeToComplete().setAtpDurationTypeKey("UPEXT_MXTTC_ID");
 		createdClu.getCreditInfo().getMaxTimeToComplete().setTimeQuantity(new Integer(93333));
 
 		createdClu.getCreditInfo().getMinTimeToComplete().setAtpDurationTypeKey("UPEXT_MNTTC_ID");
 		createdClu.getCreditInfo().getMinTimeToComplete().setTimeQuantity(new Integer(94444));
-		
+
 		createdClu.getCreditInfo().getRepeatTime().setAtpDurationTypeKey("UPEXT_RT_ID");
 		createdClu.getCreditInfo().getRepeatTime().setTimeQuantity(new Integer(95555));
 
@@ -685,7 +697,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getInstructors().get(0).getAttributes().put("Inst1AttrKey3", "Inst1AttrValue3");
 
 		createdClu.getInstructors().remove(1);
-		
+
 		CluInstructorInfo instructor3 = new CluInstructorInfo();
 		instructor3.setOrgId("EXT_orgId_3");
 		instructor3.setPersonId("EXT_personId_3");
@@ -700,7 +712,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey3", "luCode1AttrValue3");
 
 		createdClu.getLuCodes().remove(1);
-		
+
 		LuCodeInfo luCode3 = new LuCodeInfo();
 		luCode3.setId("luCode3.key");
 		luCode3.setDesc("luCode3_desc");
@@ -711,7 +723,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		createdClu.getMarketingDesc().setFormatted("UP<p>marketingDesc FORMATTED</p>");
 		createdClu.getMarketingDesc().setPlain("UPmarketingDesc PLAIN");
-		
+
 		createdClu.setNextReviewPeriod("UPnextReviewPeriod");
 
 		createdClu.getOfferedAtpTypes().remove(1);
@@ -741,7 +753,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getPublishingInfo().getInstructors().get(0).getAttributes().put("PubInst1AttrKey3", "PubInst1AttrValue3");
 
 		createdClu.getPublishingInfo().getInstructors().remove(1);
-		
+
 		CluInstructorInfo pubInstructor3 = new CluInstructorInfo();
 		pubInstructor3.setOrgId("EXT_orgId_3");
 		pubInstructor3.setPersonId("EXT_personId_3");
@@ -760,14 +772,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		//Do Update
 		CluInfo updatedClu = client.updateClu(createdClu.getId(), createdClu);
-		
+
 		//Validate Results
 		assertNotNull(updatedClu);
 
 		assertEquals("AccountingAttrValue1", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey1"));
 		assertEquals("AccountingAttrValue3", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey3"));
 		assertEquals(2,updatedClu.getAccountingInfo().getAttributes().size());
-		
+
 		assertEquals("UPEXT_ACCREDITING_ORG_ID", updatedClu.getAccreditingOrg());
 		assertEquals("UPEXT_ADMIN_ORG_ID", updatedClu.getAdminOrg());
 
@@ -799,7 +811,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId3_variation",updatedClu.getAlternateIdentifiers().get(1).getVariation());
 
 		assertEquals(2,updatedClu.getAlternateIdentifiers().size());
-		
+
 		assertEquals("cluAttrValue1",updatedClu.getAttributes().get("cluAttrKey1"));
 		assertEquals("cluAttrValue3",updatedClu.getAttributes().get("cluAttrKey3"));
 		assertEquals(2,updatedClu.getAttributes().size());
@@ -845,9 +857,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("PrimaryInstAttrValue1",updatedClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey1"));
 		assertEquals("PrimaryInstAttrValue3",updatedClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey3"));
 		assertEquals(2,updatedClu.getPrimaryInstructor().getAttributes().size());
-		
+
 		assertEquals(2,updatedClu.getInstructors().size());
-		
+
 		assertEquals("UPEXT_orgId_2",updatedClu.getInstructors().get(0).getOrgId());
 		assertEquals("UPEXT_personId_2",updatedClu.getInstructors().get(0).getPersonId());
 		assertEquals("Inst1AttrValue1",updatedClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey1"));
@@ -859,9 +871,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("Inst3AttrValue1",updatedClu.getInstructors().get(1).getAttributes().get("Inst3AttrKey1"));
 		assertEquals("Inst3AttrValue2",updatedClu.getInstructors().get(1).getAttributes().get("Inst3AttrKey2"));
 		assertEquals(2,updatedClu.getInstructors().get(1).getAttributes().size());
-		
+
 		assertEquals(2,updatedClu.getLuCodes().size());
-		
+
 		assertEquals("luCode1.key",updatedClu.getLuCodes().get(0).getId());
 		assertEquals("UPluCode1_desc",updatedClu.getLuCodes().get(0).getDesc());
 		assertEquals("UPluCode1_value",updatedClu.getLuCodes().get(0).getValue());
@@ -895,7 +907,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("EXT_Participating_ORG_ID1",updatedClu.getParticipatingOrgs().get(0));
 		assertEquals("EXT_Participating_ORG_ID3",updatedClu.getParticipatingOrgs().get(1));
 		assertEquals(2,updatedClu.getParticipatingOrgs().size());
-		
+
 		assertEquals("UPendCycle",updatedClu.getPublishingInfo().getEndCycle());
 		assertEquals("UPstartCycle",updatedClu.getPublishingInfo().getStartCycle());
 		assertEquals("UPstate",updatedClu.getPublishingInfo().getState());
@@ -903,19 +915,19 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("publishingInfoAttrValue1",updatedClu.getPublishingInfo().getAttributes().get("publishingInfoAttrKey1"));
 		assertEquals("publishingInfoAttrValue3",updatedClu.getPublishingInfo().getAttributes().get("publishingInfoAttrKey3"));
 		assertEquals(2,updatedClu.getPublishingInfo().getAttributes().size());
-		
+
 		assertEquals("UPEXT_orgId_234",updatedClu.getPublishingInfo().getPrimaryInstructor().getOrgId());
 		assertEquals("UPEXT_personId_2451",updatedClu.getPublishingInfo().getPrimaryInstructor().getPersonId());
 		assertEquals("PubPrimaryInstAttrValue1",updatedClu.getPublishingInfo().getPrimaryInstructor().getAttributes().get("PubPrimaryInstAttrKey1"));
 		assertEquals("PubPrimaryInstAttrValue3",updatedClu.getPublishingInfo().getPrimaryInstructor().getAttributes().get("PubPrimaryInstAttrKey3"));
 		assertEquals(2,updatedClu.getPublishingInfo().getPrimaryInstructor().getAttributes().size());
-		
+
 		assertEquals("UPEXT_orgId_2",updatedClu.getPublishingInfo().getInstructors().get(0).getOrgId());
 		assertEquals("UPEXT_personId_2",updatedClu.getPublishingInfo().getInstructors().get(0).getPersonId());
 		assertEquals("PubInst1AttrValue1",updatedClu.getPublishingInfo().getInstructors().get(0).getAttributes().get("PubInst1AttrKey1"));
 		assertEquals("PubInst1AttrValue3",updatedClu.getPublishingInfo().getInstructors().get(0).getAttributes().get("PubInst1AttrKey3"));
 		assertEquals(2,updatedClu.getPublishingInfo().getInstructors().get(0).getAttributes().size());
-		
+
 		assertEquals("EXT_orgId_3",updatedClu.getPublishingInfo().getInstructors().get(1).getOrgId());
 		assertEquals("EXT_personId_3",updatedClu.getPublishingInfo().getInstructors().get(1).getPersonId());
 		assertEquals("PubInst3AttrValue1",updatedClu.getPublishingInfo().getInstructors().get(1).getAttributes().get("PubInst3AttrKey1"));
@@ -943,7 +955,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			updatedClu = client.updateClu(createdClu.getId(), createdClu);
 			fail("Should have thrown VersionMismatchException");
 		}catch(VersionMismatchException e){
-			
+
 		}
 
 		//Test Delete
@@ -952,31 +964,31 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}catch(DoesNotExistException e){
 			fail("Should not have thrown DoesNotExistException");
 		}
-		
+
 		StatusInfo status = client.deleteClu(createdClu.getId());
 		assertTrue(status.getSuccess());
-		
+
 		try{
 			client.getClu(createdClu.getId());
 			fail("Should have thrown DoesNotExistException");
 		}catch(DoesNotExistException e){
-			
+
 		}
-		
+
 	}
 
 	@Test
 	public void testCluCluRelationCrud() throws Exception {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-        
+
 	    CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
-	    
+
 	    cluCluRelationInfo.setEffectiveDate(df.parse("20080101"));
 	    cluCluRelationInfo.setExpirationDate(df.parse("20100101"));
 	    cluCluRelationInfo.setIsCluRelationRequired(true);
 	    cluCluRelationInfo.setState("hello");
 	    cluCluRelationInfo.setType("goodbye");
-	    
+
 	    client.createCluCluRelation("CLU-1", "CLU-2", "luLuType.type1", cluCluRelationInfo);
 	}
 
@@ -1028,20 +1040,20 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luiInfo.setState("Test Lui State");
 		luiInfo.setEffectiveDate(df.parse("20101203"));
 		luiInfo.setExpirationDate(df.parse("20801231"));
-		
+
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
-		
+
 		assertEquals("ATP-1", createdLui.getAtpId());
 		assertEquals("LUI Test Code", createdLui.getLuiCode());
 		assertEquals(100L, (long) createdLui.getMaxSeats());
 		assertEquals(df.parse("20101203"), luiInfo.getEffectiveDate());
 		assertEquals(df.parse("20801231"), luiInfo.getExpirationDate());
 		assertEquals("CLU-2", createdLui.getCluId());
-		
+
 		// update
-		
+
 		// re-read
-		
+
 		// delete
 		client.deleteLui(createdLui.getId());
 		// and try it again

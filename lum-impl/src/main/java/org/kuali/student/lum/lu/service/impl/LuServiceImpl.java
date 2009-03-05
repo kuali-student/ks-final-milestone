@@ -186,7 +186,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier);
 			clu.setOfficialIdentifier(officialIdentifier);
 		}
-		
+
 		for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
 			CluIdentifier identifier = new CluIdentifier();
 			BeanUtils.copyProperties(cluIdInfo, identifier);
@@ -196,11 +196,11 @@ public class LuServiceImpl implements LuService {
 		if(cluInfo.getDesc()!=null){
 			clu.setDesc(LuServiceAssembler.toRichText(cluInfo.getDesc()));
 		}
-		
+
 		if(cluInfo.getMarketingDesc()!=null){
 			clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
 		}
-			
+
 		for(String orgId:cluInfo.getParticipatingOrgs()){
 			CluOrg cluOrg = new CluOrg();
 			cluOrg.setOrgId(orgId);
@@ -213,7 +213,7 @@ public class LuServiceImpl implements LuService {
 			primaryInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), primaryInstructor, luDao));
 			clu.setPrimaryInstructor(primaryInstructor);
 		}
-			
+
 		for(CluInstructorInfo instructorInfo: cluInfo.getInstructors()){
 			CluInstructor instructor = new CluInstructor();
 			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
@@ -224,7 +224,7 @@ public class LuServiceImpl implements LuService {
 		if(cluInfo.getStdDuration()!=null){
 			clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
 		}
-			
+
 		for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
 			LuCode luCode = new LuCode();
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
@@ -238,21 +238,21 @@ public class LuServiceImpl implements LuService {
 			CluPublishing cluPublishing = new CluPublishing();
 			BeanUtils.copyProperties(cluInfo.getPublishingInfo(),cluPublishing,new String[]{"attributes","instructors","primaryInstructor"});
 			cluPublishing.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), cluPublishing, luDao));
-		
-			if(cluInfo.getPublishingInfo().getPrimaryInstructor()!=null){	
+
+			if(cluInfo.getPublishingInfo().getPrimaryInstructor()!=null){
 				CluInstructor primaryPubInstructor = new CluInstructor();
 				BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),primaryPubInstructor,new String[]{"attributes"});
 				primaryPubInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), primaryPubInstructor, luDao));
 				cluPublishing.setPrimaryInstructor(primaryPubInstructor);
 			}
-				
+
 			for(CluInstructorInfo instructorInfo: cluInfo.getPublishingInfo().getInstructors()){
 				CluInstructor instructor = new CluInstructor();
 				BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
 				instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
 				cluPublishing.getInstructors().add(instructor);
 			}
-	
+
 			clu.setPublishing(cluPublishing);
 		}
 
@@ -297,24 +297,24 @@ public class LuServiceImpl implements LuService {
         checkForMissingParameter(relatedCluId, "relatedCluId");
         checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
         checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
-        
+
         Clu clu = luDao.fetch(Clu.class, cluId);
         Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
-        
+
         CluCluRelation cluCluRelation = new CluCluRelation();
         BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation, new String[] { "cluId", "relatedCluId", "isCluRelationRequired", "attributes", "metaInfo" });
-        
+
         cluCluRelation.setClu(clu);
         cluCluRelation.setRelatedClu(relatedClu);
         cluCluRelation.setCluRelationRequired(cluCluRelationInfo.getIsCluRelationRequired() == null? true: cluCluRelationInfo.getIsCluRelationRequired()); //TODO maybe this is unnecessary, contract specifies not null
         cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(CluCluRelationAttribute.class, cluCluRelationInfo.getAttributes(), cluCluRelation, luDao));
-        
+
         LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class, luLuRelationTypeKey);
-               
+
         cluCluRelation.setLuLuRelationType(luLuRelationType);
-        
+
         luDao.create(cluCluRelation);
-        
+
 		return LuServiceAssembler.toCluCluRelationInfo(cluCluRelation);
 	}
 
@@ -381,17 +381,17 @@ public class LuServiceImpl implements LuService {
 	    checkForMissingParameter(cluId, "cludId");
 	    checkForMissingParameter(atpKey, "atpKey");
 	    checkForMissingParameter(luiInfo, "luiInfo");
-        
+
 		Lui lui = new Lui();
 		luiInfo.setCluId(cluId);
-		
+
 		try {
 			lui = LuServiceAssembler.toLui(false, luiInfo, luDao);
 		} catch (VersionMismatchException vme) {
 		}
 
 		luDao.create(lui);
-		
+
 		return LuServiceAssembler.toLuiInfo(lui);
 	}
 
@@ -458,10 +458,10 @@ public class LuServiceImpl implements LuService {
 	    checkForMissingParameter(cluId, "cluId");
 
 	    luDao.delete(Clu.class, cluId);
-		
+
 	    StatusInfo statusInfo = new StatusInfo();
 		statusInfo.setSuccess(true);
-		
+
 		return statusInfo;
 	}
 
@@ -520,10 +520,10 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException, PermissionDeniedException {
 
 	    luDao.delete(Lui.class, luiId);
-		
+
 	    StatusInfo statusInfo = new StatusInfo();
 		statusInfo.setSuccess(true);
-		
+
 		return statusInfo;
 	}
 
@@ -562,18 +562,45 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetId, "cluSetId");
+		List<Clu> clus = new ArrayList<Clu>();
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		findClusInCluSet(clus, cluSet);
+		List<String> ids = new ArrayList<String>(clus.size());
+		for (Clu clu : clus) {
+			ids.add(clu.getId());
 		}
+		return ids;
+	}
 
 	@Override
 	public List<CluInfo> getAllClusInCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetId, "cluSetId");
+		List<Clu> clus = new ArrayList<Clu>();
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		findClusInCluSet(clus, cluSet);
+		List<CluInfo> infos = new ArrayList<CluInfo>(clus.size());
+		for (Clu clu : clus) {
+			infos.add(LuServiceAssembler.toCluInfo(clu));
 		}
+		return infos;
+	}
+
+	private void findClusInCluSet(List<Clu> clus, CluSet parentCluSet) throws DoesNotExistException {
+		for (Clu clu : parentCluSet.getClus()) {
+			if (!clus.contains(clu)) {
+				clus.add(clu);
+			}
+		}
+		// Recursion possible problem? Stack overflow
+		for (CluSet cluSet : parentCluSet.getCluSets()) {
+			findClusInCluSet(clus, cluSet);
+		}
+	}
+
 
 	@Override
 	public List<String> getAllowedLrScaleTypesForLuType(String luTypeKey,
@@ -1296,19 +1323,19 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		
+
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(cluInfo, "cluInfo");
-		
+
 		Clu clu = luDao.fetch(Clu.class, cluId);
-		
+
 		if (!String.valueOf(clu.getVersionInd()).equals(cluInfo.getMetaInfo().getVersionInd())){
 			throw new VersionMismatchException("Clu to be updated is not the current version");
 		}
-		
+
 		LuType luType = luDao.fetch(LuType.class,cluInfo.getType());
 		clu.setLuType(luType);
-		
+
 		if(cluInfo.getOfficialIdentifier()!=null){
 			if(clu.getOfficialIdentifier()==null){
 				clu.setOfficialIdentifier(new CluIdentifier());
@@ -1317,7 +1344,7 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getOfficialIdentifier()!=null){
 			luDao.delete(clu.getOfficialIdentifier());
 		}
-		
+
 		//Update the list of Alternate Identifiers
 		//Get a map of Id->object of all the currently persisted objects in the list
 		Map<String, CluIdentifier> oldAltIdMap = new HashMap<String, CluIdentifier>();
@@ -1325,7 +1352,7 @@ public class LuServiceImpl implements LuService {
 			oldAltIdMap.put(altIdentifier.getId(),altIdentifier);
 		}
 		clu.getAlternateIdentifiers().clear();
-		
+
 		//Loop through the new list, if the item exists already update and remove from the list
 		//otherwise create a new entry
 		for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
@@ -1337,12 +1364,12 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(cluIdInfo, identifier);
 			clu.getAlternateIdentifiers().add(identifier);
 		}
-		
+
 		//Now delete anything left over
 		for(Entry<String, CluIdentifier> entry:oldAltIdMap.entrySet()){
 			luDao.delete(entry.getValue());
 		}
-		
+
 		if(cluInfo.getDesc()!=null){
 			if(clu.getDesc() == null){
 				clu.setDesc(new RichText());
@@ -1351,7 +1378,7 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getDesc()!=null){
 			luDao.delete(clu.getDesc());
 		}
-		
+
 		if(cluInfo.getMarketingDesc()!=null){
 			if(clu.getMarketingDesc() == null){
 				clu.setMarketingDesc(new RichText());
@@ -1360,7 +1387,7 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getMarketingDesc()!=null){
 			luDao.delete(clu.getMarketingDesc());
 		}
-		
+
 		//Update the list of participating orgs
 		//Get a map of Id->object of all the currently persisted objects in the list
 		Map<String, CluOrg> oldPrtcOrgMap = new HashMap<String, CluOrg>();
@@ -1368,7 +1395,7 @@ public class LuServiceImpl implements LuService {
 			oldPrtcOrgMap.put(cluOrg.getOrgId(),cluOrg);
 		}
 		clu.getParticipatingOrgs().clear();
-		
+
 		//Loop through the new list, if the item exists already update and remove from the list
 		//otherwise create a new entry
 		for(String orgId : cluInfo.getParticipatingOrgs()){
@@ -1380,12 +1407,12 @@ public class LuServiceImpl implements LuService {
 			cluOrg.setOrgId(orgId);
 			clu.getParticipatingOrgs().add(cluOrg);
 		}
-		
+
 		//Now delete anything left over
 		for(Entry<String, CluOrg> entry:oldPrtcOrgMap.entrySet()){
 			luDao.delete(entry.getValue());
 		}
-		
+
 		if(cluInfo.getPrimaryInstructor()!=null){
 			if(clu.getPrimaryInstructor() == null){
 				clu.setPrimaryInstructor(new CluInstructor());
@@ -1395,7 +1422,7 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getPrimaryInstructor()!=null){
 			luDao.delete(clu.getPrimaryInstructor());
 		}
-		
+
 		//Update the List of instructors
 		//Get a map of Id->object of all the currently persisted objects in the list
 		Map<String, CluInstructor> oldInstructorMap = new HashMap<String, CluInstructor>();
@@ -1403,7 +1430,7 @@ public class LuServiceImpl implements LuService {
 			oldInstructorMap.put(cluInstructor.getOrgId()+"_"+cluInstructor.getPersonId(),cluInstructor);
 		}
 		clu.getInstructors().clear();
-		
+
 		//Loop through the new list, if the item exists already update and remove from the list
 		//otherwise create a new entry
 		for(CluInstructorInfo instructorInfo : cluInfo.getInstructors()){
@@ -1414,14 +1441,14 @@ public class LuServiceImpl implements LuService {
 			//Do Copy
 			BeanUtils.copyProperties(instructorInfo,cluInstructor,new String[]{"attributes"});
 			cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
-			clu.getInstructors().add(cluInstructor);			
+			clu.getInstructors().add(cluInstructor);
 		}
-		
+
 		//Now delete anything left over
 		for(Entry<String, CluInstructor> entry:oldInstructorMap.entrySet()){
 			luDao.delete(entry.getValue());
 		}
-	
+
 		if(cluInfo.getStdDuration()!=null){
 			if(clu.getStdDuration()==null){
 				clu.setStdDuration(new TimeAmount());
@@ -1438,7 +1465,7 @@ public class LuServiceImpl implements LuService {
 			oldLuCodeMap.put(luCode.getId(),luCode);
 		}
 		clu.getLuCodes().clear();
-		
+
 		//Loop through the new list, if the item exists already update and remove from the list
 		//otherwise create a new entry
 		for(LuCodeInfo luCodeInfo : cluInfo.getLuCodes()){
@@ -1453,27 +1480,27 @@ public class LuServiceImpl implements LuService {
 			//Do Copy
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
 			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
-			clu.getLuCodes().add(luCode);			
+			clu.getLuCodes().add(luCode);
 		}
-		
+
 		//Now delete anything left over
 		for(Entry<String, LuCode> entry:oldLuCodeMap.entrySet()){
 			luDao.delete(entry.getValue());
 		}
-		
+
 		//Credit is required
-		if(clu.getCredit()==null){ 
+		if(clu.getCredit()==null){
 			clu.setCredit(new CluCredit());
 		}
 		LuServiceAssembler.copyCluCredit(cluInfo.getCreditInfo(),clu.getCredit());
-		
+
 		if(cluInfo.getPublishingInfo()!=null){
 			if(clu.getPublishing()==null){
 				clu.setPublishing(new CluPublishing());
 			}
 			BeanUtils.copyProperties(cluInfo.getPublishingInfo(),clu.getPublishing(),new String[]{"attributes","instructors","primaryInstructor"});
 			clu.getPublishing().setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), clu.getPublishing(), luDao));
-			
+
 			if(cluInfo.getPublishingInfo().getPrimaryInstructor()!=null){
 				if(clu.getPublishing().getPrimaryInstructor()==null){
 					clu.getPublishing().setPrimaryInstructor(new CluInstructor());
@@ -1483,7 +1510,7 @@ public class LuServiceImpl implements LuService {
 			}else if(clu.getPublishing().getPrimaryInstructor()!=null){
 				luDao.delete(clu.getPublishing().getPrimaryInstructor());
 			}
-			
+
 			//Update the Publishing Instructors
 			//Get a map of Id->object of all the currently persisted objects in the list
 			Map<String, CluInstructor> oldPubInstructorMap = new HashMap<String, CluInstructor>();
@@ -1491,7 +1518,7 @@ public class LuServiceImpl implements LuService {
 				oldPubInstructorMap.put(cluInstructor.getOrgId()+"_"+cluInstructor.getPersonId(),cluInstructor);
 			}
 			clu.getPublishing().getInstructors().clear();
-			
+
 			//Loop through the new list, if the item exists already update and remove from the list
 			//otherwise create a new entry
 			for(CluInstructorInfo instructorInfo : cluInfo.getPublishingInfo().getInstructors()){
@@ -1502,9 +1529,9 @@ public class LuServiceImpl implements LuService {
 				//Do Copy
 				BeanUtils.copyProperties(instructorInfo,cluInstructor,new String[]{"attributes"});
 				cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
-				clu.getPublishing().getInstructors().add(cluInstructor);			
+				clu.getPublishing().getInstructors().add(cluInstructor);
 			}
-			
+
 			//Now delete anything left over
 			for(Entry<String, CluInstructor> entry:oldPubInstructorMap.entrySet()){
 				luDao.delete(entry.getValue());
@@ -1512,7 +1539,7 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getPublishing()!=null){
 			luDao.delete(clu.getPublishing());
 		}
-		
+
 		//Update the list of AtpTypeKeys
 		//Get a map of Id->object of all the currently persisted objects in the list
 		Map<String, CluAtpTypeKey> oldOfferedAtpTypesMap = new HashMap<String, CluAtpTypeKey>();
@@ -1520,7 +1547,7 @@ public class LuServiceImpl implements LuService {
 			oldOfferedAtpTypesMap.put(cluAtpTypeKey.getAtpTypeKey(),cluAtpTypeKey);
 		}
 		clu.getOfferedAtpTypes().clear();
-		
+
 		//Loop through the new list, if the item exists already update and remove from the list
 		//otherwise create a new entry
 		for(String atpTypeKey : cluInfo.getOfferedAtpTypes()){
@@ -1532,12 +1559,12 @@ public class LuServiceImpl implements LuService {
 			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
 			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
 		}
-		
+
 		//Now delete anything left over
 		for(Entry<String, CluAtpTypeKey> entry:oldOfferedAtpTypesMap.entrySet()){
 			luDao.delete(entry.getValue());
 		}
-		
+
 		if(cluInfo.getFeeInfo()!=null){
 			if(clu.getFee() == null){
 				clu.setFee(new CluFee());
@@ -1546,7 +1573,7 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getFee()!=null){
 			luDao.delete(clu.getFee());
 		}
-		
+
 		if(cluInfo.getAccountingInfo()!=null){
 			if(clu.getAccounting() == null){
 				clu.setAccounting(new CluAccounting());
@@ -1555,15 +1582,15 @@ public class LuServiceImpl implements LuService {
 		}else if(clu.getAccounting()!=null){
 			luDao.delete(clu.getAccounting());
 		}
-			
+
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
-		
+
 		//Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
 					"primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo"});
-		
+
 		Clu updated = luDao.update(clu);
-		
+
 		return LuServiceAssembler.toCluInfo(updated);
 	}
 
