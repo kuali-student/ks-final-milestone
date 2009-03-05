@@ -24,7 +24,7 @@ public class SearchForClusResponse {
 
     public java.util.List<String> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<String>();
+			_return = new java.util.ArrayList<String>(0);
 		}
         return this._return;
     }

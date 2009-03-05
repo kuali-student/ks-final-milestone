@@ -26,7 +26,7 @@ public class GetLrTypesResponse {
 
     public java.util.List<LrTypeInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<LrTypeInfo>();
+			_return = new java.util.ArrayList<LrTypeInfo>(0);
 		}
         return this._return;
     }

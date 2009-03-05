@@ -26,7 +26,7 @@ public class ValidateLuDocRelationResponse {
 
     public java.util.List<ValidationResult> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<ValidationResult>();
+			_return = new java.util.ArrayList<ValidationResult>(0);
 		}
         return this._return;
     }

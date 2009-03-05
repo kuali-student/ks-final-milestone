@@ -26,7 +26,7 @@ public class GetLuStatementTypesForLuStatementTypeResponse {
 
     public java.util.List<LuStatementTypeInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<LuStatementTypeInfo>();
+			_return = new java.util.ArrayList<LuStatementTypeInfo>(0);
 		}
         return this._return;
     }

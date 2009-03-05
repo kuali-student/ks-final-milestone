@@ -27,7 +27,7 @@ public class GetReqComponentsByTypeResponse {
 
     public java.util.List<ReqComponentInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<ReqComponentInfo>();
+			_return = new java.util.ArrayList<ReqComponentInfo>(0);
 		}
         return this._return;
     }

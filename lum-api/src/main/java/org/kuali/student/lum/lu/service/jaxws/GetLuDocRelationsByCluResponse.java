@@ -26,7 +26,7 @@ public class GetLuDocRelationsByCluResponse {
 
     public java.util.List<LuDocRelationInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<LuDocRelationInfo>();
+			_return = new java.util.ArrayList<LuDocRelationInfo>(0);
 		}
         return this._return;
     }

@@ -26,7 +26,7 @@ public class GetClusFromCluSetResponse {
 
     public java.util.List<CluInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<CluInfo>();
+			_return = new java.util.ArrayList<CluInfo>(0);
 		}
         return this._return;
     }

@@ -26,7 +26,7 @@ public class GetLuTypesResponse {
 
     public java.util.List<LuTypeInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<LuTypeInfo>();
+			_return = new java.util.ArrayList<LuTypeInfo>(0);
 		}
         return this._return;
     }

@@ -26,7 +26,7 @@ public class GetRelatedLuisByLuiIdResponse {
 
     public java.util.List<LuiInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<LuiInfo>();
+			_return = new java.util.ArrayList<LuiInfo>(0);
 		}
         return this._return;
     }
