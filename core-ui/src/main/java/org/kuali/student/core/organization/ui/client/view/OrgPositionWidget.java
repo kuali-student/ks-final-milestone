@@ -17,7 +17,11 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
-import org.kuali.student.core.atp.dto.TimeAmountInfo;
+import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.forms.FormField;
+import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanel;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -31,11 +35,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -46,71 +48,74 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class OrgPositionWidget extends Composite {
 
-    ListBox posTypeDropDown;
-    TextBox posTitle;
-    TextArea posDesc;
-    TextBox posMinRelation;
-    TextBox posDuration;
-    TextBox posMaxRelation;
-    TextBox atpDurationType;
     HTML divider = new HTML("<hr/>");
 
+    FormLayoutPanel orgPosForm = null;
+    
     FlexTable fTable = null;     
    
     DockPanel root = new DockPanel();
+
+    ListBox posTypeDropDown;
     
     String posType;
     String posId;
     String posVersion;
     String orgType;
+    
+    boolean loaded = false;
        
     public OrgPositionWidget(){
-        super.initWidget(root);
-        
-        posTypeDropDown = new ListBox();
-        posTitle = new TextBox();
-        posDesc = new TextArea();
-        posMinRelation = new TextBox();
-        posMaxRelation = new TextBox();
-        posDuration = new TextBox();
-        atpDurationType = new TextBox();        
-
+        super.initWidget(root);       
     }
        
     protected void onLoad(){
-        fTable = new FlexTable();
-
-        loadPersonRelationTypes();
-               
-        fTable.setWidget(0,0, new Label("Position"));
-        fTable.setWidget(0,1, posTypeDropDown);
-        
-        if (posId != null){
-            fTable.setWidget(0,2, getRemoveLink());
+        if (!loaded){
+            if (orgPosForm == null){
+                initForm();
+            }               
+            
+            fTable = new FlexTable();
+            fTable.setWidget(0,0,orgPosForm);
+            if (posId != null){
+                fTable.setWidget(0,1, getRemoveLink());
+            }
+            
+            divider.setVisible(false);
+            root.setWidth("50%");
+            root.add(divider, DockPanel.NORTH);
+            root.add(fTable,DockPanel.CENTER);
+            root.setCellHorizontalAlignment(fTable, DockPanel.ALIGN_CENTER);
+            root.setStyleName("ks-position");
+            
+            loaded = true;
         }
+    }
+    
+    protected void initForm(){
+        orgPosForm = new FormLayoutPanel();        
         
-        fTable.setWidget(1,0, new Label("Title"));
-        fTable.setWidget(1,1, posTitle);
-
-        fTable.setWidget(2,0, new Label("Description"));
-        fTable.setWidget(2,1, posDesc);
-               
-        fTable.setWidget(4,0, new Label("Min people"));
-        fTable.setWidget(4,1, posMinRelation);
-
-        fTable.setWidget(5,0, new Label("Max people"));
-        fTable.setWidget(5,1, posMaxRelation);
-
-       
-        root.setWidth("50%");
-        root.add(divider, DockPanel.NORTH);
-        root.add(fTable,DockPanel.CENTER);
-        root.setCellHorizontalAlignment(fTable, DockPanel.ALIGN_CENTER);
-        root.setStyleName("ks-position");
+        posTypeDropDown = new ListBox();
+        loadPersonRelationTypes();                              
         
-        divider.setVisible(false);
+        addFormField(posTypeDropDown,"Position", "position");
+        addFormField(new KSTextBox(), "Title", "title");
+        addFormField(new KSTextArea(), "Description", "desc");
+        addFormField(new KSTextBox(), "Min people", "min");
+        addFormField(new KSTextBox(), "Max people", "max");        
     }
 
+    private void addFormField(Widget w, String label, String name){
+        FormField ff = new FormField();
+        ff.setLabelText(label);
+        ff.setWidget(w);
+        ((HasName)w).setName(name);
+        ff.setHelpInfo(new HelpInfo());
+        ff.setName(name);
+        
+        orgPosForm.addFormField(ff);
+    }
+    
     public OrgPositionRestrictionInfo getPositionRestrictionInfo(){
         OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
         
@@ -121,49 +126,58 @@ public class OrgPositionWidget extends Composite {
         orgPosRestriction.setMetaInfo(posMetaInfo);
         
         orgPosRestriction.setOrgPersonRelationTypeKey(posTypeDropDown.getValue(posTypeDropDown.getSelectedIndex()));
-        orgPosRestriction.setTitle(posTitle.getText());
-        orgPosRestriction.setDesc(posDesc.getText());
+        orgPosRestriction.setTitle(orgPosForm.getFieldValue("title"));
+        orgPosRestriction.setDesc(orgPosForm.getFieldValue("desc"));
         
+        /*
         TimeAmountInfo durationTimeAmtInfo = new TimeAmountInfo();
         durationTimeAmtInfo.setAtpDurationTypeKey(atpDurationType.getText());
         try {
             durationTimeAmtInfo.setTimeQuantity(Integer.valueOf(posDuration.getText()));            
         } catch (NumberFormatException e) {
         }      
-
-        orgPosRestriction.setStdDuration(durationTimeAmtInfo);        
+        orgPosRestriction.setStdDuration(durationTimeAmtInfo);
+        */
+        
         try {
-            orgPosRestriction.setMinNumRelations(Integer.valueOf(posMinRelation.getText()));
+            orgPosRestriction.setMinNumRelations(Integer.valueOf(orgPosForm.getFieldValue("min")));
         } catch (NumberFormatException e) {
 
         }
-        orgPosRestriction.setMaxNumRelations(posMaxRelation.getText());
+        orgPosRestriction.setMaxNumRelations(orgPosForm.getFieldValue("max"));
                
         return orgPosRestriction;        
     }
     
     protected void setOrgPositionRestrictionInfo(OrgPositionRestrictionInfo orgPosRestriction){
+        if (orgPosForm == null){
+            initForm();
+        }
+        
         posId = orgPosRestriction.getId();
         posVersion = orgPosRestriction.getMetaInfo().getVersionInd();
         posType = orgPosRestriction.getOrgPersonRelationTypeKey();
-        posTitle.setText(orgPosRestriction.getTitle());
-        posDesc.setText(orgPosRestriction.getDesc());
+        
+        orgPosForm.setFieldValue("title", orgPosRestriction.getTitle());        
+        orgPosForm.setFieldValue("desc", orgPosRestriction.getDesc());
+        
         //TODO: Need to fix this
         try{
-            posDuration.setText(String.valueOf(orgPosRestriction.getStdDuration().getTimeQuantity()));
+            //setFormValue("duration", orgPosRestriction.getStdDuration().getTimeQuantity());
         } catch (Exception e){
         }
         try {
-            posMinRelation.setText(orgPosRestriction.getMinNumRelations().toString());
+            orgPosForm.setFieldValue("min", orgPosRestriction.getMinNumRelations().toString());
         } catch (Exception e) {
-            posMinRelation.setText("");
+            orgPosForm.setFieldValue("min", "");
             // TODO: handle exception
         }
-        posMaxRelation.setText(orgPosRestriction.getMaxNumRelations()); 
+        
+        orgPosForm.setFieldValue("max",orgPosRestriction.getMaxNumRelations()); 
         
         posTypeDropDown.setEnabled(false);
     }
-    
+        
     protected void loadPersonRelationTypes(){
         OrgRpcService.Util.getInstance().getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
             public void onFailure(Throwable caught) {

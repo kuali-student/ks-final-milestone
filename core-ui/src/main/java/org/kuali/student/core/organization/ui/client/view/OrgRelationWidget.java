@@ -17,6 +17,12 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.forms.FormField;
+import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanel;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -28,11 +34,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -42,12 +47,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class OrgRelationWidget extends Composite{
 
-    TextBox relatedOrgName = null;
-    TextBox relatedOrgId = null;
-    ListBox orgRelTypeDropDown = null;
-    TextBox orgEffectiveDate = null;
-    TextBox orgExpirationDate = null;
-    TextArea orgNote = null;
+    
     
     String orgRelId = null;
     String orgRelType;
@@ -57,47 +57,58 @@ public class OrgRelationWidget extends Composite{
     
     SimplePanel root = new SimplePanel();
     
+    FormLayoutPanel orgRelForm = null;
+    
+    ListBox orgRelTypeDropDown = null;
+    
+    boolean loaded = false;
+    
     public OrgRelationWidget(){
         super.initWidget(root);
 
-        relatedOrgName = new TextBox();
-        relatedOrgId = new TextBox();
-        orgRelTypeDropDown = new ListBox();
-        orgEffectiveDate = new TextBox();
-        orgExpirationDate = new TextBox();
-        orgNote = new TextArea();
         
     }
     
     protected void onLoad(){
-        fTable = new FlexTable();
-
-        loadOrgRelationTypes();        
-        
-        fTable.setWidget(0,0, new Label("Organization"));
-        fTable.setWidget(0,1, relatedOrgName);
-        
-        fTable.setWidget(1,0, new Label("Organization Id"));
-        fTable.setWidget(1,1, relatedOrgId);
-
-        fTable.setWidget(2,0, new Label("Relationship"));
-        fTable.setWidget(2,1, orgRelTypeDropDown);
-        
-        fTable.setWidget(3,0, new Label("Effective date"));
-        fTable.setWidget(3,1, orgEffectiveDate);
-        
-        fTable.setWidget(4,0, new Label("Expiration date"));
-        fTable.setWidget(4,1, orgExpirationDate);
-        
-        fTable.setWidget(5,0, new Label("Note"));
-        fTable.setWidget(5,1, orgNote);
-        
-        root.add(fTable);
+        if (!loaded){
+            
+            if (orgRelForm == null){
+                initForm();
+            }
+            
+            fTable = new FlexTable();
+            fTable.setWidget(0,0, orgRelForm);
+                       
+            root.add(fTable);
+            loaded = true;
+        }
     }
     
-    public OrgOrgRelationInfo getOrgOrgRelationInfo(){
-        DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
+    private void initForm(){
+        orgRelForm = new FormLayoutPanel();
         
+        orgRelTypeDropDown = new ListBox();
+        loadOrgRelationTypes();        
+        
+        addFormField(new KSTextBox(), "Organization", "relOrgName");
+        addFormField(new KSTextBox(), "Organization Id", "relOrgId");
+        addFormField(orgRelTypeDropDown, "Relationship", "relType");
+        addFormField(new KSDatePicker(), "Effective date", "relEffDate");
+        addFormField(new KSDatePicker(), "Expiration date", "relExpDate");
+        addFormField(new KSTextArea(), "Note", "relNote");        
+    }
+    
+    private void addFormField(Widget w, String label, String name){
+        FormField ff = new FormField();
+        ff.setLabelText(label);
+        ff.setWidget(w);
+        ff.setHelpInfo(new HelpInfo());
+        ff.setName(name);
+        
+        orgRelForm.addFormField(ff);
+    }
+
+    public OrgOrgRelationInfo getOrgOrgRelationInfo(){       
         OrgOrgRelationInfo orgRelationInfo = new OrgOrgRelationInfo();        
         
         orgRelationInfo.setId(orgRelId);
@@ -109,24 +120,20 @@ public class OrgRelationWidget extends Composite{
         orgRelationInfo.setType(orgRelTypeDropDown.getValue(orgRelTypeDropDown.getSelectedIndex()));
         
         //TODO: This should lookup orgId based on related org name
-        orgRelationInfo.setRelatedOrgId(relatedOrgId.getText());
-
-        try{
-            orgRelationInfo.setEffectiveDate(dateFmt.parse(orgEffectiveDate.getText()));
-        } catch (Exception e){
-        }
-        try {
-            orgRelationInfo.setExpirationDate(dateFmt.parse(orgExpirationDate.getText()));
-        } catch (Exception e) {
-        }
+        orgRelationInfo.setRelatedOrgId(orgRelForm.getFieldValue("relOrgId"));
+        
+        orgRelationInfo.setEffectiveDate(((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).getDate());
+        orgRelationInfo.setExpirationDate(((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).getDate());
         
         return orgRelationInfo;
     }
     
     public void setOrgOrgRelationInfo(OrgOrgRelationInfo orgRelationInfo){
-        DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
-               
-        relatedOrgId.setText(orgRelationInfo.getRelatedOrgId());
+        if (orgRelForm == null){
+            initForm();
+        }
+        
+        orgRelForm.setFieldValue("relOrgId",orgRelationInfo.getRelatedOrgId());
         orgRelId = orgRelationInfo.getId();
         orgRelType = orgRelationInfo.getType();
         orgRelVersion = orgRelationInfo.getMetaInfo().getVersionInd();
@@ -138,21 +145,16 @@ public class OrgRelationWidget extends Composite{
                     }
 
                     public void onSuccess(OrgInfo orgInfo) {
-                        relatedOrgName.setText(orgInfo.getLongName());                       
+                        orgRelForm.setFieldValue("relOrgName", orgInfo.getLongName());                       
                     }            
         });
-        
-        relatedOrgId.setEnabled(false);
-        relatedOrgName.setEnabled(false);
 
-        try{
-            orgEffectiveDate.setText(dateFmt.format(orgRelationInfo.getEffectiveDate()));
-        } catch (Exception e){
-        }
-        try {
-            orgExpirationDate.setText(dateFmt.format(orgRelationInfo.getExpirationDate()));
-        } catch (Exception e) {
-        }   
+        //Disable editing of rel org id and name
+        ((FocusWidget)orgRelForm.getFieldWidget("relOrgId")).setEnabled(false);
+        ((FocusWidget)orgRelForm.getFieldWidget("relOrgName")).setEnabled(false);
+
+        ((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).setDate(orgRelationInfo.getEffectiveDate());
+        ((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).setDate(orgRelationInfo.getExpirationDate());
     }
     
     protected void loadOrgRelationTypes(){

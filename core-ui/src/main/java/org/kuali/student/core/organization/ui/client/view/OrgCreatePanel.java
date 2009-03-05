@@ -17,6 +17,13 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.forms.FormField;
+import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanel;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -31,14 +38,13 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -60,13 +66,7 @@ public class OrgCreatePanel extends Composite{
     String orgVersion = null;
     
     ListBox orgTypeDropDown;
-    TextBox orgName;
-    TextBox orgAbbrev;
-    TextArea orgDesc;
-    
-    //These should be date boxes
-    TextBox orgEffectiveDate;
-    TextBox orgExpirationDate;
+    FormLayoutPanel orgForm = new FormLayoutPanel();
     
     VerticalPanel vOrganization;
     VerticalPanel vPositions;
@@ -122,41 +122,24 @@ public class OrgCreatePanel extends Composite{
     
     protected void getOrganization(){
         vOrganization = new VerticalPanel();
-        
-        FlexTable fTable = new FlexTable();
-        
-        orgTypeDropDown = new ListBox();      
-        orgName = new TextBox();
-        orgAbbrev = new TextBox();
-        orgDesc = new TextArea();
-        orgEffectiveDate = new TextBox();
-        orgExpirationDate = new TextBox();
                
-        fTable.setWidget(0,0, new Label("Type"));
-        fTable.setWidget(0,1, orgTypeDropDown);
-        
-        fTable.setWidget(1,0, new Label("Name"));
-        fTable.setWidget(1,1, orgName);
-        
-        fTable.setWidget(2,0, new Label("Abbreviation"));
-        fTable.setWidget(2,1, orgAbbrev);
-        
-        fTable.setWidget(3,0, new Label("Description"));
-        fTable.setWidget(3,1, orgDesc);
-        
-        fTable.setWidget(4,0, new Label("Effective Date"));
-        fTable.setWidget(4,1, orgEffectiveDate);
-
-        fTable.setWidget(5,0, new Label("Expiration Date"));
-        fTable.setWidget(5,1, orgExpirationDate);    
-
-        vOrganization.setWidth("100%");
-        vOrganization.setStyleName("ks-section");
+        orgTypeDropDown = new ListBox();      
+               
+        addFormField(orgTypeDropDown,"Type", "orgType");
+        addFormField(new KSTextBox(), "Name", "orgName");
+        addFormField(new KSTextBox(), "Abbreviation", "orgAbbrev");
+        addFormField(new KSTextArea(), "Description", "orgDesc");
+        addFormField(new KSDatePicker(), "Effective Date", "orgEffDate");
+        addFormField(new KSDatePicker(), "Expiration Date", "orgExpDate");
+                   
         vOrganization.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-        vOrganization.add(fTable);
+        vOrganization.setWidth("100%");      
+        vOrganization.add(orgForm);
         
-        vPanel.add(new SectionLabel("Organization"));
-        vPanel.add(vOrganization);
+        KSDisclosureSection orgSection = new KSDisclosureSection("Organization",null, true);
+        orgSection.add(vOrganization);
+        
+        vPanel.add(orgSection);
         
         if (orgId != null){
             populateOrgInfo();
@@ -165,13 +148,23 @@ public class OrgCreatePanel extends Composite{
         populateOrgTypes();
     }
     
+    private void addFormField(Widget w, String label, String name){
+        FormField ff = new FormField();
+        ff.setLabelText(label);
+        ff.setWidget(w);
+        //((HasName)w).setName(name);
+        ff.setHelpInfo(new HelpInfo());
+        ff.setName(name);
+        
+        orgForm.addFormField(ff);
+    }    
     
     protected void getOrgPositions(boolean bShowAll){
-        vPanel.add(new SectionLabel("Positions"));
+        KSDisclosureSection posSection = new KSDisclosureSection("Positions",null, type.equals(CREATE_ORG_POSITIONS));
         
         vPositions = new VerticalPanel();
-        vPositions.setStyleName("ks-section");
         vPositions.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+        vPositions.setWidth("100%");
         
         if (orgId != null && bShowAll){
             populateOrgPositions();
@@ -179,16 +172,17 @@ public class OrgCreatePanel extends Composite{
             vPositions.add(new OrgPositionWidget());
             vPositions.add(getPositionLink());            
         }
-         
-        vPanel.add(vPositions);
+        
+        posSection.add(vPositions);
+        vPanel.add(posSection);
     }
 
     protected void getOrgRelations(boolean bShowAll){
-        vPanel.add(new SectionLabel("Relationships"));
-
+        KSDisclosureSection relationSection = new KSDisclosureSection("Relations",null, false);
+        
         vRelations = new VerticalPanel();
-        vRelations.setStyleName("ks-section");
         vRelations.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+        vRelations.setWidth("100%");        
         
         if (orgId != null && bShowAll){
             populateOrgRelations();
@@ -197,13 +191,12 @@ public class OrgCreatePanel extends Composite{
             vRelations.add(getRelationLink());
         }
               
-        vPanel.add(vRelations);
+        relationSection.add(vRelations);
+        vPanel.add(relationSection);
 
     }
     
-    protected void saveOrganization(){
-        DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
-        
+    protected void saveOrganization(){       
         OrgInfo orgInfo = new OrgInfo();
         
         MetaInfo orgMetaInfo = new MetaInfo();
@@ -211,17 +204,12 @@ public class OrgCreatePanel extends Composite{
         orgInfo.setMetaInfo(orgMetaInfo);
         
         orgInfo.setType(orgTypeDropDown.getValue((orgTypeDropDown.getSelectedIndex())));        
-        orgInfo.setShortDesc(orgDesc.getText());
-        orgInfo.setLongName(orgName.getText());
-        orgInfo.setShortName(orgAbbrev.getText());
-        try{
-            orgInfo.setEffectiveDate(dateFmt.parse(orgEffectiveDate.getText()));
-        } catch (Exception e) {
-        }
-        try{        
-            orgInfo.setExpirationDate(dateFmt.parse(orgExpirationDate.getText()));
-        } catch (Exception e) {
-        }
+        orgInfo.setShortDesc(orgForm.getFieldValue("orgDesc"));
+        orgInfo.setLongName(orgForm.getFieldValue("orgName"));
+        orgInfo.setShortName(orgForm.getFieldValue("orgAbbrev"));
+
+        orgInfo.setEffectiveDate(((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).getDate());
+        orgInfo.setExpirationDate(((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).getDate());
         
         if (orgId == null){
             OrgRpcService.Util.getInstance().createOrganization(orgInfo,new AsyncCallback<OrgInfo>(){
@@ -349,25 +337,19 @@ public class OrgCreatePanel extends Composite{
                 Window.alert(caught.getMessage());
             }
 
-            public void onSuccess(OrgInfo orgInfo) {
-                DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");                
-                
+            public void onSuccess(OrgInfo orgInfo) {                              
                 orgVersion = orgInfo.getMetaInfo().getVersionInd();
                 orgType = orgInfo.getType();
-                orgName.setText(orgInfo.getLongName());
-                orgAbbrev.setText(orgInfo.getShortName());
-                orgDesc.setText(orgInfo.getShortDesc());
-                try{
-                    orgEffectiveDate.setText(dateFmt.format(orgInfo.getEffectiveDate()));
-                } catch (Exception e) {
-                }
-                try {
-                    orgExpirationDate.setText(dateFmt.format(orgInfo.getExpirationDate()));
-                } catch (Exception e) {
-                }                
+                orgForm.setFieldValue("orgName",orgInfo.getLongName());
+                orgForm.setFieldValue("orgAbbrev",orgInfo.getShortName());
+                orgForm.setFieldValue("orgDesc",orgInfo.getShortDesc());
+
+                ((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).setDate(orgInfo.getEffectiveDate());
+                ((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).setDate(orgInfo.getExpirationDate());
             }            
         });
     }
+    
 
     protected void populateOrgPositions(){
         OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId, 
@@ -379,14 +361,16 @@ public class OrgCreatePanel extends Composite{
         
                     public void onSuccess(List<OrgPositionRestrictionInfo> orgPositions) {                   
                         int i = 0;
-                        for (OrgPositionRestrictionInfo orgPos:orgPositions){
-                            if ( i > 0){
-                                vPositions.add(new HTML("<hr/>"));
+                        if (orgPositions != null){
+                            for (OrgPositionRestrictionInfo orgPos:orgPositions){
+                                if ( i > 0){
+                                    vPositions.add(new HTML("<hr/>"));
+                                }
+                                OrgPositionWidget orgPositionWidget = new OrgPositionWidget();
+                                orgPositionWidget.setOrgPositionRestrictionInfo(orgPos);
+                                vPositions.add(orgPositionWidget);
+                                i++;
                             }
-                            OrgPositionWidget orgPositionWidget = new OrgPositionWidget();
-                            orgPositionWidget.setOrgPositionRestrictionInfo(orgPos);
-                            vPositions.add(orgPositionWidget);
-                            i++;
                         }
                         vPositions.add(getPositionLink());
                     }            

@@ -39,7 +39,7 @@
 	<bean id="orgClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation"
-			value="http://localhost:8181/Service/Service?wsdl" />
+			value="classpath:META-INF/wsdl/OrganizationService.wsdl" />
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"

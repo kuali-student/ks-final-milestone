@@ -111,6 +111,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>

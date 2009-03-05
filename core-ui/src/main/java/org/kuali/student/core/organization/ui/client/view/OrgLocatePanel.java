@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -50,6 +51,7 @@ public class OrgLocatePanel extends Composite{
     SimplePanel orgChart;
     HorizontalPanel orgList;
        
+    KSDisclosureSection orgSection = new KSDisclosureSection("Organization Chart", null, true);
     SimplePanel results = new SimplePanel();
        
     String activeHierarchyId;
@@ -63,12 +65,15 @@ public class OrgLocatePanel extends Composite{
     }
   
     protected void onLoad(){
-        root.setWidth("100%");
-        root.add(createLocateMenu());
-        root.add(new SectionLabel("Browse Organizations"));
-        root.add(results);
-        
-        getBrowseResults();
+        if (!loaded){
+            root.setWidth("100%");
+            //root.add(createLocateMenu());
+            
+            root.add(results);
+            
+            getBrowseResults();            
+            loaded = true;
+        }       
     }
     
     private Widget createLocateMenu(){
@@ -77,8 +82,8 @@ public class OrgLocatePanel extends Composite{
         locateMenuPanel.setStyleName("ks-section");
         
         FlexTable fTable = new FlexTable();
-        fTable.setWidget(0,0, new SectionLabel("Search"));       
-        fTable.setWidget(0,1, new SectionLabel("Browse"));      
+        //fTable.setWidget(0,0, new SectionLabel("Search"));       
+        //fTable.setWidget(0,1, new SectionLabel("Browse"));      
         
         locateMenuPanel.add(fTable);
         
@@ -87,12 +92,10 @@ public class OrgLocatePanel extends Composite{
     
     private void getBrowseResults() {
         browsePanel = new VerticalPanel();
-        browsePanel.setStyleName("ks-section");
         browsePanel.setWidth("100%");
         
         orgList = new HorizontalPanel();        
         orgChart = new SimplePanel();
-        orgChart.setVisible(false);
         
         OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
             public void onFailure(Throwable caught) {
@@ -112,12 +115,12 @@ public class OrgLocatePanel extends Composite{
 
         browsePanel.add(orgList);
 
-        //wrap org chart in vertical panel
-        VerticalPanel vPanel = new VerticalPanel();
-        vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-        vPanel.setWidth("100%");
-        vPanel.add(orgChart);        
-        browsePanel.add(vPanel);
+        //wrap org chart in vertical panel       
+        orgSection.add(orgChart);
+        orgSection.setVisible(false);
+        orgChart.setWidth("1024px");
+             
+        browsePanel.add(orgSection);
         
         results.setWidget(browsePanel);
     }
@@ -181,7 +184,7 @@ public class OrgLocatePanel extends Composite{
                     }
                     getOrgChildren(orgId);
                     orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,0)));
-                    orgChart.setVisible(true);
+                    orgSection.setVisible(true);
             }});
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");
