@@ -35,6 +35,8 @@ public abstract class FormLayoutPanelAbstract extends Composite{
     
     public abstract String getFieldValue(String name);
     
+    public abstract void setFieldValue(String name, String value);
+    
     public abstract Widget getFieldWidget(String name);
     
     public abstract FormField getFormRow(int row);

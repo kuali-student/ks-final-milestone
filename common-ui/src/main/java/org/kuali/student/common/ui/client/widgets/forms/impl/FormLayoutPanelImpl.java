@@ -91,4 +91,8 @@ public class FormLayoutPanelImpl extends FormLayoutPanelAbstract{
     public int getRowCount(){
         return table.getRowCount();
     }
+    
+    public void setFieldValue(String name, String value){
+        ((FormField)formFields.get(name)).setText(value);
+    }
 }

@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.forms;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 
+import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -62,18 +63,18 @@ public class FormField {
     }
 
     /**
-     * Set the widget for this form field. The widget to set should implement
-     * the HasName interface. The name of this form field will be the same name 
-     * same name as the underlying widget. 
+     * Set the widget for this form field. If the widget implements the HasName
+     * interface, this form field can be accessed in a FormLayoutPanel using  
+     * the same name as the underlying widget. 
      */
     public void setWidget(Widget formField) {
-        /* This test will fail when using abstract KS widget.
         try {
-            name = ((HasName)formField).getName();
+            if (formField instanceof HasName){
+                name = ((HasName)formField).getName();
+            }
         } catch (Exception e) {
-            throw new IllegalArgumentException("formField widget doesn't implement HasName interface");
+            
         }
-        */
         this.formField = formField;        
     }
     
@@ -93,6 +94,19 @@ public class FormField {
         }
     }
    
+    /**
+     * Use to set text value for the underlying widget for this field.  
+     * 
+     */
+    public void setText(String s){
+        try {
+            HasText text = (HasText)formField;
+            text.setText(s);
+        } catch (Exception e){
+            throw new UnsupportedOperationException("Field widget doesn't implement HasText");
+        }        
+    }
+    
     public String getName(){
         return name;
     }

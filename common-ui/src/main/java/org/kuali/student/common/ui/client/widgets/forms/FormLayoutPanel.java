@@ -71,6 +71,10 @@ public class FormLayoutPanel extends FormLayoutPanelAbstract {
         return form.getFieldValue(name);
     }
     
+    public void setFieldValue(String name, String value){
+        form.setFieldValue(name, value);
+    }
+    
     /**
      * Use to get the underlying widget with given name in form field.
      * 
