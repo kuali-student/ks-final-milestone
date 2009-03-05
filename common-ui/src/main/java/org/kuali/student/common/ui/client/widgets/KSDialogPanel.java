@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.widgets.impl.KSDialogPanelImpl;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -21,136 +23,38 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSDialogPanel extends KSPopupPanel{
-    private final KSResizablePanel resizableContent = new KSResizablePanel();
-    //private final SimplePanel content = new SimplePanel();
-    private boolean resizable = true;
-    private Label dialogTitleLabel = new Label();
-    private final SimplePanel content = new SimplePanel();	
-    private final VerticalPanel dialogContainer = new VerticalPanel();
-	private final HorizontalPanel headerPanel = new HorizontalPanel();
-	private final FocusPanel focusPanel = new FocusPanel();
-	private boolean loaded = false;
-	private Widget w;
+public class KSDialogPanel extends KSDialogPanelAbstract{  
+    private final KSDialogPanelAbstract dialogPanel = GWT.create(KSDialogPanelImpl.class);
+
 	
 	public KSDialogPanel(){
-		
-        dialogContainer.add(resizableContent);
-        super.setWidget(dialogContainer);
-
-		setupDefaultStyle();
-        SimpleWindowMover resizeHandler = new SimpleWindowMover();
-        focusPanel.addMouseDownHandler(resizeHandler);
-        focusPanel.addMouseMoveHandler(resizeHandler);
-        focusPanel.addMouseUpHandler(resizeHandler);
 	}
 	
 	
 	public void setHeader(String headerText){
-		headerPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		dialogTitleLabel = new Label(headerText, false);
-		focusPanel.add(dialogTitleLabel);
-		headerPanel.add(focusPanel);
-		dialogContainer.insert(headerPanel, 0);
+	    dialogPanel.setHeader(headerText);
 	}
 	
 	public boolean removeHeader(){
-		return dialogContainer.remove(headerPanel);
+		return dialogPanel.removeHeader();
 	}
-	
-	private void setupDefaultStyle(){
-		headerPanel.addStyleName(KSStyles.KS_POPUP_HEADER);
-		
-	}
+
 	
     public void setWidget(Widget w) {
-    	this.w = w;
-    	loaded = false;
+        dialogPanel.setWidget(w);
     }
     
     public void show(){
-    	super.show();
-    	
-        if(resizable){
-        	if(!loaded){
-        		resizableContent.setWidget(w);
-        		loaded = true;
-        	}
-        }else{
-        	if(!loaded){
-        		content.setWidget(w);
-        		loaded = true;
-        	}
-        }
-
+        dialogPanel.show();
     }
     
     public void center(){
-    	super.center();
-        if(resizable){
-        	if(!loaded){
-        		resizableContent.setWidget(w);
-        		loaded = true;
-        	}
-        }else{
-        	if(!loaded){
-        		content.setWidget(w);
-        		loaded = true;
-        	}
-        }
-
+        dialogPanel.center();
     }
 
     
     public void setResizable(boolean resizable){
-    	this.resizable = resizable;
-    	if(resizable){
-    		dialogContainer.remove(content);
-    		dialogContainer.add(resizableContent);
-        }else{
-        	dialogContainer.remove(resizableContent);
-    		dialogContainer.add(content);         
-        }
-        loaded = false;
+        dialogPanel.setResizable(resizable);
     }
-    
-    class SimpleWindowMover implements MouseUpHandler, MouseMoveHandler, MouseDownHandler {
-        private int offsetX, offsetY;
-        private boolean isMoving = false;
-
-        public SimpleWindowMover() {}
-
-        @Override
-        public void onMouseUp(MouseUpEvent event) {
-            if (isMoving) {
-
-                isMoving = false;
-            }
-            DOM.releaseCapture(focusPanel.getElement());
-        }
-
-        @Override
-        public void onMouseMove(MouseMoveEvent event) {
-            if (isMoving) {
-                setLocation(event.getClientX() - offsetX, event.getClientY() - offsetY);
-            }
-        }
-
-        @Override
-        public void onMouseDown(MouseDownEvent event) {
-            offsetX = event.getClientX() - getX();
-            offsetY = event.getClientY() - getY();
-
-            isMoving = true;
-
-            DOM.setCapture(focusPanel.getElement());
-        }
-    }
-    
-
-	
-
-	
-
 	
 }
