@@ -18,7 +18,10 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
     private final KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSPickListImpl.class);
 
     
-    
+    public KSPickList(String name){
+        initWidget(selectItemWidget);
+        init(name);
+    }
     protected void init(String name) {
         selectItemWidget.init(name);
     }
@@ -71,7 +74,7 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
         selectItemWidget.addSelectionChangeHandler(handler);
     }
 
-    protected void fireChangeEvent() {
+    public void fireChangeEvent() {
         selectItemWidget.fireChangeEvent();
     }
 

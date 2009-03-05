@@ -31,34 +31,49 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     private final Button add = new Button(">", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
+            if(unselectedTable.getSelectedItems().size() == 0){
+                return;
+            }
             selected.addAll(unselectedTable.getSelectedItems());
+
             unselected.removeAll(unselectedTable.getSelectedItems());
-            // TODO refresh tables
+            selectedTable.onLoad();
+            unselectedTable.onLoad();
         }
     });
-    private final Button remove = new Button("<", new ClickHandler() {
+    private final Button remove = new Button("&lt;", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
             unselected.addAll(selectedTable.getSelectedItems());
             selected.removeAll(selectedTable.getSelectedItems());
-            // TODO refresh tables
+            selectedTable.onLoad();
+            unselectedTable.onLoad();
         }
     });
     
     private final Button addAll = new Button(">>", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
+            if(unselected.size() == 0){
+                return;
+            }
             unselected.clear();
             selected.addAll(KSPickListImpl.this.getListItems().getItemIds());
-            // TODO refresh tables
+            
+            selectedTable.onLoad();
+            unselectedTable.onLoad();
         }
     });
-    private final Button removeAll = new Button("<", new ClickHandler() {
+    private final Button removeAll = new Button("&lt;&lt;", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
+            if(selected.size() == 0){
+                return;
+            }
             selected.clear();
             unselected.addAll(KSPickListImpl.this.getListItems().getItemIds());
-            // TODO refresh tables
+            selectedTable.onLoad();
+            unselectedTable.onLoad();
         }
     });
     
