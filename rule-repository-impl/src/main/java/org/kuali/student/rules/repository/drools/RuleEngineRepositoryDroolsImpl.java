@@ -1626,6 +1626,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @throws RuleExistsException Thrown if a rule within the rule set already exists
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException Throws if compiling a rule set fails
+     * @throws IllegalArgumentException Thrown if <code>ruleSet</code> is null, name is null or empty or description is null
      */
     public RuleSet createRuleSet(final RuleSet ruleSet) 
     {
@@ -1633,6 +1634,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("ruleSet");
         } else if (ruleSet.getName() == null || ruleSet.getName().isEmpty()) {
             throw new IllegalArgumentException("Rule set name cannot be null or empty");
+        } else if (ruleSet.getDescription() == null) {
+            throw new IllegalArgumentException("Rule set description cannot be null");
         }
 
         PackageItem pkg = createPackage(ruleSet);

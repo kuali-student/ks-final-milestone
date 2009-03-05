@@ -621,6 +621,12 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
 		if (businessRule == null) {
 			throw new MissingParameterException("Business rule is null");
+		} else if (businessRule.getName() == null || businessRule.getName().isEmpty()) {
+			throw new MissingParameterException("Business rule name is null or empty");
+		}
+		
+		if (businessRule.getDesc() == null) {
+			businessRule.setDesc("");
 		}
 
 		RuleSet ruleSet = null;
