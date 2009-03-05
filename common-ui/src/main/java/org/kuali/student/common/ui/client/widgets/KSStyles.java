@@ -84,5 +84,6 @@ public interface KSStyles {
 	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
 	
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
+	public static final String KS_PROGRESS_INDICATOR = "KSProgressIndicator";
 	
 }
