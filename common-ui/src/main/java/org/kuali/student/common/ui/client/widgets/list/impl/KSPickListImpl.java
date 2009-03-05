@@ -31,11 +31,12 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     private final Button add = new Button(">", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-            if(unselectedTable.getSelectedItems().size() == 0){
-                return;
+            for(String id: unselectedTable.getSelectedItems()){
+                if(unselected.contains(id)){
+                    selected.add(id);
+                }
             }
-            selected.addAll(unselectedTable.getSelectedItems());
-
+//            selected.addAll(unselectedTable.getSelectedItems());
             unselected.removeAll(unselectedTable.getSelectedItems());
             selectedTable.onLoad();
             unselectedTable.onLoad();
@@ -44,7 +45,12 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     private final Button remove = new Button("&lt;", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-            unselected.addAll(selectedTable.getSelectedItems());
+            for(String id: selectedTable.getSelectedItems()){
+                if(selected.contains(id)){
+                    unselected.add(id);
+                }
+            }
+            //unselected.addAll(selectedTable.getSelectedItems());
             selected.removeAll(selectedTable.getSelectedItems());
             selectedTable.onLoad();
             unselectedTable.onLoad();
