@@ -92,14 +92,15 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 		// getCluIdsByLuType
-		ids = client.getCluIdsByLuType("LUTYPE-1", "STATE1");
+		ids = client.getCluIdsByLuType("luType.shell.course", "STATE1");
+		assertTrue(null != ids);
 		assertEquals(2, ids.size());
 		assertEquals("CLU-1", ids.get(0));
 
 
 		ids = client.getCluIdsByLuType("LUTYPE-1X", "STATE1");
 		assertTrue(ids == null || ids.size() == 0);
-		ids = client.getCluIdsByLuType("LUTYPE-1", "STATE1X");
+		ids = client.getCluIdsByLuType("luType.shell.course", "STATE1X");
 		assertTrue(ids == null || ids.size() == 0);
 
 		try {
@@ -110,20 +111,21 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 		try {
-			ids = client.getCluIdsByLuType("LUTYPE-1", null);
+			ids = client.getCluIdsByLuType("luType.shell.course", null);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
 
 		// getClusByLuType
-		clus = client.getClusByLuType("LUTYPE-1", "STATE1");
+		clus = client.getClusByLuType("luType.shell.course", "STATE1");
+		assertTrue(null != clus);
 		assertEquals(2, clus.size());
 		assertEquals("CLU-1", clus.get(0).getId());
 
 		clus = client.getClusByLuType("LUTYPE-1X", "STATE1");
 		assertTrue(clus == null || clus.size() == 0);
-		clus = client.getClusByLuType("LUTYPE-1", "STATE1X");
+		clus = client.getClusByLuType("luType.shell.course", "STATE1X");
 		assertTrue(clus == null || clus.size() == 0);
 
 		try {
@@ -134,7 +136,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 		try {
-			clus = client.getClusByLuType("LUTYPE-1", null);
+			clus = client.getClusByLuType("luType.shell.course", null);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -220,43 +222,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
-	}
-
-	@Test
-	public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		LuiInfo luiInfo;
-		try {
-			luiInfo = client.getLui("notARealLui");
-			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
-		} catch (DoesNotExistException dnee) {
-		} catch (Exception e) {
-			fail("LuService.getLui() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
-		}
-		try {
-			luiInfo = client.getLui(null);
-			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
-		} catch (MissingParameterException mpe) {
-		}
-		luiInfo = client.getLui("LUI-1");
-		assertEquals("CLU-1", luiInfo.getCluId());
-	}
-
-	@Test
-	public void testGetLuisByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-		List<LuiInfo> luiInfos;
-		try {
-			luiInfos = client.getLuisByIdList(null);
-			fail("LuService.getLuiByIdList() did not throw MissingParameterException for null Lui ID");
-		} catch (MissingParameterException mpe) {
-		} catch (Exception e) {
-			fail("LuService.getLuiByIdList() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
-		}
-		luiInfos = client.getLuisByIdList(Arrays.asList("Not a LUI ID", "Another one that ain't"));
-		assertTrue(luiInfos == null || luiInfos.size() == 0);
-
-		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-3"));
-		assertEquals("CLU-1", luiInfos.get(0).getCluId());
-		assertEquals("CLU-2", luiInfos.get(1).getCluId());
 	}
 
 	@Test
@@ -1024,4 +989,75 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    client.createCluCluRelation("CLU-1", "CLU-2", luLuRelationTypeInfo, cluCluRelationInfo);
 	}
 
+	@Test
+	public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		LuiInfo luiInfo;
+		try {
+			luiInfo = client.getLui("notARealLui");
+			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
+		} catch (DoesNotExistException dnee) {
+		} catch (Exception e) {
+			fail("LuService.getLui() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
+		}
+		try {
+			luiInfo = client.getLui(null);
+			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
+		} catch (MissingParameterException mpe) {
+		}
+		luiInfo = client.getLui("LUI-1");
+		assertEquals("CLU-1", luiInfo.getCluId());
+	}
+
+	@Test
+	public void testGetLuisByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		List<LuiInfo> luiInfos;
+		try {
+			luiInfos = client.getLuisByIdList(null);
+			fail("LuService.getLuiByIdList() did not throw MissingParameterException for null Lui ID");
+		} catch (MissingParameterException mpe) {
+		} catch (Exception e) {
+			fail("LuService.getLuiByIdList() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
+		}
+		luiInfos = client.getLuisByIdList(Arrays.asList("Not a LUI ID", "Another one that ain't"));
+		assertTrue(luiInfos == null || luiInfos.size() == 0);
+
+		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-3"));
+		assertEquals("CLU-1", luiInfos.get(0).getCluId());
+		assertEquals("CLU-2", luiInfos.get(1).getCluId());
+	}
+
+	@Test
+	public void testLuiCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, DependentObjectsExistException {
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+
+		LuiInfo luiInfo = new LuiInfo();
+		luiInfo.setAtpId("ATP-1");
+		luiInfo.setLuiCode("LUI Test Code");
+		luiInfo.setMaxSeats(100);
+		luiInfo.setState("Test Lui State");
+		luiInfo.setEffectiveDate(df.parse("20101203"));
+		luiInfo.setExpirationDate(df.parse("20801231"));
+		
+		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
+		
+		assertEquals("ATP-1", createdLui.getAtpId());
+		assertEquals("LUI Test Code", createdLui.getLuiCode());
+		assertEquals(100L, (long) createdLui.getMaxSeats());
+		assertEquals(df.parse("20101203"), luiInfo.getEffectiveDate());
+		assertEquals(df.parse("20801231"), luiInfo.getExpirationDate());
+		assertEquals("CLU-2", createdLui.getCluId());
+		
+		// update
+		
+		// re-read
+		
+		// delete
+		client.deleteLui(createdLui.getId());
+		// and try it again
+		try {
+			client.deleteLui(createdLui.getId());
+			fail("LuService.deleteLui() of previously-delete Lui did not throw expected DoesNotExistException");
+		} catch (DoesNotExistException dnee) {
+		}
+	}
 }

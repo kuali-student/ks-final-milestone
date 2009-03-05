@@ -380,8 +380,21 @@ public class LuServiceImpl implements LuService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(cluId, "cludId");
+	    checkForMissingParameter(atpKey, "atpKey");
+	    checkForMissingParameter(luiInfo, "luiInfo");
+        
+		Lui lui = new Lui();
+		luiInfo.setCluId(cluId);
+		
+		try {
+			lui = LuServiceAssembler.toLui(false, luiInfo, luDao);
+		} catch (VersionMismatchException vme) {
+		}
+
+		luDao.create(lui);
+		
+		return LuServiceAssembler.toLuiInfo(lui);
 	}
 
 	@Override
@@ -487,8 +500,13 @@ public class LuServiceImpl implements LuService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+	    luDao.delete(Lui.class, luiId);
+		
+	    StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		
+		return statusInfo;
 	}
 
 	@Override

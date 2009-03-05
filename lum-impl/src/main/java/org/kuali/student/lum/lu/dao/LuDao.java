@@ -9,7 +9,7 @@ import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
-public interface LuDao extends CrudDao{
+public interface LuDao extends CrudDao {
 	public List<Clu> getClusByIdList(List<String> cluIdList);
 	public List<Clu> getClusByLuType(String luTypeKey, String luState);
 	public List<Lui> getLuisByIdList(List<String> luiIds);

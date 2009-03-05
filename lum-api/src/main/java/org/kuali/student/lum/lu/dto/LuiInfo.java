@@ -46,8 +46,8 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private String cluId;
 
-    @XmlElement
-    private String atpKey;
+    @XmlElement(name="atpKey")
+    private String atpId;
 
     @XmlElement
     private Integer maxSeats;
@@ -96,12 +96,12 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     /**
      * Unique identifier for an Academic Time Period (ATP).
      */
-    public String getAtpKey() {
-        return atpKey;
+    public String getAtpId() {
+        return atpId;
     }
 
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
     }
 
     /**

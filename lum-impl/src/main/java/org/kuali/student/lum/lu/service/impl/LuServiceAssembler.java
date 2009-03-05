@@ -57,6 +57,7 @@ import org.kuali.student.lum.lu.entity.LuStatementAttribute;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
+import org.kuali.student.lum.lu.entity.LuiAttribute;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
@@ -435,16 +436,44 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuiInfo toLuiInfo(Lui entity) {
 		LuiInfo dto = new LuiInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "clu", "atpId",
-				"attributes" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "clu", "attributes" });
 
 		dto.setCluId(entity.getClu().getId());
-		dto.setAtpKey(entity.getAtpId());
+		
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
 
+    public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+	    Lui lui;
+	    
+	    if (isUpdate) {
+	        lui = (Lui) dao.fetch(Lui.class, luiInfo.getId());
+	        if(null == lui) {
+	            throw new DoesNotExistException((new StringBuilder()).append("Lui does not exist for id: ").append(luiInfo.getId()).toString());
+	        }
+	        if(!String.valueOf(lui.getVersionInd()).equals(luiInfo.getMetaInfo().getVersionInd())) {
+	            throw new VersionMismatchException("Lui to be updated is not the current version");
+            }
+	    } else
+	    {
+	        lui = new Lui();
+	    }
+	    
+	    BeanUtils.copyProperties(luiInfo, lui, new String[] { "cluId", "attributes" });
+	    
+	    lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, dao));
+	    
+	    Clu clu = (Clu) dao.fetch(Clu.class, luiInfo.getCluId());
+	    if(null == clu) {
+	        throw new InvalidParameterException((new StringBuilder()).append("Clu does not exist for id: ").append(luiInfo.getCluId()).toString());
+	    }
+        lui.setClu(clu);
+        return lui;
+	}
+
+	
 	public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
 			List<LuiLuiRelation> entities) {
 		List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
