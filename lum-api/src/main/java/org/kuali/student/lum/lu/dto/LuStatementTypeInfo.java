@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.dto;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -25,4 +27,13 @@ public class LuStatementTypeInfo extends TypeInfo{
 
 	private static final long serialVersionUID = 1L;
 
+	private List<String> requiredComponentTypeIds;
+
+    public List<String> getRequiredComponentTypeIds() {
+        return requiredComponentTypeIds;
+    }
+
+    public void setRequiredComponentTypeIds(List<String> requiredComponentTypeIds) {
+        this.requiredComponentTypeIds = requiredComponentTypeIds;
+    }	
 }

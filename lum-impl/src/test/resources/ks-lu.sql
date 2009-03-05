@@ -127,3 +127,19 @@ INSERT INTO KSLU_CLU_SET_JN_CLU_SET (CLU_SET_PARENT_ID, CLU_SET_CHILD_ID) VALUES
 /
 INSERT INTO KSLU_CLU_SET_JN_CLU_SET (CLU_SET_PARENT_ID, CLU_SET_CHILD_ID) VALUES ('CLUSET-2', 'CLUSET-4')
 /
+
+
+//STATEMENT TYPES
+INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.prereqAcademicReadiness', 'Pre req rules used in the evaluation of a person''s academic readiness for enrollment in an LU.', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Academic Readiness Pre Reqs')
+INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.coreqAcademicReadiness', 'Co req used in the evaluation of a person''s academic readiness for enrollment in an LU.', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Academic Readiness Co Reqs')
+
+// REQUIREMENT TYPES
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList', 'Student must have completed all of <courses>', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course completed')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student must have completed <Course> with a minimum grade of <Grade> ', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course completed with minimum specified grade')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradcheck', 'Minimum overall GPA of <value>', '2000-01-01 00:00:00.0', '2001-11-30 00:00:00.0', 'Minimum overall GPA')
+
+
+// STMT_TYPE <-> REQ_COM_TYPE 
+INSERT INTO KSLU_STY_JN_RQTY (REQ_COM_TYPE_ID,LU_STMT_TYPE_ID) values ('kuali.reqCompType.courseList','kuali.luStatementType.prereqAcademicReadiness')
+INSERT INTO KSLU_STY_JN_RQTY (REQ_COM_TYPE_ID,LU_STMT_TYPE_ID) values ('kuali.reqCompType.grdCondCourseList','kuali.luStatementType.prereqAcademicReadiness')
+INSERT INTO KSLU_STY_JN_RQTY (REQ_COM_TYPE_ID,LU_STMT_TYPE_ID) values ('kuali.reqCompType.gradcheck','kuali.luStatementType.prereqAcademicReadiness')

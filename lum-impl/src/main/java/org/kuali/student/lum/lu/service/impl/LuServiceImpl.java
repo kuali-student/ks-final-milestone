@@ -144,8 +144,35 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(cluId, "cluId");
+        checkForMissingParameter(luStatementId, "luStatementId");
+        
+        LuStatement stmt = luDao.fetch(LuStatement.class, luStatementId);
+        if (stmt == null) {
+            throw new DoesNotExistException("LuStatement does not exist for id: " + luStatementId);
+        }
+        
+        Clu clu = luDao.fetch(Clu.class, cluId);
+        if (clu == null) {
+            throw new DoesNotExistException("Clu does not exist for id: " + cluId);
+        }
+        
+        List<Clu> cluList = stmt.getClus();
+        
+        for(Clu cluItem : cluList) {
+            if(cluItem.getId().equals(cluId))  {
+                throw new AlreadyExistsException("Sttement with Id " + luStatementId + " already exists for Clu " + cluId);
+            }
+        }
+                
+        cluList.add(clu);
+        stmt.setClus(cluList);
+        
+        luDao.update(stmt);
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;              
 	}
 
 	@Override
@@ -1150,8 +1177,14 @@ public class LuServiceImpl implements LuService {
 			String luStatementTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(luStatementTypeKey, "luStatementTypeKey");
+	    
+	    LuStatementType stmtType = luDao.fetch(LuStatementType.class, luStatementTypeKey);
+	    if(null == stmtType) {
+	        throw new DoesNotExistException("LuStatement Type: " + luStatementTypeKey + " does not exist.");
+	    }
+	    
+	    return LuServiceAssembler.toReqComponentTypeInfos( stmtType.getRequiredComponentTypes() );
 	}
 
 	@Override
@@ -1251,8 +1284,37 @@ public class LuServiceImpl implements LuService {
 			String luStatementId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+	    checkForMissingParameter(cluId, "cluId");
+	    checkForMissingParameter(luStatementId, "luStatementId");
+	    
+	    LuStatement stmt = luDao.fetch(LuStatement.class, luStatementId);
+        if (stmt == null) {
+            throw new DoesNotExistException("LuStatement does not exist for id: " + luStatementId);
+        }
+        
+        List<Clu> cluList = stmt.getClus();
+        
+        Clu clu = null;
+        for(Clu cluItem : cluList) {
+            if(cluItem.getId().equals(cluId))  {
+                clu = cluItem;
+            }
+        }
+         
+        if(null == clu) {
+            throw new DoesNotExistException("LuStatement with Id: " + luStatementId + " does not exist for Clu: " + cluId);
+        }
+        
+        cluList.remove(clu);
+        stmt.setClus(cluList);
+        
+        luDao.update(stmt);
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;          
+
 	}
 
 	@Override

@@ -25,6 +25,11 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
     @JoinColumn(name = "OWNER")
     private List<LuStatementTypeAttribute> attributes;
     
+    @OneToMany
+    @JoinTable(name = "KSLU_STY_JN_RQTY", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
+    private List<ReqComponentType> requiredComponentTypes;
+    
+    
 	public List<LuType> getLuTypes() {
 		return luTypes;
 	}
@@ -34,7 +39,7 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
 	}
 
 	public List<LuStatementTypeAttribute> getAttributes() {
-        if(attributes==null){
+        if(null == attributes){
             attributes = new ArrayList<LuStatementTypeAttribute>();
         }        
         return attributes;
@@ -43,4 +48,16 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
     public void setAttributes(List<LuStatementTypeAttribute> attributes) {
         this.attributes = attributes;
     }
+
+    public List<ReqComponentType> getRequiredComponentTypes() {
+        if(null == requiredComponentTypes) {
+            requiredComponentTypes = new ArrayList<ReqComponentType>();
+        }
+        
+        return requiredComponentTypes;
+    }
+
+    public void setRequiredComponentTypes(List<ReqComponentType> requiredComponentTypes) {
+        this.requiredComponentTypes = requiredComponentTypes;
+    }    
 }
