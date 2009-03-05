@@ -234,6 +234,32 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		clus = client.getAllClusInCluSet("CLUSET-2");
 		assertEquals(3, clus.size());
+
+		// isCluInCluSet
+		Boolean inSet = client.isCluInCluSet("CLU-2", "CLUSET-4");
+		assertTrue(inSet);
+
+		inSet = client.isCluInCluSet("CLU-3", "CLUSET-4");
+		assertTrue(inSet);
+
+		inSet = client.isCluInCluSet("CLUXX-42", "CLUSET-4");
+		assertFalse(inSet);
+
+		inSet = client.isCluInCluSet("CLU-2", "CLUSETXX-42");
+		assertFalse(inSet);
+
+		try {
+			inSet = client.isCluInCluSet(null, "CLUSET-4");
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+		try {
+			inSet = client.isCluInCluSet("CLU-2", null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
 	}
 
 	@Test

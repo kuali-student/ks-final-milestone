@@ -79,4 +79,12 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
         return luis;
 	}
 
+	@Override
+	public Boolean isCluInCluSet(String cluId, String cluSetId) {
+		Query query = em.createNamedQuery("CluSet.isCluInCluSet");
+        query.setParameter("cluId", cluId);
+        query.setParameter("cluSetId", cluSetId);
+        Long valid = (Long)query.getSingleResult();
+		return valid.intValue()>0;
+	}
 }

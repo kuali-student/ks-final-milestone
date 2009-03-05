@@ -434,23 +434,23 @@ public class LuServiceImpl implements LuService {
 	    checkForMissingParameter(relatedLuiId, "relatedLuiId");
 	    checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 	    checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
-	    
+
         Lui lui = luDao.fetch(Lui.class, luiId);
         Lui relatedLui = luDao.fetch(Lui.class, relatedLuiId);
-        
+
         LuiLuiRelation luiLuiRelation = new LuiLuiRelation();
         BeanUtils.copyProperties(luiLuiRelationInfo, luiLuiRelation, new String[] { "luiId", "relatedLuiId", "attributes", "metaInfo" });
-        
+
         luiLuiRelation.setLui(lui);
         luiLuiRelation.setRelatedLui(relatedLui);
         luiLuiRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuiLuiRelationAttribute.class, luiLuiRelationInfo.getAttributes(), luiLuiRelation, luDao));
-        
+
         LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class, luLuRelationTypeKey);
-               
+
         luiLuiRelation.setLuLuRelationType(luLuRelationType);
-        
+
         luDao.create(luiLuiRelation);
-        
+
 		return LuServiceAssembler.toLuiLuiRelationInfo(luiLuiRelation);
 	}
 
@@ -1228,8 +1228,9 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(cluSetId, "cluSetId");
+		return luDao.isCluInCluSet(cluId, cluSetId);
 	}
 
 	@Override

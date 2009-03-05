@@ -26,7 +26,8 @@ import org.kuali.student.core.entity.RichText;
 @Entity
 @Table(name = "KSLU_CLU_SET")
 @NamedQueries( {
-	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE id IN (:cluSetIdList)")
+	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE id IN (:cluSetIdList)"),
+	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(*) FROM CluSet c JOIN c.clus clu WHERE c.id = :cluSetId AND clu.id = :cluId")
 })
 
 

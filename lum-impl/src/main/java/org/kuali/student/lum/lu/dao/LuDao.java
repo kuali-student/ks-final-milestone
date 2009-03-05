@@ -16,4 +16,5 @@ public interface LuDao extends CrudDao {
     public List<LuStatement> getLuStatementsForLuStatementType(String luStatementTypeKey);
     public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey);
     public List<CluSet> getCluSetInfoByIdList(List<String> cluSetIdList);
+    public Boolean isCluInCluSet(String cluId, String cluSetId);
 }
