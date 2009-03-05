@@ -26,7 +26,7 @@ public class GetOrgOrgRelationsByIdListResponse {
 
     public java.util.List<OrgOrgRelationInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<OrgOrgRelationInfo>();
+			_return = new java.util.ArrayList<OrgOrgRelationInfo>(0);
 		}
         return this._return;
     }

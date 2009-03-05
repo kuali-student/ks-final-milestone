@@ -26,7 +26,7 @@ public class GetOrgOrgRelationTypesResponse {
 
     public java.util.List<OrgOrgRelationTypeInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<OrgOrgRelationTypeInfo>();
+			_return = new java.util.ArrayList<OrgOrgRelationTypeInfo>(0);
 		}
         return this._return;
     }

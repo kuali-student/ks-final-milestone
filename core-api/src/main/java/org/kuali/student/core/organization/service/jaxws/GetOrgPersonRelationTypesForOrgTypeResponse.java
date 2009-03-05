@@ -26,7 +26,7 @@ public class GetOrgPersonRelationTypesForOrgTypeResponse {
 
     public java.util.List<OrgPersonRelationTypeInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<OrgPersonRelationTypeInfo>();
+			_return = new java.util.ArrayList<OrgPersonRelationTypeInfo>(0);
 		}
         return this._return;
     }

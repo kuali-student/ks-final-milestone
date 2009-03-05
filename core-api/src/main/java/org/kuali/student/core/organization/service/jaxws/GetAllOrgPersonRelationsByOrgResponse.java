@@ -26,7 +26,7 @@ public class GetAllOrgPersonRelationsByOrgResponse {
 
     public java.util.List<OrgPersonRelationInfo> getReturn() {
 		if(_return==null){
-			_return = new java.util.ArrayList<OrgPersonRelationInfo>();
+			_return = new java.util.ArrayList<OrgPersonRelationInfo>(0);
 		}
         return this._return;
     }
