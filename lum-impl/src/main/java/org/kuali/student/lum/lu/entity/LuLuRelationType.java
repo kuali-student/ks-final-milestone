@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -62,11 +61,6 @@ public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuR
 	public void setLuTypes(List<LuType> luTypes) {
 		this.luTypes = luTypes;
 	}
-
-    @Override
-    public final void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
     
 	public String getId() {
 		return id;

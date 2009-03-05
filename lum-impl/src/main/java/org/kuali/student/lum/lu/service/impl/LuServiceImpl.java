@@ -73,11 +73,12 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
-import org.kuali.student.lum.lu.entity.LuLuRelationTypeAttribute;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
+import org.kuali.student.lum.lu.entity.LuiLuiRelation;
+import org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.service.LuService;
@@ -286,7 +287,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public CluCluRelationInfo createCluCluRelation(String cluId,
-			String relatedCluId, LuLuRelationTypeInfo luLuRelationTypeInfo,
+			String relatedCluId, String luLuRelationTypeKey,
 			CluCluRelationInfo cluCluRelationInfo)
 			throws AlreadyExistsException, CircularReferenceException,
 			DataValidationErrorException, DoesNotExistException,
@@ -294,7 +295,7 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(cluId, "cluId");
         checkForMissingParameter(relatedCluId, "relatedCluId");
-        checkForMissingParameter(luLuRelationTypeInfo, "luLuRelationType");
+        checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
         checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
         
         Clu clu = luDao.fetch(Clu.class, cluId);
@@ -308,13 +309,10 @@ public class LuServiceImpl implements LuService {
         cluCluRelation.setCluRelationRequired(cluCluRelationInfo.getIsCluRelationRequired() == null? true: cluCluRelationInfo.getIsCluRelationRequired()); //TODO maybe this is unnecessary, contract specifies not null
         cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(CluCluRelationAttribute.class, cluCluRelationInfo.getAttributes(), cluCluRelation, luDao));
         
-        LuLuRelationType luLuRelationType = new LuLuRelationType();
-        BeanUtils.copyProperties(luLuRelationTypeInfo, luLuRelationType, new String[] { "attributes" });
-        luLuRelationType.setAttributes(LuServiceAssembler.toGenericAttributes(LuLuRelationTypeAttribute.class, luLuRelationTypeInfo.getAttributes(), luLuRelationType, luDao));
-        
+        LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class, luLuRelationTypeKey);
+               
         cluCluRelation.setLuLuRelationType(luLuRelationType);
         
-        luDao.create(luLuRelationType);
         luDao.create(cluCluRelation);
         
 		return LuServiceAssembler.toCluCluRelationInfo(cluCluRelation);
@@ -399,14 +397,34 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
-			String relatedLuiId, LuLuRelationTypeInfo luLuRelationType,
+			String relatedLuiId, String luLuRelationTypeKey,
 			LuiLuiRelationInfo luiLuiRelationInfo)
 			throws AlreadyExistsException, CircularReferenceException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(luiId, "luiId");
+	    checkForMissingParameter(relatedLuiId, "relatedLuiId");
+	    checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+	    checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
+	    
+        Lui lui = luDao.fetch(Lui.class, luiId);
+        Lui relatedLui = luDao.fetch(Lui.class, relatedLuiId);
+        
+        LuiLuiRelation luiLuiRelation = new LuiLuiRelation();
+        BeanUtils.copyProperties(luiLuiRelationInfo, luiLuiRelation, new String[] { "luiId", "relatedLuiId", "attributes", "metaInfo" });
+        
+        luiLuiRelation.setLui(lui);
+        luiLuiRelation.setRelatedLui(relatedLui);
+        luiLuiRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuiLuiRelationAttribute.class, luiLuiRelationInfo.getAttributes(), luiLuiRelation, luDao));
+        
+        LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class, luLuRelationTypeKey);
+               
+        luiLuiRelation.setLuLuRelationType(luLuRelationType);
+        
+        luDao.create(luiLuiRelation);
+        
+		return LuServiceAssembler.toLuiLuiRelationInfo(luiLuiRelation);
 	}
 
 	@Override
@@ -1575,8 +1593,13 @@ public class LuServiceImpl implements LuService {
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        //Check Missing params
+        checkForMissingParameter(cluId, "cluId");
+        checkForMissingParameter(luState, "luState");
+        Clu clu = luDao.fetch(Clu.class, cluId);
+        clu.setState(luState);
+        Clu updated = luDao.update(clu);
+		return LuServiceAssembler.toCluInfo(updated);
 	}
 
 	@Override

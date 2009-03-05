@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "createCluCluRelation", namespace = "http://student.kuali.org/lum/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createCluCluRelation", namespace = "http://student.kuali.org/lum/lu", propOrder = {"cluId","relatedCluId","luLuRelationType","cluCluRelationInfo"})
+@XmlType(name = "createCluCluRelation", namespace = "http://student.kuali.org/lum/lu", propOrder = {"cluId","relatedCluId","luLuRelationTypeKey","cluCluRelationInfo"})
 
 public class CreateCluCluRelation {
 
@@ -23,8 +23,8 @@ public class CreateCluCluRelation {
     private java.lang.String cluId;
     @XmlElement(name = "relatedCluId")
     private java.lang.String relatedCluId;
-    @XmlElement(name = "luLuRelationType")
-    private org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo luLuRelationType;
+    @XmlElement(name = "luLuRelationTypeKey")
+    private java.lang.String luLuRelationTypeKey;
     @XmlElement(name = "cluCluRelationInfo")
     private org.kuali.student.lum.lu.dto.CluCluRelationInfo cluCluRelationInfo;
 
@@ -44,12 +44,12 @@ public class CreateCluCluRelation {
         this.relatedCluId = newRelatedCluId;
     }
 
-    public org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo getLuLuRelationType() {
-        return this.luLuRelationType;
+    public java.lang.String getLuLuRelationTypeKey() {
+        return this.luLuRelationTypeKey;
     }
 
-    public void setLuLuRelationType(org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo newLuLuRelationType)  {
-        this.luLuRelationType = newLuLuRelationType;
+    public void setLuLuRelationTypeKey(java.lang.String newLuLuRelationTypeKey)  {
+        this.luLuRelationTypeKey = newLuLuRelationTypeKey;
     }
 
     public org.kuali.student.lum.lu.dto.CluCluRelationInfo getCluCluRelationInfo() {

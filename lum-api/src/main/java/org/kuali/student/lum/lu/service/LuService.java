@@ -1050,7 +1050,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * Create a relationship between two CLUs
      * @param cluId identifier of the first LUI in the relationship
      * @param relatedCluId identifier of the second CLU in the relationship to be related to
-     * @param luLuRelationType the LU to LU relationship type of the relationship
+     * @param luLuRelationTypeKey the LU to LU relationship type of the relationship
      * @param cluCluRelationInfo information about the relationship between the two CLUs
      * @return the created CLU to CLU relation information
      * @throws AlreadyExistsException relationship already exists
@@ -1062,7 +1062,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public CluCluRelationInfo createCluCluRelation(@WebParam(name="cluId")String cluId, @WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType, @WebParam(name="cluCluRelationInfo")CluCluRelationInfo cluCluRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CluCluRelationInfo createCluCluRelation(@WebParam(name="cluId")String cluId, @WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationTypeKey")String luLuRelationTypeKey, @WebParam(name="cluCluRelationInfo")CluCluRelationInfo cluCluRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a relationship between two CLUs
@@ -1095,7 +1095,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * Create a relationship between two LUIs
      * @param luiId identifier of the first LUI in the relationship
      * @param relatedLuiId identifier of the second LUI in the relationship to be related to
-     * @param luLuRelationType the LU to LU relationship type of the relationship
+     * @param luLuRelationTypeKey the LU to LU relationship type of the relationship
      * @param luiLuiRelationInfo information about the relationship between the two LUIs
      * @return the created LUI to LUI relation information
      * @throws AlreadyExistsException relationship already exists
@@ -1107,7 +1107,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name="luiId")String luiId, @WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType, @WebParam(name="luiLuiRelationInfo")LuiLuiRelationInfo luiLuiRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name="luiId")String luiId, @WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationTypeKey")String luLuRelationTypeKey, @WebParam(name="luiLuiRelationInfo")LuiLuiRelationInfo luiLuiRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a relationship between two LUIs

@@ -40,7 +40,6 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -978,15 +977,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    cluCluRelationInfo.setState("hello");
 	    cluCluRelationInfo.setType("goodbye");
 	    
-	    LuLuRelationTypeInfo luLuRelationTypeInfo = new LuLuRelationTypeInfo();
-	    luLuRelationTypeInfo.setDesc("my desc");
-	    luLuRelationTypeInfo.setEffectiveDate(df.parse("20080101"));
-	    luLuRelationTypeInfo.setExpirationDate(df.parse("20100101"));
-	    luLuRelationTypeInfo.setName("bob");
-	    luLuRelationTypeInfo.setRevDesc("rev desc");
-	    luLuRelationTypeInfo.setRevName("rev name");
-	    
-	    client.createCluCluRelation("CLU-1", "CLU-2", luLuRelationTypeInfo, cluCluRelationInfo);
+	    client.createCluCluRelation("CLU-1", "CLU-2", "luLuType.type1", cluCluRelationInfo);
 	}
 
 	@Test
