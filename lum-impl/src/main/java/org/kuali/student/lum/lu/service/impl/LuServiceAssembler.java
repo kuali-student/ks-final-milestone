@@ -87,6 +87,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setIsCluRelationRequired(entity.isCluRelationRequired());
 		dto.setCluId(entity.getClu().getId());
 		dto.setRelatedCluId(entity.getRelatedClu().getId());
+		dto.setType(entity.getLuLuRelationType().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
@@ -502,8 +503,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		dto.setLuiId(entity.getLui().getId());
 		dto.setRelatedLuiId(entity.getRelatedLui().getId());
+		dto.setType(entity.getLuLuRelationType().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 		return dto;
 	}
 

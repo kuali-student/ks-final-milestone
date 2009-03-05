@@ -41,6 +41,7 @@ import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
+import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 
@@ -992,6 +993,35 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    client.createCluCluRelation("CLU-1", "CLU-2", "luLuType.type1", cluCluRelationInfo);
 	}
 
+	@Test
+	public void testLuiLuiRelationCrud() throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        
+	    LuiLuiRelationInfo luiLuiRelationInfo = new LuiLuiRelationInfo();
+	    
+	    luiLuiRelationInfo.setEffectiveDate(df.parse("20080101"));
+	    luiLuiRelationInfo.setExpirationDate(df.parse("20100101"));
+	    luiLuiRelationInfo.setState("hello");
+	    luiLuiRelationInfo.setType("goodbye");
+	    luiLuiRelationInfo.getAttributes().put("luiluiAttrKey1", "luiluiAttrValue1");
+	    luiLuiRelationInfo.getAttributes().put("luiluiAttrKey2", "luiluiAttrValue2");
+	    
+	    LuiLuiRelationInfo created = client.createLuiLuiRelation("LUI-1", "LUI-2", "luLuType.type1", luiLuiRelationInfo);
+
+	    assertEquals(df.parse("20080101"),created.getEffectiveDate());
+	    assertEquals(df.parse("20100101"),created.getExpirationDate());
+	    assertEquals("hello",created.getState());
+	    assertEquals("luLuType.type1",created.getType());
+	    assertEquals("LUI-1", created.getLuiId());
+	    assertEquals("LUI-2", created.getRelatedLuiId());
+	    assertEquals("luiluiAttrValue1", created.getAttributes().get("luiluiAttrKey1"));
+	    assertEquals("luiluiAttrValue2", created.getAttributes().get("luiluiAttrKey2"));
+	    assertNotNull(created.getId());
+	    assertNotNull(created.getMetaInfo().getCreateTime());
+	    assertNotNull(created.getMetaInfo().getVersionInd());
+	    	    
+	}
+	
 	@Test
 	public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		LuiInfo luiInfo;
