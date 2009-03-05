@@ -25,6 +25,9 @@ public class GetOrganizationsByIdListResponse {
     private java.util.List<OrgInfo> _return;
 
     public java.util.List<OrgInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<OrgInfo>();
+		}
         return this._return;
     }
 

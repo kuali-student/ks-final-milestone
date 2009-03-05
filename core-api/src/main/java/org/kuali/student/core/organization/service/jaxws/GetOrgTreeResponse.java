@@ -25,6 +25,9 @@ public class GetOrgTreeResponse {
     private java.util.List<OrgTreeInfo> _return;
 
     public java.util.List<OrgTreeInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<OrgTreeInfo>();
+		}
         return this._return;
     }
 

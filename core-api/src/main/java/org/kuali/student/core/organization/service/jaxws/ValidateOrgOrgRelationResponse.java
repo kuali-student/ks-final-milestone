@@ -25,6 +25,9 @@ public class ValidateOrgOrgRelationResponse {
     private java.util.List<ValidationResult> _return;
 
     public java.util.List<ValidationResult> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<ValidationResult>();
+		}
         return this._return;
     }
 

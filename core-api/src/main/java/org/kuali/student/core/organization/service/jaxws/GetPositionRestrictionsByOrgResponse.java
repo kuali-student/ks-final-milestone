@@ -25,6 +25,9 @@ public class GetPositionRestrictionsByOrgResponse {
     private java.util.List<OrgPositionRestrictionInfo> _return;
 
     public java.util.List<OrgPositionRestrictionInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<OrgPositionRestrictionInfo>();
+		}
         return this._return;
     }
 

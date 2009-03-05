@@ -25,6 +25,9 @@ public class GetOrgHierarchiesResponse {
     private java.util.List<OrgHierarchyInfo> _return;
 
     public java.util.List<OrgHierarchyInfo> getReturn() {
+		if(_return==null){
+			_return = new java.util.ArrayList<OrgHierarchyInfo>();
+		}
         return this._return;
     }
 
