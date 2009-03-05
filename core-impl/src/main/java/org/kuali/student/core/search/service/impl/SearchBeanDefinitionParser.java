@@ -93,5 +93,9 @@ public class SearchBeanDefinitionParser extends
 	private boolean isList(String localName) {
 		return localName.equals("queryParams")||localName.equals("resultColumns");
 	}
-
+	
+	@Override
+	protected boolean shouldGenerateIdAsFallback() {
+		return true;
+	}
 }

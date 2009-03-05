@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
+	<import resource="organization-dictionary-config.xml" />
 
 	<search:searchType id="org.search.orgQuickViewByOrgType">
 		<search:name>Organization Quick View By Org Type</search:name>
@@ -39,22 +42,6 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:fieldDescriptor id="org.fieldDescriptor.orgType"
-		parent="org.fieldDescriptor.orgTypeParent">
-		<search:name>OrgType</search:name>
-		<search:desc>String to be matched against OrganizationType</search:desc>
-		<search:dataType>string</search:dataType>
-		<search:minLength>1</search:minLength>
-		<search:maxLength>50</search:maxLength>
-		<search:maxOccurs>22</search:maxOccurs>
-	</search:fieldDescriptor>
-
-	<search:fieldDescriptor id="org.fieldDescriptor.orgTypeParent">
-		<search:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZ.</search:validChars>
-		<search:minOccurs>1</search:minOccurs>
-		<search:maxOccurs>1</search:maxOccurs>
-	</search:fieldDescriptor>
-	
 	<search:searchType id="nestedSearchType">
 		<search:name>Nested</search:name>
 		<search:desc>Nested Search Type</search:desc>
@@ -72,20 +59,25 @@
 					<search:desc>Identifier for the organization</search:desc>
 					<search:dataType>string</search:dataType>
 				</search:resultColumn>
-				<ref bean="org.resultColumn.orgShortName"/>
+				<ref bean="org.resultColumn.orgShortName" />
 			</search:resultColumns>
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgTypeNested">
 			<search:name>OrgByOrgTypeCriteria</search:name>
 			<search:desc>OrgByOrgTypeCriteria Description</search:desc>
 			<search:queryParams>
-				<ref bean="org.queryParam.orgType"/>
-				<search:queryParam id="org.queryParam.orgTypeNested2">
-					<search:fieldDescriptor id="dsdsd2">
-						<search:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZ.</search:validChars>
-						<search:minOccurs>1</search:minOccurs>
-						<search:maxOccurs>1</search:maxOccurs>
-					</search:fieldDescriptor>
+				<search:queryParam>
+					<dict:fieldDescriptor>
+						<dict:name>CLU Identifier</dict:name>
+						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>1</dict:minLength>
+						<dict:maxLength>36</dict:maxLength>
+						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:minOccurs>0</dict:minOccurs>
+						<dict:maxOccurs>1</dict:maxOccurs>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
 				</search:queryParam>
 			</search:queryParams>
 		</search:searchCriteriaTypeInfo>
@@ -93,9 +85,9 @@
 
 
 	<search:queryParam id="org.queryParam.orgType">
-		<search:fieldDescriptor>
-			<ref bean="org.fieldDescriptor.orgType" />
-		</search:fieldDescriptor>
+		<dict:fieldDescriptor>
+			<ref bean="childFieldDescriptor" />
+		</dict:fieldDescriptor>
 	</search:queryParam>
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">

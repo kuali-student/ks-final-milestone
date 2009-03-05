@@ -83,8 +83,8 @@
 				<xsd:element name="enum" type="enumSelector" minOccurs="0"
 					maxOccurs="1" />
 			</xsd:sequence>
-			<xsd:element ref="beans:ref" maxOccurs="unbounded"
-				minOccurs="0" />
+			<xsd:element ref="beans:ref" maxOccurs="1"
+				minOccurs="1" />
 		</xsd:choice>
 		<xsd:attribute name="parent" type="xsd:IDREF"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
