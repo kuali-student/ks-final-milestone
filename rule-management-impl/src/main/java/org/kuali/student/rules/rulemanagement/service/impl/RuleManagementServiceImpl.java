@@ -342,7 +342,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         }
 
         // Check if read only attributes are being updated
-        if (!orgRule.getCompiledId().equals(businessRuleInfo.getCompiledId())) {
+        if (orgRule.getCompiledId() != null && !orgRule.getCompiledId().equals(businessRuleInfo.getCompiledId())) {
             throw new ReadOnlyException("Cannot updated rule's compiled Id!");
         }
 
