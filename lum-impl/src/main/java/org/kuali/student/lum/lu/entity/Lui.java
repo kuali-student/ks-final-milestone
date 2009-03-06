@@ -68,7 +68,7 @@ public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 	@Override
 	public List<LuiAttribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<LuiAttribute>();
+			attributes = new ArrayList<LuiAttribute>(0);
 		}
 		return attributes;
 	}

@@ -444,15 +444,17 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LuiInfo toLuiInfo(Lui entity) {
-		LuiInfo dto = new LuiInfo();
+		LuiInfo luiInfo = new LuiInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "clu", "attributes" });
+		BeanUtils.copyProperties(entity, luiInfo, new String[] { "clu", "metaInfo", "attributes" });
 
-		dto.setCluId(entity.getClu().getId());
+		luiInfo.setCluId(entity.getClu().getId());
 		
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		luiInfo.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-		return dto;
+		luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
+
+		return luiInfo;
 	}
 
     public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
@@ -471,7 +473,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	        lui = new Lui();
 	    }
 	    
-	    BeanUtils.copyProperties(luiInfo, lui, new String[] { "cluId", "attributes" });
+	    BeanUtils.copyProperties(luiInfo, lui, new String[] { "cluId", "attributes", "metaInfo" });
 	    
 	    lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, dao));
 	    

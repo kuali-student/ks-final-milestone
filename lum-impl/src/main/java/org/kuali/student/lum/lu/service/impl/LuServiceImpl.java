@@ -77,6 +77,7 @@ import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
+import org.kuali.student.lum.lu.entity.LuiAttribute;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute;
 import org.kuali.student.lum.lu.entity.ReqComponent;
@@ -420,6 +421,35 @@ public class LuServiceImpl implements LuService {
 		luDao.create(lui);
 
 		return LuServiceAssembler.toLuiInfo(lui);
+	}
+
+	@Override
+	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		
+		checkForMissingParameter(luiId, "luiId");
+		checkForMissingParameter(luiInfo, "luiInfo");
+		
+		Lui lui = luDao.fetch(Lui.class, luiId);
+		
+		if (!String.valueOf(lui.getVersionInd()).equals(luiInfo.getMetaInfo().getVersionInd())){
+			throw new VersionMismatchException("Lui to be updated is not the current version");
+		}
+		
+		Clu clu = luDao.fetch(Clu.class, luiInfo.getCluId());
+		lui.setClu(clu);
+		
+		lui.setAttributes(LuServiceAssembler.toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, luDao));
+		
+		//Now copy standard properties
+	    BeanUtils.copyProperties(luiInfo, lui, new String[] { "cluId", "attributes" });
+		
+		Lui updated = luDao.update(lui);
+		
+		return LuServiceAssembler.toLuiInfo(updated);
 	}
 
 	@Override
@@ -1731,16 +1761,6 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
 			LuiLuiRelationInfo luiLuiRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -1950,6 +1970,4 @@ public class LuServiceImpl implements LuService {
 			throw new MissingParameterException(paramName + " can not be null");
 		}
 	}
-
-
 }

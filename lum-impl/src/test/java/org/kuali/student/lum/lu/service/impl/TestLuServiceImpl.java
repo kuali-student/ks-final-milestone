@@ -1049,25 +1049,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 	
 	@Test
-	public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		LuiInfo luiInfo;
-		try {
-			luiInfo = client.getLui("notARealLui");
-			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
-		} catch (DoesNotExistException dnee) {
-		} catch (Exception e) {
-			fail("LuService.getLui() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
-		}
-		try {
-			luiInfo = client.getLui(null);
-			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
-		} catch (MissingParameterException mpe) {
-		}
-		luiInfo = client.getLui("LUI-1");
-		assertEquals("CLU-1", luiInfo.getCluId());
-	}
-
-	@Test
 	public void testGetLuisByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		List<LuiInfo> luiInfos;
 		try {
@@ -1089,14 +1070,36 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testLuiCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, DependentObjectsExistException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
-		LuiInfo luiInfo = new LuiInfo();
+		LuiInfo luiInfo;
+		
+		// Read
+		try {
+			luiInfo = client.getLui("notARealLui");
+			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
+		} catch (DoesNotExistException dnee) {
+		} catch (Exception e) {
+			fail("LuService.getLui() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
+		}
+		try {
+			luiInfo = client.getLui(null);
+			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
+		} catch (MissingParameterException mpe) {
+		}
+		luiInfo = client.getLui("LUI-1");
+		assertEquals("CLU-1", luiInfo.getCluId());
+
+		// Create
+		luiInfo = new LuiInfo();
+		
 		luiInfo.setAtpId("ATP-1");
 		luiInfo.setLuiCode("LUI Test Code");
 		luiInfo.setMaxSeats(100);
 		luiInfo.setState("Test Lui State");
 		luiInfo.setEffectiveDate(df.parse("20101203"));
 		luiInfo.setExpirationDate(df.parse("20801231"));
-
+		luiInfo.getAttributes().put("luiAttrKey1", "luiAttrValue1");
+		luiInfo.getAttributes().put("luiAttrKey2", "luiAttrValue2");
+		
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
 
 		assertEquals("ATP-1", createdLui.getAtpId());
@@ -1105,12 +1108,50 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(df.parse("20101203"), luiInfo.getEffectiveDate());
 		assertEquals(df.parse("20801231"), luiInfo.getExpirationDate());
 		assertEquals("CLU-2", createdLui.getCluId());
-
+		assertEquals(2, createdLui.getAttributes().size());
+		assertEquals("luiAttrValue1", createdLui.getAttributes().get("luiAttrKey1"));
+		assertEquals("luiAttrValue2", createdLui.getAttributes().get("luiAttrKey2"));
+		
 		// update
+		createdLui.setAtpId("ATP-2");
+		createdLui.setCluId("CLU-1");
+		createdLui.setLuiCode("LUI Test Code Update");
+		createdLui.setMaxSeats(75);
+		createdLui.setState("Test Lui State Update");
+		createdLui.setEffectiveDate(df.parse("20111203"));
+		createdLui.setExpirationDate(df.parse("20811231"));
+		createdLui.getAttributes().put("luiAttrKey1", "luiAttrValue1Updated");
+		createdLui.getAttributes().put("luiAttrKey2", "luiAttrValue2Updated");
+		
+		LuiInfo updatedLui = null;
+		try {
+			updatedLui = client.updateLui(createdLui.getId(), createdLui);
+		} catch (VersionMismatchException vme) {
+			fail("LuService.updateLui() threw unexpected VersionMismatchException");
+		}
 
-		// re-read
-
-		// delete
+		// confirm update worked
+		assertTrue(null != updatedLui);
+		assertEquals("ATP-2", updatedLui.getAtpId());
+		assertEquals("CLU-1", updatedLui.getCluId());
+		assertEquals("LUI Test Code Update", updatedLui.getLuiCode());
+		assertEquals(75L, (long) createdLui.getMaxSeats());
+		assertEquals(df.parse("20111203"), updatedLui.getEffectiveDate());
+		assertEquals(df.parse("20811231"), updatedLui.getExpirationDate());
+		assertEquals(2, updatedLui.getAttributes().size());
+		assertEquals("luiAttrValue1Updated", updatedLui.getAttributes().get("luiAttrKey1"));
+		assertEquals("luiAttrValue2Updated", updatedLui.getAttributes().get("luiAttrKey2"));
+		
+		
+		
+		// optimistic locking working?
+		try{
+			client.updateLui(createdLui.getId(), createdLui);
+			fail("LuService.updateLui did not throw expected VersionMismatchException");
+		}catch(VersionMismatchException e){
+		}
+		
+		// delete what we created
 		client.deleteLui(createdLui.getId());
 		// and try it again
 		try {
