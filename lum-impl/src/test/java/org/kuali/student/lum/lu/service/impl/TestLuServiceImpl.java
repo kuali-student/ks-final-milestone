@@ -1271,4 +1271,25 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (DoesNotExistException dnee) {
 		}
 	}
+	
+	@Test
+	public void testGetLuiIdsByCluId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+	{
+		List<String> luiIds = null;
+		try {
+			luiIds = client.getLuiIdsByCluId(null);
+			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null Clu ID");
+		} catch (MissingParameterException e) {
+		}
+		luiIds = client.getLuiIdsByCluId("CLU-1");
+		assertTrue(null != luiIds);
+		assertEquals(2, luiIds.size());
+		assertEquals("LUI-1", luiIds.get(0));
+		assertEquals("LUI-2", luiIds.get(1));
+		luiIds = client.getLuiIdsByCluId("CLU-2");
+		assertEquals(1, luiIds.size());
+		luiIds = client.getLuiIdsByCluId("Non-existent Clu");
+		assertTrue(null != luiIds);
+		assertEquals(0, luiIds.size());
+	}
 }

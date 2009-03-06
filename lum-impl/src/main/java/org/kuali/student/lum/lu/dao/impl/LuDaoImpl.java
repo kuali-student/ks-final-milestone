@@ -69,8 +69,6 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 		return resultList;
     }
 
-
-
 	@Override
 	public List<Lui> getLuisByIdList(List<String> luiIds) {
 		Query query = em.createNamedQuery("Lui.getLuisByIdList");
@@ -78,6 +76,15 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
         @SuppressWarnings("unchecked")
 		List<Lui> luis = query.getResultList();
         return luis;
+	}
+
+	@Override
+	public List<String> getLuiIdsByCluId(String cluId) {
+		Query query = em.createNamedQuery("Lui.getLuiIdsByCluId");
+		query.setParameter("cluId", cluId);
+		@SuppressWarnings("unchecked")
+		List<String> luiIds = query.getResultList();
+		return luiIds;
 	}
 
 	@Override
