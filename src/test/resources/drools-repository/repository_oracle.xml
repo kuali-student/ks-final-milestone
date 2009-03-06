@@ -25,7 +25,7 @@
     <!-- Oracle Configuration -->
     <FileSystem class="org.apache.jackrabbit.core.fs.db.OracleFileSystem">
         <param name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-        <param name="url" value="jdbc:oracle:thin:@vine.adm.ubc.ca:1526:sisdevl" />
+        <param name="url" value="jdbc:oracle:thin:@localhost:1521:kaulidevl" />
 		<param name="user" value="ks_rules" />
 		<param name="password" value="ks_rules" />
         <param name="schemaObjectPrefix" value="BRMS_FS_"/>
@@ -70,7 +70,7 @@
 	    <!-- Oracle Configuration -->
 	    <FileSystem class="org.apache.jackrabbit.core.fs.db.OracleFileSystem">
         <param name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-			<param name="url" value="jdbc:oracle:thin:@vine.adm.ubc.ca:1526:sisdevl" />
+			<param name="url" value="jdbc:oracle:thin:@localhost:1521:kaulidevl" />
 	        <param name="user" value="ks_rules" />
 	        <param name="password" value="ks_rules" />
             <param name="schemaObjectPrefix" value="BRMS_WK_FS_"/>
@@ -83,7 +83,7 @@
 	    <!-- Oracle Configuration -->
         <PersistenceManager class="org.apache.jackrabbit.core.persistence.db.OraclePersistenceManager">
             <param name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-			<param name="url" value="jdbc:oracle:thin:@vine.adm.ubc.ca:1526:sisdevl" />
+			<param name="url" value="jdbc:oracle:thin:@localhost:1521:kaulidevl" />
             <param name="user" value="ks_rules" />
             <param name="password" value="ks_rules" />
             <param name="schemaObjectPrefix" value="BRMS_WK_PM_${wsp.name}_"/>
@@ -110,7 +110,7 @@
         <!-- Oracle Configuration -->
         <FileSystem class="org.apache.jackrabbit.core.fs.db.OracleFileSystem">
             <param name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-			<param name="url" value="jdbc:oracle:thin:@vine.adm.ubc.ca:1526:sisdevl" />
+			<param name="url" value="jdbc:oracle:thin:@localhost:1521:kaulidevl" />
             <param name="user" value="ks_rules" />
             <param name="password" value="ks_rules" />
             <param name="schemaObjectPrefix" value="BRMS_VER_FS_"/>
@@ -126,7 +126,7 @@
         <!-- Oracle Configuration -->
         <PersistenceManager class="org.apache.jackrabbit.core.persistence.db.OraclePersistenceManager">
             <param name="driver" value="oracle.jdbc.driver.OracleDriver"/>
-			<param name="url" value="jdbc:oracle:thin:@vine.adm.ubc.ca:1526:sisdevl" />
+			<param name="url" value="jdbc:oracle:thin:@localhost:1521:kaulidevl" />
             <param name="user" value="ks_rules" />
             <param name="password" value="ks_rules" />
             <param name="schemaObjectPrefix" value="BRMS_VER_PM_"/>
