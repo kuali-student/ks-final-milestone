@@ -31,9 +31,31 @@ import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
+/**
+
+<h4>Description</h4>
+
+This service manages organizational units that have a relationship to the institution. The organizations may be internal and include officially recognized organizations (e.g. Departments, Faculties, Schools) or unofficial organizations (e.g. clubs or student groups), or they may be external organizations (e.g. companies, other institutions, government, associations). This service also manages the relationships between people and organizations.
+
+<h4>Assumptions</h4>
+
+<ul>
+<li> Most organizations have "parent" organization(s) within a given context. E.g., The School of Arts and Sciences exists within the institution as a whole. Parent:child::institution:School of Arts and Sciences
+<li> The "parent" organization(s) of an existing organization may shift depending on the context. This leads to the need to capture multiple relationships for a given organization. E.g., A department may report to a particular institution for administrative purposes, but report to another institution for financial purposes.
+<li>Organization to organization relationships can be grouped into hierarchies based upon the type of relationship.
+<li>Organizations may place additional constraints on the types of relationships a person may have with the organization.
+</ul>
+
+<h4>Key Concepts</h4>
+
+<ul>
+<li> Organizations are distinguished from authorization groups in that organizations deal directly with people while groups deal directly with principals. In other words, organizations may be comprised of individuals who have no way to authenticate themselves (and thus have no unique permissions) and AZ groups may have principals which are linked to non-human entities (such as batch jobs, other services, etc.).
+<li> Organizations and groups may be related, in that a member of an organization may have one of their principals associated with an AZ group, but this is not required
+</ul>
+*/
+
 @WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-
 public interface OrganizationService extends DictionaryService, SearchService, EnumerableService {
 
     /** 

@@ -337,7 +337,7 @@
 				</artifactId>
 				<configuration>
 					<!-- this takes forever to complete, enable as needed -->
-					<!-- 
+					<!--
 					<dependencyLocationsEnabled>
 						false
 					</dependencyLocationsEnabled>
@@ -354,6 +354,8 @@
 					<maxmemory>256m</maxmemory>
 					<aggregate>true</aggregate>
 					<show>private</show>
+					<bottom>Copyright © 2009 The Kuali Foundation. All rights reserved.</bottom>
+					<excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
 					<source>1.6</source>
 					<links>
 						<link>http://cxf.apache.org/javadoc/2.1/</link>
