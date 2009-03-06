@@ -1147,8 +1147,9 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing cluSetName, cluSetInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DoesNotExistException Clu or CluSet not found
 	 */
-    public CluSetInfo createEnumeratedCluSet(@WebParam(name="cluSetName")String cluSetName, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CluSetInfo createEnumeratedCluSet(@WebParam(name="cluSetName")String cluSetName, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /** 
      * Creates a CLU set with membership determined via a search criteria based query. Sets created in this manner cannot have their membership managed manually and cannot contain other sets.
