@@ -589,8 +589,15 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        checkForMissingParameter(luiLuiRelationId, "luiLuiRelationId");
+	    
+        luDao.delete(LuiLuiRelation.class, luiLuiRelationId);
+
+	    StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
 	}
 
 	@Override
@@ -1105,16 +1112,18 @@ public class LuServiceImpl implements LuService {
 	public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(luiLuiRelationId, "luiLuiRelationId");
+	    LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class, luiLuiRelationId);
+		return LuServiceAssembler.toLuiLuiRelationInfo(luiLuiRelation);
 	}
 
 	@Override
 	public List<LuiLuiRelationInfo> getLuiLuiRelations(String luiId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(luiId, "luiId");
+		List<LuiLuiRelation> entities = luDao.getLuiLuiRelations(luiId);
+		return LuServiceAssembler.toLuiLuiRelationInfos(entities);
 	}
 
 	@Override
@@ -1767,8 +1776,35 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+	    checkForMissingParameter(luiLuiRelationId, "luiLuiRelationId");
+	    checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
+	    
+	    LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class, luiLuiRelationId);
+	    
+		if (!String.valueOf(luiLuiRelation.getVersionInd()).equals(luiLuiRelationInfo.getMetaInfo().getVersionInd())){
+			throw new VersionMismatchException("LuiLuiRelation to be updated is not the current version");
+		}
+
+        BeanUtils.copyProperties(luiLuiRelationInfo, luiLuiRelation, new String[] { "luiId", "relatedLuiId", "attributes", "metaInfo" });
+        
+        if(!luiLuiRelationInfo.getLuiId().equals(luiLuiRelation.getLui().getId())){
+        	luiLuiRelation.setLui(luDao.fetch(Lui.class, luiLuiRelationInfo.getLuiId()));
+        }
+        
+        if(!luiLuiRelationInfo.getRelatedLuiId().equals(luiLuiRelation.getRelatedLui().getId())){
+        	luiLuiRelation.setRelatedLui(luDao.fetch(Lui.class, luiLuiRelationInfo.getRelatedLuiId()));
+        }
+
+        luiLuiRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuiLuiRelationAttribute.class, luiLuiRelationInfo.getAttributes(), luiLuiRelation, luDao));
+        
+        if(!luiLuiRelationInfo.getType().equals(luiLuiRelation.getLuLuRelationType().getId())){
+        	luiLuiRelation.setLuLuRelationType(luDao.fetch(LuLuRelationType.class, luiLuiRelationInfo.getType()));
+        }  
+
+        LuiLuiRelation updated = luDao.update(luiLuiRelation);
+        
+		return LuServiceAssembler.toLuiLuiRelationInfo(updated);
 	}
 
 	@Override

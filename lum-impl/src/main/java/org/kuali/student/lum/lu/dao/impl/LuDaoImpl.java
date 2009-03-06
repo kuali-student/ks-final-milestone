@@ -12,6 +12,7 @@ import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
+import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
@@ -86,5 +87,14 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
         query.setParameter("cluSetId", cluSetId);
         Long valid = (Long)query.getSingleResult();
 		return valid.intValue()>0;
+	}
+
+	@Override
+	public List<LuiLuiRelation> getLuiLuiRelations(String luiId) {
+		Query query = em.createNamedQuery("LuiLuiRelation.getLuiLuiRelationsByLuiId");
+        query.setParameter("luiId", luiId);
+        @SuppressWarnings("unchecked")
+		List<LuiLuiRelation> luiLuiRelations = query.getResultList();
+        return luiLuiRelations;
 	}
 }

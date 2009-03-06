@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +23,10 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LUILUI_RELTN")
+@NamedQueries( {
+		@NamedQuery(name = "LuiLuiRelation.getLuiLuiRelationsByLuiId", query = "SELECT llr FROM LuiLuiRelation llr WHERE llr.lui.id = :luiId")
+		})
+
 public class LuiLuiRelation extends MetaEntity implements
 		AttributeOwner<LuiLuiRelationAttribute> {
 	@Id

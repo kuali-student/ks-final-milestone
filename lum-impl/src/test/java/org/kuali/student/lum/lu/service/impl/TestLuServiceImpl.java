@@ -1045,7 +1045,54 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    assertNotNull(created.getId());
 	    assertNotNull(created.getMetaInfo().getCreateTime());
 	    assertNotNull(created.getMetaInfo().getVersionInd());
-	    	    
+	 
+	    created.setEffectiveDate(df.parse("20980101"));
+	    created.setExpirationDate(df.parse("20190101"));
+	    created.setState("sawyer");
+	    created.setType("luLuType.type2");
+	    created.setLuiId("LUI-2");
+	    created.setRelatedLuiId("LUI-3");
+	    created.getAttributes().put("luiluiAttrKey1", "UPluiluiAttrValue1");
+	    created.getAttributes().remove("luiluiAttrKey2");
+	    created.getAttributes().put("luiluiAttrKey3", "luiluiAttrValue3");
+	    
+	    LuiLuiRelationInfo updated = client.updateLuiLuiRelation(created.getId(), created);
+	    
+	    assertEquals(df.parse("20980101"),updated.getEffectiveDate());
+	    assertEquals(df.parse("20190101"),updated.getExpirationDate());
+	    assertEquals("sawyer",updated.getState());
+	    assertEquals("luLuType.type2",updated.getType());
+	    assertEquals("LUI-2", updated.getLuiId());
+	    assertEquals("LUI-3", updated.getRelatedLuiId());
+	    assertEquals("UPluiluiAttrValue1", updated.getAttributes().get("luiluiAttrKey1"));
+	    assertEquals("luiluiAttrValue3", updated.getAttributes().get("luiluiAttrKey3"));
+	    assertEquals(2,updated.getAttributes().size());
+	    assertEquals(created.getId(),updated.getId());
+	    assertNotNull(updated.getMetaInfo().getUpdateTime());
+		
+	    try{
+	    	updated = client.updateLuiLuiRelation(created.getId(), created);
+			fail("Should have thrown VersionMismatchException");
+		}catch(VersionMismatchException e){
+		}
+		
+		try{
+			client.getLuiLuiRelation(created.getId());
+		}catch(DoesNotExistException e){
+			fail("Should not have thrown DoesNotExistException");
+		}
+		
+		StatusInfo status = client.deleteLuiLuiRelation(updated.getId());
+		
+		assertTrue(status.getSuccess());
+
+		try{
+			client.getLuiLuiRelation(created.getId());
+			fail("Should have thrown DoesNotExistException");
+		}catch(DoesNotExistException e){
+
+		}
+
 	}
 	
 	@Test
