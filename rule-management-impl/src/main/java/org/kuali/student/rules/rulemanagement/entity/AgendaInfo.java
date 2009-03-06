@@ -51,7 +51,7 @@ public class AgendaInfo {
     //TODO: Change this to @OnetoMany relation after they fix the bug HHH-3410
     @ManyToMany(fetch = FetchType.EAGER)
     // Added @JoinTable so table name is less then 31 characters for Oracle (Oracle table name limit is 30 characters)
-    @JoinTable(name="Agenda_BusinessRuleType_T", joinColumns={@JoinColumn(name="AGENDA_ID")}, inverseJoinColumns={@JoinColumn(name="BUSINESS_RULE_TYPE_ID")})
+    @JoinTable(name="AgendaBusinessRuleType_T", joinColumns={@JoinColumn(name="AGENDA_ID")}, inverseJoinColumns={@JoinColumn(name="BRT_ID")})
     private List<BusinessRuleType> businessRuleTypeInfoList;
 
     private String agendaOrchestration;

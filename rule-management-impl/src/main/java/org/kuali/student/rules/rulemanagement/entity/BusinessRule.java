@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -76,6 +77,7 @@ public class BusinessRule  {
     private RuleMetaData metaData;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "businessRule", fetch = FetchType.EAGER)
+    @OrderBy("ordinalPosition ASC")
     private List<RuleElement> ruleElements = new ArrayList<RuleElement>();
 
     /**

@@ -29,10 +29,12 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
  */
 @Entity
 @Table(name = "BusinessRuleType_T", uniqueConstraints = {@UniqueConstraint(columnNames = {"businessRuleTypeKey", "anchorTypeKey"})})
-@NamedQueries({@NamedQuery(name = "BusinessRuleType.findByKeyAndAnchorType", query = "SELECT c FROM BusinessRuleType c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchorTypeKey = :anchorTypeKey"), @NamedQuery(name = "BusinessRuleType.findBusinessRuleTypes", query = "SELECT c.businessRuleTypeKey FROM BusinessRuleType c"), @NamedQuery(name = "BusinessRuleType.findUniqueAnchorTypes", query = "SELECT DISTINCT c.anchorTypeKey FROM BusinessRuleType c order by c.anchorTypeKey ASC")})
+@NamedQueries({@NamedQuery(name = "BusinessRuleType.findByKeyAndAnchorType", query = "SELECT c FROM BusinessRuleType c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchorTypeKey = :anchorTypeKey"), 
+	@NamedQuery(name = "BusinessRuleType.findBusinessRuleTypes", query = "SELECT c.businessRuleTypeKey FROM BusinessRuleType c"), 
+	@NamedQuery(name = "BusinessRuleType.findUniqueAnchorTypes", query = "SELECT DISTINCT c.anchorTypeKey FROM BusinessRuleType c order by c.anchorTypeKey ASC")})
 public class BusinessRuleType {
     @Id
-    @Column(name="BUSINESS_RULE_TYPE_ID")
+    @Column(name="BRT_ID")
     private String id;
 
     private BusinessRuleTypeKey businessRuleTypeKey;
