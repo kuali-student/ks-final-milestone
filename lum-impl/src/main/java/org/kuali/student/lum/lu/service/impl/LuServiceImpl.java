@@ -606,8 +606,14 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(cluCluRelationId, "cluCluRelationId");
+	    
+	    luDao.delete(CluCluRelation.class, cluCluRelationId);
+	    
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+
+        return statusInfo;
 	}
 
 	@Override
@@ -811,8 +817,8 @@ public class LuServiceImpl implements LuService {
 	public CluCluRelationInfo getCluCluRelation(String cluCluRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(cluCluRelationId, "cluCluRelationId");
+		return LuServiceAssembler.toCluCluRelationInfo(luDao.fetch(CluCluRelation.class, cluCluRelationId));
 	}
 
 	@Override
@@ -1833,14 +1839,28 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public CluCluRelationInfo updateCluCluRelation(String cluCluRelationId,
-			CluCluRelationInfo cluCluRelationInfo)
+	public CluCluRelationInfo updateCluCluRelation(final String cluCluRelationId,
+			final CluCluRelationInfo cluCluRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(cluCluRelationId, "cluCluRelationId");
+        checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
+        
+        final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class, cluCluRelationId);
+        BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation, new String[] { "cluId", "relatedCluId", "isCluRelationRequired", "attributes", "metaInfo" });
+
+        cluCluRelation.setClu(luDao.fetch(Clu.class,cluCluRelationInfo.getCluId()));
+        cluCluRelation.setRelatedClu(luDao.fetch(Clu.class,cluCluRelationInfo.getRelatedCluId()));
+        cluCluRelation.setCluRelationRequired(cluCluRelationInfo.getIsCluRelationRequired() == null? true: cluCluRelationInfo.getIsCluRelationRequired()); //TODO maybe this is unnecessary, contract specifies not null
+        cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(CluCluRelationAttribute.class, cluCluRelationInfo.getAttributes(), cluCluRelation, luDao));
+
+        cluCluRelation.setLuLuRelationType(luDao.fetch(LuLuRelationType.class, cluCluRelationInfo.getType()));
+        
+        final CluCluRelation update = luDao.update(cluCluRelation);
+        
+        return LuServiceAssembler.toCluCluRelationInfo(update);
 	}
 
 	@Override

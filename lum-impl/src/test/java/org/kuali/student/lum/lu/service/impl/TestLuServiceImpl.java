@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -1006,17 +1008,79 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testCluCluRelationCrud() throws Exception {
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        final SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
-	    CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
+	    final CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
 
-	    cluCluRelationInfo.setEffectiveDate(df.parse("20080101"));
-	    cluCluRelationInfo.setExpirationDate(df.parse("20100101"));
+	    final Date effectiveDate = df.parse("20080101"), expirationDate = df.parse("20100101");
+        cluCluRelationInfo.setEffectiveDate(effectiveDate);
+        cluCluRelationInfo.setExpirationDate(expirationDate);
 	    cluCluRelationInfo.setIsCluRelationRequired(true);
 	    cluCluRelationInfo.setState("hello");
-	    cluCluRelationInfo.setType("goodbye");
+        cluCluRelationInfo.getAttributes().put("clucluAttrKey1", "clucluAttrValue1");
+        cluCluRelationInfo.getAttributes().put("clucluAttrKey2", "clucluAttrValue2");
+        cluCluRelationInfo.getAttributes().put("clucluAttrKey3", "clucluAttrValue3");
 
-	    client.createCluCluRelation("CLU-1", "CLU-2", "luLuType.type1", cluCluRelationInfo);
+	    CluCluRelationInfo created = client.createCluCluRelation("CLU-1", "CLU-2", "luLuType.type1", cluCluRelationInfo);
+	    
+	    assertEquals(effectiveDate, created.getEffectiveDate());
+	    assertEquals(expirationDate, created.getExpirationDate());
+	    assertEquals(true, created.getIsCluRelationRequired());
+	    assertEquals("hello", created.getState());
+	    assertEquals("CLU-1", created.getCluId());
+	    assertEquals("CLU-2", created.getRelatedCluId());
+	    assertEquals("luLuType.type1", created.getType());
+        assertEquals("clucluAttrValue1", created.getAttributes().get("clucluAttrKey1"));
+        assertEquals("clucluAttrValue2", created.getAttributes().get("clucluAttrKey2"));
+        assertEquals("clucluAttrValue3", created.getAttributes().get("clucluAttrKey3"));
+        assertNotNull(created.getId());
+        assertNotNull(created.getMetaInfo().getCreateTime());
+        assertNotNull(created.getMetaInfo().getVersionInd());
+        
+        created.getAttributes().remove("clucluAttrKey2");
+        created.getAttributes().put("clucluAttrKey3", "clucluAttrValue3-A");
+        created.getAttributes().put("clucluAttrKey4", "clucluAttrValue4");
+        created.setCluId("CLU-2");
+        created.setEffectiveDate(expirationDate);
+        created.setExpirationDate(effectiveDate);
+        created.setIsCluRelationRequired(false);
+        created.setRelatedCluId("CLU-3");
+        created.setState("updated hello");
+        created.setType("luLuType.type2");
+        
+        CluCluRelationInfo updated = client.updateCluCluRelation(created.getId(), created);
+        
+        assertEquals(expirationDate, updated.getEffectiveDate());
+        assertEquals(effectiveDate, updated.getExpirationDate());
+        assertEquals(false, updated.getIsCluRelationRequired());
+        assertEquals("updated hello", updated.getState());
+        assertEquals("CLU-2", updated.getCluId());
+        assertEquals("CLU-3", updated.getRelatedCluId());
+        assertEquals("luLuType.type2", updated.getType());
+        assertEquals("clucluAttrValue1", updated.getAttributes().get("clucluAttrKey1"));
+        assertNull(updated.getAttributes().get("clucluAttrKey2"));
+        assertEquals("clucluAttrValue3-A", updated.getAttributes().get("clucluAttrKey3"));
+        assertEquals("clucluAttrValue4", updated.getAttributes().get("clucluAttrKey4"));
+        assertNotNull(created.getId());
+        assertNotNull(created.getMetaInfo().getCreateTime());
+        assertNotNull(created.getMetaInfo().getVersionInd());
+        
+        //Test Delete
+        try{
+            client.getCluCluRelation(created.getId());
+        }catch(DoesNotExistException e){
+            fail("Should not have thrown DoesNotExistException");
+        }
+
+        StatusInfo status = client.deleteCluCluRelation(created.getId());
+        assertTrue(status.getSuccess());
+
+        try{
+            client.getCluCluRelation(created.getId());
+            fail("Should have thrown DoesNotExistException");
+        }catch(DoesNotExistException e){
+
+        }
 	}
 
 	@Test

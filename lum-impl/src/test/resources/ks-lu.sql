@@ -1,6 +1,8 @@
 // LU LU RelationType
 INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('luLuType.type1', 'bob', 'my desc', 'rev name', 'rev desc', '2008-01-01 00:00:00.0', '2010-01-01 00:00:00.0', 0)
 /
+INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VERSIONIND) values ('luLuType.type2', 'bill', 'my desc2', 'rev name2', 'rev desc2', '2008-01-01 00:00:00.0', '2010-01-01 00:00:00.0', 0)
+/
 
 // LU Type
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('luType.shell.course', 'A Shell Course', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course')
