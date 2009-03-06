@@ -86,4 +86,14 @@ public interface KSStyles {
 	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
 	public static final String KS_PROGRESS_INDICATOR = "KSProgressIndicator";
 	
+	public static final String KS_CBP_CANCEL_BUTTON = "KS-CBP-Cancel-Button";
+	public static final String KS_CBP_CONFIRM_BUTTON = "KS-CBP-Confirm-Button";
+	public static final String KS_CBP_BUTTON_PANEL = "KS-CBP-Button-Panel";
+	
+	public static final String KS_CONFIRM_DIALOG_TITLE = "KS-Confirm-Dialog-Title";
+	public static final String KS_CONFIRM_DIALOG_CONTENT = "KS-Confirm-Dialog-Content";
+	public static final String KS_CONFIRM_DIALOG_TITLE_PANEL = "KS-Confirm-Dialog-Title-Panel";
+	public static final String KS_CONFIRM_DIALOG = "KS-Confirm-Dialog";
+	public static final String KS_CONFIRM_DIALOG_IMAGE = "KS-Confirm-Dialog-Image";
+	
 }
