@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
@@ -92,8 +93,24 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         root.add(tb);
         selectButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                fireSelectEvent();                
-            }            
+                List<String> selectedItems = resultTable.getSelectedItems(); 
+                if ( selectedItems.size() == 0){
+                    Window.alert("No organization selected");
+                } else {
+                    String orgId ;
+                    orgId = resultTable.getSelectedItems().get(0);
+
+                    OrgRpcService.Util.getInstance().getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+
+                        public void onSuccess(OrgInfo orgInfo) {
+                            fireSelectEvent(orgInfo);
+                        }            
+                    });                
+                }
+            }
         });
         selectButton.setVisible(false);
         root.add(resultPanel);
@@ -118,17 +135,8 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         });
     }
 
-    private void fireSelectEvent(){               
-        List<String> selectedItems = resultTable.getSelectedItems(); 
-        if ( selectedItems.size() == 0){
-            Window.alert("No organization selected");
-        } else {
-            String orgId ;
-            orgId = resultTable.getSelectedItems().get(0);
-            OrgInfo orgInfo = new OrgInfo();
-            orgInfo.setId(orgId);
-            SelectionEvent.fire(this, orgInfo);
-        }
+    private void fireSelectEvent(OrgInfo selectedOrg){               
+        SelectionEvent.fire(this, selectedOrg);
     }
     
     protected void getSearchResults(){
@@ -168,11 +176,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
     public HandlerRegistration addSelectionHandler(SelectionHandler<OrgInfo> selectionHandler){
         return addHandler(selectionHandler,SelectionEvent.getType());
     }       
-    
-    public OrgInfo getSelectedOrg(){
-        return null;
-    }
-    
+        
     public class OrgInfoList implements ListItems{
         Map<String, Result> orgInfoMap = new HashMap<String, Result>();
                 

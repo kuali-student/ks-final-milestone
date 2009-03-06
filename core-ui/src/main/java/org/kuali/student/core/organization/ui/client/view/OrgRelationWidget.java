@@ -18,7 +18,10 @@ package org.kuali.student.core.organization.ui.client.view;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.FormField;
@@ -29,7 +32,10 @@ import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -37,6 +43,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -46,8 +53,6 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class OrgRelationWidget extends Composite{
-
-    
     
     String orgRelId = null;
     String orgRelType;
@@ -60,12 +65,13 @@ public class OrgRelationWidget extends Composite{
     FormLayoutPanel orgRelForm = null;
     
     ListBox orgRelTypeDropDown = null;
+
+    KSModalDialogPanel searchPopup = new KSModalDialogPanel();
     
     boolean loaded = false;
     
     public OrgRelationWidget(){
         super.initWidget(root);
-
         
     }
     
@@ -78,7 +84,34 @@ public class OrgRelationWidget extends Composite{
             
             fTable = new FlexTable();
             fTable.setWidget(0,0, orgRelForm);
-                       
+
+            OrgSearchWidget orgSearchWidget = new OrgSearchWidget();
+            orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
+                public void onSelection(SelectionEvent<OrgInfo> event) {
+                    OrgInfo o = event.getSelectedItem();
+                    orgRelForm.setFieldValue("relOrgName", o.getLongName());
+                    orgRelForm.setFieldValue("relOrgId", o.getId());
+                    searchPopup.hide();
+                }
+            });
+            
+            VerticalPanel popupContent = new VerticalPanel();
+            popupContent.add(orgSearchWidget);
+            popupContent.add(new KSButton("Cancel", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    searchPopup.hide();
+                }                
+            }));
+            
+            searchPopup.setWidget(popupContent);
+            
+            KSButton searchButton = new KSButton("Find Org", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    searchPopup.show();
+                }                
+            });
+            fTable.setWidget(0,1, searchButton);
+            fTable.getCellFormatter().setVerticalAlignment(0, 1, VerticalPanel.ALIGN_TOP);
             root.add(fTable);
             loaded = true;
         }
@@ -91,7 +124,9 @@ public class OrgRelationWidget extends Composite{
         loadOrgRelationTypes();        
         
         addFormField(new KSTextBox(), "Organization", "relOrgName");
-        addFormField(new KSTextBox(), "Organization Id", "relOrgId");
+        KSTextBox relOrgId = new KSTextBox();
+        relOrgId.setEnabled(true);
+        addFormField(relOrgId, "Organization Id", "relOrgId");
         addFormField(orgRelTypeDropDown, "Relationship", "relType");
         addFormField(new KSDatePicker(), "Effective date", "relEffDate");
         addFormField(new KSDatePicker(), "Expiration date", "relExpDate");

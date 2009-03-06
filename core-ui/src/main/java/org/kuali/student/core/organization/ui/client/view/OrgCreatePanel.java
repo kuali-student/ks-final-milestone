@@ -66,7 +66,7 @@ public class OrgCreatePanel extends Composite{
     String orgVersion = null;
     
     ListBox orgTypeDropDown;
-    FormLayoutPanel orgForm = new FormLayoutPanel();
+    FormLayoutPanel orgForm;
     
     VerticalPanel vOrganization;
     VerticalPanel vPositions;
@@ -86,6 +86,7 @@ public class OrgCreatePanel extends Composite{
         //vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
         if (!loaded){
             loaded = true;
+            vPanel.clear();
             if (type.equals(CREATE_ORG_ALL)){
                 getOrganization();
                 getOrgPositions(true);
@@ -123,6 +124,7 @@ public class OrgCreatePanel extends Composite{
     protected void getOrganization(){
         vOrganization = new VerticalPanel();
                
+        orgForm = new FormLayoutPanel();
         orgTypeDropDown = new ListBox();      
                
         addFormField(orgTypeDropDown,"Type", "orgType");
@@ -178,7 +180,7 @@ public class OrgCreatePanel extends Composite{
     }
 
     protected void getOrgRelations(boolean bShowAll){
-        KSDisclosureSection relationSection = new KSDisclosureSection("Relations",null, false);
+        KSDisclosureSection relationSection = new KSDisclosureSection("Relations",null, type.equals(CREATE_ORG_RELATIONS));
         
         vRelations = new VerticalPanel();
         vRelations.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
@@ -222,6 +224,7 @@ public class OrgCreatePanel extends Composite{
                     savePositions();
                     saveRelations();
                     vPanel.add(new Label("Org created with id: " + orgId));
+                    orgId=null;
                 }
             });
         } else {
@@ -235,10 +238,14 @@ public class OrgCreatePanel extends Composite{
                     savePositions();
                     saveRelations();
                     vPanel.add(new Label("Organization saved"));
+                    orgId=null;                    
                 }
             });            
         }
+
+        loaded=false;
     }
+    
     
     protected void savePositions(){
         //Only every other widget is a orgPositionWidget
