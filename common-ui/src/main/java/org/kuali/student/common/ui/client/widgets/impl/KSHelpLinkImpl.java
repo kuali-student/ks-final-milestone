@@ -36,8 +36,8 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         public void onClick(ClickEvent event) {
             // on click, show non-modal popup containing iframe to helpinfo url
         	fetchHelpInfo();
-        	popup = GWT.create(KSHelpDialog.class);
-        	popup.init(helpInfo);
+        	popup = new KSHelpDialog(helpInfo);
+        	//popup.init(helpInfo);
         	popup.show();
         }        
     };

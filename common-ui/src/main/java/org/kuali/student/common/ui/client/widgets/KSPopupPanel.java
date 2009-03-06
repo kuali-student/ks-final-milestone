@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 import org.kuali.student.common.ui.client.widgets.impl.KSPopupPanelImpl;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -9,7 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSPopupPanel extends KSPopupPanelAbstract{ 
-	private final KSPopupPanelAbstract popupPanel = new KSPopupPanelImpl();
+	private final KSPopupPanelAbstract popupPanel = GWT.create(KSPopupPanelImpl.class);
 //	private final SimplePanel content = new SimplePanel();
 	
 	
