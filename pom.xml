@@ -1,53 +1,38 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>brms-impl-pom</artifactId>
+		<groupId>org.kuali.student.brms</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.brms</groupId>
-	<artifactId>brms-ri</artifactId>
-	<version>0.0.1</version>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>brms-web-pom</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-    <name>Kuali Student BRMS RI - PoC</name>
+	<name />
 	<description />
 
-	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3</version>
-	</parent>
-	
-	<properties>
-		<drools.version>4.0.7</drools.version>
-        <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
-	</properties>
-
 	<modules>
-		<module>rules-common</module>
-		<module>brms-core</module>
-		<module>inspect-rule-failure</module>
-        <module>rule-repository</module>
-        <module>generate-rule</module>
-        <module>validate-rule</module>
-        <module>rule-execution</module>
+		<module>rule-management-lum</module>
 	</modules>
-
-	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/tags/brms-ri-0.0.1</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/tags/brms-ri-0.0.1</developerConnection>
-	</scm>
 
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
+			<url>http://archiva.kuali.umd.edu/repository/release</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
 			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
+			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
 		</repository>
 	</repositories>
-
 </project>
