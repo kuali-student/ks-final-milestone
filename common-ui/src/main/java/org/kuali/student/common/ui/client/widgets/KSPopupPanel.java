@@ -1,82 +1,72 @@
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.widgets.impl.KSPopupPanelImpl;
+
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSPopupPanel {
-	private final PopupPanel popup = new PopupPanel();
+public class KSPopupPanel extends KSPopupPanelAbstract{ 
+	private final KSPopupPanelAbstract popupPanel = new KSPopupPanelImpl();
 //	private final SimplePanel content = new SimplePanel();
 	
-	private boolean isShowing = false;
 	
 	
 	public KSPopupPanel(){
-		
-	//	popup.add(content);
-		
-		setupDefaultStyle();
+
 	}
 	public int getX(){
 	    //return popup.get.getPopupLeft();
-	    return popup.getAbsoluteLeft();
+	    return popupPanel.getX();
 	}
     public int getY(){
        // return popup.getPopupTop();
-        return popup.getAbsoluteTop();
+        return popupPanel.getY();
     }
 	public void setLocation(int x, int y){
-	    popup.setPopupPosition(x, y);
+	    popupPanel.setLocation(x, y);
 	}
 	public void setWidget(Widget w){
 	//	content.setWidget(w);
-	    popup.setWidget(w);
+	    popupPanel.setWidget(w);
 	}
 	public void setPixelSize(int w, int h){
       //  content.setPixelSize(w,h);
-        popup.setPixelSize(w,h);
+	    popupPanel.setPixelSize(w,h);
 	}
 
 	public void show(){
-		popup.show();
-		isShowing = true;
+	    popupPanel.show();
 	}
 	
 	public void center(){
-		popup.center();
-		isShowing = true;
+	    popupPanel.center();
 	}
 	
 	public void hide(){
-		popup.hide();
-		isShowing = false;
-	}
-	
-	private void setupDefaultStyle(){
-		popup.addStyleName(KSStyles.KS_POPUP);	
-		
+	    popupPanel.hide();
 	}
 	
 	public void addStyleName(String style){
-		popup.addStyleName(style);
+	    popupPanel.addStyleName(style);
 	}
 
 	public void setModal(boolean modal) {
-		popup.setModal(modal);
+	    popupPanel.setModal(modal);
 		
 	}
 
 	public boolean isShowing() {
-		return isShowing;
+		return popupPanel.isShowing();
 	}
 	
 	public void addCloseHandler(CloseHandler handler){
-		popup.addCloseHandler(handler);
+	    popupPanel.addCloseHandler(handler);
 	}
 	
 	public void setAutoHide(boolean autoHide){
-		popup.setAutoHideEnabled(autoHide);
+	    popupPanel.setAutoHide(autoHide);
 	}
 }
