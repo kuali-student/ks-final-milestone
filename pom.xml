@@ -18,18 +18,31 @@
 	<packaging>pom</packaging>
 	<name>Kuali Student BRMS - brms-impl-dev</name>
 	<description>Kuali Student BRMS implementation development</description>
-	
+
 	<properties>
 		<drools.version>4.0.7</drools.version>
         <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
+        <jpa.properties.in>../src/test/resources/META-INF/jpa.properties</jpa.properties.in>
+        <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
+        <jdbc.derby.in>../src/test/resources/META-INF/jdbc_derby.properties</jdbc.derby.in>
+        <jdbc.oracle.in>../src/test/resources/META-INF/jdbc_oracle.properties</jdbc.oracle.in>
+        <jdbc.properties.out>${project.build.testOutputDirectory}/META-INF/jdbc.properties</jdbc.properties.out>
+        <drools.repository.directory>${project.build.testOutputDirectory}/drools-repository</drools.repository.directory>
+        <drools.repository.default.out>${project.build.testOutputDirectory}/drools-repository/repository.xml</drools.repository.default.out>
+        <drools.repository.derby.in>../src/test/resources/drools-repository/repository_derby.xml</drools.repository.derby.in>
+        <drools.repository.oracle.in>../src/test/resources/drools-repository/repository_oracle.xml</drools.repository.oracle.in>
+        <application.properties.oracle.in>../src/test/resources/application-oracle.properties</application.properties.oracle.in>
+        <application.context.test.in>../src/test/resources/META-INF/default-dao-context-test.xml</application.context.test.in>
+        <application.context.test.out>${project.build.testOutputDirectory}/META-INF/default-dao-context-test.xml</application.context.test.out>
+        <application.context.rulerepository>application-rulerepository-context.xml</application.context.rulerepository>
 	</properties>
 
 	<modules>
 		<module>rule-common-impl</module>
 		<module>rule-management-impl</module>
+        <module>fact-finder-impl</module>
 		<module>rule-repository-impl</module>
-		<module>rule-execution-impl</module>
-		<module>fact-finder-impl</module>
+        <module>rule-execution-impl</module>
 		<module>brms-ws</module>
         <module>integration-tests</module>
 	</modules>
@@ -50,7 +63,7 @@
         	</plugin>
         </plugins>
     </reporting-->
-    
+
 	<dependencies>
         <dependency>
             <groupId>org.kuali.student.poc.common</groupId>
@@ -59,6 +72,75 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+		<profile>
+            <id>derby-embedded</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+		</profile>
+
+        <profile>
+            <id>oracle</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <!--build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete
+                                            file="${project.build.testOutputDirectory}/drools-repository/repository.xml" />
+                                        <delete
+                                            file="${project.build.testOutputDirectory}/drools-repository/repository_oracle.xml" />
+                                        <copy
+                                            file="src/test/resources/drools-repository/repository_oracle.xml"
+                                            tofile="${project.build.testOutputDirectory}/drools-repository/repository.xml" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </plugin-->
+                    <!--plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>test</classifier>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin-->
+                <!--/plugins>
+            </build-->
+            <dependencies>
+		        <dependency>
+		            <groupId>com.oracle</groupId>
+		            <artifactId>ojdbc14</artifactId>
+		            <version>10.2.0.3.0</version>
+		        </dependency>
+		    </dependencies>
+        </profile>
+    </profiles>
+    
 	<!--pluginRepositories>
 		<pluginRepository>
 			<snapshots>

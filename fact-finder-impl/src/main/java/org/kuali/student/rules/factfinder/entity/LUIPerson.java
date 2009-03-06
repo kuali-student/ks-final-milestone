@@ -13,16 +13,20 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
- * Temporary place holder for LUI Person data that can be retrieved by calling fetchFact
+ * Temporary place holder for LUI Person data that can be retrieved by 
+ * calling fetchFact. Unique key constraint on cluId and studentId so a 
+ * student cannot have more than CLU.
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Entity
-@Table(name = "LUIPerson_T")
+@Table(name = "LUIPerson_T",
+	uniqueConstraints=@UniqueConstraint(columnNames={"cluId", "studentId"}))
 @NamedQueries({@NamedQuery(name = "LUIPerson.findByStudentId", query = "SELECT c FROM LUIPerson c WHERE c.studentId = :studentID")})
 public class LUIPerson {
 

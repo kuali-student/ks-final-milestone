@@ -452,7 +452,8 @@
 		<property name="name" value="P3" />
 		<property name="description"
 			value="enumeration of required pre-requisite courses" />
-		<property name="failureMessage" value="prop error message" />
+        <property name="successMessage" value="Pre-requisite course requirement met: $prop_intersection_met_set" />
+        <property name="failureMessage" value="Pre-requisite course requirement not met. $prop_intersection_diff_set of $prop_intersection_unmet_set is still required." />
 		<property name="comparisonDataTypeKey"
 			value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide4" />
@@ -466,7 +467,8 @@
 			value="11223344-1122-1122-1112-100000000016" />
 		<property name="name" value="P4" />
 		<property name="description" value="credits check" />
-		<property name="failureMessage" value="prop error message" />
+        <property name="successMessage" value="Credit check successful. Total credits: $prop_sum" />
+        <property name="failureMessage" value="Credit check failed. Sum is short by $prop_sum_diff" />
 		<property name="comparisonDataTypeKey"
 			value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide5" />
@@ -621,7 +623,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="RPAREN" />
-					<property name="ordinalPosition" value="1" />
+					<property name="ordinalPosition" value="3" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement34"
@@ -632,7 +634,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="OR" />
-					<property name="ordinalPosition" value="2" />
+					<property name="ordinalPosition" value="4" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement35"
@@ -643,7 +645,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="LPAREN" />
-					<property name="ordinalPosition" value="1" />
+					<property name="ordinalPosition" value="5" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement36"
@@ -654,7 +656,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="PROPOSITION" />
-					<property name="ordinalPosition" value="3" />
+					<property name="ordinalPosition" value="6" />
 					<property name="businessRule" ref="funcBusRule3" />
 					<property name="ruleProposition"
 						ref="ruleProposition32" />
@@ -667,7 +669,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="RPAREN" />
-					<property name="ordinalPosition" value="1" />
+					<property name="ordinalPosition" value="7" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement38"
@@ -678,7 +680,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="OR" />
-					<property name="ordinalPosition" value="2" />
+					<property name="ordinalPosition" value="8" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement39"
@@ -689,7 +691,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="LPAREN" />
-					<property name="ordinalPosition" value="1" />
+					<property name="ordinalPosition" value="9" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement40"
@@ -700,7 +702,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="PROPOSITION" />
-					<property name="ordinalPosition" value="3" />
+					<property name="ordinalPosition" value="10" />
 					<property name="businessRule" ref="funcBusRule3" />
 					<property name="ruleProposition"
 						ref="ruleProposition33" />
@@ -713,7 +715,7 @@
 					<property name="description" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="RPAREN" />
-					<property name="ordinalPosition" value="1" />
+					<property name="ordinalPosition" value="11" />
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 			</list>

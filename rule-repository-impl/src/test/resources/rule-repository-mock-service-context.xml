@@ -17,8 +17,13 @@
             ref="rulesRepository" />
     </bean>
 
+    <!-- 
+        Oracle network database server: 
+        init-method="clearData" is needed to clear all data before running unit tests  
+    -->
     <bean id="defaultDroolsRepository"
         class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+        init-method="clearData"
         destroy-method="shutdownRepository">
         <constructor-arg type="java.lang.String"
             value="/drools-repository" />

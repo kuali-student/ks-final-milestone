@@ -17,6 +17,78 @@
 		Fact finder module
 	</description>
 	
+    <profiles>
+        <profile>
+            <id>derby-embedded</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <copy
+                                            file="${jdbc.derby.in}"
+                                            tofile="${jdbc.properties.out}" />
+                                        <copy
+                                            file="${application.context.test.in}"
+                                            tofile="${application.context.test.out}" />
+                                        <copy
+                                            file="${jpa.properties.in}"
+                                            tofile="${jpa.properties.out}" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>oracle</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <copy
+                                            file="${jdbc.oracle.in}"
+                                            tofile="${jdbc.properties.out}" />
+                                        <copy
+                                            file="${application.context.test.in}"
+                                            tofile="${application.context.test.out}" />
+                                        <copy
+                                            file="${jpa.properties.in}"
+                                            tofile="${jpa.properties.out}" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 	<dependencies>	
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>

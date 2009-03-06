@@ -28,6 +28,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
@@ -70,7 +71,10 @@ import org.kuali.student.poc.common.test.spring.Property;
 	@Property(key="ks.servicelocation.FactFinderService", value="http://localhost:9000/brms/services/FactFinderService"),
 	@Property(key="ks.servicelocation.RuleManagementService", value="http://localhost:9000/brms/services/RuleManagementService"),
 	@Property(key="ks.servicelocation.RuleExecutionService", value="http://localhost:9000/brms/services/RuleExecutionService"),
-	@Property(key="ks.servicelocation.RuleRepositoryService", value="http://localhost:9000/brms/services/RuleRepositoryService")
+	@Property(key="ks.servicelocation.RuleRepositoryService", value="http://localhost:9000/brms/services/RuleRepositoryService"),
+
+	@Property(key="jpa.factfinder.hibernate.hbm2ddl.auto", value="create-drop"),
+	@Property(key="jpa.rulemanagement.hibernate.hbm2ddl.auto", value="create-drop")
 })
 public class IntegrationTest extends AbstractIntegrationServiceTest {
 	private final static String HOST = "http://localhost:9000/brms";
@@ -390,6 +394,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		Assert.assertNotNull(businessRuleIdList2);
     }
     
+    @Ignore
     @Test
     public void testFindBusinessRuleTypesFromTestBeansAndExecute_StaticFact() throws Exception {
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
@@ -423,7 +428,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
     		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -437,7 +442,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -456,7 +461,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
 	        Assert.assertNotNull(ruleSet);
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -479,7 +484,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
 	        Assert.assertNotNull(ruleSet);
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -497,7 +502,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	        Assert.assertNotNull(executionResult);
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -575,7 +580,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        Assert.assertEquals(1, propositionResult1.getResultList().size());
 			Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -665,22 +670,27 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Map<String, String> paramMap = new HashMap<String, String>();
 	    paramMap.put("factParam.studentId", "student1");
 
-        String businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
-        Assert.assertNotNull(businessRuleId);
-		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-
-        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
-        Assert.assertNotNull(executionResult);
-        Assert.assertTrue(executionResult.getReport().isSuccessful());
-        
-        Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P1").isSuccessful());
-        Assert.assertEquals("SUM", getProposition(executionResult.getReport().getPropositionReports(), "P1").getPropositionType());
-
-        PropositionReportDTO prP1 = getProposition(executionResult.getReport().getPropositionReports(), "P1");
-        
-		FactResultDTO propositionResult1 = prP1.getPropositionResult();
-        Assert.assertEquals(1, propositionResult1.getResultList().size());
-		Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.credit", "6.0"));
+    	String businessRuleId = null;
+	    try {
+		    businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
+	        Assert.assertNotNull(businessRuleId);
+			BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+	
+	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
+	        Assert.assertNotNull(executionResult);
+	        Assert.assertTrue(executionResult.getReport().isSuccessful());
+	        
+	        Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P1").isSuccessful());
+	        Assert.assertEquals("SUM", getProposition(executionResult.getReport().getPropositionReports(), "P1").getPropositionType());
+	
+	        PropositionReportDTO prP1 = getProposition(executionResult.getReport().getPropositionReports(), "P1");
+	        
+			FactResultDTO propositionResult1 = prP1.getPropositionResult();
+	        Assert.assertEquals(1, propositionResult1.getResultList().size());
+			Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.credit", "6.0"));
+    	} finally {
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    	}
     }
 
 	private PropositionReportDTO getProposition(List<PropositionReportDTO> list, String name) {
@@ -718,6 +728,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     	BusinessRuleInfoDTO businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
     	ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+    	businessRule = ruleManagementService.updateBusinessRuleState(businessRuleId, BusinessRuleStatus.ACTIVE.toString());
     	businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
@@ -783,7 +794,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     	String businessRuleId = "11223344-1122-1122-1112-100000000011";
     	BusinessRuleInfoDTO businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
     	if (!businessRule.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
-	    	businessRule = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+//	    	if(ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId()) == null) {
+	    		businessRule = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+//	    	}
 	    	businessRule = ruleManagementService.updateBusinessRuleState(businessRuleId, BusinessRuleStatus.ACTIVE.toString());
     	}
 
@@ -844,14 +857,18 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     	String businessRuleId1 = "11223344-1122-1122-1112-100000000011";
     	BusinessRuleInfoDTO businessRule1 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId1);
     	if (!businessRule1.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
-	    	businessRule1 = ruleManagementService.updateBusinessRule(businessRuleId1, businessRule1);
+//	    	if(ruleRepositoryService.fetchRuleSet(businessRule1.getCompiledId()) == null) {
+	    		businessRule1 = ruleManagementService.updateBusinessRule(businessRuleId1, businessRule1);
+//	    	}
 	    	businessRule1 = ruleManagementService.updateBusinessRuleState(businessRuleId1, BusinessRuleStatus.ACTIVE.toString());
     	}
     	// Update business rule to change state to ACTIVE and compile an executable rule
     	String businessRuleId2 = "11223344-1122-1122-1112-100000000032";
     	BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId2);
     	if (!businessRule2.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
-	    	businessRule2 = ruleManagementService.updateBusinessRule(businessRuleId2, businessRule2);
+	    	if(ruleRepositoryService.fetchRuleSet(businessRule2.getCompiledId()) == null) {
+	    		businessRule2 = ruleManagementService.updateBusinessRule(businessRuleId2, businessRule2);
+	    	}
 	    	businessRule2 = ruleManagementService.updateBusinessRuleState(businessRuleId2, BusinessRuleStatus.ACTIVE.toString());
     	}
 

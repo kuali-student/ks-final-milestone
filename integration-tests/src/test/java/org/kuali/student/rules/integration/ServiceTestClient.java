@@ -348,7 +348,7 @@ public class ServiceTestClient {
     		System.out.println("Business Rule ID:   "+businessRule2.getId());
 	        System.out.println("Business Rule Name: "+businessRule2.getName());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -365,7 +365,7 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule Name: "+businessRule2.getName());
 	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -393,7 +393,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -426,7 +426,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -453,7 +453,7 @@ public class ServiceTestClient {
 	        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
 	        Assert.assertTrue(executionResult.getReport().isSuccessful());
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -546,7 +546,7 @@ public class ServiceTestClient {
 	        Assert.assertEquals(1, propositionResult1.getResultList().size());
 			Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
     	} finally {
-    		//ruleManagementService.deleteBusinessRule(businessRuleId);
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
