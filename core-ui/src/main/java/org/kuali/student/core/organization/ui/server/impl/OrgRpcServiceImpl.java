@@ -20,6 +20,8 @@ import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 
 public class OrgRpcServiceImpl implements OrgRpcService{
 
@@ -325,6 +327,24 @@ public class OrgRpcServiceImpl implements OrgRpcService{
         } catch (PermissionDeniedException e) {
             e.printStackTrace();
         } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) {
+        try {
+            return service.searchForResults(searchTypeKey, queryParamValues);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
             e.printStackTrace();
         }
         return null;

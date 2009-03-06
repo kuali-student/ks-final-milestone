@@ -11,6 +11,8 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -91,6 +93,10 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 
     public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo) {
         return serviceImpl.updateOrgOrgRelation(orgOrgRelationInfo);
+    }
+
+    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) {
+        return serviceImpl.searchForResults(searchTypeKey, queryParamValues);
     }
 	
 	

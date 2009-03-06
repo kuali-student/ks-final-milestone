@@ -24,8 +24,6 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -53,7 +51,7 @@ public class OrgMenu extends VerticalPanel{
         addSubItem(createItem, "Position", new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_POSITIONS));
         
         KSMenuItemData modifyItem = new KSMenuItemData("Modify");
-        modifyItem.setClickHandler(getClickHandler(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL)));
+        modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel()));
         
         KSMenuItemData locateItem = new KSMenuItemData("Locate");
         locateItem.setClickHandler(getClickHandler(new OrgLocatePanel()));
