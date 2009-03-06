@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,6 +71,7 @@ import org.kuali.student.lum.lu.entity.CluOrg;
 import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
 import org.kuali.student.lum.lu.entity.CluSet;
+import org.kuali.student.lum.lu.entity.CluSetAttribute;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
@@ -107,8 +109,37 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetId, "cluSetId");
+		checkForMissingParameter(addedCluSetId, "addedCluSetId");
+		
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		
+		if(cluSet.isCriteriaSet()){
+			throw new UnsupportedActionException("Can not add a CluSet to a dynamic CluSet");
+		}
+		
+		CluSet addedCluSet = luDao.fetch(CluSet.class, addedCluSetId);
+		
+		checkCluSetCircularReference(addedCluSet,cluSetId);
+		
+		cluSet.getCluSets().add(addedCluSet);
+		
+		luDao.update(cluSet);
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
+	}
+
+	private void checkCluSetCircularReference(CluSet addedCluSet,
+			String cluSetId) throws CircularReferenceException {
+		for(CluSet childSet:addedCluSet.getCluSets()){
+			if(childSet.getId().equals(cluSetId)){
+				throw new CircularReferenceException("Set already contains this Set");
+			}
+			checkCluSetCircularReference(childSet, cluSetId);
+		}
 	}
 
 	@Override
@@ -116,8 +147,35 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(cluSetId, "cluSetId");
+		
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		
+		if(cluSet.isCriteriaSet()){
+			throw new UnsupportedActionException("Cannot add a Clu to a Dynamic CluSet");
+		}
+		
+		Clu clu = luDao.fetch(Clu.class, cluId);
+		
+		for(Clu childClu:cluSet.getClus()){
+			if(childClu.getId().equals(cluId)){
+				StatusInfo statusInfo = new StatusInfo();
+				statusInfo.setSuccess(false);
+				statusInfo.setMessage("CluSet already contains Clu:"+cluId);
+				return statusInfo;
+			}
+		}
+		
+		cluSet.getClus().add(clu);
+		
+		luDao.update(cluSet);
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
 	}
 
 	@Override
@@ -361,9 +419,30 @@ public class LuServiceImpl implements LuService {
 			CluSetInfo cluSetInfo) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+			PermissionDeniedException, DoesNotExistException {
+	    
+		checkForMissingParameter(cluSetName, "cluSetName");
+	    checkForMissingParameter(cluSetInfo, "cluSetInfo");
+		
+    	if(cluSetInfo.getCluCriteria()!=null){
+    		throw new InvalidParameterException("Enumerated CluSets can not contain Criteria");
+    	}
+	    
+	    CluSet cluSet = new CluSet();
+		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id", "name", "attributes", "metaInfo" });
+	    cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
+	    cluSet.setName(cluSetName);
+	    
+	    for(String cluId:cluSetInfo.getCluIds()){
+	    	cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
+	    }
+	    for(String cluSetId:cluSetInfo.getCluSetIds()){
+	    	cluSet.getCluSets().add(luDao.fetch(CluSet.class, cluSetId));
+	    }
+	    cluSet.setCriteriaSet(false);
+	    luDao.create(cluSet);
+	    
+		return LuServiceAssembler.toCluSetInfo(cluSet);
 	}
 
 	@Override
@@ -536,8 +615,15 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        checkForMissingParameter(cluSetId, "cluSetId");
+	    
+        luDao.delete(CluSet.class, cluSetId);
+
+	    StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
 	}
 
 	@Override
@@ -1277,8 +1363,33 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(cluSetId, "cluSetId");
+		
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		
+		if(cluSet.isCriteriaSet()){
+			throw new UnsupportedActionException("Cannot remove a Clu from a Dynamic CluSet");
+		}
+
+		for(Iterator<Clu> i = cluSet.getClus().iterator();i.hasNext();){
+			Clu clu = i.next();
+			if(clu.getId().equals(cluId)){
+				i.remove();
+				luDao.update(cluSet);
+				StatusInfo statusInfo = new StatusInfo();
+				statusInfo.setSuccess(true);
+
+				return statusInfo;
+			}
+		}
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(false);
+		statusInfo.setMessage("Clu set does not contain Clu:"+cluId);
+		
+		return statusInfo;
 	}
 
 	@Override
@@ -1296,8 +1407,33 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		checkForMissingParameter(cluSetId, "cluSetId");
+		checkForMissingParameter(removedCluSetId, "removedCluSetId");
+		
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		
+		if(cluSet.isCriteriaSet()){
+			throw new UnsupportedActionException("Cannot remove a CluSet from a Dynamic CluSet");
+		}
+		
+		for(Iterator<CluSet> i = cluSet.getCluSets().iterator();i.hasNext();){
+			CluSet childCluSet = i.next();
+			if(childCluSet.getId().equals(removedCluSetId)){
+				i.remove();
+				luDao.update(cluSet);
+				StatusInfo statusInfo = new StatusInfo();
+				statusInfo.setSuccess(true);
+
+				return statusInfo;
+			}
+		}
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(false);
+		statusInfo.setMessage("CluSet does not contain CluSet:"+removedCluSetId);
+		
+		return statusInfo;
 	}
 
 	@Override
@@ -1713,7 +1849,28 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
+        //Check Missing params
+        checkForMissingParameter(cluSetId, "cluSetId");
+        checkForMissingParameter(cluSetInfo, "cluSetInfo");
+        
+        CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+        
+        if(cluSet.isCriteriaSet()){
+        	if(cluSetInfo.getCluIds().size()>0||cluSetInfo.getCluSetIds().size()>0){
+        		throw new InvalidParameterException("Criteria CluSets can not contain Clus or CluSets");
+        	}
+        	
+        }
+
+        if(!cluSet.isCriteriaSet()){
+        	if(cluSetInfo.getCluCriteria()!=null){
+        		throw new InvalidParameterException("Enumerated CluSets can not contain Criteria");
+        	}
+        	
+        }
+        
+        //cluSetInfo.s
+        
 		return null;
 	}
 

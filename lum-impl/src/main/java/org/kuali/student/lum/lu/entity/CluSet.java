@@ -52,6 +52,9 @@ public class CluSet extends MetaEntity implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
+	@Column(name = "CRIT_SET")
+	private boolean criteriaSet;
+	
 	// private CluCriteria cluCriteria;//TODO Criteria
 
 	@ManyToMany
@@ -134,6 +137,14 @@ public class CluSet extends MetaEntity implements
 
 	public void setAttributes(List<CluSetAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public boolean isCriteriaSet() {
+		return criteriaSet;
+	}
+
+	public void setCriteriaSet(boolean criteriaSet) {
+		this.criteriaSet = criteriaSet;
 	}
 
 }
