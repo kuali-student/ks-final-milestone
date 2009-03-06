@@ -1232,3 +1232,39 @@ insert into KSOR_ORG_TYPE_JN_ORG_PERRL_TYP (ORG_TYPE_ID, ORG_PERS_RELTN_TYPE_ID)
 // Org Person Relation Type
 insert into KSOR_ORG_JN_ORG_PERS_REL_TYPE (ORG_ID, ORG_PERS_RELTN_TYPE_ID) VALUES ('68', 'kuali.org.PersonRelation.Head')
 /
+
+// Org Hierarchy Type Join
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.CorporateEntity')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Board')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Division')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.School')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Program')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Center')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.College')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Department')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Office')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Association')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.AdvisoryGroup')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.WorkGroup')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Section')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Senate')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.Committee')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.AdhocCommittee')
+/
+insert into KSOR_ORG_HIRCHY_JN_ORG_TYPE (ORG_HIRCHY_ID, ORG_TYPE_ID) values ('kuali.org.hierarchy.Main', 'kuali.org.COC')
+/

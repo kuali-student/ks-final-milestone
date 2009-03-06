@@ -63,6 +63,22 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	}
 	
 	@Test
+	public void testSearchHierarchyShortName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+		QueryParamValue qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.orgHierarchyId");
+		qpv1.setValue("kuali.org.hierarchy.Main");
+		queryParamValues.add(qpv1);
+		qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.orgShortName");
+		qpv1.setValue("Bio%");
+		queryParamValues.add(qpv1);
+		List<Result> results = client.searchForResults("org.search.orgQuickViewByHierarchyShortName", queryParamValues);
+		assertEquals(4,results.size());
+		assertEquals(2,results.get(0).getResultCells().size());
+	}
+	
+	@Test
 	public void testCreateUpdateOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 

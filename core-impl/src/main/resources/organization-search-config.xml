@@ -19,6 +19,17 @@
 			<ref bean="org.criteria.orgByOrgType" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+	
+	<search:searchType id="org.search.orgQuickViewByHierarchyShortName">
+		<search:name>Organization Quick View By Hierarchy and ShortName match</search:name>
+		<search:desc>Returns a quick view of organization information for orgs in a hierarchy with like on shortName.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgByHierarchyShortName" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 
 	<search:searchResultTypeInfo id="org.result.orgQuickView">
 		<search:name>Organization Quick View</search:name>
@@ -89,12 +100,33 @@
 			<ref bean="childFieldDescriptor" />
 		</dict:fieldDescriptor>
 	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgHierarchyId">
+		<dict:fieldDescriptor>
+			<ref bean="childFieldDescriptor" />
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgShortName">
+		<dict:fieldDescriptor>
+			<ref bean="childFieldDescriptor" />
+		</dict:fieldDescriptor>
+	</search:queryParam>
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
 		<search:name>OrgByOrgTypeCriteria</search:name>
 		<search:desc>OrgByOrgTypeCriteria Description</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByHierarchyShortName">
+		<search:name>OrgByHierarchyShortNameCriteria</search:name>
+		<search:desc>OrgByHierarchyShortNameCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgHierarchyId" />
+			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -104,6 +136,9 @@
 				<entry key="org.search.orgQuickViewByOrgType">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE
 						org.type.id = :org_queryParam_orgType</value>
+				</entry>
+				<entry key="org.search.orgQuickViewByHierarchyShortName">
+					<value>SELECT org.id, org.shortName FROM Org org, in(org.type.orgHierarchies) hierarcy WHERE org.shortName like :org_queryParam_orgShortName and  hierarcy.id = :org_queryParam_orgHierarchyId</value>
 				</entry>
 			</map>
 		</property>

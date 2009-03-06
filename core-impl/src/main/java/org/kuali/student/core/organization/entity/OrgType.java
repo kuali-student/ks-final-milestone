@@ -25,6 +25,9 @@ public class OrgType extends Type<OrgTypeAttribute> {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<OrgTypeAttribute> attributes;
+	
+	@ManyToMany(mappedBy="organizationTypes")
+	private List<OrgHierarchy> orgHierarchies;
 
 	public void setOrgPersonRelationTypes(
 			List<OrgPersonRelationType> orgPersonRelationTypes) {
@@ -44,6 +47,17 @@ public class OrgType extends Type<OrgTypeAttribute> {
 
 	public void setAttributes(List<OrgTypeAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public List<OrgHierarchy> getOrgHierarchies() {
+		if (orgHierarchies == null) {
+			orgHierarchies = new ArrayList<OrgHierarchy>();
+		}
+		return orgHierarchies;
+	}
+
+	public void setOrgHierarchies(List<OrgHierarchy> orgHierarchies) {
+		this.orgHierarchies = orgHierarchies;
 	}
 
 }
