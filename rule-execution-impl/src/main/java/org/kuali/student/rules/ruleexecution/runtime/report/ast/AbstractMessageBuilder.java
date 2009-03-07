@@ -111,7 +111,7 @@ public abstract class AbstractMessageBuilder {
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
             this.executor.execute(treeNodes);
         } catch(VelocityException e) {
-            throw new MessageBuilderException("Building Velocity template message failed: " + e.getMessage(), e);
+            throw new MessageBuilderException("Building Velocity message failed: " + e.getMessage(), e);
     	} catch (Exception t) {
             throw new MessageBuilderException("Building message failed: " + t.getMessage(), t);
         }
