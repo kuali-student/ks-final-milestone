@@ -136,15 +136,12 @@
                                             tofile="${project.build.outputDirectory}/application.properties" />
                                         <delete
                                             file="${project.build.outputDirectory}/application-oracle.properties" />
-                                        <!--copy
-                                            file="${application.properties.oracle.in}"
-                                            tofile="${project.build.testOutputDirectory}/application.properties" />
-                                        <copy
-                                            file="../src/test/resources/${application.context.rulerepository}"
-                                            tofile="${project.build.testOutputDirectory}/${application.context.rulerepository}" />
-                                        <copy
-                                            file="${jdbc.oracle.in}"
-                                            tofile="${jdbc.properties.out}" /-->
+                                        <delete
+                                            file="${project.build.outputDirectory}/drools-repository/repository_derby_server.xml" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/drools-repository/repository_derby.xml" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/drools-repository/repository_oracle.xml" />
                                     </tasks>
                                 </configuration>
                             </execution>
