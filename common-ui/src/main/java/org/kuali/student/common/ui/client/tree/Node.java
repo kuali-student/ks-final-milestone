@@ -13,13 +13,15 @@ public class Node {
     public Node(Object obj) {
         userObject = obj;
     }
-    public Object getUserObject(){
+
+    public Object getUserObject() {
         return userObject;
     }
-    public void setUserObject(Object obj){
+
+    public void setUserObject(Object obj) {
         userObject = obj;
     }
-    
+
     public void setParent(Node p) {
         parent = p;
     }
@@ -90,8 +92,6 @@ public class Node {
         return retval;
     }
 
-    
-    
     /**
      * Returns the total number of leaves that are descendants of this node.
      * 
@@ -101,24 +101,26 @@ public class Node {
     public int getAllLeafCount() {
         int count = 0;
         List<Node> nodeList = getAllChildren();
-        for(Node node : nodeList){
-            if(node.isLeaf()){
+        for (Node node : nodeList) {
+            if (node.isLeaf()) {
                 count++;
             }
         }
 
         return count;
     }
-    public List<Node> getAllChildren(){
+
+    public List<Node> getAllChildren() {
         List<Node> nodeList = new ArrayList<Node>();
-        for(Node child: childrenList){
+        for (Node child : childrenList) {
             nodeList.add(child);
-            if(! child.isLeaf()){
-               nodeList.addAll(child.getAllChildren());
+            if (!child.isLeaf()) {
+                nodeList.addAll(child.getAllChildren());
             }
         }
         return nodeList;
     }
+
     public List<Node> children() {
         if (childrenList == null) {
             return new ArrayList<Node>();
@@ -126,47 +128,57 @@ public class Node {
             return childrenList;
         }
     }
+
     // root is the level one
     // results contain current node
-    public List<List<Node>> toLevel(){
+    public List<List<Node>> toLevel() {
         List<List<Node>> levelList = new ArrayList<List<Node>>();
-        
+
         List<Node> level = new ArrayList<Node>();
         level.add(this);
         levelList.add(level);
-        
-        
+
+
+        int maxDistance = getMaxLevelDistance();
+
         List<Node> nodeList = getAllChildren();
-        int maxDistance = 0;
-        for(Node node: nodeList){
-            int d = getDistance(node);
-            if(maxDistance < d){
-                maxDistance = d;
-            }
-        }
-        for(int levelIndex=1;levelIndex<= maxDistance;levelIndex++){
+        for (int levelIndex = 1; levelIndex <= maxDistance; levelIndex++) {
             level = new ArrayList<Node>();
-            for(Node node: nodeList){
+            for (Node node : nodeList) {
                 int d = getDistance(node);
-                if(levelIndex == d){
+                if (levelIndex == d) {
                     level.add(node);
                 }
             }
             levelList.add(level);
         }
-        
+
         return levelList;
     }
+
+    public int getMaxLevelDistance() {
+        List<Node> nodeList = getAllChildren();
+        int maxDistance = 0;
+        for (Node node : nodeList) {
+            int d = getDistance(node);
+            if (maxDistance < d) {
+                maxDistance = d;
+            }
+        }
+        return maxDistance;
+    }
+
     // return the level distance to the current node
-    public int getDistance(Node node){
+    public int getDistance(Node node) {
         Node myParent = node.getParent();
-        int level = 0;
-        while( myParent != this){
+        int level = 1;
+        while (myParent != this) {
             level++;
             myParent = myParent.getParent();
         }
         return level;
     }
+
     public static void main(String[] argv) {
         Node root = new Node();
         root.setUserObject("root");
@@ -176,11 +188,11 @@ public class Node {
         q.setUserObject("q");
         root.addNode(q);
         root.addNode(r);
-        
+
         Node p = new Node();
         p.setUserObject("p");
         root.addNode(p);
-        
+
         Node o = new Node();
         o.setUserObject("o");
         p.addNode(o);
@@ -190,7 +202,7 @@ public class Node {
         Node n = new Node();
         n.setUserObject("n");
         p.addNode(n);
-        
+
         Node k = new Node();
         k.setUserObject("k");
         Node l = new Node();
@@ -200,7 +212,7 @@ public class Node {
         Node j = new Node();
         j.setUserObject("j");
         n.addNode(j);
-        
+
         Node i = new Node();
         i.setUserObject("i");
         Node h = new Node();
@@ -210,8 +222,7 @@ public class Node {
         Node g = new Node();
         g.setUserObject("g");
         j.addNode(g);
-        
-        
+
         Node e = new Node();
         e.setUserObject("e");
         g.addNode(e);
@@ -221,7 +232,7 @@ public class Node {
         Node f = new Node();
         f.setUserObject("f");
         g.addNode(f);
-        
+
         Node a = new Node();
         a.setUserObject("a");
         Node b = new Node();
@@ -231,7 +242,7 @@ public class Node {
         d.addNode(a);
         d.addNode(b);
         d.addNode(c);
-        
+
         Node n1 = new Node();
         n1.setUserObject("n1");
         Node n2 = new Node();
@@ -242,17 +253,16 @@ public class Node {
         f.addNode(n1);
         f.addNode(n2);
         f.addNode(n3);
-        
-        
+
         System.out.println(root.getDistance(n1));
         System.out.println(root.getChildCount());
         System.out.println(root.getAllChildren().size());
         System.out.println(root.getAllLeafCount());
-        
+
         List<List<Node>> levelList = root.toLevel();
-        for(List<Node> level: levelList ){
-            for(Node node: level){
-                System.out.print(node.getUserObject()+",");
+        for (List<Node> level : levelList) {
+            for (Node node : level) {
+                System.out.print(node.getUserObject() + ",");
             }
             System.out.println();
         }
