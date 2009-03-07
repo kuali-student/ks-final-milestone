@@ -25,7 +25,8 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSLU_LUI")
 @NamedQueries({
 	@NamedQuery(name="Lui.getLuisByIdList", query="SELECT l FROM Lui l WHERE l.id IN (:luiIdList)"),
-	@NamedQuery(name="Lui.getLuiIdsByCluId", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId)")
+	@NamedQuery(name="Lui.getLuiIdsByCluId", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId)"),
+	@NamedQuery(name="Lui.getLuiIdsInAtpByCluId", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId AND l.atpId = :atpKey")
 })
 public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 

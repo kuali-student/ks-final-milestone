@@ -1198,8 +1198,11 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(atpKey, "atpKey");
+		return luDao.getLuiIdsInAtpByCluId(cluId, atpKey);
+
 	}
 
 	@Override

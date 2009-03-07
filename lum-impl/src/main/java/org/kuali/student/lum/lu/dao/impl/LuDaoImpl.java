@@ -88,6 +88,16 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 	}
 
 	@Override
+	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey) {
+		Query query = em.createNamedQuery("Lui.getLuiIdsInAtpByCluId");
+		query.setParameter("cluId", cluId);
+		query.setParameter("atpKey", atpKey);
+		@SuppressWarnings("unchecked")
+		List<String> luiIds = query.getResultList();
+		return luiIds;
+	}
+
+	@Override
 	public Boolean isCluInCluSet(String cluId, String cluSetId) {
 		Query query = em.createNamedQuery("CluSet.isCluInCluSet");
         query.setParameter("cluId", cluId);

@@ -1172,7 +1172,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luiInfos = client.getLuisByIdList(Arrays.asList("Not a LUI ID", "Another one that ain't"));
 		assertTrue(luiInfos == null || luiInfos.size() == 0);
 
-		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-3"));
+		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-4"));
 		assertEquals("CLU-1", luiInfos.get(0).getCluId());
 		assertEquals("CLU-2", luiInfos.get(1).getCluId());
 	}
@@ -1283,12 +1283,41 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 		luiIds = client.getLuiIdsByCluId("CLU-1");
 		assertTrue(null != luiIds);
-		assertEquals(2, luiIds.size());
+		assertEquals(3, luiIds.size());
 		assertEquals("LUI-1", luiIds.get(0));
-		assertEquals("LUI-2", luiIds.get(1));
+		assertEquals("LUI-3", luiIds.get(2));
 		luiIds = client.getLuiIdsByCluId("CLU-2");
 		assertEquals(1, luiIds.size());
 		luiIds = client.getLuiIdsByCluId("Non-existent Clu");
+		assertTrue(null != luiIds);
+		assertEquals(0, luiIds.size());
+	}
+	
+	@Test
+	public void testGetLuiIdsInAtpByCluId() throws DoesNotExistException, InvalidParameterException, OperationFailedException, MissingParameterException
+	{
+		List<String> luiIds = null;
+		try {
+			luiIds = client.getLuiIdsInAtpByCluId(null, "ATP-1");
+			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null Clu ID");
+		} catch (MissingParameterException e) {
+		}
+		try {
+			luiIds = client.getLuiIdsInAtpByCluId("CLU-1", null);
+			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null AtpKey");
+		} catch (MissingParameterException e) {
+		}
+		luiIds = client.getLuiIdsInAtpByCluId("CLU-1", "ATP-2");
+		assertTrue(null != luiIds);
+		assertEquals(2, luiIds.size());
+		assertEquals("LUI-2", luiIds.get(0));
+		assertEquals("LUI-3", luiIds.get(1));
+		luiIds = client.getLuiIdsInAtpByCluId("CLU-1", "ATP-1");
+		assertEquals(1, luiIds.size());
+		luiIds = client.getLuiIdsInAtpByCluId("Non-existent Clu", "ATP-2");
+		assertTrue(null != luiIds);
+		assertEquals(0, luiIds.size());
+		luiIds = client.getLuiIdsInAtpByCluId("CLU-2", "Non-existent ATP");
 		assertTrue(null != luiIds);
 		assertEquals(0, luiIds.size());
 	}
