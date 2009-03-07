@@ -114,6 +114,16 @@ public class VelocityTemplateEngineTest {
 	}
 
 	@Test
+	public void testEvaluate_DateComparisonTool_NullContextMap() throws Exception {
+		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
+
+		String s = "$dateComparisonTool.whenIs($dateComparisonTool.calendar)";
+		String eval = templateEngine.evaluate(null, s);
+		
+		Assert.assertEquals("now", eval);
+	}
+
+	@Test
 	public void testEvaluate_NumberTool() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 		Map<String, Object> map = new HashMap<String, Object>();

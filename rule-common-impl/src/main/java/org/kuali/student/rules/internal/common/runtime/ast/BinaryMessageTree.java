@@ -41,12 +41,21 @@ public class BinaryMessageTree {
 		nodes = new ArrayList<BooleanNode>();
 	}
 	
-	public BooleanNode buildTree(String function){
-		if (function == null || function.trim().isEmpty()) {
+	/**
+	 * <p>Builds the binary message tree from the <code>booleanFunction</code>.</p>
+	 * <p>Order of boolean operation: ANDs before ORs and 
+	 * operations inside parentheses before anything else.</p>
+	 * <p>Example: A AND B OR C AND D evaluates to (A AND B) OR (C AND D).</p>
+	 * 
+	 * @param booleanFunction: Boolean expression 
+	 * @return Boolean node
+	 */
+	public BooleanNode buildTree(String booleanFunction){
+		if (booleanFunction == null || booleanFunction.trim().isEmpty()) {
 			return null;
 		}
 		
-		BooleanFunctionLexer lex = new BooleanFunctionLexer(new ANTLRStringStream(function) );
+		BooleanFunctionLexer lex = new BooleanFunctionLexer(new ANTLRStringStream(booleanFunction) );
 		CommonTokenStream tokens = new CommonTokenStream(lex);
 		
 		BooleanFunctionParser parser = new BooleanFunctionParser(tokens);

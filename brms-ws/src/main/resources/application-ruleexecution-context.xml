@@ -37,7 +37,7 @@
     </bean>
     
     <bean id="reportBuilder"
-        class="org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder">
+        class="org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilderImpl">
         <constructor-arg ref="simpleExecutor" />
     </bean>
     

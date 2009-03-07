@@ -55,7 +55,7 @@ import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecut
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
-import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilderImpl;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;

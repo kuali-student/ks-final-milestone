@@ -83,15 +83,16 @@ public class VelocityTemplateEngine {
 	}
 	
 	/**
-	 * Evaluates a template with a map of objects.
+	 * Evaluates a template with a map of objects. <code>contextMap</code> can
+	 * be null if no keys/tokens are referenced in the <code>template</code>
 	 * 
-	 * @param mapContext Map of Objects to be used in the template
+	 * @param contextMap Map of objects to be used in the template
 	 * @param template Velocity Template
 	 * @return Evaluated template
 	 */
-	public String evaluate(Map<String, Object> mapContext, String template) throws VelocityException {
+	public String evaluate(Map<String, Object> contextMap, String template) throws VelocityException {
 		Reader readerOut = ((Reader) (new BufferedReader(new StringReader(template))));
-		return evaluate(mapContext, readerOut);
+		return evaluate(contextMap, readerOut);
 	}
 
 	/**

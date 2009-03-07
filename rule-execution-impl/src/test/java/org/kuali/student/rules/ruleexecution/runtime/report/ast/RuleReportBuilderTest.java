@@ -1,8 +1,10 @@
 package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
@@ -18,7 +20,8 @@ import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
-import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilderImpl;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
 
 public class RuleReportBuilderTest {
 	private String functionalRuleString;
@@ -66,7 +69,7 @@ public class RuleReportBuilderTest {
 
 	@Before
 	public void setUp() throws Exception {
-	    this.ruleReportBuilder = new RuleReportBuilder(executor);
+	    this.ruleReportBuilder = new RuleReportBuilderImpl(executor);
 
 		Set<String> criteriaSet = new HashSet<String>();
 		criteriaSet.add("ENGL100");
@@ -142,6 +145,98 @@ public class RuleReportBuilderTest {
         Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
 	}
 	
+	@Test
+	public void testExecuteRuleFailureMessageTemplate1()
+	{
+	    functionalRuleString = "A*B*C*D";
+	    
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("clu1", "MATH 110");
+		map.put("clu2", "MATH 200");
+		map.put("clu3", "English 6000");
+		map.put("str1", "Need 15 credits or more of 1st year science");
+
+		PropositionContainer pc = new PropositionContainer();
+	    pc.setFunctionalRuleString(functionalRuleString);
+	    pc.setRuleResult(false);
+	    
+	    intersectionPropA.setResult(false);
+	    intersectionPropB.setResult(true);
+	    intersectionPropC.setResult(true);
+	    intersectionPropD.setResult(true);
+	    
+	    propositionReportA.setFailureMessage("Need $clu2");
+	    propositionReportB.setFailureMessage("Need $clu1");
+	    propositionReportC.setFailureMessage("$str1");
+	    propositionReportD.setFailureMessage("Need $clu3");
+	    
+	    intersectionPropA.setReport(propositionReportA);
+	    intersectionPropB.setReport(propositionReportB);
+	    intersectionPropC.setReport(propositionReportC);
+	    intersectionPropD.setReport(propositionReportD);
+	    
+	    pc.addProposition(intersectionPropA);
+	    pc.addProposition(intersectionPropB);
+	    pc.addProposition(intersectionPropC);
+	    pc.addProposition(intersectionPropD);
+	    
+	    String expected = "Need MATH 200";
+	    
+	    RuleReport ruleReport = ruleReportBuilder.buildReport(pc, map);
+	    String actual = ruleReport.getFailureMessage();
+
+	    Assert.assertEquals(expected, actual);
+        Assert.assertEquals(4, ruleReport.getPropositionReports().size());
+        Assert.assertFalse(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "B").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "C").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
+	}
+	
+	@Test
+	public void testExecuteRuleFailureMessageTemplate1_Exception()
+	{
+	    functionalRuleString = "A*B*C*D";
+	    
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("clu1", "MATH 110");
+		map.put("clu2", "MATH 200");
+		map.put("clu3", "English 6000");
+		map.put("str1", "Need 15 credits or more of 1st year science");
+
+		PropositionContainer pc = new PropositionContainer();
+	    pc.setFunctionalRuleString(functionalRuleString);
+	    pc.setRuleResult(false);
+	    
+	    intersectionPropA.setResult(false);
+	    intersectionPropB.setResult(true);
+	    intersectionPropC.setResult(true);
+	    intersectionPropD.setResult(true);
+	    
+	    // VTL syntax error
+	    propositionReportA.setFailureMessage("#set($x = $y");
+	    propositionReportB.setFailureMessage("Need $clu1");
+	    propositionReportC.setFailureMessage("$str1");
+	    propositionReportD.setFailureMessage("Need $clu3");
+	    
+	    intersectionPropA.setReport(propositionReportA);
+	    intersectionPropB.setReport(propositionReportB);
+	    intersectionPropC.setReport(propositionReportC);
+	    intersectionPropD.setReport(propositionReportD);
+	    
+	    pc.addProposition(intersectionPropA);
+	    pc.addProposition(intersectionPropB);
+	    pc.addProposition(intersectionPropC);
+	    pc.addProposition(intersectionPropD);
+	    
+	    try {
+	    	ruleReportBuilder.buildReport(pc, map);
+			Assert.fail("Building message should have failed due to VTL syntax error");
+		} catch(MessageBuilderException e) {
+			Assert.assertTrue(true);
+		}
+	}
+
 	@Test
 	public void testExecuteRuleFailureMessage2()
 	{
@@ -219,6 +314,54 @@ public class RuleReportBuilderTest {
         RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getSuccessMessage();
         
+        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(4, ruleReport.getPropositionReports().size());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "B").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "C").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
+    }
+	
+	@Test
+    public void testExecuteRuleSuccessMessageTemplate1()
+    {
+        functionalRuleString = "A*B*C*D";
+        
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("clu1", "MATH 110");
+		map.put("clu2", "MATH 200");
+		map.put("clu3", "English 6000");
+		map.put("str1", "Have 15 credits or more of 1st year science");
+
+        PropositionContainer pc = new PropositionContainer();
+        pc.setFunctionalRuleString(functionalRuleString);
+        pc.setRuleResult(true);
+
+        intersectionPropA.setResult(true);
+        intersectionPropB.setResult(true);
+        intersectionPropC.setResult(true);
+        intersectionPropD.setResult(true);
+
+        propositionReportA.setSuccessMessage("Have $clu2");
+        propositionReportB.setSuccessMessage("Have $clu1");
+        propositionReportC.setSuccessMessage("$str1");
+        propositionReportD.setSuccessMessage("Have $clu3");
+
+        intersectionPropA.setReport(propositionReportA);
+        intersectionPropB.setReport(propositionReportB);
+        intersectionPropC.setReport(propositionReportC);
+        intersectionPropD.setReport(propositionReportD);
+
+        pc.addProposition(intersectionPropA);
+        pc.addProposition(intersectionPropB);
+        pc.addProposition(intersectionPropC);
+        pc.addProposition(intersectionPropD);
+
+        String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
+
+        RuleReport ruleReport = ruleReportBuilder.buildReport(pc, map);
+        String actual = ruleReport.getSuccessMessage();
+
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(4, ruleReport.getPropositionReports().size());
         Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
@@ -317,7 +460,6 @@ public class RuleReportBuilderTest {
         RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getSuccessMessage();
 
-        System.out.println("Rule Report: "+actual);
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(7, ruleReport.getPropositionReports().size());
         Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
@@ -376,7 +518,6 @@ public class RuleReportBuilderTest {
         RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getFailureMessage();
 
-        System.out.println("Rule Report: "+actual);
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(7, ruleReport.getPropositionReports().size());
         Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
