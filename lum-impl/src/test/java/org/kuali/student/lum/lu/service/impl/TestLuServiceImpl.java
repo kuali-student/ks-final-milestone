@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -1513,4 +1514,84 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		// and delete it to keep db consistent for other tests
 		client.deleteLui(updatedLui.getId());
 	}
+	
+	@Test
+	public void testLuDocRelation() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, VersionMismatchException{
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		
+		LuDocRelationInfo luDocRelationInfo = new LuDocRelationInfo();
+		luDocRelationInfo.setType("");
+		luDocRelationInfo.setCluId("");
+		luDocRelationInfo.setDocumentId("");
+		RichTextInfo desc = new RichTextInfo();
+		desc.setFormatted("<p>Formatted Desc</p>");
+		desc.setPlain("plain");
+		luDocRelationInfo.setDesc(desc);
+		luDocRelationInfo.setEffectiveDate(df.parse("20090101"));
+		luDocRelationInfo.setExpirationDate(df.parse("20190101"));
+		luDocRelationInfo.setState("state");
+		luDocRelationInfo.setTitle("title");
+		luDocRelationInfo.getAttributes().put("DocRelAttrKey1","DocRelAttrValue1");
+		luDocRelationInfo.getAttributes().put("DocRelAttrKey2","DocRelAttrValue2");
+		
+		LuDocRelationInfo created = client.createLuDocRelationForClu("luDocRelationType.doctype1", "MY-EXTERNAL-DOC-ID", "CLU-1", luDocRelationInfo);
+		
+		assertEquals("luDocRelationType.doctype1",created.getType());
+		assertEquals("CLU-1",created.getCluId());
+		assertEquals("MY-EXTERNAL-DOC-ID",created.getDocumentId());
+		assertEquals("<p>Formatted Desc</p>",created.getDesc().getFormatted());
+		assertEquals("plain",created.getDesc().getPlain());
+		assertEquals(df.parse("20090101"),created.getEffectiveDate());
+		assertEquals(df.parse("20190101"),created.getExpirationDate());
+		assertEquals("state",created.getState());
+		assertEquals("title",created.getTitle());
+		assertEquals("DocRelAttrValue1",created.getAttributes().get("DocRelAttrKey1"));
+		assertEquals("DocRelAttrValue2",created.getAttributes().get("DocRelAttrKey2"));
+		assertNotNull(created.getId());
+		assertNotNull(created.getMetaInfo().getCreateTime());
+		assertNotNull(created.getMetaInfo().getUpdateTime());
+		
+		created.setType("luDocRelationType.doctype2");
+		created.setCluId("CLU-2");
+		created.setDocumentId("NEW-DOC-ID");
+		created.getDesc().setFormatted("UP<p>Formatted Desc</p>");
+		created.getDesc().setPlain("UPplain");
+		created.setEffectiveDate(df.parse("20190101"));
+		created.setExpirationDate(df.parse("20290101"));
+		created.setState("UPstate");
+		created.setTitle("UPtitle");
+		created.getAttributes().put("DocRelAttrKey1","UPDocRelAttrValue1");
+
+		LuDocRelationInfo updated = client.updateLuDocRelation(created.getId(), created);
+		
+		assertEquals("luDocRelationType.doctype2",updated.getType());
+		assertEquals("CLU-2",updated.getCluId());
+		assertEquals("NEW-DOC-ID",updated.getDocumentId());
+		assertEquals("UP<p>Formatted Desc</p>",updated.getDesc().getFormatted());
+		assertEquals("UPplain",updated.getDesc().getPlain());
+		assertEquals(df.parse("20190101"),updated.getEffectiveDate());
+		assertEquals(df.parse("20290101"),updated.getExpirationDate());
+		assertEquals("UPstate",updated.getState());
+		assertEquals("UPtitle",updated.getTitle());
+		assertEquals("UPDocRelAttrValue1",updated.getAttributes().get("DocRelAttrKey1"));
+		
+		// optimistic locking working?
+		try{
+			client.updateLuDocRelation(created.getId(), created);
+			fail("LuService.updateLuDocRelation did not throw expected VersionMismatchException");
+		}catch(VersionMismatchException e){
+		}
+
+		// delete what we created
+		client.deleteLuDocRelation(updated.getId());
+		
+		// and try it again
+		try {
+			client.deleteLuDocRelation(updated.getId());
+			fail("LuService.deleteLuDocRelation() of previously-delete Lui did not throw expected DoesNotExistException");
+		} catch (DoesNotExistException dnee) {
+		}
+		
+	}
+	
 }

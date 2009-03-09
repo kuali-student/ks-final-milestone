@@ -76,6 +76,9 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.CluSetAttribute;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
+import org.kuali.student.lum.lu.entity.LuDocumentRelation;
+import org.kuali.student.lum.lu.entity.LuDocumentRelationAttribute;
+import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementType;
@@ -455,8 +458,26 @@ public class LuServiceImpl implements LuService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+	    checkForMissingParameter(luDocRelationType, "luDocRelationType");
+	    checkForMissingParameter(documentId, "documentId");
+	    checkForMissingParameter(cluId, "cluId");
+	    checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
+	    
+	    LuDocumentRelation docRelation = new LuDocumentRelation();
+	    Clu clu = luDao.fetch(Clu.class, cluId);
+	    LuDocumentRelationType docRelationType = luDao.fetch(LuDocumentRelationType.class, luDocRelationType);
+	    
+	    BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[] { "id", "desc", "type", "cluId", "attributes", "documentId", "metaInfo" });
+	    docRelation.setClu(clu);
+	    docRelation.setLuDocumentRelationType(docRelationType);
+    	docRelation.setDesc(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
+	    docRelation.setDocumentId(documentId);
+	    docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
+	    
+	    luDao.create(docRelation);
+	    
+	    return LuServiceAssembler.toLuDocRelationInfo(docRelation);
 	}
 
 	@Override
@@ -641,8 +662,15 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        checkForMissingParameter(luDocRelationId, "luDocRelationId");
+        
+	    luDao.delete(LuDocumentRelation.class, luDocRelationId);
+
+	    StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;
 	}
 
 	@Override
@@ -671,7 +699,9 @@ public class LuServiceImpl implements LuService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-
+		
+        checkForMissingParameter(luiId, "luiId");
+        
 	    luDao.delete(Lui.class, luiId);
 
 	    StatusInfo statusInfo = new StatusInfo();
@@ -1029,8 +1059,11 @@ public class LuServiceImpl implements LuService {
 	public LuDocRelationInfo getLuDocRelation(String luDocRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(luDocRelationId, "luDocRelationId");
+
+		LuDocumentRelation docRelation = luDao.fetch(LuDocumentRelation.class, luDocRelationId);
+		return LuServiceAssembler.toLuDocRelationInfo(docRelation);
 	}
 
 	@Override
@@ -1038,15 +1071,19 @@ public class LuServiceImpl implements LuService {
 			String luDocRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(luDocRelationTypeKey, "luDocRelationTypeKey");
+
+		LuDocumentRelationType docRelationType = luDao.fetch(LuDocumentRelationType.class, luDocRelationTypeKey);
+		return LuServiceAssembler.toLuDocRelationTypeInfo(docRelationType);
 	}
 
 	@Override
 	public List<LuDocRelationTypeInfo> getLuDocRelationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<LuDocumentRelationType> docRelationTypes = luDao.find(LuDocumentRelationType.class);
+		return LuServiceAssembler.toLuDocRelationTypeInfos(docRelationTypes);
 	}
 
 	@Override
@@ -1959,8 +1996,28 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+	    checkForMissingParameter(luDocRelationId, "luDocRelationId");
+	    checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
+	    
+	    LuDocumentRelation docRelation = luDao.fetch(LuDocumentRelation.class, luDocRelationId);
+	    
+		if (!String.valueOf(docRelation.getVersionInd()).equals(luDocRelationInfo.getMetaInfo().getVersionInd())){
+			throw new VersionMismatchException("LuDocRelation to be updated is not the current version");
+		}
+	    
+	    Clu clu = luDao.fetch(Clu.class, luDocRelationInfo.getCluId());
+	    LuDocumentRelationType docRelationType = luDao.fetch(LuDocumentRelationType.class, luDocRelationInfo.getType());
+	    
+	    BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[] { "id", "desc", "type", "cluId", "attributes", "metaInfo" });
+	    docRelation.setClu(clu);
+	    docRelation.setLuDocumentRelationType(docRelationType);
+    	docRelation.setDesc(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
+	    docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
+	    
+	    LuDocumentRelation updated = luDao.update(docRelation);
+	    
+	    return LuServiceAssembler.toLuDocRelationInfo(updated);
 	}
 
 	@Override

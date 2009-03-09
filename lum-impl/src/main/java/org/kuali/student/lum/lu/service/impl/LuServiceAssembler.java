@@ -753,6 +753,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static RichText toRichText(RichTextInfo richTextInfo) {
+		if(richTextInfo == null){
+			return null;
+		}
 		RichText richText = new RichText();
 		BeanUtils.copyProperties(richTextInfo, richText);
 		return richText;

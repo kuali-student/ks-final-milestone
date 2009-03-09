@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
@@ -43,7 +44,7 @@ public class LuDocumentRelation extends MetaEntity implements
 	@Column(name = "TITLE")
 	private String title;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "DESCR")
 	private RichText desc;
 
@@ -62,6 +63,11 @@ public class LuDocumentRelation extends MetaEntity implements
 	@Column(name = "ST")
 	private String state;
 
+	@Override
+    public void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
 	public String getId() {
 		return id;
 	}
