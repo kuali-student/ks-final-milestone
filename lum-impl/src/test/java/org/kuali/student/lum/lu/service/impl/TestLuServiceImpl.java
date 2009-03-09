@@ -265,6 +265,25 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
+	public void testCluCluRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
+		List<CluCluRelationInfo> ccrs = client.getCluCluRelationsByClu("CLU-1");
+		assertNotNull(ccrs);
+		assertEquals(2, ccrs.size());
+
+		ccrs = client.getCluCluRelationsByClu("CLUXX-42");
+		assertNotNull(ccrs);
+		assertEquals(0, ccrs.size());
+
+		try {
+			ccrs = client.getCluCluRelationsByClu(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+
+	}
+
+	@Test
 	public void testCluCrud() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
@@ -1022,7 +1041,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         cluCluRelationInfo.getAttributes().put("clucluAttrKey3", "clucluAttrValue3");
 
 	    CluCluRelationInfo created = client.createCluCluRelation("CLU-1", "CLU-2", "luLuType.type1", cluCluRelationInfo);
-	    
+
 	    assertEquals(effectiveDate, created.getEffectiveDate());
 	    assertEquals(expirationDate, created.getExpirationDate());
 	    assertEquals(true, created.getIsCluRelationRequired());
@@ -1036,7 +1055,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertNotNull(created.getId());
         assertNotNull(created.getMetaInfo().getCreateTime());
         assertNotNull(created.getMetaInfo().getVersionInd());
-        
+
         created.getAttributes().remove("clucluAttrKey2");
         created.getAttributes().put("clucluAttrKey3", "clucluAttrValue3-A");
         created.getAttributes().put("clucluAttrKey4", "clucluAttrValue4");
@@ -1047,9 +1066,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         created.setRelatedCluId("CLU-3");
         created.setState("updated hello");
         created.setType("luLuType.type2");
-        
+
         CluCluRelationInfo updated = client.updateCluCluRelation(created.getId(), created);
-        
+
         assertEquals(expirationDate, updated.getEffectiveDate());
         assertEquals(effectiveDate, updated.getExpirationDate());
         assertEquals(false, updated.getIsCluRelationRequired());
@@ -1064,7 +1083,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertNotNull(created.getId());
         assertNotNull(created.getMetaInfo().getCreateTime());
         assertNotNull(created.getMetaInfo().getVersionInd());
-        
+
         //Test Delete
         try{
             client.getCluCluRelation(created.getId());
@@ -1086,16 +1105,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testLuiLuiRelationCrud() throws Exception {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-        
+
 	    LuiLuiRelationInfo luiLuiRelationInfo = new LuiLuiRelationInfo();
-	    
+
 	    luiLuiRelationInfo.setEffectiveDate(df.parse("20080101"));
 	    luiLuiRelationInfo.setExpirationDate(df.parse("20100101"));
 	    luiLuiRelationInfo.setState("hello");
 	    luiLuiRelationInfo.setType("goodbye");
 	    luiLuiRelationInfo.getAttributes().put("luiluiAttrKey1", "luiluiAttrValue1");
 	    luiLuiRelationInfo.getAttributes().put("luiluiAttrKey2", "luiluiAttrValue2");
-	    
+
 	    LuiLuiRelationInfo created = client.createLuiLuiRelation("LUI-1", "LUI-2", "luLuType.type1", luiLuiRelationInfo);
 
 	    assertEquals(df.parse("20080101"),created.getEffectiveDate());
@@ -1109,7 +1128,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    assertNotNull(created.getId());
 	    assertNotNull(created.getMetaInfo().getCreateTime());
 	    assertNotNull(created.getMetaInfo().getVersionInd());
-	 
+
 	    created.setEffectiveDate(df.parse("20980101"));
 	    created.setExpirationDate(df.parse("20190101"));
 	    created.setState("sawyer");
@@ -1119,9 +1138,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    created.getAttributes().put("luiluiAttrKey1", "UPluiluiAttrValue1");
 	    created.getAttributes().remove("luiluiAttrKey2");
 	    created.getAttributes().put("luiluiAttrKey3", "luiluiAttrValue3");
-	    
+
 	    LuiLuiRelationInfo updated = client.updateLuiLuiRelation(created.getId(), created);
-	    
+
 	    assertEquals(df.parse("20980101"),updated.getEffectiveDate());
 	    assertEquals(df.parse("20190101"),updated.getExpirationDate());
 	    assertEquals("sawyer",updated.getState());
@@ -1133,21 +1152,21 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    assertEquals(2,updated.getAttributes().size());
 	    assertEquals(created.getId(),updated.getId());
 	    assertNotNull(updated.getMetaInfo().getUpdateTime());
-		
+
 	    try{
 	    	updated = client.updateLuiLuiRelation(created.getId(), created);
 			fail("Should have thrown VersionMismatchException");
 		}catch(VersionMismatchException e){
 		}
-		
+
 		try{
 			client.getLuiLuiRelation(created.getId());
 		}catch(DoesNotExistException e){
 			fail("Should not have thrown DoesNotExistException");
 		}
-		
+
 		StatusInfo status = client.deleteLuiLuiRelation(updated.getId());
-		
+
 		assertTrue(status.getSuccess());
 
 		try{
@@ -1158,7 +1177,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 	}
-	
+
 	@Test
 	public void testGetLuisByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		List<LuiInfo> luiInfos;
@@ -1182,7 +1201,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
 		LuiInfo luiInfo;
-		
+
 		// Read
 		try {
 			luiInfo = client.getLui("notARealLui");
@@ -1201,7 +1220,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		// Create
 		luiInfo = new LuiInfo();
-		
+
 		luiInfo.setLuiCode("LUI Test Code");
 		luiInfo.setMaxSeats(100);
 		luiInfo.setState("Test Lui State");
@@ -1209,7 +1228,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luiInfo.setExpirationDate(df.parse("20801231"));
 		luiInfo.getAttributes().put("luiAttrKey1", "luiAttrValue1");
 		luiInfo.getAttributes().put("luiAttrKey2", "luiAttrValue2");
-		
+
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
 
 		assertEquals("ATP-3", createdLui.getAtpId());
@@ -1221,7 +1240,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(2, createdLui.getAttributes().size());
 		assertEquals("luiAttrValue1", createdLui.getAttributes().get("luiAttrKey1"));
 		assertEquals("luiAttrValue2", createdLui.getAttributes().get("luiAttrKey2"));
-		
+
 		// update
 		createdLui.setAtpId("ATP-2");
 		createdLui.setCluId("CLU-1");
@@ -1232,7 +1251,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdLui.setExpirationDate(df.parse("20811231"));
 		createdLui.getAttributes().put("luiAttrKey1", "luiAttrValue1Updated");
 		createdLui.getAttributes().put("luiAttrKey2", "luiAttrValue2Updated");
-		
+
 		LuiInfo updatedLui = null;
 		try {
 			updatedLui = client.updateLui(createdLui.getId(), createdLui);
@@ -1251,16 +1270,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(2, updatedLui.getAttributes().size());
 		assertEquals("luiAttrValue1Updated", updatedLui.getAttributes().get("luiAttrKey1"));
 		assertEquals("luiAttrValue2Updated", updatedLui.getAttributes().get("luiAttrKey2"));
-		
-		
-		
+
+
+
 		// optimistic locking working?
 		try{
 			client.updateLui(createdLui.getId(), createdLui);
 			fail("LuService.updateLui did not throw expected VersionMismatchException");
 		}catch(VersionMismatchException e){
 		}
-		
+
 		// delete what we created
 		client.deleteLui(createdLui.getId());
 		// and try it again

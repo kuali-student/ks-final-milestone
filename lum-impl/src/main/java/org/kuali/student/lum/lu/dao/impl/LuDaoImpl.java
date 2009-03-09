@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
@@ -69,6 +70,8 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 		return resultList;
     }
 
+
+
 	@Override
 	public List<Lui> getLuisByIdList(List<String> luiIds) {
 		Query query = em.createNamedQuery("Lui.getLuisByIdList");
@@ -113,5 +116,15 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
         @SuppressWarnings("unchecked")
 		List<LuiLuiRelation> luiLuiRelations = query.getResultList();
         return luiLuiRelations;
+	}
+
+	@Override
+	public List<CluCluRelation> getCluCluRelationsByClu(String cluId) {
+		Query query = em.createNamedQuery("CluCluRelation.getCluCluRelation");
+        query.setParameter("cluId", cluId);
+        @SuppressWarnings("unchecked")
+		List<CluCluRelation> cluCluRelations = query.getResultList();
+        return cluCluRelations;
+
 	}
 }
