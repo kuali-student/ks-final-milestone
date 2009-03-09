@@ -136,19 +136,40 @@ INSERT INTO KSLU_CLU_SET_JN_CLU_SET (CLU_SET_PARENT_ID, CLU_SET_CHILD_ID) VALUES
 
 
 //STATEMENT TYPES
+INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.createCourseAcademicReadiness', 'Rules used in the evaluation of a person''s academic readiness for enrollment in an LU.', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Overall Academic Readiness Rules')
 INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.prereqAcademicReadiness', 'Pre req rules used in the evaluation of a person''s academic readiness for enrollment in an LU.', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Academic Readiness Pre Reqs')
 INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.coreqAcademicReadiness', 'Co req used in the evaluation of a person''s academic readiness for enrollment in an LU.', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Academic Readiness Co Reqs')
 
 // REQUIREMENT TYPES
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList', 'Student must have completed all of <courses>', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course completed')
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student must have completed <Course> with a minimum grade of <Grade> ', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course completed with minimum specified grade')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradcheck', 'Minimum overall GPA of <value>', '2000-01-01 00:00:00.0', '2001-11-30 00:00:00.0', 'Minimum overall GPA')
-
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradecheck', 'Minimum overall GPA of <value>', '2000-01-01 00:00:00.0', '2001-11-30 00:00:00.0', 'Minimum overall GPA')
 
 // STMT_TYPE <-> REQ_COM_TYPE
-INSERT INTO KSLU_STY_JN_RQTY (REQ_COM_TYPE_ID,LU_STMT_TYPE_ID) values ('kuali.reqCompType.courseList','kuali.luStatementType.prereqAcademicReadiness')
-INSERT INTO KSLU_STY_JN_RQTY (REQ_COM_TYPE_ID,LU_STMT_TYPE_ID) values ('kuali.reqCompType.grdCondCourseList','kuali.luStatementType.prereqAcademicReadiness')
-INSERT INTO KSLU_STY_JN_RQTY (REQ_COM_TYPE_ID,LU_STMT_TYPE_ID) values ('kuali.reqCompType.gradcheck','kuali.luStatementType.prereqAcademicReadiness')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.grdCondCourseList')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.gradecheck')
+
+// STMT_TYPE <-> STMT_TYPE
+INSERT INTO KSLU_STY_JN_LUSTY (LU_STMT_TYPE_ID, CHLD_LU_STMT_TYPE_ID) values ('kuali.luStatementType.createCourseAcademicReadiness','kuali.luStatementType.prereqAcademicReadiness')
+INSERT INTO KSLU_STY_JN_LUSTY (LU_STMT_TYPE_ID, CHLD_LU_STMT_TYPE_ID) values ('kuali.luStatementType.createCourseAcademicReadiness','kuali.luStatementType.coreqAcademicReadiness')
+
+// LU_STMT
+INSERT INTO KSLU_STMT (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, NAME, DESCR, ST, OPERATOR, PARENT_LU_STMT_ID,LU_STMT_TYPE_ID) VALUES ('STMT-1', 'CREATEID', '2000-01-01 00:00:00.0', 'UPDATEID', '2001-01-01 00:00:00.0',1,'STMT 1','Statement 1','ACTIVE','AND', null ,'kuali.luStatementType.createCourseAcademicReadiness')
+INSERT INTO KSLU_STMT (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, NAME, DESCR, ST, OPERATOR, PARENT_LU_STMT_ID,LU_STMT_TYPE_ID) VALUES ('STMT-2', 'CREATEID', '2000-01-01 00:00:00.0', 'UPDATEID', '2001-01-01 00:00:00.0',1,'STMT 2','Statement 2','ACTIVE','AND','STMT-1','kuali.luStatementType.prereqAcademicReadiness')
+
+// REQ COM
+INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-1', 'CREATEID', '2000-01-01 00:00:00.0', 'UPDATEID', '2001-01-01 00:00:00.0',1,'Required Component 1','ACTIVE','2001-01-01 00:00:00.0','2002-01-01 00:00:00.0','kuali.reqCompType.courseList')
+INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-2', 'CREATEID', '2000-01-01 00:00:00.0', 'UPDATEID', '2001-01-01 00:00:00.0',1,'Required Component 2','ACTIVE','2001-01-01 00:00:00.0','2002-01-01 00:00:00.0','kuali.reqCompType.grdCondCourseList')
+INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-3', 'CREATEID', '2000-01-01 00:00:00.0', 'UPDATEID', '2001-01-01 00:00:00.0',1,'Required Component 3','ACTIVE','2001-01-01 00:00:00.0','2002-01-01 00:00:00.0','kuali.reqCompType.gradecheck')
+
+// CLU <-> LU STMT
+INSERT INTO KSLU_CLU_JN_LU_STMT (CLU_ID, LU_STMT_ID) VALUES ('CLU-1','STMT-1')
+
+// LU STMT <-> REQ COM                 
+INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-1','STMT-2')                 
+INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-2','STMT-2')                 
+INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-3','STMT-2')    
 
 // CluCluRelation
 INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-1', 'CREATEID', '2000-01-01 00:00:00.0', 'UPDATEID', '2001-01-01 00:00:00.0', 0, 1, '2003-01-01 00:00:00.0', '2100-01-01 00:00:00.0', 'Active', 'CLU-1', 'luLuType.type1', 'CLU-1')
