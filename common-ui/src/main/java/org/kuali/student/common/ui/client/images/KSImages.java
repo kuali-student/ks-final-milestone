@@ -1,11 +1,12 @@
 package org.kuali.student.common.ui.client.images;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ImageBundle;
-import com.google.gwt.user.client.ui.ImageBundle.Resource;
 
 public interface KSImages  extends ImageBundle{
-
+    public static final KSImages INSTANCE = GWT.create(KSImages.class);
+    
 	//Text Bar Images*******************************************************
     AbstractImagePrototype bold();
 

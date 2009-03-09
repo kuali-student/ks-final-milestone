@@ -19,12 +19,13 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
 
 public class KSButton extends Button{
+    private Image image = null;
     
+
     public KSButton(){
         super();
         setupDefaultStyle();
@@ -120,7 +121,20 @@ public class KSButton extends Button{
         });
         
     }
-    
+
+    public void setImage(final Image image) {
+        if (this.image == null) {
+            this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
+        } else {
+            this.getElement().replaceChild(image.getElement(), this.getElement().getFirstChild());
+        }
+        
+        this.image = image;
+    }
+
+    public Image getImage() {
+        return image;
+    }
     
     
 }
