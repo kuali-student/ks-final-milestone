@@ -28,7 +28,7 @@ public class LumSwitchPanel<T extends ILumModelObject> extends SimplePanel imple
     
     public void add(Widget widget) {
         switchableWidgets.add(widget);
-        //showStack(switchableWidgets.size() - 1);
+        showStack(switchableWidgets.size() - 1);
     }
     
     public void add(T modelObject) {
@@ -46,14 +46,6 @@ public class LumSwitchPanel<T extends ILumModelObject> extends SimplePanel imple
         } else if (currentWidget == null) {
             super.add(switchableWidgets.get(index));
         }
-       // if (switchableWidgets.get(index).getClass() == LumDialog.class)
-       // {            
-        //    if (modelObject == null) {
-        //        System.out.println("Model object is null");
-        //        return;
-        //    }
-        //    ((LumDialog<LumModelObject>)switchableWidgets.get(index)).update((LumModelObject) modelObject);
-       // }
     }
 
     public void addBulk(Collection<T> collection) {
@@ -83,7 +75,6 @@ public class LumSwitchPanel<T extends ILumModelObject> extends SimplePanel imple
     }
 
     public void update(T modelObject) {
-        System.out.println("update panel view...");
         this.modelObject = modelObject;
         showStack(((Integer)modelObject.getValue(modelObjectFieldName)).intValue());
     }

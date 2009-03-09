@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LumDialog<T extends ILumModelObject> extends DialogBox implements ModelWidget<T> {
+public class LumDialog<T extends ILumModelObject> implements ModelWidget<T> {
 
     private T modelObject;
     private String modelObjectFieldName;
@@ -57,6 +57,7 @@ public class LumDialog<T extends ILumModelObject> extends DialogBox implements M
     }
 
     public void update(T modelObject) {
+        /*
         this.modelObject = modelObject;
         super.center();
         boolean show = ((LumModelObject)modelObject).isShowRequirementDialog();
@@ -65,6 +66,6 @@ public class LumDialog<T extends ILumModelObject> extends DialogBox implements M
             super.show();
         } else {
             super.hide();
-        }      
+        }  */     
     }
 }

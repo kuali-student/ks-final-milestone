@@ -67,10 +67,5 @@ public class LumListBox<T extends ILumModelObject> extends ListBox implements Mo
             exampleText.setText(this.getValue(this.getSelectedIndex()));
             requirementCompositionText.setText(exampleText.getText() + "\n\n" + "Minimum GPA = [  ] for course [  ]");            
         }
-        
-   //     for (ReqComponentTypeInfo reqInfo : ((LumModelObject)modelObject).getReqComponentTypeInfoList()) {                   
-   //         this.addItem(reqInfo.getName());
-   //         System.out.println("HERE2");
-   //     }
     }
 }

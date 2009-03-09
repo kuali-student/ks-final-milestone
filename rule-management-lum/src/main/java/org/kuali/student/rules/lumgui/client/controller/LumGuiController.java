@@ -9,6 +9,7 @@ import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
+import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.lumgui.client.model.LumModelObject;
 import org.kuali.student.rules.lumgui.client.model.ReqComponentTypeInfo;
@@ -16,6 +17,7 @@ import org.kuali.student.rules.lumgui.client.model.RequirementComponentVO;
 import org.kuali.student.rules.lumgui.client.model.StatementVO;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.lumgui.client.view.LumComposite;
+import org.kuali.student.rules.lumgui.client.view.LumRequirementDialog;
 import org.kuali.student.rules.lumgui.client.view.LumUIEventListener;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
@@ -38,6 +40,8 @@ public class LumGuiController extends Controller implements LumUIEventListener {
 
     final SimplePanel mainPanel = new SimplePanel();
     final LumComposite lumComposite = new LumComposite();
+    final LumRequirementDialog<LumModelObject> lumRequirementDialog = new LumRequirementDialog<LumModelObject>();
+    ModelBinding<LumModelObject> lumRequirementDialogBinding; 
     final Model<LumModelObject> model = new Model<LumModelObject>();
     final LumModelObject lumModelObject = new LumModelObject();
 
@@ -92,6 +96,8 @@ public class LumGuiController extends Controller implements LumUIEventListener {
     	lumModelObject.setStatement(getTestStatement());
     	// end test
     	model.update(lumModelObject);
+    	
+    	lumRequirementDialogBinding = new ModelBinding<LumModelObject>(model, lumRequirementDialog);    
     }
     
     private StatementVO getTestStatement() {
@@ -136,6 +142,7 @@ public class LumGuiController extends Controller implements LumUIEventListener {
         mainPanel.setSize(SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT);
         lumComposite.setSize(SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT);
         lumComposite.layoutWidgets();
+        lumRequirementDialog.layoutWidgets();
     }
 
     // for debugging
@@ -146,7 +153,9 @@ public class LumGuiController extends Controller implements LumUIEventListener {
     private void doEventListenerWiring() {
         lumComposite.setUpListeners();
         lumComposite.addLumUIEventListener(this);
-        
+        lumRequirementDialog.setUpListeners();
+        lumRequirementDialog.addLumUIEventListener(this);
+   
         //setup for test
         switchToComplexView();
         showRequirementDialog();        
@@ -163,21 +172,10 @@ public class LumGuiController extends Controller implements LumUIEventListener {
     }
  
     public void showRequirementDialog() {
-        //get all requirement components... TODO: should the list be loaded every time a dialog is open or only once?
-        LumGuiService.Util.getInstance().getReqComponentTypesForLuStatementType("1", new AsyncCallback<List<ReqComponentTypeInfo>>() {
-
-            public void onFailure(Throwable caught) {
-                // just re-throw it and let the uncaught exception handler deal with it
-                Window.alert(caught.getMessage());
-                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-            }
-
-            public void onSuccess(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
-                lumModelObject.setReqComponentTypeInfoList(reqComponentTypeInfoList);
-                lumModelObject.setShowRequirementDialog(true);
-                model.update(lumModelObject);   
-            }
-        });            
+       // lumComposite.removeFromParent();
+     //   mainPanel.add(lumRequirementDialog);
+        lumModelObject.setShowRequirementDialog(true);
+        model.update(lumModelObject);             
     }
     
     public void hideRequirementDialog() {

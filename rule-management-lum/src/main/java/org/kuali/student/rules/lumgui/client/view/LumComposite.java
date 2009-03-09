@@ -43,13 +43,18 @@ public class LumComposite extends Composite {
 
     // controller and meta data to be looked up externally
     Controller controller;
+    Messages messages;    
     ViewMetaData metadata;
-    Messages messages;
+    ModelBinding<LumModelObject> binding1;
+    ModelBinding<LumModelObject> binding2;
+    ModelBinding<LumModelObject> binding3;
+   
+    final SimplePanel mainLumPanel = new SimplePanel();
     LumSwitchPanel<LumModelObject> pnlViews;
     List<LumUIEventListener> lumUIListeners = new ArrayList<LumUIEventListener>(7);     
-    
+        
     //SIMPLE VIEW widgets
-    Button btnSearch;
+    Button btnSearchCourses;
     Button btnComplexLevel;    
     LumTextArea<LumModelObject> taPreReqRationale;
     LumTextArea<LumModelObject> taNaturalLanguage;
@@ -66,28 +71,7 @@ public class LumComposite extends Composite {
     Button btnAddComposedRequirement;
     LumTextBox<LumModelObject> tbAlgebra;
     LumTextArea<LumModelObject> taNaturalLanguage2;    
-    ModelBinding<LumModelObject> binding1;
-    ModelBinding<LumModelObject> binding2;
-    ModelBinding<LumModelObject> binding3;
-    ModelBinding<LumModelObject> binding4;
-    ModelBinding<LumModelObject> binding5;
-    LumRuleTable<LumModelObject> ruleTable; 
-    LumListBox<LumModelObject> requirementTypes;    
-    TextArea taExample;
-
-    
-    final FlexTable dialogBorderPanel = new FlexTable();
-    final VerticalPanel dialogContents = new VerticalPanel();    
-    final HorizontalPanel reqTypesChoicePanel = new HorizontalPanel();    
-    VerticalPanel multiBoxPanel = new VerticalPanel();
-    SimplePanel requirementCompositionPanel = new SimplePanel();
-    VerticalPanel bottomPanel = new VerticalPanel();
-    
-    //REQUIREMENT DIALOG widgets
-    LumDialog<LumModelObject> dgCompRequirement;
-    Button btnCloseDialog;    
-    
-    final SimplePanel mainLumPanel = new SimplePanel();    
+    LumRuleTable<LumModelObject> ruleTable;     
     
     boolean loaded = false;
 
@@ -133,15 +117,13 @@ public class LumComposite extends Composite {
         Panel pnlComplexView = new VerticalPanel();
         Panel pnlSimpleTreeView = new VerticalPanel();
         Panel pnlBooleanAlgebraView = new VerticalPanel();
-        Panel pnlNaturalLanguage2 = new VerticalPanel();    
-        dgCompRequirement = new LumDialog("RequirementComposition");        
+        Panel pnlNaturalLanguage2 = new VerticalPanel();           
         pnlComplexView.add(pnlSimpleTreeView);
         pnlComplexView.add(pnlBooleanAlgebraView);
         pnlComplexView.add(pnlNaturalLanguage2);
 
         pnlViews.add(pnlSimpleView);
-        pnlViews.add(pnlComplexView);
-        pnlViews.add(dgCompRequirement);       
+        pnlViews.add(pnlComplexView);     
         mainLumPanel.add(pnlViews);
         
         // sizes and layout are to be done AFTER the containing panels
@@ -164,10 +146,7 @@ public class LumComposite extends Composite {
         prepareStatementSearchPanel(pnlStatementSearch);
         prepareRationaleToComplexViewPanel(pnlRationaleToComplexView);
         preparePreReqCoursesPanel(pnlPreReqCourses);
-        prepareNaturalLanguagePanel(pnlNaturalLanguage);
-        
-     
-        System.out.println("Size: " + pnlSimpleView.getOffsetWidth());
+        prepareNaturalLanguagePanel(pnlNaturalLanguage);        
         
         //setup widgets for COMPLEX VIEW
         pnlViews.showStack(1);           
@@ -186,16 +165,6 @@ public class LumComposite extends Composite {
         prepareSimpleTreePanel(pnlSimpleTreeView); 
         prepareBoleanAlgebraPanel(pnlBooleanAlgebraView);        
         prepareNaturalLanguagePanel2(pnlNaturalLanguage2); 
-
-        
-        pnlViews.showStack(2);
-        dgCompRequirement.setPixelSize((int)(mainLumPanel.getOffsetWidth() * 0.8), (int)(mainLumPanel.getOffsetHeight() * 0.7));           
-
-        System.out.println("test1: " + Double.toString(mainLumPanel.getOffsetWidth() * 0.8));
-        System.out.println("test2: " + dgCompRequirement.getOffsetWidth());
-        prepareRequirementDialog(dgCompRequirement);    
-        
-
     } 
     
     // for debugging
@@ -204,12 +173,12 @@ public class LumComposite extends Composite {
     }
     
     private void prepareStatementSearchPanel(Panel parent) {
-        btnSearch = new Button("Search");
+        btnSearchCourses = new Button("Search");
         tbStatementId = new LumTextBox<LumModelObject>(LumModelObject.FieldName.
                 STATEMENT_ID.toString());
         parent.add(new Label("Statement Id"));
         parent.add(tbStatementId);
-        parent.add(btnSearch);
+        parent.add(btnSearchCourses);
     }
     
     private void prepareRationaleToComplexViewPanel(Panel parent) {
@@ -269,117 +238,12 @@ public class LumComposite extends Composite {
                 (int)(parent.getOffsetWidth() * 0.9),
                 (int)(parent.getOffsetHeight() * 0.8));         
     }    
-
-    private void prepareRequirementDialog(final DialogBox dialogWidget) {      
-       
-        dialogBorderPanel.setCellSpacing(5);        
-        dialogBorderPanel.setWidget(0, 0, dialogContents);       
-        
-        // Add panel to choose requirement type
-        taExample = new TextArea();
-        TextArea requirementCompositionText = new TextArea();
-        requirementTypes = new LumListBox<LumModelObject>(LumModelObject.FieldName.REQ_TYPE.toString(), false, taExample, requirementCompositionText);
-        requirementTypes.setVisibleItemCount(10);       
-        multiBoxPanel.add(new Label("Requirement Types"));
-        multiBoxPanel.add(requirementTypes);
-        
-        final SimplePanel reqWrapperPanel = new SimplePanel();        
-        reqWrapperPanel.add(multiBoxPanel);
-        reqWrapperPanel.setStyleName("KSLumPanel");   
-        
-        //Requirement Type Example
-        VerticalPanel examplePanel = new VerticalPanel();
-        Label label = new Label("Examples");
-        examplePanel.setSize("100%", "100%");
-        examplePanel.add(label);
-        examplePanel.add(taExample);
-        
-        final SimplePanel exampleWrapperPanel = new SimplePanel();         
-        exampleWrapperPanel.add(examplePanel); 
-        exampleWrapperPanel.setStyleName("KSLumPanel");     
-               
-        reqTypesChoicePanel.setSize("100%", "100%");
-        reqTypesChoicePanel.add(reqWrapperPanel);
-        reqTypesChoicePanel.add(exampleWrapperPanel);           
-        reqTypesChoicePanel.setStyleName("KSLumContentPanel");                   
-
-        // Add Requirement Composition Panel
-        taNaturalLanguage2 = new LumTextArea<LumModelObject>(LumModelObject.FieldName.NATURAL_LANGUAGE.toString());             
-        VerticalPanel compositionText = new VerticalPanel();
-        compositionText.setStyleName("KSLumPanel");
-        compositionText.add(new Label("Work Area"));
-        compositionText.add(requirementCompositionText);
-        requirementCompositionPanel.setSize("100%", "100px");        
-        requirementCompositionPanel.add(compositionText); 
-        requirementCompositionPanel.setStyleName("KSLumContentPanel");           
-        
-        // Add panel for buttons
-        SimplePanel bottomWrapperPanel = new SimplePanel();
-        bottomWrapperPanel.setStyleName("KSLumPanel");        
-        DockPanel bottomDockPanel = new DockPanel();
-        bottomDockPanel.setSize("100%", "100%");
-        bottomWrapperPanel.setStyleName("KSLumPanel");
-        btnCancelRequirement = new Button("Cancel");  
-        btnAddComposedRequirement = new Button("Add");
-        bottomDockPanel.setHorizontalAlignment(DockPanel.ALIGN_LEFT);
-        bottomDockPanel.add(btnCancelRequirement, DockPanel.WEST);
-        bottomDockPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
-        bottomDockPanel.add(btnAddComposedRequirement, DockPanel.EAST);        
-        
-        dialogContents.add(reqTypesChoicePanel);
-        dialogContents.add(requirementCompositionPanel); 
-        dialogContents.add(bottomDockPanel);
-        
-        dialogWidget.setAnimationEnabled(true);
-        dialogWidget.setText("Add a Requirement");
-        dialogWidget.add(dialogBorderPanel);
-       
-        dialogBorderPanel.setPixelSize((int)(mainLumPanel.getOffsetWidth() * 0.9), (int)(mainLumPanel.getOffsetHeight() * 0.7));  
-        dialogContents.setSize("100%", "100%");        
-        //bottomDockPanel.setSize("100%", "20%");
-        
-        reqWrapperPanel.setWidth(Double.toString(reqTypesChoicePanel.getOffsetWidth() * 0.3));          
-        exampleWrapperPanel.setWidth(Double.toString(reqTypesChoicePanel.getOffsetWidth() * 0.7));                 
-        taExample.setSize("100%", Double.toString(examplePanel.getOffsetHeight() * 0.7));
-        requirementCompositionText.setSize("500px", "100px");
-        
-        LumGuiService.Util.getInstance().getReqComponentTypesForLuStatementType("1", new AsyncCallback<List<ReqComponentTypeInfo>>() {
-
-            public void onFailure(Throwable caught) {
-                // just re-throw it and let the uncaught exception handler deal with it
-                Window.alert(caught.getMessage());
-                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-            }
-
-            public void onSuccess(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
-                for (ReqComponentTypeInfo reqInfo : reqComponentTypeInfoList) {                   
-                    requirementTypes.addItem(reqInfo.getName(), reqInfo.getDesc());
-                    System.out.println(reqInfo.getName());
-                }
-            }
-        });         
-        
-        
-        //System.out.println("Width: " + requirementCompositionPanel.getOffsetWidth());
-        //System.out.println("Height: " + requirementCompositionPanel.getOffsetHeight());        
-        
-        /*DeferredCommand.addCommand(new Command()
-        {
-            public void execute()
-            {
-                System.out.println("Size1: " + dialogBorderPanel.getOffsetWidth());
-                System.out.println("Size2: " + dgCompRequirement.getOffsetWidth());
-            }
-        }); */                
-    }         
     
     public void setUpListeners() {
         Model<LumModelObject> model = (Model<LumModelObject>) controller.getModel(LumModelObject.class);
         binding1 = new ModelBinding<LumModelObject>(model, tbStatementId);
         binding2 = new ModelBinding<LumModelObject>(model, pnlViews);
         binding3 = new ModelBinding<LumModelObject>(model, ruleTable);
-        binding4 = new ModelBinding<LumModelObject>(model, requirementTypes);
-        binding5 = new ModelBinding<LumModelObject>(model, dgCompRequirement);
         btnComplexLevel.addClickListener(new ClickListener() {
             public void onClick(Widget sender) {
                 System.out.println("btnComplexLevel clicked");
@@ -409,27 +273,7 @@ public class LumComposite extends Composite {
                     }
                 }
             }
-        });               
-        btnCancelRequirement.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
-                System.out.println("btnCancelRequirement clicked");
-                if (lumUIListeners != null && !lumUIListeners.isEmpty()) {
-                    for (LumUIEventListener listener : lumUIListeners) {
-                        listener.hideRequirementDialog();
-                    }
-                }
-            }
-        });  
-        requirementTypes.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
-                System.out.println("requirementTypes clicked");
-                if (lumUIListeners != null && !lumUIListeners.isEmpty()) {
-                    for (LumUIEventListener listener : lumUIListeners) {
-                       listener.updateExampleAndWorkArea();
-                    }
-                }
-            }
-        });                    
+        });                                  
     }
     
     public void addLumUIEventListener(LumUIEventListener listener) {
