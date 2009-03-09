@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -40,6 +42,7 @@ public class LuStatement extends MetaEntity implements AttributeOwner<LuStatemen
     private String state;
 
     @Column(name="OPERATOR")
+    @Enumerated(EnumType.STRING)
     private StatementOperatorTypeKey operator;
     
     @ManyToOne(optional = true)
@@ -50,7 +53,7 @@ public class LuStatement extends MetaEntity implements AttributeOwner<LuStatemen
     private List<LuStatement> children;
 
     @ManyToMany
-    @JoinTable(name = "KSLU_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "LU_STMT_ID"))
+    @JoinTable(name = "KSLU_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "LU_STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
     private List<ReqComponent> requiredComponents;
 
     @ManyToOne
@@ -58,7 +61,7 @@ public class LuStatement extends MetaEntity implements AttributeOwner<LuStatemen
     private LuStatementType luStatementType;
 
     @ManyToMany
-    @JoinTable(name = "KS_CLU_LU_STMT_T", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "LU_STMT_ID"))
+    @JoinTable(name = "KSLU_CLU_JN_LU_STMT", joinColumns = @JoinColumn(name = "LU_STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
     private List<Clu> clus;
 
     @OneToMany(cascade = CascadeType.ALL)

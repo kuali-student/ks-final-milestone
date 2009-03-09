@@ -28,7 +28,7 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
 	    List<LuStatementType> stmtTypeList = dao.find(LuStatementType.class);
 	    
 	    assertNotNull(stmtTypeList);
-	    assertEquals(2, stmtTypeList.size());
+	    assertEquals(3, stmtTypeList.size());
 	}	
 
     @Test

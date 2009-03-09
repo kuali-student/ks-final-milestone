@@ -28,6 +28,8 @@ public class LuStatementTypeInfo extends TypeInfo{
 	private static final long serialVersionUID = 1L;
 
 	private List<String> requiredComponentTypeIds;
+	
+	private List<String> luStatementTypeIds;
 
     public List<String> getRequiredComponentTypeIds() {
         return requiredComponentTypeIds;
@@ -35,5 +37,13 @@ public class LuStatementTypeInfo extends TypeInfo{
 
     public void setRequiredComponentTypeIds(List<String> requiredComponentTypeIds) {
         this.requiredComponentTypeIds = requiredComponentTypeIds;
-    }	
+    }
+
+    public List<String> getLuStatementTypeIds() {
+        return luStatementTypeIds;
+    }
+
+    public void setLuStatementTypeIds(List<String> luStatementTypeIds) {
+        this.luStatementTypeIds = luStatementTypeIds;
+    }	    
 }

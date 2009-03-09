@@ -1125,8 +1125,14 @@ public class LuServiceImpl implements LuService {
 			String luStatementTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        checkForMissingParameter(luStatementTypeKey, "luStatementTypeKey");
+
+        LuStatementType stmtType = luDao.fetch(LuStatementType.class, luStatementTypeKey);
+        if(null == stmtType) {
+            throw new DoesNotExistException("LuStatement Type: " + luStatementTypeKey + " does not exist.");
+        }
+
+        return LuServiceAssembler.toLuStatementTypeInfos( stmtType.getLuStatementTypes() );
 	}
 
 	@Override
