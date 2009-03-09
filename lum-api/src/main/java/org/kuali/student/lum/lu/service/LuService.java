@@ -1178,8 +1178,10 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws CircularReferenceException addedCluSetId cannot be added to the cluSetId
+     * @throws UnsupportedActionException CLU set is dynamically determined and clu ids or clu set ids are present
 	 */
-    public CluSetInfo updateCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public CluSetInfo updateCluSet(@WebParam(name="cluSetId")String cluSetId, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, CircularReferenceException, UnsupportedActionException;
 
     /** 
      * Delete a CLU set

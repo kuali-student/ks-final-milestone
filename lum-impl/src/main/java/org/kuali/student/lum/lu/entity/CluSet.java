@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
@@ -40,7 +41,7 @@ public class CluSet extends MetaEntity implements
 	@Column(name = "NAME")
 	private String name;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
 
@@ -69,6 +70,11 @@ public class CluSet extends MetaEntity implements
 	@JoinColumn(name = "OWNER")
 	private List<CluSetAttribute> attributes;
 
+	@Override
+    public void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -78,6 +84,9 @@ public class CluSet extends MetaEntity implements
 	}
 
 	public List<Clu> getClus() {
+		if(clus==null){
+			clus=new ArrayList<Clu>();
+		}
 		return clus;
 	}
 

@@ -24,6 +24,7 @@ import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -31,6 +32,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -264,6 +266,128 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 	}
 
+	@Test
+	public void testCluSetCrud() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException, VersionMismatchException, CircularReferenceException, UnsupportedActionException{
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		CluSetInfo cluSetInfo = new CluSetInfo();
+		
+		RichTextInfo desc = new RichTextInfo();
+		desc.setFormatted("<p>Formatted Desc</p>");
+		desc.setPlain("plain");
+		cluSetInfo.setDesc(desc);
+		cluSetInfo.setEffectiveDate(df.parse("20080101"));
+		cluSetInfo.setExpirationDate(df.parse("20180101"));
+		cluSetInfo.setName("");
+		cluSetInfo.getCluIds().add("CLU-1");
+		cluSetInfo.getCluIds().add("CLU-2");
+		cluSetInfo.getCluSetIds().add("CLUSET-1");
+		cluSetInfo.getCluSetIds().add("CLUSET-2");
+		cluSetInfo.getAttributes().put("cluSet1ArrtKey1", "cluSet1ArrtValue1");
+		cluSetInfo.getAttributes().put("cluSet1ArrtKey2", "cluSet1ArrtValue2");		
+		
+		CluSetInfo createdSet1 = client.createEnumeratedCluSet("testCluSet1", cluSetInfo);
+		
+		assertEquals("<p>Formatted Desc</p>",createdSet1.getDesc().getFormatted());
+		assertEquals("plain",createdSet1.getDesc().getPlain());
+		assertEquals(df.parse("20080101"), createdSet1.getEffectiveDate());
+		assertEquals(df.parse("20180101"), createdSet1.getExpirationDate());
+		assertEquals("testCluSet1",createdSet1.getName());
+		assertEquals("CLU-1",createdSet1.getCluIds().get(0));
+		assertEquals("CLU-2",createdSet1.getCluIds().get(1));
+		assertEquals("CLUSET-1",createdSet1.getCluSetIds().get(0));
+		assertEquals("CLUSET-2",createdSet1.getCluSetIds().get(1));
+		assertEquals("cluSet1ArrtValue1",createdSet1.getAttributes().get("cluSet1ArrtKey1"));
+		assertEquals("cluSet1ArrtValue2",createdSet1.getAttributes().get("cluSet1ArrtKey2"));
+	    assertNotNull(createdSet1.getMetaInfo().getCreateTime());
+	    assertNotNull(createdSet1.getMetaInfo().getUpdateTime());
+	    assertNotNull(createdSet1.getId());
+		
+		createdSet1.getDesc().setFormatted("UP<p>Formatted Desc</p>");
+		createdSet1.getDesc().setPlain("UPplain");
+		createdSet1.setEffectiveDate(df.parse("20090101"));
+		createdSet1.setExpirationDate(df.parse("20190101"));
+		createdSet1.setName("UPtestCluSet1");
+		createdSet1.getCluIds().remove(1);
+		createdSet1.getCluIds().add("CLU-3");
+		createdSet1.getCluSetIds().remove(1);
+		createdSet1.getCluSetIds().add("CLUSET-3");
+		createdSet1.getAttributes().put("cluSet1ArrtKey1", "UPcluSet1ArrtValue1");
+		createdSet1.getAttributes().remove("cluSet1ArrtKey2");
+		createdSet1.getAttributes().put("cluSet1ArrtKey3", "cluSet1ArrtValue3");
+		
+		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1);
+		
+		assertEquals("UP<p>Formatted Desc</p>",updatedSet1.getDesc().getFormatted());
+		assertEquals("UPplain",updatedSet1.getDesc().getPlain());
+		assertEquals(df.parse("20090101"), updatedSet1.getEffectiveDate());
+		assertEquals(df.parse("20190101"), updatedSet1.getExpirationDate());
+		assertEquals("UPtestCluSet1",updatedSet1.getName());
+		assertEquals("CLU-1",updatedSet1.getCluIds().get(0));
+		assertEquals("CLU-3",updatedSet1.getCluIds().get(1));
+		assertEquals(2,updatedSet1.getCluIds().size());
+		assertEquals("CLUSET-1",updatedSet1.getCluSetIds().get(0));
+		assertEquals("CLUSET-3",updatedSet1.getCluSetIds().get(1));
+		assertEquals(2,updatedSet1.getCluSetIds().size());
+		assertEquals("UPcluSet1ArrtValue1",updatedSet1.getAttributes().get("cluSet1ArrtKey1"));
+		assertEquals("cluSet1ArrtValue3",updatedSet1.getAttributes().get("cluSet1ArrtKey3"));
+		assertEquals(2,updatedSet1.getAttributes().size());
+	    assertNotNull(updatedSet1.getMetaInfo().getUpdateTime());		
+
+	    //Test Adds and removes
+	    StatusInfo status = client.addCluSetToCluSet(createdSet1.getId(), "CLUSET-4");
+	    assertTrue(status.getSuccess());
+	    status = client.addCluToCluSet("CLU-4",createdSet1.getId());
+	    assertTrue(status.getSuccess());
+	    
+	    CluSetInfo updatedSet2 = client.getCluSetInfo(createdSet1.getId());
+		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-1"));
+		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-3"));
+		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-4"));
+		assertEquals(3,updatedSet2.getCluSetIds().size());
+		assertTrue(updatedSet2.getCluIds().contains("CLU-1"));
+		assertTrue(updatedSet2.getCluIds().contains("CLU-3"));
+		assertTrue(updatedSet2.getCluIds().contains("CLU-4"));
+		assertEquals(3,updatedSet2.getCluIds().size());
+		
+	    status = client.removeCluSetFromCluSet(createdSet1.getId(), "CLUSET-4");
+	    assertTrue(status.getSuccess());
+	    status = client.removeCluFromCluSet("CLU-4",createdSet1.getId());
+	    assertTrue(status.getSuccess());
+	    updatedSet2 = client.getCluSetInfo(createdSet1.getId());
+		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-1"));
+		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-3"));
+		assertEquals(2,updatedSet2.getCluSetIds().size());
+		assertTrue(updatedSet2.getCluIds().contains("CLU-1"));
+		assertTrue(updatedSet2.getCluIds().contains("CLU-3"));
+		assertEquals(2,updatedSet2.getCluIds().size());
+		
+		//Test circular check for set add
+		try{
+			client.addCluSetToCluSet("CLUSET-1", updatedSet2.getId());
+			fail("Should have thrown circular reference exception.");
+		}catch(CircularReferenceException e){
+		}
+		
+	    
+	    //test opt locking, gets and deletes
+	    try{
+	    	updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1);
+			fail("Should have thrown VersionMismatchException.");
+		}catch(VersionMismatchException e){
+		}
+		
+		status = client.deleteCluSet(createdSet1.getId());
+		assertTrue(status.getSuccess());
+
+		try{
+			client.getCluSetInfo(createdSet1.getId());
+			fail("Should have thrown DoesNotExistException");
+		}catch(DoesNotExistException e){
+
+		}
+		
+	}
+	
 	@Test
 	public void testCluCluRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
 		List<CluCluRelationInfo> ccrs = client.getCluCluRelationsByClu("CLU-1");

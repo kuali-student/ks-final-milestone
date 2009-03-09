@@ -3,9 +3,11 @@ package org.kuali.student.lum.lu.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.jws.WebService;
@@ -429,9 +431,10 @@ public class LuServiceImpl implements LuService {
     	}
 
 	    CluSet cluSet = new CluSet();
-		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id", "name", "attributes", "metaInfo" });
+		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id", "desc", "name", "attributes", "metaInfo" });
 	    cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
 	    cluSet.setName(cluSetName);
+	    cluSet.setDesc(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
 
 	    for(String cluId:cluSetInfo.getCluIds()){
 	    	cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
@@ -1875,30 +1878,58 @@ public class LuServiceImpl implements LuService {
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+			VersionMismatchException, CircularReferenceException, UnsupportedActionException {
         //Check Missing params
         checkForMissingParameter(cluSetId, "cluSetId");
         checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
         CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
+		if (!String.valueOf(cluSet.getVersionInd()).equals(cluSetInfo.getMetaInfo().getVersionInd())){
+			throw new VersionMismatchException("CluSet to be updated is not the current version");
+		}
+        
         if(cluSet.isCriteriaSet()){
         	if(cluSetInfo.getCluIds().size()>0||cluSetInfo.getCluSetIds().size()>0){
-        		throw new InvalidParameterException("Criteria CluSets can not contain Clus or CluSets");
+        		throw new UnsupportedActionException("Criteria CluSets can not contain Clus or CluSets");
         	}
-
+        	//TODO update criteria here
         }
 
         if(!cluSet.isCriteriaSet()){
         	if(cluSetInfo.getCluCriteria()!=null){
-        		throw new InvalidParameterException("Enumerated CluSets can not contain Criteria");
+        		throw new UnsupportedActionException("Enumerated CluSets can not contain Criteria");
         	}
-
+        	//update the cluIds 
+        	Set<String> newCluIds = new HashSet<String>(cluSetInfo.getCluIds());
+        	for(Iterator<Clu> i = cluSet.getClus().iterator();i.hasNext();){
+        		if(!newCluIds.remove(i.next().getId())){
+        			i.remove();
+        		}
+        	}
+        	for(String newCluId:newCluIds){
+        		this.addCluToCluSet(newCluId, cluSet.getId());
+        	}
+        	
+        	//update the cluSetIds 
+        	Set<String> newCluSetIds = new HashSet<String>(cluSetInfo.getCluSetIds());
+        	for(Iterator<CluSet> i = cluSet.getCluSets().iterator();i.hasNext();){
+        		if(!newCluSetIds.remove(i.next().getId())){
+        			i.remove();
+        		}
+        	}
+        	for(String newCluSetId:newCluSetIds){
+        		this.addCluSetToCluSet(cluSet.getId(), newCluSetId);
+        	}
         }
 
-        //cluSetInfo.s
+		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "desc", "attributes", "metaInfo" });
+	    cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
+	    cluSet.setDesc(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
 
-		return null;
+	    CluSet updated = luDao.update(cluSet);
+	    
+		return LuServiceAssembler.toCluSetInfo(updated);
 	}
 
 	@Override
