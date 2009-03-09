@@ -23,7 +23,6 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
@@ -35,16 +34,15 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
     public LuService client;
 
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-    
+
     @Test
-    public void testGetLuStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        
+    public void testGetLuStatementTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+
         List<LuStatementTypeInfo> stmtTypeList = client.getLuStatementTypes();
         
         assertNotNull(stmtTypeList);
         assertEquals(3, stmtTypeList.size());
-        
-        
+ 
         LuStatementTypeInfo stmtType = null;        
         
         if("kuali.luStatementType.coreqAcademicReadiness".equals(stmtTypeList.get(0).getId())) {
@@ -55,8 +53,18 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
             stmtType = stmtTypeList.get(2);
         } else {
             assertTrue(false);
-        }       
-               
+        }          
+    }
+    
+    
+    @Test
+    public void testGetLuStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        
+        LuStatementTypeInfo stmtType = client.getLuStatementType("kuali.luStatementType.coreqAcademicReadiness");
+        
+        assertNotNull(stmtType);
+                    
+        assertEquals(stmtType.getId(), "kuali.luStatementType.coreqAcademicReadiness");
         assertEquals(stmtType.getDesc(),"Co req used in the evaluation of a person's academic readiness for enrollment in an LU.");
         assertEquals(stmtType.getName(), "Academic Readiness Co Reqs");
         assertEquals(stmtType.getEffectiveDate(),df.parse("20000101"));
@@ -112,9 +120,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getCreateId(), "CREATEID");
         assertEquals(mf.getUpdateId(),"UPDATEID");
         assertEquals(mf.getCreateTime(), df.parse("20000101"));
-        assertEquals(mf.getUpdateTime(), df.parse("20010101"));
-        
-        
+        assertEquals(mf.getUpdateTime(), df.parse("20010101"));                
     }
     
     
@@ -132,9 +138,21 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertTrue( stmtIds.contains("STMT-2"));       
     }
     
+    @Test
+    public void testGetInvldLuStatementType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+       
+        try {
+           client.getLuStatementType("invalid.stmt");
+        } catch (DoesNotExistException dne) {
+            assertTrue(true);
+            return;
+        }
+        
+        assertTrue(false);
+    }    
     
     @Test
-    public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+    public void testGetReqComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = client.getReqComponentTypes();
         
         assertNotNull(reqCompTypeInfoList);
@@ -151,7 +169,15 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         } else {
             assertTrue(false);
         }
-
+        
+        assertEquals(rqt.getName(), "Course completed");
+    }
+    
+    @Test
+    public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        ReqComponentTypeInfo rqt = client.getReqComponentType("kuali.reqCompType.courseList");
+        
+        assertNotNull(rqt);
         assertEquals(rqt.getId(),"kuali.reqCompType.courseList");
         assertEquals(rqt.getDesc(),"Student must have completed all of <courses>");
         assertEquals(rqt.getName(), "Course completed");
@@ -205,4 +231,17 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getCreateTime(), df.parse("20000101"));
         assertEquals(mf.getUpdateTime(), df.parse("20010101"));                
     }    
+    
+    @Test
+    public void testInvldGetReqComponentType() throws  InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        try {
+            client.getReqComponentType("invalid.reqcomp");
+        } catch (DoesNotExistException dne) {
+            assertTrue(true);
+            return;
+        }
+        
+        assertTrue(false);
+    }
+    
 }
