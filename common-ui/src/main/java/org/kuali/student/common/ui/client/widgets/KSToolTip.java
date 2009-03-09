@@ -21,7 +21,7 @@ public class KSToolTip extends PopupPanel {
     private int offsetX;
     private int offsetY;
 
-    public KSToolTip(Widget sender, String headerText, Widget content) {
+    public KSToolTip(String headerText, Widget content) {
         super();
         init(headerText, content);
     }
