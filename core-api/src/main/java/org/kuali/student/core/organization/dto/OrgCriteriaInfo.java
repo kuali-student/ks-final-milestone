@@ -30,10 +30,10 @@ import org.kuali.student.core.search.dto.SearchRelationship;
 
 
 /**
- *Specifies a search for organization to organization relationship identifiers.
+ *Specifies a search for organization identifiers.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OrgOrgRelationCriteria implements Serializable {
+public class OrgCriteriaInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,7 @@ public class OrgOrgRelationCriteria implements Serializable {
     private Criterion criterion;
 
     /**
-     * The types this search should be executed against. A type of "orgOrgRelationInfo" is automatically included. Types are restricted to those within the service.
+     * The types this search should be executed against. A type of "orgInfo" is automatically included. Types are restricted to those within the service.
      */
     public List<SearchIndexedType> getTypes() {
         if (types == null) {

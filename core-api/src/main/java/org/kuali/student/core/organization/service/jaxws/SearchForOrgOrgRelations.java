@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class SearchForOrgOrgRelations {
 
     @XmlElement(name = "orgOrgRelationCriteria")
-    private org.kuali.student.core.organization.dto.OrgOrgRelationCriteria orgOrgRelationCriteria;
+    private org.kuali.student.core.organization.dto.OrgOrgRelationCriteriaInfo orgOrgRelationCriteria;
 
-    public org.kuali.student.core.organization.dto.OrgOrgRelationCriteria getOrgOrgRelationCriteria() {
+    public org.kuali.student.core.organization.dto.OrgOrgRelationCriteriaInfo getOrgOrgRelationCriteria() {
         return this.orgOrgRelationCriteria;
     }
 
-    public void setOrgOrgRelationCriteria(org.kuali.student.core.organization.dto.OrgOrgRelationCriteria newOrgOrgRelationCriteria)  {
+    public void setOrgOrgRelationCriteria(org.kuali.student.core.organization.dto.OrgOrgRelationCriteriaInfo newOrgOrgRelationCriteria)  {
         this.orgOrgRelationCriteria = newOrgOrgRelationCriteria;
     }
 

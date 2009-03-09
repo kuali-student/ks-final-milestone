@@ -17,13 +17,13 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.dto.OrgCriteria;
+import org.kuali.student.core.organization.dto.OrgCriteriaInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationCriteria;
+import org.kuali.student.core.organization.dto.OrgOrgRelationCriteriaInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationCriteria;
+import org.kuali.student.core.organization.dto.OrgPersonRelationCriteriaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -458,7 +458,7 @@ public interface OrganizationService extends DictionaryService, SearchService, E
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<String> searchForOrganizations(@WebParam(name="orgCriteria")OrgCriteria orgCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForOrganizations(@WebParam(name="orgCriteria")OrgCriteriaInfo orgCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Searches for identifiers of organization to organization relationships by complex criteria and logic.
@@ -469,7 +469,7 @@ public interface OrganizationService extends DictionaryService, SearchService, E
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<String> searchForOrgOrgRelations(@WebParam(name="orgOrgRelationCriteria")OrgOrgRelationCriteria orgOrgRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForOrgOrgRelations(@WebParam(name="orgOrgRelationCriteria")OrgOrgRelationCriteriaInfo orgOrgRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Searches for identifiers of organization to person relationships by complex criteria and logic.
@@ -480,7 +480,7 @@ public interface OrganizationService extends DictionaryService, SearchService, E
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public List<String> searchForOrgPersonRelations(@WebParam(name="orgPersonRelationCriteria")OrgPersonRelationCriteria orgPersonRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForOrgPersonRelations(@WebParam(name="orgPersonRelationCriteria")OrgPersonRelationCriteriaInfo orgPersonRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new organization
