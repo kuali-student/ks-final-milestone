@@ -11,8 +11,8 @@ import org.kuali.student.rules.internal.common.runtime.ast.BinaryMessageTree;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunction;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunctionResult;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessageImpl;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
-import org.kuali.student.rules.internal.common.runtime.ast.Message;
 import org.kuali.student.rules.internal.common.utils.VelocityTemplateEngine;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
@@ -31,7 +31,7 @@ public abstract class AbstractMessageBuilder {
     private final VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
     private String booleanExpression;
-    private Map<String, ? extends Message> messageMap;
+    private Map<String, ? extends BooleanMessage> messageMap;
     private Map<String, Object> messageContextMap;
     
     private SimpleExecutor executor;
@@ -58,7 +58,7 @@ public abstract class AbstractMessageBuilder {
      */
     public BooleanFunctionResult build(
     		final String booleanExpression, 
-    		final Map<String, ? extends Message> messageMap) {
+    		final Map<String, ? extends BooleanMessage> messageMap) {
     	this.booleanExpression = booleanExpression;
     	this.messageMap = messageMap;
 
@@ -87,7 +87,7 @@ public abstract class AbstractMessageBuilder {
      */
     public BooleanFunctionResult build(
     		final String booleanExpression, 
-    		final Map<String, ? extends Message> messageMap, 
+    		final Map<String, ? extends BooleanMessage> messageMap, 
     		final Map<String, Object> messageContextMap) {
     	this.booleanExpression = booleanExpression;
     	this.messageMap = messageMap;
@@ -138,7 +138,7 @@ public abstract class AbstractMessageBuilder {
         List<String> funcVars = func.getVariables();
 
         for (String id : funcVars) {
-        	BooleanMessage booleanMessage = buildBooleanMessage(this.messageMap.get(id).getBooleanMessage());
+        	BooleanMessage booleanMessage = buildBooleanMessage(this.messageMap.get(id));
             nodeMessageMap.put(id, booleanMessage);
         }
         
@@ -162,8 +162,8 @@ public abstract class AbstractMessageBuilder {
 			successMsg = this.templateEngine.evaluate(this.messageContextMap, successMsg);
 		}
 		
-		BooleanMessage newBooleanMessage = new BooleanMessage(
-				booleanMessage.isSuccesful(), successMsg, failureMsg);
+		BooleanMessage newBooleanMessage = new BooleanMessageImpl(
+				booleanMessage.getMessageId(), booleanMessage.isSuccesful(), successMsg, failureMsg);
 
 		return newBooleanMessage;
     }

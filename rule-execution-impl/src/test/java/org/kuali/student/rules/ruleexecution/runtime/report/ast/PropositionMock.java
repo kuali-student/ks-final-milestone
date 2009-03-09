@@ -2,7 +2,6 @@ package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
 import java.util.Collection;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -58,13 +57,19 @@ public class PropositionMock implements RuleProposition {
     	return null;
 	}
 
-    public BooleanMessage getBooleanMessage() {
-    	BooleanMessage bm = new BooleanMessage(this.getResult(), 
-    			propositionReport.getSuccessMessage(), propositionReport.getFailureMessage()); 
-    	return bm;
-    }
-
 	public String getMessageId() {
-		return this.getPropositionName();
+		return this.propositionName;
+	}
+
+	public Boolean isSuccesful() {
+		return this.result;
+	}
+
+	public String getSuccessMessage() {
+		return this.propositionReport.getSuccessMessage();
+	}
+
+	public String getFailureMessage() {
+		return this.propositionReport.getFailureMessage();
 	}
 }

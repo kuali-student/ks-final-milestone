@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.AbstractProposition;
@@ -47,8 +46,6 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 
     protected Boolean reportBuilt = Boolean.FALSE;
     
-    private BooleanMessage booleanMessage;
-	
     private final VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
     
     private final Map<String,Object> contextMap = new HashMap<String, Object>();
@@ -221,6 +218,11 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 		return list;
 	}
 
+	/**
+	 * Gets the proposition.
+	 * 
+	 * @return Proposition
+	 */
 	public Proposition getProposition() {
 		return this.proposition;
 	}
@@ -294,7 +296,6 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
     private void addMessageContext(Map<String, Object> contextMap) {
     	this.contextMap.putAll(contextMap);
     }
-    
 
     /**
      * Generates a proposition report.
@@ -321,7 +322,6 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	    		String msg = buildMessage(this.ruleProposition.getSuccessMessage());
 	    		report.setSuccessMessage(msg);
     		}
-        	this.booleanMessage = new BooleanMessage(this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
             return report;
         }
         // Build failure message
@@ -332,39 +332,67 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 			String msg = buildMessage(this.ruleProposition.getFailureMessage());
 	        report.setFailureMessage(msg);
 		}
-    	this.booleanMessage = new BooleanMessage(this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
 		this.reportBuilt = Boolean.TRUE;
         return report;
     }
-    
-	/**
-	 * Gets the message id.
-	 * 
-	 * @return Message id
-	 */
-    public String getMessageId() {
-		return this.getPropositionName();
-	}
 
     /**
-	 * Gets a boolean message.
-	 * A success or failure explanation of the results of the 
-	 * proposition constraint.
+     * Gets the success/failure message id.
      * 
-     * @return Boolean message
+     * @return Message id
      */
-    public BooleanMessage getBooleanMessage() {
+	public String getMessageId() {
+		return this.propositionName;
+	}
+
+	/**
+	 * Returns whether the proposition is a success or failure.
+	 * 
+	 * @return True if successful; otherwise false
+	 */
+	public Boolean isSuccesful() {
+		return this.getResult();
+	}
+
+	/**
+	 * Gets the proposition success message.
+	 * 
+	 * @return Proposition success message
+	 */
+	public String getSuccessMessage() {
     	if(!this.reportBuilt) {
     		buildReport();
     	}
-    	return this.booleanMessage;
-    }
+		return this.report.getSuccessMessage();
+	}
 
+	/**
+	 * Gets the proposition failure message.
+	 * 
+	 * @return Proposition failure message
+	 */
+	public String getFailureMessage() {
+    	if(!this.reportBuilt) {
+    		buildReport();
+    	}
+		return this.report.getFailureMessage();
+	}
+
+	/**
+	 * Gets the proposition's unique id.
+	 * 
+	 * @return Proposition's unique id
+	 */
 	@Override
 	public String getId() {
 		return this.proposition.getId();
 	}
 
+	/**
+	 * Gets the proposition name.
+	 *
+	 * @return Proposition name
+	 */
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();
@@ -384,16 +412,31 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
     	return this.report;
 	}
 
+	/**
+	 * Gets the proposition result.
+	 * 
+	 * @return Proposition result
+	 */
 	@Override
 	public Boolean getResult() {
 		return this.proposition.getResult();
 	}
-	
+
+	/**
+	 * Gets the proposition type.
+	 * 
+	 * @return Proposition type
+	 */
 	@Override
 	public PropositionType getType() {
 		return this.proposition.getType();
 	}
 
+	/**
+	 * Gets the proposition result values.
+	 * 
+	 * @return Proposition result values
+	 */
 	@Override
 	public Collection<?> getResultValues() {
 		return this.proposition.getResultValues();

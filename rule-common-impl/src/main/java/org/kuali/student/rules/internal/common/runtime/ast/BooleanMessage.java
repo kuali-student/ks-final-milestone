@@ -1,32 +1,17 @@
 package org.kuali.student.rules.internal.common.runtime.ast;
 
-public class BooleanMessage {
-	private Boolean succesful;
-	private String successMessage; 
-	private String failureMessage;
+public interface BooleanMessage {
 
-	public BooleanMessage(Boolean succesful, String successMessage, String failureMessage) {
-    	this.succesful = succesful;
-    	this.successMessage = successMessage; 
-    	this.failureMessage = failureMessage;
-	}
+	/**
+	 * Gets the message id.
+	 * 
+	 * @return Message id
+	 */
+	public String getMessageId();
 
-	public Boolean isSuccesful() {
-		return this.succesful;
-	}
+	public Boolean isSuccesful();
 
-	public String getSuccessMessage() {
-		return this.successMessage;
-	}
+	public String getSuccessMessage();
 
-	public String getFailureMessage() {
-		return this.failureMessage;
-	}
-	
-	public String toString() {
-		return "[successful=" + this.succesful
-			+ ", successMessage='" + this.successMessage
-			+ "', failureMessage='" + this.failureMessage
-			+ "']";
-	}
+	public String getFailureMessage();
 }

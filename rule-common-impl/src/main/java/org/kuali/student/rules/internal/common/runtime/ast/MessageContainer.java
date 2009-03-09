@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MessageContainer {
-	private Map<String, Message> messageMap = new HashMap<String, Message>();
+	private Map<String, BooleanMessage> messageMap = new HashMap<String, BooleanMessage>();
 	
-	public void addMessage(Message message) {
+	public void addMessage(BooleanMessage message) {
 		this.messageMap.put(message.getMessageId(), message);
 	}
 	
-	public Message getMessage(String id) {
+	public BooleanMessage getMessage(String id) {
 		return this.messageMap.get(id);
 	}
 	
-	public Map<String, Message> getMessageMap() {
+	public Map<String, BooleanMessage> getMessageMap() {
 		return this.messageMap;
 	}
 }
