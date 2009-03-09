@@ -2,7 +2,7 @@ package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.Collection;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
+import org.kuali.student.rules.internal.common.runtime.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;

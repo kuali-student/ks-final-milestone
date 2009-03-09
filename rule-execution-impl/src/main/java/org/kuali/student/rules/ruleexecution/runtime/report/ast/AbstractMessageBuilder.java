@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
+import org.kuali.student.rules.internal.common.runtime.BooleanMessage;
 import org.kuali.student.rules.internal.common.runtime.ast.BinaryMessageTree;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunction;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunctionResult;
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessageImpl;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.internal.common.utils.VelocityTemplateEngine;

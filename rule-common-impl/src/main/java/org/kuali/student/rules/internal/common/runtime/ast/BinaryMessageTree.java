@@ -13,6 +13,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 
 import org.kuali.student.rules.internal.common.parsers.BooleanFunctionLexer;
 import org.kuali.student.rules.internal.common.parsers.BooleanFunctionParser;
+import org.kuali.student.rules.internal.common.runtime.BooleanMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

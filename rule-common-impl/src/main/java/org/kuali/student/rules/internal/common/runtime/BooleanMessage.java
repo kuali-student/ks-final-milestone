@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.runtime.ast;
+package org.kuali.student.rules.internal.common.runtime;
 
 public interface BooleanMessage {
 

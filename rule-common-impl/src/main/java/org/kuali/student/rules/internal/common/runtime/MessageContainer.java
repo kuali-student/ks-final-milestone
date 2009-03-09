@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.runtime.ast;
+package org.kuali.student.rules.internal.common.runtime;
 
 import java.util.HashMap;
 import java.util.Map;

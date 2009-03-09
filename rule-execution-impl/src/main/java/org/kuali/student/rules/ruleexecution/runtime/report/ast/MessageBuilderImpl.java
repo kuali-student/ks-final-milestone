@@ -2,8 +2,8 @@ package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
 import java.util.Map;
 
+import org.kuali.student.rules.internal.common.runtime.MessageContainer;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunctionResult;
-import org.kuali.student.rules.internal.common.runtime.ast.MessageContainer;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.report.MessageBuilder;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
