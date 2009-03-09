@@ -1300,6 +1300,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		}
 
+		//TestFind
+		List<LuiLuiRelationInfo> relations = client.getLuiLuiRelations("LUI-1");
+		assertEquals(2,relations.size());
+		relations = client.getLuiLuiRelations("LUI-2");
+		assertEquals(1,relations.size());
+		relations = client.getLuiLuiRelations("LUI-3");
+		assertEquals(0,relations.size());
+		
 	}
 
 	@Test
