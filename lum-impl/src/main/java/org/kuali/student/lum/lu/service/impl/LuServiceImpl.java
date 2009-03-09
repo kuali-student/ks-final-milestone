@@ -491,6 +491,7 @@ public class LuServiceImpl implements LuService {
 
 		Lui lui = new Lui();
 		luiInfo.setCluId(cluId);
+		luiInfo.setAtpId(atpKey);
 
 		try {
 			lui = LuServiceAssembler.toLui(false, luiInfo, luDao);
@@ -1990,12 +1991,18 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public LuiInfo updateLuiState(String luiId, String luState)
+	public LuiInfo updateLuiState(String luiId, String luiState)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        // check for missing params
+        checkForMissingParameter(luiId, "luiId");
+        checkForMissingParameter(luiState, "luiState");
+        Lui lui = luDao.fetch(Lui.class, luiId);
+        lui.setState(luiState);
+        Lui updated = luDao.update(lui);
+		return LuServiceAssembler.toLuiInfo(updated);
 	}
 
 	@Override

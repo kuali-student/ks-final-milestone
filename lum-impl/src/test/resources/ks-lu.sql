@@ -77,13 +77,13 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND
 
 
 //Lui
-insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-1', 'CLU-1', 'ATP-1', 'MENG 329 section 101', 50, '2000-01-01 00:00:00.0', '2000-06-01 00:00:00.0', 'Active', 1)
+insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-1', 'CLU-1', 'ATP-1', 'MENG 329 section 101', 50, '2000-01-01 00:00:00.0', '2000-06-01 00:00:00.0', 'Approved', 1)
 /
-insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-2', 'CLU-1', 'ATP-2', 'MENG 329 section 102', 75, '2000-08-25 00:00:00.0', '2000-12-31 00:00:00.0', 'Active', 1)
+insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-2', 'CLU-1', 'ATP-2', 'MENG 329 section 102', 75, '2000-08-25 00:00:00.0', '2000-12-31 00:00:00.0', 'Approved', 1)
 /
-insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-3', 'CLU-1', 'ATP-2', 'MENG 329 section 112', 75, '2000-08-25 00:00:00.0', '2000-12-31 00:00:00.0', 'Active', 1)
+insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-3', 'CLU-1', 'ATP-2', 'MENG 329 section 112', 75, '2000-08-25 00:00:00.0', '2000-12-31 00:00:00.0', 'Activated', 1)
 /
-insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-4', 'CLU-2', 'ATP-1', 'BENG 471 section 101', 75, '2000-01-01 00:00:00.0', '2000-06-01 00:00:00.0', 'Active', 1)
+insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-4', 'CLU-2', 'ATP-1', 'BENG 471 section 101', 75, '2000-01-01 00:00:00.0', '2000-06-01 00:00:00.0', 'Retired', 1)
 /
 
 // CluAtpTypeKey

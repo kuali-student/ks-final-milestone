@@ -1202,7 +1202,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		// Create
 		luiInfo = new LuiInfo();
 		
-		luiInfo.setAtpId("ATP-1");
 		luiInfo.setLuiCode("LUI Test Code");
 		luiInfo.setMaxSeats(100);
 		luiInfo.setState("Test Lui State");
@@ -1213,7 +1212,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
 
-		assertEquals("ATP-1", createdLui.getAtpId());
+		assertEquals("ATP-3", createdLui.getAtpId());
 		assertEquals("LUI Test Code", createdLui.getLuiCode());
 		assertEquals(100L, (long) createdLui.getMaxSeats());
 		assertEquals(df.parse("20101203"), luiInfo.getEffectiveDate());
@@ -1299,12 +1298,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		List<String> luiIds = null;
 		try {
 			luiIds = client.getLuiIdsInAtpByCluId(null, "ATP-1");
-			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null Clu ID");
+			fail("LuService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null Clu ID");
 		} catch (MissingParameterException e) {
 		}
 		try {
 			luiIds = client.getLuiIdsInAtpByCluId("CLU-1", null);
-			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null AtpKey");
+			fail("LuService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null AtpKey");
 		} catch (MissingParameterException e) {
 		}
 		luiIds = client.getLuiIdsInAtpByCluId("CLU-1", "ATP-2");
@@ -1320,5 +1319,47 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luiIds = client.getLuiIdsInAtpByCluId("CLU-2", "Non-existent ATP");
 		assertTrue(null != luiIds);
 		assertEquals(0, luiIds.size());
+	}
+	
+	@Test
+	public void testUpdateLuiState() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, ParseException, AlreadyExistsException, MissingParameterException, DependentObjectsExistException 
+	{
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		try {
+			client.updateLuiState(null, "Inactive");
+			fail("LuService.updateLuiState() did not throw MissingParameterException for null Lui ID");
+		} catch (MissingParameterException e) {
+		}
+		try {
+			client.updateLuiState("LUI-1", null);
+			fail("LuService.updateLuiState() did not throw MissingParameterException for null state");
+		} catch (MissingParameterException e) {
+		}
+		
+		// create a Lui whose state we'll update. Create a new one so its MetaInfo gets created in prePersist()
+		LuiInfo luiInfo = new LuiInfo();
+		
+		luiInfo.setLuiCode("LUI Test Code");
+		luiInfo.setMaxSeats(100);
+		luiInfo.setState("Approved");
+		luiInfo.setEffectiveDate(df.parse("20101203"));
+		luiInfo.setExpirationDate(df.parse("20801231"));
+		luiInfo.getAttributes().put("luiAttrKey1", "luiAttrValue1");
+		luiInfo.getAttributes().put("luiAttrKey2", "luiAttrValue2");
+		
+		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
+		// make sure the db's in the state we expect
+		assertEquals("Approved", createdLui.getState());
+		
+		// update and confirm it was updated
+		LuiInfo updatedLui = client.updateLuiState(createdLui.getId(), "Activated");
+		assertEquals("Activated", updatedLui.getState());
+		
+		// and now explicitly retrieve it without a call to updateLuiState and confirm same
+		updatedLui = client.getLui(createdLui.getId());
+		assertEquals("Activated", updatedLui.getState());
+		
+		// and delete it to keep db consistent for other tests
+		client.deleteLui(updatedLui.getId());
 	}
 }
