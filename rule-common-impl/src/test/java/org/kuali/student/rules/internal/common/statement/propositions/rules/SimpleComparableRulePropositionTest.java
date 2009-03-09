@@ -324,9 +324,9 @@ public class SimpleComparableRulePropositionTest {
 		Assert.assertNotNull(report.getFailureMessage());
 		Assert.assertNull(report.getSuccessMessage());
         Assert.assertEquals("2100-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal2.getTime()) +
         		" not LESS_THAN 2000-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone(), report.getFailureMessage());
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getFailureMessage());
 	}
 
 	@Test
@@ -361,9 +361,9 @@ public class SimpleComparableRulePropositionTest {
 		Assert.assertNotNull(report.getFailureMessage());
 		Assert.assertNull(report.getSuccessMessage());
         Assert.assertEquals("2100-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal2.getTime()) +
         		" not LESS_THAN 2000-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone(), report.getFailureMessage());
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getFailureMessage());
 	}
 
 }

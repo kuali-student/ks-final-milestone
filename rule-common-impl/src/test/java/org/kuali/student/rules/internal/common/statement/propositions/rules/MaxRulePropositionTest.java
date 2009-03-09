@@ -242,15 +242,15 @@ public class MaxRulePropositionTest {
 
 		proposition.apply();
 		PropositionReport report = proposition.buildReport();
-		
+
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
 		Assert.assertNull(report.getSuccessMessage());
         Assert.assertEquals("Maximum of 2020-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		" not met. Maximum found: 2010-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone()+ 
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime())+ 
         		".", report.getFailureMessage());
     }
 
@@ -314,9 +314,9 @@ public class MaxRulePropositionTest {
 		Assert.assertNotNull(report.getFailureMessage());
 		Assert.assertNull(report.getSuccessMessage());
         Assert.assertEquals("Maximum of 2020-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		" not met. Maximum found: 2010-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		".", report.getFailureMessage());
     }
 

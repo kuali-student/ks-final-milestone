@@ -29,7 +29,6 @@ public class BusinessRuleUtil {
     public static final String ISO_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     private static final SimpleDateFormat isoDateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
-	private static final Date date = new Date();
 
     /*
      * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
@@ -62,7 +61,6 @@ public class BusinessRuleUtil {
         ArrayList<Integer> listedPropositionIds = new ArrayList<Integer>();
         for (String token : tokens) {
             token = token.trim();
-            // System.out.println("Validate Token read:" + token);
             if (!token.isEmpty() && ((token.charAt(0) == PROPOSITION_PREFIX) || (token.charAt(0) == PROPOSITION_PREFIX))) {
 
                 try {
@@ -184,7 +182,6 @@ public class BusinessRuleUtil {
      */
     private static String getNextTokenFromComposition(String partialComposition) throws IllegalRuleFormatException {
         String nextToken = "?";
-        // System.out.println("get next token:" + partialComposition);
         partialComposition = partialComposition.trim().toUpperCase();
         if (partialComposition.isEmpty()) {
             return null;
@@ -205,7 +202,6 @@ public class BusinessRuleUtil {
 
         }
 
-        // System.out.println("Next token:'" + nextToken + "'");
         return nextToken;
     }
 
@@ -533,7 +529,7 @@ public class BusinessRuleUtil {
      * 
      * @return Default ISO time zone
      */
-    public static String getDefaultIsoTimeZone() {
+    public static String getDefaultIsoTimeZone(Date date) {
     	dateFormat.applyPattern("Z");
     	return dateFormat.format(date).toString();
     }
