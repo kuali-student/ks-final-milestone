@@ -12,6 +12,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * @deprecated
+ *
+ */
 public class StackPanelExample extends Composite {
 
     final VerticalPanel main = new VerticalPanel();
