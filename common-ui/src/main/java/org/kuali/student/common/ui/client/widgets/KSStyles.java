@@ -96,4 +96,9 @@ public interface KSStyles {
 	public static final String KS_CONFIRM_DIALOG = "KS-Confirm-Dialog";
 	public static final String KS_CONFIRM_DIALOG_IMAGE = "KS-Confirm-Dialog-Image";
 	
+	public static final String KS_TOOLTIP = "KSToolTip";
+    public static final String KS_TOOLTIP_HEADER = "KSToolTipHeader";
+    public static final String KS_TOOLTIP_CONTENT = "KSToolTipContent";
+	
+	
 }
