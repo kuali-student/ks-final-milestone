@@ -22,7 +22,7 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name="KSLU_REQ_COM")
 @NamedQueries( {
-        @NamedQuery(name = "ReqComponent.getReqComponentsByType", query = "SELECT r FROM ReqComponent r WHERE requiredComponentType = :reqComponentTypeKey") })
+        @NamedQuery(name = "ReqComponent.getReqComponentsByType", query = "SELECT r FROM ReqComponent r WHERE requiredComponentType.id = :reqComponentTypeKey") })
 public class ReqComponent extends MetaEntity {
 	@Id
 	@Column(name = "ID")

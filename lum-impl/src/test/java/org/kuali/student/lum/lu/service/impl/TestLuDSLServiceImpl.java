@@ -296,7 +296,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
     }        
 
     @Test
-    public void testGetReqComponents()  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException { 
+    public void testGetReqComponent()  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException { 
         ReqComponentInfo reqComp = client.getReqComponent("REQCOMP-1");
         
         assertNotNull(reqComp);
@@ -315,6 +315,40 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getCreateTime(), df.parse("20000101"));
         assertEquals(mf.getUpdateTime(), df.parse("20010101"));                
     }    
+
+    @Test
+    public void testGetReqComponentsByType()  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException { 
+        List<ReqComponentInfo> reqCompList = client.getReqComponentsByType("kuali.reqCompType.grdCondCourseList");
+        
+        assertNotNull(reqCompList);
+        assertEquals(1, reqCompList.size());
+        
+        ReqComponentInfo reqComp = reqCompList.get(0);
+        
+        assertNotNull(reqComp);
+        
+        assertEquals(reqComp.getId(), "REQCOMP-2");
+        assertEquals(reqComp.getType(), "kuali.reqCompType.grdCondCourseList");
+        assertEquals(reqComp.getDesc(), "Required Component 2");
+        assertEquals(reqComp.getEffectiveDate(), df.parse("20010101"));
+        assertEquals(reqComp.getExpirationDate(),df.parse("20020101") );
+        assertEquals(reqComp.getState(), "ACTIVE");
+        
+        MetaInfo mf = reqComp.getMetaInfo();
+        
+        assertEquals(mf.getCreateId(), "CREATEID");
+        assertEquals(mf.getUpdateId(),"UPDATEID");
+        assertEquals(mf.getCreateTime(), df.parse("20000101"));
+        assertEquals(mf.getUpdateTime(), df.parse("20010101"));                    
+    }    
+    
+    @Test
+    public void testGetReqCompByInvldType()  throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
+        List<ReqComponentInfo> reqCompList = client.getReqComponentsByType("invalid.reqcomptype");
+        
+        assertNotNull(reqCompList);
+        assertEquals(0,reqCompList.size());
+    }
     
     @Test
     public void testInvldGetReqComponentType() throws  InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
