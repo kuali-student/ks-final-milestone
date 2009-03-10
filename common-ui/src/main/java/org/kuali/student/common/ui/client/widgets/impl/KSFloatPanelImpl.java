@@ -80,6 +80,14 @@ public class KSFloatPanelImpl implements KSFloatPanel {
 		panel.hide();
 	}
 	
+	public void setStyleName(String style){
+		panel.setStyleName(style);
+	}
+	
+	public void addStyleName(String style){
+		panel.addStyleName(style);
+	}
+	
 	protected void recalcSizeAndPosition() {
 		if (panel.isVisible()) {
 			int height = (int)(Window.getClientHeight() * (float) heightRatio / 100f);
