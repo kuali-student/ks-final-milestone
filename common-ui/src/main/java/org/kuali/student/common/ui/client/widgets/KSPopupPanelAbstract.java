@@ -1,9 +1,7 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class KSPopupPanelAbstract { 
