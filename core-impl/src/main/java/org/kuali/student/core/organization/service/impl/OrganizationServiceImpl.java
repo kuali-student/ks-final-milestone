@@ -22,13 +22,13 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dao.OrganizationDao;
-import org.kuali.student.core.organization.dto.OrgCriteria;
+import org.kuali.student.core.organization.dto.OrgCriteriaInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationCriteria;
+import org.kuali.student.core.organization.dto.OrgOrgRelationCriteriaInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationCriteria;
+import org.kuali.student.core.organization.dto.OrgPersonRelationCriteriaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -601,7 +601,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public List<String> searchForOrgOrgRelations(
-			OrgOrgRelationCriteria orgOrgRelationCriteria)
+			OrgOrgRelationCriteriaInfo orgOrgRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
@@ -612,7 +612,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public List<String> searchForOrgPersonRelations(
-			OrgPersonRelationCriteria orgPersonRelationCriteria)
+			OrgPersonRelationCriteriaInfo orgPersonRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
@@ -622,7 +622,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<String> searchForOrganizations(OrgCriteria orgCriteria)
+	public List<String> searchForOrganizations(OrgCriteriaInfo orgCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
