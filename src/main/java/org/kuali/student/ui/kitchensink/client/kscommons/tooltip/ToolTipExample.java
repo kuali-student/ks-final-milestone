@@ -21,7 +21,8 @@ public class ToolTipExample extends Composite {
     final KSLabel label = new KSLabel(" Move mouse across image to see more information.");
 
     final Image image = new Image("images/flowers.jpg");
-    final KSToolTip tip = new KSToolTip("Osteospermum", new KSLabel("There are about 50 species, native to Africa, 35 species in southern Africa, and southwestern Arabia. They are half-hardy perennials or subshrubs."));
+    final KSToolTip tip = new KSToolTip("Osteospermum", new KSLabel("Osteospermum is a member of the sunflower family, Asteraceae. " +
+            "There are about 50 species, native to Africa and southwestern Arabia. They are half-hardy perennials or subshrubs."));
 
     public ToolTipExample() {
         

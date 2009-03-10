@@ -11,7 +11,7 @@ public class ToolTipExampleDescriptor extends KitchenSinkExample {
         super.addResource("css", "ToolTipExample.css", "examplecss/ToolTipExample.css", "Example styling of KSToolTip.");
     }
     public String getDescription() {       
-        return "ToolTip ....."; 
+        return "ToolTip is a popup panel that appears when a user moves their mouse over a widget and disappears when the mouse leaves that widget."; 
     }
 
     public Widget getExampleWidget() {

@@ -28,9 +28,11 @@
 	<stylesheet src="examplecss/LabelExample.css"/>
 	<stylesheet src="examplecss/ListBoxExample.css"/>
 	<stylesheet src="examplecss/ModalDialogPanelExample.css"/>
+	<stylesheet src="examplecss/ProgressIndicatorExample.css"/>	
 	<stylesheet src="examplecss/RadioButtonExample.css"/>
 	<stylesheet src="examplecss/RichEditorExample.css"/>
 	<stylesheet src="examplecss/StackPanelExample.css"/>
+	<stylesheet src="examplecss/ToolTipExample.css"/>
 	<stylesheet src="examplecss/TextAreaExample.css"/>
 	<stylesheet src="examplecss/TextBoxExample.css"/>
 	

@@ -37,6 +37,9 @@ public class KitchenSinkStyleConstants {
     public static final String STYLE_LABEL = "KSinkLabel" ;
     public static final String STYLE_LISTBOX = "KSinkListBox" ;
     public static final String STYLE_MODAL_DIALOG_PANEL = "KSinkModalDialogPanel";
+    public static final String STYLE_PROGRESS_INDICATOR = "KSinkProgressIndicator";
+    public static final String STYLE_PROGRESS_INDICATOR_TEXTBOX = "KSinkProgressIndicatorTextBox";
+    public static final String STYLE_PROGRESS_INDICATOR_TWIDDLER = "KSinkProgressIndicatorTwiddler";
 
     public static final String STYLE_RADIO_BUTTON = "KSinkRadioButton" ;
     public static final String STYLE_RADIO_BUTTON_LIST = "KSinkRadioButtonList" ;
