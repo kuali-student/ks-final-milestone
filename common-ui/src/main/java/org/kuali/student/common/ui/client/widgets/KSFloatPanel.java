@@ -25,4 +25,8 @@ public interface KSFloatPanel {
 	public void show();
 
 	public void hide();
+	
+	public void setStyleName(String style);
+	
+	public void addStyleName(String style);
 }
