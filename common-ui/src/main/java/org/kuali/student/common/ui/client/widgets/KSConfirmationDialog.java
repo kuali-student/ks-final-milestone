@@ -47,5 +47,13 @@ public class KSConfirmationDialog extends KSConfirmationDialogAbstract{
     public void setMessageTitle(String messageTitle) {
         dialog.setMessageTitle(messageTitle);        
     }
+    
+    public void setWidget(Widget w){
+    	dialog.setWidget(w);
+    }
+    
+    public void show(){
+    	dialog.show();
+    }
 
  }
