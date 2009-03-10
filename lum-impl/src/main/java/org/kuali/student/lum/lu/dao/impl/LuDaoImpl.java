@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
+import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
@@ -17,7 +17,7 @@ import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
-public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
+public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
 	@PersistenceContext(unitName = "Lu")
 	@Override
 	public void setEm(EntityManager em) {

@@ -1624,8 +1624,10 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(searchTypeKey, "searchTypeKey");
+		checkForMissingParameter(queryParamValues, "queryParamValues");
+
+		return searchManager.searchForResults(searchTypeKey, queryParamValues, luDao);
 	}
 
 	@Override
