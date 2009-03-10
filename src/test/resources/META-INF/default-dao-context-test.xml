@@ -19,6 +19,16 @@
 
 	<context:annotation-config/>
 	
+    <bean id="systemPropertyConfigurer"
+        class="org.kuali.student.poc.common.util.SystemPropertyConfigurer">
+        <property name="properties">
+            <map>
+                <entry key="derby.stream.error.file"
+                    value="target/derby.log" />
+            </map>
+        </property>
+    </bean>
+
 	<bean id="propertyConfigurer"
 		class="org.kuali.student.poc.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -31,7 +41,7 @@
 
 	<bean id="dataSource"
 		class="org.kuali.student.poc.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
-		destroy-method="close">
+		destroy-method="close" depends-on="systemPropertyConfigurer">
 		<property name="uniqueResourceName" value="dataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />

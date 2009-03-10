@@ -52,17 +52,20 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.0</version>
 			</plugin>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <configuration>
+	                <systemProperties>
+	                    <property>
+	                        <name>catalina.base</name>
+	                        <value>${project.build.outputDirectory}</value>
+	                    </property>
+	                </systemProperties>
+	            </configuration>
+	        </plugin>
 		</plugins>
 	</build>
-
-    <!--reporting>
-        <plugins>
-        	<plugin>
-        		<groupId>org.apache.maven.plugins</groupId>
-        		<artifactId>maven-jxr-plugin</artifactId>
-        	</plugin>
-        </plugins>
-    </reporting-->
 
 	<dependencies>
         <dependency>
@@ -85,52 +88,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <!--build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <delete
-                                            file="${project.build.testOutputDirectory}/drools-repository/repository.xml" />
-                                        <delete
-                                            file="${project.build.testOutputDirectory}/drools-repository/repository_oracle.xml" />
-                                        <copy
-                                            file="src/test/resources/drools-repository/repository_oracle.xml"
-                                            tofile="${project.build.testOutputDirectory}/drools-repository/repository.xml" />
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </plugin-->
-                    <!--plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                                <configuration>
-                                    <classifier>test</classifier>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin-->
-                <!--/plugins>
-            </build-->
             <dependencies>
 		        <dependency>
 		            <groupId>com.oracle</groupId>
@@ -141,6 +98,15 @@
         </profile>
     </profiles>
     
+    <!--reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting-->
+
 	<!--pluginRepositories>
 		<pluginRepository>
 			<snapshots>
