@@ -209,4 +209,13 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
 		List<Lui> relatedLuis = query.getResultList();
         return relatedLuis;
 	}
+
+    @Override
+    public List<LuStatement> getLuStatementsForClu(String cluId) {
+        Query query = em.createNamedQuery("LuStatement.getLuStatementsForClu");
+        query.setParameter("cluId", cluId);
+        @SuppressWarnings("unchecked")
+        List<LuStatement> resultList = query.getResultList();
+        return resultList;
+    }
 }

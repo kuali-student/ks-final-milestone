@@ -123,6 +123,57 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getUpdateTime(), df.parse("20010101"));                
     }
     
+    @Test
+    public void testGetLuStatementsByType()  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException { 
+        List<LuStatementInfo> stmtList = client.getLuStatementsByType("kuali.luStatementType.prereqAcademicReadiness");
+        
+        assertNotNull(stmtList);
+        assertEquals(1, stmtList.size());
+        
+        LuStatementInfo stmt = stmtList.get(0);
+        
+        assertEquals(stmt.getId(), "STMT-2");
+        assertEquals(stmt.getType(), "kuali.luStatementType.prereqAcademicReadiness");
+        assertEquals(stmt.getOperator(), StatementOperatorTypeKey.AND);
+        assertEquals(stmt.getState(),"ACTIVE");
+        assertEquals(stmt.getName(),"STMT 2");
+        assertEquals(stmt.getDesc(), "Statement 2");
+        
+        List<String> reqCompIds = stmt.getReqComponentIds();
+        assertEquals(3, reqCompIds.size());
+        
+        assertTrue( reqCompIds.contains("REQCOMP-1"));
+        assertTrue( reqCompIds.contains("REQCOMP-2"));
+        assertTrue( reqCompIds.contains("REQCOMP-3"));
+    
+        MetaInfo mf = stmt.getMetaInfo();
+        
+        assertEquals(mf.getCreateId(), "CREATEID");
+        assertEquals(mf.getUpdateId(),"UPDATEID");
+        assertEquals(mf.getCreateTime(), df.parse("20000101"));
+        assertEquals(mf.getUpdateTime(), df.parse("20010101"));                
+    }
+    
+    @Test
+    public void testGetInvldStmt()  throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        try {
+            client.getLuStatement("invalid.stmt");
+         } catch (DoesNotExistException dne) {
+             assertTrue(true);
+             return;
+         }
+         
+         assertTrue(false);    
+    }
+    
+    @Test
+    public void testGetStmtByInvldType()  throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
+        List<LuStatementInfo> stmtList = client.getLuStatementsByType("invalid.stmttype");
+        
+        assertNotNull(stmtList);
+        assertEquals(0,stmtList.size());
+    }
+
     
     @Test
     public void testStmtStmtRelation()  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
@@ -139,10 +190,43 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
     }
     
     @Test
+    public void testGetLuStatementsByClu()  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException { 
+        
+        List<LuStatementInfo> stmtList = client.getLuStatementsForClu("CLU-1");
+        
+        assertNotNull(stmtList);
+        assertEquals(1, stmtList.size());
+        
+        LuStatementInfo stmt = stmtList.get(0);        
+        assertEquals(stmt.getId(), "STMT-1");
+        assertEquals(stmt.getType(), "kuali.luStatementType.createCourseAcademicReadiness");
+        assertEquals(stmt.getOperator(), StatementOperatorTypeKey.AND);
+        assertEquals(stmt.getState(),"ACTIVE");
+        assertEquals(stmt.getName(),"STMT 1");
+        assertEquals(stmt.getDesc(), "Statement 1");
+        
+        List<String> reqCompIds = stmt.getReqComponentIds();
+        assertEquals(0, reqCompIds.size());
+
+        List<String> stmtIds = stmt.getLuStatementIds();
+        assertEquals(1,stmtIds.size());
+        
+        assertTrue( stmtIds.contains("STMT-2"));
+    
+        MetaInfo mf = stmt.getMetaInfo();
+        
+        assertEquals(mf.getCreateId(), "CREATEID");
+        assertEquals(mf.getUpdateId(),"UPDATEID");
+        assertEquals(mf.getCreateTime(), df.parse("20000101"));
+        assertEquals(mf.getUpdateTime(), df.parse("20010101"));                
+    }
+    
+    
+    @Test
     public void testGetInvldLuStatementType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
        
         try {
-           client.getLuStatementType("invalid.stmt");
+           client.getLuStatementType("invalid.stmttype");
         } catch (DoesNotExistException dne) {
             assertTrue(true);
             return;
