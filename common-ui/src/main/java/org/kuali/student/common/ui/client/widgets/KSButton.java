@@ -23,9 +23,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 
 /**
- * KSButton wraps gwt Button.  This class provides most of the same functionality, but sets KS style names
- * for a variety of button interactions for improved browser compatibility.  
- * An image can be added to a KSButton (improvement over gwt Button).
+ * KSButton wraps gwt Button.  This class provides most of the same functionality, but sets KS css styles
+ * for its default look and a variety of button events (for improved browser compatibility and customizability).
+ * An image can be also be added to a KSButton (an improvement over gwt Button).
  * 
  * @author Kuali Student Team
  *
@@ -66,7 +66,7 @@ public class KSButton extends Button{
     }
     
     /**
-     * This method sets default styles for the button and button interactions.
+     * This method sets the default style for the button and button events.
      * 
      */
     private void setupDefaultStyle(){

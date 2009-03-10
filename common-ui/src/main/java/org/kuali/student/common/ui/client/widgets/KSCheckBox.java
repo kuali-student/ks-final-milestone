@@ -13,18 +13,37 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 
 
+/**
+ * KSCheckBox wraps gwt Checkbox.  This class provides most of the same functionality, but sets KS css styles
+ * for its default look and a variety of checkbox events (for improved browser compatibility and customizability).  
+ * @author Kuali Student Team
+ *
+ */
 public class KSCheckBox extends CheckBox{
     
+    /**
+     * Creates a check box with no label.
+     * 
+     */
     public KSCheckBox(){
         super();
         setupDefaultStyle();
     }
     
+    /**
+     * Creates a check box with the specified text label.
+     * 
+     * @param label the check box's label
+     */
     public KSCheckBox(String label){
         super(label);
         setupDefaultStyle();
     }
     
+    /**
+     * This method sets the default style for the checkbox and checkbox events.
+     * 
+     */
     private void setupDefaultStyle(){
         addStyleName(KSStyles.KS_CHECKBOX_STYLE);
         
@@ -56,7 +75,7 @@ public class KSCheckBox extends CheckBox{
                 KSCheckBox.this.removeStyleName(KSStyles.KS_CHECKBOX_HOVER_STYLE);
                 
             }
-            
+             
         });*/
         
         this.addClickHandler(new ClickHandler(){
