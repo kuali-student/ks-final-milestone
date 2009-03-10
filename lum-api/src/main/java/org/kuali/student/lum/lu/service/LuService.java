@@ -37,9 +37,9 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
-import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
+import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluCriteria;
+import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
@@ -49,9 +49,9 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiCriteria;
+import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria;
+import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -899,7 +899,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing cluCriteria
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> searchForClus(@WebParam(name="cluCriteria")CluCriteria cluCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> searchForClus(@WebParam(name="cluCriteria")CluCriteriaInfo cluCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves LUI ids by criteria
@@ -909,7 +909,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing luiCriteria
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> searchForLuis(@WebParam(name="luiCriteria")LuiCriteria luiCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> searchForLuis(@WebParam(name="luiCriteria")LuiCriteriaInfo luiCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves CLU to CLU relation identifiers by criteria
@@ -919,7 +919,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing cluCluRelationCriteria
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> searchForCluCluRelations(@WebParam(name="cluCluRelationCriteria")CluCluRelationCriteria cluCluRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> searchForCluCluRelations(@WebParam(name="cluCluRelationCriteria")CluCluRelationCriteriaInfo cluCluRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves LUI to LUI relation identifiers by criteria
@@ -929,7 +929,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing luiLuiRelation criteria
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> searchForLuiLuiRelations(@WebParam(name="luiLuiRelationCriteria")LuiLuiRelationCriteria luiLuiRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> searchForLuiLuiRelations(@WebParam(name="luiLuiRelationCriteria")LuiLuiRelationCriteriaInfo luiLuiRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a new CLU
@@ -1164,7 +1164,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public CluSetInfo createDynamicCluSet(@WebParam(name="cluSetName")String cluSetName, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo, @WebParam(name="cluCriteria")CluCriteria cluCriteria) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CluSetInfo createDynamicCluSet(@WebParam(name="cluSetName")String cluSetName, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo, @WebParam(name="cluCriteria")CluCriteriaInfo cluCriteria) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Update the information for a CLU set

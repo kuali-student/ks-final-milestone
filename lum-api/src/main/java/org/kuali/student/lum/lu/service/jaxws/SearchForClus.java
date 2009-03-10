@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class SearchForClus {
 
     @XmlElement(name = "cluCriteria")
-    private org.kuali.student.lum.lu.dto.CluCriteria cluCriteria;
+    private org.kuali.student.lum.lu.dto.CluCriteriaInfo cluCriteria;
 
-    public org.kuali.student.lum.lu.dto.CluCriteria getCluCriteria() {
+    public org.kuali.student.lum.lu.dto.CluCriteriaInfo getCluCriteria() {
         return this.cluCriteria;
     }
 
-    public void setCluCriteria(org.kuali.student.lum.lu.dto.CluCriteria newCluCriteria)  {
+    public void setCluCriteria(org.kuali.student.lum.lu.dto.CluCriteriaInfo newCluCriteria)  {
         this.cluCriteria = newCluCriteria;
     }
 

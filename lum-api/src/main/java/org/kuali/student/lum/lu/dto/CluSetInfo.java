@@ -55,7 +55,7 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     private Date expirationDate;
 
     @XmlElement
-    private CluCriteria cluCriteria;
+    private CluCriteriaInfo cluCriteria;
 
     @XmlElement
     private List<String> cluSetIds;
@@ -120,11 +120,11 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     /**
      * Specifies a search for CLU identifiers. Present for dynamic CLU Sets
      */
-    public CluCriteria getCluCriteria() {
+    public CluCriteriaInfo getCluCriteria() {
         return cluCriteria;
     }
 
-    public void setCluCriteria(CluCriteria cluCriteria) {
+    public void setCluCriteria(CluCriteriaInfo cluCriteria) {
         this.cluCriteria = cluCriteria;
     }
 

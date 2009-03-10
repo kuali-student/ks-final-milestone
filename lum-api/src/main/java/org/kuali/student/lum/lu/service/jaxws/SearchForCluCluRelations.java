@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class SearchForCluCluRelations {
 
     @XmlElement(name = "cluCluRelationCriteria")
-    private org.kuali.student.lum.lu.dto.CluCluRelationCriteria cluCluRelationCriteria;
+    private org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo cluCluRelationCriteria;
 
-    public org.kuali.student.lum.lu.dto.CluCluRelationCriteria getCluCluRelationCriteria() {
+    public org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo getCluCluRelationCriteria() {
         return this.cluCluRelationCriteria;
     }
 
-    public void setCluCluRelationCriteria(org.kuali.student.lum.lu.dto.CluCluRelationCriteria newCluCluRelationCriteria)  {
+    public void setCluCluRelationCriteria(org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo newCluCluRelationCriteria)  {
         this.cluCluRelationCriteria = newCluCluRelationCriteria;
     }
 

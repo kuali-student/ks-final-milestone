@@ -36,9 +36,9 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
+import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluCriteria;
+import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
@@ -51,9 +51,9 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiCriteria;
+import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria;
+import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -413,7 +413,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public CluSetInfo createDynamicCluSet(String cluSetName,
-			CluSetInfo cluSetInfo, CluCriteria cluCriteria)
+			CluSetInfo cluSetInfo, CluCriteriaInfo cluCriteria)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -1586,7 +1586,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<String> searchForCluCluRelations(
-			CluCluRelationCriteria cluCluRelationCriteria)
+			CluCluRelationCriteriaInfo cluCluRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
@@ -1594,7 +1594,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<String> searchForClus(CluCriteria cluCriteria)
+	public List<String> searchForClus(CluCriteriaInfo cluCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
@@ -1603,7 +1603,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<String> searchForLuiLuiRelations(
-			LuiLuiRelationCriteria luiLuiRelationCriteria)
+			LuiLuiRelationCriteriaInfo luiLuiRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
@@ -1611,7 +1611,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<String> searchForLuis(LuiCriteria luiCriteria)
+	public List<String> searchForLuis(LuiCriteriaInfo luiCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub

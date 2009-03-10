@@ -30,10 +30,10 @@ import org.kuali.student.core.search.dto.SearchRelationship;
 
 
 /**
- *Specifies a search for LUI identifiers.
+ *Specifies a search for CLU to CLU relationship identifiers.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiCriteria implements Serializable {
+public class CluCluRelationCriteriaInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,7 @@ public class LuiCriteria implements Serializable {
     private Criterion criterion;
 
     /**
-     * The types this search should be executed against. A type of "luiInfo" is automatically included. Types are restricted to those within the service.
+     * The types this search should be executed against. A type of "cluCluRelationInfo" is automatically included. Types are restricted to those within the service.
      */
     public List<SearchIndexedType> getTypes() {
         if (types == null) {

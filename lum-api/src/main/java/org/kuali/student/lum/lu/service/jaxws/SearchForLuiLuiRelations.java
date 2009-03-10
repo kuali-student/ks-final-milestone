@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class SearchForLuiLuiRelations {
 
     @XmlElement(name = "luiLuiRelationCriteria")
-    private org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria luiLuiRelationCriteria;
+    private org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo luiLuiRelationCriteria;
 
-    public org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria getLuiLuiRelationCriteria() {
+    public org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo getLuiLuiRelationCriteria() {
         return this.luiLuiRelationCriteria;
     }
 
-    public void setLuiLuiRelationCriteria(org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria newLuiLuiRelationCriteria)  {
+    public void setLuiLuiRelationCriteria(org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo newLuiLuiRelationCriteria)  {
         this.luiLuiRelationCriteria = newLuiLuiRelationCriteria;
     }
 
