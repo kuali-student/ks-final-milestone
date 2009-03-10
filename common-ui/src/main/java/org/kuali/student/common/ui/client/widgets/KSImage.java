@@ -19,4 +19,16 @@ public class KSImage extends KSImageAbstract{
 	    image.init( url,  left,  top,  width,  height);
 	    this.initWidget(image);
 	}
+
+    @Override
+    protected void init(String url) {
+        image.init(url);
+        
+    }
+
+    @Override
+    protected void init(String url, int left, int top, int width, int height) {
+        image.init(url, left, top, width, height);
+        
+    }
 }

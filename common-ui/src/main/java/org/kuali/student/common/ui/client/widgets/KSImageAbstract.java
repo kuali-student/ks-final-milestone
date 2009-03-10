@@ -18,7 +18,7 @@ public abstract class KSImageAbstract extends Composite{
 	 * 
 	 * @param url
 	 */
-	protected void init(String url){} 
+	protected abstract void init(String url); 
 	
 	/**
 	 * This method is a work around because GWT.Create can't call
@@ -30,6 +30,6 @@ public abstract class KSImageAbstract extends Composite{
 	 * @param width
 	 * @param height
 	 */
-	protected void init(String url, int left, int top, int width, int height){}
+	protected abstract void init(String url, int left, int top, int width, int height);
 
 }
