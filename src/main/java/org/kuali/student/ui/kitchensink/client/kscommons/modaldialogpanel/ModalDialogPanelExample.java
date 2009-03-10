@@ -4,6 +4,7 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MODAL_DIALOG_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,7 +45,7 @@ public class ModalDialogPanelExample extends Composite {
             }});
         
 //        containerPanel.add("Modal Popup Panel");
-        containerPanel.add(new Image("images/flower1.jpg") );
+        containerPanel.add(new KSImage("images/flower1.jpg") );
         containerPanel.add(hideButton);
         popupPanel.setWidget(containerPanel);
         popupPanel.setHeader("Modal Dialog Example");
