@@ -33,6 +33,7 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
@@ -98,7 +99,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class LuServiceImpl implements LuService {
 
 	private LuDao luDao;
-
+    private SearchManager searchManager;
+    
 	@Override
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
@@ -2222,45 +2224,42 @@ public class LuServiceImpl implements LuService {
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
 	}
 
 	@Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.getSearchCriteriaTypes();
 	}
 
 	@Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchResultType(searchResultTypeKey);
 	}
 
 	@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.getSearchResultTypes();
 	}
 
 	@Override
 	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(searchTypeKey, "searchTypeKey");
+		return searchManager.getSearchType(searchTypeKey);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.getSearchTypes();
 	}
 
 	@Override
@@ -2268,8 +2267,8 @@ public class LuServiceImpl implements LuService {
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
 	@Override
@@ -2277,8 +2276,8 @@ public class LuServiceImpl implements LuService {
 			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
 	public LuDao getLuDao() {
