@@ -391,6 +391,10 @@ public class LuServiceImpl implements LuService {
         checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
         checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
+        if(cluId.equals(relatedCluId)){
+        	throw new CircularReferenceException("Can not relate a Clu to itself");
+        }
+        
         Clu clu = luDao.fetch(Clu.class, cluId);
         Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
 
@@ -570,6 +574,10 @@ public class LuServiceImpl implements LuService {
 	    checkForMissingParameter(relatedLuiId, "relatedLuiId");
 	    checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 	    checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
+
+	    if(luiId.equals(relatedLuiId)){
+        	throw new CircularReferenceException("Can not relate a Lui to itself");
+        }
 
         Lui lui = luDao.fetch(Lui.class, luiId);
         Lui relatedLui = luDao.fetch(Lui.class, relatedLuiId);
