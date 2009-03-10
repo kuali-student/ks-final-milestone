@@ -1090,16 +1090,22 @@ public class LuServiceImpl implements LuService {
 	public List<LuDocRelationInfo> getLuDocRelationsByClu(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(cluId, "cluId");
+		
+		List<LuDocumentRelation> luDocRelationsByClu = luDao.getLuDocRelationsByClu(cluId);
+		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByClu);
 	}
 
 	@Override
 	public List<LuDocRelationInfo> getLuDocRelationsByDocument(String documentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(documentId, "documentId");
+		
+		List<LuDocumentRelation> luDocRelationsByDocument = luDao.getLuDocRelationsByDocument(documentId);
+		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByDocument);
 	}
 
 	@Override
@@ -1107,8 +1113,11 @@ public class LuServiceImpl implements LuService {
 			List<String> luDocRelationIdList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(luDocRelationIdList, "luDocRelationIdList");
+		
+		List<LuDocumentRelation> luDocRelationsByIdList = luDao.getLuDocRelationsByIdList(luDocRelationIdList);
+		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByIdList);
 	}
 
 	@Override
@@ -1116,8 +1125,11 @@ public class LuServiceImpl implements LuService {
 			String luDocRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(luDocRelationTypeKey, "luDocRelationTypeKey");
+		
+		List<LuDocumentRelation> luDocRelationsByType = luDao.getLuDocRelationsByType(luDocRelationTypeKey);
+		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByType);
 	}
 
 	@Override

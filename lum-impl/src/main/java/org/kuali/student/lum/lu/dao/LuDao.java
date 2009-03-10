@@ -6,6 +6,7 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluSet;
+import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
@@ -23,4 +24,11 @@ public interface LuDao extends CrudDao {
     public Boolean isCluInCluSet(String cluId, String cluSetId);
 	public List<LuiLuiRelation> getLuiLuiRelations(String luiId);
 	public List<CluCluRelation> getCluCluRelationsByClu(String cluId);
+	public List<LuDocumentRelation> getLuDocRelationsByClu(String cluId);
+	public List<LuDocumentRelation> getLuDocRelationsByDocument(
+			String documentId);
+	public List<LuDocumentRelation> getLuDocRelationsByIdList(
+			List<String> luDocRelationIdList);
+	public List<LuDocumentRelation> getLuDocRelationsByType(
+			String luDocRelationTypeKey);
 }

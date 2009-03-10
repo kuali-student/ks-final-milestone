@@ -11,6 +11,7 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluSet;
+import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
@@ -126,5 +127,44 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 		List<CluCluRelation> cluCluRelations = query.getResultList();
         return cluCluRelations;
 
+	}
+
+	@Override
+	public List<LuDocumentRelation> getLuDocRelationsByClu(String cluId) {
+		Query query = em.createNamedQuery("LuDocumentRelation.getLuDocRelationsByClu");
+        query.setParameter("cluId", cluId);
+        @SuppressWarnings("unchecked")
+		List<LuDocumentRelation> luDocRelations = query.getResultList();
+        return luDocRelations;
+	}
+
+	@Override
+	public List<LuDocumentRelation> getLuDocRelationsByDocument(
+			String documentId) {
+		Query query = em.createNamedQuery("LuDocumentRelation.getLuDocRelationsByDocument");
+        query.setParameter("documentId", documentId);
+        @SuppressWarnings("unchecked")
+		List<LuDocumentRelation> luDocRelations = query.getResultList();
+        return luDocRelations;
+	}
+
+	@Override
+	public List<LuDocumentRelation> getLuDocRelationsByIdList(
+			List<String> luDocRelationIds) {
+		Query query = em.createNamedQuery("LuDocumentRelation.getLuDocRelationsByIdList");
+        query.setParameter("luDocRelationIds", luDocRelationIds);
+        @SuppressWarnings("unchecked")
+		List<LuDocumentRelation> luDocRelations = query.getResultList();
+        return luDocRelations;
+	}
+
+	@Override
+	public List<LuDocumentRelation> getLuDocRelationsByType(
+			String luDocRelationTypeId) {
+		Query query = em.createNamedQuery("LuDocumentRelation.getLuDocRelationsByType");
+        query.setParameter("luDocRelationTypeId", luDocRelationTypeId);
+        @SuppressWarnings("unchecked")
+		List<LuDocumentRelation> luDocRelations = query.getResultList();
+        return luDocRelations;
 	}
 }

@@ -1592,6 +1592,29 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (DoesNotExistException dnee) {
 		}
 		
+		//Test other gets
+		LuDocRelationInfo getLuDocRelation =  client.getLuDocRelation("LUDOCREL-1");
+		assertEquals("CLU-1",getLuDocRelation.getCluId());
+		
+		List<LuDocRelationInfo> getLuDocRelationsByClu =  client.getLuDocRelationsByClu("CLU-1");
+		assertEquals(2,getLuDocRelationsByClu.size());
+		
+		List<LuDocRelationInfo> getLuDocRelationsByDocument = client.getLuDocRelationsByDocument("DOC-1");
+		assertEquals(2,getLuDocRelationsByDocument.size());
+
+		List<String> luDocRelationIdList = new ArrayList<String>(2);
+		luDocRelationIdList.add("LUDOCREL-1");
+		luDocRelationIdList.add("LUDOCREL-2");
+		List<LuDocRelationInfo> getLuDocRelationsByIdList = client.getLuDocRelationsByIdList(luDocRelationIdList);
+		assertEquals(2,getLuDocRelationsByIdList.size());
+		
+		List<LuDocRelationInfo> getLuDocRelationsByType = client.getLuDocRelationsByType("luDocRelationType.doctype1");
+		assertEquals(3,getLuDocRelationsByType.size());
+		
+		assertEquals("DT1",client.getLuDocRelationType("luDocRelationType.doctype1").getName());
+		assertEquals(2,client.getLuDocRelationTypes().size());
+		
+		
 	}
 	
 }

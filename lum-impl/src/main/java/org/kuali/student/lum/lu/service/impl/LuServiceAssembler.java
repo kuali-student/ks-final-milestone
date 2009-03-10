@@ -235,6 +235,16 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
+	public static List<LuDocRelationInfo> toLuDocRelationInfos(
+			List<LuDocumentRelation> entities) {
+		List<LuDocRelationInfo> dtos = new ArrayList<LuDocRelationInfo>(
+				entities.size());
+		for (LuDocumentRelation entity : entities) {
+			dtos.add(toLuDocRelationInfo(entity));
+		}
+		return dtos;
+	}
+	
 	public static List<LuDocRelationTypeInfo> toLuDocRelationTypeInfos(
 			List<LuDocumentRelationType> entities) {
 		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
@@ -597,6 +607,10 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
 	public static RichTextInfo toRichTextInfo(RichText entity) {
+		if(entity==null){
+			return null;
+		}
+		
 		RichTextInfo dto = new RichTextInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
@@ -804,4 +818,5 @@ public class LuServiceAssembler extends BaseAssembler {
 		BeanUtils.copyProperties(cluCreditInfo,entity,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
 
 	}
+
 }

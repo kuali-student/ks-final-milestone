@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +26,12 @@ import org.kuali.student.core.entity.RichText;
 @Entity
 @Table(name = "KSLU_LU_DOC_RELTN", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"CLU_ID", "DOC_ID" }) })
+@NamedQueries( {
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByClu", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE clu.id = :cluId"),
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByDocument", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE documentId = :documentId"),
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByIdList", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE id IN(:luDocRelationIds)"),
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByType", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE luDocumentRelationType.id = :luDocRelationTypeId")
+})	
 public class LuDocumentRelation extends MetaEntity implements
 		AttributeOwner<LuDocumentRelationAttribute> {
 	@Id
