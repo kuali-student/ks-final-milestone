@@ -34,6 +34,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButton
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textbox.TextBoxExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.tooltip.ToolTipExampleDescriptor;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -119,6 +120,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new RichEditorExampleDescriptor());
 //      initExample(ksCommons, new SelectableTableListExampleDescriptor()); //TODO
 //      initExample(ksCommons, new StackPanelExampleDescriptor());  //Deprecated?
+        initExample(ksCommons, new ToolTipExampleDescriptor());
         initExample(ksCommons, new TextAreaExampleDescriptor());
         initExample(ksCommons, new TextBoxExampleDescriptor());
 

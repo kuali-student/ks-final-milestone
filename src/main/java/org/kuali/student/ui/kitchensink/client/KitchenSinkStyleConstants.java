@@ -14,7 +14,7 @@ public class KitchenSinkStyleConstants {
     public static final String STYLE_WELCOME_PANEL = "KSinkWelcomePanel" ;
     public static final String STYLE_TAB_PANEL = "KSinkTabPanel" ;
     public static final String STYLE_EXAMPLE_PANEL = "KSinkExamplePanel" ;
-    
+
     public static final String STYLE_ACCORDION_MENU = "KSinkAccordionMenu" ;
     public static final String STYLE_ACCORDION_PANEL = "KSinkAccordionPanel" ;
     public static final String STYLE_ACCORDION_PANEL_IMAGE = "KSinkAccordionPanelImage" ;
@@ -44,10 +44,11 @@ public class KitchenSinkStyleConstants {
     public static final String STYLE_STACK_PANEL = "KSinkStackPanel" ;
     public static final String STYLE_TEXTAREA = "KSinkTextArea";
     public static final String STYLE_TEXTAREA_FANCY = "KSinkTextAreaFancy";
+    public static final String STYLE_TEXTAREA_BORDER = "KSinkTextAreaBorder";
+
     public static final String STYLE_TEXTBOX_BORDER = "KSinkTextBoxBorder";
     public static final String STYLE_TEXTBOX_BACKGROUND = "KSinkTextBoxBackground";
     public static final String STYLE_TEXTBOX_LARGE = "KSinkTextBoxLarge";
+    public static final String STYLE_TOOLTIP = "KSinkToolTip";
 
-
-    public static final String STYLE_TEXTAREA_BORDER = "KSinkTextAreaBorder";
 }
