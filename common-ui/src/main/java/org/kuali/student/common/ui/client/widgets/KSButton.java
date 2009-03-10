@@ -22,26 +22,53 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 
+/**
+ * KSButton wraps gwt Button.  This class provides most of the same functionality, but sets KS style names
+ * for a variety of button interactions for improved browser compatibility.  
+ * An image can be added to a KSButton (improvement over gwt Button).
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class KSButton extends Button{
     private Image image = null;
     
 
+    /**
+     * This constructs a button with no caption.
+     * 
+     */
     public KSButton(){
         super();
         setupDefaultStyle();
         
     }
     
+    /**
+     * Creates a button with the given HTML caption.
+     * 
+     * @param html the HTML caption
+     */
     public KSButton(String html){
         super(html);
         setupDefaultStyle();
     }
     
+    /**
+     * Creates a button with the given HTML caption and click handler.
+     * 
+     * @param html the HTML caption
+     * @param handler the click handler
+     */
     public KSButton(String html,ClickHandler handler){
         super(html, handler);
         setupDefaultStyle();
     }
     
+    /**
+     * This method sets default styles for the button and button interactions.
+     * 
+     */
     private void setupDefaultStyle(){
         addStyleName(KSStyles.KS_BUTTON_STYLE);
         
@@ -122,6 +149,11 @@ public class KSButton extends Button{
         
     }
 
+    /**
+     * Sets the image for this button.  The image appears before other button content.
+     * 
+     * @param image the Image object to be used in this button
+     */
     public void setImage(final Image image) {
         if (this.image == null) {
             this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
@@ -132,6 +164,11 @@ public class KSButton extends Button{
         this.image = image;
     }
 
+    /**
+     * Returns the image being used in this button.
+     * 
+     * @return Image used in this button, null otherwise.
+     */
     public Image getImage() {
         return image;
     }
