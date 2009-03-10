@@ -167,4 +167,46 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
 		List<LuDocumentRelation> luDocRelations = query.getResultList();
         return luDocRelations;
 	}
+
+	@Override
+	public List<String> getRelatedCluIdsByCluId(String cluId,
+			String luLuRelationTypeId) {
+		Query query = em.createNamedQuery("CluCluRelation.getRelatedCluIdsByCluId");
+        query.setParameter("cluId", cluId);
+        query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+        @SuppressWarnings("unchecked")
+		List<String> relatedCluIds = query.getResultList();
+        return relatedCluIds;
+	}
+
+	@Override
+	public List<Clu> getRelatedClusByCluId(String cluId,
+			String luLuRelationTypeId) {
+		Query query = em.createNamedQuery("CluCluRelation.getRelatedClusByCluId");
+        query.setParameter("cluId", cluId);
+        query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+        @SuppressWarnings("unchecked")
+		List<Clu> relatedClus = query.getResultList();
+        return relatedClus;
+	}
+
+	@Override
+	public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationTypeId) {
+		Query query = em.createNamedQuery("LuiLuiRelation.getRelatedLuiIdsByLuiId");
+        query.setParameter("luiId", luiId);
+        query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+        @SuppressWarnings("unchecked")
+		List<String> relatedLuiIds = query.getResultList();
+        return relatedLuiIds;
+	}
+
+	@Override
+	public List<Lui> getRelatedLuisByLuiId(String luiId, String luLuRelationTypeId) {
+		Query query = em.createNamedQuery("LuiLuiRelation.getRelatedLuisByLuiId");
+        query.setParameter("luiId", luiId);
+        query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+        @SuppressWarnings("unchecked")
+		List<Lui> relatedLuis = query.getResultList();
+        return relatedLuis;
+	}
 }

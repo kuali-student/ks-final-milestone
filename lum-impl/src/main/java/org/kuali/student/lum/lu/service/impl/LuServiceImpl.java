@@ -1324,8 +1324,10 @@ public class LuServiceImpl implements LuService {
 			LuLuRelationTypeInfo luLuRelationType)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
+		List<String> relatedCluIds = luDao.getRelatedCluIdsByCluId(cluId, luLuRelationType.getId());
+		return relatedCluIds;
 	}
 
 	@Override
@@ -1333,8 +1335,10 @@ public class LuServiceImpl implements LuService {
 			LuLuRelationTypeInfo luLuRelationType)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
+		List<Clu> relatedClus = luDao.getRelatedClusByCluId(cluId, luLuRelationType.getId());
+		return LuServiceAssembler.toCluInfos(relatedClus);
 	}
 
 	@Override
@@ -1342,8 +1346,10 @@ public class LuServiceImpl implements LuService {
 			LuLuRelationTypeInfo luLuRelationType)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(luiId, "luiId");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
+		List<String> relatedLuiIds = luDao.getRelatedLuiIdsByLuiId(luiId, luLuRelationType.getId());
+		return relatedLuiIds;
 	}
 
 	@Override
@@ -1351,8 +1357,10 @@ public class LuServiceImpl implements LuService {
 			LuLuRelationTypeInfo luLuRelationType)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(luiId, "luiId");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
+		List<Lui> relatedLuis = luDao.getRelatedLuisByLuiId(luiId, luLuRelationType.getId());
+		return LuServiceAssembler.toLuiInfos(relatedLuis);
 	}
 
 	@Override

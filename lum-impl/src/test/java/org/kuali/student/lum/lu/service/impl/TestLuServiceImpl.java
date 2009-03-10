@@ -45,6 +45,7 @@ import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
+import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -1225,6 +1226,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         }catch(DoesNotExistException e){
 
         }
+        
+		LuLuRelationTypeInfo luLuType1 = new LuLuRelationTypeInfo();
+		luLuType1.setId("luLuType.type1");
+		
+		List<String> relatedCluIdsByCluId = client.getRelatedCluIdsByCluId("CLU-1", luLuType1);
+		assertEquals(2,relatedCluIdsByCluId.size());
+		assertTrue(relatedCluIdsByCluId.contains("CLU-2"));
+		assertTrue(relatedCluIdsByCluId.contains("CLU-3"));
+		
+		List<CluInfo> relatedClusByCluId = client.getRelatedClusByCluId("CLU-1", luLuType1);
+		assertEquals(2,relatedClusByCluId.size());
 	}
 
 	@Test
@@ -1309,6 +1321,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		relations = client.getLuiLuiRelations("LUI-3");
 		assertEquals(0,relations.size());
 		
+		LuLuRelationTypeInfo luLuType1 = new LuLuRelationTypeInfo();
+		luLuType1.setId("luLuType.type1");
+		
+		List<String> relatedLuiIdsByLuiId = client.getRelatedLuiIdsByLuiId("LUI-1", luLuType1);
+		assertEquals(2,relatedLuiIdsByLuiId.size());
+		assertTrue(relatedLuiIdsByLuiId.contains("LUI-2"));
+		assertTrue(relatedLuiIdsByLuiId.contains("LUI-3"));
+		
+		List<LuiInfo> relatedLuisByLuiId = client.getRelatedLuisByLuiId("LUI-1", luLuType1);
+		assertEquals(2,relatedLuisByLuiId.size());
+
 	}
 
 	@Test
