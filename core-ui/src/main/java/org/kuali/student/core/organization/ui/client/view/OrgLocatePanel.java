@@ -76,19 +76,19 @@ public class OrgLocatePanel extends Composite{
         }       
     }
     
-    private Widget createLocateMenu(){
-        VerticalPanel locateMenuPanel = new VerticalPanel();
-        locateMenuPanel.setWidth("100%");
-        locateMenuPanel.setStyleName("ks-section");
-        
-        FlexTable fTable = new FlexTable();
-        //fTable.setWidget(0,0, new SectionLabel("Search"));       
-        //fTable.setWidget(0,1, new SectionLabel("Browse"));      
-        
-        locateMenuPanel.add(fTable);
-        
-        return locateMenuPanel;
-    }
+//    private Widget createLocateMenu(){
+//        VerticalPanel locateMenuPanel = new VerticalPanel();
+//        locateMenuPanel.setWidth("100%");
+//        locateMenuPanel.setStyleName("ks-section");
+//        
+//        FlexTable fTable = new FlexTable();
+//        //fTable.setWidget(0,0, new SectionLabel("Search"));       
+//        //fTable.setWidget(0,1, new SectionLabel("Browse"));      
+//        
+//        locateMenuPanel.add(fTable);
+//        
+//        return locateMenuPanel;
+//    }
     
     private void getBrowseResults() {
         browsePanel = new VerticalPanel();
@@ -104,12 +104,15 @@ public class OrgLocatePanel extends Composite{
 
             public void onSuccess(List<OrgHierarchyInfo> result) {
                 List<String> orgRootIds = new ArrayList<String>();               
-                for(OrgHierarchyInfo orgHInfo:result){
-                    orgRootIds.add(orgHInfo.getRootOrgId());
-                    orgRootHierarchy.put(orgHInfo.getRootOrgId(), orgHInfo.getId());
-                }                
-                
-                getOrgList(orgRootIds);
+                if(result != null){
+	                for(OrgHierarchyInfo orgHInfo:result){
+	                    orgRootIds.add(orgHInfo.getRootOrgId());
+	                    orgRootHierarchy.put(orgHInfo.getRootOrgId(), orgHInfo.getId());
+	                }                
+                }
+                if(!orgRootIds.isEmpty()){
+                	getOrgList(orgRootIds);
+                }
             }
         });
 

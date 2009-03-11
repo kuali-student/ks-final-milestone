@@ -78,8 +78,9 @@ public class OrgChartWidget extends Composite {
     	                    
     	                    root.add(o);
     	                    Table table = new Table();
-    	                    table.draw(data);
     	                    root.add(table);
+    	                    table.draw(data);
+    	                    
     	                    	                    
     					}
                 	});

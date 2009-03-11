@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
