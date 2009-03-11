@@ -70,11 +70,6 @@ public class KSConfirmationDialogImpl extends KSConfirmationDialogAbstract{
     public boolean isCanceled() {
 		return canceled;
 	}
-	
-	@Override
-    public void setCanceled(boolean canceled) {
-		this.canceled = canceled;
-	}
 
 	@Override
     public String getMessageTitle() {
@@ -85,7 +80,11 @@ public class KSConfirmationDialogImpl extends KSConfirmationDialogAbstract{
     public void setMessageTitle(String messageTitle) {
 		titleLabel.setText(messageTitle);
 		this.messageTitle = messageTitle;
-	}	
+	}
+	
+	public void addConfirmHandler(ClickHandler handler){
+	    buttonPanel.addConfirmHandler(handler);
+	}
 	
 	private void setupDefaultStyle(){
 		widgetWrapper.addStyleName(KSStyles.KS_CONFIRM_DIALOG_CONTENT);
