@@ -3,24 +3,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <artifactId>ks-service-api-pom</artifactId>
-        <groupId>org.kuali.student.poc.common</groupId>
-        <version>0.1.0-SNAPSHOT</version>
-    </parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>brms-parent-pom</artifactId>
+	<artifactId>ks-brms-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>BRMS API</name>
+	<name>BRMS</name>
 	<description />
 	
 	<modules>
-		<module>fact-finder-api</module>
-		<module>rule-execution-api</module>
-		<module>rule-management-api</module>
-		<module>rule-repository-api</module>
+		<module>brms-api</module>
+		<module>brms-impl</module>
+		<module>brms-ui</module>
+		<module>brms-web</module>
 	</modules>
 	
 	<repositories>
@@ -39,6 +39,7 @@
 			</releases>
 		</repository>
 	</repositories>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
