@@ -1290,15 +1290,6 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<String> getLuiIdsByRelation(String relatedLuiId,
-			String luLuRelationTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -1337,14 +1328,25 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<LuiInfo> getLuisByRelation(String relatedLuiId,
-			String luLuRelationTypeKey)
+	public List<LuiInfo> getLuisByRelation(String luiId,
+											String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		checkForMissingParameter(relatedLuiId, "relatedLuiId");
+		checkForMissingParameter(luiId, "luiId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 		
-		return LuServiceAssembler.toLuiInfos(luDao.getLuisByRelationType(relatedLuiId, luLuRelationTypeKey));
+		return LuServiceAssembler.toLuiInfos(luDao.getLuisByRelationType(luiId, luLuRelationTypeKey));
+	}
+
+	@Override
+	public List<String> getLuiIdsByRelation(String luiId,
+												String luLuRelationTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(luiId, "luiId");
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+		
+		return luDao.getLuiIdsByRelationType(luiId, luLuRelationTypeKey);
 	}
 
 	@Override

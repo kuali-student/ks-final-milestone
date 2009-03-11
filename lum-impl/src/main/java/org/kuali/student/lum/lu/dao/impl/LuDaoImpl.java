@@ -93,14 +93,26 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
 
 	@Override
 	public List<Lui> getLuisByRelationType(String luiId,
-											String luLuRelationTypeKey) {
-		Query query = em.createNamedQuery("Lui.getLuisByRelationType");
+											String luLuRelationTypeId) {
+		Query query = em.createNamedQuery("LuiLuiRelation.getLuisByRelationType");
 		query.setParameter("luiId", luiId);
-		query.setParameter("luLuRelationTypeKey", luLuRelationTypeKey);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
 		
 		@SuppressWarnings("unchecked")
 		List<Lui> luis = query.getResultList();
 		return luis;
+	}
+
+	@Override
+	public List<String> getLuiIdsByRelationType(String relatedLuiId,
+												String luLuRelationTypeId) {
+		Query query = em.createNamedQuery("LuiLuiRelation.getLuiIdsByRelationType");
+		query.setParameter("luiId", relatedLuiId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		
+		@SuppressWarnings("unchecked")
+		List<String> luiIds = query.getResultList();
+		return luiIds;
 	}
 
 	@Override

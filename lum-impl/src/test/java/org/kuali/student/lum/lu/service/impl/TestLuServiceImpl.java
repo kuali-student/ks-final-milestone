@@ -1560,13 +1560,23 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 	
 	@Test
-	public void testGettingLuisBasedOnRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+	public void testGetLuisByRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
 	{
 		List<LuiInfo> luis = client.getLuisByRelation("LUI-1", "luLuType.type1");
 		assertTrue(luis == null || luis.size() == 0);
 		luis = client.getLuisByRelation("LUI-2", "luLuType.type1");
 		assertEquals(1, luis.size());
 		assertEquals("LUI-1", luis.get(0).getId());
+	}
+	
+	@Test
+	public void testGetLuiIdsByRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+	{
+		List<String> luis = client.getLuiIdsByRelation("LUI-1", "luLuType.type1");
+		assertTrue(luis == null || luis.size() == 0);
+		luis = client.getLuiIdsByRelation("LUI-2", "luLuType.type1");
+		assertEquals(1, luis.size());
+		assertEquals("LUI-1", luis.get(0));
 	}
 	
 	@Test

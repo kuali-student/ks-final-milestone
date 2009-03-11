@@ -26,36 +26,7 @@ import org.kuali.student.core.entity.MetaEntity;
 @NamedQueries({
 	@NamedQuery(name="Lui.getLuisByIdList", query="SELECT l FROM Lui l WHERE l.id IN (:luiIdList)"),
 	@NamedQuery(name="Lui.getLuiIdsByCluId", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId)"),
-	@NamedQuery(name="Lui.getLuiIdsInAtpByCluId", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId AND l.atpId = :atpKey"),
-	
-	@NamedQuery(name="Lui.getLuisByRelationType", query="SELECT l from Lui l, LuiLuiRelation llr " +
-															"WHERE l.id = llr.lui.id " +
-															"AND llr.relatedLui.id = :luiId " +
-															"AND llr.luLuRelationType.id = :luLuRelationTypeKey"),
-														/* Select LUI's related in both directions, from Peter
-														"SELECT DISTINCT(l) from Lui l " +
-															"WHERE l.id IN " +
-																"(SELECT llr1.lui.id " +
-																	"FROM LuiLuiRelation llr1 " +
-																	"WHERE llr1.relatedLui.id = :luiId " +
-																	"AND llr1.luLuRelationType.id = :luLuRelationTypeId) " +
-															"OR l.id IN " +
-																"(SELECT llr2.lui.id " +
-																	"FROM LuiLuiRelation llr2 " +
-																	"WHERE llr2.lui.id = :luiId " +
-																	"AND llr2.luLuRelationType.id = :luLuRelationTypeId)"),
-														*/
-														/* Select LUI's related in both directions, from Dan
-														"SELECT DISTINCT (l) FROM  Lui l,  LuiLuiRelation llr " +
-															"WHERE llr.luLuRelationType.id = :luLuRelationTypeId " +
-															"AND (" +
-																	"(llr.relatedLui.id = :luiId AND l.id = llr.lui.id )  " +
-																		"OR " +
-															    	"(llr.lui.id = :luiId AND l.id   = llr.relatedLui.id)
-															     )"),
-														*/													
-													
-		@NamedQuery(name="Lui.getLuiIdsByRelation", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId AND l.atpId = :atpKey")
+	@NamedQuery(name="Lui.getLuiIdsInAtpByCluId", query="SELECT l.id FROM Lui l WHERE l.clu.id = :cluId AND l.atpId = :atpKey")
 })
 public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 
