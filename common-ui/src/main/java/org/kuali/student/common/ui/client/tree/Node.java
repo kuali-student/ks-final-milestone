@@ -266,5 +266,40 @@ public class Node {
             }
             System.out.println();
         }
+        System.out.println("---");
+        for (int x=0;x<levelList.size();x++) {
+            List<Node> aLevel = levelList.get(x);
+            int nonLeafIndex = 0;
+            for (int y = 0;y<aLevel.size() ;y++) {
+                Node nn = aLevel.get(y);
+                if(nn.isLeaf() == false){
+                    System.out.println(x+":"+nonLeafIndex+":"+nn.getAllLeafCount()+":"+nn.getUserObject());    
+
+                    nonLeafIndex += nn.getAllLeafCount();
+                }
+                
+                //mergeCellAcrossRow(i, j,n.getAllLeafCount());
+            
+            }
+            
+        }
+        System.out.println("---");
+        for (int x=0;x<levelList.size();x++) {
+            List<Node> aLevel = levelList.get(x);
+            int nonLeafIndex = 0;
+            for (int y = 0;y<aLevel.size() ;y++) {
+                Node nn = aLevel.get(y);
+                if(nn.isLeaf() == false){
+                    System.out.println(x+":"+nonLeafIndex+":"+nn.getAllLeafCount()+":"+nn.getUserObject());    
+
+                    nonLeafIndex += nn.getAllLeafCount();
+                }
+                
+                //mergeCellAcrossRow(i, j,n.getAllLeafCount());
+            
+            }
+            
+        }
+        
     }
 }
