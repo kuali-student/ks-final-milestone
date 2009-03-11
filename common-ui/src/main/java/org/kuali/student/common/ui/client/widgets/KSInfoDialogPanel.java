@@ -7,6 +7,12 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 
+/**
+ * KSInfoDialogPanel is used to display information that does not require user input.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class KSInfoDialogPanel extends KSDialogPanelAbstract{ 
     private final KSDialogPanelAbstract dialogPanel = GWT.create(KSInfoDialogPanelImpl.class);
 		
@@ -103,11 +109,5 @@ public class KSInfoDialogPanel extends KSDialogPanelAbstract{
     public void show() {
         dialogPanel.show();
     }
-
-
-    public String toString() {
-        return dialogPanel.toString();
-    }
-
 
 }
