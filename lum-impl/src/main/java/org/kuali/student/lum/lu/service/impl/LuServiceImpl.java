@@ -75,6 +75,7 @@ import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.lum.lu.entity.LrType;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
@@ -1039,14 +1040,14 @@ public class LuServiceImpl implements LuService {
 	public LrTypeInfo getLrType(String lrTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(lrTypeKey, "lrTypeKey");
+		return LuServiceAssembler.toLrTypeInfo(luDao.fetch(LrType.class, lrTypeKey));
+
 	}
 
 	@Override
 	public List<LrTypeInfo> getLrTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return LuServiceAssembler.toLrTypeInfos(luDao.find(LrType.class));
 	}
 
 	@Override

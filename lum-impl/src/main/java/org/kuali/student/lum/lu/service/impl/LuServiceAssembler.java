@@ -199,9 +199,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		LrTypeInfo dto = new LrTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
-				new String[] { "id", "attributes" });
+				new String[] {"attributes" });
 
-		dto.setId(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
@@ -271,9 +270,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		LuDocRelationTypeInfo dto = new LuDocRelationTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
-				new String[] { "id", "attributes" });
+				new String[] { "attributes" });
 
-		dto.setId(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
@@ -295,9 +293,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
-				new String[] { "id", "attributes" });
+				new String[] { "attributes" });
 
-		dto.setId(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
@@ -445,9 +442,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		LuTypeInfo dto = new LuTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
-				new String[] { "id", "attributes" });
+				new String[] { "attributes" });
 
-		dto.setId(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;

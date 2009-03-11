@@ -43,6 +43,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.LrTypeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
@@ -1637,6 +1638,15 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("DT1",client.getLuDocRelationType("luDocRelationType.doctype1").getName());
 		assertEquals(2,client.getLuDocRelationTypes().size());
 		
+		
+	}
+	
+	@Test
+	public void testLrType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		LrTypeInfo lrType = client.getLrType("lrType.finalGrade");
+		assertEquals("Final Grade", lrType.getName());
+		List<LrTypeInfo> lrTypes = client.getLrTypes();
+		assertEquals(2,lrTypes.size());
 		
 	}
 	
