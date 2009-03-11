@@ -6,7 +6,9 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -59,6 +61,8 @@ public class KitchenSinkMain extends Composite {
 
     boolean loaded = false;
 
+    private final Map<String, KitchenSinkExample> exampleMap = new HashMap<String, KitchenSinkExample>();
+    
     public KitchenSinkMain() {
         super.initWidget(main);
         initExamples();
@@ -151,9 +155,12 @@ public class KitchenSinkMain extends Composite {
             }
         });
         group.addSubItem(item);
+        exampleMap.put(example.getClass().getName(), example);
     }
 
-
-
+    public KitchenSinkExample getExample(String className) {
+        return exampleMap.get(className);
+    }
+    
 
 }

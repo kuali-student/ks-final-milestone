@@ -10,30 +10,42 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class KitchenSinkExample extends Composite {
-    final VerticalPanel main = new VerticalPanel();
+    private final VerticalPanel main = new VerticalPanel();
     private final TabPanel tabPanel = new TabPanel();
 
-    final Label title = new Label(getTitle());
-    final Label description = new Label(getDescription());
-    final Label exampleLabel = new Label("Example");
+    private final Label title = new Label(getTitle());
+    private final Label description = new Label(getDescription());
+    private final Label exampleLabel = new Label("Example");
+    private final SimplePanel liveCSSTab = new SimplePanel();
+    
+    private Frame liveCSSFrame = null;
+    
     private VerticalPanel resourcePanel;
 
     boolean loaded = false;
 
     final List<KitchenSinkResource> resources = new ArrayList<KitchenSinkResource>();
+
+    public List<KitchenSinkResource> getResources() {
+        return resources;
+    }
 
     static {
         initHighlighter();
@@ -126,6 +138,18 @@ public abstract class KitchenSinkExample extends Composite {
             }
         }
         doHighlight();
+        
+        tabPanel.add(liveCSSTab, "Edit CSS Live");
+        tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+            public void onSelection(SelectionEvent<Integer> event) {
+                if (event.getSelectedItem() == 3 && liveCSSFrame == null) {
+                    liveCSSFrame = new Frame("LiveCSS.html?exampleClass=" + KitchenSinkExample.this.getClass().getName());
+                    liveCSSFrame.getElement().setAttribute("FRAMEBORDER", "0");
+                    liveCSSTab.setWidget(liveCSSFrame);
+                    liveCSSFrame.addStyleName("KSink-LiveCSS-Frame");
+                }
+            }
+        });
         
         tabPanel.selectTab(0);
     }
