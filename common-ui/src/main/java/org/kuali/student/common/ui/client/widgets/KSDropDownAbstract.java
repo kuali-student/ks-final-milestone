@@ -1,6 +1,9 @@
 package org.kuali.student.common.ui.client.widgets;
 
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
 /**
@@ -19,7 +22,7 @@ public abstract class KSDropDownAbstract extends Composite{
 	 * 
 	 * @param isMultipleSelect
 	 */
-	protected void init(boolean isMultipleSelect){}
+	protected void init(){}
 
     public abstract void addChangeHandler(ChangeHandler handler);
 
@@ -30,5 +33,13 @@ public abstract class KSDropDownAbstract extends Composite{
     public abstract void clear();
 
     public abstract int getSelectedIndex();
+    
+    public abstract void populateDropDown(List<String> stringList);
+    
+    public abstract void populateDropDown(HashMap<String, ?> theMap);
+    
+    public abstract Object getSelectedObject();
+    
+    public abstract void selectItem(String value);
 
 }
