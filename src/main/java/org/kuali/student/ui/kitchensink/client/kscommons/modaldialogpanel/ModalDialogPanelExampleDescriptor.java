@@ -8,6 +8,7 @@ public class ModalDialogPanelExampleDescriptor extends KitchenSinkExample {
     public ModalDialogPanelExampleDescriptor() {
         super();
         super.addResource("java", "ModalDialogPanelExample.java", "kscommons/modalpopuppanel/ModalDialogPanelExample.java", "Example usage of KSModalDialogPanel.");
+        super.addResource("css", "KSModalDialogPanel.css", "KSModalDialogPanel.css", "Default styling of KSModalDialogPanel.");
         super.addResource("css", "ModalDialogPanelExample.css", "examplecss/ModalDialogPanelExample.css", "Example styling of KSModalDialogPanel.");
     }
     public String getDescription() {       

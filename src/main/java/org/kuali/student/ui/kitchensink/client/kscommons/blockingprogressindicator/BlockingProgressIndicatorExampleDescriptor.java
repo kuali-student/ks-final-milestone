@@ -8,6 +8,7 @@ public class BlockingProgressIndicatorExampleDescriptor extends KitchenSinkExamp
     public BlockingProgressIndicatorExampleDescriptor() {
         super();
         super.addResource("java", "BlockingProgressExample.java", "kscommons/blockingprogressindicator/BlockingProgressIndicatorExample.java", "Example usage of KSBlockingProgressIndicator.");
+        super.addResource("css", "KSBlockingProgress.css", "KSBlockingProgressIndicator.css", "Default styling of KSBlockingProgressIndicator.");
         super.addResource("css", "BlockingProgressExample.css", "examplecss//BlockingProgressIndicatorExample.css", "Example styling of KSBlockingProgressIndicator.");
     }
     public String getDescription() {       

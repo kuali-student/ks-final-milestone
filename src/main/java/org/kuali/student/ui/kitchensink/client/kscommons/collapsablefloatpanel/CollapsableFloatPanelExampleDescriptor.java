@@ -8,6 +8,7 @@ public class CollapsableFloatPanelExampleDescriptor extends KitchenSinkExample {
     public CollapsableFloatPanelExampleDescriptor() {
         super();
         super.addResource("java", "CollapsableFloatPanelExample.java", "kscommons/collapsablefloatpanel/CollapsableFloatPanelExample.java", "Example usage of KSFloatPanel.");
+        super.addResource("css", "KSCollapsableFloatPanel.css", "KSCollapsableFloatPanel.css", "Default styling of KSFloatPanel.");
         super.addResource("css", "CollapsableFloatPanelExample.css", "examplecss/CollapsableFloatPanelExample.css", "Example styling of KSFloatPanel.");
     }
     public String getDescription() {       

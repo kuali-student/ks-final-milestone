@@ -8,6 +8,7 @@ public class AccordionMenuExampleDescriptor extends KitchenSinkExample {
     public AccordionMenuExampleDescriptor() {
         super();
         super.addResource("java", "AccordionMenuExample.java", "kscommons/accordionmenu/AccordionMenuExample.java", "Example usage of KSAccordionMenu.");
+        super.addResource("css", "KSAccordionMenu.css", "KSAccordionMenu.css", "Default styling of KSAccordionMenu.");    
         super.addResource("css", "AccordionMenuExample.css", "examplecss/AccordionMenuExample.css", "Example ustyling of KSAccordionMenu.");    
     }
     public String getDescription() {       

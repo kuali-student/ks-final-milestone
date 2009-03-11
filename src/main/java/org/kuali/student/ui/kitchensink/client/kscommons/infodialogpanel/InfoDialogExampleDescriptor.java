@@ -8,6 +8,7 @@ public class InfoDialogExampleDescriptor extends KitchenSinkExample {
     public InfoDialogExampleDescriptor() {
         super();
         super.addResource("java", "InfoDialogExample.java", "kscommons/infodialogpanel/InfoDialogExample.java", "Example usage of KSInfoDialogPanel.");
+        super.addResource("css", "KSInfoDialogPanel.css", "KSInfoDialogPanel.css", "Default styling of KSInfoDialogPanel.");
         super.addResource("css", "InfoDialogExample.css", "examplecss/InfoDialogExample.css", "Example styling of KSInfoDialogPanel.");
     }
     public String getDescription() {       

@@ -8,6 +8,7 @@ public class TextAreaExampleDescriptor extends KitchenSinkExample {
     public TextAreaExampleDescriptor() {
         super();
         super.addResource("java", "TextAreaExample.java", "kscommons/textarea/TextAreaExample.java", "Example usage of KSTextArea.");
+        super.addResource("css", "KSTextArea.css", "KSTextArea.css", "Default styling of KSTextArea.");
         super.addResource("css", "TextAreaExample.css", "examplecss/TextAreaExample.css", "Example styling of KSTextArea.");
     }
     public String getDescription() {       

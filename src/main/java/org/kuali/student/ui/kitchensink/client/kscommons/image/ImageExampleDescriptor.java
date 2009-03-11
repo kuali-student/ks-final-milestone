@@ -8,6 +8,7 @@ public class ImageExampleDescriptor extends KitchenSinkExample {
     public ImageExampleDescriptor() {
         super();
         super.addResource("java", "ImageExample.java", "kscommons/image/ImageExample.java", "Example usage of KSImage.");
+        super.addResource("css", "KSImage.css", "KSImage.css", "Default styling of KSImage.");
         super.addResource("css", "ImageExample.css", "examplecss/ImageExample.css", "Example styling of KSImage.");
     }
     public String getDescription() {       

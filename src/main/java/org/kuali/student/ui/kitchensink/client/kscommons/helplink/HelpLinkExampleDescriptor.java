@@ -8,6 +8,7 @@ public class HelpLinkExampleDescriptor extends KitchenSinkExample {
     public HelpLinkExampleDescriptor() {
         super();
         super.addResource("java", "HelpLinkExample.java", "kscommons/helplink/HelpLinkExample.java", "Example usage of KSHelpLink.");
+        super.addResource("css", "KSHelpLink.css", "KSHelpLink.css", "Default styling of KSHelpLink.");
         super.addResource("css", "HelpLinkExample.css", "examplecss/HelpLinkExample.css", "Example styling of KSHelpLink.");
     }
     public String getDescription() {       

@@ -8,6 +8,7 @@ public class LabelExampleDescriptor extends KitchenSinkExample {
     public LabelExampleDescriptor() {
         super();
         super.addResource("java", "LabelExample.java", "kscommons/label/LabelExample.java", "Example usage of KSLabel.");
+        super.addResource("css", "KSLabel.css", "KSLabel.css", "Default styling of KSLabel.");
         super.addResource("css", "LabelExample.css", "examplecss/LabelExample.css", "Example styling of KSLabel.");
     }
     public String getDescription() {       

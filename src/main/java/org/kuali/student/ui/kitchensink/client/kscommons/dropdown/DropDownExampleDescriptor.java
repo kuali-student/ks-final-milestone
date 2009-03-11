@@ -8,6 +8,7 @@ public class DropDownExampleDescriptor extends KitchenSinkExample {
     public DropDownExampleDescriptor() {
         super();
         super.addResource("java", "DropDownExample.java", "kscommons/dropdown/DropDownExample.java", "Example usage of KSDropDown.");
+        super.addResource("css", "KSDropDown.css", "KSDropDown.css", "Default styling of KSDropDown.");
         super.addResource("css", "DropDownExample.css", "examplecss/DropDownExample.css", "Example styling of KSDropDown.");
     }
     public String getDescription() {       

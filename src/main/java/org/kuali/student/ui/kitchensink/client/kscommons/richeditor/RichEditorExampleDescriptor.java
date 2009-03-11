@@ -8,6 +8,7 @@ public class RichEditorExampleDescriptor extends KitchenSinkExample {
     public RichEditorExampleDescriptor() {
         super();
         super.addResource("java", "RichEditorExample.java", "kscommons/richeditor/RichEditorExample.java", "Example usage of KSRichEditor.");
+        super.addResource("css", "KSRichTextEditor.css", "KSRichTextEditor.css", "Default styling of KSRichEditor.");
         super.addResource("css", "RichEditorExample.css", "examplecss/RichEditorExample.css", "Example styling of KSRichEditor.");
     }
     public String getDescription() {       

@@ -8,6 +8,7 @@ public class ToolTipExampleDescriptor extends KitchenSinkExample {
     public ToolTipExampleDescriptor() {
         super();
         super.addResource("java", "ToolTipExample.java", "kscommons/tooltip/ToolTipExample.java", "Example usage of KSToolTip.");
+        super.addResource("css", "KSToolTip.css", "KSToolTip.css", "Default styling of KSToolTip.");
         super.addResource("css", "ToolTipExample.css", "examplecss/ToolTipExample.css", "Example styling of KSToolTip.");
     }
     public String getDescription() {       

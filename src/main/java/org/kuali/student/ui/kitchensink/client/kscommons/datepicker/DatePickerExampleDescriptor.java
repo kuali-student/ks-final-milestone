@@ -8,6 +8,7 @@ public class DatePickerExampleDescriptor extends KitchenSinkExample {
     public DatePickerExampleDescriptor() {
         super();
         super.addResource("java", "DatePickerExample.java", "kscommons/datepicker/DatePickerExample.java", "Example usage of KSDatePicker.");
+        super.addResource("css", "KSDatePicker.css", "KSDatePicker.css", "Default styling of KSDatePicker.");
         super.addResource("css", "DatePickerExample.css", "examplecss/DatePickerExample.css", "Example styling of KSDatePicker.");
     }
     public String getDescription() {       

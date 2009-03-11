@@ -8,6 +8,7 @@ public class ListBoxExampleDescriptor extends KitchenSinkExample {
     public ListBoxExampleDescriptor() {
         super();
         super.addResource("java", "ListBoxExample.java", "kscommons/listbox/ListBoxExample.java", "Example usage of KSListBox.");
+        super.addResource("css", "KSListBox.css", "KSListBox.css", "Default styling of KSListBox.");
         super.addResource("css", "ListBoxExample.css", "examplecss/ListBoxExample.css", "Example styling of KSListBox.");
     }
     public String getDescription() {       

@@ -8,6 +8,7 @@ public class CheckBoxExampleDescriptor extends KitchenSinkExample {
     public CheckBoxExampleDescriptor() {
         super();
         super.addResource("java", "CheckBoxExample.java", "kscommons/checkbox/CheckBoxExample.java", "Example usage of KSCheckBox.");
+        super.addResource("css", "KSCheckbox.css", "KSCheckbox.css", "Default styling of KSCheckBox.");
         super.addResource("css", "CheckBoxExample.css", "examplecss/CheckBoxExample.css", "Example styling of KSCheckBox.");
     }
     public String getDescription() {       

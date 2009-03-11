@@ -8,6 +8,7 @@ public class AccordionPanelExampleDescriptor extends KitchenSinkExample {
     public AccordionPanelExampleDescriptor() {
         super();
         super.addResource("java", "AccordionPanelExample.java", "kscommons/accordionpanel/AccordionPanelExample.java", "Example usage of KSAccordionPanel.");
+        super.addResource("css", "KSAccordionPanel.css", "KSAccordionPanel.css", "Default styling of KSAccordionPanel.");
         super.addResource("css", "AccordionPanelExample.css", "examplecss/AccordionPanelExample.css", "Example styling of KSAccordionPanel.");
     }
     public String getDescription() {       

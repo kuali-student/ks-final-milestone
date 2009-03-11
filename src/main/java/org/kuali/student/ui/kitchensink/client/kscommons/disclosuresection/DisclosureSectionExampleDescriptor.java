@@ -8,6 +8,7 @@ public class DisclosureSectionExampleDescriptor extends KitchenSinkExample {
     public DisclosureSectionExampleDescriptor() {
         super();
         super.addResource("java", "DisclosureSectionExample.java", "kscommons/disclosuresection/DisclosureSectionExample.java", "Example usage of KSDisclosureSection.");
+        super.addResource("css", "KSDisclosureSection.css", "KSDisclosureSection.css", "Default styling of KSDisclosureSection.");
         super.addResource("css", "DisclosureSectionExample.css", "examplecss/DisclosureSectionExample.css", "Example styling of KSDisclosureSection.");
     }
     public String getDescription() {       

@@ -8,6 +8,7 @@ public class FloatPanelExampleDescriptor extends KitchenSinkExample {
     public FloatPanelExampleDescriptor() {
         super();
         super.addResource("java", "FloatPanelExample.java", "kscommons/floatpanel/FloatPanelExample.java", "Example usage of KSFloatPanel.");
+        super.addResource("css", "KSFloatPanel.css", "KSFloatPanel.css", "Default styling of KSFloatPanel.");
         super.addResource("css", "FloatPanelExample.css", "examplecss/FloatPanelExample.css", "Example styling of KSFloatPanel.");
     }
     public String getDescription() {       
