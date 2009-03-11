@@ -1184,8 +1184,7 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public List<LuLuRelationTypeInfo> getLuLuRelationTypeInfos()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return LuServiceAssembler.toLuLuRelationTypeInfos(luDao.find(LuLuRelationType.class));
 	}
 
 	@Override

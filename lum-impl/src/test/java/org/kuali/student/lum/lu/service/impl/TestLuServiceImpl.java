@@ -1518,6 +1518,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 	
 	@Test
+	public void testGetLuLuRelationTypeInfos() throws OperationFailedException, DoesNotExistException, MissingParameterException
+	{
+		List<LuLuRelationTypeInfo> luLuRelTypeInfos;
+		luLuRelTypeInfos = client.getLuLuRelationTypeInfos();
+		assertEquals(3, luLuRelTypeInfos.size());
+		assertEquals("luLuType.type1", luLuRelTypeInfos.get(0).getId());
+		assertEquals("manolin", luLuRelTypeInfos.get(2).getName());
+	}
+	
+	@Test
 	public void testUpdateLuiState() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, ParseException, AlreadyExistsException, MissingParameterException, DependentObjectsExistException 
 	{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
