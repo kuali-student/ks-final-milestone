@@ -17,7 +17,7 @@
 		</layout>
 	</appender>
     <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="kuali-student-brms.log" />
+        <param name="File" value="${catalina.base}/logs/kuali-student-brms.log" />
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
         <param name="Append" value="true"/>
         <param name="Threshold" value="DEBUG"/>

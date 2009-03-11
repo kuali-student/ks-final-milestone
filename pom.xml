@@ -20,8 +20,8 @@
 	<description>Kuali Student BRMS implementation development</description>
 
 	<properties>
-		<drools.version>4.0.7</drools.version>
-        <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
+		<!--drools.version>4.0.7</drools.version-->
+        <drools.version>5.0.0.CR1</drools.version>
         <jpa.properties.in>../src/test/resources/META-INF/jpa.properties</jpa.properties.in>
         <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
         <jdbc.derby.in>../src/test/resources/META-INF/jdbc_derby.properties</jdbc.derby.in>

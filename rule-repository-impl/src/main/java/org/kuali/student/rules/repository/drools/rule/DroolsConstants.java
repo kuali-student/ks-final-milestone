@@ -23,4 +23,6 @@ public class DroolsConstants implements java.io.Serializable {
     /** Drools file format */
     public final static String FORMAT_DRL = "drl";
     
+    /** XXX Drools 5.0 - Drools org.drools.repository.AssetItem name for rule set headers */
+	public final static String DROOLS_HEADER = "drools-header";
 }

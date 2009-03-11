@@ -1288,9 +1288,9 @@ public class RuleEngineRepositoryTest {
         brmsRepository.checkinRule(rule.getUUID(), "Some invalid source");
 
         try {
-            CompilerResultList results = brmsRepository.compileRuleSet(ruleSet.getUUID());
+        	CompilerResultList results = brmsRepository.compileRuleSet(ruleSet.getUUID());
             assertNotNull(results);
-            assertTrue(results.toString().indexOf("InvalidRuleSource") > -1);
+            assertTrue(results.toString().indexOf("[ERR 101] Line 0:-1 no viable alternative at input") > -1);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
         }

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.repository.drools;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Reader;
@@ -367,7 +368,11 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             PackageItem pkg = this.repository.loadPackageByUUID(ruleSet.getUUID());
             pkg.updateDescription(ruleSet.getDescription());
             pkg.updateFormat(ruleSet.getFormat());
-            pkg.updateHeader(ruleSet.getHeader());
+
+            // XXX: Drools 5.0 - Header fix
+            //pkg.updateHeader(ruleSet.getHeader());
+            droolsUtil.updateDroolsHeader(pkg, ruleSet.getHeader());
+
             pkg.updateState(ruleSet.getStatus());
             createOrUpdateRule(pkg, ruleSet);
             setCustomRuleSetProperties(pkg, ruleSet);
@@ -723,15 +728,18 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @throws RuleEngineRepositoryException Thrown if exporting rules repository fails
      */
     public byte[] exportRulesRepositoryAsXml() {
-        try {
-            return this.repository.dumpRepositoryXml();
-        } catch (IOException e) {
-            throw new RuleEngineRepositoryException("Exporting repository failed: " + e.getMessage(), e);
-        } catch (PathNotFoundException e) {
-            throw new RuleEngineRepositoryException("Exporting repository failed: " + e.getMessage(), e);
-        } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryException("Exporting repository failed: " + e.getMessage(), e);
-        }
+//        try {
+            //return this.repository.dumpRepositoryXml();
+        	ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        	this.repository.exportRulesRepositoryToStream(bout);
+        	return bout.toByteArray();
+//        } catch (IOException e) {
+//            throw new RuleEngineRepositoryException("Exporting repository failed: " + e.getMessage(), e);
+//        } catch (PathNotFoundException e) {
+//            throw new RuleEngineRepositoryException("Exporting repository failed: " + e.getMessage(), e);
+//        } catch (RepositoryException e) {
+//            throw new RuleEngineRepositoryException("Exporting repository failed: " + e.getMessage(), e);
+//        }
     }
 
     /**
@@ -747,7 +755,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
 
         try {
-            this.repository.importRulesRepository(byteArray);
+//            this.repository.importRulesRepository(byteArray);
+        	ByteArrayInputStream bin = new ByteArrayInputStream(byteArray);
+        	this.repository.importRulesRepositoryFromStream(bin);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Importing rules repository failed", e);
         }
@@ -1673,7 +1683,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     {
         try {
             PackageItem pkg = this.repository.createPackage(ruleSet.getName(), ruleSet.getDescription());
-            pkg.updateHeader(ruleSet.getHeader());
+            //pkg.updateHeader(ruleSet.getHeader());
+            // XXX: Drools 5.0 header fix - null category
+            droolsUtil.addDroolsHeader(pkg, ruleSet.getHeader());
             this.repository.save();
             return pkg;
         } catch (RulesRepositoryException e) {
@@ -1789,13 +1801,24 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
                 category, "A dynamic rule set", DroolsConstants.FORMAT_DRL);
         // Load all rules in a specific category
-    	// Drools 4 does not used generics
-    	@SuppressWarnings("unchecked") List<AssetItem> items = this.repository.findAssetsByCategory(category);
+    	//List<AssetItem> items = this.repository.findAssetsByCategory(category);
+    	// XXX: Drools 5.0 - findAssetsByCategory
+        List<AssetItem> items = this.repository.findAssetsByCategory(category, 0, -1).assets;
         for(AssetItem item : items) {
-            Rule rule = droolsUtil.buildRule(item);
-            String header = item.getPackage().getHeader();
+            //Rule rule = droolsUtil.buildRule(item);
+            //String header = item.getPackage().getHeader();
+            //droolsUtil.addRuleSetHeader(ruleSet,header);
+            //ruleSet.addRule(rule);
+
+        	// XXX: Drools 5.0 - getDroolsHeader
+            //String header = item.getPackage().getHeader();
+            String header = droolsUtil.getDroolsHeader(item.getPackage());
             droolsUtil.addRuleSetHeader(ruleSet,header);
-            ruleSet.addRule(rule);
+            Rule rule = droolsUtil.buildRule(item);
+            // XXX: Drools 5.0 - filter out null rule 
+            if (rule != null) {
+	            ruleSet.addRule(rule);
+            }
         }
         return ruleSet;
     }

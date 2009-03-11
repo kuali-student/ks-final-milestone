@@ -19,9 +19,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+                <groupId>org.antlr</groupId>
 				<artifactId>antlr3-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>3.1.1.2</version>
 				<configuration>
 					<outputDirectory>
 						src/main/java/org/kuali/student/rules/internal/common/parsers
@@ -40,11 +40,11 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>3.0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>3.1.1</version>
+        </dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-management-api</artifactId>

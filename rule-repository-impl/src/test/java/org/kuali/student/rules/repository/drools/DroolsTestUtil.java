@@ -179,7 +179,8 @@ public class DroolsTestUtil
 			"package " + packageName +
 			"\n" +
 			"import java.util.Calendar; " +
-			"\n\n" +
+			//"\n\n" +
+			"\n" +
 			getSimpleRule1() +
 			"\n" +
 			getSimpleRule2() +
