@@ -32,6 +32,7 @@ public interface LuDao extends CrudDao, SearchableDao  {
 			List<String> luDocRelationIdList);
 	public List<LuDocumentRelation> getLuDocRelationsByType(
 			String luDocRelationTypeKey);
+    public List<String> getCluIdsByLoId(String loId);
 	public List<String> getRelatedCluIdsByCluId(String cluId,
 			String luLuRelationTypeId);
 	public List<Clu> getRelatedClusByCluId(String cluId,

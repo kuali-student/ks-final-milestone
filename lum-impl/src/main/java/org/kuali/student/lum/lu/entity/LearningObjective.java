@@ -8,10 +8,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.MetaEntity;
+
 @Entity
 @Table(name = "KSLU_LO_JN_CLU", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"LO_ID", "CLU_ID" }))
-public class LearningObjective {
+public class LearningObjective extends MetaEntity {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -23,6 +26,11 @@ public class LearningObjective {
 	@JoinColumn(name = "CLU_ID")
 	private Clu clu;
 
+    @Override
+    public void onPrePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
+    
 	public String getId() {
 		return id;
 	}

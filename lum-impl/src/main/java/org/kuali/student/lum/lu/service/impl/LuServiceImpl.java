@@ -75,6 +75,7 @@ import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.lum.lu.entity.LearningObjective;
 import org.kuali.student.lum.lu.entity.LrType;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
@@ -247,8 +248,30 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(loId, "loId");
+        checkForMissingParameter(cluId, "cluId");
+        
+        Clu clu = luDao.fetch(Clu.class, cluId);
+        if (clu == null) {
+            throw new DoesNotExistException("Clu does not exist for id: " + cluId);
+        }
+        // TODO I'm assuming the loId passed in is good since that's external
+        
+        for(LearningObjective lo : clu.getLearningObjectives())
+           if(lo.getLearningObjectiveId().equals(loId))
+               throw new AlreadyExistsException(String.format("LearningObjective with id '%s' is already associated with Clu with id '%s'",loId,cluId));
+        
+        LearningObjective learningObjective = new LearningObjective();
+        learningObjective.setClu(clu);
+        learningObjective.setLearningObjectiveId(loId);
+        
+        clu.getLearningObjectives().add(learningObjective);
+        luDao.update(learningObjective);
+        luDao.update(clu);
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
 	}
 
 	@Override
@@ -879,8 +902,9 @@ public class LuServiceImpl implements LuService {
 	public List<String> getCluIdsByLoId(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(loId, "loId");
+        List<String> clus = luDao.getCluIdsByLoId(loId);
+        return clus;
 	}
 
 	@Override
@@ -1008,8 +1032,13 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLoIdsByClu(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(cluId, "cluId");
+        Clu clu = luDao.fetch(Clu.class, cluId);
+        List<String> ids = new ArrayList<String>(clu.getLearningObjectives().size());
+        for (LearningObjective lo : clu.getLearningObjectives()) {
+            ids.add(lo.getLearningObjectiveId());
+        }
+        return ids;
 	}
 
 	@Override
@@ -1590,8 +1619,33 @@ public class LuServiceImpl implements LuService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(loId, "loId");
+        checkForMissingParameter(cluId, "cluId");
+        
+        Clu clu = luDao.fetch(Clu.class, cluId);
+        if (clu == null) {
+            throw new DoesNotExistException("Clu does not exist for id: " + cluId);
+        }
+        
+        LearningObjective learningObjective = null;
+        for(LearningObjective lo : clu.getLearningObjectives())
+            if(lo.getLearningObjectiveId().equals(loId))
+                learningObjective = lo;
+        
+        StatusInfo statusInfo = new StatusInfo();
+        
+        if(learningObjective == null) {
+//            throw new DoesNotExistException(); //service definition doesn't require an exception here as I read it
+            statusInfo.setSuccess(false); // should this be false?
+            return statusInfo;
+        }
+        
+        clu.getLearningObjectives().remove(learningObjective);
+        luDao.update(clu);
+        luDao.delete(learningObjective);
+        
+        statusInfo.setSuccess(true);
+        return statusInfo;
 	}
 
 	@Override
