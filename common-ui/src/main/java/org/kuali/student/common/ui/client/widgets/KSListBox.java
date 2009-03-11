@@ -13,14 +13,32 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
+/**
+ * KSListBox wraps gwt Listbox.  However, it adds functionality and limits the list box to only MULTI select.
+ * Future implementation may associate objects to listBox items (additional features may be added, pending need).
+ * This class provides some of the same functionality of ListBox, but sets KS css styles
+ * for its default look and a variety of events (for improved browser compatibility and customizability).
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class KSListBox extends ListBox{
 
+    /**
+     * Creates an empty list box.
+     * 
+     */
     public KSListBox() {
         super(true);
         setupDefaultStyle();
     }
 
     
+    /**
+     * Creates a multi-select list box with the list of items passed in.
+     * 
+     * @param list the list of strings representing items in the list box
+     */
     public KSListBox(List<String> list) {
         super(true);
         for(String s: list){
@@ -29,11 +47,15 @@ public class KSListBox extends ListBox{
         setupDefaultStyle();
     }
 
-    public KSListBox(Element element) {
+/*    public KSListBox(Element element) {
         super(element);
         setupDefaultStyle();
-    }
+    }*/
     
+    /**
+     * This method sets the default style for the list box and list box events.
+     * 
+     */
     private void setupDefaultStyle() {
         this.addStyleName(KSStyles.KS_LISTBOX_STYLE);
         
