@@ -61,12 +61,6 @@ public class KSModalDialogPanelImpl extends KSModalDialogPanelAbstract{
     }
 
     @Override
-    public void setModal(boolean modal) {
-        // TODO Gary Struthers - THIS METHOD NEEDS JAVADOCS
-        super.setModal(modal);
-    }
-
-    @Override
     public void setWidget(Widget w) {
         // TODO Gary Struthers - THIS METHOD NEEDS JAVADOCS
         super.setWidget(w);
