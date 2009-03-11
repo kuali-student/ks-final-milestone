@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+/**
+ *Detailed information about accounting for a clu.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluAccountingInfo implements Serializable, HasAttributes {
 
@@ -36,6 +39,9 @@ public class CluAccountingInfo implements Serializable, HasAttributes {
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
+    /**
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
     public Map<String,String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String,String>();

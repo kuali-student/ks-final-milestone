@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+/**
+ *Information about a potential instructor for a clu.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInstructorInfo implements Serializable, HasAttributes {
 
@@ -42,6 +45,9 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
+    /**
+     * Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.
+     */
     public String getOrgId() {
         return orgId;
     }
@@ -50,6 +56,9 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
         this.orgId = orgId;
     }
 
+    /**
+     * Unique identifier for a person record.
+     */
     public String getPersonId() {
         return personId;
     }
@@ -58,6 +67,9 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
         this.personId = personId;
     }
 
+    /**
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
     public Map<String,String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String,String>();

@@ -26,6 +26,7 @@
 				-->
 				<configuration>
 					<forkMode>always</forkMode>
+					<argLine>-Xms256m -Xmx512m</argLine>
 				</configuration>
 			</plugin>
 		</plugins>

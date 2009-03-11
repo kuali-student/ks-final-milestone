@@ -1228,15 +1228,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
         }
         
-		LuLuRelationTypeInfo luLuType1 = new LuLuRelationTypeInfo();
-		luLuType1.setId("luLuType.type1");
+		List<String> relatedCluIdsByCluId = client.getRelatedCluIdsByCluId("CLU-1", "luLuType.type1");
 		
-		List<String> relatedCluIdsByCluId = client.getRelatedCluIdsByCluId("CLU-1", luLuType1);
 		assertEquals(2,relatedCluIdsByCluId.size());
 		assertTrue(relatedCluIdsByCluId.contains("CLU-2"));
 		assertTrue(relatedCluIdsByCluId.contains("CLU-3"));
 		
-		List<CluInfo> relatedClusByCluId = client.getRelatedClusByCluId("CLU-1", luLuType1);
+		List<CluInfo> relatedClusByCluId = client.getRelatedClusByCluId("CLU-1", "luLuType.type1");
 		assertEquals(2,relatedClusByCluId.size());
 	}
 
@@ -1322,15 +1320,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		relations = client.getLuiLuiRelations("LUI-3");
 		assertEquals(0,relations.size());
 		
-		LuLuRelationTypeInfo luLuType1 = new LuLuRelationTypeInfo();
-		luLuType1.setId("luLuType.type1");
 		
-		List<String> relatedLuiIdsByLuiId = client.getRelatedLuiIdsByLuiId("LUI-1", luLuType1);
+		List<String> relatedLuiIdsByLuiId = client.getRelatedLuiIdsByLuiId("LUI-1", "luLuType.type1");
 		assertEquals(2,relatedLuiIdsByLuiId.size());
 		assertTrue(relatedLuiIdsByLuiId.contains("LUI-2"));
 		assertTrue(relatedLuiIdsByLuiId.contains("LUI-3"));
 		
-		List<LuiInfo> relatedLuisByLuiId = client.getRelatedLuisByLuiId("LUI-1", luLuType1);
+		List<LuiInfo> relatedLuisByLuiId = client.getRelatedLuisByLuiId("LUI-1", "luLuType.type1");
 		assertEquals(2,relatedLuisByLuiId.size());
 
 	}
@@ -1498,6 +1494,30 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 	
 	@Test
+	public void testGetLuLuRelationTypeInfo() throws OperationFailedException, DoesNotExistException, MissingParameterException
+	{
+		LuLuRelationTypeInfo luLuRelTypeInfo;
+		
+		try {
+			luLuRelTypeInfo = client.getLuLuRelationTypeInfo(null);
+			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
+		} catch (MissingParameterException e) {
+		}
+		luLuRelTypeInfo = client.getLuLuRelationTypeInfo("luLuType.type1");
+		assertEquals("bob", luLuRelTypeInfo.getName());
+		luLuRelTypeInfo = client.getLuLuRelationTypeInfo("luLuType.type2");
+		assertEquals("my desc2", luLuRelTypeInfo.getDesc());
+		assertEquals("rev name2", luLuRelTypeInfo.getRevName());
+		assertEquals("rev desc2", luLuRelTypeInfo.getRevDesc());
+		try {
+			client.getLuLuRelationTypeInfo("Non-existent LuLuRelationType");
+			fail("LuService.getLuLuRelationTypeInfo() did not throw DoesNotExistException when retrieving non-existent LuLuRelationType");
+		} catch (DoesNotExistException dnee) {
+		}
+			
+	}
+	
+	@Test
 	public void testUpdateLuiState() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, ParseException, AlreadyExistsException, MissingParameterException, DependentObjectsExistException 
 	{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -1537,6 +1557,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		
 		// and delete it to keep db consistent for other tests
 		client.deleteLui(updatedLui.getId());
+	}
+	
+	@Test
+	public void testGettingLuisBasedOnRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+	{
+		List<LuiInfo> luis = client.getLuisByRelation("LUI-1", "luLuType.type1");
+		assertTrue(luis == null || luis.size() == 0);
+		luis = client.getLuisByRelation("LUI-2", "luLuType.type1");
+		assertEquals(1, luis.size());
+		assertEquals("LUI-1", luis.get(0).getId());
 	}
 	
 	@Test
@@ -1640,7 +1670,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		
 		
 	}
-	
 	@Test
 	public void testOutcomeLO() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
 	    StatusInfo status = client.addOutcomeLoToClu("LO-1", "CLU-1");

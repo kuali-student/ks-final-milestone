@@ -923,7 +923,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<String> getCluIdsByRelation(String relatedCluId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
@@ -999,7 +999,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<CluInfo> getClusByRelation(String relatedCluId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
@@ -1174,9 +1174,11 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public LuLuRelationTypeInfo getLuLuRelationTypeInfo(
-			String luLuRelationTypeKey) throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+			String luLuRelationTypeKey) throws OperationFailedException, MissingParameterException, DoesNotExistException {
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+
+		LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class, luLuRelationTypeKey);
+		return LuServiceAssembler.toLuLuRelationTypeInfo(luLuRelationType);
 	}
 
 	@Override
@@ -1289,7 +1291,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<String> getLuiIdsByRelation(String relatedLuiId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
@@ -1336,11 +1338,13 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<LuiInfo> getLuisByRelation(String relatedLuiId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(relatedLuiId, "relatedLuiId");
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+		
+		return LuServiceAssembler.toLuiInfos(luDao.getLuisByRelationType(relatedLuiId, luLuRelationTypeKey));
 	}
 
 	@Override
@@ -1353,45 +1357,45 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<String> getRelatedCluIdsByCluId(String cluId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
-		List<String> relatedCluIds = luDao.getRelatedCluIdsByCluId(cluId, luLuRelationType.getId());
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		List<String> relatedCluIds = luDao.getRelatedCluIdsByCluId(cluId, luLuRelationTypeKey);
 		return relatedCluIds;
 	}
 
 	@Override
 	public List<CluInfo> getRelatedClusByCluId(String cluId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
-		List<Clu> relatedClus = luDao.getRelatedClusByCluId(cluId, luLuRelationType.getId());
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		List<Clu> relatedClus = luDao.getRelatedClusByCluId(cluId, luLuRelationTypeKey);
 		return LuServiceAssembler.toCluInfos(relatedClus);
 	}
 
 	@Override
 	public List<String> getRelatedLuiIdsByLuiId(String luiId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiId, "luiId");
-		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
-		List<String> relatedLuiIds = luDao.getRelatedLuiIdsByLuiId(luiId, luLuRelationType.getId());
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		List<String> relatedLuiIds = luDao.getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey);
 		return relatedLuiIds;
 	}
 
 	@Override
 	public List<LuiInfo> getRelatedLuisByLuiId(String luiId,
-			LuLuRelationTypeInfo luLuRelationType)
+			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiId, "luiId");
-		checkForMissingParameter(luLuRelationType, "luLuRelationType");		
-		List<Lui> relatedLuis = luDao.getRelatedLuisByLuiId(luiId, luLuRelationType.getId());
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		List<Lui> relatedLuis = luDao.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey);
 		return LuServiceAssembler.toLuiInfos(relatedLuis);
 	}
 

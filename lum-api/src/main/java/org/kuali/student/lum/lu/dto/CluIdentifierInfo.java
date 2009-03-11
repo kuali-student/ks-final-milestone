@@ -24,10 +24,16 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.core.dto.Idable;
 
+/**
+ *Detailed information about the human readable form of a CLU Identifier
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluIdentifierInfo implements Serializable, Idable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String cluId;
 
     @XmlElement
     private String code;
@@ -56,6 +62,20 @@ public class CluIdentifierInfo implements Serializable, Idable {
     @XmlAttribute
     private String id;
 
+    /**
+     * Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of the CLU's creation. Once this value has been set on the main CLU object, this should be seen as required.
+     */
+    public String getCluId() {
+        return cluId;
+    }
+
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
+    }
+
+    /**
+     * The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.
+     */
     public String getCode() {
         return code;
     }
@@ -64,6 +84,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.code = code;
     }
 
+    /**
+     * Abbreviated name of the CLU, commonly used on transcripts
+     */
     public String getShortName() {
         return shortName;
     }
@@ -80,6 +103,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.longName = longName;
     }
 
+    /**
+     * A code that indicates whether this is introductory, advanced, etc.
+     */
     public String getLevel() {
         return level;
     }
@@ -88,6 +114,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.level = level;
     }
 
+    /**
+     * A code that indicates what school, program, major, subject area, etc. Examples: "Chem", "18"
+     */
     public String getDivision() {
         return division;
     }
@@ -96,6 +125,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.division = division;
     }
 
+    /**
+     * A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier
+     */
     public String getVariation() {
         return variation;
     }
@@ -104,6 +136,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.variation = variation;
     }
 
+    /**
+     * Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)
+     */
     public String getType() {
         return type;
     }
@@ -112,6 +147,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.type = type;
     }
 
+    /**
+     * Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.
+     */
     public String getState() {
         return state;
     }
@@ -120,6 +158,9 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.state = state;
     }
 
+    /**
+     * Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.
+     */
     public String getId() {
         return id;
     }
