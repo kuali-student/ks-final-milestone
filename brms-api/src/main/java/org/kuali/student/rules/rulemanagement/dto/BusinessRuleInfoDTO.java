@@ -20,7 +20,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule

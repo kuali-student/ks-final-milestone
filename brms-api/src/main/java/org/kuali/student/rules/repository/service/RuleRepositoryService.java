@@ -23,17 +23,17 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.repository.dto.RuleSetContainerDTO;
-import org.kuali.student.repository.dto.RuleSetDTO;
-import org.kuali.student.repository.dto.RuleSetVerificationResultDTO;
-import org.kuali.student.rulemanagement.dto.BusinessRuleContainerDTO;
-import org.kuali.student.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.rules.repository.dto.RuleSetContainerDTO;
+import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.dto.RuleSetVerificationResultDTO;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 /**
  * This is the rule engine runtime repository interface.

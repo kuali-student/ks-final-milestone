@@ -16,12 +16,12 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.rulemanagement.dto.AgendaDeterminationInfoDTO;
-import org.kuali.student.rulemanagement.dto.AgendaInfoDTO;
-import org.kuali.student.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
-import org.kuali.student.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rulemanagement.dto.BusinessRuleTypeInfoDTO;
-import org.kuali.student.rulemanagement.dto.StatusDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 
 @WebService(name = "RuleManagementService", targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

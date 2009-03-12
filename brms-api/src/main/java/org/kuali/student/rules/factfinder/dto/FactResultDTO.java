@@ -1,7 +1,6 @@
 package org.kuali.student.rules.factfinder.dto;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
+
 
 /**
  * 

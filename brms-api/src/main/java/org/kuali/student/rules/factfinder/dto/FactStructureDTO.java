@@ -24,7 +24,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 
 /**
  * Contains meta data about the left hand side of a Rule Proposition. For example, in "completed any 2 of (MATH101, MATH102,
