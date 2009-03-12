@@ -1,6 +1,5 @@
 package org.kuali.student.brms.rulemanagement.service;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -18,6 +17,7 @@ import org.kuali.student.brms.rulemanagement.dto.StatusDTO;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;

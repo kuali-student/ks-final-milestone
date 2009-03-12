@@ -26,6 +26,8 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.brms.repository.dto.RuleSetContainerDTO;
 import org.kuali.student.brms.repository.dto.RuleSetDTO;
 import org.kuali.student.brms.repository.dto.RuleSetVerificationResultDTO;
+import org.kuali.student.brms.repository.exceptions.RuleExistsException;
+import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.core.exceptions.AlreadyExistsException;

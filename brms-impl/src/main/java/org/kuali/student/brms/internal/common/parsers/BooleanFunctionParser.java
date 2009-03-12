@@ -1,5 +1,5 @@
-// $ANTLR 3.1.1 BooleanFunction.g 2009-03-12 11:25:00
- package org.kuali.student.brms.internal.common.parsers; 
+// $ANTLR 3.1.1 BooleanFunction.g 2009-03-12 14:57:12
+ package org.kuali.student.rules.internal.common.parsers; 
 
 import org.antlr.runtime.*;
 import java.util.Stack;
