@@ -4,13 +4,6 @@ import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.impl.KSHelpLinkImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The KSHelpLink widget is intended to display help information next to some input field.  When the input entered correctly, it can be
@@ -37,7 +30,7 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Get the HelpInfo data object used for this help link.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#getHelpInfo()
+     * @return the HelpInfo data object used in this help link.
      */
     public HelpInfo getHelpInfo() {
         return helpLink.getHelpInfo();
@@ -45,8 +38,8 @@ public class KSHelpLink extends KSHelpLinkAbstract {
 
     /**
      * Set the HelpInfo data object to be used for this help link.
-     * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#setHelpInfo(org.kuali.student.common.ui.client.dto.HelpInfo)
+     *
+     * @param helpInfo the HelpInfo data to be used in this help link
      */
     public void setHelpInfo(HelpInfo helpInfo) {
         helpLink.setHelpInfo(helpInfo);
@@ -55,7 +48,7 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Get the state of the help link (Default, OK, or Error) 
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#getState()
+     * @return state of this help link widget (Default, OK, or Error) 
      */
     public HelpLinkState getState() {
         return helpLink.getState();
@@ -64,7 +57,6 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Sets the state of the help link to the default state/text/picture.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#setStateDefault()
      */
     public void setStateDefault() {
         helpLink.setStateDefault();
@@ -73,7 +65,6 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Sets the state of the help link to the OK state/text/picture.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#setStateOK()
      */
     public void setStateOK() {
         helpLink.setStateOK();
@@ -82,7 +73,7 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Sets the state of the help link to the OK state/picture and uses the text passed in.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#setStateOK(java.lang.String)
+     * @param text the text to be used for the OK state
      */
     public void setStateOK(String text) {
         helpLink.setStateOK(text);
@@ -91,7 +82,6 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Sets the state of the help link to the Error state/text/picture.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#setStateError()
      */
     public void setStateError() {
         helpLink.setStateError();
@@ -100,7 +90,7 @@ public class KSHelpLink extends KSHelpLinkAbstract {
     /**
      * Sets the state of the help link to the Error state/picture and uses the text passed in.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract#setStateError(java.lang.String)
+     * @param text the text to be used for the Error state
      */
     public void setStateError(String text) {
         helpLink.setStateError(text);
