@@ -49,7 +49,7 @@ public class KSImage extends KSImageAbstract{
     /**
      * Initialized the KSImage with the passed in values
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSImageAbstract#init(java.lang.String)
+     * @param url the URL of the image to display.
      */
     @Override
     protected void init(String url) {
@@ -60,7 +60,11 @@ public class KSImage extends KSImageAbstract{
     /**
      * Initialized the KSImage with the passed in values.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSImageAbstract#init(java.lang.String, int, int, int, int)
+     * @param url the URL of the image to display.
+     * @param left the horizontal co-ordinate of the upper-left vertex of the visibility rectangle
+     * @param top the vertical co-ordinate of the upper-left vertex of the visibility rectangle
+     * @param width the width of the visibility rectangle
+     * @param height the height of the visibility rectangle
      */
     @Override
     protected void init(String url, int left, int top, int width, int height) {
