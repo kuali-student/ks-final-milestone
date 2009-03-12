@@ -102,7 +102,7 @@ public class LuServiceImpl implements LuService {
 
 	private LuDao luDao;
     private SearchManager searchManager;
-    
+
 	@Override
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
@@ -250,25 +250,25 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loId, "loId");
         checkForMissingParameter(cluId, "cluId");
-        
+
         Clu clu = luDao.fetch(Clu.class, cluId);
         if (clu == null) {
             throw new DoesNotExistException("Clu does not exist for id: " + cluId);
         }
         // TODO I'm assuming the loId passed in is good since that's external
-        
+
         for(LearningObjective lo : clu.getLearningObjectives())
            if(lo.getLearningObjectiveId().equals(loId))
                throw new AlreadyExistsException(String.format("LearningObjective with id '%s' is already associated with Clu with id '%s'",loId,cluId));
-        
+
         LearningObjective learningObjective = new LearningObjective();
         learningObjective.setClu(clu);
         learningObjective.setLearningObjectiveId(loId);
-        
+
         clu.getLearningObjectives().add(learningObjective);
 //        luDao.update(learningObjective);
         luDao.update(clu);
-        
+
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
         return statusInfo;
@@ -418,7 +418,7 @@ public class LuServiceImpl implements LuService {
         if(cluId.equals(relatedCluId)){
         	throw new CircularReferenceException("Can not relate a Clu to itself");
         }
-        
+
         Clu clu = luDao.fetch(Clu.class, cluId);
         Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
 
@@ -488,25 +488,25 @@ public class LuServiceImpl implements LuService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+
 	    checkForMissingParameter(luDocRelationType, "luDocRelationType");
 	    checkForMissingParameter(documentId, "documentId");
 	    checkForMissingParameter(cluId, "cluId");
 	    checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
-	    
+
 	    LuDocumentRelation docRelation = new LuDocumentRelation();
 	    Clu clu = luDao.fetch(Clu.class, cluId);
 	    LuDocumentRelationType docRelationType = luDao.fetch(LuDocumentRelationType.class, luDocRelationType);
-	    
+
 	    BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[] { "id", "desc", "type", "cluId", "attributes", "documentId", "metaInfo" });
 	    docRelation.setClu(clu);
 	    docRelation.setLuDocumentRelationType(docRelationType);
     	docRelation.setDesc(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
 	    docRelation.setDocumentId(documentId);
 	    docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
-	    
+
 	    luDao.create(docRelation);
-	    
+
 	    return LuServiceAssembler.toLuDocRelationInfo(docRelation);
 	}
 
@@ -696,9 +696,9 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		
+
         checkForMissingParameter(luDocRelationId, "luDocRelationId");
-        
+
 	    luDao.delete(LuDocumentRelation.class, luDocRelationId);
 
 	    StatusInfo statusInfo = new StatusInfo();
@@ -733,9 +733,9 @@ public class LuServiceImpl implements LuService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+
         checkForMissingParameter(luiId, "luiId");
-        
+
 	    luDao.delete(Lui.class, luiId);
 
 	    StatusInfo statusInfo = new StatusInfo();
@@ -1002,8 +1002,12 @@ public class LuServiceImpl implements LuService {
 			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(relatedCluId, "relatedCluId");
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+
+		List<Clu> clus = luDao.getClusByRelation(relatedCluId, luLuRelationTypeKey);
+		return LuServiceAssembler.toCluInfos(clus);
+
 	}
 
 	@Override
@@ -1121,7 +1125,7 @@ public class LuServiceImpl implements LuService {
 	@Override
 	public List<LuDocRelationTypeInfo> getLuDocRelationTypes()
 			throws OperationFailedException {
-		
+
 		List<LuDocumentRelationType> docRelationTypes = luDao.find(LuDocumentRelationType.class);
 		return LuServiceAssembler.toLuDocRelationTypeInfos(docRelationTypes);
 	}
@@ -1132,7 +1136,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluId, "cluId");
-		
+
 		List<LuDocumentRelation> luDocRelationsByClu = luDao.getLuDocRelationsByClu(cluId);
 		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByClu);
 	}
@@ -1143,7 +1147,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(documentId, "documentId");
-		
+
 		List<LuDocumentRelation> luDocRelationsByDocument = luDao.getLuDocRelationsByDocument(documentId);
 		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByDocument);
 	}
@@ -1155,7 +1159,7 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException {
 
 		checkForMissingParameter(luDocRelationIdList, "luDocRelationIdList");
-		
+
 		List<LuDocumentRelation> luDocRelationsByIdList = luDao.getLuDocRelationsByIdList(luDocRelationIdList);
 		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByIdList);
 	}
@@ -1167,7 +1171,7 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException {
 
 		checkForMissingParameter(luDocRelationTypeKey, "luDocRelationTypeKey");
-		
+
 		List<LuDocumentRelation> luDocRelationsByType = luDao.getLuDocRelationsByType(luDocRelationTypeKey);
 		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByType);
 	}
@@ -1274,9 +1278,9 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLuiIdsByCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		
+
 		checkForMissingParameter(cluId, "cluId");
-		
+
 		return luDao.getLuiIdsByCluId(cluId);
 	}
 
@@ -1292,7 +1296,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		
+
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(atpKey, "atpKey");
 		return luDao.getLuiIdsInAtpByCluId(cluId, atpKey);
@@ -1333,7 +1337,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiId, "luiId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
-		
+
 		return LuServiceAssembler.toLuiInfos(luDao.getLuisByRelationType(luiId, luLuRelationTypeKey));
 	}
 
@@ -1344,7 +1348,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiId, "luiId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
-		
+
 		return luDao.getLuiIdsByRelationType(luiId, luLuRelationTypeKey);
 	}
 
@@ -1362,7 +1366,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 		List<String> relatedCluIds = luDao.getRelatedCluIdsByCluId(cluId, luLuRelationTypeKey);
 		return relatedCluIds;
 	}
@@ -1373,7 +1377,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 		List<Clu> relatedClus = luDao.getRelatedClusByCluId(cluId, luLuRelationTypeKey);
 		return LuServiceAssembler.toCluInfos(relatedClus);
 	}
@@ -1384,7 +1388,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiId, "luiId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 		List<String> relatedLuiIds = luDao.getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey);
 		return relatedLuiIds;
 	}
@@ -1395,7 +1399,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiId, "luiId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");		
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 		List<Lui> relatedLuis = luDao.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey);
 		return LuServiceAssembler.toLuiInfos(relatedLuis);
 	}
@@ -1626,29 +1630,29 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loId, "loId");
         checkForMissingParameter(cluId, "cluId");
-        
+
         Clu clu = luDao.fetch(Clu.class, cluId);
         if (clu == null) {
             throw new DoesNotExistException("Clu does not exist for id: " + cluId);
         }
-        
+
         LearningObjective learningObjective = null;
         for(LearningObjective lo : clu.getLearningObjectives())
             if(lo.getLearningObjectiveId().equals(loId))
                 learningObjective = lo;
-        
+
         StatusInfo statusInfo = new StatusInfo();
-        
+
         if(learningObjective == null) {
 //            throw new DoesNotExistException(); //service definition doesn't require an exception here as I read it
             statusInfo.setSuccess(false); // should this be false?
             return statusInfo;
         }
-        
+
         clu.getLearningObjectives().remove(learningObjective);
         luDao.update(clu);
         luDao.delete(learningObjective);
-        
+
         statusInfo.setSuccess(true);
         return statusInfo;
 	}
@@ -2025,7 +2029,7 @@ public class LuServiceImpl implements LuService {
 		if (!String.valueOf(cluSet.getVersionInd()).equals(cluSetInfo.getMetaInfo().getVersionInd())){
 			throw new VersionMismatchException("CluSet to be updated is not the current version");
 		}
-        
+
         if(cluSet.isCriteriaSet()){
         	if(cluSetInfo.getCluIds().size()>0||cluSetInfo.getCluSetIds().size()>0){
         		throw new UnsupportedActionException("Criteria CluSets can not contain Clus or CluSets");
@@ -2037,7 +2041,7 @@ public class LuServiceImpl implements LuService {
         	if(cluSetInfo.getCluCriteria()!=null){
         		throw new UnsupportedActionException("Enumerated CluSets can not contain Criteria");
         	}
-        	//update the cluIds 
+        	//update the cluIds
         	Set<String> newCluIds = new HashSet<String>(cluSetInfo.getCluIds());
         	for(Iterator<Clu> i = cluSet.getClus().iterator();i.hasNext();){
         		if(!newCluIds.remove(i.next().getId())){
@@ -2047,8 +2051,8 @@ public class LuServiceImpl implements LuService {
         	for(String newCluId:newCluIds){
         		this.addCluToCluSet(newCluId, cluSet.getId());
         	}
-        	
-        	//update the cluSetIds 
+
+        	//update the cluSetIds
         	Set<String> newCluSetIds = new HashSet<String>(cluSetInfo.getCluSetIds());
         	for(Iterator<CluSet> i = cluSet.getCluSets().iterator();i.hasNext();){
         		if(!newCluSetIds.remove(i.next().getId())){
@@ -2065,7 +2069,7 @@ public class LuServiceImpl implements LuService {
 	    cluSet.setDesc(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
 
 	    CluSet updated = luDao.update(cluSet);
-	    
+
 		return LuServiceAssembler.toCluSetInfo(updated);
 	}
 
@@ -2090,27 +2094,27 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		
+
 	    checkForMissingParameter(luDocRelationId, "luDocRelationId");
 	    checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
-	    
+
 	    LuDocumentRelation docRelation = luDao.fetch(LuDocumentRelation.class, luDocRelationId);
-	    
+
 		if (!String.valueOf(docRelation.getVersionInd()).equals(luDocRelationInfo.getMetaInfo().getVersionInd())){
 			throw new VersionMismatchException("LuDocRelation to be updated is not the current version");
 		}
-	    
+
 	    Clu clu = luDao.fetch(Clu.class, luDocRelationInfo.getCluId());
 	    LuDocumentRelationType docRelationType = luDao.fetch(LuDocumentRelationType.class, luDocRelationInfo.getType());
-	    
+
 	    BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[] { "id", "desc", "type", "cluId", "attributes", "metaInfo" });
 	    docRelation.setClu(clu);
 	    docRelation.setLuDocumentRelationType(docRelationType);
     	docRelation.setDesc(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
 	    docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
-	    
+
 	    LuDocumentRelation updated = luDao.update(docRelation);
-	    
+
 	    return LuServiceAssembler.toLuDocRelationInfo(updated);
 	}
 
@@ -2184,7 +2188,7 @@ public class LuServiceImpl implements LuService {
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+
         // check for missing params
         checkForMissingParameter(luiId, "luiId");
         checkForMissingParameter(luiState, "luiState");

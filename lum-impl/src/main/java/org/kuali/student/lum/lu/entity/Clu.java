@@ -31,8 +31,10 @@ import org.kuali.student.core.entity.TimeAmount;
 @Table(name = "KSLU_CLU")
 @NamedQueries( {
 		@NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE id IN (:idList)"),
+		@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE state = :luState AND luType.id = :luTypeKey"),
         @NamedQuery(name = "Clu.getCluIdsByLoId", query = "SELECT c.id FROM Clu c join c.learningObjectives lo WHERE lo.learningObjectiveId = :loId"),
-		@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE state = :luState AND luType.id = :luTypeKey") })
+		@NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.relatedClu.id = :relatedCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
+})
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -159,7 +161,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	protected void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
-	
+
 	public String getId() {
 		return id;
 	}

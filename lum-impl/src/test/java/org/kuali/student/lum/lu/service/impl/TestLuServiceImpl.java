@@ -273,7 +273,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testCluSetCrud() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException, VersionMismatchException, CircularReferenceException, UnsupportedActionException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		CluSetInfo cluSetInfo = new CluSetInfo();
-		
+
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
@@ -286,10 +286,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSetInfo.getCluSetIds().add("CLUSET-1");
 		cluSetInfo.getCluSetIds().add("CLUSET-2");
 		cluSetInfo.getAttributes().put("cluSet1ArrtKey1", "cluSet1ArrtValue1");
-		cluSetInfo.getAttributes().put("cluSet1ArrtKey2", "cluSet1ArrtValue2");		
-		
+		cluSetInfo.getAttributes().put("cluSet1ArrtKey2", "cluSet1ArrtValue2");
+
 		CluSetInfo createdSet1 = client.createEnumeratedCluSet("testCluSet1", cluSetInfo);
-		
+
 		assertEquals("<p>Formatted Desc</p>",createdSet1.getDesc().getFormatted());
 		assertEquals("plain",createdSet1.getDesc().getPlain());
 		assertEquals(df.parse("20080101"), createdSet1.getEffectiveDate());
@@ -304,7 +304,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	    assertNotNull(createdSet1.getMetaInfo().getCreateTime());
 	    assertNotNull(createdSet1.getMetaInfo().getUpdateTime());
 	    assertNotNull(createdSet1.getId());
-		
+
 		createdSet1.getDesc().setFormatted("UP<p>Formatted Desc</p>");
 		createdSet1.getDesc().setPlain("UPplain");
 		createdSet1.setEffectiveDate(df.parse("20090101"));
@@ -317,9 +317,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdSet1.getAttributes().put("cluSet1ArrtKey1", "UPcluSet1ArrtValue1");
 		createdSet1.getAttributes().remove("cluSet1ArrtKey2");
 		createdSet1.getAttributes().put("cluSet1ArrtKey3", "cluSet1ArrtValue3");
-		
+
 		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1);
-		
+
 		assertEquals("UP<p>Formatted Desc</p>",updatedSet1.getDesc().getFormatted());
 		assertEquals("UPplain",updatedSet1.getDesc().getPlain());
 		assertEquals(df.parse("20090101"), updatedSet1.getEffectiveDate());
@@ -334,14 +334,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("UPcluSet1ArrtValue1",updatedSet1.getAttributes().get("cluSet1ArrtKey1"));
 		assertEquals("cluSet1ArrtValue3",updatedSet1.getAttributes().get("cluSet1ArrtKey3"));
 		assertEquals(2,updatedSet1.getAttributes().size());
-	    assertNotNull(updatedSet1.getMetaInfo().getUpdateTime());		
+	    assertNotNull(updatedSet1.getMetaInfo().getUpdateTime());
 
 	    //Test Adds and removes
 	    StatusInfo status = client.addCluSetToCluSet(createdSet1.getId(), "CLUSET-4");
 	    assertTrue(status.getSuccess());
 	    status = client.addCluToCluSet("CLU-4",createdSet1.getId());
 	    assertTrue(status.getSuccess());
-	    
+
 	    CluSetInfo updatedSet2 = client.getCluSetInfo(createdSet1.getId());
 		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-1"));
 		assertTrue(updatedSet2.getCluSetIds().contains("CLUSET-3"));
@@ -351,7 +351,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(updatedSet2.getCluIds().contains("CLU-3"));
 		assertTrue(updatedSet2.getCluIds().contains("CLU-4"));
 		assertEquals(3,updatedSet2.getCluIds().size());
-		
+
 	    status = client.removeCluSetFromCluSet(createdSet1.getId(), "CLUSET-4");
 	    assertTrue(status.getSuccess());
 	    status = client.removeCluFromCluSet("CLU-4",createdSet1.getId());
@@ -363,22 +363,22 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(updatedSet2.getCluIds().contains("CLU-1"));
 		assertTrue(updatedSet2.getCluIds().contains("CLU-3"));
 		assertEquals(2,updatedSet2.getCluIds().size());
-		
+
 		//Test circular check for set add
 		try{
 			client.addCluSetToCluSet("CLUSET-1", updatedSet2.getId());
 			fail("Should have thrown circular reference exception.");
 		}catch(CircularReferenceException e){
 		}
-		
-	    
+
+
 	    //test opt locking, gets and deletes
 	    try{
 	    	updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1);
 			fail("Should have thrown VersionMismatchException.");
 		}catch(VersionMismatchException e){
 		}
-		
+
 		status = client.deleteCluSet(createdSet1.getId());
 		assertTrue(status.getSuccess());
 
@@ -388,9 +388,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}catch(DoesNotExistException e){
 
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testCluCluRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
 		List<CluCluRelationInfo> ccrs = client.getCluCluRelationsByClu("CLU-1");
@@ -1227,13 +1227,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         }catch(DoesNotExistException e){
 
         }
-        
+
 		List<String> relatedCluIdsByCluId = client.getRelatedCluIdsByCluId("CLU-1", "luLuType.type1");
-		
+
 		assertEquals(2,relatedCluIdsByCluId.size());
 		assertTrue(relatedCluIdsByCluId.contains("CLU-2"));
 		assertTrue(relatedCluIdsByCluId.contains("CLU-3"));
-		
+
 		List<CluInfo> relatedClusByCluId = client.getRelatedClusByCluId("CLU-1", "luLuType.type1");
 		assertEquals(2,relatedClusByCluId.size());
 	}
@@ -1319,13 +1319,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(1,relations.size());
 		relations = client.getLuiLuiRelations("LUI-3");
 		assertEquals(0,relations.size());
-		
-		
+
+
 		List<String> relatedLuiIdsByLuiId = client.getRelatedLuiIdsByLuiId("LUI-1", "luLuType.type1");
 		assertEquals(2,relatedLuiIdsByLuiId.size());
 		assertTrue(relatedLuiIdsByLuiId.contains("LUI-2"));
 		assertTrue(relatedLuiIdsByLuiId.contains("LUI-3"));
-		
+
 		List<LuiInfo> relatedLuisByLuiId = client.getRelatedLuisByLuiId("LUI-1", "luLuType.type1");
 		assertEquals(2,relatedLuisByLuiId.size());
 
@@ -1442,7 +1442,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (DoesNotExistException dnee) {
 		}
 	}
-	
+
 	@Test
 	public void testGetLuiIdsByCluId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
 	{
@@ -1463,7 +1463,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(null != luiIds);
 		assertEquals(0, luiIds.size());
 	}
-	
+
 	@Test
 	public void testGetLuiIdsInAtpByCluId() throws DoesNotExistException, InvalidParameterException, OperationFailedException, MissingParameterException
 	{
@@ -1492,12 +1492,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(null != luiIds);
 		assertEquals(0, luiIds.size());
 	}
-	
+
 	@Test
 	public void testGetLuLuRelationTypeInfo() throws OperationFailedException, DoesNotExistException, MissingParameterException
 	{
 		LuLuRelationTypeInfo luLuRelTypeInfo;
-		
+
 		try {
 			luLuRelTypeInfo = client.getLuLuRelationTypeInfo(null);
 			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
@@ -1514,9 +1514,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			fail("LuService.getLuLuRelationTypeInfo() did not throw DoesNotExistException when retrieving non-existent LuLuRelationType");
 		} catch (DoesNotExistException dnee) {
 		}
-			
+
 	}
-	
+
 	@Test
 	public void testGetLuLuRelationTypeInfos() throws OperationFailedException, DoesNotExistException, MissingParameterException
 	{
@@ -1526,9 +1526,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("luLuType.type1", luLuRelTypeInfos.get(0).getId());
 		assertEquals("manolin", luLuRelTypeInfos.get(2).getName());
 	}
-	
+
 	@Test
-	public void testUpdateLuiState() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, ParseException, AlreadyExistsException, MissingParameterException, DependentObjectsExistException 
+	public void testUpdateLuiState() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException, ParseException, AlreadyExistsException, MissingParameterException, DependentObjectsExistException
 	{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		try {
@@ -1541,10 +1541,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			fail("LuService.updateLuiState() did not throw MissingParameterException for null state");
 		} catch (MissingParameterException e) {
 		}
-		
+
 		// create a Lui whose state we'll update. Create a new one so its MetaInfo gets created in prePersist()
 		LuiInfo luiInfo = new LuiInfo();
-		
+
 		luiInfo.setLuiCode("LUI Test Code");
 		luiInfo.setMaxSeats(100);
 		luiInfo.setState("Approved");
@@ -1552,23 +1552,23 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luiInfo.setExpirationDate(df.parse("20801231"));
 		luiInfo.getAttributes().put("luiAttrKey1", "luiAttrValue1");
 		luiInfo.getAttributes().put("luiAttrKey2", "luiAttrValue2");
-		
+
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo);
 		// make sure the db's in the state we expect
 		assertEquals("Approved", createdLui.getState());
-		
+
 		// update and confirm it was updated
 		LuiInfo updatedLui = client.updateLuiState(createdLui.getId(), "Activated");
 		assertEquals("Activated", updatedLui.getState());
-		
+
 		// and now explicitly retrieve it without a call to updateLuiState and confirm same
 		updatedLui = client.getLui(createdLui.getId());
 		assertEquals("Activated", updatedLui.getState());
-		
+
 		// and delete it to keep db consistent for other tests
 		client.deleteLui(updatedLui.getId());
 	}
-	
+
 	@Test
 	public void testGetLuisByRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
 	{
@@ -1578,7 +1578,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(1, luis.size());
 		assertEquals("LUI-1", luis.get(0).getId());
 	}
-	
+
 	@Test
 	public void testGetLuiIdsByRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
 	{
@@ -1588,11 +1588,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(1, luis.size());
 		assertEquals("LUI-1", luis.get(0));
 	}
-	
+
 	@Test
 	public void testLuDocRelation() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, VersionMismatchException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		
+
 		LuDocRelationInfo luDocRelationInfo = new LuDocRelationInfo();
 		luDocRelationInfo.setType("");
 		luDocRelationInfo.setCluId("");
@@ -1607,9 +1607,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luDocRelationInfo.setTitle("title");
 		luDocRelationInfo.getAttributes().put("DocRelAttrKey1","DocRelAttrValue1");
 		luDocRelationInfo.getAttributes().put("DocRelAttrKey2","DocRelAttrValue2");
-		
+
 		LuDocRelationInfo created = client.createLuDocRelationForClu("luDocRelationType.doctype1", "MY-EXTERNAL-DOC-ID", "CLU-1", luDocRelationInfo);
-		
+
 		assertEquals("luDocRelationType.doctype1",created.getType());
 		assertEquals("CLU-1",created.getCluId());
 		assertEquals("MY-EXTERNAL-DOC-ID",created.getDocumentId());
@@ -1624,7 +1624,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(created.getId());
 		assertNotNull(created.getMetaInfo().getCreateTime());
 		assertNotNull(created.getMetaInfo().getUpdateTime());
-		
+
 		created.setType("luDocRelationType.doctype2");
 		created.setCluId("CLU-2");
 		created.setDocumentId("NEW-DOC-ID");
@@ -1637,7 +1637,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		created.getAttributes().put("DocRelAttrKey1","UPDocRelAttrValue1");
 
 		LuDocRelationInfo updated = client.updateLuDocRelation(created.getId(), created);
-		
+
 		assertEquals("luDocRelationType.doctype2",updated.getType());
 		assertEquals("CLU-2",updated.getCluId());
 		assertEquals("NEW-DOC-ID",updated.getDocumentId());
@@ -1648,7 +1648,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("UPstate",updated.getState());
 		assertEquals("UPtitle",updated.getTitle());
 		assertEquals("UPDocRelAttrValue1",updated.getAttributes().get("DocRelAttrKey1"));
-		
+
 		// optimistic locking working?
 		try{
 			client.updateLuDocRelation(created.getId(), created);
@@ -1658,21 +1658,21 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		// delete what we created
 		client.deleteLuDocRelation(updated.getId());
-		
+
 		// and try it again
 		try {
 			client.deleteLuDocRelation(updated.getId());
 			fail("LuService.deleteLuDocRelation() of previously-delete Lui did not throw expected DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
-		
+
 		//Test other gets
 		LuDocRelationInfo getLuDocRelation =  client.getLuDocRelation("LUDOCREL-1");
 		assertEquals("CLU-1",getLuDocRelation.getCluId());
-		
+
 		List<LuDocRelationInfo> getLuDocRelationsByClu =  client.getLuDocRelationsByClu("CLU-1");
 		assertEquals(2,getLuDocRelationsByClu.size());
-		
+
 		List<LuDocRelationInfo> getLuDocRelationsByDocument = client.getLuDocRelationsByDocument("DOC-1");
 		assertEquals(2,getLuDocRelationsByDocument.size());
 
@@ -1681,50 +1681,78 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luDocRelationIdList.add("LUDOCREL-2");
 		List<LuDocRelationInfo> getLuDocRelationsByIdList = client.getLuDocRelationsByIdList(luDocRelationIdList);
 		assertEquals(2,getLuDocRelationsByIdList.size());
-		
+
 		List<LuDocRelationInfo> getLuDocRelationsByType = client.getLuDocRelationsByType("luDocRelationType.doctype1");
 		assertEquals(3,getLuDocRelationsByType.size());
-		
+
 		assertEquals("DT1",client.getLuDocRelationType("luDocRelationType.doctype1").getName());
 		assertEquals(2,client.getLuDocRelationTypes().size());
-		
-		
+
+
 	}
 	@Test
 	public void testOutcomeLO() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
 	    StatusInfo status = client.addOutcomeLoToClu("LO-1", "CLU-1");
         assertTrue(status.getSuccess());
-        
+
 	    List<String> ids = client.getLoIdsByClu("CLU-1");
 	    assertEquals(1, ids.size());
 	    assertEquals("LO-1", ids.get(0));
-	    
+
 	    ids = client.getCluIdsByLoId("LO-1");
         assertEquals(1, ids.size());
         assertEquals("CLU-1", ids.get(0));
-        
+
         status = client.addOutcomeLoToClu("LO-3", "CLU-1");
         assertTrue(status.getSuccess());
-        
+
         ids = client.getLoIdsByClu("CLU-1");
         assertEquals(2, ids.size());
         assertTrue(ids.contains("LO-3"));
-        
+
 	    status = client.removeOutcomeLoFromClu("LO-1", "CLU-1");
 	    assertTrue(status.getSuccess());
-	    
+
 	    status = client.removeOutcomeLoFromClu("LO-2", "CLU-1");
         assertFalse(status.getSuccess());
-        
+
 	}
-	
+
 	@Test
 	public void testLrType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		LrTypeInfo lrType = client.getLrType("lrType.finalGrade");
 		assertEquals("Final Grade", lrType.getName());
 		List<LrTypeInfo> lrTypes = client.getLrTypes();
 		assertEquals(2,lrTypes.size());
-		
+
 	}
-	
+
+	@Test
+	public void  testGetClusByRelation() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, VersionMismatchException{
+		List<CluInfo> clus = client.getClusByRelation("CLU-2", "luLuType.type1");
+		assertNotNull(clus);
+		assertEquals(1, clus.size());
+
+		clus = client.getClusByRelation("CLUXX-2", "luLuType.type1");
+		assertNotNull(clus);
+		assertEquals(0, clus.size());
+
+		clus = client.getClusByRelation("CLU-2", "luLuType.type1XX");
+		assertNotNull(clus);
+		assertEquals(0, clus.size());
+
+		try {
+			clus = client.getClusByRelation(null, "luLuType.type1XX");
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+		try {
+			clus = client.getClusByRelation("CLU-2", null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+	}
+
 }

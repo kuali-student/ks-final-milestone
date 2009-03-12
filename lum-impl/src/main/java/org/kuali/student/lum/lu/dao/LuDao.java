@@ -26,6 +26,7 @@ public interface LuDao extends CrudDao, SearchableDao  {
     public Boolean isCluInCluSet(String cluId, String cluSetId);
 	public List<LuiLuiRelation> getLuiLuiRelations(String luiId);
 	public List<CluCluRelation> getCluCluRelationsByClu(String cluId);
+	public List<Clu> getClusByRelation(String relatedCluId, String luLuRelationTypeKey);
 	public List<LuDocumentRelation> getLuDocRelationsByClu(String cluId);
 	public List<LuDocumentRelation> getLuDocRelationsByDocument(
 			String documentId);
@@ -39,7 +40,7 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<Clu> getRelatedClusByCluId(String cluId,
 			String luLuRelationTypeId);
 	public List<Lui> getRelatedLuisByLuiId(String luiId, String id);
-	public List<String> getRelatedLuiIdsByLuiId(String luiId, String id);			
+	public List<String> getRelatedLuiIdsByLuiId(String luiId, String id);
     public List<LuStatement> getLuStatementsForClu(String cluId);
 	public List<String> getLuiIdsByRelationType(String relatedLuiId, String luLuRelationTypeId);
 }

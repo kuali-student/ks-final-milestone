@@ -97,7 +97,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
 		Query query = em.createNamedQuery("LuiLuiRelation.getLuisByRelationType");
 		query.setParameter("luiId", luiId);
 		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
-		
+
 		@SuppressWarnings("unchecked")
 		List<Lui> luis = query.getResultList();
 		return luis;
@@ -109,7 +109,7 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
 		Query query = em.createNamedQuery("LuiLuiRelation.getLuiIdsByRelationType");
 		query.setParameter("luiId", relatedLuiId);
 		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
-		
+
 		@SuppressWarnings("unchecked")
 		List<String> luiIds = query.getResultList();
 		return luiIds;
@@ -250,5 +250,16 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
         @SuppressWarnings("unchecked")
         List<LuStatement> resultList = query.getResultList();
         return resultList;
-    }
+	}
+
+	@Override
+	public List<Clu> getClusByRelation(String relatedCluId, String luLuRelationTypeKey) {
+		Query query = em.createNamedQuery("Clu.getClusByRelation");
+		query.setParameter("relatedCluId", relatedCluId);
+		query.setParameter("luLuRelationTypeKey", luLuRelationTypeKey);
+		@SuppressWarnings("unchecked")
+		List<Clu> resultList = query.getResultList();
+		return resultList;
+	}
+
 }
