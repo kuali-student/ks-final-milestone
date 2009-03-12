@@ -266,7 +266,7 @@ public class LuServiceImpl implements LuService {
         learningObjective.setLearningObjectiveId(loId);
         
         clu.getLearningObjectives().add(learningObjective);
-        luDao.update(learningObjective);
+//        luDao.update(learningObjective);
         luDao.update(clu);
         
         StatusInfo statusInfo = new StatusInfo();

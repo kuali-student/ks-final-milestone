@@ -1696,19 +1696,19 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertTrue(status.getSuccess());
         
 	    List<String> ids = client.getLoIdsByClu("CLU-1");
-//	    assertEquals(1, ids.size());
-//	    assertEquals("LO-1", ids.get(0));
+	    assertEquals(1, ids.size());
+	    assertEquals("LO-1", ids.get(0));
 	    
 	    ids = client.getCluIdsByLoId("LO-1");
-//        assertEquals(1, ids.size());
-//        assertEquals("CLU-1", ids.get(0));
+        assertEquals(1, ids.size());
+        assertEquals("CLU-1", ids.get(0));
         
         status = client.addOutcomeLoToClu("LO-3", "CLU-1");
         assertTrue(status.getSuccess());
         
         ids = client.getLoIdsByClu("CLU-1");
-//        assertEquals(2, ids.size());
-//        assertTrue(ids.contains("LO-3"));
+        assertEquals(2, ids.size());
+        assertTrue(ids.contains("LO-3"));
         
 	    status = client.removeOutcomeLoFromClu("LO-1", "CLU-1");
 	    assertTrue(status.getSuccess());
