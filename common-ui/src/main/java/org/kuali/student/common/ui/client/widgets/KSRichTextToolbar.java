@@ -36,6 +36,15 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * KSRichTextToolbar provides an interface for adding different text formatting styles to text in a
+ * a RichTextArea.
+ * 
+ * The class implementation is a modified version of the one found in the GWT Samples.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class KSRichTextToolbar extends KSRichTextToolbarAbstract{ 
 
     private KSRichTextToolbarAbstract richTextToolbar = GWT.create(KSRichTextToolbarImpl.class);
@@ -52,12 +61,22 @@ public class KSRichTextToolbar extends KSRichTextToolbarAbstract{
 
 
 
+    /**
+     * Returns true if the toolbar is being interacted with, false otherwise.
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract#inUse()
+     */
     public boolean inUse(){
         return richTextToolbar.inUse();
     }
 
 
 
+    /**
+     * Initializes this toolbar with the specified options.
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract#init(com.google.gwt.user.client.ui.RichTextArea)
+     */
     @Override
     protected void init(RichTextArea richText) {
         richTextToolbar.init(richText);
