@@ -30,10 +30,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /** 
- * KSRichEditor is the KS default rich text editor.  The editor provides a variety of text options commonly
- * found in text editors.  It also features a toolbar which only show when the editor is in focus and a pop-out
+ * KSRichEditor is the KS default rich text editor.  The editor provides a variety of text formatting options commonly
+ * found in traditional text editors.  It also features a toolbar which only shows when the editor is in focus and a pop-out
  * window which allows a user to have more space to work (and can be resized).  Any changes made in the pop-out
- * editor are reflected in the base editor when the user is finished.
+ * editor are reflected in the original editor when the user is finished.
  * 
  * TODO implement i18n
  */
