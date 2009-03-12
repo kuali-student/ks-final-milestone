@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class KSDialogPanelImpl extends KSDialogPanelAbstract {
-    private final KSResizablePanel resizableContent = new KSResizablePanel();
+    private final KSResizablePanelImpl resizableContent = new KSResizablePanelImpl();
     //private final SimplePanel content = new SimplePanel();
     private boolean resizable = true;
     private Label dialogTitleLabel = new Label();
