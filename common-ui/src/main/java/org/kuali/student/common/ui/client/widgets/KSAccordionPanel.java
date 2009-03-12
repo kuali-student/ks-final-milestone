@@ -1,28 +1,11 @@
 package org.kuali.student.common.ui.client.widgets;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
-import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -50,7 +33,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
     /**
      * Adds a handler that will be used for ANY accordion panel title clicks.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#addGlobalTitleBarHandler(com.google.gwt.event.dom.client.ClickHandler)
+     * @param handler a ClickHandler that will handle clicks on any/all of the titlebars
+     * 
      */
     public void addGlobalTitleBarHandler(ClickHandler handler){
         accordionPanel.addGlobalTitleBarHandler(handler);
@@ -60,7 +44,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * Adds a panel with the category name of title and 
      * panel content defined by the widget subContent.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#addPanel(java.lang.String, com.google.gwt.user.client.ui.Widget)
+     * @param title the title of the category titlebar
+     * @param subContent the category's content - what will be shown below the titlebar when it is clicked
      */
     public void addPanel(String title, Widget subContent){
         accordionPanel.addPanel(title, subContent);
@@ -71,7 +56,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * Adds a panel with the titleWidget used as the title bar content and 
      * panel content defined by the widget subContent.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#addPanel(com.google.gwt.user.client.ui.Widget, com.google.gwt.user.client.ui.Widget)
+     * @param titleWidget the widget used in the titlebar
+     * @param subContent the category's content - what will be shown below the titlebar when it is clicked
      */
     public void addPanel(Widget titleWidget, Widget subContent){
         accordionPanel.addPanel(titleWidget);
@@ -82,18 +68,23 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * panel content defined by the widget subContent.  In addition, this panel's title bar will
      * handle clicks using the handler passed in.
      * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#addPanel(com.google.gwt.user.client.ui.Widget, com.google.gwt.event.dom.client.ClickHandler, com.google.gwt.user.client.ui.Widget)
-	 */
+     * @param titleWidget the widget used in the titlebar
+     * @param clickHandler the handler to handle clicks on the titlebar itself
+     * @param subContent the category's content - what will be shown below the titlebar when it is clicked
+     * 
+     */
 	public void addPanel(Widget titleWidget, ClickHandler clickHandler, Widget subContent) {
     accordionPanel.addPanel(titleWidget, clickHandler, subContent);
 		
 	}
 	
 	/**
-	 * Adds only a titlebar (no panel content) which contains the titleWidget and handles clicks using the handler
+	 * Adds ONLY a titlebar (no panel content) which contains the titleWidget and handles clicks using the handler
 	 * passed in.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#addPanel(com.google.gwt.user.client.ui.Widget, com.google.gwt.event.dom.client.ClickHandler)
+     * @param titleWidget the widget used in the titlebar
+     * @param clickHandler the handler to handle clicks on the titlebar itself
+     * 
 	 */
 	public void addPanel(Widget titleWidget, ClickHandler clickHandler) {
 	    accordionPanel.addPanel(titleWidget, clickHandler);
@@ -102,7 +93,7 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
     /**
      * Adds ONLY a titlebar (no panel content) which contains the titleWidget.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#addPanel(com.google.gwt.user.client.ui.Widget)
+     * @param titleWidget the widget used in the titlebar
      */
     public void addPanel(Widget titleWidget){
         accordionPanel.addPanel(titleWidget);
@@ -111,7 +102,6 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
     /**
      * Resets all titlebars to their "closed" state.  All open panels will be closed.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#resetTitleBars()
      */
     public void resetTitleBars(){
         accordionPanel.resetTitleBars();
@@ -121,16 +111,17 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * Gets a list of all content widgets in the accordion panel.  This list can contain null
      * values.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract#getWidgetList()
+     * @return a List of Widgets used in this accordion panel as category content
+     * 
      */
     public List<Widget> getWidgetList(){
         return accordionPanel.getWidgetList();
     }
 
     /**
-     * Gets this AccordionPanel's implemented object.
+     * Gets this AccordionPanel's instance.
      * 
-     * @return KSAccordionPanelAbstract object which is this panel's implementation.
+     * @return this KSAccordionPanelAbstract instance
      */
     public KSAccordionPanelAbstract getAccordionPanel() {
         return accordionPanel;
