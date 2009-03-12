@@ -8,7 +8,6 @@ import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.Composite;
 
 /**
  * KSDropDown wraps gwt Listbox.  However, it adds functionality and limits the listbox to only single select.
@@ -34,7 +33,7 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Adds a ChangeHandler to this drop down.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#addChangeHandler(com.google.gwt.event.dom.client.ChangeHandler)
+     * @param handler the ChangeHandler which handles any changes to this drop down (new value selected, etc.)
      */
     public void addChangeHandler(ChangeHandler handler){
         dropDown.addChangeHandler(handler);
@@ -43,7 +42,7 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Add an item to this drop down with the specified text.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#addItem(java.lang.String)
+     * @param item the name of the added item
      */
     public void addItem(String item){
         dropDown.addItem(item);
@@ -52,7 +51,7 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Remove an item with the specified text from the drop down.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#removeItem(int)
+     * @param index the index of the item to remove
      */
     public void removeItem(int index){
         dropDown.removeItem(index);
@@ -61,7 +60,6 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Clear the drop down, removes all items from the drop down.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#clear()
      */
     public void clear(){
         dropDown.clear();
@@ -70,7 +68,7 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Get the index of the item selected.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#getSelectedIndex()
+     * @return index value of the selected item
      */
     public int getSelectedIndex(){
         return dropDown.getSelectedIndex();
@@ -79,18 +77,17 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Get the associated object of the item if one exists, otherwise return null.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#getSelectedObject()
+     * @return Object associated with the selected item if one exists, otherwise null.
      */
     @Override
     public Object getSelectedObject() {
-        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
         return dropDown.getSelectedObject();
     }
 
     /**
      * Populate the drop down with the list of strings as item names.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#populateDropDown(java.util.List)
+     * @param the List of strings to populate the drop down with
      */
     @Override
     public void populateDropDown(List<String> stringList) {
@@ -102,7 +99,7 @@ public class KSDropDown extends KSDropDownAbstract{
      * Populate the drop down with the HashMap keys used as item names and their associated objects as their
      * associated item objects.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#populateDropDown(java.util.HashMap)
+     * @param theMap the HashMap contain string and object value pairs, representing selectable names and associated objects
      */
     @Override
     public void populateDropDown(HashMap<String, ?> theMap) {
@@ -113,7 +110,7 @@ public class KSDropDown extends KSDropDownAbstract{
     /**
      * Select an item whose text equals the name passed in.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDropDownAbstract#selectItem(java.lang.String)
+     * @param value the name of the item to be selected.
      */
     @Override
     public void selectItem(String value) {

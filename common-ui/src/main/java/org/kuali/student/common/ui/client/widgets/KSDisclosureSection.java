@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSDisclosureSectionImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Composite; 
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -19,7 +18,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     
     KSDisclosureSectionAbstract section = GWT.create(KSDisclosureSectionImpl.class);
-	
 
     /**
      * Constructs a disclosure section with headerText for its header text.  If headerText is null,
@@ -38,7 +36,6 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Clear the content panel's widgets.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#clear()
      */
     public void clear(){
         section.clear();
@@ -47,7 +44,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Add a widget to the content panel.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#add(com.google.gwt.user.client.ui.Widget)
+     * @param w the Widget to be added to this panel
      */
     public void add(Widget w){
         section.add(w);
@@ -56,7 +53,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Remove a widget from the content panel.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#remove(com.google.gwt.user.client.ui.Widget)
+     * @param w the Widget to be removed
      */
     public boolean remove(Widget w){
         return section.remove(w);
@@ -65,7 +62,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Returns true if the content panel is showing ("open"), false otherwise.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#isOpen()
+     * @return true if this panel is open, false otherwise
      */
     public boolean isOpen(){
         return section.isOpen();
@@ -74,7 +71,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Returns true if the disclosure section is visible, false otherwise.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#isVisible()
+     * @return true if this panel is visible, false otherwise.
      */
     public boolean isVisible(){
         return section.isVisible();
@@ -82,8 +79,9 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
 
     /**
      * Returns true if animation is enabled on this disclosure section.
+     * This method may not be needed.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#isAnimationEnabled()
+     * @return true if animation is enabled, false otherwise.
      */
     public boolean isAnimationEnabled(){
         return section.isAnimationEnabled();
@@ -92,7 +90,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Shows the panel content if set to true, otherwise hides the panel content.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#setOpen(boolean)
+     * @param isOpen the open flag, true to open the panel, false to close it.
      */
     public void setOpen(boolean isOpen){
         section.setOpen( isOpen);
@@ -101,7 +99,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     /**
      * Shows the widget if set to true, otherwise hides the widget.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract#setVisible(boolean)
+     * @param visible true to show this widget, false to hide it.
      */
     public void setVisible(boolean visible){
         section.setVisible( visible);

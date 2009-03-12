@@ -3,23 +3,7 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSDialogPanelImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -27,12 +11,6 @@ import com.google.gwt.user.client.ui.Widget;
  * mobile a header title must be set, which creates a title bar to drag the window around with.  
  * Similarly, the resizable flag must be set to true(default) for the window
  * to be resized (through a draggable icon in the botton right hand corner).
- * 
- * @author Kuali Student Team
- *
- */
-/**
- * This is a description of what this class does - Bsmith don't forget to fill this in. 
  * 
  * @author Kuali Student Team
  *
@@ -53,7 +31,8 @@ public class KSDialogPanel extends KSPopupPanel{
      * Adds a CloseHandler on this dialog which handles any close events.  Close events are fired when the dialog's
      * hide() method is called.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#addCloseHandler(com.google.gwt.event.logical.shared.CloseHandler)
+     * @param handler the CloseHandler to handle close events on this dialog
+     *      
      */
     public void addCloseHandler(CloseHandler handler) {
         dialogPanel.addCloseHandler(handler);
@@ -63,7 +42,7 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Adds a style to this dialog panel.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#addStyleName(java.lang.String)
+     * @param style the style name to add
      */
     public void addStyleName(String style) {
         dialogPanel.addStyleName(style);
@@ -73,7 +52,6 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Centers the dialog panel (and shows it).
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#center()
      */
     public void center() {
         dialogPanel.center();
@@ -83,7 +61,7 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Gets the X coordinate of the dialog.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#getX()
+     * @return the x coordinate
      */
     public int getX() {
         return dialogPanel.getX();
@@ -93,7 +71,7 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Gets the Y coordinate of the dialog.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#getY()
+     * @return the y coordinate
      */
     public int getY() {
         return dialogPanel.getY();
@@ -103,7 +81,6 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Hides the dialog panel.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#hide()
      */
     public void hide() {
         dialogPanel.hide();
@@ -114,7 +91,7 @@ public class KSDialogPanel extends KSPopupPanel{
      * If this panel is currently being shown, returns true.  Otherwise, returns
      * false.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#isShowing()
+     * @return true if the panel is showing, false otherwise
      */
     public boolean isShowing() {
         return dialogPanel.isShowing();
@@ -136,7 +113,7 @@ public class KSDialogPanel extends KSPopupPanel{
      * If set to true, auto hide is enable.  Auto hide automatically hides the dialog when
      * a user clicks out of it.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#setAutoHide(boolean)
+     * @param autoHide autohide flag value
      */
     public void setAutoHide(boolean autoHide) {
         dialogPanel.setAutoHide(autoHide);
@@ -157,7 +134,8 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Sets the dialog to the x,y coordinates specified.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#setLocation(int, int)
+     * @param x the x coordinate
+     * @param y the y coordinate
      */
     public void setLocation(int x, int y) {
         dialogPanel.setLocation(x, y);
@@ -165,9 +143,9 @@ public class KSDialogPanel extends KSPopupPanel{
 
 
     /**
-     * Sets this dialog's modality.
+     * Sets the modal flag of the dialog panel.  When set to true, other components outside this panel cannot be interacted with.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#setModal(boolean)
+     * @param modal the modal flag value
      */
     public void setModal(boolean modal) {
         dialogPanel.setModal(modal);
@@ -177,7 +155,9 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Set the size of this dialog to the width and height specified.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#setPixelSize(int, int)
+     * @param w the new width of the dialog
+     * @param h the new height of the dialog
+     * 
      */
     public void setPixelSize(int w, int h) {
         dialogPanel.setPixelSize(w, h);
@@ -199,7 +179,7 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Sets the content of this dialog panel.  Layout should be handled by the widget passed in.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#setWidget(com.google.gwt.user.client.ui.Widget)
+     * @param w the Widget to be used by the dialog panel
      */
     public void setWidget(Widget w) {
         dialogPanel.setWidget(w);
@@ -209,7 +189,6 @@ public class KSDialogPanel extends KSPopupPanel{
     /**
      * Shows the dialog panel.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanel#show()
      */
     public void show() {
         dialogPanel.show();
