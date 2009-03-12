@@ -37,13 +37,5 @@
 			</releases>
 		</repository>
 	</repositories>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-ws</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
 			
 </project>

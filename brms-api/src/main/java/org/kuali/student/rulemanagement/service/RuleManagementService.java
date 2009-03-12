@@ -1,28 +1,27 @@
 package org.kuali.student.rules.rulemanagement.service;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.management.InvalidApplicationException;
 
-import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.common.ws.exceptions.DependentObjectsExistException;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
-import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
-import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.ReadOnlyException;
+import org.kuali.student.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rulemanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
+import org.kuali.student.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rulemanagement.dto.BusinessRuleTypeInfoDTO;
+import org.kuali.student.rulemanagement.dto.StatusDTO;
 
 @WebService(name = "RuleManagementService", targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
