@@ -32,6 +32,7 @@ public class KSDatePicker extends KSDatePickerAbstract{
     /**
      * Get the currently selected date.
      * 
+     * @return the Date selected
      */
     @Override
     public Date getDate() {
