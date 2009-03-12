@@ -142,7 +142,8 @@ public abstract class KitchenSinkExample extends Composite {
         tabPanel.add(liveCSSTab, "Edit CSS Live");
         tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
-                if (event.getSelectedItem() == 3 && liveCSSFrame == null) {
+                //TODO Need to check for selected tab dynamically as number of rewsources may vary
+                if (event.getSelectedItem() == 4 && liveCSSFrame == null) {
                     liveCSSFrame = new Frame("LiveCSS.html?exampleClass=" + KitchenSinkExample.this.getClass().getName());
                     liveCSSFrame.getElement().setAttribute("FRAMEBORDER", "0");
                     liveCSSTab.setWidget(liveCSSFrame);

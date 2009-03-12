@@ -1,7 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.dropdown;
 
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_DROP_DOWN;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 
@@ -16,7 +16,7 @@ public class DropDownExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
      
-    final KSDropDown dropDown = new KSDropDown(false);
+    final KSDropDown dropDown = new KSDropDown();
 
     public DropDownExample() {
         
