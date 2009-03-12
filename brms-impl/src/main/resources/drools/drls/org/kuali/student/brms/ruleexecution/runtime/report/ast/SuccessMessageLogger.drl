@@ -1,6 +1,6 @@
-package org.kuali.student.rules.runtime.ast.success
+package org.kuali.student.brms.runtime.ast.success
  
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.brms.internal.common.runtime.ast.BooleanNode;
  
 rule "AND"
 	#salience 1

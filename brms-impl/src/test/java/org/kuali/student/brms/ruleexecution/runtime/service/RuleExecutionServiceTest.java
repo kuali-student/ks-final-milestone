@@ -15,13 +15,12 @@
  */
 package org.kuali.student.brms.ruleexecution.runtime.service;
 
-import org.junit.Assert;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -29,27 +28,28 @@ import org.junit.Test;
 import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
 import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.brms.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.brms.rulemanagement.entity.BusinessRule;
 import org.kuali.student.brms.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.brms.rulemanagement.entity.FactStructure;
 import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
-import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
-import org.kuali.student.poc.common.test.spring.Client;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.Daos;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
-@Daos({@Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
+@Daos({@Dao(value = "org.kuali.student.brms.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
 public class RuleExecutionServiceTest extends AbstractServiceTest {
 
 	// Automatically loads rule-repository-mock-service-context.xml 
 	// (*-mock-service-context.xml) and auto-wires by type
-	@Client(value="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181")
+	@Client(value="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181")
     public RuleExecutionService ruleExecutionService;
 
 	private static RuleManagementService ruleManagementService;

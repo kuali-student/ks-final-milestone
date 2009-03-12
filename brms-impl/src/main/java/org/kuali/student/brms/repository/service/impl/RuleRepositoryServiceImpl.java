@@ -51,7 +51,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  */
-@WebService(endpointInterface = "org.kuali.student.rules.repository.service.RuleRepositoryService", 
+@WebService(endpointInterface = "org.kuali.student.brms.repository.service.RuleRepositoryService", 
 			serviceName = "RuleRepositoryService", 
 			portName = "RuleRepositoryService", 
 			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")

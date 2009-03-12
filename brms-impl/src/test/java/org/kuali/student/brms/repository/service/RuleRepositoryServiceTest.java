@@ -50,15 +50,12 @@ import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.IntersectionRuleProposition;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.SubsetRuleProposition;
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.internal.common.utils.FactUtil;
 import org.kuali.student.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.brms.repository.dto.RuleDTO;
 import org.kuali.student.brms.repository.dto.RuleSetContainerDTO;
 import org.kuali.student.brms.repository.dto.RuleSetDTO;
-import org.kuali.student.brms.repository.service.RuleRepositoryService;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.brms.rulemanagement.dto.LeftHandSideDTO;
@@ -69,9 +66,9 @@ import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.brms.translators.drools.RuleManagementDtoFactory;
 import org.kuali.student.brms.util.CurrentDateTime;
 import org.kuali.student.brms.util.FactContainer;
-import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
-import org.kuali.student.poc.common.test.spring.Client;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.core.exceptions.OperationFailedException;
 
 public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
@@ -79,7 +76,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     // Automatically loads rule-repository-mock-service-context.xml (*-mock-service-context.xml)
 	// and auto-wires by type
-	@Client(value="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
+	@Client(value="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
     public RuleRepositoryService service; 
 
     @BeforeClass

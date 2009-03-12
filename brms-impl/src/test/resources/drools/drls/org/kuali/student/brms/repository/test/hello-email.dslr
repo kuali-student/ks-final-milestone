@@ -1,8 +1,8 @@
 package hello
 expander hello-drools.dsl
 
-import org.kuali.student.rules.repository.test.Email;
-import org.kuali.student.rules.repository.test.Message;
+import org.kuali.student.brms.repository.test.Email;
+import org.kuali.student.brms.repository.test.Message;
 
 rule "EmailValidationStrictRFC2822mvel"
     salience -2

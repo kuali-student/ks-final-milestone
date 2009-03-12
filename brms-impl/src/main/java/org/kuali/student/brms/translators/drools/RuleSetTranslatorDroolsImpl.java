@@ -53,7 +53,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init-v2.vm";
     private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2-v2.vm";
 
-    private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
+    private static final String PACKAGE_PREFIX = "org.kuali.student.brms.";
 
     private final static String INVALID_CHARACTERS_REGEX = "[^a-zA-Z0-9]";
     private final static String VALID_RULE_NAME_REGEX = "[a-zA-Z_][a-zA-Z0-9_]*";
@@ -235,14 +235,14 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         ruleSet.addHeader("import java.math.BigDecimal");
         ruleSet.addHeader("import org.slf4j.Logger;");
 		ruleSet.addHeader("import org.slf4j.LoggerFactory;");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.rules.*");
-        ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
-        ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
-        ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
-        ruleSet.addHeader("import org.kuali.student.rules.util.CurrentDateTime");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil");
+        ruleSet.addHeader("import org.kuali.student.brms.internal.common.entity.*");
+        ruleSet.addHeader("import org.kuali.student.brms.internal.common.statement.propositions.*");
+        ruleSet.addHeader("import org.kuali.student.brms.internal.common.statement.propositions.rules.*");
+        ruleSet.addHeader("import org.kuali.student.brms.rulemanagement.dto.*");
+        ruleSet.addHeader("import org.kuali.student.brms.util.FactContainer");
+        ruleSet.addHeader("import org.kuali.student.brms.util.FactContainer.State");
+        ruleSet.addHeader("import org.kuali.student.brms.util.CurrentDateTime");
+        ruleSet.addHeader("import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil");
     }
 
     /**

@@ -383,7 +383,7 @@ public class RuleEngineRepositoryTest {
     public void testLoadCompiledRuleSetSnapshotAndExecuteSnapshot() throws Exception {
         List<String> header = new ArrayList<String>();
         header.add("import java.util.Calendar");
-        header.add("import org.kuali.student.rules.repository.test.Message");
+        header.add("import org.kuali.student.brms.repository.test.Message");
         RuleSet ruleSet = createRuleSet("MyPackage", "My package description", header);
         Rule rule1 = createRuleDRL("rule_1", "Email Initialization Rule", null, droolsTestUtil.getSimpleRule3() );
         ruleSet.addRule(rule1);
@@ -420,8 +420,8 @@ public class RuleEngineRepositoryTest {
 
         List<String> header = new ArrayList<String>();
         header.add("import java.util.regex.Pattern");
-        header.add("import org.kuali.student.rules.repository.test.Email");
-        header.add("import org.kuali.student.rules.repository.test.Message");
+        header.add("import org.kuali.student.brms.repository.test.Email");
+        header.add("import org.kuali.student.brms.repository.test.Message");
         RuleSet ruleSet = createRuleSet("MyPackage", "My package description", header);
         Rule rule1 = createRuleDRL("rule_1", "Email Initialization Rule", "testLoadCompiledRuleSetAndExecute", droolsTestUtil.getValidationRule1() );
         ruleSet.addRule(rule1);
@@ -584,8 +584,8 @@ public class RuleEngineRepositoryTest {
     public void testCreateRuleSet_MultipleImport() throws Exception {
         List<String> header = new ArrayList<String>();
         header.add("import java.util.regex.Pattern");
-        header.add("import org.kuali.student.rules.repository.test.Email;");
-        header.add("import org.kuali.student.rules.repository.test.Message;");
+        header.add("import org.kuali.student.brms.repository.test.Email;");
+        header.add("import org.kuali.student.brms.repository.test.Message;");
         RuleSet ruleSet1 = createRuleSet("MyRuleSet", "Email Initialization Rule", header);
 
         Rule rule1 = createRuleDRL("MyRule1", "My new rule 1", null, 
@@ -1726,7 +1726,7 @@ public class RuleEngineRepositoryTest {
         
         List<String> header = new ArrayList<String>();
         header.add("import java.util.Calendar;");
-        header.add("import org.kuali.student.rules.repository.test.Message");
+        header.add("import org.kuali.student.brms.repository.test.Message");
 
         Rule rule1 = createRuleDRL("rule_1", "My new rule 1", category, 
                 droolsTestUtil.getSimpleRule3("rule_1"));

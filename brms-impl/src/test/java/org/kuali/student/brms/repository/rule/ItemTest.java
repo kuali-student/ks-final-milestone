@@ -35,7 +35,7 @@ public class ItemTest {
 
     /**
      * This class implementation is used to test the 
-     * <code>org.kuali.student.rules.repository.rule.AbstractItem</code> class
+     * <code>org.kuali.student.brms.repository.rule.AbstractItem</code> class
      * 
      * @author Kuali Student Team (len.kuali@googlegroups.com)
      *

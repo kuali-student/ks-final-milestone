@@ -16,7 +16,7 @@
 			<param name="ConversionPattern" value="%-5p %d{dd-MM HH:mm:ss,SSS} (%F:%M:%L) \t %m%n"/>
 		</layout>
 	</appender>
-	<logger name="org.kuali.student.rules">
+	<logger name="org.kuali.student.brms">
 		<level value="WARN"/>
 	</logger>
     <logger name="org.drools">

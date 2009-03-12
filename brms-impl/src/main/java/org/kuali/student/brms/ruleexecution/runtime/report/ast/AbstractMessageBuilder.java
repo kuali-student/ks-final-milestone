@@ -23,8 +23,8 @@ import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.Messag
  * from analyzing the outcome of a boolean expression.
  */
 public abstract class AbstractMessageBuilder {
-    private final static String SUCCESS_MESSAGE_LOGGER = "org.kuali.student.rules.runtime.ast.success";
-    private final static String FAILURE_MESSAGE_LOGGER = "org.kuali.student.rules.runtime.ast.failure";
+    private final static String SUCCESS_MESSAGE_LOGGER = "org.kuali.student.brms.runtime.ast.success";
+    private final static String FAILURE_MESSAGE_LOGGER = "org.kuali.student.brms.runtime.ast.failure";
     private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/ruleexecution/runtime/report/ast/SuccessMessageLogger.drl";
     private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/ruleexecution/runtime/report/ast/FailureMessageLogger.drl";
 

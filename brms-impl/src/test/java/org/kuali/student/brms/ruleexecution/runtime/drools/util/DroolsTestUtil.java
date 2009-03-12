@@ -107,14 +107,14 @@ public class DroolsTestUtil {
 		"import java.math.BigDecimal; \n" +
 		"import org.slf4j.Logger; \n" +
 		"import org.slf4j.LoggerFactory; \n" +
-		"import org.kuali.student.rules.internal.common.entity.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.propositions.rules.*; \n" +
-		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
-		"import org.kuali.student.rules.util.FactContainer; \n" +
-		"import org.kuali.student.rules.util.FactContainer.State; \n" +
-		"import org.kuali.student.rules.util.CurrentDateTime; \n" +
-		"import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil; \n" +
+		"import org.kuali.student.brms.internal.common.entity.*; \n" +
+		"import org.kuali.student.brms.internal.common.statement.propositions.*; \n" +
+		"import org.kuali.student.brms.internal.common.statement.propositions.rules.*; \n" +
+		"import org.kuali.student.brms.rulemanagement.dto.*; \n" +
+		"import org.kuali.student.brms.util.FactContainer; \n" +
+		"import org.kuali.student.brms.util.FactContainer.State; \n" +
+		"import org.kuali.student.brms.util.CurrentDateTime; \n" +
+		"import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil; \n" +
 		"\n" +
 		"rule \"CPR101_INIT\" \n" +
 		"    no-loop true \n" +
@@ -183,14 +183,14 @@ public class DroolsTestUtil {
 		"import java.math.BigDecimal; \n" +
 		"import org.slf4j.Logger; \n" +
 		"import org.slf4j.LoggerFactory; \n" +
-		"import org.kuali.student.rules.internal.common.entity.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.propositions.rules.*; \n" +
-		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
-		"import org.kuali.student.rules.util.FactContainer; \n" +
-		"import org.kuali.student.rules.util.FactContainer.State; \n" +
-		"import org.kuali.student.rules.util.CurrentDateTime; \n" +
-		"import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil; \n" +
+		"import org.kuali.student.brms.internal.common.entity.*; \n" +
+		"import org.kuali.student.brms.internal.common.statement.propositions.*; \n" +
+		"import org.kuali.student.brms.internal.common.statement.propositions.rules.*; \n" +
+		"import org.kuali.student.brms.rulemanagement.dto.*; \n" +
+		"import org.kuali.student.brms.util.FactContainer; \n" +
+		"import org.kuali.student.brms.util.FactContainer.State; \n" +
+		"import org.kuali.student.brms.util.CurrentDateTime; \n" +
+		"import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil; \n" +
 		"\n" +
 		"rule \"CPR201_INIT\" \n" +
 		"    no-loop true \n" +
@@ -244,14 +244,14 @@ public class DroolsTestUtil {
 		"import java.math.BigDecimal; \n" +
 		"import org.slf4j.Logger; \n" +
 		"import org.slf4j.LoggerFactory; \n" +
-		"import org.kuali.student.rules.internal.common.entity.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.propositions.rules.*; \n" +
-		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
-		"import org.kuali.student.rules.util.FactContainer; \n" +
-		"import org.kuali.student.rules.util.FactContainer.State; \n" +
-		"import org.kuali.student.rules.util.CurrentDateTime; \n" +
-		"import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil; \n" +
+		"import org.kuali.student.brms.internal.common.entity.*; \n" +
+		"import org.kuali.student.brms.internal.common.statement.propositions.*; \n" +
+		"import org.kuali.student.brms.internal.common.statement.propositions.rules.*; \n" +
+		"import org.kuali.student.brms.rulemanagement.dto.*; \n" +
+		"import org.kuali.student.brms.util.FactContainer; \n" +
+		"import org.kuali.student.brms.util.FactContainer.State; \n" +
+		"import org.kuali.student.brms.util.CurrentDateTime; \n" +
+		"import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil; \n" +
 		"\n" +
 		"rule \"CPR103_INIT\" \n" +
 		"    no-loop true \n" +

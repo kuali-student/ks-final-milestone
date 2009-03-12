@@ -8,7 +8,7 @@ public class MessageContextConstants {
 	public final static String PROPOSITION_MESSAGE_CTX_KEY_EXPECTEDVALUE = "prop_expected_value_str";
     public final static String PROPOSITION_MESSAGE_CTX_KEY_OPERATOR = "prop_comparison_operator_str";
     public final static String PROPOSITION_MESSAGE_CTX_KEY_OPERATOR_DATATYPE = "prop_comp_oper_datatype_str";
-	// _fs is a org.kuali.student.rules.factfinder.dto.FactResultDTO object
+	// _fs is a org.kuali.student.brms.factfinder.dto.FactResultDTO object
     public final static String PROPOSITION_MESSAGE_CTX_KEY_FACT = "prop_fact_fr";
 	public final static String PROPOSITION_MESSAGE_CTX_KEY_RESULT = "prop_result_fr";
 

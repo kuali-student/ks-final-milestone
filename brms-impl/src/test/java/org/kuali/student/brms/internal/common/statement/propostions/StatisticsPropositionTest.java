@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
+import org.kuali.student.brms.internal.common.statement.propositions.StatisticsProposition;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
 
 public class StatisticsPropositionTest {

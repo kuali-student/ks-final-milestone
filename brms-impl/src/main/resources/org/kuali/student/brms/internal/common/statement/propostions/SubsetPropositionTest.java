@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.brms.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
 
 public class SubsetPropositionTest {

@@ -15,9 +15,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.brms.factfinder.dao.impl.FactFinderDAOImpl;
 import org.kuali.student.brms.factfinder.entity.LUIPerson;
-import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @PersistenceFileLocation("classpath:META-INF/factfinder-persistence.xml")
 public class TestFactFinderDAO extends AbstractTransactionalDaoTest {
 
-    @Dao(value = "org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")
+    @Dao(value = "org.kuali.student.brms.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")
     public FactFinderDAOImpl factFinderDAO;
     
     @Test

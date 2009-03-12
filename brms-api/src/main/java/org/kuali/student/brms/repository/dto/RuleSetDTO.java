@@ -117,7 +117,7 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
     }
 
     /**
-     * Sets a list of <code>org.kuali.student.rules.repository.dto.RuleDTO</code>.
+     * Sets a list of <code>org.kuali.student.brms.repository.dto.RuleDTO</code>.
      * 
      * @param rules
      */
@@ -126,7 +126,7 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
     }
     
     /**
-     * Gets a list of <code>org.kuali.student.rules.repository.dto.RuleDTO</code> from this rule set.
+     * Gets a list of <code>org.kuali.student.brms.repository.dto.RuleDTO</code> from this rule set.
      * 
      * @return List of rules
      */

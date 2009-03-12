@@ -8,7 +8,7 @@
 
 
 	<bean id="repository"
-		class="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl">
+		class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
 		<property name="ruleEngineRepository"
 			ref="ruleEngineRepository" />
 		<property name="ruleSetTranslator"
@@ -16,13 +16,13 @@
 	</bean>
 
     <bean id="ruleEngineRepository"
-        class="org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl">
+        class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
         <constructor-arg type="org.drools.repository.RulesRepository"
             ref="rulesRepository" />
     </bean>
 
     <bean id="defaultDroolsRepository"
-        class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+        class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
         destroy-method="shutdownRepository">
         <constructor-arg type="java.lang.String"
             value="/drools-repository" />
@@ -33,12 +33,12 @@
         factory-method="getRepository" />
 
     <bean id="droolsTranslator"
-        class="org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl">
+        class="org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl">
         <property name="ruleSetValidator" ref="ruleSetValidator" />
     </bean>
 
     <bean id="ruleSetValidator"
-        class="org.kuali.student.rules.translators.drools.RuleSetValidatorDroolsImpl">
+        class="org.kuali.student.brms.translators.drools.RuleSetValidatorDroolsImpl">
     </bean>
 
 </beans>

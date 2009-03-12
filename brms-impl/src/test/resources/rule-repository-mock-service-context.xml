@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="ruleEngineRepository"
-        class="org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl">
+        class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
         <constructor-arg type="org.drools.repository.RulesRepository"
             ref="rulesRepository" />
     </bean>
@@ -22,7 +22,7 @@
         init-method="clearData" is needed to clear all data before running unit tests  
     -->
     <bean id="defaultDroolsRepository"
-        class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+        class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
         init-method="clearData"
         destroy-method="shutdownRepository">
         <constructor-arg type="java.lang.String"
@@ -34,12 +34,12 @@
         factory-method="getRepository" />
 
     <bean id="droolsTranslator"
-        class="org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl">
+        class="org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl">
         <property name="ruleSetValidator" ref="ruleSetValidator"/>
     </bean>
     
     <bean id="ruleSetValidator"
-        class="org.kuali.student.rules.translators.drools.RuleSetValidatorDroolsImpl">
+        class="org.kuali.student.brms.translators.drools.RuleSetValidatorDroolsImpl">
     </bean>
 
 </beans>

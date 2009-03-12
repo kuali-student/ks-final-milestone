@@ -7,6 +7,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
+import org.kuali.student.brms.internal.common.statement.propositions.IntersectionProposition;
 
 public class IntersectionPropositionTest {
     private Set<String> set1 = new HashSet<String>(Arrays.asList("CHEM101".split(",")));

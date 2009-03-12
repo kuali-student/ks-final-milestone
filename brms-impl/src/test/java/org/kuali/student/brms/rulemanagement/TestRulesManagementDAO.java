@@ -7,9 +7,9 @@
  */
 package org.kuali.student.brms.rulemanagement;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,9 +35,9 @@ import org.kuali.student.brms.rulemanagement.entity.RuleElement;
 import org.kuali.student.brms.rulemanagement.entity.RuleMetaData;
 import org.kuali.student.brms.rulemanagement.entity.RuleProposition;
 import org.kuali.student.brms.rulemanagement.entity.YieldValueFunction;
-import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
@@ -49,7 +49,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
 public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
-    @Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+    @Dao(value = "org.kuali.student.brms.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public RuleManagementDAOImpl rulesManagementDAO;
 
     public static final String ruleId_1 = "11223344-1122-1122-1112-100000000001";

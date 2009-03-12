@@ -19,8 +19,8 @@ import java.util.Calendar;
 
 /**
  * This is the base class that 
- * <code>org.kuali.student.rules.repository.rule.Rule</code> and 
- * <code>org.kuali.student.rules.repository.rule.RuleSet</code> extends.
+ * <code>org.kuali.student.brms.repository.rule.Rule</code> and 
+ * <code>org.kuali.student.brms.repository.rule.RuleSet</code> extends.
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *

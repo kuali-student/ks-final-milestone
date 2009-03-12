@@ -36,7 +36,7 @@ rule "${ruleName}"
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
-        Logger logger = LoggerFactory.getLogger(org.kuali.student.rules.translators.RuleSetTranslator.class);
+        Logger logger = LoggerFactory.getLogger(org.kuali.student.brms.translators.RuleSetTranslator.class);
 
         if (logger.isDebugEnabled()) {
             logger.debug("id="+container.getId());

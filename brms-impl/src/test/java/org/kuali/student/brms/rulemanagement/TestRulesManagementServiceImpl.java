@@ -35,24 +35,24 @@ import org.kuali.student.brms.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
-import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
-import org.kuali.student.poc.common.test.spring.Client;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.Daos;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.common.ws.exceptions.DependentObjectsExistException;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
-import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.ReadOnlyException;
 
-@Daos({@Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
+@Daos({@Dao(value = "org.kuali.student.brms.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
 public class TestRulesManagementServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceImpl", port = "8181")
     public RuleManagementService client;
     
     public static final String ruleId_1 = "11223344-1122-1122-1112-100000000001";

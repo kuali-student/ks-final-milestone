@@ -19,8 +19,8 @@ import org.kuali.student.brms.internal.common.statement.report.PropositionReport
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
 import org.kuali.student.brms.internal.common.utils.FactUtil;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class SimpleComparableRulePropositionTest {
 

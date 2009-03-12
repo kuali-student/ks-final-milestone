@@ -60,7 +60,7 @@ public interface RuleSet extends Item {
     public void clearRules();
 
     /**
-     * Gets a list of <code>org.kuali.student.rules.repository.rule.Rule</code> from this rule set.
+     * Gets a list of <code>org.kuali.student.brms.repository.rule.Rule</code> from this rule set.
      * 
      * @return List of rules
      */

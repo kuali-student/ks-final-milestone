@@ -60,7 +60,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.rules.ruleexecution.service.RuleExecutionService", 
+@WebService(endpointInterface = "org.kuali.student.brms.ruleexecution.service.RuleExecutionService", 
 		serviceName = "RuleExecutionService", 
 		portName = "RuleExecutionService", 
 		targetNamespace = "http://student.kuali.org/wsdl/brms/RuleExecution")

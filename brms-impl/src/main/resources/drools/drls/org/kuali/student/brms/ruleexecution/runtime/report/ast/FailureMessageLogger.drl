@@ -1,6 +1,6 @@
-package org.kuali.student.rules.runtime.ast.failure
+package org.kuali.student.brms.runtime.ast.failure
  
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.brms.internal.common.runtime.ast.BooleanNode;
  
 rule "OR"
 	#salience 1

@@ -15,8 +15,6 @@
  */
 package org.kuali.student.brms.ruleexecution.runtime.drools;
 
-import org.junit.Assert;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +26,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,31 +41,22 @@ import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.entity.RuleElementType;
 import org.kuali.student.brms.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.AverageRuleProposition;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.IntersectionRuleProposition;
 import org.kuali.student.brms.internal.common.utils.FactUtil;
 import org.kuali.student.brms.repository.dto.RuleSetDTO;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.brms.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
-import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsRuleBase;
-import org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl;
-import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.brms.ruleexecution.runtime.drools.util.DroolsUtil;
-import org.kuali.student.brms.ruleexecution.runtime.report.ReportBuilder;
-import org.kuali.student.brms.ruleexecution.runtime.report.ast.RuleReportBuilderImpl;
-import org.kuali.student.brms.ruleexecution.util.RuleManagementDtoFactory;
+import org.kuali.student.brms.ruleexecution.runtime.util.RuleManagementDtoFactory;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.brms.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.brms.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.brms.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.brms.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.brms.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class RuleSetExecutorDroolsImplTest {

@@ -1,5 +1,5 @@
 <module>
 	<inherits name='com.google.gwt.user.User'/>
-	<inherits name='org.kuali.student.rules.FactFinder'/>
+	<inherits name='org.kuali.student.brms.FactFinder'/>
 	<source path='rulemanagement/dto' />
 </module>

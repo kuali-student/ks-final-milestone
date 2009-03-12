@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.brms.factfinder.dto.FactCriteriaTypeInfoDTO;
@@ -40,22 +39,22 @@ import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
 import org.kuali.student.brms.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.brms.factfinder.service.FactFinderService;
 import org.kuali.student.brms.internal.common.entity.FactParamDefTimeKey;
-import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
-import org.kuali.student.poc.common.test.spring.Client;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.Daos;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 
-@Daos({@Dao(value = "org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")})
+@Daos({@Dao(value = "org.kuali.student.brms.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/factfinder-persistence.xml")
 public class TestFactFinderServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.rules.factfinder.service.impl.FactFinderServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl", port = "8181")
     public FactFinderService client;
 
     private boolean containsResult(List<Map<String,String>> set, String column, String value) {
