@@ -27,7 +27,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.brms.internal.common.entity.RuleElementType;
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule

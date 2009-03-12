@@ -19,7 +19,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.brms.internal.common.entity.RuleElementType;
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Contains meta data about one Rule Element within a functional business rule. Rule Element can represent a logical operator

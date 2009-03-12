@@ -27,7 +27,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Contains meta data about the left hand side of a Rule Proposition. For example, in "completed any 2 of (MATH101, MATH102,

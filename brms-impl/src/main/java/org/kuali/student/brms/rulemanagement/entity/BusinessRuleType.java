@@ -20,7 +20,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.brms.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.brms.internal.common.entity.BusinessRuleTypeKey;
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Contains information about a business rule type

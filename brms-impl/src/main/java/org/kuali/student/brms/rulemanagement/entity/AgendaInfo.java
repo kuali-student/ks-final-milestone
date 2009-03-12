@@ -25,7 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Maps a set of Business Rule Types to form an AgendaInfo and 

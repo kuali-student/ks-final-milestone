@@ -16,7 +16,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.brms.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * @author zzraly

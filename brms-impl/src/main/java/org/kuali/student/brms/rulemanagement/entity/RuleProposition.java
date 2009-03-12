@@ -18,7 +18,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
-import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, comparisonOperatorTypeKey and right
