@@ -65,11 +65,7 @@ public class PropositionMock implements RuleProposition {
 		return this.result;
 	}
 
-	public String getSuccessMessage() {
-		return this.propositionReport.getSuccessMessage();
-	}
-
-	public String getFailureMessage() {
-		return this.propositionReport.getFailureMessage();
+	public String getMessage() {
+		return this.propositionReport.getMessage();
 	}
 }

@@ -1,4 +1,4 @@
-// $ANTLR 3.1.1 BooleanFunction.g 2009-03-12 16:21:12
+// $ANTLR 3.1.1 BooleanFunction.g 2009-03-13 11:21:41
  package org.kuali.student.brms.internal.common.parsers; 
 
 import org.antlr.runtime.*;
@@ -116,7 +116,7 @@ public class BooleanFunctionLexer extends Lexer {
         try {
             int _type = ALPHA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // BooleanFunction.g:47:7: ( UPPERCASE | ( UPPERCASE NUMBER ) )
+            // BooleanFunction.g:69:9: ( UPPERCASE | ( UPPERCASE NUMBER ) )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -137,17 +137,17 @@ public class BooleanFunctionLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // BooleanFunction.g:47:9: UPPERCASE
+                    // BooleanFunction.g:69:11: UPPERCASE
                     {
                     mUPPERCASE(); 
 
                     }
                     break;
                 case 2 :
-                    // BooleanFunction.g:47:21: ( UPPERCASE NUMBER )
+                    // BooleanFunction.g:69:23: ( UPPERCASE NUMBER )
                     {
-                    // BooleanFunction.g:47:21: ( UPPERCASE NUMBER )
-                    // BooleanFunction.g:47:22: UPPERCASE NUMBER
+                    // BooleanFunction.g:69:23: ( UPPERCASE NUMBER )
+                    // BooleanFunction.g:69:24: UPPERCASE NUMBER
                     {
                     mUPPERCASE(); 
                     mNUMBER(); 
@@ -172,10 +172,10 @@ public class BooleanFunctionLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // BooleanFunction.g:49:9: ( ( '0' .. '9' )+ )
-            // BooleanFunction.g:49:11: ( '0' .. '9' )+
+            // BooleanFunction.g:71:9: ( ( '0' .. '9' )+ )
+            // BooleanFunction.g:71:11: ( '0' .. '9' )+
             {
-            // BooleanFunction.g:49:11: ( '0' .. '9' )+
+            // BooleanFunction.g:71:11: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -189,7 +189,7 @@ public class BooleanFunctionLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // BooleanFunction.g:49:12: '0' .. '9'
+            	    // BooleanFunction.g:71:12: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -221,10 +221,10 @@ public class BooleanFunctionLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // BooleanFunction.g:51:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
-            // BooleanFunction.g:51:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // BooleanFunction.g:73:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
+            // BooleanFunction.g:73:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             {
-            // BooleanFunction.g:51:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // BooleanFunction.g:73:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             int cnt3=0;
             loop3:
             do {
@@ -279,8 +279,8 @@ public class BooleanFunctionLexer extends Lexer {
         try {
             int _type = LOWERCASE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // BooleanFunction.g:53:11: ( 'a' .. 'z' )
-            // BooleanFunction.g:53:13: 'a' .. 'z'
+            // BooleanFunction.g:75:11: ( 'a' .. 'z' )
+            // BooleanFunction.g:75:13: 'a' .. 'z'
             {
             matchRange('a','z'); 
 
@@ -297,8 +297,8 @@ public class BooleanFunctionLexer extends Lexer {
     // $ANTLR start "UPPERCASE"
     public final void mUPPERCASE() throws RecognitionException {
         try {
-            // BooleanFunction.g:55:20: ( 'A' .. 'Z' )
-            // BooleanFunction.g:55:22: 'A' .. 'Z'
+            // BooleanFunction.g:77:20: ( 'A' .. 'Z' )
+            // BooleanFunction.g:77:22: 'A' .. 'Z'
             {
             matchRange('A','Z'); 
 

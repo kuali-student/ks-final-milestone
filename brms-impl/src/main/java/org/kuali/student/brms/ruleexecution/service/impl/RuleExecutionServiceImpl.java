@@ -25,6 +25,10 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.jws.WebService;
 
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.brms.factfinder.dto.FactParamDTO;
 import org.kuali.student.brms.factfinder.dto.FactResultDTO;
 import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
@@ -52,15 +56,11 @@ import org.kuali.student.brms.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
 import org.kuali.student.brms.util.FactContainer;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.brms.ruleexecution.service.RuleExecutionService", 
+@WebService(endpointInterface = "org.kuali.student.rules.ruleexecution.service.RuleExecutionService", 
 		serviceName = "RuleExecutionService", 
 		portName = "RuleExecutionService", 
 		targetNamespace = "http://student.kuali.org/wsdl/brms/RuleExecution")
@@ -237,8 +237,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	    		prDTO.setPropositionName(propositionReport.getPropositionName());
 	    		prDTO.setPropositionType(propositionReport.getPropositionType().toString());
 	    		prDTO.setSuccessful(propositionReport.isSuccessful());
-	    		prDTO.setFailureMessage(propositionReport.getFailureMessage());
-	    		prDTO.setSuccessMessage(propositionReport.getSuccessMessage());
+	    		prDTO.setMessage(propositionReport.getMessage());
 	    		prDTO.setCriteriaResult(propositionReport.getCriteriaResult());
 	    		prDTO.setFactResult(propositionReport.getFactResult());
     			prDTO.setPropositionResult(propositionReport.getPropositionResult());

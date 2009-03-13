@@ -13,6 +13,7 @@ import org.kuali.student.brms.internal.common.runtime.ast.BooleanFunction;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanFunctionResult;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.brms.internal.common.runtime.exceptions.BooleanFunctionException;
 import org.kuali.student.brms.internal.common.utils.VelocityTemplateEngine;
 import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
@@ -97,28 +98,28 @@ public abstract class AbstractMessageBuilder {
     }
     
     public BooleanFunctionResult build() {
-    	BinaryMessageTree ASTtree = null;
+    	BinaryMessageTree astTree = null;
 
         try {
             // set the functionString and Maps from the proposition container
         	Map<String, BooleanMessage> nodeMessageMap = buildMessageMap();
 
             // go parse function in buildTree
-            ASTtree = new BinaryMessageTree(nodeMessageMap);
-            BooleanNode root = ASTtree.buildTree(this.booleanExpression);
-            ASTtree.traverseTreePostOrder(root, null);
+            astTree = new BinaryMessageTree(nodeMessageMap);
+            BooleanNode root = astTree.buildTree(this.booleanExpression);
+            astTree.traverseTreePostOrder(root, null);
 
-            List<BooleanNode> treeNodes = ASTtree.getAllNodes();
+            List<BooleanNode> treeNodes = astTree.getAllNodes();
             this.executor.execute(treeNodes);
         } catch(VelocityException e) {
             throw new MessageBuilderException("Building Velocity message failed: " + e.getMessage(), e);
-    	} catch (Exception t) {
-            throw new MessageBuilderException("Building message failed: " + t.getMessage(), t);
+    	} catch (BooleanFunctionException e) {
+            throw new MessageBuilderException("Building message failed: " + e.getMessage(), e);
         }
 
         // This is the final rule report message summary
-        String message = ASTtree.getRoot().getNodeMessage();
-        Boolean result = ASTtree.getRoot().getValue();
+        String message = astTree.getRoot().getNodeMessage();
+        Boolean result = astTree.getRoot().getValue();
         return new BooleanFunctionResult(this.booleanExpression, result, message);
     }
 
@@ -138,7 +139,7 @@ public abstract class AbstractMessageBuilder {
         List<String> funcVars = func.getVariables();
 
         for (String id : funcVars) {
-        	BooleanMessage booleanMessage = buildBooleanMessage(this.messageMap.get(id));
+        	BooleanMessage booleanMessage = buildMessage(this.messageMap.get(id));
             nodeMessageMap.put(id, booleanMessage);
         }
         
@@ -148,24 +149,17 @@ public abstract class AbstractMessageBuilder {
     /**
      * Builds a failure/success message using the Velocity template engine.
      * 
-     * @param booleanMessage Boolean failure/success message
+     * @param message Boolean failure/success message
      * @return
      */
-    private BooleanMessage buildBooleanMessage(BooleanMessage booleanMessage) {
-		String failureMsg = booleanMessage.getFailureMessage();
-		String successMsg = booleanMessage.getSuccessMessage();
+    private BooleanMessage buildMessage(BooleanMessage message) {
+		String msg = message.getMessage();
 
-		if(failureMsg != null) {
-			failureMsg = this.templateEngine.evaluate(this.messageContextMap, failureMsg);
+		if(msg != null) {
+    		msg = this.templateEngine.evaluate(this.messageContextMap, msg);
 		}
-		if(successMsg != null) {
-			successMsg = this.templateEngine.evaluate(this.messageContextMap, successMsg);
-		}
-		
-		BooleanMessage newBooleanMessage = new BooleanMessageImpl(
-				booleanMessage.getMessageId(), booleanMessage.isSuccesful(), successMsg, failureMsg);
 
-		return newBooleanMessage;
+    	return new BooleanMessageImpl(message.getMessageId(), message.isSuccesful(), msg);
     }
 
     /**

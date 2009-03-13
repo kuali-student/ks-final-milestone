@@ -14,18 +14,19 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.kuali.student.brms.internal.common.parsers.BooleanFunctionLexer;
 import org.kuali.student.brms.internal.common.parsers.BooleanFunctionParser;
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
+import org.kuali.student.brms.internal.common.runtime.exceptions.BooleanFunctionException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BinaryMessageTree {
-
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(BinaryMessageTree.class);
 
     private static BooleanNode root;
 	private static ArrayList<BooleanNode> nodes;
 	
-	private Map<String, BooleanMessage> nodeMessageMap;
+	private Map<String, ? extends BooleanMessage> nodeMessageMap;
 	
 	private static final TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		public Object create(Token payload) {
@@ -37,7 +38,7 @@ public class BinaryMessageTree {
 		nodes = new ArrayList<BooleanNode>();
 	}
 	
-	public BinaryMessageTree(Map<String, BooleanMessage> nodeFailureMessageMap) {
+	public BinaryMessageTree(Map<String, ? extends BooleanMessage> nodeFailureMessageMap) {
 		this.nodeMessageMap = nodeFailureMessageMap;
 		nodes = new ArrayList<BooleanNode>();
 	}
@@ -63,14 +64,17 @@ public class BinaryMessageTree {
 		parser.setTreeAdaptor(adaptor);
 		
 		// parse the expression
-		BooleanFunctionParser.boolexpr_return boolexpr_ret = null;
+		BooleanFunctionParser.booleanExpression_return booleanExpression = null;
         try {
-            boolexpr_ret = parser.boolexpr();  
+        	booleanExpression = parser.booleanExpression();  
         } catch (RecognitionException e)  {
-            throw new RuntimeException(e);
+        	String parserErrorMsg = parser.getErrorMessage(e, parser.getTokenNames());
+        	String errorMsg = "Boolean Function Parser Error. " +
+        			"Invalid Boolean Expression: '" + booleanFunction + "'; " + parserErrorMsg;  
+        	throw new BooleanFunctionException(errorMsg, e);
         }
         // get the root of the AST from the parsed expression
-        return root = (BooleanNode) boolexpr_ret.getTree();
+        return root = (BooleanNode) booleanExpression.getTree();
 	}
 	
 	public void traverseTreePostOrderDontSetNode(BooleanNode bnode, BooleanNode parent) {
@@ -133,7 +137,7 @@ public class BinaryMessageTree {
 			// If node is a leaf then set value and message
 			BooleanMessage message = nodeMessageMap.get(bnode.getLabel());
 			bnode.setValue(message.isSuccesful());
-			bnode.setNodeMessage(message.isSuccesful() ? message.getSuccessMessage() : message.getFailureMessage());
+			bnode.setNodeMessage(message.getMessage());
 			//logger.debug("Setting node " + bnode.getLabel() );
 		}
 		else {

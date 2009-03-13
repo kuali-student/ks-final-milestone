@@ -1,4 +1,4 @@
-package org.kuali.student.brms.internal.common.statement.propostions.rules;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,19 +9,19 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.brms.factfinder.dto.FactResultColumnInfoDTO;
-import org.kuali.student.brms.factfinder.dto.FactResultDTO;
-import org.kuali.student.brms.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
-import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
-import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.internal.common.statement.exceptions.PropositionException;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.SumRuleProposition;
-import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
-import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
-import org.kuali.student.brms.internal.common.utils.FactUtil;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SumRuleProposition;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class SumRulePropositionTest {
 
@@ -116,8 +116,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		FactResultDTO fact = report.getFactResult();
@@ -153,8 +152,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		FactResultDTO fact = report.getFactResult();
@@ -207,8 +205,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		String expected = "Sum successful\n"
@@ -230,7 +227,7 @@ public class SumRulePropositionTest {
 						+ "Total credits: 10.0\n"
 						+ "Grade Average: 86.7%\n";
 
-		Assert.assertEquals(expected, report.getSuccessMessage());
+		Assert.assertEquals(expected, report.getMessage());
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
@@ -271,10 +268,9 @@ public class SumRulePropositionTest {
 
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
-        Assert.assertEquals("Sum failure. Sum is short by -144.0. Sum must be equal to 111.0.", report.getFailureMessage());
+        Assert.assertEquals("Sum failure. Sum is short by -144.0. Sum must be equal to 111.0.", report.getMessage());
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
@@ -354,9 +350,8 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_SUM_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_SUM_SUCCESS_MESSAGE, report.getMessage());
 	}	
 
 	@Test
@@ -382,8 +377,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
-		Assert.assertEquals("Sum constraint failed. Sum is short by 45.0. Expected=300.0, Sum=255.0, Difference=45.0", report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+		Assert.assertEquals("Sum constraint failed. Sum is short by 45.0. Expected=300.0, Sum=255.0, Difference=45.0", report.getMessage());
 	}	
 }

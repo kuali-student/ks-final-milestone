@@ -2,17 +2,22 @@ package org.kuali.student.brms.internal.common.runtime.ast;
 
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 
-public class BooleanMessageImpl implements BooleanMessage {
+public class BooleanMessageImpl /*extends MessageImpl*/ implements BooleanMessage {
 	private String messageId;
-	private Boolean succesful;
-	private String successMessage; 
-	private String failureMessage;
+	private Boolean successful;
+	private String message;
 
-	public BooleanMessageImpl(String messageId, Boolean succesful, String successMessage, String failureMessage) {
-    	this.messageId = messageId;
-		this.succesful = succesful;
-    	this.successMessage = successMessage; 
-    	this.failureMessage = failureMessage;
+	/**
+	 * Constructs a new boolean message.
+	 * 
+	 * @param messageId Message id
+	 * @param succesful Success or failure
+	 * @param message Success or failure message
+	 */
+	public BooleanMessageImpl(String messageId, Boolean successful, String message) {
+		this.messageId = messageId;
+		this.successful = successful;
+		this.message = message;
 	}
 
 	/**
@@ -23,38 +28,29 @@ public class BooleanMessageImpl implements BooleanMessage {
 	public String getMessageId() {
 		return this.messageId;
 	}
-	
+
 	/**
 	 * Returns whether the message is a success or failure.
 	 * 
 	 * @return True if successful; otherwise false
 	 */
 	public Boolean isSuccesful() {
-		return this.succesful;
+		return this.successful;
 	}
 
 	/**
-	 * Gets the success message.
+	 * Returns either the success or failure message.
 	 * 
-	 * @return Success message
+	 *  @param Success or failure message
 	 */
-	public String getSuccessMessage() {
-		return this.successMessage;
+	public String getMessage() {
+		return this.message;
 	}
 
-	/**
-	 * Gets the failure message.
-	 * 
-	 * @return Failure message
-	 */
-	public String getFailureMessage() {
-		return this.failureMessage;
-	}
-	
 	public String toString() {
-		return "[successful=" + this.succesful
-			+ ", successMessage='" + this.successMessage
-			+ "', failureMessage='" + this.failureMessage
+		return "[messageId=" + this.messageId
+			+ ", successful='" + this.successful
+			+ ", message='" + this.message
 			+ "']";
 	}
 }

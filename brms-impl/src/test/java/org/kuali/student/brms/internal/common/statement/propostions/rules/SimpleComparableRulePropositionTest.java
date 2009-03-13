@@ -1,4 +1,4 @@
-package org.kuali.student.brms.internal.common.statement.propostions.rules;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -9,18 +9,18 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.brms.factfinder.dto.FactResultDTO;
-import org.kuali.student.brms.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
-import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
-import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.SimpleComparableRuleProposition;
-import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
-import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
-import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
-import org.kuali.student.brms.internal.common.utils.FactUtil;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SimpleComparableRuleProposition;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class SimpleComparableRulePropositionTest {
 
@@ -58,8 +58,7 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
@@ -94,8 +93,7 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
@@ -130,8 +128,8 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+//		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
@@ -169,8 +167,7 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
@@ -210,8 +207,7 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
@@ -251,8 +247,7 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
@@ -287,9 +282,8 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_SUCCESS_MESSAGE, report.getMessage());
 	}
 
 	@Test
@@ -321,12 +315,11 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
         Assert.assertEquals("2100-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal2.getTime()) +
         		" not LESS_THAN 2000-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getFailureMessage());
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getMessage());
 	}
 
 	@Test
@@ -358,12 +351,11 @@ public class SimpleComparableRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
         Assert.assertEquals("2100-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal2.getTime()) +
         		" not LESS_THAN 2000-01-01T01:00:00.000" +
-        		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getFailureMessage());
+        		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getMessage());
 	}
 
 }

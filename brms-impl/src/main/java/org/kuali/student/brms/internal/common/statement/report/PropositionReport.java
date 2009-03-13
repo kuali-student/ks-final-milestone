@@ -42,15 +42,10 @@ public class PropositionReport {
 	private Boolean successful = false;
 	
 	/**
-	 * Successful report message
+	 * Success or failure report message
 	 */
-	private String successMessage;
-    
-	/**
-	 * Failure report message
-	 */
-	private String failureMessage;
-    
+	private String message;
+	
     /**
      * Criteria used in the proposition
      */
@@ -110,29 +105,45 @@ public class PropositionReport {
 		this.successful = success;
 	}
 
+//    /**
+//     * @return the successMessage
+//     */
+//    public String getSuccessMessage() {
+//        return this.successMessage;
+//    }
+//
+//    /**
+//     * @param successMessage the successMessage to set
+//     */
+//    public void setSuccessMessage(final String successMessage) {
+//        this.successMessage = successMessage;
+//    }
+//
+//    /**
+//     * @return the failureMessage
+//     */
+//    public String getFailureMessage() {
+//        return this.failureMessage;
+//    }
+//
+//    /**
+//     * @param failureMessage the failureMessage to set
+//     */
+//    public void setFailureMessage(final String failureMessage) {
+//        this.failureMessage = failureMessage;
+//    }
+
     /**
      * @return the successMessage
      */
-    public String getSuccessMessage() {
-        return this.successMessage;
+    public String getMessage() {
+        return this.message;
     }
     /**
      * @param successMessage the successMessage to set
      */
-    public void setSuccessMessage(final String successMessage) {
-        this.successMessage = successMessage;
-    }
-    /**
-     * @return the failureMessage
-     */
-    public String getFailureMessage() {
-        return this.failureMessage;
-    }
-    /**
-     * @param failureMessage the failureMessage to set
-     */
-    public void setFailureMessage(final String failureMessage) {
-        this.failureMessage = failureMessage;
+    public void setMessage(final String message) {
+        this.message = message;
     }
 
     /**
@@ -192,6 +203,7 @@ public class PropositionReport {
 	public String toString() {
     	return "PropositionReport[name="+this.name+
     		", type="+this.type+
-    		", successful=" + successful + "]";
+    		", successful=" + successful + 
+    		", message='" + this.message + "']";
     }
 }

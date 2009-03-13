@@ -1,4 +1,4 @@
-package org.kuali.student.brms.internal.common.statement.propostions.rules;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,17 +6,17 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.brms.factfinder.dto.FactResultDTO;
-import org.kuali.student.brms.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
-import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
-import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.internal.common.statement.propositions.rules.IntersectionRuleProposition;
-import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
-import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
-import org.kuali.student.brms.internal.common.utils.FactUtil;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class IntersectionRulePropositionTest {
 
@@ -86,9 +86,8 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-		Assert.assertEquals("Intersection constraint fulfilled", report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+		Assert.assertEquals("Intersection constraint fulfilled", report.getMessage());
 
 		FactResultDTO criteriaResult = report.getCriteriaResult();
 		Assert.assertEquals(2, criteriaResult.getResultList().size());
@@ -126,7 +125,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2", report.getFailureMessage());
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2", report.getMessage());
 	}
 
 	@Test
@@ -148,7 +147,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2 or less", report.getFailureMessage());
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2 or less", report.getMessage());
 	}
 
 	@Test
@@ -170,7 +169,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected less than 2", report.getFailureMessage());
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected less than 2", report.getMessage());
 	}
 
 	@Test
@@ -192,7 +191,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected not 3", report.getFailureMessage());
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected not 3", report.getMessage());
 	}
 
 	@Test
@@ -214,7 +213,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected more than 3", report.getFailureMessage());
+		Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected more than 3", report.getMessage());
 	}
 
 	@Test
@@ -236,7 +235,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected 3 or more", report.getFailureMessage());
+		Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected 3 or more", report.getMessage());
 	}
 
 	@Test
@@ -264,8 +263,7 @@ public class IntersectionRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO criteriaResult = report.getCriteriaResult();
 		Assert.assertEquals(2, criteriaResult.getResultList().size());
