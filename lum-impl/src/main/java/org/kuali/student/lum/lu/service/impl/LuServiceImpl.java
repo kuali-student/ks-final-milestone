@@ -926,8 +926,15 @@ public class LuServiceImpl implements LuService {
 			String luLuRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(relatedCluId, "relatedCluId");
+		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+
+		List<Clu> clus = luDao.getClusByRelation(relatedCluId, luLuRelationTypeKey);
+		List<String> ids = new ArrayList<String>(clus.size());
+		for (Clu clu : clus) {
+			ids.add(clu.getId());
+		}
+		return ids;
 	}
 
 	@Override

@@ -1753,6 +1753,31 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
+
+		List<String> ids = client.getCluIdsByRelation("CLU-2", "luLuType.type1");
+		assertNotNull(ids);
+		assertEquals(1, ids.size());
+
+		ids = client.getCluIdsByRelation("CLUXX-2", "luLuType.type1");
+		assertNotNull(ids);
+		assertEquals(0, ids.size());
+
+		ids = client.getCluIdsByRelation("CLU-2", "luLuType.type1XX");
+		assertNotNull(ids);
+		assertEquals(0, ids.size());
+
+		try {
+			ids = client.getCluIdsByRelation(null, "luLuType.type1XX");
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+		try {
+			ids = client.getCluIdsByRelation("CLU-2", null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
 	}
 
 }
