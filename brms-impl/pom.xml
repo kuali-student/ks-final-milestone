@@ -19,6 +19,7 @@
 		<!--drools.version>4.0.7</drools.version-->
         <drools.version>5.0.0.CR1</drools.version>
         <velocity.version>1.5</velocity.version>
+        <velocity.tools.version>1.4</velocity.tools.version>
 
         <jpa.properties.in>src/test/resources/META-INF/jpa.properties</jpa.properties.in>
         <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
@@ -215,17 +216,10 @@
 			<scope>test</scope>
 		</dependency>
 		
-        <!-- 
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.5</version>          
-        </dependency>-->
-		
         <dependency>
             <groupId>velocity-tools</groupId>
             <artifactId>velocity-tools</artifactId>
-            <version>1.4</version>          
+            <version>${velocity.tools.version}</version>          
         </dependency>
         
         <dependency>
