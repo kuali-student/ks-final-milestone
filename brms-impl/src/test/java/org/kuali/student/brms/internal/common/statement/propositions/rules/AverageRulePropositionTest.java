@@ -1,4 +1,4 @@
-package org.kuali.student.brms.internal.common.statement.propostions.rules;
+package org.kuali.student.brms.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

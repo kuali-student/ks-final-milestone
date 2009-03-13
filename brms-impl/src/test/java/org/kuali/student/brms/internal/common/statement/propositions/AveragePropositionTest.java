@@ -1,4 +1,4 @@
-package org.kuali.student.brms.internal.common.statement.propostions;
+package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
 import java.util.List;

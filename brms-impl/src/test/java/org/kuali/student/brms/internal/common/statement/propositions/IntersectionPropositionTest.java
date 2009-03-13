@@ -1,4 +1,4 @@
-package org.kuali.student.brms.internal.common.statement.propostions;
+package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.util.Arrays;
 import java.util.HashSet;
