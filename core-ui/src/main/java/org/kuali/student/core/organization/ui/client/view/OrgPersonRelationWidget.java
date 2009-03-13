@@ -26,6 +26,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -96,13 +97,32 @@ public class OrgPersonRelationWidget extends Composite{
             });
             fTable.setWidget(0,1, searchButton);
             fTable.getCellFormatter().setVerticalAlignment(0, 1, VerticalPanel.ALIGN_TOP);
+            
+            if (orgPersonRelId != null){
+                fTable.setWidget(1,0, getRemoveLink());
+            }
+            
             root.add(fTable);
             loaded = true;
             
         }
     }
 
-    private void initForm(){
+    private Widget getRemoveLink() {
+        Hyperlink hLink = new Hyperlink("(-)remove","");
+        hLink.setStyleName("action");
+        
+        hLink.addClickHandler(new ClickHandler(){
+
+            public void onClick(ClickEvent event) {
+                //TODO: Add call to remove personrelation
+            }            
+        });
+        
+        return hLink;
+	}
+
+	private void initForm(){
         orgPersonRelForm = new FormLayoutPanel();
         
         orgPersonRelTypeDropDown = new ListBox();
