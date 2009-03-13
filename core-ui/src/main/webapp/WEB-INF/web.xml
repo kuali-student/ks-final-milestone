@@ -10,17 +10,18 @@
       		<param-value>classpath:spring-beans.xml</param-value>
 		</init-param>
 	</servlet>
-	
-	<servlet>
-		<servlet-name>orgRpcServiceGwt</servlet-name>
+	<!--
+		<servlet> <servlet-name>orgRpcServiceGwt</servlet-name>
 		<servlet-class>org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
+		<load-on-startup>1</load-on-startup> </servlet>
+	-->
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService</url-pattern>
 	</servlet-mapping>
 
-
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/PersonRpc</url-pattern>
+	</servlet-mapping>
 </web-app>
