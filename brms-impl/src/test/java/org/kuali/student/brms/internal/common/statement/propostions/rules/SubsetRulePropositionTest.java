@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.statement.propositions.rules;
+package org.kuali.student.brms.internal.common.statement.propostions.rules;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,16 +6,16 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
-import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
-import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.SubsetRuleProposition;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.internal.common.utils.FactUtil;
-import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.brms.factfinder.dto.FactResultDTO;
+import org.kuali.student.brms.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
+import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
+import org.kuali.student.brms.internal.common.statement.propositions.rules.SubsetRuleProposition;
+import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
+import org.kuali.student.brms.internal.common.utils.FactUtil;
+import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
+import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class SubsetRulePropositionTest {
 
