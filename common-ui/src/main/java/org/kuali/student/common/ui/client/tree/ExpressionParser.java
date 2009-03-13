@@ -20,34 +20,94 @@ public class ExpressionParser {
     public ExpressionParser() {
         // String expression = "a and b or (c and d )"; // what if adn
         // String expression = "a or ( b and s or d ) "; // what if adn
+        String expression = "a and b or c and d"; // what if adn
 
-        String expression = "a and f or e or b and d"; // what if adn
-
-        List<String> tokenValueList = getTokenValue(expression);
-        System.out.println(tokenValueList);
-        List<Token> tokenList = getTokenList(tokenValueList);
-        System.out.println(tokenList);
-        errorCheck(tokenList);
-
-        List<Node<Token>> nodeList = toNodeList(tokenList);
-        List<Node<Token>> rpnList = getRPN(nodeList);
-
-        System.out.println(rpnList);
+        Node<Token> ruleroot = parse(expression);
     }
-    public Node binaryTreeFromRPN(List<Node<Token>> rpnList){
-        Stack<Node<Token>> operatandStack = new Stack<Node<Token>>();
-        
-        
-        return null;
+public Node<Token> parse(String expression){
+
+
+    List<String> tokenValueList = getTokenValue(expression);
+    System.out.println(tokenValueList);
+    List<Token> tokenList = getTokenList(tokenValueList);
+    System.out.println(tokenList);
+    errorCheck(tokenList);
+
+    List<Node<Token>> nodeList = toNodeList(tokenList);
+    List<Node<Token>> rpnList = getRPN(nodeList);
+
+    System.out.println(rpnList);
+
+    Node<Token> root = binaryTreeFromRPN(rpnList);
+    System.out.println(root);
+
+    Node<Token> ruleRoot = mergeBinaryTree(root);
+    System.out.println(ruleRoot);
+    return ruleRoot;
+}
+    public Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
+        while (parentEqualsGrandParent(binaryTree)) {
+            List<Node> list = binaryTree.getAllChildren();
+
+            for (Node node : list) {
+                if (node.getParent() != null && node.getParent().getParent() != null) {
+                    Node parentNode = node.getParent();
+                    Node grandParentNode = node.getParent().getParent();
+                    Token parentToken = (Token) parentNode.getUserObject();
+                    Token grandParentToken = (Token) grandParentNode.getUserObject();
+                    if (parentToken.type == grandParentToken.type) {
+                        for(int i=0;i<parentNode.getChildCount();i++){
+                            Node n = parentNode.getChildAt(i);
+                            grandParentNode.addNode(n);
+                        }
+                    }
+                    grandParentNode.remove(parentNode);
+                }
+            }
+
+        }
+        return binaryTree;
     }
+
+    private boolean parentEqualsGrandParent(Node<Token> binaryTree) {
+        List<Node> list = binaryTree.getAllChildren();
+
+        for (Node node : list) {
+            if (node.getParent() != null && node.getParent().getParent() != null) {
+                Token parentToken = (Token) node.getParent().getUserObject();
+                Token grandParentToken = (Token) node.getParent().getParent().getUserObject();
+                if (parentToken.type == grandParentToken.type) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Node<Token> binaryTreeFromRPN(List<Node<Token>> rpnList) {
+
+        Stack<Node<Token>> conditionStack = new Stack<Node<Token>>();
+        for (Node<Token> node : rpnList) {
+            if (node.getUserObject().type == Token.Condition) {
+                conditionStack.push(node);
+            } else if (node.getUserObject().type == Token.And || node.getUserObject().type == Token.Or) {
+
+                Node<Token> left = conditionStack.pop();
+                Node<Token> right = conditionStack.pop();
+                node.addNode(left);
+                node.addNode(right);
+                conditionStack.push(node);
+
+            }
+        }
+
+        return conditionStack.pop();
+    }
+
     /**
-     * if higher push to stack, 
-     * else pop till less than or equal, add to list
-     *      push to stack
-     * if ( push to stack
-     * if ) pop to list till (
-     * 
-     * */
+     * if higher push to stack, else pop till less than or equal, add to list push to stack if ( push to stack if ) pop to
+     * list till (
+     */
     public List<Node<Token>> getRPN(List<Node<Token>> nodeList) {
         List<Node<Token>> rpnList = new ArrayList<Node<Token>>();
         Stack<Node<Token>> operatorStack = new Stack<Node<Token>>();
