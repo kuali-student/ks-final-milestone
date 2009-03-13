@@ -193,7 +193,10 @@ public class Node<T> {
         }
         sb.append("{");
         for (int i=0;i<this.getChildCount();i++) {
-            sb.append(this.getChildAt(i).toString()+",");
+            if(this.getChildAt(i).getParent() == this){
+                sb.append(this.getChildAt(i).toString()+",");                
+            }
+
         }
         sb.append("}");
         return sb.toString();
