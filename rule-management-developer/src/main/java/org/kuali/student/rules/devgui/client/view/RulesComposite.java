@@ -854,13 +854,12 @@ public class RulesComposite extends Composite {
                                     reportText.append("\nProposition Name: " + report.getPropositionName() + "\n");
                                     System.out.println("PROPOSITION TYPE: " + report.getPropositionType());
                                     reportText.append("Proposition Type: " + report.getPropositionType() + "\n");
-                                    if ((report.getFailureMessage() != null) && (report.getFailureMessage().length() > 0)) {
-                                        reportText.append("Failure Message: " + report.getFailureMessage() + "\n");
+                                    if ((report.isSuccessful())) {
+                                        reportText.append("Success Message: " + report.getMessage() + "\n");
+                                    } else {
+                                        reportText.append("Failure Message: " + report.getMessage() + "\n");
                                     }
 
-                                    if ((report.getSuccessMessage() != null) && (report.getSuccessMessage().length() > 0)) {
-                                        reportText.append("Success Message: " + report.getSuccessMessage() + "\n");
-                                    }
                                     if (report.getCriteriaResult() != null) {
                                         reportText.append("\nCriteria: " + report.getCriteriaResult() + "\n");
                                     }
