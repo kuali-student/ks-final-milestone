@@ -45,7 +45,6 @@ public class KSRichTextToolbar extends KSRichTextToolbarAbstract{
     /**
      * Initializes this toolbar with the specified options.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract#init(com.google.gwt.user.client.ui.RichTextArea
      *      
      */
     @Override
