@@ -11,18 +11,38 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.TextArea;
 
+/**
+ * KSTextArea wraps gwt TextArea.  This class provides most of the same functionality, but sets KS css styles
+ * for its default look and a variety of TextArea events (for improved browser compatibility and customizability).
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class KSTextArea extends TextArea{
 
+    /**
+     * Creates a new empty text area.
+     * 
+     */
     public KSTextArea() {
         super();
         setupDefaultStyle();
     }
 
+    /**
+     * Creates a new text area using the text area element specified.
+     * 
+     * @param element a <TextArea> element
+     */
     public KSTextArea(Element element) {
         super(element);
         setupDefaultStyle();
     }
 
+    /**
+     * This method sets the default style for the text area and text area events.
+     * 
+     */
     private void setupDefaultStyle() {
         addStyleName(KSStyles.KS_TEXTAREA_STYLE);
         

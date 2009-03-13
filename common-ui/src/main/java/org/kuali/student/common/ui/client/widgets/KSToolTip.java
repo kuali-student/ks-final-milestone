@@ -2,13 +2,19 @@ package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
 
+/**
+ * KSToolTip is a PopupPanel that can show near the user's mouse location when show() is called.
+ * It contains a header and content section.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class KSToolTip extends PopupPanel {
 
     //the distance from mouse to the tooltip
@@ -18,15 +24,26 @@ public class KSToolTip extends PopupPanel {
     private KSLabel header;
 
     private VerticalPanel container = new VerticalPanel();
-    private int offsetX;
-    private int offsetY;
 
+    /**
+     * This creates a new tooltip with the headerText used as the header and content
+     * used as the tooltip's content
+     * 
+     * @param headerText the text to used as this tooltip's header
+     * @param content the Widget to be used as this tooltip's content
+     */
     public KSToolTip(String headerText, Widget content) {
         super();
         init(headerText, content);
     }
 
     //initialization
+    /**
+     * Initializes this tooltip widget
+     * 
+     * @param headerText the text to used as this tooltip's header
+     * @param content the Widget to be used as this tooltip's content
+     */
     private void init(String headerText, Widget content){
         this.header = new KSLabel(headerText);
         
@@ -41,6 +58,12 @@ public class KSToolTip extends PopupPanel {
 
     }
 
+    /**
+     * Show this tooltip at the mouse location determined from the MouseOverEvent
+     * passed in.
+     * 
+     * @param event the event to be used to determine where to show the tooltip.
+     */
     public void show(MouseOverEvent event) {
 
         int x = event.getClientX() + DEF_MOUSE_OFFSET_X;
@@ -50,29 +73,19 @@ public class KSToolTip extends PopupPanel {
         super.show();
     }
 
+    /**
+     * Hides the tooltip.
+     */
     public void hide() {
         super.hide();
     }
     
-    //don't process any event, let parent process it
+    /**
+     * Doesn't process any event, let parent process it (is this method needed?)
+     * 
+     */
     public boolean onEventPreview(Event event) {
         return true;  
-    }
-
-    public int getOffsetX() {
-        return offsetX;
-    }
-
-    public void setOffsetX(int offsetX) {
-        this.offsetX = offsetX;
-    }
-
-    public int getOffsetY() {
-        return offsetY;
-    }
-
-    public void setOffsetY(int offsetY) {
-        this.offsetY = offsetY;
     }
 }
 
