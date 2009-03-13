@@ -317,20 +317,20 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
     	// Build success message
         if (this.proposition.getResult()) {
     		if(this.ruleProposition.getSuccessMessage() == null || this.ruleProposition.getSuccessMessage().trim().isEmpty()) {
-    			report.setSuccessMessage(successMessage);
+    			report.setMessage(successMessage);
     		} else {
 	    		String msg = buildMessage(this.ruleProposition.getSuccessMessage());
-	    		report.setSuccessMessage(msg);
+	    		report.setMessage(msg);
     		}
             return report;
         }
         // Build failure message
 		if(this.ruleProposition.getFailureMessage() == null || this.ruleProposition.getFailureMessage().trim().isEmpty()) {
 	        String msg = buildMessage(failureMessage);
-	        report.setFailureMessage(msg);
+	        report.setMessage(msg);
 		} else {
 			String msg = buildMessage(this.ruleProposition.getFailureMessage());
-	        report.setFailureMessage(msg);
+	        report.setMessage(msg);
 		}
 		this.reportBuilt = Boolean.TRUE;
         return report;
@@ -355,27 +355,15 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	}
 
 	/**
-	 * Gets the proposition success message.
+	 * Returns either the success or failure message.
 	 * 
-	 * @return Proposition success message
+	 *  @return Success or failure message
 	 */
-	public String getSuccessMessage() {
-    	if(!this.reportBuilt) {
-    		buildReport();
-    	}
-		return this.report.getSuccessMessage();
-	}
-
-	/**
-	 * Gets the proposition failure message.
-	 * 
-	 * @return Proposition failure message
-	 */
-	public String getFailureMessage() {
-    	if(!this.reportBuilt) {
-    		buildReport();
-    	}
-		return this.report.getFailureMessage();
+	public String getMessage() {
+		if(!this.reportBuilt) {
+			buildReport();
+		}
+    	return this.report.getMessage();
 	}
 
 	/**

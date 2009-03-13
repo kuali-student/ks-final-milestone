@@ -1,7 +1,6 @@
 package org.kuali.student.rules.internal.common.runtime;
 
 public interface BooleanMessage {
-
 	/**
 	 * Gets the message id.
 	 * 
@@ -17,16 +16,9 @@ public interface BooleanMessage {
 	public Boolean isSuccesful();
 
 	/**
-	 * Gets the success message.
+	 * Returns either the success or failure message.
 	 * 
-	 * @return Success message
+	 *  @return Success or failure message
 	 */
-	public String getSuccessMessage();
-
-	/**
-	 * Gets the failure message.
-	 * 
-	 * @return Failure message
-	 */
-	public String getFailureMessage();
+	public String getMessage();
 }

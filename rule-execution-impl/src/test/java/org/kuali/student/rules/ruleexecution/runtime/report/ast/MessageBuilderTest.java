@@ -40,11 +40,29 @@ public class MessageBuilderTest {
 	}
 	
 	@Test
+	public void testBuildMessage1_InvalidBooleanExpression() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+
+		try {
+			builder.buildMessage("M1**M2**M3", messageContainer);
+			Assert.fail("Building message should have failed due to boolean expression syntax error");
+		} catch(MessageBuilderException e) {
+			Assert.assertTrue(e.getMessage().startsWith("Building message failed: Boolean Function Parser Error. Invalid Boolean Expression: 'M1**M2**M3'"));
+		}
+	}
+
+	@Test
 	public void testBuildMessage1_True() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true", "Message 2 is false");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true", "Message 3 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -56,9 +74,9 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessage2_True() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is true", "Message 2 is false");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true", "Message 3 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is false");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -70,8 +88,8 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessage3_False() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Must have MATH 100");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is true", "Must have CHEM 101");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Must have CHEM 101");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		
@@ -82,9 +100,9 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessage4_False() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Requirement Fulfilled 1", "Must have MATH 100");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Requirement Fulfilled 2", "Must have CHEM 101");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", false, "Requirement Fulfilled 3", "Must have PHYS 101");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Requirement Fulfilled 1");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Must have CHEM 101");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", false, "Must have PHYS 101");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -97,9 +115,9 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessage5_True() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true", "Message 2 is false");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", false, "Message 3 is true", "Message 3 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", false, "Message 3 is false");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -116,10 +134,10 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessage6() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true", "Message 2 is false");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", false, "Message 3 is true", "Message 3 is false");
-		BooleanMessage bm4 = new BooleanMessageImpl("M4", false, "Message 4 is true", "Message 4 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", false, "Message 3 is false");
+		BooleanMessage bm4 = new BooleanMessageImpl("M4", false, "Message 4 is false");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -151,9 +169,9 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessageTemplate1_NullContextMap_True() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true", "Message 2 is false");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true", "Message 3 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, "Message 2 is true");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -165,9 +183,9 @@ public class MessageBuilderTest {
 	@Test
 	public void testBuildMessageTemplate2_NullContextMap_False() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true", "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is true", "Message 2 is false");
-		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true", "Message 3 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is false");
+		BooleanMessage bm3 = new BooleanMessageImpl("M3", true, "Message 3 is true");
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		messageContainer.addMessage(bm3);
@@ -186,8 +204,8 @@ public class MessageBuilderTest {
 		String successMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')";
 		String successMsg2 = "#set( $difference = ( $mathTool.toNumber($expectedValue) - $mathTool.toNumber($resultValue)) )" +
 				"expectedValue=$expectedValue, resultValue=$resultValue, difference=$difference";
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, successMsg1, "Message 1 is false");
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, successMsg2, "Message 2 is false");
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, successMsg1);
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", true, successMsg2);
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		
@@ -206,8 +224,8 @@ public class MessageBuilderTest {
 		String failureMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')";
 		String failureMsg2 = "#set( $difference = ( $mathTool.toNumber($expectedValue) - $mathTool.toNumber($resultValue)) )" +
 				"expectedValue=$expectedValue, resultValue=$resultValue, difference=$difference";
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", false, "Message 1 is true", failureMsg1);
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is true", failureMsg2);
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", false, failureMsg1);
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, failureMsg2);
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 		
@@ -226,8 +244,8 @@ public class MessageBuilderTest {
 		String failureMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')";
 		// VTL syntax error
 		String failureMsg2 = "#set( $difference = expectedValue=$expectedValue, resultValue=$resultValue, difference=$difference";
-		BooleanMessage bm1 = new BooleanMessageImpl("M1", false, "Message 1 is true", failureMsg1);
-		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, "Message 2 is true", failureMsg2);
+		BooleanMessage bm1 = new BooleanMessageImpl("M1", false, failureMsg1);
+		BooleanMessage bm2 = new BooleanMessageImpl("M2", false, failureMsg2);
 		messageContainer.addMessage(bm1);
 		messageContainer.addMessage(bm2);
 

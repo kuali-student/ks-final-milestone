@@ -15,7 +15,29 @@ tokens {
 @lexer::header { package org.kuali.student.rules.internal.common.parsers; }
 
 @members {
-public boolean isParen(String paren){
+@Override
+public String getErrorMessage(RecognitionException e, String[] tokenNames) {
+    List<?> stack = getRuleInvocationStack(e, this.getClass().getName());
+    String msg = null;
+    if ( e instanceof NoViableAltException ) {
+       NoViableAltException nvae = (NoViableAltException)e;
+       msg = " No viable alternatives; token=" + e.token
+          + " (decision=" + nvae.decisionNumber
+          + " state " + nvae.stateNumber+")"
+          + " decision=<<" + nvae.grammarDecisionDescription + ">>";
+    }
+    else {
+       msg = super.getErrorMessage(e, tokenNames);
+    }
+    return stack + " " + msg;
+}
+
+@Override
+public String getTokenErrorDisplay(Token t) {
+    return t.toString();
+}
+
+private boolean isTokenParenthesis(String paren){
 	if (paren != null) {
 		if ( paren.equals("(") || paren.equals(")") )
 			return true;
@@ -34,11 +56,11 @@ throw e;
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-//boolexpr:	orterm {if ( isParen(input.LT(1).getText()) ) System.out.println("got paren"); };
-boolexpr:	orterm {if ( isParen(input.LT(1).getText()) ) throw new RecognitionException(); };
-orterm	:	andterm (OR^ andterm)*;
-andterm : 	atom (AND^ atom)*;
-atom 	:	ALPHA | (LP! orterm RP!);
+//boolexpr:	orterm {if ( isTokenParenthesis(input.LT(1).getText()) ) System.out.println("got paren"); };
+booleanExpression:   orTerm {if ( isTokenParenthesis(input.LT(1).getText()) ) throw new RecognitionException(); };
+orTerm	:	andTerm (OR^ andTerm)*;
+andTerm : 	atom (AND^ atom)*;
+atom 	:	ALPHA | (LP! orTerm RP!);
 
 /*------------------------------------------------------------------
  * LEXER RULES

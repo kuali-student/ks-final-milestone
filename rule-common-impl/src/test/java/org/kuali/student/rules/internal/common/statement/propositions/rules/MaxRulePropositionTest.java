@@ -78,8 +78,7 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(3, factResult.getResultList().size());
@@ -116,8 +115,7 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(3, factResult.getResultList().size());
@@ -154,9 +152,8 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, report.getMessage());
     }
 
     @Test
@@ -183,9 +180,8 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
-        Assert.assertEquals("Maximum of 100 not met. Maximum found: 90.", report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals("Maximum of 100 not met. Maximum found: 90.", report.getMessage());
     }
 
     @Test
@@ -214,9 +210,8 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, report.getMessage());
     }
 
     @Test
@@ -245,13 +240,12 @@ public class MaxRulePropositionTest {
 
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
         Assert.assertEquals("Maximum of 2020-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		" not met. Maximum found: 2010-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime())+ 
-        		".", report.getFailureMessage());
+        		".", report.getMessage());
     }
 
     @Test
@@ -280,9 +274,8 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, report.getMessage());
     }
 
     @Test
@@ -311,13 +304,12 @@ public class MaxRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
         Assert.assertEquals("Maximum of 2020-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		" not met. Maximum found: 2010-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
-        		".", report.getFailureMessage());
+        		".", report.getMessage());
     }
 
 }

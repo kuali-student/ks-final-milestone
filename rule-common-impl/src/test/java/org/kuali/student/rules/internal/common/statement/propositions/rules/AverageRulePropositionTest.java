@@ -55,8 +55,7 @@ public class AverageRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		FactResultDTO fact = report.getFactResult();
@@ -91,8 +90,7 @@ public class AverageRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		FactResultDTO fact = report.getFactResult();
@@ -127,9 +125,8 @@ public class AverageRulePropositionTest {
 
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
-		Assert.assertEquals("Average of 85.0 is short by 5.0. Expected an average of 90.", report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+		Assert.assertEquals("Average of 85.0 is short by 5.0. Expected an average of 90.", report.getMessage());
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
@@ -209,9 +206,8 @@ public class AverageRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-		Assert.assertEquals(MessageContextConstants.PROPOSITION_AVERAGE_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+		Assert.assertEquals(MessageContextConstants.PROPOSITION_AVERAGE_SUCCESS_MESSAGE, report.getMessage());
 	}
 
 	@Test
@@ -236,8 +232,7 @@ public class AverageRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
-		Assert.assertEquals("Average of 85.0 is short by 5.0. Expected an average of 90.0.", report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+		Assert.assertEquals("Average of 85.0 is short by 5.0. Expected an average of 90.0.", report.getMessage());
 	}
 }

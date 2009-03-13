@@ -237,8 +237,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	    		prDTO.setPropositionName(propositionReport.getPropositionName());
 	    		prDTO.setPropositionType(propositionReport.getPropositionType().toString());
 	    		prDTO.setSuccessful(propositionReport.isSuccessful());
-	    		prDTO.setFailureMessage(propositionReport.getFailureMessage());
-	    		prDTO.setSuccessMessage(propositionReport.getSuccessMessage());
+	    		prDTO.setMessage(propositionReport.getMessage());
 	    		prDTO.setCriteriaResult(propositionReport.getCriteriaResult());
 	    		prDTO.setFactResult(propositionReport.getFactResult());
     			prDTO.setPropositionResult(propositionReport.getPropositionResult());

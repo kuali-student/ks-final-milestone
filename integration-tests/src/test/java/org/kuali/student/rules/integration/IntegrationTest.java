@@ -841,14 +841,14 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		
 		Assert.assertTrue(propositionReport1.isSuccessful());
 		Assert.assertEquals(YieldValueFunctionType.INTERSECTION.toString(), propositionReport1.getPropositionType());
-		Assert.assertEquals("Pre-requisite course requirement met: [MATH 100]", propositionReport1.getSuccessMessage());
+		Assert.assertEquals("Pre-requisite course requirement met: [MATH 100]", propositionReport1.getMessage());
 		
 		// Second proposition
 		PropositionReportDTO propositionReport2 = ruleResult.getReport().getPropositionReports().get(1);
 
 		Assert.assertFalse(propositionReport2.isSuccessful());
 		Assert.assertEquals(YieldValueFunctionType.SUM.toString(), propositionReport2.getPropositionType());
-		Assert.assertEquals("Credit check failed. Sum is short by 3.0", propositionReport2.getFailureMessage());
+		Assert.assertEquals("Credit check failed. Sum is short by 3.0", propositionReport2.getMessage());
 	}
 
 	@Test

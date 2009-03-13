@@ -116,8 +116,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		FactResultDTO fact = report.getFactResult();
@@ -153,8 +152,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		FactResultDTO fact = report.getFactResult();
@@ -207,8 +205,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
 
 		String expected = "Sum successful\n"
@@ -230,7 +227,7 @@ public class SumRulePropositionTest {
 						+ "Total credits: 10.0\n"
 						+ "Grade Average: 86.7%\n";
 
-		Assert.assertEquals(expected, report.getSuccessMessage());
+		Assert.assertEquals(expected, report.getMessage());
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
@@ -271,10 +268,9 @@ public class SumRulePropositionTest {
 
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 		Assert.assertNotNull(report.getFactResult());
-        Assert.assertEquals("Sum failure. Sum is short by -144.0. Sum must be equal to 111.0.", report.getFailureMessage());
+        Assert.assertEquals("Sum failure. Sum is short by -144.0. Sum must be equal to 111.0.", report.getMessage());
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
@@ -354,9 +350,8 @@ public class SumRulePropositionTest {
 
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_SUM_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_SUM_SUCCESS_MESSAGE, report.getMessage());
 	}	
 
 	@Test
@@ -382,8 +377,7 @@ public class SumRulePropositionTest {
 
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
-		Assert.assertEquals("Sum constraint failed. Sum is short by 45.0. Expected=300.0, Sum=255.0, Difference=45.0", report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+		Assert.assertEquals("Sum constraint failed. Sum is short by 45.0. Expected=300.0, Sum=255.0, Difference=45.0", report.getMessage());
 	}	
 }

@@ -78,8 +78,7 @@ public class MinRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(3, factResult.getResultList().size());
@@ -116,8 +115,7 @@ public class MinRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(3, factResult.getResultList().size());
@@ -154,9 +152,8 @@ public class MinRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_MIN_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_MIN_SUCCESS_MESSAGE, report.getMessage());
     }
 
     @Test
@@ -183,9 +180,8 @@ public class MinRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
-        Assert.assertEquals("Minimum of 90 not met. Minimum found: 80.", report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals("Minimum of 90 not met. Minimum found: 80.", report.getMessage());
     }
 
     @Test
@@ -214,9 +210,8 @@ public class MinRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_MIN_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_MIN_SUCCESS_MESSAGE, report.getMessage());
     }
 
     @Test
@@ -245,13 +240,12 @@ public class MinRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
         Assert.assertEquals("Minimum of 2010-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		" not met. Minimum found: 2000-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
-        		".", report.getFailureMessage());
+        		".", report.getMessage());
     }
 
     @Test
@@ -280,9 +274,8 @@ public class MinRulePropositionTest {
 		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
-        Assert.assertEquals(MessageContextConstants.PROPOSITION_MIN_SUCCESS_MESSAGE, report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
+        Assert.assertEquals(MessageContextConstants.PROPOSITION_MIN_SUCCESS_MESSAGE, report.getMessage());
     }
 
     @Test
@@ -311,12 +304,11 @@ public class MinRulePropositionTest {
 		
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNotNull(report.getFailureMessage());
-		Assert.assertNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getMessage());
         Assert.assertEquals("Minimum of 2010-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
         		" not met. Minimum found: 2000-01-01T01:00:00.000" +
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal.getTime()) +
-        		".", report.getFailureMessage());
+        		".", report.getMessage());
     }
 }

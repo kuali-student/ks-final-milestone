@@ -117,10 +117,10 @@ public class RuleReportBuilderTest {
 	    intersectionPropC.setResult(true);
 	    intersectionPropD.setResult(true);
 	    
-	    propositionReportA.setFailureMessage("Need MATH 200");
-	    propositionReportB.setFailureMessage("Need MATH 110");
-	    propositionReportC.setFailureMessage("Need 15 credits or more of 1st year science");
-	    propositionReportD.setFailureMessage("Need English 6000");
+	    propositionReportA.setMessage("Need MATH 200");
+	    propositionReportB.setMessage("Need MATH 110");
+	    propositionReportC.setMessage("Need 15 credits or more of 1st year science");
+	    propositionReportD.setMessage("Need English 6000");
 	    
 	    intersectionPropA.setReport(propositionReportA);
 	    intersectionPropB.setReport(propositionReportB);
@@ -165,10 +165,10 @@ public class RuleReportBuilderTest {
 	    intersectionPropC.setResult(true);
 	    intersectionPropD.setResult(true);
 	    
-	    propositionReportA.setFailureMessage("Need $clu2");
-	    propositionReportB.setFailureMessage("Need $clu1");
-	    propositionReportC.setFailureMessage("$str1");
-	    propositionReportD.setFailureMessage("Need $clu3");
+	    propositionReportA.setMessage("Need $clu2");
+	    propositionReportB.setMessage("Need $clu1");
+	    propositionReportC.setMessage("$str1");
+	    propositionReportD.setMessage("Need $clu3");
 	    
 	    intersectionPropA.setReport(propositionReportA);
 	    intersectionPropB.setReport(propositionReportB);
@@ -214,10 +214,10 @@ public class RuleReportBuilderTest {
 	    intersectionPropD.setResult(true);
 	    
 	    // VTL syntax error
-	    propositionReportA.setFailureMessage("#set($x = $y");
-	    propositionReportB.setFailureMessage("Need $clu1");
-	    propositionReportC.setFailureMessage("$str1");
-	    propositionReportD.setFailureMessage("Need $clu3");
+	    propositionReportA.setMessage("#set($x = $y");
+	    propositionReportB.setMessage("Need $clu1");
+	    propositionReportC.setMessage("$str1");
+	    propositionReportD.setMessage("Need $clu3");
 	    
 	    intersectionPropA.setReport(propositionReportA);
 	    intersectionPropB.setReport(propositionReportB);
@@ -252,10 +252,10 @@ public class RuleReportBuilderTest {
         intersectionPropC.setResult(false);
         intersectionPropD.setResult(false);
         
-        propositionReportA.setFailureMessage("Need MATH 200");
-        propositionReportB.setFailureMessage("Need MATH 110");
-        propositionReportC.setFailureMessage("Need 15 credits or more of 1st year science");
-        propositionReportD.setFailureMessage("Need English 6000");
+        propositionReportA.setMessage("Need MATH 200");
+        propositionReportB.setMessage("Need MATH 110");
+        propositionReportC.setMessage("Need 15 credits or more of 1st year science");
+        propositionReportD.setMessage("Need English 6000");
         
         intersectionPropA.setReport(propositionReportA);
         intersectionPropB.setReport(propositionReportB);
@@ -294,10 +294,10 @@ public class RuleReportBuilderTest {
         intersectionPropC.setResult(true);
         intersectionPropD.setResult(true);
         
-        propositionReportA.setSuccessMessage("Have MATH 200");
-        propositionReportB.setSuccessMessage("Have MATH 110");
-        propositionReportC.setSuccessMessage("Have 15 credits or more of 1st year science");
-        propositionReportD.setSuccessMessage("Have English 6000");
+        propositionReportA.setMessage("Have MATH 200");
+        propositionReportB.setMessage("Have MATH 110");
+        propositionReportC.setMessage("Have 15 credits or more of 1st year science");
+        propositionReportD.setMessage("Have English 6000");
         
         intersectionPropA.setReport(propositionReportA);
         intersectionPropB.setReport(propositionReportB);
@@ -342,10 +342,10 @@ public class RuleReportBuilderTest {
         intersectionPropC.setResult(true);
         intersectionPropD.setResult(true);
 
-        propositionReportA.setSuccessMessage("Have $clu2");
-        propositionReportB.setSuccessMessage("Have $clu1");
-        propositionReportC.setSuccessMessage("$str1");
-        propositionReportD.setSuccessMessage("Have $clu3");
+        propositionReportA.setMessage("Have $clu2");
+        propositionReportB.setMessage("Have $clu1");
+        propositionReportC.setMessage("$str1");
+        propositionReportD.setMessage("Have $clu3");
 
         intersectionPropA.setReport(propositionReportA);
         intersectionPropB.setReport(propositionReportB);
@@ -385,10 +385,10 @@ public class RuleReportBuilderTest {
         intersectionPropC.setResult(false);
         intersectionPropD.setResult(true);
         
-        propositionReportA.setSuccessMessage("Have MATH 200");
-        propositionReportB.setSuccessMessage("Have MATH 110");
-        propositionReportC.setSuccessMessage("Have 15 credits or more of 1st year science");
-        propositionReportD.setSuccessMessage("Have English 6000");
+        propositionReportA.setMessage("Have MATH 200");
+        propositionReportB.setMessage("Have MATH 110");
+        propositionReportC.setMessage("Have 15 credits or more of 1st year science");
+        propositionReportD.setMessage("Have English 6000");
         
         intersectionPropA.setReport(propositionReportA);
         intersectionPropB.setReport(propositionReportB);
@@ -431,13 +431,13 @@ public class RuleReportBuilderTest {
         subsetProp.setResult(true);
         sumProp.setResult(false);
         
-        averageReport.setSuccessMessage("Have a minimum average of 80");
-        intersectionReport.setSuccessMessage("Have MATH 110");
-        maxReport.setSuccessMessage("Have Max 15 credits");
-        minReport.setSuccessMessage("Have Min 10 credits");
-        simpleComparableReport.setSuccessMessage("Have English 100");
-        subsetReport.setSuccessMessage("Have English 200");
-        sumReport.setSuccessMessage("Have 15 credits or more of 1st year science");
+        averageReport.setMessage("Have a minimum average of 80");
+        intersectionReport.setMessage("Have MATH 110");
+        maxReport.setMessage("Have Max 15 credits");
+        minReport.setMessage("Have Min 10 credits");
+        simpleComparableReport.setMessage("Have English 100");
+        subsetReport.setMessage("Have English 200");
+        sumReport.setMessage("Have 15 credits or more of 1st year science");
         
         averageProp.setReport(averageReport);
         intersectionProp.setReport(intersectionReport);
@@ -489,13 +489,13 @@ public class RuleReportBuilderTest {
         subsetProp.setResult(false);
         sumProp.setResult(false);
         
-        averageReport.setFailureMessage("Need a minimum average of 80");
-        intersectionReport.setFailureMessage("Need MATH 110");
-        maxReport.setFailureMessage("Need Max 15 credits");
-        minReport.setFailureMessage("Need Min 10 credits");
-        simpleComparableReport.setFailureMessage("Need English 100");
-        subsetReport.setFailureMessage("Need English 200");
-        sumReport.setFailureMessage("Need 15 credits or more of 1st year science");
+        averageReport.setMessage("Need a minimum average of 80");
+        intersectionReport.setMessage("Need MATH 110");
+        maxReport.setMessage("Need Max 15 credits");
+        minReport.setMessage("Need Min 10 credits");
+        simpleComparableReport.setMessage("Need English 100");
+        subsetReport.setMessage("Need English 200");
+        sumReport.setMessage("Need 15 credits or more of 1st year science");
         
         averageProp.setReport(averageReport);
         intersectionProp.setReport(intersectionReport);
