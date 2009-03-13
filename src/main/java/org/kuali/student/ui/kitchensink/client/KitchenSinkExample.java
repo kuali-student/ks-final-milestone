@@ -9,6 +9,8 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -37,8 +39,6 @@ public abstract class KitchenSinkExample extends Composite {
     
     private Frame liveCSSFrame = null;
     
-    private VerticalPanel resourcePanel;
-
     boolean loaded = false;
 
     final List<KitchenSinkResource> resources = new ArrayList<KitchenSinkResource>();
@@ -122,9 +122,25 @@ public abstract class KitchenSinkExample extends Composite {
 
         tabPanel.add(getExampleWidget(), exampleLabel);
         
+        Map<String, List<KitchenSinkResource>> resourceMap = new TreeMap<String, List<KitchenSinkResource>>();
+        
+        // group the resources by type
         if (resources != null && resources.size() > 0) {
             for (KitchenSinkResource r : resources) {
-                resourcePanel = new VerticalPanel();
+                String type = translateResourceType(r.getType());
+                List<KitchenSinkResource> list = resourceMap.get(type);
+                if (list == null) {
+                    list = new ArrayList<KitchenSinkResource>();
+                    resourceMap.put(type, list);
+                }
+                list.add(r);
+            }
+        }
+        
+        // add each group to its own tab
+        for (String type : resourceMap.keySet()) {
+            VerticalPanel resourcePanel = new VerticalPanel();
+            for (KitchenSinkResource r : resourceMap.get(type)) {
                 Label resourceTitle = new Label(r.getTitle());
                 Label resourceDescription = new Label(r.getDescription());
                 resourceTitle.setStyleName(STYLE_RESOURCE_TITLE);
@@ -133,17 +149,17 @@ public abstract class KitchenSinkExample extends Composite {
                 resourcePanel.add(resourceTitle);
                 resourcePanel.add(resourceDescription);
                 resourcePanel.add(createCodeBlock(r.getType(), r.getContent()));
-                
-                tabPanel.add(resourcePanel, translateResourceType(r.getType()));
             }
+            tabPanel.add(resourcePanel, type);
         }
+        
+        
         doHighlight();
         
         tabPanel.add(liveCSSTab, "Edit CSS Live");
         tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
-                //TODO Need to check for selected tab dynamically as number of rewsources may vary
-                if (event.getSelectedItem() == 4 && liveCSSFrame == null) {
+                if (event.getSelectedItem() == tabPanel.getWidgetIndex(liveCSSTab) && liveCSSFrame == null) {
                     liveCSSFrame = new Frame("LiveCSS.html?exampleClass=" + KitchenSinkExample.this.getClass().getName());
                     liveCSSFrame.getElement().setAttribute("FRAMEBORDER", "0");
                     liveCSSTab.setWidget(liveCSSFrame);
@@ -202,6 +218,7 @@ public abstract class KitchenSinkExample extends Composite {
     }
     
     private String translateResourceType(String resourceType) {
+        resourceType = resourceType.toLowerCase();
         if (resourceType.equals("css")) {
             return "Styles";
         }
