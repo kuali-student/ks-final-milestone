@@ -10,7 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * KSRadiobuttonList is a list of radio buttons.
  * 
  * @author Kuali Student Team 
  *
@@ -19,6 +19,11 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 
     
+	/**
+	 * This constructs a new radiobutton list using the name passed in as the group/list name.
+	 * 
+	 * @param name the name of the radio button group
+	 */
 	public KSRadioButtonList(String name) {
         initWidget(selectItemWidget);
         init(name);
@@ -30,6 +35,7 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
 
 
 	/**
+	 * 
 	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
 	 */
 	public void deSelectItem(String id) {
@@ -37,7 +43,7 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
 	}
 
 	/**
-	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
+	 * @see org.kuali.student.common.ui.client.widgets.list.KSSele ctItemWidgetAbstract#getSelectedItems()
 	 */
 	public List<String> getSelectedItems() {
 	    return selectItemWidget.getSelectedItems();
@@ -52,16 +58,35 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
 	    selectItemWidget.selectItem(id);
 	}
 
+    /**
+     * Sets the ListItems object to be used for generating this radio button list.
+     * 
+     * @param listItems the ListItems used for generating this radio button list
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setListItems(org.kuali.student.common.ui.client.widgets.list.ListItems)
+     */
     public void setListItems(ListItems listItems) {
         selectItemWidget.setListItems(listItems);      
     }
 
+    /**
+     * Processes an onClick event
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onClick(com.google.gwt.event.dom.client.ClickEvent)
+     */
     @Override
     public void onClick(ClickEvent event) {
         selectItemWidget.onClick(event);
         
     }
 
+    /**
+     * Sets if this radio button list can have multiple selections or not.  (Not implemented yet????)
+     * 
+     * @param isMultipleSelect true if multiple can be selected, false otherwise.
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setMultipleSelect(boolean)
+     */
     public void setMultipleSelect(boolean isMultipleSelect) {}
 
     /**
@@ -72,6 +97,13 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
     @Override
     public void onLoad() {}
    
+    /**
+     * Adds a SelectionChangeHandler to handle a selection change event (when the user picks another item).
+     * 
+     * @paran handler a SelectionChangeHandler to handle change events on the radio button list
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#addSelectionChangeHandler(org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler)
+     */
     public void addSelectionChangeHandler(SelectionChangeHandler handler) {
         selectItemWidget.addSelectionChangeHandler(handler);
     }
@@ -80,14 +112,35 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
         selectItemWidget.fireChangeEvent();
     }
 
+    /**
+     * Gets the ListItems object used in this radio button list.
+     * 
+     * @return the ListItems object used in the radio button list
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getListItems()
+     */
     public ListItems getListItems() {
         return selectItemWidget.getListItems();
     }
 
+    /**
+     * Gets the name of this radio button list
+     * 
+     * @return the name of this radio button list
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getName()
+     */
     public String getName() {
         return selectItemWidget.getName();
     }
 
+    /**
+     * Sets the name of this radio button list
+     * 
+     * @param name the new name of the radio button list
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setName(java.lang.String)
+     */
     public void setName(String name) {
         selectItemWidget.setName(name);
     }
