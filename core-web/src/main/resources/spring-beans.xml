@@ -16,6 +16,9 @@
 					key="/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController" />
 				</entry>
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpc">
+					<ref bean="personRpcGwtServletController"/>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -25,11 +28,20 @@
 		<property name="servletName" value="orgRpcServiceGwt" />
 		<property name="servletInstance" ref="orgRpcServiceGwt" />
 	</bean>
-
+	
+	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="personRpcGwtServlet"/>
+		<property name="servletInstance" ref="personRpcGwtServlet"/>
+	</bean>
+	
 	<!-- GWT Servlets -->
 	<bean id="orgRpcServiceGwt"
 		class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt">
 		<property name="serviceImpl" ref="orgRpcServiceImpl" />
+	</bean>
+
+	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
+		
 	</bean>
 
 	<!-- Service Implementations -->
@@ -47,12 +59,11 @@
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
-		<property name="address" value="http://localhost:8888/Service/OrgService" />
 		<!--
-			<property name="address"
-			value="http://localhost:8080/ks-core-web-0.0.1-SNAPSHOT/Service/OrgService"
-			/>
+		<property name="address" value="http://localhost:8888/Service/OrgService" />
 		-->
+		<property name="address" value="http://localhost:8080/ks-core-web/Service/OrgService"/>
+		
 	</bean>
 
 </beans>
