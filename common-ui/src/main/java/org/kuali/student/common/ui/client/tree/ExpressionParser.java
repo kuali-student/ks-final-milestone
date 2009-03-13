@@ -20,7 +20,7 @@ public class ExpressionParser {
     public ExpressionParser() {
         // String expression = "a and b or (c and d )"; // what if adn
         // String expression = "a or ( b and s or d ) "; // what if adn
-        String expression = "a or b or c or d"; // what if adn
+        String expression = "b and d or e and  f and g"; // what if adn
 
         Node<Token> ruleroot = parse(expression);
     }
@@ -57,23 +57,23 @@ public Node<Token> parse(String expression){
                     Token parentToken = (Token) parentNode.getUserObject();
                     Token grandParentToken = (Token) grandParentNode.getUserObject();
                     
-                    System.out.println(parentNode);
+                    System.out.println(parentNode+":"+parentToken.type+":" +grandParentToken.type);
                     
                     if (parentToken.type == grandParentToken.type) {
-                        List<Node> removedList = new ArrayList<Node>();
+                        //List<Node> removedList = new ArrayList<Node>();
                         for(int i=0;i<parentNode.getChildCount();i++){
                             Node n = parentNode.getChildAt(i);
                             grandParentNode.addNode(n);
                             
-                           removedList.add(n);
+                         //  removedList.add(n);
                         }
-                        for(Node n : removedList){
-                           parentNode.remove(n);
-                        }
+                       // for(Node n : removedList){
+                         //  parentNode.remove(n);
+                       // }
                         grandParentNode.remove(parentNode);
                         
                     }
-                    //break; 
+                   // break; 
                 }
             }
 
@@ -85,7 +85,8 @@ public Node<Token> parse(String expression){
         List<Node> list = binaryTree.getAllChildren();
 
         for (Node node : list) {
-            if (node.getParent() != null && node.getParent().getParent() != null) {
+            if (node.isLeaf()== true && node.getParent() != null && node.getParent().getParent() != null) {
+                
                 Token parentToken = (Token) node.getParent().getUserObject();
                 Token grandParentToken = (Token) node.getParent().getParent().getUserObject();
                 if (parentToken.type == grandParentToken.type) {
@@ -93,6 +94,7 @@ public Node<Token> parse(String expression){
                 }
             }
         }
+        
         return false;
     }
 
