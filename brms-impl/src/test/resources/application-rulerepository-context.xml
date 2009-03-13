@@ -51,7 +51,7 @@
     <!--*****************************************-->
 
     <bean id="ruleRepositoryClient"
-        class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+        class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
         <property name="wsdlLocation"
             value="classpath:wsdl/RuleRepositoryService.wsdl" />
         <property name="serviceEndpointInterface"

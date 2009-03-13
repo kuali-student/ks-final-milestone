@@ -25,8 +25,8 @@ import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.Messag
 public abstract class AbstractMessageBuilder {
     private final static String SUCCESS_MESSAGE_LOGGER = "org.kuali.student.brms.runtime.ast.success";
     private final static String FAILURE_MESSAGE_LOGGER = "org.kuali.student.brms.runtime.ast.failure";
-    private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/ruleexecution/runtime/report/ast/SuccessMessageLogger.drl";
-    private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/ruleexecution/runtime/report/ast/FailureMessageLogger.drl";
+    private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/brms/ruleexecution/runtime/report/ast/SuccessMessageLogger.drl";
+    private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/brms/ruleexecution/runtime/report/ast/FailureMessageLogger.drl";
 
     private final VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 

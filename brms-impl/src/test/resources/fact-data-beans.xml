@@ -33,7 +33,7 @@
 		<property name="credits" value="2.5"/>
 	</bean>
 
-	<bean id="lpr3" class="org.kuali.studentbrms.factfinder.entity.LUIPerson">
+	<bean id="lpr3" class="org.kuali.student.brms.factfinder.entity.LUIPerson">
 		<property name="id" value="11223344-1122-1122-1112-200000000003"/>
 		<property name="studentId" value="student1"/>
 		<property name="cluId" value="PSYC 202"/>

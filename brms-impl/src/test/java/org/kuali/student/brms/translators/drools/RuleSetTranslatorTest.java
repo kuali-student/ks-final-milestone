@@ -311,7 +311,7 @@ public class RuleSetTranslatorTest {
     	String factKey1 = FactUtil.createFactKey(factStructure1);
 
         // EXECUTION: Create fact results (data)
-        int loops = 20;
+        int loops = 5;
         List<FactContainer> factList = createFactList("cluID-1234", loops, businessRule, factKey1, anchorValue, String.class);
 
         Map<String, FactContainer> exeMap = executeStatelessSessionRule(ruleSet.getContent(), factList);
@@ -356,7 +356,7 @@ public class RuleSetTranslatorTest {
     	String factKey1 = FactUtil.createFactKey(factStructure1);
 
         // EXECUTION: Create fact results (data)
-        int loops = 20;
+        int loops = 5;
         List<FactContainer> factList = createFactList("100.1234567890", loops, businessRule, factKey1, anchorValue, BigDecimal.class);
 
         Map<String, FactContainer> exeMap = executeStatefulSessionRule(ruleSet.getContent(), factList);

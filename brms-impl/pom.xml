@@ -97,6 +97,13 @@
                                         <copy
                                             file="${drools.repository.derby.in}"
                                             tofile="${drools.repository.default.out}" />
+                                        <copy
+                                            file="${jdbc.derby.in}"
+                                            tofile="${jdbc.properties.out}" />
+                                        <delete
+                                            file="${project.build.testOutputDirectory}/META-INF/jdbc_derby.properties" />
+                                        <delete
+                                            file="${project.build.testOutputDirectory}/META-INF/jdbc_oracle.properties" />
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -266,6 +273,16 @@
         	<groupId>org.drools</groupId>
         	<artifactId>drools-repository</artifactId>
         	<version>${drools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.security</groupId>
+                    <artifactId>jboss-security-acl-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.security</groupId>
+                    <artifactId>jboss-security-acl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- External dependencies -->
