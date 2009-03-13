@@ -20,13 +20,11 @@ public class ExpressionParser {
     public ExpressionParser() {
         // String expression = "a and b or (c and d )"; // what if adn
         // String expression = "a or ( b and s or d ) "; // what if adn
-        String expression = "a and b or c and d"; // what if adn
+        String expression = "a or b or c or d"; // what if adn
 
         Node<Token> ruleroot = parse(expression);
     }
 public Node<Token> parse(String expression){
-
-
     List<String> tokenValueList = getTokenValue(expression);
     System.out.println(tokenValueList);
     List<Token> tokenList = getTokenList(tokenValueList);
@@ -39,10 +37,10 @@ public Node<Token> parse(String expression){
     System.out.println(rpnList);
 
     Node<Token> root = binaryTreeFromRPN(rpnList);
-    System.out.println(root);
+    System.out.println("binaryTree:" + root);
 
     Node<Token> ruleRoot = mergeBinaryTree(root);
-    System.out.println(ruleRoot);
+    System.out.println("ruleRoot: "+ ruleRoot);
     return ruleRoot;
 }
     public Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
@@ -50,18 +48,32 @@ public Node<Token> parse(String expression){
             List<Node> list = binaryTree.getAllChildren();
 
             for (Node node : list) {
-                if (node.getParent() != null && node.getParent().getParent() != null) {
+                if (node.isLeaf() == true &&
+                        node.getParent() != null && node.getParent().getParent() != null) {
+                    
+                    
                     Node parentNode = node.getParent();
                     Node grandParentNode = node.getParent().getParent();
                     Token parentToken = (Token) parentNode.getUserObject();
                     Token grandParentToken = (Token) grandParentNode.getUserObject();
+                    
+                    System.out.println(parentNode);
+                    
                     if (parentToken.type == grandParentToken.type) {
+                        List<Node> removedList = new ArrayList<Node>();
                         for(int i=0;i<parentNode.getChildCount();i++){
                             Node n = parentNode.getChildAt(i);
                             grandParentNode.addNode(n);
+                            
+                           removedList.add(n);
                         }
+                        for(Node n : removedList){
+                           parentNode.remove(n);
+                        }
+                        grandParentNode.remove(parentNode);
+                        
                     }
-                    grandParentNode.remove(parentNode);
+                    //break; 
                 }
             }
 
@@ -196,9 +208,9 @@ public Node<Token> parse(String expression){
             System.out.println("must start with ( or condition");
         }
         if (countToken(tokenList, Token.StartParenthesis) != countToken(tokenList, Token.EndParenthesis)) {
-
             System.out.println("() not in pair");
         }
+        // condition cannot duplicate
         for (int i = 1; i < tokenList.size(); i++) {
             Token token = tokenList.get(i);
             if (token.type == Token.And) {

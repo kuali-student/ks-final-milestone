@@ -175,7 +175,7 @@ public class Node<T> {
     public int getDistance(Node node) {
         Node myParent = node.getParent();
         int level = 1;
-        while (myParent != this) {
+        while (myParent != null && myParent != this) {
             level++;
             myParent = myParent.getParent();
         }
