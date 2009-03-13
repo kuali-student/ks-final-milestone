@@ -1,6 +1,12 @@
 package org.kuali.student.common.ui.client.widgets;
 
 
+/**
+ * KSStyles defines constant style names used for KS widgets.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public interface KSStyles {
 	public static final String KS_BUTTON_STYLE = "KS-Button";
 	public static final String KS_BUTTON_HOVER_STYLE = "KS-Button-Hover";
