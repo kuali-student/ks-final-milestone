@@ -4,9 +4,6 @@ import org.kuali.student.common.ui.client.widgets.impl.KSPopupPanelImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
