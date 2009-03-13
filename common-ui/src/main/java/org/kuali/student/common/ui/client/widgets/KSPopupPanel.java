@@ -27,7 +27,7 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Gets the X coordinate of the popup.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#getX()
+	 * @return the x coordinate
 	 */
 	public int getX(){
 	    //return popup.get.getPopupLeft();
@@ -36,7 +36,7 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
     /**
      * Gets the Y coordinate of the popup.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#getY()
+     * @return the y coordinate
      */
     public int getY(){
        // return popup.getPopupTop();
@@ -45,7 +45,8 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Sets the x,y coordinates of the popup.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#setLocation(int, int)
+	 * @param x the x coordinate
+	 * @param y the y coordinate
 	 */
 	public void setLocation(int x, int y){
 	    popupPanel.setLocation(x, y);
@@ -53,7 +54,7 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Sets this popup's content to the widget passed in.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#setWidget(com.google.gwt.user.client.ui.Widget)
+	 * @param w the Widget to set this popup's content to
 	 */
 	public void setWidget(Widget w){
 	//	content.setWidget(w);
@@ -62,7 +63,8 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Set the size of the popup panel to the width and height specified.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#setPixelSize(int, int)
+	 * @param w the new width of the popup
+	 * @param h the new height of the popup
 	 */
 	public void setPixelSize(int w, int h){
       //  content.setPixelSize(w,h);
@@ -72,7 +74,6 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Shows the popup panel.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#show()
 	 */
 	public void show(){
 	    popupPanel.show();
@@ -81,7 +82,6 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Centers and shows the popup panel.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#center()
 	 */
 	public void center(){
 	    popupPanel.center();
@@ -90,7 +90,6 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Hides the popup panel.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#hide()
 	 */
 	public void hide(){
 	    popupPanel.hide();
@@ -99,16 +98,16 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Adds a style name to the popup panel.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#addStyleName(java.lang.String)
+	 * @param style the name of the style to add
 	 */
 	public void addStyleName(String style){
 	    popupPanel.addStyleName(style);
 	}
 
-	/**
+	/**    
 	 * Sets the modal flag of the popup panel.  When set to true, other components cannot be interacted with.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#setModal(boolean)
+	 * @param modal true if this popup is modal, false otherwise
 	 */
 	public void setModal(boolean modal) {
 	    popupPanel.setModal(modal);
@@ -118,7 +117,7 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Returns true if this popup panel is showing, false otherwise.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#isShowing()
+	 * @return true if this popup showing, false otherwise.
 	 */
 	public boolean isShowing() {
 		return popupPanel.isShowing();
@@ -127,7 +126,7 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	/**
 	 * Adds a CloseHandler to this popup panel which handles close events.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#addCloseHandler(com.google.gwt.event.logical.shared.CloseHandler)
+	 * @param handler a CloseHandler which will handle this popup's close events
 	 */
 	public void addCloseHandler(CloseHandler handler){
 	    popupPanel.addCloseHandler(handler);
@@ -137,7 +136,7 @@ public class KSPopupPanel extends KSPopupPanelAbstract{
 	 * Sets the autohide flag.  When the flag is set to true, this popup panel will close when a user
 	 * clicks outside it.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract#setAutoHide(boolean)
+	 * @param true if this popup is set to autohide, otherwise false.
 	 */
 	public void setAutoHide(boolean autoHide){
 	    popupPanel.setAutoHide(autoHide);
