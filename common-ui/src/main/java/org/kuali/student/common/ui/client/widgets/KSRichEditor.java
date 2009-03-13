@@ -5,29 +5,7 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /** 
  * KSRichEditor is the KS default rich text editor.  The editor provides a variety of text formatting options commonly
@@ -65,7 +43,7 @@ public class KSRichEditor extends KSRichEditorAbstract {
 	/**
 	 * Gets the RichTextArea widget used for text input in this rich editor widget.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract#getRichTextArea()
+	 * @return the RichTextArea used in this editor
 	 */
 	public RichTextArea getRichTextArea(){
 	    return richEditor.getRichTextArea();
@@ -74,16 +52,16 @@ public class KSRichEditor extends KSRichEditorAbstract {
 	/**
 	 * Get the HTML version of the text input (retains all formatting).
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract#getHTML()
+	 * @return the HTML version of the input text (with formatting)
 	 */
 	public String getHTML() {
 		return richEditor.getHTML();
 	}
 
 	/**
-	 * Get the pure text version of the text input (retains NO formatting).
+	 * Get the plain text version of the text input (retains NO formatting).
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract#getText()
+	 * @return the plain text version of the input text (no formatting)
 	 */
 	public String getText() {
 		return richEditor.getText();
@@ -92,7 +70,7 @@ public class KSRichEditor extends KSRichEditorAbstract {
 	/**
 	 * Set the HTML of this rich text editor.
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract#setHTML(java.lang.String)
+	 * @param html the HTML to set this editor to
 	 */
 	public void setHTML(String html) {
 	    richEditor.setHTML(html);
@@ -101,7 +79,7 @@ public class KSRichEditor extends KSRichEditorAbstract {
 	/**
 	 * Set the text of this rich text editor (this is text with no formatting).
 	 * 
-	 * @see org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract#setText(java.lang.String)
+	 * @param the plain text to set this editor to
 	 */
 	public void setText(String text) {
 	    richEditor.setText(text);
@@ -111,7 +89,6 @@ public class KSRichEditor extends KSRichEditorAbstract {
     /**
      * Initialize this text editor with the specified option.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract#init(boolean)
      */
     protected void init(boolean isUsedInPopup) {
         richEditor.init(isUsedInPopup);
