@@ -169,7 +169,7 @@ public class KSSidebarImpl extends KSSidebarAbstract{
 		
 	}
 	
-	public void init(){//KSSidebarImpl(){
+	protected void init(){//KSSidebarImpl(){
 		Window.addResizeHandler(resizeHandler);
 		container.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		setupDefaultStyle();
@@ -185,7 +185,7 @@ public class KSSidebarImpl extends KSSidebarAbstract{
 		
 	}
 	
-	public void init(FloatLocation location){//KSSidebarImpl(FloatLocation location){
+	protected void init(FloatLocation location){//KSSidebarImpl(FloatLocation location){
 		this.location = location;
 		
 		Window.addResizeHandler(resizeHandler);

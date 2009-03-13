@@ -7,9 +7,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public abstract class KSSidebarAbstract{
-	public abstract void init();
+	protected abstract void init();
 	
-	public abstract void init(FloatLocation location);
+	protected abstract void init(FloatLocation location);
 	
 	public abstract void show();
 	
