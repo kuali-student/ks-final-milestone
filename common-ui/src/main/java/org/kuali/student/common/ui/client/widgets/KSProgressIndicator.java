@@ -25,7 +25,6 @@ public class KSProgressIndicator extends KSProgressIndicatorAbstract{
     /**
      * Hides the progress indicator.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract#hide()
      */
     @Override
     public void hide() {
@@ -36,7 +35,6 @@ public class KSProgressIndicator extends KSProgressIndicatorAbstract{
     /**
      * Shows the progress indicator.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract#show()
      */
     @Override
     public void show() {
@@ -47,7 +45,7 @@ public class KSProgressIndicator extends KSProgressIndicatorAbstract{
     /**
      * Sets the text for the progress indicator, explaining what is being processed.
      * 
-     * @see org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract#setText(java.lang.String)
+     * @param labelText the text/title of the progress indicator
      */
     @Override
     public void setText(String labelText) {
