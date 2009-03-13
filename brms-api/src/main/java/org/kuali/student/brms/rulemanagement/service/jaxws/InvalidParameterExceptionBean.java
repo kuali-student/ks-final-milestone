@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "InvalidParameterException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlRootElement(name = "InvalidParameterException", namespace = "http://org.kuali.student/brms/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InvalidParameterException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlType(name = "InvalidParameterException", namespace = "http://org.kuali.student/brms/exceptions")
 
 public class InvalidParameterExceptionBean {
 

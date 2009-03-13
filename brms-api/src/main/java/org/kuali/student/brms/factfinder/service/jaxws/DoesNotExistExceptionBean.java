@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "DoesNotExistException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlRootElement(name = "DoesNotExistException", namespace = "http://org.kuali.student/brms/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DoesNotExistException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlType(name = "DoesNotExistException", namespace = "http://org.kuali.student/brms/exceptions")
 
 public class DoesNotExistExceptionBean {
 

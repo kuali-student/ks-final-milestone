@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "OperationFailedException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlRootElement(name = "OperationFailedException", namespace = "http://org.kuali.student/brms/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OperationFailedException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlType(name = "OperationFailedException", namespace = "http://org.kuali.student/brms/exceptions")
 
 public class OperationFailedExceptionBean {
 

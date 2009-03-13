@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "DependentObjectsExistException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlRootElement(name = "DependentObjectsExistException", namespace = "http://org.kuali.student/brms/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DependentObjectsExistException", namespace = "http://exceptions.ws.common.poc.student.kuali.org/")
+@XmlType(name = "DependentObjectsExistException", namespace = "http://org.kuali.student/brms/exceptions")
 
 public class DependentObjectsExistExceptionBean {
 
