@@ -2,10 +2,12 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
@@ -38,4 +40,10 @@ public interface OrgRpcServiceAsync {
     public void updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
 
     public void searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues, AsyncCallback<List<Result>> callback);
+    
+    public void createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo, AsyncCallback<OrgPersonRelationInfo> callback);
+    public void updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo, AsyncCallback<OrgPersonRelationInfo> callback);
+    public void removeOrgPersonRelation(String orgPersonRelationId, AsyncCallback<StatusInfo> callback);
+    public void getOrgPersonRelationTypesForOrgType(String orgTypeKey, AsyncCallback<List<OrgPersonRelationTypeInfo>> callback);
+    public void getOrgPersonRelationsByOrg(String orgId, AsyncCallback<List<OrgPersonRelationInfo>> callback);
 }

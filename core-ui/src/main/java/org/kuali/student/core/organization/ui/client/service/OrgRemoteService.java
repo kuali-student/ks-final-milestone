@@ -2,10 +2,12 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
@@ -43,4 +45,11 @@ public interface OrgRemoteService {
     public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
     
     public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues);
+    
+    public OrgPersonRelationInfo createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo);
+    public OrgPersonRelationInfo updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo);
+    public StatusInfo removeOrgPersonRelation(String orgPersonRelationId);
+    public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(String orgTypeKey);
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId);
+
 }

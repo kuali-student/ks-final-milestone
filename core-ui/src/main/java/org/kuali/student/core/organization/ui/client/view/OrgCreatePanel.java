@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanel;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -57,6 +58,7 @@ public class OrgCreatePanel extends Composite{
     public static final String CREATE_ORG_ALL = "All";
     public static final String CREATE_ORG_POSITIONS = "Positions";
     public static final String CREATE_ORG_RELATIONS = "Relations";
+    public static final String CREATE_ORG_PERSON_RELATIONS = "PersonRelations";
     
     String type;
     String orgId = null;
@@ -69,6 +71,7 @@ public class OrgCreatePanel extends Composite{
     VerticalPanel vOrganization;
     VerticalPanel vPositions;
     VerticalPanel vRelations;    
+    VerticalPanel vPersonRelations;  
     
     boolean loaded = false;
     
@@ -89,12 +92,14 @@ public class OrgCreatePanel extends Composite{
                 getOrganization();
                 getOrgPositions(true);
                 getOrgRelations(true);
+                getOrgPersonRelations(true); 
             } else if (type.equals(CREATE_ORG_POSITIONS)){
                 getOrgPositions(false);            
             } else if (type.equals(CREATE_ORG_RELATIONS)){
                 getOrgRelations(false); 
+            } else if (type.equals(CREATE_ORG_PERSON_RELATIONS)){
+                getOrgPersonRelations(false); 
             }
-            
             Button btnCreateOrg = new Button("Create");
             
             if (orgId != null){
@@ -111,15 +116,72 @@ public class OrgCreatePanel extends Composite{
                         savePositions();            
                     } else if (type.equals(CREATE_ORG_RELATIONS)){
                         saveRelations();
+                    } else if (type.equals(CREATE_ORG_PERSON_RELATIONS)){
+                        savePersonRelations();
                     }
                 }
+
             });
 
             vPanel.add(btnCreateOrg);
         }
     }
     
-    protected void getOrganization(){
+    private void getOrgPersonRelations(boolean bShowAll) {
+        KSDisclosureSection personRelationSection = new KSDisclosureSection("Person Relations",null, type.equals(CREATE_ORG_PERSON_RELATIONS));
+        
+        vPersonRelations = new VerticalPanel();
+        vPersonRelations.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+        vPersonRelations.setWidth("100%");        
+        
+        if (orgId != null && bShowAll){
+            populateOrgPersonRelations();
+        } else {        
+        	vPersonRelations.add( new OrgPersonRelationWidget(orgId));
+        	vPersonRelations.add(getPersonRelationLink());
+        }
+              
+        personRelationSection.add(vPersonRelations);
+        vPanel.add(personRelationSection);
+		
+	}
+
+	private void savePersonRelations() {
+        int widgetCount = vPersonRelations.getWidgetCount();
+        for (int i=0; i < widgetCount && widgetCount > 1; i+=2){        
+            OrgPersonRelationWidget orgPersonRelationWidget = (OrgPersonRelationWidget)vPersonRelations.getWidget(i);
+            OrgPersonRelationInfo orgPersonRelInfo = orgPersonRelationWidget.getOrgPersonRelationInfo();
+            
+            if (orgPersonRelInfo.getPersonId().length() > 0){
+            	orgPersonRelInfo.setOrgId(orgId);                
+                if (orgPersonRelInfo.getId() == null){
+                    OrgRpcService.Util.getInstance().createOrgPersonRelation(orgId,orgPersonRelInfo.getPersonId(),orgPersonRelInfo.getType(), orgPersonRelInfo, 
+                            new AsyncCallback<OrgPersonRelationInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(OrgPersonRelationInfo result) {
+                        	vPersonRelations.add(new Label("Person relation created with id: " + result.getId()));
+                        }
+                    });
+                } else {
+                    OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelInfo.getId(),orgPersonRelInfo, new AsyncCallback<OrgPersonRelationInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(OrgPersonRelationInfo result) {
+                        	vPersonRelations.add(new Label("Person relation updated for id: " + result.getId()));
+                        }
+                    });
+                }
+            }
+        }
+		
+	}
+
+	protected void getOrganization(){
         vOrganization = new VerticalPanel();
                
         orgForm = new FormLayoutPanel();
@@ -221,6 +283,7 @@ public class OrgCreatePanel extends Composite{
                     orgId = result.getId();
                     savePositions();
                     saveRelations();
+                    savePersonRelations();
                     vPanel.add(new Label("Org created with id: " + orgId));
                     orgId=null;
                 }
@@ -235,6 +298,7 @@ public class OrgCreatePanel extends Composite{
                 public void onSuccess(OrgInfo result) {
                     savePositions();
                     saveRelations();
+                    savePersonRelations();
                     vPanel.add(new Label("Organization saved"));
                     orgId=null;                    
                 }
@@ -406,7 +470,46 @@ public class OrgCreatePanel extends Composite{
             });        
     }
     
-    protected Hyperlink getPositionLink(){
+    protected void populateOrgPersonRelations(){
+        OrgRpcService.Util.getInstance().getOrgPersonRelationsByOrg(orgId, 
+                new AsyncCallback<List<OrgPersonRelationInfo>>(){
+
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+
+                    public void onSuccess(List<OrgPersonRelationInfo> orgPersonRelations) {                   
+                        int i = 0;
+                        for (OrgPersonRelationInfo orgPersonRelationInfo:orgPersonRelations){
+                            if ( i > 0){
+                                vPersonRelations.add(new HTML("<hr/>"));
+                            }
+                            OrgPersonRelationWidget orgPersonRelationWidget = new OrgPersonRelationWidget(orgId);
+                            orgPersonRelationWidget.setOrgPersonRelationInfo(orgPersonRelationInfo);
+                            vPersonRelations.add(orgPersonRelationWidget);
+                            i++;
+                        }
+                        vPersonRelations.add(getPersonRelationLink());
+                    }
+            });        
+    }
+    
+	protected Hyperlink getPersonRelationLink() {
+        Hyperlink addPersonRelationLink = new Hyperlink("(+)add person relation", "addPersonRelation");
+        addPersonRelationLink.setStyleName("action");
+        addPersonRelationLink.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                if (vPersonRelations.getWidgetCount() > 1){
+                    vPersonRelations.insert(new HTML("<hr/>"), vPersonRelations.getWidgetCount()-1);
+                }
+                vPersonRelations.insert(new OrgPersonRelationWidget(orgId), vPersonRelations.getWidgetCount()-1);
+            }
+        });
+        
+        return addPersonRelationLink; 
+	}        
+    
+	protected Hyperlink getPositionLink(){
         Hyperlink addPositionLink = new Hyperlink("(+)add position", "addPos");
         addPositionLink.setStyleName("action");
         addPositionLink.addClickHandler(new ClickHandler(){

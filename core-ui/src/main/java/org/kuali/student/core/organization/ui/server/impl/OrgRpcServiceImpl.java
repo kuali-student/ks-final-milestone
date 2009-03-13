@@ -2,6 +2,7 @@ package org.kuali.student.core.organization.ui.server.impl;
 
 import java.util.List;
 
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -14,6 +15,7 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
@@ -349,6 +351,108 @@ public class OrgRpcServiceImpl implements OrgRpcService{
         }
         return null;
     }
+
+	@Override
+	public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
+			String personId, String orgPersonRelationTypeKey,
+			OrgPersonRelationInfo orgPersonRelationInfo) {
+
+		try {
+			return service.createOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey, orgPersonRelationInfo);
+		} catch (AlreadyExistsException e) {
+			e.printStackTrace();
+		} catch (DataValidationErrorException e) {
+			e.printStackTrace();
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(
+			String orgTypeKey) {
+		try {
+			return service.getOrgPersonRelationTypesForOrgType(orgTypeKey);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId) {
+		try {
+			return service.getOrgPersonRelationsByOrg(orgId);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId) {
+		try {
+			return service.removeOrgPersonRelation(orgPersonRelationId);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public OrgPersonRelationInfo updateOrgPersonRelation(
+			String orgPersonRelationId,
+			OrgPersonRelationInfo orgPersonRelationInfo) {
+		try {
+			return service.updateOrgPersonRelation(orgPersonRelationId, orgPersonRelationInfo);
+		} catch (DataValidationErrorException e) {
+			e.printStackTrace();
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		} catch (VersionMismatchException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
             
 }

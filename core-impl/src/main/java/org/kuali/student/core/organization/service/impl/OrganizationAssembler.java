@@ -141,9 +141,12 @@ public class OrganizationAssembler extends BaseAssembler{
 		OrgPositionRestrictionInfo restrictionInfo = new OrgPositionRestrictionInfo();
 
 		BeanUtils.copyProperties(restriction, restrictionInfo, new String[] { "attributes", "metaInfo","orgId","personRelationType","stdDuration" });
-		restrictionInfo.setStdDuration(new TimeAmountInfo());
-		BeanUtils.copyProperties(restriction.getStdDuration(), restrictionInfo.getStdDuration());
-
+		
+		if(restriction.getStdDuration()!=null){
+			restrictionInfo.setStdDuration(new TimeAmountInfo());
+			BeanUtils.copyProperties(restriction.getStdDuration(), restrictionInfo.getStdDuration());
+		}
+		
 		restrictionInfo.setOrgId(restriction.getOrg().getId());
 		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
 		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionInd()));
@@ -364,10 +367,10 @@ public class OrganizationAssembler extends BaseAssembler{
 		// Copy all basic properties
 		BeanUtils.copyProperties(orgPositionRestrictionInfo, orgPositionRestriction, new String[] { "personRelationType",
 				"attributes", "metaInfo", "org", "stdDuration" });
-		
-		orgPositionRestriction.setStdDuration(new TimeAmount());
-		BeanUtils.copyProperties(orgPositionRestrictionInfo.getStdDuration(), orgPositionRestriction.getStdDuration());
-
+		if(orgPositionRestrictionInfo.getStdDuration()!=null){
+			orgPositionRestriction.setStdDuration(new TimeAmount());
+			BeanUtils.copyProperties(orgPositionRestrictionInfo.getStdDuration(), orgPositionRestriction.getStdDuration());
+		}
 		// Copy Attributes
 		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));
 

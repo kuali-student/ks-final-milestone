@@ -173,6 +173,8 @@ public class OrgLocatePanel extends Composite{
         Hyperlink orgEditLbl;
         Hyperlink orgAddRelLbl;
         Hyperlink orgAddPosLbl;
+        Hyperlink orgAddPersonRelLbl;
+        
         String orgId;
         
         public OrgWidget(OrgInfo orgInfo){
@@ -202,10 +204,16 @@ public class OrgLocatePanel extends Composite{
             orgAddRelLbl.setStyleName("action");
             orgAddRelLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_RELATIONS));
 
+            orgAddPersonRelLbl = new Hyperlink("(+)person rel", "addPersonRel");
+            orgAddPersonRelLbl.setStyleName("action");
+            orgAddPersonRelLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_PERSON_RELATIONS));
+
+            
             FlexTable ft = new FlexTable();
             ft.setWidget(0, 1, orgEditLbl);
             ft.setWidget(0, 2, orgAddRelLbl);
             ft.setWidget(0, 3, orgAddPosLbl);
+            ft.setWidget(0, 4, orgAddPersonRelLbl);
             
             vOrgPanel.add(orgLink);
             vOrgPanel.add(ft);

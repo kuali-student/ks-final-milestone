@@ -2,10 +2,12 @@ package org.kuali.student.core.organization.ui.server.gwt;
 
 import java.util.List;
 
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
@@ -98,6 +100,36 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
     public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) {
         return serviceImpl.searchForResults(searchTypeKey, queryParamValues);
     }
+
+	@Override
+	public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
+			String personId, String orgPersonRelationTypeKey,
+			OrgPersonRelationInfo orgPersonRelationInfo) {
+		return serviceImpl.createOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey, orgPersonRelationInfo);
+	}
+
+	@Override
+	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(
+			String orgTypeKey) {
+		return serviceImpl.getOrgPersonRelationTypesForOrgType(orgTypeKey);
+	}
+
+	@Override
+	public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId) {
+		return serviceImpl.getOrgPersonRelationsByOrg(orgId);
+	}
+
+	@Override
+	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId) {
+		return serviceImpl.removeOrgPersonRelation(orgPersonRelationId);
+	}
+
+	@Override
+	public OrgPersonRelationInfo updateOrgPersonRelation(
+			String orgPersonRelationId,
+			OrgPersonRelationInfo orgPersonRelationInfo) {
+		return serviceImpl.updateOrgPersonRelation(orgPersonRelationId, orgPersonRelationInfo);
+	}
 	
 	
 }
