@@ -11,6 +11,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
+ * This class handles a static list of BlockingTasks, when a blocking task is added to the list, the blocking
+ * progress indicator is shown to the user and the user can perform no action until all blocking tasks are finished/removed.
+ * 
  * @author Bsmith
  *
  */
@@ -24,6 +27,11 @@ public class KSBlockingProgressIndicator{
 	
 	private static boolean initialized = false;
 	
+	/**
+	 * Initializes the blocking progress indicator.  This must be called before
+	 * blocking task are added.
+	 * 
+	 */
 	public static void initialize(){
 		
 		
@@ -36,11 +44,22 @@ public class KSBlockingProgressIndicator{
 		initialized = true;
 	}
 	
+	/**
+	 * Adds a blocking task to the queue.  When all tasks are removed, the indicator
+	 * is no longer shown.
+	 * 
+	 * @param task the task description to be added
+	 */
 	public static void addTask(BlockingTask task) {
 		tasks.add(task);
-		updateIndicator();
+		updateIndicator();    
 	}
 	
+	/**
+	 * Removes the blocking task from the queue
+	 * 
+	 * @param task the task to be removed from the blocking task queue
+	 */
 	public static void removeTask(BlockingTask task) {
 		tasks.remove(task);
 		if (tasks.isEmpty()) {
