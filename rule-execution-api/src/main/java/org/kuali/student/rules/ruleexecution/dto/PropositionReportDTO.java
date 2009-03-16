@@ -45,10 +45,7 @@ public class PropositionReportDTO implements java.io.Serializable {
     private boolean successful = false;
 
     @XmlElement
-    private String successMessage;
-
-    @XmlElement
-    private String failureMessage;
+    private String message;
     
     /**
      * Criteria used in the proposition
@@ -111,26 +108,14 @@ public class PropositionReportDTO implements java.io.Serializable {
     /**
      * @return the successMessage
      */
-    public String getSuccessMessage() {
-        return successMessage;
+    public String getMessage() {
+        return this.message;
     }
     /**
      * @param successMessage the successMessage to set
      */
-    public void setSuccessMessage(final String successMessage) {
-        this.successMessage = successMessage;
-    }
-    /**
-     * @return the failureMessage
-     */
-    public String getFailureMessage() {
-        return failureMessage;
-    }
-    /**
-     * @param failureMessage the failureMessage to set
-     */
-    public void setFailureMessage(final String failureMessage) {
-        this.failureMessage = failureMessage;
+    public void setMessage(final String message) {
+        this.message = message;
     }
 
     /**
