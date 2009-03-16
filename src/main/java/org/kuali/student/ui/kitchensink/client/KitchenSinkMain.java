@@ -3,6 +3,7 @@ package org.kuali.student.ui.kitchensink.client;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_CONTENT_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MAIN_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MENU_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_IMAGE;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
 
 import java.util.ArrayList;
@@ -40,27 +41,46 @@ import org.kuali.student.ui.kitchensink.client.kscommons.tooltip.ToolTipExampleD
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 public class KitchenSinkMain extends Composite {
+
+    private final static String WELCOME_MSG = "\n\n Welcome to the Kuali Student Kitchen Sink \n\n" +
+    "This is a catalog of all widgets developed by Kuali Student. Click the menus on the left to view the widgets";
+
+    private static final String BASIC_WIDGET_MSG = "These are the basic building block widgets, such as buttons, labels, checkboxes and more.";
+    private static final String INFO_WIDGET_MSG = "These are widgets used to display information such as additional help or tool tips";
+    private static final String MENU_WIDGET_MSG = "These are widgets that can be used to present menu options allowing users to navigate through a set of choices";
+    private static final String TEXT_WIDGET_MSG = "These are widgets used for entering and updating text and include a simple text box to a full featured rich text editor.";
+    private static final String PANEL_WIDGET_MSG = "These are widgets that display a content panel either inline or in a separate popup window.  They may be modal, resizeable, moveable or not , depending on the requirements.  These panels will act as containers for other widgets.";
+    private static final String STATUS_WIDGET_MSG = "These are widgets that indicate some action in progress";
+    private static final String GENERAL_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
+  
+    private static final String BASIC_WIDGETS = "Basic Widgets";
+    private static final String INFO_WIDGETS = "Information Widgets";
+    private static final String MENU_WIDGETS = "Menu Widgets";
+    private static final String TEXT_WIDGETS = "Text Widgets";
+    private static final String PANEL_WIDGETS = "Panel Widgets";
+    private static final String STATUS_WIDGETS = "Status Widgets";
+
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
-    final VerticalPanel welcomePanel = new VerticalPanel();
+    VerticalPanel welcomePanel = new VerticalPanel();
     final KSMenu menuPanel = new KSAccordionMenu(); // TODO update deferred binding in common-ui
     KSLabel welcomeMsg;
     final KSImage ksImage = new KSImage("images/KULSTP.jpg");
 
-    private final static String WELCOME_MSG = "\n\n Welcome to the Kuali Student Kitchen Sink \n\n" +
-    "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
-    "Explore the menus on the left to view the widgets";
+
 
     boolean loaded = false;
 
     private final Map<String, KitchenSinkExample> exampleMap = new HashMap<String, KitchenSinkExample>();
-    
+
     public KitchenSinkMain() {
         super.initWidget(main);
         initExamples();
@@ -71,19 +91,16 @@ public class KitchenSinkMain extends Composite {
         if (!loaded) {
             loaded = true;
 
-//            ksImage.addStyleName(STYLE_IMAGE);
-            ksImage.setSize("200px", "100px");
-      
-            welcomePanel.add(ksImage);
-            welcomeMsg = new KSLabel(WELCOME_MSG, true);
-            welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
-            welcomePanel.add(welcomeMsg);
-
+            ksImage.setStyleName(STYLE_WELCOME_IMAGE);
 
             main.setStyleName(STYLE_MAIN_PANEL);
             menuPanel.setStyleName(STYLE_MENU_PANEL);
+            contentPanel.setStyleName(STYLE_CONTENT_PANEL);     
 
-            contentPanel.setStyleName(STYLE_CONTENT_PANEL);            
+            welcomePanel.add(ksImage);
+            welcomeMsg = new KSLabel(WELCOME_MSG, true);
+            welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
+            welcomePanel.add(welcomeMsg);              
             contentPanel.add(welcomePanel);
 
             main.add(menuPanel);
@@ -96,41 +113,125 @@ public class KitchenSinkMain extends Composite {
     private void initExamples() {
         List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 
-        KSMenuItemData ksCommons = initGroup("KS Common Widgets");
-//      initExample(ksCommons, new BusyWidgetShadeExampleDescriptor()); //Required?
-        initExample(ksCommons, new AccordionMenuExampleDescriptor());
-        initExample(ksCommons, new AccordionPanelExampleDescriptor());
-        initExample(ksCommons, new BlockingProgressIndicatorExampleDescriptor());
-        initExample(ksCommons, new ButtonExampleDescriptor());
-        initExample(ksCommons, new CheckBoxExampleDescriptor());
-        initExample(ksCommons, new CollapsableFloatPanelExampleDescriptor());
-        initExample(ksCommons, new DatePickerExampleDescriptor());
-        initExample(ksCommons, new DisclosureSectionExampleDescriptor());
-        initExample(ksCommons, new DropDownExampleDescriptor());
-        initExample(ksCommons, new FloatPanelExampleDescriptor());
-//        initExample(ksCommons, new HelpLinkExampleDescriptor());  //TODO
-        initExample(ksCommons, new ImageExampleDescriptor());
-        initExample(ksCommons, new InfoDialogExampleDescriptor());
-        initExample(ksCommons, new LabelExampleDescriptor());
-        initExample(ksCommons, new ListBoxExampleDescriptor());
-        initExample(ksCommons, new ModalDialogPanelExampleDescriptor());
-        initExample(ksCommons, new ProgressIndicatorExampleDescriptor());
-        initExample(ksCommons, new RadioButtonExampleDescriptor());
-//        initExample(ksCommons, new RadioButtonListExampleDescriptor()); //TODO
-        initExample(ksCommons, new RichEditorExampleDescriptor());
-//      initExample(ksCommons, new SelectableTableListExampleDescriptor()); //TODO
-//      initExample(ksCommons, new StackPanelExampleDescriptor());  //Deprecated?
-        initExample(ksCommons, new TextAreaExampleDescriptor());
-        initExample(ksCommons, new TextBoxExampleDescriptor());
-        initExample(ksCommons, new ToolTipExampleDescriptor());
+        KSMenuItemData ksCommons = initTopGroup("KS Common Widgets");
+
+        KSMenuItemData ksBasic = initGroup(BASIC_WIDGETS);
+        KSMenuItemData ksStatus = initGroup(STATUS_WIDGETS);
+        KSMenuItemData ksInfo = initGroup(INFO_WIDGETS);
+        KSMenuItemData ksPanels = initGroup(PANEL_WIDGETS);
+        KSMenuItemData ksText = initGroup(TEXT_WIDGETS);
+        KSMenuItemData ksMenu = initGroup(MENU_WIDGETS);
+
+        initExample(ksBasic, new ButtonExampleDescriptor());
+        initExample(ksBasic, new CheckBoxExampleDescriptor());
+        initExample(ksBasic, new DatePickerExampleDescriptor());
+        initExample(ksBasic, new DropDownExampleDescriptor());
+        initExample(ksBasic, new ImageExampleDescriptor());
+        initExample(ksBasic, new LabelExampleDescriptor());
+        initExample(ksBasic, new ListBoxExampleDescriptor());
+        initExample(ksBasic, new RadioButtonExampleDescriptor());
+
+        initExample(ksText, new RichEditorExampleDescriptor());
+        initExample(ksText, new TextAreaExampleDescriptor());
+        initExample(ksText, new TextBoxExampleDescriptor());
+
+        initExample(ksStatus, new BlockingProgressIndicatorExampleDescriptor());
+        initExample(ksStatus, new ProgressIndicatorExampleDescriptor());
+
+        initExample(ksPanels, new AccordionPanelExampleDescriptor());
+        initExample(ksPanels, new CollapsableFloatPanelExampleDescriptor());
+        initExample(ksPanels, new DisclosureSectionExampleDescriptor());
+        initExample(ksPanels, new FloatPanelExampleDescriptor());
+        initExample(ksPanels, new InfoDialogExampleDescriptor());
+        initExample(ksPanels, new ModalDialogPanelExampleDescriptor());
+
+        initExample(ksInfo, new ToolTipExampleDescriptor());
+//        initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
+
+        initExample(ksMenu, new AccordionMenuExampleDescriptor());
+//      initExample(ksMisc, new RadioButtonListExampleDescriptor()); //TODO
+//      initExample(ksMisc, new SelectableTableListExampleDescriptor()); //TODO
+
+        ksCommons.addSubItem(ksBasic);
+        ksCommons.addSubItem(ksInfo);
+        ksCommons.addSubItem(ksMenu);
+        ksCommons.addSubItem(ksPanels);
+        ksCommons.addSubItem(ksStatus);
+        ksCommons.addSubItem(ksText);
 
         items.add(ksCommons);
+
         menuPanel.setItems(items);
 
     }
 
+    private KSMenuItemData initTopGroup(String groupName) {
+
+        KSMenuItemData groupItem = new KSMenuItemData(groupName);
+
+        groupItem.setClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent arg0) {
+
+                if (contentPanel.getWidget() != null) {
+                    contentPanel.remove(contentPanel.getWidget());
+                }
+                contentPanel.setWidget(welcomePanel);                
+            }
+        }); 
+
+        return groupItem;
+    }
+
     private KSMenuItemData initGroup(String groupName) {
-        return new KSMenuItemData(groupName);
+
+        KSMenuItemData groupItem = new KSMenuItemData(groupName);
+
+
+        groupItem.setClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent arg0) {
+
+                if (contentPanel.getWidget() != null) {
+                    contentPanel.remove(contentPanel.getWidget());
+                }
+
+                contentPanel.setWidget(buildGroupMessage(arg0));                
+            }
+        });       
+
+
+
+
+        return groupItem;
+    }
+
+    private KSLabel buildGroupMessage(ClickEvent arg0) {
+        FocusPanel panel = (FocusPanel)arg0.getSource();
+        String source = ((Label)panel.getWidget()).getText();
+
+        KSLabel label = new KSLabel();;
+
+        if (source.equals(BASIC_WIDGETS)) {
+            label.setText(BASIC_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        }
+        else if (source.equals(TEXT_WIDGETS)) {
+            label.setText(TEXT_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        }
+        else if (source.equals(PANEL_WIDGETS)) {
+            label.setText(PANEL_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        }
+        else if (source.equals(INFO_WIDGETS)) {
+            label.setText(INFO_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        }
+        else if (source.equals(STATUS_WIDGETS)) {
+            label.setText(STATUS_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        }
+        else if (source.equals(MENU_WIDGETS)) {
+            label.setText(MENU_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        }
+
+        return label;
     }
 
     private void initExample(final KSMenuItemData group, 
@@ -154,6 +255,6 @@ public class KitchenSinkMain extends Composite {
     public KitchenSinkExample getExample(String className) {
         return exampleMap.get(className);
     }
-    
+
 
 }

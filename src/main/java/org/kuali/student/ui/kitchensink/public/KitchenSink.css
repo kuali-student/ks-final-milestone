@@ -1,6 +1,7 @@
 .KSinkMainPanel{
     height: 100%;
     width: 100%;
+    padding: 3px;
 }
 
 .KSinkMenuPanel{
@@ -37,6 +38,13 @@
 .KSinkWelcomePanel {
 	font-size: 18px;
 	font-weight: bold;
+	padding: 5px;
+}
+
+.KSinkWelcomeImage {
+	width: 200px;
+	height: 100px;
+	align: center;
 }
 
 .KSinkDescription {
@@ -62,7 +70,7 @@
 }
 
 .KSinkExample {
-	padding: 10px 10px 10px 10px;
+	padding: 10px;
 }
 .KSinkPopupPanel {
     height: 250px;

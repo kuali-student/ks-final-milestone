@@ -14,6 +14,6 @@ public class KitchenSinkStyleConstants {
     public static final String STYLE_WELCOME_PANEL = "KSinkWelcomePanel" ;
     public static final String STYLE_TAB_PANEL = "KSinkTabPanel" ;
     public static final String STYLE_EXAMPLE_PANEL = "KSinkExamplePanel" ;
-
+    public static final String STYLE_WELCOME_IMAGE = "KSinkWelcomeImage" ;
 
 }
