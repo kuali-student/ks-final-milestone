@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Node<T> {
     List<Node> childrenList = new ArrayList<Node>();
     Node parent;
@@ -123,7 +124,41 @@ public class Node<T> {
         }
         return nodeList;
     }
-
+    public List<Node> getLeafChildren(){
+        List<Node> list = new ArrayList<Node>();
+        for(Node n: children()){
+            if(n.isLeaf()){
+                list.add(n);
+            }
+        }
+        return list;
+    }
+    public List<Node> getSiblings(){
+        Node parent = this.getParent();
+        List<Node> list = new ArrayList<Node>();
+        if(parent != null){
+            
+            for(int i=0;i<parent.getChildCount();i++){
+                if(parent.getChildAt(i) != this){
+                    list.add(parent.getChildAt(i));    
+                }
+            }
+            return list;
+        }
+        return list;
+        
+    }
+    public List<Node> getLeafSiblings(){
+        List<Node> list = new ArrayList<Node>();
+        List<Node> siblings = getSiblings();
+        for(Node n: siblings){
+            if(n.isLeaf()){
+                list.add(n);
+            }
+        }
+        
+        return list;
+    } 
     public List<Node> children() {
         if (childrenList == null) {
             return new ArrayList<Node>();
@@ -157,7 +192,20 @@ public class Node<T> {
 
         return levelList;
     }
-
+    public List<Node> deepTrans(Node root){
+        List<Node> list = new ArrayList<Node>();
+        for(int i=0;i<root.getChildCount();i++){
+            Node n = root.getChildAt(i);
+            if(n.isLeaf()){
+                list.add(n);    
+            }else {
+                list.addAll(deepTrans(n));
+            }
+     
+        }
+        list.add(root);
+        return list;
+    }
     public int getMaxLevelDistance() {
         List<Node> nodeList = getAllChildren();
         int maxDistance = 0;
@@ -210,117 +258,11 @@ public class Node<T> {
         root.addNode(q);
         root.addNode(r);
 
-        Node p = new Node();
-        p.setUserObject("p");
-        root.addNode(p);
-
-        Node o = new Node();
-        o.setUserObject("o");
-        p.addNode(o);
-        Node m = new Node();
-        m.setUserObject("m");
-        p.addNode(m);
-        Node n = new Node();
-        n.setUserObject("n");
-        p.addNode(n);
-
-        Node k = new Node();
-        k.setUserObject("k");
-        Node l = new Node();
-        l.setUserObject("l");
-        n.addNode(k);
-        n.addNode(l);
-        Node j = new Node();
-        j.setUserObject("j");
-        n.addNode(j);
-
-        Node i = new Node();
-        i.setUserObject("i");
-        Node h = new Node();
-        h.setUserObject("h");
-        j.addNode(i);
-        j.addNode(h);
-        Node g = new Node();
-        g.setUserObject("g");
-        j.addNode(g);
-
-        Node e = new Node();
-        e.setUserObject("e");
-        g.addNode(e);
-        Node d = new Node();
-        d.setUserObject("d");
-        g.addNode(d);
-        Node f = new Node();
-        f.setUserObject("f");
-        g.addNode(f);
-
         Node a = new Node();
         a.setUserObject("a");
-        Node b = new Node();
-        b.setUserObject("b");
-        Node c = new Node();
-        c.setUserObject("c");
-        d.addNode(a);
-        d.addNode(b);
-        d.addNode(c);
-
-        Node n1 = new Node();
-        n1.setUserObject("n1");
-        Node n2 = new Node();
-        n2.setUserObject("n2");
-        Node n3 = new Node();
-        n3.setUserObject("n3");
-
-        f.addNode(n1);
-        f.addNode(n2);
-        f.addNode(n3);
-
-        System.out.println(root.getDistance(n1));
-        System.out.println(root.getChildCount());
-        System.out.println(root.getAllChildren().size());
-        System.out.println(root.getAllLeafCount());
-
-        List<List<Node>> levelList = root.toLevel();
-        for (List<Node> level : levelList) {
-            for (Node node : level) {
-                System.out.print(node.getUserObject() + ",");
-            }
-            System.out.println();
-        }
-        System.out.println("---");
-        for (int x = 0; x < levelList.size(); x++) {
-            List<Node> aLevel = levelList.get(x);
-            int nonLeafIndex = 0;
-            for (int y = 0; y < aLevel.size(); y++) {
-                Node nn = aLevel.get(y);
-                if (nn.isLeaf() == false) {
-                    System.out.println(x + ":" + nonLeafIndex + ":" + nn.getAllLeafCount() + ":" + nn.getUserObject());
-
-                    nonLeafIndex += nn.getAllLeafCount();
-                }
-
-                // mergeCellAcrossRow(i, j,n.getAllLeafCount());
-
-            }
-
-        }
-        System.out.println("---");
-        for (int x = 0; x < levelList.size(); x++) {
-            List<Node> aLevel = levelList.get(x);
-            int nonLeafIndex = 0;
-            for (int y = 0; y < aLevel.size(); y++) {
-                Node nn = aLevel.get(y);
-                if (nn.isLeaf() == false) {
-                    System.out.println(x + ":" + nonLeafIndex + ":" + nn.getAllLeafCount() + ":" + nn.getUserObject());
-
-                    nonLeafIndex += nn.getAllLeafCount();
-                }
-
-                // mergeCellAcrossRow(i, j,n.getAllLeafCount());
-
-            }
-
-        }
+        q.addNode(a);
+        
+System.out.println(root.deepTrans(root));
 
     }
 }
