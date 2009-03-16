@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.helplink;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_HELP_LINK;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
@@ -28,7 +27,6 @@ public class HelpLinkExample extends Composite {
 //        Window.alert("Title" +   helpLink.getHelpInfo().getTitle()
 //        + "\n" + helpLink.getHelpInfo().getUrl());     
                 
-        helpLink.addStyleName(STYLE_HELP_LINK);
         main.add(helpLink);
 
         super.initWidget(main);

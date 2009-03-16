@@ -9,7 +9,6 @@ public class CheckBoxExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "CheckBoxExample.java", "kscommons/checkbox/CheckBoxExample.java", "Example usage of KSCheckBox.");
         super.addResource("css", "KSCheckbox.css", "KSCheckbox.css", "Default styling of KSCheckBox.");
-        super.addResource("css", "CheckBoxExample.css", "examplecss/CheckBoxExample.css", "Example styling of KSCheckBox.");
     }
     public String getDescription() {       
         return "CheckBox is used to select one or more options or items.";

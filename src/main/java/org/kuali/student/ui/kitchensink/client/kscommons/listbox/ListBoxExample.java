@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.listbox;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_LISTBOX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ public class ListBoxExample extends Composite {
         loadLists();
 
         listBox1 = new KSListBox(institutionList);
-        listBox1.addStyleName(STYLE_LISTBOX);
         listBox1.setMultipleSelect(false);
         listBox1.addChangeHandler(new ChangeHandler() {
             @Override
@@ -48,7 +46,6 @@ public class ListBoxExample extends Composite {
 
 
         listBox2 = new KSListBox(institutionList);
-        listBox2.addStyleName(STYLE_LISTBOX);
         listBox2.setMultipleSelect(true);
 
         // Doesn't quite work yet!

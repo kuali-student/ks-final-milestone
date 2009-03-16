@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_BLOCKING_PROGRESS_INDICATOR;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -27,7 +26,6 @@ public class BlockingProgressIndicatorExample extends Composite {
     public BlockingProgressIndicatorExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-        main.addStyleName(STYLE_BLOCKING_PROGRESS_INDICATOR);
 
         button = new KSButton("Click Me",  new ClickHandler () {
 

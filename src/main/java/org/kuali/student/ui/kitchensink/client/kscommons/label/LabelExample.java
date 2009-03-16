@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.label;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_LABEL;
 
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -20,7 +19,6 @@ public class LabelExample extends Composite {
     public LabelExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-        label1.addStyleName(STYLE_LABEL);
 
         main.add(label1);
 //        panel.add(ksLabel2);

@@ -9,7 +9,6 @@ public class RadioButtonExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "RadioButtonExample.java", "kscommons/radiobutton/RadioButtonExample.java", "Example usage of KSRadioButton.");
         super.addResource("css", "KSRadioButton.css", "KSRadioButton.css", "Default styling of KSRadioButton.");
-        super.addResource("css", "RadioButtonExample.css", "examplecss/RadioButtonExample.css", "Example styling of KSRadioButton.");
     }
     public String getDescription() {       
         return "RadioButton is a mutually-exclusive selection radio button widget"; 

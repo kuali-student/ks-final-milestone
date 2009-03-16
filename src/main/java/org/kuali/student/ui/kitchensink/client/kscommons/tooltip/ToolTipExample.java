@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.tooltip;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_TOOLTIP;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSToolTip;
@@ -21,14 +20,12 @@ public class ToolTipExample extends Composite {
     final KSLabel label = new KSLabel(" Move mouse across image to see more information.");
 
     final Image image = new Image("images/flowers.jpg");
-    final KSToolTip tip = new KSToolTip("Osteospermum", new KSLabel("Osteospermum is a member of the sunflower family, Asteraceae. " +
+    final KSToolTip tip = new KSToolTip("Osteospermum", new KSLabel("The Osteospermum is a member of the sunflower family, Asteraceae. " +
             "There are about 50 species, native to Africa and southwestern Arabia. They are half-hardy perennials or subshrubs."));
 
     public ToolTipExample() {
         
         main.addStyleName(STYLE_EXAMPLE);
-        tip.addStyleName(STYLE_TOOLTIP);
-
        
         image.addMouseOverHandler(new MouseOverHandler() {
 

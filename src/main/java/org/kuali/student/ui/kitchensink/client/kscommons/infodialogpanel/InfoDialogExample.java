@@ -1,8 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_IMAGE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_INFO_DIALOG_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
@@ -30,8 +28,6 @@ public class InfoDialogExample extends Composite {
     public InfoDialogExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-        image.addStyleName(STYLE_IMAGE);
-        containerPanel.addStyleName(STYLE_INFO_DIALOG_PANEL);
 
         showButton.addClickHandler(new ClickHandler() {
 

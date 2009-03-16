@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.stackpanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_STACK_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -25,8 +24,6 @@ public class StackPanelExample extends Composite {
     public StackPanelExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-
-        stackPanel.addStyleName(STYLE_STACK_PANEL);
 
         stackPanel.getStackPanel().add(new KSImage("images/flower1.jpg"), "Orange");
 //      stackPanel.getStackPanel().add(new Image("images/flower2.jpg"), "Blue");

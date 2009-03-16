@@ -9,7 +9,6 @@ public class ProgressIndicatorExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "ProgressIndicatorExample.java", "kscommons/progressindicator/ProgressIndicatorExample.java", "Example usage of KSProgressIndicator.");
         super.addResource("css", "KSProgressIndicator.css", "KSProgressIndicator.css", "Default styling of KSProgressIndicator.");
-        super.addResource("css", "ProgressIndicatorExample.css", "examplecss/ProgressIndicatorExample.css", "Example styling of KSProgressIndicator.");
     }
     public String getDescription() {       
         return "ProgressIndicator is a widget that can be used to indicate some field specific activity. The indicator does not block other user activity."; 

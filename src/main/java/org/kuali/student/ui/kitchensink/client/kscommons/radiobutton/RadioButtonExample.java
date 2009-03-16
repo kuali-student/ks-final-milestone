@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.radiobutton;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_RADIO_BUTTON;
 
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 
@@ -41,8 +40,6 @@ public class RadioButtonExample extends Composite {
 //        initButtons();
 
         main.addStyleName(STYLE_EXAMPLE);
-        group1Panel.addStyleName(STYLE_RADIO_BUTTON);
-        group2Panel.addStyleName(STYLE_RADIO_BUTTON);
 
         group1Panel.add(ksRadio1); 
         group1Panel.add(ksRadio2);

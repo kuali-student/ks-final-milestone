@@ -9,7 +9,6 @@ public class LabelExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "LabelExample.java", "kscommons/label/LabelExample.java", "Example usage of KSLabel.");
         super.addResource("css", "KSLabel.css", "KSLabel.css", "Default styling of KSLabel.");
-        super.addResource("css", "LabelExample.css", "examplecss/LabelExample.css", "Example styling of KSLabel.");
     }
     public String getDescription() {       
         return "Label is a widget that contains arbitrary text, not interpreted as HTML Label is used to display static text on the screen.  For long labels it is possible to wrap the text or just let it flow. "; 

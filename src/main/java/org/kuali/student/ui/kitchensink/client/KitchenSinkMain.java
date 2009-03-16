@@ -15,8 +15,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu.AccordionMenuExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
@@ -98,10 +96,6 @@ public class KitchenSinkMain extends Composite {
     private void initExamples() {
         List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 
-        KSMenuItemData gwtExamples = initGroup("GWT Examples");
-        initExample(gwtExamples, new TestExample());
-        initExample(gwtExamples, new LayoutExampleDescriptor());
-
         KSMenuItemData ksCommons = initGroup("KS Common Widgets");
 //      initExample(ksCommons, new BusyWidgetShadeExampleDescriptor()); //Required?
         initExample(ksCommons, new AccordionMenuExampleDescriptor());
@@ -126,11 +120,10 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new RichEditorExampleDescriptor());
 //      initExample(ksCommons, new SelectableTableListExampleDescriptor()); //TODO
 //      initExample(ksCommons, new StackPanelExampleDescriptor());  //Deprecated?
-        initExample(ksCommons, new ToolTipExampleDescriptor());
         initExample(ksCommons, new TextAreaExampleDescriptor());
         initExample(ksCommons, new TextBoxExampleDescriptor());
+        initExample(ksCommons, new ToolTipExampleDescriptor());
 
-        items.add(gwtExamples);
         items.add(ksCommons);
         menuPanel.setItems(items);
 

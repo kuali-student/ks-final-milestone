@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.image;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_IMAGE;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
 
@@ -18,7 +17,6 @@ public class ImageExample extends Composite {
     public ImageExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-        image.addStyleName(STYLE_IMAGE);
         image.setTitle("This is an image");
         main.add(image);
 

@@ -9,7 +9,6 @@ public class ButtonExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "ButtonExample.java", "kscommons/button/ButtonExample.java", "Example usage of KSButton.");
         super.addResource("css", "KSButton.css", "KSButton.css", "Default styling of KSButton.");
-        super.addResource("css", "ButtonExample.css", "examplecss/ButtonExample.css", "Example styling of KSButton.");
     }
     public String getDescription() {       
         return "Button is used to initiate some action, e.g. submit a form, start a search, etc.";

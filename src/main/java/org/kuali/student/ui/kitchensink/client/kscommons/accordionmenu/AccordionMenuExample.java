@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_ACCORDION_MENU;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +76,6 @@ public class AccordionMenuExample extends Composite {
         main.add(label);
         main.add(examplePanel);
         main.add(buttonPanel);
-
-        menu.addStyleName(STYLE_ACCORDION_MENU);
 
         super.initWidget(main);
 

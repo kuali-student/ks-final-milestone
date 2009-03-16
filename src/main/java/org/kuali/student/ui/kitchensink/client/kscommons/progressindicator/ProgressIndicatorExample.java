@@ -1,8 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.progressindicator;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_PROGRESS_INDICATOR_TEXTBOX;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_PROGRESS_INDICATOR_TWIDDLER;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -40,12 +38,7 @@ public class ProgressIndicatorExample extends Composite {
 
     public ProgressIndicatorExample() {
 
-        main.addStyleName(STYLE_EXAMPLE);
-        number1.addStyleName(STYLE_PROGRESS_INDICATOR_TEXTBOX);
-        number2.addStyleName(STYLE_PROGRESS_INDICATOR_TEXTBOX);
-        resultBox.addStyleName(STYLE_PROGRESS_INDICATOR_TEXTBOX);
-        twiddler.addStyleName(STYLE_PROGRESS_INDICATOR_TWIDDLER);
-        
+        main.addStyleName(STYLE_EXAMPLE);    
 
         calculationPanel.add(number1);
         calculationPanel.add(number2);

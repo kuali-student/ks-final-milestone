@@ -1,8 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_ACCORDION_PANEL_IMAGE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_ACCORDION_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
@@ -31,16 +29,10 @@ public class AccordionPanelExample extends Composite {
         
         main.addStyleName(STYLE_EXAMPLE);
       
-        image1.addStyleName(STYLE_ACCORDION_PANEL_IMAGE);
-        image2.addStyleName(STYLE_ACCORDION_PANEL_IMAGE);
-        image3.addStyleName(STYLE_ACCORDION_PANEL_IMAGE);
-
         accordion.addPanel("Orange Flower", image1);
         accordion.addPanel("Blue Flower", image2);
         accordion.addPanel("Yellow Flower", image3);
         
-        accordion.addStyleName(STYLE_ACCORDION_PANEL);
-
         main.add(label);
         main.add(accordion);
         

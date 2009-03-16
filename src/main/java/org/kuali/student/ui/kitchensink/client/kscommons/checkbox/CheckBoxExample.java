@@ -1,6 +1,5 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.checkbox;
 
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_CHECK_BOX;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -33,10 +32,6 @@ public class CheckBoxExample extends Composite {
     public CheckBoxExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-
-        checkBox1.addStyleName(STYLE_CHECK_BOX);
-        checkBox2.addStyleName(STYLE_CHECK_BOX);
-        checkBox3.addStyleName(STYLE_CHECK_BOX);
 
         submitButton = new KSButton("Submit", new MyClickHandler() );      
 

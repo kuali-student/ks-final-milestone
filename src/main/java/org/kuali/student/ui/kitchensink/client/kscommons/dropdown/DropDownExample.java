@@ -1,8 +1,5 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.dropdown;
 
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_DROP_DOWN;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -20,11 +17,8 @@ public class DropDownExample extends Composite {
 
     public DropDownExample() {
         
-        main.addStyleName(STYLE_EXAMPLE);
-        
         loadList();
 
-        dropDown.addStyleName(STYLE_DROP_DOWN);
         dropDown.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
