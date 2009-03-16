@@ -95,7 +95,6 @@ public class Node<T> {
         }
         return retval;
     }
-
     /**
      * Returns the total number of leaves that are descendants of this node.
      * 
@@ -181,7 +180,6 @@ public class Node<T> {
         }
         return level;
     }
-
     public String toString() {
         if (userObject == null) {
             return "no user object";

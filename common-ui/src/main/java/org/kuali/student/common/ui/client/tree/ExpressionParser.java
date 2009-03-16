@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Stack;
 
 public class ExpressionParser {
@@ -18,26 +19,24 @@ public class ExpressionParser {
     }
 
     public ExpressionParser() {
-        // String expression = "a and b or (c and d )"; // what if adn
-        // String expression = "a or ( b and s or d ) "; // what if adn
-        String expression = "a and (b or c) and d or e and f"; // what if adn
+        String expression = "a and b or c or d and (e or g)"; // what if adn
 
         Node<Token> ruleroot = parse(expression);
     }
 public Node<Token> parse(String expression){
     List<String> tokenValueList = getTokenValue(expression);
-    System.out.println(tokenValueList);
+//    System.out.println(tokenValueList);
     List<Token> tokenList = getTokenList(tokenValueList);
-    System.out.println(tokenList);
+  //  System.out.println(tokenList);
     errorCheck(tokenList);
 
     List<Node<Token>> nodeList = toNodeList(tokenList);
     List<Node<Token>> rpnList = getRPN(nodeList);
 
-    System.out.println(rpnList);
+    //System.out.println(rpnList);
 
     Node<Token> root = binaryTreeFromRPN(rpnList);
-    System.out.println("binaryTree:" + root);
+//    System.out.println("binaryTree:" + root);
 
     Node<Token> ruleRoot = mergeBinaryTree(root);
     System.out.println("  ruleRoot: "+ ruleRoot);
@@ -50,17 +49,35 @@ public Node<Token> parse(String expression){
 public Node<Token> rebuildTree(Node<Token> binaryTree){
     Node root = new Node();
     root.setUserObject(binaryTree.getUserObject());
-    for(int i=0;i<binaryTree.getChildCount();i++){
-        Node node = binaryTree.getChildAt(i);
+    List<Node> childList = binaryTree.children();
     
+    ListIterator<Node> itr = childList.listIterator();
+    for(;itr.hasNext();){
+        Node node = getDeeperNode(childList);
         if(node.isLeaf()){
             root.addNode(node);
         }else{
             root.addNode(rebuildTree(node));
         }
+        childList.remove(node);
     }
 
     return root;
+}
+public Node getDeeperNode(List<Node> nodeList){
+    int childCount = 0;
+    for(Node node : nodeList){
+        if(childCount< node.getAllChildren().size()){
+            childCount = node.getAllChildren().size();
+        }
+    }
+    for(Node node : nodeList){
+        if(childCount == node.getAllChildren().size()){
+            return node;
+        }
+    }
+    
+    return null;
 }
     public Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
         while (parentEqualsGrandParent(binaryTree)) {
@@ -73,14 +90,11 @@ public Node<Token> rebuildTree(Node<Token> binaryTree){
                     Token parentToken = (Token) parentNode.getUserObject();
                     Token grandParentToken = (Token) grandParentNode.getUserObject();
                     
-                    System.out.println(parentNode+":"+parentToken.type+":" +grandParentToken.type);
-                    
                     if (parentToken.type == grandParentToken.type) {
                         //List<Node> removedList = new ArrayList<Node>();
                         for(int i=0;i<parentNode.getChildCount();i++){
                             Node n = parentNode.getChildAt(i);
                             grandParentNode.addNode(n);
-                            
                          //  removedList.add(n);
                         }
                        // for(Node n : removedList){
