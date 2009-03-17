@@ -1,0 +1,87 @@
+.KSinkMainPanel{
+    height: 100%;
+    width: 100%;
+    padding: 3px;
+}
+
+.KSinkMenuPanel{
+	border-style: solid;
+	border-width: 2px;
+	border-color: gray;	
+    height: 100%;
+    width: 200px;
+}
+
+.KSinkContentPanel {
+	border-style: solid;
+	border-width: 2px;
+	border-color: gray;
+    height: 100%;
+	padding: 20px 20px 20px 20px;
+}
+
+.KSinkExamplePanel {
+	padding: 5px 5px 5px 5px;
+}
+
+.KSinkTabPanel {
+
+	width: 100%;
+    height: 300px;
+}
+.KSinkTitle {
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.KSinkWelcomePanel {
+	font-size: 18px;
+	font-weight: bold;
+	padding: 5px;
+}
+
+.KSinkWelcomeImage {
+	width: 200px;
+	height: 100px;
+	align: center;
+}
+
+.KSinkDescription {
+	font-size: 12px;
+
+}
+
+.KSinkBlockHeader {
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+	margin-top: 15px;
+}
+
+.KSinkResourceTitle {
+	font-size: 12px;
+	font-weight: bold;
+	margin-top: 15px;
+}
+
+.KSinkResourceDescription {
+	font-size: 14px;
+}
+
+.KSinkExample {
+	padding: 10px;
+}
+.KSinkPopupPanel {
+    height: 250px;
+	width: 250px;
+	border-style: inset;
+	border-width: 2px;
+	border-color: gray;
+}
+
+.KSink-LiveCSS-Frame {
+	width: 640px;
+	height: 480px;
+	border: 0px;
+}

@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="common-util/target/classes" path="common-util/src/main/java"/>
-	<classpathentry kind="src" output="common-util/target/test-classes" path="common-util/src/test/java"/>
-	<classpathentry kind="src" output="common-util/target/test-classes" path="common-util/src/test/resources"/>
-	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/java"/>
-	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/resources"/>
-	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/java"/>
-	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/resources"/>
-	<classpathentry kind="src" output="common-util/target/classes" path="common-ui/src/main/java"/>
-	<classpathentry kind="src" output="common-util/target/classes" path="common-ui/src/main/resources"/>
-	<classpathentry kind="src" output="common-util/target/test-classes" path="common-ui/src/test/java"/>
-	<classpathentry kind="src" output="core-api/target/classes" path="core-api/src/main/java"/>
-	<classpathentry kind="src" output="core-api/target/classes" path="core-api/src/main/resources"/>
-	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/java"/>
-	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/resources"/>
-	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/java"/>
-	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/resources"/>
-	<classpathentry kind="src" output="core-ui/target/classes" path="core-ui/src/main/java"/>
-	<classpathentry kind="src" output="core-ui/target/classes" path="core-ui/src/main/resources"/>
-	<classpathentry kind="src" output="core-web/target/classes" path="core-web/src/main/resources"/>
+	<classpathentry kind="src" output="target-eclipse/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="src/main/resources" path="src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="src/test/resources" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="target-eclipse/classes"/>
 </classpath>
