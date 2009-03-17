@@ -31,9 +31,64 @@ public class ExpressionParser {
         Node<Token> root = binaryTreeFromRPN(rpnList);
         Node<Token> ruleRoot = mergeBinaryTree(root);
         ruleRoot = rebuildTree(root);
+        ruleRoot = requence(ruleRoot, tokenList );
         return ruleRoot;
     }
-
+    private Node<Token> requence(Node<Token> binaryTree,List<Token> tokenList ) {
+         List<Node> list = binaryTree.getLeafChildren();
+         if(list.size() > 1){
+             sequeceLeaves(list, tokenList);
+             binaryTree.children().removeAll(list);
+             for(Node n: list){
+                 binaryTree.addNode(n);
+             }
+         }
+         for(Node n: binaryTree.children()){
+             if(n.isLeaf() == false){
+                 requence(n,tokenList );
+             }
+         }
+         
+         
+        return binaryTree;
+    }
+    
+    private void sequeceLeaves(List<Node> leafChildList, List<Token> list){
+        if(leafChildList.size() == 2){
+            if (indexInInputTokenList((Token)leafChildList.get(0).getUserObject(), list)> 
+            indexInInputTokenList((Token)leafChildList.get(1).getUserObject(), list)) {
+              // swap them
+                Token buffer = (Token)leafChildList.get(0).getUserObject();
+                leafChildList.get(0).setUserObject(leafChildList.get(1).getUserObject());
+                leafChildList.get(1).setUserObject(buffer);
+            }
+            
+        }
+        
+        for (int out = leafChildList.size() - 1; out > 1; out--){
+          for (int in = 0; in < out; in++){
+            // inner loop (forward)
+            if (indexInInputTokenList((Token)leafChildList.get(in).getUserObject(), list)> 
+            indexInInputTokenList((Token)leafChildList.get(in + 1).getUserObject(), list)) {
+              // swap them
+                Token buffer = (Token)leafChildList.get(in).getUserObject();
+                leafChildList.get(in).setUserObject(leafChildList.get(in + 1).getUserObject());
+                leafChildList.get(in + 1).setUserObject(buffer);
+            }
+          }
+        }
+        //System.out.println(leafChildList);
+    }
+    private int indexInInputTokenList(Token token, List<Token> list){
+        int i = -1;
+        for(Token n: list){
+            if(n.value != null && token.value != null && n.value.equals(token.value)){
+                return i;
+            }
+            i++;
+        }
+        return i;
+    }
     private Node<Token> rebuildTree(Node<Token> binaryTree) {
         Node root = new Node();
         root.setUserObject(binaryTree.getUserObject());
@@ -389,5 +444,6 @@ class Token {
         }
         return "";
     }
+
 
 }
