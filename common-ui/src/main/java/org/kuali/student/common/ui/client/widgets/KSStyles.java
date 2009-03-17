@@ -109,7 +109,7 @@ public interface KSStyles {
 	public static final String KS_SIDEBAR_TITLE_LABEL = "KS-Sidebar-Title-Label";
 	public static final String KS_SIDEBAR_TITLE_PANEL = "KS-Sidebar-Title-Panel";
 	public static final String KS_TAB_PANEL = "KS-Tab-Panel";
-	public static final String KS_TAB_PANEL_BAR_ITEM = "KS-Tab_Panel_BarItem";
+	public static final String KS_TAB_PANEL_BAR_ITEM = "KS-Tab-Panel-BarItem";
 	public static final String KS_TEXTAREA_FOCUS_STYLE = "KS-Textarea-Focus";
 	public static final String KS_TEXTAREA_HOVER_STYLE = "KS-Textarea-Hover";
 	public static final String KS_TEXTAREA_STYLE = "KS-Textarea";

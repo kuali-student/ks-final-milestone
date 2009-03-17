@@ -15,6 +15,7 @@
  */
 package org.kuali.student.common.ui.client.widgets;
 
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,5 +40,10 @@ public abstract class KSTabPanelAbstract extends Composite {
     public abstract void addTab(Widget w, String tabText);
 
     public abstract void addTab(Widget w, Widget tab);
+    
+    public abstract void addSelectionHandler(SelectionHandler<Integer> handler);
+    
+    public abstract int getWidgetIndex(Widget widget);
+
 
 }

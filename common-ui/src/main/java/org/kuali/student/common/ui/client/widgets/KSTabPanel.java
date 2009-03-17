@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSTabPanelImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -64,6 +65,16 @@ public class KSTabPanel extends KSTabPanelAbstract {
 
     public void addTab(Widget w, Widget tab) {
         panel.addTab(w, tab);
+    }
+
+    @Override
+    public void addSelectionHandler(SelectionHandler<Integer> handler) {
+        panel.addSelectionHandler(handler);        
+    }
+
+    @Override
+    public int getWidgetIndex(Widget widget) {
+        return panel.getWidgetIndex(widget);        
     }
 
 }
