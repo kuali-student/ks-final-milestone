@@ -3,7 +3,6 @@ package org.kuali.student.ui.kitchensink.client.kscommons.radiobuttonlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -12,7 +11,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class RadioButtonListExample extends Composite {
     final HorizontalPanel main = new HorizontalPanel();
