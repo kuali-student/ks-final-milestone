@@ -9,6 +9,7 @@ public class InfoDialogExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "InfoDialogExample.java", "kscommons/infodialogpanel/InfoDialogExample.java", "Example usage of KSInfoDialogPanel.");
         super.addResource("css", "KSInfoDialogPanel.css", "KSInfoDialogPanel.css", "Default styling of KSInfoDialogPanel.");
+        super.addResource("css", "KSDialogPanel.css", "KSDialogPanel.css", "Default styling of KSDialogPanel.");
     }
     public String getDescription() {       
         return "InfoDialogPanel is a resizeable, moveable panel that can pop up over other widgets. It overlays the browser's client area (and any previously-created popups). It is not modal, i.e. user can still interact with other panels "; 
