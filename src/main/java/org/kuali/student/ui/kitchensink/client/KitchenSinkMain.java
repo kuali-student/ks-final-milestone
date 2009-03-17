@@ -23,6 +23,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDes
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.collapsablefloatpanel.CollapsableFloatPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.confirmationdialog.ConfirmationDialogExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.confirmbuttonpanel.ConfirmButtonPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
@@ -57,18 +58,21 @@ public class KitchenSinkMain extends Composite {
 
     private static final String BASIC_WIDGET_MSG = "These are the basic building block widgets, such as buttons, labels, checkboxes and more.";
     private static final String INFO_WIDGET_MSG = "These are widgets used to display information such as additional help or tool tips";
-    private static final String MENU_WIDGET_MSG = "These are widgets that can be used to present menu options allowing users to navigate through a set of choices";
+    private static final String NAVIGATION_WIDGET_MSG = "These are widgets that can be used to allow users to navigate  a set of options";
     private static final String TEXT_WIDGET_MSG = "These are widgets used for entering and updating text and include a simple text box to a full featured rich text editor.";
     private static final String PANEL_WIDGET_MSG = "These are widgets that display a content panel either inline or in a separate popup window.  They may be modal, resizeable, moveable or not , depending on the requirements.  These panels will act as containers for other widgets.";
     private static final String STATUS_WIDGET_MSG = "These are widgets that indicate some action in progress";
-    private static final String GENERAL_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
+    private static final String DIALOG_WIDGET_MSG = "These are widgets that popup a panel over other widgets for user interaction or to display some information.";
+
+    private static final String COMMON_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
 
     private static final String BASIC_WIDGETS = "Basic Widgets";
     private static final String INFO_WIDGETS = "Information Widgets";
-    private static final String MENU_WIDGETS = "Menu Widgets";
+    private static final String NAVIGATION_WIDGETS = "Navigation Widgets";
     private static final String TEXT_WIDGETS = "Text Widgets";
     private static final String PANEL_WIDGETS = "Panel Widgets";
     private static final String STATUS_WIDGETS = "Status Widgets";
+    private static final String DIALOG_WIDGETS = "Dialog Widgets";
 
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
@@ -126,7 +130,8 @@ public class KitchenSinkMain extends Composite {
         KSMenuItemData ksInfo = initGroup(INFO_WIDGETS);
         KSMenuItemData ksPanels = initGroup(PANEL_WIDGETS);
         KSMenuItemData ksText = initGroup(TEXT_WIDGETS);
-        KSMenuItemData ksMenu = initGroup(MENU_WIDGETS);
+        KSMenuItemData ksNav = initGroup(NAVIGATION_WIDGETS);
+        KSMenuItemData ksDialog = initGroup(DIALOG_WIDGETS);
 
         initExample(ksBasic, new ButtonExampleDescriptor());
         initExample(ksBasic, new CheckBoxExampleDescriptor());
@@ -145,24 +150,27 @@ public class KitchenSinkMain extends Composite {
         initExample(ksStatus, new ProgressIndicatorExampleDescriptor());
 
         initExample(ksPanels, new AccordionPanelExampleDescriptor());
-        initExample(ksPanels, new CollapsableFloatPanelExampleDescriptor());
         initExample(ksPanels, new DisclosureSectionExampleDescriptor());
-        initExample(ksPanels, new FloatPanelExampleDescriptor());
-        initExample(ksPanels, new InfoDialogExampleDescriptor());
-        initExample(ksPanels, new ModalDialogPanelExampleDescriptor());
-        initExample(ksPanels, new TabPanelExampleDescriptor());
-        initExample(ksPanels, new ConfirmationDialogExampleDescriptor());
+        initExample(ksPanels, new ConfirmButtonPanelExampleDescriptor());
+        
+        initExample(ksDialog, new CollapsableFloatPanelExampleDescriptor());
+        initExample(ksDialog, new FloatPanelExampleDescriptor());
+        initExample(ksDialog, new InfoDialogExampleDescriptor());
+        initExample(ksDialog, new ModalDialogPanelExampleDescriptor());
+        initExample(ksDialog, new ConfirmationDialogExampleDescriptor());
 
         initExample(ksInfo, new ToolTipExampleDescriptor());
 //      initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
 
-        initExample(ksMenu, new AccordionMenuExampleDescriptor());
+        initExample(ksNav, new AccordionMenuExampleDescriptor());
+        initExample(ksNav, new TabPanelExampleDescriptor());
 //      initExample(ksMisc, new RadioButtonListExampleDescriptor()); //TODO
 //      initExample(ksMisc, new SelectableTableListExampleDescriptor()); //TODO
 
         ksCommons.addSubItem(ksBasic);
+        ksCommons.addSubItem(ksDialog);
         ksCommons.addSubItem(ksInfo);
-        ksCommons.addSubItem(ksMenu);
+        ksCommons.addSubItem(ksNav);
         ksCommons.addSubItem(ksPanels);
         ksCommons.addSubItem(ksStatus);
         ksCommons.addSubItem(ksText);
@@ -235,22 +243,25 @@ public class KitchenSinkMain extends Composite {
         KSLabel label = new KSLabel();;
 
         if (source.equals(BASIC_WIDGETS)) {
-            label.setText(BASIC_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+            label.setText(BASIC_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
         else if (source.equals(TEXT_WIDGETS)) {
-            label.setText(TEXT_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+            label.setText(TEXT_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
         else if (source.equals(PANEL_WIDGETS)) {
-            label.setText(PANEL_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+            label.setText(PANEL_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
         else if (source.equals(INFO_WIDGETS)) {
-            label.setText(INFO_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+            label.setText(INFO_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
         else if (source.equals(STATUS_WIDGETS)) {
-            label.setText(STATUS_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+            label.setText(STATUS_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
-        else if (source.equals(MENU_WIDGETS)) {
-            label.setText(MENU_WIDGET_MSG + ' ' + GENERAL_WIDGET_MSG);
+        else if (source.equals(NAVIGATION_WIDGETS)) {
+            label.setText(NAVIGATION_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
+        }
+        else if (source.equals(DIALOG_WIDGETS)) {
+            label.setText(DIALOG_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
 
         return label;

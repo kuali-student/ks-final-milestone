@@ -22,6 +22,8 @@
 
 .KSinkExamplePanel {
 	padding: 5px 5px 5px 5px;
+	    position: relative;
+	
 }
 
 .KSinkTabPanel {
@@ -84,4 +86,11 @@
 	width: 640px;
 	height: 480px;
 	border: 0px;
+}
+
+.KSinkButtonPanelContainer {
+
+	width: 80%;
+	position: relative;
+	padding: 20px;
 }

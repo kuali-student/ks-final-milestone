@@ -7,8 +7,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class ConfirmationDialogExampleDescriptor extends KitchenSinkExample {
     public ConfirmationDialogExampleDescriptor() {
         super();
-        super.addResource("java", "ConfirmatiionDialogExample.java", "kscommons/confirmationdialog/ConfirmationDialogExample.java", "Example usage of KSConfirmationDialogPanel.");
-        super.addResource("css", "KSConfirmationDialog.css", "KSConfirmationDialog.css", "Default styling of KSConfirmationDialogPanel.");
+        super.addResource("java", "ConfirmatiionDialogExample.java", "kscommons/confirmationdialog/ConfirmationDialogExample.java", "Example usage of KSConfirmationDialog.");
+        super.addResource("css", "KSConfirmationDialog.css", "KSConfirmationDialog.css", "Default styling of KSConfirmationDialog.");
         super.addResource("css", "KSModalDialogPanel.css", "KSModalDialogPanel.css", "Default styling of KSModalDialogPanel.");
         super.addResource("css", "KSDialogPanel.css", "KSDialogPanel.css", "Default styling of KSDialogPanel.");
     }
