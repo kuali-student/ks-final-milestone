@@ -22,6 +22,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicat
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.collapsablefloatpanel.CollapsableFloatPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.confirmationdialog.ConfirmationDialogExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
@@ -61,7 +62,7 @@ public class KitchenSinkMain extends Composite {
     private static final String PANEL_WIDGET_MSG = "These are widgets that display a content panel either inline or in a separate popup window.  They may be modal, resizeable, moveable or not , depending on the requirements.  These panels will act as containers for other widgets.";
     private static final String STATUS_WIDGET_MSG = "These are widgets that indicate some action in progress";
     private static final String GENERAL_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
-  
+
     private static final String BASIC_WIDGETS = "Basic Widgets";
     private static final String INFO_WIDGETS = "Information Widgets";
     private static final String MENU_WIDGETS = "Menu Widgets";
@@ -85,6 +86,10 @@ public class KitchenSinkMain extends Composite {
     public KitchenSinkMain() {
         super.initWidget(main);
         initExamples();
+    }
+
+    public KitchenSinkExample getExample(String className) {
+        return exampleMap.get(className);
     }
 
     protected void onLoad() {
@@ -146,9 +151,10 @@ public class KitchenSinkMain extends Composite {
         initExample(ksPanels, new InfoDialogExampleDescriptor());
         initExample(ksPanels, new ModalDialogPanelExampleDescriptor());
         initExample(ksPanels, new TabPanelExampleDescriptor());
+        initExample(ksPanels, new ConfirmationDialogExampleDescriptor());
 
         initExample(ksInfo, new ToolTipExampleDescriptor());
-//        initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
+//      initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
 
         initExample(ksMenu, new AccordionMenuExampleDescriptor());
 //      initExample(ksMisc, new RadioButtonListExampleDescriptor()); //TODO
@@ -201,11 +207,25 @@ public class KitchenSinkMain extends Composite {
                 contentPanel.setWidget(buildGroupMessage(arg0));                
             }
         });       
-
-
-
-
         return groupItem;
+    }
+
+    private void initExample(final KSMenuItemData group, 
+            final KitchenSinkExample example) {
+
+        KSMenuItemData item = new KSMenuItemData(example.getTitle());
+
+        item.setClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent arg0) {
+                if (contentPanel.getWidget() != null) {
+                    contentPanel.remove(contentPanel.getWidget());
+                }
+                contentPanel.setWidget(example);                
+            }
+        });
+        group.addSubItem(item);
+        exampleMap.put(example.getClass().getName(), example);
     }
 
     private KSLabel buildGroupMessage(ClickEvent arg0) {
@@ -236,27 +256,6 @@ public class KitchenSinkMain extends Composite {
         return label;
     }
 
-    private void initExample(final KSMenuItemData group, 
-            final KitchenSinkExample example) {
-
-        KSMenuItemData item = new KSMenuItemData(example.getTitle());
-
-        item.setClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent arg0) {
-                if (contentPanel.getWidget() != null) {
-                    contentPanel.remove(contentPanel.getWidget());
-                }
-                contentPanel.setWidget(example);                
-            }
-        });
-        group.addSubItem(item);
-        exampleMap.put(example.getClass().getName(), example);
-    }
-
-    public KitchenSinkExample getExample(String className) {
-        return exampleMap.get(className);
-    }
 
 
 }
