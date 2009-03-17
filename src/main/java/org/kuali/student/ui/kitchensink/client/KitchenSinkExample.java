@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.kuali.student.common.ui.client.widgets.KSTabPanel;
+
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.http.client.Request;
@@ -24,21 +26,20 @@ import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class KitchenSinkExample extends Composite {
     private final VerticalPanel main = new VerticalPanel();
-    private final TabPanel tabPanel = new TabPanel();
+    private final KSTabPanel tabPanel = new KSTabPanel();
 
     private final Label title = new Label(getTitle());
     private final Label description = new Label(getDescription());
     private final Label exampleLabel = new Label("Example");
     private final SimplePanel liveCSSTab = new SimplePanel();
-    
+
     private Frame liveCSSFrame = null;
-    
+
     boolean loaded = false;
 
     final List<KitchenSinkResource> resources = new ArrayList<KitchenSinkResource>();
@@ -56,6 +57,7 @@ public abstract class KitchenSinkExample extends Composite {
     }
 
     protected void onLoad() {
+
         if (!loaded) {
             loaded = true;
             if (resourceLoadingComplete()) {
@@ -64,6 +66,7 @@ public abstract class KitchenSinkExample extends Composite {
                 loadResources();
             }
         }
+        tabPanel.selectTab(0);
     }
 
     private boolean resourceLoadingComplete() {
@@ -110,20 +113,21 @@ public abstract class KitchenSinkExample extends Composite {
     }
 
     private void populate() {
-        
+
+
         main.add(title);
         main.add(description);      
         main.add(tabPanel);
-        
+
         title.setStyleName(STYLE_TITLE);
         description.setStyleName(STYLE_DESCRIPTION);
         tabPanel.setStyleName(STYLE_TAB_PANEL);
         main.setStyleName(STYLE_EXAMPLE_PANEL);
 
-        tabPanel.add(getExampleWidget(), exampleLabel);
-        
+        tabPanel.addTab(getExampleWidget(), exampleLabel);
+
         Map<String, List<KitchenSinkResource>> resourceMap = new TreeMap<String, List<KitchenSinkResource>>();
-        
+
         // group the resources by type
         if (resources != null && resources.size() > 0) {
             for (KitchenSinkResource r : resources) {
@@ -136,7 +140,7 @@ public abstract class KitchenSinkExample extends Composite {
                 list.add(r);
             }
         }
-        
+
         // add each group to its own tab
         for (String type : resourceMap.keySet()) {
             VerticalPanel resourcePanel = new VerticalPanel();
@@ -145,18 +149,18 @@ public abstract class KitchenSinkExample extends Composite {
                 Label resourceDescription = new Label(r.getDescription());
                 resourceTitle.setStyleName(STYLE_RESOURCE_TITLE);
                 resourceDescription.setStyleName(STYLE_RESOURCE_DESCRIPTION);
-                
+
                 resourcePanel.add(resourceTitle);
                 resourcePanel.add(resourceDescription);
                 resourcePanel.add(createCodeBlock(r.getType(), r.getContent()));
             }
-            tabPanel.add(resourcePanel, type);
+            tabPanel.addTab(resourcePanel, type);
         }
-        
-        
+
+
         doHighlight();
-        
-        tabPanel.add(liveCSSTab, "Edit CSS Live");
+
+        tabPanel.addTab(liveCSSTab, "Edit CSS Live");
         tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
             public void onSelection(SelectionEvent<Integer> event) {
                 if (event.getSelectedItem() == tabPanel.getWidgetIndex(liveCSSTab) && liveCSSFrame == null) {
@@ -167,7 +171,7 @@ public abstract class KitchenSinkExample extends Composite {
                 }
             }
         });
-        
+
         tabPanel.selectTab(0);
     }
 
@@ -216,7 +220,7 @@ public abstract class KitchenSinkExample extends Composite {
         }
         return result;
     }
-    
+
     private String translateResourceType(String resourceType) {
         resourceType = resourceType.toLowerCase();
         if (resourceType.equals("css")) {
