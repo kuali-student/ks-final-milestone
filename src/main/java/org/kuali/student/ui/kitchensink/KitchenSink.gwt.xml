@@ -13,6 +13,7 @@
 	<script src="js/shBrushJava.js"/>
 	<script src="js/shBrushXml.js"/>
 	<script src="js/shBrushCss.js"/>
+	<script src="http://www.google.com/jsapi"/>
 	
 	<public path="public"/>
 	<public path="client" />
