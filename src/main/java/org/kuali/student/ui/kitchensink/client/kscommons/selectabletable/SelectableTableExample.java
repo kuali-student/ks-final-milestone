@@ -116,12 +116,13 @@ public class SelectableTableExample extends Composite {
         people.add(new Person("9", "Joe", "Yin"));
         selectTable.setListItems(tableItems);
         final KSLabel label = new KSLabel();
+
         selectTable.addSelectionChangeHandler(new SelectionChangeHandler(){
 
             @Override
             public void onSelectionChange(KSSelectItemWidgetAbstract w) {
                List<String> selectedItems = w.getSelectedItems();
-               String selectedString = "SELECTED COLOR: \n";
+               String selectedString = "SELECTED: \n";
                
                if(selectedItems.size() > 0){
                    for(String s: selectedItems){

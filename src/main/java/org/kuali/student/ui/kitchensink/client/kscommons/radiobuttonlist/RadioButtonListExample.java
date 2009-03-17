@@ -9,8 +9,10 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class RadioButtonListExample extends Composite {
     final HorizontalPanel main = new HorizontalPanel();
@@ -99,13 +101,12 @@ public class RadioButtonListExample extends Composite {
         colors.add(new Color("5", "Green"));
         colors.add(new Color("6", "Purple"));
         radioButtonList.setListItems(tableItems);
-        final KSLabel label = new KSLabel();
         radioButtonList.addSelectionChangeHandler(new SelectionChangeHandler(){
 
             @Override
             public void onSelectionChange(KSSelectItemWidgetAbstract w) {
                List<String> selectedItems = w.getSelectedItems();
-               String selectedString = "SELECTED: \n";
+               String selectedString = "SELECTED COLOR: \n";
                
                if(selectedItems.size() > 0){
                    for(String s: selectedItems){
@@ -113,7 +114,7 @@ public class RadioButtonListExample extends Composite {
                    }
                }
                
-               label.setText(selectedString);
+               Window.alert(selectedString);
                 
             }
         });
