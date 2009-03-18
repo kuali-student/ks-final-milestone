@@ -18,7 +18,7 @@ public class ExpressionParser {
         return errorMessageList;
     }
     public Node<Token> parse(String expression) {
-        errorMessageList = new ArrayList();
+        errorMessageList = new ArrayList<String>();
         List<String> tokenValueList = getTokenValue(expression);
         List<Token> tokenList = getTokenList(tokenValueList);
         errorCheck(tokenList);
@@ -31,10 +31,52 @@ public class ExpressionParser {
         Node<Token> root = binaryTreeFromRPN(rpnList);
         Node<Token> ruleRoot = mergeBinaryTree(root);
         ruleRoot = rebuildTree(root);
-        ruleRoot = requence(ruleRoot, tokenList );
+        ruleRoot = orderLeafChildren(ruleRoot, tokenList );
+        ruleRoot = orderNonLeafChildren(ruleRoot, tokenList );
         return ruleRoot;
     }
-    private Node<Token> requence(Node<Token> binaryTree,List<Token> tokenList ) {
+    private Node<Token> orderNonLeafChildren(Node<Token> binaryTree,List<Token> tokenList ) {
+        List<Node> list = binaryTree.getNonLeafChildren();
+        if(list.size() > 1){
+            sequeceNonLeaves(list, tokenList);
+            binaryTree.children().removeAll(list);
+            for(Node n: list){
+                binaryTree.addNode(n);
+            }
+        }
+        for(Node n: binaryTree.children()){
+            if(n.isLeaf() == false){
+                orderNonLeafChildren(n,tokenList );
+            }
+        }
+       return binaryTree;
+   }
+   
+   private void sequeceNonLeaves(List<Node> nonLeafChildList, List<Token> list){
+       if(nonLeafChildList.size() == 2){
+           if (indexInInputTokenList((Token)nonLeafChildList.get(0).getFirstLeafDescendant().getUserObject(), list)> 
+           indexInInputTokenList((Token)nonLeafChildList.get(1).getFirstLeafDescendant().getUserObject(), list)) {
+               Node buffer = nonLeafChildList.get(0);
+               nonLeafChildList.remove(0);
+               nonLeafChildList.add(buffer);
+           }
+       }
+       for (int out = nonLeafChildList.size() - 1; out > 1; out--){
+         for (int in = 0; in < out; in++){
+           // inner loop (forward)
+           if (indexInInputTokenList((Token)nonLeafChildList.get(in).getFirstLeafDescendant().getUserObject(), list)> 
+           indexInInputTokenList((Token)nonLeafChildList.get(in + 1).getFirstLeafDescendant().getUserObject(), list)) {
+             // swap them
+               Node node = nonLeafChildList.get(in);
+               nonLeafChildList.remove(in);
+               nonLeafChildList.add(in+1, node);
+           }
+         }
+       }
+       //System.out.println(nonLeafChildList);
+   }
+
+    private Node<Token> orderLeafChildren(Node<Token> binaryTree,List<Token> tokenList ) {
          List<Node> list = binaryTree.getLeafChildren();
          if(list.size() > 1){
              sequeceLeaves(list, tokenList);
@@ -45,11 +87,9 @@ public class ExpressionParser {
          }
          for(Node n: binaryTree.children()){
              if(n.isLeaf() == false){
-                 requence(n,tokenList );
+                 orderLeafChildren(n,tokenList );
              }
          }
-         
-         
         return binaryTree;
     }
     

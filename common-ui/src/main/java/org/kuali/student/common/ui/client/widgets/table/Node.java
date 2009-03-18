@@ -124,6 +124,26 @@ public class Node<T> {
         }
         return nodeList;
     }
+    public Node getFirstLeafDescendant(){
+        List<Node> list = getAllChildren();
+        for(Node node : list){
+            if(node.isLeaf()){
+                return node;
+            }
+        }
+        return null;
+        
+    }
+    public List<Node> getNonLeafChildren(){
+        List<Node> list = new ArrayList<Node>();
+        for(Node n: children()){
+            if(n.isLeaf() == false){
+                list.add(n);
+            }
+        }
+        return list;
+    }
+    
     public List<Node> getLeafChildren(){
         List<Node> list = new ArrayList<Node>();
         for(Node n: children()){
