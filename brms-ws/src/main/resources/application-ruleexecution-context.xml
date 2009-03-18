@@ -27,7 +27,7 @@
     </bean>
 
     <bean id="ruleBaseCache"
-        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsKnowledgeBase">
         <property name="cache" ref="cache"/>
     </bean>
     
@@ -53,7 +53,7 @@
     </bean>
 
     <bean id="ruleBaseCacheTest"
-        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsKnowledgeBase">
         <property name="cache" ref="cacheTest"/>
     </bean>
     

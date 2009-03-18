@@ -17,13 +17,19 @@ package org.kuali.student.rules.repository.drools;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.jcr.Credentials;
 import javax.jcr.SimpleCredentials;
 
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.StatelessSession;
+import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseFactory;
+import org.drools.command.Command;
+import org.drools.command.CommandFactory;
+import org.drools.definition.KnowledgePackage;
+import org.drools.runtime.StatelessKnowledgeSession;
 
 public class DroolsTestUtil 
 {
@@ -63,13 +69,13 @@ public class DroolsTestUtil
     public String getSimpleRule1(String ruleName) {
         ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
         return 
-			"rule \"" + ruleName + "\"" +
-			"     when" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )" +
-			"     then" +
-			"          System.out.println( \"Minute is even \" + now.get(Calendar.MINUTE) );" +
-			"end";
+			"rule \"" + ruleName + "\"\n" +
+			"     when\n" +
+			"          now: Calendar()\n" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )\n" +
+			"     then\n" +
+			"          System.out.println( \"Minute is even \" + now.get(Calendar.MINUTE) );\n" +
+			"end\n";
 	}
 	
 	/**
@@ -86,13 +92,13 @@ public class DroolsTestUtil
 	public String getSimpleRule2(String ruleName) {
         ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
 		return 
-            "rule \"" + ruleName + "\"" +
-			"     when" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )" +
-			"     then" +
-			"          System.out.println( \"Minute is odd \" + now.get(Calendar.MINUTE) );" +
-			"end";
+            "rule \"" + ruleName + "\"\n" +
+			"     when\n" +
+			"          now: Calendar()\n" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )\n" +
+			"     then\n" +
+			"          System.out.println( \"Minute is odd \" + now.get(Calendar.MINUTE) );\n" +
+			"end\n";
 	}
 	
 	/**
@@ -121,19 +127,19 @@ public class DroolsTestUtil
 	public String getSimpleRule3(String ruleName) {
         ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
 		return 
-            "rule \"" + ruleName + "\"" +
-			"     when" +
-			"          msg: Message()" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )" +
-			"     then" +
-			"          msg.setMessage( \"Minute is even \" + now.get(Calendar.MINUTE) ); " +
-			"end";
+            "rule \"" + ruleName + "\"\n" +
+			"     when\n" +
+			"          msg: Message()\n" +
+			"          now: Calendar()\n" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )\n" +
+			"     then\n" +
+			"          msg.setMessage( \"Minute is even \" + now.get(Calendar.MINUTE) );\n" +
+			"end\n";
 	}
 	
 	/**
 	 * Gets a simple rule. 
-	 * rule determines whether the minutes of the hour is odd.
+	 * Rule determines whether the minutes of the hour is odd.
 	 * Rule takes <code>java.util.Calendar</code> and 
 	 * <code>org.kuali.student.rules.repository.test.Message</code> 
 	 * as fact (package import).
@@ -146,7 +152,7 @@ public class DroolsTestUtil
 
     /**
      * Gets a simple rule. 
-     * rule determines whether the minutes of the hour is odd.
+     * Rule determines whether the minutes of the hour is odd.
      * Rule takes <code>java.util.Calendar</code> and 
      * <code>org.kuali.student.rules.repository.test.Message</code> 
      * as fact (package import).
@@ -157,13 +163,13 @@ public class DroolsTestUtil
 	public String getSimpleRule4(String ruleName) {
         ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
 		return 
-        "rule \"" + ruleName + "\"" +
-			"     when" +
-			"          msg: Message()" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )" +
-			"     then" +
-			"          msg.setMessage( \"Minute is even \" + now.get(Calendar.MINUTE) ); " +
+        "rule \"" + ruleName + "\"\n" +
+			"     when\n" +
+			"          msg: Message()\n" +
+			"          now: Calendar()\n" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )\n" +
+			"     then\n" +
+			"          msg.setMessage( \"Minute is even \" + now.get(Calendar.MINUTE) );\n" +
 			"end";
 	}
 	
@@ -229,7 +235,6 @@ public class DroolsTestUtil
 	public String loadFile( String file ) throws Exception
 	{
         String filename = DroolsTestUtil.class.getResource( file ).getFile();
-        //System.out.println( "*****  filename = " +filename );
 
         String str = "";
         StringBuilder drl = new StringBuilder();
@@ -241,7 +246,6 @@ public class DroolsTestUtil
 	        {
                 drl.append(str);
 	        }
-            //System.out.println( drl );
 		}
 		finally
 		{
@@ -257,13 +261,21 @@ public class DroolsTestUtil
 	 * @param fact Facts to assert
 	 * @throws Exception
 	 */
-	public void executeRule( org.drools.rule.Package pkg, Object[] fact )
+	public void executeRule(KnowledgePackage pkg, Object[] facts)
 		throws Exception
 	{
-		RuleBase rb = RuleBaseFactory.newRuleBase();
-		rb.addPackage( pkg );
-        StatelessSession sess = rb.newStatelessSession();
-        sess.execute( fact );
+		KnowledgeBase rb = KnowledgeBaseFactory.newKnowledgeBase();
+    	Collection<KnowledgePackage> pkgs = new ArrayList<KnowledgePackage>();
+		pkgs.add(pkg);
+    	rb.addKnowledgePackages(pkgs);
+        StatelessKnowledgeSession session = rb.newStatelessKnowledgeSession();
+
+        List<Command<?>> commands = new ArrayList<Command<?>>();
+        for(Object fact : facts) {
+            commands.add(CommandFactory.newInsertObject(fact));
+        }
+        Command<?> cmd = CommandFactory.newBatchExecution(commands);
+        session.execute(cmd);
 	}
 	
     /**
@@ -276,5 +288,21 @@ public class DroolsTestUtil
         char[] password = "superuser".toCharArray();
         return new SimpleCredentials(id, password);
     }
+	
+	/**
+	 * Determines whether a class implements a specific interface.
+	 * 
+	 * @param clazz Class to test
+	 * @param intrface Interface
+	 * @return True if class implements interface; otherwise false
+	 */
+	public boolean containsInterface(Class<?> clazz, Class<?> intrface) {
+		for(Class<?> c : clazz.getInterfaces()) {
+			if(c.getName().equals(intrface.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
     
 }

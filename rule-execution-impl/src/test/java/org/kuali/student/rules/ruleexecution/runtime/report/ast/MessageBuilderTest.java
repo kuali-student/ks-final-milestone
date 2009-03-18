@@ -13,14 +13,14 @@ import org.kuali.student.rules.internal.common.runtime.BooleanMessage;
 import org.kuali.student.rules.internal.common.runtime.MessageContainer;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunctionResult;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessageImpl;
-import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
+import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.runtime.report.MessageBuilder;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
 
 public class MessageBuilderTest {
 	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
-    private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
+    private final static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
     private MessageBuilder builder;
 
     @BeforeClass

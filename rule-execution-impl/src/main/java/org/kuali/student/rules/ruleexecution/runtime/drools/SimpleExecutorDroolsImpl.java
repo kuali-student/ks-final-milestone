@@ -18,13 +18,14 @@ package org.kuali.student.rules.ruleexecution.runtime.drools;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.drools.RuleBase;
-import org.drools.StatelessSession;
-import org.drools.compiler.PackageBuilder;
-import org.drools.rule.Package;
+import org.drools.KnowledgeBase;
+import org.drools.command.Command;
+import org.drools.command.CommandFactory;
+import org.drools.definition.KnowledgePackage;
+import org.drools.runtime.BatchExecutionResults;
+import org.drools.runtime.StatelessKnowledgeSession;
 
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -46,7 +47,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
     /** Drools rule base cache */
-    private DroolsRuleBase ruleBaseCache = new DroolsRuleBase();
+    private DroolsKnowledgeBase ruleBaseCache = new DroolsKnowledgeBase();
 
     /** Execution logging */
     private boolean logExecution = false;
@@ -88,7 +89,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * 
      * @param ruleBase Drools rule base
      */
-    public void setRuleBaseCache(DroolsRuleBase ruleBase) {
+    public void setRuleBaseCache(DroolsKnowledgeBase ruleBase) {
     	this.ruleBaseCache = ruleBase;
     }
     
@@ -100,13 +101,13 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * @param source Rule set source code
      */
     public void addRuleSet(String id, Reader source) {
-    	Package pkg = null;
+    	KnowledgePackage pkg = null;
 		try {
-			pkg = buildPackage(source);
+			pkg = droolsUtil.buildKnowledgePackage(source);
         } catch(Exception e) {
             throw new RuleSetExecutionException("Building Drools Package failed",e);
         }            
-
+        
         if (!pkg.getName().equals(id)){
         	throw new RuleSetExecutionException(
         			"Cannot add package to rule base. " +
@@ -130,11 +131,11 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * @param ruleSet Rule set
      */
     public void addRuleSet(String ruleBaseType, RuleSetDTO ruleSet) {
-    	Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+    	KnowledgePackage pkg = droolsUtil.getKnowledgePackage(ruleSet.getCompiledRuleSet());
     	
     	if(pkg == null) {
     		try {
-				pkg = buildPackage(new StringReader(ruleSet.getContent()));
+				pkg = droolsUtil.buildKnowledgePackage(new StringReader(ruleSet.getContent()));
             } catch(Exception e) {
                 throw new RuleSetExecutionException("Building Drools Package failed",e);
             }            
@@ -197,7 +198,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * Clears the rule set execution cache.
      */
     public void clearRuleSetCache() {
-    	ruleBaseCache.clearRuleBase();
+    	ruleBaseCache.clearKnowledgeBase();
     }
     
     /**
@@ -206,23 +207,9 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * @param ruleBaseType Rule base type
      */
     public void clearRuleSetCache(String ruleBaseType) {
-    	ruleBaseCache.clearRuleBase(ruleBaseType);
+    	ruleBaseCache.clearKnowledgeBase(ruleBaseType);
     }
     
-    /**
-     * Builds a Drools package from <code>source</code>
-     * 
-     * @param source Drools source code
-     * @return A Drools Package
-     * @throws Exception
-     */
-    private Package buildPackage(Reader source) throws Exception {
-    	PackageBuilder builder = droolsUtil.createPackageBuilder();
-        builder.addPackageFromDrl(source);
-        Package pkg = builder.getPackage();
-        return pkg;
-    }
-
     /**
      * Creates a string builder for logging.
      * 
@@ -230,10 +217,10 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      */
     private LoggingStringBuilder createLogging() {
     	LoggingStringBuilder builder = new LoggingStringBuilder();
-    	builder.append("*******************************");
-    	builder.append("*   Default Drools Executor   *");
-    	builder.append("*        Execution Log        *");
-    	builder.append("*******************************");
+    	builder.append("-------------------------------");
+    	builder.append("|   Default Drools Executor   |");
+    	builder.append("|        Execution Log        |");
+    	builder.append("-------------------------------");
     	builder.append("----- START -----");
     	return builder;
     }
@@ -282,8 +269,8 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * @see #removeRuleSet(String, String)
      */
     public synchronized ExecutionResult execute(String ruleBaseType, List<?> facts) {
-    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
-    	return execute(ruleBase, facts);
+    	KnowledgeBase knowledgeBase = ruleBaseCache.getKnowledgeBase(ruleBaseType);
+    	return execute(knowledgeBase, facts);
     }
 
     /**
@@ -293,8 +280,8 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * @param facts List of facts
      * @return An execution result
      */
-    private ExecutionResult execute(RuleBase ruleBase, List<?> facts) {
-        StatelessSession session = ruleBase.newStatelessSession();
+    private ExecutionResult execute(KnowledgeBase knowledgeBase, List<?> facts) {
+        StatelessKnowledgeSession session = knowledgeBase.newStatelessKnowledgeSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
         DroolsWorkingMemoryStatisticsLogger statLogger = null;
         LoggingStringBuilder executionLog = null;
@@ -308,18 +295,25 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
         			session, "SimpleExecutorDroolsImpl", executionStats);
         }
 
-        @SuppressWarnings("unchecked") 
-        Iterator<Object> it = session.executeWithResults(facts).iterateObjects();
+        List<Command<?>> commands = new ArrayList<Command<?>>();
+        int i = 0;
+        for(Object fact : facts) {
+        	String id = "id." + i++;
+        	Command<?> cmd = CommandFactory.newInsertObject(fact, id);
+            commands.add(cmd);
+        }
+        Command<?> cmd = CommandFactory.newBatchExecution(commands);
+        BatchExecutionResults results = session.execute(cmd);
         
         if(this.logExecution) {
-        	executionLog.append("********************************");
-        	executionLog.append("*   Execution Result Objects   *");
-        	executionLog.append("********************************");
+        	executionLog.append("--------------------------------");
+        	executionLog.append("|   Execution Result Objects   |");
+        	executionLog.append("--------------------------------");
         }
         
         List<Object> list = new ArrayList<Object>();
-        while(it != null && it.hasNext()) {
-        	Object obj = it.next();
+        for(String id : results.getIdentifiers()) {
+        	Object obj = results.getValue(id);
         	list.add(obj);
             if(this.logExecution) {
             	executionLog.append("Object: "+obj.toString());

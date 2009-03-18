@@ -92,7 +92,7 @@ public class CompilerResult implements java.io.Serializable {
      */
     public String toString() {
         return 
-            "\nItem: UUID: " + this.itemUuid + 
+            "\nUUID: " + this.itemUuid + 
             "\nName: " + this.itemName + 
             "\nFormat: " + this.itemFormat + 
             "\nMessage: " + this.itemMessage;

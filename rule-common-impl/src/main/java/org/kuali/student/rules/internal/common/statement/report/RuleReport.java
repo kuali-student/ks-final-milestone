@@ -26,7 +26,7 @@ public class RuleReport {
     /**
      * True for successful report; otherwise false for an unsuccessful report
      */
-	private Boolean successful = false;
+	private Boolean successful = Boolean.FALSE;
 	
 	/**
 	 * Successful report message

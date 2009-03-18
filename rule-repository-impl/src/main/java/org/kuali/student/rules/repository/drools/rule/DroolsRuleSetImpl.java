@@ -138,7 +138,6 @@ public class DroolsRuleSetImpl
      */
     public List<Rule> getRules() {
         try {
-        	// Drools 4 does not use generics so we have to suppress warning
         	@SuppressWarnings("unchecked") 
         	List<Rule> list = (List<Rule>) objectUtil.deepCopy(this.createList());
         	return list;
@@ -253,7 +252,7 @@ public class DroolsRuleSetImpl
      * 
      * @param compiledRuleSetObject A compiled rule set object
      */
-    public void setCompiledRuleSetObject(final Serializable compiledRuleSetObject) {
+    public void setCompiledRuleSetObject(final Object compiledRuleSetObject) {
         try {
             this.compiledRuleSetObject = (Serializable) objectUtil.deepCopy( compiledRuleSetObject );
         } catch( Exception e ) {

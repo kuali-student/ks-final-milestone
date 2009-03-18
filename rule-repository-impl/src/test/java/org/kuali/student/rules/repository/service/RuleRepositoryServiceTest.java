@@ -203,9 +203,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         boolean b = service.createCategory("/", category, "A test category 1.0 description");
         assertTrue(b);
 
-        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", category) );
+        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("RuleSet1", category) );
         assertNotNull(ruleSet1);
-    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("RuleSet2", category) );
         assertNotNull(ruleSet2);
 
         List<RuleSetDTO> list = service.fetchRuleSetsByCategory(category);
@@ -241,9 +241,10 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertNotNull( ruleSet1 );
         
         byte[] binPkg = service.fetchRuleSet(ruleSet1.getUUID()).getCompiledRuleSet();
-        org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        //org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        org.drools.definition.KnowledgePackage pkg = DroolsUtil.getInstance().getKnowledgePackage(binPkg);
         assertNotNull(pkg);
-        assertTrue(pkg.isValid());
+        //assertTrue(pkg.isValid());
 
         service.removeRuleSet( ruleSet1.getUUID() );
     }
@@ -317,9 +318,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         boolean b = service.createCategory("/", category, "A test category 1.0 description");
         assertTrue(b);
 
-        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", category) );
+        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("RuleSet1", category) );
         assertNotNull(ruleSet1);
-    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("RuleSet2", category) );
         assertNotNull(ruleSet2);
         
         service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
@@ -388,10 +389,11 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
        
         byte[] binPkg = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1").getCompiledRuleSet();
-        org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        //org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        org.drools.definition.KnowledgePackage pkg = DroolsUtil.getInstance().getKnowledgePackage(binPkg);
 
         assertNotNull(pkg);
-        assertTrue(pkg.isValid());
+        //assertTrue(pkg.isValid());
 
         service.removeRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         service.removeRuleSet(ruleSet1.getUUID());

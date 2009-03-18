@@ -15,11 +15,13 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.rule.Package;
+import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseFactory;
+import org.drools.definition.KnowledgePackage;
 import org.kuali.student.rules.ruleexecution.cache.Cache;
 import org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
@@ -30,19 +32,19 @@ import org.slf4j.LoggerFactory;
  * Drools RuleBase cache.
  * Default cache is an LRU cache with a maximum of 20 entries.
  */
-public class DroolsRuleBase {
+public class DroolsKnowledgeBase {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(DroolsRuleBase.class);
+    final static Logger logger = LoggerFactory.getLogger(DroolsKnowledgeBase.class);
 
 	/**
 	 * Cache of rule base types.
 	 */
-	private Cache<String,RuleBase> ruleBaseTypeCache = new MemoryLRUCache<String, RuleBase>(20);
+	private Cache<String, KnowledgeBase> ruleBaseTypeCache = new MemoryLRUCache<String, KnowledgeBase>(20);
 	
 	/**
 	 * Constructor
 	 */
-	public DroolsRuleBase() {
+	public DroolsKnowledgeBase() {
 	}
 
 	/**
@@ -51,14 +53,14 @@ public class DroolsRuleBase {
 	 * 
 	 * @param cache 
 	 */
-	public void setCache(Cache<String,RuleBase> cache) {
+	public void setCache(Cache<String,KnowledgeBase> cache) {
 		this.ruleBaseTypeCache = cache;
 	}
 
 	/**
 	 * Clears the rule base cache.
 	 */
-	public void clearRuleBase() {
+	public void clearKnowledgeBase() {
 		ruleBaseTypeCache.clear();
 	}
 
@@ -67,16 +69,9 @@ public class DroolsRuleBase {
 	 * 
 	 * @param ruleBaseType Rule base type to clear
 	 */
-	public void clearRuleBase(String ruleBaseType) {
-		RuleBase ruleBase = ruleBaseTypeCache.get(ruleBaseType);
-		try {
-			ruleBase.lock();
-			ruleBase = RuleBaseFactory.newRuleBase();
-		} finally {
-        	if (ruleBase != null) {
-        		ruleBase.unlock();
-        	}
-		}
+	public void clearKnowledgeBase(String ruleBaseType) {
+		KnowledgeBase knowledgeBase = ruleBaseTypeCache.get(ruleBaseType);
+		knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
 	}
 
     /**
@@ -95,13 +90,13 @@ public class DroolsRuleBase {
 	 * @param pkg Drools package
 	 * @throws RuleSetExecutionException
 	 */
-	public void addPackage(String ruleBaseType, Package pkg) throws RuleSetExecutionException {
+	public void addPackage(String ruleBaseType, KnowledgePackage pkg) throws RuleSetExecutionException {
         if (pkg == null) {
-        	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
+        	throw new RuleSetExecutionException("Cannot add a null Drools KnowledgePackage to the Drools KnowledgeBase.");
         } else if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
         	throw new RuleSetExecutionException("Rule base type cannot be null or empty.");
         }
-		addPackageToRuleBase(ruleBaseType, pkg);
+		addPackageToKnowledgeBase(ruleBaseType, pkg);
 	}
 	
 	/**
@@ -118,12 +113,12 @@ public class DroolsRuleBase {
         }
 
         if(ruleBaseTypeCache.containsKey(ruleBaseType) && containsPackage(ruleBaseType, packageName)) {
-    		ruleBaseTypeCache.get(ruleBaseType).removePackage(packageName);
+    		ruleBaseTypeCache.get(ruleBaseType).removeKnowledgePackage(packageName);
         }
 	}
 	
     public boolean containsPackage(String ruleBaseType, String ruleSetName) {
-    	return (ruleBaseTypeCache.get(ruleBaseType) == null || ruleBaseTypeCache.get(ruleBaseType).getPackage(ruleSetName) == null ? false : true);
+    	return (ruleBaseTypeCache.get(ruleBaseType) == null || ruleBaseTypeCache.get(ruleBaseType).getKnowledgePackage(ruleSetName) == null ? false : true);
     }
 	/**
 	 * Gets a rule base by rule base type.
@@ -131,7 +126,7 @@ public class DroolsRuleBase {
 	 * @param ruleBaseType Rule base type
 	 * @return A rule base
 	 */
-	public RuleBase getRuleBase(String ruleBaseType) {
+	public KnowledgeBase getKnowledgeBase(String ruleBaseType) {
         if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
         	throw new RuleSetExecutionException("Rule base type cannot be null or empty.");
         }
@@ -145,34 +140,31 @@ public class DroolsRuleBase {
      * @return A rule base
      * @throws RuleSetExecutionException If adding a package to the Drools rule base fails
      */
-    private void addPackageToRuleBase(String ruleBaseType, Package pkg) {
+    private void addPackageToKnowledgeBase(String ruleBaseType, KnowledgePackage pkg) {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
-        ClassLoader newClassLoader = DroolsRuleBase.class.getClassLoader();
+        ClassLoader newClassLoader = DroolsKnowledgeBase.class.getClassLoader();
 
         try
         {
             currentThread.setContextClassLoader( newClassLoader );
         
-            //Add package to rulebase (deploy the rule package).
-            RuleBase ruleBase = null;
+            //Add package to knowledgeBase (deploy the rule package).
+            KnowledgeBase knowledgeBase = null;
             try {
             	if (!ruleBaseTypeCache.containsKey(ruleBaseType)) {
-            		ruleBase = RuleBaseFactory.newRuleBase();
-    				ruleBaseTypeCache.put(ruleBaseType, ruleBase);
+            		knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+    				ruleBaseTypeCache.put(ruleBaseType, knowledgeBase);
     			} else {
-    				ruleBase = ruleBaseTypeCache.get(ruleBaseType);
+    				knowledgeBase = ruleBaseTypeCache.get(ruleBaseType);
     			}
-            	ruleBase.lock();
-            	ruleBase.addPackage(pkg);
+            	Collection<KnowledgePackage> pkgs = new ArrayList<KnowledgePackage>();
+            	pkgs.add(pkg);
+            	knowledgeBase.addKnowledgePackages(pkgs);
             } catch(Exception e) {
-    			throw new RuleSetExecutionException(
-    					"Adding package to rule base failed: Package name=" + 
-    					pkg.getName() + ", Error summary=" + pkg.getErrorSummary(), e);
-            } finally {
-            	if (ruleBase != null) {
-            		ruleBase.unlock();
-            	}
+    			throw new RuleSetExecutionException("Adding knowledge packages to knowledge base failed", e); 
+    					//"Adding package to rule base failed: Package name=" + pkg.getName() 
+    					//+ ", Error summary=" + pkg.getErrorSummary(), e);
             }
         }
         finally {

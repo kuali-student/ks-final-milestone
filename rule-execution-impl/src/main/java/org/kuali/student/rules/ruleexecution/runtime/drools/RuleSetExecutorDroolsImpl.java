@@ -15,19 +15,19 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.drools.RuleBase;
-import org.drools.StatelessSession;
-import org.drools.compiler.PackageBuilder;
-import org.drools.rule.Package;
+import org.drools.KnowledgeBase;
+import org.drools.command.Command;
+import org.drools.command.CommandFactory;
+import org.drools.definition.KnowledgePackage;
+import org.drools.runtime.BatchExecutionResults;
+import org.drools.runtime.StatelessKnowledgeSession;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -54,7 +54,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
-    private DroolsRuleBase ruleBaseCache;
+    private DroolsKnowledgeBase ruleBaseCache;
 
     // Each rule base must have unique anchors
     private final ConcurrentMap<String,String> anchorMap = new ConcurrentHashMap<String,String>();
@@ -104,7 +104,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * 
      * @param ruleBase Drools rule base
      */
-    public void setRuleBaseCache(DroolsRuleBase ruleBase) {
+    public void setRuleBaseCache(DroolsKnowledgeBase ruleBase) {
     	this.ruleBaseCache = ruleBase;
     }
 
@@ -116,14 +116,14 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      */
     private String logBusinessRule(BusinessRuleInfoDTO businessRule, String message) {
     	StringBuilder sb = new StringBuilder();
-    	sb.append("\n**************************************************");
-    	sb.append("\n"+message);
-    	sb.append("\nBusiness rule name:                    "+businessRule.getName());
-    	sb.append("\nBusiness rule id:                      "+businessRule.getId());
-    	sb.append("\nBusiness rule compiledId:              "+businessRule.getCompiledId());
-    	sb.append("\nBusiness rule anchor type key:         "+businessRule.getAnchorTypeKey());
-    	sb.append("\nBusiness rule anchor value:            "+businessRule.getAnchorValue());
-    	sb.append("\n**************************************************");
+    	sb.append("\n--------------------------------------------------");
+    	sb.append("\n| "+message);
+    	sb.append("\n| Business rule name:                    "+businessRule.getName());
+    	sb.append("\n| Business rule id:                      "+businessRule.getId());
+    	sb.append("\n| Business rule compiledId:              "+businessRule.getCompiledId());
+    	sb.append("\n| Business rule anchor type key:         "+businessRule.getAnchorTypeKey());
+    	sb.append("\n| Business rule anchor value:            "+businessRule.getAnchorValue());
+    	sb.append("\n--------------------------------------------------");
         logger.debug(sb.toString());
         return sb.toString();
     }
@@ -153,32 +153,18 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
-     * Builds a Drools package from <code>source</code>
-     * 
-     * @param source Drools source code
-     * @return A Drools Package
-     * @throws Exception
-     */
-    private Package buildPackage(Reader source) throws Exception {
-    	PackageBuilder builder = this.droolsUtil.createPackageBuilder();
-        builder.addPackageFromDrl(source);
-        Package pkg = builder.getPackage();
-        return pkg;
-    }
-
-    /**
      * Adds a Drools package to the Drools rule base.
      * 
      * @param ruleSet Rule set
      */
     private void addPackage(String ruleBaseType, RuleSetDTO ruleSet) {
-    	Package pkg = this.droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+    	KnowledgePackage pkg = this.droolsUtil.getKnowledgePackage(ruleSet.getCompiledRuleSet());
 
     	if(pkg == null) {
     		logger.warn("RuleSet was not compiled: ruleSet UUID="+ruleSet.getUUID());
     		logger.warn("Compiling RuleSet: ruleSet UUID="+ruleSet.getUUID());
     		try {
-				pkg = buildPackage(new StringReader(ruleSet.getContent()));
+				pkg = droolsUtil.buildKnowledgePackage(new StringReader(ruleSet.getContent()));
             } catch(Exception e) {
                 throw new RuleSetExecutionException("Building Drools Package failed",e);
             }            
@@ -193,10 +179,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         }
 
         if (logger.isDebugEnabled()) {
-        	if (ruleBaseCache.getRuleBase(ruleBaseType) == null) {
+        	if (ruleBaseCache.getKnowledgeBase(ruleBaseType) == null) {
         		logger.debug("Adding rule base: rule base type="+ruleBaseType);
         	}
-        	if (ruleBaseCache.getRuleBase(ruleBaseType) == null || ruleBaseCache.getRuleBase(ruleBaseType).getPackage(pkg.getName()) == null) {
+        	if (ruleBaseCache.getKnowledgeBase(ruleBaseType) == null || ruleBaseCache.getKnowledgeBase(ruleBaseType).getKnowledgePackage(pkg.getName()) == null) {
         		logger.debug("Adding new package to rulebase: package name=" + 
         				pkg.getName() + ", uuid=" + ruleSet.getUUID() + 
         				", rule base type=" + ruleBaseType);
@@ -254,7 +240,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * Clears the rule set cache
      */
     public void clearRuleSetCache() {
-    	this.ruleBaseCache.clearRuleBase();
+    	this.ruleBaseCache.clearKnowledgeBase();
     	this.anchorMap.clear();
     	this.businessRuleMap.clear();
     }
@@ -290,10 +276,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      */
     private void startLogging(BusinessRuleInfoDTO businessRule, String ruleBaseType, String id) {
     	this.executionLog = new LoggingStringBuilder();
-    	this.executionLog.append("********************************");
-    	this.executionLog.append("*   Drools Rule Set Executor   *");
-    	this.executionLog.append("*        Execution Log         *");
-    	this.executionLog.append("********************************");
+    	this.executionLog.append("--------------------------------");
+    	this.executionLog.append("|   Drools Rule Set Executor   |");
+    	this.executionLog.append("|        Execution Log         |");
+    	this.executionLog.append("--------------------------------");
     	this.executionLog.append("----- START -----");
     	this.executionLog.append("Business rule name:                    "+businessRule.getName());
     	this.executionLog.append("Business rule id:                      "+businessRule.getId());
@@ -303,14 +289,14 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("Business rule anchor value:            "+businessRule.getAnchorValue());
     	this.executionLog.append("Fact container ID:                     "+id);
     	this.executionLog.append("Execution rule base:                   "+ruleBaseType);
-    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
+    	KnowledgeBase ruleBase = ruleBaseCache.getKnowledgeBase(ruleBaseType);
     	if (ruleBase == null) {
     		this.executionLog.append("Packages loaded in rule base:          rule base is null");
-    	} else if (ruleBase.getPackages() == null ) {
+    	} else if (ruleBase.getKnowledgePackages() == null ) {
     		this.executionLog.append("Packages loaded in rule base:          0");
     	} else {
-    		this.executionLog.append("Packages loaded in rule base:          "+ruleBase.getPackages().length);
-	    	for(Package pkg : ruleBase.getPackages()) {
+    		this.executionLog.append("Packages loaded in rule base:          "+ruleBase.getKnowledgePackages().size());
+	    	for(KnowledgePackage pkg : ruleBase.getKnowledgePackages()) {
 	    		this.executionLog.append("\tPackage Name: " + pkg.getName());
 	    	}
     	}
@@ -327,9 +313,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * Log execution result message.
      */
     private void logResults() {
-    	this.executionLog.append("********************************");
-    	this.executionLog.append("*   Execution Result Objects   *");
-    	this.executionLog.append("********************************");
+    	this.executionLog.append("--------------------------------");
+    	this.executionLog.append("|   Execution Result Objects   |");
+    	this.executionLog.append("--------------------------------");
     }
 
     /**
@@ -389,8 +375,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @return An execution result
      */
     private ExecutionResult executeRule(String ruleBaseType, FactContainer fact) { 
-    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
-        StatelessSession session = ruleBase.newStatelessSession();
+    	KnowledgeBase knowledgeBase = ruleBaseCache.getKnowledgeBase(ruleBaseType);
+        StatelessKnowledgeSession session = knowledgeBase.newStatelessKnowledgeSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
         DroolsWorkingMemoryStatisticsLogger statLogger = null;
         
@@ -405,24 +391,32 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         List<Object> factList = assembleFacts(fact);
         ExecutionResult result = new ExecutionResult();
         
-        @SuppressWarnings("unchecked") 
-        Iterator<Object> it = session.executeWithResults(factList).iterateObjects();
+        List<Command<?>> commands = new ArrayList<Command<?>>();
+        int i = 0;
+        for(Object f : factList) {
+        	String id = "id." + i++;
+            Command<?> cmd = CommandFactory.newInsertObject(f, id);
+            commands.add(cmd);
+        }
+        Command<?> cmd = CommandFactory.newBatchExecution( commands );
+        BatchExecutionResults results = session.execute(cmd);
+        
     
         if(this.logExecution) {
         	logResults();
         }
         
         List<Object> list = new ArrayList<Object>();
-        while(it != null && it.hasNext()) {
-        	Object obj = it.next();
-            if(this.logExecution) {
-            	this.executionLog.append(obj.toString());
-            }
-        	if (obj instanceof FactContainer) {
+        for(String id : results.getIdentifiers()) {
+        	Object obj = results.getValue(id);
+            if (obj instanceof FactContainer) {
         		FactContainer fc = (FactContainer) obj;
         		if (fc.getId().equals(fact.getId())){
                 	list.add(obj);
         		}
+                if(this.logExecution) {
+                	this.executionLog.append(obj.toString());
+                }
         	}
         }
 

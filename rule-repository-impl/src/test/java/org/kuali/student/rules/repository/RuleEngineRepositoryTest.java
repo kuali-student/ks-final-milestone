@@ -43,6 +43,7 @@ import javax.rules.admin.LocalRuleExecutionSetProvider;
 import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
 
+import org.drools.definition.KnowledgePackage;
 import org.drools.jsr94.rules.RuleServiceProviderImpl;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -267,11 +268,11 @@ public class RuleEngineRepositoryTest {
 
         assertTrue(ruleSet1.getUUID() != ruleSet2.getUUID());
         
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) 
+        KnowledgePackage binPkg = (KnowledgePackage) 
 	        brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1").getCompiledRuleSetObject();
 
         assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
+        //assertTrue(binPkg.isValid());
     }
     
     @Test
@@ -391,19 +392,19 @@ public class RuleEngineRepositoryTest {
         ruleSet.addRule(rule2);
         String rulesetUUID = brmsRepository.createRuleSet(ruleSet).getUUID();
 
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadRuleSet(rulesetUUID).getCompiledRuleSetObject();
+        KnowledgePackage binPkg = (KnowledgePackage) brmsRepository.loadRuleSet(rulesetUUID).getCompiledRuleSetObject();
 
         assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
+        //assertTrue(binPkg.isValid());
 
         droolsTestUtil.executeRule(binPkg, new Object[]{Calendar.getInstance()});
 
         brmsRepository.createRuleSetSnapshot("MyPackage", "SNAPSHOT1", "A snapshot");
 
-        binPkg = (org.drools.rule.Package) brmsRepository.loadRuleSetSnapshot("MyPackage", "SNAPSHOT1").getCompiledRuleSetObject();
+        binPkg = (KnowledgePackage) brmsRepository.loadRuleSetSnapshot("MyPackage", "SNAPSHOT1").getCompiledRuleSetObject();
 
         assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
+        //assertTrue(binPkg.isValid());
 
         Message message = new Message();
         Calendar calendar = Calendar.getInstance();
@@ -435,10 +436,10 @@ public class RuleEngineRepositoryTest {
         // No errors
         assertNull(ruleEngineUtil.getErrorMessage(results), results);
 
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadRuleSet(ruleSetUUID).getCompiledRuleSetObject();
+        KnowledgePackage binPkg = (KnowledgePackage) brmsRepository.loadRuleSet(ruleSetUUID).getCompiledRuleSetObject();
 
         assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
+        //assertTrue(binPkg.isValid());
 
         Email email = new Email("len.carlsen@ubc.ca");
         Message message = new Message();
@@ -460,7 +461,8 @@ public class RuleEngineRepositoryTest {
         assertNotNull(ruleset.getCompiledRuleSet());
         assertNotNull(ruleset.getCompiledRuleSetObject());
         Class<?> c = ruleset.getCompiledRuleSetObject().getClass();
-        assertEquals("org.drools.rule.Package", c.getName());
+        assertTrue(droolsTestUtil.containsInterface(c, org.drools.definition.KnowledgePackage.class));
+        //assertEquals("org.drools.definition.KnowledgePackage", c.getName());
     }
 
     @Test
@@ -476,9 +478,11 @@ public class RuleEngineRepositoryTest {
         // No errors
         assertNull(ruleEngineUtil.getErrorMessage(results), results);
 
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadRuleSet(ruleSetUUID).getCompiledRuleSetObject();
+        KnowledgePackage binPkg = (KnowledgePackage) brmsRepository.loadRuleSet(ruleSetUUID).getCompiledRuleSetObject();
 
         assertNotNull(binPkg);
+		// Drools JSR-94 requires a org.drools.rule.Package
+        org.drools.rule.Package pkg = ((org.drools.definitions.impl.KnowledgePackageImp) binPkg).pkg;
 
         // ******************************************************
         // * JSR 94 API for registering and executing rule sets *
@@ -495,7 +499,8 @@ public class RuleEngineRepositoryTest {
 
         LocalRuleExecutionSetProvider ruleSetProvider = ruleAdministrator.getLocalRuleExecutionSetProvider(null);
 
-        RuleExecutionSet ruleExecutionSet = ruleSetProvider.createRuleExecutionSet(binPkg, null);
+        // Drools JSR-94 requires a org.drools.rule.Package
+        RuleExecutionSet ruleExecutionSet = ruleSetProvider.createRuleExecutionSet(pkg, null);
 
         ruleAdministrator.registerRuleExecutionSet(RULE_URI, ruleExecutionSet, null);
 
@@ -949,10 +954,10 @@ public class RuleEngineRepositoryTest {
         String ruleSetUUID = createSimpleRuleSet("MyRuleSet").getUUID();
         
         RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) ruleSet.getCompiledRuleSetObject();
+        KnowledgePackage binPkg = (KnowledgePackage) ruleSet.getCompiledRuleSetObject();
         
         assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
+        //assertTrue(binPkg.isValid());
     }
     
     @Test
@@ -967,11 +972,11 @@ public class RuleEngineRepositoryTest {
     public void testLoadCompiledRuleSetByName() throws Exception {
         RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
         
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) 
+        KnowledgePackage binPkg = (KnowledgePackage) 
             brmsRepository.loadRuleSetByName(ruleSet.getName()).getCompiledRuleSetObject();
 
         assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
+        //assertTrue(binPkg.isValid());
     }
     
     @Test
@@ -1585,10 +1590,10 @@ public class RuleEngineRepositoryTest {
         String packageName = "testCompileSourceValid";
         Reader drl = new StringReader(droolsTestUtil.getSimpleDRL(packageName));
         try {
-            org.drools.rule.Package pkg = (org.drools.rule.Package) brmsRepository.compileSource(drl);
-            assertTrue(pkg != null);
-            assertTrue(pkg.isValid());
-            assertTrue(pkg.getName().equals(packageName));
+        	KnowledgePackage pkg = (KnowledgePackage) brmsRepository.compileSource(drl);
+            assertNotNull(pkg);
+            //assertTrue(pkg.isValid());
+            assertEquals(packageName, pkg.getName());
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
         }
@@ -1766,10 +1771,10 @@ public class RuleEngineRepositoryTest {
 
         assertEquals(2, ruleSet.getHeaderList().size());
         
-        org.drools.rule.Package pkg = (org.drools.rule.Package) brmsRepository.compileSource(new StringReader(ruleSet.getContent()));
+        KnowledgePackage pkg = (KnowledgePackage) brmsRepository.compileSource(new StringReader(ruleSet.getContent()));
 
         assertNotNull(pkg);
-        assertTrue(pkg.isValid());
+        //assertTrue(pkg.isValid());
 
         Message message = new Message();
         Calendar calendar = Calendar.getInstance();

@@ -2,11 +2,17 @@ package org.kuali.student.rules.ruleexecution.runtime.drools.util;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.drools.compiler.PackageBuilder;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
+import org.drools.definition.KnowledgePackage;
+import org.drools.io.Resource;
+import org.drools.io.ResourceFactory;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
@@ -27,51 +33,59 @@ public class DroolsTestUtil {
 	private static String getSimpleRule1(String ruleName) {
         ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
         return 
-			"rule \"" + ruleName + "\"" +
-			"     when" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )" +
-			"     then" +
-			"          insert( \"Minute is even: \" + now.get(Calendar.MINUTE) );" +
-			"end";
+			"rule \"" + ruleName + "\"\n" +
+			"     when\n" +
+			"          now: Calendar()\n" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )\n" +
+			"          msg: Message()\n" +
+			"     then\n" +
+			//"          insert( \"Minute is even: \" + now.get(Calendar.MINUTE) );" +
+			"          msg.setMessage(\"Minute is even: \" + now.get(Calendar.MINUTE) );\n" +
+			"end\n";
 	}
-	
+
 	/**
 	 * Gets a simple rule. 
 	 * Rule determines whether the minutes of the hour is odd.
 	 * Rule takes <code>java.util.Calendar</code> as fact (package import).
 	 *  
-	 * @return a Drools' rule
+	 * @return a Drools rule
 	 */
 	private static String getSimpleRule2(String ruleName) {
         ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
 		return 
-            "rule \"" + ruleName + "\"" +
-			"     when" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )" +
-			"     then" +
-			"          insert( \"Minute is odd: \" + now.get(Calendar.MINUTE) );" +
-			"end";
+            "rule \"" + ruleName + "\"\n" +
+			"     when\n" +
+			"          now: Calendar()\n" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )\n" +
+			"          msg: Message()\n" +
+			"     then\n" +
+			//"          insert( \"Minute is odd: \" + now.get(Calendar.MINUTE) );" +
+			"          msg.setMessage(\"Minute is odd: \" + now.get(Calendar.MINUTE) );\n" +
+			"end\n";
 	}
 
 	public static RuleSetDTO createRuleSet() {
     	RuleSetDTO ruleSet = new RuleSetDTO("TestName", "Test description", "DRL");
-    	ruleSet.addHeader("import java.util.Calendar");
+    	ruleSet.addHeader("import java.util.Calendar;");
+    	ruleSet.addHeader("import org.kuali.student.rules.ruleexecution.runtime.drools.util.Message;");
     	
     	RuleDTO rule1 = new RuleDTO("rule1", "A rule", getSimpleRule1("rule1"), "DRL");
     	RuleDTO rule2 = new RuleDTO("rule2", "A rule", getSimpleRule2("rule2"), "DRL");
     	ruleSet.addRule(rule1);
     	ruleSet.addRule(rule2);
     	ruleSet.setContent(ruleSet.buildContent());
+
     	return ruleSet;
     }
 	
-	public static byte[] createPackage(RuleSetDTO ruleSet) throws Exception {
-		PackageBuilder builder = new PackageBuilder();
-		builder.addPackageFromDrl(new StringReader(ruleSet.getContent()));
-        // Deserialize a Drools package
-		return DroolsUtil.deserialize( builder.getPackage() );
+	public static byte[] createKnowledgePackage(RuleSetDTO ruleSet) throws Exception {
+    	KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+    	StringReader reader = new StringReader(ruleSet.getContent());
+    	Resource resource = ResourceFactory.newReaderResource(reader);
+    	builder.add(resource, ResourceType.DRL);
+        Collection<KnowledgePackage> pkgs = builder.getKnowledgePackages();
+		return DroolsUtil.deserialize( pkgs.iterator().next() );
 	}
 
 	public static FactResultDTO createFactResult(String[] values) {
@@ -130,8 +144,7 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP1 = \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\"; \n" +
 		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
-		//"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
-        
+		"\n" +
 		"        AverageRuleProposition<java.math.BigDecimal> propositionP1 = new AverageRuleProposition<java.math.BigDecimal>( \n" +
 		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
 		"        propositionP1.apply(); \n" +
@@ -140,7 +153,6 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP2 = \"P2-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
 		"        RulePropositionDTO rulePropositionP2 = (RulePropositionDTO) propositionMap.get(\"P2\"); \n" +
-		//"        YieldValueFunctionDTO yvfP2 = rulePropositionP2.getLeftHandSide().getYieldValueFunction(); \n" +
 		"\n" +
 		"        IntersectionRuleProposition<java.lang.Integer> propositionP2 = new IntersectionRuleProposition<java.lang.Integer>( \n" +
 		"            uuidP2, \"P2\", rulePropositionP2, factMap ); \n" +
@@ -206,8 +218,7 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP1 = \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\"; \n" +
 		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
-		//"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
-        
+		"\n" +
 		"        AverageRuleProposition<java.math.BigDecimal> propositionP1 = new AverageRuleProposition<java.math.BigDecimal>( \n" +
 		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
 		"        propositionP1.apply(); \n" +
@@ -267,7 +278,6 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP1 = \"P1-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
 		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
-		//"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
 		"\n" +
 		"        IntersectionRuleProposition<java.lang.Integer> propositionP1 = new IntersectionRuleProposition<java.lang.Integer>( \n" +
 		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +

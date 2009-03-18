@@ -1,7 +1,6 @@
 package org.kuali.student.rules.ruleexecution.runtime.drools.logging;
 
 import org.drools.WorkingMemory;
-import org.drools.WorkingMemoryEventManager;
 import org.drools.audit.WorkingMemoryLogger;
 import org.drools.audit.event.LogEvent;
 import org.drools.event.ActivationCancelledEvent;
@@ -12,6 +11,7 @@ import org.drools.event.AfterPackageAddedEvent;
 import org.drools.event.AfterPackageRemovedEvent;
 import org.drools.event.AfterRuleAddedEvent;
 import org.drools.event.AfterRuleRemovedEvent;
+import org.drools.event.KnowledgeRuntimeEventManager;
 import org.drools.event.ObjectInsertedEvent;
 import org.drools.event.ObjectRetractedEvent;
 import org.drools.event.ObjectUpdatedEvent;
@@ -22,12 +22,12 @@ public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 
 	private LoggingStringBuilder stringBuilder;
 	
-    public DroolsWorkingMemoryLogger(final WorkingMemoryEventManager workingMemoryEventManager) {
+    public DroolsWorkingMemoryLogger(final KnowledgeRuntimeEventManager workingMemoryEventManager) {
         super(workingMemoryEventManager);
         this.stringBuilder = new LoggingStringBuilder();
     }
 
-    public DroolsWorkingMemoryLogger(final WorkingMemoryEventManager workingMemoryEventManager, 
+    public DroolsWorkingMemoryLogger(final KnowledgeRuntimeEventManager workingMemoryEventManager, 
     		final LoggingStringBuilder stringBuilder) {
         super(workingMemoryEventManager);
         this.stringBuilder = stringBuilder;

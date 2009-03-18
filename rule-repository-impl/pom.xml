@@ -120,7 +120,7 @@
         <dependency>
             <groupId>velocity-tools</groupId>
             <artifactId>velocity-tools</artifactId>
-            <version>${velocity.version}</version>          
+            <version>${velocity.tools.version}</version>          
         </dependency>
 
         <!-- Drools Dependencies -->

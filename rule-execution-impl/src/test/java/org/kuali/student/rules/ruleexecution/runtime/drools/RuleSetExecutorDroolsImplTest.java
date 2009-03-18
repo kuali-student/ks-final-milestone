@@ -42,27 +42,21 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.AverageRuleProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
-import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
-import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilderImpl;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.ruleexecution.util.RuleManagementDtoFactory;
 
@@ -73,7 +67,7 @@ public class RuleSetExecutorDroolsImplTest {
 	/** Rule set executor interface */
 	private static RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
 	private static SimpleExecutor simpleExecutor = new SimpleExecutorDroolsImpl();
-	private static DroolsRuleBase ruleBase = new DroolsRuleBase();
+	private static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
     
@@ -169,7 +163,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -184,7 +178,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -198,7 +192,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -207,7 +201,7 @@ public class RuleSetExecutorDroolsImplTest {
         BusinessRuleInfoDTO brInfoIntersection = generateNewBusinessRuleInfo("2", "Business Rule - Intersection", "CPR101");
 
 		RuleSetDTO ruleSetIntersection = DroolsTestUtil.getIntersectionPropositionRuleSet();
-    	byte[] bytes2 = DroolsTestUtil.createPackage(ruleSetIntersection);
+    	byte[] bytes2 = DroolsTestUtil.createKnowledgePackage(ruleSetIntersection);
     	ruleSetIntersection.setCompiledRuleSet(bytes2);
     	
 		try {
@@ -227,7 +221,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -242,7 +236,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -375,7 +369,7 @@ public class RuleSetExecutorDroolsImplTest {
         // Rule set source code
     	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
 
-    	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+    	byte[] bytes = DroolsTestUtil.createKnowledgePackage(ruleSet);
         ruleSet.setCompiledRuleSet(bytes);
 
     	YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());
@@ -464,7 +458,7 @@ public class RuleSetExecutorDroolsImplTest {
         // Rule set source code
     	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
 
-    	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+    	byte[] bytes = DroolsTestUtil.createKnowledgePackage(ruleSet);
         ruleSet.setCompiledRuleSet(bytes);
 
     	YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());
