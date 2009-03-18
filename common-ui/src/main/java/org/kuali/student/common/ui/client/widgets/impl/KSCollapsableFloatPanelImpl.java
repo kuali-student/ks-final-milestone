@@ -73,7 +73,9 @@ public class KSCollapsableFloatPanelImpl extends KSFloatPanelImpl implements KSC
 			hpanel.add(expandCollapsePanel);
 			hpanel.add(content);
 		}
-		expandCollapsePanel.add(expand);
+		
+		expandCollapsePanel.clear();// If this is second time through need to clear previous widget
+        expandCollapsePanel.add(expand);
 		content.setVisible(false);
 		super.setWidget(hpanel);
 		super.show();
