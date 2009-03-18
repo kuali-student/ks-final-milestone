@@ -12,30 +12,33 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class LiveCSSComposite extends Composite {
     private final VerticalPanel panel = new VerticalPanel();
     private final VerticalPanel inputPanel = new VerticalPanel();
     
-    private final KSLabel cssLabel = new KSLabel("CSS");
-    private final KSTextArea css = new KSTextArea();
+    private final Label cssLabel = new Label("CSS");
+    private final TextArea css = new TextArea();
     
     private final HorizontalPanel buttonPanel = new HorizontalPanel();
     
-    private final KSButton update = new KSButton("Refresh Styles", new ClickHandler() {
+    private final Button update = new Button("Apply Styles", new ClickHandler() {
         public void onClick(ClickEvent arg0) {
             updateStyles();
         }
     });
-    private final KSButton reset = new KSButton("Reset", new ClickHandler() {
+    private final Button reset = new Button("Reset", new ClickHandler() {
         public void onClick(ClickEvent arg0) {
             css.setText("");
             loadCSS();
-            updateStyles();
+            
         }
     });
     
@@ -57,6 +60,11 @@ public class LiveCSSComposite extends Composite {
         examplePanel.add(exampleLabel);
         examplePanel.add(content);
         
+        css.addStyleName("KSink-LiveCSS-TextBox");
+        update.addStyleName("KSink-LiveCSS-Button");
+        reset.addStyleName("KSink-LiveCSS-Button");
+        exampleLabel.addStyleName("KSink-LiveCSS-Titles");
+        cssLabel.addStyleName("KSink-LiveCSS-Titles");
         inputPanel.addStyleName("KSink-LiveCSS-InputPanel");
         examplePanel.addStyleName("KSink-LiveCSS-ContentPanel");
         
@@ -80,6 +88,7 @@ public class LiveCSSComposite extends Composite {
 
                     public void onResponseReceived(Request request, Response response) {
                         css.setText(css.getText() + "\n" + response.getText());
+                        updateStyles();
                     }
                 });
                 try {
@@ -98,46 +107,38 @@ public class LiveCSSComposite extends Composite {
     private void updateStyles() {
         updateDOMStyles(css.getText());
     }
-    private final native void updateDOMStyles(String cssStr) /*-{ 
-        var style = $wnd.document.getElementById("liveStyle");
-        if (style == null) { 
-            style = $wnd.document.createElement("style");
-            style.setAttribute("type", "text/css");
-            style.setAttribute("id", "liveStyle"); 
-        } 
+    private final native void updateDOMStyles(String cssStr) /*-{
+        var head = $wnd.document.getElementsByTagName("head")[0]; 
+        
+        // try deleting linked styles?
+        var styles = $wnd.document.getElementsByTagName("link");
+        for (var i=0; i<styles.length; i++) {
+            var href = styles[i].getAttribute("href");
+            
+            if(href.match("CommonUI.css")){
+               styles[i].parentNode.removeChild(styles[i]);
+            }
+            
+        }
+        
+        //remove old style
+        var oldStyle = $wnd.document.getElementById("liveStyle");
+        if(oldStyle != null){
+            head.removeChild(oldStyle);
+        }
+        
+        // create new style
+        var style = $wnd.document.createElement("style");
+        style.setAttribute("type", "text/css");
+        style.setAttribute("id", "liveStyle"); 
+             
         if(style.styleSheet){ 
                 style.styleSheet.cssText = cssStr; 
         } else { 
                 var cssText = $wnd.document.createTextNode(cssStr); 
                 style.appendChild(cssText); 
         } 
-        var head = $wnd.document.getElementsByTagName("head")[0]; 
-        if(head){ 
-                head.appendChild(style); 
-        } 
-    }-*/; 
-    
-//    private void updateStyles() {
-//        Document doc = Document.get();
-//        
-//        BodyElement body = doc.getBody(); 
-//        HeadElement head = 
-//            HeadElement.as(Element.as( 
-//            body.getPreviousSibling())); 
-//        
-//        Element e = doc.getElementById("liveStyle");
-//        if (e != null) {
-//            head.removeChild(e);
-//        }
-//        
-//        
-//        StyleElement style = doc.createStyleElement();
-//        style.setAttribute("type", "text/css");
-//        style.setId("liveStyle");
-//        head.appendChild(style);
-//        style.appendChild(doc.createTextNode(css.getText()));
-//        
-//    }    
-    
-    
+        head.appendChild(style); 
+     
+    }-*/;   
 }
