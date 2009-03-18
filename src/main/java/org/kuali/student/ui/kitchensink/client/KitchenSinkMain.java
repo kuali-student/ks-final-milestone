@@ -38,6 +38,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.progressindicator.Progr
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobuttonlist.RadioButtonListDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.ruletable.RuleTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.selectabletable.SelectableTableDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.sidebar.SidebarExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.tabpanel.TabPanelExampleDescriptor;
@@ -79,6 +80,7 @@ public class KitchenSinkMain extends Composite {
     private static final String STATUS_WIDGETS = "Status Widgets";
     private static final String LIST_WIDGETS = "List Widgets";
 	private static final String DIALOG_WIDGETS = "Dialog Widgets";
+	private static final String RULE_WIDGETS = "Rule Widgets";
 	
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
@@ -139,7 +141,8 @@ public class KitchenSinkMain extends Composite {
         KSMenuItemData ksList = initGroup(LIST_WIDGETS);
         KSMenuItemData ksNav = initGroup(NAVIGATION_WIDGETS);
         KSMenuItemData ksDialog = initGroup(DIALOG_WIDGETS);
-
+        KSMenuItemData ksRule = initGroup(RULE_WIDGETS);
+        
         initExample(ksBasic, new ButtonExampleDescriptor());
         initExample(ksBasic, new CheckBoxExampleDescriptor());
         initExample(ksBasic, new DatePickerExampleDescriptor());
@@ -176,6 +179,9 @@ public class KitchenSinkMain extends Composite {
         initExample(ksList, new SelectableTableDescriptor());
         initExample(ksList, new PickListDescriptor());
         initExample(ksList, new RadioButtonListDescriptor());
+        
+        initExample(ksRule, new RuleTableExampleDescriptor());
+        
 //      initExample(ksMisc, new RadioButtonListExampleDescriptor()); //TODO
 //      initExample(ksMisc, new SelectableTableListExampleDescriptor()); //TODO
 
@@ -187,7 +193,8 @@ public class KitchenSinkMain extends Composite {
         ksCommons.addSubItem(ksStatus);
         ksCommons.addSubItem(ksText);
         ksCommons.addSubItem(ksList);
-
+        ksCommons.addSubItem(ksRule);
+        
         items.add(ksCommons);
 
         menuPanel.setItems(items);
