@@ -1,21 +1,15 @@
 package org.kuali.student.common.ui.client.application;
 
+
 /**
  * Example usage:
  * 
- * MyAppService.getApplicationContext(new AsyncCallback<ApplicationContext>() {
-				public void onFailure(Throwable caught) {
-					// unable to load application context, handle it somehow
-				}
-				public void onSuccess(ApplicationContext result) {
-					Application.setApplicationContext(result);
-					RootPanel.get().add(Application.getApplicationComposite());
-				}
-			});
  */
 public class Application {
 	private static ApplicationContext applicationContext;
 	private static ApplicationComposite applicationComposite;
+	private static EventDispatcher eventDispatcher = new EventDispatcher();
+	
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
@@ -28,5 +22,8 @@ public class Application {
 		}
 		return applicationComposite;
 	}
+    public static EventDispatcher getEventDispatcher() {
+        return eventDispatcher;
+    }
 	
 }
