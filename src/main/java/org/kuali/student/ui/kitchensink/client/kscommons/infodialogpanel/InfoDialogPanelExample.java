@@ -12,20 +12,20 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class InfoDialogExample extends Composite {
+public class InfoDialogPanelExample extends Composite {
 
 
     final SimplePanel main = new SimplePanel();
 
     private final VerticalPanel containerPanel = new VerticalPanel();
-    final KSInfoDialogPanel infoPopup = new KSInfoDialogPanel();
+    final KSInfoDialogPanel dialog = new KSInfoDialogPanel();
 
     final KSButton showButton = new KSButton("Click to see Popup");
     final KSButton hideButton = new KSButton("Click to close Popup");
     private KSImage image = new KSImage("images/flower3.jpg");
 
 
-    public InfoDialogExample() {
+    public InfoDialogPanelExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
 
@@ -33,23 +33,24 @@ public class InfoDialogExample extends Composite {
 
             @Override
             public void onClick(ClickEvent arg0) {
-                infoPopup.show();
-                infoPopup.center();
+                dialog.show();
+                dialog.center();
             }});
 
         hideButton.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {
-                infoPopup.hide();
+                dialog.hide();
 
             }});
 
         containerPanel.add(new KSImage("images/flower3.jpg") );
         containerPanel.add(hideButton);
 
-        infoPopup.setHeader("Info Dialog Panel");
-        infoPopup.setWidget(containerPanel);
+//        dialog.setHeader("XX");
+        dialog.setWidget(containerPanel);
+        containerPanel.setSize("50px", "50px");
 
 
         main.add(showButton);
