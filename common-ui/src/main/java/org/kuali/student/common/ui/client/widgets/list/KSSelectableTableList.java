@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.KSSelectableTableLis
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * This represent a selectable list of items in a table. User can select single item
@@ -75,8 +76,8 @@ public class KSSelectableTableList extends KSSelectItemWidgetAbstract {
      */
     public void onClick(ClickEvent event) {}
 
-    public void addSelectionChangeHandler(SelectionChangeHandler handler) {
-        selectItemWidget.addSelectionChangeHandler(handler);
+    public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
+        return selectItemWidget.addSelectionChangeHandler(handler);
     }
 
     protected void fireChangeEvent() {

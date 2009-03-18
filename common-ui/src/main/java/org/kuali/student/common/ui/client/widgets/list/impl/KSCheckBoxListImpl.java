@@ -3,7 +3,7 @@ package org.kuali.student.common.ui.client.widgets.list.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 
@@ -18,15 +18,15 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team 
  *
  */
-public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
-    private FlexTable radioButtons = new FlexTable();
+public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
+    private FlexTable checkBoxes = new FlexTable();
     private String name;
-    private String selectedValue = null;
+    private List<String> selectedItems = new ArrayList<String>();
 
     private int maxCols = 1; //default max columns
 
-    public KSRadioButtonListImpl() {
-        initWidget(radioButtons);
+    public KSCheckBoxListImpl() {
+        initWidget(checkBoxes);
     }
 
     @Override
@@ -37,27 +37,23 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
     public void deSelectItem(String id) {
-        for (int i=0; i < radioButtons.getRowCount(); i++){
-            for (int j=0; j < radioButtons.getCellCount(i); j++){
-                KSRadioButton radioButton = (KSRadioButton)radioButtons.getWidget(i,j);
-                if (radioButton.getFormValue().equals(id)){
-                    this.selectedValue = null;
-                    radioButton.setValue(false);
+        for (int i=0; i < checkBoxes.getRowCount(); i++){
+            for (int j=0; j < checkBoxes.getCellCount(i); j++){
+                KSCheckBox checkbox = (KSCheckBox)checkBoxes.getWidget(i, j);
+                if (checkbox.getFormValue().equals(id)){
+                    this.selectedItems.remove(id);
+                    checkbox.setValue(false);
                     break;
                 }
             }
-        }
+        }		
     }
 
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
      */
     public List<String> getSelectedItems() {
-        List<String> items = new ArrayList<String>();
-        if (selectedValue != null){
-            items.add(selectedValue);
-        }
-        return items;
+        return selectedItems;
     }
 
 
@@ -66,16 +62,16 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
     public void selectItem(String id) {
-        deSelectItem(selectedValue);
-        for (int i=0; i < radioButtons.getRowCount(); i++){
-            for (int j=0; j < radioButtons.getCellCount(i); j++){
-                KSRadioButton radioButton = (KSRadioButton)radioButtons.getWidget(i,j);
-                if (radioButton.getFormValue().equals(id)){
-                    this.selectedValue = id;
-                    radioButton.setValue(true);
-                    break;
+        if (!selectedItems.contains(id)){
+            for (int i=0; i < checkBoxes.getRowCount(); i++){
+                for (int j=0; j < checkBoxes.getCellCount(i); j++){
+                    KSCheckBox checkbox = (KSCheckBox)checkBoxes.getWidget(i, j);
+                    if (checkbox.getFormValue().equals(id)){
+                        this.selectedItems.add(id);
+                        checkbox.setValue(true);
+                        break;
+                    }
                 }
-
             }
         }
     }
@@ -83,7 +79,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     public void setListItems(ListItems listItems) {
         super.setListItems(listItems);
 
-        radioButtons.clear();
+        checkBoxes.clear();
         int itemCount = listItems.getItemCount();
         int currCount = 0;
         int row = 0;
@@ -96,9 +92,9 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
-
-                radioButtons.setWidget(row, col, createRadioButton(id));
-
+                
+                checkBoxes.setWidget(row, col, createCheckbox(id));
+                
                 col += ((row + 1)/ maxRows) * 1;
             }
         } else {
@@ -107,34 +103,34 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
-
-                radioButtons.setWidget(row, col, createRadioButton(id));
-
+                
+                checkBoxes.setWidget(row, col, createCheckbox(id));
+                
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
-
     }
 
-    private KSRadioButton createRadioButton(String id){
-        KSRadioButton radioButton = new KSRadioButton(name, getListItems().getItemText(id));
-        radioButton.setFormValue(id);
-        radioButton.addClickHandler(this);
-
-        return radioButton;
+    private KSCheckBox createCheckbox(String id){
+        KSCheckBox checkbox = new KSCheckBox(getListItems().getItemText(id));
+        checkbox.setFormValue(id);
+        checkbox.addClickHandler(this);
+        return checkbox;
     }
+
 
     @Override
     public void onClick(ClickEvent event) {
-        KSRadioButton radioButton = (KSRadioButton)(event.getSource());   
-        if (radioButton.getValue() && !radioButton.getFormValue().equals(selectedValue)){
-            selectedValue = radioButton.getFormValue();
-            fireChangeEvent();
+        KSCheckBox checkbox = (KSCheckBox)(event.getSource());   
+        String value = checkbox.getFormValue();
+        if (checkbox.getValue()){
+            if (!selectedItems.contains(value)){
+                selectedItems.add(value);
+            }
+        } else {
+            selectedItems.remove(value);
         }
-    }
-
-    public void setMultipleSelect(boolean isMultipleSelect) {
-        throw new UnsupportedOperationException("KSRadioButtonList doesn't support multiple select");
+        fireChangeEvent();
     }
 
     public void onLoad() {}
@@ -145,5 +141,6 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     @Override
     public void setColumnSize(int col) {
         maxCols = col;
-    }    
+    }
+
 }

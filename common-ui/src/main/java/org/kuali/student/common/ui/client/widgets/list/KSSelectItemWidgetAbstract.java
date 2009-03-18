@@ -1,9 +1,9 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasName;
 
@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.HasName;
  */
 public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName{
 	private ListItems listItems = null;
-	private List<SelectionChangeHandler> handlers = new ArrayList<SelectionChangeHandler>();
 	private String name;
 	
 	public ListItems getListItems() {
@@ -27,15 +26,13 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	public void setListItems(ListItems listItems) {
 		this.listItems = listItems;
 	}
-	
-	public void addSelectionChangeHandler(SelectionChangeHandler handler){
-	    this.handlers.add(handler);
-	}
+
+    public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler selectionHandler){
+        return addHandler(selectionHandler,SelectionChangeEvent.getType());
+    }   	
 	
 	protected void fireChangeEvent(){
-	    for (SelectionChangeHandler h:handlers){
-	        h.onSelectionChange(this);
-	    }
+	    SelectionChangeEvent.fire(this);
 	}
 	
 	/**
@@ -73,8 +70,22 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 
     public abstract void onClick(ClickEvent event);
 
-    public abstract void setMultipleSelect(boolean isMultipleSelect);
-
+    /** 
+     * This method should be implemented if list supports multiple select. 
+     * 
+     */
+    public void setMultipleSelect(boolean isMultipleSelect){
+        throw new UnsupportedOperationException();
+    }
+    
+    /** 
+     * This method should be implemented if list supports column sizing. 
+     * 
+     */
+    public void setColumnSize(int col){
+        throw new UnsupportedOperationException();
+    }
+    
     public abstract void onLoad();
 	
 }

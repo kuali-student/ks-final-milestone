@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImp
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 
 /**
@@ -104,8 +105,8 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
      * 
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#addSelectionChangeHandler(org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler)
      */
-    public void addSelectionChangeHandler(SelectionChangeHandler handler) {
-        selectItemWidget.addSelectionChangeHandler(handler);
+    public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
+        return selectItemWidget.addSelectionChangeHandler(handler);
     }
 
     protected void fireChangeEvent() {
@@ -145,6 +146,13 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
         selectItemWidget.setName(name);
     }
 
+    /**
+     * Use to set number of columns to use when displaying list
+     * 
+     */
+    public void setColumnSize(int cols){
+        selectItemWidget.setColumnSize(cols);
+    }
 }
 
 

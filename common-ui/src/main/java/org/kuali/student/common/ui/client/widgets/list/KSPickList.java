@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.KSPickListImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * Skeleton for KSPickList
@@ -70,8 +71,8 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
     @Override
     public void onLoad() {}
    
-    public void addSelectionChangeHandler(SelectionChangeHandler handler) {
-        selectItemWidget.addSelectionChangeHandler(handler);
+    public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
+        return selectItemWidget.addSelectionChangeHandler(handler);
     }
 
     public void fireChangeEvent() {
