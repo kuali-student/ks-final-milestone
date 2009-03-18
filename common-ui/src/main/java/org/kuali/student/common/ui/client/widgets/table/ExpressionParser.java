@@ -49,7 +49,19 @@ public class ExpressionParser {
                 orderNonLeafChildren(n,tokenList );
             }
         }
-       return binaryTree;
+        
+        List<Node> nonLeafChildList = binaryTree.getNonLeafChildren();
+        List<Node> leafChildList = binaryTree.getLeafChildren();
+        binaryTree.children().removeAll(nonLeafChildList);
+        binaryTree.children().removeAll(leafChildList);
+        for(Node n: nonLeafChildList){
+            binaryTree.addNode(n);
+        }
+        
+        for(Node n: leafChildList){
+            binaryTree.addNode(n);
+        }
+        return binaryTree;
    }
    
    private void sequeceNonLeaves(List<Node> nonLeafChildList, List<Token> list){
