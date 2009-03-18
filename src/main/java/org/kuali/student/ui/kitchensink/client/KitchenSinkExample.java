@@ -66,7 +66,6 @@ public abstract class KitchenSinkExample extends Composite {
                 loadResources();
             }
         }
-//        tabPanel.selectTab(0);
     }
 
     private boolean resourceLoadingComplete() {
