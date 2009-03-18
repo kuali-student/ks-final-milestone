@@ -6,6 +6,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.RadioButton;
 
 /**
@@ -88,9 +90,10 @@ public class KSRadioButton extends RadioButton{
             
         });*/
         
-        this.addClickHandler(new ClickHandler(){
-
-            public void onClick(ClickEvent event) {
+        this.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+        @Override
+        
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
                 if(KSRadioButton.this.getValue()){
                     KSRadioButton.this.addStyleName(KSStyles.KS_RADIO_CHECKED_STYLE);
                 }
@@ -99,10 +102,11 @@ public class KSRadioButton extends RadioButton{
                 }
                 
             }
-            
-        });
+        });       
         
     }
+        
+        
+}
     
 
-}
