@@ -12,7 +12,7 @@ public class InfoDialogExampleDescriptor extends KitchenSinkExample {
         super.addResource("css", "KSDialogPanel.css", "KSDialogPanel.css", "Default styling of KSDialogPanel.");
     }
     public String getDescription() {       
-        return "InfoDialogPanel is a resizeable, moveable panel that can pop up over other widgets. It overlays the browser's client area (and any previously-created popups). It is not modal, i.e. user can still interact with other panels "; 
+        return "InfoDialogPanel is a resizeable, non-modal panel that pops up over other widgets. It overlays the browser's client area (and any previously-created popups). It can be set to be moveable or not as required."; 
     }
 
     public Widget getExampleWidget() {

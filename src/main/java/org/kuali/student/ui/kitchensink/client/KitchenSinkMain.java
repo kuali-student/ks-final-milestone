@@ -25,9 +25,11 @@ import org.kuali.student.ui.kitchensink.client.kscommons.collapsablefloatpanel.C
 import org.kuali.student.ui.kitchensink.client.kscommons.confirmationdialog.ConfirmationDialogExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.confirmbuttonpanel.ConfirmButtonPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.dialogpanel.DialogPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel.InfoDialogExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
@@ -37,6 +39,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.picklist.PickListDescri
 import org.kuali.student.ui.kitchensink.client.kscommons.progressindicator.ProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobuttonlist.RadioButtonListDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.resizablepanel.ResizablePanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.ruletable.RuleTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.selectabletable.SelectableTableDescriptor;
@@ -69,9 +72,10 @@ public class KitchenSinkMain extends Composite {
     private static final String STATUS_WIDGET_MSG = "These are widgets that indicate some action in progress";
     private static final String LIST_WIDGET_MSG = "These are widgets that display some list of data";
     private static final String DIALOG_WIDGET_MSG = "These are widgets that popup a panel over other widgets for user interaction or to display some information.";
-    
+    private static final String RULE_WIDGET_MSG = "These are widgets that are used for rule maintenance including rule builder widgets.";
+
     private static final String COMMON_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
-  
+
     private static final String BASIC_WIDGETS = "Basic Widgets";
     private static final String INFO_WIDGETS = "Information Widgets";
     private static final String NAVIGATION_WIDGETS = "Navigation Widgets";
@@ -79,9 +83,9 @@ public class KitchenSinkMain extends Composite {
     private static final String PANEL_WIDGETS = "Panel Widgets";
     private static final String STATUS_WIDGETS = "Status Widgets";
     private static final String LIST_WIDGETS = "List Widgets";
-	private static final String DIALOG_WIDGETS = "Dialog Widgets";
-	private static final String RULE_WIDGETS = "Rule Widgets";
-	
+    private static final String DIALOG_WIDGETS = "Dialog Widgets";
+    private static final String RULE_WIDGETS = "Rule Widgets";
+
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     VerticalPanel welcomePanel = new VerticalPanel();
@@ -142,7 +146,7 @@ public class KitchenSinkMain extends Composite {
         KSMenuItemData ksNav = initGroup(NAVIGATION_WIDGETS);
         KSMenuItemData ksDialog = initGroup(DIALOG_WIDGETS);
         KSMenuItemData ksRule = initGroup(RULE_WIDGETS);
-        
+
         initExample(ksBasic, new ButtonExampleDescriptor());
         initExample(ksBasic, new CheckBoxExampleDescriptor());
         initExample(ksBasic, new DatePickerExampleDescriptor());
@@ -161,29 +165,28 @@ public class KitchenSinkMain extends Composite {
 
         initExample(ksPanels, new AccordionPanelExampleDescriptor());
         initExample(ksPanels, new DisclosureSectionExampleDescriptor());
-		initExample(ksPanels, new ConfirmButtonPanelExampleDescriptor());
-        
+        initExample(ksPanels, new ConfirmButtonPanelExampleDescriptor());
+        initExample(ksPanels, new TabPanelExampleDescriptor());
+
         initExample(ksDialog, new CollapsableFloatPanelExampleDescriptor());
         initExample(ksDialog, new FloatPanelExampleDescriptor());
         initExample(ksDialog, new InfoDialogExampleDescriptor());
+        initExample(ksDialog, new DialogPanelExampleDescriptor());
         initExample(ksDialog, new ModalDialogPanelExampleDescriptor());
         initExample(ksDialog, new ConfirmationDialogExampleDescriptor());
         initExample(ksDialog, new SidebarExampleDescriptor());
 
         initExample(ksInfo, new ToolTipExampleDescriptor());
-//      initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
+//        initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
 
         initExample(ksNav, new AccordionMenuExampleDescriptor());
         initExample(ksNav, new TabPanelExampleDescriptor());
-        
+
         initExample(ksList, new SelectableTableDescriptor());
         initExample(ksList, new PickListDescriptor());
         initExample(ksList, new RadioButtonListDescriptor());
-        
+
         initExample(ksRule, new RuleTableExampleDescriptor());
-        
-//      initExample(ksMisc, new RadioButtonListExampleDescriptor()); //TODO
-//      initExample(ksMisc, new SelectableTableListExampleDescriptor()); //TODO
 
         ksCommons.addSubItem(ksBasic);
         ksCommons.addSubItem(ksDialog);
@@ -194,7 +197,7 @@ public class KitchenSinkMain extends Composite {
         ksCommons.addSubItem(ksText);
         ksCommons.addSubItem(ksList);
         ksCommons.addSubItem(ksRule);
-        
+
         items.add(ksCommons);
 
         menuPanel.setItems(items);
@@ -285,6 +288,9 @@ public class KitchenSinkMain extends Composite {
         }
         else if (source.equals(LIST_WIDGETS)) {
             label.setText(LIST_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
+        }
+        else if (source.equals(RULE_WIDGETS)) {
+            label.setText(RULE_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
 
         return label;

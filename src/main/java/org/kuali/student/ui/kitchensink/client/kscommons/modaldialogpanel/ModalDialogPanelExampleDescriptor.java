@@ -12,7 +12,7 @@ public class ModalDialogPanelExampleDescriptor extends KitchenSinkExample {
         super.addResource("css", "KSDialogPanel.css", "KSDialogPanel.css", "Default styling of KSDialogPanel.");
     }
     public String getDescription() {       
-        return "ModalDialogPanel is a moveable panel that can pop up over other widgets. It overlays the browser's client area (and any previously-created popups) "; 
+        return "ModalDialogPanel is a moveable, modal panel that can pop up over other widgets. It overlays the browser's client area (and any previously-created popups) "; 
     }
 
     public Widget getExampleWidget() {
