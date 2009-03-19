@@ -181,6 +181,7 @@ public class KitchenSinkMain extends Composite {
 
         initExample(ksNav, new AccordionMenuExampleDescriptor());
         initExample(ksNav, new TabPanelExampleDescriptor());
+        initExample(ksNav, new SidebarExampleDescriptor());
 
         initExample(ksList, new SelectableTableDescriptor());
         initExample(ksList, new PickListDescriptor());
