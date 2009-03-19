@@ -19,18 +19,18 @@ public class DropDownExample extends Composite {
      
     final KSDropDown dropDown = new KSDropDown();
     
-    ListItems schools;
+    ListItems institutionList;
 
     public DropDownExample() {
         
         loadList();
 
-        dropDown.setListItems(schools);
+        dropDown.setListItems(institutionList);
         dropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
             @Override
             public void onSelectionChange(KSSelectItemWidgetAbstract w) {
                 List<String> ids = w.getSelectedItems();
-                Window.alert("You picked <" + schools.getItemText(ids.get(0)) + ">");
+                Window.alert("You picked <" + institutionList.getItemText(ids.get(0)) + ">");
                 
             }});
         main.add(dropDown);
@@ -39,7 +39,7 @@ public class DropDownExample extends Composite {
     }
 
     private void loadList() {       
-        schools = new ListItems(){
+        institutionList = new ListItems(){
             List<String> names = Arrays.asList(
                 "University of British Columbia",
                 "Florida State University",

@@ -3,14 +3,17 @@ package org.kuali.student.ui.kitchensink.client.kscommons.listbox;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSListBox;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,14 +21,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ListBoxExample extends Composite {
 
     final VerticalPanel main = new VerticalPanel();
-    final CaptionPanel panel1 = new CaptionPanel("Single select");
-    final CaptionPanel panel2 = new CaptionPanel("Multi select");
+    final KSListBox listBox = new KSListBox();
 
-    final KSListBox listBox1 ;
-    final KSListBox listBox2 ;
-
-    List<String> institutionList = new ArrayList<String>();
-    StringBuffer sb = new StringBuffer("You Have selected < ");
+    ListItems institutionList;
 
     public ListBoxExample() { 
 
@@ -33,60 +31,76 @@ public class ListBoxExample extends Composite {
 
         loadLists();
 
-        listBox1 = new KSListBox(institutionList);
-        listBox1.setMultipleSelect(false);
-        listBox1.addChangeHandler(new ChangeHandler() {
+        listBox.setListItems(institutionList);
+        listBox.addSelectionChangeHandler(new SelectionChangeHandler() {
             @Override
-            public void onChange(ChangeEvent arg0) {
-                ListBox lb = (ListBox)arg0.getSource();
-                int i = lb.getSelectedIndex();
-                Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
-
+            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                List<String> ids = w.getSelectedItems();
+                StringBuffer sb = new StringBuffer("You Have selected:\n");
+                for (String item:ids){
+                    sb.append(institutionList.getItemText(item)).append("\n");
+                }
+                Window.alert(sb.toString());
+                
             }});
 
-
-        listBox2 = new KSListBox(institutionList);
-        listBox2.setMultipleSelect(true);
-
-        // Doesn't quite work yet!
-//      ksListBox2.addChangeHandler(new ChangeHandler() {
-//      @Override
-//      public void onChange(ChangeEvent arg0) {
-
-//      ListBox lb = (ListBox)arg0.getSource();
-//      if (lb.getSelectedIndex() >= 0) {
-//      for (int i = 0; i < lb.getItemCount(); i++) {
-//      if (lb.isItemSelected(i))
-//      sb.append(lb.getValue(i).trim());
-//      sb.append(" ");
-//      }
-//      }
-//      sb.append(" >");
-//      Window.alert( sb.toString() );
-
-//      }});
-
-        panel1.add(listBox1);
-        panel2.add(listBox2);
-
-        main.add(panel1);
-        main.add(panel2);
+        main.add(listBox);
 
         super.initWidget(main);
     }
 
-    private void loadLists() {
+    private void loadLists() {      
+        institutionList = new ListItems(){
+            List<String> names = Arrays.asList(
+                    "University of British Columbia",
+                    "Florida State University",
+                    "Naval Postgraduate School",
+                    "San Joaquin Delta College",
+                    "University of California, Berkeley",
+                    "University of Maryland, College Park",
+                    "Massachusetts Institute of Technology",
+                    "University of Southern California",
+                    "University of Washington",
+                    "Carnegie Mellon University");
 
-        institutionList.add("University of British Columbia");
-        institutionList.add("Florida State University");
-        institutionList.add("Naval Postgraduate School");
-        institutionList.add("San Joaquin Delta College");
-        institutionList.add("University of California, Berkeley");
-        institutionList.add("University of Maryland, College Park");
-        institutionList.add("Massachusetts Institute of Technology");
-        institutionList.add("University of Southern California");
-        institutionList.add("University of Washington");
-        institutionList.add("Carnegie Mellon University");
+            @Override
+            public List<String> getAttrKeys() {
+                List<String> attributes = new ArrayList<String>();
+                attributes.add("Name");
+                return attributes;
+            }
 
+            @Override
+            public String getItemAttribute(String id, String attrkey) {
+                String value = null;
+                Integer index;
+                try{
+                    index = Integer.valueOf(id);
+                    value = names.get(index);
+                } catch (Exception e) {
+                }
+
+                return value;
+            }
+
+            @Override
+            public int getItemCount() {    
+                return names.size();
+            }
+
+            @Override
+            public List<String> getItemIds() {
+                List<String> ids = new ArrayList<String>();
+                for(int i=0; i < names.size(); i++){
+                    ids.add(String.valueOf(i));
+                }
+                return ids;
+            }
+
+            @Override
+            public String getItemText(String id) {
+                return getItemAttribute(id, "Name");
+            }
+        };               
     }
 }

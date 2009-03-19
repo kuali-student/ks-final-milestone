@@ -11,7 +11,7 @@ public class ListBoxExampleDescriptor extends KitchenSinkExample {
         super.addResource("css", "KSListBox.css", "KSListBox.css", "Default styling of KSListBox.");
     }
     public String getDescription() {       
-        return "A widget that presents a list of choices to the user, either as a list box or as a drop-down list.";
+        return "A widget that presents a list of choices to the user as a list box.";
     }
 
     public Widget getExampleWidget() {
