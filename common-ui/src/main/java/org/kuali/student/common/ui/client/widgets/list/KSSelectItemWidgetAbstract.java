@@ -2,7 +2,6 @@ package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasName;
@@ -27,6 +26,12 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 		this.listItems = listItems;
 	}
 
+	/**
+	 * Used to had a selection change handler.
+	 * 
+	 * @param selectionHandler
+	 * @return
+	 */
     public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler selectionHandler){
         return addHandler(selectionHandler,SelectionChangeEvent.getType());
     }   	
