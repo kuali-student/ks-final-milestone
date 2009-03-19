@@ -29,6 +29,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.dialogpanel.DialogPanel
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel.InfoDialogPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
@@ -161,6 +162,7 @@ public class KitchenSinkMain extends Composite {
 
         initExample(ksStatus, new BlockingProgressIndicatorExampleDescriptor());
         initExample(ksStatus, new ProgressIndicatorExampleDescriptor());
+        initExample(ksStatus, new HelpLinkExampleDescriptor());  
 
         initExample(ksPanels, new AccordionPanelExampleDescriptor());
         initExample(ksPanels, new DisclosureSectionExampleDescriptor());
@@ -177,7 +179,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksDialog, new SidebarExampleDescriptor());
 
         initExample(ksInfo, new ToolTipExampleDescriptor());
-//        initExample(ksInfo, new HelpLinkExampleDescriptor());  //TODO
+        initExample(ksInfo, new HelpLinkExampleDescriptor()); 
 
         initExample(ksNav, new AccordionMenuExampleDescriptor());
         initExample(ksNav, new TabPanelExampleDescriptor());

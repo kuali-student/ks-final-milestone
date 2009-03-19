@@ -11,7 +11,7 @@ public class HelpLinkExampleDescriptor extends KitchenSinkExample {
         super.addResource("css", "KSHelpLink.css", "KSHelpLink.css", "Default styling of KSHelpLink.");
     }
     public String getDescription() {       
-        return "This will add a customizable link for detailed help information. Currently the help text is a hard coded example but will eventaully be an RPC call  ";
+        return "This adds a dynamic link to indicate progress/status on a field.";
     }
 
     public Widget getExampleWidget() {
