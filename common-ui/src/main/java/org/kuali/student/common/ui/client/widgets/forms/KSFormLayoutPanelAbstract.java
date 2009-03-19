@@ -27,9 +27,9 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public abstract class FormLayoutPanelAbstract extends Composite{
+public abstract class KSFormLayoutPanelAbstract extends Composite{
     
-    public abstract void addFormField(FormField field);
+    public abstract void addFormField(KSFormField field);
     
     public abstract String[] getFieldNames();
     
@@ -39,7 +39,7 @@ public abstract class FormLayoutPanelAbstract extends Composite{
     
     public abstract Widget getFieldWidget(String name);
     
-    public abstract FormField getFormRow(int row);
+    public abstract KSFormField getFormRow(int row);
    
     public abstract int getRowCount();    
 

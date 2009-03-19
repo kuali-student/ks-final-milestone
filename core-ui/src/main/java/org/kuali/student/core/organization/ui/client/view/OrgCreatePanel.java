@@ -22,8 +22,8 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.forms.FormField;
-import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -66,7 +66,7 @@ public class OrgCreatePanel extends Composite{
     String orgVersion = null;
     
     ListBox orgTypeDropDown;
-    FormLayoutPanel orgForm;
+    KSFormLayoutPanel orgForm;
     
     VerticalPanel vOrganization;
     VerticalPanel vPositions;
@@ -184,7 +184,7 @@ public class OrgCreatePanel extends Composite{
 	protected void getOrganization(){
         vOrganization = new VerticalPanel();
                
-        orgForm = new FormLayoutPanel();
+        orgForm = new KSFormLayoutPanel();
         orgTypeDropDown = new ListBox();      
                
         addFormField(orgTypeDropDown,"Type", "orgType");
@@ -211,7 +211,7 @@ public class OrgCreatePanel extends Composite{
     }
     
     private void addFormField(Widget w, String label, String name){
-        FormField ff = new FormField();
+        KSFormField ff = new KSFormField();
         ff.setLabelText(label);
         ff.setWidget(w);
         //((HasName)w).setName(name);

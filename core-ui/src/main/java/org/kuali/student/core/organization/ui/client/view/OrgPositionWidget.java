@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.forms.FormField;
-import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -50,7 +50,7 @@ public class OrgPositionWidget extends Composite {
 
     HTML divider = new HTML("<hr/>");
 
-    FormLayoutPanel orgPosForm = null;
+    KSFormLayoutPanel orgPosForm = null;
     
     FlexTable fTable = null;     
    
@@ -93,7 +93,7 @@ public class OrgPositionWidget extends Composite {
     }
     
     protected void initForm(){
-        orgPosForm = new FormLayoutPanel();        
+        orgPosForm = new KSFormLayoutPanel();        
         
         posTypeDropDown = new ListBox();
         loadPersonRelationTypes();                              
@@ -106,7 +106,7 @@ public class OrgPositionWidget extends Composite {
     }
 
     private void addFormField(Widget w, String label, String name){
-        FormField ff = new FormField();
+        KSFormField ff = new KSFormField();
         ff.setLabelText(label);
         ff.setWidget(w);
         ((HasName)w).setName(name);

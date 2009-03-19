@@ -20,8 +20,8 @@ import java.util.HashMap;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.forms.FormField;
-import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanelAbstract;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanelAbstract;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasName;
@@ -36,14 +36,14 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
  * @author Kuali Student Team
  *
  */
-public class FormLayoutPanelImpl extends FormLayoutPanelAbstract{
+public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
     public static final int FORM_LABEL_COL = 0;
     public static final int FORM_FIELD_COL = 1;
     public static final int FORM_DESC_COL = 2;
 
     VerticalPanel form = new VerticalPanel();
     FlexTable table = new FlexTable();
-    HashMap<String, FormField> formFields = new HashMap<String, FormField>();
+    HashMap<String, KSFormField> formFields = new HashMap<String, KSFormField>();
 
     public void init(String title){
         if (title != null){
@@ -53,7 +53,7 @@ public class FormLayoutPanelImpl extends FormLayoutPanelAbstract{
         this.initWidget(form);        
     }
     
-    public void addFormField(FormField field){
+    public void addFormField(KSFormField field){
         KSLabel label = new KSLabel(field.getLabelText(), false);
         int rowIdx = table.getRowCount();
         table.setWidget(rowIdx, FORM_LABEL_COL, label);
@@ -76,14 +76,14 @@ public class FormLayoutPanelImpl extends FormLayoutPanelAbstract{
     }
 
     public String getFieldValue(String name){
-        return ((FormField)formFields.get(name)).getText();
+        return ((KSFormField)formFields.get(name)).getText();
     }
 
     public Widget getFieldWidget(String name){
         return formFields.get(name).getWidget();
     }
 
-    public FormField getFormRow(int row){
+    public KSFormField getFormRow(int row){
         String name = ((HasName)table.getWidget(row, FORM_FIELD_COL)).getName();
         return formFields.get(name);        
     }
@@ -93,6 +93,6 @@ public class FormLayoutPanelImpl extends FormLayoutPanelAbstract{
     }
     
     public void setFieldValue(String name, String value){
-        ((FormField)formFields.get(name)).setText(value);
+        ((KSFormField)formFields.get(name)).setText(value);
     }
 }

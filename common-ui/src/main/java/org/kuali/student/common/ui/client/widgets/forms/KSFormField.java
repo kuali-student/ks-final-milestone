@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class FormField {
+public class KSFormField {
     Widget formField;
     private String name;
     private String label;

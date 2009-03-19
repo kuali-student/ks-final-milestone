@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.ui.client.widgets.forms;
 
-import org.kuali.student.common.ui.client.widgets.forms.impl.FormLayoutPanelImpl;
+import org.kuali.student.common.ui.client.widgets.forms.impl.KSFormLayoutPanelImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,16 +27,16 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class FormLayoutPanel extends FormLayoutPanelAbstract {
+public class KSFormLayoutPanel extends KSFormLayoutPanelAbstract {
     
-    FormLayoutPanelAbstract form = GWT.create(FormLayoutPanelImpl.class);
+    KSFormLayoutPanelAbstract form = GWT.create(KSFormLayoutPanelImpl.class);
     
-    public FormLayoutPanel(){
+    public KSFormLayoutPanel(){
         form.init(null);
         this.initWidget(form);        
     }
     
-    public FormLayoutPanel(String title){
+    public KSFormLayoutPanel(String title){
         form.init(title);
         form.setTitle(title);
         this.initWidget(form);
@@ -48,7 +48,7 @@ public class FormLayoutPanel extends FormLayoutPanelAbstract {
      * 
      * @param field
      */
-    public void addFormField(FormField field){
+    public void addFormField(KSFormField field){
         form.addFormField(field);
     }    
     
@@ -85,7 +85,7 @@ public class FormLayoutPanel extends FormLayoutPanelAbstract {
         return form.getFieldWidget(name);
     }
     
-    public FormField getFormRow(int row){
+    public KSFormField getFormRow(int row){
         return form.getFormRow(row);        
     }
    
