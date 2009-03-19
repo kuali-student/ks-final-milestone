@@ -4,7 +4,7 @@ package org.kuali.student.common.ui.client.widgets.table;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 
-public     class NodeWidget extends Composite{
+public class NodeWidget extends Composite{
     private Node node;
     HTML html = new HTML();
     public NodeWidget(Node n){
