@@ -1,7 +1,6 @@
 .KS-FloatPanel {
-	background-color: aqua;
-	border: solid;
-	border-color: black;
+	background-color: ECF2FA;
+	border: 2px solid #666666;
 }
 
 .KS-CollapsableFloatPanel-ButtonPanel {
