@@ -16,18 +16,18 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team 
  *
  */
-public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements ClickHandler{
+public class KSCheckBoxList extends KSSelectItemWidgetAbstract {
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSCheckBoxListImpl.class);
 
     
 	public KSCheckBoxList(String name) {
         initWidget(selectItemWidget);
-        init(name);
+        selectItemWidget.setName(name);
 	}
 	
-	protected void init(String name) {
-	    selectItemWidget.init(name);
-	}
+    public KSCheckBoxList() {
+        initWidget(selectItemWidget);
+    }
 
 	/**
 	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
@@ -61,13 +61,7 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements ClickH
     public void setColumnSize(int cols){
         selectItemWidget.setColumnSize(cols);
     }
-    
-    
-    @Override
-    public void onClick(ClickEvent event) {
-        selectItemWidget.onClick(event);       
-    }
-
+        
     public void setMultipleSelect(boolean isMultipleSelect) {}
 
     /**

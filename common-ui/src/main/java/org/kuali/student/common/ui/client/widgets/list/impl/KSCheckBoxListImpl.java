@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.FlexTable;
  */
 public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
     private FlexTable checkBoxes = new FlexTable();
-    private String name;
     private List<String> selectedItems = new ArrayList<String>();
 
     private int maxCols = 1; //default max columns
@@ -29,10 +28,6 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         initWidget(checkBoxes);
     }
 
-    @Override
-    protected void init(String name) {
-        this.name = name;
-    }
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */

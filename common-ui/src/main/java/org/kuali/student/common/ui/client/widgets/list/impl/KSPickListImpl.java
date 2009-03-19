@@ -209,13 +209,4 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
 
     public void onLoad() {}
 
-    @Override
-    protected void init(String name) {
-         
-    }
-
-    @Override
-    public void onClick(ClickEvent event) {
-         
-    }
 }

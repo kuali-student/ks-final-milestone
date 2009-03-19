@@ -28,11 +28,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     public KSRadioButtonListImpl() {
         initWidget(radioButtons);
     }
-
-    @Override
-    protected void init(String name) {
-        this.name = name;
-    }
+    
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */

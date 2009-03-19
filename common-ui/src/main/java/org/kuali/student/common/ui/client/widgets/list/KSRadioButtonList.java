@@ -16,7 +16,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team 
  *
  */
-public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements ClickHandler{
+public class KSRadioButtonList extends KSSelectItemWidgetAbstract {
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 
     
@@ -27,13 +27,8 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
 	 */
 	public KSRadioButtonList(String name) {
         initWidget(selectItemWidget);
-        init(name);
+        selectItemWidget.setName(name);
 	}
-	
-	protected void init(String name) {
-	    selectItemWidget.init(name);
-	}
-
 
 	/**
 	 * 
@@ -68,17 +63,6 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
      */
     public void setListItems(ListItems listItems) {
         selectItemWidget.setListItems(listItems);      
-    }
-
-    /**
-     * Processes an onClick event
-     * 
-     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onClick(com.google.gwt.event.dom.client.ClickEvent)
-     */
-    @Override
-    public void onClick(ClickEvent event) {
-        selectItemWidget.onClick(event);
-        
     }
 
     /**

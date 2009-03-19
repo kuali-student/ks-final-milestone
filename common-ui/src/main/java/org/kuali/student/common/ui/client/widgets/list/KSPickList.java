@@ -21,12 +21,12 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
     
     public KSPickList(String name){
         initWidget(selectItemWidget);
-        init(name);
-    }
-    protected void init(String name) {
-        selectItemWidget.init(name);
+        selectItemWidget.setName(name);
     }
 
+    public KSPickList(){
+        initWidget(selectItemWidget);
+    }
 
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
@@ -54,14 +54,6 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
     public void setListItems(ListItems listItems) {
         selectItemWidget.setListItems(listItems);      
     }
-
-    @Override
-    public void onClick(ClickEvent event) {
-        selectItemWidget.onClick(event);
-        
-    }
-
-    public void setMultipleSelect(boolean isMultipleSelect) {}
 
     /**
      * This overridden method is not used

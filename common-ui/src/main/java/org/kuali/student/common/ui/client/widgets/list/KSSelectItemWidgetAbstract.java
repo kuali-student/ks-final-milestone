@@ -65,11 +65,7 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
     public void setName(String name) {
         this.name = name;         
     }
-
-    protected abstract void init(String name);
-
-    public abstract void onClick(ClickEvent event);
-
+    
     /** 
      * This method should be implemented if list supports multiple select. 
      * 
@@ -77,7 +73,7 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
     public void setMultipleSelect(boolean isMultipleSelect){
         throw new UnsupportedOperationException();
     }
-    
+        
     /** 
      * This method should be implemented if list supports column sizing. 
      * 
