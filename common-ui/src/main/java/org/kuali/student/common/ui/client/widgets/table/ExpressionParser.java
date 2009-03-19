@@ -496,6 +496,4 @@ class Token {
         }
         return "";
     }
-
-
 }
