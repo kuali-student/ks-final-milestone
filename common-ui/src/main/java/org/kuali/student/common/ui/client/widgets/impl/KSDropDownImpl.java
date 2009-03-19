@@ -1,15 +1,15 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSDropDownAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,20 +21,24 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class KSDropDownImpl extends KSDropDownAbstract{ 
+public class KSDropDownImpl extends KSSelectItemWidgetAbstract{ 
 
 	private ListBox listBox;
-	private HashMap<String, ?> map;
 	
 	public KSDropDownImpl() {
-
+	    init();
 	}
 	
-	@Override
     protected void init() {
 		listBox = new ListBox(false);
         this.initWidget(listBox);
 		setupDefaultStyle();
+		
+		listBox.addChangeHandler(new ChangeHandler(){
+            public void onChange(ChangeEvent event) {
+                fireChangeEvent();                
+            }	    
+		});
 	}
 
 	private void setupDefaultStyle() {
@@ -86,73 +90,58 @@ public class KSDropDownImpl extends KSDropDownAbstract{
 		
 	}
 	
-	public void populateDropDown(List<String> stringList){
-		HashMap<String, String> strings = new HashMap<String, String>();
-		for(String s: stringList){
-			strings.put(s, s);
-		}
-		
-		if(map != null){
-			map.clear();
-		}
-		
-		map = strings;
-		listBox.clear();
-		for(String item: map.keySet()){
-			listBox.addItem(item);
-		}
-		
-	}
 	
-	public void populateDropDown(HashMap<String, ?> theMap){
-		if(map != null){
-			map.clear();
-		}
-		map = theMap;
-		listBox.clear();
-		for(String item: map.keySet()){
-			listBox.addItem(item);
-		}
-	}
-	
-	public Object getSelectedObject(){
-		Object selected = null;
-		if(listBox.getSelectedIndex() != -1){
-			map.get(listBox.getValue(listBox.getSelectedIndex()));
-		}
-		return selected;
-	}
-	
-	public void selectItem(String value){
+	public void selectItem(String id){
 		for(int i = 0; i < listBox.getItemCount(); i++){
-			if(value.equals(listBox.getItemText(i))){
+			if(id.equals(listBox.getValue(i))){
 				listBox.setSelectedIndex(i);
 			}
 		}
 	}
 
-	@Override
-    public void addChangeHandler(ChangeHandler handler) {
-	    listBox.addChangeHandler(handler);
-	}
-	
-	@Override
-    public void addItem(String item) {
-        listBox.addItem(item); 
-    }
-	
-	@Override
-    public int getSelectedIndex() {
-	    return listBox.getSelectedIndex();
-	}
-	
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
+     */
     @Override
-    public void removeItem(int index) {
-        listBox.removeItem(index);
+    public void deSelectItem(String id) {        
+        for(int i = 0; i < listBox.getItemCount(); i++){
+            if(id.equals(listBox.getValue(i))){
+                listBox.setItemSelected(i, false);
+                listBox.setItemSelected(0, true);
+            }
+        }        
     }
-    
+
     @Override
-    public void clear() {
+    public void setListItems(ListItems listItems) {
+        super.setListItems(listItems);
+        
         listBox.clear();
+        listBox.addItem("Select");
+        for (String id:listItems.getItemIds()){
+            listBox.addItem(listItems.getItemText(id),id);            
+        }        
     }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
+     */
+    @Override
+    public List<String> getSelectedItems() {
+        List<String> result = new ArrayList<String>();
+        if (listBox.getSelectedIndex() > 0){
+            String id = listBox.getValue(listBox.getSelectedIndex());
+            result.add(id);
+        }
+        return result;
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onLoad()
+     */
+    @Override
+    public void onLoad() {
+                
+    }
+
 }

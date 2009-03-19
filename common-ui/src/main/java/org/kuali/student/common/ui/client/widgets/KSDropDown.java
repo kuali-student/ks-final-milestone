@@ -1,111 +1,34 @@
 package org.kuali.student.common.ui.client.widgets;
 
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
- * KSDropDown wraps gwt Listbox.  However, it adds functionality and limits the listbox to only single select.
- * A KSDropDown can associate objects to selected values (future implementation pending).
- * This class provides some of the same functionality of ListBox, but sets KS css styles
- * for its default look and a variety of events (for improved browser compatibility and customizability).
+ * KSDropDown wraps gwt Listbox in a KSSelectItemWidgetAbstract. This provides  
+ * the same basic functionality as a listbox, but allows it to be interchangable
+ * with other select item widget implementations.
  * 
  * @author Kuali Student Team
  *
  */
-public class KSDropDown extends KSDropDownAbstract{ 
+public class KSDropDown extends KSSelectItemWidgetAbstract{ 
     
-    KSDropDownAbstract dropDown = GWT.create(KSDropDownImpl.class);
+    KSSelectItemWidgetAbstract dropDown = GWT.create(KSDropDownImpl.class);
     /**
      * This constructs a KSDropDown that wraps an impl
      * 
      */    
 	public KSDropDown(){
-	    dropDown.init();
 	    this.initWidget(dropDown);
 	}
-
-    /**
-     * Adds a ChangeHandler to this drop down.
-     * 
-     * @param handler the ChangeHandler which handles any changes to this drop down (new value selected, etc.)
-     */
-    public void addChangeHandler(ChangeHandler handler){
-        dropDown.addChangeHandler(handler);
-    }
-
-    /**
-     * Add an item to this drop down with the specified text.
-     * 
-     * @param item the name of the added item
-     */
-    public void addItem(String item){
-        dropDown.addItem(item);
-    }
-
-    /**
-     * Remove an item with the specified text from the drop down.
-     * 
-     * @param index the index of the item to remove
-     */
-    public void removeItem(int index){
-        dropDown.removeItem(index);
-    }
-
-    /**
-     * Clear the drop down, removes all items from the drop down.
-     * 
-     */
-    public void clear(){
-        dropDown.clear();
-    }
-
-    /**
-     * Get the index of the item selected.
-     * 
-     * @return index value of the selected item
-     */
-    public int getSelectedIndex(){
-        return dropDown.getSelectedIndex();
-    }
-
-    /**
-     * Get the associated object of the item if one exists, otherwise return null.
-     * 
-     * @return Object associated with the selected item if one exists, otherwise null.
-     */
-    @Override
-    public Object getSelectedObject() {
-        return dropDown.getSelectedObject();
-    }
-
-    /**
-     * Populate the drop down with the list of strings as item names.
-     * 
-     * @param the List of strings to populate the drop down with
-     */
-    @Override
-    public void populateDropDown(List<String> stringList) {
-        dropDown.populateDropDown(stringList);
-        
-    }
-
-    /**
-     * Populate the drop down with the HashMap keys used as item names and their associated objects as their
-     * associated item objects.
-     * 
-     * @param theMap the HashMap contain string and object value pairs, representing selectable names and associated objects
-     */
-    @Override
-    public void populateDropDown(HashMap<String, ?> theMap) {
-        dropDown.populateDropDown(theMap);
-        
-    }
 
     /**
      * Select an item whose text equals the name passed in.
@@ -113,9 +36,70 @@ public class KSDropDown extends KSDropDownAbstract{
      * @param value the name of the item to be selected.
      */
     @Override
-    public void selectItem(String value) {
-        dropDown.selectItem(value);
-        
+    public void selectItem(String id) {
+        dropDown.selectItem(id);       
     }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
+     */
+    @Override
+    public void deSelectItem(String id) {       
+        dropDown.deSelectItem(id);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
+     */
+    @Override
+    public List<String> getSelectedItems() {
+        return dropDown.getSelectedItems();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onLoad()
+     */
+    @Override
+    public void onLoad() {
+        dropDown.onLoad();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setListItems(org.kuali.student.common.ui.client.widgets.list.ListItems)
+     */
+    @Override
+    public void setListItems(ListItems listItems) {
+        dropDown.setListItems(listItems);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#addSelectionChangeHandler(org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler)
+     */
+    public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler selectionHandler) {
+        return dropDown.addSelectionChangeHandler(selectionHandler);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getListItems()
+     */
+    public ListItems getListItems() {
+        return dropDown.getListItems();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getName()
+     */
+    public String getName() {
+        return dropDown.getName();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setName(java.lang.String)
+     */
+    @Override
+    public void setName(String name) {
+        dropDown.setName(name);
+    }
+
 
 }
