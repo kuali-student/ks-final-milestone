@@ -58,8 +58,7 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	@OneToMany(mappedBy = "orgHierarchy")
 	private List<OrgOrgRelationType> orgOrgRelationTypes;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgHierarchyAttribute> attributes;
 	
 	@Override

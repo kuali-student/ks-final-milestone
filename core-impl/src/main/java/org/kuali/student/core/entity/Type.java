@@ -9,7 +9,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @MappedSuperclass
-public abstract class Type<T extends Attribute> implements AttributeOwner<T> {
+public abstract class Type<T extends Attribute<?>> implements AttributeOwner<T> {
 	@Id
 	@Column(name = "TYPE_KEY")
 	private String id;

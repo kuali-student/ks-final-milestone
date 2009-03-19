@@ -22,8 +22,7 @@ public class OrgType extends Type<OrgTypeAttribute> {
 	        inverseJoinColumns = @JoinColumn(name = "ORG_PERS_RELTN_TYPE_ID", referencedColumnName = "TYPE_KEY"))
 	private List<OrgPersonRelationType> orgPersonRelationTypes;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgTypeAttribute> attributes;
 	
 	@ManyToMany(mappedBy="organizationTypes")

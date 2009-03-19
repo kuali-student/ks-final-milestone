@@ -25,9 +25,9 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSOR_ORG_PERS_RELTN")
 @NamedQueries( {
 		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByOrg", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
-		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByPerson", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE personId = :personId"),
-		@NamedQuery(name = "OrgPersonRelation.getOrgPersonRelationsByIdList", query = "SELECT  opr FROM OrgPersonRelation opr WHERE id IN (:idList)"),
-		@NamedQuery(name = "OrgPersonRelation.getOrgPersonRelationsByPerson", query = "SELECT  opr FROM OrgPersonRelation opr WHERE personId = :personId AND org.id = :orgId") })
+		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByPerson", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.personId = :personId"),
+		@NamedQuery(name = "OrgPersonRelation.getOrgPersonRelationsByIdList", query = "SELECT  opr FROM OrgPersonRelation opr WHERE opr.id IN (:idList)"),
+		@NamedQuery(name = "OrgPersonRelation.getOrgPersonRelationsByPerson", query = "SELECT  opr FROM OrgPersonRelation opr WHERE opr.personId = :personId AND opr.org.id = :orgId") })
 public class OrgPersonRelation extends MetaEntity implements
 		AttributeOwner<OrgPersonRelationAttribute> {
 	@Id
@@ -56,8 +56,7 @@ public class OrgPersonRelation extends MetaEntity implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPersonRelationAttribute> attributes;
 
 	@Column(name = "ST")

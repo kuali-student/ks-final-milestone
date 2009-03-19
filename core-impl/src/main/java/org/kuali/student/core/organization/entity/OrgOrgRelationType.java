@@ -1,23 +1,18 @@
 package org.kuali.student.core.organization.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Type;
 
 @Entity
@@ -56,8 +51,7 @@ public class OrgOrgRelationType extends Type<OrgOrgRelationTypeAttribute> {
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;*/
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgOrgRelationTypeAttribute> attributes;
 
 	@Override

@@ -59,8 +59,7 @@ public class OrgPositionRestriction extends MetaEntity implements
 	@Column(name = "MAX_NUM_RELTN")
 	private String maxNumRelations;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPositionRestrictionAttribute> attributes;
 
 	/**

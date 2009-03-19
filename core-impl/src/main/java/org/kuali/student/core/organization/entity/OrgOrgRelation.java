@@ -64,8 +64,7 @@ public class OrgOrgRelation extends MetaEntity implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgOrgRelationAttribute> attributes;
 
 	@ManyToOne

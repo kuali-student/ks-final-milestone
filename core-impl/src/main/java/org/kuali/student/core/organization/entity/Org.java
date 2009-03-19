@@ -54,8 +54,7 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate; 
 	
-	@OneToMany(cascade = CascadeType.ALL)//, mappedBy = "owner")
-	@JoinColumn(name="OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgAttribute> attributes;
 	
 	@ManyToOne

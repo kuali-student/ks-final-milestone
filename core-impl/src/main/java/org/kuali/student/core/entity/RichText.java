@@ -24,7 +24,7 @@ public class RichText {
 	 * AutoGenerate the Id
 	 */
 	@PrePersist
-	public final void prePersist() {
+	public void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	

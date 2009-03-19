@@ -17,19 +17,19 @@ import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
 
-	protected static Map<String, String> toAttributeMap(
-			List<? extends Attribute> attributes) {
+	public static Map<String, String> toAttributeMap(
+			List<? extends Attribute<?>> attributes) {
 
 		Map<String, String> attributeInfos = new HashMap<String, String>();
 
-		for (Attribute attribute : attributes) {
+		for (Attribute<?> attribute : attributes) {
 			attributeInfos.put(attribute.getName(), attribute.getValue());
 		}
 
 		return attributeInfos;
 	}
 
-	public static <A extends Attribute, O extends AttributeOwner<A>> List<A> toGenericAttributes(
+	public static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(
 			Class<A> attributeClass, Map<String, String> attributeMap, O owner,
 			CrudDao dao) throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();

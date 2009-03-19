@@ -18,7 +18,7 @@ public abstract class MetaEntity {
 	private Meta meta;
 	
 	@PrePersist
-	public final void prePersist(){
+	public void prePersist(){
 		if(meta==null){
 			meta = new Meta();
 		}
@@ -30,7 +30,13 @@ public abstract class MetaEntity {
 	}
 	
 	@PreUpdate
-	public final void preUpdate(){
+	public void preUpdate(){
+		//This code should not be here, but hibernate is calling update callback instead of prepersit if the id is not null.
+		if(meta==null){
+			meta = new Meta();
+			meta.setCreateTime(new Date());
+		}
+
 		meta.setUpdateTime(new Date());
 		//TODO Also set the update user id from context
 		
