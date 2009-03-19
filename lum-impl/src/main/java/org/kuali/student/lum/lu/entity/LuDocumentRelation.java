@@ -27,10 +27,10 @@ import org.kuali.student.core.entity.RichText;
 @Table(name = "KSLU_LU_DOC_RELTN", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"CLU_ID", "DOC_ID" }) })
 @NamedQueries( {
-		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByClu", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE clu.id = :cluId"),
-		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByDocument", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE documentId = :documentId"),
-		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByIdList", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE id IN(:luDocRelationIds)"),
-		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByType", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE luDocumentRelationType.id = :luDocRelationTypeId")
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByClu", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE ldr.clu.id = :cluId"),
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByDocument", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE ldr.documentId = :documentId"),
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByIdList", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE ldr.id IN(:luDocRelationIds)"),
+		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByType", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE ldr.luDocumentRelationType.id = :luDocRelationTypeId")
 })	
 public class LuDocumentRelation extends MetaEntity implements
 		AttributeOwner<LuDocumentRelationAttribute> {
@@ -64,8 +64,7 @@ public class LuDocumentRelation extends MetaEntity implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LuDocumentRelationAttribute> attributes;
 
 	@Column(name = "ST")

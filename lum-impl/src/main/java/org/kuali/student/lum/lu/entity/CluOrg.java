@@ -18,6 +18,8 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -33,7 +35,11 @@ public class CluOrg {
 
     @Column(name = "ORG_ID")
     private String orgId; //External service key
-    
+	
+    @ManyToOne
+	@JoinColumn(name = "CLU_ID")
+    private Clu clu;
+	
     @PrePersist
 	public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
@@ -53,6 +59,14 @@ public class CluOrg {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public Clu getClu() {
+		return clu;
+	}
+
+	public void setClu(Clu clu) {
+		this.clu = clu;
 	}
 
 }

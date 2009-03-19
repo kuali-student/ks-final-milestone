@@ -50,8 +50,7 @@ public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuR
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LuLuRelationTypeAttribute> attributes;
 
 	public List<LuType> getLuTypes() {

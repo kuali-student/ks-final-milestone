@@ -56,7 +56,7 @@ public class CluIdentifier {
     private String id;
 
 	@PrePersist
-	public final void prePersist() {
+	public  void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
     

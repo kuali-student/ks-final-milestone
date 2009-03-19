@@ -22,7 +22,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -38,12 +37,11 @@ public class CluFee implements AttributeOwner<CluFeeAttribute>{
     @Column(name = "ID")
     private String id;
     
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluFeeAttribute> attributes;
 	
 	@PrePersist
-	public final void prePersist() {
+	public  void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	

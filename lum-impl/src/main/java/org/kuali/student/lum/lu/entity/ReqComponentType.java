@@ -17,8 +17,7 @@ import org.kuali.student.core.entity.Type;
 @Table(name="KSLU_REQ_COM_TYPE")
 public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ReqComponentTypeAttribute> attributes;
     
     @ManyToMany

@@ -26,7 +26,7 @@ import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 @Entity
 @Table(name = "KSLU_STMT")
 @NamedQueries( {
-        @NamedQuery(name = "LuStatement.getLuStatementsForLuStatementType", query = "SELECT ls FROM LuStatement ls WHERE luStatementType.id = :luStatementTypeKey"),
+        @NamedQuery(name = "LuStatement.getLuStatementsForLuStatementType", query = "SELECT ls FROM LuStatement ls WHERE ls.luStatementType.id = :luStatementTypeKey"),
         @NamedQuery(name = "LuStatement.getLuStatementsForClu", query = "SELECT ls FROM LuStatement ls JOIN ls.clus clu WHERE clu.id = :cluId")})
 public class LuStatement extends MetaEntity implements AttributeOwner<LuStatementAttribute>{
     @Id

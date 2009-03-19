@@ -25,9 +25,9 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSLU_LUILUI_RELTN")
 @NamedQueries( {
 	@NamedQuery(name = "LuiLuiRelation.getLuiLuiRelationsByLuiId", query = "SELECT llr FROM LuiLuiRelation llr WHERE llr.lui.id = :luiId"),
-	@NamedQuery(name = "LuiLuiRelation.getLuiIdsByRelationType", query = "SELECT rel.lui.id FROM LuiLuiRelation rel WHERE rel.relatedLui.id = :luiId AND luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name = "LuiLuiRelation.getLuiIdsByRelationType", query = "SELECT rel.lui.id FROM LuiLuiRelation rel WHERE rel.relatedLui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name = "LuiLuiRelation.getLuisByRelationType", query = "SELECT rel.lui FROM LuiLuiRelation rel WHERE rel.relatedLui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
-	@NamedQuery(name = "LuiLuiRelation.getRelatedLuiIdsByLuiId", query = "SELECT rel.relatedLui.id FROM LuiLuiRelation rel WHERE lui.id = :luiId AND luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name = "LuiLuiRelation.getRelatedLuiIdsByLuiId", query = "SELECT rel.relatedLui.id FROM LuiLuiRelation rel WHERE rel.lui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name = "LuiLuiRelation.getRelatedLuisByLuiId", query = "SELECT rel.relatedLui FROM LuiLuiRelation rel WHERE rel.lui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId")
 })
 public class LuiLuiRelation extends MetaEntity implements
@@ -56,15 +56,14 @@ public class LuiLuiRelation extends MetaEntity implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LuiLuiRelationAttribute> attributes;
 
 	@Column(name = "ST")
 	private String state;
 
 	@Override
-	public final void onPrePersist() {
+	public  void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	

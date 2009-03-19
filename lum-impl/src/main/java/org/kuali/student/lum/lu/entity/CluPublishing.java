@@ -50,8 +50,7 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 	@JoinTable(name = "KSLU_CLU_PUBL_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_PUBL_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
 	private List<CluInstructor> instructors;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluPublishingAttribute> attributes;
 
 	@Column(name = "TYPE")
@@ -65,7 +64,7 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 	private String id;
 
 	@PrePersist
-	public final void prePersist() {
+	public  void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	

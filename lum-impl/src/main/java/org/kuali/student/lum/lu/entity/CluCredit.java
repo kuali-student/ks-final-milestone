@@ -86,7 +86,7 @@ public class CluCredit {
     private TimeAmount maxTimeResultsRecognized;
 
 	@PrePersist
-	public final void prePersist() {
+	public  void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
     

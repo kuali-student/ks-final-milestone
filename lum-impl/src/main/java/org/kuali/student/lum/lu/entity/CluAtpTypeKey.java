@@ -18,6 +18,8 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -37,11 +39,15 @@ public class CluAtpTypeKey {
     @Column(name = "ID")
     private String id;
     
+    @ManyToOne
+    @JoinColumn(name = "CLU_ID")
+    private Clu clu;
+    
     @Column(name = "ATP_TYPE_KEY")
     private String atpTypeKey;
     
 	@PrePersist
-	public final void prePersist() {
+	public  void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
     
@@ -60,4 +66,12 @@ public class CluAtpTypeKey {
     public void setId(String id) {
         this.id = id;
     }
+
+	public Clu getClu() {
+		return clu;
+	}
+
+	public void setClu(Clu clu) {
+		this.clu = clu;
+	}
 }

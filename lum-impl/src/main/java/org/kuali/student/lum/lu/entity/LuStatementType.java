@@ -21,8 +21,7 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
 	@JoinTable(name = "KSLU_LU_STMT_TYPE_JN_LU_TYPE", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID"))
 	private List<LuType> luTypes;
    
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuStatementTypeAttribute> attributes;
     
     @OneToMany

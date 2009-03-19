@@ -24,8 +24,8 @@ import javax.persistence.NamedQuery;
 @Entity
 @Table(name = "KSLU_CLUCLU_RELTN")
 @NamedQueries({
-	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE clu.id = :cluId"),
-	@NamedQuery(name="CluCluRelation.getRelatedCluIdsByCluId", query="SELECT rel.relatedClu.id FROM CluCluRelation rel WHERE clu.id = :cluId AND luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE rel.clu.id = :cluId"),
+	@NamedQuery(name="CluCluRelation.getRelatedCluIdsByCluId", query="SELECT rel.relatedClu.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name="CluCluRelation.getRelatedClusByCluId", query="SELECT rel.relatedClu FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId")
 })
 public class CluCluRelation extends MetaEntity implements
@@ -61,12 +61,11 @@ public class CluCluRelation extends MetaEntity implements
 	@Column(name = "ST")
 	private String state;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluCluRelationAttribute> attributes;
 	
 	@Override
-	public final void onPrePersist() {
+	public  void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	

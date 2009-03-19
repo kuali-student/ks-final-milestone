@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,8 +29,7 @@ import org.kuali.student.core.entity.Type;
 @Table(name = "KSLU_LR_TYPE")
 public class LrType extends Type<LrTypeAttribute> {
     
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LrTypeAttribute> attributes;
     
     public List<LrTypeAttribute> getAttributes() {

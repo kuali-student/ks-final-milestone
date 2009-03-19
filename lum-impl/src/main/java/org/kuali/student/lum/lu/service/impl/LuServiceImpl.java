@@ -376,6 +376,7 @@ public class LuServiceImpl implements LuService {
 		for(String atpTypeKey : cluInfo.getOfferedAtpTypes()){
 			CluAtpTypeKey cluAtpTypeKey = new CluAtpTypeKey();
 			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
+			cluAtpTypeKey.setClu(clu);
 			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
 		}
 
@@ -1882,6 +1883,7 @@ public class LuServiceImpl implements LuService {
 			//Do Copy
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
 			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
+			luCode.setClu(clu);
 			clu.getLuCodes().add(luCode);
 		}
 
@@ -1959,6 +1961,7 @@ public class LuServiceImpl implements LuService {
 			}
 			//Do Copy
 			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
+			cluAtpTypeKey.setClu(clu);
 			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
 		}
 
@@ -1990,9 +1993,12 @@ public class LuServiceImpl implements LuService {
 		//Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
 					"primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo"});
-
-		Clu updated = luDao.update(clu);
-
+		Clu updated=null;
+		try{
+			updated = luDao.update(clu);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return LuServiceAssembler.toCluInfo(updated);
 	}
 

@@ -44,8 +44,7 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@Column(name = "VALUE")
 	private String value;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LuCodeAttribute> attributes;
 
 	@Column(name = "TYPE")

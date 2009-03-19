@@ -30,10 +30,10 @@ import org.kuali.student.core.entity.TimeAmount;
 @Entity
 @Table(name = "KSLU_CLU")
 @NamedQueries( {
-		@NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE id IN (:idList)"),
-		@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE state = :luState AND luType.id = :luTypeKey"),
-        @NamedQuery(name = "Clu.getCluIdsByLoId", query = "SELECT c.id FROM Clu c join c.learningObjectives lo WHERE lo.learningObjectiveId = :loId"),
-		@NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.relatedClu.id = :relatedCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
+	@NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),
+	@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE c.state = :luState AND c.luType.id = :luTypeKey"),
+    @NamedQuery(name = "Clu.getCluIdsByLoId", query = "SELECT c.id FROM Clu c join c.learningObjectives lo WHERE lo.learningObjectiveId = :loId"),
+	@NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.relatedClu.id = :relatedCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
 })
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
@@ -53,8 +53,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@ManyToMany(mappedBy = "clus")
 	private List<CluSet> cluSets;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OWNER")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluAttribute> attributes;
 
 	@OneToOne(cascade=CascadeType.ALL)
@@ -82,8 +81,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Column(name = "ADMIN_ORG_ID")
 	private String adminOrg;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "CLU_ID")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
 	private List<CluOrg> participatingOrgs;
 
 	@ManyToOne(cascade=CascadeType.ALL)
@@ -112,8 +110,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Column(name = "REF_URL")
 	private String referenceURL;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "CLU_ID")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="clu")
 	private List<LuCode> luCodes;
 
 	@OneToOne(cascade=CascadeType.ALL)
@@ -130,8 +127,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Column(name = "IS_ENRL")
 	private boolean isEnrollable;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name = "CLU_ID")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="clu")
 	private List<CluAtpTypeKey> offeredAtpTypes;
 
 	@Column(name = "HAS_EARLY_DROP_DEDLN")
