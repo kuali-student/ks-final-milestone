@@ -2,16 +2,13 @@ package org.kuali.student.common.ui.client.widgets;
 
 import java.util.List;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.ui.ListBox;
+import org.kuali.student.common.ui.client.widgets.impl.KSListBoxImpl;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * KSListBox wraps gwt Listbox.  However, it adds functionality and limits the list box to only MULTI select.
@@ -22,71 +19,86 @@ import com.google.gwt.user.client.ui.ListBox;
  * @author Kuali Student Team
  *
  */
-public class KSListBox extends ListBox{
-
-    /**
-     * Creates an empty list box.
-     * 
-     */
-    public KSListBox() {
-        super(true);
-        setupDefaultStyle();
-    }
-
+public class KSListBox extends KSSelectItemWidgetAbstract{
     
+    KSSelectItemWidgetAbstract dropDown = GWT.create(KSListBoxImpl.class);
     /**
-     * Creates a multi-select list box with the list of items passed in.
+     * This constructs a KSDropDown that wraps an impl
      * 
-     * @param list the list of strings representing items in the list box
-     */
-    public KSListBox(List<String> list) {
-        super(true);
-        for(String s: list){
-            this.addItem(s);
-        }
-        setupDefaultStyle();
+     */    
+    public KSListBox(){
+        this.initWidget(dropDown);
     }
 
-/*    public KSListBox(Element element) {
-        super(element);
-        setupDefaultStyle();
-    }*/
+    /**
+     * Select an item whose text equals the name passed in.
+     * 
+     * @param value the name of the item to be selected.
+     */
+    @Override
+    public void selectItem(String id) {
+        dropDown.selectItem(id);       
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
+     */
+    @Override
+    public void deSelectItem(String id) {       
+        dropDown.deSelectItem(id);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
+     */
+    @Override
+    public List<String> getSelectedItems() {
+        return dropDown.getSelectedItems();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onLoad()
+     */
+    @Override
+    public void onLoad() {
+        dropDown.onLoad();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setListItems(org.kuali.student.common.ui.client.widgets.list.ListItems)
+     */
+    @Override
+    public void setListItems(ListItems listItems) {
+        dropDown.setListItems(listItems);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#addSelectionChangeHandler(org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler)
+     */
+    public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler selectionHandler) {
+        return dropDown.addSelectionChangeHandler(selectionHandler);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getListItems()
+     */
+    public ListItems getListItems() {
+        return dropDown.getListItems();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getName()
+     */
+    public String getName() {
+        return dropDown.getName();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#setName(java.lang.String)
+     */
+    @Override
+    public void setName(String name) {
+        dropDown.setName(name);
+    }
     
-    /**
-     * This method sets the default style for the list box and list box events.
-     * 
-     */
-    private void setupDefaultStyle() {
-        this.addStyleName(KSStyles.KS_LISTBOX_STYLE);
-        
-        this.addBlurHandler(new BlurHandler(){
-            public void onBlur(BlurEvent event) {
-                KSListBox.this.removeStyleName(KSStyles.KS_LISTBOX_FOCUS_STYLE);
-                
-            }   
-        }); 
-
-        this.addFocusHandler(new FocusHandler(){
-            public void onFocus(FocusEvent event) {
-                KSListBox.this.addStyleName(KSStyles.KS_LISTBOX_FOCUS_STYLE);
-
-            }       
-        });
-        
-        this.addMouseOverHandler(new MouseOverHandler(){
-            public void onMouseOver(MouseOverEvent event) {
-                KSListBox.this.addStyleName(KSStyles.KS_LISTBOX_HOVER_STYLE);
-                
-            }       
-        });
-        
-        this.addMouseOutHandler(new MouseOutHandler(){
-
-            public void onMouseOut(MouseOutEvent event) {
-                KSListBox.this.removeStyleName(KSStyles.KS_LISTBOX_HOVER_STYLE);
-                
-            }
-            
-        });
-    }
 }
