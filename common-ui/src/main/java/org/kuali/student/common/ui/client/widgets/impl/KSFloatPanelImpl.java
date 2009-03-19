@@ -91,7 +91,7 @@ public class KSFloatPanelImpl implements KSFloatPanel {
 	protected void recalcSizeAndPosition() {
 		if (panel.isVisible()) {
 			int height = (int)(Window.getClientHeight() * (float) heightRatio / 100f);
-			int left = (location == FloatLocation.FLOAT_LEFT) ? 0 : Window.getClientWidth() - panel.getOffsetWidth(); 
+			int left = (location == FloatLocation.FLOAT_LEFT) ? 0 : Window.getScrollLeft() + Window.getClientWidth() - panel.getOffsetWidth(); 
 			int top = ((Window.getClientHeight() - height) / 2) + Window.getScrollTop();
 			panel.setHeight(height + "px");
 			panel.setPopupPosition(left, top);
