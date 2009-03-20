@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSRadioButtonGroup;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 
 
@@ -22,10 +26,24 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     private FlexTable radioButtons = new FlexTable();
     private String name;
     private String selectedValue = null;
+    private KSRadioButtonGroup radioGroup = new KSRadioButtonGroup();
 
     private int maxCols = 1; //default max columns
 
     public KSRadioButtonListImpl() {
+        radioGroup.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+               List<KSRadioButton> rbs = radioGroup.getRadioButtons();
+               for(KSRadioButton rb: rbs){
+                   if(!rb.getValue()){
+                       rb.removeStyleName(KSStyles.KS_RADIO_CHECKED_STYLE);
+                   }
+               }
+                
+            }
+        });
         initWidget(radioButtons);
     }
     
@@ -116,6 +134,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         KSRadioButton radioButton = new KSRadioButton(name, getListItems().getItemText(id));
         radioButton.setFormValue(id);
         radioButton.addClickHandler(this);
+        radioGroup.addRadioButton(radioButton);
 
         return radioButton;
     }
