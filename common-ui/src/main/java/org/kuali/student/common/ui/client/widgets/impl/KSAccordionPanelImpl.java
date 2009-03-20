@@ -170,7 +170,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 	            	if(w instanceof FlowPanel){
 	            		Widget firstWidget = ((FlowPanel) w).getWidget(0);
 	            		if(firstWidget instanceof KSAccordionMenuImpl){
-	            		    System.out.println("GOT IN HERE");
+	            		    
 	            			//Check to see if the menu is retaining history
 	            			if(!((KSAccordionMenuImpl) firstWidget).isRetainingHistory()){
 		            			KSAccordionPanelImpl subPanel = ((KSAccordionMenuImpl) firstWidget).getMenu();
