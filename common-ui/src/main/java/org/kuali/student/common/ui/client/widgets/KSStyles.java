@@ -49,7 +49,7 @@ public interface KSStyles {
 	public static final String KS_DROPDOWN_SELECTED_STYLE = "KS-Dropdown-Selected";
 	public static final String KS_DROPDOWN_STYLE = "KS-Dropdown";
 	public static final String KS_FLOATPANEL = "KS-FloatPanel";
-	public static final String KS_FORMLAYOUT_DESC = "KS-FormLayout-Description";
+	public static final String KS_FORMLAYOUT_HELP = "KS-FormLayout-Help";
 	public static final String KS_FORMLAYOUT_FIELD = "KS-FormLayout-Field";
 	public static final String KS_FORMLAYOUT_LABEL = "KS-FormLayout-Label";
 	public static final String KS_HELP_POPUP = "KS-Help-Popup";

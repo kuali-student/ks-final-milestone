@@ -59,14 +59,16 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         table.setWidget(rowIdx, FORM_LABEL_COL, label);
         table.setWidget(rowIdx, FORM_FIELD_COL, field.getWidget());
         
-        KSHelpLink helpLink = new KSHelpLink();
-        helpLink.setHelpInfo(field.getHelpInfo());
-        table.setWidget(rowIdx, FORM_DESC_COL, helpLink);
+        if (field.getHelpInfo() != null){
+            KSHelpLink helpLink = new KSHelpLink();
+            helpLink.setHelpInfo(field.getHelpInfo());
+            table.setWidget(rowIdx, FORM_DESC_COL, helpLink);
+        }
 
         CellFormatter cf = table.getCellFormatter();
         cf.setStyleName(rowIdx, FORM_LABEL_COL, KSStyles.KS_FORMLAYOUT_LABEL);
         cf.setStyleName(rowIdx, FORM_FIELD_COL, KSStyles.KS_FORMLAYOUT_FIELD);
-        cf.setStyleName(rowIdx, FORM_DESC_COL, KSStyles.KS_FORMLAYOUT_DESC);
+        cf.setStyleName(rowIdx, FORM_DESC_COL, KSStyles.KS_FORMLAYOUT_HELP);
 
         formFields.put(field.getName(), field);
     }    
