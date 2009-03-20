@@ -64,6 +64,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
                 return;
             }
             unselected.clear();
+            selected.clear();
             selected.addAll(KSPickListImpl.this.getListItems().getItemIds());
             
             selectedTable.onLoad();
@@ -77,6 +78,7 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
                 return;
             }
             selected.clear();
+            unselected.clear();
             unselected.addAll(KSPickListImpl.this.getListItems().getItemIds());
             selectedTable.onLoad();
             unselectedTable.onLoad();
