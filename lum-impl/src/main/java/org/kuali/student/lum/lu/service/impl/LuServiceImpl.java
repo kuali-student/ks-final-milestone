@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.ServerDateParser;
+import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.RichText;
@@ -2238,13 +2240,23 @@ public class LuServiceImpl implements LuService {
         return updReqCompInfo;
 	}
 
+    private Validator createValidator() {
+        Validator validator = new Validator();
+        validator.setDateParser(new ServerDateParser());
+//      validator.addMessages(null); //TODO this needs to be loaded somehow
+        return validator;
+    }
+
 	@Override
 	public List<ValidationResult> validateClu(String validationType,
 			CluInfo cluInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(cluInfo, "cluInfo");
+        
+        return createValidator().validateTypeStateObject(cluInfo, getObjectStructure("cluInfo"));
 	}
 
 	@Override
@@ -2253,7 +2265,10 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
+        
+        return createValidator().validateTypeStateObject(cluCluRelationInfo, getObjectStructure("cluCluRelationInfo"));
 	}
 
 	@Override
@@ -2262,7 +2277,10 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
+        
+        return createValidator().validateTypeStateObject(luDocRelationInfo, getObjectStructure("luDocRelationInfo"));
 	}
 
 	@Override
@@ -2271,7 +2289,10 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(luStatementInfo, "luStatementInfo");
+        
+        return createValidator().validateTypeStateObject(luStatementInfo, getObjectStructure("luStatementInfo"));
 	}
 
 	@Override
@@ -2280,7 +2301,10 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+        
+        return createValidator().validateTypeStateObject(reqComponentInfo, getObjectStructure("reqComponentInfo"));
 	}
 
 	@Override
