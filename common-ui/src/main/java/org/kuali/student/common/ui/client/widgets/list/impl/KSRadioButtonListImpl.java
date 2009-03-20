@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.FlexTable;
  */
 public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
     private FlexTable radioButtons = new FlexTable();
-    private String name;
     private String selectedValue = null;
     private KSRadioButtonGroup radioGroup = new KSRadioButtonGroup();
 
@@ -131,7 +130,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     }
 
     private KSRadioButton createRadioButton(String id){
-        KSRadioButton radioButton = new KSRadioButton(name, getListItems().getItemText(id));
+        KSRadioButton radioButton = new KSRadioButton(this.getName(), getListItems().getItemText(id));
         radioButton.setFormValue(id);
         radioButton.addClickHandler(this);
         radioGroup.addRadioButton(radioButton);
