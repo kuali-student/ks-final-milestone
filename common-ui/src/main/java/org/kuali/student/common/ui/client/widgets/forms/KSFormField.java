@@ -64,7 +64,8 @@ public class KSFormField {
 
     /**
      * Set the widget for this form field. If the widget implements the HasName
-     * interface, this form field can be accessed in a FormLayoutPanel using  
+     * interface, the default name will be set to the name of the underlying 
+     * widget, and this form field can be accessed in a FormLayoutPanel using  
      * the same name as the underlying widget. 
      */
     public void setWidget(Widget formField) {
@@ -107,10 +108,18 @@ public class KSFormField {
         }        
     }
     
+    /** 
+     * @return the name of this form field
+     */
     public String getName(){
         return name;
     }
     
+    /**
+     * Set the name of this form field.
+     * 
+     * @param name
+     */
     public void setName(String name){
         this.name = name;
     }
