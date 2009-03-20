@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
+import org.kuali.student.common.ui.client.widgets.menus.impl.KSAccordionMenuImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -168,10 +169,11 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 	            if(w != null){
 	            	if(w instanceof FlowPanel){
 	            		Widget firstWidget = ((FlowPanel) w).getWidget(0);
-	            		if(firstWidget instanceof KSAccordionMenu){
+	            		if(firstWidget instanceof KSAccordionMenuImpl){
+	            		    System.out.println("GOT IN HERE");
 	            			//Check to see if the menu is retaining history
-	            			if(!((KSAccordionMenu) firstWidget).isRetainingHistory()){
-		            			KSAccordionPanelImpl subPanel = ((KSAccordionMenu) firstWidget).getMenu();
+	            			if(!((KSAccordionMenuImpl) firstWidget).isRetainingHistory()){
+		            			KSAccordionPanelImpl subPanel = ((KSAccordionMenuImpl) firstWidget).getMenu();
 		            			subPanel.resetTitleBars();
 		            			recursiveReset(subPanel);
 	            			}
