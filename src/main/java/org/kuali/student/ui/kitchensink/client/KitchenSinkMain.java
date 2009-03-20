@@ -29,6 +29,8 @@ import org.kuali.student.ui.kitchensink.client.kscommons.dialogpanel.DialogPanel
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.formlayoutpanel.FormLayoutPanelExample;
+import org.kuali.student.ui.kitchensink.client.kscommons.formlayoutpanel.FormLayoutPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel.InfoDialogPanelExampleDescriptor;
@@ -85,6 +87,7 @@ public class KitchenSinkMain extends Composite {
     private static final String LIST_WIDGETS = "List Widgets";
     private static final String DIALOG_WIDGETS = "Dialog Widgets";
     private static final String RULE_WIDGETS = "Rule Widgets";
+    private static final String FORM_WIDGETS = "Form Widgets";
 
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
@@ -146,6 +149,7 @@ public class KitchenSinkMain extends Composite {
         KSMenuItemData ksNav = initGroup(NAVIGATION_WIDGETS);
         KSMenuItemData ksDialog = initGroup(DIALOG_WIDGETS);
         KSMenuItemData ksRule = initGroup(RULE_WIDGETS);
+        KSMenuItemData ksForm = initGroup(FORM_WIDGETS);
 
         initExample(ksBasic, new ButtonExampleDescriptor());
         initExample(ksBasic, new CheckBoxExampleDescriptor());
@@ -190,6 +194,8 @@ public class KitchenSinkMain extends Composite {
         initExample(ksList, new RadioButtonListDescriptor());
 
         initExample(ksRule, new RuleTableExampleDescriptor());
+        
+        initExample(ksForm, new FormLayoutPanelExampleDescriptor());
 
         ksCommons.addSubItem(ksBasic);
         ksCommons.addSubItem(ksDialog);
@@ -200,7 +206,8 @@ public class KitchenSinkMain extends Composite {
         ksCommons.addSubItem(ksText);
         ksCommons.addSubItem(ksList);
         ksCommons.addSubItem(ksRule);
-
+        ksCommons.addSubItem(ksForm);
+        
         items.add(ksCommons);
 
         menuPanel.setItems(items);
