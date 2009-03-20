@@ -5,6 +5,7 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.RichTextArea;
 
 /** 
@@ -15,7 +16,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
  * 
  * TODO implement i18n
  */
-public class KSRichEditor extends KSRichEditorAbstract {
+public class KSRichEditor extends KSRichEditorAbstract implements HasText{
     private KSRichEditorAbstract richEditor = GWT.create(KSRichEditorImpl.class);
     
 	/**
