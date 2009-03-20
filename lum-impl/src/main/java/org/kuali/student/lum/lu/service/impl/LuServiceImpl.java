@@ -1236,7 +1236,7 @@ public class LuServiceImpl implements LuService {
             throw new DoesNotExistException("LuStatement Type: " + luStatementTypeKey + " does not exist.");
         }
 
-        return LuServiceAssembler.toLuStatementTypeInfos( stmtType.getLuStatementTypes() );
+        return LuServiceAssembler.toLuStatementTypeInfos( stmtType.getAllowedLuStatementTypes() );
 	}
 
 	@Override
@@ -1449,7 +1449,7 @@ public class LuServiceImpl implements LuService {
 	        throw new DoesNotExistException("LuStatement Type: " + luStatementTypeKey + " does not exist.");
 	    }
 
-	    return LuServiceAssembler.toReqComponentTypeInfos( stmtType.getRequiredComponentTypes() );
+	    return LuServiceAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
 	}
 
 	@Override

@@ -380,8 +380,6 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 
         mf.setCreateId("CREATEID");
         mf.setUpdateId("UPDATEID");
-        mf.setCreateTime(df.parse("20000101"));
-        mf.setUpdateTime(df.parse("20010101"));
 
         stmt.setMetaInfo(mf);
 
@@ -393,14 +391,6 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(createdSmt.getState(), "ACTIVE");
         assertEquals(createdSmt.getName(), "STMT 3");
         assertEquals(createdSmt.getDesc(), "Statement 3");
-
-        MetaInfo mf1 = stmt.getMetaInfo();
-
-        assertEquals(mf1.getCreateId(), "CREATEID");
-        assertEquals(mf1.getUpdateId(), "UPDATEID");
-        assertEquals(mf1.getCreateTime(), df.parse("20000101"));
-        assertEquals(mf1.getUpdateTime(), df.parse("20010101"));
-
     }
 
     @Test
@@ -480,4 +470,76 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
     }
 
 
+    @Test
+    public void testCreateReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
+
+        ReqComponentInfo req = new ReqComponentInfo();
+        
+        req.setDesc("Required Component 5");
+        req.setEffectiveDate(df.parse("20010101"));
+        req.setExpirationDate(df.parse("20020101"));
+        req.setState("ACTIVE");
+        req.setType("kuali.reqCompType.courseList");
+
+        MetaInfo mf = new MetaInfo();
+
+        req.setMetaInfo(mf);
+
+        ReqComponentInfo createdReq = client.createReqComponent("kuali.reqCompType.courseList", req);
+
+        assertNotNull(createdReq.getId());
+        assertEquals(createdReq.getType(), "kuali.reqCompType.courseList");
+        assertEquals(createdReq.getEffectiveDate(), df.parse("20010101"));
+        assertEquals(createdReq.getExpirationDate(), df.parse("20020101"));
+        assertEquals(createdReq.getState(), "ACTIVE");
+        assertEquals(createdReq.getDesc(), "Required Component 5");
+    }
+
+    public void testUpdateReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+
+        ReqComponentInfo req = client.getReqComponent("REQCOMP-1");
+        req.setDesc("Req Comp 3");
+        req.setState("IN_PROGRESS");
+
+        MetaInfo mfOrg = req.getMetaInfo();
+
+        MetaInfo mf = new MetaInfo();
+
+        req.setMetaInfo(mf);
+
+        ReqComponentInfo updReq = null;
+        try {
+            updReq = client.updateReqComponent(req.getId(), req);
+            fail("Should throw version mismatch exception");
+        } catch (VersionMismatchException e) {
+            assertTrue(true);
+        }
+
+        req.setMetaInfo(mfOrg);
+
+        try {
+            updReq = client.updateReqComponent(req.getId(), req);
+        } catch (VersionMismatchException e) {
+            fail("Should not throw version mismatch exception");
+        }
+
+        assertNotNull(updReq.getId());
+        assertEquals(updReq.getType(), "kuali.reqCompType.courseList");
+        assertEquals(updReq.getState(), "IN_PROGRESS");
+        assertEquals(updReq.getDesc(), "Req Comp 3");
+    }
+    
+    
+    @Test
+    public void testDeleteReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+        StatusInfo si;
+        ReqComponentInfo req = client.getReqComponent("REQCOMP-1");
+        try {
+            si = client.deleteReqComponent(req.getId());
+            assertTrue(si.getSuccess());
+        } catch (DoesNotExistException e) {
+            fail("LuService.deleteReqComponent() failed deleting pre existing req component");
+        }
+    }
+    
 }

@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import org.kuali.student.core.dto.TypeInfo;
 
@@ -27,23 +29,27 @@ public class LuStatementTypeInfo extends TypeInfo{
 
 	private static final long serialVersionUID = 1L;
 
-	private List<String> requiredComponentTypeIds;
+    @XmlElement(name = "reqComponentTypeKey")
+    @XmlElementWrapper(name = "allowedReqComponentTypes")
+	private List<String> allowedReqComponentTypes;
 	
-	private List<String> luStatementTypeIds;
+    @XmlElement(name = "luStatementTypeKey")
+    @XmlElementWrapper(name = "allowedLuStatementTypes")
+	private List<String> allowedLuStatementTypes;
 
-    public List<String> getRequiredComponentTypeIds() {
-        return requiredComponentTypeIds;
+    public List<String> getAllowedReqComponentTypes() {
+        return allowedReqComponentTypes;
     }
 
-    public void setRequiredComponentTypeIds(List<String> requiredComponentTypeIds) {
-        this.requiredComponentTypeIds = requiredComponentTypeIds;
+    public void setAllowedReqComponentTypes(List<String> allowedReqComponentTypes) {
+        this.allowedReqComponentTypes = allowedReqComponentTypes;
     }
 
-    public List<String> getLuStatementTypeIds() {
-        return luStatementTypeIds;
+    public List<String> getAllowedLuStatementTypes() {
+        return allowedLuStatementTypes;
     }
 
-    public void setLuStatementTypeIds(List<String> luStatementTypeIds) {
-        this.luStatementTypeIds = luStatementTypeIds;
-    }	    
+    public void setAllowedLuStatementTypes(List<String> allowedLuStatementTypes) {
+        this.allowedLuStatementTypes = allowedLuStatementTypes;
+    }    
 }

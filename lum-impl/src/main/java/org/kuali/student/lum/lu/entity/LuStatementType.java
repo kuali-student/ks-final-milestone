@@ -26,11 +26,11 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
     
     @OneToMany
     @JoinTable(name = "KSLU_STY_JN_RQTY", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
-    private List<ReqComponentType> requiredComponentTypes;
+    private List<ReqComponentType> allowedReqComponentTypes;
     
     @OneToMany
     @JoinTable(name = "KSLU_STY_JN_LUSTY", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_LU_STMT_TYPE_ID"))
-    private List<LuStatementType> luStatementTypes;
+    private List<LuStatementType> allowedLuStatementTypes;
     
 	public List<LuType> getLuTypes() {
 		return luTypes;
@@ -50,25 +50,28 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
     public void setAttributes(List<LuStatementTypeAttribute> attributes) {
         this.attributes = attributes;
     }
-
-    public List<ReqComponentType> getRequiredComponentTypes() {
-        if(null == requiredComponentTypes) {
-            requiredComponentTypes = new ArrayList<ReqComponentType>();
+        
+    public List<ReqComponentType> getAllowedReqComponentTypes() {
+        if(null == allowedReqComponentTypes) {
+            allowedReqComponentTypes = new ArrayList<ReqComponentType>();
         }
         
-        return requiredComponentTypes;
+        return allowedReqComponentTypes;
     }
 
-    public void setRequiredComponentTypes(List<ReqComponentType> requiredComponentTypes) {
-        this.requiredComponentTypes = requiredComponentTypes;
+    public void setAllowedReqComponentTypes(List<ReqComponentType> allowedReqComponentTypes) {
+        this.allowedReqComponentTypes = allowedReqComponentTypes;
     }
 
-    public List<LuStatementType> getLuStatementTypes() {
-        return luStatementTypes;
+    public List<LuStatementType> getAllowedLuStatementTypes() {
+        if(null == allowedLuStatementTypes) {
+            allowedLuStatementTypes = new ArrayList<LuStatementType>();
+        }
+        
+        return allowedLuStatementTypes;
     }
 
-    public void setLuStatementTypes(List<LuStatementType> luStatementTypes) {
-        this.luStatementTypes = luStatementTypes;
-    }    
-
+    public void setAllowedLuStatementTypes(List<LuStatementType> allowedLuStatementTypes) {
+        this.allowedLuStatementTypes = allowedLuStatementTypes;
+    }
 }

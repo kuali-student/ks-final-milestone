@@ -413,19 +413,19 @@ public class LuServiceAssembler extends BaseAssembler {
         
         // Copy allowed RequiredComponent Types
         List<String> reqTypeIds = new ArrayList<String>(entity
-                .getRequiredComponentTypes().size());
-        for (ReqComponentType reqComponentType : entity.getRequiredComponentTypes()) {
+                .getAllowedReqComponentTypes().size());
+        for (ReqComponentType reqComponentType : entity.getAllowedReqComponentTypes()) {
             reqTypeIds.add(reqComponentType.getId());
         }
-        stmtTypeInfo.setRequiredComponentTypeIds(reqTypeIds);
+        stmtTypeInfo.setAllowedReqComponentTypes(reqTypeIds);
 
         // Copy allowed LuStatement Types
         List<String> luStmtIds = new ArrayList<String>(entity
-                .getLuStatementTypes().size());
-        for (LuStatementType stmtType : entity.getLuStatementTypes()) {
+                .getAllowedLuStatementTypes().size());
+        for (LuStatementType stmtType : entity.getAllowedLuStatementTypes()) {
             luStmtIds.add(stmtType.getId());
         }
-        stmtTypeInfo.setLuStatementTypeIds(luStmtIds);
+        stmtTypeInfo.setAllowedLuStatementTypes(luStmtIds);
         
         return stmtTypeInfo;
     }
