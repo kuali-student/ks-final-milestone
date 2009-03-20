@@ -398,7 +398,8 @@ public class BusinessRuleUtil {
     		return new BigDecimal(value);
     	}
     	else if (clazz.equals(BigInteger.class)) {
-    		return new BigInteger(value);
+    		//return new BigInteger(value);
+    		return new BigDecimal(value.toString()).toBigIntegerExact();
     	}
     	else if (clazz.equals(Boolean.class)) {
     		return new Boolean(value);
@@ -428,12 +429,12 @@ public class BusinessRuleUtil {
     }
 
     /**
-     * <p>Converts the <code>expectedValue</code> to <code>dataType</code>.</p>
+     * <p>Converts <code>value</code> to type <code>clazz</code>.</p>
      * <p>e.g. dateType="java.lang.Integer" expectedValue="123" returns new Integer(123)</p>
      * 
-     * @param dataType Data type to convert <code>expectedValue</code> to
+     * @param clazz Class type to convert <code>value</code> to
      * @param value The value to be converted
-     * @return New value in proper data type 
+     * @return New value in proper class type 
      */
     //public static <T> T convertToDataType(final Class<T> clazz, final Object value) {
     public static Object convertToDataType(final Class<?> clazz, final Object value) {
@@ -441,7 +442,7 @@ public class BusinessRuleUtil {
     		return null;
     	}
     	else if (clazz.isPrimitive()) {
-        	throw new RuntimeException("Rule proposition comparison data type conversion error. Primitives cannot be converted: " + clazz);
+        	throw new RuntimeException("Data type conversion error. Primitives cannot be converted: " + clazz);
     	}
     	else if (clazz.equals(String.class)) {
     		return clazz.cast(value);
