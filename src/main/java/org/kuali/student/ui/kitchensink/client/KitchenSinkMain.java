@@ -21,6 +21,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.Accordio
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.checkboxlist.CheckBoxListDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.collapsablefloatpanel.CollapsableFloatPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.confirmationdialog.ConfirmationDialogExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.confirmbuttonpanel.ConfirmButtonPanelExampleDescriptor;
@@ -29,7 +30,6 @@ import org.kuali.student.ui.kitchensink.client.kscommons.dialogpanel.DialogPanel
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.formlayoutpanel.FormLayoutPanelExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.formlayoutpanel.FormLayoutPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
@@ -192,7 +192,8 @@ public class KitchenSinkMain extends Composite {
         initExample(ksList, new SelectableTableDescriptor());
         initExample(ksList, new PickListDescriptor());
         initExample(ksList, new RadioButtonListDescriptor());
-
+        initExample(ksList, new CheckBoxListDescriptor());
+        
         initExample(ksRule, new RuleTableExampleDescriptor());
         
         initExample(ksForm, new FormLayoutPanelExampleDescriptor());
