@@ -38,8 +38,8 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     // ~ Instance fields --------------------------------------------------------
 
     private Function comparableFunction;
-    T fact;
-    List<Boolean> resultValues;
+    private T fact;
+    private List<Boolean> resultValues;
     
     // ~ Constructors -----------------------------------------------------------
 
@@ -81,12 +81,6 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
             throw new IllegalStateException(getClass().getName() + ":  No fact to compare");
     }
 
-    /**
-     * @return the fact
-     */
-    public T getFact() {
-        return fact;
-    }
     /**
      * Gets results of proposition computation.
      * 

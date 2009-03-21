@@ -26,9 +26,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.functions.
 
 public class AverageProposition<E extends Number> extends AbstractProposition<BigDecimal> { //extends SumProposition<E> {
 	private BigDecimal average;
-    
     private Function averageFunction;
-    List<E> factSet;
 
     public AverageProposition(String id, 
 							  String propositionName, 
@@ -41,8 +39,7 @@ public class AverageProposition<E extends Number> extends AbstractProposition<Bi
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
 
-        this.factSet = factSet;
-        averageFunction = new Average<E>(this.factSet);
+        averageFunction = new Average<E>(factSet);
     }
 
     @Override

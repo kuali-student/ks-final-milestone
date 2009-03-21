@@ -39,9 +39,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 	
     private Function intersection;
 
-    Set<E> criteriaSet;
-    Set<E> factSet;
-    Collection<?> resultValues;
+    private Collection<?> resultValues;
 
     public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_MET = "prop_subset_metset";
     public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET = "prop_subset_unmetset";
@@ -56,12 +54,11 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     public SubsetProposition(String id, String propositionName, 
     		Set<E> criteriaSet, Set<E> factSet, RulePropositionDTO ruleProposition) {
         super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
-        this.criteriaSet = criteriaSet;
-        this.factSet = (factSet == null ? new HashSet<E>() : factSet);
+        factSet = (factSet == null ? new HashSet<E>() : factSet);
 
 		List<Collection<E>> list = new ArrayList<Collection<E>>();
-		list.add(this.criteriaSet);
-		list.add(this.factSet);
+		list.add(criteriaSet);
+		list.add(factSet);
     	intersection = new Intersection<E>(list);
     }
 
@@ -69,7 +66,6 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     @Override
     public Boolean apply() {
-        //this.met = and();
     	intersection.setOperation(Intersection.Operation.INTERSECTION.toString());
     	intersection.compute();
     	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
@@ -99,20 +95,6 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_MET, this.met);
         addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET, unMet);
         addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_DIFFERENCE, diff);
-    }
-
-    /**
-     * @return the criteriaSet
-     */
-    public Set<E> getCriteriaSet() {
-        return criteriaSet;
-    }
-
-    /**
-     * @return the factSet
-     */
-    public Set<E> getFactSet() {
-        return factSet;
     }
 
     public Collection<?> getResultValues() {

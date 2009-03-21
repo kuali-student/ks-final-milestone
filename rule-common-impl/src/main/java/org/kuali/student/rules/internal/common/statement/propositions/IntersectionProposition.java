@@ -37,12 +37,8 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
 	private Set<E> met;
-	
     private Function intersection;
-
-    Set<E> criteriaSet;
-    Set<E> factSet;
-    Collection<?> resultValues;
+    private Collection<E> resultValues;
     
     // ~ Constructors -----------------------------------------------------------
 
@@ -54,12 +50,11 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
     		ComparisonOperator operator, Integer expectedValue,
             Set<E> criteriaSet, Set<E> factSet) {
         super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue);
-        this.criteriaSet = criteriaSet;
-        this.factSet = (factSet == null ? new HashSet<E>() : factSet);
+        factSet = (factSet == null ? new HashSet<E>() : factSet);
 
 		List<Collection<E>> list = new ArrayList<Collection<E>>();
-		list.add(this.criteriaSet);
-		list.add(this.factSet);
+		list.add(criteriaSet);
+		list.add(factSet);
     	intersection = new Intersection<E>(list);
     }
 
@@ -98,20 +93,6 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
     	Integer needed = expectedValue - count;
         addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_DIFF, needed);
         addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_UNMET, unMet);
-    }
-
-    /**
-     * @return the criteriaSet
-     */
-    public Set<E> getCriteriaSet() {
-        return criteriaSet;
-    }
-
-    /**
-     * @return the factSet
-     */
-    public Set<E> getFactSet() {
-        return factSet;
     }
 
     public Collection<?> getResultValues() {

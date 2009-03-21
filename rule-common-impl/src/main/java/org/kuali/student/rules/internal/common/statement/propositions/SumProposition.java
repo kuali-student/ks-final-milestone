@@ -36,7 +36,6 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
     private Function sumFunction;
 	private BigDecimal sum;
-    List<E> factSet;
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -53,8 +52,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
-        this.factSet = factSet;
-		sumFunction = new Sum<E>(this.factSet);
+		sumFunction = new Sum<E>(factSet);
     }
 
     // ~ Methods ----------------------------------------------------------------
@@ -77,12 +75,5 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     	BigDecimal ev = (BigDecimal) expectedValue;
     	BigDecimal difference = ev.subtract(sum);
         addMessageContext(MessageContextConstants.PROPOSITION_SUM_MESSAGE_CTX_KEY_SUM_DIFF, difference.toString());
-    }
-
-	/**
-     * @return the factSet
-     */
-    public List<E> getFactSet() {
-        return factSet;
     }
 }
