@@ -18,7 +18,6 @@ package org.kuali.student.rules.ruleexecution.service;
 import org.junit.Assert;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -33,9 +32,9 @@ import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.entity.FactStructure;
@@ -86,6 +85,9 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 		ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
 		ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
 		ruleManagementService.updateBusinessRule(businessRuleId2, businessRuleInfo2);
+		
+		ruleManagementService.updateBusinessRuleState(businessRuleId1, BusinessRuleStatus.ACTIVE.toString());
+		ruleManagementService.updateBusinessRuleState(businessRuleId2, BusinessRuleStatus.ACTIVE.toString());
     }
 
     @AfterClass
@@ -101,45 +103,45 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     }
     
     @Test
-    public void testExecuteAgenda() throws Exception {
-    	RuntimeAgendaDTO agenda = null;
-    	List<?> facts = null;
-    }
-
-    @Test
     public void testExecuteBusinessRule_StaticFact_TestBeans_Rule1() throws Exception {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, null);
         Assert.assertNotNull(result);
 
-        Assert.assertTrue(result.getExecutionResult());
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
+
+        System.out.println("Successful: " + result.getReport().isSuccessful());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+
         Assert.assertTrue(result.getReport().isSuccessful());
         Assert.assertNotNull(result.getReport().getSuccessMessage());
         Assert.assertNull(result.getReport().getFailureMessage());
-
-        System.out.println("Execution log:\n" + result.getExecutionLog());
-        System.out.println("Error message:\n" + result.getErrorMessage());
-        System.out.println("Success message: " + result.getReport().getSuccessMessage());
-        System.out.println("Failure message: " + result.getReport().getFailureMessage());
     }
 
     @Test
-    public void testExecuteBusinessRule_StaticFact_TestBeans_Rule2() throws Exception {
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId2, null);
+    public void testExecuteBusinessRuleTest_StaticFact_TestBeans_Rule2() throws Exception {
+    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRuleTest(businessRuleInfo2, null);
         Assert.assertNotNull(result);
-
-        Assert.assertTrue(result.getExecutionResult());
-        Assert.assertNotNull(result.getExecutionLog());
-        Assert.assertNotNull(result.getReport());
-        Assert.assertFalse(result.getReport().isSuccessful());
-        Assert.assertNull(result.getReport().getSuccessMessage());
-        Assert.assertNotNull(result.getReport().getFailureMessage());
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
         System.out.println("Error message:\n" + result.getErrorMessage());
+
+        Assert.assertTrue(result.isExecutionSuccessful());
+        Assert.assertNotNull(result.getExecutionLog());
+        Assert.assertNotNull(result.getReport());
+
+        System.out.println("Successful: " + result.getReport().isSuccessful());
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
+
+        Assert.assertFalse(result.getReport().isSuccessful());
+        Assert.assertNull(result.getReport().getSuccessMessage());
+        Assert.assertNotNull(result.getReport().getFailureMessage());
     }
 
     /**
@@ -158,17 +160,17 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         factStructure1.setFactTypeKey(factTypeKey);
         factStructure1.setParamValueMap(paramMap);
 
-        FactStructureDTO fs = businessRuleInfo1.getRuleElementList().get(0).getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        FactStructureDTO fs = businessRuleInfo1.getBusinessRuleElementList().get(0).getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
         fs.setStaticFact(false);
         fs.setFactTypeKey(factTypeKey);
         fs.setParamValueMap(paramMap);
         
         ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
         
-    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, factStructure1);
+    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, paramMap);
         Assert.assertNotNull(result);
 
-        Assert.assertTrue(result.getExecutionResult());
+        Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
         Assert.assertTrue(result.getReport().isSuccessful());
@@ -180,5 +182,4 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
     }
-
 }

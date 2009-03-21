@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 public interface RuleSetExecutor {
     /**
@@ -55,18 +54,6 @@ public interface RuleSetExecutor {
      * Clears the rule set cache.
      */
     public void clearRuleSetCache();
-    
-    /**
-     * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
-     * returns a list of execution results {@link ExecutionResult}.</p>
-     * <p>The {@link ExecutionResult}'s id is set to the 
-     * {@link BusinessRuleInfoDTO}'s business rule id.</p>
-     * 
-     * @param agenda Agenda to execute
-     * @param facts List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
-    public AgendaExecutionResult execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap);
 
     /**
      * Executes a business rule <code>businessRule</code> in a rule set <code>ruleSet</code>.

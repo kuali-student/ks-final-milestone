@@ -15,13 +15,21 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.ComparisonOperatorComparable;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that compares a constrained property (fact) to a given criterion. The threshold may be defined as minimum or
  * maximum.
  * 
- * @param <E>
+ * @param <T>
  *            the type being constrained.
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  * @author Kuali Student Team (len.kuali@gmail.com)
@@ -29,48 +37,43 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 public class SimpleComparableProposition<T extends Comparable<T>> extends AbstractProposition<T> {
     // ~ Instance fields --------------------------------------------------------
 
+    private Function comparableFunction;
     T fact;
-
+    List<Boolean> resultValues;
+    
     // ~ Constructors -----------------------------------------------------------
 
     public SimpleComparableProposition() {
         super();
     }
 
-    public SimpleComparableProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, T fact) {
-        super(id, propositionName, operator, expectedValue);
+    public SimpleComparableProposition(String id, String propositionName, 
+    		ComparisonOperator operator, T expectedValue, T fact, RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue);
 
         this.fact = fact;
+        comparableFunction = new ComparisonOperatorComparable<T>(operator, expectedValue, this.fact);
     }
 
     // ~ Methods ----------------------------------------------------------------
 
-    /* (non-Javadoc)
-    * @see org.kuali.rules.constraint.Constraint#apply()
-    */
     @Override
     public Boolean apply() {
         sanityCheck();
 
-        result = checkTruthValue(fact, super.expectedValue);
+        //result = checkTruthValue(this.fact, super.expectedValue);
+        result = (Boolean) comparableFunction.compute();
 
-        cacheReport("%s NOT %s %s");
+        this.resultValues = new ArrayList<Boolean>();
+        this.resultValues.add(result);
 
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
-     */
     @Override
-    protected void cacheReport(String format, Object... args) {
-        if (result) {
-            report.setSuccessMessage("Comparison met");
-        } else {
-            String rpt = String.format(format, fact, operator, super.expectedValue);
-            report.setFailureMessage(rpt);
-        }
-
+    public void buildMessageContextMap() {
+        String s = getTypeAsString(this.fact);
+        addMessageContext(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_MESSAGE_CTX_KEY_FACT, s);
     }
 
     private void sanityCheck() {
@@ -84,12 +87,12 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     public T getFact() {
         return fact;
     }
-
     /**
-     * @param fact
-     *            the fact to set
+     * Gets results of proposition computation.
+     * 
+     * @return Proposition computation results
      */
-    public void setFact(T fact) {
-        this.fact = fact;
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 }

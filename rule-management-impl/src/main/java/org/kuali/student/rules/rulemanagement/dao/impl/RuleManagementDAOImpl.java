@@ -8,18 +8,21 @@
 package org.kuali.student.rules.rulemanagement.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.dao.RuleManagementDAO;
 import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
-import org.kuali.student.rules.rulemanagement.entity.AgendaInfoDeterminationStructure;
+import org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.rules.rulemanagement.entity.RuleElement;
@@ -58,18 +61,14 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public java.util.List<AgendaInfo> lookupAgendaInfosByType(AgendaType type) {
         Query query = entityManager.createNamedQuery("AgendaInfo.findByAgendaType");
-        query.setParameter("agendaType", type);
+        query.setParameter("agendaType", type.toString());
         List<AgendaInfo> agendaInfoList = query.getResultList();
         return agendaInfoList;
     }
 
+    //TODO Provide implementation
     @Override
-    public AgendaInfo lookupAgendaInfoByTypeAndStructure(AgendaType type, List<AgendaInfoDeterminationStructure> determinationStructureList) {
-
-        // StringBuilder queryString = new StringBuilder("SELECT a FROM AgendaInfo a INNER JOIN FETCH
-        // a.agendaInfoDeterminationStructureList b WHERE c.type = :agendaType AND");
-
-        // Query query = entityManager.createQuery(queryString.toString());
+    public AgendaInfo lookupAgendaInfoByTypeAndStructure(AgendaType type, List<AgendaDeterminationInfo> determinationStructureList) {
         return null;
     }
 
@@ -91,11 +90,11 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public List<BusinessRuleTypeKey> lookupUniqueBusinessRuleTypeKeys() {
         Query query = entityManager.createNamedQuery("BusinessRuleType.findBusinessRuleTypes");
-        List<String> ruleTypeStrList = query.getResultList();
+        List<BusinessRuleTypeKey> ruleTypeStrList = query.getResultList();
 
         List<BusinessRuleTypeKey> typeList = new ArrayList<BusinessRuleTypeKey>();
-        for (String ruleType : ruleTypeStrList) {
-            typeList.add(BusinessRuleTypeKey.valueOf(ruleType));
+        for (BusinessRuleTypeKey ruleType : ruleTypeStrList) {
+            typeList.add(ruleType);
         }
 
         return typeList;
@@ -110,7 +109,7 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
 
         List<BusinessRuleTypeKey> typeList = new ArrayList<BusinessRuleTypeKey>();
         for (BusinessRuleType ruleType : ruleTypeStrList) {
-            typeList.add(BusinessRuleTypeKey.valueOf( ruleType.getBusinessRuleTypeKey() ));
+            typeList.add( ruleType.getBusinessRuleTypeKey() );
         }
 
         return typeList;
@@ -120,11 +119,11 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public List<AnchorTypeKey> lookupUniqueAnchorTypeKeys() {
         Query query = entityManager.createNamedQuery("BusinessRuleType.findUniqueAnchorTypes");
-        List<String> anchorTypeStrList = query.getResultList();
+        List<AnchorTypeKey> anchorTypeStrList = query.getResultList();
 
         List<AnchorTypeKey> anchorTypeList = new ArrayList<AnchorTypeKey>();
-        for (String anchorType : anchorTypeStrList) {
-            anchorTypeList.add(AnchorTypeKey.valueOf(anchorType));
+        for (AnchorTypeKey anchorType : anchorTypeStrList) {
+            anchorTypeList.add(anchorType);
         }
 
         return anchorTypeList;
@@ -133,8 +132,8 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public BusinessRuleType lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey businessRuleTypekey, AnchorTypeKey anchorTypeKey) {
         Query query = entityManager.createNamedQuery("BusinessRuleType.findByKeyAndAnchorType");
-        query.setParameter("businessRuleTypeKey", businessRuleTypekey.toString());
-        query.setParameter("anchorTypeKey", anchorTypeKey.toString());
+        query.setParameter("businessRuleTypeKey", businessRuleTypekey);
+        query.setParameter("anchorTypeKey", anchorTypeKey);
         BusinessRuleType brType = (BusinessRuleType) query.getSingleResult();
 
         return brType;
@@ -166,38 +165,47 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
 
     @Override
     public boolean deleteBusinessRule(String ruleId) {
-        entityManager.remove(lookupBusinessRuleUsingRuleId(ruleId));
+        entityManager.remove(lookupBusinessRuleUsingId(ruleId));
         return true;
     }
 
     @Override
     public BusinessRule lookupBusinessRuleUsingId(String id) {
-        return entityManager.find(BusinessRule.class, id);
-    }
-
-    @Override
-    public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier) {
-        Query query = entityManager.createNamedQuery("BusinessRule.findByRuleID");
-        query.setParameter("ruleID", ruleIdentifier);
-        BusinessRule functionalBusinessRule = (BusinessRule) query.getSingleResult();
-        return functionalBusinessRule;
+        BusinessRule rule = entityManager.find(BusinessRule.class, id);
+        if (null == rule) {
+            throw new NoResultException("No record found for Id:" + id);
+        }
+        
+        return rule;
     }
 
     @Override
     @SuppressWarnings(value = {"unchecked"})
     public List<BusinessRule> lookupBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor) {
         Query query = entityManager.createNamedQuery("BusinessRule.findByBusinessRuleTypeAndAnchor");
-        query.setParameter("businessRuleTypeKey", businessRuleTypeKey.toString());
+        query.setParameter("businessRuleTypeKey", businessRuleTypeKey);
         query.setParameter("anchor", anchor);
-        List<BusinessRule> functionalBusinessRule = query.getResultList();
-        return functionalBusinessRule;
+        List<BusinessRule> functionalBusinessRules = query.getResultList();
+        return functionalBusinessRules;
     }
 
     @SuppressWarnings("unchecked")
     @Override
+    public List<BusinessRule> lookupCurrentActiveBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor) {
+        Query query = entityManager.createNamedQuery("BusinessRule.findByState");
+        query.setParameter("businessRuleTypeKey", businessRuleTypeKey);
+        query.setParameter("anchor", anchor);
+        query.setParameter("state", BusinessRuleStatus.ACTIVE);
+        query.setParameter("today", new Date());
+        List<BusinessRule> functionalBusinessRules = query.getResultList();
+        return functionalBusinessRules;
+     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
     public java.util.List<String> lookupBusinessRuleIdUsingRuleTypeKey(BusinessRuleTypeKey businessRuleTypeKey) {
         Query query = entityManager.createNamedQuery("BusinessRule.findIdsByBusinessRuleType");
-        query.setParameter("businessRuleTypeKey", businessRuleTypeKey.toString());
+        query.setParameter("businessRuleTypeKey", businessRuleTypeKey);
         List<String> businessRuleIdList = query.getResultList();
         return businessRuleIdList;
     }
@@ -206,8 +214,17 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public List<String> lookupAnchorByAnchorType(AnchorTypeKey anchorTypeKey) {
         Query query = entityManager.createNamedQuery("BusinessRule.findAnchorsByAnchorType");
-        query.setParameter("anchorTypeKey", anchorTypeKey.toString());
+        query.setParameter("anchorTypeKey", anchorTypeKey);
         List<String> anchorList = query.getResultList();
         return anchorList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<BusinessRule> lookupAllVersions(String originalRuleId) {
+        Query query = entityManager.createNamedQuery("BusinessRule.findAllVersions");
+        query.setParameter("originalRuleId", originalRuleId);
+        List<BusinessRule> functionalBusinessRules = query.getResultList();
+        return functionalBusinessRules;
     }
 }

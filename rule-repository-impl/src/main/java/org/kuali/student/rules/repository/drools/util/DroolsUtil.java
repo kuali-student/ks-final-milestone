@@ -19,15 +19,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
@@ -35,21 +33,24 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 
-import org.drools.common.DroolsObjectInputStream;
-import org.drools.compiler.DroolsError;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderConfiguration;
+import org.drools.builder.KnowledgeBuilderError;
+import org.drools.builder.KnowledgeBuilderErrors;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
 import org.drools.compiler.DroolsParserException;
-import org.drools.compiler.PackageBuilder;
-import org.drools.compiler.PackageBuilderConfiguration;
-import org.drools.compiler.PackageBuilderErrors;
-import org.drools.lang.descr.PackageDescr;
+import org.drools.definition.KnowledgePackage;
+import org.drools.io.Resource;
+import org.drools.io.ResourceFactory;
 import org.drools.repository.AssetItem;
 import org.drools.repository.CategoryItem;
 import org.drools.repository.PackageItem;
 import org.drools.repository.VersionableItem;
-import org.drools.rule.Package;
-import org.drools.util.ChainedProperties;
+import org.drools.util.DroolsStreamUtils;
 import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.repository.drools.rule.CategoryFactory;
+import org.kuali.student.rules.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.rules.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.rules.repository.drools.rule.RuleFactory;
@@ -99,6 +100,10 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
+    	if (item.getName().equals(DroolsConstants.DROOLS_HEADER)) {
+        	return null;
+        }
+        
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(
                 item.getUUID(), item.getName(), item.getVersionNumber(), 
                 item.getPackage().getUUID(), item.getPackageName());
@@ -114,8 +119,6 @@ public class DroolsUtil {
         rule.setLastModifiedDate(item.getLastModified());
         rule.setArchived(item.isArchived());
         
-        // Drools 4 does not use generics so we have to suppress warning
-        @SuppressWarnings("unchecked")
         List<CategoryItem> categories = item.getCategories();
         setCategories(rule, categories);
         
@@ -132,7 +135,8 @@ public class DroolsUtil {
     }
     
     /**
-     * Sets <code>categories</code> to a Drools <code>rule</code>.
+     * Sets <code>categories</code> to a Drools <code>rule</code> 
+     * implementation.
      * 
      * @param rule Rule to add <code>categories</code> to
      * @param categories Categories to add to <code>rule</code>
@@ -151,6 +155,13 @@ public class DroolsUtil {
         rule.setCategoryNames(categoryNameList);
     }
 
+    /**
+     * Sets <code>categories</code> to to a Drools <code>ruleSet</code> 
+     * implementation.
+     * 
+     * @param ruleSet
+     * @param categories
+     */
     private void setCategories(DroolsRuleSetImpl ruleSet, List<CategoryItem> categories) {
         List<Category> categoryList = new ArrayList<Category>();
         //List<String> categoryNameList = new ArrayList<String>();
@@ -204,8 +215,6 @@ public class DroolsUtil {
         rule.setArchived(false);
         rule.setVersionSnapshotUUID(item.getVersionSnapshotUUID());
         
-        // Drools 4 does not use generics so we have to suppress warning
-        @SuppressWarnings("unchecked") 
         List<CategoryItem> categories = item.getCategories();
         setCategories(rule, categories);
 
@@ -254,9 +263,9 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
-        DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName(), pkg.getVersionNumber() );
+        DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( 
+        		pkg.getUUID(), pkg.getName(), pkg.getDescription(), pkg.getVersionNumber() );
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
-        ruleSet.setDescription(pkg.getDescription());
         ruleSet.setFormat(pkg.getFormat());
         ruleSet.setCheckinComment(pkg.getCheckinComment());
         ruleSet.setCreatedDate(pkg.getCreatedDate());
@@ -264,10 +273,11 @@ public class DroolsUtil {
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
         ruleSet.setSnapshotName(pkg.getSnapshotName());
-        addRuleSetHeader(ruleSet, pkg.getHeader());
+        // No need to add headers in Drools 5.0
+        addRuleSetHeader(ruleSet, getDroolsHeader(pkg));
 
         ruleSet.setCompiledRuleSet(pkg.getCompiledPackageBytes());
-        org.drools.rule.Package p = getPackage(pkg.getCompiledPackageBytes());
+        KnowledgePackage p = getKnowledgePackage(pkg.getCompiledPackageBytes());
         ruleSet.setCompiledRuleSetObject(p);
 
         try {
@@ -327,11 +337,13 @@ public class DroolsUtil {
             }
         }
         
-        // Drools 4 does not use generics so we have to suppress warning
-        for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
+        for (Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             AssetItem item = it.next();
             Rule rule = buildRule(item);
-            ruleSet.addRule(rule);
+            // Drools 5.0 - filter out null rule 
+            if (rule != null) {
+			    ruleSet.addRule(rule);
+            }
         }
 
         return ruleSet;
@@ -344,6 +356,10 @@ public class DroolsUtil {
      * @param header Header to add to <code>ruleSet</code>
      */
     public void addRuleSetHeader(RuleSet ruleSet, String header ) {
+        if (header == null) {
+        	return;
+        }
+        
         for(String headerLine : header.split(";")) {
             headerLine = headerLine.trim();
             if ( !headerLine.isEmpty() && !ruleSet.getHeaderList().contains(headerLine+";")) {
@@ -353,48 +369,39 @@ public class DroolsUtil {
     }
     
     /**
-     * Gets a Drools <code>org.drools.rule.Package</code> from a byte array.
-     * 
-     * @param binPackage
-     *            A byte array
-     * @return Drools Package
-     * @throws Exception
+     * Gets a Drools <code>org.drools.definition.KnowledgePackage</code> 
+     * from a byte array.
+     *
+     * @param binPackage Byte array of compiled <code>org.drools.definition.KnowledgePackage</code> 
+     * @return Drools knowledge package
      */
-    public org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryException {
+    public KnowledgePackage getKnowledgePackage(final byte[] binPackage) throws RuleEngineRepositoryException {
         if (binPackage == null) {
             return null;
         }
 
-        /*ByteArrayInputStream bin = null;
-        ObjectInput in = null;
-
         try {
-            bin = new ByteArrayInputStream(binPackage);
-            in = new DroolsObjectInputStream(bin); 
-            return (org.drools.rule.Package) in.readObject();
-        } catch (IOException e) {
-            throw new RuleEngineRepositoryException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuleEngineRepositoryException(e);
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (bin != null) {
-                    bin.close();
-                }
-            } catch (IOException e) {
-                throw new RuleEngineRepositoryException("Loading rule set failed", e);
-            }
-        }*/
-        try {
-        	return serialize(binPackage);
+        	return (KnowledgePackage) serialize(binPackage);
         } catch (IOException e) {
             throw new RuleEngineRepositoryException(e);
         } catch (ClassNotFoundException e) {
             throw new RuleEngineRepositoryException(e);
         }
+    }
+    
+    /**
+     * Builds compiler error message.
+     * 
+     * @param errors Knowledge builder errors
+     * @return Compiler error message
+     */
+    public String buildCompilerErrorMessage(KnowledgeBuilderErrors errors) {
+        StringBuilder sb = new StringBuilder(); 
+		for(KnowledgeBuilderError error : errors) {
+        	sb.append(error.getMessage());
+        	sb.append("\n");
+        }
+		return sb.toString();
     }
 
     /**
@@ -404,14 +411,13 @@ public class DroolsUtil {
      * @param item Item that contains the error 
      * @return List of compiler errors
      */
-    public List<CompilerResult> generateCompilerResults(final PackageBuilderErrors errors, final VersionableItem item) {
+    public List<CompilerResult> generateCompilerResults(final KnowledgeBuilderErrors errors, final VersionableItem item) {
         List<CompilerResult> result = new ArrayList<CompilerResult>();
-        DroolsError[] dr = errors.getErrors();
-        for (int i = 0; i < dr.length; i++) {
+        for(KnowledgeBuilderError error : errors) {
             String uuid = item.getUUID();
             String name = item.getName();
             String format = item.getFormat();
-            String message = dr[i].getMessage();
+            String message = error.getMessage();
             CompilerResult br = new CompilerResult(uuid, name, format, message);
             result.add(br);
         }
@@ -426,25 +432,7 @@ public class DroolsUtil {
      * @return A {@link ByteArrayInputStream}
      * @throws IOException
      */
-    public InputStream getBinaryPackage(final org.drools.rule.Package pkg) throws IOException {
-        /*ObjectOutputStream oos = null;
-        // TODO: Drools 5.0 - ObjectOutput is used instead in Drools 5.0.0
-        //ObjectOutput oo = null;
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            oos = new ObjectOutputStream(baos);
-            // TODO: Drools 5.0 - DroolsObjectOutputStream is used instead in Drools 5.0.0
-            //oo = new DroolsObjectOutputStream(baos);
-            oos.writeObject(pkg);
-            return new ByteArrayInputStream(baos.toByteArray());
-        } finally {
-            if (oos != null) {
-                oos.flush();
-            }
-            if (oos != null) {
-                oos.close();
-            }
-        }*/
+    public InputStream getBinaryKnowledgePackage(final KnowledgePackage pkg) throws IOException {
         try {
         	return new ByteArrayInputStream(deserialize(pkg));
         } catch (IOException e) {
@@ -461,29 +449,22 @@ public class DroolsUtil {
      * @throws IOException
      * @throws DroolsParserException
      */
-    public CompilerResultList compile(final PackageItem pkg) throws IOException, DroolsParserException {
-        PackageBuilder builder = createPackageBuilder();
-        builder.addPackage(new PackageDescr(pkg.getName()));
-        String drl = pkg.getHeader();
-        builder.addPackageFromDrl(new StringReader(drl));
+    public CompilerResultList compile(final PackageItem item) throws IOException, DroolsParserException {
+    	KnowledgeBuilder builder = createKnowledgeBuilder();
+        Resource resource = ResourceFactory.newReaderResource(new StringReader(getDRL(item)));
+    	builder.add(resource, ResourceType.DRL);
 
         List<CompilerResult> errors = new ArrayList<CompilerResult>();
 
         if (builder.hasErrors()) {
-            List<CompilerResult> l = generateCompilerResults(builder.getErrors(), pkg);
+            List<CompilerResult> l = generateCompilerResults(builder.getErrors(), item);
             errors.addAll(l);
         }
 
-        // Drools 4 does not use generics so we have to suppress warning
-        for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
-            AssetItem item = it.next();
-            builder.addPackageFromDrl(new StringReader(item.getContent()));
-            if (builder.hasErrors()) {
-                List<CompilerResult> l = generateCompilerResults(builder.getErrors(), item);
-                errors.addAll(l);
-            }
-        }
-        CompilerResultList result = new CompilerResultList(builder.getPackage());
+        String source = getDRL(item);
+        Iterator<KnowledgePackage> it = builder.getKnowledgePackages().iterator();
+        KnowledgePackage pkg = (it.hasNext() ? it.next() : null);
+        CompilerResultList result = new CompilerResultList(pkg, source);
         result.addAll(errors);
         return result;
     }
@@ -493,7 +474,7 @@ public class DroolsUtil {
      * 
      * @return A {@link PackageBuilder}
      */
-    public PackageBuilder createPackageBuilder() {
+    /*public PackageBuilder createPackageBuilder() {
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
         ChainedProperties chainedProperties = new ChainedProperties(DroolsUtil.class.getClassLoader(), 
                 "packagebuilder.conf", false); // false means it ignores any default values
@@ -506,6 +487,19 @@ public class DroolsUtil {
         PackageBuilderConfiguration pkgConf = new PackageBuilderConfiguration(properties);
         pkgConf.setClassLoader(parentClassLoader);
         PackageBuilder builder = new PackageBuilder(pkgConf);
+        return builder;
+    }*/
+
+    /**
+     * Creates a new knowledge builder.
+     * 
+     * @return New {@link KnowledgeBuilder}
+     */
+    public KnowledgeBuilder createKnowledgeBuilder() {
+    	KnowledgeBuilderConfiguration config = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration();
+		config.setProperty("drools.dialect.java.compiler", "ECLIPSE");
+		config.setProperty("drools.dialect.java.lngLevel", "1.6");
+    	KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder(config);
         return builder;
     }
 
@@ -521,11 +515,11 @@ public class DroolsUtil {
         sb.append("package ");
         sb.append(pkg.getName());
         sb.append("\n");
-        sb.append(pkg.getHeader());
-        sb.append("\n\n");
+        // Drools 5.0 has no headers
+        //sb.append(pkg.getHeader());
+        //sb.append("\n\n");
 
-        // Drools 4 does not use generics so we have to suppress warning
-        for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
+        for (Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             sb.append(it.next().getContent());
             sb.append("\n");
         }
@@ -541,19 +535,8 @@ public class DroolsUtil {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static Package serialize(final byte[] bytes) throws IOException, ClassNotFoundException {
-		ObjectInput in = null;
-		ByteArrayInputStream bis = null;
-		Object obj = null;
-		try {
-			bis = new ByteArrayInputStream(bytes);
-			in = new DroolsObjectInputStream(bis);
-	        obj = in.readObject();
-		} finally {
-	        if (in!= null) in.close();
-	        if (bis!= null) bis.close();
-		}
-        return (Package) obj;
+	public static Object serialize(final byte[] bytes) throws IOException, ClassNotFoundException {
+    	return DroolsStreamUtils.streamIn(bytes);
     }
 
 	/**
@@ -564,21 +547,73 @@ public class DroolsUtil {
 	 * @throws IOException
 	 */
     public static byte[] deserialize(final Object obj) throws IOException {
-    	ByteArrayOutputStream bos = null;
-    	ObjectOutput out = null;
-    	try {
-    		// Serialize to a byte array
-	        bos = new ByteArrayOutputStream();
-            // TODO: Drools 5.0 - DroolsObjectOutputStream is used instead in Drools 5.0.0
-            //oo = new DroolsObjectOutputStream(baos);
-	        out = new ObjectOutputStream(bos);
-	        out.writeObject(obj);
-    	} finally {
-    		if (bos != null) bos.close();
-    		if (out != null) out.close();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	DroolsStreamUtils.streamOut(baos, obj);
+    	return baos.toByteArray();
+    }
+
+    /**
+     * Builds a Drools package from <code>source</code>
+     * 
+     * @param source Drools source code
+     * @return A Drools Package
+     * @throws Exception
+     */
+    public KnowledgePackage buildKnowledgePackage(Reader source) throws Exception {
+    	KnowledgeBuilder builder = createKnowledgeBuilder();
+    	Resource resource = ResourceFactory.newReaderResource(source);
+    	builder.add(resource, ResourceType.DRL);
+        Collection<KnowledgePackage> pkgs = builder.getKnowledgePackages();
+        return pkgs.iterator().next();
+    }
+    
+    /**
+     * Adds a Drools 5.0 header
+     * 
+     * @param pkg Drools repository package item
+     * @param header Header
+     */
+    public void addDroolsHeader(final PackageItem pkg, final String header) {
+    	if (header == null || header.trim().isEmpty()) {
+    		return;
     	}
-        // Get the bytes of the serialized object
-        final byte[] bytes = bos.toByteArray();
-        return bytes;
+    	
+    	AssetItem asset = pkg.addAsset(DroolsConstants.DROOLS_HEADER, "Drools header", null, PackageItem.PACKAGE_FORMAT);
+    	asset.updateContent(header);
+    	asset.checkin("Added Drools header");
+    }
+
+    /**
+     * Updates a Drools 5.0 header
+     * 
+     * @param pkg Drools repository package item
+     * @param header Header
+     */
+    public void updateDroolsHeader(final PackageItem pkg, final String header) {
+    	if (header == null || header.trim().isEmpty()) {
+    		return;
+    	}
+    	
+    	if (pkg.containsAsset(DroolsConstants.DROOLS_HEADER)) {
+	    	AssetItem asset = pkg.loadAsset(DroolsConstants.DROOLS_HEADER);
+	    	asset.updateContent(header);
+	    	asset.checkin("Updated Drools header");
+    	} else {
+    		addDroolsHeader(pkg, header);
+    	}
+    }
+    
+    /**
+     * Gets a Drools 5.0 header
+     * 
+     * @param pkg Drools repository package item
+     */
+    public String getDroolsHeader(final PackageItem pkg) {
+    	if (pkg.containsAsset(DroolsConstants.DROOLS_HEADER)) {
+    		return pkg.loadAsset(DroolsConstants.DROOLS_HEADER).getContent();
+    	} else {
+    		return null;
+    	}
+    	
     }
 }

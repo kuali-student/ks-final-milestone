@@ -70,12 +70,21 @@ public class RuleAdapter {
 	}
 
 	public RuleDTO getRuleDTO(Rule rule) {
-		RuleDTO dto = new RuleDTO(
-				rule.getUUID(),
-				rule.getName(),
-				rule.getVersionNumber(),
-				rule.getRuleSetUUID(),
-				rule.getRuleSetName());
+		RuleDTO dto = null;
+		if (rule.getUUID() == null || rule.getUUID().trim().isEmpty()) {
+			dto = new RuleDTO(
+					rule.getName(),
+					rule.getDescription(),
+					rule.getContent(),
+					rule.getFormat());			
+		} else {
+			dto = new RuleDTO(
+					rule.getUUID(),
+					rule.getName(),
+					rule.getVersionNumber(),
+					rule.getRuleSetUUID(),
+					rule.getRuleSetName());
+		}
 		dto.setArchived(rule.isArchived());
 		dto.setBinaryContent(rule.getBinaryContent());
 		dto.setCategories(getCategoryDTOs(rule.getCategories()));
@@ -119,10 +128,18 @@ public class RuleAdapter {
 	}
 
 	public RuleSetDTO getRuleSetDTO(RuleSet ruleSet) {
-		RuleSetDTO dto = new RuleSetDTO(
-				ruleSet.getUUID(),
-				ruleSet.getName(),
-				ruleSet.getVersionNumber());
+		RuleSetDTO dto = null;
+		if (ruleSet.getUUID() == null || ruleSet.getUUID().trim().isEmpty()) {
+			dto = new RuleSetDTO(
+					ruleSet.getName(),
+					ruleSet.getDescription(),
+					ruleSet.getFormat());			
+		} else {
+			dto = new RuleSetDTO(
+					ruleSet.getUUID(),
+					ruleSet.getName(),
+					ruleSet.getVersionNumber());
+		}
 		dto.setArchived(ruleSet.isArchived());
 		dto.setCheckinComment(ruleSet.getCheckinComment());
 		dto.setCompiledRuleSet(ruleSet.getCompiledRuleSet());

@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
@@ -49,12 +50,22 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
+import org.kuali.student.rules.internal.common.entity.FactParamDefTimeKey;
 
 @Daos({@Dao(value = "org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/factfinder-persistence.xml")
 public class TestFactFinderServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.rules.factfinder.service.impl.FactFinderServiceImpl", port = "8181")
     public FactFinderService client;
+
+    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
+    	for(Map<String,String> map : set) {
+    		if (map.get(column).equals(value)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     @Test
     public void testFetchFact_EarnedCreditList() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
@@ -72,11 +83,14 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         FactResultDTO result = client.fetchFact(factTypeKey, factStructureDTO);
         
         assertEquals(result.getFactResultTypeInfo().getKey(), "result.courseCreditInfo");
-        assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        assertEquals(3, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         assertEquals(2, result.getResultList().size());
-        assertEquals("2.5", result.getResultList().get(0).get("resultColumn.credit"));
-        assertEquals("3.5", result.getResultList().get(1).get("resultColumn.credit"));        
+        // Can't assume any order of the result list
+        assertTrue(containsResult(result.getResultList(), "resultColumn.credit", "2.5"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.credit", "3.5"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 201 (2.5) Contemporary Issues in Psychology"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 202 (3.5) Thinking Clearly about Psychology"));
     }
     
     @Test
@@ -94,12 +108,16 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         FactResultDTO result = client.fetchFact(factTypeKey, factStructureDTO);
         
         assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
-        assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        assertEquals(2, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         assertEquals(3, result.getResultList().size());
-        assertEquals("PSYC 200", result.getResultList().get(0).get("resultColumn.cluId"));
-        assertEquals("PSYC 201", result.getResultList().get(1).get("resultColumn.cluId"));
-        assertEquals("PSYC 202", result.getResultList().get(2).get("resultColumn.cluId"));        
+        // Can't assume any order of the result list
+        assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 201"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 202"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 200 (3) Experimental Psychology and Laboratory"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 201 (2.5) Contemporary Issues in Psychology"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 202 (3.5) Thinking Clearly about Psychology"));
     }
     
     @Test
@@ -110,13 +128,15 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         
         FactResultTypeInfoDTO factResultType = factType.getFactResultTypeInfo();        
         assertEquals("resultColumn.credit", factResultType.getResultColumnsMap().get("resultColumn.credit").getKey());
+        assertEquals("resultColumn.cluId", factResultType.getResultColumnsMap().get("resultColumn.cluId").getKey());
+        assertEquals("resultColumn.description", factResultType.getResultColumnsMap().get("resultColumn.description").getKey());
         
         FactCriteriaTypeInfoDTO factCriteriaType = factType.getFactCriteriaTypeInfo();
         assertEquals(3, factCriteriaType.getFactParamMap().size());
         assertTrue(factCriteriaType.getFactParamMap().containsKey("factParam.clusetId"));
         
         FactParamDTO factParam = factCriteriaType.getFactParamMap().get("factParam.excludeCluSet");
-        assertEquals(FactParamDTO.FactParamDefTime.DEFINITION, factParam.getDefTime());
+        assertEquals(FactParamDefTimeKey.KUALI_FACT_DEFINITION_TIME_KEY.toString(), factParam.getDefTime());
     }    
 
     @Test
@@ -125,5 +145,6 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         
         assertEquals(2, factTypeInfoList.size());
         assertEquals("fact.earned_credit_list", factTypeInfoList.get(0).getFactTypeKey());
+        assertEquals("fact.completed_course_list", factTypeInfoList.get(1).getFactTypeKey());
     }
 }

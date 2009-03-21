@@ -16,18 +16,15 @@
             <param name="ConversionPattern" value="%-5p (%F:%M:%L) \t %m%n"/>
 		</layout>
 	</appender>
-	<appender name="RollingFileAppender"
-		class="org.apache.log4j.rolling.RollingFileAppender">
-		<!-- Log files should use today's date and rotate at midnight -->
-		<rollingPolicy
-			class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-			<!-- Set the path and file name pattern for the brms log files -->
-			<param name="FileNamePattern" value="brms.%d.log" />
-		</rollingPolicy>
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n" />
-		</layout>
-	</appender>
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.base}/logs/kuali-student-brms.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="Append" value="true"/>
+        <param name="Threshold" value="DEBUG"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{HH:mm:ss:SSS} - %p - %C{1} - %m%n"/>
+        </layout>
+    </appender>
 
 	<logger name="org.kuali.student.rules">
 		<level value="INFO"/>
@@ -37,6 +34,6 @@
     </logger>
 	<root>
 		<priority value="ERROR"/>
-		<appender-ref ref="CONSOLE"/>
+		<appender-ref ref="FILE"/>
 	</root>
 </log4j:configuration>

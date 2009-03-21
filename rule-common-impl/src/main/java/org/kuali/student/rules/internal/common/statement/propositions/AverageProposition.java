@@ -16,50 +16,51 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Average;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
 
-public class AverageProposition<E extends Number> extends SumProposition<E> {
-
-    private BigDecimal listSize;
+public class AverageProposition<E extends Number> extends AbstractProposition<BigDecimal> { //extends SumProposition<E> {
+	private BigDecimal average;
     
-	public AverageProposition(String id, 
+    private Function averageFunction;
+    List<E> factSet;
+
+    public AverageProposition(String id, 
 							  String propositionName, 
     						  ComparisonOperator operator, 
     						  BigDecimal expectedValue, 
     						  List<E> factSet) {
-    	super(id, propositionName, operator, expectedValue, factSet);
+    	super(id, propositionName, PropositionType.AVERAGE, operator, expectedValue);
+
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
-    	listSize = new BigDecimal(factSet.size());
+
+        this.factSet = factSet;
+        averageFunction = new Average<E>(this.factSet);
     }
 
     @Override
     public Boolean apply() {
-        BigDecimal average = sum().divide(listSize);
+    	average = (BigDecimal) averageFunction.compute();
 
         result = checkTruthValue(average, super.expectedValue);
 
-        cacheReport("Average is short by %s", average, super.expectedValue);
+        resultValues = new ArrayList<BigDecimal>();
+        resultValues.add(average);
 
         return result;
     }
 
     @Override
-    protected void cacheReport(String format, Object... args) {
-        if (result) {
-            report.setSuccessMessage("Average constraint fulfilled");
-            return;
-        }
-
-        BigDecimal sum = (BigDecimal) args[0];
-        BigDecimal expectedValue = (BigDecimal) args[1];
-
-        // TODO: Use the operator to compute exact message
-        BigDecimal needed = expectedValue.subtract(sum);
-        String advice = String.format(format, needed.toString());
-        report.setFailureMessage(advice);
+    public void buildMessageContextMap() {
+    	addMessageContext(MessageContextConstants.PROPOSITION_AVERAGE_MESSAGE_CTX_KEY, average.toString());
+        BigDecimal needed = expectedValue.subtract(average);
+        addMessageContext(MessageContextConstants.PROPOSITION_AVERAGE_MESSAGE_CTX_KEY_DIFF, needed.toString());
     }
 }

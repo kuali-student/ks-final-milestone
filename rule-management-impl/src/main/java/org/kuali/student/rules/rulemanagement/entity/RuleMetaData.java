@@ -40,13 +40,11 @@ public class RuleMetaData {
     Date updateDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    Date effectiveDateStart;
+    Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    Date effectiveDateEnd;
+    Date expirationDate;
 
-    String version;
-    String status;
 
     /**
      * @return the createdBy
@@ -109,62 +107,30 @@ public class RuleMetaData {
     }
 
     /**
-     * @return the effectiveDateStart
+     * @return the effectiveDate
      */
-    public final Date getEffectiveDateStart() {
-        return effectiveDateStart;
+    public Date getEffectiveDate() {
+        return effectiveDate;
     }
 
     /**
-     * @param effectiveDateStart
-     *            the effectiveDateStart to set
+     * @param effectiveDate the effectiveDate to set
      */
-    public final void setEffectiveDateStart(Date effectiveDateStart) {
-        this.effectiveDateStart = effectiveDateStart;
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
     /**
-     * @return the effectiveDateEnd
+     * @return the expirationDate
      */
-    public final Date getEffectiveDateEnd() {
-        return effectiveDateEnd;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
     /**
-     * @param effectiveDateEnd
-     *            the effectiveDateEnd to set
+     * @param expirationDate the expirationDate to set
      */
-    public final void setEffectiveDateEnd(Date effectiveDateEnd) {
-        this.effectiveDateEnd = effectiveDateEnd;
-    }
-
-    /**
-     * @return the version
-     */
-    public final String getVersion() {
-        return version;
-    }
-
-    /**
-     * @param version
-     *            the version to set
-     */
-    public final void setVersion(String version) {
-        this.version = version;
-    }
-
-    /**
-     * @return the status
-     */
-    public final String getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status
-     *            the statusEnum to set
-     */
-    public final void setStatus(String status) {
-        this.status = status;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

@@ -21,6 +21,7 @@
 		<property name="id" value="11223344-1122-1122-1112-200000000001"/>
 		<property name="studentId" value="student1"/>
 		<property name="cluId" value="PSYC 200"/>
+        <property name="description" value="Psychology 200 (3) Experimental Psychology and Laboratory"/>
 		<property name="credits" value="3.0"/>
 	</bean>
 
@@ -28,6 +29,7 @@
 		<property name="id" value="11223344-1122-1122-1112-200000000002"/>
 		<property name="studentId" value="student1"/>
 		<property name="cluId" value="PSYC 201"/>
+        <property name="description" value="Psychology 201 (2.5) Contemporary Issues in Psychology"/>
 		<property name="credits" value="2.5"/>
 	</bean>
 
@@ -35,6 +37,7 @@
 		<property name="id" value="11223344-1122-1122-1112-200000000003"/>
 		<property name="studentId" value="student1"/>
 		<property name="cluId" value="PSYC 202"/>
+        <property name="description" value="Psychology 202 (3.5) Thinking Clearly about Psychology"/>
 		<property name="credits" value="3.5"/>
 	</bean>
 	
@@ -42,6 +45,7 @@
 		<property name="id" value="11223344-1122-1122-1112-200000000004"/>
 		<property name="studentId" value="student2"/>
 		<property name="cluId" value="PSYC 200"/>
+        <property name="description" value="Psychology 200 (3) Experimental Psychology and Laboratory"/>
 		<property name="credits" value="1.5"/>
 	</bean>
 
@@ -50,9 +54,8 @@
 		<property name="id" value="11223344-1122-1122-1112-200000000005"/>
 		<property name="studentId" value="student2"/>
 		<property name="cluId" value="PSYC 300"/>
+        <property name="description" value="Psychology 300 (3) Behaviour Disorders"/>
 		<property name="credits" value="3.0"/>
 	</bean>
 	
-
-		
 </beans>

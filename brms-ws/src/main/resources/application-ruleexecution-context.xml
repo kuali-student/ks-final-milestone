@@ -27,7 +27,39 @@
     </bean>
 
     <bean id="ruleBaseCache"
-        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsKnowledgeBase">
+        <property name="cache" ref="cache"/>
+    </bean>
+    
+    <bean id="cache"
+        class="org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache">
+        <constructor-arg type="int" value="50"/>
+    </bean>
+    
+    <bean id="reportBuilder"
+        class="org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilderImpl">
+        <constructor-arg ref="simpleExecutor" />
+    </bean>
+    
+    <bean id="simpleExecutor"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
+    </bean>
+    
+    <bean id="ruleSetExecutorTest"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <property name="enableExecutionLogging" value="true"/>
+        <property name="enableStatLogging" value="false"/>
+        <property name="ruleBaseCache" ref="ruleBaseCacheTest"/>
+    </bean>
+
+    <bean id="ruleBaseCacheTest"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsKnowledgeBase">
+        <property name="cache" ref="cacheTest"/>
+    </bean>
+    
+    <bean id="cacheTest"
+        class="org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache">
+        <constructor-arg type="int" value="2"/>
     </bean>
     
     <!--*****************************************-->
@@ -52,11 +84,13 @@
 
     <bean id="ruleExecutionServiceImpl"
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
-	        <property name="enableRuleSetCaching" value="false" />
-            <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
-	        <property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
-            <property name="ruleManagementService" ref="ruleManagementClient"/>
-            <property name="factFinderService" ref="factFinderClient"/>
+		<property name="enableRuleSetCaching" value="true" />
+		<property name="ruleSetExecutor" ref="ruleSetExecutor"/>
+		<property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
+		<property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
+		<property name="ruleManagementService" ref="ruleManagementClient"/>
+		<property name="factFinderService" ref="factFinderClient"/>
+		<property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
 </beans>

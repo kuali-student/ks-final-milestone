@@ -15,10 +15,16 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Intersection;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -30,34 +36,47 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 public class IntersectionProposition<E> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
+	private Set<E> met;
+	
+    private Function intersection;
 
     Set<E> criteriaSet;
     Set<E> factSet;
-
+    Collection<?> resultValues;
+    
     // ~ Constructors -----------------------------------------------------------
 
     public IntersectionProposition() {
         super();
     }
 
-    public IntersectionProposition(String id, String propositionName, ComparisonOperator operator, Integer expectedValue,
+    public IntersectionProposition(String id, String propositionName, 
+    		ComparisonOperator operator, Integer expectedValue,
             Set<E> criteriaSet, Set<E> factSet) {
-        super(id, propositionName, operator, expectedValue);
+        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue);
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
+
+		List<Collection<E>> list = new ArrayList<Collection<E>>();
+		list.add(this.criteriaSet);
+		list.add(this.factSet);
+    	intersection = new Intersection<E>(list);
     }
 
     // ~ Methods ----------------------------------------------------------------
 
     @Override
     public Boolean apply() {
-        Set<E> met = and();
-        Integer count = met.size();
+    	intersection.setOperation(Intersection.Operation.INTERSECTION.toString());
+    	intersection.compute();
+    	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
+    	
+        Integer count = Integer.valueOf(met.size());
 
         result = checkTruthValue(count, super.expectedValue);
 
-        cacheReport("%d of %s is still required", count, super.expectedValue);
-
+        this.resultValues = met;
+        
         return result;
     }
 
@@ -67,43 +86,18 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    protected void cacheReport(String format, Object... args) {
-        Integer count = (Integer) args[0];
-        Integer expectedValue = (Integer) args[1];
-        if (result) {
-            report.setSuccessMessage("Intersection constraint fulfilled");
-            return;
-        }
+    public void buildMessageContextMap() {
+        Integer count = met.size();
+        Integer expectedValue = (Integer) super.expectedValue;
+        addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_MET, met);
 
-        // TODO: Use the operator to compute exact message
-        Set<E> unMet = andNot();
-        int needed = expectedValue - count;
-        String advice = String.format(format, needed, unMet.toString());
-        report.setFailureMessage(advice);
-    }
+    	intersection.setOperation(Intersection.Operation.DIFFERENCE.toString());
+    	intersection.compute();
+    	Set<E> unMet = new HashSet<E>((Collection<E>) intersection.getOutput());
 
-    /**
-     * Returns the intersection of the fact set with the criteria set.
-     * 
-     * @return the intersection
-     */
-    public Set<E> and() {
-        Set<E> rval = new HashSet<E>(factSet);
-        rval.retainAll(criteriaSet);
-
-        return rval;
-    }
-
-    /**
-     * Returns the disjunction of the criteria set from the fact set.
-     * 
-     * @return
-     */
-    public Set<E> andNot() {
-        HashSet<E> rval = new HashSet<E>(criteriaSet);
-        rval.removeAll(factSet);
-
-        return rval;
+    	Integer needed = expectedValue - count;
+        addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_DIFF, needed);
+        addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_UNMET, unMet);
     }
 
     /**
@@ -114,25 +108,13 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
     }
 
     /**
-     * @param criteriaSet
-     *            the criteriaSet to set
-     */
-    public void setCriteriaSet(Set<E> criteriaSet) {
-        this.criteriaSet = new HashSet<E>(criteriaSet);
-    }
-
-    /**
      * @return the factSet
      */
     public Set<E> getFactSet() {
         return factSet;
     }
 
-    /**
-     * @param factSet
-     *            the factSet to set
-     */
-    public void setFactSet(Set<E> factSet) {
-        this.factSet = new HashSet<E>(factSet);
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 }

@@ -18,7 +18,7 @@
 		</layout>
 	</appender>
 	<logger name="org.kuali.student.rules">
-		<level value="INFO"/>
+		<level value="WARN"/>
 	</logger>
     <logger name="org.drools">
         <level value="ERROR"/>

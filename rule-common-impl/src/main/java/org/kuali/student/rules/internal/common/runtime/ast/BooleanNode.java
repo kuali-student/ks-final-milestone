@@ -6,7 +6,7 @@ import org.antlr.runtime.tree.CommonTree;
 public class BooleanNode extends CommonTree {
 	
 	private BooleanNode parent;
-	private boolean value;
+	private Boolean value;
 	private String nodeMessage;
 	
 	public BooleanNode(Token payload) {
@@ -29,7 +29,7 @@ public class BooleanNode extends CommonTree {
 		 return this.getText();
 	}
 	
-	public boolean getValue(){
+	public Boolean getValue(){
 		 return value;
 	}
 	
@@ -43,7 +43,7 @@ public class BooleanNode extends CommonTree {
 		 this.parent = parent;
 	}
 	
-	public void setValue(boolean value){
+	public void setValue(Boolean value){
 		 this.value = value;
 	}
 	

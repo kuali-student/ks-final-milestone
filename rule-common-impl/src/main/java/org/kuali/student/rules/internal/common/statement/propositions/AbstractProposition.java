@@ -15,10 +15,16 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
 /**
  * Abstract superclass that implements common proposition. Also wraps <code>CloneNotSupportedException</code> with
@@ -33,108 +39,126 @@ public abstract class AbstractProposition<T> implements Proposition {
     protected Boolean result = false;
     protected String id;
     protected String propositionName;
-    protected PropositionReport report = new PropositionReport();
     protected ComparisonOperator operator;
     protected T expectedValue;
-
+    protected PropositionType propositionType;
+    protected Collection<T> resultValues;
+    
+    private final Map<String,Object> contextMap = new HashMap<String, Object>();
+    
     // ~ Constructors -----------------------------------------------------------
     public AbstractProposition() {
         super();
     }
 
     /**
-     * Construct from fields.
+     * Constructor.
      * 
-     * @param propositionName
+     * @param id Proposition identifier
+     * @param propositionName Proposition name
+     * @param type Proposition type
+     * @param operator Boolean operator (<,>,<=,>=,=)
+     * @param expectedValue Expected value
+     * @param ruleProposition Rule proposition
      */
-    public AbstractProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue) {
+    public AbstractProposition(String id, String propositionName, PropositionType type, 
+    		ComparisonOperator operator, T expectedValue) {
         this.id = id;
         this.propositionName = propositionName;
+        this.propositionType = type;
         this.operator = operator;
         this.expectedValue = expectedValue;
     }
 
     protected Boolean checkTruthValue(Comparable<T> computedValue, T expectedValue) {
-
         if (!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable)) {
             throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
         }
 
-        Boolean truthValue = false;
         int compareValue = computedValue.compareTo(expectedValue);
+        return compare(compareValue);
+    }
 
-        switch (operator) {
-
-            case EQUAL_TO:
-                truthValue = (compareValue == 0);
-                break;
-            case LESS_THAN:
-                truthValue = (compareValue == -1);
-                break;
-            case LESS_THAN_OR_EQUAL_TO:
-                truthValue = (compareValue == 0 || compareValue == -1);
-                break;
-            case GREATER_THAN:
-                truthValue = (compareValue == 1);
-                break;
-            case GREATER_THAN_OR_EQUAL_TO:
-                truthValue = (compareValue == 0 || compareValue == 1);
-                break;
-            case NOT_EQUAL_TO:
-                truthValue = (compareValue != 0);
-                break;
+    protected Boolean checkTruthValue(Comparable<T> computedValue) {
+        if (!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable)) {
+            throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
         }
 
-        return truthValue;
+        int compareValue = computedValue.compareTo(this.expectedValue);
+        return compare(compareValue);
     }
 
     protected Boolean checkTruthValue(Comparator<T> comparator, T computedValue, T expectedValue) {
-        Boolean truthValue = false;
         int compareValue = comparator.compare(computedValue, expectedValue);
-
-        switch (operator) {
-
-            case EQUAL_TO:
-                truthValue = (compareValue == 0);
-                break;
-            case LESS_THAN:
-                truthValue = (compareValue == -1);
-                break;
-            case LESS_THAN_OR_EQUAL_TO:
-                truthValue = (compareValue == 0 || compareValue == -1);
-                break;
-            case GREATER_THAN:
-                truthValue = (compareValue == 1);
-                break;
-            case GREATER_THAN_OR_EQUAL_TO:
-                truthValue = (compareValue == 0 || compareValue == 1);
-                break;
-            case NOT_EQUAL_TO:
-                truthValue = (compareValue != 0);
-                break;
-        }
-
-        return truthValue;
-
+        return compare(compareValue);
     }
 
-    public abstract Boolean apply();
+    private Boolean compare(int compareValue) {
+        Boolean truthValue = false;
+        switch (this.operator) {
+	        case EQUAL_TO:
+	            truthValue = (compareValue == 0);
+	            break;
+	        case LESS_THAN:
+	            truthValue = (compareValue == -1);
+	            break;
+	        case LESS_THAN_OR_EQUAL_TO:
+	            truthValue = (compareValue == 0 || compareValue == -1);
+	            break;
+	        case GREATER_THAN:
+	            truthValue = (compareValue == 1);
+	            break;
+	        case GREATER_THAN_OR_EQUAL_TO:
+	            truthValue = (compareValue == 0 || compareValue == 1);
+	            break;
+	        case NOT_EQUAL_TO:
+	            truthValue = (compareValue != 0);
+	            break;
+        }
+	    return truthValue;
+    }
+    
+    protected void addMessageContext(String token, Object value) {
+    	this.contextMap.put(token, value);
+    }
+    
+    public Map<String,Object> getMessageContextMap() {
+    	return this.contextMap;
+    }
 
-    protected abstract void cacheReport(String format, Object... args);
+    public abstract void buildMessageContextMap();
+    
+    protected String getTypeAsString(T type) {
+	    String s = null;
+    	if (type.getClass() == Date.class) {
+	    	Date date = Date.class.cast(type);
+	    	s = BusinessRuleUtil.formatIsoDate(date);
+	    } else if (type.getClass() == Calendar.class ) {
+        	Calendar cal = Calendar.class.cast(type);
+        	s = BusinessRuleUtil.formatIsoDate(cal.getTime());
+        } else if (type.getClass() == GregorianCalendar.class ) {
+        	GregorianCalendar cal = GregorianCalendar.class.cast(type);
+        	s = BusinessRuleUtil.formatIsoDate(cal.getTime());
+        //} else if (type.getClass() == XMLGregorianCalendar.class ) {
+        //	XMLGregorianCalendar xmlCal = XMLGregorianCalendar.class.cast(type);
+        //	GregorianCalendar cal = xmlCal.toGregorianCalendar();
+        //	s = BusinessRuleUtil.formatDate(cal.getTime());
+        } else {
+        	s = type.toString();
+        }
+    	return s;
+    }
+
+    /**
+     * Executes the proposition rule.
+     */
+    public abstract Boolean apply();
 
     /**
      * @return the result
      */
     public Boolean getResult() {
         return result;
-    }
-
-    /**
-     * @param result
-     *            the result to set
-     */
-    public void setResult(Boolean result) {
-        this.result = result;
     }
 
     /**
@@ -151,42 +175,19 @@ public abstract class AbstractProposition<T> implements Proposition {
         return propositionName;
     }
 
-    /**
-     * @param propositionName
-     *            the propositionName to set
-     */
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
-    }
-
-    /**
-     * @return the report
-     */
-    public PropositionReport getReport() {
-        return report;
-    }
-
-    /**
-     * @param report
-     *            the report to set
-     */
-    public void setReport(PropositionReport report) {
-        this.report = report;
-    }
+	/**
+	 * Returns the proposition type.
+	 * @return Proposition type
+	 */
+	public PropositionType getType() {
+		return this.propositionType;
+	}
 
     /**
      * @return the operator
      */
     public ComparisonOperator getOperator() {
         return operator;
-    }
-
-    /**
-     * @param operator
-     *            the operator to set
-     */
-    public void setOperator(ComparisonOperator operator) {
-        this.operator = operator;
     }
 
     /**
@@ -197,17 +198,19 @@ public abstract class AbstractProposition<T> implements Proposition {
     }
 
     /**
-     * @param expectedValue
-     *            the expectedValue to set
+     * Gets results of proposition computation.
+     * 
+     * @return Proposition computation results
      */
-    public void setExpectedValue(T expectedValue) {
-        this.expectedValue = expectedValue;
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 
-    public String toString() {
+	public String toString() {
     	return "Proposition[id=" + this.id 
     		+ ", propositionName=" + this.propositionName
-    		+ ", type=" + this.getClass().getSimpleName()
+    		+ ", propositionType=" + this.propositionType
+    		+ ", class=" + this.getClass().getSimpleName()
     		+ ", result="+this.result + "]";
     }
 }

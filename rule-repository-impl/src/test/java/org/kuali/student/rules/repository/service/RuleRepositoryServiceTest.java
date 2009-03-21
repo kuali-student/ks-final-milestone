@@ -49,8 +49,12 @@ import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SubsetRuleProposition;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
@@ -199,9 +203,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         boolean b = service.createCategory("/", category, "A test category 1.0 description");
         assertTrue(b);
 
-        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", category) );
+        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("RuleSet1", category) );
         assertNotNull(ruleSet1);
-    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("RuleSet2", category) );
         assertNotNull(ruleSet2);
 
         List<RuleSetDTO> list = service.fetchRuleSetsByCategory(category);
@@ -237,9 +241,10 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertNotNull( ruleSet1 );
         
         byte[] binPkg = service.fetchRuleSet(ruleSet1.getUUID()).getCompiledRuleSet();
-        org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        //org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        org.drools.definition.KnowledgePackage pkg = DroolsUtil.getInstance().getKnowledgePackage(binPkg);
         assertNotNull(pkg);
-        assertTrue(pkg.isValid());
+        //assertTrue(pkg.isValid());
 
         service.removeRuleSet( ruleSet1.getUUID() );
     }
@@ -313,9 +318,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         boolean b = service.createCategory("/", category, "A test category 1.0 description");
         assertTrue(b);
 
-        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", category) );
+        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("RuleSet1", category) );
         assertNotNull(ruleSet1);
-    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("RuleSet2", category) );
         assertNotNull(ruleSet2);
         
         service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
@@ -341,17 +346,22 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
         assertNotNull(ruleSet1);
 
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
-        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
-        assertNotNull(snapshot);
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot1");
+        RuleSetDTO snapshot1 = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
+        assertNotNull(snapshot1);
 
-        service.replaceRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "Replace snapshot with new compilation");
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot2", "A new snapshot2");
+        RuleSetDTO snapshot2 = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
+        assertNotNull(snapshot2);
 
-		snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
-        assertNotNull(snapshot);
-        assertEquals("snapshot1", snapshot.getSnapshotName());
+        service.replaceRuleSetSnapshot(ruleSet1.getUUID(), "snapshot2", "Replace current snapshot (snapshot1) with new snapshot2");
 
-        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getSnapshotName());
+		snapshot2 = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot2");
+        assertNotNull(snapshot2);
+        assertEquals("snapshot2", snapshot2.getSnapshotName());
+
+        service.removeRuleSetSnapshot(snapshot2.getUUID(), snapshot2.getSnapshotName());
+        service.removeRuleSetSnapshot(snapshot1.getUUID(), snapshot1.getSnapshotName());
         service.removeRuleSet(ruleSet1.getUUID());
     }
 
@@ -379,10 +389,11 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
        
         byte[] binPkg = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1").getCompiledRuleSet();
-        org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        //org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        org.drools.definition.KnowledgePackage pkg = DroolsUtil.getInstance().getKnowledgePackage(binPkg);
 
         assertNotNull(pkg);
-        assertTrue(pkg.isValid());
+        //assertTrue(pkg.isValid());
 
         service.removeRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         service.removeRuleSet(ruleSet1.getUUID());
@@ -394,9 +405,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	assertNotNull(uuid);
     	service.removeState("Active");
 
-    	String[] states = service.fetchStates();
-        assertEquals(1, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
+    	List<String> states = service.fetchStates();
+        assertEquals(1, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
     }
     
     @Test
@@ -404,10 +415,10 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	String uuid = service.createState("Active");
     	assertNotNull(uuid);
 
-    	String[] states = service.fetchStates();
-        assertEquals(2, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
-        assertEquals("Active", states[1]);
+    	List<String> states = service.fetchStates();
+        assertEquals(2, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
+        assertEquals("Active", states.get(1));
     	service.removeState("Active");
     }
     
@@ -441,19 +452,19 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
     	//bri.setName("MyNewBusinessRule");
     	bri.setName(ruleName);
-    	bri.setDescription("Some business rule");
+    	bri.setDesc("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
     	//bri.setBusinessRuleId("1");
-    	bri.setBusinessRuleId(ruleId);
-    	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
+    	bri.setId(ruleId);
+    	bri.setType("kuali.student.businessrule.typekey.course.corequisites");
     	bri.setAnchorTypeKey("kuali.student.lui.course.id");
     	bri.setAnchorValue(anchorValue);
-    	bri.setRuleElementList(ruleElementList);
+    	bri.setBusinessRuleElementList(ruleElementList);
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 0, 0);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 0, 0);
-    	bri.setEffectiveStartTime(effectiveStartTime);
-    	bri.setEffectiveEndTime(effectiveEndTime);
+    	bri.setEffectiveDate(effectiveStartTime);
+    	bri.setExpirationDate(effectiveEndTime);
     	return bri;
     }
 
@@ -461,7 +472,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleElementDTO re = new RuleElementDTO();
         re.setName("And");
         re.setDescription("And");
-        re.setOperation("AND");
+        re.setBusinessRuleElemnetTypeKey("AND");
         
         return re;
     }
@@ -485,12 +496,24 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
     	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
+		Map<String,String> subsetResultColumnKey = new HashMap<String, String>();
+		subsetResultColumnKey.put(MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY, "column1");
+
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setResultColumnKeyTranslations(subsetResultColumnKey);
 		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.subset.fact");
+		factStructure2.setResultColumnKeyTranslations(subsetResultColumnKey);
+
 		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1, factStructure2));
 		
+		Map<String,String> intersectionResultColumnKey = new HashMap<String, String>();
+		intersectionResultColumnKey.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "column1");
+
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.3", "course.subset.criteria");
+		factStructure3.setResultColumnKeyTranslations(intersectionResultColumnKey);
 		FactStructureDTO factStructure4 = createFactStructure("subset.id.4", "course.subset.fact");
+		factStructure4.setResultColumnKeyTranslations(intersectionResultColumnKey);
+
 		yieldValueFunction2.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
 
 		List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
@@ -578,9 +601,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     private FactContainer execute(RuleSetDTO ruleSet, BusinessRuleInfoDTO bri) throws Exception { 
     	// Proposition 0 - SUBSET 
-    	List<RuleElementDTO> ruleElementList = bri.getRuleElementList();
+    	List<RuleElementDTO> ruleElementList = bri.getBusinessRuleElementList();
     	RuleElementDTO ruleElement1 = ruleElementList.get(0);
-    	List<FactStructureDTO> factList = ruleElement1.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+    	List<FactStructureDTO> factList = ruleElement1.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
     	FactStructureDTO factStructure1 = factList.get(0);
     	FactStructureDTO factStructure2 = factList.get(1);
 
@@ -589,7 +612,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Proposition 2 - INTERSECTION 
     	RuleElementDTO ruleElement2 = ruleElementList.get(2);
-    	List<FactStructureDTO> factList2 = ruleElement2.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+    	List<FactStructureDTO> factList2 = ruleElement2.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
     	FactStructureDTO factStructure3 = factList2.get(0);
     	FactStructureDTO factStructure4 = factList2.get(1);
     	
@@ -622,7 +645,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(bri);
-        FactContainer facts =  new FactContainer(""+System.nanoTime(), bri.getAnchorValue(), propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), bri.getAnchorValue(), bri.getAnchorTypeKey(), propMap, factMap);
 
         // Execute rule
         // Execute Drools rule set source code
@@ -656,6 +679,24 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
+        service.removeRuleSet(ruleSet1.getUUID());
+    }
+
+    @Test
+    public void testGenerateAndCreateRuleSet_CheckStatus() throws Exception {
+    	BusinessRuleInfoDTO businessRule = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
+        businessRule.setState(BusinessRuleStatus.ACTIVE.toString());
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule);
+
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+    	// Assert rule set
+    	assertEquals(BusinessRuleStatus.ACTIVE.toString(), ruleSet1.getStatus());
+    	// Assert rules
+    	for(RuleDTO rule : ruleSet1.getRules().values()) {
+	    	assertEquals(BusinessRuleStatus.ACTIVE.toString(), rule.getStatus());
+    	}
         service.removeRuleSet(ruleSet1.getUUID());
     }
 
@@ -724,7 +765,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     @Test
     public void testGenerateAndCreateRuleSet_NullRuleElements() throws Exception {
     	BusinessRuleInfoDTO businessRule1 = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
-    	businessRule1.setRuleElementList(null);
+    	businessRule1.setBusinessRuleElementList(null);
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule1);
 
@@ -736,7 +777,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     @Test
     public void testGenerateAndCreateRuleSet_EmptyRuleElements() throws Exception {
     	BusinessRuleInfoDTO businessRule1 = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
-    	businessRule1.setRuleElementList(new ArrayList<RuleElementDTO>());
+    	businessRule1.setBusinessRuleElementList(new ArrayList<RuleElementDTO>());
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule1);
 
@@ -757,7 +798,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Update rule's RHS expected value and set rule set UUID
     	businessRule1.setCompiledId(ruleSet1.getUUID()); 
-		RightHandSideDTO rhs = businessRule1.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
+		RightHandSideDTO rhs = businessRule1.getBusinessRuleElementList().get(2).getBusinessRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("2");
     	// Generate (update) rule set again which creates a new version
     	RuleSetDTO ruleSet2 = service.generateRuleSetForBusinessRule(businessRule1);
@@ -800,7 +841,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Update rule's RHS expected value and set rule set UUID
     	businessRule1.setCompiledId(ruleSet1.getUUID()); 
-		RightHandSideDTO rhs = businessRule1.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
+		RightHandSideDTO rhs = businessRule1.getBusinessRuleElementList().get(2).getBusinessRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("2"); // which results in false since there's only 1 intersection 
     	// Generate (update) rule set again which creates a new version
     	RuleSetDTO ruleSet2 = service.generateRuleSetForBusinessRule(businessRule1);

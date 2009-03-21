@@ -15,12 +15,10 @@
  */
 package org.kuali.student.rules.rulemanagement.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -51,7 +49,7 @@ public class FactStructureVariable {
      */
     @PrePersist
     public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
+        this.id = UUIDHelper.genStringUUID(this.id);
     }
 
     /**

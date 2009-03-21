@@ -15,7 +15,6 @@
  */
 package org.kuali.student.rules.rulemanagement.entity;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -49,6 +48,10 @@ public class FactStructure {
     
     private Boolean anchorFlag; 
  
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy="factStructure")
+    private Set<FactStructureTranslationKey> translationKeySet;
+        
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy="factStructure")
     private Set<FactStructureVariable> paramValueSet;
         
@@ -67,7 +70,7 @@ public class FactStructure {
      */
     @PrePersist
     public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
+        this.id = UUIDHelper.genStringUUID(this.id);
     }
 
     /**
@@ -194,5 +197,19 @@ public class FactStructure {
      */
     public void setStaticValueDataType(String staticValueDataType) {
         this.staticValueDataType = staticValueDataType;
-    }    
+    }
+
+    /**
+     * @return the translationKeySet
+     */
+    public Set<FactStructureTranslationKey> getTranslationKeySet() {
+        return translationKeySet;
+    }
+
+    /**
+     * @param translationKeySet the translationKeySet to set
+     */
+    public void setTranslationKeySet(Set<FactStructureTranslationKey> translationKeySet) {
+        this.translationKeySet = translationKeySet;
+    }        
 }

@@ -15,10 +15,16 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
+import org.kuali.student.rules.internal.common.statement.propositions.functions.Intersection;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -29,9 +35,17 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  */
 public class SubsetProposition<E> extends AbstractProposition<Integer> {
     // ~ Instance fields --------------------------------------------------------
+	private Set<E> met;
+	
+    private Function intersection;
 
     Set<E> criteriaSet;
     Set<E> factSet;
+    Collection<?> resultValues;
+
+    public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_MET = "prop_subset_metset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET = "prop_subset_unmetset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_DIFFERENCE = "prop_subset_diff";
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -39,22 +53,32 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         super();
     }
 
-    public SubsetProposition(String id, String propositionName, Set<E> criteriaSet, Set<E> factSet) {
-        super(id, propositionName, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
+    public SubsetProposition(String id, String propositionName, 
+    		Set<E> criteriaSet, Set<E> factSet, RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
+
+		List<Collection<E>> list = new ArrayList<Collection<E>>();
+		list.add(this.criteriaSet);
+		list.add(this.factSet);
+    	intersection = new Intersection<E>(list);
     }
 
     // ~ Methods ----------------------------------------------------------------
 
     @Override
     public Boolean apply() {
-        Set<E> met = and();
-        Integer count = met.size();
+        //this.met = and();
+    	intersection.setOperation(Intersection.Operation.INTERSECTION.toString());
+    	intersection.compute();
+    	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
+
+        Integer count = Integer.valueOf(met.size());
 
         result = checkTruthValue(count, super.expectedValue);
 
-        cacheReport("%d of %s is still required", count, super.expectedValue);
+        this.resultValues = met;
 
         return result;
     }
@@ -65,43 +89,16 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    protected void cacheReport(String format, Object... args) {
-        Integer count = (Integer) args[0];
-        Integer expectedValue = (Integer) args[1];
-        if (result) {
-            report.setSuccessMessage("Subset constraint fulfilled");
-            return;
-        }
+    public void buildMessageContextMap() {
+        Integer count = met.size();
 
-        // TODO: Use the operator to compute exact message
-        Set<E> unMet = andNot();
-        int needed = expectedValue - count;
-        String advice = String.format(format, needed, unMet.toString());
-        report.setFailureMessage(advice);
-    }
-
-    /**
-     * Returns the intersection of the fact set with the criteria set.
-     * 
-     * @return the intersection
-     */
-    public Set<E> and() {
-        Set<E> rval = new HashSet<E>(factSet);
-        rval.retainAll(criteriaSet);
-
-        return rval;
-    }
-
-    /**
-     * Returns the disjunction of the criteria set from the fact set.
-     * 
-     * @return
-     */
-    public Set<E> andNot() {
-        HashSet<E> rval = new HashSet<E>(criteriaSet);
-        rval.removeAll(factSet);
-
-        return rval;
+        intersection.setOperation(Intersection.Operation.SUBSET_DIFFERENCE.toString());
+    	intersection.compute();
+    	Set<E> unMet = new HashSet<E>((Collection<E>) intersection.getOutput());
+        Integer diff = super.expectedValue - count;
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_MET, this.met);
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET, unMet);
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_DIFFERENCE, diff);
     }
 
     /**
@@ -112,25 +109,13 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     }
 
     /**
-     * @param criteriaSet
-     *            the criteriaSet to set
-     */
-    public void setCriteriaSet(Set<E> criteriaSet) {
-        this.criteriaSet = new HashSet<E>(criteriaSet);
-    }
-
-    /**
      * @return the factSet
      */
     public Set<E> getFactSet() {
         return factSet;
     }
 
-    /**
-     * @param factSet
-     *            the factSet to set
-     */
-    public void setFactSet(Set<E> factSet) {
-        this.factSet = new HashSet<E>(factSet);
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 }

@@ -245,12 +245,10 @@ public class BusinessRuleUtilTest {
     	Assert.assertEquals(s, value.toString());
     }
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
-    
     @Test
     public void testConvertToDataType_StringToDate() throws Exception {
     	Date date = new Date(System.currentTimeMillis());
-    	String s = dateFormat.format(date).toString();
+    	String s = BusinessRuleUtil.formatIsoDate(date);
     	String type = java.util.Date.class.getName();
     	Date value = (Date) BusinessRuleUtil.convertToDataType(type,s);
     	Assert.assertEquals(date.toString(), value.toString());
@@ -259,7 +257,7 @@ public class BusinessRuleUtilTest {
     @Test
     public void testConvertToDataType_StringToCalendar() throws Exception {
     	Calendar time = Calendar.getInstance();
-    	String s = dateFormat.format(time.getTime()).toString();
+    	String s = BusinessRuleUtil.formatIsoDate(time.getTime());
     	String type = java.util.Calendar.class.getName();
     	Calendar value = (Calendar) BusinessRuleUtil.convertToDataType(type,s);
     	Assert.assertEquals(time.toString(), value.toString());
@@ -268,7 +266,7 @@ public class BusinessRuleUtilTest {
     @Test
     public void testConvertToDataType_StringToGregorianCalendar() throws Exception {
     	Calendar time = GregorianCalendar.getInstance();
-    	String s = dateFormat.format(time.getTime()).toString();
+    	String s = BusinessRuleUtil.formatIsoDate(time.getTime());
     	String type = java.util.GregorianCalendar.class.getName();
     	GregorianCalendar value = (GregorianCalendar) BusinessRuleUtil.convertToDataType(type,s);
     	Assert.assertEquals(time.toString(), value.toString());

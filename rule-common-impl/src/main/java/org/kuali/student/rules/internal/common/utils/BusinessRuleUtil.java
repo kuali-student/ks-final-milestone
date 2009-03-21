@@ -27,7 +27,8 @@ public class BusinessRuleUtil {
     public static final char PROPOSITION_PREFIX = 'P';
     //public static final String CALENDAR_DATE_FORMAT = "yyyy.MM.dd-HH.mm.ss.SSS";
     public static final String ISO_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
+    private static final SimpleDateFormat isoDateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
 
     /*
      * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
@@ -60,7 +61,6 @@ public class BusinessRuleUtil {
         ArrayList<Integer> listedPropositionIds = new ArrayList<Integer>();
         for (String token : tokens) {
             token = token.trim();
-            // System.out.println("Validate Token read:" + token);
             if (!token.isEmpty() && ((token.charAt(0) == PROPOSITION_PREFIX) || (token.charAt(0) == PROPOSITION_PREFIX))) {
 
                 try {
@@ -182,7 +182,6 @@ public class BusinessRuleUtil {
      */
     private static String getNextTokenFromComposition(String partialComposition) throws IllegalRuleFormatException {
         String nextToken = "?";
-        // System.out.println("get next token:" + partialComposition);
         partialComposition = partialComposition.trim().toUpperCase();
         if (partialComposition.isEmpty()) {
             return null;
@@ -203,7 +202,6 @@ public class BusinessRuleUtil {
 
         }
 
-        // System.out.println("Next token:'" + nextToken + "'");
         return nextToken;
     }
 
@@ -264,7 +262,7 @@ public class BusinessRuleUtil {
      */
     public static String createFunctionalString(BusinessRuleInfoDTO rule) {
 
-        Collection<RuleElementDTO> ruleElements = rule.getRuleElementList();
+        Collection<RuleElementDTO> ruleElements = rule.getBusinessRuleElementList();
 
         int counter = 1;
         StringBuilder functionString = new StringBuilder();
@@ -278,12 +276,12 @@ public class BusinessRuleUtil {
             
             RuleElementType type = null;
             
-            if(RuleElementType.LPAREN.getName().equals( ruleElement.getOperation() )) {
+            if(RuleElementType.LPAREN.getName().equals( ruleElement.getBusinessRuleElemnetTypeKey() )) {
                 type = RuleElementType.LPAREN;
-            } else if(RuleElementType.RPAREN.getName().equals( ruleElement.getOperation() )) {
+            } else if(RuleElementType.RPAREN.getName().equals( ruleElement.getBusinessRuleElemnetTypeKey() )) {
                 type = RuleElementType.RPAREN;
             } else {
-                type = RuleElementType.valueOf(ruleElement.getOperation()); 
+                type = RuleElementType.valueOf(ruleElement.getBusinessRuleElemnetTypeKey()); 
             }
             
             switch (type) {
@@ -336,7 +334,7 @@ public class BusinessRuleUtil {
     public static Map<String, RulePropositionDTO> getRulePropositions(BusinessRuleInfoDTO rule) {
 
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        Collection<RuleElementDTO> ruleElements = rule.getRuleElementList();
+        Collection<RuleElementDTO> ruleElements = rule.getBusinessRuleElementList();
 
         if (ruleElements == null) {
         	return null;
@@ -344,8 +342,8 @@ public class BusinessRuleUtil {
         
         int counter = 1;
         for (RuleElementDTO ruleElement : ruleElements) {
-            if (RuleElementType.PROPOSITION.toString().equals(ruleElement.getOperation())) {
-                propositionMap.put(PROPOSITION_PREFIX + String.valueOf(counter), ruleElement.getRuleProposition());
+            if (RuleElementType.PROPOSITION.toString().equals(ruleElement.getBusinessRuleElemnetTypeKey())) {
+                propositionMap.put(PROPOSITION_PREFIX + String.valueOf(counter), ruleElement.getBusinessRuleProposition());
                 counter++;
             }
         }
@@ -400,7 +398,8 @@ public class BusinessRuleUtil {
     		return new BigDecimal(value);
     	}
     	else if (clazz.equals(BigInteger.class)) {
-    		return new BigInteger(value);
+    		//return new BigInteger(value);
+    		return new BigDecimal(value.toString()).toBigIntegerExact();
     	}
     	else if (clazz.equals(Boolean.class)) {
     		return new Boolean(value);
@@ -430,12 +429,12 @@ public class BusinessRuleUtil {
     }
 
     /**
-     * <p>Converts the <code>expectedValue</code> to <code>dataType</code>.</p>
+     * <p>Converts <code>value</code> to type <code>clazz</code>.</p>
      * <p>e.g. dateType="java.lang.Integer" expectedValue="123" returns new Integer(123)</p>
      * 
-     * @param dataType Data type to convert <code>expectedValue</code> to
+     * @param clazz Class type to convert <code>value</code> to
      * @param value The value to be converted
-     * @return New value in proper data type 
+     * @return New value in proper class type 
      */
     //public static <T> T convertToDataType(final Class<T> clazz, final Object value) {
     public static Object convertToDataType(final Class<?> clazz, final Object value) {
@@ -443,7 +442,7 @@ public class BusinessRuleUtil {
     		return null;
     	}
     	else if (clazz.isPrimitive()) {
-        	throw new RuntimeException("Rule proposition comparison data type conversion error. Primitives cannot be converted: " + clazz);
+        	throw new RuntimeException("Data type conversion error. Primitives cannot be converted: " + clazz);
     	}
     	else if (clazz.equals(String.class)) {
     		return clazz.cast(value);
@@ -497,7 +496,7 @@ public class BusinessRuleUtil {
      */
     public static Date convertDate(String value) {
     	try {
-			return dateFormat.parse(value);
+			return isoDateFormat.parse(value);
 		} catch (ParseException e) {
 			throw new RuntimeException("Data type conversion error", e);
 		}
@@ -510,7 +509,29 @@ public class BusinessRuleUtil {
      * @param dateObject A date object  
      * @return
      */
-    public static String formatDate(Date date) {
+    public static String formatIsoDate(Date date) {
+    	return isoDateFormat.format(date).toString();
+    }
+
+    /**
+     * Formats a <code>date</code> according to <code>pattern</code>.
+     * 
+     * @param date Date to format
+     * @param pattern Date format pattern
+     * @return Formatted date
+     */
+    public static String formatDate(Date date, String pattern) {
+    	dateFormat.applyPattern(pattern);
+    	return dateFormat.format(date).toString();
+    }
+
+    /**
+     * Returns the default ISO time zone.
+     * 
+     * @return Default ISO time zone
+     */
+    public static String getDefaultIsoTimeZone(Date date) {
+    	dateFormat.applyPattern("Z");
     	return dateFormat.format(date).toString();
     }
 }

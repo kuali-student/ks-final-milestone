@@ -18,8 +18,6 @@ package org.kuali.student.rules.repository.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
@@ -305,7 +303,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A list of rule sets
      * @throws OperationFailedException Thrown if loading rule set list fails
      */
-    public List<RuleSetDTO> fetchRuleSetsByCategory(String category)
+    public List<RuleSetDTO> fetchRuleSetsByCategory(final String category)
     	throws OperationFailedException {
         try {
 	    	List<RuleSet> list = this.ruleEngineRepository.loadRuleSetsByCategory(category);
@@ -350,7 +348,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
-     * Rebuilds (recompiles) an existing rule set snapshot and in the repository.
+     * Rebuilds (recompiles) an existing rule set snapshot in the repository.
      * 
      * @param ruleSetUUID Rule set UUID
      * @param snapshotName Snapshot name
@@ -375,7 +373,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
-     * Replaces an existing rule set snapshot in the repository.
+     * Replaces an existing rule set snapshot with a new rule set snapshot 
+     * in the repository.
      * 
      * @param ruleSetUUID Rule set UUID
      * @param snapshotName Snapshot name
@@ -435,7 +434,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param category Category name
      * @return A list of rule sets
      */
-    public List<RuleSetDTO> fetchRuleSetSnapshotsByCategory(String category)
+    public List<RuleSetDTO> fetchRuleSetSnapshotsByCategory(final String category)
 		throws OperationFailedException {
         try {
 	        List<RuleSet> list = this.ruleEngineRepository.loadRuleSetSnapshotsByCategory(category);
@@ -475,10 +474,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     /**
      * Loads all states.
      * 
-     * @return Array of all states (statuses)
+     * @return List of all states
      * @throws OperationFailedException Thrown if loading states fails
      */
-    public String[] fetchStates()
+    public List<String> fetchStates()
     	throws OperationFailedException {
         try {
 	    	return this.ruleEngineRepository.loadStates();
@@ -579,6 +578,36 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
+     * Changes the rule set state and rule state if they have been changed.
+     * 
+     * @param businessRule Business rule
+     * @param ruleSet Rule set to change status on
+     * @throws RuleEngineRepositoryException
+     */
+    private void changeRuleSetStatus(BusinessRuleInfoDTO businessRule, RuleSet ruleSet)
+    	throws RuleEngineRepositoryException {
+    	if (businessRule.getState() == null) {
+    		return;
+    	}
+
+    	// Create status in repository if it does not exist
+    	if (!this.ruleEngineRepository.containsStatus(businessRule.getState())) {
+    		this.ruleEngineRepository.createStatus(businessRule.getState());
+    	}
+
+    	if (!businessRule.getState().equals(ruleSet.getStatus())) {
+    		// Change rule set status
+    		this.ruleEngineRepository.changeRuleSetStatus(ruleSet.getUUID(), businessRule.getState());
+    		// Change rule status
+    		for(Rule rule : ruleSet.getRules()) {
+    	    	if (!businessRule.getState().equals(rule.getStatus())) {
+	    			this.ruleEngineRepository.changeRuleStatus(rule.getUUID(), businessRule.getState());
+    	    	}
+    		}
+    	}
+    }
+
+    /**
      * Generates and creates or updates a rule set (rule engine specific source code) 
      * from a <code>BusinessRuleContainerDTO</code>.
      *  
@@ -592,7 +621,14 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
 		if (businessRule == null) {
 			throw new MissingParameterException("Business rule is null");
+		} else if (businessRule.getName() == null || businessRule.getName().isEmpty()) {
+			throw new MissingParameterException("Business rule name is null or empty");
 		}
+		
+		if (businessRule.getDesc() == null) {
+			businessRule.setDesc("");
+		}
+
 		RuleSet ruleSet = null;
     	try {
     		ruleSet = this.ruleSetTranslator.translate(businessRule);
@@ -645,6 +681,15 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         	throw new OperationFailedException(e.getMessage());
 		}
 
+		// Change rule set status to match business rule status
+		try {
+			changeRuleSetStatus(businessRule, ruleSet);
+			ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSet.getUUID());
+        } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+		}
+        
 		RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
 		return dto;
     }
@@ -685,9 +730,12 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetVerificationResultDTO validateBusinessRule(BusinessRuleInfoDTO businessRule) 
+    public RuleSetVerificationResultDTO validateBusinessRule(final BusinessRuleInfoDTO businessRule) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
-
+		if (businessRule == null) {
+			throw new MissingParameterException("businessRule is null");
+		}
+		
     	try {
     		RuleSet ruleSet = this.ruleSetTranslator.translate(businessRule);
 	    	RuleSetVerificationResult result = ruleSetValidator.verify(ruleSet);
@@ -702,5 +750,35 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         }
+    }
+
+    /**
+     * Translates a business rule into a rule set.
+     * The rule set content contains the vendor specific rule source code
+     * (e.g. Drools source code). 
+     * Rule set is not saved to the rule repository.
+     * 
+     * @param businessRule A Business rule
+     * @return A rule set
+     * @throws OperationFailedException Thrown if translating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    public RuleSetDTO translateBusinessRule(final BusinessRuleInfoDTO businessRule) 
+		throws OperationFailedException, MissingParameterException, InvalidParameterException {
+		if (businessRule == null) {
+			throw new MissingParameterException("businessRule is null");
+		}
+		
+		try {
+			RuleSet ruleSet = this.ruleSetTranslator.translate(businessRule);
+			return ruleAdapter.getRuleSetDTO(ruleSet);
+		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
+			throw new InvalidParameterException(e.getMessage());
+		} catch (RuleSetTranslatorException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+		}
     }
 }

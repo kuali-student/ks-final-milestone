@@ -13,7 +13,7 @@ import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
-import org.kuali.student.rules.rulemanagement.entity.AgendaInfoDeterminationStructure;
+import org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.rules.rulemanagement.entity.RuleElement;
@@ -40,7 +40,7 @@ public interface RuleManagementDAO {
      * @param determinationStructureList
      * @return
      */
-    public AgendaInfo lookupAgendaInfoByTypeAndStructure(AgendaType type, List<AgendaInfoDeterminationStructure> determinationStructureList);
+    public AgendaInfo lookupAgendaInfoByTypeAndStructure(AgendaType type, List<AgendaDeterminationInfo> determinationStructureList);
 
     /**
      * This method returns a list of all the known agenda types
@@ -146,15 +146,6 @@ public interface RuleManagementDAO {
     public BusinessRule lookupBusinessRuleUsingId(String id);
 
     /**
-     * Finds BusinessRule in database.
-     * 
-     * @param ruleIdentifier
-     *            ID of a business rule to locate in database.
-     * @return found functional business rule or null if element not found.
-     */
-    public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier);
-
-    /**
      * Finds one or more BusinessRule in database based on given parameters.
      * 
      * @param businessRuleTypeKey
@@ -163,6 +154,25 @@ public interface RuleManagementDAO {
      */
     public List<BusinessRule> lookupBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor);
 
+    /**
+     * Finds the BusinessRule in database that is active and is currently active
+     * 
+     * @param businessRuleTypeKey
+     * @param anchor
+     * @return found functional business rules or null if element not found.
+     */
+    public List<BusinessRule> lookupCurrentActiveBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor);
+    
+    
+    /**
+     * 
+     * This method returns all version of the same rule
+     * 
+     * @param firstVersionId
+     * @return
+     */
+    public List<BusinessRule> lookupAllVersions(String originalRuleId);
+    
     /**
      * 
      * This method returns all Business Rule instances for a given type key of Business Rule

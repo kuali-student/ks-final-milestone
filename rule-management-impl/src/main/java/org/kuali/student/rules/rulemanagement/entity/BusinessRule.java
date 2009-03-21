@@ -21,10 +21,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 
 /**
@@ -35,9 +37,11 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
  */
 @Entity
 @Table(name = "BusinessRule_T")
-@NamedQueries({@NamedQuery(name = "BusinessRule.findByRuleID", query = "SELECT c FROM BusinessRule c WHERE c.ruleId = :ruleID"), 
-               @NamedQuery(name = "BusinessRule.findIdsByBusinessRuleType", query = "SELECT c.ruleId FROM BusinessRule c WHERE c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
+@NamedQueries({@NamedQuery(name = "BusinessRule.findIdsByBusinessRuleType", query = "SELECT c.id FROM BusinessRule c WHERE c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
                @NamedQuery(name = "BusinessRule.findByBusinessRuleTypeAndAnchor", query = "SELECT c FROM BusinessRule c WHERE  c.anchor = :anchor AND c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
+//               @NamedQuery(name = "BusinessRule.findByState", query = "SELECT c FROM BusinessRule c WHERE  c.anchor = :anchor AND c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey AND c.state = :state AND c.metaData.effectiveDate <= :today AND c.metaData.expirationDate >= :today"),
+               @NamedQuery(name = "BusinessRule.findByState", query = "SELECT c FROM BusinessRule c WHERE  c.anchor = :anchor AND c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey AND c.state = :state AND c.metaData.effectiveDate <= :today AND c.metaData.expirationDate >= :today"),               
+               @NamedQuery(name = "BusinessRule.findAllVersions", query = "SELECT c FROM BusinessRule c WHERE  c.originalRuleId = :originalRuleId"),
                @NamedQuery(name = "BusinessRule.findAnchorsByAnchorType", query = "SELECT a.anchor FROM BusinessRule a WHERE a.businessRuleType.anchorTypeKey = :anchorTypeKey")})
 public class BusinessRule  {
     
@@ -47,19 +51,23 @@ public class BusinessRule  {
 
     @Id
     private String id;
-
+    private String originalRuleId;
+    
     private String name;
+    
     private String description;
 
-    @ManyToOne    
+    @ManyToOne
     private BusinessRuleType businessRuleType;
+    
+    @Column(nullable = false)
     private String anchor;
 
     private String successMessage;
     private String failureMessage;
 
-    @Column(unique = true, nullable = false)
-    private String ruleId;
+    @Column(nullable = false)
+    BusinessRuleStatus state;    
     
     /* Repository Variables */
     private String compiledId;
@@ -69,6 +77,7 @@ public class BusinessRule  {
     private RuleMetaData metaData;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "businessRule", fetch = FetchType.EAGER)
+    @OrderBy("ordinalPosition ASC")
     private List<RuleElement> ruleElements = new ArrayList<RuleElement>();
 
     /**
@@ -84,7 +93,7 @@ public class BusinessRule  {
 
         int key = INITIAL_PROPOSITION_PLACEHOLDER;
         for (RuleElement ruleElement : ruleElements) {
-            if (ruleElement.getOperation() == RuleElementType.PROPOSITION) {
+            if (ruleElement.getBusinessRuleElemnetTypeKey() == RuleElementType.PROPOSITION) {
                 propositions.put(PROPOSITION_LABEL_PREFIX + String.valueOf(key), ruleElement.getRuleProposition());
                 key++;
             }
@@ -108,9 +117,6 @@ public class BusinessRule  {
     @PrePersist
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
-        
-        // TODO: Remove rule Id and just use Id
-        this.ruleId = this.id;        
     }
 
     /**
@@ -131,15 +137,14 @@ public class BusinessRule  {
     /**
      * @return the name
      */
-    public final String getName() {
+    public String getName() {
         return name;
     }
 
     /**
-     * @param name
-     *            the name to set
+     * @param name the name to set
      */
-    public final void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -234,21 +239,6 @@ public class BusinessRule  {
     }
 
     /**
-     * @return the ruleId
-     */
-    public final String getRuleId() {
-        return ruleId;
-    }
-
-    /**
-     * @param ruleId
-     *            the ruleId to set
-     */
-    public final void setRuleId(String ruleId) {
-        this.ruleId = ruleId;
-    }
-
-    /**
      * @return the metaData
      */
     public final RuleMetaData getMetaData() {
@@ -279,6 +269,20 @@ public class BusinessRule  {
     }
 
     /**
+     * @return the originalRuleId
+     */
+    public String getOriginalRuleId() {
+        return originalRuleId;
+    }
+
+    /**
+     * @param originalRuleId the originalRuleId to set
+     */
+    public void setOriginalRuleId(String originalRuleId) {
+        this.originalRuleId = originalRuleId;
+    }
+
+    /**
      * @return the repositorySnapshotName
      */
     public String getRepositorySnapshotName() {
@@ -290,5 +294,44 @@ public class BusinessRule  {
      */
     public void setRepositorySnapshotName(String repositorySnapshotName) {
         this.repositorySnapshotName = repositorySnapshotName;
+    }
+
+    /**
+     * @return the state
+     */
+    public BusinessRuleStatus getState() {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(BusinessRuleStatus state) {
+        this.state = state;
+    }                
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+    
+        sb.append("ID:" + this.id);
+        sb.append("\nName:" + this.name);
+        sb.append("\nState:" + this.state.toString());
+        sb.append("\nBusinessRuleType:" + this.businessRuleType.getBusinessRuleTypeKey().toString());
+        sb.append("\nAnchorType:" + this.businessRuleType.getAnchorTypeKey().toString());
+        sb.append("\nAnchorValue:" + this.anchor);
+        sb.append("\nEffectiveDate:" + this.metaData.getEffectiveDate());
+        sb.append("\nExpirationDate:" + this.metaData.getExpirationDate());
+        sb.append("\nOriginalRuleId:" + this.originalRuleId);
+        sb.append("\nCompiledRuleId:" + this.compiledId);
+        sb.append("\nRepositorySnapshotName:" + this.repositorySnapshotName);
+        sb.append("\nRuleElement...");
+        int i = 1;
+        for(RuleElement element : ruleElements) {
+            sb.append("\nElement" + i++ + ":" + element.toString());
+        }
+    
+        
+        return sb.toString();
     }
 }

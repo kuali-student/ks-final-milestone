@@ -3,6 +3,8 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 import java.util.Collection;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 public class StatisticsProposition<T extends Number> extends AbstractProposition<Double> {
@@ -12,8 +14,10 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
     
     public enum StatFunction { MAX, MEAN, MIN, STANDARD_DEVIATION, SUM, SUM_OF_SQUARES, VARIANCE };
     
-    public StatisticsProposition(String id, String propositionName, ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact) {
-        super(id, propositionName, operator, expectedValue);
+    public StatisticsProposition(String id, String propositionName, 
+    		ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact,
+    		RulePropositionDTO ruleProposition) {
+        super(id, propositionName, null, operator, expectedValue);
         this.fact = fact;
         this.function = function;
     }
@@ -24,26 +28,20 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
 		
 		result = checkTruthValue(computedValue, super.expectedValue);
 
-        cacheReport("Statistics %1$s not met, calculate value is %2$s expected:  %3$s", 
-        		function, computedValue, super.expectedValue);
-
         return result;
 	}
 
 	@Override
-	protected void cacheReport(String format, Object... args) {
-		StatFunction f = (StatFunction) args[0];
-        if (result) {
-            report.setSuccessMessage("Statistics " + f + " constraint fulfilled");
-            return;
+    public void buildMessageContextMap() {
+        /*if (result) {
+            report.setSuccessMessage("Statistics " + function + " constraint fulfilled");
+            return report;
         }
 
-        Double calculatedValue = (Double) args[1];
-        Double expectedValue = (Double) args[2];
-
         // TODO: Use the operator to compute exact message
-        String advice = String.format(format, f, calculatedValue, expectedValue);
+        String advice = String.format("Statistics %1$s not met, calculate value is %2$s expected:  %3$s", function, computedValue, super.expectedValue);
         report.setFailureMessage(advice);
+        return report;*/
 	}
 	
 	public Double getComputedValue() {

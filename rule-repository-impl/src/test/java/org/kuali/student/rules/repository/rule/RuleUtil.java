@@ -79,8 +79,8 @@ public class RuleUtil {
      * @param version Rule set version
      * @return A new rule set
      */
-    public static RuleSet createRuleSet(final String uuid, final String name, final long version) {
-        return RuleSetFactory.getInstance().createRuleSet( uuid, name, version );
+    public static RuleSet createRuleSet(final String uuid, final String name, String description, final long version) {
+        return RuleSetFactory.getInstance().createRuleSet( uuid, name, description, version );
     }    
 
 }

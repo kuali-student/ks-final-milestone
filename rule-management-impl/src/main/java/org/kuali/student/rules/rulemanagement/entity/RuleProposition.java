@@ -21,7 +21,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 
 /**
- * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, operator and right
+ * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, comparisonOperatorTypeKey and right
  * hand side of a given rule.
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
@@ -34,14 +34,15 @@ public class RuleProposition {
     private String id;
     private String name;
     private String description;
+    private String successMessage;
     private String failureMessage;
-    private String comparisonDataType;
+    private String comparisonDataTypeKey;
     
     @OneToOne(cascade = {CascadeType.ALL} )
     private LeftHandSide leftHandSide;
     
     @Enumerated(EnumType.STRING)
-    private ComparisonOperator operator;
+    private ComparisonOperator comparisonOperatorTypeKey;
     
     @Embedded
     private RightHandSide rightHandSide;
@@ -93,18 +94,17 @@ public class RuleProposition {
     }
 
     /**
-     * @return the operator
+     * @return the comparisonOperatorTypeKey
      */
-    public final ComparisonOperator getOperator() {
-        return operator;
+    public ComparisonOperator getComparisonOperatorTypeKey() {
+        return comparisonOperatorTypeKey;
     }
 
     /**
-     * @param operator
-     *            the operator to set
+     * @param comparisonOperatorTypeKey the comparisonOperatorTypeKey to set
      */
-    public final void setOperator(ComparisonOperator operator) {
-        this.operator = operator;
+    public void setComparisonOperatorTypeKey(ComparisonOperator comparisonOperatorTypeKey) {
+        this.comparisonOperatorTypeKey = comparisonOperatorTypeKey;
     }
 
     /**
@@ -127,7 +127,7 @@ public class RuleProposition {
      */
     @PrePersist
     public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
+        this.id = UUIDHelper.genStringUUID(this.id);
     }
 
     /**
@@ -146,6 +146,24 @@ public class RuleProposition {
     }
 
     /**
+     * Returns the success message.
+     * 
+     * @return Success message
+     */
+	public String getSuccessMessage() {
+		return successMessage;
+	}
+
+	/**
+	 * Sets the success message.
+	 * 
+	 * @param successMessage Success message
+	 */
+	public void setSuccessMessage(String successMessage) {
+		this.successMessage = successMessage;
+	}
+
+    /**
      * @return the failureMessage
      */
     public final String getFailureMessage() {
@@ -161,16 +179,16 @@ public class RuleProposition {
     }
 
     /**
-     * @return the comparisonDataType
+     * @return the comparisonDataTypeKey
      */
-    public String getComparisonDataType() {
-        return comparisonDataType;
+    public String getComparisonDataTypeKey() {
+        return comparisonDataTypeKey;
     }
 
     /**
-     * @param comparisonDataType the comparisonDataType to set
+     * @param comparisonDataTypeKey the comparisonDataTypeKey to set
      */
-    public void setComparisonDataType(String comparisonDataType) {
-        this.comparisonDataType = comparisonDataType;
-    }    
+    public void setComparisonDataTypeKey(String comparisonDataTypeKey) {
+        this.comparisonDataTypeKey = comparisonDataTypeKey;
+    }
 }

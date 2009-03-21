@@ -14,5 +14,5 @@ package org.kuali.student.rules.internal.common.entity;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 public enum AgendaType {
-    KUALI_STUDENT_ENROLLS_IN_COURSE,KUALI_STUDENT_STUDENT_DROPS_COURSE;
+    KUALI_STUDENT_ENROLLS_IN_COURSE,KUALI_STUDENT_STUDENT_DROPS_COURSE,KUALI_VALIDATE_LUI_PERSON_RELATION,KUALI_EMPTY_AGENDA;
 }

@@ -7,6 +7,7 @@
  */
 package org.kuali.student.rules.rulemanagement;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -19,12 +20,15 @@ import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl;
+import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.rules.rulemanagement.entity.FactStructure;
@@ -50,7 +54,10 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
     public static final String ruleId_1 = "11223344-1122-1122-1112-100000000001";
     public static final String ruleId_2 = "11223344-1122-1122-1112-100000000011";
-
+    
+    public static final String agendaId_1 = "11223344-1122-1122-1112-100000000030";
+    public static final String agendaId_2 = "11223344-1122-1122-1112-100000000031";
+    
     @Test
     public void testCreateRule() {
 
@@ -61,12 +68,13 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         metaInfo.setCreatedBy("Kamal");
         metaInfo.setUpdateBy("Len");
         metaInfo.setUpdateDate(new Date());
-        metaInfo.setStatus("ACTIVE");
-        metaInfo.setEffectiveDateEnd(new Date());
-        metaInfo.setEffectiveDateStart(new Date());
+
+        metaInfo.setEffectiveDate(new Date());
+        metaInfo.setExpirationDate(new Date());
 
         BusinessRule rule = new BusinessRule();
-        rule.setName("CHEM 100 course prerequisites");
+        rule.setState(BusinessRuleStatus.ACTIVE);
+        rule.setName("CHEM 100 Display Name");
         rule.setDescription("Prerequsite courses required in order to enroll in CHEM 100.");
         rule.setSuccessMessage("Test success message");
         rule.setFailureMessage("Test failure message");
@@ -94,16 +102,16 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         rhs.setExpectedValue("12.0");
 
         RuleProposition ruleProposition = new RuleProposition();
-        ruleProposition.setComparisonDataType("kual.number");
+        ruleProposition.setComparisonDataTypeKey("kual.number");
         ruleProposition.setName("P1");
-        ruleProposition.setOperator(ComparisonOperator.LESS_THAN);
+        ruleProposition.setComparisonOperatorTypeKey(ComparisonOperator.LESS_THAN);
         ruleProposition.setRightHandSide(rhs);
         ruleProposition.setLeftHandSide(lhs);
 
         RuleElement re1 = new RuleElement();
         re1.setDescription("Credit Intersection Change");
         re1.setName("Credit Check");
-        re1.setOperation(RuleElementType.PROPOSITION);
+        re1.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION);
         re1.setOrdinalPosition(1);
         re1.setRuleProposition(ruleProposition);
 
@@ -114,10 +122,9 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
         rulesManagementDAO.createBusinessRule(rule);
 
-        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId( rule.getRuleId() );
+        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingId( rule.getId() );
 
         assertEquals(newRule.getId(), rule.getId());
-        assertEquals(newRule.getRuleId(), rule.getRuleId());
         assertEquals(newRule.getName(), rule.getName());
         assertEquals(newRule.getDescription(), rule.getDescription());
         
@@ -156,30 +163,30 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         rhs.setExpectedValue("12.0");
 
         RuleProposition ruleProposition1 = new RuleProposition();
-        ruleProposition1.setComparisonDataType("kual.number");
+        ruleProposition1.setComparisonDataTypeKey("kual.number");
         ruleProposition1.setName("Px");
-        ruleProposition1.setOperator(ComparisonOperator.LESS_THAN);
+        ruleProposition1.setComparisonOperatorTypeKey(ComparisonOperator.LESS_THAN);
         ruleProposition1.setRightHandSide(rhs);
         ruleProposition1.setLeftHandSide(lhs);
 
         RuleElement re1 = new RuleElement();
         re1.setDescription("First element");
         re1.setName("P1");
-        re1.setOperation(RuleElementType.PROPOSITION);
+        re1.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION);
         re1.setOrdinalPosition(1);
         re1.setRuleProposition(ruleProposition1);
 
         RuleProposition ruleProposition2 = new RuleProposition();
-        ruleProposition2.setComparisonDataType("kual.number");
+        ruleProposition2.setComparisonDataTypeKey("kual.number");
         ruleProposition2.setName("Py");
-        ruleProposition2.setOperator(ComparisonOperator.LESS_THAN);
+        ruleProposition2.setComparisonOperatorTypeKey(ComparisonOperator.LESS_THAN);
         ruleProposition2.setRightHandSide(rhs);
         ruleProposition2.setLeftHandSide(lhs);
         
         RuleElement re2 = new RuleElement();
         re2.setDescription("Second element");
         re2.setName("P2");
-        re2.setOperation(RuleElementType.PROPOSITION);
+        re2.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION);
         re2.setOrdinalPosition(1);
         re2.setRuleProposition(ruleProposition2);
 
@@ -196,6 +203,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         BusinessRule updatedRule = rulesManagementDAO.lookupBusinessRuleUsingId(rule.getId());
         assertEquals(updatedRule.getName(), rule.getName());
         assertEquals(2, updatedRule.getRuleElements().size());
+        assertEquals(BusinessRuleTypeKey.KUALI_CO_REQ, updatedRule.getBusinessRuleType().getBusinessRuleTypeKey());        
         
         RuleProposition rp = updatedRule.getRuleElements().get(0).getRuleProposition();
         assertNotNull(rp);
@@ -205,12 +213,40 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         assertEquals("123", fs.getStaticValue());
         assertEquals(true, fs.getStaticFact());
         assertEquals(Double.class.getName(), fs.getStaticValueDataType());
+        
     }
 
     @Test
+    public void testDeleteRuleById() {        
+        org.junit.Assert.assertTrue(rulesManagementDAO.deleteBusinessRule("11223344-1122-1122-1112-100000000001"));
+        org.junit.Assert.assertNull(em.find(BusinessRule.class, "11223344-1122-1122-1112-100000000001"));
+    }
+
+     @Test
+     public void testDeleteRule() {
+         BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingId(ruleId_2);
+         org.junit.Assert.assertTrue(rulesManagementDAO.deleteBusinessRule(rule));
+         org.junit.Assert.assertNull(em.find(BusinessRule.class, rule.getId()));         
+     }
+
+    @Test
+    public void testDeleteRuleElemnet() {
+        BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingId(ruleId_2);
+        RuleElement element = rule.getRuleElements().get(0);
+        
+        assertTrue(rulesManagementDAO.deleteRuleElement(element));
+
+        rule.getRuleElements().remove(0);
+        rulesManagementDAO.updateBusinessRule(rule);
+        
+        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingId(ruleId_2);
+        assertEquals(2, newRule.getRuleElements().size());
+    }
+     
+    @Test
     public void testLookupBusinessRuleUsingRuleId() {
-        BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingRuleId(ruleId_1);
-        assertEquals(BusinessRuleTypeKey.KUALI_CO_REQ.toString(), rule.getBusinessRuleType().getBusinessRuleTypeKey());
+        BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingId(ruleId_1);
+        assertEquals(BusinessRuleTypeKey.KUALI_CO_REQ, rule.getBusinessRuleType().getBusinessRuleTypeKey());
         assertEquals("Intermediate CPR", rule.getName());
         assertEquals(3, rule.getRuleElements().size());
     }
@@ -235,9 +271,68 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
     }
 
     @Test
-    public void testDeleteRule() {
-        BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingRuleId(ruleId_2);
-        org.junit.Assert.assertTrue(rulesManagementDAO.deleteBusinessRule(rule));
-        org.junit.Assert.assertNull(em.find(BusinessRule.class, rule.getId()));
+    public void testLookupAgendaById() {
+        AgendaInfo agenda = rulesManagementDAO.lookupAgendaInfoById(agendaId_1);
+        assertEquals(agenda.getId(), agendaId_1);
+        assertEquals(agenda.getType(), AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSE.toString());
+        assertEquals(agenda.getBusinessRuleTypeInfoList().size(), 2);        
     }
+    
+    @Test
+    public void testLookupAgendaByType() {
+        List<AgendaInfo> agendaList = rulesManagementDAO.lookupAgendaInfosByType(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE);
+        
+        assertEquals(1, agendaList.size());
+        AgendaInfo agenda = agendaList.get(0);
+        
+        assertEquals(agenda.getId(), agendaId_2);
+        assertEquals(agenda.getType(), AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString());
+        assertEquals(agenda.getBusinessRuleTypeInfoList().size(), 1);        
+    }
+    
+    @Test
+    public void testLookupUniqueAgendaTypes() {
+        List<AgendaType> agendaTypeList = rulesManagementDAO.lookupUniqueAgendaTypes();
+        
+        assertEquals(3, agendaTypeList.size());
+        assertTrue(agendaTypeList.contains(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSE));
+        assertTrue(agendaTypeList.contains(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE));
+        assertTrue(agendaTypeList.contains(AgendaType.KUALI_VALIDATE_LUI_PERSON_RELATION));
+    }
+
+    @Test
+    public void testLookupUniqueBusinessRuleTypeKeys() {
+        List<BusinessRuleTypeKey> ruleTypeList = rulesManagementDAO.lookupUniqueBusinessRuleTypeKeys();
+    
+        assertEquals(2, ruleTypeList.size());
+        assertTrue(ruleTypeList.contains(BusinessRuleTypeKey.KUALI_CO_REQ));
+        assertTrue(ruleTypeList.contains(BusinessRuleTypeKey.KUALI_PRE_REQ));
+    }
+
+    @Test
+    public void testLookupBusinessRuleTypeByAgenda() {
+        List<BusinessRuleTypeKey> ruleTypeList = rulesManagementDAO.lookupBusinessRuleTypeByAgenda(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE);
+
+        assertEquals(1, ruleTypeList.size());
+        assertTrue(ruleTypeList.contains(BusinessRuleTypeKey.KUALI_PRE_REQ));
+    }
+    
+    @Test
+    public void testLookupUniqueAnchorTypeKeys() {
+        List<AnchorTypeKey> anchorTypeList = rulesManagementDAO.lookupUniqueAnchorTypeKeys();
+        
+        assertEquals(1, anchorTypeList.size());
+        assertTrue(anchorTypeList.contains(AnchorTypeKey.KUALI_COURSE));
+    }
+
+    @Test
+    public void testLookupRuleTypeByKeyAndAnchorType() {
+        BusinessRuleType brType = rulesManagementDAO.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.KUALI_PRE_REQ, AnchorTypeKey.KUALI_COURSE);
+        
+        assertEquals(brType.getId(), "11223344-1122-1122-1112-100000000009");
+        assertEquals(brType.getFactTypeKeyList().size(), 2);
+        assertTrue(brType.getFactTypeKeyList().contains("fact.earned_credit_list"));        
+    }
+
+    
 }

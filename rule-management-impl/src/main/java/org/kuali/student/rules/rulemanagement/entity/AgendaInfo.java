@@ -7,11 +7,12 @@
  */
 package org.kuali.student.rules.rulemanagement.entity;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -23,42 +24,44 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
-import org.kuali.student.rules.internal.common.entity.AgendaType;
 
 /**
- * Maps a set of Business Rule Types to form an AgendaInfo and a specif instance of Business Rules form an Agenda for this
- * AgendaInfo
+ * Maps a set of Business Rule Types to form an AgendaInfo and 
+ * a specific instance of Business Rules to form an Agenda for this AgendaInfo
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Entity
 @Table(name = "AgendaInfo_T")
-@NamedQueries({@NamedQuery(name = "AgendaInfo.findBusinessRuleTypes", query = "SELECT a.businessRuleTypes FROM AgendaInfo a WHERE a.type = :agendaType "), 
+@NamedQueries({@NamedQuery(name = "AgendaInfo.findBusinessRuleTypes", query = "SELECT a.businessRuleTypeInfoList FROM AgendaInfo a WHERE a.type = :agendaType "),
+              @NamedQuery(name = "AgendaInfo.findByAgendaType", query = "SELECT a FROM AgendaInfo a WHERE a.type = :agendaType "),
               @NamedQuery(name = "AgendaInfo.findUniqueAgendaTypes", query = "SELECT DISTINCT a.type FROM AgendaInfo a ORDER BY a.type ASC")})
 public class AgendaInfo {
     @Id
+    @Column(name="AGENDA_ID")
     private String id;
 
     private String type;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "agendaInfo")
-    private List<AgendaInfoDeterminationStructure> agendaInfoDeterminationStructureList;
+    private List<AgendaDeterminationInfo> agendaDeterminationInfoList;
 
     //TODO: Change this to @OnetoMany relation after they fix the bug HHH-3410
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<BusinessRuleType> businessRuleTypes;
+    // Added @JoinTable so table name is less then 31 characters for Oracle (Oracle table name limit is 30 characters)
+    @JoinTable(name="AgendaBusinessRuleType_T", joinColumns={@JoinColumn(name="AGENDA_ID")}, inverseJoinColumns={@JoinColumn(name="BRT_ID")})
+    private List<BusinessRuleType> businessRuleTypeInfoList;
 
-    private String orchestration;
+    private String agendaOrchestration;
     
     /**
      * AutoGenerate the Id
      */
     @PrePersist
     public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
+        this.id = UUIDHelper.genStringUUID(this.id);
     }
     
     /**
@@ -92,47 +95,61 @@ public class AgendaInfo {
     }
 
     /**
-     * @return the agendaInfoDeterminationStructureList
+     * @return the agendaDeterminationInfoList
      */
-    public List<AgendaInfoDeterminationStructure> getAgendaInfoDeterminationStructureList() {
-        return agendaInfoDeterminationStructureList;
+    public List<AgendaDeterminationInfo> getAgendaDeterminationInfoList() {
+        return agendaDeterminationInfoList;
     }
 
     /**
-     * @param agendaInfoDeterminationStructureList
-     *            the agendaInfoDeterminationStructureList to set
+     * @param agendaDeterminationInfoList the agendaDeterminationInfoList to set
      */
-    public void setAgendaInfoDeterminationStructureList(List<AgendaInfoDeterminationStructure> agendaInfoDeterminationStructureList) {
-        this.agendaInfoDeterminationStructureList = agendaInfoDeterminationStructureList;
+    public void setAgendaDeterminationInfoList(List<AgendaDeterminationInfo> agendaDeterminationInfoList) {
+        this.agendaDeterminationInfoList = agendaDeterminationInfoList;
     }
 
     /**
-     * @return the businessRuleTypes
+     * @return the businessRuleTypeInfoList
      */
-    public List<BusinessRuleType> getBusinessRuleTypes() {
-        return businessRuleTypes;
+    public List<BusinessRuleType> getBusinessRuleTypeInfoList() {
+        return businessRuleTypeInfoList;
     }
 
     /**
-     * @param businessRuleTypes
-     *            the businessRuleTypes to set
+     * @param businessRuleTypeInfoList the businessRuleTypeInfoList to set
      */
-    public void setBusinessRuleTypes(List<BusinessRuleType> businessRuleTypes) {
-        this.businessRuleTypes = businessRuleTypes;
+    public void setBusinessRuleTypeInfoList(List<BusinessRuleType> businessRuleTypeInfoList) {
+        this.businessRuleTypeInfoList = businessRuleTypeInfoList;
     }
 
     /**
-     * @return the orchestration
+     * @return the agendaOrchestration
      */
-    public String getOrchestration() {
-        return orchestration;
+    public String getAgendaOrchestration() {
+        return agendaOrchestration;
     }
 
     /**
-     * @param orchestration
-     *            the orchestration to set
+     * @param agendaOrchestration the agendaOrchestration to set
      */
-    public void setOrchestration(String orchestration) {
-        this.orchestration = orchestration;
+    public void setAgendaOrchestration(String agendaOrchestration) {
+        this.agendaOrchestration = agendaOrchestration;
+    }
+
+    /**
+     * 
+     * This method converts the flattened out List of agendaDeterminationInfoList into a map of
+     * Info Key and Info Value
+     * 
+     * @return
+     */
+    public Map<String, String> getAgendaDeterminationInfoMap() {
+        Map<String, String> result = new HashMap<String, String>();
+     
+        for(AgendaDeterminationInfo agendaInfoElement : agendaDeterminationInfoList) {
+            result.put(agendaInfoElement.getStructureKey(), agendaInfoElement.getValue());
+        }
+           
+        return result;
     }
 }

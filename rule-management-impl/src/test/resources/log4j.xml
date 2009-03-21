@@ -19,10 +19,7 @@
 	<logger name="org.kuali.student.rules">
 		<level value="WARN"/>
 	</logger>
-    <logger name="org.hibernate">
-        <level value="ERROR"/>
-    </logger>
-    <logger name="com.atomikos">
+    <logger name="org.drools">
         <level value="ERROR"/>
     </logger>
 	<root>

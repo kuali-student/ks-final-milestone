@@ -66,6 +66,7 @@ public class GenerateRuleSetPerfTest {
 
     private final static String PROPOSITION_NAME = "co-requisites";
     private final static String ANCHOR_ID = "TestRuleAnchor";
+    private final static String ANCHOR_TYPE_KEY = "KUALI_COURSE";
     private final static String FACT_ID_1 = "fact1";
 
     @Before
@@ -132,7 +133,7 @@ public class GenerateRuleSetPerfTest {
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
 
-        RuleSet ruleSet = generateRuleSet.createRuleSet(ANCHOR_ID, "TestPackageName", "A package", ruleName,
+        RuleSet ruleSet = generateRuleSet.createRuleSet(ANCHOR_ID, ANCHOR_TYPE_KEY, "TestPackageName", "A package", ruleName,
                 functionString, propositionMap, effectiveStartTime, effectiveEndTime);
         return ruleSet;
     }
@@ -184,6 +185,15 @@ public class GenerateRuleSetPerfTest {
         }
         return ruleBase;
     }
+    
+    private static RuleBase createRuleBase(String drl) throws Exception {
+        RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+        PackageBuilder builder = new PackageBuilder();
+        builder.addPackageFromDrl(new StringReader(drl));
+        Package pkg = builder.getPackage();
+        ruleBase.addPackage(pkg);
+        return ruleBase;
+    }
 
     private void executeStatefulSession(RuleBase ruleBase, FactContainer facts) throws Exception {
         StatefulSession session = null;
@@ -227,7 +237,7 @@ public class GenerateRuleSetPerfTest {
 
             Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
             factMap.put(factId1, createFacts(100));
-            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, null, factMap);
+            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, ANCHOR_TYPE_KEY, null, factMap);
 
             long start = System.currentTimeMillis();
             RuleBase ruleBase = createRuleBase(ruleSetList);
@@ -268,7 +278,7 @@ public class GenerateRuleSetPerfTest {
 
             Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
             factMap.put(factId1, createFacts(100));
-            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, null, factMap);
+            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, ANCHOR_TYPE_KEY, null, factMap);
 
             long start = System.currentTimeMillis();
             RuleBase ruleBase = createRuleBase(ruleSetList);
@@ -286,5 +296,38 @@ public class GenerateRuleSetPerfTest {
             assertTrue(prop.getRuleResult());
             System.gc();
         }
+    }
+    
+    @Ignore
+    @Test
+    public void testStatelessSession() throws Exception {
+    	StringBuilder sb = new StringBuilder();
+		sb.append("package org.kuali.Test \n");
+    	// Create 1000 rules
+		for(int i=0; i<1000; i++) {
+    		sb.append("\n");
+    		sb.append("rule \"Rule_" + i +"\" \n");
+			sb.append("    when \n");
+			sb.append("    then \n");
+			sb.append("        Thread.sleep(1); \n");
+			sb.append("end");
+    	}
+    			
+		long startTime1 = System.nanoTime();
+    	RuleBase ruleBase1 = createRuleBase(sb.toString());
+		long endTime1 = System.nanoTime();
+		double executionTime1 = (endTime1-startTime1)/1000000000d;
+		System.out.println("RuleBase Creation Time: "+executionTime1);
+
+    	for(int i=0; i<10; i++) {
+    		System.out.println("Creating session...");
+    		long startTime2 = System.nanoTime();
+    		StatelessSession session = ruleBase1.newStatelessSession();
+    		long endTime2 = System.nanoTime();
+    		double executionTime2 = (endTime2-startTime2)/1000000000d;
+    		System.out.println("Session Creation Time: "+executionTime2);
+    		assertTrue(executionTime2<0.01d);
+    		//session.execute(new Object());
+    	}
     }
 }

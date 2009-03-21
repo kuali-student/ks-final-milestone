@@ -29,8 +29,10 @@
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
         <property name="enableRuleSetCaching" value="false" />
         <property name="ruleSetExecutor" ref="ruleSetExecutor" />
+        <property name="ruleSetExecutorTest" ref="ruleSetExecutor" />
         <property name="ruleRespositoryService" ref="repository" />
         <property name="ruleManagementService" ref="ruleManagement" />
+        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleSetExecutor"
@@ -41,7 +43,22 @@
     </bean>
 
     <bean id="ruleBaseCache"
-        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsKnowledgeBase">
+        <property name="cache" ref="cache"/>
+    </bean>
+    
+    <bean id="cache"
+        class="org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache">
+        <constructor-arg type="int" value="20"/>
+    </bean>
+
+    <bean id="reportBuilder"
+        class="org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilderImpl">
+        <constructor-arg ref="simpleExecutor" />
+    </bean>
+    
+    <bean id="simpleExecutor"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
     </bean>
     
     <!--bean id="defaultExecutor"
@@ -64,8 +81,13 @@
             ref="rulesRepository" />
     </bean>
 
+    <!-- 
+        Oracle network database server: 
+        init-method="clearData" is needed to clear all data before running all unit tests  
+    -->
     <bean id="defaultDroolsRepository"
         class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+        init-method="clearData"
         destroy-method="shutdownRepository">
         <constructor-arg type="java.lang.String"
             value="/drools-repository" />

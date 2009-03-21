@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>brms-impl-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>brms-ws</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Kuali Student BRMS - brms-ws</name>
 	<description>Web services</description>
@@ -74,41 +74,119 @@
 		</plugins>
 	</build>
 
+    <profiles>
+        <profile>
+            <id>derby-embedded</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete
+                                            file="${project.build.outputDirectory}/application-oracle.properties" />
+                                        <copy
+                                            file="src/main/resources/drools-repository/repository_derby.xml"
+                                            tofile="${project.build.outputDirectory}/drools-repository/repository.xml" />
+                                        <copy
+                                            file="${jdbc.derby.in}"
+                                            tofile="${jdbc.properties.out}" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>oracle</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-test-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <copy
+                                            file="src/main/resources/drools-repository/repository_oracle.xml"
+                                            tofile="${project.build.outputDirectory}/drools-repository/repository.xml" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/application.properties" />
+                                        <copy
+                                            file="src/main/resources/application-oracle.properties"
+                                            tofile="${project.build.outputDirectory}/application.properties" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/application-oracle.properties" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/drools-repository/repository_derby_server.xml" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/drools-repository/repository_derby.xml" />
+                                        <delete
+                                            file="${project.build.outputDirectory}/drools-repository/repository_oracle.xml" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-repository-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-repository-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-execution-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-execution-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-management-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-management-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>fact-finder-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>

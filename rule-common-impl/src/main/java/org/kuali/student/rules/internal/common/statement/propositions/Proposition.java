@@ -15,8 +15,10 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * Apply a logical constraint.
@@ -31,7 +33,14 @@ public interface Proposition {
 	 * @return <code>true</code> if the constraint is met.
 	 */
 	public Boolean apply();
-	
+
+    /**
+     * Gets the message context map.
+     * 
+     * @return Message context map
+     */
+    public Map<String, Object> getMessageContextMap();
+    
 	/**
 	 * Returns the cached value of apply method's result
 	 * @return <code>true</code> if the constraint is met.
@@ -39,12 +48,6 @@ public interface Proposition {
 	 */
 	public Boolean getResult();	
 	
-	/**
-	 * An explanation of the results of the constraint.
-	 * @return the advice
-	 */
-	public PropositionReport getReport();
-
 	/**
 	 * Returns the proposition name
 	 * @return Proposition name
@@ -56,4 +59,17 @@ public interface Proposition {
 	 * @return Proposition id
 	 */
 	public String getId();
+	
+	/**
+	 * Returns the proposition type.
+	 * @return Proposition type
+	 */
+	public PropositionType getType();
+
+	/**
+	 * Returns the values of the proposition result.
+	 * 
+	 * @return Proposition result values
+	 */
+	public Collection<?> getResultValues();	
 }

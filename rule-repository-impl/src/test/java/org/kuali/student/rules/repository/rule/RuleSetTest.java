@@ -39,33 +39,44 @@ public class RuleSetTest {
     @Test
     public void testNullName() {
         try {
-            RuleUtil.createRuleSet( null );
-            fail( "Should not be able to create a rule set with a null name" );
+            RuleUtil.createRuleSet(null);
+            fail("Should not be able to create a rule set with a null name");
         }
-        catch( IllegalArgumentException e ) {
-            assertTrue( true );
+        catch(IllegalArgumentException e) {
+            assertTrue(true);
         }
     }
 
     @Test
     public void testNullUuid() {
         try {
-            RuleUtil.createRuleSet( null, "ruleSetName", -1L );
-            fail( "Should not be able to create a rule set with a null UUID" );
+            RuleUtil.createRuleSet(null, "ruleSetName", "ruleSetDescription", -1L);
+            fail("Should not be able to create a rule set with a null UUID");
         }
-        catch( IllegalArgumentException e ) {
-            assertTrue( true );
+        catch( IllegalArgumentException e) {
+            assertTrue(true);
         }
     }
 
     @Test
     public void testNullUuidAndName() {
         try {
-            RuleUtil.createRuleSet( null, null, -1L );
-            fail( "Should not be able to create a rule set with a null UUID and a null name" );
+            RuleUtil.createRuleSet(null, null, "ruleSetDescription", -1L);
+            fail("Should not be able to create a rule set with a null UUID and name");
         }
-        catch( IllegalArgumentException e ) {
-            assertTrue( true );
+        catch(IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testNullUuidAndNameAndDescription() {
+        try {
+            RuleUtil.createRuleSet(null, null, null, -1L);
+            fail("Should not be able to create a rule set with a null UUID, name and description");
+        }
+        catch(IllegalArgumentException e) {
+            assertTrue(true);
         }
     }
 
@@ -87,24 +98,24 @@ public class RuleSetTest {
 
     @Test
     public void testNameUuidVersionEquals() {
-        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSetName", 1L );
-        RuleSet ruleSet2 = RuleUtil.createRuleSet( "123", "ruleSetName", 1L );
+        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSetName", "ruleSetDescription", 1L );
+        RuleSet ruleSet2 = RuleUtil.createRuleSet( "123", "ruleSetName", "ruleSetDescription", 1L );
 
         assertEquals( ruleSet1, ruleSet2 );
     }
 
     @Test
     public void testNameUuidVersionNotEquals() {
-        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSet1", 1L );
-        RuleSet ruleSet2 = RuleUtil.createRuleSet( "987", "ruleSet2", 2L );
+        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSet1", "ruleSetDescription", 1L );
+        RuleSet ruleSet2 = RuleUtil.createRuleSet( "987", "ruleSet2", "ruleSetDescription", 2L );
 
         assertFalse( ruleSet1.equals( ruleSet2 ) );
     }
 
     @Test
     public void testUuidNotEquals() {
-        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSet1", 1L );
-        RuleSet ruleSet2 = RuleUtil.createRuleSet( "987", "ruleSet1", 1L );
+        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSet1", "ruleSetDescription", 1L );
+        RuleSet ruleSet2 = RuleUtil.createRuleSet( "987", "ruleSet1", "ruleSetDescription", 1L );
 
         assertFalse( ruleSet1.equals( ruleSet2 ) );
     }

@@ -39,15 +39,33 @@
 		<property name="description" value="Persons course credit information"/>
 		<property name="resultColumnsMap">
 			<map>
-				<entry>
-					<key><value>resultColumn.credit</value></key>
-					<bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
-						<property name="key" value="resultColumn.credit"/>
-						<property name="name" value="resultColumn.credit"/>
-						<property name="description" value="Credits"/>
-						<property name="dataType" value="java.lang.Number"/>												
-					</bean>
-				</entry>
+                <entry>
+                    <key><value>resultColumn.cluId</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.cluId"/>
+                        <property name="name" value="resultColumn.cluId"/>
+                        <property name="description" value="Course Name"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+                <entry>
+                    <key><value>resultColumn.credit</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.credit"/>
+                        <property name="name" value="resultColumn.credit"/>
+                        <property name="description" value="Credits"/>
+                        <property name="dataType" value="java.lang.Number"/>                                                
+                    </bean>
+                </entry>
 			</map>
 		</property>
 	</bean>
@@ -68,6 +86,15 @@
 						<property name="dataType" value="java.lang.String"/>												
 					</bean>
 				</entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
 			</map>
 		</property>
 	</bean>
@@ -91,7 +118,7 @@
 						<property name="minOccurs" value="1"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789"/>
-						<property name="defTime" value="EXECUTION"/>																																										
+						<property name="defTime" value="KUALI_FACT_EXECUTION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 				<entry>
@@ -106,7 +133,7 @@
 						<property name="minOccurs" value="1"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789,"/>
-						<property name="defTime" value="DEFINITION"/>																																										
+						<property name="defTime" value="KUALI_FACT_DEFINITION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 				<entry>
@@ -121,7 +148,7 @@
 						<property name="minOccurs" value="0"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789,"/>
-						<property name="defTime" value="DEFINITION"/>																																										
+						<property name="defTime" value="KUALI_FACT_DEFINITION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 			</map>		
@@ -147,7 +174,7 @@
 						<property name="minOccurs" value="1"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789"/>
-						<property name="defTime" value="EXECUTION"/>																																										
+						<property name="defTime" value="KUALI_FACT_EXECUTION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 			</map>
