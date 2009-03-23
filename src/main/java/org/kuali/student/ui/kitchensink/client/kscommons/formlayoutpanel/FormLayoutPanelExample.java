@@ -48,19 +48,19 @@ public class FormLayoutPanelExample extends Composite{
         KSFormField sf = new KSFormField();
         sf.setLabelText("Name");
         sf.setWidget(new KSTextBox());
-        sf.setHelpInfo(new HelpInfo());
+        sf.setHelpInfo(buildHelpInfo());
         sf.setName("name");
         form.addFormField(sf);
         
         sf = new KSFormField();
         sf.setLabelText("Description");
         sf.setWidget(new KSRichEditor());
-        sf.setHelpInfo(new HelpInfo());
+        sf.setHelpInfo(buildHelpInfo());
         sf.setName("desc");
         form.addFormField(sf);
         
         sf = new KSFormField();
-        sf.setHelpInfo(new HelpInfo());
+        sf.setHelpInfo(buildHelpInfo());
         sf.setLabelText("Date");
         sf.setWidget(new KSDatePicker());
         sf.setName("date");      
@@ -84,5 +84,14 @@ public class FormLayoutPanelExample extends Composite{
 
         super.initWidget(main);
         
+    }
+    
+    private HelpInfo buildHelpInfo(){
+        HelpInfo testInfo = new HelpInfo();
+        testInfo.setId("123456");
+        testInfo.setTitle("Help Title");
+        testInfo.setShortVersion("Help Short Version");
+        testInfo.setUrl("http://en.wikipedia.org/wiki/Main_Page");
+        return testInfo;
     }
 }
