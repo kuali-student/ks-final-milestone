@@ -79,13 +79,5 @@ public class KSToolTip extends PopupPanel {
     public void hide() {
         super.hide();
     }
-    
-    /**
-     * Doesn't process any event, let parent process it (is this method needed?)
-     * 
-     */
-    public boolean onEventPreview(Event event) {
-        return true;  
-    }
 }
 

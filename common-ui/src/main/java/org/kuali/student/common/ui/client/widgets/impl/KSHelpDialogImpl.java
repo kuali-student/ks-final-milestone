@@ -24,7 +24,12 @@ public class KSHelpDialogImpl extends KSHelpDialogAbstract{
 	private KSButton ok = new KSButton("OK");
 	private HelpInfo helpInfo;
 	
-	public KSHelpDialogImpl() {}
+/**
+ * 
+ * @deprecated ?
+ *
+ */
+public KSHelpDialogImpl() {}
 	
 	public KSHelpDialogImpl(HelpInfo helpInfo) {
 		init(helpInfo);

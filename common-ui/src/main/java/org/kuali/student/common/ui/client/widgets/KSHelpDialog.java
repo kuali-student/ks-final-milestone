@@ -9,6 +9,8 @@ import com.google.gwt.core.client.GWT;
  * A dialog which is used to display help information.
  * 
  * @author Kuali Student Team
+ * 
+ * @deprecated
  *
  */
 public class KSHelpDialog extends KSHelpDialogAbstract{  
