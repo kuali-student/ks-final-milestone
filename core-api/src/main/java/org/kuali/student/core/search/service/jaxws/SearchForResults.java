@@ -1,6 +1,8 @@
 
 package org.kuali.student.core.search.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -33,6 +35,9 @@ public class SearchForResults {
     }
 
     public java.util.List<org.kuali.student.core.search.dto.QueryParamValue> getQueryParamValues() {
+    	if (this.queryParamValues == null) {
+    		this.queryParamValues = new ArrayList<org.kuali.student.core.search.dto.QueryParamValue>(0);
+    	}
         return this.queryParamValues;
     }
 

@@ -16,7 +16,7 @@ public class Result implements Serializable {
 
 	public List<ResultCell> getResultCells() {
 		if (resultCells == null) {
-			resultCells = new ArrayList<ResultCell>();
+			resultCells = new ArrayList<ResultCell>(0);
 		}
 		return resultCells;
 	}
