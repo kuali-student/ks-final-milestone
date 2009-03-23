@@ -1,6 +1,8 @@
 package org.kuali.student.core.exceptions;
 
-//@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DoesNotExistExceptionBean")
+import javax.xml.ws.WebFault;
+
+@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DoesNotExistExceptionBean")
 public class DoesNotExistException extends Exception {
 
 	/**

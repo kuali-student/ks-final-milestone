@@ -1,6 +1,8 @@
 package org.kuali.student.core.exceptions;
 
-//@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DataValidationErrorExceptionBean")
+import javax.xml.ws.WebFault;
+
+@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
 
 	/**

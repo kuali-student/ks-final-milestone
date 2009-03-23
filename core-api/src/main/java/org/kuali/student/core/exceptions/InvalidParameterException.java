@@ -1,6 +1,8 @@
 package org.kuali.student.core.exceptions;
 
-//@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.InvalidParameterExceptionBean")
+import javax.xml.ws.WebFault;
+
+@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.InvalidParameterExceptionBean")
 public class InvalidParameterException extends Exception {
 
 	/**

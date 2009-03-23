@@ -1,6 +1,8 @@
 package org.kuali.student.core.exceptions;
 
-//@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.PermissionDeniedExceptionBean")
+import javax.xml.ws.WebFault;
+
+@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.PermissionDeniedExceptionBean")
 public class PermissionDeniedException extends Exception {
 
 	/**
