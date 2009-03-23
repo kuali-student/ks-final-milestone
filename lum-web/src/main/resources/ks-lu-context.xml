@@ -22,14 +22,14 @@
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties">
-			<props> 
+			<props>
 				<prop key="databaseName">
 					${jdbc.xaDataSourceProperties.databaseName}
 				</prop>
 
 				<prop key="createDatabase">
 					${jdbc.xaDataSourceProperties.createDatabase}
-				</prop>				
+				</prop>
 				<prop key="user">
 					${jdbc.xaDataSourceProperties.user}
 				</prop>
@@ -96,6 +96,7 @@
 	<bean id="luServiceImpl"
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
 		<property name="luDao" ref="luDao" />
+        <property name="searchManager" ref="searchManager" />
 	</bean>
 
 	<bean id="searchManager"
@@ -105,7 +106,7 @@
 	</bean>
 
 	<bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl"></bean>
-	
+
 	<!-- Preloaded data -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
 		<property name="jtaTxManager" ref="JtaTxManager"/>
@@ -117,5 +118,5 @@
 			</map>
 		</property>
 	</bean>
-	
+
 </beans>

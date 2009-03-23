@@ -105,6 +105,10 @@ public class LuServiceImpl implements LuService {
 	private LuDao luDao;
     private SearchManager searchManager;
 
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
 	@Override
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
@@ -2255,7 +2259,7 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(cluInfo, "cluInfo");
-        
+
         return createValidator().validateTypeStateObject(cluInfo, getObjectStructure("cluInfo"));
 	}
 
@@ -2267,7 +2271,7 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
-        
+
         return createValidator().validateTypeStateObject(cluCluRelationInfo, getObjectStructure("cluCluRelationInfo"));
 	}
 
@@ -2279,7 +2283,7 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(luDocRelationInfo, "luDocRelationInfo");
-        
+
         return createValidator().validateTypeStateObject(luDocRelationInfo, getObjectStructure("luDocRelationInfo"));
 	}
 
@@ -2291,7 +2295,7 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(luStatementInfo, "luStatementInfo");
-        
+
         return createValidator().validateTypeStateObject(luStatementInfo, getObjectStructure("luStatementInfo"));
 	}
 
@@ -2303,7 +2307,7 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
-        
+
         return createValidator().validateTypeStateObject(reqComponentInfo, getObjectStructure("reqComponentInfo"));
 	}
 
