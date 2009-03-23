@@ -2,12 +2,10 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 import java.util.Date;
 
-import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,16 +21,16 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 public class KSDatePickerImpl extends KSDatePickerAbstract {
 	private DatePicker picker = new DatePicker();
 	private KSTextBox dateField = new KSTextBox();
 	private PopupPanel popup = new PopupPanel(true);
-	private Date selectedDate = new Date();
+	private Date selectedDate = null;
 	private Date currentDate = new Date();
 	private DateTimeFormat df = DateTimeFormat.getFormat("MM/dd/yyyy");
 	private boolean justPicked = false;
@@ -82,7 +80,6 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
 		dateField.addKeyPressHandler(new KeyPressHandler(){
 
 			public void onKeyPress(KeyPressEvent event) {
-				System.out.println(event.getCharCode());
 				String dateText = dateField.getText();
 				String validInput = "0123456789";
 				if(validInput.indexOf(event.getCharCode()) == -1){
@@ -149,20 +146,35 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
 				dateField.setFocus(true);
 				popup.hide();
 				justPicked = true;
+				fireValueChangeEvent();
 			}	
 		});
 		
 	}
 	
-	public Date getDate(){
+	private void fireValueChangeEvent(){
+        ValueChangeEvent.fire(this, selectedDate);	    
+	}
+	
+	public Date getValue(){
 		return this.selectedDate;
 	}
 	
-	public void setDate(Date date){
+	public void setValue(Date date){
 	    dateField.setText(df.format(date));
         picker.setCurrentMonth(date);
         picker.setValue(date, false);
 	    selectedDate = date;
 	}
+
+    @Override
+    public void setValue(Date date, boolean fireEvents) {
+        setValue(date);        
+    }
+
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
+        return addHandler(handler, ValueChangeEvent.getType());
+    }
 	
 }

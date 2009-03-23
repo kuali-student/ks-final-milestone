@@ -6,6 +6,8 @@ import java.util.Date;
 import org.kuali.student.common.ui.client.widgets.impl.KSDatePickerImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * The KSDatePicker widget provides an easy way for a date to be entered by a user.  When this widget obtains focus,
@@ -35,8 +37,8 @@ public class KSDatePicker extends KSDatePickerAbstract{
      * @return the Date selected
      */
     @Override
-    public Date getDate() {
-        return datePicker.getDate();
+    public Date getValue() {
+        return datePicker.getValue();
     }
 
     /**
@@ -45,7 +47,25 @@ public class KSDatePicker extends KSDatePickerAbstract{
      * @param date the Date to set the calendar and associated field to
      */
     @Override
-    public void setDate(Date date) {
-        datePicker.setDate(date);
+    public void setValue(Date date) {
+        datePicker.setValue(date);
     }
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+     */
+    @Override
+    public void setValue(Date date, boolean fireEvents) {
+        datePicker.setValue(date, fireEvents);
+    }
+
+    /**
+     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+     */
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
+        return datePicker.addValueChangeHandler(handler);
+    }
+    
+    
 }
