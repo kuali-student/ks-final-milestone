@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class FormLayoutPanelExampleDescriptor extends KitchenSinkExample {
     public FormLayoutPanelExampleDescriptor() {
         super();
-        super.addResource("java", "FormLayoutPanelExample.java", "kscommons/form/FormLayoutExample.java", "Example usage of KSFormLayoutPanel.");
+        super.addResource("java", "FormLayoutPanelExample.java", "kscommons/formlayoutpanel/FormLayoutPanelExample.java", "Example usage of KSFormLayoutPanel.");
         super.addResource("css", "KSFormLayout.css", "KSFormLayout.css", "Default styling of KSFormLayoutPanel.");
     }
     public String getDescription() {       

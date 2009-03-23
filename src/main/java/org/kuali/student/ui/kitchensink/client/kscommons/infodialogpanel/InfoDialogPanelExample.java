@@ -16,7 +16,8 @@ public class InfoDialogPanelExample extends Composite {
 
     private final VerticalPanel main = new VerticalPanel();
 
-    private final KSLabel description = new KSLabel("Click the button to see the panel then click anywhere outside the panel to close it.\n\n");
+    private final KSLabel description = new KSLabel("Click the button to see the panel then click anywhere outside the panel to close it. " +
+            "Note: You may see a warning about an external web site - the dialog uses a frame to show www.google.com.\n\n");
     private final KSInfoDialogPanel dialog = new KSInfoDialogPanel();
     private final KSButton showButton = new KSButton("Click to see Popup");
 
