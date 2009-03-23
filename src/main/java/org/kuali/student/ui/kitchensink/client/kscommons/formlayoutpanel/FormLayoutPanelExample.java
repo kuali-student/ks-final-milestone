@@ -74,7 +74,7 @@ public class FormLayoutPanelExample extends Composite{
                 sb.append("Form values: ");
                 sb.append("Name: <" + form.getFieldValue("name") + ">\n");
                 sb.append("Description: <" + form.getFieldValue("desc") + ">\n");
-                sb.append("Date: <" + ((KSDatePicker)form.getFieldWidget("date")).getDate() + ">");
+                sb.append("Date: <" + ((KSDatePicker)form.getFieldWidget("date")).getValue() + ">");
                 Window.alert(sb.toString());                               
             }
         });        

@@ -31,7 +31,7 @@ public class DatePickerExample extends Composite {
 
             @Override
             public void onClick(ClickEvent arg0) {
-                Window.alert("You selected " + DF.format(datePicker.getDate()));
+                Window.alert("You selected " + DF.format(datePicker.getValue()));
                 
             }} );
         
