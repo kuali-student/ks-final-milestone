@@ -270,8 +270,8 @@ public class OrgCreatePanel extends Composite{
         orgInfo.setLongName(orgForm.getFieldValue("orgName"));
         orgInfo.setShortName(orgForm.getFieldValue("orgAbbrev"));
 
-        orgInfo.setEffectiveDate(((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).getDate());
-        orgInfo.setExpirationDate(((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).getDate());
+        orgInfo.setEffectiveDate(((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).getValue());
+        orgInfo.setExpirationDate(((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).getValue());
         
         if (orgId == null){
             OrgRpcService.Util.getInstance().createOrganization(orgInfo,new AsyncCallback<OrgInfo>(){
@@ -413,8 +413,8 @@ public class OrgCreatePanel extends Composite{
                 orgForm.setFieldValue("orgAbbrev",orgInfo.getShortName());
                 orgForm.setFieldValue("orgDesc",orgInfo.getShortDesc());
 
-                ((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).setDate(orgInfo.getEffectiveDate());
-                ((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).setDate(orgInfo.getExpirationDate());
+                ((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).setValue(orgInfo.getEffectiveDate());
+                ((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).setValue(orgInfo.getExpirationDate());
             }            
         });
     }

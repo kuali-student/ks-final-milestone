@@ -156,8 +156,8 @@ public class OrgRelationWidget extends Composite{
         //TODO: This should lookup orgId based on related org name
         orgRelationInfo.setRelatedOrgId(orgRelForm.getFieldValue("relOrgId"));
         
-        orgRelationInfo.setEffectiveDate(((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).getDate());
-        orgRelationInfo.setExpirationDate(((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).getDate());
+        orgRelationInfo.setEffectiveDate(((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).getValue());
+        orgRelationInfo.setExpirationDate(((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).getValue());
         
         return orgRelationInfo;
     }
@@ -187,8 +187,8 @@ public class OrgRelationWidget extends Composite{
         ((FocusWidget)orgRelForm.getFieldWidget("relOrgId")).setEnabled(false);
         ((FocusWidget)orgRelForm.getFieldWidget("relOrgName")).setEnabled(false);
 
-        ((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).setDate(orgRelationInfo.getEffectiveDate());
-        ((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).setDate(orgRelationInfo.getExpirationDate());
+        ((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).setValue(orgRelationInfo.getEffectiveDate());
+        ((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).setValue(orgRelationInfo.getExpirationDate());
     }
     
     protected void loadOrgRelationTypes(){
