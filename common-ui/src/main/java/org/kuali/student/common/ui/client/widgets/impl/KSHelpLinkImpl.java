@@ -75,6 +75,7 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         loadPopups();
 
         Image image = icons.defaultIcon().createImage();
+        image.addStyleName(KSStyles.KS_HELP_IMAGE);
 
         image.addMouseOverHandler(handler);
         image.addMouseOutHandler(handler);
@@ -93,12 +94,12 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         Frame frame = new Frame(helpInfo.getUrl());
         frame.setHeight((Window.getClientHeight() * .50) + "px");
         frame.setWidth((Window.getClientWidth() * .50) + "px");
+        frame.addStyleName(KSStyles.KS_HELP_POPUP_FRAME);
         popup.setWidget(frame);
 
     }
 
     private void loadDefaultHelpInfo(){
-        //TODO implement this with a RPC call
         HelpInfo testData = new HelpInfo();
         testData.setId(this.helpId);
         testData.setTitle("Help Title");
@@ -108,7 +109,6 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
     }
     private void setDefaultStyle(){
         removeCurrentStateStyle();
-//      helpText.addStyleName(KSStyles.KS_HELP_TEXT);
         main.addStyleName(KSStyles.KS_HELP_TEXT_PANEL);
     }  
 
@@ -188,8 +188,8 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
 
         @Override
         public void onClick(ClickEvent event) {
-            tip.hide();
-            popup.center();     
+            tip.hide();  
+            popup.setLocation(30, 30);
             popup.show();
         }
 

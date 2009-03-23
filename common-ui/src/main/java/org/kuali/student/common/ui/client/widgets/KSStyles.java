@@ -54,7 +54,8 @@ public interface KSStyles {
 	public static final String KS_FORMLAYOUT_LABEL = "KS-FormLayout-Label";
 	public static final String KS_HELP_POPUP = "KS-Help-Popup";
 	public static final String KS_HELP_POPUP_FRAME = "KS-Help-Frame";
-	public static final String KS_HELP_TEXT = "KS-Help-Text";
+	public static final String KS_HELP_IMAGE = "KS-Help-Image";
+    public static final String KS_HELP_TEXT = "KS-Help-Text";
 	public static final String KS_HELP_TEXT_ERROR = "KS-Help-Text-Error";
 	public static final String KS_HELP_TEXT_OK = "KS-Help-Text-OK";
 	public static final String KS_HELP_TEXT_PANEL = "KS-Help-Text-Panel";
