@@ -137,7 +137,7 @@ public class HelpLinkExample extends Composite {
     private HelpInfo buildRedHelp(){
         HelpInfo testInfo = new HelpInfo();
         testInfo.setId("123456");
-        testInfo.setTitle("Help for Red Copy");
+        testInfo.setTitle("Help for Red");
         testInfo.setShortVersion("Type each character from the field on the left to the field on the right");
         testInfo.setUrl("http://en.wikipedia.org/wiki/Red");
         return testInfo;
@@ -146,7 +146,7 @@ public class HelpLinkExample extends Composite {
     private HelpInfo buildOrangeHelp(){
         HelpInfo testInfo = new HelpInfo();
         testInfo.setId("123456");
-        testInfo.setTitle("Help for Orange Copy");
+        testInfo.setTitle("Help for Orange");
         testInfo.setShortVersion("Type each character from the field on the left to the field on the right");
         testInfo.setUrl("http://en.wikipedia.org/wiki/Orange_(colour)");
         return testInfo;
@@ -155,7 +155,7 @@ public class HelpLinkExample extends Composite {
     private HelpInfo buildYellowHelp(){
         HelpInfo testInfo = new HelpInfo();
         testInfo.setId("123456");
-        testInfo.setTitle("Help for Yellow Copy");
+        testInfo.setTitle("Help for Yellow");
         testInfo.setShortVersion("Type each character from the field on the left to the field on the right");
         testInfo.setUrl("http://en.wikipedia.org/wiki/Yellow");
         return testInfo;
