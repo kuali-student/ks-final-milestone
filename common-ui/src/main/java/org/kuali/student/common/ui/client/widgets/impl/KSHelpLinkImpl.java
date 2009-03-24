@@ -21,17 +21,18 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class KSHelpLinkImpl extends KSHelpLinkAbstract { 
-
 
     private final HorizontalPanel main = new HorizontalPanel();
     private final SimplePanel iconPanel = new SimplePanel();
     private final VerticalPanel labelPanel = new VerticalPanel();
+    private Widget content;
     private String helpId = "FIX_ME"; //What is this and how do I initialize it?
     private HelpInfo helpInfo = null;
     private HelpLinkState state = HelpLinkState.DEFAULT;
-    
+
     private final MyEventHandler handler = new MyEventHandler();
 
     private final KSImages icons = GWT.create(KSImages.class);
@@ -64,24 +65,16 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
 
     public void setStateDefault() {
         validationText.setVisible(false);
-        if (iconPanel.getWidget() != null) {
-            iconPanel.remove(iconPanel.getWidget());
-        }
-
         if (helpInfo == null) {
             loadDefaultHelpInfo();
         }
 
-        loadPopups();
-
-        Image image = icons.defaultIcon().createImage();
-        image.addStyleName(KSStyles.KS_HELP_IMAGE);
-
-        image.addMouseOverHandler(handler);
-        image.addMouseOutHandler(handler);
-        image.addClickHandler(handler);
-
+        if (iconPanel.getWidget() != null) {
+            iconPanel.remove(iconPanel.getWidget());
+        }
+        Image image = generateDefaultImage();
         iconPanel.setWidget(image);
+
         setDefaultStyle();
     }
 
@@ -91,21 +84,25 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
 
         popup = new KSInfoDialogPanel();
         popup.setHeader(helpInfo.getTitle());
-        Frame frame = new Frame(helpInfo.getUrl());
-        frame.setHeight((Window.getClientHeight() * .50) + "px");
-        frame.setWidth((Window.getClientWidth() * .50) + "px");
-        frame.addStyleName(KSStyles.KS_HELP_POPUP_FRAME);
-        popup.setWidget(frame);
-
+        if (helpInfo.getUrl() != null) {
+            content = new Frame(helpInfo.getUrl());
+        }
+        else {
+            content = new KSLabel(helpInfo.getShortVersion());
+        }
+        content.setHeight((Window.getClientHeight() * .50) + "px");
+        content.setWidth((Window.getClientWidth() * .50) + "px");
+        content.addStyleName(KSStyles.KS_HELP_POPUP_FRAME);
     }
 
     private void loadDefaultHelpInfo(){
         HelpInfo testData = new HelpInfo();
         testData.setId(this.helpId);
         testData.setTitle("Help Title");
-        testData.setShortVersion("This is a shorter version of the help text suitable for a tool tip");
-        testData.setUrl("http://www.kuali.org");
+        testData.setShortVersion("No help available");
         this.helpInfo = testData;
+
+        loadPopups();
     }
     private void setDefaultStyle(){
         removeCurrentStateStyle();
@@ -142,7 +139,8 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         if (iconPanel.getWidget() != null) {
             iconPanel.remove(iconPanel.getWidget());
         }
-        iconPanel.setWidget(icons.okIcon().createImage());
+        iconPanel.setWidget(generateOKImage());
+
         //  remove any other state dependent style names and add style name for OK state
         setOKStyle();
     }
@@ -163,7 +161,8 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         if (iconPanel.getWidget() != null) {
             iconPanel.remove(iconPanel.getWidget());
         }
-        iconPanel.setWidget(icons.errorIcon().createImage());
+        iconPanel.setWidget(generateErrorImage());
+
         // remove any other state dependent style names and add style name for error state
         setErrorStyle();
     }
@@ -173,8 +172,34 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         main.addStyleName(KSStyles.KS_HELP_TEXT_PANEL_ERROR);
     }
 
-    private class MyEventHandler implements MouseOverHandler, MouseOutHandler, ClickHandler  {
+    private Image generateDefaultImage() {
+        Image image = icons.defaultIcon().createImage();
+        addImageListeners(image);          
+        return image;
+    }
 
+    private Image generateOKImage() {
+        Image image = icons.okIcon().createImage();
+//        addImageListeners(image); // Do we need any listeners if field is now OK?                   
+        return image;
+    }
+
+    private Image generateErrorImage() {
+        Image image = icons.errorIcon().createImage();
+        addImageListeners(image);                   
+        return image;
+    }
+
+    private void addImageListeners(Image image) {
+        image.addStyleName(KSStyles.KS_HELP_IMAGE);
+
+        image.addMouseOverHandler(handler);
+        image.addMouseOutHandler(handler);
+        image.addClickHandler(handler);
+
+    }
+
+    private class MyEventHandler implements MouseOverHandler, MouseOutHandler, ClickHandler  {
 
         @Override
         public void onMouseOver(MouseOverEvent event) {
@@ -189,9 +214,10 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         @Override
         public void onClick(ClickEvent event) {
             tip.hide();  
+
             popup.setLocation(30, 30);
+            popup.setWidget(content);
             popup.show();
         }
-
     }
 }
