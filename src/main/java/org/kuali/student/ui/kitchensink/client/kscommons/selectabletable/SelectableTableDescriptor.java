@@ -8,7 +8,7 @@ public class SelectableTableDescriptor extends KitchenSinkExample {
     public SelectableTableDescriptor() {
         super();
         super.addResource("java", "SelectableTableExample.java", "kscommons/selectabletable/SelectableTableExample.java", "Example usage of KSSelectableTable.");
-        //super.addResource("css", "KSSelectableTable.css", "KSSelectableTable.css", "Default styling of KSSelectableTable.");
+        super.addResource("css", "KSSelectableTableList.css", "KSSelectableTableList.css", "Default styling of KSSelectableTable.");
         //super.addResource("css", "SelectableTableExample.css", "examplecss/SelectableTableExample.css", "Example styling of KSSelectableTable.");
     }
     public String getDescription() {       

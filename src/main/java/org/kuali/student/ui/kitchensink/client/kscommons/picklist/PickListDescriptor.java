@@ -8,7 +8,7 @@ public class PickListDescriptor extends KitchenSinkExample {
     public PickListDescriptor() {
         super();
         super.addResource("java", "PickListExample.java", "kscommons/picklist/PickListExample.java", "Example usage of KSPickList.");
-        //super.addResource("css", "KSPickList.css", "KSPickList.css", "Default styling of KSPickList.");
+        super.addResource("css", "KSPickList.css", "KSPickList.css", "Default styling of KSPickList.");
         //super.addResource("css", "PickListExample.css", "examplecss/PickListExample.css", "Example styling of KSPickList.");
     }
     public String getDescription() {       
