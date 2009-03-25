@@ -10,6 +10,7 @@
 	<classpathentry kind="src" output="common-util/target/classes" path="common-ui/src/main/java"/>
 	<classpathentry kind="src" output="common-util/target/classes" path="common-ui/src/main/resources"/>
 	<classpathentry kind="src" output="common-util/target/test-classes" path="common-ui/src/test/java"/>
+	<classpathentry kind="src" path="common-ui/src/test/resources"/>
 	<classpathentry kind="src" output="core-api/target/classes" path="core-api/src/main/java"/>
 	<classpathentry kind="src" output="core-api/target/classes" path="core-api/src/main/resources"/>
 	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/java"/>

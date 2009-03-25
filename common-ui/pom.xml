@@ -33,69 +33,6 @@
 		</plugins>			        	
 	</build>
 	
-	<profiles>
-		<!--  This profile can be used to test ks-common-ui using hosted mode -->
-		<profile>
-			<id>common-gwt</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.0</version>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<goal>war</goal>
-								</goals>	
-							</execution>
-						</executions>
-						<configuration>
-							<!-- In case we want to include resources only for test 
-							<webResources>
-								<resource>
-									<directory>src/test/resources</directory>
-								</resource>
-							</webResources>
-							-->
-						</configuration>
-					</plugin>
-										
-					<plugin>
-						<groupId>com.totsp.gwt</groupId>
-						<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<goal>gwt</goal>
-								</goals>	
-							</execution>
-						</executions>
-						<configuration>
-							<gwtVersion>${gwtVersion}</gwtVersion>
-							<logLevel>INFO</logLevel>
-							<!-- defines which page should be launched when run in hosted mode -->
-							<startupUrl>org.kuali.student.common.ui.CommonUITest/CommonUITest.html</startupUrl>
-							<runTarget>
-								org.kuali.student.common.ui.CommonUITest
-							</runTarget>
-							<!-- define which GWT modules get compiled during the build process -->
-							<compileTargets>
-								<param>
-									org.kuali.student.common.ui.CommonUITest
-								</param>
-								<!-- add any other GWT modules in your project that are required -->
-							</compileTargets>
-							<extraJvmArgs>-Xmx512m</extraJvmArgs>
-						</configuration>
-					</plugin>
-				</plugins>	
-			</build>
-		</profile>
-	</profiles>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -149,4 +86,118 @@
 			<version>0.0.1-SNAPSHOT</version>						
 		</dependency>		
 	</dependencies>
+
+	<profiles>
+		<!--  This profile can be used build ks-common-ui war for testing in hosted mode -->
+		<profile>
+			<id>common-gwt</id>
+			<build>
+				<plugins>
+					
+					<!-- Build test war for common-ui testing -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.0</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>war</goal>
+								</goals>	
+							</execution>
+						</executions>
+					</plugin>
+					
+					<!--  Copy test resources into proper test war dir -->					
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										  <copy todir="target/${project.build.finalName}/WEB-INF/classes">
+										    <fileset dir="src/test/resources" />
+										  </copy>
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					
+					<plugin>
+						<groupId>com.totsp.gwt</groupId>
+						<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>gwt</goal>
+								</goals>	
+							</execution>
+						</executions>
+						<configuration>
+							<gwtVersion>${gwtVersion}</gwtVersion>
+							<logLevel>INFO</logLevel>
+							<!-- defines which page should be launched when run in hosted mode -->
+							<startupUrl>org.kuali.student.common.ui.CommonUITest/CommonUITest.html</startupUrl>
+							<runTarget>
+								org.kuali.student.common.ui.CommonUITest
+							</runTarget>
+							<!-- define which GWT modules get compiled during the build process -->
+							<compileTargets>
+								<param>
+									org.kuali.student.common.ui.CommonUITest
+								</param>
+								<!-- add any other GWT modules in your project that are required -->
+							</compileTargets>
+							<extraJvmArgs>-Xmx512m</extraJvmArgs>
+						</configuration>
+					</plugin>
+				</plugins>					
+			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-core-impl</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</dependency>
+				<dependency>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-hibernate</artifactId>
+					<type>pom</type>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-jta</artifactId>
+					<type>pom</type>
+					<scope>runtime</scope>
+		  		</dependency>		
+				<dependency>
+					<groupId>org.apache.derby</groupId>
+					<artifactId>derby</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aspects</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jdbc</artifactId>
+				</dependency>												  				
+			</dependencies>
+		</profile>
+	</profiles>
+
 </project>
