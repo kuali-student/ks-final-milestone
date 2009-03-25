@@ -49,11 +49,11 @@ public class MessagesService extends RemoteServiceServlet implements org.kuali.s
         return serviceImpl.updateMessage(localeKey, messageGroupKey, messageKey, messageInfo);
     }
 
-    public MessageService getImpl() {
+    public MessageService getServiceImpl() {
         return serviceImpl;
     }
 
-    public void setImpl(MessageService impl) {
+    public void setServiceImpl(MessageService impl) {
         this.serviceImpl = impl;
     }
 
