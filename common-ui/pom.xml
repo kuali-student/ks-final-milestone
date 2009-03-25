@@ -27,6 +27,7 @@
 				<configuration>
 					<includes>
 			            <include>**/org/kuali/student/**/*.class</include>
+			            <include>**/org/kuali/student/**/*.xml</include>
 					</includes>
            		</configuration>
 			</plugin>
