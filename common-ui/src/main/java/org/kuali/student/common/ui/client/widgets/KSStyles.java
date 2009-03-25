@@ -121,6 +121,13 @@ public interface KSStyles {
 	public static final String KS_TOOLTIP = "KSToolTip";
     public static final String KS_TOOLTIP_CONTENT = "KSToolTipContent";
     public static final String KS_TOOLTIP_HEADER = "KSToolTipHeader";
+    public static final String KS_SELECT_TABLE_PANEL = "KS-Select-Table-Panel";
+    
+    public static final String KS_PICK_LIST_WRAPPER_PANEL = "KS-Pick-List-Wrapper-Panel";
+    public static final String KS_PICK_LIST_BUTTON_PANEL = "KS-Pick-List-Button-Panel";
+    public static final String KS_PICK_LIST_UNSELECTED_LABEL = "KS-Pick-List-Unselected-Label";
+    public static final String KS_PICK_LIST_SELECTED_LABEL = "KS-Pick-List-Selected-Label";
+    public static final String KS_PICK_LIST_TABLE_LAYOUT = "KS-Pick-List-Table-Layout";
 	
 	
 }
