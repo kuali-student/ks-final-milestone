@@ -1,5 +1,9 @@
 /* Copyright 2008 Google Inc. All Rights Reserved. */
 
+.KS-Select-Table-Panel{
+	
+}
+
 .google-visualization-table-table {
   font-family: arial, helvetica;
   font-size: 0.8em;
@@ -23,24 +27,23 @@
 
 .google-visualization-table-tr-head, .google-visualization-table-tr-head td {
   font-weight: bold;
-  background: #fff url(title-bg.gif) repeat-x left bottom; 
   text-align: center;
 }
 
 .google-visualization-table-tr-even, .google-visualization-table-tr-even td {
-  background-color: #fff;
+  background-color: #E2EBF5;
 }
 
 .google-visualization-table-tr-odd, .google-visualization-table-tr-odd td {
-  background-color: #fafafa;
+  background-color: #C7D2E1;
 }
 
 .google-visualization-table-tr-sel, .google-visualization-table-tr-sel td {
-  background-color: #d6e9f8;
+  background-color: #D7C7AD;
 }
 
 .google-visualization-table-tr-over, .google-visualization-table-tr-over td {
-  background-color: #e7e9f9;
+  background-color: #EBDBCE;
 }
 
 .google-visualization-table-sorthdr {
