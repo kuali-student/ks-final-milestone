@@ -1,5 +1,7 @@
 package org.kuali.student.core.messages.dto;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -14,7 +16,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "message")
-public class Message {
+public class Message implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     @XmlAttribute(required = true)
     protected String locale;
     @XmlAttribute(required = true)
