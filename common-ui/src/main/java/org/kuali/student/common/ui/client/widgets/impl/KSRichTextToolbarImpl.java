@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+//TODO: Implement using i18n messages
 public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{ 
 
 

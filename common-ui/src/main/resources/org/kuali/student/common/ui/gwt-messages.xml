@@ -9,15 +9,17 @@
         <property name="groupName"      value="common" />
 	</bean>
 
-   	<bean parent="enCommon" p:id="confirm"	p:value="Confirm"/>
-   	<bean parent="enCommon" p:id="cancel"	p:value="Cancel"/>
+   	<bean parent="enCommon" p:id="confirm"		p:value="Confirm"/>
+   	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
+   	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
+   	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
 
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
         <property name="groupName"      value="common" />
 	</bean>
 
-   	<bean parent="esCommon" p:id="confirm"	p:value="Confirmar"/>
-   	<bean parent="esCommon" p:id="cancel"	p:value="Cancelar"/>
+   	<bean parent="esCommon" p:id="confirm"		p:value="Confirmar"/>
+   	<bean parent="esCommon" p:id="cancel"		p:value="Cancelar"/>
 
 </beans>

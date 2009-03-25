@@ -1,17 +1,19 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSConfirmButtonPanelAbstract;
+import org.kuali.student.common.ui.client.widgets.KSMessages;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class KSConfirmButtonPanelImpl extends KSConfirmButtonPanelAbstract{
-	private KSButton confirm = new KSButton("Confirm");
-	private KSButton cancel = new KSButton("Cancel");
+    private KSButton confirm = new KSButton(Application.getApplicationContext().getMessage(KSMessages.CONFIRM));
+	private KSButton cancel = new KSButton(Application.getApplicationContext().getMessage(KSMessages.CANCEL));
 	
 	private SimplePanel confirmPanel = new SimplePanel();
 	private SimplePanel cancelPanel = new SimplePanel();

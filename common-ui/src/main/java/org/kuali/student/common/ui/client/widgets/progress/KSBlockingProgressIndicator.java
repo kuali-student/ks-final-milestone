@@ -2,7 +2,9 @@ package org.kuali.student.common.ui.client.widgets.progress;
 
 import java.util.LinkedList;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.KSMessages;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
@@ -18,7 +20,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public class KSBlockingProgressIndicator{
-	private static LinkedList<BlockingTask> tasks = new LinkedList<BlockingTask>();
+    
+    private static LinkedList<BlockingTask> tasks = new LinkedList<BlockingTask>();
 	
 	private static final VerticalPanel mainPanel = new VerticalPanel();
 	private static final VerticalPanel listPanel = new VerticalPanel();
@@ -37,7 +40,7 @@ public class KSBlockingProgressIndicator{
 		
 		mainPanel.add(listPanel);
 		
-		popupIndicator.setHeader("Processing...");
+		popupIndicator.setHeader(Application.getApplicationContext().getMessage(KSMessages.PROCESSING));
 		
 		popupIndicator.setWidget(mainPanel);
 		setupDefaultStyle();
