@@ -12,41 +12,49 @@ public class MessagesService extends RemoteServiceServlet implements org.kuali.s
 
     private static final long serialVersionUID = 1L;
 
-    private MessageService impl; // TODO inject this
+    private MessageService serviceImpl; 
     
     @Override
     public Message addMessage(Message messageInfo) {
-        return impl.addMessage(messageInfo);
+        return serviceImpl.addMessage(messageInfo);
     }
 
     @Override
     public LocaleKeyList getLocales() {
-        return impl.getLocales();
+        return serviceImpl.getLocales();
     }
 
     @Override
     public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
-        return impl.getMessage(localeKey, messageGroupKey, messageKey);
+        return serviceImpl.getMessage(localeKey, messageGroupKey, messageKey);
     }
 
     @Override
     public MessageGroupKeyList getMessageGroups() {
-        return impl.getMessageGroups();
+        return serviceImpl.getMessageGroups();
     }
 
     @Override
     public MessageList getMessages(String localeKey, String messageGroupKey) {
-        return impl.getMessages(localeKey, messageGroupKey);
+        return serviceImpl.getMessages(localeKey, messageGroupKey);
     }
 
     @Override
     public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
-        return impl.getMessagesByGroups(localeKey, messageGroupKeyList);
+        return serviceImpl.getMessagesByGroups(localeKey, messageGroupKeyList);
     }
 
     @Override
     public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
-        return impl.updateMessage(localeKey, messageGroupKey, messageKey, messageInfo);
+        return serviceImpl.updateMessage(localeKey, messageGroupKey, messageKey, messageInfo);
+    }
+
+    public MessageService getImpl() {
+        return serviceImpl;
+    }
+
+    public void setImpl(MessageService impl) {
+        this.serviceImpl = impl;
     }
 
 }
