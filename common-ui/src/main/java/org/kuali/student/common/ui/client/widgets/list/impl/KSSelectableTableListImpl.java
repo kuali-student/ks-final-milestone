@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 
@@ -156,11 +157,16 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
 
             Options options = Options.create();
             table.draw(data,options);
+            table.addStyleName(KSStyles.KS_SELECT_TABLE_PANEL);
             root.setWidget(table);
           }
         };
 
         AjaxLoader.loadVisualizationApi(onLoadCallback, Table.PACKAGE);
+    }
+    
+    public void addStyleName(String style){
+        table.addStyleName(style);
     }
 
     protected void init(String name) {}

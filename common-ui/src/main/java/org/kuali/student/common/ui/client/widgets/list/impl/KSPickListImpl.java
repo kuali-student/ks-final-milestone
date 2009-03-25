@@ -3,6 +3,8 @@ package org.kuali.student.common.ui.client.widgets.list.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -10,6 +12,8 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -28,6 +32,13 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     private final KSSelectableTableList unselectedTable = new KSSelectableTableList(true);
     private final KSSelectableTableList selectedTable = new KSSelectableTableList(true);
     private final VerticalPanel buttonPanel = new VerticalPanel();
+    private final VerticalPanel unselectedPanel = new VerticalPanel();
+    private final KSLabel unselectedLabel = new KSLabel();
+    private final VerticalPanel selectedPanel = new VerticalPanel();
+    private final KSLabel selectedLabel = new KSLabel();
+    
+    private final FlexTable pickListTable = new FlexTable();
+    
     private final Button add = new Button(">", new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -159,14 +170,36 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     
     public KSPickListImpl() {
         initWidget(panel);
-        panel.add(unselectedTable);
-        panel.add(buttonPanel);
-        panel.add(selectedTable);
+        setupDefaultStyle();
+        
+        unselectedLabel.setText("Unselected");
+        selectedLabel.setText("Selected");
+        pickListTable.setWidget(0, 0, unselectedLabel);
+        pickListTable.setWidget(0, 2, selectedLabel);
+        
+        pickListTable.setWidget(1, 0, unselectedTable);
+        pickListTable.setWidget(1, 1, buttonPanel);
+        pickListTable.setWidget(1, 2, selectedTable);
         
         buttonPanel.add(addAll);
         buttonPanel.add(add);
         buttonPanel.add(remove);
         buttonPanel.add(removeAll);
+        
+        pickListTable.getCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
+        pickListTable.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
+        pickListTable.getCellFormatter().setVerticalAlignment(1, 2, HasVerticalAlignment.ALIGN_TOP);
+        
+        panel.add(pickListTable);
+
+    }
+    
+    private void setupDefaultStyle(){
+        panel.addStyleName(KSStyles.KS_PICK_LIST_WRAPPER_PANEL);
+        buttonPanel.addStyleName(KSStyles.KS_PICK_LIST_BUTTON_PANEL);
+        unselectedLabel.addStyleName(KSStyles.KS_PICK_LIST_UNSELECTED_LABEL);
+        selectedLabel.addStyleName(KSStyles.KS_PICK_LIST_SELECTED_LABEL);
+        pickListTable.addStyleName(KSStyles.KS_PICK_LIST_TABLE_LAYOUT);
     }
     
     /**
