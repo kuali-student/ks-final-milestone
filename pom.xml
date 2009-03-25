@@ -155,6 +155,18 @@
 				<ks.os.classifier>windows</ks.os.classifier>
 			</properties>
 		</profile>
+
+		<profile>
+			<id>ks.os.mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<ks.os.classifier>mac</ks.os.classifier>
+			</properties>		
+		</profile>			
 	</profiles>
 
 	<repositories>
