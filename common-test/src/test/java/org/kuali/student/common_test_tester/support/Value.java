@@ -1,8 +1,12 @@
 package org.kuali.student.common_test_tester.support;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.kuali.student.common.test.spring.Idable;
 import org.kuali.student.common.util.UUIDHelper;
@@ -14,6 +18,9 @@ public class Value implements Idable{
 
 	private String value;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createDate;
+	
 	/**
 	 * AutoGenerate the Id
 	 */
@@ -65,5 +72,14 @@ public class Value implements Idable{
 	 */
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 }

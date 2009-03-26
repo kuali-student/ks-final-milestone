@@ -160,8 +160,17 @@ public abstract class AbstractTransactionalDaoTest {
 						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
 						try {
+		        	        boolean isOracle=false;
+		                	try{
+		        	            Class.forName("oracle.jdbc.driver.OracleDriver");
+		        	            isOracle=true;
+		         	        } catch (ClassNotFoundException e) {
+		                    }
 							while((ln=in.readLine())!=null){
 								if(!ln.startsWith("/")&&!ln.isEmpty()){
+									if(isOracle){
+										ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
+									}
 									em.createNativeQuery(ln).executeUpdate();
 								}
 							}

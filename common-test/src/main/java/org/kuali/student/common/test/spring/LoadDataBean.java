@@ -52,6 +52,13 @@ public class LoadDataBean implements ApplicationContextAware{
 				} 				    				
                 // Load sql file for this dao
                 if (split.length > 2&& !split[2].isEmpty()) {
+        	        boolean isOracle=false;
+                	try{
+        	            Class.forName("oracle.jdbc.driver.OracleDriver");
+        	            isOracle=true;
+         	        } catch (ClassNotFoundException e) {
+                    }
+         	        
 				    String testDataFile = split[2];
 				    File sqlFile;
 				    if(testDataFile.startsWith("classpath:")){
@@ -64,6 +71,9 @@ public class LoadDataBean implements ApplicationContextAware{
 					String ln;
 					while((ln=in.readLine())!=null){
 						if(!ln.startsWith("/")&&!ln.isEmpty()){
+							if(isOracle){
+								ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
+							}
 							em.createNativeQuery(ln).executeUpdate();
 						}
 					}

@@ -53,22 +53,10 @@
 		<property name="uniqueResourceName" value="dataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties">
-			<props>
-				<prop key="databaseName">
-					${jdbc.xaDataSourceProperties.databaseName}
-				</prop>
-				<prop key="user">
-					${jdbc.xaDataSourceProperties.user}
-				</prop>
-				<prop key="password">
-					${jdbc.xaDataSourceProperties.password}
-				</prop>
-				<prop key="createDatabase">
-					${jdbc.xaDataSourceProperties.createDatabase}
-				</prop>
-			</props>
-		</property>
+		<property name="databaseName" value="${jdbc.xaDataSourceProperties.databaseName}"/>
+		<property name="user" value="${jdbc.xaDataSourceProperties.user}"/>
+		<property name="password" value="${jdbc.xaDataSourceProperties.password}"/>
+		<property name="createDatabase" value="${jdbc.xaDataSourceProperties.createDatabase}"/>
 		<property name="maxPoolSize" value="20" />
 	</bean>
 	<!-- <bean id="dataSource"

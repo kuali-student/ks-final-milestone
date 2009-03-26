@@ -12,9 +12,11 @@ public class ModPropertyPlaceholderConfigurer extends
 	public static final String KS_MVN_PARENT_ARTIFACTID_LOWERCASE = "ks.mvn.parent.artifactId.lowercase";
 	public static final String JPA_VENDOR_ADAPTER = "jpa.vendorAdapter";
 	public static final String JPA_DATABASEPLATFORM = "jpa.databasePlatform";
-	
+		
 	//Class to check for in CLASSPATH to determine which jpa impl is being used
 	public static final String JPA_HIBERNATE_PROVIDER = "org.hibernate.ejb.HibernatePersistence";
+	
+	public static final String ORACLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	
 	@Override
 	protected String resolvePlaceholder(String placeholder, Properties props) {
@@ -30,10 +32,20 @@ public class ModPropertyPlaceholderConfigurer extends
 		
 		if(JPA_DATABASEPLATFORM.equals(placeholder)){
 	        try{
-	            Class.forName(JPA_HIBERNATE_PROVIDER);            
-                return "org.hibernate.dialect.DerbyDialect";
-	        } catch (ClassNotFoundException e) {
-                return "org.eclipse.persistence.platform.database.DerbyPlatform";
+	            Class.forName(JPA_HIBERNATE_PROVIDER);
+	            try{
+		            Class.forName(ORACLE_DRIVER);
+	            	return "org.hibernate.dialect.OracleDialect";
+	            }catch (ClassNotFoundException e) {
+	            	return "org.hibernate.dialect.DerbyDialect";
+	            }
+	        } catch (ClassNotFoundException oracleNotFoundException) {
+	            try{
+		            Class.forName(ORACLE_DRIVER);
+	            	return "org.eclipse.persistence.platform.database.OraclePlatform";
+	            }catch (ClassNotFoundException hibernateNotFoundException) {
+	            	return "org.eclipse.persistence.platform.database.DerbyPlatform";
+	            }
 	        }
 		}
 		
