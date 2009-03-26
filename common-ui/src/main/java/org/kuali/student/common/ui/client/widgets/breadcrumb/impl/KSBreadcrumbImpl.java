@@ -54,7 +54,8 @@ public class KSBreadcrumbImpl extends KSBreadcrumbAbstract {
         int counter = 1;
 
         for (KSBreadcrumbItem item : items) {
-            if (counter < items.size()){
+            if (counter < items.size() ||
+                    items.size() == 1){
                 addLinkedItem(item.getText(), item.getUri(), item.getTitle(), item.getTarget());                
             }
             else {
@@ -73,7 +74,8 @@ public class KSBreadcrumbImpl extends KSBreadcrumbAbstract {
 
         for (KSBreadcrumbItem item : items) {
 
-            if (counter < items.size()){
+            if (counter < items.size() ||
+                    items.size() == 1){
                 addUnlinkedItem(item.getText(), item.getTitle());                
             }
             else {
