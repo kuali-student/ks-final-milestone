@@ -1,9 +1,29 @@
 .KS-Header {
 	background-image: url('images/headerback.gif');
 	background-repeat: repeat-x;
-	width: 100%;
+	width: 700px;
+
 }
 
+.KS-Header-Link {
+	width: 100%;
+	padding: 2px;
+	background-color: #EFFBFB;
+	font-size: 15%;
+	cursor: pointer;
+}
+
+.KS-Header-Breadcrumb {
+	width: 100%;	
+	border: 1px solid #999999;
+}
+	
+.KS-Right-Align {
+   float: right;
+   margin-right:5px;
+   padding: 2px;
+   }
+	
 .KS-Application {
 	width: 100%;
 }
