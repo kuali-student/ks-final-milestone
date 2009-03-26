@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu.AccordionMenuExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.breadcrumb.BreadcrumbExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkboxlist.CheckBoxListDescriptor;
@@ -186,6 +187,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksInfo, new HelpLinkExampleDescriptor()); 
 
         initExample(ksNav, new AccordionMenuExampleDescriptor());
+        initExample(ksNav, new BreadcrumbExampleDescriptor());
         initExample(ksNav, new TabPanelExampleDescriptor());
         initExample(ksNav, new SidebarExampleDescriptor());
 
