@@ -1,0 +1,198 @@
+BODY
+{
+	FONT-FAMILY: Arial;
+	BACKGROUND: #FFFFFF;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	text-align: center;
+}
+
+.ks-main {	
+	width: 100%;
+	margin:0 auto;
+}
+
+.gwt-TextBox {
+	width: 250px;
+}
+
+.gwt-ListBox {
+	width: 250px;
+}
+
+.gwt-TextArea {
+	width: 250px;
+}
+
+.info {
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	z-index: 99999999;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 250px;
+	background-color: #fbf4f7;
+	margin-right: 20px; 
+}
+
+.page-title {
+	font: bold 18px tahoma, arial, verdana, sans-serif;
+	border-style: solid;
+	border-color: #aaaaaa;
+	border-width: 1;
+	padding-top: 5px;
+	padding-bottom: 5px;
+padding-left: 1ex;
+	z-index: 99999999;
+	width: 100%;
+	background-color: #eeeeee;	
+}
+
+
+.action,.action a:link, .action a:visited, .action a:hover {
+	font: 12px tahoma, arial, verdana, sans-serif;
+	text-decoration: none;
+	margin-left: 5px;
+}
+
+.ks-section {
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	width: 100%;
+	margin-bottom: 20px;
+	padding: 5px;
+	background-color: #e8e8e8; 
+}
+
+.ks-orgChart{
+	width: 1024px; 
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	background: #FFFFFF;
+	padding: 5px;	
+}
+
+.ks-OrgMenu{
+	width: 200px;
+}
+
+.ks-position {		
+
+}
+
+
+.KS-Disclosure-Content{
+	border:none;
+}
+.KS-Disclosure-Header{
+	font: bold;
+	width: 100%;
+	background-color: #F3F3F3; 
+	
+}
+.KS-Disclosure-Header-Open{
+	font: bold #D54F44;
+	border-bottom: 1px solid #c0c0c0;
+}
+.KS-Disclosure-Header td:first-child{
+padding: 0.5ex;
+}
+.KS-Disclosure-Header-Hover td:first-child{
+padding: 0.5ex;
+border: outset gray thin;
+}
+.KS-Disclosure-Header-Open td:first-child{
+padding: 0.5ex;
+border: inset gray thin;
+}
+.KS-Disclosure-Content-Open{
+	margin: 5px;
+background: #ccdddd;
+border: outset #ccdddd thin;
+}
+
+.KS-Disclosure-Section{
+	  width: 75%;
+	  margin: 6px;
+      border: 1px solid #c0c0c0; 
+
+}
+
+KS-Disclosure-Section-Open{
+	width: 100%; 
+
+}
+
+.KS-Dropdown{
+}
+.KS-Dropdown-Focus{
+	background-color: #ECF2FA;
+}
+.KS-Dropdown-Hover{
+	background-color: #ECF2FA;
+}
+.KS-Dropdown-Selected{
+
+}
+.KS-FormLayout-Field select {
+background: white;
+border: 1px solid #4583D5;
+}
+.KS-FormLayout-Field select:hover {
+	background-color: #ECF2FA;
+}
+.KS-FormLayout-Field select:focus {
+	background-color: #ECF2FA;
+}
+
+.KS-Accordion{
+	
+}
+.KS-Accordion-Titlebar{
+
+	width: 200;
+	height: 20;
+		
+	border-left: 1px solid #99bbe8;
+	border-right: 2px solid #4583D5;
+	border-bottom: 2px solid #4583D5;
+	border-top: 1px solid #99bbe8;
+border: 2px solid;
+border-color: #cccccc #aaaaaa;
+	margin: 2px;
+
+	background-color: #cccccc;	
+}
+
+.KS-Accordion-Titlebar-Hover{
+	background-color: #dddddd;
+	border-left: 1px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	border-top: 1px solid black;
+border: 2px solid;
+border-color: #cccccc #aaaaaa;
+	
+	cursor:pointer;
+}
+
+.KS-Accordion-Titlebar-Focus{
+	background-color: #dddddd;
+}
+.KS-Accordion-Titlebar-Open{
+
+	background-color: #eeeeee;
+	border: 2px solid black;
+	border-color: #eeeeee #aaaaaa;
+}
+
+.KS-Accordion-Titlebar-Label{
+	font-weight: bold;
+	font-size: 80%;
+	padding: 1ex;
+}
