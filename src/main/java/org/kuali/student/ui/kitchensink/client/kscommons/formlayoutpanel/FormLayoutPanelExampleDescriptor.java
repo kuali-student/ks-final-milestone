@@ -8,6 +8,7 @@ public class FormLayoutPanelExampleDescriptor extends KitchenSinkExample {
     public FormLayoutPanelExampleDescriptor() {
         super();
         super.addResource("java", "FormLayoutPanelExample.java", "kscommons/formlayoutpanel/FormLayoutPanelExample.java", "Example usage of KSFormLayoutPanel.");
+        super.addResource("xml", "gwt-form-messages.xml", "kscommons/formlayoutpanel/gwt-form-messages.xml", "I18N message configuration for form");
         super.addResource("css", "KSFormLayout.css", "KSFormLayout.css", "Default styling of KSFormLayoutPanel.");
     }
     public String getDescription() {       

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
        
-	<!-- This config file is used to load messages and inject message service into GWT app -->
+	<!-- Spring config file load gwt messages and inject MessageService into GWT app -->
 	<import resource="classpath:messages-context.xml" />
 
 	<!-- Spring to GWT servlet mapping -->
@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 
-	<!-- Controllers -->
+	<!-- Spring Controllers -->
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="messagesServiceGwt" />
 		<property name="servletInstance" ref="messagesServiceGwt" />
@@ -31,6 +31,7 @@
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 
+	<!-- Bootstrap message spring bean files -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadJpaBeanFileListener">
 		<property name="loadJpaBean">
 			<bean class="org.kuali.student.common.util.jpa.LoadJpaBean" />
@@ -39,7 +40,9 @@
 		<property name="persistenceUnit" value="MessageManagement"/>
 		<property name="preloadMap">
 			<map>
+				<!-- List of message spring bean files-->
 				<entry key="common" value="classpath:org\kuali\student\common\ui\gwt-messages.xml" />
+				<entry key="form" value="classpath:org\kuali\student\ui\kitchensink\client\kscommons\formlayoutpanel\gwt-form-messages.xml" />
 			</map>
 		</property>
 	</bean>
