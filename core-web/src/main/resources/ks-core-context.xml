@@ -96,6 +96,13 @@
 	<bean id="orgServiceImpl"
 		class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
 		<property name="organizationDao" ref="orgDao" />
+		<property name="searchManager" ref="orgSearchManager" />
+	</bean>
+	
+	<bean id="orgSearchManager"
+		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+		autowire="byType">
+		<constructor-arg index="0" value="classpath:organization-search-config.xml" />
 	</bean>
 
 	
