@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.widgets.table;
 
-
 import com.google.gwt.user.client.ui.FlexTable;
 
 public class TreeTable extends FlexTable {
@@ -8,7 +7,9 @@ public class TreeTable extends FlexTable {
         super();
         setBorderWidth(1);
     }
-
+    public NodeWidget getRootNodeWidget(){
+        return (NodeWidget)super.getWidget(0, 0);
+    }
     private void initTable(Node root) {
         super.clear();
         int column = root.getMaxLevelDistance() + 1; // 1 is for root
@@ -24,6 +25,10 @@ public class TreeTable extends FlexTable {
     }
 
     public void buildTable(Node root) {
+        root = ExpressionParser.mergeBinaryTree(root);
+  // root = ExpressionParser.reStructure(root);
+        
+        
         initTable(root);
         buildTable(root, 0);
         for (int i = 0; i < getRowCount(); i++) {
@@ -87,17 +92,13 @@ public class TreeTable extends FlexTable {
 
     private void buildTable(Node node, int columnIndex) {
         int rowIndex = getRowIndexAmongSibings(node);
-
-        // mergeCellAcrossRow(rowIndex, columnIndex, node.getAllLeafCount()-1);
         setWidget(rowIndex, columnIndex, new NodeWidget(node));
 
         for (int i = 0; i < node.getChildCount(); i++) {
             Node child = node.getChildAt(i);
             if (child.isLeaf()) {
                 int childRowIndex = getRowIndexAmongSibings(child);
-                // System.out.println(child+":"+childRowIndex+":"+(columnIndex+1));
                 ((NodeWidget) super.getWidget(childRowIndex, columnIndex + 1)).setNode(child);
-                // setWidget(childRowIndex, columnIndex+1,new NodeWidget(child));
             } else {
                 buildTable(child, columnIndex + 1);
             }

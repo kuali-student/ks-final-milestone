@@ -30,7 +30,7 @@ public class ExpressionParser {
 
         Node<Token> root = binaryTreeFromRPN(rpnList);
         Node<Token> ruleRoot = mergeBinaryTree(root);
-        ruleRoot = rebuildTree(root);
+     //   ruleRoot = reStructure(root);
         ruleRoot = orderLeafChildren(ruleRoot, tokenList );
         ruleRoot = orderNonLeafChildren(ruleRoot, tokenList );
         return ruleRoot;
@@ -141,8 +141,10 @@ public class ExpressionParser {
         }
         return i;
     }
-    private Node<Token> rebuildTree(Node<Token> binaryTree) {
+    /*
+    public static  Node<Token> reStructure(Node<Token> binaryTree) {
         Node root = new Node();
+        //Node root = binaryTree;
         root.setUserObject(binaryTree.getUserObject());
         List<Node> childList = binaryTree.children();
 
@@ -152,15 +154,15 @@ public class ExpressionParser {
             if (node.isLeaf()) {
                 root.addNode(node);
             } else {
-                root.addNode(rebuildTree(node));
+                root.addNode(reStructure(node));
             }
             childList.remove(node);
         }
 
         return root;
     }
-
-    private Node getDeeperNode(List<Node> nodeList) {
+*/
+    private static Node getDeeperNode(List<Node> nodeList) {
         int childCount = 0;
         for (Node node : nodeList) {
             if (childCount < node.getAllChildren().size()) {
@@ -176,7 +178,7 @@ public class ExpressionParser {
         return null;
     }
 
-    private Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
+    public static Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
         while (parentEqualsGrandParent(binaryTree)) {
             List<Node> list = binaryTree.getAllChildren();
 
@@ -200,7 +202,7 @@ public class ExpressionParser {
         return binaryTree;
     }
 
-    private boolean parentEqualsGrandParent(Node<Token> binaryTree) {
+    private static boolean parentEqualsGrandParent(Node<Token> binaryTree) {
         List<Node> list = binaryTree.getAllChildren();
 
         for (Node node : list) {
@@ -473,27 +475,3 @@ public class ExpressionParser {
     }
 }
 
-class Token {
-    public static int And = 1;
-    public static int Or = 2;
-    public static int StartParenthesis = 3;
-    public static int EndParenthesis = 4;
-    public static int Condition = 5;
-    public String value;
-    public int type;
-
-    public String toString() {
-        if (type == And) {
-            return "and";
-        } else if (type == Or) {
-            return "or";
-        } else if (type == StartParenthesis) {
-            return "(";
-        } else if (type == EndParenthesis) {
-            return ")";
-        } else if (type == Condition) {
-            return value;
-        }
-        return "";
-    }
-}
