@@ -112,8 +112,8 @@ border: inset gray thin;
 }
 .KS-Disclosure-Content-Open{
 	margin: 5px;
-background: #ccdddd;
-border: outset #ccdddd thin;
+background: #ddeeee;
+border: outset #ddeeee thin;
 }
 
 .KS-Disclosure-Section{
@@ -129,6 +129,8 @@ KS-Disclosure-Section-Open{
 }
 
 .KS-Dropdown{
+	background: white;
+	border: 1px solid #4583D5;
 }
 .KS-Dropdown-Focus{
 	background-color: #ECF2FA;
@@ -139,16 +141,6 @@ KS-Disclosure-Section-Open{
 .KS-Dropdown-Selected{
 
 }
-.KS-FormLayout-Field select {
-background: white;
-border: 1px solid #4583D5;
-}
-.KS-FormLayout-Field select:hover {
-	background-color: #ECF2FA;
-}
-.KS-FormLayout-Field select:focus {
-	background-color: #ECF2FA;
-}
 
 .KS-Accordion{
 	
@@ -158,37 +150,41 @@ border: 1px solid #4583D5;
 	width: 200;
 	height: 20;
 		
-	border-left: 1px solid #99bbe8;
-	border-right: 2px solid #4583D5;
-	border-bottom: 2px solid #4583D5;
-	border-top: 1px solid #99bbe8;
 border: 2px solid;
-border-color: #cccccc #aaaaaa;
+border-color: #f1c232 #bf9000;
 	margin: 2px;
 
-	background-color: #cccccc;	
+	background-color: #f1c232;	/*#bf9000, ffd966*/
+}
+
+.KS-Accordion-Titlebar .KS-Indent-1{
+
+	background-color: #ffd966;	/*#bf9000, ffd966*/
+	border-left: solid 1px #bf9000;
 }
 
 .KS-Accordion-Titlebar-Hover{
-	background-color: #dddddd;
-	border-left: 1px solid black;
-	border-right: 2px solid black;
-	border-bottom: 2px solid black;
-	border-top: 1px solid black;
+	background-color: #ccdddd;
 border: 2px solid;
-border-color: #cccccc #aaaaaa;
+border-color: #ccdddd #aabbbb;
 	
 	cursor:pointer;
 }
 
+.KS-Accordion-Titlebar-Hover .KS-Indent-1{
+	background-color: #eeeeee;
+}
+.KS-Accordion-Titlebar-Open .KS-Indent-1{
+	background-color: #ffffff;
+}
 .KS-Accordion-Titlebar-Focus{
 	background-color: #dddddd;
 }
 .KS-Accordion-Titlebar-Open{
 
-	background-color: #eeeeee;
+	background-color: #ddeeee;
 	border: 2px solid black;
-	border-color: #eeeeee #aaaaaa;
+	border-color: #ddeeee #aaaaaa;
 }
 
 .KS-Accordion-Titlebar-Label{

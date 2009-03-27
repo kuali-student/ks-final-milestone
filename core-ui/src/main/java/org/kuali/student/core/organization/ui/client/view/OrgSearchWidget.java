@@ -18,10 +18,12 @@ package org.kuali.student.core.organization.ui.client.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
@@ -42,7 +44,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -57,7 +58,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class OrgSearchWidget extends Composite implements HasSelectionHandlers<OrgInfo>{
     VerticalPanel root = new VerticalPanel();
        
-    ListBox orgHierarchyDropDown = null;
+    KSDropDown orgHierarchyDropDown = null;
     KSTextBox orgName = null;
     KSButton selectButton = new KSButton("Select");
     KSLabel noResults = new KSLabel("No organizations found.");
@@ -70,7 +71,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         this.initWidget(root);
         
         orgName = new KSTextBox();
-        orgHierarchyDropDown = new ListBox();
+        orgHierarchyDropDown = new KSDropDown();
         populateOrgHierarchy();
         
         FlexTable tb = new FlexTable();
@@ -124,12 +125,46 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
                     Window.alert(caught.getMessage());
                 }
 
-                public void onSuccess(List<OrgHierarchyInfo> result) {              
-                    int i =0;
-                    for(OrgHierarchyInfo orgHInfo:result){
-                        i++;
-                        orgHierarchyDropDown.addItem(orgHInfo.getName(),orgHInfo.getId());
-                    }                
+                public void onSuccess(final List<OrgHierarchyInfo> result) {              
+                    final ListItems list = new ListItems() {
+                        Map<String,String> ids = null;
+
+                        @Override
+                        public List<String> getAttrKeys() {
+                            return null; //apparently unused
+                        }
+
+                        @Override
+                        public String getItemAttribute(String id, String attrkey) {
+                            return null; //apparently unused
+                        }
+
+                        @Override
+                        public int getItemCount() {
+                            return result.size();
+                        }
+
+                        @Override
+                        public List<String> getItemIds() {
+                            lazyInit();
+                            return new ArrayList<String>(ids.keySet());
+                        }
+
+                        private void lazyInit() {
+                            if(ids == null) {
+                                ids = new LinkedHashMap<String,String>();
+                                for(OrgHierarchyInfo orgHierarchyInfo:result){
+                                    ids.put(orgHierarchyInfo.getId(),orgHierarchyInfo.getName());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public String getItemText(String id) {
+                            lazyInit();
+                            return ids.get(id);
+                        }};
+                    orgHierarchyDropDown.setListItems(list);
                 }
         });
     }
@@ -142,7 +177,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
         QueryParamValue qpv1 = new QueryParamValue();
         qpv1.setKey("org.queryParam.orgHierarchyId");
-        qpv1.setValue(orgHierarchyDropDown.getValue(orgHierarchyDropDown.getSelectedIndex()));
+        qpv1.setValue(orgHierarchyDropDown.getSelectedItems().get(0));
         queryParamValues.add(qpv1);
         qpv1 = new QueryParamValue();
         qpv1.setKey("org.queryParam.orgShortName");

@@ -15,15 +15,21 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -36,12 +42,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -65,7 +69,7 @@ public class OrgCreatePanel extends Composite{
     String orgType = null;
     String orgVersion = null;
     
-    ListBox orgTypeDropDown;
+    KSDropDown orgTypeDropDown;
     KSFormLayoutPanel orgForm;
     
     VerticalPanel vOrganization;
@@ -100,7 +104,7 @@ public class OrgCreatePanel extends Composite{
             } else if (type.equals(CREATE_ORG_PERSON_RELATIONS)){
                 getOrgPersonRelations(false); 
             }
-            Button btnCreateOrg = new Button("Create");
+            KSButton btnCreateOrg = new KSButton("Create");
             
             if (orgId != null){
                 btnCreateOrg.setText("Update");
@@ -188,7 +192,7 @@ public class OrgCreatePanel extends Composite{
         vOrganization = new VerticalPanel();
                
         orgForm = new KSFormLayoutPanel();
-        orgTypeDropDown = new ListBox();      
+        orgTypeDropDown = new KSDropDown();      
                
         addFormField(orgTypeDropDown,"Type", "orgType");
         addFormField(new KSTextBox(), "Name", "orgName");
@@ -268,7 +272,7 @@ public class OrgCreatePanel extends Composite{
         orgMetaInfo.setVersionInd(orgVersion);
         orgInfo.setMetaInfo(orgMetaInfo);
         
-        orgInfo.setType(orgTypeDropDown.getValue((orgTypeDropDown.getSelectedIndex())));        
+        orgInfo.setType(orgTypeDropDown.getSelectedItems().get(0));        
         orgInfo.setShortDesc(orgForm.getFieldValue("orgDesc"));
         orgInfo.setLongName(orgForm.getFieldValue("orgName"));
         orgInfo.setShortName(orgForm.getFieldValue("orgAbbrev"));
@@ -389,16 +393,47 @@ public class OrgCreatePanel extends Composite{
                     Window.alert(caught.getMessage());
                 }
 
-                public void onSuccess(List<OrgTypeInfo> orgTypes) {
-                    orgTypeDropDown.addItem("Select", "");
-                    int i=0;
-                    for(OrgTypeInfo orgTypeInfo:orgTypes){
-                        i++;
-                        orgTypeDropDown.addItem(orgTypeInfo.getName(),orgTypeInfo.getId());
-                        if (orgTypeInfo.getId().equals(orgType)){
-                            orgTypeDropDown.setSelectedIndex(i);
+                public void onSuccess(final List<OrgTypeInfo> orgTypes) {
+                    ListItems list = new ListItems() {
+                        Map<String,String> ids = null;
+
+                        @Override
+                        public List<String> getAttrKeys() {
+                            return null; //apparently unused
                         }
-                    }
+
+                        @Override
+                        public String getItemAttribute(String id, String attrkey) {
+                            return null; //apparently unused
+                        }
+
+                        @Override
+                        public int getItemCount() {
+                            return orgTypes.size();
+                        }
+
+                        @Override
+                        public List<String> getItemIds() {
+                            lazyInit();
+                            return new ArrayList<String>(ids.keySet());
+                        }
+
+                        private void lazyInit() {
+                            if(ids == null) {
+                                ids = new LinkedHashMap<String,String>();
+                                for(OrgTypeInfo orgTypeInfo:orgTypes){
+                                    ids.put(orgTypeInfo.getId(),orgTypeInfo.getName());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public String getItemText(String id) {
+                            lazyInit();
+                            return ids.get(id);
+                        }};
+                    orgTypeDropDown.setListItems(list);
+                    orgTypeDropDown.selectItem(orgType);
                 }
           });
     }
