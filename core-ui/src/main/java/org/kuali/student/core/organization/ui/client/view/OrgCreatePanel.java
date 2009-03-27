@@ -128,57 +128,60 @@ public class OrgCreatePanel extends Composite{
     }
     
     private void getOrgPersonRelations(boolean bShowAll) {
-        KSDisclosureSection personRelationSection = new KSDisclosureSection("Person Relations",null, type.equals(CREATE_ORG_PERSON_RELATIONS));
-        
-        vPersonRelations = new VerticalPanel();
-        vPersonRelations.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-        vPersonRelations.setWidth("100%");        
-        
-        if (orgId != null && bShowAll){
-            populateOrgPersonRelations();
-        } else {        
-        	vPersonRelations.add( new OrgPersonRelationWidget(orgId));
-        	vPersonRelations.add(getPersonRelationLink());
+        if(orgId!=null){
+	    	KSDisclosureSection personRelationSection = new KSDisclosureSection("Person Relations",null, type.equals(CREATE_ORG_PERSON_RELATIONS));
+	        
+	        vPersonRelations = new VerticalPanel();
+	        vPersonRelations.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+	        vPersonRelations.setWidth("100%");        
+	        
+	        if (bShowAll){
+	            populateOrgPersonRelations();
+	        } else {        
+	        	vPersonRelations.add( new OrgPersonRelationWidget(orgId));
+	        	vPersonRelations.add(getPersonRelationLink());
+	        }
+	              
+	        personRelationSection.add(vPersonRelations);
+	        vPanel.add(personRelationSection);
         }
-              
-        personRelationSection.add(vPersonRelations);
-        vPanel.add(personRelationSection);
-		
 	}
 
 	private void savePersonRelations() {
-        int widgetCount = vPersonRelations.getWidgetCount();
-        for (int i=0; i < widgetCount && widgetCount > 1; i+=2){        
-            OrgPersonRelationWidget orgPersonRelationWidget = (OrgPersonRelationWidget)vPersonRelations.getWidget(i);
-            OrgPersonRelationInfo orgPersonRelInfo = orgPersonRelationWidget.getOrgPersonRelationInfo();
-            
-            if (orgPersonRelInfo.getPersonId().length() > 0){
-            	orgPersonRelInfo.setOrgId(orgId);                
-                if (orgPersonRelInfo.getId() == null){
-                    OrgRpcService.Util.getInstance().createOrgPersonRelation(orgId,orgPersonRelInfo.getPersonId(),orgPersonRelInfo.getType(), orgPersonRelInfo, 
-                            new AsyncCallback<OrgPersonRelationInfo>(){
-                        public void onFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                        }
-            
-                        public void onSuccess(OrgPersonRelationInfo result) {
-                        	vPersonRelations.add(new Label("Person relation created with id: " + result.getId()));
-                        }
-                    });
-                } else {
-                    OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelInfo.getId(),orgPersonRelInfo, new AsyncCallback<OrgPersonRelationInfo>(){
-                        public void onFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                        }
-            
-                        public void onSuccess(OrgPersonRelationInfo result) {
-                        	vPersonRelations.add(new Label("Person relation updated for id: " + result.getId()));
-                        }
-                    });
-                }
+		if(vPersonRelations!=null){
+	        int widgetCount = vPersonRelations.getWidgetCount();
+	        
+	        for (int i=0; i < widgetCount && widgetCount > 1; i+=2){
+	        	OrgPersonRelationWidget orgPersonRelationWidget = (OrgPersonRelationWidget)vPersonRelations.getWidget(i);
+	            OrgPersonRelationInfo orgPersonRelInfo = orgPersonRelationWidget.getOrgPersonRelationInfo();
+	            
+	            if (orgPersonRelInfo.getPersonId().length() > 0){
+	            	orgPersonRelInfo.setOrgId(orgId);                
+	                if (orgPersonRelInfo.getId() == null){
+	                    OrgRpcService.Util.getInstance().createOrgPersonRelation(orgId,orgPersonRelInfo.getPersonId(),orgPersonRelInfo.getType(), orgPersonRelInfo, 
+	                            new AsyncCallback<OrgPersonRelationInfo>(){
+	                        public void onFailure(Throwable caught) {
+	                            Window.alert(caught.getMessage());
+	                        }
+	            
+	                        public void onSuccess(OrgPersonRelationInfo result) {
+	                        	vPersonRelations.add(new Label("Person relation created with id: " + result.getId()));
+	                        }
+	                    });
+	                } else {
+	                    OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelInfo.getId(),orgPersonRelInfo, new AsyncCallback<OrgPersonRelationInfo>(){
+	                        public void onFailure(Throwable caught) {
+	                            Window.alert(caught.getMessage());
+	                        }
+	            
+	                        public void onSuccess(OrgPersonRelationInfo result) {
+	                        	vPersonRelations.add(new Label("Person relation updated for id: " + result.getId()));
+	                        }
+	                    });
+	                }
+	            }
             }
-        }
-		
+        }	
 	}
 
 	protected void getOrganization(){

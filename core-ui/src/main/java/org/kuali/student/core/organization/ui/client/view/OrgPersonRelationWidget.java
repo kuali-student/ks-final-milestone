@@ -198,24 +198,36 @@ public class OrgPersonRelationWidget extends Composite{
         ((KSDatePicker)orgPersonRelForm.getFieldWidget("relExpDate")).setValue(orgPersonRelationInfo.getExpirationDate());
     }
     
-    protected void loadOrgPersonRelationTypes(){
-        OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId, new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
-
-            public void onSuccess(List<OrgPositionRestrictionInfo> orgPositionRestrictions) {
-                orgPersonRelTypeDropDown.addItem("Select", "");
-
-                int i = 0;
-                for(OrgPositionRestrictionInfo orgPositionRestriction:orgPositionRestrictions){
-                    i++;
-                    orgPersonRelTypeDropDown.addItem(orgPositionRestriction.getTitle(),orgPositionRestriction.getOrgPersonRelationTypeKey());
-                    if (orgPositionRestriction.getOrgPersonRelationTypeKey().equals(orgPersonRelType)){
-                        orgPersonRelTypeDropDown.setSelectedIndex(i);
-                    }
-                }
-            }
-        });                
+    public void loadOrgPersonRelationTypes(){
+    	if(orgId!=null){
+	        OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId, new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
+	            public void onFailure(Throwable caught) {
+	                Window.alert(caught.getMessage());
+	            }
+	
+	            public void onSuccess(List<OrgPositionRestrictionInfo> orgPositionRestrictions) {
+	                orgPersonRelTypeDropDown.addItem("Select", "");
+		            
+	                if(orgPositionRestrictions!=null){
+		                int i = 0;
+		                for(OrgPositionRestrictionInfo orgPositionRestriction:orgPositionRestrictions){
+		                    i++;
+		                    orgPersonRelTypeDropDown.addItem(orgPositionRestriction.getTitle(),orgPositionRestriction.getOrgPersonRelationTypeKey());
+		                    if (orgPositionRestriction.getOrgPersonRelationTypeKey().equals(orgPersonRelType)){
+		                        orgPersonRelTypeDropDown.setSelectedIndex(i);
+		                    }
+		                }
+	                }
+	            }
+	        });             
+    	}
     }
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
 }
