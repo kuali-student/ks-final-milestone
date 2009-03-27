@@ -9,93 +9,107 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 
 public class MaxTest {
 
 	@Test
+	public void testX() throws Exception {
+	}
+	
+	@Test
 	public void testMax_Integer() throws Exception {
-		Function max = new Max<Integer>();
-		Collection<Integer> fact = Arrays.asList(new Integer(1), new Integer(2),new Integer(3));
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), Integer.class.getName()},
+				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
+    			new String[] {"resultColumn.cluId", "resultColumn.credits"});
+
+		Max max = new Max(fact, "resultColumn.credits");
+		Number output = (Number) max.compute();
 		
-		max.setInput(fact);
-		Number output1 = (Number) max.compute();
-		Number output2 = (Number) max.getOutput();
-		
-		Assert.assertEquals(new Integer(3), output1);
-		Assert.assertEquals(new Integer(3), output2);
+		Assert.assertEquals(new Integer(5), output);
 	}
 
 	@Test
 	public void testMax_Double() throws Exception {
-		Function max = new Max<Double>();
-		Collection<Double> fact = Arrays.asList(new Double(1.11), new Double(2.22),new Double(3.33));
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), Double.class.getName()},
+				new String[] {"MATH101", "3.1", "MATH103", "4.2", "CHEM101", "5.3"}, 
+    			new String[] {"resultColumn.cluId", "resultColumn.credits"});
+
+		Max max = new Max(fact, "resultColumn.credits");
+		Number output = (Number) max.compute();
 		
-		max.setInput(fact);
-		Number output1 = (Number) max.compute();
-		Number output2 = (Number) max.getOutput();
-		
-		Assert.assertEquals(new Double("3.33"), output1);
-		Assert.assertEquals(new Double("3.33"), output2);
+		Assert.assertEquals(new Double("5.3"), output);
 	}
 
 	@Test
 	public void testMax_BigDecimal() throws Exception {
-		Function max = new Max<Integer>();
-		Collection<BigDecimal> fact = Arrays.asList(new BigDecimal("1.23"), new BigDecimal("2.34"),new BigDecimal("3.45"));
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), BigDecimal.class.getName()},
+				new String[] {"MATH101", "3.1", "MATH103", "4.2", "CHEM101", "5.3"}, 
+    			new String[] {"resultColumn.cluId", "resultColumn.credits"});
+
+		Max max = new Max(fact, "resultColumn.credits");
+		Number output = (Number) max.compute();
 		
-		max.setInput(fact);
-		Number output1 = (Number) max.compute();
-		Number output2 = (Number) max.getOutput();
-		
-		Assert.assertEquals(new BigDecimal("3.45"), output1);
-		Assert.assertEquals(new BigDecimal("3.45"), output2);
+		Assert.assertEquals(new BigDecimal("5.3"), output);
 	}
 
 	@Test
 	public void testMax_BigInteger() throws Exception {
-		Function max = new Max<BigInteger>();
-		Collection<BigInteger> fact = Arrays.asList(new BigInteger("1"), new BigInteger("2"),new BigInteger("3"));
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), BigInteger.class.getName()},
+				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
+    			new String[] {"resultColumn.cluId", "resultColumn.credits"});
+
+		Max max = new Max(fact, "resultColumn.credits");
+		Number output = (Number) max.compute();
 		
-		max.setInput(fact);
-		Number output1 = (Number) max.compute();
-		Number output2 = (Number) max.getOutput();
-		
-		Assert.assertEquals(new BigInteger("3"), output1);
-		Assert.assertEquals(new BigInteger("3"), output2);
+		Assert.assertEquals(new BigInteger("5"), output);
 	}
 
 	@Test
 	public void testMax_Date() throws Exception {
-		Function max = new Max<BigInteger>();
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2100, 1, 1, 1, 0);
-		Calendar cal3 = CommonTestUtil.createDate(2200, 1, 1, 1, 0);
+		Date cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0).getTime();
+		Date cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0).getTime();
+		Date cal3 = CommonTestUtil.createDate(2020, 1, 1, 1, 0).getTime();
 
-		Collection<Date> fact = Arrays.asList(cal1.getTime(), cal2.getTime(), cal3.getTime());
+		String date1 = BusinessRuleUtil.formatIsoDate(cal1);
+		String date2 = BusinessRuleUtil.formatIsoDate(cal2);
+		String date3 = BusinessRuleUtil.formatIsoDate(cal3);
+    	
+    	FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), Date.class.getName()},
+				new String[] {"MATH101", date1, "MATH103", date2, "CHEM101", date3}, 
+    			new String[] {"resultColumn.cluId", "resultColumn.date"});
+
+		Max max = new Max(fact, "resultColumn.date");
+		Date output = (Date) max.compute();
 		
-		max.setInput(fact);
-		Date output1 = (Date) max.compute();
-		Date output2 = (Date) max.getOutput();
-		
-		Assert.assertEquals(cal3.getTime(), output1);
-		Assert.assertEquals(cal3.getTime(), output2);
+		Assert.assertEquals(cal3, output);
 	}
 
 	@Test
 	public void testMax_Calendar() throws Exception {
-		Function max = new Max<BigInteger>();
 		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2100, 1, 1, 1, 0);
-		Calendar cal3 = CommonTestUtil.createDate(2200, 1, 1, 1, 0);
+		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
+		Calendar cal3 = CommonTestUtil.createDate(2020, 1, 1, 1, 0);
 
-		Collection<Calendar> fact = Arrays.asList(cal1, cal2, cal3);
+		String date1 = BusinessRuleUtil.formatIsoDate(cal1.getTime());
+		String date2 = BusinessRuleUtil.formatIsoDate(cal2.getTime());
+		String date3 = BusinessRuleUtil.formatIsoDate(cal3.getTime());
+    	
+    	FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), Calendar.class.getName()},
+				new String[] {"MATH101", date1, "MATH103", date2, "CHEM101", date3}, 
+    			new String[] {"resultColumn.cluId", "resultColumn.date"});
+
+		Max max = new Max(fact, "resultColumn.date");
+		Calendar output = (Calendar) max.compute();
 		
-		max.setInput(fact);
-		Calendar output1 = (Calendar) max.compute();
-		Calendar output2 = (Calendar) max.getOutput();
-		
-		Assert.assertEquals(cal3, output1);
-		Assert.assertEquals(cal3, output2);
+		Assert.assertEquals(cal3, output);
 	}
 }

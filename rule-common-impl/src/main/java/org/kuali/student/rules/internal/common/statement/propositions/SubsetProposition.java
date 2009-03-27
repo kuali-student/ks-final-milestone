@@ -15,16 +15,13 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Intersection;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.AbstractRuleProposition;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -37,9 +34,12 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     // ~ Instance fields --------------------------------------------------------
 	private Set<E> met;
 	
-    private Function intersection;
+    private Intersection intersection;
 
     private Collection<?> resultValues;
+
+    private String criteriaColumn;
+    private String factColumn;
 
     public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_MET = "prop_subset_metset";
     public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET = "prop_subset_unmetset";
@@ -52,14 +52,22 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     }
 
     public SubsetProposition(String id, String propositionName, 
-    		Set<E> criteriaSet, Set<E> factSet, RulePropositionDTO ruleProposition) {
-        super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
-        factSet = (factSet == null ? new HashSet<E>() : factSet);
-
-		List<Collection<E>> list = new ArrayList<Collection<E>>();
-		list.add(criteriaSet);
-		list.add(factSet);
-    	intersection = new Intersection<E>(list);
+    		FactResultDTO criteriaDTO, String criteriaColumn, 
+    		FactResultDTO factDTO, String factColumn) {
+        super(id, propositionName, PropositionType.SUBSET, 
+        		ComparisonOperator.EQUAL_TO, new Integer(criteriaDTO.getResultList().size()),
+        		criteriaDTO, criteriaColumn, factDTO, factColumn);
+//        factSet = (factSet == null ? new HashSet<E>() : factSet);
+//
+//		List<Collection<E>> list = new ArrayList<Collection<E>>();
+//		list.add(criteriaSet);
+//		list.add(factSet);
+//    	intersection = new Intersection<E>(list);
+		this.factColumn = factColumn;
+		this.criteriaColumn = criteriaColumn;
+		intersection = new Intersection();
+    	intersection.setCriteria(criteriaDTO, criteriaColumn);
+    	intersection.setFact(factDTO, factColumn);
     }
 
     // ~ Methods ----------------------------------------------------------------
@@ -67,8 +75,10 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     @Override
     public Boolean apply() {
     	intersection.setOperation(Intersection.Operation.INTERSECTION.toString());
-    	intersection.compute();
-    	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
+//    	intersection.compute();
+//    	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
+    	FactResultDTO factResult = intersection.compute();
+    	this.met = AbstractRuleProposition.getSet(factResult, factColumn);
 
         Integer count = Integer.valueOf(met.size());
 
@@ -89,8 +99,10 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         Integer count = met.size();
 
         intersection.setOperation(Intersection.Operation.SUBSET_DIFFERENCE.toString());
-    	intersection.compute();
-    	Set<E> unMet = new HashSet<E>((Collection<E>) intersection.getOutput());
+//    	intersection.compute();
+//    	Set<E> unMet = new HashSet<E>((Collection<E>) intersection.getOutput());
+    	Set<E> unMet = AbstractRuleProposition.getSet(intersection.compute(), factColumn);
+
         Integer diff = super.expectedValue - count;
         addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_MET, this.met);
         addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET, unMet);

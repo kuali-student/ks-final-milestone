@@ -5,11 +5,11 @@ public interface Function {
 
 	public void setOperation(String operationType);
 	
-	public void setInput(Object input);
+	/*public void setInput(Object input);
 	
 	public Integer getInputs();
 	
 	public Integer getOutputs();
 	
-	public Object getOutput();
+	public Object getOutput();*/
 }

@@ -17,45 +17,31 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
-import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Sum;
 
 /**
  * A constraint that specifies that sum of a list of values is less than the required amount.
  * 
- * @param <E>
- *            the type of elements being constrained
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
-    // ~ Instance fields --------------------------------------------------------
 
-    private Function sumFunction;
+    private Sum sumFunction;
 	private BigDecimal sum;
-
-    // ~ Constructors -----------------------------------------------------------
-
-    public SumProposition() {
-        super();
-    }
 
     public SumProposition(String id,
     					  String propositionName,
     					  ComparisonOperator operator,
     					  BigDecimal expectedValue,
-    					  List<E> factSet) {
-        super(id, propositionName, PropositionType.SUM, operator, expectedValue);
-    	if (factSet == null || factSet.size() == 0) {
-    		throw new IllegalArgumentException("Fact set cannot be null");
-    	}
-		sumFunction = new Sum<E>(factSet);
+    					  FactResultDTO factDTO, String factColumn) {
+        super(id, propositionName, PropositionType.SUM, operator, expectedValue, 
+        		null, null, factDTO, factColumn);
+		sumFunction = new Sum(factDTO, factColumn);
     }
-
-    // ~ Methods ----------------------------------------------------------------
 
     @Override
     public Boolean apply() {

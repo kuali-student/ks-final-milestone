@@ -1,32 +1,36 @@
 package org.kuali.student.rules.internal.common.statement.propositions.functions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Intersection.Operation;
+import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 
 public class IntersectionTest {
 
 	@Test
 	public void testIntersection() throws Exception {
-		Function intersection = new Intersection<String>();
+		Intersection intersection = new Intersection();
 		intersection.setOperation(Operation.INTERSECTION.toString());
-		Collection<String> criteria = Arrays.asList("MATH100", "CHEM100", "CPSC100");
-		Collection<String> fact = Arrays.asList("MATH100", "PSYC100", "CPSC100");
+
+    	FactResultTypeInfoDTO columnMetaData = CommonTestUtil.createColumnMetaData(String.class.getName(), "resultColumn.cluId");
+
+    	FactResultDTO factCriteria = CommonTestUtil.createFactResult(
+    			new String[] {"CPR101", "CHEM101"}, 
+    			"resultColumn.cluId");
+    	factCriteria.setFactResultTypeInfo(columnMetaData);
+
+        FactResultDTO factResult = CommonTestUtil.createFactResult(
+        		new String[] {"CPR101", "3", "CPR101", "3","MATH101", "4","CHEM101", "3"}, 
+    			new String[] {"resultColumn.cluId","resultColumn.credits"});
+        factResult.setFactResultTypeInfo(columnMetaData);
 		
-		List<Collection<String>> list = new ArrayList<Collection<String>>();
-		list.add(criteria);
-		list.add(fact);
-		
-		intersection.setInput(list);
-		intersection.compute();
-		Collection<String> output = (Collection<String>) intersection.getOutput();
-		
-		Assert.assertEquals(2, output.size());
-		Assert.assertEquals("[MATH100, CPSC100]", output.toString());
+        intersection.setCriteria(factCriteria, "resultColumn.cluId");
+        intersection.setFact(factResult,"resultColumn.cluId");
+        FactResultDTO result = intersection.compute();
+
+		Assert.assertEquals(2, result.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(result.getResultList(), "resultColumn.cluId", "CPR101"));
 	}
 }

@@ -15,16 +15,14 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
-import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Intersection;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.AbstractRuleProposition;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -35,44 +33,44 @@ import org.kuali.student.rules.internal.common.statement.propositions.functions.
  */
 public class IntersectionProposition<E> extends AbstractProposition<Integer> {
 
-    // ~ Instance fields --------------------------------------------------------
 	private Set<E> met;
-    private Function intersection;
+    private Intersection intersection;
     private Collection<E> resultValues;
     
-    // ~ Constructors -----------------------------------------------------------
-
-    public IntersectionProposition() {
-        super();
-    }
-
+    private String criteriaColumn;
+    private String factColumn;
+    private FactResultDTO factResult;
+    
     public IntersectionProposition(String id, String propositionName, 
     		ComparisonOperator operator, Integer expectedValue,
-            Set<E> criteriaSet, Set<E> factSet) {
-        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue);
-        factSet = (factSet == null ? new HashSet<E>() : factSet);
-
-		List<Collection<E>> list = new ArrayList<Collection<E>>();
-		list.add(criteriaSet);
-		list.add(factSet);
-    	intersection = new Intersection<E>(list);
+    		FactResultDTO criteriaDTO, String criteriaColumn, 
+    		FactResultDTO factDTO, String factColumn) {
+        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue,
+        		criteriaDTO, criteriaColumn, factDTO, factColumn);
+		this.factColumn = factColumn;
+		this.criteriaColumn = criteriaColumn;
+		intersection = new Intersection();
+    	intersection.setCriteria(criteriaDTO, criteriaColumn);
+    	intersection.setFact(factDTO, factColumn);
     }
-
-    // ~ Methods ----------------------------------------------------------------
 
     @Override
     public Boolean apply() {
     	intersection.setOperation(Intersection.Operation.INTERSECTION.toString());
-    	intersection.compute();
-    	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
-    	
-        Integer count = Integer.valueOf(met.size());
+    	this.factResult = intersection.compute();
+    	this.met = AbstractRuleProposition.getSet(factResult, factColumn);
+
+    	Integer count = Integer.valueOf(met.size());
 
         result = checkTruthValue(count, super.expectedValue);
 
         this.resultValues = met;
         
         return result;
+    }
+    
+    public FactResultDTO getFactResult() {
+    	return this.factResult;
     }
 
     /*
@@ -87,8 +85,7 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
         addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_MET, met);
 
     	intersection.setOperation(Intersection.Operation.DIFFERENCE.toString());
-    	intersection.compute();
-    	Set<E> unMet = new HashSet<E>((Collection<E>) intersection.getOutput());
+    	Set<E> unMet = AbstractRuleProposition.getSet(intersection.compute(), factColumn);
 
     	Integer needed = expectedValue - count;
         addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_DIFF, needed);

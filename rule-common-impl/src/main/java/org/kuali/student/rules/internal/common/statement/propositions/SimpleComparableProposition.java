@@ -22,8 +22,6 @@ import java.util.List;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.propositions.functions.ComparisonOperatorComparable;
-import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that compares a constrained property (fact) to a given criterion. The threshold may be defined as minimum or
@@ -35,27 +33,23 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
  * @author Kuali Student Team (len.kuali@gmail.com)
  */
 public class SimpleComparableProposition<T extends Comparable<T>> extends AbstractProposition<T> {
-    // ~ Instance fields --------------------------------------------------------
 
-    private Function comparableFunction;
+    private ComparisonOperatorComparable<T> comparableFunction;
     private T fact;
     private List<Boolean> resultValues;
     
-    // ~ Constructors -----------------------------------------------------------
-
     public SimpleComparableProposition() {
         super();
     }
 
     public SimpleComparableProposition(String id, String propositionName, 
-    		ComparisonOperator operator, T expectedValue, T fact, RulePropositionDTO ruleProposition) {
-        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue);
+    		ComparisonOperator operator, T expectedValue, T fact) {
+        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue, 
+        		null, null, null, null);
 
         this.fact = fact;
         comparableFunction = new ComparisonOperatorComparable<T>(operator, expectedValue, this.fact);
     }
-
-    // ~ Methods ----------------------------------------------------------------
 
     @Override
     public Boolean apply() {

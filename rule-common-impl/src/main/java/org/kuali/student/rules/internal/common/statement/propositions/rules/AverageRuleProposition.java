@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.AverageProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.Fact;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
@@ -39,59 +39,33 @@ public class AverageRuleProposition<E extends Number> extends AbstractRulePropos
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
-		FactStructureDTO fact = factStructureList.get(0);
+		FactStructureDTO factStructure = factStructureList.get(0);
 
-		if (fact == null) {
+		if (factStructure == null) {
 			throw new PropositionException("Fact structure cannot be null");
 		}
 
-		List<Number> factList = null;
-		factDTO = null;
+		Fact fact = getFacts(factMap, factStructure, MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY);
 
-		if (fact.isStaticFact()) {
-			String value = fact.getStaticValue();
-			String dataType = fact.getStaticValueDataType();
-			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
-				throw new PropositionException("Static value and data type cannot be null or empty");
-			}
-			factList = getList(dataType, value);
-			factDTO = createStaticFactResult(dataType, value);
-		} else {
-			if (factMap == null || factMap.isEmpty()) {
-				throw new PropositionException("Fact map cannot be null or empty");
-			}
-	    	String factKey = FactUtil.createFactKey(fact);
-			factDTO = (FactResultDTO) factMap.get(factKey);
-
-			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY);
-			if (factColumn == null || factColumn.trim().isEmpty()) {
-				throw new PropositionException("Average column not found for key '"+
-						MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
-			}
-
-			factList = getList(factDTO, factColumn);
-			if (factList == null || factList.isEmpty()) {
-				throw new PropositionException("Facts not found for column '"+
-						factColumn+"'. Fact structure id: " + fact.getFactStructureId());
-			}
-		}
-
+		super.factDTO = fact.getFactDTO();
+		super.factColumn = fact.getFactColumn();
+		
 		ComparisonOperator comparisonOperator = ComparisonOperator.valueOf(ruleProposition.getComparisonOperatorTypeKey()); 
 		BigDecimal expectedValue = new BigDecimal(ruleProposition.getRightHandSide().getExpectedValue());
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("\n---------- YVFAverageProposition ----------"
-					+ "\nFact static="+fact.isStaticFact()
-					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nFact static="+factStructure.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(factStructure)
 					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
 					+ "\nComparison operator="+comparisonOperator
 					+ "\nExpected value="+expectedValue
-					+ "\nFact list="+factList
+					+ "\nFact list="+factDTO
 					+ "\n--------------------------------------------------");
 		}
 
 		super.proposition = new AverageProposition<Number>(id, propositionName, 
-				comparisonOperator, expectedValue, factList); 
+				comparisonOperator, expectedValue, factDTO, factColumn); 
 	}
 
     @Override

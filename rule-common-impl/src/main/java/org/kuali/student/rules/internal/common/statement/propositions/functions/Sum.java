@@ -1,30 +1,40 @@
 package org.kuali.student.rules.internal.common.statement.propositions.functions;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.Map;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class Sum<T extends Number> extends AbstractFunction {
+public class Sum extends AbstractFunction {
 
-	Number result;
-	private Collection<T> input;
+	private Number result;
 
+    private FactResultDTO factDTO;
+    private String factColumnKey;
+    
     public Sum() {
 	}
 
-    public Sum(Collection<T> input) {
-    	this.input = input;
+    public Sum(FactResultDTO factDTO, String factColumnKey) {
+    	this.factDTO = factDTO;
+    	this.factColumnKey = factColumnKey;
 	}
 
-	public Object compute() {
-		if(this.input == null) {
-			throw new IllegalFunctionStateException("Invalid input. Input cannot be null.");
-		}
+    public void setFact(FactResultDTO factDTO, String factColumnKey) {
+    	this.factDTO = factDTO;
+    	this.factColumnKey = factColumnKey;
+    }
 
-		Class<?> type = this.input.iterator().next().getClass();
-		this.result = convertToNumber(type, sum());
-		
+    public Number compute() {
+    	if(this.factDTO == null) {
+    		throw new IllegalFunctionStateException("Fact is null: " + this.factDTO);
+    	} else if(this.factColumnKey == null) {
+    		throw new IllegalFunctionStateException("Fact column key is null: " + this.factColumnKey);
+    	} else if(!containsFactColumnKey(this.factDTO, this.factColumnKey)) {
+    		throw new IllegalFunctionStateException("Fact column key not found: " + this.factColumnKey);
+    	}
+    	this.result = sum();
 		return this.result;
 	}
 
@@ -33,29 +43,14 @@ public class Sum<T extends Number> extends AbstractFunction {
      * 
      * @return Sum of all the element in the fact list
      */
-    protected Number sum() {
+    protected BigDecimal sum() {
         BigDecimal sum = new BigDecimal("0.0");
 
-        for (Number element : this.input) {
-            sum = sum.add(new BigDecimal(element.toString()));
+        for (Map<String, String> row : this.factDTO.getResultList()) {
+            String value = row.get(this.factColumnKey);
+        	sum = sum.add(new BigDecimal(value));
         }
 
         return sum;
     }
-
-	public Integer getInputs() {
-		return new Integer(1);
-	}
-
-	public Integer getOutputs() {
-		return new Integer(1);
-	}
-
-	public Object getOutput() {
-		return this.result;
-	}
-
-	public void setInput(Object input) {
-		this.input = (Collection) input;
-	}
 }

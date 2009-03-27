@@ -55,12 +55,25 @@ public class CommonTestUtil {
 		return ruleProposition;
 	}
 
+	public static FactResultDTO createFact(String[] dataType, String[] value, String[] column) {
+		FactResultTypeInfoDTO columnMetaData = createColumnMetaData(dataType, column);
+    	FactResultDTO fact = createFactResult(value, column);
+    	fact.setFactResultTypeInfo(columnMetaData);
+    	return fact;
+    }
+
 	public static FactResultDTO createFactResult(String[] values, String columnName) {
+		return createFactResult(values, new String[] {columnName});
+	}
+
+	public static FactResultDTO createFactResult(String[] values, String[] columnNames) {
 		FactResultDTO factResult = new FactResultDTO();
 		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-		for (String item : values) {
+		for(int i=0; i<values.length;) {
 			Map<String, String> row = new HashMap<String, String>();
-			row.put(columnName, item);
+			for(String column : columnNames) {
+				row.put(column, values[i++]);
+			}
 			resultList.add(row);
 		}
 
@@ -69,11 +82,17 @@ public class CommonTestUtil {
 	}
 
 	public static FactResultTypeInfoDTO createColumnMetaData(String dataType, String columnName) {
+		return createColumnMetaData(new String[] {dataType}, new String[] {columnName});
+	}
+	
+	public static FactResultTypeInfoDTO createColumnMetaData(String[] dataType, String[] columnName) {
     	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
-    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
-    	columnInfo.setKey(columnName);
-    	columnInfo.setDataType(dataType);
-    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	for(int i=0; i<columnName.length; i++) {
+	    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+	    	columnInfo.setKey(columnName[i]);
+	    	columnInfo.setDataType(dataType[i]);
+	    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	}
     	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
     	typeInfo.setResultColumnsMap(columnsInfoMap);
     	return typeInfo;

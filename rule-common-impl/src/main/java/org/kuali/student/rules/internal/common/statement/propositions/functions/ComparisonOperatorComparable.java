@@ -1,8 +1,6 @@
 package org.kuali.student.rules.internal.common.statement.propositions.functions;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
@@ -13,33 +11,32 @@ public class ComparisonOperatorComparable<T extends Comparable<T>> extends Abstr
 	private T expectedValue;
 	private Comparable<T> computedValue;
 	private Boolean result;
-	private List<Object> input;
 
     public ComparisonOperatorComparable() {
 	}
 
     public ComparisonOperatorComparable(ComparisonOperator operator, T expectedValue, Comparable<T> computedValue) {
-    	this.input = new ArrayList<Object>();
-    	this.input.add(operator);
-    	this.input.add(expectedValue);
-    	this.input.add(computedValue);
+		this.operator = operator;
+		this.expectedValue = expectedValue;
+		this.computedValue = computedValue;
 	}
 
-	public Object compute() {
-		if(this.input == null) {
-			throw new IllegalFunctionStateException("Invalid input. Input cannot be null.");
-		}
+	public Boolean compute() {
+    	if(this.operator == null) {
+    		throw new IllegalFunctionStateException("Operator is null: " + this.operator);
+    	} else if(this.expectedValue == null) {
+    		throw new IllegalFunctionStateException("Expected value key is null: " + this.expectedValue);
+    	} else if(this.computedValue == null) {
+    		throw new IllegalFunctionStateException("Computed value is null: " + this.computedValue);
+    	}
 		
-		this.operator = (ComparisonOperator) input.get(0);
-		this.expectedValue = (T) input.get(1);
-		this.computedValue = (T) input.get(2);
 		this.result = compare();
 		
 		return this.result;
 	}
 
     protected Boolean compare() {
-        if (!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable)) {
+        if (!(this.computedValue instanceof Comparable) || !(this.expectedValue instanceof Comparable)) {
             throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
         }
 
@@ -77,19 +74,19 @@ public class ComparisonOperatorComparable<T extends Comparable<T>> extends Abstr
 	    return truthValue;
     }
 
-    public Integer getInputs() {
-		return new Integer(1);
-	}
-
-	public Integer getOutputs() {
-		return new Integer(1);
-	}
-
-	public Object getOutput() {
-		return this.result;
-	}
-
-	public void setInput(Object input) {
-		this.input = (List) input;
-	}
+//    public Integer getInputs() {
+//		return new Integer(1);
+//	}
+//
+//	public Integer getOutputs() {
+//		return new Integer(1);
+//	}
+//
+//	public Object getOutput() {
+//		return this.result;
+//	}
+//
+//	public void setInput(Object input) {
+//		this.input = (List) input;
+//	}
 }

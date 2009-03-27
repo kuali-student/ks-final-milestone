@@ -17,12 +17,11 @@ package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.Fact;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -38,87 +37,37 @@ public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
-		FactStructureDTO criteria = factStructureList.get(0);
-		FactStructureDTO fact = factStructureList.get(1);
+		FactStructureDTO criteriaStructure = factStructureList.get(0);
+		FactStructureDTO factStructure = factStructureList.get(1);
 		
-		if (criteria == null) {
+		if (criteriaStructure == null) {
 			throw new PropositionException("Criteria fact structure cannot be null");
-		} else if (fact == null) {
+		} else if (factStructure == null) {
 			throw new PropositionException("Fact structure cannot be null");
 		}
-
-		Set<E> criteriaSet = null;
-		Set<E> factSet = null;
-		criteriaDTO = null;
-		factDTO = null;
 		
-		if (criteria.isStaticFact()) {
-			String value = criteria.getStaticValue();
-			String dataType = criteria.getStaticValueDataType();
-			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
-				throw new PropositionException("Static value and data type cannot be null or empty");
-			}
-			criteriaSet = getSet(dataType, value);
-			criteriaDTO = createStaticFactResult(dataType, value);
-		} else {
-			if (factMap == null || factMap.isEmpty()) {
-				throw new PropositionException("Fact map cannot be null or empty");
-			}
-			String criteriaKey = FactUtil.createCriteriaKey(criteria);
-			criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
+		Fact fact = getFacts(factMap, factStructure, MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY);
+		super.factDTO = fact.getFactDTO();
+		super.factColumn = fact.getFactColumn();
 
-			String column = criteria.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
-				throw new PropositionException("Subset criteria column not found for key '"+
-						MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY+"'. Fact structure id: " + criteria.getFactStructureId());
-			}
-
-			criteriaSet = getSet(criteriaDTO, column);
-			if (criteriaSet == null || criteriaSet.isEmpty()) {
-				throw new PropositionException("Criteria facts not found for column '"+column+
-						"'. Fact structure id: " + criteria.getFactStructureId());
-			}
-		}
-
-		if (fact.isStaticFact()) {
-			String value = fact.getStaticValue();
-			String dataType = fact.getStaticValueDataType();
-			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
-				throw new PropositionException("Static value and data type cannot be null or empty");
-			}
-			factSet = getSet(dataType, value);
-			factDTO = createStaticFactResult(dataType, value);
-		} else {
-	    	String factKey = FactUtil.createFactKey(fact);
-			factDTO = (FactResultDTO) factMap.get(factKey);
-
-			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY);
-			if (factColumn == null || factColumn.trim().isEmpty()) {
-				throw new PropositionException("Subset column not found for key '"+
-						MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
-			}
-
-			factSet = getSet(factDTO, factColumn);
-			if (factSet == null || factSet.isEmpty()) {
-				throw new PropositionException("Facts not found for column '"+
-						factColumn+"'. Fact structure id: " + fact.getFactStructureId());
-			}
-		}
+		Fact criteria = getFacts(factMap, criteriaStructure, MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY);
+		super.criteriaDTO = criteria.getFactDTO();
+		String criteriaColumn = criteria.getFactColumn();
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
-			logger.debug("Criteria set="+criteriaSet);
-			logger.debug("Fact set="+factSet);
 			logger.debug("\n---------- YVFSubsetProposition ----------"
-					+ "\nFact static="+fact.isStaticFact()
-					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nFact static="+factStructure.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(factStructure)
 					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
-					+ "\nCriteria set="+criteriaSet
-					+ "\nFact set="+factSet
+					+ "\nCriteria static="+criteriaStructure.isStaticFact()
+					+ "\nCriteria key="+FactUtil.createCriteriaKey(criteriaStructure)
+					+ "\nCriteria fact="+super.criteriaDTO
+					+ "\nFact="+super.factDTO
 					+ "\n--------------------------------------------------");
 		}
 
-		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet, ruleProposition); 
+		super.proposition = new SubsetProposition<E>(id, propositionName, 
+				criteriaDTO,criteriaColumn, factDTO, factColumn); 
 	}
 
     @Override

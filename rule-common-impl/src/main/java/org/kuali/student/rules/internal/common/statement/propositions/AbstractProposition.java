@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
@@ -43,6 +44,11 @@ public abstract class AbstractProposition<T> implements Proposition {
     protected T expectedValue;
     protected PropositionType propositionType;
     protected Collection<T> resultValues;
+
+    protected FactResultDTO criteriaDTO;
+    protected FactResultDTO factDTO;
+    protected String criteriaColumn;
+    protected String factColumn;
     
     private final Map<String,Object> contextMap = new HashMap<String, Object>();
     
@@ -62,12 +68,18 @@ public abstract class AbstractProposition<T> implements Proposition {
      * @param ruleProposition Rule proposition
      */
     public AbstractProposition(String id, String propositionName, PropositionType type, 
-    		ComparisonOperator operator, T expectedValue) {
+    		ComparisonOperator operator, T expectedValue,
+    		FactResultDTO criteriaDTO, String criteriaColumn, 
+    		FactResultDTO factDTO, String factColumn) {
         this.id = id;
         this.propositionName = propositionName;
         this.propositionType = type;
         this.operator = operator;
         this.expectedValue = expectedValue;
+        this.criteriaDTO = criteriaDTO;
+        this.factDTO = factDTO;
+        this.criteriaColumn = criteriaColumn;
+        this.factColumn = factColumn;
     }
 
     protected Boolean checkTruthValue(Comparable<T> computedValue, T expectedValue) {
@@ -206,7 +218,23 @@ public abstract class AbstractProposition<T> implements Proposition {
     	return this.resultValues;
     }
 
-	public String toString() {
+    public FactResultDTO getCriteria() {
+    	return this.criteriaDTO;
+    }
+
+    public FactResultDTO getFact() {
+    	return this.factDTO;
+    }
+
+    public String getCriteriaColumn() {
+    	return this.criteriaColumn;
+    }
+
+    public String getFactColumn() {
+    	return this.factColumn;
+    }
+
+    public String toString() {
     	return "Proposition[id=" + this.id 
     		+ ", propositionName=" + this.propositionName
     		+ ", propositionType=" + this.propositionType

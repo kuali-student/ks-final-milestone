@@ -18,6 +18,7 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 import java.util.Collection;
 import java.util.Map;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
 
 /**
@@ -72,4 +73,12 @@ public interface Proposition {
 	 * @return Proposition result values
 	 */
 	public Collection<?> getResultValues();	
+	
+    public FactResultDTO getCriteria();
+
+    public FactResultDTO getFact();
+
+    public String getCriteriaColumn();
+
+    public String getFactColumn();
 }

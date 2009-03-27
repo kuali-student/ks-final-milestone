@@ -15,6 +15,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.SumRuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -298,8 +299,9 @@ public class SumRulePropositionTest {
 		try {
 			SumRuleProposition<BigDecimal> proposition = new SumRuleProposition<BigDecimal>(
 					"1", "SumRuleProposition",  ruleProposition, factMap);
+			proposition.apply();
 			Assert.fail("SumRuleProposition should have thrown a PropositionException for resultColumn.xxx");
-		} catch(PropositionException e) {
+		} catch(IllegalFunctionStateException e) {
 			Assert.assertTrue(true);
 		}
 	}

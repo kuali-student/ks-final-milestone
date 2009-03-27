@@ -12,6 +12,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
+import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.AverageRuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -155,8 +156,9 @@ public class AverageRulePropositionTest {
 		try {
 			AverageRuleProposition<BigDecimal> proposition = new AverageRuleProposition<BigDecimal>(
 					"1", "AverageRuleProposition", ruleProposition, factMap);
+			proposition.apply();
 			Assert.fail("AverageRuleProposition should have thrown a PropositionException for resultColumn.xxx");
-		} catch(PropositionException e) {
+		} catch(IllegalFunctionStateException e) {
 			Assert.assertTrue(true);
 		}
 	}

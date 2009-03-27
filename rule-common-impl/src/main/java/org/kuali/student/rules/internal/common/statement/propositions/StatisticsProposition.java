@@ -17,7 +17,7 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
     public StatisticsProposition(String id, String propositionName, 
     		ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact,
     		RulePropositionDTO ruleProposition) {
-        super(id, propositionName, null, operator, expectedValue);
+        super(id, propositionName, null, operator, expectedValue, null, null, null, null);
         this.fact = fact;
         this.function = function;
     }

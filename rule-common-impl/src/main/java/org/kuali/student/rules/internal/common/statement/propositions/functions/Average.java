@@ -2,52 +2,46 @@ package org.kuali.student.rules.internal.common.statement.propositions.functions
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Collection;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class Average<T extends Number> extends AbstractFunction { 
+public class Average extends AbstractFunction { 
 	private Number result;
-	private Collection<T> input;
-	private Sum<T> sumFunction;
+    private FactResultDTO factDTO;
+    private String factColumnKey;
+	private Sum sumFunction;
 
 	public Average() {
 	}
 
-    public Average(Collection<T> input) {
-    	this.input = input;
+    public Average(FactResultDTO factDTO, String factColumnKey) {
+    	this.factDTO = factDTO;
+    	this.factColumnKey = factColumnKey;
 	}
 
+    public void setFact(FactResultDTO factDTO, String factColumnKey) {
+    	this.factDTO = factDTO;
+    	this.factColumnKey = factColumnKey;
+    }
+
 	public Object compute() {
-		if(this.input == null) {
-			throw new IllegalFunctionStateException("Invalid input. Input cannot be null.");
-		}
-		
-		this.sumFunction = new Sum<T>(input);
-		this.sumFunction.compute();
+    	if(this.factDTO == null) {
+    		throw new IllegalFunctionStateException("Fact is null: " + this.factDTO);
+    	} else if(this.factColumnKey == null) {
+    		throw new IllegalFunctionStateException("Fact column key is null: " + this.factColumnKey);
+    	} else if(!containsFactColumnKey(this.factDTO, this.factColumnKey)) {
+    		throw new IllegalFunctionStateException("Fact column key not found: " + this.factColumnKey);
+    	}
+
+    	this.sumFunction = new Sum(this.factDTO, this.factColumnKey);
+		Number sum = (Number) this.sumFunction.compute();
 
 		MathContext mc = MathContext.DECIMAL64;
-		Number sum = (Number) this.sumFunction.getOutput();
-		BigDecimal listSize = new BigDecimal(this.input.size());
+		BigDecimal listSize = new BigDecimal(this.factDTO.getResultList().size());
 		BigDecimal sum2 = new BigDecimal(sum.toString());
 		this.result = sum2.divide(listSize, mc);
 		
 		return this.result;
-	}
-
-	public Integer getInputs() {
-		return new Integer(1);
-	}
-
-	public Integer getOutputs() {
-		return new Integer(1);
-	}
-
-	public Object getOutput() {
-		return this.result;
-	}
-
-	public void setInput(Object input) {
-		this.input = (Collection) input;
 	}
 }

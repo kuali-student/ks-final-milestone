@@ -17,29 +17,24 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Average;
-import org.kuali.student.rules.internal.common.statement.propositions.functions.Function;
 
 public class AverageProposition<E extends Number> extends AbstractProposition<BigDecimal> { //extends SumProposition<E> {
 	private BigDecimal average;
-    private Function averageFunction;
+    private Average averageFunction;
 
     public AverageProposition(String id, 
 							  String propositionName, 
     						  ComparisonOperator operator, 
     						  BigDecimal expectedValue, 
-    						  List<E> factSet) {
-    	super(id, propositionName, PropositionType.AVERAGE, operator, expectedValue);
-
-    	if (factSet == null || factSet.size() == 0) {
-    		throw new IllegalArgumentException("Fact set cannot be null");
-    	}
-
-        averageFunction = new Average<E>(factSet);
+    						  FactResultDTO factDTO, String factColumn) {
+    	super(id, propositionName, PropositionType.AVERAGE, operator, expectedValue, 
+    			null, null, factDTO, factColumn);
+    	averageFunction = new Average(factDTO, factColumn);
     }
 
     @Override

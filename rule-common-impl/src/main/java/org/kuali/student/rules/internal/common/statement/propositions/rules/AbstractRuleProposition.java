@@ -12,13 +12,16 @@ import java.util.Map.Entry;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.AbstractProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.Fact;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.VelocityTemplateEngine;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.slf4j.Logger;
@@ -74,6 +77,34 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
         this.comparisonOperatorDataType = ruleProposition.getComparisonOperatorTypeKey();
     }
 
+    protected Fact getFacts(Map<String, ?> factMap, FactStructureDTO fact, String columnKey) {
+    	FactResultDTO factDTO = null; 
+    	String factColumn = null;
+    	
+    	if (fact.isStaticFact()) {
+			String value = fact.getStaticValue();
+			String dataType = fact.getStaticValueDataType();
+			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
+				throw new PropositionException("Static value and data type cannot be null or empty");
+			}
+			factDTO = createStaticFactResult(dataType, value);
+			factColumn = MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN;
+		} else {
+			if (factMap == null || factMap.isEmpty()) {
+				throw new PropositionException("Fact map cannot be null or empty");
+			}
+	    	String factKey = FactUtil.createFactKey(fact);
+			factDTO = (FactResultDTO) factMap.get(factKey);
+
+			factColumn = fact.getResultColumnKeyTranslations().get(columnKey);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
+				throw new PropositionException("Fact column not found for key '"+
+						columnKey+"'. Fact structure id: " + fact.getFactStructureId());
+			}
+		}
+    	return new Fact(factDTO, factColumn);
+    }
+
     public FactResultColumnInfoDTO getFactResultColumnInfo(FactResultDTO factResult, String columnKey) {
 		if (factResult == null) {
 			throw new PropositionException("FactResultDTO cannot be null");
@@ -114,7 +145,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
      * @param factList Comma separated list of values
      * @return Fact result
      */
-    public FactResultDTO createStaticFactResult(String columnDataType, String factList) {
+    public static FactResultDTO createStaticFactResult(String columnDataType, String factList) {
     	FactResultDTO factResult = new FactResultDTO();
     	
     	FactResultTypeInfoDTO factResultTypeInfo = new FactResultTypeInfoDTO();
@@ -155,7 +186,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<T> getSet(FactResultDTO factResult, String column) {
+	public static <T> Set<T> getSet(FactResultDTO factResult, String column) {
 		if (factResult == null) {
 			throw new PropositionException("FactResultDTO cannot be null");
 		}
@@ -263,7 +294,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
     /**
      * Builds the message context map.
      */
-    private void buildMessageContextMap() {
+    protected void buildMessageContextMap() {
         if (this.comparisonOperator != null) {
 	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CTX_KEY_OPERATOR, this.comparisonOperator.toString());
         }
@@ -284,7 +315,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
      * @param key Key
      * @param value Value for key
      */
-    private void addMessageContext(String key, Object value) {
+    protected void addMessageContext(String key, Object value) {
     	this.contextMap.put(key, value);
     }
 
@@ -293,7 +324,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
      * 
      * @param contextMap Message context map
      */
-    private void addMessageContext(Map<String, Object> contextMap) {
+    protected void addMessageContext(Map<String, Object> contextMap) {
     	this.contextMap.putAll(contextMap);
     }
 

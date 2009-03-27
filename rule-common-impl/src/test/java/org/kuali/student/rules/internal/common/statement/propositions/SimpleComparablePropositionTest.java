@@ -11,14 +11,12 @@ import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class SimpleComparablePropositionTest {
-	private RulePropositionDTO ruleProposition = new RulePropositionDTO();
 
 	@Test
     public void testSimpleComparableProposition_String() throws Exception {
     	SimpleComparableProposition<String> comparableProp = new SimpleComparableProposition<String>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, "Hi Kuali", "Hi Kuali",
-    			ruleProposition);
+    			ComparisonOperator.EQUAL_TO, "Hi Kuali", "Hi Kuali");
 
     	Boolean result = comparableProp.apply();
 
@@ -31,8 +29,7 @@ public class SimpleComparablePropositionTest {
     	Double number = new Double("100.1");
     	SimpleComparableProposition<Double> comparableProp = new SimpleComparableProposition<Double>(
     			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, number, new Double(100d),
-    			ruleProposition);
+    			ComparisonOperator.LESS_THAN, number, new Double(100d));
 
     	Boolean result = comparableProp.apply();
 
@@ -44,8 +41,7 @@ public class SimpleComparablePropositionTest {
     public void testSimpleComparableProposition_Integer() throws Exception {
     	SimpleComparableProposition<Integer> comparableProp = new SimpleComparableProposition<Integer>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Integer("100"), new Integer(100),
-    			ruleProposition);
+    			ComparisonOperator.EQUAL_TO, new Integer("100"), new Integer(100));
 
     	Boolean result = comparableProp.apply();
 
@@ -57,8 +53,7 @@ public class SimpleComparablePropositionTest {
     public void testSimpleComparableProposition_Long() throws Exception {
     	SimpleComparableProposition<Long> comparableProp = new SimpleComparableProposition<Long>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Long("1000000000000000000"), new Long(1000000000000000000l),
-    			ruleProposition);
+    			ComparisonOperator.EQUAL_TO, new Long("1000000000000000000"), new Long(1000000000000000000l));
 
     	Boolean result = comparableProp.apply();
 
@@ -70,8 +65,7 @@ public class SimpleComparablePropositionTest {
     public void testSimpleComparableProposition_BigDecimal() throws Exception {
     	SimpleComparableProposition<BigDecimal> comparableProp = new SimpleComparableProposition<BigDecimal>(
     			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN, new BigDecimal(123.456789), new BigDecimal(999),
-    			ruleProposition);
+    			ComparisonOperator.GREATER_THAN, new BigDecimal(123.456789), new BigDecimal(999));
 
     	Boolean result = comparableProp.apply();
 
@@ -84,8 +78,7 @@ public class SimpleComparablePropositionTest {
 		Calendar cal = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
     	SimpleComparableProposition<Calendar> comparableProp = new SimpleComparableProposition<Calendar>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, cal, cal,
-    			ruleProposition);
+    			ComparisonOperator.EQUAL_TO, cal, cal);
 
     	Boolean result = comparableProp.apply();
 
@@ -99,8 +92,7 @@ public class SimpleComparablePropositionTest {
 		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
     	SimpleComparableProposition<Calendar> comparableProp = new SimpleComparableProposition<Calendar>(
     			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, cal2, cal1,
-    			ruleProposition);
+    			ComparisonOperator.LESS_THAN, cal2, cal1);
 
     	Boolean result = comparableProp.apply();
 
@@ -114,8 +106,7 @@ public class SimpleComparablePropositionTest {
 		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
     	SimpleComparableProposition<Calendar> comparableProp = new SimpleComparableProposition<Calendar>(
     			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN, cal1, cal2,
-    			ruleProposition);
+    			ComparisonOperator.GREATER_THAN, cal1, cal2);
 
     	Boolean result = comparableProp.apply();
 
@@ -128,8 +119,7 @@ public class SimpleComparablePropositionTest {
 		Calendar cal = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
     	SimpleComparableProposition<Date> comparableProp = new SimpleComparableProposition<Date>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, cal.getTime(), cal.getTime(),
-    			ruleProposition);
+    			ComparisonOperator.EQUAL_TO, cal.getTime(), cal.getTime());
 
     	Boolean result = comparableProp.apply();
 
@@ -143,8 +133,7 @@ public class SimpleComparablePropositionTest {
 		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
     	SimpleComparableProposition<Date> comparableProp = new SimpleComparableProposition<Date>(
     			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, cal2.getTime(), cal1.getTime(),
-    			ruleProposition);
+    			ComparisonOperator.LESS_THAN, cal2.getTime(), cal1.getTime());
 
     	Boolean result = comparableProp.apply();
 
@@ -158,8 +147,7 @@ public class SimpleComparablePropositionTest {
 		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
     	SimpleComparableProposition<Date> comparableProp = new SimpleComparableProposition<Date>(
     			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN, cal1.getTime(), cal2.getTime(),
-    			ruleProposition);
+    			ComparisonOperator.GREATER_THAN, cal1.getTime(), cal2.getTime());
 
     	Boolean result = comparableProp.apply();
 

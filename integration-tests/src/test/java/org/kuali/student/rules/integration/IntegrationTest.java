@@ -787,7 +787,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals(1, propositionResult3.getResultList().size());
 		Assert.assertTrue(containsResult(propositionResult3.getResultList(), "resultColumn.credit", "13.0"));
     }
-
+/*
 	@Test
 	public void testCreateAndExecuteAgenda_OneBusinessRule() throws Exception {
     	// Update business rule to create a compiled/executable rule
@@ -911,5 +911,5 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         ExecutionResultDTO ruleResult2 = agendaExecutionResult.getExecutionResultList().get(1);
         Assert.assertTrue(ruleResult2.isExecutionSuccessful());
         Assert.assertTrue(ruleResult2.getReport().isSuccessful());
-	}
+	}*/
 }

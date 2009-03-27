@@ -1,66 +1,101 @@
 package org.kuali.student.rules.internal.common.statement.propositions.functions;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.FunctionException;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class Intersection<E> extends AbstractFunction { 
+public class Intersection extends AbstractFunction { 
 
 	public enum Operation {INTERSECTION, DIFFERENCE, SUBSET_DIFFERENCE}
 	
-    private List<Collection<E>> input;
-	private Collection<E> criteriaSet;
-    private Collection<E> factSet;
-    private Collection<E> result;
-
+    private FactResultDTO criteriaDTO;
+    private FactResultDTO factDTO;
+    private String criteriaColumnKey;
+    private String factColumnKey;
+    
+    private Collection<String> criteriaSet;
+    private Collection<String> factSet;
+    
     public Intersection() {
     }
     
-    public Intersection(List<Collection<E>> input) {
-    	this.input = input;
+    public Intersection(FactResultDTO criteriaDTO, String criteriaColumnKey, FactResultDTO factDTO, String factColumnKey) {
+    	this.criteriaDTO = criteriaDTO;
+    	this.criteriaColumnKey = criteriaColumnKey;
+    	this.factDTO = factDTO;
+    	this.factColumnKey = factColumnKey;
     }
     
-	public Object compute() {
-		if(this.input == null || this.input.size() != 2) {
-			throw new IllegalFunctionStateException("Invalid input. " +
-					"Number of inputs found: " + (this.input == null ? "Null" : this.input.size()));
-		}
+    public void setCriteria(FactResultDTO criteriaDTO, String criteriaColumnKey) {
+    	this.criteriaDTO = criteriaDTO;
+    	this.criteriaColumnKey = criteriaColumnKey;
+    }
+
+    public void setFact(FactResultDTO factDTO, String factColumnKey) {
+    	this.factDTO = factDTO;
+    	this.factColumnKey = factColumnKey;
+    }
+
+    public FactResultDTO compute() {
+    	if(this.factDTO == null) {
+    		throw new IllegalFunctionStateException("Fact is null: " + this.factDTO);
+    	} else if(this.factColumnKey == null) {
+    		throw new IllegalFunctionStateException("Fact column key is null: " + this.factColumnKey);
+    	} else if(this.criteriaDTO == null) {
+    		throw new IllegalFunctionStateException("Criteria fact is null: " + this.factDTO);
+    	} else if(this.criteriaColumnKey == null) {
+    		throw new IllegalFunctionStateException("Criteria fact column key is null: " + this.factColumnKey);
+    	} else if(!containsFactColumnKey(this.factDTO, this.factColumnKey)) {
+    		throw new IllegalFunctionStateException("Fact column key not found: " + this.factColumnKey);
+    	} else  if(!containsFactColumnKey(this.criteriaDTO, this.criteriaColumnKey)) {
+    		throw new IllegalFunctionStateException("Criteria fact column key not found: " + this.factColumnKey);
+    	}
+
+    	// Criteria
+		this.criteriaSet = getCollectionString(this.criteriaDTO, this.criteriaColumnKey);
+		// Fact
+		this.factSet = getCollectionString(this.factDTO, this.factColumnKey);
 		
-		this.criteriaSet = this.input.get(0);
-		this.factSet = this.input.get(1);
-		
+		Collection<String> result = null;
 		Operation operationType = Operation.valueOf(super.operation);
 		switch(operationType) {
-			case INTERSECTION: 
-				this.result = intersection();
+			case INTERSECTION: {
+				result = intersection();
 				break;
-			case DIFFERENCE: 
-				this.result = difference();
+			}
+			case DIFFERENCE: { 
+				result = difference();
 				break;
-			case SUBSET_DIFFERENCE: 
-				this.result = subSetDifference();
+			}
+			case SUBSET_DIFFERENCE: { 
+				result = subSetDifference();
 				break;
+			}
 			default: 
 				throw new FunctionException("Operation not found");
 		}
 		
-		return this.result;
-    }
+		FactResultDTO factResult = buildFactResult(result, factColumnKey);
+		
+		return factResult;
+	}
 
     /**
      * Returns the intersection of the fact set with the criteria set.
      * 
      * @return the intersection
      */
-    private Set<E> intersection() {
-        Set<E> rval = new HashSet<E>(this.factSet);
-        rval.retainAll(this.criteriaSet);
-
-        return rval;
+    private Collection<String> intersection() {
+        Set<String> set = new HashSet<String>(this.factSet);
+        set.retainAll(this.criteriaSet);
+        return set;
     }
 
     /**
@@ -68,33 +103,31 @@ public class Intersection<E> extends AbstractFunction {
      * 
      * @return
      */
-    private Set<E> difference() {
-        HashSet<E> rval = new HashSet<E>(criteriaSet);
-        rval.removeAll(this.factSet);
-
-        return rval;
+    private Collection<String> difference() {
+        HashSet<String> set = new HashSet<String>(this.criteriaSet);
+        set.removeAll(this.factSet);
+        return set;
     }
 
-    private Set<E> subSetDifference() {
-        HashSet<E> rval = new HashSet<E>(factSet);
-        rval.removeAll(this.criteriaSet);
-
-        return rval;
+    private Collection<String> subSetDifference() {
+        HashSet<String> set = new HashSet<String>(this.factSet);
+        set.removeAll(this.criteriaSet);
+        return set;
     }
-
-	public Integer getInputs() {
-		return new Integer(2);
-	}
-
-	public Integer getOutputs() {
-		return new Integer(1);
-	}
-
-	public Object getOutput() {
-		return this.result;
-	}
-
-	public void setInput(Object input) {
-		this.input = (List<Collection<E>>) input;
-	}
+    
+    private FactResultDTO buildFactResult(Collection<String> intersections, String column) {
+    	List<Map<String,String>> resultList = new ArrayList<Map<String,String>>(); 
+    	Set<Map<String,String>> set = new HashSet<Map<String,String>>(this.factDTO.getResultList());
+    	for(Map<String,String> row : set) {
+    		String value = row.get(column);
+    		if(intersections.contains(value)) {
+    			resultList.add(row);
+    		}
+    	}
+    	
+    	FactResultDTO factResult = new FactResultDTO();
+    	factResult.setFactResultTypeInfo(this.factDTO.getFactResultTypeInfo());
+    	factResult.setResultList(resultList);
+    	return factResult;
+    }
 }

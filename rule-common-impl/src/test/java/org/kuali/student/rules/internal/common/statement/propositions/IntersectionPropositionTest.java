@@ -1,24 +1,28 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 
 public class IntersectionPropositionTest {
-    private Set<String> set1 = new HashSet<String>(Arrays.asList("CHEM101".split(",")));
-    private Set<String> set2 = new HashSet<String>(Arrays.asList("MATH101,MATH103,CHEM101".split(",")));
-    private Set<String> set3 = new HashSet<String>(Arrays.asList("ENGL101".split(",")));
-    private Set<String> set4 = new HashSet<String>(Arrays.asList("CHEM101,ENGL101".split(",")));
 
 	@Test
     public void testIntersectionTrue() throws Exception {
-        IntersectionProposition<String> prop = new IntersectionProposition<String>(
+		FactResultDTO criteria = CommonTestUtil.createFact(
+				new String[] {String.class.getName()},
+				new String[] {"CHEM101"}, 
+				new String[] {"resultColumn.cluId"});
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), String.class.getName()},
+				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "3"}, 
+    			new String[] {"resultColumn.cluId","resultColumn.credits"});
+
+		IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), set1, set2);
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), 
+                criteria, "resultColumn.cluId", fact, "resultColumn.cluId");
 
         Boolean result = prop.apply();
 
@@ -28,9 +32,19 @@ public class IntersectionPropositionTest {
 
     @Test
     public void testIntersectionFalse() throws Exception {
+		FactResultDTO criteria = CommonTestUtil.createFact(
+				new String[] {String.class.getName()},
+				new String[] {"CHEM101"}, 
+				new String[] {"resultColumn.cluId"});
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), String.class.getName()},
+				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "3"}, 
+    			new String[] {"resultColumn.cluId","resultColumn.credits"});
+
         IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(2), set1, set2);
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(2), 
+                criteria, "resultColumn.cluId", fact, "resultColumn.cluId");
 
         Boolean result = prop.apply();
 
@@ -40,9 +54,19 @@ public class IntersectionPropositionTest {
 
     @Test
     public void testIntersectionFalse2() throws Exception {
+		FactResultDTO criteria = CommonTestUtil.createFact(
+				new String[] {String.class.getName()},
+				new String[] {"ENGL101"}, 
+				new String[] {"resultColumn.cluId"});
+		FactResultDTO fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), String.class.getName()},
+				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "3"}, 
+    			new String[] {"resultColumn.cluId","resultColumn.credits"});
+
         IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), set3, set2);
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), 
+                criteria, "resultColumn.cluId", fact, "resultColumn.cluId");
 
         Boolean result = prop.apply();
 
