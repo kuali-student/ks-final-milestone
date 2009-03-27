@@ -36,6 +36,14 @@ public class LoadSqlListener implements ApplicationListener,
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent && !loaded) {
+			
+	        boolean isOracle=false;
+        	try{
+	            Class.forName("oracle.jdbc.driver.OracleDriver");
+	            isOracle=true;
+ 	        } catch (ClassNotFoundException e) {
+            }
+			
 			for (Entry<String, String> entry : preloadMap.entrySet()) {
 				String sqlFileName = entry.getValue();
 				EntityManagerFactory emf = EntityManagerFactoryUtils
@@ -62,9 +70,13 @@ public class LoadSqlListener implements ApplicationListener,
 				TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 				TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
 				
+			
 				try {
 					while((ln=in.readLine())!=null){
 						if(!ln.startsWith("/")&&!ln.isEmpty()){
+							if(isOracle){
+								ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
+							}
 							em.createNativeQuery(ln).executeUpdate();
 						}
 					}
