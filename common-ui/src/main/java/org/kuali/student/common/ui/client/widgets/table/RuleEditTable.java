@@ -50,7 +50,10 @@ public class RuleEditTable extends FlexTable {
         getModel().doRemoveFromGroup();
         refresh();
     }
-    
+    public void doAddToGroup(){
+        getModel().doAddToGroup();
+        refresh();
+    }
     public void doAnd(){
         getModel().doAnd();
         refresh();

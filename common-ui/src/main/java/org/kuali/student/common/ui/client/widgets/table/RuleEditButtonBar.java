@@ -10,7 +10,7 @@ public class RuleEditButtonBar extends FlowPanel {
   private Button orButton = new Button("Or");
   private Button ungroupButton = new Button("Ungroup");
   private Button removeFromGroupButton = new Button("Remove from Group");
-  
+  private Button addToGroupButton = new Button("Add to Group");
   private Button undoButton = new Button("Undo");
  private Button redoButton = new Button("Redo");
   
@@ -21,8 +21,9 @@ public class RuleEditButtonBar extends FlowPanel {
       add(orButton);
       add(ungroupButton);
       add(removeFromGroupButton);
-  //   add(undoButton);
-  //  add(redoButton);
+      add(addToGroupButton);
+      add(undoButton);
+      add(redoButton);
       disableAllButton();
 
       andButton.addClickHandler(new ClickHandler() {
@@ -51,6 +52,14 @@ public class RuleEditButtonBar extends FlowPanel {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doRemoveFromGroup();
+              refreshState();
+          }
+      });
+      addToGroupButton.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+              ruleEditTable.doAddToGroup();
+              refreshState();
           }
       });
       
@@ -79,6 +88,7 @@ public class RuleEditButtonBar extends FlowPanel {
       orButton.setEnabled(false);
       ungroupButton.setEnabled(false);
       removeFromGroupButton.setEnabled(false);
+      addToGroupButton.setEnabled(false);
      undoButton.setEnabled(false);
      redoButton.setEnabled(false);
   }
@@ -92,10 +102,10 @@ public class RuleEditButtonBar extends FlowPanel {
           disableAllButton();
       }else if (RuleEditTableModel.SingleUnGroupedRelationSelected.equals(state)){
           ungroupButton.setEnabled(true);
-     }else if (RuleEditTableModel.OneOrMoreGroupedConditionSelected.equals(state)){
-          removeFromGroupButton.setEnabled(true);
-    //  }else if (RuleEditTableModel.SingleGroupedRelationSelected.equals(state)){
-          
+      }else if (RuleEditTableModel.OneOrMoreGroupedConditionOrRelationSelected.equals(state)){
+           removeFromGroupButton.setEnabled(true);
+      }else if (RuleEditTableModel.OneGroupedRelationAndOneOrMoreUnGroupedConditionSelected.equals(state)){
+           addToGroupButton.setEnabled(true);
       }else if(RuleEditTableModel.MoreThanOneUnGroupedConditionAndUnGroupedRelationSelected.equals(state)){
           andButton.setEnabled(true);
           orButton.setEnabled(true);

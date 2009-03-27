@@ -17,9 +17,10 @@ public class RuleEditTableModel {
     public final static String SingleGroupedRelationWithMoreThanOneSiblingsSelected = "SingleGroupedRelationWithMoreThanOneSiblingsSelected";
 
     public final static String MoreThanOneUnGroupedConditionAndUnGroupedRelationSelected = "MoreThanOneUnGroupedConditionAndUnGroupedRelationSelected";
-    public final static String OneOrMoreGroupedConditionSelected = "OneOrMoreGroupedConditionSelected";
+    public final static String OneOrMoreGroupedConditionOrRelationSelected = "OneOrMoreGroupedConditionOrRelationSelected";
 
-    
+    public final static String OneGroupedRelationAndOneOrMoreUnGroupedConditionSelected = "OneGroupedRelationAndOneOrMoreUnGroupedConditionSelected";
+
     private List<Node<Token>> orignalOrder = new ArrayList<Node<Token>>();
     private List<Widget> widgetList = new ArrayList<Widget>();
     private List<Node<Token>> nodeList = new ArrayList<Node<Token>>();
@@ -30,33 +31,33 @@ public class RuleEditTableModel {
 
     public RuleEditTableModel() {}
 
-    public void setNodeList(List<Node<Token>> list){
+    public void setNodeList(List<Node<Token>> list) {
         orignalOrder = list;
         nodeList = list;
-        undoStack.add(list);
+        dump() ;
         reBuildWidgetList();
     }
+
     public boolean canRedo() {
-        return redoStack.size()> 0;
+        return redoStack.size() > 0;
     }
 
     public boolean canUndo() {
-        return undoStack.size() >= 1;
+        return undoStack.size() >= 2;
     }
 
     private void dump() {
         List<Node<Token>> clonedWidgetList = new ArrayList<Node<Token>>();
-        
+
         for (Node<Token> n : nodeList) {
-           clonedWidgetList.add(n.clone());
+            clonedWidgetList.add(n.clone());
         }
         undoStack.add(clonedWidgetList);
     }
 
-
     public List<NodeWidget> getAllNodeWidget() {
         List<NodeWidget> list = new ArrayList<NodeWidget>();
-        for (Widget w: widgetList) {
+        for (Widget w : widgetList) {
             if (w instanceof NodeWidget) {
                 list.add((NodeWidget) w);
             } else if (w instanceof TreeTable) {
@@ -73,7 +74,7 @@ public class RuleEditTableModel {
 
     public List<Node> getUngroupedNodeList() {
         List<Node> list = new ArrayList<Node>();
-        for (Widget w: widgetList) {
+        for (Widget w : widgetList) {
             if (w instanceof NodeWidget) {
                 list.add(((NodeWidget) w).getNode());
             } else if (w instanceof TreeTable) {
@@ -82,6 +83,7 @@ public class RuleEditTableModel {
         }
         return list;
     }
+
     public boolean isMoreThanOnUnGroupedConditionAndUnGroupedRelationSelected(List<Node> selectedList) {
         List<Node> list = getUngroupedNodeList();
 
@@ -92,18 +94,29 @@ public class RuleEditTableModel {
         }
         return true;
     }
-public List<Node> getGroupedConditionList(){
-    List<Node> list = new ArrayList<Node>();
-    for(Node n: nodeList){
-        if(n.isLeaf() == false){
-            list.addAll(n.getAllChildren());
+    private List<Node> getAllNodeList(){
+        List<Node> list = new ArrayList<Node>();
+        for (Node n : nodeList) {
+            if (n.isLeaf() == false) {
+                list.addAll(n.getAllChildren());
+            }
         }
+        return list;
     }
-    return list;
-}
+    public List<Node> getGroupedConditionList() {
+        List<Node> list = new ArrayList<Node>();
+        List<Node> all = getAllNodeList();
+        for (Node n : all) {
+            if (n.isLeaf() && n.parent!= null ) {
+                list.add(n);
+            }
+        }
+        return list;
+    }
+
     public List<Node> getTreeTableRootNodeList() {
         List<Node> list = new ArrayList<Node>();
-        for (Widget w: widgetList) {
+        for (Widget w : widgetList) {
             if (w instanceof TreeTable) {
                 TreeTable t = (TreeTable) w;
                 list.add(t.getRootNodeWidget().getNode());
@@ -114,7 +127,7 @@ public List<Node> getGroupedConditionList(){
 
     public List<TreeTable> getTreeTableList() {
         List<TreeTable> list = new ArrayList<TreeTable>();
-        for (Widget w: widgetList) {
+        for (Widget w : widgetList) {
             if (w instanceof TreeTable) {
                 TreeTable t = (TreeTable) w;
                 list.add(t);
@@ -140,35 +153,90 @@ public List<Node> getGroupedConditionList(){
 
         }
     }
-    private boolean isOneOrMoreGroupedConditionSelected(){
+
+    private boolean isOneOrMoreGroupedConditionOrRelationSelected() {
         List<Node> selectedList = getSelectedNodeList();
         List<Node> groupedConditionList = getGroupedConditionList();
-        for(Node n: selectedList){
-           if(groupedConditionList.indexOf(n) == -1){
-              return false;
-           }
+        List<Node> groupRelationList = getGroupedRelationList();
+        List<Node> ungroupNodeList = this.getUngroupedNodeList();
+        
+        for (Node n : selectedList) {
+            if (ungroupNodeList.indexOf(n) != -1) {
+                return false;
+            }
         }
-        if(selectedList.size() == 1){
-            if(groupedConditionList.indexOf(selectedList.get(0)) != -1){
+        if (selectedList.size() == 1) {
+            if (groupedConditionList.indexOf(selectedList.get(0)) != -1) {
                 return true;
             }
-        }else if (selectedList.size() == 2){
-            if(selectedList.get(0).getParent() == selectedList.get(1).getParent()){
+            if(groupRelationList.indexOf(selectedList.get(0)) != -1){
                 return true;
             }
-        }else{
+        } else if (selectedList.size() == 2) {
+            if (selectedList.get(0).getParent() == selectedList.get(1).getParent()
+                    && selectedList.get(0).isLeaf() == true
+                    && selectedList.get(1).isLeaf() == true) {
+                return true;
+            }
+        } else {
             // more than two, have to from the save parent
-            for(int i=0;i<selectedList.size()-1;i++){
-                if(selectedList.get(i).getParent() !=
-                    selectedList.get(i+1).getParent()){
+            for (int i = 0; i < selectedList.size() - 1; i++) {
+                if (selectedList.get(i).getParent() != selectedList.get(i + 1).getParent()) {
                     return false;
                 }
             }
             return true;
-            
+
         }
         return false;
     }
+
+    private List<Node> getGroupedRelationList() {
+        List<Node> list = new ArrayList<Node>();
+        List<Node> all = getAllNodeList();
+        for(Node n: all){
+            if(n.isLeaf() == false && n.getParent() != null){
+                list.add(n);
+            }
+        }
+        return list;
+    }
+    private List<Node> getSelectedGroupedRelationList(){
+        List<Node> selectedList = getSelectedNodeList();
+        List<Node> selectedGroupedRelationList = new ArrayList<Node>();
+        List<Node> groupedRelationList = getGroupedRelationList();
+        for(Node selectedNode :selectedList ){
+            if(groupedRelationList.indexOf(selectedNode) != -1){
+                selectedGroupedRelationList.add(selectedNode);
+            }
+        }
+        return selectedGroupedRelationList;
+    }
+    private boolean isOneGroupedRelationAndOneOrMoreUnGroupedConditionSelected() {
+        List<Node> selectedList = getSelectedNodeList();
+        if (selectedList.size() == 1) {
+            return false;
+        }
+        List<Node> selectedGroupedRelationList = getSelectedGroupedRelationList();
+        if(selectedGroupedRelationList.size() != 1){
+            return false;
+        }
+        selectedList.removeAll(selectedGroupedRelationList);
+        Node selectedGroupedRelation  = selectedGroupedRelationList.get(0);
+   
+        for(Node ungroupedNode: selectedList){
+            if(ungroupedNode.isLeaf() == false || ungroupedNode.parent != null){
+                return false;
+            }
+        }
+        for(Node ungroupedNode: selectedList){
+           if(ungroupedNode.getAllChildren().indexOf(selectedGroupedRelation) != -1){
+               return false;
+           } 
+        }
+        return true;
+    }
+
     public void stateChanged() {
         List<Node> selectedList = getSelectedNodeList();
         if (selectedList.size() == 0) {
@@ -176,38 +244,26 @@ public List<Node> getGroupedConditionList(){
             return;
         }
         state = IllegalSelection;
-        
+
         List<Node> treeNodeList = getTreeTableRootNodeList();
         if (selectedList.size() == 1) {
             Node w = selectedList.get(0);
             if (treeNodeList.indexOf(w) >= 0) {
                 state = SingleUnGroupedRelationSelected;
-                // }else if (w.getNode().isLeaf() && w.getNode().getParent() != null) {
-                // state = SingleGroupedConditionSelected;
-                // disable all other grouped condition not in the same parent
-                // } else if(w.getNode().isLeaf() == false && w.getNode().getParent() != null) {
-                // state = SingleGroupedRelationSelected;
-                // disable all of its child and all other grouped condition and its parent
             }
         } else if (selectedList.size() >= 2) {
             if (isMoreThanOnUnGroupedConditionAndUnGroupedRelationSelected(selectedList)) {
                 state = MoreThanOneUnGroupedConditionAndUnGroupedRelationSelected;
             }
-            // if (isAllInUngroupedNodeWidgetList(selectedList)) {
-            // state = MoreThanOneUnGroupedConditionSelected;
-            // }else if (isAllInUngroupedRelationWidgetList(selectedList)) {
-            // state = MoreThanOneUnGroupedRelationSelected;
-            // } else if (isAllInGroupedConditionWidgetInSameLevelList(selectedList)) {
-            // state = MoreThanOneGroupedConditionInSameLevelSelected;
-            // }
-
         }
-        if(isOneOrMoreGroupedConditionSelected()){
-            state = OneOrMoreGroupedConditionSelected;
+        if (isOneOrMoreGroupedConditionOrRelationSelected()) {
+            state = OneOrMoreGroupedConditionOrRelationSelected;
+        }
+        if (isOneGroupedRelationAndOneOrMoreUnGroupedConditionSelected()) {
+            state = OneGroupedRelationAndOneOrMoreUnGroupedConditionSelected;
         }
 
     }
-
 
     public String getState() {
         return state;
@@ -224,26 +280,24 @@ public List<Node> getGroupedConditionList(){
                 nodeList.remove(w);
             }
             nodeList.add(andNode);
-        }        
+        }
+        dump() ;
         reBuildWidgetList();
-        
+
     }
 
     public void doOr() {
         List<Node> selectedList = getSelectedNodeList();
-        System.out.println("selected:"+selectedList);
-        System.out.println(nodeList);
         if (MoreThanOneUnGroupedConditionAndUnGroupedRelationSelected.equals(state)) {
             Node<Token> orNode = new Node<Token>();
             orNode.setUserObject(Token.createOrToken());
             for (Node w : selectedList) {
                 orNode.addNode(w);
-                System.out.println(nodeList);
                 nodeList.remove(w);
             }
-            System.out.println(nodeList);
             nodeList.add(orNode);
         }
+        dump() ;
         reBuildWidgetList();
     }
 
@@ -259,105 +313,93 @@ public List<Node> getGroupedConditionList(){
             }
             nodeList.remove(w);
         }
+        dump() ;
         reBuildWidgetList();
     }
 
     public void doUnDo() {
-        if(undoStack.size() == 1){
+        if (undoStack.size() == 1) {
             return;
         }
         List<Node<Token>> historyStep = this.undoStack.pop();
-        
-        List<Node<Token>> clonedList = new ArrayList<Node<Token>>();
-        for(Node<Token> n: historyStep){
-            clonedList.add(n.clone());
-        }
-        redoStack.push(clonedList);
+        redoStack.push(historyStep);
         historyStep = this.undoStack.peek();
-        nodeList = historyStep;
-        reBuildWidgetList();        
-    }
-
-    public void doReDo() {
-        if(redoStack.size() == 0){
-            return;
-        }
-        List<Node<Token>> historyStep = this.redoStack.pop();
-
-        List<Node<Token>> clonedList = new ArrayList<Node<Token>>();
-        for(Node<Token> n: historyStep){
-            clonedList.add(n.clone());
-        }
-        undoStack.push(clonedList);
-        
-
         nodeList = historyStep;
         reBuildWidgetList();
     }
 
-    // private void removeTreeTableForItsRootNodeWidget(NodeWidget rootNodeWidget) {
-    // List<TreeTable> list = getTreeTableList();
-    // for (TreeTable tt : list) {
-    // if (rootNodeWidget == tt.getRootNodeWidget()) {
-    // widgetList.remove(tt);
-    // }
-    // }
-    // }
-
+    public void doReDo() {
+        if (redoStack.size() == 0) {
+            return;
+        }
+        List<Node<Token>> historyStep = this.redoStack.pop();
+//        List<Node<Token>> clonedList = new ArrayList<Node<Token>>();
+  //      for (Node<Token> n : historyStep) {
+    //        clonedList.add(n.clone());
+      //  }
+        undoStack.push(historyStep);
+        nodeList = historyStep;
+        reBuildWidgetList();
+    }
     public void doRemoveFromGroup() {
         List<Node> selectedList = getSelectedNodeList();
-        
-        for (Node node: selectedList) {
+
+        for (Node node : selectedList) {
             Node parent = node.getParent();
-            if(parent == null){ // for removing all children
+            if (parent == null) { // for removing all children
                 break;
             }
             node.removeFromParent();
             this.nodeList.add(node);
-            if(parent.children().size() == 1){
-               Node child = (Node)parent.children().get(0);
-               child.removeFromParent();
-               this.nodeList.add(child);
-               this.nodeList.remove(parent);
+            if (parent.children().size() == 1) {
+                Node child = (Node) parent.children().get(0);
+                child.removeFromParent();
+                this.nodeList.add(child);
+                this.nodeList.remove(parent);
             }
+        }
+        dump() ;
+        reBuildWidgetList();
+    }
+    public void doAddToGroup(){
+        // should only have one
+        Node groupedRelation = getSelectedGroupedRelationList().get(0);
+        List<Node> selectedList = getSelectedNodeList();
+        selectedList.remove(groupedRelation);
+        for(Node n: selectedList){
+            groupedRelation.addNode(n);
+            this.nodeList.remove(n);
         }
         reBuildWidgetList();
     }
-    private void nodeClicked(){
+    private void nodeClicked() {
         System.out.println("clicked:" + state);
 
     }
-    private void reBuildWidgetList(){
-        System.out.println("rebuild from:"+nodeList);
+
+    private void reBuildWidgetList() {
         widgetList.clear();
-        for(Node<Token> n : nodeList){
-            if(n.isLeaf()){
+        for (Node<Token> n : nodeList) {
+            if (n.isLeaf()) {
                 NodeWidget w = new NodeWidget(n);
                 widgetList.add(w);
-            }else {
-               TreeTable table = new TreeTable();
+            } else {
+                TreeTable table = new TreeTable();
                 table.buildTable(n);
                 widgetList.add(table);
             }
         }
         sortNodeList();
-  
+
         List<NodeWidget> list = getAllNodeWidget();
         for (NodeWidget w : list) {
-            
-           w.installCheckBox();
-      //     w.clearCheckBoxClickHandler();
-        //   w.addCheckBoxClickHandler(new ClickHandler() {
-          //     @Override
-            //   public void onClick(ClickEvent event) {
-              //     nodeClicked();
-              // }
-          // });
+            w.installCheckBox();
         }
         state = IllegalSelection;
-    
+
     }
-    private void sortNodeList(){
+
+    private void sortNodeList() {
         if (nodeList.size() == 2) {
             if (orignalOrder.indexOf(nodeList.get(0)) > orignalOrder.indexOf(nodeList.get(1))) {
                 Node<Token> buffer = nodeList.get(0);
@@ -374,19 +416,9 @@ public List<Node> getGroupedConditionList(){
                 }
             }
         }
-
     }
-    public List<Widget> getWidgetList(){
+    public List<Widget> getWidgetList() {
         return widgetList;
     }
 
 }
-//public void startEditMode() {
-//  for (Widget w : widgetList) {
-//          if (w instanceof NodeWidget) {
-//            ((NodeWidget) w).installCheckBox();
-//      } else if (w instanceof TreeTable) {
-  //        ((TreeTable) w).getRootNodeWidget().installCheckBox();
-    //  }
- // }
-//}
