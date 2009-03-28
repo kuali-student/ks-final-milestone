@@ -2,19 +2,17 @@ package org.kuali.student.brms.internal.common.utils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.xerces.jaxp.datatype.DatatypeFactoryImpl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.apache.xerces.jaxp.datatype.DatatypeFactoryImpl;
 
 public class BusinessRuleUtilTest {
 
