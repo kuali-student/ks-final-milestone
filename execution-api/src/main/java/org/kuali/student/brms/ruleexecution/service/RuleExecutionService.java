@@ -24,11 +24,11 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.common.ws.exceptions.MissingParameterException;
+import org.kuali.student.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;

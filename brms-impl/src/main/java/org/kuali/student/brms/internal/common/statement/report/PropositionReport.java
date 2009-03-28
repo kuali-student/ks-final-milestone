@@ -134,7 +134,7 @@ public class PropositionReport {
 //    }
 
     /**
-     * @return the successMessage
+     * @return the success or failure Message
      */
     public String getMessage() {
         return this.message;
