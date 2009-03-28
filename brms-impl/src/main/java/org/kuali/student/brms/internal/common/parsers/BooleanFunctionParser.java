@@ -1,4 +1,4 @@
-// $ANTLR 3.1.1 BooleanFunction.g 2009-03-27 16:33:06
+// $ANTLR 3.1.1 BooleanFunction.g 2009-03-28 15:21:29
  package org.kuali.student.brms.internal.common.parsers; 
 
 import org.antlr.runtime.*;

@@ -33,7 +33,7 @@ import org.drools.guvnor.server.util.BRLPersistence;
 import org.drools.guvnor.server.util.BRXMLPersistence;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.rules.repository.drools.util.DroolsUtil;
+import org.kuali.student.brms.repository.drools.util.DroolsUtil;
 
 public class DroolsRuleTest 
 {

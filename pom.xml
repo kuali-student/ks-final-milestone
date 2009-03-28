@@ -19,8 +19,6 @@
 	<modules>
 		<module>brms-api</module>
 		<module>brms-impl</module>
-		<module>execution-api</module>
-		<module>execution-impl</module>
 	</modules>
 	
 	<repositories>

@@ -688,69 +688,6 @@ public interface RuleEngineRepository {
     public String compileRuleSetSource(String ruleSetUUID);
 
     /**
-     * Loads a compiled rule set by uuid.
-     * 
-     * @param ruleSetUUID
-     *            Rule set uuid
-     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
-     */
-    //public Object loadCompiledRuleSet(String ruleSetUuid);
-
-    /**
-     * Loads a compiled rule set by rule set name.
-     * 
-     * @param ruleSetUUID
-     *            Rule set uuid
-     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
-     */
-    //public Object loadCompiledRuleSetByName(String ruleSetName);
-
-    /**
-     * Loads a compiled rule set as an array of bytes.
-     * 
-     * @param ruleSetUUID
-     *            Rule set uuid
-     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if compiling a rule set fails
-     */
-    //public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID);
-    
-    /**
-     * Loads a compiled rule set by rule set name as an array of bytes.
-     * 
-     * @param ruleSetName Rule set name
-     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
-     */
-    //public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName);
-
-    /**
-     * Loads a compiled rule set snapshot.
-     * 
-     * @param ruleSetName
-     *            Rule set name
-     * @param snapshotName
-     *            Snapshot name
-     * @return Compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
-     */
-    //public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName);
-
-    /**
-     * Loads a compiled rule set snapshot as an array of bytes.
-     * 
-     * @param ruleSetName
-     *            Rule set name
-     * @param snapshotName
-     *            Snapshot name
-     * @return Compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
-     */
-    //public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName);
-    
-    /**
      * Loads a rule set snapshot.
      * 
      * @param ruleSetName

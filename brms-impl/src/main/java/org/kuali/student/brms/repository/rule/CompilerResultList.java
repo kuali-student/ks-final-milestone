@@ -17,6 +17,8 @@ package org.kuali.student.brms.repository.rule;
 
 import java.util.ArrayList;
 
+import org.drools.definition.KnowledgePackage;
+
 /**
  * This class contains a list of rule and/or rule set compilation errors
  * <code>CompilerResult</code>. 
@@ -31,17 +33,20 @@ public class CompilerResultList
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
-    /** Compilation results for object E.g. Compiling org.drools.rule.Package */
-    private Object object;
+    /** Compilation results for object E.g. Compiling org.drools.definition.KnowledgePackage */
+    private KnowledgePackage knowledgePackage;
 
+    private String source;
+    
     /**
      * Constructs a compilation error list.
      * E.g. Compilation errors for org.drools.rule.Package
      * 
      * @param obj Compilation results for object
      */
-    public CompilerResultList(Object obj) {
-        this.object = obj;
+    public CompilerResultList(KnowledgePackage knowledgePackage, String source) {
+        this.knowledgePackage = knowledgePackage;
+        this.source = source;
     }
 
     /**
@@ -49,7 +54,34 @@ public class CompilerResultList
      * 
      * @return An object
      */
-    public Object getObject() {
-        return this.object;
+    public KnowledgePackage getKnowledgePackage() {
+        return this.knowledgePackage;
+    }
+    
+    /**
+     * Gets the rule source code.
+     * 
+     * @return Rule source code
+     */
+    public String getSource() {
+    	return this.source;
+    }
+    
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n");
+    	sb.append("----- Compiler Result -----");
+    	sb.append("\n");
+    	sb.append("---  Source  ---");
+    	sb.append("\n");
+    	sb.append(this.source);
+    	sb.append("\n");
+    	sb.append("--- Messages ---");
+    	for(CompilerResult result : this) {
+    		sb.append(result.toString());
+        	sb.append("\n");
+    	}
+    	sb.append("---------------------------");
+    	return sb.toString();
     }
 }
