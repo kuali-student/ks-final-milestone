@@ -4,13 +4,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.drools.WorkingMemory;
-import org.drools.WorkingMemoryEventManager;
 import org.drools.audit.WorkingMemoryLogger;
 import org.drools.audit.event.LogEvent;
 import org.drools.event.AfterActivationFiredEvent;
 import org.drools.event.AfterPackageAddedEvent;
 import org.drools.event.AfterPackageRemovedEvent;
 import org.drools.event.BeforeActivationFiredEvent;
+import org.drools.event.KnowledgeRuntimeEventManager;
 import org.drools.event.ObjectInsertedEvent;
 import org.drools.event.ObjectRetractedEvent;
 import org.drools.event.ObjectUpdatedEvent;
@@ -23,7 +23,7 @@ public class DroolsWorkingMemoryStatisticsLogger extends WorkingMemoryLogger {
 	private final ConcurrentMap<String, Long> executionTimeMap = new ConcurrentHashMap<String, Long>();
 	
     public DroolsWorkingMemoryStatisticsLogger(
-    		final WorkingMemoryEventManager workingMemoryEventManager,
+    		final KnowledgeRuntimeEventManager workingMemoryEventManager,
     		final String ruleBaseType,
     		final DroolsExecutionStatistics stats) {
         super(workingMemoryEventManager);

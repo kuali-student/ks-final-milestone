@@ -15,6 +15,8 @@
  */
 package org.kuali.student.brms.ruleexecution.runtime.drools;
 
+import org.junit.Assert;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +28,6 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,7 +51,6 @@ import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.brms.ruleexecution.runtime.drools.util.DroolsUtil;
-import org.kuali.student.brms.ruleexecution.runtime.util.RuleManagementDtoFactory;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.brms.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.brms.rulemanagement.dto.MetaInfoDTO;
@@ -58,6 +58,7 @@ import org.kuali.student.brms.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.brms.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.brms.ruleexecution.util.RuleManagementDtoFactory;
 
 public class RuleSetExecutorDroolsImplTest {
 
@@ -66,7 +67,7 @@ public class RuleSetExecutorDroolsImplTest {
 	/** Rule set executor interface */
 	private static RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
 	private static SimpleExecutor simpleExecutor = new SimpleExecutorDroolsImpl();
-	private static DroolsRuleBase ruleBase = new DroolsRuleBase();
+	private static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
     
@@ -162,7 +163,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -177,7 +178,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -191,7 +192,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -200,7 +201,7 @@ public class RuleSetExecutorDroolsImplTest {
         BusinessRuleInfoDTO brInfoIntersection = generateNewBusinessRuleInfo("2", "Business Rule - Intersection", "CPR101");
 
 		RuleSetDTO ruleSetIntersection = DroolsTestUtil.getIntersectionPropositionRuleSet();
-    	byte[] bytes2 = DroolsTestUtil.createPackage(ruleSetIntersection);
+    	byte[] bytes2 = DroolsTestUtil.createKnowledgePackage(ruleSetIntersection);
     	ruleSetIntersection.setCompiledRuleSet(bytes2);
     	
 		try {
@@ -220,7 +221,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -235,7 +236,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Create rule set
 		RuleSetDTO ruleSetAverage = DroolsTestUtil.getAveragePropositionRuleSet();
-    	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
+    	byte[] bytes1 = DroolsTestUtil.createKnowledgePackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
 		executor.addRuleSet(brInfoAverage, ruleSetAverage);
@@ -368,7 +369,7 @@ public class RuleSetExecutorDroolsImplTest {
         // Rule set source code
     	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
 
-    	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+    	byte[] bytes = DroolsTestUtil.createKnowledgePackage(ruleSet);
         ruleSet.setCompiledRuleSet(bytes);
 
     	YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());
@@ -457,7 +458,7 @@ public class RuleSetExecutorDroolsImplTest {
         // Rule set source code
     	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
 
-    	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+    	byte[] bytes = DroolsTestUtil.createKnowledgePackage(ruleSet);
         ruleSet.setCompiledRuleSet(bytes);
 
     	YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());

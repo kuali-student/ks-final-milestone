@@ -13,32 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.brms.ruleexecution.runtime.service;
+package org.kuali.student.brms.ruleexecution.service;
+
+import org.junit.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
-import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
-import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.brms.ruleexecution.service.RuleExecutionService;
-import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.brms.rulemanagement.entity.BusinessRule;
-import org.kuali.student.brms.rulemanagement.entity.BusinessRuleAdapter;
-import org.kuali.student.brms.rulemanagement.entity.FactStructure;
-import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
+import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
+import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.brms.rulemanagement.entity.BusinessRule;
+import org.kuali.student.brms.rulemanagement.entity.BusinessRuleAdapter;
+import org.kuali.student.brms.rulemanagement.entity.FactStructure;
+import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -107,17 +107,20 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, null);
         Assert.assertNotNull(result);
 
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
         Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
+
+        System.out.println("Successful: " + result.getReport().isSuccessful());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+
         Assert.assertTrue(result.getReport().isSuccessful());
         Assert.assertNotNull(result.getReport().getSuccessMessage());
         Assert.assertNull(result.getReport().getFailureMessage());
-
-        System.out.println("Execution log:\n" + result.getExecutionLog());
-        System.out.println("Error message:\n" + result.getErrorMessage());
-        System.out.println("Success message: " + result.getReport().getSuccessMessage());
-        System.out.println("Failure message: " + result.getReport().getFailureMessage());
     }
 
     @Test
@@ -125,17 +128,20 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRuleTest(businessRuleInfo2, null);
         Assert.assertNotNull(result);
 
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
         Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
+
+        System.out.println("Successful: " + result.getReport().isSuccessful());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+
         Assert.assertFalse(result.getReport().isSuccessful());
         Assert.assertNull(result.getReport().getSuccessMessage());
         Assert.assertNotNull(result.getReport().getFailureMessage());
-
-        System.out.println("Execution log:\n" + result.getExecutionLog());
-        System.out.println("Error message:\n" + result.getErrorMessage());
-        System.out.println("Success message: " + result.getReport().getSuccessMessage());
-        System.out.println("Failure message: " + result.getReport().getFailureMessage());
     }
 
     /**

@@ -105,7 +105,7 @@ public class DroolsTestUtil
 	 * Gets a simple rule. 
 	 * Rule determines whether the minutes of the hour is even.
 	 * Rule takes <code>java.util.Calendar</code> and 
-	 * <code>org.kuali.student.rules.repository.test.Message</code> 
+	 * <code>org.kuali.student.brms.repository.test.Message</code> 
 	 * as fact (package import).
 	 * 
 	 * @return a Drools rule
@@ -118,7 +118,7 @@ public class DroolsTestUtil
      * Gets a simple rule. 
      * Rule determines whether the minutes of the hour is even.
      * Rule takes <code>java.util.Calendar</code> and 
-     * <code>org.kuali.student.rules.repository.test.Message</code> 
+     * <code>org.kuali.student.brms.repository.test.Message</code> 
      * as fact (package import).
      * 
      * @param ruleName Rule name
@@ -141,7 +141,7 @@ public class DroolsTestUtil
 	 * Gets a simple rule. 
 	 * Rule determines whether the minutes of the hour is odd.
 	 * Rule takes <code>java.util.Calendar</code> and 
-	 * <code>org.kuali.student.rules.repository.test.Message</code> 
+	 * <code>org.kuali.student.brms.repository.test.Message</code> 
 	 * as fact (package import).
 	 * 
 	 * @return a Drools rule
@@ -154,7 +154,7 @@ public class DroolsTestUtil
      * Gets a simple rule. 
      * Rule determines whether the minutes of the hour is odd.
      * Rule takes <code>java.util.Calendar</code> and 
-     * <code>org.kuali.student.rules.repository.test.Message</code> 
+     * <code>org.kuali.student.brms.repository.test.Message</code> 
      * as fact (package import).
      * 
      * @param ruleName Rule name
@@ -195,8 +195,8 @@ public class DroolsTestUtil
 
 	/**
 	 * Returns a Drools validation rule.
-	 * Rule takes <code>org.kuali.student.rules.repository.test.Email</code> and 
-	 * <code>org.kuali.student.rules.repository.test.Message</code> 
+	 * Rule takes <code>org.kuali.student.brms.repository.test.Email</code> and 
+	 * <code>org.kuali.student.brms.repository.test.Message</code> 
 	 * as facts (package import).
 	 * 
 	 * @return Drools validation rule
@@ -211,8 +211,8 @@ public class DroolsTestUtil
 
 	/**
 	 * Returns a Drools validation rule.
-	 * Rule takes <code>org.kuali.student.rules.repository.test.Email</code> and 
-	 * <code>org.kuali.student.rules.repository.test.Message</code> 
+	 * Rule takes <code>org.kuali.student.brms.repository.test.Email</code> and 
+	 * <code>org.kuali.student.brms.repository.test.Message</code> 
 	 * as facts (package import).
 	 * 
 	 * @return Drools validation rule

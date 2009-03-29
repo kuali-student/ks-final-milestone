@@ -17,7 +17,7 @@ import org.kuali.student.brms.internal.common.statement.PropositionContainer;
 import org.kuali.student.brms.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
 import org.kuali.student.brms.internal.common.statement.report.RuleReport;
-import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsRuleBase;
+import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.RuleReportBuilderImpl;
@@ -53,7 +53,7 @@ public class RuleReportBuilderTest {
 	private PropositionReport sumReport = new PropositionReport("G", PropositionType.SUM);
 
 	private ReportBuilder ruleReportBuilder;
-    private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
+    private final static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
 
     @BeforeClass

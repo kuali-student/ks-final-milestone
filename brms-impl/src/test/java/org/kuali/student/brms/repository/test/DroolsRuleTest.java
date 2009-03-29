@@ -110,8 +110,8 @@ public class DroolsRuleTest
 		String brl = loadRule( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-drools.brl" );
 		String packageImports = 
 			"import java.util.regex.Pattern;\n" + 
-			"import org.kuali.student.rules.repository.test.Email;\n" +
-			"import org.kuali.student.rules.repository.test.Message;\n";
+			"import org.kuali.student.brms.repository.test.Email;\n" +
+			"import org.kuali.student.brms.repository.test.Message;\n";
 
 		BRLPersistence read = BRXMLPersistence.getInstance();
 		BRLPersistence write = BRDRLPersistence.getInstance();

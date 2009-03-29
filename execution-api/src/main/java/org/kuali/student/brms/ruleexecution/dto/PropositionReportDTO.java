@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.brms.factfinder.dto.FactResultDTO;
 
 /**
  * Proposition report stores the success message and/or failure message after a proposition is applied 

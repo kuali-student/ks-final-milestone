@@ -24,15 +24,15 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
-import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.brms.ruleexecution.dto.AgendaExecutionResultDTO;
+import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
+import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfoDTO;
 
 /**
  * This is the rule execution runtime service interface.

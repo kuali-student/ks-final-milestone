@@ -13,14 +13,14 @@ import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanFunctionResult;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
-import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsRuleBase;
+import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.report.MessageBuilder;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
 
 public class MessageBuilderTest {
 	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
-    private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
+    private final static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
     private MessageBuilder builder;
 
     @BeforeClass
@@ -201,7 +201,7 @@ public class MessageBuilderTest {
 		map.put("resultValue", "60");
 
 		MessageContainer messageContainer = new MessageContainer();
-		String successMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')";
+		String successMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm z')";
 		String successMsg2 = "#set( $difference = ( $mathTool.toNumber($expectedValue) - $mathTool.toNumber($resultValue)) )" +
 				"expectedValue=$expectedValue, resultValue=$resultValue, difference=$difference";
 		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, successMsg1);
@@ -210,7 +210,7 @@ public class MessageBuilderTest {
 		messageContainer.addMessage(bm2);
 		
 		BooleanFunctionResult result = builder.build("M1*M2", messageContainer, map);
-		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm:ss z") + 
+		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm z") + 
 				" AND expectedValue=100, resultValue=60, difference=40", result.getMessage());
 	}
 
@@ -221,7 +221,7 @@ public class MessageBuilderTest {
 		map.put("resultValue", "60");
 
 		MessageContainer messageContainer = new MessageContainer();
-		String failureMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')";
+		String failureMsg1 = "Date created $dateTool.get('yyyy-MM-dd HH:mm z')";
 		String failureMsg2 = "#set( $difference = ( $mathTool.toNumber($expectedValue) - $mathTool.toNumber($resultValue)) )" +
 				"expectedValue=$expectedValue, resultValue=$resultValue, difference=$difference";
 		BooleanMessage bm1 = new BooleanMessageImpl("M1", false, failureMsg1);
@@ -230,7 +230,7 @@ public class MessageBuilderTest {
 		messageContainer.addMessage(bm2);
 		
 		BooleanFunctionResult result = builder.build("M1*M2", messageContainer, map);
-		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm:ss z") + 
+		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm z") + 
 				" AND expectedValue=100, resultValue=60, difference=40", result.getMessage());
 	}
 

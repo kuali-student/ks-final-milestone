@@ -27,7 +27,7 @@
 	<bean id="currentTime" class="java.util.Date" />
 
 	<bean id="ruleMetaData"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleMetaData">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleMetaData">
 		<property name="createdBy" value="Kamal" />
 		<property name="createDate" ref="currentTime" />
 		<property name="updateBy" value="Wil" />
@@ -43,7 +43,7 @@
 	</bean>
 
 	<bean id="agendaType1"
-		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		class="org.kuali.student.brms.rulemanagement.entity.AgendaInfo">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000030" />
 		<property name="type" value="KUALI_STUDENT_ENROLLS_IN_COURSE" />
@@ -60,7 +60,7 @@
 
 
 	<bean id="agendaType2"
-		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		class="org.kuali.student.brms.rulemanagement.entity.AgendaInfo">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000031" />
 		<property name="type"
@@ -76,7 +76,7 @@
 	</bean>
 
 	<bean id="agendaType3"
-		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		class="org.kuali.student.brms.rulemanagement.entity.AgendaInfo">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000055" />
 		<property name="type"
@@ -89,7 +89,7 @@
 		<property name="agendaDeterminationInfoList">
 			<list>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo">
+					class="org.kuali.student.brms.rulemanagement.entity.AgendaDeterminationInfo">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000056" />
 					<property name="structureKey"
@@ -98,7 +98,7 @@
 					<property name="agendaInfo" ref="agendaType3" />
 				</bean>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo">
+					class="org.kuali.student.brms.rulemanagement.entity.AgendaDeterminationInfo">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000057" />
 					<property name="structureKey"
@@ -107,7 +107,7 @@
 					<property name="agendaInfo" ref="agendaType3" />
 				</bean>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo">
+					class="org.kuali.student.brms.rulemanagement.entity.AgendaDeterminationInfo">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000058" />
 					<property name="structureKey"
@@ -121,7 +121,7 @@
 
 
 	<bean id="agendaType4"
-		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		class="org.kuali.student.brms.rulemanagement.entity.AgendaInfo">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000059" />
 		<property name="type"
@@ -134,7 +134,7 @@
 		<property name="agendaDeterminationInfoList">
 			<list>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo">
+					class="org.kuali.student.brms.rulemanagement.entity.AgendaDeterminationInfo">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000060" />
 					<property name="structureKey"
@@ -143,7 +143,7 @@
 					<property name="agendaInfo" ref="agendaType4" />
 				</bean>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo">
+					class="org.kuali.student.brms.rulemanagement.entity.AgendaDeterminationInfo">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000061" />
 					<property name="structureKey"
@@ -152,7 +152,7 @@
 					<property name="agendaInfo" ref="agendaType4" />
 				</bean>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo">
+					class="org.kuali.student.brms.rulemanagement.entity.AgendaDeterminationInfo">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000062" />
 					<property name="structureKey"
@@ -166,7 +166,7 @@
 
 
 	<bean id="businessRuleType1"
-		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
+		class="org.kuali.student.brms.rulemanagement.entity.BusinessRuleType">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000009" />
 		<property name="businessRuleTypeKey" value="KUALI_PRE_REQ" />
@@ -180,7 +180,7 @@
 	</bean>
 
 	<bean id="businessRuleType2"
-		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
+		class="org.kuali.student.brms.rulemanagement.entity.BusinessRuleType">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000010" />
 		<property name="businessRuleTypeKey" value="KUALI_CO_REQ" />
@@ -196,7 +196,7 @@
 
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
 	<bean id="funcBusRule1"
-		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
+		class="org.kuali.student.brms.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000001" />
 		<property name="originalRuleId"
@@ -214,7 +214,7 @@
 		<property name="ruleElements">
 			<list>
 				<bean id="ruleElement1"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000002" />
 					<property name="name" value="PA" />
@@ -227,7 +227,7 @@
 						ref="ruleProposition1" />
 				</bean>
 				<bean id="ruleElement2"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000003" />
 					<property name="name" value="PB" />
@@ -238,7 +238,7 @@
 					<property name="businessRule" ref="funcBusRule1" />
 				</bean>
 				<bean id="ruleElement3"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000004" />
 					<property name="name" value="PC" />
@@ -255,7 +255,7 @@
 	</bean>
 
 	<bean id="ruleProposition1"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000005" />
 		<property name="name" value="P1" />
@@ -270,7 +270,7 @@
 	</bean>
 
 	<bean id="ruleProposition2"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000007" />
 		<property name="name" value="P2" />
@@ -285,17 +285,17 @@
 	</bean>
 
 	<bean id="leftHandSide1"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction1" />
 	</bean>
 
 	<bean id="leftHandSide3"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction3" />
 	</bean>
 
 	<bean id="factStructure1"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000020" />
 		<property name="factStructureId" value="1" />
@@ -308,7 +308,7 @@
 	</bean>
 
 	<bean id="factStructure2"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000021" />
 		<property name="factStructureId" value="2" />
@@ -322,7 +322,7 @@
 	</bean>
 
 	<bean id="factStructure2copy"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000121" />
 		<property name="factStructureId" value="2" />
@@ -336,7 +336,7 @@
 	</bean>
 
 	<bean id="factStructure3"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000022" />
 		<property name="factStructureId" value="3" />
@@ -349,7 +349,7 @@
 	</bean>
 
 	<bean id="yieldValueFunction1"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000006" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
@@ -362,7 +362,7 @@
 	</bean>
 
 	<bean id="yieldValueFunction3"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000008" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
@@ -375,19 +375,19 @@
 	</bean>
 
 	<bean id="rightHandSide1"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />
 	</bean>
 
 	<bean id="rightHandSide3"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />
 	</bean>
 
 
 	<!-- 1 of MATH 100 AND  SUM CREDIT > 12 -->
 	<bean id="funcBusRule2"
-		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
+		class="org.kuali.student.brms.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000011" />
 		<property name="originalRuleId"
@@ -405,7 +405,7 @@
 		<property name="ruleElements">
 			<list>
 				<bean id="ruleElement4"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000012" />
 					<property name="name" value="" />
@@ -418,7 +418,7 @@
 						ref="ruleProposition3" />
 				</bean>
 				<bean id="ruleElement5"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000013" />
 					<property name="name" value="" />
@@ -429,7 +429,7 @@
 					<property name="businessRule" ref="funcBusRule2" />
 				</bean>
 				<bean id="ruleElement6"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000014" />
 					<property name="name" value="" />
@@ -446,7 +446,7 @@
 	</bean>
 
 	<bean id="ruleProposition3"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000015" />
 		<property name="name" value="P3" />
@@ -461,7 +461,7 @@
 	</bean>
 
 	<bean id="ruleProposition4"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000016" />
 		<property name="name" value="P4" />
@@ -475,18 +475,18 @@
 	</bean>
 
 	<bean id="leftHandSide4"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction4" />
 	</bean>
 
 	<bean id="leftHandSide5"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction5" />
 	</bean>
 
 
 	<bean id="factStructure5"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000024" />
 		<property name="factStructureId" value="5" />
@@ -499,7 +499,7 @@
 	</bean>
 
 	<bean id="factStructure6"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000025" />
 		<property name="factStructureId" value="6" />
@@ -513,7 +513,7 @@
 	</bean>
 
 	<bean id="factStructure7"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000026" />
 		<property name="factStructureId" value="7" />
@@ -527,7 +527,7 @@
 	</bean>
 
 	<bean id="yieldValueFunction4"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000017" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
@@ -540,7 +540,7 @@
 	</bean>
 
 	<bean id="yieldValueFunction5"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000018" />
 		<property name="yieldValueFunctionType" value="SUM" />
@@ -552,12 +552,12 @@
 	</bean>
 
 	<bean id="rightHandSide4"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />
 	</bean>
 
 	<bean id="rightHandSide5"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="12.0" />
 	</bean>
 
@@ -570,7 +570,7 @@
 		(c) 6 credits of 200-level Psychology (but not 205 or 263).
 	-->
 	<bean id="funcBusRule3"
-		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
+		class="org.kuali.student.brms.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000032" />
 		<property name="originalRuleId"
@@ -590,7 +590,7 @@
 		<property name="ruleElements">
 			<list>
 				<bean id="ruleElement31"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-1000000000033" />
 					<property name="name" value="E1" />
@@ -601,7 +601,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement32"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000034" />
 					<property name="name" value="E2" />
@@ -614,7 +614,7 @@
 						ref="ruleProposition31" />
 				</bean>
 				<bean id="ruleElement33"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-1000000000035" />
 					<property name="name" value="E3" />
@@ -625,7 +625,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement34"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000036" />
 					<property name="name" value="E4" />
@@ -636,7 +636,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement35"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-1000000000037" />
 					<property name="name" value="E5" />
@@ -647,7 +647,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement36"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-10000000038" />
 					<property name="name" value="E6" />
@@ -660,7 +660,7 @@
 						ref="ruleProposition32" />
 				</bean>
 				<bean id="ruleElement37"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-1000000000039" />
 					<property name="name" value="E7" />
@@ -671,7 +671,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement38"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000040" />
 					<property name="name" value="E8" />
@@ -682,7 +682,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement39"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-1000000000041" />
 					<property name="name" value="E9" />
@@ -693,7 +693,7 @@
 					<property name="businessRule" ref="funcBusRule3" />
 				</bean>
 				<bean id="ruleElement40"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-10000000042" />
 					<property name="name" value="E10" />
@@ -706,7 +706,7 @@
 						ref="ruleProposition33" />
 				</bean>
 				<bean id="ruleElement41"
-					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+					class="org.kuali.student.brms.rulemanagement.entity.RuleElement">
 					<property name="id"
 						value="11223344-1122-1122-1112-1000000000043" />
 					<property name="name" value="E11" />
@@ -722,7 +722,7 @@
 
 	<!--  Pre req for PSYC 200 -->
 	<bean id="ruleProposition31"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000044" />
 		<property name="name" value="P31" />
@@ -738,12 +738,12 @@
 	</bean>
 
 	<bean id="leftHandSide31"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction31" />
 	</bean>
 
 	<bean id="yieldValueFunction31"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000045" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
@@ -756,7 +756,7 @@
 	</bean>
 
 	<bean id="factStructure311"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000046" />
 		<property name="factStructureId" value="311" />
@@ -770,7 +770,7 @@
 	</bean>
 
 	<bean id="factStructure312"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000047" />
 		<property name="factStructureId" value="312" />
@@ -780,7 +780,7 @@
 		<property name="paramValueSet">
 			<set>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
+					class="org.kuali.student.brms.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey"
 						value="factParam.studentId" />
 					<property name="value"
@@ -793,7 +793,7 @@
         <property name="translationKeySet">
             <set>
                 <bean
-                    class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+                    class="org.kuali.student.brms.rulemanagement.entity.FactStructureTranslationKey">
                     <property name="translationKey" value="key.proposition.column.intersection" />
                     <property name="value" value="resultColumn.cluId" />
                     <property name="factStructure" ref="factStructure312" />
@@ -804,13 +804,13 @@
 	</bean>
 
 	<bean id="rightHandSide31"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />
 	</bean>
 
 	<!--  Pre req for PSYC 201 and PSYC 202 -->
 	<bean id="ruleProposition32"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000048" />
 		<property name="name" value="P32" />
@@ -826,12 +826,12 @@
 	</bean>
 
 	<bean id="leftHandSide32"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction32" />
 	</bean>
 
 	<bean id="yieldValueFunction32"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000049" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
@@ -844,7 +844,7 @@
 	</bean>
 
 	<bean id="factStructure321"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000050" />
 		<property name="factStructureId" value="321" />
@@ -858,7 +858,7 @@
         <property name="translationKeySet">
             <set>
                 <bean
-                    class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+                    class="org.kuali.student.brms.rulemanagement.entity.FactStructureTranslationKey">
                     <property name="translationKey" value="key.proposition.column.intersection" />
                     <property name="value" value="resultColumn.cluId" />
                     <property name="factStructure" ref="factStructure321" />
@@ -868,7 +868,7 @@
 	</bean>
 
 	<bean id="factStructure322"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000051" />
 		<property name="factStructureId" value="322" />
@@ -878,7 +878,7 @@
 		<property name="paramValueSet">
 			<set>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
+					class="org.kuali.student.brms.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey"
 						value="factParam.studentId" />
 					<property name="value"
@@ -892,7 +892,7 @@
         <property name="translationKeySet">
             <set>
                 <bean
-                    class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+                    class="org.kuali.student.brms.rulemanagement.entity.FactStructureTranslationKey">
                     <property name="translationKey" value="key.proposition.column.intersection" />
                     <property name="value" value="resultColumn.cluId" />
                     <property name="factStructure" ref="factStructure322" />
@@ -902,13 +902,13 @@
 	</bean>
 
 	<bean id="rightHandSide32"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="2" />
 	</bean>
 
 	<!--  6 credits of 200-level Psychology courses (but not 205 or 263) -->
 	<bean id="ruleProposition33"
-		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
+		class="org.kuali.student.brms.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000052" />
 		<property name="name" value="P33" />
@@ -924,12 +924,12 @@
 	</bean>
 
 	<bean id="leftHandSide33"
-		class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction33" />
 	</bean>
 
 	<bean id="yieldValueFunction33"
-		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
+		class="org.kuali.student.brms.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000053" />
 		<property name="yieldValueFunctionType" value="SUM" />
@@ -941,7 +941,7 @@
 	</bean>
 
 	<bean id="factStructure331"
-		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		class="org.kuali.student.brms.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000054" />
 		<property name="factStructureId" value="331" />
@@ -954,7 +954,7 @@
 		<property name="paramValueSet">
 			<set>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
+					class="org.kuali.student.brms.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey"
 						value="factParam.studentId" />
 					<property name="value"
@@ -963,7 +963,7 @@
 						ref="factStructure331" />
 				</bean>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
+					class="org.kuali.student.brms.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey"
 						value="factParam.clusetId" />
 					<!--  In real application it will be a clusetId for PSYC 200 level courses -->
@@ -973,7 +973,7 @@
 						ref="factStructure331" />
 				</bean>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
+					class="org.kuali.student.brms.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey"
 						value="factParam.excludeCluSet" />
 					<property name="value" value="PSYC 205, PSYC 263" />
@@ -985,7 +985,7 @@
 		<property name="translationKeySet">
 			<set>
 				<bean
-					class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+					class="org.kuali.student.brms.rulemanagement.entity.FactStructureTranslationKey">
                     <property name="translationKey" value="key.proposition.column.sum" />
                     <property name="value" value="resultColumn.credit" />
 					<property name="factStructure" ref="factStructure331" />
@@ -996,7 +996,7 @@
 	</bean>
 
 	<bean id="rightHandSide33"
-		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
+		class="org.kuali.student.brms.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="6.0" />
 	</bean>
 

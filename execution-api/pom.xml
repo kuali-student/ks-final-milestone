@@ -15,8 +15,6 @@
 	<name>KS BRMS EXECUTION API</name>
 	<description />
 	
-
-	
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
@@ -24,4 +22,5 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	
 </project>
