@@ -20,7 +20,7 @@
 	<context:annotation-config/>
 	
     <bean id="systemPropertyConfigurer"
-        class="org.kuali.student.poc.common.util.SystemPropertyConfigurer">
+        class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties">
             <map>
                 <entry key="derby.stream.error.file"
@@ -30,7 +30,7 @@
     </bean>
 
 	<bean id="propertyConfigurer"
-		class="org.kuali.student.poc.common.util.ModPropertyPlaceholderConfigurer">
+		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:META-INF/jdbc.properties</value>
@@ -40,14 +40,14 @@
 	</bean>
 
 	<bean id="dataSource"
-		class="org.kuali.student.poc.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
+		class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
 		destroy-method="close" depends-on="systemPropertyConfigurer">
 		<property name="uniqueResourceName" value="dataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties">
             <bean
-                class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
+                class="org.kuali.student.common.util.PropertiesFilterFactoryBean">
                 <property name="propertyFile"
                     value="classpath:META-INF/jdbc.properties" />
                 <property name="prefix"

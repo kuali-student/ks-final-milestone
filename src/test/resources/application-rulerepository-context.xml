@@ -20,13 +20,13 @@
     <!--*****************************************-->
 
     <bean id="droolsRepository"
-        class="org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl">
+        class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
         <constructor-arg type="org.drools.repository.RulesRepository"
             ref="rulesRepository" />
     </bean>
 
     <bean id="defaultDroolsRepository"
-        class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+        class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
         init-method="clearData"
         destroy-method="shutdownRepository">
         <constructor-arg type="java.lang.String"
@@ -38,12 +38,12 @@
         factory-method="getRepository" />
 
     <bean id="droolsTranslator"
-        class="org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl">
+        class="org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl">
         <property name="ruleSetValidator" ref="ruleSetValidator"/>
     </bean>
 
     <bean id="ruleSetValidator"
-        class="org.kuali.student.rules.translators.drools.RuleSetValidatorDroolsImpl">
+        class="org.kuali.student.brms.translators.drools.RuleSetValidatorDroolsImpl">
     </bean>
 
     <!--*****************************************-->
@@ -51,11 +51,11 @@
     <!--*****************************************-->
 
     <bean id="ruleRepositoryClient"
-        class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+        class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
         <property name="wsdlLocation"
             value="classpath:wsdl/RuleRepositoryService.wsdl" />
         <property name="serviceEndpointInterface"
-            value="org.kuali.student.rules.repository.service.RuleRepositoryService" />
+            value="org.kuali.student.brms.repository.service.RuleRepositoryService" />
         <property name="serviceQNameString"
             value="{http://student.kuali.org/wsdl/brms/RuleRepository}RuleRepositoryService" />
         <property name="address"
@@ -67,7 +67,7 @@
     <!--*****************************************-->
 
     <bean id="ruleRepositoryServiceImpl"
-        class="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl">
+        class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
             <property name="ruleEngineRepository" ref="droolsRepository"/>
             <property name="ruleSetTranslator" ref="droolsTranslator"/>
     </bean>
