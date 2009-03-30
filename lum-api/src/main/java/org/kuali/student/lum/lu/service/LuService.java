@@ -196,6 +196,36 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
 	 */
     public List<LuStatementTypeInfo> getLuStatementTypesForLuStatementType(@WebParam(name="luStatementTypeKey")String luStatementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * 
+     *  Retrieves the natural language translation for a particular statement directly attached to a CLU in a particular context.
+     * 
+     * @param cluId learning unit statement identifier
+     * @param luStatementId learning unit statement identifier
+     * @param nlUsageTypeKey context for natural language translation
+     * @return natural language translation for a particular statement directly attached to a CLU in a particular context
+     * @throws DoesNotExistException luStatementTypeKey not found
+     * @throws InvalidParameterException invalid luStatementTypeKey
+     * @throws MissingParameterException missing luStatementTypeKey
+     * @throws OperationFailedException unable to complete request
+     */
+    public String getNaturalLanguageForLuStatement(@WebParam(name="cluId")String cluId, @WebParam(name="luStatementId")String luStatementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /**
+     * 
+     * Retrieves the natural language translation for a particular requirement component in a particular context.
+     * 
+     * @param reqComponentId requirement component identifier
+     * @param nlUsageTypeKey context for natural language translation
+     * @return natural language translation for a particular requirement component in a particular context
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public String getNaturalLanguageForReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    
     /** 
      * Retrieves the list of requirement component types known by this service.
      * @return list of requirement component types

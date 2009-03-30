@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.kuali.student.core.dto.TypeInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ReqComponentTypeInfo extends TypeInfo {
-
+public class ReqComponentTypeInfo extends TypeInfo {  
     private static final long serialVersionUID = 1L;
 }

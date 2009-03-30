@@ -1373,6 +1373,18 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+	    return null;
+	}
+	
+	@Override
+	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+	    return null;
+	}
 
 	@Override
 	public List<String> getRelatedCluIdsByCluId(String cluId,

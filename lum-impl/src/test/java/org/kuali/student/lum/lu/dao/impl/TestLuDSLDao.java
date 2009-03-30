@@ -16,6 +16,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.LuStatementType;
+import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -37,5 +38,18 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
         
         assertNotNull(reqCompTypeList);
         assertEquals(3, reqCompTypeList.size());
+    }
+    
+    @Test
+    public void testGetReqCompNLTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList");
+        
+        List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
+        
+        assertEquals(templates.size(), 1);
+        
+        ReqComponentTypeNLTemplate template = templates.get(0);
+        assertEquals("KUALI.CATALOG", template.getName());
+        assertEquals("COURSE_LIST_CATALOG_VEL_TEMPLATE", template.getValue());
     }
 }

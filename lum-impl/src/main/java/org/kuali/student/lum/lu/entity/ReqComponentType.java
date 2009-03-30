@@ -19,7 +19,10 @@ public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ReqComponentTypeAttribute> attributes;
-    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<ReqComponentTypeNLTemplate> nlUsageTemplates;	
+	
     @ManyToMany
     @JoinTable(name = "KSLU_REQCOMTYP_JN_REQCOMFLDTYP", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"))
     private List<ReqComponentFieldType> reqCompFieldTypes;
@@ -41,5 +44,13 @@ public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
 
     public void setReqCompFieldTypes(List<ReqComponentFieldType> reqCompFieldTypes) {
         this.reqCompFieldTypes = reqCompFieldTypes;
-    }	
+    }
+
+    public List<ReqComponentTypeNLTemplate> getNlUsageTemplates() {
+        return nlUsageTemplates;
+    }
+
+    public void setNlUsageTemplates(List<ReqComponentTypeNLTemplate> nlUsageTemplates) {
+        this.nlUsageTemplates = nlUsageTemplates;
+    }
 }
