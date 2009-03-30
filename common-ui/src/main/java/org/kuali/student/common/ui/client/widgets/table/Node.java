@@ -68,6 +68,9 @@ public class Node<T> {
         childrenList.remove(child);
         child.setParent(null);
     }
+    public void removeAllChildren(){
+        childrenList.clear();
+    }
 
     public boolean isNodeChild(Node aNode) {
         boolean retval;
@@ -300,7 +303,7 @@ public class Node<T> {
     }
 
     public static void main(String[] argv) {
-        Node root = new Node();
+/*        Node root = new Node();
         root.setUserObject("root");
         Node r = new Node();
         r.setUserObject("r");
@@ -328,6 +331,10 @@ public class Node<T> {
         x.addNode(y);
         x.addNode(z);
         System.out.println(x.deepTrans(x.clone()));
-
+*/        
+        ExpressionParser p = new ExpressionParser();
+        Node<Token> n = p.parse("(a or b) and c or d and f");
+        System.out.println(n);
+        System.out.println(ExpressionParser.getExpressionString(n));
     }
-}
+}   

@@ -17,6 +17,7 @@ public class ExpressionParser {
     public List<String> getErrorMessage(){
         return errorMessageList;
     }
+    
     public Node<Token> parse(String expression) {
         errorMessageList = new ArrayList<String>();
         List<String> tokenValueList = getTokenValue(expression);
@@ -34,6 +35,54 @@ public class ExpressionParser {
         ruleRoot = orderLeafChildren(ruleRoot, tokenList );
         ruleRoot = orderNonLeafChildren(ruleRoot, tokenList );
         return ruleRoot;
+    }
+    public static String getExpressionString(Node root){
+        while(root.getChildCount()> 1){
+            List<List<Node>> level = root.toLevel();
+            for(Node<Token> n: level.get(level.size()-1)){
+                if(n.isLeaf() && n.getParent() != null){
+                    Node parent = n.getParent();
+                    StringBuilder sb = new StringBuilder();
+                    
+                    
+                    if(parent.getChildAt(0).getUserObject() instanceof ExpressionNode
+                            && parent.getChildAt(0).getUserObject() instanceof ExpressionNode
+                        && (( ExpressionNode)parent.getChildAt(0).getUserObject()).token.type == Token.Or
+                        && (( Token)parent.getUserObject()).type == Token.And){
+                        sb.append("("+parent.getChildAt(0).getUserObject().toString()+")");
+                    }else{
+                        sb.append(parent.getChildAt(0).getUserObject().toString());    
+                    }
+                    
+                    
+                    for(int i=1;i<parent.getChildCount();i++){
+                        Node child = parent.getChildAt(i);
+
+                        if(parent.getChildAt(i).getUserObject() instanceof ExpressionNode
+                                && parent.getChildAt(i).getUserObject() instanceof ExpressionNode
+                            && (( ExpressionNode)parent.getChildAt(i).getUserObject()).token.type == Token.Or
+                            && (( Token)parent.getUserObject()).type == Token.And){
+                            sb.append(parent.getUserObject().toString()+ "( "+
+                                    child.getUserObject().toString()+")");
+
+                        }else{
+                            sb.append(" "+parent.getUserObject().toString()+ " "+
+                                    child.getUserObject().toString());
+                        }
+                    }
+                    ExpressionNode expressionNode = new ExpressionNode();
+                    expressionNode.token = (Token)parent.getUserObject();
+                    expressionNode.expression = sb.toString();
+                    parent.setUserObject(expressionNode);
+                    parent.removeAllChildren();
+                    break;
+                }
+            }
+            
+        }
+        
+        
+        return root.getUserObject().toString();
     }
     private Node<Token> orderNonLeafChildren(Node<Token> binaryTree,List<Token> tokenList ) {
         List<Node> list = binaryTree.getNonLeafChildren();

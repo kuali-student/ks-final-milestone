@@ -41,11 +41,6 @@ public class RuleEditTable extends FlexTable {
         
 
     }
-    public void doUngroup(){
-        getModel().doUngroup();
-        refresh();
-    }
-
     public void doRemoveFromGroup(){
         getModel().doRemoveFromGroup();
         refresh();

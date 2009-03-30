@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class RuleEditButtonBar extends FlowPanel {
   private Button andButton = new Button("And");
   private Button orButton = new Button("Or");
-  private Button ungroupButton = new Button("Ungroup");
+//  private Button ungroupButton = new Button("Ungroup");
   private Button removeFromGroupButton = new Button("Remove from Group");
   private Button addToGroupButton = new Button("Add to Group");
   private Button undoButton = new Button("Undo");
@@ -19,7 +19,7 @@ public class RuleEditButtonBar extends FlowPanel {
   public RuleEditButtonBar(){
       add(andButton);
       add(orButton);
-      add(ungroupButton);
+//      add(ungroupButton);
       add(removeFromGroupButton);
       add(addToGroupButton);
       add(undoButton);
@@ -41,13 +41,6 @@ public class RuleEditButtonBar extends FlowPanel {
           }
       });
 
-      ungroupButton.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-              ruleEditTable.doUngroup();
-              refreshState();
-          }
-      });
       removeFromGroupButton.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
@@ -67,6 +60,7 @@ public class RuleEditButtonBar extends FlowPanel {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doUnDo();
+              refreshState();
           }
       });
       
@@ -74,41 +68,36 @@ public class RuleEditButtonBar extends FlowPanel {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doReDo();
+              refreshState();
           }
       });
   }
   public void setRuleEditTable(RuleEditTable t){
       ruleEditTable = t;
-      
   }
 
 
   private void disableAllButton(){
       andButton.setEnabled(false);
       orButton.setEnabled(false);
-      ungroupButton.setEnabled(false);
+  //    ungroupButton.setEnabled(false);
       removeFromGroupButton.setEnabled(false);
       addToGroupButton.setEnabled(false);
      undoButton.setEnabled(false);
      redoButton.setEnabled(false);
   }
-  
-  
-  
+
   public void refreshState(){
-      String state = ruleEditTable.getModel().getState();
       disableAllButton();
-      if(RuleEditTableModel.NoSelection.equals(state)){
-          disableAllButton();
-      }else if (RuleEditTableModel.SingleUnGroupedRelationSelected.equals(state)){
-          ungroupButton.setEnabled(true);
-      }else if (RuleEditTableModel.OneOrMoreGroupedConditionOrRelationSelected.equals(state)){
-           removeFromGroupButton.setEnabled(true);
-      }else if (RuleEditTableModel.OneGroupedRelationAndOneOrMoreUnGroupedConditionSelected.equals(state)){
-           addToGroupButton.setEnabled(true);
-      }else if(RuleEditTableModel.MoreThanOneUnGroupedConditionAndUnGroupedRelationSelected.equals(state)){
+      if( ruleEditTable.getModel().isAddOrOrable()){
           andButton.setEnabled(true);
           orButton.setEnabled(true);
+      }
+      if(ruleEditTable.getModel().isAddable()){
+          addToGroupButton.setEnabled(true);
+      }
+      if(ruleEditTable.getModel().isRemovable()){
+          removeFromGroupButton.setEnabled(true);
       }
       
       if(ruleEditTable.getModel().canRedo()){
