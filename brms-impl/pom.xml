@@ -47,39 +47,7 @@
             <id>derby-embedded</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <mkdir dir="${drools.repository.directory}" />
-                                        <copy
-                                            file="${drools.repository.derby.in}"
-                                            tofile="${drools.repository.default.out}" />
-                                        <copy
-                                            file="${jdbc.derby.in}"
-                                            tofile="${jdbc.properties.out}" />
-                                        <copy
-                                            file="${application.context.test.in}"
-                                            tofile="${application.context.test.out}" />
-                                        <copy
-                                            file="${jpa.properties.in}"
-                                            tofile="${jpa.properties.out}" />
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            </activation>            
         </profile>
 
         <profile>
@@ -309,6 +277,13 @@
         	<artifactId>xercesImpl</artifactId>
         	<version>2.8.1</version>
         </dependency>
+        
+        <dependency>
+		   <groupId>org.kuali.student.core</groupId>
+		   <artifactId>ks-cxf</artifactId>
+		   <version>0.0.1-SNAPSHOT</version>
+		   <type>pom</type>
+		</dependency>
         
     </dependencies>
 
