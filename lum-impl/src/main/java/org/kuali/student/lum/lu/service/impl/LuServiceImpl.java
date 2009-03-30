@@ -988,6 +988,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetIdList, "cluSetIdList");
+		checkForEmptyList(cluSetIdList, "cluSetIdList");
 		List<CluSet> cluSets = luDao.getCluSetInfoByIdList(cluSetIdList);
 		return LuServiceAssembler.toCluSetInfos(cluSets);
 	}
@@ -997,6 +998,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluIdList, "cluIdList");
+		checkForEmptyList(cluIdList, "cluIdList");
 		List<Clu> clus = luDao.getClusByIdList(cluIdList);
 		return LuServiceAssembler.toCluInfos(clus);
 	}
@@ -1173,6 +1175,7 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException {
 
 		checkForMissingParameter(luDocRelationIdList, "luDocRelationIdList");
+		checkForEmptyList(luDocRelationIdList, "luDocRelationIdList");
 
 		List<LuDocumentRelation> luDocRelationsByIdList = luDao.getLuDocRelationsByIdList(luDocRelationIdList);
 		return  LuServiceAssembler.toLuDocRelationInfos(luDocRelationsByIdList);
@@ -1340,6 +1343,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luiIdList, "luiIdList");
+		checkForEmptyList(luiIdList, "luiIdList");
 		List<Lui> luis = luDao.getLuisByIdList(luiIdList);
 		return LuServiceAssembler.toLuiInfos(luis);
 	}
@@ -2436,6 +2440,19 @@ public class LuServiceImpl implements LuService {
 			throws MissingParameterException {
 		if (param == null) {
 			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
+	/**
+	 * @param param
+	 * @param paramName
+	 * @throws MissingParameterException
+	 */
+	@SuppressWarnings("unused")
+	private void checkForEmptyList(Object param, String paramName)
+			throws MissingParameterException {
+		if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+			throw new MissingParameterException(paramName + " can not be an empty list");
 		}
 	}
 }
