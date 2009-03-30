@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.impl;
 import org.kuali.student.common.ui.client.widgets.KSPopupPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -21,6 +22,13 @@ public class KSPopupPanelImpl extends KSPopupPanelAbstract{
 	//	popup.add(content);
 		
 		setupDefaultStyle();
+		this.addCloseHandler(new CloseHandler(){
+
+            @Override
+            public void onClose(CloseEvent event) {
+                isShowing = false;
+                
+            }});
 	}
 	public int getX(){
 	    //return popup.get.getPopupLeft();
