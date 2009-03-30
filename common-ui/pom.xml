@@ -53,6 +53,11 @@
 			<artifactId>gwt-visualization</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+		      <groupId>com.google.gwt</groupId>
+		      <artifactId>gwt-incubator</artifactId>
+		      <version>1.6</version>
+    	</dependency>
 		
 
 		<dependency>
@@ -145,6 +150,7 @@
 						<configuration>
 							<gwtVersion>${gwtVersion}</gwtVersion>
 							<logLevel>INFO</logLevel>
+							<style>PRETTY</style>
 							<!-- defines which page should be launched when run in hosted mode -->
 							<startupUrl>org.kuali.student.common.ui.CommonUITest/CommonUITest.html</startupUrl>
 							<runTarget>
