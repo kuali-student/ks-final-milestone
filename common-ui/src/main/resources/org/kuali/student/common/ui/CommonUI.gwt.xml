@@ -7,12 +7,17 @@
  
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
-  	<inherits name="com.google.gwt.visualization.Visualization"/> 	
+  	<inherits name="com.google.gwt.visualization.Visualization"/>
+  	<inherits name="com.google.gwt.libideas.ImmutableResources" />
+  	<inherits name="com.google.gwt.libideas.StyleInjector" /> 
   	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
 	<script src="http://www.google.com/jsapi"/>
+	
+	<set-property name="CssResource.style" value="pretty" />
+	<!--
     <stylesheet src="http://www.google.com/uds/modules/gviz/1.0/table/table.css"/>
-  	<stylesheet src="CommonUI.css"/>
-	<!--<stylesheet src="KSGeneral.css"/>
+  	--><!--<stylesheet src="CommonUI.css"/>
+	--><!--<stylesheet src="KSGeneral.css"/>
 	<stylesheet src="KSAccordionMenu.css"/>
 	<stylesheet src="KSAccordionPanel.css"/>
 	<stylesheet src="KSBlockingProgressIndicator.css"/>

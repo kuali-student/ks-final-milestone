@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.css.KSCommonResources;
+import org.kuali.student.common.ui.client.css.KSAccordionPanelCss;
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -25,20 +27,22 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{ 
-	private FlowPanel content = new FlowPanel();
+	
+    private KSAccordionPanelCss css = KSCommonResources.INSTANCE.accordionPanelCss();
+    private FlowPanel content = new FlowPanel();
     private List<AccordionTitleBar> titleBarList = new ArrayList<AccordionTitleBar>();
     private List<Widget> widgetList = new ArrayList<Widget>();
 
 
     public KSAccordionPanelImpl(){
     	initWidget(content);
-        content.setStyleName("KS-Accordian-Panel");
     }
     @Override
     public void addGlobalTitleBarHandler(ClickHandler handler){
@@ -88,7 +92,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
     		widgetList.add(null);
     	}
         content.add(titleBar);
-        content.addStyleName(KSStyles.KS_ACCORDION);
+        content.addStyleName(css.KSAccordion());
         
 
     }
@@ -112,7 +116,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
     	
     	AccordionTitleBar(String name) {
     		KSLabel titleLabel = new KSLabel(name,false); 
-    		titleLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
+    		titleLabel.addStyleName(css.KSAccordionTitlebarLabel());
             add(titleLabel);
             setDefaultStyle();
             addEventHandlers();
@@ -133,10 +137,10 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 		public void setOpen(boolean isOpen) {
 			this.isOpen = isOpen;
 			if(isOpen){
-				addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_OPEN);
+				addStyleName(css.KSAccordionTitlebarOpen());
 			}
 			else{
-				removeStyleName(KSStyles.KS_ACCORDION_TITLEBAR_OPEN);
+				removeStyleName(css.KSAccordionTitlebarOpen());
 			}
 		}
 
@@ -211,18 +215,19 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 		}
         
         private void setDefaultStyle(){
-        	addStyleName(KSStyles.KS_ACCORDION_TITLEBAR);
+            
+        	addStyleName(css.KSAccordionTitlebar());
             addMouseOverHandler(new MouseOverHandler(){
 
     			public void onMouseOver(MouseOverEvent event) {
-    				AccordionTitleBar.this.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_HOVER);
+    				AccordionTitleBar.this.addStyleName(css.KSAccordionTitlebarHover());
     			}
     		});
             
             addMouseOutHandler(new MouseOutHandler(){
 
     			public void onMouseOut(MouseOutEvent event) {
-    				AccordionTitleBar.this.removeStyleName(KSStyles.KS_ACCORDION_TITLEBAR_HOVER);
+    				AccordionTitleBar.this.removeStyleName(css.KSAccordionTitlebarHover());
     				
     			}
     		});
@@ -230,7 +235,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
             addFocusHandler(new FocusHandler(){
 
 				public void onFocus(FocusEvent event) {
-					AccordionTitleBar.this.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_HOVER);
+					AccordionTitleBar.this.addStyleName(css.KSAccordionTitlebarHover());
 					
 				}
 			});
@@ -238,7 +243,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
             addBlurHandler(new BlurHandler(){
 
 				public void onBlur(BlurEvent event) {
-					AccordionTitleBar.this.removeStyleName(KSStyles.KS_ACCORDION_TITLEBAR_HOVER);
+					AccordionTitleBar.this.removeStyleName(css.KSAccordionTitlebarHover());
 					
 				}
 			});
