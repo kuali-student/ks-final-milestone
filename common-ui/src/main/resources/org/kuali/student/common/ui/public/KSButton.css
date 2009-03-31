@@ -1,0 +1,23 @@
+@eval PRIMARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_1;
+@eval PRIMARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_2;
+@eval SECONDARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_1;
+@eval SECONDARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_2;
+
+.KSButton{
+	margin: 2px;
+	color: PRIMARYCOLOR2;   
+	font-weight: bold;
+	font-size: 84%;
+	border-right: 1px solid PRIMARYCOLOR2;
+	border-bottom: 1px solid PRIMARYCOLOR2;
+}
+.KSButtonHover{
+	color: SECONDARYCOLOR2;
+}
+.KSButtonFocus{
+	color: SECONDARYCOLOR2;	
+}
+
+.KSButtonClick{
+	color: SECONDARYCOLOR2;
+}
