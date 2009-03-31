@@ -25,6 +25,6 @@ public interface SecurityContext {
 
     public String getPrincipal();
     
-    public void setPrincipal();
+    public void setPrincipal(String principalId);
      
 }
