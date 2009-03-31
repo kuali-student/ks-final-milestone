@@ -13,7 +13,25 @@
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<context:property-placeholder location="classpath:jdbc.properties" />
+	<bean id="propertyConfigurer"
+		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:core-web.properties</value>
+			</list>
+		</property>
+		<property name="customConfigSystemProperty" value="ks.config.location"/>
+		<property name="order" value="0" />
+	</bean>
+
+	<bean id="systemPropertyConfigurer"
+		class="org.kuali.student.common.util.SystemPropertyConfigurer">
+		<property name="properties">
+			<map>
+				<entry key="ks.db.vendor" value="${db.vendor}" />
+			</map>
+		</property>
+	</bean>
 
 	<bean id="orgDataSource"
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
@@ -21,38 +39,17 @@
 		<property name="uniqueResourceName" value="orgDataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties">
-			<props> 
-				<prop key="databaseName">
-					${jdbc.xaDataSourceProperties.databaseName}
-				</prop>
-
-				<prop key="createDatabase">
-					${jdbc.xaDataSourceProperties.createDatabase}
-				</prop>				
-				<prop key="user">
-					${jdbc.xaDataSourceProperties.user}
-				</prop>
-				<prop key="password">
-					${jdbc.xaDataSourceProperties.password}
-				</prop>
-			</props>
-		</property>
-		<property name="maxPoolSize" value="20" />
+		<property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 	</bean>
 
 	<!-- JPA EntityManagerFactory -->
-	<bean id="jpaConfig"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="classpath:jpa.properties" />
-	</bean>
-
 	<bean id="orgEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
-			<bean class="${jpa.adapter}">
+			<bean class="${jpa.vendorAdapter}">
 				<property name="databasePlatform"
-					value="${jpa.platform}" />
+					value="${jpa.databasePlatform}" />
 				<property name="showSql" value="${jpa.showSql}" />
 				<property name="generateDdl" value="${jpa.generateDdl}" />
 			</bean>
@@ -60,7 +57,7 @@
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/organization-persistence.xml" />
 		<property name="dataSource" ref="orgDataSource" />
-		<property name="jpaPropertyMap" ref="jpaConfig" />
+		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
 
 	<bean id="AtomikosTxMgr"
