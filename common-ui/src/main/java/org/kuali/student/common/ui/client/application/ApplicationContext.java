@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.core.messages.dto.Message;
 
 // TODO find out what we'll really be storing here, and where to get it
@@ -16,6 +17,8 @@ public class ApplicationContext {
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
+	
+	private SecurityContext securityContext;
 	
 	public ApplicationContext() {
 		roles.add("role1");
@@ -75,6 +78,14 @@ public class ApplicationContext {
 	    
 	    return result;
 	}
+
+    public SecurityContext getSecurityContext() {
+        return securityContext;
+    }
+
+    public void setSecurityContext(SecurityContext securityContext) {
+        this.securityContext = securityContext;
+    }
 	
 	
 }
