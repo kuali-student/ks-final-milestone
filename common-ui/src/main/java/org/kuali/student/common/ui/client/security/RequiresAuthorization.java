@@ -27,7 +27,7 @@ public interface RequiresAuthorization {
 
     public boolean isAuthorizationRequired();
     
-    public boolean setAutorizationRequired();
+    public void setAuthorizationRequired(boolean required);
     
     public void checkAuthorization(AuthorizationCallback callback);
 }
