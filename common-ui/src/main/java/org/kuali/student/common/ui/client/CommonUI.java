@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.messages.MessagesService;
+import org.kuali.student.common.ui.client.mvc.test.PersonApplication;
 import org.kuali.student.common.ui.client.widgets.KSResizablePanel;
 import org.kuali.student.core.messages.dto.MessageList;
 
@@ -21,24 +22,29 @@ import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class CommonUI implements EntryPoint {
-    ApplicationContext context;
     
-	public void onModuleLoad() {
-        context = new ApplicationContext();
-        Application.setApplicationContext(context);
-        MessagesService.Util.getInstance("MessageService").getMessages("en", "common", new AsyncCallback<MessageList>(){
-
-            public void onFailure(Throwable caught) {
-                throw new RuntimeException("Unable to load messages", caught);
-            }
-
-            public void onSuccess(MessageList result) {
-                context.addMessages(result.getMessages());
-            }           
-        });
-
-	
-	}
+    
+    public void onModuleLoad() {
+        RootPanel.get().add(new PersonApplication());
+    }
+//    ApplicationContext context;
+//    
+//	public void onModuleLoad() {
+//        context = new ApplicationContext();
+//        Application.setApplicationContext(context);
+//        MessagesService.Util.getInstance("MessageService").getMessages("en", "common", new AsyncCallback<MessageList>(){
+//
+//            public void onFailure(Throwable caught) {
+//                throw new RuntimeException("Unable to load messages", caught);
+//            }
+//
+//            public void onSuccess(MessageList result) {
+//                context.addMessages(result.getMessages());
+//            }           
+//        });
+//
+//	
+//	}
 	
 
 
