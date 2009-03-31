@@ -13,7 +13,7 @@ public class RuleEditTable extends FlexTable {
     
 
     public RuleEditTable() {
-       //super.setBorderWidth(1);
+       super.setBorderWidth(1);
     }
     public void setNodeList(List<Node<Token>> list){
         tableModel.setNodeList(list);

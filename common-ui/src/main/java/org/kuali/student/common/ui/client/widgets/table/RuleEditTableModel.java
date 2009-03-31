@@ -24,7 +24,7 @@ public class RuleEditTableModel extends RuleEditTableModelData {
     }
     // More than one ungrouped node selected
     // or More than one not all grouped node under same parent selected
-    public boolean isAddOrOrable() {
+    public boolean isAndOrOrable() {
         List<Node> selectedList = getSelectedNodeList();
 
         if (selectedList.size() < 2) {

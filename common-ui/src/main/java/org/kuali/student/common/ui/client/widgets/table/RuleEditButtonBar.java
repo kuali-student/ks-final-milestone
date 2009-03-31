@@ -89,7 +89,7 @@ public class RuleEditButtonBar extends FlowPanel {
 
   public void refreshState(){
       disableAllButton();
-      if( ruleEditTable.getModel().isAddOrOrable()){
+      if( ruleEditTable.getModel().isAndOrOrable()){
           andButton.setEnabled(true);
           orButton.setEnabled(true);
       }
