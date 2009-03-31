@@ -77,6 +77,11 @@ padding-left: 1ex;
 	padding: 5px;	
 }
 
+.ks-link-selected{
+	background: silver;
+	font-weight: bold;
+}
+
 .ks-OrgMenu{
 	width: 200px;
 }
@@ -85,6 +90,38 @@ padding-left: 1ex;
 
 }
 
+.KS-Popup-Header {
+	background: #f1c232;
+}
+
+.KS-Popup .KS-Org-Create-Panel {
+	width: 100%;
+}
+
+.KS-Org-Search-Widget-Results {
+	margin: 5px;
+	/*background: #f1c232;
+	border: dashed black thin;
+	padding: 1ex;*/
+}
+
+.KS-Select-Table-Panel .google-visualization-table-table {
+	width: 100%;
+}
+
+.KS-Select-Table-Panel .google-visualization-table-tr-even td {
+	background: #ffd966;
+}
+.KS-Select-Table-Panel .google-visualization-table-tr-odd td {
+	background: #f1c232;
+}
+.KS-Select-Table-Panel .google-visualization-table-tr-sel td {
+  background-color: #ddeeee;
+}
+
+.KS-Select-Table-Panel .google-visualization-table-tr-over td {
+  background-color: #ccdddd;
+}
 
 .KS-Disclosure-Content{
 	border:none;

@@ -15,11 +15,15 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
+import org.kuali.student.common.ui.client.widgets.KSDialogPanel;
 import org.kuali.student.core.organization.dto.OrgInfo;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -50,10 +54,24 @@ public class OrgUpdatePanel extends Composite{
                 orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
 
                     public void onSelection(SelectionEvent<OrgInfo> event) {
-                        OrgInfo o = event.getSelectedItem();                       
-                        OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL);
-                        orgCreatePanel.setOrgId(o.getId());
-                        editPanel.setWidget(orgCreatePanel);
+//                        OrgInfo o = event.getSelectedItem();
+                        final KSDialogPanel modal = new KSDialogPanel();
+                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+
+                            @Override
+                            public void onClick(ClickEvent event) {
+                              modal.hide();
+                            }});
+                        orgCreatePanel.setOrgId(event.getSelectedItem().getId());
+//                        editPanel.setWidget(orgCreatePanel);
+                        ScrollPanel scroll = new ScrollPanel(orgCreatePanel);
+                        scroll.setHeight("40em");
+//                        orgCreatePanel.setOrgId(id);
+                        modal.setHeader("Update Organization");
+                        modal.setWidget(scroll);
+                        modal.setResizable(true);
+                        modal.setAutoHide(true);
+                        modal.show();
                     }
                     
                 });

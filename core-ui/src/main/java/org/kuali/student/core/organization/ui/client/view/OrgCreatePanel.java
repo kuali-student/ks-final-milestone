@@ -44,6 +44,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -78,16 +79,22 @@ public class OrgCreatePanel extends Composite{
     VerticalPanel vPersonRelations;  
     
     boolean loaded = false;
+    ClickHandler closeHandler = null;
     
     
     public OrgCreatePanel(String type){
+        this(type,null);
+    }
+    public OrgCreatePanel(String type, ClickHandler closeHandler) {
         this.type=type;
+        this.closeHandler = closeHandler;
         super.initWidget(vPanel);
     }
     
 
     protected void onLoad(){
         vPanel.setWidth("100%");
+        addStyleName("KS-Org-Create-Panel");
         //vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
         if (!loaded){
             loaded = true;
@@ -104,6 +111,7 @@ public class OrgCreatePanel extends Composite{
             } else if (type.equals(CREATE_ORG_PERSON_RELATIONS)){
                 getOrgPersonRelations(false); 
             }
+            HorizontalPanel buttonBar = new HorizontalPanel();
             KSButton btnCreateOrg = new KSButton("Create");
             
             if (orgId != null){
@@ -126,8 +134,16 @@ public class OrgCreatePanel extends Composite{
                 }
 
             });
+            
+            buttonBar.add(btnCreateOrg);
+            
+            if(closeHandler != null) {
+                KSButton btnClose = new KSButton("Close");
+                btnClose.addClickHandler(closeHandler);
+                buttonBar.add(btnClose);
+            }
 
-            vPanel.add(btnCreateOrg);
+            vPanel.add(buttonBar);
         }
     }
     
@@ -394,8 +410,11 @@ public class OrgCreatePanel extends Composite{
                 }
 
                 public void onSuccess(final List<OrgTypeInfo> orgTypes) {
+                    final Map<String,String> ids = new LinkedHashMap<String,String>();
+                    for(OrgTypeInfo orgTypeInfo:orgTypes){
+                        ids.put(orgTypeInfo.getId(),orgTypeInfo.getName());
+                    }
                     ListItems list = new ListItems() {
-                        Map<String,String> ids = null;
 
                         @Override
                         public List<String> getAttrKeys() {
@@ -414,26 +433,16 @@ public class OrgCreatePanel extends Composite{
 
                         @Override
                         public List<String> getItemIds() {
-                            lazyInit();
                             return new ArrayList<String>(ids.keySet());
-                        }
-
-                        private void lazyInit() {
-                            if(ids == null) {
-                                ids = new LinkedHashMap<String,String>();
-                                for(OrgTypeInfo orgTypeInfo:orgTypes){
-                                    ids.put(orgTypeInfo.getId(),orgTypeInfo.getName());
-                                }
-                            }
                         }
 
                         @Override
                         public String getItemText(String id) {
-                            lazyInit();
                             return ids.get(id);
                         }};
                     orgTypeDropDown.setListItems(list);
-                    orgTypeDropDown.selectItem(orgType);
+                    if(orgType != null)
+                        orgTypeDropDown.selectItem(orgType);
                 }
           });
     }

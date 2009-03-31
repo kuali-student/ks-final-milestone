@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
@@ -36,6 +37,9 @@ import org.kuali.student.core.search.dto.Result;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -82,14 +86,30 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         tb.setWidget(1,0, new KSLabel("Name"));
         tb.setWidget(1,1, orgName);
         
-        tb.setWidget(1,2, new KSButton("Search", new ClickHandler(){
+        final KSButton submit = new KSButton("Search", new ClickHandler(){
             public void onClick(ClickEvent event) {
-                getSearchResults();
+                if(!orgHierarchyDropDown.getSelectedItems().isEmpty())
+                    getSearchResults();
+                else
+                    Window.alert("No Hierarchy Selected");
             }
             
-            }            
-        ));
+        });
+        tb.setWidget(1,2, submit);
 
+        orgName.addKeyPressHandler(new KeyPressHandler() {
+
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                if(event.getCharCode() == KeyCodes.KEY_ENTER)
+                    submit.click();
+            }
+        
+        });
+        
+        //this is a terrible idea
+        tb.addStyleName("KS-Disclosure-Content-Open");
+        
         root.add(tb);
         selectButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -113,6 +133,8 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
             }
         });
         selectButton.setVisible(false);
+        resultPanel.addStyleName("KS-Org-Search-Widget-Results");
+        resultPanel.setVisible(false);
         root.add(resultPanel);
         root.add(selectButton);
     }    
@@ -126,8 +148,11 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
                 }
 
                 public void onSuccess(final List<OrgHierarchyInfo> result) {              
+                    final Map<String,String> ids = new LinkedHashMap<String,String>();
+                    for(OrgHierarchyInfo orgHierarchyInfo:result){
+                        ids.put(orgHierarchyInfo.getId(),orgHierarchyInfo.getName());
+                    }
                     final ListItems list = new ListItems() {
-                        Map<String,String> ids = null;
 
                         @Override
                         public List<String> getAttrKeys() {
@@ -146,22 +171,14 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
 
                         @Override
                         public List<String> getItemIds() {
-                            lazyInit();
                             return new ArrayList<String>(ids.keySet());
                         }
 
                         private void lazyInit() {
-                            if(ids == null) {
-                                ids = new LinkedHashMap<String,String>();
-                                for(OrgHierarchyInfo orgHierarchyInfo:result){
-                                    ids.put(orgHierarchyInfo.getId(),orgHierarchyInfo.getName());
-                                }
-                            }
                         }
 
                         @Override
                         public String getItemText(String id) {
-                            lazyInit();
                             return ids.get(id);
                         }};
                     orgHierarchyDropDown.setListItems(list);
@@ -174,6 +191,10 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
     }
     
     protected void getSearchResults(){
+        KSImage image = new KSImage("images/loading.gif");
+        resultPanel.setWidget(image);
+        resultPanel.setVisible(true);
+        
         List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
         QueryParamValue qpv1 = new QueryParamValue();
         qpv1.setKey("org.queryParam.orgHierarchyId");
