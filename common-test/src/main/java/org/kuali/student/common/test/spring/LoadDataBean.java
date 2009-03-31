@@ -24,7 +24,7 @@ public class LoadDataBean implements ApplicationContextAware{
 
 	private ApplicationContext applicationContext;
 	
-	public void loadData(){
+	public void loadData(boolean isOracle){
 		if (daoAnnotations == null || loaded == true) {
 			return;
 		}
@@ -52,8 +52,8 @@ public class LoadDataBean implements ApplicationContextAware{
 				} 				    				
                 // Load sql file for this dao
                 if (split.length > 2&& !split[2].isEmpty()) {
-            		boolean isOracle="oracle".equals(System.getProperty("ks.db.vendor"));         	        
-				    String testDataFile = split[2];
+
+					String testDataFile = split[2];
 				    File sqlFile;
 				    if(testDataFile.startsWith("classpath:")){
 				 	   sqlFile = new ClassPathResource(testDataFile.substring("classpath:".length())).getFile();
@@ -82,6 +82,17 @@ public class LoadDataBean implements ApplicationContextAware{
 
 	}
 
+	public boolean isOracle(){
+		boolean isOracle=false;
+		try{
+			em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
+			isOracle=true;
+		}catch(Exception e){
+			//Not Oracle 
+		}
+
+		return isOracle;
+	}
 	
 	protected void invokeDataLoader(String dao){
 	    try {

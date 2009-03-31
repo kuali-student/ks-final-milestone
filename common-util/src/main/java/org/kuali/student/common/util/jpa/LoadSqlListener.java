@@ -36,14 +36,7 @@ public class LoadSqlListener implements ApplicationListener,
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent && !loaded) {
-			
-	        boolean isOracle=false;
-        	try{
-	            Class.forName("oracle.jdbc.driver.OracleDriver");
-	            isOracle=true;
- 	        } catch (ClassNotFoundException e) {
-            }
-			
+		
 			for (Entry<String, String> entry : preloadMap.entrySet()) {
 				String sqlFileName = entry.getValue();
 				EntityManagerFactory emf = EntityManagerFactoryUtils
@@ -67,8 +60,21 @@ public class LoadSqlListener implements ApplicationListener,
 				
 				String ln;
 				
+				//Check if oracle
 				TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 				TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
+				boolean isOracle=false;
+				try{
+					em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
+					isOracle=true;
+				}catch(Exception e){
+					//Not Oracle 
+				}finally{
+					jtaTxManager.rollback(txStatus);
+				}
+				
+				txDefinition = new DefaultTransactionDefinition() ;
+				txStatus = jtaTxManager.getTransaction(txDefinition);
 				
 			
 				try {

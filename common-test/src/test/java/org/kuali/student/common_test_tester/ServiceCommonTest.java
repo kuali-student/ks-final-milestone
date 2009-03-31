@@ -24,7 +24,7 @@ import org.springframework.aop.aspectj.SingletonAspectInstanceFactory;
 import org.springframework.aop.framework.ProxyFactory;
 
 @Daos( {
-		@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml"),
+		@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml",testSqlFile="classpath:test.sql"),
 		@Dao("org.kuali.student.common_test_tester.support.OtherDaoImpl") })
 @PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class ServiceCommonTest extends AbstractServiceTest {

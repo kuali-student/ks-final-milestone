@@ -38,8 +38,6 @@
 			<map>
 				<entry key="derby.stream.error.file"
 					value="target/derby.log" />
-				<entry key="ks.db.vendor"
-					value="${db.vendor}" />
 			</map>
 		</property>
 	</bean>

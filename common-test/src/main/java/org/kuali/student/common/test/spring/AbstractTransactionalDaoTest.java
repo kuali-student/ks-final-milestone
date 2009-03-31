@@ -157,11 +157,25 @@ public abstract class AbstractTransactionalDaoTest {
 						BufferedReader in
 						   = new BufferedReader(new FileReader(sqlFile));
 						String ln;
+						
+						//Check if oracle
 						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
+						boolean isOracle=false;
+						try{
+							em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
+							isOracle=true;
+						}catch(Exception e){
+							//Not Oracle 
+						}finally{
+							jtaTxManager.rollback(txStatus);
+						}
+						
+						txDefinition = new DefaultTransactionDefinition() ;
+						txStatus = jtaTxManager.getTransaction(txDefinition);
+						
 						try {
-		            		boolean isOracle="oracle".equals(System.getProperty("ks.db.vendor"));     
-							while((ln=in.readLine())!=null){
+		            		while((ln=in.readLine())!=null){
 								if(!ln.startsWith("/")&&!ln.isEmpty()){
 									if(isOracle){
 										ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
