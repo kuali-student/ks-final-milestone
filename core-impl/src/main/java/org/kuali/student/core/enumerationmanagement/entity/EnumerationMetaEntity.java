@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
+@Table(name="KSEM_ENUM_META_ENT")
 public class EnumerationMetaEntity implements Serializable{
     /**
 	 * 
@@ -21,13 +25,18 @@ public class EnumerationMetaEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+    @Column(name="ID")
     String id;
 
+    @Column(name="ENUM_KEY")
     String enumerationKey;
+    @Column(name="NAME")
     String name;
+    @Column(name="ENUM_META_KEY_DESC")
     String enumerationMetaKeyDesc;
     
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(/*mappedBy="enumerationMetaEntity",*/ fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name="ENUM_META_ENT_ID")
     List<EnumeratedValueFieldEntity> enumeratedValueFieldList = new ArrayList<EnumeratedValueFieldEntity>();
     /**
      * AutoGenerate the id

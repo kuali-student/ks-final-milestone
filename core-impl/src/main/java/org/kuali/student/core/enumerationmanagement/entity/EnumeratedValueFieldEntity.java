@@ -4,30 +4,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
+@Table(name="ENUM_VAL_FLD_ENT")
 public class EnumeratedValueFieldEntity {
     @Id
+    @Column(name="ID")
     String id;
+    @Column(name="DATA_TYPE")
     String dataType;
+    @Column(name="FLD_KEY")
     String fieldKey;
+    @Column(name="MIN_LGTH")
     int minLength;
+    @Column(name="MAX_LGTH")
     int maxLength;
+    @Column(name="MIN_OCCRS")
     int minOccurs;
+    @Column(name="MAX_OCCRS")
     int maxOccurs;
+    @Column(name="MIN_VAL")
     String minValue;
+    @Column(name="MAX_VAL")
     String maxValue;
+    @Column(name="VALID_CHARS")
     String validChars;
+    @Column(name="INVLD_CHARS")
     String invalidChars;
     
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name="ENUM_META_ENT_ID")
     EnumerationMetaEntity enumerationMetaEntity = new EnumerationMetaEntity(); 
 
     /**

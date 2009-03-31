@@ -1,21 +1,32 @@
 package org.kuali.student.core.enumerationmanagement.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
+@Table(name="KSEM_CTX_META_ENT")
 public class ContextMetaEntity {
     @Id
+    @Column(name="ID")
     String id;
+    @Column(name="ENUM_KEY")
     String enumerationKey;
+    @Column(name="TYPE")
     String type;
+    @Column(name="DATA_TYPE")
     String dataType;
+    @Column(name="MIN_LGTH")
     int minLength;
+    @Column(name="MAX_LGTH")
     int maxLength;
+    @Column(name="MIN_OCCRS")
     int minOccurs;
+    @Column(name="MAX_OCCRS")
     int maxOccurs;
     /**
      * AutoGenerate the id

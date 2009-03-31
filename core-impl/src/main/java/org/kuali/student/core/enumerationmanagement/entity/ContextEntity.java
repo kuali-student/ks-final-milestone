@@ -1,6 +1,7 @@
 package org.kuali.student.core.enumerationmanagement.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -13,17 +14,23 @@ import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name="ContextEntity", uniqueConstraints={@UniqueConstraint(columnNames={"enumerated_value_id", "contextKey", "contextValue"})})
+@Table(name="KSEM_CTX_ENT", uniqueConstraints={@UniqueConstraint(columnNames={"ENUM_VAL_ENT_ID", "CTX_KEY", "CTX_VAL"})})
 public class ContextEntity {
     @Id
+    @Column(name="ID")
     String id;
+    
+    @Column(name="ENUM_ID")
     String enumerationId;
     
+    @Column(name="CTX_KEY")
     String contextKey;
+    
+    @Column(name="CTX_VAL")
     String contextValue;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name="enumerated_value_id")
+    @JoinColumn(name="ENUM_VAL_ENT_ID")
     EnumeratedValueEntity enumeratedValueEntityList =new EnumeratedValueEntity();
     /**
      * AutoGenerate the id

@@ -5,34 +5,49 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
+@Table(name="KSEM_ENUM_VAL_ENT")
 public class EnumeratedValueEntity {
     @Id
+    @Column(name="ID")
     String id;
 
+    @Column(name="ENUM_KEY")
     String enumerationKey;
+    @Column(name="CD")
     String code;
+    @Column(name="ABBREV_VAL")
     String abbrevValue;
+    @Column(name="VAL")
     String value;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="EFF_DT")
     Date effectiveDate;
+    
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="EXPIR_DT")
     Date expirationDate;
+    
+    @Column(name="SORT_KEY")
     int sortKey;
     
     //@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @OneToMany(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
+    @OneToMany(/*mappedBy="enumeratedValueEntityList",*/fetch = FetchType.LAZY,cascade={CascadeType.ALL})
+    @JoinColumn(name="ENUM_VAL_ENT_ID")
     List<ContextEntity> contextEntityList =new ArrayList<ContextEntity>();
 
     /**
