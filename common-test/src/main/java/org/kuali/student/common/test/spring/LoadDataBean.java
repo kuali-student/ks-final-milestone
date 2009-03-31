@@ -52,13 +52,7 @@ public class LoadDataBean implements ApplicationContextAware{
 				} 				    				
                 // Load sql file for this dao
                 if (split.length > 2&& !split[2].isEmpty()) {
-        	        boolean isOracle=false;
-                	try{
-        	            Class.forName("oracle.jdbc.driver.OracleDriver");
-        	            isOracle=true;
-         	        } catch (ClassNotFoundException e) {
-                    }
-         	        
+            		boolean isOracle="oracle".equals(System.getProperty("ks.db.vendor"));         	        
 				    String testDataFile = split[2];
 				    File sqlFile;
 				    if(testDataFile.startsWith("classpath:")){

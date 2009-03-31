@@ -23,6 +23,7 @@ public class DaoCommonTest extends AbstractTransactionalDaoTest {
 		Value value = new Value("Cheerios");
 
 		String id = myDao.createValue(value);
+		//em.flush();//This is needed for eclipselink for some reason
 		String result = myDao.findValue(id);
 		assertEquals("Cheerios", result);
 		
@@ -35,6 +36,7 @@ public class DaoCommonTest extends AbstractTransactionalDaoTest {
 		Value value = new Value("Cheerios");
 
 		String id = myDao.createValue(value);
+		//em.flush();//This is needed for eclipselink for some reason
 		String result = myDao.findValue(id);
 		assertEquals("Cheerios", result);
 		

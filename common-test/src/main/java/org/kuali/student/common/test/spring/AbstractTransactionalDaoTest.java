@@ -160,12 +160,7 @@ public abstract class AbstractTransactionalDaoTest {
 						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
 						try {
-		        	        boolean isOracle=false;
-		                	try{
-		        	            Class.forName("oracle.jdbc.driver.OracleDriver");
-		        	            isOracle=true;
-		         	        } catch (ClassNotFoundException e) {
-		                    }
+		            		boolean isOracle="oracle".equals(System.getProperty("ks.db.vendor"));     
 							while((ln=in.readLine())!=null){
 								if(!ln.startsWith("/")&&!ln.isEmpty()){
 									if(isOracle){

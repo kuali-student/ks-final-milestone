@@ -1,77 +1,142 @@
 package org.kuali.student.common.util;
 
+import java.util.HashSet;
 import java.util.Properties;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.util.StringValueResolver;
 
 public class ModPropertyPlaceholderConfigurer extends
-		PropertyPlaceholderConfigurer {
+		PropertyPlaceholderConfigurer implements InitializingBean  {
 	
-    public static final String KS_MVN_ARTIFACTID_INITIALCAPS = "ks.mvn.artifactId.initialCaps";
-	public static final String KS_MVN_ARTIFACTID_LOWERCASE = "ks.mvn.artifactId.lowercase";
-	public static final String KS_MVN_PARENT_ARTIFACTID_LOWERCASE = "ks.mvn.parent.artifactId.lowercase";
-	public static final String JPA_VENDOR_ADAPTER = "jpa.vendorAdapter";
-	public static final String JPA_DATABASEPLATFORM = "jpa.databasePlatform";
-		
-	//Class to check for in CLASSPATH to determine which jpa impl is being used
-	public static final String JPA_HIBERNATE_PROVIDER = "org.hibernate.ejb.HibernatePersistence";
+	private String customConfigSystemProperty;
+	private Resource[] locations;	
 	
-	public static final String ORACLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	private String beanName;
+	private BeanFactory beanFactory;
+	private String nullValue;
 	
-	@Override
-	protected String resolvePlaceholder(String placeholder, Properties props) {
-
-	    if(JPA_VENDOR_ADAPTER.equals(placeholder)){
-	        try{
-	            Class.forName(JPA_HIBERNATE_PROVIDER);            
-                return "org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter";
-	        } catch (ClassNotFoundException e) {
-                return "org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter";
-	        }
-		}
-		
-		if(JPA_DATABASEPLATFORM.equals(placeholder)){
-	        try{
-	            Class.forName(JPA_HIBERNATE_PROVIDER);
-	            try{
-		            Class.forName(ORACLE_DRIVER);
-	            	return "org.hibernate.dialect.OracleDialect";
-	            }catch (ClassNotFoundException e) {
-	            	return "org.hibernate.dialect.DerbyDialect";
-	            }
-	        } catch (ClassNotFoundException oracleNotFoundException) {
-	            try{
-		            Class.forName(ORACLE_DRIVER);
-	            	return "org.eclipse.persistence.platform.database.OraclePlatform";
-	            }catch (ClassNotFoundException hibernateNotFoundException) {
-	            	return "org.eclipse.persistence.platform.database.DerbyPlatform";
-	            }
-	        }
-		}
-		
-		/*
-		 *For the properties ks.mvn.artifactId.initialCaps and
-		 *ks.mvn.artifactId.initialCaps, we need to process the strings to convert from 
-		 *the maven artifact id to what we assume to be the class name and remove the "-ri"
-		 */
-		if (KS_MVN_ARTIFACTID_INITIALCAPS.equals(placeholder)) {
-			String resolved = super.resolvePlaceholder(placeholder, props);
-			if(resolved.toLowerCase().endsWith("-ri")){
-				resolved = resolved.substring(0, resolved.length()-3);
-			}
-			return resolved;
-		}
-		
-		if (KS_MVN_ARTIFACTID_LOWERCASE.equals(placeholder) ||
-			KS_MVN_PARENT_ARTIFACTID_LOWERCASE.equals(placeholder)	) {
-			String resolved = super.resolvePlaceholder(placeholder, props);
-			if(resolved.toLowerCase().endsWith("-ri")){
-				resolved = resolved.substring(0, resolved.length()-3);
-			}
-			return resolved.toLowerCase();
-		}
-
-		return super.resolvePlaceholder(placeholder, props);
+	
+	public String getCustomConfigSystemProperty() {
+		return customConfigSystemProperty;
 	}
 
+	public void setCustomConfigSystemProperty(String customConfigSystemProperty) {
+		this.customConfigSystemProperty = customConfigSystemProperty;
+	}
+
+	@Override
+	public void setLocations(Resource[] locations) {
+		this.locations=locations;
+		super.setLocations(locations);
+		
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		String customConfigLocation = System.getProperty(customConfigSystemProperty);
+		
+		try{
+			Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigLocation);
+	
+			Resource[] finalLocations = new Resource[locations.length+1];
+			int i=0;
+			for(Resource resource:locations){
+				finalLocations[i]=resource;
+				i++;
+			}
+			finalLocations[i]=customConfigResource;
+			
+			super.setLocations(finalLocations);
+		
+		}catch(Exception e){
+			logger.warn("\nCould not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation+"\n");
+		}
+	}
+
+	@Override
+	public void setBeanName(String beanName) {
+		this.beanName = beanName;
+		super.setBeanName(beanName);
+	}
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+		super.setBeanFactory(beanFactory);
+	}
+	
+	@Override
+	public void setNullValue(String nullValue) {
+		this.nullValue = nullValue;
+		super.setNullValue(nullValue);
+	}
+	
+	@Override
+	protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props)
+			throws BeansException {
+
+		StringValueResolver valueResolver = new PlaceholderResolvingStringValueResolver(props);
+		ModBeanDefinitionVisitor visitor = new ModBeanDefinitionVisitor(valueResolver);
+		
+		String[] beanNames = beanFactoryToProcess.getBeanDefinitionNames();
+		for (int i = 0; i < beanNames.length; i++) {
+			// Check that we're not parsing our own bean definition,
+			// to avoid failing on unresolvable placeholders in properties file locations.
+			if (!(beanNames[i].equals(this.beanName) && beanFactoryToProcess.equals(this.beanFactory))) {
+				BeanDefinition bd = beanFactoryToProcess.getBeanDefinition(beanNames[i]);
+				try {
+					visitor.visitBeanDefinition(bd);
+				}
+				catch (BeanDefinitionStoreException ex) {
+					throw new BeanDefinitionStoreException(bd.getResourceDescription(), beanNames[i], ex.getMessage());
+				}
+			}
+		}
+		
+		// New in Spring 2.5: resolve placeholders in alias target names and aliases as well.
+		beanFactoryToProcess.resolveAliases(valueResolver);
+	}
+	
+	/**
+	 * BeanDefinitionVisitor that resolves placeholders in String values,
+	 * delegating to the <code>parseStringValue</code> method of the
+	 * containing class.
+	 */
+	public class PlaceholderResolvingStringValueResolver implements StringValueResolver {
+
+		private final Properties props;
+
+		public PlaceholderResolvingStringValueResolver(Properties props) {
+			this.props = props;
+		}
+
+		public String resolveStringValue(String strVal) throws BeansException {
+			String value = parseStringValue(strVal, this.props, new HashSet<String>());
+			return (value.equals(nullValue) ? null : value);
+		}
+		
+		public Properties resolvePropertyValue(String strVal){
+			Properties prefixedProps = new Properties();
+			
+			for(Object key:props.keySet()){
+				String keyStr = (String)key; 
+				if(keyStr.startsWith(strVal)){
+					String newKeyStr = keyStr.substring(strVal.length()+1);
+					prefixedProps.put(newKeyStr, props.get(key));
+				}
+			}
+			
+			return prefixedProps;
+		}
+		
+	}
 }

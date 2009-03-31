@@ -23,16 +23,11 @@
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:META-INF/jdbc.properties</value>
+				<value>classpath:META-INF/test.properties</value>
 			</list>
 		</property>
+		<property name="customConfigSystemProperty" value="ks.config.location"/>
 		<property name="order" value="0" />
-	</bean>
-
-	<bean id="propertyOverride"
-		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
-		<property name="ignoreResourceNotFound" value="true" />
-		<property name="location" value="classpath:override.properties" />
 	</bean>
 
 	<import resource="classpath:*-mock-dao-context.xml" />
@@ -43,6 +38,8 @@
 			<map>
 				<entry key="derby.stream.error.file"
 					value="target/derby.log" />
+				<entry key="ks.db.vendor"
+					value="${db.vendor}" />
 			</map>
 		</property>
 	</bean>
@@ -53,23 +50,9 @@
 		<property name="uniqueResourceName" value="dataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
-		<property name="databaseName" value="${jdbc.xaDataSourceProperties.databaseName}"/>
-		<property name="user" value="${jdbc.xaDataSourceProperties.user}"/>
-		<property name="password" value="${jdbc.xaDataSourceProperties.password}"/>
-		<property name="createDatabase" value="${jdbc.xaDataSourceProperties.createDatabase}"/>
-		<property name="maxPoolSize" value="20" />
+		<property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 	</bean>
-	<!-- <bean id="dataSource"
-		class="com.atomikos.jdbc.nonxa.NonXADataSourceBean"
-		destroy-method="close" depends-on="systemPropertyConfigurer">
-		<property name="uniqueResourceName" value="dataSource" />
-		<property name="driverClassName"
-		value="org.apache.derby.jdbc.EmbeddedDriver" />
-		<property name="url" value="jdbc:derby:target/serviceTestDB;create=true" />
-		<property name="user" value="serviceDB" />
-		<property name="password" value="serviceDB" />
-		<property name="poolSize" value="5" />
-		</bean>-->
 
 	<!-- JPA EntityManagerFactory -->
 	<bean id="postProcessorList" class="java.util.ArrayList">
@@ -82,12 +65,6 @@
 				</bean>
 			</list>
 		</constructor-arg>
-	</bean>
-	
-	<bean id="jpaConfig"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location"
-			value="classpath:META-INF/jpa.properties" />
 	</bean>
 
 	<bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -103,7 +80,7 @@
 		<property name="persistenceXmlLocation"
 			value="${ks.test.persistenceLocation}" />
 		<property name="dataSource" ref="dataSource" />
-		<property name="jpaPropertyMap" ref="jpaConfig" />
+		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 		<property name="persistenceUnitPostProcessors" ref="postProcessorList" />
 	</bean>
 
