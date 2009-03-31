@@ -2448,7 +2448,6 @@ public class LuServiceImpl implements LuService {
 	 * @param paramName
 	 * @throws MissingParameterException
 	 */
-	@SuppressWarnings("unused")
 	private void checkForEmptyList(Object param, String paramName)
 			throws MissingParameterException {
 		if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
