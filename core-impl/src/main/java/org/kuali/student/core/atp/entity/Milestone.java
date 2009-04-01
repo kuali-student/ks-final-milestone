@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +23,11 @@ import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSAP_MLSTN")
+@NamedQueries( { 
+	@NamedQuery(name = "Milestone.findMilestonesByAtp", query = "SELECT milestone FROM Milestone milestone WHERE milestone.atp.id = :atpId"),
+	@NamedQuery(name = "Milestone.findMilestonesByDates", query = "SELECT milestone FROM Milestone milestone WHERE milestone.milestoneDate >= :startDate AND milestone.milestoneDate <= :endDate"),
+	@NamedQuery(name = "Milestone.findMilestonesByDatesAndType", query = "SELECT milestone FROM Milestone milestone WHERE milestone.type.id = :milestoneTypeId AND milestone.milestoneDate >= :startDate AND milestone.milestoneDate <= :endDate")
+})
 public class Milestone extends MetaEntity implements
 		AttributeOwner<MilestoneAttribute> {
 	@Id

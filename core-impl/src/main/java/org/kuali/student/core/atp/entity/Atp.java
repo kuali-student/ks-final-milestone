@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,43 +22,48 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 
 @Entity
-@Table(name="KSAP_ATP")
-public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute>{
+@Table(name = "KSAP_ATP")
+@NamedQueries( { 
+	@NamedQuery(name = "Atp.findAtpsByAtpType", query = "SELECT atp FROM Atp atp WHERE atp.type.id = :atpTypeId"),
+	@NamedQuery(name = "Atp.findAtpsByDate", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate <= :searchDate AND atp.expirationDate > :searchDate"),
+	@NamedQuery(name = "Atp.findAtpsByDates", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate >= :startDate AND atp.expirationDate <= :endDate"),
+})
+public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
-	@ManyToOne(cascade=CascadeType.ALL)
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<AtpAttribute> attributes;
 
 	@ManyToOne
-	@JoinColumn(name="TYPE")
+	@JoinColumn(name = "TYPE")
 	private AtpType type;
-	
+
 	@Column(name = "STATE")
 	private String state;
 
-	@OneToMany(mappedBy="atp", cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy = "atp", cascade = CascadeType.REMOVE)
 	private List<DateRange> dateRanges;
-	
-	@OneToMany(mappedBy="atp", cascade=CascadeType.REMOVE)
+
+	@OneToMany(mappedBy = "atp", cascade = CascadeType.REMOVE)
 	private List<Milestone> milestones;
-	
+
 	public String getId() {
 		return id;
 	}
@@ -98,7 +105,7 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute>{
 	}
 
 	public List<AtpAttribute> getAttributes() {
-		if(attributes==null){
+		if (attributes == null) {
 			attributes = new ArrayList<AtpAttribute>();
 		}
 		return attributes;
@@ -125,7 +132,7 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute>{
 	}
 
 	public List<DateRange> getDateRanges() {
-		if(dateRanges==null){
+		if (dateRanges == null) {
 			dateRanges = new ArrayList<DateRange>();
 		}
 		return dateRanges;
@@ -136,7 +143,7 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute>{
 	}
 
 	public List<Milestone> getMilestones() {
-		if(milestones==null){
+		if (milestones == null) {
 			milestones = new ArrayList<Milestone>();
 		}
 		return milestones;
@@ -146,12 +153,12 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute>{
 		this.milestones = milestones;
 	}
 
-//	public Meta getMeta() {
-//		return meta;
-//	}
-//
-//	public void setMeta(Meta meta) {
-//		this.meta = meta;
-//	}
+	// public Meta getMeta() {
+	// return meta;
+	// }
+	//
+	// public void setMeta(Meta meta) {
+	// this.meta = meta;
+	// }
 
 }

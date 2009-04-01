@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +23,10 @@ import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSAP_DT_RANGE")
+@NamedQueries({
+	@NamedQuery(name="DateRange.findDateRangesByAtp", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.id = :atpId"),
+	@NamedQuery(name="DateRange.findDateRangesByDate", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.startDate <= :searchDate AND dateRange.endDate >= :searchDate")
+})
 public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAttribute> {
 	
 	@Id

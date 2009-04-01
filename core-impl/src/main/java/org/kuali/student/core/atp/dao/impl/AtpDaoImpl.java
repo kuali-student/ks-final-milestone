@@ -27,7 +27,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<Atp> findAtpsByAtpType(String atpTypeId) {
 		
-		Query q = em.createQuery("SELECT atp FROM Atp atp WHERE atp.type.id = :atpTypeId");
+		Query q = em.createNamedQuery("Atp.findAtpsByAtpType");
 		q.setParameter("atpTypeId", atpTypeId);
 		
 		return q.getResultList();
@@ -38,10 +38,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<Atp> findAtpsByDate(Date searchDate) {
 		
-		Query q = em.createQuery("SELECT atp " +
-				                 "  FROM Atp atp " +
-				                 " WHERE atp.effectiveDate <= :searchDate " +
-				                 "   AND atp.expirationDate > :searchDate");
+		Query q = em.createNamedQuery("Atp.findAtpsByDate");
 		q.setParameter("searchDate", searchDate);
 		
 		return q.getResultList();
@@ -50,10 +47,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Atp> findAtpsByDates(Date startDate, Date endDate) {
-		Query q = em.createQuery("SELECT atp " +
-				                 "  FROM Atp atp " +
-				                 " WHERE atp.effectiveDate >= :startDate " +
- 				                 "   AND atp.expirationDate <= :endDate");
+		Query q = em.createNamedQuery("Atp.findAtpsByDates");
 		q.setParameter("startDate", startDate);
 		q.setParameter("endDate", endDate);
 		
@@ -64,7 +58,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<DateRange> findDateRangesByAtp(String atpId) {
 		
-		Query q = em.createQuery("SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.id = :atpId");
+		Query q = em.createNamedQuery("DateRange.findDateRangesByAtp");
 		q.setParameter("atpId", atpId);
 		
 		return q.getResultList();
@@ -74,10 +68,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<DateRange> findDateRangesByDate(Date searchDate) {
 		
-		Query q = em.createQuery("SELECT dateRange " +
-				                 "  FROM DateRange dateRange " +
-				                 " WHERE dateRange.startDate <= :searchDate " +
-				                 "   AND dateRange.endDate >= :searchDate");
+		Query q = em.createNamedQuery("DateRange.findDateRangesByDate");
 		
 		q.setParameter("searchDate", searchDate);
 		
@@ -88,7 +79,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<MilestoneType> findMilestoneTypesForAtpType(String atpTypeId) {
 		
-		Query q = em.createQuery("SELECT milestone.type FROM Milestone milestone WHERE milestone.atp.type.id = :atpTypeId");
+		Query q = em.createNamedQuery("MilestoneType.findMilestoneTypesForAtpType");
 		q.setParameter("atpTypeId", atpTypeId);
 		
 		return q.getResultList();
@@ -98,7 +89,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<DateRangeType> findDateRangeTypesForAtpType(String atpTypeId) {
 		
-		Query q = em.createQuery("SELECT dateRange.type FROM DateRange dateRange WHERE dateRange.atp.type.id = :atpTypeId");
+		Query q = em.createNamedQuery("DateRangeType.findDateRangeTypesForAtpType");
 		q.setParameter("atpTypeId", atpTypeId);
 		
 		return q.getResultList();
@@ -108,7 +99,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<Milestone> findMilestonesByAtp(String atpId) {
 		
-		Query q = em.createQuery("SELECT milestone FROM Milestone milestone WHERE milestone.atp.id = :atpId");
+		Query q = em.createNamedQuery("Milestone.findMilestonesByAtp");
 		q.setParameter("atpId", atpId);
 		
 		return q.getResultList();
@@ -117,10 +108,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Milestone> findMilestonesByDates(Date startDate, Date endDate) {
-		Query q = em.createQuery("SELECT milestone " +
-				                 "  FROM Milestone milestone " +
-				                 " WHERE milestone.milestoneDate >= :startDate " +
-				                 "   AND milestone.milestoneDate <= :endDate");
+		Query q = em.createNamedQuery("Milestone.findMilestonesByDates");
 
 		q.setParameter("startDate", startDate);
 		q.setParameter("endDate", endDate);
@@ -132,11 +120,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<Milestone> findMilestonesByDatesAndType(
 			String milestoneTypeId, Date startDate, Date endDate) {
-		Query q = em.createQuery("SELECT milestone " +
-				                 "  FROM Milestone milestone " +
-				                 " WHERE milestone.type.id = :milestoneTypeId " +
-				                 "   AND milestone.milestoneDate >= :startDate " +
-				                 "   AND milestone.milestoneDate <= :endDate");
+		Query q = em.createQuery("Milestone.findMilestonesByDatesAndType");
 		
 		q.setParameter("milestoneTypeId", milestoneTypeId);
 		q.setParameter("startDate", startDate);
