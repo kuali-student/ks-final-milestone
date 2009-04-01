@@ -23,45 +23,49 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 		super.setEm(em);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Atp> findAtpsByAtpType(String atpTypeId) {
 		
 		Query q = em.createNamedQuery("Atp.findAtpsByAtpType");
 		q.setParameter("atpTypeId", atpTypeId);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Atp> results = q.getResultList(); 
+		return results;
 	}
 
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Atp> findAtpsByDate(Date searchDate) {
 		
 		Query q = em.createNamedQuery("Atp.findAtpsByDate");
 		q.setParameter("searchDate", searchDate);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Atp> results = q.getResultList(); 
+		return results;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Atp> findAtpsByDates(Date startDate, Date endDate) {
 		Query q = em.createNamedQuery("Atp.findAtpsByDates");
 		q.setParameter("startDate", startDate);
 		q.setParameter("endDate", endDate);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Atp> results = q.getResultList(); 
+		return results;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<DateRange> findDateRangesByAtp(String atpId) {
 		
 		Query q = em.createNamedQuery("DateRange.findDateRangesByAtp");
 		q.setParameter("atpId", atpId);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<DateRange> results = q.getResultList(); 
+		return results;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -75,37 +79,39 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 		return q.getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<MilestoneType> findMilestoneTypesForAtpType(String atpTypeId) {
 		
 		Query q = em.createNamedQuery("MilestoneType.findMilestoneTypesForAtpType");
 		q.setParameter("atpTypeId", atpTypeId);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<MilestoneType> results = q.getResultList(); 
+		return results;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<DateRangeType> findDateRangeTypesForAtpType(String atpTypeId) {
 		
 		Query q = em.createNamedQuery("DateRangeType.findDateRangeTypesForAtpType");
 		q.setParameter("atpTypeId", atpTypeId);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<DateRangeType> results = q.getResultList(); 
+		return results;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Milestone> findMilestonesByAtp(String atpId) {
 		
 		Query q = em.createNamedQuery("Milestone.findMilestonesByAtp");
 		q.setParameter("atpId", atpId);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Milestone> results = q.getResultList(); 
+		return results;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Milestone> findMilestonesByDates(Date startDate, Date endDate) {
 		Query q = em.createNamedQuery("Milestone.findMilestonesByDates");
@@ -113,10 +119,11 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 		q.setParameter("startDate", startDate);
 		q.setParameter("endDate", endDate);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Milestone> results = q.getResultList(); 
+		return results;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Milestone> findMilestonesByDatesAndType(
 			String milestoneTypeId, Date startDate, Date endDate) {
@@ -126,7 +133,9 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 		q.setParameter("startDate", startDate);
 		q.setParameter("endDate", endDate);
 		
-		return q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Milestone> results = q.getResultList(); 
+		return results;
 	}
 
 }
