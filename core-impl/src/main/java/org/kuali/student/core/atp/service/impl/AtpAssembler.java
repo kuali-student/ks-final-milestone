@@ -17,6 +17,8 @@ import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneAttribute;
 import org.kuali.student.core.atp.entity.MilestoneType;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
@@ -42,7 +44,7 @@ public class AtpAssembler extends BaseAssembler{
 
 		// Copy all basic properties
 		BeanUtils.copyProperties(atpInfo, atp, new String[] { "type",
-				"attributes", "metaInfo" });
+				"attributes", "metaInfo", "desc" });
 
 		// Copy Attributes
 		atp.setAttributes(toGenericAttributes(AtpAttribute.class, atpInfo.getAttributes(), atp, dao));
@@ -55,6 +57,9 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		atp.setType(atpType);
 
+		//Copy RichText
+		atp.setDesc(toRichText(atpInfo.getDesc()));
+		
 		return atp;
 	}
 
@@ -62,13 +67,14 @@ public class AtpAssembler extends BaseAssembler{
 		AtpInfo atpInfo = new AtpInfo();
 
 		BeanUtils.copyProperties(atp, atpInfo, new String[] { "type",
-				"attributes", "metaInfo" });
+				"attributes", "metaInfo", "desc" });
 
 		// copy attributes, metadata, Atp, and Type
 		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
 		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
 		atpInfo.setType(atp.getType().getId());
-
+		atpInfo.setDesc(toRichTextInfo(atp.getDesc()));
+		
 		return atpInfo;
 	}
 
@@ -126,7 +132,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 
 		BeanUtils.copyProperties(dateRangeInfo, dateRange, new String[] {
-				"atpKey", "type", "attributes", "metaInfo" });
+				"atpKey", "type", "attributes", "metaInfo","desc" });
 
 		// Copy the attributes
 		dateRange.setAttributes(toGenericAttributes(DateRangeAttribute.class,
@@ -150,6 +156,8 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		dateRange.setType(dateRangeType);
 
+		dateRange.setDesc(toRichText(dateRangeInfo.getDesc()));
+		
 		return dateRange;
 	}
 
@@ -158,7 +166,7 @@ public class AtpAssembler extends BaseAssembler{
 		DateRangeInfo dateRangeInfo = new DateRangeInfo();
 
 		BeanUtils.copyProperties(dateRange, dateRangeInfo, new String[] {
-				"atp", "type", "attributes", "metaInfo" });
+				"atp", "type", "attributes", "metaInfo", "desc" });
 
 		// copy attributes, metadata, Atp, and Type
 		dateRangeInfo
@@ -167,7 +175,8 @@ public class AtpAssembler extends BaseAssembler{
 				.getVersionInd()));
 		dateRangeInfo.setType(dateRange.getType().getId());
 		dateRangeInfo.setAtpId(dateRange.getAtp().getId());
-
+		dateRangeInfo.setDesc(toRichTextInfo(dateRange.getDesc()));
+		
 		return dateRangeInfo;
 	}
 
@@ -200,7 +209,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 
 		BeanUtils.copyProperties(milestoneInfo, milestone, new String[] {
-				"atpKey", "type", "attributes", "metaInfo" });
+				"atpKey", "type", "attributes", "metaInfo", "desc" });
 
 		// Copy the attributes
 		milestone.setAttributes(toGenericAttributes(MilestoneAttribute.class,
@@ -224,6 +233,8 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		milestone.setType(milestoneType);
 
+		milestone.setDesc(toRichText(milestoneInfo.getDesc()));
+		
 		return milestone;
 
 	}
@@ -233,7 +244,7 @@ public class AtpAssembler extends BaseAssembler{
 		MilestoneInfo milestoneInfo = new MilestoneInfo();
 
 		BeanUtils.copyProperties(milestone, milestoneInfo, new String[] {
-				"atp", "type", "attributes", "metaInfo" });
+				"atp", "type", "attributes", "metaInfo", "desc" });
 
 		// copy attributes, metadata, Atp, and Type
 		milestoneInfo
@@ -242,7 +253,8 @@ public class AtpAssembler extends BaseAssembler{
 				.getVersionInd()));
 		milestoneInfo.setType(milestone.getType().getId());
 		milestoneInfo.setAtpId(milestone.getAtp().getId());
-
+		milestoneInfo.setDesc(toRichTextInfo(milestone.getDesc()));
+		
 		return milestoneInfo;
 	}
 
@@ -254,5 +266,23 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		return milestoneInfoList;
 	}
-
+	
+	public static RichTextInfo toRichTextInfo(RichText entity) {
+		if(entity==null){
+			return null;
+		}
+		
+		RichTextInfo dto = new RichTextInfo();
+		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+		return dto;
+	}
+	
+	public static RichText toRichText(RichTextInfo richTextInfo) {
+		if(richTextInfo == null){
+			return null;
+		}
+		RichText richText = new RichText();
+		BeanUtils.copyProperties(richTextInfo, richText);
+		return richText;
+	}
 }
