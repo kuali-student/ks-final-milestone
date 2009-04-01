@@ -4,6 +4,6 @@
   	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
+	<entry-point class="org.kuali.student.common.ui.client.CommonUITest"/>
     	
 </module>

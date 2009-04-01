@@ -3,18 +3,17 @@
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name="com.google.gwt.user.User"/>
 	
-	<inherits name="org.kuali.student.core.Core"/>
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
+	
 	<inherits name="org.kuali.student.core.messages.Message"/>
  
-  	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
   	<inherits name="com.google.gwt.libideas.StyleInjector" /> 
-  	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
 	<script src="http://www.google.com/jsapi"/>
 	
-	<set-property name="CssResource.style" value="pretty" />
 	<!--
     <stylesheet src="http://www.google.com/uds/modules/gviz/1.0/table/table.css"/>
   	--><!--<stylesheet src="CommonUI.css"/>
