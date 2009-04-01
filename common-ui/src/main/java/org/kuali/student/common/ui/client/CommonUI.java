@@ -1,51 +1,30 @@
 package org.kuali.student.common.ui.client;
 
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.messages.MessagesService;
-import org.kuali.student.common.ui.client.mvc.test.PersonApplication;
-import org.kuali.student.common.ui.client.widgets.KSResizablePanel;
-import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.dom.client.StyleElement;
+import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.libideas.resources.client.CssResource;
+import com.google.gwt.libideas.resources.client.ResourcePrototype;
 
 public class CommonUI implements EntryPoint {
-    
-    
-    public void onModuleLoad() {
-        RootPanel.get().add(new PersonApplication());
-    }
-//    ApplicationContext context;
-//    
-//	public void onModuleLoad() {
-//        context = new ApplicationContext();
-//        Application.setApplicationContext(context);
-//        MessagesService.Util.getInstance("MessageService").getMessages("en", "common", new AsyncCallback<MessageList>(){
-//
-//            public void onFailure(Throwable caught) {
-//                throw new RuntimeException("Unable to load messages", caught);
-//            }
-//
-//            public void onSuccess(MessageList result) {
-//                context.addMessages(result.getMessages());
-//            }           
-//        });
-//
-//	
-//	}
+    public StyleElement commonStyle;
+
+	public void onModuleLoad() {
+	    final String injectString = this.getCssString();
+        commonStyle = StyleInjector.injectStylesheet(injectString);
+	}
 	
-
-
+	public String getCssString(){
+	       String injectString = "";
+	        for(ResourcePrototype r: KSCommonResources.INSTANCE.getResources()){
+	            if(r instanceof CssResource){
+	                if(((CssResource)r).getText() != null){
+	                    injectString = injectString + "\n" + (((CssResource)r).getText());
+	                }
+	            }
+	        }
+	        return injectString;
+	}
 }
