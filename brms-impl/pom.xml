@@ -42,55 +42,7 @@
 		</plugins>
 	</build>
 	
-    <profiles>
-        <profile>
-            <id>derby-embedded</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>            
-        </profile>
-
-        <profile>
-            <id>oracle</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <mkdir dir="${drools.repository.directory}" />
-                                        <copy
-                                            file="${drools.repository.oracle.in}"
-                                            tofile="${drools.repository.default.out}" />
-                                        <copy
-                                            file="${jdbc.oracle.in}"
-                                            tofile="${jdbc.properties.out}" />
-                                        <copy
-                                            file="${application.context.test.in}"
-                                            tofile="${application.context.test.out}" />
-                                        <copy
-                                            file="${jpa.properties.in}"
-                                            tofile="${jpa.properties.out}" />
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-	<dependencies>
+  	<dependencies>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-api</artifactId>
@@ -109,7 +61,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
-		
+        
         <dependency>
             <groupId>velocity-tools</groupId>
             <artifactId>velocity-tools</artifactId>
@@ -281,6 +233,13 @@
         <dependency>
 		   <groupId>org.kuali.student.core</groupId>
 		   <artifactId>ks-cxf</artifactId>
+		   <version>0.0.1-SNAPSHOT</version>
+		   <type>pom</type>
+		</dependency>
+		
+        <dependency>
+		   <groupId>org.kuali.student.core</groupId>
+		   <artifactId>ks-hibernate</artifactId>
 		   <version>0.0.1-SNAPSHOT</version>
 		   <type>pom</type>
 		</dependency>
