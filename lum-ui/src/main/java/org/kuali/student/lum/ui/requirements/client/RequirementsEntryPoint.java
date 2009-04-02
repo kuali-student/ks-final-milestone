@@ -5,7 +5,6 @@ import org.kuali.student.commons.ui.mvc.client.ViewMetadataLoadCallback;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.ErrorDialog;
 import org.kuali.student.lum.ui.requirements.client.controller.LumApplication;
-import org.kuali.student.lum.ui.requirements.client.controller.RequirementsController;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -20,16 +19,16 @@ public class RequirementsEntryPoint implements EntryPoint {
         
         RootPanel.get().add(new LumApplication());        
         
-        ErrorDialog.bindUncaughtExceptionHandler();
-        ApplicationContext.loadViewMetadata(RequirementsController.VIEW_NAME, new ViewMetadataLoadCallback() {
-            public void onBulkLoadComplete() {
-                // now that the metadata is loaded, show the view
-                RootPanel.get().add(new LumApplication());
-            }
-
-            public void onLoad(String viewName, ViewMetaData view) {
-            // do nothing, no incremental progress required
-            }
-        });
+//        ErrorDialog.bindUncaughtExceptionHandler();
+//        ApplicationContext.loadViewMetadata(RequirementsController.VIEW_NAME, new ViewMetadataLoadCallback() {
+//            public void onBulkLoadComplete() {
+//                // now that the metadata is loaded, show the view
+//                RootPanel.get().add(new LumApplication());
+//            }
+//
+//            public void onLoad(String viewName, ViewMetaData view) {
+//            // do nothing, no incremental progress required
+//            }
+//        });
     }
 }

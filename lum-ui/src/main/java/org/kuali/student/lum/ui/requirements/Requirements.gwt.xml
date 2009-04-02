@@ -9,7 +9,7 @@
 	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 
 	<!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
-	<inherits name="org.kuali.student.commons.ui.UICommons"/>  
+<!-- <inherits name="org.kuali.student.commons.ui.UICommons"/>  -->  
 
 	<inherits name='org.kuali.student.lum.lu.Lu'/>
 	<inherits name='org.kuali.student.lum.lu.typekey.Typekey'/>
