@@ -80,33 +80,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <delete
-                                            file="${project.build.outputDirectory}/application-oracle.properties" />
-                                        <copy
-                                            file="../src/test/resources/drools-repository/repository_derby.xml"
-                                            tofile="${project.build.outputDirectory}/drools-repository/repository.xml" />
-                                        <copy
-                                            file="${jdbc.derby.in}"
-                                            tofile="${jdbc.properties.out}" />
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>

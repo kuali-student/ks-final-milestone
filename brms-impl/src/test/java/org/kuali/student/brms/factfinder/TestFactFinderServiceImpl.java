@@ -54,7 +54,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 @Daos({@Dao(value = "org.kuali.student.brms.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/factfinder-persistence.xml")
 public class TestFactFinderServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl", port = "8181", additionalContextFile="classpath:factfinder-mock-service-context.xml")
     public FactFinderService client;
 
     private boolean containsResult(List<Map<String,String>> set, String column, String value) {
