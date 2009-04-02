@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<!--parent>
-		<groupId>org.kuali.student.brms</groupId>
-		<artifactId>brms-parent-pom</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</parent-->
-	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-pom</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>brms-impl-pom</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<artifactId>ks-brms-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Kuali Student BRMS - brms-impl-dev</name>
-	<description>Kuali Student BRMS implementation development</description>
-
+	<name>BRMS</name>
+	<description />
+	
 	<properties>
 		<!--drools.version>4.0.7</drools.version-->
-        <!--drools.version>5.0.0.CR1</drools.version-->
-        <drools.version>5.0.0.SNAPSHOT</drools.version>
+        <drools.version>5.0.0.CR1</drools.version>
+        <velocity.version>1.5</velocity.version>
+        <velocity.tools.version>1.4</velocity.tools.version>
         <jpa.properties.in>../src/test/resources/META-INF/jpa.properties</jpa.properties.in>
         <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
         <jdbc.derby.in>../src/test/resources/META-INF/jdbc_derby.properties</jdbc.derby.in>
@@ -36,89 +34,27 @@
         <application.context.test.in>../src/test/resources/META-INF/default-dao-context-test.xml</application.context.test.in>
         <application.context.test.out>${project.build.testOutputDirectory}/META-INF/default-dao-context-test.xml</application.context.test.out>
         <application.context.rulerepository>application-rulerepository-context.xml</application.context.rulerepository>
+        <mvel.dep.version>2.0.8pre1</mvel.dep.version>
 	</properties>
-
+	
 	<modules>
-		<module>rule-common-impl</module>
-		<module>rule-management-impl</module>
-        <module>fact-finder-impl</module>
-		<module>rule-repository-impl</module>
-        <module>rule-execution-impl</module>
-		<module>brms-ws</module>
-        <module>integration-tests</module>
+		<module>brms-api</module>
+		<module>brms-impl</module>
+		<module>brms-web</module>
+		<module>execution-api</module>
+		<module>execution-impl</module>
+		<module>execution-web</module>
 	</modules>
+	
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.0</version>
 			</plugin>
-	        <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-plugin</artifactId>
-	            <configuration>
-	                <systemProperties>
-	                    <property>
-	                        <name>catalina.base</name>
-	                        <value>${project.build.outputDirectory}</value>
-	                    </property>
-	                </systemProperties>
-	            </configuration>
-	        </plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-        <dependency>
-            <groupId>org.kuali.student.poc.common</groupId>
-            <artifactId>common-test</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
-    <profiles>
-		<profile>
-            <id>derby-embedded</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-		</profile>
-
-        <profile>
-            <id>oracle</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <dependencies>
-		        <dependency>
-		            <groupId>com.oracle</groupId>
-		            <artifactId>ojdbc14</artifactId>
-		            <version>10.2.0.3.0</version>
-		        </dependency>
-		    </dependencies>
-        </profile>
-    </profiles>
-    
-    <!--reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting-->
-
-	<!--pluginRepositories>
-		<pluginRepository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>central</id>
-			<name>Maven Plugin Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories-->
-
+	
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
@@ -136,11 +72,20 @@
 		</repository>
         <repository>
             <id>maven2</id>
-            <url>http://repo1.maven.org/maven2</url>
+            <url>http://repository.jboss.org/maven2/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
 	</repositories>
-
+	
+	<scm>
+		<connection>
+			scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev
+		</connection>
+		<developerConnection>
+			scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev
+		</developerConnection>
+	</scm>
+			
 </project>
