@@ -8,9 +8,8 @@ import org.kuali.student.rules.internal.common.statement.MessageContextConstants
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Max;
 
 public class MaxProposition<T extends Comparable<T>> extends AbstractProposition<T> {
-    private Max maxFunction;
+    private Max<T> maxFunction;
     private T max;
-//	private Collection<T> fact;
 
     public MaxProposition() {
     }
@@ -20,13 +19,12 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
     		FactResultDTO factDTO, String factColumn) {
         super(id, propositionName, PropositionType.MAX, operator, expectedValue, 
         		null, null, factDTO, factColumn);
-//        this.fact = fact;
-        this.maxFunction = new Max(factDTO, factColumn);
+        this.maxFunction = new Max<T>(factDTO, factColumn);
 	}
 
     @Override
     public Boolean apply() {
-    	this.max = (T) this.maxFunction.compute();
+    	this.max = this.maxFunction.compute();
 
         result = checkTruthValue(this.max, super.expectedValue);
 

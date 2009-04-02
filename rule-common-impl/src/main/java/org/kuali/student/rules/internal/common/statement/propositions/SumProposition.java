@@ -30,7 +30,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.functions.
  */
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
 
-    private Sum sumFunction;
+    private Sum<Number> sumFunction;
 	private BigDecimal sum;
 
     public SumProposition(String id,
@@ -40,12 +40,13 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     					  FactResultDTO factDTO, String factColumn) {
         super(id, propositionName, PropositionType.SUM, operator, expectedValue, 
         		null, null, factDTO, factColumn);
-		sumFunction = new Sum(factDTO, factColumn);
+		sumFunction = new Sum<Number>(factDTO, factColumn);
     }
 
     @Override
     public Boolean apply() {
-    	sum = (BigDecimal) sumFunction.compute();
+    	Number num = sumFunction.compute();
+    	sum = new BigDecimal(num.toString());
 
         result = checkTruthValue(sum, this.expectedValue);
 

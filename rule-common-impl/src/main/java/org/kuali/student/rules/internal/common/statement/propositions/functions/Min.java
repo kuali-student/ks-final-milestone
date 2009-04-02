@@ -4,13 +4,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-//public class Min<T extends Comparable<T>> extends AbstractFunction {
-public class Min extends AbstractFunction {
+public class Min<T extends Comparable<T>> extends AbstractFunction<T> {
 
-//	private T result;
-//	private Collection<T> input;
-	private Object result;
+	private T result;
 
     private FactResultDTO factDTO;
     private String factColumnKey;
@@ -28,19 +26,21 @@ public class Min extends AbstractFunction {
     	this.factColumnKey = factColumnKey;
     }
 
-	public Object compute() {
-//		if(this.input == null) {
-//			throw new IllegalFunctionStateException("Invalid input. Input cannot be null.");
-//		}
-//		
-//		this.result = Collections.min(this.input);
-		this.result = min();
+	public T compute() {
+    	if(this.factDTO == null) {
+    		throw new IllegalFunctionStateException("Fact is null: " + this.factDTO);
+    	} else if(this.factColumnKey == null) {
+    		throw new IllegalFunctionStateException("Fact column key is null: " + this.factColumnKey);
+    	} else if(!containsFactColumnKey(this.factDTO, this.factColumnKey)) {
+    		throw new IllegalFunctionStateException("Fact column key not found: " + this.factColumnKey);
+    	}
+    	this.result = min();
 		
 		return this.result;
 	}
 
-	private Comparable<Object> min() {
-		Collection<Comparable<Object>> facts = getCollection(this.factDTO, this.factColumnKey);
+	private T min() {
+		Collection<T> facts = getCollection(this.factDTO, this.factColumnKey);
 		return Collections.min(facts);
 	}
 }

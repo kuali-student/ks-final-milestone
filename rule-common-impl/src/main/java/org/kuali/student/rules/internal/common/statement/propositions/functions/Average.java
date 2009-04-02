@@ -6,11 +6,11 @@ import java.math.MathContext;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class Average extends AbstractFunction { 
+public class Average<T extends Number> extends AbstractFunction<Number> { 
 	private Number result;
     private FactResultDTO factDTO;
     private String factColumnKey;
-	private Sum sumFunction;
+	private Sum<Number> sumFunction;
 
 	public Average() {
 	}
@@ -25,7 +25,7 @@ public class Average extends AbstractFunction {
     	this.factColumnKey = factColumnKey;
     }
 
-	public Object compute() {
+	public Number compute() {
     	if(this.factDTO == null) {
     		throw new IllegalFunctionStateException("Fact is null: " + this.factDTO);
     	} else if(this.factColumnKey == null) {
@@ -34,7 +34,7 @@ public class Average extends AbstractFunction {
     		throw new IllegalFunctionStateException("Fact column key not found: " + this.factColumnKey);
     	}
 
-    	this.sumFunction = new Sum(this.factDTO, this.factColumnKey);
+    	this.sumFunction = new Sum<Number>(this.factDTO, this.factColumnKey);
 		Number sum = (Number) this.sumFunction.compute();
 
 		MathContext mc = MathContext.DECIMAL64;

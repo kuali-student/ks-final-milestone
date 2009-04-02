@@ -31,7 +31,6 @@ import org.kuali.student.rules.internal.common.statement.propositions.rules.Abst
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
 public class SubsetProposition<E> extends AbstractProposition<Integer> {
-    // ~ Instance fields --------------------------------------------------------
 	private Set<E> met;
 	
     private Intersection intersection;
@@ -45,8 +44,6 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET = "prop_subset_unmetset";
     public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_DIFFERENCE = "prop_subset_diff";
 
-    // ~ Constructors -----------------------------------------------------------
-
     public SubsetProposition() {
         super();
     }
@@ -57,12 +54,6 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         super(id, propositionName, PropositionType.SUBSET, 
         		ComparisonOperator.EQUAL_TO, new Integer(criteriaDTO.getResultList().size()),
         		criteriaDTO, criteriaColumn, factDTO, factColumn);
-//        factSet = (factSet == null ? new HashSet<E>() : factSet);
-//
-//		List<Collection<E>> list = new ArrayList<Collection<E>>();
-//		list.add(criteriaSet);
-//		list.add(factSet);
-//    	intersection = new Intersection<E>(list);
 		this.factColumn = factColumn;
 		this.criteriaColumn = criteriaColumn;
 		intersection = new Intersection();
@@ -70,13 +61,9 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     	intersection.setFact(factDTO, factColumn);
     }
 
-    // ~ Methods ----------------------------------------------------------------
-
     @Override
     public Boolean apply() {
     	intersection.setOperation(Intersection.Operation.INTERSECTION.toString());
-//    	intersection.compute();
-//    	this.met = new HashSet<E>((Collection<E>) intersection.getOutput());
     	FactResultDTO factResult = intersection.compute();
     	this.met = AbstractRuleProposition.getSet(factResult, factColumn);
 
@@ -99,8 +86,6 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         Integer count = met.size();
 
         intersection.setOperation(Intersection.Operation.SUBSET_DIFFERENCE.toString());
-//    	intersection.compute();
-//    	Set<E> unMet = new HashSet<E>((Collection<E>) intersection.getOutput());
     	Set<E> unMet = AbstractRuleProposition.getSet(intersection.compute(), factColumn);
 
         Integer diff = super.expectedValue - count;

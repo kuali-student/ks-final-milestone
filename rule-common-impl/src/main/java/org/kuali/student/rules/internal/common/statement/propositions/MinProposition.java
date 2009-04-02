@@ -8,9 +8,8 @@ import org.kuali.student.rules.internal.common.statement.MessageContextConstants
 import org.kuali.student.rules.internal.common.statement.propositions.functions.Min;
 
 public class MinProposition<T extends Comparable<T>> extends AbstractProposition<T> {
-    private Min minFunction;
+    private Min<T> minFunction;
     private T min;
-//	private Collection<T> fact;
 
     public MinProposition() {
     }
@@ -20,13 +19,12 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
     		FactResultDTO factDTO, String factColumn) {
         super(id, propositionName, PropositionType.MIN, operator, expectedValue, 
         		null, null, factDTO, factColumn);
-//        this.fact = fact;
-        this.minFunction = new Min(factDTO, factColumn);
+        this.minFunction = new Min<T>(factDTO, factColumn);
 	}
 
     @Override
     public Boolean apply() {
-    	this.min = (T) this.minFunction.compute();
+    	this.min = this.minFunction.compute();
 
         result = checkTruthValue(this.min, super.expectedValue);
 

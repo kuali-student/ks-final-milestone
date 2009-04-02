@@ -24,9 +24,9 @@ public class AverageTest {
     			"resultColumn.grade");
     	factResult.setFactResultTypeInfo(columnMetaData);
 
-    	Average avg = new Average();
+    	Average<Number> avg = new Average<Number>();
 		avg.setFact(factResult, "resultColumn.grade");
-		BigDecimal output = (BigDecimal) avg.compute();
+		Number output = avg.compute();
 		
 		Assert.assertEquals(new BigDecimal("85.0"), output);
 	}
@@ -40,10 +40,12 @@ public class AverageTest {
     			"resultColumn.grade");
     	factResult.setFactResultTypeInfo(columnMetaData);
 
-    	Average avg = new Average();
+    	Average<Number> avg = new Average<Number>();
 		avg.setFact(factResult, "resultColumn.grade");
-		BigDecimal output = (BigDecimal) avg.compute();
+		Number output = avg.compute();
 
-		Assert.assertEquals(new BigDecimal("86.67"), output.setScale(2, RoundingMode.HALF_UP));
+		BigDecimal result = new BigDecimal(output.toString());
+		
+		Assert.assertEquals(new BigDecimal("86.67"), result.setScale(2, RoundingMode.HALF_UP));
 	}
 }

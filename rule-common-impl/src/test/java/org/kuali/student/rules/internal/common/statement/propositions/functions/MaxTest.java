@@ -2,9 +2,7 @@ package org.kuali.student.rules.internal.common.statement.propositions.functions
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -26,8 +24,8 @@ public class MaxTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Max max = new Max(fact, "resultColumn.credits");
-		Number output = (Number) max.compute();
+		Max<Integer> max = new Max<Integer>(fact, "resultColumn.credits");
+		Number output = max.compute();
 		
 		Assert.assertEquals(new Integer(5), output);
 	}
@@ -39,8 +37,8 @@ public class MaxTest {
 				new String[] {"MATH101", "3.1", "MATH103", "4.2", "CHEM101", "5.3"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Max max = new Max(fact, "resultColumn.credits");
-		Number output = (Number) max.compute();
+		Max<Double> max = new Max<Double>(fact, "resultColumn.credits");
+		Number output = max.compute();
 		
 		Assert.assertEquals(new Double("5.3"), output);
 	}
@@ -52,8 +50,8 @@ public class MaxTest {
 				new String[] {"MATH101", "3.1", "MATH103", "4.2", "CHEM101", "5.3"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Max max = new Max(fact, "resultColumn.credits");
-		Number output = (Number) max.compute();
+		Max<BigDecimal> max = new Max<BigDecimal>(fact, "resultColumn.credits");
+		Number output = max.compute();
 		
 		Assert.assertEquals(new BigDecimal("5.3"), output);
 	}
@@ -65,8 +63,8 @@ public class MaxTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Max max = new Max(fact, "resultColumn.credits");
-		Number output = (Number) max.compute();
+		Max<BigInteger> max = new Max<BigInteger>(fact, "resultColumn.credits");
+		Number output = max.compute();
 		
 		Assert.assertEquals(new BigInteger("5"), output);
 	}
@@ -86,8 +84,8 @@ public class MaxTest {
 				new String[] {"MATH101", date1, "MATH103", date2, "CHEM101", date3}, 
     			new String[] {"resultColumn.cluId", "resultColumn.date"});
 
-		Max max = new Max(fact, "resultColumn.date");
-		Date output = (Date) max.compute();
+		Max<Date> max = new Max<Date>(fact, "resultColumn.date");
+		Date output = max.compute();
 		
 		Assert.assertEquals(cal3, output);
 	}
@@ -107,8 +105,8 @@ public class MaxTest {
 				new String[] {"MATH101", date1, "MATH103", date2, "CHEM101", date3}, 
     			new String[] {"resultColumn.cluId", "resultColumn.date"});
 
-		Max max = new Max(fact, "resultColumn.date");
-		Calendar output = (Calendar) max.compute();
+		Max<Calendar> max = new Max<Calendar>(fact, "resultColumn.date");
+		Calendar output = max.compute();
 		
 		Assert.assertEquals(cal3, output);
 	}

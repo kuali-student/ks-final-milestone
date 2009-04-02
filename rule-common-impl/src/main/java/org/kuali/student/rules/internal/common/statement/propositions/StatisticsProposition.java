@@ -3,7 +3,6 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 import java.util.Collection;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 

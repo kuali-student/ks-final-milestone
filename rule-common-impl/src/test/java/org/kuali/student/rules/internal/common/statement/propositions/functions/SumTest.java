@@ -19,10 +19,10 @@ public class SumTest {
     			"resultColumn.grade");
     	factResult.setFactResultTypeInfo(columnMetaData);
 
-    	Sum sum = new Sum();
+    	Sum<Number> sum = new Sum<Number>();
 		sum.setFact(factResult, "resultColumn.grade");
 		
-		BigDecimal output = (BigDecimal) sum.compute();
+		Number output = sum.compute();
 		
 		Assert.assertEquals("255.0", output.toString());
 		Assert.assertEquals(new BigDecimal("255.0"), output);

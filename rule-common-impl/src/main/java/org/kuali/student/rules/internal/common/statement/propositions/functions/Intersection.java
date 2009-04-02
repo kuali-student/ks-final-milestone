@@ -11,7 +11,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.FunctionException;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class Intersection extends AbstractFunction { 
+public class Intersection extends AbstractFunction<FactResultDTO> { 
 
 	public enum Operation {INTERSECTION, DIFFERENCE, SUBSET_DIFFERENCE}
 	

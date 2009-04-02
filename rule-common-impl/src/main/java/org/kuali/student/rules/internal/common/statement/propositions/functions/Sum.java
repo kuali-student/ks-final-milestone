@@ -6,7 +6,7 @@ import java.util.Map;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class Sum extends AbstractFunction {
+public class Sum<T extends Number> extends AbstractFunction<Number> {
 
 	private Number result;
 
@@ -43,7 +43,7 @@ public class Sum extends AbstractFunction {
      * 
      * @return Sum of all the element in the fact list
      */
-    protected BigDecimal sum() {
+    protected Number sum() {
         BigDecimal sum = new BigDecimal("0.0");
 
         for (Map<String, String> row : this.factDTO.getResultList()) {

@@ -14,26 +14,17 @@ import java.util.Map.Entry;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
-public abstract class AbstractFunction implements Function {
+public abstract class AbstractFunction<T> implements Function<T> {
 
 	String operation;
 
-	public abstract Object compute();
+	public abstract T compute();
 
 	public void setOperation(String operationType) {
 		this.operation = operationType;
 	}
-
-//	public abstract Integer getInputs();
-//
-//	public abstract Integer getOutputs();
-//
-//	public abstract Object getOutput();
-//
-//	public abstract void setInput(Object input);
 
 	public Boolean containsFactColumnKey(FactResultDTO factDTO, String factColumnKey) {
 		if(factDTO.getFactResultTypeInfo().getResultColumnsMap().containsKey(factColumnKey)) {
@@ -55,8 +46,7 @@ public abstract class AbstractFunction implements Function {
 		return set;
 	}
     
-	@SuppressWarnings("unchecked")
-	public <T> Collection<T> getCollection(FactResultDTO factResult, String column) {
+	public Collection<T> getCollection(FactResultDTO factResult, String column) {
 		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
 		List<T> list = new ArrayList<T>();
 		for( Map<String,String> map : factResult.getResultList()) {
@@ -66,6 +56,7 @@ public abstract class AbstractFunction implements Function {
 					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
 					try {
+						@SuppressWarnings("unchecked")
 						T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 						list.add(obj);
 					} catch(NumberFormatException e) {

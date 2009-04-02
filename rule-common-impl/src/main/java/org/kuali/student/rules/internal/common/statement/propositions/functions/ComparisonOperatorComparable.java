@@ -5,7 +5,7 @@ import java.util.Comparator;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalFunctionStateException;
 
-public class ComparisonOperatorComparable<T extends Comparable<T>> extends AbstractFunction {
+public class ComparisonOperatorComparable<T extends Comparable<T>> extends AbstractFunction<Boolean> {
 
 	private ComparisonOperator operator;
 	private T expectedValue;
@@ -74,19 +74,4 @@ public class ComparisonOperatorComparable<T extends Comparable<T>> extends Abstr
 	    return truthValue;
     }
 
-//    public Integer getInputs() {
-//		return new Integer(1);
-//	}
-//
-//	public Integer getOutputs() {
-//		return new Integer(1);
-//	}
-//
-//	public Object getOutput() {
-//		return this.result;
-//	}
-//
-//	public void setInput(Object input) {
-//		this.input = (List) input;
-//	}
 }

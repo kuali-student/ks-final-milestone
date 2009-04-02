@@ -25,7 +25,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.functions.
 
 public class AverageProposition<E extends Number> extends AbstractProposition<BigDecimal> { //extends SumProposition<E> {
 	private BigDecimal average;
-    private Average averageFunction;
+    private Average<Number> averageFunction;
 
     public AverageProposition(String id, 
 							  String propositionName, 
@@ -34,12 +34,13 @@ public class AverageProposition<E extends Number> extends AbstractProposition<Bi
     						  FactResultDTO factDTO, String factColumn) {
     	super(id, propositionName, PropositionType.AVERAGE, operator, expectedValue, 
     			null, null, factDTO, factColumn);
-    	averageFunction = new Average(factDTO, factColumn);
+    	averageFunction = new Average<Number>(factDTO, factColumn);
     }
 
     @Override
     public Boolean apply() {
-    	average = (BigDecimal) averageFunction.compute();
+    	Number num = averageFunction.compute();
+    	average = new BigDecimal(num.toString());
 
         result = checkTruthValue(average, super.expectedValue);
 

@@ -2,9 +2,7 @@ package org.kuali.student.rules.internal.common.statement.propositions.functions
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -26,8 +24,8 @@ public class MinTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Min min = new Min(fact, "resultColumn.credits");
-		Number output1 = (Number) min.compute();
+		Min<Integer> min = new Min<Integer>(fact, "resultColumn.credits");
+		Number output1 = min.compute();
 		
 		Assert.assertEquals(new Integer(3), output1);
 	}
@@ -39,8 +37,8 @@ public class MinTest {
 				new String[] {"MATH101", "3.1", "MATH103", "4.2", "CHEM101", "5.3"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Min min = new Min(fact, "resultColumn.credits");
-		Number output = (Number) min.compute();
+		Min<Double> min = new Min<Double>(fact, "resultColumn.credits");
+		Number output = min.compute();
 		
 		Assert.assertEquals(new Double("3.1"), output);
 	}
@@ -52,8 +50,8 @@ public class MinTest {
 				new String[] {"MATH101", "3.1", "MATH103", "4.2", "CHEM101", "5.3"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Min min = new Min(fact, "resultColumn.credits");
-		Number output = (Number) min.compute();
+		Min<BigDecimal> min = new Min<BigDecimal>(fact, "resultColumn.credits");
+		Number output = min.compute();
 		
 		Assert.assertEquals(new BigDecimal("3.1"), output);
 	}
@@ -65,8 +63,8 @@ public class MinTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-		Min min = new Min(fact, "resultColumn.credits");
-		Number output = (Number) min.compute();
+		Min<BigInteger> min = new Min<BigInteger>(fact, "resultColumn.credits");
+		Number output = min.compute();
 		
 		Assert.assertEquals(new BigInteger("3"), output);
 	}
@@ -86,8 +84,8 @@ public class MinTest {
 				new String[] {"MATH101", date1, "MATH103", date2, "CHEM101", date3}, 
     			new String[] {"resultColumn.cluId", "resultColumn.date"});
 
-		Min min = new Min(fact, "resultColumn.date");
-		Date output1 = (Date) min.compute();
+		Min<Date> min = new Min<Date>(fact, "resultColumn.date");
+		Date output1 = min.compute();
 		
 		Assert.assertEquals(cal1, output1);
 	}
@@ -107,8 +105,8 @@ public class MinTest {
 				new String[] {"MATH101", date1, "MATH103", date2, "CHEM101", date3}, 
     			new String[] {"resultColumn.cluId", "resultColumn.date"});
 
-		Min min = new Min(fact, "resultColumn.date");
-		Calendar output = (Calendar) min.compute();
+		Min<Calendar> min = new Min<Calendar>(fact, "resultColumn.date");
+		Calendar output = min.compute();
 		
 		Assert.assertEquals(cal1, output);
 	}
