@@ -88,7 +88,7 @@ public class LumApplication extends Controller {
         if (viewType instanceof CourseViews) {
             switch ((CourseViews) viewType) {
                 case COURSE_REQUISITES:
-                    courseRequisiteView.setPrereqInfo(null);
+//                    courseRequisiteView.setPrereqInfo(null);
                     return courseRequisiteView;
                 default:
                     // do nothing

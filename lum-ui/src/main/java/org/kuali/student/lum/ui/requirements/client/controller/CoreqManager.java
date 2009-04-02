@@ -24,6 +24,7 @@ public class CoreqManager extends Controller {
 
     public CoreqManager() {
         super();
+        super.initWidget(viewPanel);
     }
 
     @Override

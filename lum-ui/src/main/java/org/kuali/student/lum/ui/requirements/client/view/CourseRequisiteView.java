@@ -59,6 +59,7 @@ public class CourseRequisiteView extends ViewComposite {
         VerticalPanel verticalPanel = new VerticalPanel();
         verticalPanel.add(prereqManager);
         verticalPanel.add(coreqManager);
+        parentPanel.add(verticalPanel);
     }
 
 }
