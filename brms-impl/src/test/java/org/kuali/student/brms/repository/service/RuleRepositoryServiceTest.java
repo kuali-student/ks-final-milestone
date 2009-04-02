@@ -68,9 +68,6 @@ import org.kuali.student.brms.util.CurrentDateTime;
 import org.kuali.student.brms.util.FactContainer;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.brms.repository.service.RuleRepositoryService;
 
@@ -80,7 +77,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     // Automatically loads rule-repository-mock-service-context.xml (*-mock-service-context.xml)
 	// and auto-wires by type
-	@Client(value="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl", port="8181", additionalContextFile="classpath:rule-repository-mock-service-context.xml")
+	@Client(value="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl", 
+			port="8181", additionalContextFile="classpath:rule-repository-mock-service-context.xml")
     public RuleRepositoryService service; 
 
     @BeforeClass
@@ -219,8 +217,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.removeRuleSet(ruleSet1.getUUID());
         service.removeRuleSet(ruleSet2.getUUID());
         service.removeCategory("/"+category);
-        
-        assertNull(service.fetchCategories("/"+category));
     }
 
     @Test
