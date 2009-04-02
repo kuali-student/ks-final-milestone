@@ -17,7 +17,6 @@ package org.kuali.student.rules.repository.service;
 
 import java.util.List;
 
-import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -73,7 +72,6 @@ public interface RuleRepositoryService {
      * @throws IllegalArgumentException If path is invalid
      */
     @WebMethod
-    @Oneway
     public void removeCategory(final String path) 
     	throws OperationFailedException, InvalidParameterException, MissingParameterException;
     
@@ -112,7 +110,6 @@ public interface RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
-    @Oneway
     public void removeRuleSet(@WebParam(name="uuid")String uuid)
     	throws OperationFailedException, InvalidParameterException;
 
@@ -125,7 +122,6 @@ public interface RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
-    @Oneway
     public void removeRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
     		@WebParam(name="snapshotName")String snapshotName)
@@ -276,7 +272,6 @@ public interface RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
-    @Oneway
     public void removeState(@WebParam(name="name")String name)
     	throws OperationFailedException, InvalidParameterException;
     
@@ -290,7 +285,6 @@ public interface RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
-    @Oneway
     public void changeRuleSetState(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
     		@WebParam(name="newState")String newState)
