@@ -15,27 +15,6 @@
 	<name>KS BRMS EXECUTION IMPL</name>
 	<description />
 
-	<properties>
-		<!--drools.version>4.0.7</drools.version-->
-        <drools.version>5.0.0.CR1</drools.version>
-        <velocity.version>1.5</velocity.version>
-
-        <jpa.properties.in>src/test/resources/META-INF/jpa.properties</jpa.properties.in>
-        <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
-        <jdbc.derby.in>src/test/resources/META-INF/jdbc_derby.properties</jdbc.derby.in>
-        <jdbc.oracle.in>src/test/resources/META-INF/jdbc_oracle.properties</jdbc.oracle.in>
-        <jdbc.properties.out>${project.build.testOutputDirectory}/META-INF/jdbc.properties</jdbc.properties.out>
-        <drools.repository.directory>${project.build.testOutputDirectory}/drools-repository</drools.repository.directory>
-        <drools.repository.default.out>${project.build.testOutputDirectory}/drools-repository/repository.xml</drools.repository.default.out>
-        <drools.repository.derby.in>src/test/resources/drools-repository/repository_derby.xml</drools.repository.derby.in>
-        <drools.repository.oracle.in>src/test/resources/drools-repository/repository_oracle.xml</drools.repository.oracle.in>
-        <application.properties.oracle.in>src/test/resources/application-oracle.properties</application.properties.oracle.in>
-        <application.context.test.in>src/test/resources/META-INF/default-dao-context-test.xml</application.context.test.in>
-        <application.context.test.out>${project.build.testOutputDirectory}/META-INF/default-dao-context-test.xml</application.context.test.out>
-        <application.context.rulerepository>application-rulerepository-context.xml</application.context.rulerepository>
-        <mvel.dep.version>2.0.8pre1</mvel.dep.version>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
