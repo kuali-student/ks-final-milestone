@@ -9,7 +9,9 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
+import org.kuali.student.lum.ui.requirements.client.view.SearchView;
 import org.kuali.student.lum.ui.requirements.client.view.SimpleView;
 
 import com.google.gwt.user.client.Window;
@@ -23,6 +25,8 @@ public class PrereqManager extends Controller {
     private final SimplePanel viewPanel = new SimplePanel();
     private final View simpleView = new SimpleView(this);
     private final View complexView = new ComplexView(this);
+    private final View searchView = new SearchView(this);
+    private final View clauseEditorView = new ClauseEditorView(this);
     private final Model<PrereqInfo> prereqInfo;
 
     public PrereqManager(Model<PrereqInfo> prereqInfo) {
@@ -77,6 +81,10 @@ public class PrereqManager extends Controller {
                 return simpleView;
             case COMPLEX:
                 return complexView;
+            case SEARCH:
+                return searchView;
+            case CLAUSE_EDITOR:
+                return clauseEditorView;
             default:
                 return null;
         }

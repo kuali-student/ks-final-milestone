@@ -13,16 +13,16 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SimpleView extends ViewComposite {
+public class SearchView extends ViewComposite {
     
     private Panel mainPanel = new SimplePanel();
     private KSButton btnToComplexView = new KSButton("To Complex View");
 
-    public SimpleView(Controller controller) {
-        super(controller, "Simple View");
+    public SearchView(Controller controller) {
+        super(controller, "Search View");
         super.initWidget(mainPanel);
         Panel testPanel = new VerticalPanel();
-        testPanel.add(new KSLabel("Simple View"));
+        testPanel.add(new KSLabel("Search View"));
         testPanel.add(btnToComplexView);
         mainPanel.add(testPanel);
         setupHandlers();
