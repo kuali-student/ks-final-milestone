@@ -204,7 +204,7 @@ public class DroolsTestUtil
 	 */
 	public String getValidationRule1() throws Exception {
 		if ( validationRule1 == null || validationRule1.trim().isEmpty() ) {
-		    validationRule1 = loadFile( "/drools/drls/org/kuali/student/rules/brms/repository/drools/test-rule-1.txt" );
+		    validationRule1 = loadFile( "/drools/drls/org/kuali/student/brms/repository/drools/test-rule-1.txt" );
 		}
 	    return validationRule1;
 	}
@@ -220,7 +220,7 @@ public class DroolsTestUtil
 	 */
 	public String getValidationRule2() throws Exception {
         if ( validationRule2 == null || validationRule2.trim().isEmpty() ) {
-            validationRule2 = loadFile( "/drools/drls/org/kuali/student/rules/brms/repository/drools/test-rule-2.txt" );
+            validationRule2 = loadFile( "/drools/drls/org/kuali/student/brms/repository/drools/test-rule-2.txt" );
         }
         return validationRule2;
 	}
