@@ -13,21 +13,6 @@ public class TestAtpDaoImpl extends AbstractTransactionalDaoTest {
 
 	@Test
 	public void testCreateType() {
-//		Type type = new Type();
-//		type.setKey("types.foo.type1");
-//		type.setDesc("Description type 1");
-//		type.setName("Name for type 1");
-//		type.setEffectiveDate(new Date());
-//		type.setExpirationDate(new Date());
-//		TypeAttribute attr = new TypeAttribute();
-//		attr.setId("12345");
-//		AttributeType  attrType = new AttributeType();
-//		attrType.setId("1234567");
-//		attrType.setName("attr1");
-//		attr.setType(attrType);
-//		attr.setValue("value1");
-//		type.getAttributes().add(attr);
 
-//		dao.createType(type);
 	}
 }

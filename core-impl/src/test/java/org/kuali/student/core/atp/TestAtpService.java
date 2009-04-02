@@ -3,6 +3,8 @@ package org.kuali.student.core.atp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.kuali.student.core.atp.dto.AtpTypeInfo;
 import org.kuali.student.core.atp.dto.DateRangeInfo;
 import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
+import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -44,29 +47,53 @@ public class TestAtpService extends AbstractServiceTest {
 	public static final String atp_2009FallSemester = "atp.2009FallSemester";
 	
 	@Test
-	public void TestFinds() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-		client.getMilestoneType(milestoneType_lastDateToDrop);
+	public void TestFinds() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException{
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(2009, 9, 1);
+
+		Calendar startCal = Calendar.getInstance();
+		startCal.set(2008, 1, 1);
+		
+		Calendar endCal = Calendar.getInstance();
+		endCal.set(2010, 1, 1);
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		
 		List<AtpTypeInfo> atpTypes = client.getAtpTypes();
 		assertEquals(2,atpTypes.size());
 		
-		List<DateRangeTypeInfo> dateRangeTypes = client.getDateRangeTypesForAtpType(atpType_fallSemester);
-		assertEquals(1,dateRangeTypes.size());
+		List<AtpInfo> atpsByAtpType = client.getAtpsByAtpType(atpType_fallSemester);
+		assertEquals(1,atpsByAtpType.size());
+		assertEquals(atp_2009FallSemester,atpsByAtpType.get(0).getId());
 		
-		Calendar cal = Calendar.getInstance();
-		cal.set(2009, 9, 1);
-		List<AtpInfo> atps = client.getAtpsByDate(cal.getTime());
-		assertEquals(1,atps.size());
-		assertEquals("atp.2009FallSemester", atps.get(0).getId());
+		List<AtpInfo> atpsByDate = client.getAtpsByDate(cal.getTime());
+		assertEquals(1,atpsByDate.size());
+		assertEquals(atp_2009FallSemester,atpsByDate.get(0).getId());
 		
+		List<AtpInfo> atpsByDates = client.getAtpsByDates(startCal.getTime(), endCal.getTime());
+		assertEquals(2,atpsByDates.size());
 		
-		Calendar startCal = Calendar.getInstance();
-		Calendar endCal = Calendar.getInstance();
-		startCal.set(2008, 1, 1);
-		endCal.set(2010, 1, 1);
-		atps = client.getAtpsByDates(startCal.getTime(),endCal.getTime());
-		assertEquals(2,atps.size());
-
+		List<DateRangeInfo> dateRangesByAtp = client.getDateRangesByAtp(atp_2009FallSemester);
+		assertEquals(1,dateRangesByAtp.size());
+		
+		List<DateRangeInfo> dateRangesByDate = client.getDateRangesByDate(df.parse("20091205"));
+		assertEquals(1,dateRangesByDate.size());
+		
+		List<DateRangeTypeInfo> dateRangeTypesForAtpType = client.getDateRangeTypesForAtpType(atpType_fallSemester);
+		assertEquals(1,dateRangeTypesForAtpType.size());
+		
+		List<MilestoneInfo> milestonesByAtp = client.getMilestonesByAtp(atp_2009FallSemester);
+		assertEquals(1,milestonesByAtp.size());
+		
+		List<MilestoneInfo> milestonesByDates = client.getMilestonesByDates(startCal.getTime(), endCal.getTime());
+		assertEquals(1,milestonesByDates.size());
+		
+		List<MilestoneInfo> milestonesByDatesAndType = client.getMilestonesByDatesAndType(milestoneType_lastDateToDrop, startCal.getTime(), endCal.getTime());
+		assertEquals(1,milestonesByDatesAndType.size());
+		
+		List<MilestoneTypeInfo> milestoneTypesForAtpType = client.getMilestoneTypesForAtpType(atpType_fallSemester);
+		assertEquals(1,milestoneTypesForAtpType.size());
 	}
 	
 	@Test

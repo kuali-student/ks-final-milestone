@@ -153,6 +153,8 @@
 		<property name="effectiveDate" value="08/30/2009" />
 		<property name="expirationDate" value="12/14/2009" />
 		<property name="state" value="stale" />
+		<property name="dateRanges"><list><ref bean="dateRangeFinals2009FallSemester"/></list></property>
+		<property name="milestones"><list><ref bean="milestoneLastToDrop2009FallSemester"/></list></property>
 		<property name="attributes">
 			<list>
 				<bean class="org.kuali.student.core.atp.entity.AtpAttribute">

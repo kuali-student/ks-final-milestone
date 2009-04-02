@@ -127,7 +127,7 @@ public class AtpDaoImpl extends AbstractCrudDaoImpl implements AtpDao {
 	@Override
 	public List<Milestone> findMilestonesByDatesAndType(
 			String milestoneTypeId, Date startDate, Date endDate) {
-		Query q = em.createQuery("Milestone.findMilestonesByDatesAndType");
+		Query q = em.createNamedQuery("Milestone.findMilestonesByDatesAndType");
 		
 		q.setParameter("milestoneTypeId", milestoneTypeId);
 		q.setParameter("startDate", startDate);
