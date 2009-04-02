@@ -52,11 +52,11 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 		if(element.hasAttribute("key")&&!"objectStructure".equals(element.getLocalName())){
             builder.addPropertyValue("key", element.getAttribute("key"));
 		}
-    	
+
 		if("contextDescriptor".equals(element.getLocalName())){
 			 builder.addPropertyValue("type", element.getAttribute("type"));
 		}
-		
+
         if("state".equals(element.getLocalName())){
             List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
             builder.addPropertyValue("field",refList);
@@ -67,10 +67,10 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
     		if(element.hasAttribute("key")){
                 builder.addPropertyValue("objectTypeKey", element.getAttribute("key"));
     		}
-        	
+
         	List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
             builder.addPropertyValue("type",refList);
-            
+
         }else{
 	        //Parse the children
 	        for(int i = 0;i<element.getChildNodes().getLength();i++){
@@ -80,7 +80,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                    List<?> refList = pc.getDelegate().parseListElement((Element) node, pc.getContainingBeanDefinition());
 	                    builder.addPropertyValue(node.getLocalName(),refList);
 	                }else{
-	                    Element childElement = getFirstChildElement(node); 
+	                    Element childElement = getFirstChildElement(node);
 	                    if(childElement!=null){
 	                        if("ref".equals(childElement.getLocalName())){
 	                            Object childBean = pc.getDelegate().parsePropertySubElement(childElement, pc.getContainingBeanDefinition());
@@ -107,7 +107,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
                 return (Element) childNode;
             }
         }
-        
+
         return null;
     }
 
