@@ -15,6 +15,7 @@
  */
 package org.kuali.student.common.ui.client.widgets.forms;
 
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.forms.impl.KSFormLayoutPanelImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -93,4 +94,7 @@ public class KSFormLayoutPanel extends KSFormLayoutPanelAbstract {
         return form.getRowCount();
     }
 
+    public void setEditMode(EditMode mode){
+        form.setEditMode(mode);
+    }
 }

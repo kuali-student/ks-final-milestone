@@ -16,9 +16,15 @@
 package org.kuali.student.common.ui.client.widgets.forms;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSHelpLink;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,13 +35,19 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class KSFormField {
-    Widget formField;
+public class KSFormField implements EditModeChangeHandler{
+    private SimplePanel fieldDispWidget = new SimplePanel();
+    private KSHelpLink fieldHelpLink = new KSHelpLink();
+    private KSLabel fieldValueLabel = new KSLabel();
+    private Widget fieldWidget;
+    
     private String name;
     private String label;
     private String desc;
     private HelpInfo helpInfo;
+    private EditMode mode = EditMode.EDITABLE;
       
+   
     public String getLabelText() {
         return label;
     }
@@ -52,14 +64,27 @@ public class KSFormField {
         this.desc = desc;
     }
 
+    /** 
+     * This method returns a display widget, which will be toggled based on
+     * toggle event.
+     * 
+     * @return
+     */
+    public Widget getDisplayWidget(){
+        setEditMode(this.mode);
+        return this.fieldDispWidget;
+    }
+    
     /**
-     * This method returns the widget for this form field.
+     * This method returns the underlying widget for this form field. Use this
+     * only to get access to the underlying field widget, to display this widget
+     * call getDisplayWidget instead.
      * 
      * @param name
      * @return
      */
     public Widget getWidget() {
-        return formField;
+        return fieldWidget;
     }
 
     /**
@@ -76,7 +101,7 @@ public class KSFormField {
         } catch (Exception e) {
             
         }
-        this.formField = formField;        
+        this.fieldWidget = formField;
     }
     
     /**
@@ -88,9 +113,10 @@ public class KSFormField {
      */
     public String getText() {
         try {
-            HasText text = (HasText)formField;
+            HasText text = (HasText)fieldWidget;
             return text.getText();
         } catch (Exception e){
+            GWT.log("Form field [" + name + "] does not support getText.", e);
             return null;
         }
     }
@@ -101,7 +127,7 @@ public class KSFormField {
      */
     public void setText(String s){
         try {
-            HasText text = (HasText)formField;
+            HasText text = (HasText)fieldWidget;
             text.setText(s);
         } catch (Exception e){
             throw new UnsupportedOperationException("Field widget doesn't implement HasText");
@@ -130,5 +156,59 @@ public class KSFormField {
 
     public void setHelpInfo(HelpInfo helpInfo) {
         this.helpInfo = helpInfo;
+        if (helpInfo != null){
+            fieldHelpLink.setHelpInfo(helpInfo);
+        } else {
+            fieldHelpLink = new KSHelpLink();
+        }        
     }
+
+    public KSHelpLink getHelpLink(){
+        return this.fieldHelpLink;
+    }
+    
+    /**
+     * Handle a edit mode event 
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.forms.EditModeChangeHandler#onEditModeChange(org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent)
+     */
+    @Override
+    public void onEditModeChange(EditModeChangeEvent event) {
+        if (this.mode != event.getEditMode()){
+            this.mode = event.getEditMode();
+            setEditMode(this.mode);
+        }
+    }
+    
+    /** 
+     * Use this to toggle the edit mode of all fields in this form
+     * 
+     * @param mode
+     */
+    public void setEditMode(EditMode mode){
+        switch (mode) {
+            case VIEW_ONLY:
+                fieldValueLabel.setText(getText());
+                fieldDispWidget.setWidget(fieldValueLabel);
+                fieldHelpLink.setVisible(false);
+                break;
+            case EDITABLE:
+                try {
+                    ((FocusWidget)fieldWidget).setEnabled(true);
+                } catch (Exception e) {
+                }
+                fieldDispWidget.setWidget(fieldWidget);
+                fieldHelpLink.setVisible(true);
+                break;
+            case UNEDITABLE:
+                try {
+                    ((FocusWidget)fieldWidget).setEnabled(false);
+                } catch (Exception e) {
+                    GWT.log("Form field [" + name + "] could not be disabled.", e);
+                }
+                fieldDispWidget.setWidget(fieldWidget);
+                fieldHelpLink.setVisible(true);
+        }
+    }
+    
 }

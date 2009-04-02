@@ -16,6 +16,8 @@
 package org.kuali.student.common.ui.client.widgets.forms;
 
 
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -43,6 +45,8 @@ public abstract class KSFormLayoutPanelAbstract extends Composite{
    
     public abstract int getRowCount();    
 
+    public abstract void setEditMode(EditMode mode);
+    
     public void init(String s){
         //Only impl class needs to implement this method.
     }

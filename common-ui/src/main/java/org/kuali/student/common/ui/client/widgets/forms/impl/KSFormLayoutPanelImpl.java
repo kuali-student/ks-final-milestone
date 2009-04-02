@@ -17,12 +17,14 @@ package org.kuali.student.common.ui.client.widgets.forms.impl;
 
 import java.util.HashMap;
 
-import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanelAbstract;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Label;
@@ -41,6 +43,9 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
     public static final int FORM_FIELD_COL = 1;
     public static final int FORM_DESC_COL = 2;
 
+    HandlerManager handlers = new HandlerManager(this);
+    EditMode editMode = EditMode.EDITABLE;
+    
     VerticalPanel form = new VerticalPanel();
     FlexTable table = new FlexTable();
     HashMap<String, KSFormField> formFields = new HashMap<String, KSFormField>();
@@ -57,12 +62,10 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         KSLabel label = new KSLabel(field.getLabelText(), false);
         int rowIdx = table.getRowCount();
         table.setWidget(rowIdx, FORM_LABEL_COL, label);
-        table.setWidget(rowIdx, FORM_FIELD_COL, field.getWidget());
+        table.setWidget(rowIdx, FORM_FIELD_COL, field.getDisplayWidget());
         
         if (field.getHelpInfo() != null){
-            KSHelpLink helpLink = new KSHelpLink();
-            helpLink.setHelpInfo(field.getHelpInfo());
-            table.setWidget(rowIdx, FORM_DESC_COL, helpLink);
+            table.setWidget(rowIdx, FORM_DESC_COL, field.getHelpLink());
         }
 
         CellFormatter cf = table.getCellFormatter();
@@ -71,6 +74,7 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         cf.setStyleName(rowIdx, FORM_DESC_COL, KSStyles.KS_FORMLAYOUT_HELP);
 
         formFields.put(field.getName(), field);
+        handlers.addHandler(EditModeChangeEvent.TYPE, field);        
     }    
 
     public String[] getFieldNames(){
@@ -96,5 +100,12 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
     
     public void setFieldValue(String name, String value){
         ((KSFormField)formFields.get(name)).setText(value);
+    }
+    
+    public void setEditMode(EditMode editable){
+        if (this.editMode != editable){
+            this.editMode = editable;
+            handlers.fireEvent(new EditModeChangeEvent(editable));
+        }
     }
 }
