@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:simple="http://cxf.apache.org/simple"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
+
+	<!-- Spring to GWT servlet mapping -->
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService">
+					<ref bean="requirementsServiceGwtController"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Controllers -->
+	<bean id="requirementsServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="requirementsServiceGwt"/>
+		<property name="servletInstance" ref="requirementsServiceGwt"/>
+	</bean>
+	
+	<!-- GWT Servlets -->
+	<bean id="requirementsServiceGwt" class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsServiceGwt">
+		<property name="serviceImpl" ref="requirementsServiceImpl"/>
+	</bean>
+	
+	<!-- Service Implementations -->
+	<bean id="requirementsServiceImpl" class="org.kuali.student.lum.ui.requirements.server.impl.RequirementsServiceImpl">
+		<property name="service" ref="lumClient" />
+	</bean>
+
+	<!-- Service Clients -->	
+	<bean id="lumClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/LuService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.lum.lu.service.LuService" />
+		<property name="serviceQNameString"
+			value="{http://student.kuali.org/lum/lu}LuService" />
+	 	<property name="address"
+			value="http://localhost:8080/ks-lum-web-0.0.1-SNAPSHOT/Service/LuService" />
+    </bean> 
+	
+</beans>

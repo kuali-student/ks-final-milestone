@@ -1,0 +1,85 @@
+package org.kuali.student.lum.ui.requirements.client.controller;
+
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
+import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
+import org.kuali.student.lum.ui.requirements.client.view.SimpleView;
+
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.SimplePanel;
+
+public class PrereqManager extends Controller {
+    public enum PrereqViews {
+        SIMPLE, COMPLEX, SEARCH, CLAUSE_EDITOR
+    }
+
+    private final SimplePanel viewPanel = new SimplePanel();
+    private final View simpleView = new SimpleView(this);
+    private final View complexView = new ComplexView(this);
+    private final Model<PrereqInfo> prereqInfo;
+
+    public PrereqManager(Model<PrereqInfo> prereqInfo) {
+        super();
+        super.initWidget(viewPanel);
+        this.prereqInfo = prereqInfo;
+    }
+
+    @Override
+    protected void onLoad() {
+        showDefaultView();
+        // add event handler to show example of a nested controller listening for unchecked events
+        addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
+            public void onLogout(LogoutEvent event) {
+                Window.alert("PrereqManager caught logout event");
+            }
+        });
+    }
+
+    // controller operations
+    @Override
+    public void renderView(View view) {
+        // in this case we know that all of our widgets are composites
+        // but we could do view specific rendering, e.g. show a lightbox, etc
+        viewPanel.setWidget((ViewComposite) view);
+    }
+
+    @Override
+    protected void hideView(View view) {
+        viewPanel.clear();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+        if (modelType.equals(PrereqInfo.class)) {
+            callback.onModelReady(prereqInfo);
+        } else {
+            super.requestModel(modelType, callback);
+        }
+    }
+
+    @Override
+    public void showDefaultView() {
+        showView(PrereqViews.SIMPLE);
+    }
+
+    @Override
+    protected <V extends Enum<?>> View getView(V viewType) {
+        switch ((PrereqViews) viewType) {
+            case SIMPLE:
+                return simpleView;
+            case COMPLEX:
+                return complexView;
+            default:
+                return null;
+        }
+    }
+
+}

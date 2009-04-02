@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<init-param>
+      		<param-name>contextConfigLocation</param-name>
+      		<param-value>classpath:spring-beans.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<!--
+	<servlet>
+		<servlet-name>RequirementsServiceGwt</servlet-name>
+		<servlet-class>org.kuali.student.lum.ui.requirements.server.gwt.RequirementsServiceGwt</servlet-class>
+		<load-on-startup>1</load-on-startup>
+
+	</servlet> 
+	<servlet>
+		<servlet-name>enumerationClientService</servlet-name>
+		<servlet-class>org.kuali.student.enumeration.web.server.gwt.EnumerationGWTClientServiceImplGWT</servlet-class>
+		               
+		<load-on-startup>1</load-on-startup>
+	</servlet>	
+	-->	
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.enumeration.web.Main/GuiService</url-pattern>
+	</servlet-mapping>	
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService</url-pattern>
+	</servlet-mapping>
+
+<!-- temp servlets -->	
+<!-- 
+  <servlet>
+    <servlet-name>org.kuali.student.commons.ui.logging.server.LogServiceImpl/org.kuali.student.lum.ui.requirements.Requirements/LogService</servlet-name>
+    <servlet-class>org.kuali.student.commons.ui.logging.server.LogServiceImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>org.kuali.student.common.ui.messages.server.gwt.MessagesServiceImplGWT/org.kuali.student.lum.ui.requirements.Requirements/MessagesService</servlet-name>
+    <servlet-class>org.kuali.student.common.ui.messages.server.gwt.MessagesServiceImplGWT</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>org.kuali.student.commons.ui.validators.server.gwt.ValidatorServiceGWT/org.kuali.student.lum.ui.requirements.Requirements/ValidatorService</servlet-name>
+    <servlet-class>org.kuali.student.commons.ui.validators.server.gwt.ValidatorServiceGWT</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>org.kuali.student.commons.ui.validators.server.impl.ValidatorTestServlet/org.kuali.student.lum.ui.requirements.Requirements/ValidatorTestServlet</servlet-name>
+    <servlet-class>org.kuali.student.commons.ui.validators.server.impl.ValidatorTestServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>org.kuali.student.commons.ui.viewmetadata.server.gwt.ViewMetaDataServiceGWTImpl/org.kuali.student.lum.ui.requirements.Requirements/ViewMetaDataService</servlet-name>
+    <servlet-class>org.kuali.student.commons.ui.viewmetadata.server.gwt.ViewMetaDataServiceGWTImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>org.kuali.student.lum.ui.requirements.server.gwt.RequirementsServiceGwt/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService</servlet-name>
+    <servlet-class>org.kuali.student.lum.ui.requirements.server.gwt.RequirementsServiceGwt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spring</servlet-name>
+    <url-pattern>/org.kuali.student.enumeration.web.Main/GuiService</url-pattern>
+  </servlet-mapping>
+ -->
+	<!-- temp mappings for old MVC framework.  To be replaced by new framework -->
+<!--   
+  <servlet-mapping>
+    <servlet-name>org.kuali.student.commons.ui.logging.server.LogServiceImpl/org.kuali.student.lum.ui.requirements.Requirements/LogService</servlet-name>
+    <url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/LogService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>org.kuali.student.common.ui.messages.server.gwt.MessagesServiceImplGWT/org.kuali.student.lum.ui.requirements.Requirements/MessagesService</servlet-name>
+    <url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/MessagesService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>org.kuali.student.commons.ui.validators.server.gwt.ValidatorServiceGWT/org.kuali.student.lum.ui.requirements.Requirements/ValidatorService</servlet-name>
+    <url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/ValidatorService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>org.kuali.student.commons.ui.validators.server.impl.ValidatorTestServlet/org.kuali.student.lum.ui.requirements.Requirements/ValidatorTestServlet</servlet-name>
+    <url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/ValidatorTestServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>org.kuali.student.commons.ui.viewmetadata.server.gwt.ViewMetaDataServiceGWTImpl/org.kuali.student.lum.ui.requirements.Requirements/ViewMetaDataService</servlet-name>
+    <url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/ViewMetaDataService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>org.kuali.student.lum.ui.requirements.server.gwt.RequirementsServiceGwt/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService</servlet-name>
+    <url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService</url-pattern>
+  </servlet-mapping>
+ -->
+</web-app>
