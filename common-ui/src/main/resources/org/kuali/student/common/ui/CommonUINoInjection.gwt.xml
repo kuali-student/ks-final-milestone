@@ -3,6 +3,7 @@
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name="com.google.gwt.user.User"/>
 	
+	<inherits name="org.kuali.student.core.Core"/>
 	<inherits name="org.kuali.student.core.messages.Message"/>
  
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
@@ -15,9 +16,7 @@
 	
 	<set-property name="CssResource.style" value="pretty" />
 	<set-property name="CssResource.enableMerge" value="false" />
-	<set-property name="CssResource.globalPrefix" value="empty" /> 
-	<set-property name="ResourceBundle.enableInlining" value="false" />
-	<set-property name="ResourceBundle.enableRenaming" value="false" />
+	<set-property name="CssResource.globalPrefix" value="empty" />
     
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
