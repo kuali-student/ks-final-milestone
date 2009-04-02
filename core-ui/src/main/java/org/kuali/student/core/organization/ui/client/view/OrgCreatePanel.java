@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -47,6 +48,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -593,6 +595,24 @@ public class OrgCreatePanel extends Composite{
 
     public void setOrgId(String orgId) {
         this.orgId = orgId;
+    }
+    
+    public static void showPopup(String createPanelType, String orgId, String headerText) {
+        final KSDialogPanel modal = new KSDialogPanel();
+        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(createPanelType, new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+              modal.hide();
+            }});
+        ScrollPanel scroll = new ScrollPanel(orgCreatePanel);
+        scroll.setSize("40em", "30em");
+        orgCreatePanel.setOrgId(orgId);
+        modal.setWidget(scroll);
+        modal.setHeader(headerText);
+        modal.setResizable(true);
+        modal.setAutoHide(true);
+        modal.center();
+        modal.show();
     }
  
     

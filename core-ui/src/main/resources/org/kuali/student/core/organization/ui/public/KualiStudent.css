@@ -92,6 +92,7 @@ padding-left: 1ex;
 
 .KS-Popup-Header {
 	background: #f1c232;
+	width: 100%;
 }
 
 .KS-Popup .KS-Org-Create-Panel {
@@ -177,6 +178,44 @@ KS-Disclosure-Section-Open{
 }
 .KS-Dropdown-Selected{
 
+}
+
+.ks-OrgMenu td > div > div { /*HACK HACK HACK*/
+		
+border: 2px solid;
+border-color: #f1c232 #bf9000;
+	margin: 2px;
+
+	background-color: #f1c232;	/*#bf9000, ffd966*/
+}
+
+.ks-OrgMenu td > div > div:hover { /*HACK HACK HACK*/
+		
+	background-color: #ccdddd;
+border: 2px solid;
+border-color: #ccdddd #aabbbb;
+	
+	cursor:pointer;
+}
+
+.KS-Accordion-WidgetPanel { /*HACK HACK HACK*/
+	width: 200;
+		
+border: 2px solid;
+border-color: #f1c232 #bf9000;
+	margin: 2px;
+
+	background-color: #f1c232;	/*#bf9000, ffd966*/
+}
+
+.KS-Accordion-WidgetPanel .KS-Indent-1{ /*HACK HACK HACK*/
+	background-color: #ffd966;	/*#bf9000, ffd966*/
+	border-left: solid 2px #bf9000;
+	margin-left: 2ex;
+}
+
+.KS-Accordion-WidgetPanel div.KS-Indent-1:hover{ /*HACK HACK HACK*/
+	background-color: #eeeeee;
 }
 
 .KS-Accordion{

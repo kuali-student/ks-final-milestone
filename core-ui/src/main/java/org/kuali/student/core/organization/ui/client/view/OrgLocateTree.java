@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.KSDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -129,21 +127,7 @@ public class OrgLocateTree extends Composite {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    final KSDialogPanel modal = new KSDialogPanel();
-                    final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(((Hyperlink)event.getSource()).getTargetHistoryToken(), new ClickHandler() {
-
-                        @Override
-                        public void onClick(ClickEvent event) {
-                          modal.hide();
-                        }});
-                    ScrollPanel scroll = new ScrollPanel(orgCreatePanel);
-                    scroll.setSize("20em", "20em");
-                    orgCreatePanel.setOrgId(id);
-                    modal.setWidget(scroll);
-                    modal.setHeader(((Hyperlink)event.getSource()).getText());
-                    modal.setResizable(true);
-                    modal.setAutoHide(true);
-                    modal.show();
+                    OrgCreatePanel.showPopup(((Hyperlink)event.getSource()).getTargetHistoryToken(), id, ((Hyperlink)event.getSource()).getText());
                 }
             };
             

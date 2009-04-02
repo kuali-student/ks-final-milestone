@@ -83,7 +83,7 @@ public class OrgMenu extends VerticalPanel{
                         // TODO: handle exception
                     }
                 }
-                contentPanel.setWidget(w);        
+                contentPanel.setWidget(w);
             }
         };
     }                    
