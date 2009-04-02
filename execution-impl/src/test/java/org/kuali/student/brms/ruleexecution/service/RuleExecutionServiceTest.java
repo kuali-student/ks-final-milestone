@@ -49,7 +49,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 
 	// Automatically loads rule-repository-mock-service-context.xml 
 	// (*-mock-service-context.xml) and auto-wires by type
-	@Client(value="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181")
+	@Client(value="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181", additionalContextFile="classpath:rule-execution-mock-service-context.xml")
     public RuleExecutionService ruleExecutionService;
 
 	private static RuleManagementService ruleManagementService;

@@ -1,5 +1,4 @@
-DroolsTestUtil.java
-Message.javapackage org.kuali.student.brms.ruleexecution.runtime.drools.util;
+package org.kuali.student.brms.ruleexecution.runtime.drools.util;
 
 public class Message {
 	private String message = null;

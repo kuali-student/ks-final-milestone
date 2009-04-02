@@ -219,6 +219,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.removeRuleSet(ruleSet1.getUUID());
         service.removeRuleSet(ruleSet2.getUUID());
         service.removeCategory("/"+category);
+        
+        assertNull(service.fetchCategories("/"+category));
     }
 
     @Test

@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>ks-execution-impl</artifactId>
+	<artifactId>ks-brms-execution-impl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS EXECUTION IMPL</name>
@@ -101,9 +101,15 @@
 	<dependencies>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
-            <artifactId>ks-execution-api</artifactId>
+            <artifactId>ks-brms-execution-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+		
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>ks-brms-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
         
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>

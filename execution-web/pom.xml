@@ -128,12 +128,7 @@
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
-            <artifactId>rule-execution-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.brms</groupId>
-            <artifactId>rule-execution-impl</artifactId>
+            <artifactId>ks-brms-execution-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -142,6 +137,14 @@
             <version>${derby.version}</version>
             <scope>runtime</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-test</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		
     </dependencies>
 
 	<repositories>
