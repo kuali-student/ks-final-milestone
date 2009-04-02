@@ -41,6 +41,10 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -58,7 +62,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class OrgCreatePanel extends Composite{
+public class OrgCreatePanel extends Composite implements HasSelectionHandlers<OrgInfo>{
 
     VerticalPanel vPanel = new VerticalPanel();
     
@@ -123,6 +127,12 @@ public class OrgCreatePanel extends Composite{
             btnCreateOrg.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     vPanel.clear();
+                    
+                    if(closeHandler != null) {
+                        KSButton btnClose = new KSButton("Close");
+                        btnClose.addClickHandler(closeHandler);
+                        vPanel.add(btnClose);
+                    }
                     
                     if (type.equals(CREATE_ORG_ALL)){
                         saveOrganization();
@@ -311,6 +321,7 @@ public class OrgCreatePanel extends Composite{
                     savePersonRelations();
                     vPanel.add(new Label("Org created with id: " + orgId));
                     orgId=null;
+                    fireSelectEvent(result);
                 }
             });
         } else {
@@ -325,7 +336,8 @@ public class OrgCreatePanel extends Composite{
                     saveRelations();
                     savePersonRelations();
                     vPanel.add(new Label("Organization saved"));
-                    orgId=null;                    
+                    orgId=null;
+                    fireSelectEvent(result);
                 }
             });            
         }
@@ -333,6 +345,10 @@ public class OrgCreatePanel extends Composite{
         loaded=false;
     }
     
+    
+    private void fireSelectEvent(OrgInfo selectedOrg){               
+        SelectionEvent.fire(this, selectedOrg);
+    }
     
     protected void savePositions(){
         //Only every other widget is a orgPositionWidget
@@ -597,7 +613,7 @@ public class OrgCreatePanel extends Composite{
         this.orgId = orgId;
     }
     
-    public static void showPopup(String createPanelType, String orgId, String headerText) {
+    public static void showPopup(String createPanelType, String orgId, String headerText, SelectionHandler<OrgInfo> handler) {
         final KSDialogPanel modal = new KSDialogPanel();
         final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(createPanelType, new ClickHandler() {
             @Override
@@ -607,12 +623,19 @@ public class OrgCreatePanel extends Composite{
         ScrollPanel scroll = new ScrollPanel(orgCreatePanel);
         scroll.setSize("40em", "30em");
         orgCreatePanel.setOrgId(orgId);
+        if(handler != null)
+            orgCreatePanel.addSelectionHandler(handler);
         modal.setWidget(scroll);
         modal.setHeader(headerText);
         modal.setResizable(true);
         modal.setAutoHide(true);
         modal.center();
         modal.show();
+    }
+    
+    @Override
+    public HandlerRegistration addSelectionHandler(SelectionHandler<OrgInfo> handler) {
+        return addHandler(handler,SelectionEvent.getType());
     }
  
     

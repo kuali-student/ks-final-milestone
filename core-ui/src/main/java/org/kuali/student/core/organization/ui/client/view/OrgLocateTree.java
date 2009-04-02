@@ -12,6 +12,8 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -121,13 +123,18 @@ public class OrgLocateTree extends Composite {
         public OrgWidget(final String id, final String name) {
             super.initWidget(w);
             
-            KSLabel label = new KSLabel(name);
+            final KSLabel label = new KSLabel(name);
             
             ClickHandler handler = new ClickHandler() {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    OrgCreatePanel.showPopup(((Hyperlink)event.getSource()).getTargetHistoryToken(), id, ((Hyperlink)event.getSource()).getText());
+                    OrgCreatePanel.showPopup(((Hyperlink)event.getSource()).getTargetHistoryToken(), id, ((Hyperlink)event.getSource()).getText(),new SelectionHandler<OrgInfo>(){
+                        @Override
+                        public void onSelection(SelectionEvent<OrgInfo> event) {
+                            label.setText(event.getSelectedItem().getLongName());
+                        }
+                    });
                 }
             };
             

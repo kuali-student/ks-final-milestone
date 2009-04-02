@@ -50,7 +50,7 @@ public class OrgUpdatePanel extends Composite{
                 orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
 
                     public void onSelection(SelectionEvent<OrgInfo> event) {
-                        OrgCreatePanel.showPopup(OrgCreatePanel.CREATE_ORG_ALL, event.getSelectedItem().getId(), "Update Organization");
+                        OrgCreatePanel.showPopup(OrgCreatePanel.CREATE_ORG_ALL, event.getSelectedItem().getId(), "Update Organization", null);
                     }
                     
                 });
