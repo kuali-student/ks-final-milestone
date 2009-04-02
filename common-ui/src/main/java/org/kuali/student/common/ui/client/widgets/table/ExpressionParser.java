@@ -229,7 +229,7 @@ public class ExpressionParser {
 
     public static Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
         while (parentEqualsGrandParent(binaryTree)) {
-            List<Node> list = binaryTree.getAllChildren();
+            List<Node<Token>> list = binaryTree.getAllChildren();
 
             for (Node node : list) {
                 if (node.getParent() != null && node.getParent().getParent() != null) {
@@ -252,7 +252,7 @@ public class ExpressionParser {
     }
 
     private static boolean parentEqualsGrandParent(Node<Token> binaryTree) {
-        List<Node> list = binaryTree.getAllChildren();
+        List<Node<Token>> list = binaryTree.getAllChildren();
 
         for (Node node : list) {
             if (node.getParent() != null && node.getParent().getParent() != null) {

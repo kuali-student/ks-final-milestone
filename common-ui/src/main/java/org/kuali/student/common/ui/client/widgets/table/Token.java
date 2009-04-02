@@ -21,6 +21,19 @@ public class Token {
     public String value;
     public int type;
 
+    public Token toggleAndOr(){
+        Token t = new Token ();
+        if(type == And){
+            t.type = Or;
+            t.value = "Or";
+
+        }else if(type == Or){
+            t.type = And;
+            t.value = "And";
+        }
+        return t;
+    }
+    
     public String toString() {
         if (type == And) {
             return "and";
@@ -34,5 +47,24 @@ public class Token {
             return value;
         }
         return "";
+    }
+    public boolean equals(Object obj){
+        if(obj instanceof Token == false){
+            return false;
+        }
+        Token t = (Token)obj;
+        if(t.value == null){
+            return false;
+        }
+        if(t.value.equals(value) && t.type == type){
+            return true;
+        }
+        return false;
+    }
+    public Token clone(){
+        Token t = new Token();
+        t.type = type;
+        t.value = value;
+        return t;
     }
 }

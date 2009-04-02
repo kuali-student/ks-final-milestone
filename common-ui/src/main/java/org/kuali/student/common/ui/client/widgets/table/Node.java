@@ -119,8 +119,8 @@ public class Node<T> {
      */
     public int getAllLeafCount() {
         int count = 0;
-        List<Node> nodeList = getAllChildren();
-        for (Node node : nodeList) {
+        List<Node<T>> nodeList = getAllChildren();
+        for (Node<T> node : nodeList) {
             if (node.isLeaf()) {
                 count++;
             }
@@ -129,9 +129,9 @@ public class Node<T> {
         return count;
     }
 
-    public List<Node> getAllChildren() {
-        List<Node> nodeList = new ArrayList<Node>();
-        for (Node child : childrenList) {
+    public List<Node<T>> getAllChildren() {
+        List<Node<T>> nodeList = new ArrayList<Node<T>>();
+        for (Node<T> child : childrenList) {
             nodeList.add(child);
             if (!child.isLeaf()) {
                 nodeList.addAll(child.getAllChildren());
@@ -140,9 +140,9 @@ public class Node<T> {
         return nodeList;
     }
 
-    public Node getFirstLeafDescendant() {
-        List<Node> list = getAllChildren();
-        for (Node node : list) {
+    public Node<T> getFirstLeafDescendant() {
+        List<Node<T>> list = getAllChildren();
+        for (Node<T> node : list) {
             if (node.isLeaf()) {
                 return node;
             }
@@ -218,7 +218,7 @@ public class Node<T> {
 
         int maxDistance = getMaxLevelDistance();
 
-        List<Node> nodeList = getAllChildren();
+        List<Node<T>> nodeList = getAllChildren();
         for (int levelIndex = 1; levelIndex <= maxDistance; levelIndex++) {
             level = new ArrayList<Node>();
             for (Node node : nodeList) {
@@ -249,9 +249,9 @@ public class Node<T> {
     }
 
     public int getMaxLevelDistance() {
-        List<Node> nodeList = getAllChildren();
+        List<Node<T>> nodeList = getAllChildren();
         int maxDistance = 0;
-        for (Node node : nodeList) {
+        for (Node<T> node : nodeList) {
             int d = getDistance(node);
             if (maxDistance < d) {
                 maxDistance = d;
