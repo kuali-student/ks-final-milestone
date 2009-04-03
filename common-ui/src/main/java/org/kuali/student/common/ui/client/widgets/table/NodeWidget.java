@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.table;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -15,6 +16,8 @@ public class NodeWidget extends SimplePanel {
         node = n;
         super.setWidget(html);
         setNode(n); 
+        
+        //DOM.setStyleAttribute(checkBox.getElement(), "background", "#ffeeff"); 
     }
 
     public Node getNode() {

@@ -14,9 +14,10 @@ public class RuleEditButtonBar extends FlowPanel {
   private Button undoButton = new Button("Undo");
  private Button redoButton = new Button("Redo");
   
-  private RuleEditTable ruleEditTable;
+  private RuleEditorModel ruleEditTable;
   
-  public RuleEditButtonBar(){
+  public RuleEditButtonBar(RuleEditorModel t){
+      this.ruleEditTable = t;
       add(andButton);
       add(orButton);
       add(toggleButton);
@@ -25,64 +26,86 @@ public class RuleEditButtonBar extends FlowPanel {
       add(undoButton);
       add(redoButton);
       disableAllButton();
-
-      andButton.addClickHandler(new ClickHandler() {
+      
+      ruleEditTable.addModelChangedEvent(new ModelChangedListener(){
+          @Override
+          public void modelChanged(RuleEditorModel model) {
+              refreshState();
+              
+          }
+      });
+      addAndButtonClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doAnd();
-              refreshState();
+              //refreshState();
           }
       });
-      orButton.addClickHandler(new ClickHandler() {
+      addOrButtonClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doOr();
-              refreshState();
+              //refreshState();
           }
       });
-
-      removeFromGroupButton.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-              ruleEditTable.doRemoveFromGroup();
-              refreshState();
-          }
-      });
-      addToGroupButton.addClickHandler(new ClickHandler() {
+      addAddToGroupButtonClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doAddToGroup();
-              refreshState();
+              //refreshState();
           }
       });
-      
-      undoButton.addClickHandler(new ClickHandler() {
+      addRemoveFromGroupButtonClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
-              ruleEditTable.doUnDo();
-              refreshState();
+              ruleEditTable.doRemoveFromGroup();
+              //refreshState();
           }
       });
-      
-      redoButton.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-              ruleEditTable.doReDo();
-              refreshState();
-          }
-      });
-      toggleButton.addClickHandler(new ClickHandler() {
+      addToggleButtonClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
               ruleEditTable.doToggle();
-              refreshState();
+              //refreshState();
+          }
+      });
+      addUndoButtonClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+              ruleEditTable.doUndo();
+              //refreshState();
+          }
+      });
+      
+      addRedoButtonClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+              ruleEditTable.doRedo();
+              //refreshState();
           }
       });
   }
-  public void setRuleEditTable(RuleEditTable t){
-      ruleEditTable = t;
+  public void addAndButtonClickHandler(ClickHandler ch){
+      andButton.addClickHandler(ch);
   }
-
+  public void addOrButtonClickHandler(ClickHandler ch){
+      orButton.addClickHandler(ch);
+  }
+  public void addToggleButtonClickHandler(ClickHandler ch){
+      toggleButton.addClickHandler(ch);
+  }
+  public void addRemoveFromGroupButtonClickHandler(ClickHandler ch){
+      removeFromGroupButton.addClickHandler(ch);
+  }
+  public void addAddToGroupButtonClickHandler(ClickHandler ch){
+      addToGroupButton.addClickHandler(ch);
+  }
+  public void addUndoButtonClickHandler(ClickHandler ch){
+      undoButton.addClickHandler(ch);
+  }
+  public void addRedoButtonClickHandler(ClickHandler ch){
+      redoButton.addClickHandler(ch);
+  }
 
   private void disableAllButton(){
       andButton.setEnabled(false);
@@ -106,32 +129,32 @@ public class RuleEditButtonBar extends FlowPanel {
   public void refreshState(){
       disableAllButton();
      // hideAllButton();
-      if( ruleEditTable.getModel().isAndOrOrable()){
+      if( ruleEditTable.isAndOrOrable()){
           andButton.setEnabled(true);
           orButton.setEnabled(true);
           andButton.setVisible(true);
           orButton.setVisible(true);
       }
-      if(ruleEditTable.getModel().isTogglable()){
+      if(ruleEditTable.isTogglable()){
           toggleButton.setEnabled(true);
           toggleButton.setVisible(true);
       }
 
-      if(ruleEditTable.getModel().isAddable()){
+      if(ruleEditTable.isAddable()){
           addToGroupButton.setEnabled(true);
           addToGroupButton.setVisible(true);
           
       }
-      if(ruleEditTable.getModel().isRemovable()){
+      if(ruleEditTable.isRemovable()){
           removeFromGroupButton.setEnabled(true);
           removeFromGroupButton.setVisible(true);
       }
       
-      if(ruleEditTable.getModel().canRedo()){
+      if(ruleEditTable.canRedo()){
           redoButton.setEnabled(true);
           redoButton.setVisible(true);
       }
-      if(ruleEditTable.getModel().canUndo()){
+      if(ruleEditTable.canUndo()){
           undoButton.setEnabled(true);
           undoButton.setVisible(true);
       }      
