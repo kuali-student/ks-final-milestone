@@ -180,44 +180,6 @@ KS-Disclosure-Section-Open{
 
 }
 
-.ks-OrgMenu td > div > div { /*HACK HACK HACK*/
-		
-border: 2px solid;
-border-color: #f1c232 #bf9000;
-	margin: 2px;
-
-	background-color: #f1c232;	/*#bf9000, ffd966*/
-}
-
-.ks-OrgMenu td > div > div:hover { /*HACK HACK HACK*/
-		
-	background-color: #ccdddd;
-border: 2px solid;
-border-color: #ccdddd #aabbbb;
-	
-	cursor:pointer;
-}
-
-.KS-Accordion-WidgetPanel { /*HACK HACK HACK*/
-	width: 200;
-		
-border: 2px solid;
-border-color: #f1c232 #bf9000;
-	margin: 2px;
-
-	background-color: #f1c232;	/*#bf9000, ffd966*/
-}
-
-.KS-Accordion-WidgetPanel .KS-Indent-1{ /*HACK HACK HACK*/
-	background-color: #ffd966;	/*#bf9000, ffd966*/
-	border-left: solid 2px #bf9000;
-	margin-left: 2ex;
-}
-
-.KS-Accordion-WidgetPanel div.KS-Indent-1:hover{ /*HACK HACK HACK*/
-	background-color: #eeeeee;
-}
-
 .KS-Accordion{
 	
 }
@@ -226,45 +188,45 @@ border-color: #f1c232 #bf9000;
 	width: 200;
 	height: 20;
 		
-border: 2px solid;
-border-color: #f1c232 #bf9000;
-	margin: 2px;
+border: 2px solid ! important;
+border-color: #f1c232 #bf9000 ! important;
+	margin: 2px ! important;
 
-	background-color: #f1c232;	/*#bf9000, ffd966*/
+	background-color: #f1c232 ! important;	/*#bf9000, ffd966*/
 }
 
 .KS-Accordion-Titlebar .KS-Indent-1{
 
-	background-color: #ffd966;	/*#bf9000, ffd966*/
-	border-left: solid 1px #bf9000;
+	background-color: #ffd966 ! important;	/*#bf9000, ffd966*/
+	border-left: solid 1px #bf9000 ! important;
 }
 
 .KS-Accordion-Titlebar-Hover{
-	background-color: #ccdddd;
-border: 2px solid;
-border-color: #ccdddd #aabbbb;
+	background-color: #ccdddd ! important;
+border: 2px solid ! important;
+border-color: #ccdddd #aabbbb ! important;
 	
-	cursor:pointer;
+	cursor:pointer ! important;
 }
 
 .KS-Accordion-Titlebar-Hover .KS-Indent-1{
-	background-color: #eeeeee;
+	background-color: #eeeeee ! important;
 }
 .KS-Accordion-Titlebar-Open .KS-Indent-1{
-	background-color: #ffffff;
+	background-color: #ffffff ! important;
 }
 .KS-Accordion-Titlebar-Focus{
-	background-color: #dddddd;
+	background-color: #dddddd ! important;
 }
 .KS-Accordion-Titlebar-Open{
 
-	background-color: #ddeeee;
-	border: 2px solid black;
-	border-color: #ddeeee #aaaaaa;
+	background-color: #ddeeee ! important;
+	border: 2px solid black ! important;
+	border-color: #ddeeee #aaaaaa ! important;
 }
 
 .KS-Accordion-Titlebar-Label{
-	font-weight: bold;
-	font-size: 80%;
-	padding: 1ex;
+	font-weight: bold ! important;
+	font-size: 80% ! important;
+	padding: 1ex ! important;
 }
