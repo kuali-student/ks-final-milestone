@@ -167,6 +167,20 @@ public class MessageBuilderTest {
 	}
 
 	@Test
+	public void testBuildMessage7() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A is true");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", true, "B is true");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", true, "C is true");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		
+		String message = builder.buildMessage("(A*B)+(A*C)+(B*C)", messageContainer);
+		Assert.assertEquals("A is true AND B is true OR A is true AND C is true OR B is true AND C is true", message);
+	}
+
+	@Test
 	public void testBuildMessageTemplate1_NullContextMap_True() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
 		BooleanMessage bm1 = new BooleanMessageImpl("M1", true, "Message 1 is true");
