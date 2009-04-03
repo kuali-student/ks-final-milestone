@@ -4,6 +4,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 
+import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
@@ -11,6 +12,8 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -48,6 +51,8 @@ public class LiveCSSComposite extends Composite {
     
     private KitchenSinkExample example = null;
     
+    private StyleElement theStyle = null;
+    
     public LiveCSSComposite() {
         super.initWidget(panel);
         panel.add(inputPanel);
@@ -77,24 +82,34 @@ public class LiveCSSComposite extends Composite {
         updateStyles();
     }
     private void loadCSS() {
-        for (KitchenSinkResource ksr : example.getResources()) {
-            if (ksr.getType().trim().equalsIgnoreCase("css")) {
-                final String path = ksr.getPath();
-                RequestBuilder request = new RequestBuilder(RequestBuilder.GET, path);
-                request.setCallback(new RequestCallback() {
-                    public void onError(Request arg0, Throwable arg1) {
+        if(!example.getCssResources().isEmpty()){
+            String injectString = "";
+            for(CssResource r: example.getCssResources()){
+                injectString = injectString + r.getText();
+            }
+            theStyle = StyleInjector.injectStylesheet(injectString);
+            css.setText(injectString);
+        }
+        else{
+            for (KitchenSinkResource ksr : example.getResources()) {
+                if (ksr.getType().trim().equalsIgnoreCase("css")) {
+                    final String path = ksr.getPath();
+                    RequestBuilder request = new RequestBuilder(RequestBuilder.GET, path);
+                    request.setCallback(new RequestCallback() {
+                        public void onError(Request arg0, Throwable arg1) {
+                            // do nothing
+                        }
+    
+                        public void onResponseReceived(Request request, Response response) {
+                            css.setText(css.getText() + "\n" + response.getText());
+                            updateStyles();
+                        }
+                    });
+                    try {
+                        request.send();
+                    } catch (RequestException re) {
                         // do nothing
                     }
-
-                    public void onResponseReceived(Request request, Response response) {
-                        css.setText(css.getText() + "\n" + response.getText());
-                        updateStyles();
-                    }
-                });
-                try {
-                    request.send();
-                } catch (RequestException re) {
-                    // do nothing
                 }
             }
         }
@@ -105,7 +120,8 @@ public class LiveCSSComposite extends Composite {
     }
     
     private void updateStyles() {
-        updateDOMStyles(css.getText());
+        StyleInjector.setContents(theStyle, css.getText());
+        //updateDOMStyles(css.getText());
     }
     private final native void updateDOMStyles(String cssStr) /*-{
         var head = $wnd.document.getElementsByTagName("head")[0]; 

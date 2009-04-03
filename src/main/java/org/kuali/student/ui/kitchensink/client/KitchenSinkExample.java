@@ -21,6 +21,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
@@ -43,6 +44,19 @@ public abstract class KitchenSinkExample extends Composite {
     boolean loaded = false;
 
     final List<KitchenSinkResource> resources = new ArrayList<KitchenSinkResource>();
+    private List<CssResource> styles = new ArrayList<CssResource>();
+    
+    public void addCssResource(CssResource cr){
+        styles.add(cr);
+    }
+
+    public List<CssResource> getCssResources() {
+        return styles;
+    }
+
+    public void setCssResources(List<CssResource> styles) {
+        this.styles = styles;
+    }
 
     public List<KitchenSinkResource> getResources() {
         return resources;
