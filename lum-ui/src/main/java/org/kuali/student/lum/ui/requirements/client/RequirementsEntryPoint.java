@@ -1,9 +1,5 @@
 package org.kuali.student.lum.ui.requirements.client;
 
-import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
-import org.kuali.student.commons.ui.mvc.client.ViewMetadataLoadCallback;
-import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.commons.ui.widgets.ErrorDialog;
 import org.kuali.student.lum.ui.requirements.client.controller.LumApplication;
 
 import com.google.gwt.core.client.EntryPoint;

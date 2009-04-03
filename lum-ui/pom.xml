@@ -138,7 +138,7 @@
 		<artifactId>gwt-incubator</artifactId>
 		<version>1.6</version>
 	</dependency>
-			
+<!-- 			
 	<dependency>
 		<groupId>org.kuali.student.commons</groupId>
 		<artifactId>ks-commons-ui</artifactId>
@@ -152,7 +152,7 @@
 		<version>0.0.4-SNAPSHOT</version>
 		<scope>compile</scope>
 	</dependency>
-
+ -->
 	<!-- Other Dependencies -->
 	<dependency>
 		<groupId>org.kuali.student.core</groupId>

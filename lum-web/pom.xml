@@ -99,12 +99,14 @@
 			<artifactId>ks-lum-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<type>war</type>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>		
+		</dependency>
+		 -->		
 	</dependencies>
 	
 </project>
