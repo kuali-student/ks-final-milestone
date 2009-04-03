@@ -188,45 +188,45 @@ KS-Disclosure-Section-Open{
 	width: 200;
 	height: 20;
 		
-border: 2px solid ! important;
-border-color: #f1c232 #bf9000 ! important;
-	margin: 2px ! important;
+border: 2px solid;
+border-color: #f1c232 #bf9000;
+	margin: 2px;
 
-	background-color: #f1c232 ! important;	/*#bf9000, ffd966*/
+	background-color: #f1c232;	/*#bf9000, ffd966*/
 }
 
 .KS-Accordion-Titlebar .KS-Indent-1{
 
-	background-color: #ffd966 ! important;	/*#bf9000, ffd966*/
-	border-left: solid 1px #bf9000 ! important;
+	background-color: #ffd966;	/*#bf9000, ffd966*/
+	border-left: solid 1px #bf9000;
 }
 
 .KS-Accordion-Titlebar-Hover{
-	background-color: #ccdddd ! important;
-border: 2px solid ! important;
-border-color: #ccdddd #aabbbb ! important;
+	background-color: #ccdddd;
+border: 2px solid;
+border-color: #ccdddd #aabbbb;
 	
-	cursor:pointer ! important;
+	cursor:pointer;
 }
 
 .KS-Accordion-Titlebar-Hover .KS-Indent-1{
-	background-color: #eeeeee ! important;
+	background-color: #eeeeee;
 }
 .KS-Accordion-Titlebar-Open .KS-Indent-1{
-	background-color: #ffffff ! important;
+	background-color: #ffffff;
 }
 .KS-Accordion-Titlebar-Focus{
-	background-color: #dddddd ! important;
+	background-color: #dddddd;
 }
 .KS-Accordion-Titlebar-Open{
 
-	background-color: #ddeeee ! important;
-	border: 2px solid black ! important;
-	border-color: #ddeeee #aaaaaa ! important;
+	background-color: #ddeeee;
+	border: 2px solid black;
+	border-color: #ddeeee #aaaaaa;
 }
 
 .KS-Accordion-Titlebar-Label{
-	font-weight: bold ! important;
-	font-size: 80% ! important;
-	padding: 1ex ! important;
+	font-weight: bold;
+	font-size: 80%;
+	padding: 1ex;
 }

@@ -47,5 +47,6 @@ public class OrgMain extends Composite {
         vPanel.add(pageTitle);
         vPanel.add(new OrgMenu(workPanel));
         vPanel.add(workPanel);
+        
     }
 }

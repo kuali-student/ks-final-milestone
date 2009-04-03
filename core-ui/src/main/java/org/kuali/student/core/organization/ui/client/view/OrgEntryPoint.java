@@ -4,6 +4,7 @@ package org.kuali.student.core.organization.ui.client.view;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.libideas.client.StyleInjector;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -21,6 +22,8 @@ public class OrgEntryPoint implements EntryPoint{
 
         app.setContent(getContent());
         RootPanel.get().add(app);
+        
+        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
     }
     
     public Widget getContent(){

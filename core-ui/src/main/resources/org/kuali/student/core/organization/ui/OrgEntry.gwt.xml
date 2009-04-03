@@ -12,5 +12,5 @@
 	
 	<entry-point class='org.kuali.student.core.organization.ui.client.view.OrgEntryPoint'/>
     <extend-property name="locale" values="en"/>
-	<stylesheet src="KualiStudent.css" />    
+	<!--stylesheet src="KualiStudent.css" /-->    
 </module>
