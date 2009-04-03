@@ -1,8 +1,5 @@
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.ui.client.css.KSButtonCss;
-import org.kuali.student.common.ui.client.css.KSCommonResources;
-
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,7 +33,7 @@ import com.google.gwt.user.client.ui.Image;
 public class KSButton extends Button{
     private Image image = null;
     
-    private KSButtonCss css = KSCommonResources.INSTANCE.buttonCss();
+
     /**
      * This constructs a button with no caption.
      * 
@@ -73,25 +70,25 @@ public class KSButton extends Button{
      * 
      */
     private void setupDefaultStyle(){
-        addStyleName(css.KSButton());
+        addStyleName(KSStyles.KS_BUTTON_STYLE);
         
         this.addBlurHandler(new BlurHandler(){
             public void onBlur(BlurEvent event) {
-                KSButton.this.removeStyleName(css.KSButtonFocus());
+                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
                 
             }   
         }); 
 
         this.addFocusHandler(new FocusHandler(){
             public void onFocus(FocusEvent event) {
-                KSButton.this.addStyleName(css.KSButtonFocus());
+                KSButton.this.addStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
 
             }       
         });
         
         this.addMouseOverHandler(new MouseOverHandler(){
             public void onMouseOver(MouseOverEvent event) {
-                KSButton.this.addStyleName(css.KSButtonHover());
+                KSButton.this.addStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
                 
             }       
         });
@@ -99,8 +96,8 @@ public class KSButton extends Button{
         this.addMouseOutHandler(new MouseOutHandler(){
 
             public void onMouseOut(MouseOutEvent event) {
-                KSButton.this.removeStyleName(css.KSButtonHover());
-                KSButton.this.removeStyleName(css.KSButtonClick());
+                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
+                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
             }
             
         });
@@ -108,7 +105,7 @@ public class KSButton extends Button{
         this.addClickHandler(new ClickHandler(){
 
             public void onClick(ClickEvent event) {
-                KSButton.this.removeStyleName(css.KSButtonHover());
+                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
             }
             
         });
@@ -116,7 +113,7 @@ public class KSButton extends Button{
         this.addMouseDownHandler(new MouseDownHandler(){
 
             public void onMouseDown(MouseDownEvent event) {
-                KSButton.this.addStyleName(css.KSButtonClick());
+                KSButton.this.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
                 
             }
         });
@@ -124,7 +121,7 @@ public class KSButton extends Button{
         this.addMouseUpHandler(new MouseUpHandler(){
 
             public void onMouseUp(MouseUpEvent event) {
-                KSButton.this.removeStyleName(css.KSButtonClick());
+                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
                 
             }
         });
@@ -133,7 +130,7 @@ public class KSButton extends Button{
 
             public void onKeyDown(KeyDownEvent event) {
                 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-                    KSButton.this.addStyleName(css.KSButtonClick());
+                    KSButton.this.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
                 }
             }
             
@@ -143,7 +140,7 @@ public class KSButton extends Button{
 
             public void onKeyUp(KeyUpEvent event) {
                 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-                    KSButton.this.removeStyleName(css.KSButtonClick());
+                    KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
                 }
                 
             }

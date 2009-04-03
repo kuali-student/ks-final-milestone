@@ -5,7 +5,7 @@
 .KSAccordion{
 	
 }
-.KSAccordionTitlebar{
+.KS-Accordion-Titlebar{
 
 	width: 200;
 	height: 20;
@@ -19,7 +19,7 @@
 	background-color: PRIMARYCOLOR1;	
 }
 
-.KSAccordionTitlebarHover{
+.KS-Accordion-Titlebar-Hover{
 	background-color: PRIMARYCOLOR1;
 	border-left: 1px solid black;
 	border-right: 2px solid black;
@@ -29,16 +29,16 @@
 	cursor:pointer;
 }
 
-.KSAccordionTitlebarFocus{
+.KS-Accordion-Titlebar-Focus{
 	background-color: PRIMARYCOLOR1;
 }
-.KSAccordionTitlebarOpen{
+.KS-Accordion-Titlebar-Open{
 
 	background-color: SECONDARYCOLOR1;
 	border: 2px solid black;
 }
 
-.KSAccordionTitlebarLabel{
+.KS-Accordion-Titlebar-Label{
 	font-weight: bold;
 	font-size: 80%;
 }

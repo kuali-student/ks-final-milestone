@@ -10,15 +10,15 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     public static final KSCommonResources INSTANCE =  (KSCommonResources) GWT.create(KSCommonResources.class);
 
     @Resource("org/kuali/student/common/ui/public/KSGeneral.css")
-	public KSGeneralCss generalCss();
+	public CssResource generalCss();
     @Resource("org/kuali/student/common/ui/public/KSAccordionMenu.css")
 	public CssResource accordionMenuCss();    
     @Resource("org/kuali/student/common/ui/public/KSAccordionPanel.css")
-	public KSAccordionPanelCss accordionPanelCss();
+	public CssResource accordionPanelCss();
     @Resource("org/kuali/student/common/ui/public/KSBlockingProgressIndicator.css")
 	public CssResource blockingProgressIndicatorCss();
     @Resource("org/kuali/student/common/ui/public/KSButton.css")
-	public KSButtonCss buttonCss();
+	public CssResource buttonCss();
     @Resource("org/kuali/student/common/ui/public/KSCheckbox.css")
 	public CssResource checkboxCss();
     @Resource("org/kuali/student/common/ui/public/KSDatePicker.css")
