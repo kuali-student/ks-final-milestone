@@ -2,10 +2,14 @@ package org.kuali.student.ui.kitchensink.client;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 import org.kuali.student.common.ui.client.messages.MessagesService;
 import org.kuali.student.core.messages.dto.MessageList;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.libideas.resources.client.CssResource;
+import com.google.gwt.libideas.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -22,6 +26,8 @@ public class KitchenSinkEntryPoint implements EntryPoint {
         String exampleClass = Window.Location.getParameter("exampleClass");
         exampleClass = (exampleClass == null) ? "" : exampleClass.trim();
         if (exampleClass.equals("")) {
+            String injectString = this.getCssString();
+            StyleInjector.injectStylesheet(injectString);
             RootPanel.get().add(ksm);
         } else {
         try {
@@ -57,6 +63,19 @@ public class KitchenSinkEntryPoint implements EntryPoint {
                 context.addMessages(result.getMessages());
             }           
         });        
+    }
+    
+    public String getCssString(){
+        String injectString = "";
+         for(ResourcePrototype r: KSCommonResources.INSTANCE.getResources()){
+             if(r instanceof CssResource){
+                 if(((CssResource)r).getText() != null){
+                     injectString = injectString + "\n" + (((CssResource)r).getText());
+                 }
+             }
+         }
+         return injectString;
+         
     }
 
 }
