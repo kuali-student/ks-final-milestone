@@ -2,9 +2,8 @@ package org.kuali.student.common.ui.client.widgets.table;
 
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,11 +14,15 @@ public class RuleEditor extends VerticalPanel{
     RuleEditorModel tableModel = new RuleEditorModel();
 
     RuleEditButtonBar buttonBar = new RuleEditButtonBar(tableModel);
+    BooleanExpressionInputPanel booleanExpressionInput = new BooleanExpressionInputPanel(tableModel);    
     
     public RuleEditor() {
+      //  treeTablePanel.setPixelSize(300,300);
+        //treeTablePanel.add(new Label(""));
         this.add(ungroupedConditionPanel);
         this.add(treeTablePanel);
         this.add(buttonBar);
+        this.add(booleanExpressionInput);
         
         tableModel.addModelChangedEvent(new ModelChangedListener(){
             @Override
@@ -29,9 +32,9 @@ public class RuleEditor extends VerticalPanel{
             }
         });
     }
-    public void setNodeList(List<Node<Token>> list){
-        tableModel.setNodeList(list);
-    }
+  //  public void setNodeList(List<Node<Token>> list){
+    //    tableModel.setNodeList(list);
+   // }
     public void setNodeFromExpressionEditor(Node<Token> node){
         tableModel.setNodeFromExpressionEditor(node);
     }
@@ -40,7 +43,7 @@ public class RuleEditor extends VerticalPanel{
     }
 
     public void refresh(){
-        //clear();
+        booleanExpressionInput.addExpressionFromTableEditor(tableModel.getExpressionString());
         ungroupedConditionPanel.clear();
         treeTablePanel.clear();
         for(Widget w: tableModel.getWidgetList()){
@@ -49,39 +52,7 @@ public class RuleEditor extends VerticalPanel{
             }else if(w instanceof TreeTable){
                 treeTablePanel.add(w);
             }
-            
         }
+    }
 
-        String str = getModel().getExpressionString();
-    }
-/*
-    public void doRemoveFromGroup(){
-        getModel().doRemoveFromGroup();
-        refresh();
-    }
-    public void doAddToGroup(){
-        getModel().doAddToGroup();
-        refresh();
-    }
-    public void doAnd(){
-        getModel().doAnd();
-        refresh();
-    }
-    public void doToggle(){
-        getModel().doToggle();
-        refresh();
-    }
-    public void doOr(){
-        getModel().doOr();
-        refresh();
-    }
-    public void doReDo(){
-        getModel().doRedo();
-        refresh();
-    }
-    public void doUnDo(){
-        getModel().doUndo();
-        refresh();
-    }
-    */
 }

@@ -38,23 +38,29 @@ public class RuleEditorModel implements NodeEditor {
         for (Node node : orignalOrder) {
             nodeList.add(node);
         }
-        List<Node<Token>> all = treeRoot.getAllChildren();
-        List<Node<Token>> nodeToBeRemoved = treeRoot.getAllChildren();
-
-        for (Node<Token> node : all) {
-            for (Node<Token> nodeInList : nodeList) {
-                if (node.getUserObject().equals(nodeInList.getUserObject())) {
-                    nodeToBeRemoved.add(nodeInList);
+        if(treeRoot != null){
+            List<Node<Token>> all = treeRoot.getAllChildren();
+            for (Node<Token> node : all) {
+                if(node.isLeaf() && getIndexInOrignalList(node) == 0){
+                    orignalOrder.add(node);
                 }
             }
-        }
-        nodeList.removeAll(nodeToBeRemoved);
-        nodeList.add(treeRoot);
+            List<Node<Token>> nodeToBeRemoved = treeRoot.getAllChildren();
 
-     //   dump();
+            for (Node<Token> node : all) {
+                for (Node<Token> nodeInList : nodeList) {
+                    if (node.getUserObject().equals(nodeInList.getUserObject())) {
+                        nodeToBeRemoved.add(nodeInList);
+                    }
+                }
+            }
+            nodeList.removeAll(nodeToBeRemoved);
+            nodeList.add(treeRoot);
+        }
+        dump();
         reBuildWidgetList();
     }
-
+/*
     public void setNodeList(List<Node<Token>> list) {
         for (Node n : list) {
             orignalOrder.add(n);
@@ -65,7 +71,7 @@ public class RuleEditorModel implements NodeEditor {
         dump();
         reBuildWidgetList();
     }
-
+*/
     private void dump() {
         List<Node<Token>> clonedWidgetList = new ArrayList<Node<Token>>();
         redoStack.clear();
@@ -378,7 +384,7 @@ public class RuleEditorModel implements NodeEditor {
 
         for (Node<Token> n : getNodeList()) {
             if (n.isLeaf()) {
-                sb.append(n.getUserObject().toString() + " ");
+              //  sb.append(n.getUserObject().toString() + " ");
             } else {
                 sb.append(ExpressionParser.getExpressionString(n.clone()) + " ");
             }
