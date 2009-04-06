@@ -24,6 +24,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,7 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class KSFormField implements EditModeChangeHandler{
+public class KSFormField implements EditModeChangeHandler {
     private SimplePanel fieldDispWidget = new SimplePanel();
     private KSHelpLink fieldHelpLink = new KSHelpLink();
     private KSLabel fieldValueLabel = new KSLabel();
@@ -47,7 +48,18 @@ public class KSFormField implements EditModeChangeHandler{
     private HelpInfo helpInfo;
     private EditMode mode = EditMode.EDITABLE;
       
-   
+    public KSFormField(){
+    }
+
+    public KSFormField(String name){
+        this.name = name;
+    }
+
+    public KSFormField(String name, String label){
+        this.name = name;
+        this.label = label;
+    }
+    
     public String getLabelText() {
         return label;
     }
@@ -105,20 +117,30 @@ public class KSFormField implements EditModeChangeHandler{
     }
     
     /**
-     * Use to get text value from the underlying widget for this field. 
+     * Use to get string representation for current value of the underlying widget for this field. 
      * 
-     * @return text for this form field if widget has text, null if the
-     * widget does not have text (e.g. SelectListWidget, KSDatePicker,
-     * composite field widgets)
+     * @return string representation of widget value. Null if string representation couldn't
+     * be obtained.
      */
     public String getText() {
+        String s = null;
         try {
-            HasText text = (HasText)fieldWidget;
-            return text.getText();
-        } catch (Exception e){
-            GWT.log("Form field [" + name + "] does not support getText.", e);
-            return null;
+            s = ((HasText)fieldWidget).getText();
+        } catch (ClassCastException e){
+            try{
+                Object value = ((HasValue)fieldWidget).getValue();
+                if (value != null){
+                    s = value.toString();
+                }
+            } catch (ClassCastException e2) {
+                if (fieldWidget instanceof KSFormLayoutPanelAbstract){
+                    
+                }
+                GWT.log("Form field [" + name + "] does not support getText.", e);
+            }
         }
+        
+        return s;
     }
    
     /**
@@ -130,7 +152,7 @@ public class KSFormField implements EditModeChangeHandler{
             HasText text = (HasText)fieldWidget;
             text.setText(s);
         } catch (Exception e){
-            throw new UnsupportedOperationException("Field widget doesn't implement HasText");
+            throw new UnsupportedOperationException("Containing field widget doesn't implement HasText");
         }        
     }
     
