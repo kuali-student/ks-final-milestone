@@ -1,0 +1,16 @@
+.KS-Checkbox{
+	margin: 2px;
+	font-weight: bold;
+	font-size: 80%;
+}
+
+.KS-Checkbox-Checked{
+	color: #9B251C;
+}
+
+.KS-Checkbox-Hover{
+}
+
+.KS-Checkbox-Focus{
+	color: #9B251C;
+}

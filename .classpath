@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="lum-api/src/main/java"/>
-	<classpathentry kind="src" path="lum-api/src/main/resources"/>
-	<classpathentry kind="src" path="lum-impl/src/main/java"/>
-	<classpathentry kind="src" path="lum-impl/src/main/resources"/>
-	<classpathentry kind="src" path="lum-impl/src/test/java"/>
-	<classpathentry kind="src" path="lum-impl/src/test/resources"/>
-	<classpathentry kind="src" path="lum-ui/src/main/java"/>
-	<classpathentry kind="src" path="lum-ui/src/main/resources"/>
-	<classpathentry kind="src" path="lum-ui/src/test/resources"/>
-	<classpathentry kind="src" path="lum-web/src/main/resources"/>
-	<classpathentry kind="src" path="lum-web/src/main/webapp"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="src" output="common-util/target/classes" path="common-util/src/main/java"/>
+	<classpathentry kind="src" output="common-util/target/test-classes" path="common-util/src/test/java"/>
+	<classpathentry kind="src" output="common-util/target/test-classes" path="common-util/src/test/resources"/>
+	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/java"/>
+	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/resources"/>
+	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/java"/>
+	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/resources"/>
+	<classpathentry kind="src" output="common-util/target/classes" path="common-ui/src/main/java"/>
+	<classpathentry kind="src" output="common-util/target/classes" path="common-ui/src/main/resources"/>
+	<classpathentry kind="src" output="common-util/target/test-classes" path="common-ui/src/test/java"/>
+	<classpathentry kind="src" path="common-ui/src/test/resources"/>
+	<classpathentry kind="src" output="core-api/target/classes" path="core-api/src/main/java"/>
+	<classpathentry kind="src" output="core-api/target/classes" path="core-api/src/main/resources"/>
+	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/java"/>
+	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/resources"/>
+	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/java"/>
+	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/resources"/>
+	<classpathentry kind="src" output="core-ui/target/classes" path="core-ui/src/main/java"/>
+	<classpathentry kind="src" output="core-ui/target/classes" path="core-ui/src/main/resources"/>
+	<classpathentry kind="src" output="core-web/target/classes" path="core-web/src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
