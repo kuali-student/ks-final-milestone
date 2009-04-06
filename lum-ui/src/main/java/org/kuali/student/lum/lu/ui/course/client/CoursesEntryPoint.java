@@ -15,7 +15,13 @@
  */
 package org.kuali.student.lum.lu.ui.course.client;
 
+import org.kuali.student.common.ui.client.event.SaveEvent;
+import org.kuali.student.common.ui.client.event.SaveHandler;
+import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.view.CourseProposal;
+
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.Window;
 
 /**
  * Entry point for courses 
@@ -26,5 +32,18 @@ import com.google.gwt.core.client.EntryPoint;
 public class CoursesEntryPoint implements EntryPoint {
 
     public void onModuleLoad() {
+        CourseProposal proposal = new CourseProposal();
+        proposal.addSaveHandler(new SaveHandler(){
+
+            public void onSave(SaveEvent event) {
+                CourseProposal proposal = (CourseProposal)event.getSource();
+                CluInfo clu = proposal.getCourseProposalClu();
+                //TODO: Call Lu Service to save the clu, or should the CourseProposal
+                //widget handle the save.
+                Window.alert("Saving CLU: " + clu.getOfficialIdentifier().getLongName());
+            }
+            
+        });
+        proposal.show();                
     }
 }
