@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
 
 /**
@@ -20,4 +22,5 @@ public interface RequirementsRemoteService {
     public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey) throws Exception;
     public String[] getNaturalLanguage(String cluId, String luStatementTypeKey) throws Exception;
     public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception;
+    public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception;
 }

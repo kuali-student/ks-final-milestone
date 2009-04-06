@@ -26,7 +26,7 @@ public class LumApplication extends Controller {
     }
 
     // TODO: to be removed when course info is ready.  Test course.
-    private final String testCluId = "CHEM111";
+    public final static String testCluId = "CHEM111";
     private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this, testCluId);
 
     

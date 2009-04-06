@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -45,4 +47,9 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
     public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception { 
         return serviceImpl.getRuleRationale(cluId, luStatementTypeKey);
     }
+    
+    public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
+        return serviceImpl.getStatementVO(cluId, luStatementTypeKey);
+    }
+
 }
