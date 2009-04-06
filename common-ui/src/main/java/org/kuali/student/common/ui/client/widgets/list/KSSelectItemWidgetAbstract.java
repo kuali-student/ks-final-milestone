@@ -62,7 +62,22 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	 * @return
 	 */
 	public abstract List<String> getSelectedItems();
-
+	
+	/**
+	 * Id of selected item.  If multiple items are selected, this will return the
+	 * first selected item.
+	 * 
+	 * @see com.google.gwt.user.client.ui.HasName#getName()
+	 */
+	public String getSelectedItem(){
+	    String selectedItem = null;
+	    List<String> selectedItems = getSelectedItems();
+	    if (selectedItems != null && selectedItems.size() > 0){
+	        selectedItem = selectedItems.get(0);
+	    }
+	    return selectedItem;
+	}	
+	
     public String getName() {
         return this.name;
     }

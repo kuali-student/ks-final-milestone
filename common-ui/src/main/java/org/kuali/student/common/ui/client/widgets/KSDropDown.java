@@ -57,6 +57,14 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
     }
 
     /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItem()
+     */
+    @Override
+    public String getSelectedItem() {
+        return dropDown.getSelectedItem();
+    }
+
+    /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onLoad()
      */
     @Override

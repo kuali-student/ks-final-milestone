@@ -42,6 +42,15 @@ public class KSSelectableTableList extends KSSelectItemWidgetAbstract {
         return selectItemWidget.getSelectedItems();
     }
 
+    
+ 
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItem()
+     */
+    public String getSelectedItem() {
+        return selectItemWidget.getSelectedItem();
+    }
+
     /**
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
      */
