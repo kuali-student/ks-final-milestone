@@ -42,10 +42,10 @@ public class KSFormField implements EditModeChangeHandler {
     private KSLabel fieldValueLabel = new KSLabel();
     private Widget fieldWidget;
     
-    private String name;
-    private String label;
-    private String desc;
-    private HelpInfo helpInfo;
+    private String name = null;
+    private String label = null;
+    private String desc = null;
+    private HelpInfo helpInfo = null;
     private EditMode mode = EditMode.EDITABLE;
       
     public KSFormField(){
@@ -107,7 +107,7 @@ public class KSFormField implements EditModeChangeHandler {
      */
     public void setWidget(Widget formField) {
         try {
-            if (formField instanceof HasName){
+            if (formField instanceof HasName && name == null){
                 name = ((HasName)formField).getName();
             }
         } catch (Exception e) {
@@ -133,9 +133,7 @@ public class KSFormField implements EditModeChangeHandler {
                     s = value.toString();
                 }
             } catch (ClassCastException e2) {
-                if (fieldWidget instanceof KSFormLayoutPanelAbstract){
-                    
-                }
+            	//TODO: Should this return text for current selected item for single select list            	
                 GWT.log("Form field [" + name + "] does not support getText.", e);
             }
         }
@@ -155,7 +153,7 @@ public class KSFormField implements EditModeChangeHandler {
             throw new UnsupportedOperationException("Containing field widget doesn't implement HasText");
         }        
     }
-    
+       
     /** 
      * @return the name of this form field
      */
