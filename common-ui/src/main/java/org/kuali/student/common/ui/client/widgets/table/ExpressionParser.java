@@ -43,15 +43,13 @@ public class ExpressionParser {
                 if(n.isLeaf() && n.getParent() != null){
                     Node parent = n.getParent();
                     StringBuilder sb = new StringBuilder();
-                    
-                    
                     if(parent.getChildAt(0).getUserObject() instanceof ExpressionNode
                             && parent.getChildAt(0).getUserObject() instanceof ExpressionNode
                         && (( ExpressionNode)parent.getChildAt(0).getUserObject()).token.type == Token.Or
                         && (( Token)parent.getUserObject()).type == Token.And){
-                        sb.append("("+parent.getChildAt(0).getUserObject().toString()+")");
+                        sb.append(" ( "+parent.getChildAt(0).getUserObject().toString()+" ) ");
                     }else{
-                        sb.append(parent.getChildAt(0).getUserObject().toString());    
+                        sb.append(" "+parent.getChildAt(0).getUserObject().toString()+" ");    
                     }
                     
                     
@@ -62,12 +60,12 @@ public class ExpressionParser {
                                 && parent.getChildAt(i).getUserObject() instanceof ExpressionNode
                             && (( ExpressionNode)parent.getChildAt(i).getUserObject()).token.type == Token.Or
                             && (( Token)parent.getUserObject()).type == Token.And){
-                            sb.append(parent.getUserObject().toString()+ "( "+
-                                    child.getUserObject().toString()+")");
+                            sb.append(parent.getUserObject().toString()+ " ( "+
+                                    child.getUserObject().toString()+" ) ");
 
                         }else{
-                            sb.append(" "+parent.getUserObject().toString()+ " "+
-                                    child.getUserObject().toString());
+                            sb.append(" "+parent.getUserObject().toString()+ "  "+
+                                    child.getUserObject().toString()+" ");
                         }
                     }
                     ExpressionNode expressionNode = new ExpressionNode();
@@ -359,20 +357,25 @@ public class ExpressionParser {
     private void errorCheck(List<Token> tokenList) {
         if (tokenList.size() == 0) {
             errorMessageList.add("empty input");
+            return;
         }
         if (tokenList.size() <= 2) {
             errorMessageList.add("input not complete");
+            return;
         }
         if ((tokenList.get(0).type == Token.StartParenthesis 
                 || tokenList.get(0).type == Token.Condition) == false) {
             errorMessageList.add("must start with ( or condition");
+            return;
         }
         int lastIndex = tokenList.size() - 1;
         if ((tokenList.get(lastIndex).type == Token.EndParenthesis || tokenList.get(lastIndex).type == Token.Condition) == false) {
             errorMessageList.add("must end with ) or condition");
+            return;
         }
         if (countToken(tokenList, Token.StartParenthesis) != countToken(tokenList, Token.EndParenthesis)) {
             errorMessageList.add("() not in pair");
+            return;
         }
         // condition cannot duplicate
         for (int i = 1; i < tokenList.size(); i++) {

@@ -17,7 +17,8 @@ public class NodeWidget extends SimplePanel {
         super.setWidget(html);
         setNode(n); 
         
-        //DOM.setStyleAttribute(checkBox.getElement(), "background", "#ffeeff"); 
+       // DOM.setStyleAttribute(checkBox.getElement(), "background", "#ffeeff"); 
+       //DOM.setStyleAttribute(checkBox.getElement(), "fontStyle", "italic");
     }
 
     public Node getNode() {

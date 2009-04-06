@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.table;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -11,11 +12,11 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
     RuleEditorModel ruleEditorModel;
     private String oldInput = "";
     
-    private Label errorMessage = new Label();
+    private HTML errorMessage = new HTML();
     private Label expressionFromTableEditor = new Label();
     
     public BooleanExpressionInputPanel(RuleEditorModel m){
-        textBox.setPixelSize(400, 30);
+        textBox.setPixelSize(600, 30);
         
         this.add(textBox);
         this.add(errorMessage);
@@ -33,20 +34,16 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
                 if(expression.length() == 0){
                     ruleEditorModel.setNodeFromExpressionEditor(null);
                 }
-                if(oldInput.equals(expression.trim())){
+                if(oldInput.trim().equals(expression.trim())){
                     return;
                 }else{
                     oldInput = expression.trim();
                 }
                 Node root = parser.parse(expression);
-                if (parser.hasError()) {
-                    StringBuilder sb = new StringBuilder("Error Message: ");
-                    for (String error : parser.getErrorMessage()) {
-                        sb.append(error + ",");
-                    }
-                    return;
-                }else{
+                if (parser.hasError() == false) {
                     ruleEditorModel.setNodeFromExpressionEditor(root);
+                }else{
+                    displayError();
                 }
             }
         });
@@ -54,6 +51,19 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
     public void addExpressionFromTableEditor(String s){
         expressionFromTableEditor.setText(s);
         oldInput = s;
-   //     textBox.setText(s);
+        textBox.setText(s);
+        parser.parse(s);
+        displayError();
+      
+    }
+    private void displayError(){
+        errorMessage.setText("");
+        if(parser.hasError()){
+            StringBuilder sb = new StringBuilder("Error Message: <BR>");
+            for (String error : parser.getErrorMessage()) {
+                sb.append(error + ",<BR>");
+            }
+            errorMessage.setHTML(sb.toString()+"<HR>");
+        }
     }
 }

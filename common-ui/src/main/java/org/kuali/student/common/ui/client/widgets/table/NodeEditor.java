@@ -5,7 +5,10 @@ import java.util.List;
 public interface NodeEditor {
 
 
-    public boolean isAndOrOrable(Node target, List<Node> nodeList);
+    public boolean isAndable(Node target, List<Node> nodeList);
+    
+    public boolean isOrable(Node target, List<Node> nodeList);
+    
     
     public boolean isAddable(Node target, List<Node> nodeList);
     

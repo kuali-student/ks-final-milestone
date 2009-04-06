@@ -17,7 +17,7 @@ public class RuleEditor extends VerticalPanel{
     BooleanExpressionInputPanel booleanExpressionInput = new BooleanExpressionInputPanel(tableModel);    
     
     public RuleEditor() {
-      //  treeTablePanel.setPixelSize(300,300);
+        treeTablePanel.setPixelSize(300,300);
         //treeTablePanel.add(new Label(""));
         this.add(ungroupedConditionPanel);
         this.add(treeTablePanel);
@@ -32,9 +32,6 @@ public class RuleEditor extends VerticalPanel{
             }
         });
     }
-  //  public void setNodeList(List<Node<Token>> list){
-    //    tableModel.setNodeList(list);
-   // }
     public void setNodeFromExpressionEditor(Node<Token> node){
         tableModel.setNodeFromExpressionEditor(node);
     }

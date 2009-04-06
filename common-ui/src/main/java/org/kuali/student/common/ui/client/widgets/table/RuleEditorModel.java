@@ -36,6 +36,7 @@ public class RuleEditorModel implements NodeEditor {
     public void setNodeFromExpressionEditor(Node<Token> treeRoot) {
         nodeList.clear();
         for (Node node : orignalOrder) {
+            node.setParent(null);
             nodeList.add(node);
         }
         if(treeRoot != null){
@@ -73,13 +74,14 @@ public class RuleEditorModel implements NodeEditor {
     }
 */
     private void dump() {
+        //undoStack.peek().
         List<Node<Token>> clonedWidgetList = new ArrayList<Node<Token>>();
         redoStack.clear();
         for (Node<Token> n : nodeList) {
             clonedWidgetList.add(n.clone());
         }
         undoStack.add(clonedWidgetList);
-        System.out.println("dump:"+undoStack);
+        System.out.println("dump:"+undoStack+"\n");
     }
 
     public List<NodeWidget> getAllNodeWidget() {
@@ -386,7 +388,7 @@ public class RuleEditorModel implements NodeEditor {
             if (n.isLeaf()) {
               //  sb.append(n.getUserObject().toString() + " ");
             } else {
-                sb.append(ExpressionParser.getExpressionString(n.clone()) + " ");
+                sb.append(ExpressionParser.getExpressionString(n.clone()) + "  ");
             }
         }
         return sb.toString();
@@ -394,8 +396,11 @@ public class RuleEditorModel implements NodeEditor {
 
     // More than one ungrouped node selected
     // or More than one not all grouped node under same parent selected
-    public boolean isAndOrOrable() {
-        return isAndOrOrable(null, getSelectedNodeList());
+    public boolean isAndable() {
+        return isAndable(null, getSelectedNodeList());
+    }
+    public boolean isOrable() {
+        return isOrable(null, getSelectedNodeList());
     }
 
     private boolean isAllInUngroupedNodes(List<Node> list) {
@@ -470,7 +475,7 @@ public class RuleEditorModel implements NodeEditor {
     // end addable
 
     @Override
-    public boolean isAndOrOrable(Node target, List<Node> nList) {
+    public boolean isAndable(Node target, List<Node> nList) {
         if (nList.size() < 2) {
             return false;
         }
@@ -478,7 +483,34 @@ public class RuleEditorModel implements NodeEditor {
             return true;
         }
         if (isMoreThanNotAllOnGroupedNodeUnderSameParentSelected()) {
+            List<Node> selectedList = getSelectedNodeList();
+            Node parent = selectedList.get(0).getParent();
+            Token token = (Token)parent.getUserObject();
+            if(token.type == Token.Or){
+                return true;
+            }else{
+               return false;
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean isOrable(Node target, List<Node> nList) {
+        if (nList.size() < 2) {
+            return false;
+        }
+        if (isAllInUngroupedNodes(nList)) {
             return true;
+        }
+        if (isMoreThanNotAllOnGroupedNodeUnderSameParentSelected()) {
+            List<Node> selectedList = getSelectedNodeList();
+            Node parent = selectedList.get(0).getParent();
+            Token token = (Token)parent.getUserObject();
+            if(token.type == Token.And){
+                return true;
+            }else{
+               return false;
+            }
         }
         return false;
     }
@@ -544,7 +576,12 @@ public class RuleEditorModel implements NodeEditor {
         }
         List<Node<Token>> historyStep = this.redoStack.pop();
         undoStack.push(historyStep);
-        nodeList = historyStep;
+        
+        List<Node<Token>> clonedList = new ArrayList<Node<Token>>();
+        for (Node<Token> n : historyStep) {
+            clonedList.add(n.clone());
+        }
+        nodeList = clonedList;
         reBuildWidgetList();
 
     }
@@ -563,10 +600,10 @@ public class RuleEditorModel implements NodeEditor {
 
         List<Node<Token>> clonedList = new ArrayList<Node<Token>>();
         for (Node<Token> n : historyStep) {
-            clonedList.add(n);
+            clonedList.add(n.clone());
         }
         nodeList = clonedList;
-        System.out.println("undo:"+undoStack);
+        System.out.println("undo:"+undoStack+"\n");
         reBuildWidgetList();
     }
 }

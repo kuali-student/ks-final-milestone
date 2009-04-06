@@ -129,10 +129,12 @@ public class RuleEditButtonBar extends FlowPanel {
   public void refreshState(){
       disableAllButton();
      // hideAllButton();
-      if( ruleEditTable.isAndOrOrable()){
+      if( ruleEditTable.isAndable()){
           andButton.setEnabled(true);
-          orButton.setEnabled(true);
           andButton.setVisible(true);
+      }
+      if( ruleEditTable.isOrable()){
+          orButton.setEnabled(true);
           orButton.setVisible(true);
       }
       if(ruleEditTable.isTogglable()){
