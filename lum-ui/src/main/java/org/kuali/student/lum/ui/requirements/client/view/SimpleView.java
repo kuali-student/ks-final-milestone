@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SimpleView extends ViewComposite {
     
     private Panel mainPanel = new SimplePanel();
-    private KSButton btnToComplexView = new KSButton("To Complex View");
+    private KSButton btnToComplexView = new KSButton("Complex View");
 
     public SimpleView(Controller controller) {
         super(controller, "Simple View");

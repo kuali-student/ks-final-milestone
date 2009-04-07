@@ -25,7 +25,9 @@ public class ComplexView extends ViewComposite {
 
     private Panel mainPanel = new SimplePanel();
     private KSButton btnEditClause = new KSButton("Edit Clause");
+    private KSButton btnSearchView = new KSButton("Search");
     private KSButton btnRetrieveStatement = new KSButton("Retrieve Rule");
+    private KSButton btnSimpleView = new KSButton("Simple View");
     private TreeTable ruleTable = new TreeTable();
     private Model<PrereqInfo> model;
 
@@ -35,8 +37,10 @@ public class ComplexView extends ViewComposite {
         Panel testPanel = new VerticalPanel();
         testPanel.add(new Label("Complex View"));
         testPanel.add(btnEditClause);
+        testPanel.add(btnSearchView);
         testPanel.add(btnRetrieveStatement);
         testPanel.add(ruleTable);
+        testPanel.add(btnSimpleView);
         mainPanel.add(testPanel);
     }
     
@@ -59,6 +63,16 @@ public class ComplexView extends ViewComposite {
     }
 
     private void setupHandlers() {
+        btnSearchView.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                getController().showView(PrereqViews.SEARCH);
+            }
+        });
+        btnSimpleView.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                getController().showView(PrereqViews.SIMPLE);
+            }
+        });
         btnEditClause.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
