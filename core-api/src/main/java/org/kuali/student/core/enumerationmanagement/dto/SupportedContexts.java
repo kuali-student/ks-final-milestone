@@ -47,7 +47,7 @@ public class SupportedContexts implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@XmlElement(name = "ContextValueDescriptor", required = true)
+	@XmlElement(name = "ContextValueDescriptor", required = true, namespace="http://org.kuali.student/core/dictionary")
     protected List<ContextValueDescriptor> contextValueDescriptor;
 
     /**

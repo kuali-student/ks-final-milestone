@@ -3,7 +3,7 @@ package org.kuali.student.core.messages.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
-import javax.persistence.Table;
+
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity

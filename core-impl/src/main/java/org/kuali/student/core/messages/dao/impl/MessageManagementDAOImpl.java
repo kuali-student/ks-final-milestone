@@ -53,6 +53,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
         return count;
     }
     
+	@SuppressWarnings("unchecked")
 	public List<String> getLocales() {
 		List<String> locales = new ArrayList<String>();
     	try{
@@ -66,6 +67,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 		return locales;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<String> getMessageGroups() {
 		List<String> groups = new ArrayList<String>();
     	try{
@@ -106,7 +108,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	}
 	
 
-	
+	@SuppressWarnings("unchecked")
 	public List<MessageEntity> getMessages(String locale, String groupKey) {
 		List<MessageEntity> list = new ArrayList<MessageEntity>();
 		try{
@@ -125,6 +127,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<MessageEntity> getMessagesByGroups(String locale, List<String> groupKeys) {
 		List<MessageEntity> list = new ArrayList<MessageEntity>();
 		try{

@@ -1,15 +1,9 @@
 package org.kuali.student.core.messages.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 
 import org.kuali.student.core.messages.dao.MessageManagementDAO;
 import org.kuali.student.core.messages.dto.LocaleKeyList;
@@ -19,7 +13,6 @@ import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.messages.entity.MessageEntity;
 import org.kuali.student.core.messages.service.MessageService;
 import org.kuali.student.core.messages.service.impl.util.POJOConverter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +26,6 @@ public class MessageServiceImpl implements MessageService{
 	
 	private MessageManagementDAO messageDAO;
 	
-	private static boolean populated = false;
-	
-
-
 	public MessageServiceImpl() {
 	}
 	

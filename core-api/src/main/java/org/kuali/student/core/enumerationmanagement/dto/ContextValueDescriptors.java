@@ -51,7 +51,7 @@ public class ContextValueDescriptors implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;
 	@XmlElement(required = true)
     protected String desc;
-    @XmlElement(name = "ContextValueDescriptor", required = true)
+    @XmlElement(name = "ContextValueDescriptor", required = true, namespace="http://org.kuali.student/core/dictionary")
     protected ContextValueDescriptor contextValueDescriptor;
     @XmlAttribute
     protected String type;

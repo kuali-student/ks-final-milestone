@@ -47,7 +47,7 @@ public class EnumeratedValueField implements java.io.Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@XmlElement(required = true)
+	@XmlElement(required = true, namespace="http://org.kuali.student/core/dictionary")
     protected FieldDescriptor fieldDescriptor;
     @XmlAttribute
     protected String key;

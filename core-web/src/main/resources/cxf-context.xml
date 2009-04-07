@@ -16,6 +16,14 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 		implementorClass="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl"
 		implementor="#orgServiceImpl" address="/OrgService" />
 
+	<jaxws:endpoint id="emService"
+		implementorClass="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl"
+		implementor="#emServiceImpl" address="/EmService" />
+		
+	<jaxws:endpoint id="messageService"
+		implementorClass="org.kuali.student.core.messages.service.impl.MessageServiceImpl"
+		implementor="#messageServiceImpl" address="/MessageService" />
+
 	<!-- 
 	<cxf:bus>
 		<cxf:features>
