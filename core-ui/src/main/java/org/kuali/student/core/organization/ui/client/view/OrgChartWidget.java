@@ -2,12 +2,16 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
+import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
@@ -45,6 +49,7 @@ public class OrgChartWidget extends Composite {
     					}
     
     					public void onSuccess(List<OrgTreeInfo>  results) {
+                            
     						final DataTable data = DataTable.create();
     	                    data.addColumn(ColumnType.STRING, "Name");
     	                    data.addColumn(ColumnType.STRING, "Manager");
@@ -63,21 +68,27 @@ public class OrgChartWidget extends Composite {
     							lineCount++;
     		               	}
     						
-    	                    Options orgChartOpts = Options.create();
+    	                    final Options orgChartOpts = Options.create();
     	                    final OrgChart o = new OrgChart(data, orgChartOpts);
     	                    
     	                    Handler.addHandler(o, "select", new SelectHandler(){
     
     							public void onSelect(SelectEvent event) {
-    								String s = data.getFormattedValue(o.getSelections().get(0).getRow(), 0);
-    								String id = data.getValueString(o.getSelections().get(0).getRow(), 0);
-    								Window.alert(s+" "+id);
+    			                    OrgCreatePanel.showPopup(OrgCreatePanel.CREATE_ORG_ALL, data.getValueString(o.getSelections().get(0).getRow(), 0), "Edit", new SelectionHandler<OrgInfo>(){
+    			                        @Override
+    			                        public void onSelection(SelectionEvent<OrgInfo> event) {
+    			                            data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
+//    			                            table.draw(data);
+    			                            o.draw(data, orgChartOpts);
+    			                        }
+    			                    });
+
     							}
     	                    	
     	                    });
     	                    
     	                    root.add(o);
-    	                    Table table = new Table();
+                            Table table = new Table();
     	                    root.add(table);
     	                    table.draw(data);
     	                    
