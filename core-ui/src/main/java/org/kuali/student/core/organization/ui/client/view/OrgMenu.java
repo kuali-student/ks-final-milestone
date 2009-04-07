@@ -53,8 +53,9 @@ public class OrgMenu extends VerticalPanel{
         KSMenuItemData modifyItem = new KSMenuItemData("Modify");
         modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel()));
         
-        KSMenuItemData locateItem = new KSMenuItemData("Locate");
-        locateItem.setClickHandler(getClickHandler(new OrgLocateTree()));
+        KSMenuItemData locateItem = new KSMenuItemData("Browse");
+        addSubItem(locateItem, "by Tree", new OrgLocateTree());
+        addSubItem(locateItem, "by List", new OrgLocatePanel());
         
         menuItems.add(createItem);
         menuItems.add(modifyItem);
