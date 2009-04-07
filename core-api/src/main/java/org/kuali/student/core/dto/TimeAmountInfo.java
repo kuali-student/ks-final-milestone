@@ -1,4 +1,4 @@
-package org.kuali.student.core.atp.dto;
+package org.kuali.student.core.dto;
 
 import java.io.Serializable;
 

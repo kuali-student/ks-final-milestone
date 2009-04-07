@@ -3,7 +3,7 @@ package org.kuali.student.core.organization.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.atp.dto.TimeAmountInfo;
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
