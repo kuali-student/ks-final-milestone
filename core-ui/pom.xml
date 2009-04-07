@@ -110,7 +110,6 @@
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>2.1</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -137,7 +136,6 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-visualization</artifactId>
-			<version>1.0</version>
 		</dependency>
 		
 		<!-- 
