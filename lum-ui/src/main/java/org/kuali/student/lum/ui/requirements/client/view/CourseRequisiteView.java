@@ -21,12 +21,10 @@ public class CourseRequisiteView extends ViewComposite {
     private final Model<PrereqInfo> model = new Model<PrereqInfo>();
     private final PrereqManager prereqManager = new PrereqManager(model);
     private final CoreqManager coreqManager = new CoreqManager();
-    private String cluId;
     
-    public CourseRequisiteView(Controller controller, String cluId) {
+    public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
         super.initWidget(mainPanel);
-        this.cluId = cluId;
         layoutMainPanel(mainPanel);
 //        model.addModelChangeHandler(new ModelChangeHandler<Address>() {
 //            public void onModelChange(ModelChangeEvent<Address> event) {

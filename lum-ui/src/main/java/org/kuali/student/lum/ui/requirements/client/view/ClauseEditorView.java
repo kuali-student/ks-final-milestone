@@ -50,7 +50,6 @@ public class ClauseEditorView extends ViewComposite {
             }
 
             public void onSuccess(final List<Result> clus) {
-                System.out.println("Got back from service call...");
                 ListItems listItemClus = new ListItems() {
                     private List<Result> results = clus;
                     @Override

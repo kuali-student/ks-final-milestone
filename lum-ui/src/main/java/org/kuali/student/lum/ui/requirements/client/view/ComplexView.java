@@ -1,5 +1,7 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.Collection;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -8,16 +10,12 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.table.TreeTable;
-import org.kuali.student.lum.ui.requirements.client.controller.LumApplication;
+import org.kuali.student.lum.ui.requirements.client.RequirementsEntryPoint;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
-import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -47,7 +45,8 @@ public class ComplexView extends ViewComposite {
         if (model == null) {
             getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
                 public void onModelReady(Model<PrereqInfo> theModel) {
-                    model = theModel;
+                    printModel(theModel);
+                    model = theModel;                    
                     setupHandlers();
                     redraw();
                 }
@@ -59,8 +58,6 @@ public class ComplexView extends ViewComposite {
         }
     }
 
-
-
     private void setupHandlers() {
         btnEditClause.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -69,22 +66,22 @@ public class ComplexView extends ViewComposite {
         });
         btnRetrieveStatement.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RequirementsService.Util.getInstance().getStatementVO(LumApplication.testCluId, 
-                        "Pre Req", new AsyncCallback<StatementVO>() {
+                /*
+                RequirementsService.Util.getInstance().getStatementVO(LumApplication.testCluId, "Pre Req", new AsyncCallback<LuStatementInfo>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
                     }
                     
-                    public void onSuccess(final StatementVO statementVO) {
-                        PrereqInfo prepreqInfo = 
-                            model.get(LumApplication.testCluId);
+                    public void onSuccess(final LuStatementInfo statementVO) {
+                        PrereqInfo prepreqInfo = model.get(LumApplication.testCluId);
                         prepreqInfo.setStatementVO(statementVO);
                         model.update(prepreqInfo);
                         getController().showView(PrereqViews.COMPLEX);
                     } 
-                });
-            }
+                }); */
+                redraw();
+            } 
         });
         model.addModelChangeHandler(new ModelChangeHandler<PrereqInfo>() {
             public void onModelChange(ModelChangeEvent<PrereqInfo> event) {
@@ -94,11 +91,18 @@ public class ComplexView extends ViewComposite {
     }
     
     private void redraw() {
-        PrereqInfo prereqInfo = 
-            model.get(LumApplication.testCluId);
+        PrereqInfo prereqInfo = model.get(RequirementsEntryPoint.testCluId);     
         if (prereqInfo != null) {
+            System.out.println("statement tree: " + prereqInfo.getStatementTree());
             ruleTable.buildTable(prereqInfo.getStatementTree());
         }
     }
-
+    
+    public static void printModel(Model model) {
+        Collection<PrereqInfo> values = model.getValues();
+        
+        System.out.println("Model objects:");
+        for (PrereqInfo t : values)
+            System.out.println("object: " + t.getCluId() + ", " + t.getId());
+    }
 }

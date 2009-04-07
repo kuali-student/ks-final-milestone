@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.ExpressionNode;
+import org.kuali.student.common.ui.client.widgets.table.ExpressionParser;
 import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.common.ui.client.widgets.table.Token;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 
 public class PrereqInfo implements Idable {
 
-    private String rationale;
-    private StatementVO statementVO;
-    private String naturalLanguage;
     private String cluId;
+    private LuStatementInfo luStatementInfo;
+    private String rationale;
+    private String naturalLanguage;
+
 
     @Override
     public String getId() {
@@ -24,15 +27,36 @@ public class PrereqInfo implements Idable {
     public void setId(String id) {
         this.cluId = id;
     }
-    public StatementVO getStatementVO() {
-        return statementVO;
+    public String getCluId() {
+        return cluId;
     }
-    public void setStatementVO(StatementVO statementVO) {
-        this.statementVO = statementVO;
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
     }
+    public LuStatementInfo getLuStatementInfo() {
+        return luStatementInfo;
+    }
+    public void setLuStatementInfo(LuStatementInfo luStatementInfo) {
+        this.luStatementInfo = luStatementInfo;
+    }
+    public String getRationale() {
+        return rationale;
+    }
+    public void setRationale(String rationale) {
+        this.rationale = rationale;
+    }
+    public String getNaturalLanguage() {
+        return naturalLanguage;
+    }
+    public void setNaturalLanguage(String naturalLanguage) {
+        this.naturalLanguage = naturalLanguage;
+    }
+  
     
     public Node getStatementTree() {
-        return statementVO.getTree();
+        ExpressionParser p = new ExpressionParser();
+        Node<Token> n = p.parse("(a or b) and c or d and f");
+        return n;
     }
     
     
@@ -128,9 +152,5 @@ public class PrereqInfo implements Idable {
 //    }
 //    public void setReqComponentInfos(List<ReqComponentInfo> reqComponentInfos) {
 //        this.reqComponentInfos = reqComponentInfos;
-//    }
-    
-    
-    
-    
+//    }   
 }

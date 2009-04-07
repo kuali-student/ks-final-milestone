@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
+import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
@@ -21,6 +24,34 @@ public class RequirementsServiceImpl implements RequirementsService {
 
 	LuService service;
 
+	public CourseRuleInfo getCourseInfo(String cluId) throws Exception {
+	  
+        CourseRuleInfo courseInfo = new CourseRuleInfo();
+        
+        //retrieve course info
+        CluInfo cluInfo;
+        try {        
+            cluInfo = service.getClu(cluId);                   
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to retrieve cluInfo for clu " + cluId, ex);
+        }                
+        courseInfo.setCourseInfo(cluInfo);	  
+        courseInfo.setId(cluInfo.getId());
+	    
+	    //retrieve all statements associated with given course (we could retrieve only pre and co-req ?)
+        List<LuStatementInfo> luStatementInfoList;
+        try {        
+            luStatementInfoList = service.getLuStatementsForClu(cluId);            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to retrieve LuStatements for clu " + cluId, ex);
+        }
+	    courseInfo.setLuStatementInfoList(luStatementInfoList); 
+	    
+	    return courseInfo;
+	}
+	
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
                 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
