@@ -48,7 +48,7 @@ public class CreateCreditCoursePanel extends Composite{
             row.addStyleName("Home-Button-Row");
             row.addStyleName("Content-Left-Margin");
             descLabel.addStyleName("Home-Description-Label");
-            theButton.setStyleName("Home-Standard-Button");
+            theButton.addStyleName("Home-Standard-Button");
             descLabel.setWordWrap(true);
             
             descLabel.setText(description);
