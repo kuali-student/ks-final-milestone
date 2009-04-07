@@ -18,8 +18,8 @@
 	<build>
 		<plugins>
 			<!-- 
-			This is only here to exclude javax classes. This should not
-			be required, where are the javax classes coming from?
+			This is only here to exclude javax classes, which are being compiled
+			from sources bundled with gwt jars.
 			 -->
 			<plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
@@ -35,6 +35,7 @@
 	</build>
 	
 	<dependencies>
+		<!-- GWT Dependencies -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
@@ -55,16 +56,9 @@
 		<dependency>
 		      <groupId>com.google.gwt</groupId>
 		      <artifactId>gwt-incubator</artifactId>
-		      <version>1.6</version>
     	</dependency>
 		
-
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
+		<!-- KS core & common dependencies -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
@@ -89,6 +83,12 @@
 			<artifactId>ks-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>						
 		</dependency>		
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -167,6 +167,7 @@
 				</plugins>					
 			</build>
 			<dependencies>
+				<!-- These are required to wire up message service while testing -->
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-core-impl</artifactId>

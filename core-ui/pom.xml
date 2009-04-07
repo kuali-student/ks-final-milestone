@@ -78,42 +78,7 @@
 	
 	
 	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
-		</dependency>		
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
- 		
+		<!-- GWT dependencies -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
@@ -138,15 +103,54 @@
 			<artifactId>gwt-visualization</artifactId>
 		</dependency>
 		
-		<!-- 
-			Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
-			which has problems finding exception beans. 
-		-->
+		<!-- KS common & core dependencies -->
 		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>			
+		</dependency>		
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>	
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+ 			
+		<!-- Required dependencies for testing core-ui -->
+		<dependency>
+			<!-- 
+				Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
+				which has problems finding exception beans. 
+			-->
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<type>pom</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
