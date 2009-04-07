@@ -79,6 +79,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluCluRelationInfo toCluCluRelationInfo(CluCluRelation entity) {
+		if(entity==null){
+			return null;
+		}
 		CluCluRelationInfo dto = new CluCluRelationInfo();
 		BeanUtils.copyProperties(entity, dto,
 				new String[] { "cluId", "relatedCluId", "cluRelationRequired",
@@ -105,6 +108,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluInfo toCluInfo(Clu entity) {
+		if(entity==null){
+			return null;
+		}
 		CluInfo dto = new CluInfo();
 
 		BeanUtils.copyProperties(entity, dto,
@@ -159,6 +165,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluSetInfo toCluSetInfo(CluSet entity) {
+		if(entity==null){
+			return null;
+		}
 		CluSetInfo dto = new CluSetInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
@@ -196,6 +205,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LrTypeInfo toLrTypeInfo(LrType entity) {
+		if(entity==null){
+			return null;
+		}
 		LrTypeInfo dto = new LrTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
@@ -220,6 +232,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	public static LuDocRelationInfo toLuDocRelationInfo(
 			LuDocumentRelation entity) {
+		if(entity==null){
+			return null;
+		}
 		LuDocRelationInfo dto = new LuDocRelationInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
@@ -267,6 +282,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	public static LuDocRelationTypeInfo toLuDocRelationTypeInfo(
 			LuDocumentRelationType entity) {
+		if(entity==null){
+			return null;
+		}
 		LuDocRelationTypeInfo dto = new LuDocRelationTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
@@ -290,6 +308,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	public static LuLuRelationTypeInfo toLuLuRelationTypeInfo(
 			LuLuRelationType entity) {
+		if(entity==null){
+			return null;
+		}
 		LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
@@ -312,6 +333,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LuStatementInfo toLuStatementInfo(LuStatement entity) {
+		if(entity==null){
+			return null;
+		}
 		LuStatementInfo dto = new LuStatementInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "children",
@@ -439,6 +463,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LuTypeInfo toLuTypeInfo(LuType entity) {
+		if(entity==null){
+			return null;
+		}
 		LuTypeInfo dto = new LuTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto,
@@ -459,6 +486,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LuiInfo toLuiInfo(Lui entity) {
+		if(entity==null){
+			return null;
+		}
 		LuiInfo luiInfo = new LuiInfo();
 
 		BeanUtils.copyProperties(entity, luiInfo, new String[] { "clu", "metaInfo", "attributes" });
@@ -473,7 +503,10 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
     public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
-	    Lui lui;
+		if(luiInfo==null){
+			return null;
+		}
+    	Lui lui;
 	    
 	    if (isUpdate) {
 	        lui = (Lui) dao.fetch(Lui.class, luiInfo.getId());
@@ -513,6 +546,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
+		if(entity==null){
+			return null;
+		}
 		LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "lui",
@@ -664,8 +700,12 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluIdentifierInfo toCluIdentifierInfo(CluIdentifier entity) {
+		if(entity==null){
+			return null;
+		}
+		
 		CluIdentifierInfo dto = new CluIdentifierInfo();
-
+		
 		BeanUtils.copyProperties(entity, dto);
 
 		return dto;
@@ -680,6 +720,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluInstructorInfo toCluInstructorInfo(CluInstructor entity) {
+		if(entity==null){
+			return null;
+		}
 		CluInstructorInfo dto = new CluInstructorInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "id", "attributes" });
@@ -689,6 +732,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static TimeAmountInfo toTimeAmountInfo(TimeAmount entity) {
+		if(entity==null){
+			return null;
+		}
 		TimeAmountInfo dto = new TimeAmountInfo();
 
 		BeanUtils.copyProperties(entity, dto);
@@ -705,6 +751,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static LuCodeInfo toLuCodeInfo(LuCode entity) {
+		if(entity==null){
+			return null;
+		}
 		LuCodeInfo dto = new LuCodeInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "attributes", "metInfo" });
@@ -716,6 +765,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
+		if(entity==null){
+			return null;
+		}
 		CluCreditInfo dto = new CluCreditInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" , "minTimeToComplete", "maxTimeToComplete", "maxAllowableInactivity", "maxTimeResultsRecognized"});
@@ -729,6 +781,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluPublishingInfo toCluPublishingInfo(CluPublishing entity) {
+		if(entity==null){
+			return null;
+		}
 		CluPublishingInfo dto = new CluPublishingInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "primaryInstructor", "instructors",
@@ -741,6 +796,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluFeeInfo toCluFeeInfo(CluFee entity) {
+		if(entity==null){
+			return null;
+		}
 		CluFeeInfo dto = new CluFeeInfo();
 
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
@@ -749,6 +807,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluAccountingInfo toCluAccountingInfo(CluAccounting entity) {
+		if(entity==null){
+			return null;
+		}
 		CluAccountingInfo dto = new CluAccountingInfo();
 
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
@@ -757,6 +818,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static TimeAmount toTimeAmount(TimeAmountInfo timeAmountInfo) {
+		if(timeAmountInfo==null){
+			return null;
+		}
 		TimeAmount timeAmount = new TimeAmount();
 		BeanUtils.copyProperties(timeAmountInfo, timeAmount);
 		return timeAmount;
@@ -772,6 +836,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
+		if(cluCreditInfo==null){
+			return null;
+		}
 		CluCredit cluCredit = new CluCredit();
 
 		cluCredit.setMaxAllowableInactivity(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));

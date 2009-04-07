@@ -355,7 +355,9 @@ public class LuServiceImpl implements LuService {
 			clu.getLuCodes().add(luCode);
 		}
 
-		clu.setCredit(LuServiceAssembler.toCluCredit(cluInfo.getCreditInfo()));//Required field
+		if(cluInfo.getCreditInfo()!=null){
+			clu.setCredit(LuServiceAssembler.toCluCredit(cluInfo.getCreditInfo()));//Required field
+		}
 
 		if(cluInfo.getPublishingInfo()!=null){
 			CluPublishing cluPublishing = new CluPublishing();
