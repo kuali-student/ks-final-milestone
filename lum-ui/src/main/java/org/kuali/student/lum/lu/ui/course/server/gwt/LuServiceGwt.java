@@ -39,4 +39,12 @@ public class LuServiceGwt extends RemoteServiceServlet implements LuRpcService{
         return luRpcService.createClu(luTypeKey, cluInfo);
     }
 
+    public LuRpcService getLuRpcService() {
+        return luRpcService;
+    }
+
+    public void setLuRpcService(LuRpcService luRpcService) {
+        this.luRpcService = luRpcService;
+    }
+
 }

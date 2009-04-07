@@ -35,6 +35,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 public class LuServiceGwtImpl implements LuRpcService {
 
     LuService luService;
+    
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
      */
@@ -57,6 +58,14 @@ public class LuServiceGwtImpl implements LuRpcService {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public LuService getLuService() {
+        return luService;
+    }
+    
+    public void setLuService(LuService luService) {
+        this.luService = luService;
     }
 
 }
