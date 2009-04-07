@@ -9,19 +9,13 @@
 	<name>KS LUM UI</name>
 	<description>KS Learing Unit Management-ui</description>
 
-	<properties>
-		<google.webtoolkit.extrajvmargs>
-			-Xmx512m
-		</google.webtoolkit.extrajvmargs>
-	</properties>
-
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
-	
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -39,13 +33,8 @@
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<startupUrl>index.html</startupUrl>
-<!-- 
-					<runTarget>
-						org.kuali.student.lum.lu.ui.course.Course
-					</runTarget>
--->					
-					<runTarget>
-							org.kuali.student.lum.ui.requirements.Requirements
+					<runTarget> 
+						org.kuali.student.lum.ui.requirements.Requirements
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
@@ -68,155 +57,100 @@
 	</build>
 
 	<dependencies>
+		<!-- GWT Dependencies -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwtVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>${gwtVersion}</version>
+			<classifier>${platform}-libs</classifier>
+			<type>zip</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>${gwtVersion}</version>
+			<classifier>${platform}</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwtVersion}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-incubator</artifactId>
+			<version>1.6</version>
+		</dependency>
 
-	<!-- KS Common UI Dependencies -->
-	<dependency>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-common-ui</artifactId>
-		<version>0.0.1-SNAPSHOT</version>			
-	</dependency>		
-	<dependency>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-common-ui</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<classifier>sources</classifier>
-		<scope>provided</scope>			
-	</dependency>
-	<dependency>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-core-api</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<classifier>sources</classifier>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>javax.xml.bind</groupId>
-		<artifactId>jaxb-api</artifactId>
-		<version>2.1</version>
-		<classifier>sources</classifier>
-		<scope>provided</scope>
-	</dependency>
-	
-	<!-- LUM Dependencies -->
-	<dependency>
-		<groupId>org.kuali.student.lum</groupId>
-		<artifactId>ks-lum-api</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<classifier>sources</classifier>		
-	</dependency>	
-		
-	<!-- GWT Dependencies -->		
-	<dependency>
-		<groupId>com.google.gwt</groupId>
-		<artifactId>gwt-user</artifactId>
-		<version>${gwtVersion}</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.google.gwt</groupId>
-		<artifactId>gwt-dev</artifactId>
-		<version>${gwtVersion}</version>
-		<classifier>${platform}-libs</classifier>
-		<type>zip</type>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.google.gwt</groupId>
-		<artifactId>gwt-dev</artifactId>
-		<version>${gwtVersion}</version>
-		<classifier>${platform}</classifier>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.google.gwt</groupId>
-		<artifactId>gwt-servlet</artifactId>
-		<version>${gwtVersion}</version>
-		<scope>runtime</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.google.gwt</groupId>
-		<artifactId>gwt-incubator</artifactId>
-		<version>1.6</version>
-	</dependency>
+		<!-- KS core & common dependencies -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>	
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
 
-	<!-- Other Dependencies -->
-	<dependency>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-cxf</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<type>pom</type>
-	</dependency>	
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-web</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-webmvc</artifactId>
-		<version>2.5.4</version>
-	</dependency>		
-	<dependency>
-		<groupId>javax.xml.bind</groupId>
-		<artifactId>jaxb-api</artifactId>
-		<version>2.1</version>
-	</dependency>
-	<dependency>
-		<groupId>javax.xml.ws</groupId>
-		<artifactId>jaxws-api</artifactId>
-		<version>2.1</version>
-	</dependency>
-	<dependency>
-		<groupId>com.sun.xml.ws</groupId>
-		<artifactId>jaxws-rt</artifactId>
-		<version>2.1</version>
-		<exclusions>
-			<exclusion>
-				<artifactId>servlet-api</artifactId>
-				<groupId>javax.servlet</groupId>
-			</exclusion>
-		</exclusions>
-	</dependency>
-	<dependency>
-		<groupId>com.sun.xml.bind</groupId>
-		<artifactId>jaxb-impl</artifactId>
-		<version>2.1.6</version>
-	</dependency>
-  
+		<!-- LUM Dependencies -->
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Required dependencies for testing lum-ui -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-cxf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>pom</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
-	
-	<profiles>
-		<profile>
-			<id>ks.ui.external.repositories</id>
-			<activation>
-				<property>
-					<name>!ks.use.proxy</name>
-				</property>
-			</activation>
-			<repositories>
-				<repository>
-					<id>com.gwtext</id>
-					<url>http://www.gwt-ext.com/maven2</url>
-				</repository>
-			</repositories>
-		</profile>
 
-	</profiles>	
-	
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://archiva.kuali.umd.edu/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	
 </project>
