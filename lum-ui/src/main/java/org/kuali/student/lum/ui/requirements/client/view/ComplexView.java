@@ -1,18 +1,13 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.mvc.test.Address;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.table.RuleEditTable;
 import org.kuali.student.common.ui.client.widgets.table.TreeTable;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.ui.requirements.client.controller.LumApplication;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
