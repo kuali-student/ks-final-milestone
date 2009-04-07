@@ -188,8 +188,8 @@ public class OrgLocatePanel extends Composite{
                         activeHierarchyId = orgRootHierarchy.get(orgId);
                     }
                     getOrgChildren(orgId);
-                    orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,0)));
-                    orgSection.setVisible(true);
+//                    orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,0)));
+//                    orgSection.setVisible(true);
             }});
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");

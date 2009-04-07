@@ -50,12 +50,13 @@ public class OrgMenu extends VerticalPanel{
         addSubItem(createItem, "Organization", new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL));
         addSubItem(createItem, "Position", new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_POSITIONS));
         
-        KSMenuItemData modifyItem = new KSMenuItemData("Modify");
+        KSMenuItemData modifyItem = new KSMenuItemData("Search / Modify");
         modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel()));
         
         KSMenuItemData locateItem = new KSMenuItemData("Browse");
         addSubItem(locateItem, "by Tree", new OrgLocateTree());
         addSubItem(locateItem, "by List", new OrgLocatePanel());
+        addSubItem(locateItem, "by Chart", new OrgLocateChart());
         
         menuItems.add(createItem);
         menuItems.add(modifyItem);
