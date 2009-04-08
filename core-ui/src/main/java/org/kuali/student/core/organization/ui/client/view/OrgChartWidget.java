@@ -11,7 +11,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
@@ -19,7 +18,6 @@ import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.Handler;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.OrgChart;
-import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.OrgChart.Options;
 
 public class OrgChartWidget extends Composite {
@@ -78,7 +76,6 @@ public class OrgChartWidget extends Composite {
     			                        @Override
     			                        public void onSelection(SelectionEvent<OrgInfo> event) {
     			                            data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
-//    			                            table.draw(data);
     			                            o.draw(data, orgChartOpts);
     			                        }
     			                    });
@@ -88,10 +85,6 @@ public class OrgChartWidget extends Composite {
     	                    });
     	                    
     	                    root.add(o);
-                            Table table = new Table();
-    	                    root.add(table);
-    	                    table.draw(data);
-    	                    
     	                    	                    
     					}
                 	});
