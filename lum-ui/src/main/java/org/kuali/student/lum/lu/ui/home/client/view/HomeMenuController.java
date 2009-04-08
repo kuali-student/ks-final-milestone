@@ -3,7 +3,14 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
+import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -22,13 +29,21 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HomePanel extends Composite{
+public class HomeMenuController extends Controller implements View{
+    
+    public enum MenuViews {
+        DEFAULT_VIEW, CREATE_COURSE_VIEW, FIND_VIEW
+    }
+    
+    public View defaultPanel = new DefaultPanel(this);
+    public View creditCoursePanel = new CreateCreditCoursePanel(this);
+    public View findPanel = new FindPanel(this);
+    
     public HorizontalPanel mainPanel = new HorizontalPanel();
     public VerticalPanel menuPanel = new VerticalPanel();
     public SimplePanel contentPanel = new SimplePanel();
     
-    public CreateCreditCoursePanel creditCoursePanel = new CreateCreditCoursePanel();
-    public FindPanel findPanel = new FindPanel();
+
     
     private EventHandler handler = new EventHandler();
     
@@ -41,25 +56,23 @@ public class HomePanel extends Composite{
     public static String RETIRE_PROGRAM = "Retire a Program";
     public static String FIND = "Find Course or Proposal";
     
-    private MenuItemPanel creditCourse = new MenuItemPanel(CREATE_CREDIT_COURSE, creditCoursePanel);
-    private MenuItemPanel nonCreditCourse = new MenuItemPanel(CREATE_NON_CREDIT_COURSE, null);
-    private MenuItemPanel createGroup = new MenuItemPanel(CREATE_GROUP, null);
-    private MenuItemPanel modifyCourse = new MenuItemPanel(MODIFY_COURSE, null);
-    private MenuItemPanel modifyProgram = new MenuItemPanel(MODIFY_PROGRAM, null);
-    private MenuItemPanel retireCourse = new MenuItemPanel(RETIRE_COURSE, null);
-    private MenuItemPanel retireProgram = new MenuItemPanel(RETIRE_PROGRAM, null);
-    private MenuItemPanel find = new MenuItemPanel(FIND, findPanel);
+    private MenuItemPanel creditCourse = new MenuItemPanel(CREATE_CREDIT_COURSE);
+    private MenuItemPanel nonCreditCourse = new MenuItemPanel(CREATE_NON_CREDIT_COURSE);
+    private MenuItemPanel createGroup = new MenuItemPanel(CREATE_GROUP);
+    private MenuItemPanel modifyCourse = new MenuItemPanel(MODIFY_COURSE);
+    private MenuItemPanel modifyProgram = new MenuItemPanel(MODIFY_PROGRAM);
+    private MenuItemPanel retireCourse = new MenuItemPanel(RETIRE_COURSE);
+    private MenuItemPanel retireProgram = new MenuItemPanel(RETIRE_PROGRAM);
+    private MenuItemPanel find = new MenuItemPanel(FIND);
     
     private List<MenuItemPanel> menuItems = new ArrayList<MenuItemPanel>();
     
     private class MenuItemPanel extends Composite{
         KSLabel itemLabel = new KSLabel();
         FocusPanel thePanel = new FocusPanel();
-        Widget content = null;
         boolean selected = false;
         
-        public MenuItemPanel(String itemName, Widget content){
-            this.content = content;
+        public MenuItemPanel(String itemName){
             itemLabel.setText(itemName);
             itemLabel.setWordWrap(true);
             thePanel.addStyleName("Course-Home-Menu-Item");
@@ -83,7 +96,6 @@ public class HomePanel extends Composite{
             selected = true;
             thePanel.addStyleName("Course-Home-Menu-Item-Selected");
             itemLabel.addStyleName("Course-Home-Menu-Label-Selected");
-            contentPanel.setWidget(content);
         }
         
         public FocusPanel getPanel(){
@@ -104,9 +116,11 @@ public class HomePanel extends Composite{
 
             if (sender == creditCourse.getPanel()) {
                 creditCourse.select();
+                showView(MenuViews.CREATE_COURSE_VIEW);
             }
             else if(sender == find.getPanel()){
                 find.select();
+                showView(MenuViews.FIND_VIEW);
             }
             
         }
@@ -137,7 +151,8 @@ public class HomePanel extends Composite{
         
     }
     
-    public HomePanel(){
+    public HomeMenuController(Controller parentController){
+        this.setParentController(parentController);
         mainPanel.setStyleName("Course-Home-Main-Panel");
         menuPanel.setStyleName("Course-Home-Menu-Panel");
         contentPanel.setStyleName("Course-Home-Content-Panel");   
@@ -162,4 +177,69 @@ public class HomePanel extends Composite{
         menuPanel.add(panel);
         menuItems.add(panel);
     }
+    
+    //Controller Methods
+
+    @Override
+    protected <V extends Enum<?>> View getView(V viewType) {
+        switch ((MenuViews) viewType) {
+            case DEFAULT_VIEW:
+                return defaultPanel;
+            case CREATE_COURSE_VIEW:
+                return creditCoursePanel;
+            case FIND_VIEW:
+                return findPanel;
+            default:
+                return defaultPanel;
+        }
+    }
+
+    @Override
+    protected void hideView(View view) {
+        contentPanel.clear();
+    }
+
+    @Override
+    protected void renderView(View view) {
+        contentPanel.setWidget((ViewComposite) view);
+    }
+
+    @Override
+    public void showDefaultView() {
+        showView(MenuViews.DEFAULT_VIEW);
+        
+    }
+
+    @Override
+    public boolean beforeHide() {
+        //Not Needed
+        return false;
+    }
+
+    @Override
+    public void beforeShow() {
+        //Not needed
+    }
+
+    @Override
+    public Controller getController() {
+        return this.getParentController();
+    }
+
+    @Override
+    public String getName() {
+        return "LUM Home Menu";
+    }
+
+    @Override
+    public void fireApplicationEvent(ApplicationEvent event) {
+        
+        if ((event instanceof ChangeViewStateEvent) && (getParentController() != null)) {
+            this.getParentController().fireApplicationEvent(event);
+        }
+        else{
+            super.fireApplicationEvent(event);
+        }
+    }
+    
 }

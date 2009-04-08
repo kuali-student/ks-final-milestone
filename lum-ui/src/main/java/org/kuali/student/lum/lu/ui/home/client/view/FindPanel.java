@@ -3,6 +3,8 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -15,7 +17,8 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FindPanel extends Composite{
+public class FindPanel extends ViewComposite{
+   
     private VerticalPanel mainPanel = new VerticalPanel();
     
     private FlexTable findLayout = new FlexTable();
@@ -106,7 +109,9 @@ public class FindPanel extends Composite{
         }
     }
     
-    public FindPanel(){
+    public FindPanel(Controller controller) {
+        // TODO Bsmith - THIS CONSTRUCTOR NEEDS A JAVADOC
+        super(controller, "Find Course or Proposal");
         searchTypes.add(new SearchType("1", "Proposals"));
         searchTypes.add(new SearchType("2", "Courses"));
         searchTypes.add(new SearchType("3", "Courses + Proposals"));

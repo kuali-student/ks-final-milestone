@@ -1,6 +1,6 @@
 package org.kuali.student.lum.lu.ui.home.client;
 
-import org.kuali.student.lum.lu.ui.home.client.view.HomePanel;
+import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeResources;
 
 
@@ -14,7 +14,7 @@ public class HomeEntryPoint implements EntryPoint{
 
     @Override
     public void onModuleLoad() {
-        RootPanel.get().add(new HomePanel());
+        //RootPanel.get().add(new HomePanel());
         final String injectString = this.getCssString();
         StyleInjector.injectStylesheet(injectString);   
     }

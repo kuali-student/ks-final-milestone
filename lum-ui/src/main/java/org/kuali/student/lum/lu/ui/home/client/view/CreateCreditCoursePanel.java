@@ -1,7 +1,10 @@
 package org.kuali.student.lum.lu.ui.home.client.view;
 
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.dom.client.HRElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,7 +19,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CreateCreditCoursePanel extends Composite{
+public class CreateCreditCoursePanel extends ViewComposite{
+
+
     private VerticalPanel mainPanel = new VerticalPanel();
     
     private KSButton viewProcess = new KSButton("View Process Overview");
@@ -34,7 +39,7 @@ public class CreateCreditCoursePanel extends Composite{
             Widget sender = (Widget) event.getSource();
             
             if(sender == startBlank){
-                
+                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent());
             }
         }
         
@@ -74,7 +79,9 @@ public class CreateCreditCoursePanel extends Composite{
         }
     }
     
-    public CreateCreditCoursePanel(){
+    public CreateCreditCoursePanel(Controller controller) {
+        // TODO Bsmith - THIS CONSTRUCTOR NEEDS A JAVADOC
+        super(controller, "Create Credit Course");
         Hyperlink more = new Hyperlink("More", "More");
         more.addStyleName("Home-Small-Hyperlink");
         mainPanel.add(new ButtonRow(viewProcess, "Description goes here here here here here"));
