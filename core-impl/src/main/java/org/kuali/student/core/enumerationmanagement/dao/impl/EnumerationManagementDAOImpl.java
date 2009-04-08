@@ -22,7 +22,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     
     final static Logger logger = LoggerFactory.getLogger(EnumerationManagementDAOImpl.class);
 
-    @PersistenceContext(name = "EnumerationManagement")
+    @PersistenceContext(unitName = "EnumerationManagement")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

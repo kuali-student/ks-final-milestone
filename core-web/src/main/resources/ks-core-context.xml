@@ -58,6 +58,7 @@
 	<!-- JPA EntityManagerFactory -->
 	<bean id="orgEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="Organization"/>
 		<property name="jpaVendorAdapter">
 			<bean class="${jpa.vendorAdapter}">
 				<property name="databasePlatform"
@@ -74,6 +75,7 @@
 	
 	<bean id="emEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="EnumerationManagement"/>
 		<property name="jpaVendorAdapter">
 			<bean class="${jpa.vendorAdapter}">
 				<property name="databasePlatform"
@@ -90,6 +92,7 @@
 
 	<bean id="messageEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="MessageManagement"/>
 		<property name="jpaVendorAdapter">
 			<bean class="${jpa.vendorAdapter}">
 				<property name="databasePlatform"
@@ -133,12 +136,8 @@
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<!-- Enumeration Service Config -->
-	<bean id="emEntityManager" factory-bean="emEntityManagerFactory"
-		factory-method="createEntityManager" />
-		
 	<bean id="emDao"
 		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
-		<property name="entityManager" ref="emEntityManager"/>
 	</bean>
 	
 	<bean id="emServiceImpl"
@@ -146,14 +145,9 @@
 		<property name="enumDAO" ref="emDao" />
 	</bean>
 
-
 	<!-- Organization Service Config -->
-	<bean id="orgEntityManager" factory-bean="orgEntityManagerFactory"
-		factory-method="createEntityManager" />
-	
 	<bean id="orgDao"
 		class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
-		<property name="em" ref="orgEntityManager"/>
 	</bean>
 
 	<bean id="orgServiceImpl"
@@ -169,12 +163,8 @@
 	</bean>
 
 	<!-- Message Service Config -->
-	<bean id="messageEntityManager" factory-bean="messageEntityManagerFactory"
-		factory-method="createEntityManager" />
-		
 	<bean id="messageDao"
 		class="org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl">
-		<property name="entityManager" ref="messageEntityManager"/>
 	</bean>
 	
 	<bean id="messageServiceImpl"
