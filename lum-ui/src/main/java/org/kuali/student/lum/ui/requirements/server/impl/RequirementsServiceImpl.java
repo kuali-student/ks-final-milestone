@@ -7,6 +7,7 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -115,7 +116,62 @@ public class RequirementsServiceImpl implements RequirementsService {
         return null;
     }
     
+    private String composeStatementVO(LuStatementInfo luStatementInfo, StatementVO statementVO) throws Exception {
+        
+        List<String> statementIDs = luStatementInfo.getLuStatementIds();       
+        List<String> reqComponentIDs = luStatementInfo.getReqComponentIds();
+        
+        if ((statementIDs != null) && (reqComponentIDs != null) && (statementIDs.size() > 0) && (reqComponentIDs.size() > 0))
+        {
+            return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
+        }
+        
+        if ((statementIDs != null) && (statementIDs.size() > 0)) {
+            //retrieve all statements
+            for (String stmtID : statementIDs) {
+                LuStatementInfo tempStmtInfo;                    
+                try {
+                    tempStmtInfo = service.getLuStatement(stmtID);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new Exception("Unable to retrieve Lu Statemetn based on luStatementID: " + stmtID, ex);
+                }
+                StatementVO tempStmtVO = new StatementVO(tempStmtInfo);
+                composeStatementVO(tempStmtInfo, tempStmtVO);
+                statementVO.addStatementVO(tempStmtVO);
+            }            
+        } else {
+            //retrieve all req. component LEAFS
+            for (String reqCompID : reqComponentIDs) {
+                    
+                ReqComponentInfo tempReqCompInfo;
+                try {
+                    tempReqCompInfo = service.getReqComponent(reqCompID);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new Exception("Unable to retrieve Lu Statemetn based on reqComponentID: " + reqCompID, ex);
+                }
+                
+                ReqComponentVO tempReqCompVO = new ReqComponentVO(tempReqCompInfo);
+                statementVO.addReqComponentVO(tempReqCompVO);
+            }               
+        }        
+        
+        return "";
+    }
+    
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
+        
+        LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);        
+        StatementVO rootStatementVO = new StatementVO(luStatementInfo);
+        String error = composeStatementVO(luStatementInfo, rootStatementVO);
+        if (error.isEmpty() == false) {
+            throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
+        }
+        
+        return rootStatementVO;
+        
+        /*
         StatementVO statementVO = null;
         StatementVO statementVO1 = null;
         StatementVO statementVO2 = null;
@@ -186,7 +242,7 @@ public class RequirementsServiceImpl implements RequirementsService {
         statementVO1.addReqComponentVO(reqComponentVO2);
         statementVO2.addReqComponentVO(reqComponentVO3);
         // stub ends
-        return statementVO;
+        return statementVO; */
     }
 
     public String[] getNaturalLanguage(String cluId, String luStatementTypeKey) throws Exception {

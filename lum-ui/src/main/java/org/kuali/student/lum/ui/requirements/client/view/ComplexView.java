@@ -86,7 +86,7 @@ public class ComplexView extends ViewComposite {
         });
         btnRetrieveStatement.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RequirementsService.Util.getInstance().getStatementVO(RequirementsEntryPoint.testCluId, "Pre Req", new AsyncCallback<StatementVO>() {
+                RequirementsService.Util.getInstance().getStatementVO(RequirementsEntryPoint.testCluId, "kuali.luStatementType.createCourseAcademicReadiness", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
