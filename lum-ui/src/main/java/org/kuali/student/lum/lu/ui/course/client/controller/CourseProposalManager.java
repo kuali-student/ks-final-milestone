@@ -18,14 +18,21 @@ package org.kuali.student.lum.lu.ui.course.client.controller;
 import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.mvc.test.Person;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.view.BeginCourseProposal;
+import org.kuali.student.lum.lu.ui.course.client.view.CourseInformation;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -35,7 +42,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class CourseProposalManager extends Controller implements View {
     private BeginCourseProposal beginProposal = new BeginCourseProposal();
-    VerticalPanel vPanel = new VerticalPanel();
+    private View courseInformation = new CourseInformation(this);
+    Model<CluInfo> cluInfo = new Model<CluInfo>();
+    SimplePanel simplePanel = new SimplePanel();
     
     private CourseProposalType type;
     
@@ -43,8 +52,8 @@ public class CourseProposalManager extends Controller implements View {
         NEW_COURSE, TEMPLATE, COPY_COURSE, COPY_TEMPLATE
     }
     
-    public enum CourseProposalViews{
-        
+    public enum CourseViews{
+        COURSE_INFORMATION
     }
     
     public CourseProposalManager(Controller parentController){
@@ -57,11 +66,11 @@ public class CourseProposalManager extends Controller implements View {
         });
         beginProposal.addSaveHandler(new SaveHandler(){
             public void onSave(SaveEvent saveEvent) {                
-                //TODO: Set model to the saved
-                Window.alert("CLU created with ID: " + beginProposal.getCourseProposalClu().getId());
+                cluInfo.add(beginProposal.getCourseProposalClu());
+                showView(CourseViews.COURSE_INFORMATION);
             }            
         });
-        initWidget(vPanel);
+        super.initWidget(simplePanel);
     }
 
     
@@ -69,7 +78,12 @@ public class CourseProposalManager extends Controller implements View {
      * @see org.kuali.student.common.ui.client.mvc.Controller#getView(java.lang.Enum)
      */   
     protected <V extends Enum<?>> View getView(V viewType) {
-        return null;
+        switch ((CourseViews)viewType){
+            case COURSE_INFORMATION:
+                return courseInformation;
+            default:
+                return null;
+        }
     }
 
     /**
@@ -82,7 +96,7 @@ public class CourseProposalManager extends Controller implements View {
      * @see org.kuali.student.common.ui.client.mvc.Controller#renderView(org.kuali.student.common.ui.client.mvc.View)
      */
     protected void renderView(View view) {
-        
+        simplePanel.setWidget((ViewComposite)view);
     }
 
     /**
@@ -90,7 +104,7 @@ public class CourseProposalManager extends Controller implements View {
      */
     @Override
     public void showDefaultView() {       
-
+        this.showView(CourseViews.COURSE_INFORMATION);
     }
 
     /**
@@ -98,7 +112,6 @@ public class CourseProposalManager extends Controller implements View {
      */
     @Override
     public boolean beforeHide() {
-        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
         return true;
     }
 
@@ -132,6 +145,21 @@ public class CourseProposalManager extends Controller implements View {
     public void setCourseProposalType(CourseProposalType type){
         this.type = type;
     }
+
+
+    @Override
+    public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+        if (modelType.equals(CluInfo.class)) {
+            if (cluInfo == null) {
+                cluInfo = new Model<CluInfo>();
+            }
+            callback.onModelReady(cluInfo);
+        } else {
+            super.requestModel(modelType, callback);
+        }
+    }
+    
+
     
 
 }
