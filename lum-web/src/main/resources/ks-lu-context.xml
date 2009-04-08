@@ -84,6 +84,7 @@
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="searchManager" />
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 	</bean>
 
 	<bean id="searchManager"
@@ -93,6 +94,11 @@
 	</bean>
 
 	<bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl"></bean>
+
+    <bean id="naturalLanguageTranslator"
+        class="org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslatorImpl">
+        <property name="luDao" ref="luDao" />
+    </bean>
 
 	<!-- Preloaded data -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">

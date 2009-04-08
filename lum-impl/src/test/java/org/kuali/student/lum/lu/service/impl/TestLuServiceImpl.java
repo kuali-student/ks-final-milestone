@@ -53,7 +53,6 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.core.search.dto.ResultCell;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl",testSqlFile="classpath:ks-lu.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -1788,7 +1787,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);
 		List<Result> clus = client.searchForResults("lu.search.clus", queryParamValues);
 		assertNotNull(clus);
-		assertEquals(4, clus.size());
+		assertEquals(6, clus.size());
 		Result result = clus.get(0);
 		assertNotNull(result);
 
@@ -1802,5 +1801,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		resultCell = resultCells.get(1);
 		assertEquals("lu.resultColumn.cluOfficialIdentifier", resultCell.getKey());
 		assertEquals("IDENT-1", resultCell.getValue());
+	}
+	
+	@Test
+	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String naturalLanguage = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");
+        assertEquals("Student must have completed 1 of MATH 152, MATH 221", naturalLanguage);
 	}
 }

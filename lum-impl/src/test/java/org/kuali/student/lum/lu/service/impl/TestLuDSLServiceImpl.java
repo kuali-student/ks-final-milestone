@@ -39,7 +39,7 @@ import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
                                                                                                          */)})
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestLuDSLServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", port = "8181", additionalContextFile="classpath:lu-additional-context.xml")
     public LuService client;
 
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -529,7 +529,6 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(updReq.getDesc(), "Req Comp 3");
     }
     
-    
     @Test
     public void testDeleteReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
         StatusInfo si;
@@ -542,4 +541,9 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         }
     }
     
+	@Test
+	public void testTranslateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	String nl = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");
+    	assertEquals("Student must have completed 1 of MATH 152, MATH 221", nl);
+    }
 }

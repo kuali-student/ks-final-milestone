@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -42,14 +43,14 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetReqCompNLTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList");
-        
+    	ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList");
+
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
-        
+
         assertEquals(templates.size(), 1);
-        
+
         ReqComponentTypeNLTemplate template = templates.get(0);
-        assertEquals("KUALI.CATALOG", template.getName());
-        assertEquals("COURSE_LIST_CATALOG_VEL_TEMPLATE", template.getValue());
+        assertEquals("KUALI.CATALOG", template.getNlUsageTypeKey());
+        assertTrue(template.getTemplate().startsWith("#if($cluSet.getCluSet().getClus().size()"));
     }
 }

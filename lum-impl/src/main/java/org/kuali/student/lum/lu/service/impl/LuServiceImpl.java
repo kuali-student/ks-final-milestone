@@ -94,6 +94,8 @@ import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
+import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslator;
+import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslatorImpl;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,11 +106,16 @@ public class LuServiceImpl implements LuService {
 
 	private LuDao luDao;
     private SearchManager searchManager;
+    private NaturalLanguageTranslator naturalLanguageTranslator;
 
 	public void setSearchManager(SearchManager searchManager) {
 		this.searchManager = searchManager;
 	}
 
+	public void setNaturalLanguageTranslator(NaturalLanguageTranslator translator) {
+		this.naturalLanguageTranslator = translator;
+	}
+	
 	@Override
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
@@ -1381,15 +1388,51 @@ public class LuServiceImpl implements LuService {
 	}
 	
 	@Override
-	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-	    return null;
+	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException {
+
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(luStatementId, "luStatementId");
+		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		
+		if(cluId.trim().isEmpty()) {
+			throw new InvalidParameterException("cluId cannot be empty");
+		} else if(luStatementId.trim().isEmpty()) {
+			throw new InvalidParameterException("luStatementId cannot be empty");
+		} else if(nlUsageTypeKey.trim().isEmpty()) {
+			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
+		}
+		
+//		String nl = this.naturalLanguageTranslator.translateStatement(luStatementId, nlUsageTypeKey);
+//
+//		return nl;
+		throw new RuntimeException("Method 'getNaturalLanguageForLuStatement' not yet implemented");
 	}
 	
+	/**
+	 * Translates a requirement component for a specific usuage type (context) 
+	 * into natural language.
+	 * 
+	 * @param reqComponentId Requirement component to be translated
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 */
 	@Override
-	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-	    return null;
+	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		
+		checkForMissingParameter(reqComponentId, "reqComponentId");
+		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		
+		if(reqComponentId.trim().isEmpty()) {
+			throw new InvalidParameterException("reqComponentId cannot be empty");
+		} else if(nlUsageTypeKey.trim().isEmpty()) {
+			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
+		}
+		
+		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponentId, nlUsageTypeKey);
+
+		return nl;
 	}
 
 	@Override
