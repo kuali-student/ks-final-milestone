@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.view.CourseRequisiteView;
 
 import com.google.gwt.user.client.Window;
@@ -88,7 +89,7 @@ public class LumApplication extends Controller {
                     prereqInfo.setId(courseInfo.get(courseId).getId());
                     prereqInfo.setNaturalLanguage("Test natural language");
                     prereqInfo.setRationale("Test rationalle");
-                    prereqInfo.setLuStatementInfo(courseInfo.get(courseId).getLuStatementByType("kuali.luStatementType.createCourseAcademicReadiness"));
+                    prereqInfo.setStatementVO(new StatementVO(courseInfo.get(courseId).getLuStatementByType("kuali.luStatementType.createCourseAcademicReadiness")));
                     courseRequisiteView.setPrereqInfo(prereqInfo);
                     return courseRequisiteView;
                 default:

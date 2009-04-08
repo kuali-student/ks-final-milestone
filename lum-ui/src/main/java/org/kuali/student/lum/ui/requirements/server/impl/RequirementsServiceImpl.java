@@ -116,7 +116,7 @@ public class RequirementsServiceImpl implements RequirementsService {
     }
     
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
-        StatementVO statementVO = new StatementVO();
+        StatementVO statementVO = null;
         StatementVO statementVO1 = null;
         StatementVO statementVO2 = null;
         ReqComponentVO reqComponentVO1 = null;
@@ -134,7 +134,6 @@ public class RequirementsServiceImpl implements RequirementsService {
         luStatementInfo.setId("S0");
         luStatementInfo.setLuStatementIds(s0luStatementIds);
         luStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-        statementVO.setLuStatementInfo(luStatementInfo);
 
         // S1
         List<String> s1luReqComponentIds = new ArrayList<String>();
@@ -145,6 +144,7 @@ public class RequirementsServiceImpl implements RequirementsService {
         luStatementInfo1.setDesc("Statement 1");
         luStatementInfo1.setId("S1");
         luStatementInfo1.setReqComponentIds(s1luReqComponentIds);
+        luStatementInfo1.setOperator(StatementOperatorTypeKey.OR);        
 
         // S2
         List<String> s2luReqComponentIds = new ArrayList<String>();
@@ -157,24 +157,24 @@ public class RequirementsServiceImpl implements RequirementsService {
 
         // RC1
         ReqComponentInfo reqComponentInfo1 = new ReqComponentInfo();
-        reqComponentInfo1.setDesc("Requirment Component 1");
+        reqComponentInfo1.setDesc("Requirement Component 1");
         reqComponentInfo1.setId("RC1");
         reqComponentInfo1.setType("PreReq");
 
         // RC2
         ReqComponentInfo reqComponentInfo2 = new ReqComponentInfo();
-        reqComponentInfo2.setDesc("Requirment Component 2");
+        reqComponentInfo2.setDesc("Requirement Component 2");
         reqComponentInfo2.setId("RC2");
         reqComponentInfo2.setType("PreReq");
         
         // RC3
         ReqComponentInfo reqComponentInfo3 = new ReqComponentInfo();
-        reqComponentInfo3.setDesc("Requirment Component 3");
+        reqComponentInfo3.setDesc("Requirement Component 3");
         reqComponentInfo3.setId("RC3");
         reqComponentInfo3.setType("PreReq");
         
         // tie it all together
-        statementVO.setLuStatementInfo(luStatementInfo);
+        statementVO = new StatementVO(luStatementInfo);
         statementVO1 = new StatementVO(luStatementInfo1);
         statementVO2 = new StatementVO(luStatementInfo2);
         reqComponentVO1 = new ReqComponentVO(reqComponentInfo1);

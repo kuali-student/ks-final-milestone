@@ -9,13 +9,19 @@ import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.TreeTable;
+import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.ui.requirements.client.RequirementsEntryPoint;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -80,20 +86,19 @@ public class ComplexView extends ViewComposite {
         });
         btnRetrieveStatement.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                /*
-                RequirementsService.Util.getInstance().getStatementVO(LumApplication.testCluId, "Pre Req", new AsyncCallback<LuStatementInfo>() {
+                RequirementsService.Util.getInstance().getStatementVO(RequirementsEntryPoint.testCluId, "Pre Req", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
                     }
                     
-                    public void onSuccess(final LuStatementInfo statementVO) {
-                        PrereqInfo prepreqInfo = model.get(LumApplication.testCluId);
+                    public void onSuccess(final StatementVO statementVO) {
+                        PrereqInfo prepreqInfo = model.get(RequirementsEntryPoint.testCluId);
                         prepreqInfo.setStatementVO(statementVO);
                         model.update(prepreqInfo);
                         getController().showView(PrereqViews.COMPLEX);
                     } 
-                }); */
+                });
                 redraw();
             } 
         });
@@ -106,9 +111,13 @@ public class ComplexView extends ViewComposite {
     
     private void redraw() {
         PrereqInfo prereqInfo = model.get(RequirementsEntryPoint.testCluId);     
+        ruleTable.clear();
+        Node tree = null;
         if (prereqInfo != null) {
-            System.out.println("statement tree: " + prereqInfo.getStatementTree());
-            ruleTable.buildTable(prereqInfo.getStatementTree());
+            tree = prereqInfo.getStatementTree();
+            if (tree != null) {
+                ruleTable.buildTable(tree);
+            }
         }
     }
     

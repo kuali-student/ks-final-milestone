@@ -14,11 +14,11 @@ import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 public class PrereqInfo implements Idable {
 
     private String cluId;
-    private LuStatementInfo luStatementInfo;
+    private StatementVO statementVO;
     private String rationale;
     private String naturalLanguage;
 
-
+    
     @Override
     public String getId() {
         return cluId;
@@ -33,12 +33,6 @@ public class PrereqInfo implements Idable {
     public void setCluId(String cluId) {
         this.cluId = cluId;
     }
-    public LuStatementInfo getLuStatementInfo() {
-        return luStatementInfo;
-    }
-    public void setLuStatementInfo(LuStatementInfo luStatementInfo) {
-        this.luStatementInfo = luStatementInfo;
-    }
     public String getRationale() {
         return rationale;
     }
@@ -51,12 +45,21 @@ public class PrereqInfo implements Idable {
     public void setNaturalLanguage(String naturalLanguage) {
         this.naturalLanguage = naturalLanguage;
     }
-  
     
+    public StatementVO getStatementVO() {
+        return statementVO;
+    }
+    public void setStatementVO(StatementVO statementVO) {
+        this.statementVO = statementVO;
+    }
     public Node getStatementTree() {
-        ExpressionParser p = new ExpressionParser();
-        Node<Token> n = p.parse("(a or b) and c or d and f");
-        return n;
+//        Node<Token> n = p.parse("(a or b) and c or d and f");
+//        return n;
+        Node tree = null;
+        if (statementVO != null) {
+            tree = statementVO.getTree();
+        }
+        return tree;
     }
     
     
