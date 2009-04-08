@@ -81,10 +81,10 @@
 	
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev
+			scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev
+			scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev
 		</developerConnection>
 	</scm>
 			
