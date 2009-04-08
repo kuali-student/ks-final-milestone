@@ -32,9 +32,9 @@
 				<configuration>
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
-					<startupUrl>index.html</startupUrl>
+					<startupUrl>org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.html</startupUrl>
 					<runTarget> 
-						org.kuali.student.lum.ui.requirements.Requirements
+						org.kuali.student.lum.lu.ui.main.LUMMain
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
@@ -42,7 +42,7 @@
 							org.kuali.student.lum.ui.requirements.Requirements
 						</param>
 						<param>
-							org.kuali.student.lum.lu.ui.course.Course
+							org.kuali.student.lum.lu.ui.main.LUMMain
 						</param>
 					</compileTargets>
 					<extraJvmArgs>-Xmx512m</extraJvmArgs>

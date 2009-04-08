@@ -24,12 +24,17 @@ import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.lum.lu.dto.CluCreditInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -39,7 +44,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  *
  */
-public class CourseProposal extends Composite{
+public class BeginCourseProposal extends Composite{
     private final KSModalDialogPanel dialog = new KSModalDialogPanel();
     private KSFormLayoutPanel form = new KSFormLayoutPanel();
     VerticalPanel vPanel = new VerticalPanel();
@@ -49,20 +54,17 @@ public class CourseProposal extends Composite{
     private final String FACULTY        = "faculty";
     private final String DELEGATE       = "delegate";
     
+    private CluInfo clu;
+    
     private final KSButton saveButton = new KSButton("Save Draft", new ClickHandler(){
         public void onClick(ClickEvent event) {
             fireSaveEvent();
         }        
     });
     
-    private final KSButton cancelButton = new KSButton("Cancel", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            dialog.hide();
-            //TODO: Return user to curriculum home menu
-        }        
-    });
+    private final KSButton cancelButton = new KSButton("Cancel"); 
     
-    public CourseProposal(){
+    public BeginCourseProposal(){
         form.addFormField(getFormField(PROPOSED_TITLE,  "Proposed Course Title"));
         form.addFormField(getFormField(FACULTY,         "Originating Faculty Member"));
         form.addFormField(getFormField(DELEGATE,        "Adminstrative Delegate"));
@@ -80,6 +82,10 @@ public class CourseProposal extends Composite{
         dialog.setWidget(vPanel);
     }
     
+    public void hide(){
+        dialog.hide();
+    }
+    
     public void show(){
         dialog.show();
     }
@@ -93,7 +99,10 @@ public class CourseProposal extends Composite{
     }
     
     public CluInfo getCourseProposalClu(){
-        //TODO: Should CourseProposal widget return a cluInfo
+        return clu;
+    }
+    
+    private CluInfo createCourseProposalClu(){
         CluInfo clu = new CluInfo();
         
         CluIdentifierInfo cluId = new CluIdentifierInfo();
@@ -102,10 +111,10 @@ public class CourseProposal extends Composite{
         
         CluInstructorInfo cluInstructor = new CluInstructorInfo();
         clu.setPrimaryInstructor(cluInstructor);
-        
-        
-        clu.setAdminOrg(form.getFieldValue(DEPARTMENT));
-        return clu;
+                
+        //FIXME: Is this supposed to be the adminOrg id or name
+        clu.setAdminOrg(((KSDropDown)form.getFieldWidget(DEPARTMENT)).getSelectedItem());
+        return clu;        
     }
     
     public KSDropDown getDeptDropDown(){
@@ -120,9 +129,25 @@ public class CourseProposal extends Composite{
         addHandler(handler, SaveEvent.TYPE);
     }
     
+    public void addCancelHandler(ClickHandler handler){        
+        cancelButton.addClickHandler(handler);
+    }
+    
     public void fireSaveEvent(){
         //TODO: Validate data
-        fireEvent(new SaveEvent());
-        dialog.hide();
+        LuRpcService.Util.getInstance().createClu("luType.shell.course", createCourseProposalClu(), new AsyncCallback<CluInfo>(){
+
+            public void onFailure(Throwable caught) {
+                //TODO: Display error
+                Window.alert(caught.toString());
+            }
+
+            @Override
+            public void onSuccess(CluInfo result) {
+                dialog.hide();
+                clu = result;
+                fireEvent(new SaveEvent());
+            }
+        });
     }
 }

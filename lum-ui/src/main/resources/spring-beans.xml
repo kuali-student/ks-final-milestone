@@ -15,7 +15,10 @@
 				<entry key="/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService">
 					<ref bean="requirementsServiceGwtController"/>
 				</entry>
-				<entry key="/org.kuali.student.lum.lu.ui.course.Course/LuService">
+				<entry key="/org.kuali.student.lum.lu.ui.course.Course/LuRpcService">
+					<ref bean="LuServiceGwtController"/>
+				</entry>				
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/LuRpcService">
 					<ref bean="LuServiceGwtController"/>
 				</entry>				
 			</map>

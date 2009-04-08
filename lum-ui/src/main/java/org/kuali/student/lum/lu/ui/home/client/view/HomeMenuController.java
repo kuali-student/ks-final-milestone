@@ -212,8 +212,7 @@ public class HomeMenuController extends Controller implements View{
 
     @Override
     public boolean beforeHide() {
-        //Not Needed
-        return false;
+        return true;
     }
 
     @Override

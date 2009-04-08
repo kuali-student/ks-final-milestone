@@ -36,6 +36,16 @@
 		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.course.Course/LuRpcService</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/LuRpcService</url-pattern>
+	</servlet-mapping>
+
 <!-- temp servlets -->	
 <!-- 
   <servlet>

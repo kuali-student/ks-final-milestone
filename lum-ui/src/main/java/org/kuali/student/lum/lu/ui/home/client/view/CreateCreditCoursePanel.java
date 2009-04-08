@@ -4,6 +4,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.dom.client.HRElement;
@@ -39,7 +40,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
             Widget sender = (Widget) event.getSource();
             
             if(sender == startBlank){
-                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent());
+                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_COURSE));
             }
         }
         
