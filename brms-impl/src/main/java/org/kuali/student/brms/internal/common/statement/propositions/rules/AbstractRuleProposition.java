@@ -22,7 +22,7 @@ import org.kuali.student.brms.internal.common.statement.propositions.Proposition
 import org.kuali.student.brms.internal.common.statement.report.PropositionReport;
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.internal.common.utils.FactUtil;
-import org.kuali.student.brms.internal.common.utils.VelocityTemplateEngine;
+import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

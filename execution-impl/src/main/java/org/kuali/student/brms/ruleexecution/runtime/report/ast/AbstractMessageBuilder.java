@@ -14,7 +14,7 @@ import org.kuali.student.brms.internal.common.runtime.ast.BooleanFunctionResult;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.brms.internal.common.runtime.exceptions.BooleanFunctionException;
-import org.kuali.student.brms.internal.common.utils.VelocityTemplateEngine;
+import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.MessageBuilderException;
 
