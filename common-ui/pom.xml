@@ -19,8 +19,7 @@
 		<plugins>
 			<!-- 
 			This is only here to exclude javax classes, which are being compiled
-			from sources bundled with gwt jars.
-			 -->
+			from sources bundled with gwt jars. Issue appears fixed in gwt 1.6.4.			
 			<plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-jar-plugin</artifactId>
@@ -31,6 +30,7 @@
 					</includes>
            		</configuration>
 			</plugin>
+			-->
 		</plugins>			        	
 	</build>
 	
