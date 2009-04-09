@@ -63,6 +63,7 @@ public class OrgUpdatePanel extends Composite{
                                 w.showWidget(w.getWidgetCount() - 1);
                             }
                         });
+                        orgCreatePanel.orgId = event.getSelectedItem().getId();
                         w.add(orgCreatePanel);
                         w.showWidget(w.getWidgetCount() - 1);
                     }
