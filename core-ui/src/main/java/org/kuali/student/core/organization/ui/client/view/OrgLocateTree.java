@@ -146,6 +146,7 @@ public class OrgLocateTree extends Composite {
                             label.setText(event.getSelectedItem().getLongName());
                         }
                     });
+                    orgCreatePanel.orgId=id;
                     deck.add(orgCreatePanel);
                     deck.showWidget(deck.getWidgetCount() - 1);
                 }

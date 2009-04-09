@@ -93,6 +93,7 @@ public class OrgChartWidget extends Composite {
                                             o.draw(data, orgChartOpts);
                                         }
                                     });
+    		                        orgCreatePanel.orgId=data.getValueString(o.getSelections().get(0).getRow(), 0);
     		                        w.add(orgCreatePanel);
     		                        w.showWidget(w.getWidgetCount() - 1);
     							}
