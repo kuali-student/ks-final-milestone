@@ -154,6 +154,11 @@
 		class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
 		<property name="organizationDao" ref="orgDao" />
 		<property name="searchManager" ref="orgSearchManager" />
+		<property name="dictionaryServiceDelegate" ref="dictionaryServiceDelegate"/>
+	</bean>
+
+	<bean id="dictionaryServiceDelegate" 
+		class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
 	</bean>
 	
 	<bean id="orgSearchManager"
