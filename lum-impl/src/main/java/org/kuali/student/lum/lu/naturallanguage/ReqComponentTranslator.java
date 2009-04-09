@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
-import org.kuali.student.brms.internal.common.utils.VelocityTemplateEngine;
+import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
