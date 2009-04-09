@@ -11,7 +11,7 @@ import org.apache.velocity.tools.generic.DateTool;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class VelocityTemplateEngineTest {
+public class TestVelocityTemplateEngine {
 
 	@Test
 	public void testEvaluateString_ContextMap() throws Exception {
