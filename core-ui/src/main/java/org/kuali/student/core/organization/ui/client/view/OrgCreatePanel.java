@@ -150,7 +150,7 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
             buttonBar.add(btnCreateOrg);
             
             if(closeHandler != null) {
-                KSButton btnClose = new KSButton("Close");
+                KSButton btnClose = new KSButton("Back");
                 btnClose.addClickHandler(closeHandler);
                 buttonBar.add(btnClose);
             }
