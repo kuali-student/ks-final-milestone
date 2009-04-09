@@ -773,6 +773,17 @@
 				<artifactId>atomikos-util</artifactId>
 				<version>${atomikos.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions-hibernate3</artifactId>
+				<version>${atomikos.version}</version>
+				<exclusions>
+					<exclusion>
+			            <groupId>org.hibernate</groupId>
+			            <artifactId>hibernate</artifactId>
+            		</exclusion>
+            	</exclusions>
+        	</dependency>
 
 			<!--  Logging -->
 			<dependency>
