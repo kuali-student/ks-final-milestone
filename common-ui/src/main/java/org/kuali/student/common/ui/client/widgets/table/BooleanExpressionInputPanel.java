@@ -9,13 +9,13 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
 
     TextBox textBox = new TextBox();
     ExpressionParser parser = new ExpressionParser();
-    RuleEditorModel ruleEditorModel;
+    BooleanExpressionEditorModel ruleEditorModel;
     private String oldInput = "";
     
     private HTML errorMessage = new HTML();
     private Label expressionFromTableEditor = new Label();
     
-    public BooleanExpressionInputPanel(RuleEditorModel m){
+    public BooleanExpressionInputPanel(BooleanExpressionEditorModel m){
         textBox.setPixelSize(600, 30);
         
         this.add(textBox);

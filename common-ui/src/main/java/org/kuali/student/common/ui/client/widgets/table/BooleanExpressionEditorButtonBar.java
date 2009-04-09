@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class RuleEditButtonBar extends FlowPanel {
+public class BooleanExpressionEditorButtonBar extends FlowPanel {
   private Button andButton = new Button("And");
   private Button orButton = new Button("Or");
   private Button toggleButton = new Button("Toggle");
@@ -14,9 +14,9 @@ public class RuleEditButtonBar extends FlowPanel {
   private Button undoButton = new Button("Undo");
  private Button redoButton = new Button("Redo");
   
-  private RuleEditorModel ruleEditTable;
+  private BooleanExpressionEditorModel ruleEditTable;
   
-  public RuleEditButtonBar(RuleEditorModel t){
+  public BooleanExpressionEditorButtonBar(BooleanExpressionEditorModel t){
       this.ruleEditTable = t;
       add(andButton);
       add(orButton);
@@ -29,7 +29,7 @@ public class RuleEditButtonBar extends FlowPanel {
       
       ruleEditTable.addModelChangedEvent(new ModelChangedListener(){
           @Override
-          public void modelChanged(RuleEditorModel model) {
+          public void modelChanged(BooleanExpressionEditorModel model) {
               refreshState();
               
           }

@@ -7,16 +7,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RuleEditor extends VerticalPanel{
+public class BooleanExpressionEditor extends VerticalPanel{
     HorizontalPanel ungroupedConditionPanel = new HorizontalPanel();
     VerticalPanel treeTablePanel = new VerticalPanel();
     
-    RuleEditorModel tableModel = new RuleEditorModel();
+    BooleanExpressionEditorModel tableModel = new BooleanExpressionEditorModel();
 
-    RuleEditButtonBar buttonBar = new RuleEditButtonBar(tableModel);
+    BooleanExpressionEditorButtonBar buttonBar = new BooleanExpressionEditorButtonBar(tableModel);
     BooleanExpressionInputPanel booleanExpressionInput = new BooleanExpressionInputPanel(tableModel);    
     
-    public RuleEditor() {
+    public BooleanExpressionEditor() {
         treeTablePanel.setPixelSize(300,300);
         //treeTablePanel.add(new Label(""));
         this.add(ungroupedConditionPanel);
@@ -26,7 +26,7 @@ public class RuleEditor extends VerticalPanel{
         
         tableModel.addModelChangedEvent(new ModelChangedListener(){
             @Override
-            public void modelChanged(RuleEditorModel model) {
+            public void modelChanged(BooleanExpressionEditorModel model) {
                 refresh();
                 
             }
@@ -35,7 +35,7 @@ public class RuleEditor extends VerticalPanel{
     public void setNodeFromExpressionEditor(Node<Token> node){
         tableModel.setNodeFromExpressionEditor(node);
     }
-    public RuleEditorModel getModel(){
+    public BooleanExpressionEditorModel getModel(){
         return tableModel;
     }
 
