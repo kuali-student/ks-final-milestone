@@ -1,9 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.table;
 
 import java.util.List;
-
 public interface NodeEditor {
-
 
     public boolean isAndable(Node target, List<Node> nodeList);
     

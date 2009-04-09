@@ -1,7 +1,10 @@
 package org.kuali.student.common.ui.client.widgets.table;
 
 import com.google.gwt.user.client.ui.FlexTable;
-
+/**
+ * Layout the token tree in GWT FlexTable.
+ * 
+ * */
 public class TreeTable extends FlexTable {
     public TreeTable() {
         super();
@@ -26,9 +29,7 @@ public class TreeTable extends FlexTable {
 
     public void buildTable(Node root) {
         root = ExpressionParser.mergeBinaryTree(root);
-  // root = ExpressionParser.reStructure(root);
-        
-        
+        //root = ExpressionParser.reStructure(root);
         initTable(root);
         buildTable(root, 0);
         for (int i = 0; i < getRowCount(); i++) {
@@ -51,7 +52,7 @@ public class TreeTable extends FlexTable {
             }
         }
     }
-
+    /** Get the row index for siblings*/
     private int getRowIndexAmongSibings(Node node) {
         Node parent = node.getParent();
         if (parent == null) {
@@ -73,7 +74,11 @@ public class TreeTable extends FlexTable {
         }
         return count;
     }
-
+    /**
+     * Get the starting row for node passed in
+     * 
+     * @param node target node
+     * */
     public int getParentRowIndex(Node node) {
         Node parent = node.getParent();
         if (parent == null) {
@@ -89,7 +94,11 @@ public class TreeTable extends FlexTable {
         }
         return 0;
     }
-
+    /** Build table for node passed in at columnIndex
+     * 
+     * @param node target node
+     * @Param columnIndex column index
+     * */
     private void buildTable(Node node, int columnIndex) {
         int rowIndex = getRowIndexAmongSibings(node);
         setWidget(rowIndex, columnIndex, new NodeWidget(node));
@@ -105,14 +114,26 @@ public class TreeTable extends FlexTable {
         }
 
     }
-
+    /** Merge rows.
+     * 
+     * @param row row index
+     * @param column column index
+     * @param count row count
+     * 
+     * */
     public void mergeCellAcrossRow(int row, int column, int count) {
         for (int i = 1; i <= count; i++) {
             removeCell(row + i, column);
         }
         getFlexCellFormatter().setRowSpan(row, column, count + 1);
     }
-
+    /**
+     * Merge columns
+     * 
+     * @param row row index
+     * @param column column index
+     * */
+    
     public void mergeCellAcrossColumn(int row, int column) {
         removeCell(row, column);
         getFlexCellFormatter().setColSpan(row, column, 10);

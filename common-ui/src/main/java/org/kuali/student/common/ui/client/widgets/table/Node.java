@@ -2,10 +2,15 @@ package org.kuali.student.common.ui.client.widgets.table;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A generic tree node. 
+ * */
 public class Node<T> {
+    /** Children are stored in a list*/
     List<Node> childrenList = new ArrayList<Node>();
+    /** Parent Node. null if node has no parent*/
     Node parent;
+    /** User Object*/
     T userObject;
     String id;
 
@@ -30,24 +35,26 @@ public class Node<T> {
     public Node getParent() {
         return parent;
     }
-
+    /**
+     * Add one child and set child's parent to current node
+     * */
     public void addNode(Node node) {
         childrenList.add(node);
         node.setParent(this);
     }
-
+    /** If it has no children, it is a leaf*/
     public boolean isLeaf() {
         return getChildCount() == 0;
     }
-
+    /** Return the child count */
     public int getChildCount() {
         return childrenList.size();
     }
-
+    /** Get the child at index*/
     public Node getChildAt(int index) {
         return childrenList.get(index);
     }
-
+    /** Remove child from parent*/
     public void removeFromParent() {
         Node parent = this.getParent();
         if (parent == null) {
@@ -57,13 +64,16 @@ public class Node<T> {
             this.setParent(null);
         }
     }
-
+    /** Remove child at childIndex*/
     public void remove(int childIndex) {
         Node child = getChildAt(childIndex);
         childrenList.remove(childIndex);
         child.setParent(null);
     }
-
+    /** Remove child from children list
+     * 
+     * @param child 
+     * */
     public void remove(Node child) {
         childrenList.remove(child);
         child.setParent(null);
@@ -71,7 +81,9 @@ public class Node<T> {
     public void removeAllChildren(){
         childrenList.clear();
     }
-
+    /** 
+     * Is parsed in node a child
+     * */
     public boolean isNodeChild(Node aNode) {
         boolean retval;
         if (aNode == null) {
@@ -85,14 +97,14 @@ public class Node<T> {
         }
         return retval;
     }
-
+    
     public int getIndex(Node aChild) {
         if (!isNodeChild(aChild)) {
             return -1;
         }
         return childrenList.indexOf(aChild); // linear search
     }
-
+    /** Is parsed in node a sibling */
     public boolean isNodeSibling(Node anotherNode) {
         boolean retval;
 
@@ -114,7 +126,6 @@ public class Node<T> {
     /**
      * Returns the total number of leaves that are descendants of this node.
      * 
-     * @see #isNodeAncestor
      * @return the number of leaves beneath this node
      */
     public int getAllLeafCount() {
@@ -128,7 +139,7 @@ public class Node<T> {
 
         return count;
     }
-
+    /** Return all children and grand children*/
     public List<Node<T>> getAllChildren() {
         List<Node<T>> nodeList = new ArrayList<Node<T>>();
         for (Node<T> child : childrenList) {
@@ -139,7 +150,7 @@ public class Node<T> {
         }
         return nodeList;
     }
-
+    /** Get the first leaf among all its children*/
     public Node<T> getFirstLeafDescendant() {
         List<Node<T>> list = getAllChildren();
         for (Node<T> node : list) {
@@ -150,7 +161,10 @@ public class Node<T> {
         return null;
 
     }
-
+    /** Return all non-leaf children 
+     * 
+     * @return List<Node> list of non-leaf children
+     * */
     public List<Node> getNonLeafChildren() {
         List<Node> list = new ArrayList<Node>();
         for (Node n : children()) {
@@ -160,7 +174,7 @@ public class Node<T> {
         }
         return list;
     }
-
+    
     public List<Node> getLeafChildren() {
         List<Node> list = new ArrayList<Node>();
         for (Node n : children()) {

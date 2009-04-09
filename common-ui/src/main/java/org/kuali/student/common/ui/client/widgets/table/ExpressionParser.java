@@ -5,19 +5,41 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Stack;
 
-
+/**
+ * This is the parser for boolean expression.
+ * It checks the error, creates the Reverse Polish notation,
+ * merge the binary tree, sort the nodes. 
+ * 
+ * */
 public class ExpressionParser {
+    /**
+     * Error messages are stored in a list
+     * */
     private List<String> errorMessageList = new ArrayList<String>();
     
     public ExpressionParser() {
     }
+    /**
+     * After parsing, it tells if the expression has error.
+     *  
+     * @return If the input expression has error
+     * */
     public boolean hasError(){
         return errorMessageList.size() > 0;
     }
+    /**
+     * It returns all error messages
+     * 
+     * @return List of error messages
+     * */
     public List<String> getErrorMessage(){
         return errorMessageList;
     }
-    
+    /**
+     * Parse the boolean expression
+     * 
+     * @return the tree of input tokens
+     * */
     public Node<Token> parse(String expression) {
         errorMessageList = new ArrayList<String>();
         List<String> tokenValueList = getTokenValue(expression);
@@ -30,12 +52,18 @@ public class ExpressionParser {
         List<Node<Token>> rpnList = getRPN(nodeList);
 
         Node<Token> root = binaryTreeFromRPN(rpnList);
+        
         Node<Token> ruleRoot = mergeBinaryTree(root);
-     //   ruleRoot = reStructure(root);
+      //  ruleRoot = reStructure(root);
         ruleRoot = orderLeafChildren(ruleRoot, tokenList );
         ruleRoot = orderNonLeafChildren(ruleRoot, tokenList );
         return ruleRoot;
     }
+    /**
+     * Create the boolean expression from tree
+     * 
+     * @return boolean expression
+     * */
     public static String getExpressionString(Node root){
         while(root.getChildCount()> 1){
             List<List<Node>> level = root.toLevel();
@@ -82,6 +110,9 @@ public class ExpressionParser {
         
         return root.getUserObject().toString();
     }
+    /**
+     * Order the nonleaf children
+     * */
     private Node<Token> orderNonLeafChildren(Node<Token> binaryTree,List<Token> tokenList ) {
         List<Node> list = binaryTree.getNonLeafChildren();
         if(list.size() > 1){
@@ -110,7 +141,9 @@ public class ExpressionParser {
         }
         return binaryTree;
    }
-   
+   /**
+    * Order the non leaves
+    * */
    private void sequeceNonLeaves(List<Node> nonLeafChildList, List<Token> list){
        if(nonLeafChildList.size() == 2){
            if (indexInInputTokenList((Token)nonLeafChildList.get(0).getFirstLeafDescendant().getUserObject(), list)> 
@@ -132,9 +165,10 @@ public class ExpressionParser {
            }
          }
        }
-       //System.out.println(nonLeafChildList);
    }
-
+    /**
+     * Order the leaf children
+     * */
     private Node<Token> orderLeafChildren(Node<Token> binaryTree,List<Token> tokenList ) {
          List<Node> list = binaryTree.getLeafChildren();
          if(list.size() > 1){
@@ -151,7 +185,7 @@ public class ExpressionParser {
          }
         return binaryTree;
     }
-    
+    /**Reorder the children*/
     private void sequeceLeaves(List<Node> leafChildList, List<Token> list){
         if(leafChildList.size() == 2){
             if (indexInInputTokenList((Token)leafChildList.get(0).getUserObject(), list)> 
@@ -176,8 +210,8 @@ public class ExpressionParser {
             }
           }
         }
-        //System.out.println(leafChildList);
     }
+    /**Get the index of a token in the token list*/
     private int indexInInputTokenList(Token token, List<Token> list){
         int i = -1;
         for(Token n: list){
@@ -188,8 +222,8 @@ public class ExpressionParser {
         }
         return i;
     }
-    /*
-    public static  Node<Token> reStructure(Node<Token> binaryTree) {
+
+/*    public static  Node<Token> reStructure(Node<Token> binaryTree) {
         Node root = new Node();
         //Node root = binaryTree;
         root.setUserObject(binaryTree.getUserObject());
@@ -206,7 +240,7 @@ public class ExpressionParser {
             childList.remove(node);
         }
 
-        return root;
+        return root.clone();
     }
 */
     private static Node getDeeperNode(List<Node> nodeList) {
@@ -224,7 +258,7 @@ public class ExpressionParser {
 
         return null;
     }
-
+    /** Merge the binary tree. */
     public static Node<Token> mergeBinaryTree(Node<Token> binaryTree) {
         while (parentEqualsGrandParent(binaryTree)) {
             List<Node<Token>> list = binaryTree.getAllChildren();
@@ -265,7 +299,7 @@ public class ExpressionParser {
 
         return false;
     }
-
+    /** Build the binary tree from list of tokens*/
     private Node<Token> binaryTreeFromRPN(List<Node<Token>> rpnList) {
         Stack<Node<Token>> conditionStack = new Stack<Node<Token>>();
         for (Node<Token> node : rpnList) {
@@ -284,8 +318,11 @@ public class ExpressionParser {
     }
 
     /**
-     * if higher push to stack, else pop till less than or equal, add to list push to stack if ( push to stack if ) pop to
-     * list till (
+     * If higher push to stack, else pop till less than or equal, add to list push to stack if ( push to stack if ) pop to
+     * list till (.
+     * 
+     * http://en.wikipedia.org/wiki/Reverse_Polish_notation
+     * 
      */
     private List<Node<Token>> getRPN(List<Node<Token>> nodeList) {
         List<Node<Token>> rpnList = new ArrayList<Node<Token>>();

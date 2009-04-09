@@ -51,7 +51,7 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
     public void addExpressionFromTableEditor(String s){
         expressionFromTableEditor.setText(s);
         oldInput = s;
-        textBox.setText(s);
+       // textBox.setText(s);
         parser.parse(s);
         displayError();
       
