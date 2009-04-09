@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -57,6 +58,7 @@ public class OrgMenu extends VerticalPanel{
         addSubItem(locateItem, "by Tree", new OrgLocateTree());
         addSubItem(locateItem, "by List", new OrgLocatePanel());
         addSubItem(locateItem, "by Chart", new OrgLocateChart());
+        addSubItem(locateItem, "by Name", new OrgLocateName());
         
         menuItems.add(createItem);
         menuItems.add(modifyItem);
@@ -79,11 +81,7 @@ public class OrgMenu extends VerticalPanel{
         return new ClickHandler() {
             public void onClick(ClickEvent arg0) {
                 if (contentPanel.getWidget() != null) {
-                    try{
-                        contentPanel.remove(contentPanel.getWidget());
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                    }
+                    contentPanel.remove(contentPanel.getWidget());
                 }
                 contentPanel.setWidget(w);
             }

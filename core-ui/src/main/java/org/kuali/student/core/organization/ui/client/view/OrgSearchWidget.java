@@ -107,8 +107,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         
         });
         
-        //this is a terrible idea
-        tb.addStyleName("KS-Disclosure-Content-Open");
+        tb.addStyleName("KS-Org-Search-Widget");
         
         root.add(tb);
         selectButton.addClickHandler(new ClickHandler(){
@@ -174,9 +173,6 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
                             return new ArrayList<String>(ids.keySet());
                         }
 
-                        private void lazyInit() {
-                        }
-
                         @Override
                         public String getItemText(String id) {
                             return ids.get(id);
@@ -232,7 +228,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         return addHandler(selectionHandler,SelectionEvent.getType());
     }       
         
-    public class OrgInfoList implements ListItems{
+    public static class OrgInfoList implements ListItems{
         Map<String, Result> orgInfoMap = new HashMap<String, Result>();
                 
         public OrgInfoList(List<Result> results){

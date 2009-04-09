@@ -629,7 +629,7 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
         modal.setHeader(headerText);
         modal.setResizable(true);
         modal.setAutoHide(true);
-        modal.center();
+        modal.setLocation(20, 20);
         modal.show();
     }
     

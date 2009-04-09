@@ -17,9 +17,12 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import org.kuali.student.core.organization.dto.OrgInfo;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -32,6 +35,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class OrgUpdatePanel extends Composite{
     VerticalPanel root = new VerticalPanel();
     SimplePanel editPanel = new SimplePanel();
+    DeckPanel w = new DeckPanel();
     
     String orgId = null;
     
@@ -39,7 +43,9 @@ public class OrgUpdatePanel extends Composite{
     
     public OrgUpdatePanel(){
         root.setWidth("100%");
-        super.initWidget(root);
+        super.initWidget(w);
+        w.add(root);
+        w.showWidget(0);
     }
     
     public void onLoad(){
@@ -50,7 +56,15 @@ public class OrgUpdatePanel extends Composite{
                 orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
 
                     public void onSelection(SelectionEvent<OrgInfo> event) {
-                        OrgCreatePanel.showPopup(OrgCreatePanel.CREATE_ORG_ALL, event.getSelectedItem().getId(), "Update Organization", null);
+                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                w.remove(w.getWidgetCount() - 1);
+                                w.showWidget(w.getWidgetCount() - 1);
+                            }
+                        });
+                        w.add(orgCreatePanel);
+                        w.showWidget(w.getWidgetCount() - 1);
                     }
                     
                 });

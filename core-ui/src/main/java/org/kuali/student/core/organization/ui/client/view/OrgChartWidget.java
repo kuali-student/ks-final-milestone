@@ -6,11 +6,14 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
@@ -21,6 +24,7 @@ import com.google.gwt.visualization.client.visualizations.OrgChart;
 import com.google.gwt.visualization.client.visualizations.OrgChart.Options;
 
 public class OrgChartWidget extends Composite {
+    DeckPanel w = new DeckPanel();
 	ScrollPanel root = new ScrollPanel();
 	String orgId;
 	String hierarchyId;
@@ -28,7 +32,10 @@ public class OrgChartWidget extends Composite {
 	boolean loaded = false;
 	
 	public OrgChartWidget(String orgId, String hierarchyId, int maxLevels) {
-		super.initWidget(root);
+		super.initWidget(w);
+		w.add(root);
+		w.showWidget(0);
+		
 		root.setStyleName("ks-orgChart");
 		this.orgId=orgId;
 		this.hierarchyId=hierarchyId;
@@ -72,14 +79,22 @@ public class OrgChartWidget extends Composite {
     	                    Handler.addHandler(o, "select", new SelectHandler(){
     
     							public void onSelect(SelectEvent event) {
-    			                    OrgCreatePanel.showPopup(OrgCreatePanel.CREATE_ORG_ALL, data.getValueString(o.getSelections().get(0).getRow(), 0), "Edit", new SelectionHandler<OrgInfo>(){
-    			                        @Override
-    			                        public void onSelection(SelectionEvent<OrgInfo> event) {
-    			                            data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
-    			                            o.draw(data, orgChartOpts);
-    			                        }
-    			                    });
-
+    		                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+    		                            @Override
+    		                            public void onClick(ClickEvent event) {
+    		                                w.remove(w.getWidgetCount() - 1);
+    		                                w.showWidget(w.getWidgetCount() - 1);
+    		                            }
+    		                        });
+    		                        orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
+                                        @Override
+                                        public void onSelection(SelectionEvent<OrgInfo> event) {
+                                            data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
+                                            o.draw(data, orgChartOpts);
+                                        }
+                                    });
+    		                        w.add(orgCreatePanel);
+    		                        w.showWidget(w.getWidgetCount() - 1);
     							}
     	                    	
     	                    });

@@ -17,6 +17,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Tree;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 
 public class OrgLocateTree extends Composite {
     
+    DeckPanel w = new DeckPanel();
     Tree tree = new Tree();
     Map<String, String> orgRootHierarchy = new HashMap<String,String>();
     String activeHierarchyId;
@@ -31,15 +33,16 @@ public class OrgLocateTree extends Composite {
     boolean loaded = false;
     
     public OrgLocateTree() {
-        super.initWidget(tree);
+        super.initWidget(w);
+        w.add(tree);
+        w.showWidget(0);
     }
 
     protected void onLoad(){
         if (!loaded){
             tree.setWidth("100%");
             
-            //this is a terrible idea
-            addStyleName("KS-Disclosure-Content-Open");
+            tree.addStyleName("KS-Org-Tree");
             
             OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
                 public void onFailure(Throwable caught) {
@@ -117,7 +120,7 @@ public class OrgLocateTree extends Composite {
         });
     }
     
-    static class OrgWidget extends Composite {
+    class OrgWidget extends Composite {
         HorizontalPanel w = new HorizontalPanel();
         
         public OrgWidget(final String id, final String name) {
@@ -129,12 +132,22 @@ public class OrgLocateTree extends Composite {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    OrgCreatePanel.showPopup(((Hyperlink)event.getSource()).getTargetHistoryToken(), id, ((Hyperlink)event.getSource()).getText(),new SelectionHandler<OrgInfo>(){
+                    final DeckPanel deck = OrgLocateTree.this.w;
+                    final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            deck.remove(deck.getWidgetCount() - 1);
+                            deck.showWidget(deck.getWidgetCount() - 1);
+                        }
+                    });
+                    orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
                         @Override
                         public void onSelection(SelectionEvent<OrgInfo> event) {
                             label.setText(event.getSelectedItem().getLongName());
                         }
                     });
+                    deck.add(orgCreatePanel);
+                    deck.showWidget(deck.getWidgetCount() - 1);
                 }
             };
             

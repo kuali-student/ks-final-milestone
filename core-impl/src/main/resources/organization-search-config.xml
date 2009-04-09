@@ -30,6 +30,17 @@
 			<ref bean="org.criteria.orgByHierarchyShortName" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+	
+	<search:searchType id="org.search.orgQuickLongViewByFirstLetter">
+		<search:name>Organization Quick View by First Letter of Short Name or Long Name</search:name>
+		<search:desc>Returns a quick view of organization information for orgs whose short or long name start with a particular letter</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickLongView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgByFirstLetter" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 
 	<search:searchResultTypeInfo id="org.result.orgQuickView">
 		<search:name>Organization Quick View</search:name>
@@ -37,6 +48,17 @@
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgId" />
 			<ref bean="org.resultColumn.orgShortName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="org.result.orgQuickLongView">
+		<search:name>Organization Quick View</search:name>
+		<search:desc>Quick view of the Organization</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgLongName" />
+			<ref bean="org.resultColumn.orgType" />
+			<ref bean="org.resultColumn.orgHierarchyName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -50,6 +72,25 @@
 		<search:name>Organization Short Name</search:name>
 		<search:desc>Short name for the organization, recorded as the default
 				listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgLongName">
+		<search:name>Organization Long Name</search:name>
+		<search:desc>Long name for the organization, recorded as the default
+				listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgHierarchyName">
+		<search:name>Organization Hierarchy Name</search:name>
+		<search:desc>Name for the Hierarchy an Organization is in.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgType">
+		<search:name>Organization Type</search:name>
+		<search:desc>Organization Type</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
@@ -130,6 +171,14 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByFirstLetter">
+		<search:name>OrgByFirstLetterCriteria</search:name>
+		<search:desc>OrgByFirstLetterCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgShortName" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -139,6 +188,9 @@
 				</entry>
 				<entry key="org.search.orgQuickViewByHierarchyShortName">
 					<value>SELECT org.id, org.shortName FROM Org org, in(org.type.orgHierarchies) hierarcy WHERE org.shortName like :org_queryParam_orgShortName and  hierarcy.id = :org_queryParam_orgHierarchyId</value>
+				</entry>
+				<entry key="org.search.orgQuickLongViewByFirstLetter">
+					<value>SELECT org.id, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.shortName like :org_queryParam_orgShortName or org.longName like :org_queryParam_orgShortName</value>
 				</entry>
 			</map>
 		</property>
