@@ -70,9 +70,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             }
   */          
             reqComponentTypeInfoList = service.getReqComponentTypesForLuStatementType(luStatementTypeKey);           
-           //reqComponentTypeInfoList = this.getReqComponentTypesForLuStatementTypeSTUB(luStatementTypeKey);
-            
-            
+           //reqComponentTypeInfoList = this.getReqComponentTypesForLuStatementTypeSTUB(luStatementTypeKey);                        
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
@@ -153,6 +151,14 @@ public class RequirementsServiceImpl implements RequirementsService {
                 }
                 
                 ReqComponentVO tempReqCompVO = new ReqComponentVO(tempReqCompInfo);
+                
+                try {
+                    tempReqCompVO.setTypeDesc(service.getReqComponentType(tempReqCompInfo.getType()).getDesc());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new Exception("Unable to retrieve Lu Statemetn based on reqComponentID: " + reqCompID, ex);
+                }                                
+
                 statementVO.addReqComponentVO(tempReqCompVO);
             }               
         }        
@@ -167,7 +173,7 @@ public class RequirementsServiceImpl implements RequirementsService {
         String error = composeStatementVO(luStatementInfo, rootStatementVO);
         if (error.isEmpty() == false) {
             throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
-        }
+        }       
         
         return rootStatementVO;
         

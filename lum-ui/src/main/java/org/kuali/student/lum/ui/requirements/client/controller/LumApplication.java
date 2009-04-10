@@ -1,5 +1,8 @@
 package org.kuali.student.lum.ui.requirements.client.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -7,13 +10,17 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 import org.kuali.student.lum.ui.requirements.client.view.CourseRequisiteView;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -26,12 +33,15 @@ public class LumApplication extends Controller {
     private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this);
     private final HorizontalPanel panel = new HorizontalPanel();
     private final SimplePanel viewPanel = new SimplePanel();
-    private Model<CourseRuleInfo> courseInfo;
+    
+    //application data
+    private Model<CourseRuleInfo> courseData;
     private String courseId;
 
     public LumApplication(CourseRuleInfo selectedCourse) {
-        courseInfo = new Model<CourseRuleInfo>();
-        courseInfo.add(selectedCourse);
+        courseData = new Model<CourseRuleInfo>();
+        courseData.add(selectedCourse);
+     
         this.courseId = selectedCourse.getId();
         super.initWidget(panel);
         panel.add(viewPanel);
@@ -65,11 +75,12 @@ public class LumApplication extends Controller {
     @Override
     @SuppressWarnings("unchecked")
     public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+        System.out.println("HERE...." + modelType);
         if (modelType.equals(CourseRuleInfo.class)) {
-            if (courseInfo == null) {
-                courseInfo = new Model<CourseRuleInfo>();
+            if (courseData == null) {
+                courseData = new Model<CourseRuleInfo>();
             }
-            callback.onModelReady(courseInfo);
+            callback.onModelReady(courseData);
         } else {
             super.requestModel(modelType, callback);
         }
@@ -86,10 +97,10 @@ public class LumApplication extends Controller {
             switch ((CourseViews) viewType) {
                 case COURSE_REQUISITES:                   
                     PrereqInfo prereqInfo = new PrereqInfo();
-                    prereqInfo.setId(courseInfo.get(courseId).getId());
+                    prereqInfo.setId(courseData.get(courseId).getId());
                     prereqInfo.setNaturalLanguage("Test natural language");
                     prereqInfo.setRationale("Test rationalle");
-                    prereqInfo.setStatementVO(new StatementVO(courseInfo.get(courseId).getLuStatementByType("kuali.luStatementType.createCourseAcademicReadiness")));
+                    prereqInfo.setStatementVO(new StatementVO(courseData.get(courseId).getLuStatementByType("kuali.luStatementType.createCourseAcademicReadiness")));
                     courseRequisiteView.setPrereqInfo(prereqInfo);
                     return courseRequisiteView;
                 default:
@@ -98,7 +109,7 @@ public class LumApplication extends Controller {
         }
         return null;
     }
-
+    
     public String getCourseId() {
         return courseId;
     }
