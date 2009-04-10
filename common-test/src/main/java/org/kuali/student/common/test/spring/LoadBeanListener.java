@@ -11,10 +11,10 @@ public class LoadBeanListener implements ApplicationListener {
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent) {
 			boolean isOracle = false;
-			try{
-				isOracle = ldb.isOracle();
-			}catch(Exception e){
-			}
+//			try{
+//				isOracle = ldb.isOracle();
+//			}catch(Exception e){
+//			}
 			ldb.loadData(isOracle);
 		}
 	}

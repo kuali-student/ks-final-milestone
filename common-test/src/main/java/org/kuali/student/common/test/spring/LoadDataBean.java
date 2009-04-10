@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.eclipse.persistence.internal.sessions.UnitOfWorkImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -63,6 +64,22 @@ public class LoadDataBean implements ApplicationContextAware{
 					BufferedReader in
 					   = new BufferedReader(new FileReader(sqlFile));
 					String ln;
+
+					String dbName=null;
+					if(em.getDelegate() instanceof org.hibernate.impl.SessionImpl){
+						dbName = ((org.hibernate.impl.SessionImpl)em.getDelegate()).connection().getMetaData().getDatabaseProductName();
+					}
+					if(em.getDelegate() instanceof org.eclipse.persistence.internal.jpa.EntityManagerImpl){
+						dbName = ((org.eclipse.persistence.internal.jpa.EntityManagerImpl)em.getDelegate()).getActiveSession().getPlatform().getClass().getSimpleName();
+					}
+					if(em.getDelegate() instanceof org.apache.openjpa.persistence.OpenJPAEntityManager){
+						dbName = ((java.sql.Connection)((org.apache.openjpa.persistence.OpenJPAEntityManager)em.getDelegate()).getConnection()).getMetaData().getDatabaseProductName();
+					}
+					if(dbName!=null&&dbName.toLowerCase().contains("oracle")){
+						isOracle=true;
+					}
+
+					
 					while((ln=in.readLine())!=null){
 						if(!ln.startsWith("/")&&!ln.isEmpty()){
 							if(isOracle){

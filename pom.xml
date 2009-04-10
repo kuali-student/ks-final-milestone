@@ -88,6 +88,7 @@
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
 		<dozer.version>4.4</dozer.version>
+		<eclipselink.version>1.0</eclipselink.version>
 		
 		<!-- plugin versions -->
 		<cobertura.plugin.version>2.2</cobertura.plugin.version>
@@ -459,7 +460,13 @@
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>eclipselink</artifactId>
-				<version>1.0</version>
+				<version>${eclipselink.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.openjpa</groupId>
+				<artifactId>openjpa</artifactId>
+				<version>1.2.1</version>
 			</dependency>
 
 			<!--  Hibernate -->

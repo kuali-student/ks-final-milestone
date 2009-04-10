@@ -102,6 +102,26 @@
 			value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
 	</bean>
 
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="org.kuali.student.common.util.jta.AtomikosJtaTransactionController"/>
+		<property name="targetMethod" value="setTm"/>
+		<property name="arguments">
+			<list>
+				<ref bean="AtomikosTxMgr"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="org.kuali.student.common.util.jta.AtomikosManagedRuntime"/>
+		<property name="targetMethod" value="setTm"/>
+		<property name="arguments">
+			<list>
+				<ref bean="AtomikosTxMgr"/>
+			</list>
+		</property>
+	</bean>
+
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 	<tx:annotation-driven transaction-manager="JtaTxManager"

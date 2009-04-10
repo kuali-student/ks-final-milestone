@@ -64,17 +64,19 @@ public class LoadSqlListener implements ApplicationListener,
 				TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 				TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
 				boolean isOracle=false;
-				try{
-					em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
-					isOracle=true;
-				}catch(Exception e){
-					//Not Oracle 
-				}finally{
-					jtaTxManager.rollback(txStatus);
-				}
 				
-				txDefinition = new DefaultTransactionDefinition() ;
-				txStatus = jtaTxManager.getTransaction(txDefinition);
+				
+//				try{
+//					em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
+//					isOracle=true;
+//				}catch(Exception e){
+//					//Not Oracle 
+//				}finally{
+//					jtaTxManager.rollback(txStatus);
+//				}
+//				
+//				txDefinition = new DefaultTransactionDefinition() ;
+//				txStatus = jtaTxManager.getTransaction(txDefinition);
 				
 			
 				try {

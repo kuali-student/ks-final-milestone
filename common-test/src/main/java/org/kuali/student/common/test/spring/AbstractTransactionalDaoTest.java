@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.eclipse.persistence.internal.sessions.UnitOfWorkImpl;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,20 +163,23 @@ public abstract class AbstractTransactionalDaoTest {
 						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
 						boolean isOracle=false;
-						try{
-							em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
-							isOracle=true;
-						}catch(Exception e){
-							//Not Oracle 
-						}finally{
-							jtaTxManager.rollback(txStatus);
-						}
-						
-						txDefinition = new DefaultTransactionDefinition() ;
-						txStatus = jtaTxManager.getTransaction(txDefinition);
-						
+					
 						try {
-		            		while((ln=in.readLine())!=null){
+							String dbName=null;
+							if(em.getDelegate() instanceof org.hibernate.impl.SessionImpl){
+								dbName = ((org.hibernate.impl.SessionImpl)em.getDelegate()).connection().getMetaData().getDatabaseProductName();
+							}
+							if(em.getDelegate() instanceof org.eclipse.persistence.internal.jpa.EntityManagerImpl){
+								dbName = ((org.eclipse.persistence.internal.jpa.EntityManagerImpl)em.getDelegate()).getActiveSession().getPlatform().getClass().getSimpleName();
+							}
+							if(em.getDelegate() instanceof org.apache.openjpa.persistence.OpenJPAEntityManager){
+								dbName = ((java.sql.Connection)((org.apache.openjpa.persistence.OpenJPAEntityManager)em.getDelegate()).getConnection()).getMetaData().getDatabaseProductName();
+							}
+							if(dbName!=null&&dbName.toLowerCase().contains("oracle")){
+								isOracle=true;
+							}
+							
+							while((ln=in.readLine())!=null){
 								if(!ln.startsWith("/")&&!ln.isEmpty()){
 									if(isOracle){
 										ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
@@ -184,7 +188,7 @@ public abstract class AbstractTransactionalDaoTest {
 								}
 							}
 							jtaTxManager.commit(txStatus);
-						} catch (IOException e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 							jtaTxManager.rollback(txStatus);
 						}

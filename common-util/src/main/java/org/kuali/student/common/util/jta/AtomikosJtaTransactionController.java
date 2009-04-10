@@ -19,9 +19,23 @@ import org.eclipse.persistence.transaction.JTATransactionController;
  */
 public class AtomikosJtaTransactionController extends JTATransactionController {
 
+	private static TransactionManager tm;
+	
     @Override
     protected TransactionManager acquireTransactionManager() throws Exception {
-        Class<?> clazz = Class.forName("com.atomikos.icatch.jta.UserTransactionManager");
-        return (TransactionManager) clazz.newInstance();
+    	if(tm==null){
+    		Class<?> clazz = Class.forName("com.atomikos.icatch.jta.UserTransactionManager");
+    		tm = (TransactionManager) clazz.newInstance();
+    	}
+        return tm;
     }
+
+	public static TransactionManager getTm() {
+		return tm;
+	}
+
+	public static void setTm(TransactionManager tm) {
+		AtomikosJtaTransactionController.tm = tm;
+	}
+
 }
