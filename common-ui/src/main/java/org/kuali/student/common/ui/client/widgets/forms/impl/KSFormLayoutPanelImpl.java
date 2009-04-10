@@ -60,6 +60,7 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
     
     public void addFormField(KSFormField field){
         KSLabel label = new KSLabel(field.getLabelText(), false);
+        label.setWordWrap(true);
         int rowIdx = table.getRowCount();
         table.setWidget(rowIdx, FORM_LABEL_COL, label);
         table.setWidget(rowIdx, FORM_FIELD_COL, field.getDisplayWidget());
