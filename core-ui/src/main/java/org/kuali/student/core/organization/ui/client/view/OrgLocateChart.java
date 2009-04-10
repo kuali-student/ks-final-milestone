@@ -26,7 +26,6 @@ public class OrgLocateChart extends Composite {
         if (!loaded){
             w.setWidth("100%");
             
-            //this is a terrible idea
             addStyleName("KS-Org-Chart");
             
             OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){

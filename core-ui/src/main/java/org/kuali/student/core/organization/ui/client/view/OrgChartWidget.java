@@ -2,6 +2,8 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -34,12 +36,15 @@ public class OrgChartWidget extends Composite {
 	public OrgChartWidget(String orgId, String hierarchyId, int maxLevels) {
 		super.initWidget(w);
 		w.add(root);
-		w.showWidget(0);
 		
 		root.setStyleName("ks-orgChart");
 		this.orgId=orgId;
 		this.hierarchyId=hierarchyId;
 		this.maxLevels=maxLevels;
+		
+        KSLabel lbl = new KSLabel("Please Wait...");
+        w.add(lbl);
+        w.showWidget(1);
 	}
 
 	protected void onLoad() {
@@ -86,6 +91,7 @@ public class OrgChartWidget extends Composite {
     		                                w.showWidget(w.getWidgetCount() - 1);
     		                            }
     		                        });
+    		                        orgCreatePanel.setOrgId(data.getValueString(o.getSelections().get(0).getRow(), 0));
     		                        orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
                                         @Override
                                         public void onSelection(SelectionEvent<OrgInfo> event) {
@@ -93,7 +99,6 @@ public class OrgChartWidget extends Composite {
                                             o.draw(data, orgChartOpts);
                                         }
                                     });
-    		                        orgCreatePanel.orgId=data.getValueString(o.getSelections().get(0).getRow(), 0);
     		                        w.add(orgCreatePanel);
     		                        w.showWidget(w.getWidgetCount() - 1);
     							}
@@ -101,6 +106,10 @@ public class OrgChartWidget extends Composite {
     	                    });
     	                    
     	                    root.add(o);
+    	                    while(w.getWidgetCount() != 1)
+    	                        w.remove(w.getWidgetCount() - 1);
+    	                    w.showWidget(0);
+
     	                    	                    
     					}
                 	});
@@ -112,6 +121,11 @@ public class OrgChartWidget extends Composite {
               AjaxLoader.loadVisualizationApi(onLoadCallback, OrgChart.PACKAGE);
               
               loaded=true;
+	    } else {
+            while(w.getWidgetCount() != 1)
+                w.remove(w.getWidgetCount() - 1);
+            w.showWidget(0);
 	    }
+
 	}
 }

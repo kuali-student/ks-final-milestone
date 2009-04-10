@@ -63,7 +63,7 @@ public class OrgUpdatePanel extends Composite{
                                 w.showWidget(w.getWidgetCount() - 1);
                             }
                         });
-                        orgCreatePanel.orgId = event.getSelectedItem().getId();
+                        orgCreatePanel.setOrgId(event.getSelectedItem().getId());
                         w.add(orgCreatePanel);
                         w.showWidget(w.getWidgetCount() - 1);
                     }
@@ -75,6 +75,9 @@ public class OrgUpdatePanel extends Composite{
             }
             loaded = true;
             root.add(editPanel); 
+            while(w.getWidgetCount() != 1)
+                w.remove(w.getWidgetCount() - 1);
+            w.showWidget(0);
         }
     }
     

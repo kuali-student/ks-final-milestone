@@ -7,10 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.search.dto.QueryParamValue;
@@ -21,6 +24,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -30,7 +34,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class OrgLocateName extends Composite {
-    Panel w = new HorizontalPanel();
+    DeckPanel w = new DeckPanel();
+    Panel root = new HorizontalPanel();
     private KSCheckBoxList orgTypes;
     SimplePanel resultPanel = new SimplePanel();
     KSSelectableTableList resultTable = null;
@@ -40,6 +45,7 @@ public class OrgLocateName extends Composite {
 
     public OrgLocateName() {
         super.initWidget(w);
+        w.add(root);
 
         final Grid grid = new Grid(3, 9);
         ClickHandler handler = new ClickHandler() {
@@ -48,6 +54,9 @@ public class OrgLocateName extends Composite {
 
             @Override
             public void onClick(ClickEvent event) {
+                KSImage image = new KSImage("images/loading.gif");
+                resultPanel.setWidget(image);
+                
                 if (source != null)
                     source.setDown(false);
                 source = (ToggleButton) event.getSource();
@@ -117,6 +126,23 @@ public class OrgLocateName extends Composite {
                             resultTable.setMultipleSelect(false);
                             resultTable.setListItems(items);
                             resultPanel.setWidget(resultTable);
+                            resultTable.addSelectionChangeHandler(new SelectionChangeHandler() {
+
+                                @Override
+                                public void onSelectionChange(final KSSelectItemWidgetAbstract selected) {
+                                    if(selected.getSelectedItem() != null) {
+                                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+                                            @Override
+                                            public void onClick(ClickEvent event) {
+                                                w.remove(w.getWidgetCount() - 1);
+                                                w.showWidget(w.getWidgetCount() - 1);
+                                            }
+                                        });
+                                        orgCreatePanel.setOrgId(selected.getSelectedItem());
+                                        w.add(orgCreatePanel);
+                                        w.showWidget(w.getWidgetCount() - 1);
+                                    }
+                                }});
                             // selectButton.setVisible(true);
                         }
                     }
@@ -144,8 +170,8 @@ public class OrgLocateName extends Composite {
 
         resultPanel.addStyleName("KS-Org-Search-Widget-Results");
 
-        w.add(browsePanel);
-        w.add(resultPanel);
+        root.add(browsePanel);
+        root.add(resultPanel);
 
     }
 
@@ -193,5 +219,9 @@ public class OrgLocateName extends Composite {
                 }
             });
         }
+        while(w.getWidgetCount() != 1)
+            w.remove(w.getWidgetCount() - 1);
+        w.showWidget(0);
+
     }
 }

@@ -27,7 +27,6 @@ public class OrgLocateTree extends Composite {
     
     DeckPanel w = new DeckPanel();
     Tree tree = new Tree();
-    Map<String, String> orgRootHierarchy = new HashMap<String,String>();
     String activeHierarchyId;
     
     boolean loaded = false;
@@ -35,14 +34,19 @@ public class OrgLocateTree extends Composite {
     public OrgLocateTree() {
         super.initWidget(w);
         w.add(tree);
-        w.showWidget(0);
+        
+        tree.setWidth("100%");
+        
+        tree.addStyleName("KS-Org-Tree");
+        
+        KSLabel lbl = new KSLabel("Please Wait...");
+        w.add(lbl);
+        w.showWidget(1);
     }
 
     protected void onLoad(){
         if (!loaded){
-            tree.setWidth("100%");
-            
-            tree.addStyleName("KS-Org-Tree");
+            loaded = true;
             
             OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
                 public void onFailure(Throwable caught) {
@@ -52,34 +56,17 @@ public class OrgLocateTree extends Composite {
                 public void onSuccess(List<OrgHierarchyInfo> result) {
                     if(result != null){
                         for(OrgHierarchyInfo orgHInfo:result){
-                            orgRootHierarchy.put(orgHInfo.getRootOrgId(), orgHInfo.getId());
                             getOrgTree(orgHInfo.getRootOrgId(),orgHInfo.getId());
                         }                
                     }
                 }
             });
             
-            loaded = true;
-        }       
-    }
-    
-    protected void getOrgList(List<String> orgIds, final TreeItem node){
-        OrgRpcService.Util.getInstance().getOrganizationsByIdList(orgIds, new AsyncCallback<List<OrgInfo>>(){
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
-
-            public void onSuccess(List<OrgInfo> result) {
-                for (OrgInfo orgInfo : result) {
-                    TreeItem treeItem = new TreeItem(orgInfo.getLongName());
-                    treeItem.setUserObject(orgInfo);
-                    if(node == null)
-                        tree.addItem(treeItem);
-                    else
-                        node.addItem(treeItem);
-                }
-            }
-        });
+        } else {
+            while(w.getWidgetCount() != 1)
+                w.remove(w.getWidgetCount() - 1);
+            w.showWidget(0);
+        }
     }
     
     protected void getOrgTree(String orgId, String hierarchyId){
@@ -112,6 +99,9 @@ public class OrgLocateTree extends Composite {
                         }
                     } else {
                         tree.addItem(item);
+                        while(w.getWidgetCount() != 1)
+                            w.remove(w.getWidgetCount() - 1);
+                        w.showWidget(0);
                     }
                     
                 }
@@ -133,7 +123,7 @@ public class OrgLocateTree extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     final DeckPanel deck = OrgLocateTree.this.w;
-                    final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+                    final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(((Hyperlink)event.getSource()).getTargetHistoryToken(), new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
                             deck.remove(deck.getWidgetCount() - 1);
@@ -146,7 +136,7 @@ public class OrgLocateTree extends Composite {
                             label.setText(event.getSelectedItem().getLongName());
                         }
                     });
-                    orgCreatePanel.orgId=id;
+                    orgCreatePanel.setOrgId(id);
                     deck.add(orgCreatePanel);
                     deck.showWidget(deck.getWidgetCount() - 1);
                 }

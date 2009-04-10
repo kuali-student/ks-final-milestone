@@ -16,6 +16,7 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -459,6 +460,7 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
                             return ids.get(id);
                         }};
                     orgTypeDropDown.setListItems(list);
+                    orgTypeDropDown.setEnabled(true);
                     if(orgType != null)
                         orgTypeDropDown.selectItem(orgType);
                 }
@@ -474,6 +476,41 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
             public void onSuccess(OrgInfo orgInfo) {                              
                 orgVersion = orgInfo.getMetaInfo().getVersionInd();
                 orgType = orgInfo.getType();
+                ListItems tempListItems = new ListItems() {
+
+                    @Override
+                    public List<String> getAttrKeys() {
+                        return null;
+                    }
+
+                    @Override
+                    public String getItemAttribute(String id, String attrkey) {
+                        return null;
+                    }
+
+                    @Override
+                    public int getItemCount() {
+                        return 1;
+                    }
+
+                    @Override
+                    public List<String> getItemIds() {
+                        return Arrays.asList(orgType);
+                    }
+
+                    @Override
+                    public String getItemText(String id) {
+                        if(id.equals(orgType))
+                            return orgType;
+                        return null;
+                    }
+                    
+                };
+                if(orgTypeDropDown.getListItems() == null) {
+                    orgTypeDropDown.setListItems(tempListItems);
+                    orgTypeDropDown.setEnabled(false);
+                }
+                orgTypeDropDown.selectItem(orgType);
                 orgForm.setFieldValue("orgName",orgInfo.getLongName());
                 orgForm.setFieldValue("orgAbbrev",orgInfo.getShortName());
                 orgForm.setFieldValue("orgDesc",orgInfo.getShortDesc());
