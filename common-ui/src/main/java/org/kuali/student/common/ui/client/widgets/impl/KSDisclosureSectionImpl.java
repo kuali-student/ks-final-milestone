@@ -35,12 +35,18 @@ public class KSDisclosureSectionImpl extends KSDisclosureSectionAbstract{
 		}
 		this.initWidget(panel);
 		panel.setContent(content);
-		setupDefaultStyle();
+		setupDefaultStyle(isOpen);
 	}
-	private void setupDefaultStyle() {
+	private void setupDefaultStyle(boolean isOpen) {
 		panel.getHeader().addStyleName(KSStyles.KS_DISCLOSURE_HEADER_STYLE);
 		panel.addStyleName(KSStyles.KS_DISCLOSURE_SECTION_PANEL);
 		content.addStyleName(KSStyles.KS_DISCLOSURE_CONTENTPANEL_STYLE);
+		
+		if(isOpen) {
+            panel.getHeader().addStyleName(KSStyles.KS_DISCLOSURE_OPEN_HEADER_STYLE);
+            panel.addStyleName(KSStyles.KS_DISCLOSURE_OPEN_SECTION_PANEL);
+            content.addStyleName(KSStyles.KS_DISCLOSURE_OPEN_CONTENTPANEL_STYLE);
+		}
 		
 		panel.addCloseHandler(new CloseHandler<DisclosurePanel>(){
 
