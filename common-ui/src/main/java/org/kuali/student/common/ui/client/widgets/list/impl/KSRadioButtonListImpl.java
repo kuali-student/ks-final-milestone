@@ -28,6 +28,8 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     private KSRadioButtonGroup radioGroup = new KSRadioButtonGroup();
 
     private int maxCols = 1; //default max columns
+    
+    private boolean enabled = true;
 
     public KSRadioButtonListImpl() {
         radioGroup.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
@@ -159,5 +161,20 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     @Override
     public void setColumnSize(int col) {
         maxCols = col;
+    }
+
+    @Override
+    public void setEnabled(boolean b) {
+        enabled = b;
+        for (int i=0; i < radioButtons.getRowCount(); i++){
+            for (int j=0; j < radioButtons.getCellCount(i); j++){
+                ((KSRadioButton)radioButtons.getWidget(i,j)).setEnabled(b);
+            }
+        }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }    
 }

@@ -91,6 +91,16 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract {
     public void setName(String name) {
         selectItemWidget.setName(name);
     }
+
+    @Override
+    public void setEnabled(boolean b) {
+        selectItemWidget.setEnabled(b);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return selectItemWidget.isEnabled();
+    }
     
 }
 

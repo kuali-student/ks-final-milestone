@@ -134,4 +134,14 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
                 
     }
 
+    @Override
+    public void setEnabled(boolean b) {
+        listBox.setEnabled(b);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return listBox.isEnabled();
+    }
+
 }

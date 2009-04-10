@@ -30,8 +30,8 @@ import com.google.gwt.visualization.client.visualizations.Table.Options;
 public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract { 
     Table table;
     SimplePanel root = new SimplePanel();
-    Map<Integer, String> idMapping = new HashMap();
-    Map<String, Integer> rowMapping = new HashMap();
+    Map<Integer, String> idMapping = new HashMap<Integer, String>();
+    Map<String, Integer> rowMapping = new HashMap<String, Integer>();
     boolean loaded = false;
     boolean isMultipleSelect = true;
     int selRow = -1;
@@ -172,5 +172,16 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     protected void init(String name) {}
 
     public void onClick(ClickEvent event) {}
+
+    @Override
+    public void setEnabled(boolean b) {
+        // TODO figure out how to disable this sucker
+        
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; //TODO can't disable currently
+    }
     
 }

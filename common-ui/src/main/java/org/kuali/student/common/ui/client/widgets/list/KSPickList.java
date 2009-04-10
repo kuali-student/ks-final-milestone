@@ -83,5 +83,15 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
         selectItemWidget.setName(name);
     }
 
+    @Override
+    public void setEnabled(boolean b) {
+        selectItemWidget.setEnabled(b);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return selectItemWidget.isEnabled();
+    }
+
 
 }

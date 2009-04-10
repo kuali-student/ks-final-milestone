@@ -103,5 +103,9 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
     }
     
     public abstract void onLoad();
+
+    public abstract void setEnabled(boolean b);
+    
+    public abstract boolean isEnabled();
 	
 }

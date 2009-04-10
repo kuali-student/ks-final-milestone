@@ -109,5 +109,14 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
         dropDown.setName(name);
     }
 
+    public void setEnabled(boolean b) {
+        dropDown.setEnabled(b);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return dropDown.isEnabled();
+    }
+
 
 }

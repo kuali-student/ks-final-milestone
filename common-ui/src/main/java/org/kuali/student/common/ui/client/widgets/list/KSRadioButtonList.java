@@ -143,6 +143,16 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract {
     public void setColumnSize(int cols){
         selectItemWidget.setColumnSize(cols);
     }
+
+    @Override
+    public void setEnabled(boolean b) {
+        selectItemWidget.setEnabled(b);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return selectItemWidget.isEnabled();
+    }
 }
 
 

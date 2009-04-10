@@ -23,6 +23,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     private List<String> selectedItems = new ArrayList<String>();
 
     private int maxCols = 1; //default max columns
+    private boolean enabled = true;
 
     public KSCheckBoxListImpl() {
         initWidget(checkBoxes);
@@ -136,6 +137,21 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     @Override
     public void setColumnSize(int col) {
         maxCols = col;
+    }
+
+    @Override
+    public void setEnabled(boolean b) {
+        enabled = b;
+        for (int i=0; i < checkBoxes.getRowCount(); i++){
+            for (int j=0; j < checkBoxes.getCellCount(i); j++){
+                ((KSCheckBox)checkBoxes.getWidget(i, j)).setEnabled(b);
+            }
+        }
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
 }

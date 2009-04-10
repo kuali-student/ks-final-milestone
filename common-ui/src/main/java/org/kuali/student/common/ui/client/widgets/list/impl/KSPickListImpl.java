@@ -27,6 +27,8 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     private final List<String> unselected = new ArrayList<String>();
     private final List<String> selected = new ArrayList<String>();
     
+    private boolean enabled = true;
+    
     
     private final HorizontalPanel panel = new HorizontalPanel();
     private final KSSelectableTableList unselectedTable = new KSSelectableTableList(true);
@@ -243,5 +245,21 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     public void setMultipleSelect(boolean isMultipleSelect) {}
 
     public void onLoad() {}
+
+    @Override
+    public void setEnabled(boolean b) {
+        enabled = b;
+        unselectedTable.setEnabled(b);
+        selectedTable.setEnabled(b);
+        add.setEnabled(b);
+        remove.setEnabled(b);
+        addAll.setEnabled(b);
+        removeAll.setEnabled(b);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
 }
