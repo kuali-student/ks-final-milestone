@@ -1,14 +1,19 @@
 package org.kuali.student.core.organization.ui.client.view;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -27,7 +32,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,7 +50,7 @@ public class OrgPersonRelationWidget extends Composite{
     
     KSFormLayoutPanel orgPersonRelForm = null;
     
-    ListBox orgPersonRelTypeDropDown = null;
+    KSDropDown orgPersonRelTypeDropDown = null;
 
     KSModalDialogPanel searchPopup = new KSModalDialogPanel();
     
@@ -125,7 +129,7 @@ public class OrgPersonRelationWidget extends Composite{
 	private void initForm(){
         orgPersonRelForm = new KSFormLayoutPanel();
         
-        orgPersonRelTypeDropDown = new ListBox();
+        orgPersonRelTypeDropDown = new KSDropDown();
         loadOrgPersonRelationTypes();        
         
         addFormField(new KSTextBox(), "Person", "relPersonName");
@@ -158,7 +162,7 @@ public class OrgPersonRelationWidget extends Composite{
         orgPersonRelMetaInfo.setVersionInd(orgPersonRelVersion);
         orgPersonRelationInfo.setMetaInfo(orgPersonRelMetaInfo);
         
-        orgPersonRelationInfo.setType(orgPersonRelTypeDropDown.getValue(orgPersonRelTypeDropDown.getSelectedIndex()));
+        orgPersonRelationInfo.setType(orgPersonRelTypeDropDown.getSelectedItem());
         
         //TODO: This should lookup orgId based on related org name
         orgPersonRelationInfo.setPersonId(orgPersonRelForm.getFieldValue("relPersonId"));
@@ -206,17 +210,54 @@ public class OrgPersonRelationWidget extends Composite{
 	            }
 	
 	            public void onSuccess(List<OrgPositionRestrictionInfo> orgPositionRestrictions) {
-	                orgPersonRelTypeDropDown.addItem("Select", "");
-		            
-	                if(orgPositionRestrictions!=null){
-		                int i = 0;
-		                for(OrgPositionRestrictionInfo orgPositionRestriction:orgPositionRestrictions){
-		                    i++;
-		                    orgPersonRelTypeDropDown.addItem(orgPositionRestriction.getTitle(),orgPositionRestriction.getOrgPersonRelationTypeKey());
-		                    if (orgPositionRestriction.getOrgPersonRelationTypeKey().equals(orgPersonRelType)){
-		                        orgPersonRelTypeDropDown.setSelectedIndex(i);
-		                    }
-		                }
+//	                orgPersonRelTypeDropDown.addItem("Select", "");
+//		            
+//	                if(orgPositionRestrictions!=null){
+//		                int i = 0;
+//		                for(OrgPositionRestrictionInfo orgPositionRestriction:orgPositionRestrictions){
+//		                    i++;
+//		                    orgPersonRelTypeDropDown.addItem(orgPositionRestriction.getTitle(),orgPositionRestriction.getOrgPersonRelationTypeKey());
+//		                    if (orgPositionRestriction.getOrgPersonRelationTypeKey().equals(orgPersonRelType)){
+//		                        orgPersonRelTypeDropDown.setSelectedIndex(i);
+//		                    }
+//		                }
+//	                }
+	                if(orgPositionRestrictions != null) {
+	                    final Map<String,String> restrictions = new LinkedHashMap<String, String>();
+	                    for (OrgPositionRestrictionInfo info : orgPositionRestrictions) {
+                            restrictions.put(info.getOrgPersonRelationTypeKey(), info.getTitle());
+                        }
+	                    ListItems items = new ListItems() {
+
+                            @Override
+                            public List<String> getAttrKeys() {
+                                return null;
+                            }
+
+                            @Override
+                            public String getItemAttribute(String id, String attrkey) {
+                                return null;
+                            }
+
+                            @Override
+                            public int getItemCount() {
+                                return restrictions.size();
+                            }
+
+                            @Override
+                            public List<String> getItemIds() {
+                                return new ArrayList<String>(restrictions.keySet());
+                            }
+
+                            @Override
+                            public String getItemText(String id) {
+                                return restrictions.get(id);
+                            }
+	                        
+	                    };
+	                    orgPersonRelTypeDropDown.setListItems(items);
+	                    if(orgPersonRelType != null)
+	                        orgPersonRelTypeDropDown.selectItem(orgPersonRelType);
 	                }
 	            }
 	        });             
