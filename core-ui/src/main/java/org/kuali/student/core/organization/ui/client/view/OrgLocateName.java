@@ -48,7 +48,7 @@ public class OrgLocateName extends Composite {
         w.add(root);
 
         final Grid grid = new Grid(3, 9);
-        ClickHandler handler = new ClickHandler() {
+        final ClickHandler handler = new ClickHandler() {
 
             ToggleButton source = null;
 
@@ -57,9 +57,10 @@ public class OrgLocateName extends Composite {
                 KSImage image = new KSImage("images/loading.gif");
                 resultPanel.setWidget(image);
                 
-                if (source != null)
+                if(source != null)
                     source.setDown(false);
-                source = (ToggleButton) event.getSource();
+                if(event != null)
+                    source = (ToggleButton) event.getSource();
                 source.setDown(true);
 
                 List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
@@ -156,6 +157,11 @@ public class OrgLocateName extends Composite {
 
         orgTypes = new KSCheckBoxList();
         orgTypes.addStyleName("KS-CheckBox-List");
+        orgTypes.addSelectionChangeHandler(new SelectionChangeHandler() {
+            @Override
+            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                handler.onClick(null);
+            }});
 
         Panel browsePanel = new VerticalPanel();
         browsePanel.add(grid);
