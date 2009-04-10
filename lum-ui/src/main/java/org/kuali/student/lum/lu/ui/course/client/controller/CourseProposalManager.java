@@ -26,13 +26,15 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.ui.course.client.view.BeginCourseProposal;
+import org.kuali.student.lum.lu.ui.course.client.view.CourseBeginProposal;
 import org.kuali.student.lum.lu.ui.course.client.view.CourseAuthor;
 import org.kuali.student.lum.lu.ui.course.client.view.CourseInformation;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
@@ -49,7 +51,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  *
  */
 public class CourseProposalManager extends Controller implements View {
-    private BeginCourseProposal beginProposal = new BeginCourseProposal();
+    private final KSModalDialogPanel beginProposalDialog = new KSModalDialogPanel();
+    
     private View courseInformation = new CourseInformation(this);
     private View courseAuthor = new CourseAuthor(this);
     Model<CluInfo> cluInfo = new Model<CluInfo>();
@@ -82,9 +85,10 @@ public class CourseProposalManager extends Controller implements View {
     
     public CourseProposalManager(Controller parentController){
         this.setParentController(parentController);
+        final CourseBeginProposal beginProposal = new CourseBeginProposal();
         beginProposal.addCancelHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                beginProposal.hide();
+                beginProposalDialog.hide();
                 getParentController().showView(LUMViews.HOME_MENU);
             }            
         });
@@ -92,12 +96,23 @@ public class CourseProposalManager extends Controller implements View {
             public void onSave(SaveEvent saveEvent) {                
                 cluInfo.add(beginProposal.getCourseProposalClu());
                 showView(CourseViews.COURSE_AUTHOR);
+                beginProposalDialog.hide();
             }            
         });
+        beginProposalDialog.setWidget(beginProposal);
         setup();
         super.initWidget(app);
     }
 
+    /**
+     */
+    @Override
+    protected void onLoad() {
+        if (type == CourseProposalType.NEW_COURSE){
+            beginProposalDialog.show();
+        }
+    }
+    
     public void setup(){
         HorizontalPanel hPanel = new HorizontalPanel();
         KSMenu menuPanel = new KSAccordionMenu();
@@ -207,9 +222,6 @@ public class CourseProposalManager extends Controller implements View {
      */
     @Override
     public void beforeShow() {
-        if (type == CourseProposalType.NEW_COURSE){
-            beginProposal.show();
-        }
     }
 
     /**
