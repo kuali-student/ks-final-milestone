@@ -75,10 +75,10 @@ public class OrgUpdatePanel extends Composite{
             }
             loaded = true;
             root.add(editPanel); 
-            while(w.getWidgetCount() != 1)
-                w.remove(w.getWidgetCount() - 1);
-            w.showWidget(0);
         }
+        while(w.getWidgetCount() != 1)
+            w.remove(w.getWidgetCount() - 1);
+        w.showWidget(0);
     }
     
     
