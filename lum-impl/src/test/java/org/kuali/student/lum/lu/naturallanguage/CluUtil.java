@@ -50,7 +50,7 @@ public class CluUtil {
     public static void createReqComponentFields(LuDao luDao, ReqComponent reqComponent, String expectedValue, String operator, String target) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setKey("reqCompFieldType.expectedValue");
+		field1.setKey("reqCompFieldType.requiredCount");
 		field1.setValue(expectedValue);
 		field1.prePersist();
 		fieldList.add(field1);

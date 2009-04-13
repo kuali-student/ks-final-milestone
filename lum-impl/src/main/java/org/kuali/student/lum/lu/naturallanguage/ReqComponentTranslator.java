@@ -43,9 +43,12 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 		ReqCompTypes.CustomReqComponentType type = ReqCompTypes.CustomReqComponentType.valueOfKey(reqComponentType);
 
 		switch(type) {
-			case COURSE_LIST:
-				doCount(reqComponent, velocityContextMap);
+			case COURSE_LIST_ALL:
+			    doCount(reqComponent, velocityContextMap);
 				break;
+            case COURSE_LIST_NOF:
+                doCount(reqComponent, velocityContextMap);
+                break;				
 			case GRADE_CONDITION_COURSE_LIST:
 				break;
 			case GRADE_CHECK:
@@ -59,7 +62,7 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 		CluSet cluSet = this.luDao.fetch(CluSet.class, countTarget);
 		return new CustomCluSet(cluSet);
 	}
-	
+
 	private void doCount(ReqComponent reqComponent, Map<String, Object> velocityContextMap) throws DoesNotExistException {
 		List<ReqComponentField> fields = reqComponent.getReqCompField();
 		Map<String, String> map = new HashMap<String, String>();

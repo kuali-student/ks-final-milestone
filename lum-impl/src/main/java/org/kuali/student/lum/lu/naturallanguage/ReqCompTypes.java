@@ -19,7 +19,7 @@ public class ReqCompTypes {
 	}
 
 	public enum CountDefinitionType {
-		EXPECTED_VALUE_KEY("reqCompFieldType.expectedValue"),
+		EXPECTED_VALUE_KEY("reqCompFieldType.requiredCount"),
 		OPERATOR_KEY("reqCompFieldType.operator"),
 		COUNT_TYPE_KEY("reqCompFieldType.countType"),
 		COUNT_TARTGET_KEY("reqCompFieldType.countTarget"),
@@ -38,7 +38,8 @@ public class ReqCompTypes {
 	}
 	
 	public enum CustomReqComponentType {
-		COURSE_LIST("kuali.reqCompType.courseList"),
+		COURSE_LIST_ALL("kuali.reqCompType.courseList.all"),
+		COURSE_LIST_NOF("kuali.reqCompType.courseList.nof"),
 		GRADE_CONDITION_COURSE_LIST("kuali.reqCompType.grdCondCourseList"),
 		GRADE_CHECK("kuali.reqCompType.gradecheck");
 		

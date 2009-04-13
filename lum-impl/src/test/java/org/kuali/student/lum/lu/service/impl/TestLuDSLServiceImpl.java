@@ -245,31 +245,35 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = client.getReqComponentTypes();
 
         assertNotNull(reqCompTypeInfoList);
-        assertEquals(3, reqCompTypeInfoList.size());
+        assertEquals(5, reqCompTypeInfoList.size());
 
         ReqComponentTypeInfo rqt = null;
 
-        if ("kuali.reqCompType.courseList".equals(reqCompTypeInfoList.get(0).getId())) {
+        if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(0).getId())) {
             rqt = reqCompTypeInfoList.get(0);
-        } else if ("kuali.reqCompType.courseList".equals(reqCompTypeInfoList.get(1).getId())) {
+        } else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(1).getId())) {
             rqt = reqCompTypeInfoList.get(1);
-        } else if ("kuali.reqCompType.courseList".equals(reqCompTypeInfoList.get(2).getId())) {
+        } else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(2).getId())) {
             rqt = reqCompTypeInfoList.get(2);
+        }else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(2).getId())) {
+            rqt = reqCompTypeInfoList.get(3);
+        }else if ("kuali.reqCompType.courseList.all".equals(reqCompTypeInfoList.get(2).getId())) {
+            rqt = reqCompTypeInfoList.get(4);
         } else {
             assertTrue(false);
         }
 
-        assertEquals(rqt.getName(), "Course completed");
+        assertEquals(rqt.getName(), "All of required courses");
     }
 
     @Test
     public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        ReqComponentTypeInfo rqt = client.getReqComponentType("kuali.reqCompType.courseList");
+        ReqComponentTypeInfo rqt = client.getReqComponentType("kuali.reqCompType.courseList.all");
 
         assertNotNull(rqt);
-        assertEquals(rqt.getId(), "kuali.reqCompType.courseList");
-        assertEquals(rqt.getDesc(), "Student must have completed all of <courses>");
-        assertEquals(rqt.getName(), "Course completed");
+        assertEquals(rqt.getId(), "kuali.reqCompType.courseList.all");
+        assertEquals(rqt.getDesc(), "Student must have completed all of <reqCompFieldType.cluSet>");
+        assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20001231"));
     }
@@ -293,7 +297,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         }
 
-        assertEquals(rqt.getDesc(), "Minimum overall GPA of <value>");
+        assertEquals(rqt.getDesc(), "Student needs a minimum GPA of <reqCompFiledType.gpa>");
         assertEquals(rqt.getName(), "Minimum overall GPA");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20011130"));
@@ -306,7 +310,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertNotNull(reqComp);
 
         assertEquals(reqComp.getId(), "REQCOMP-1");
-        assertEquals(reqComp.getType(), "kuali.reqCompType.courseList");
+        assertEquals(reqComp.getType(), "kuali.reqCompType.courseList.all");
         assertEquals(reqComp.getDesc(), "Required Component 1");
         assertEquals(reqComp.getEffectiveDate(), df.parse("20010101"));
         assertEquals(reqComp.getExpirationDate(), df.parse("20020101"));
@@ -479,16 +483,16 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         req.setEffectiveDate(df.parse("20010101"));
         req.setExpirationDate(df.parse("20020101"));
         req.setState("ACTIVE");
-        req.setType("kuali.reqCompType.courseList");
+        req.setType("kuali.reqCompType.courseList.all");
 
         MetaInfo mf = new MetaInfo();
 
         req.setMetaInfo(mf);
 
-        ReqComponentInfo createdReq = client.createReqComponent("kuali.reqCompType.courseList", req);
+        ReqComponentInfo createdReq = client.createReqComponent("kuali.reqCompType.courseList.all", req);
 
         assertNotNull(createdReq.getId());
-        assertEquals(createdReq.getType(), "kuali.reqCompType.courseList");
+        assertEquals(createdReq.getType(), "kuali.reqCompType.courseList.all");
         assertEquals(createdReq.getEffectiveDate(), df.parse("20010101"));
         assertEquals(createdReq.getExpirationDate(), df.parse("20020101"));
         assertEquals(createdReq.getState(), "ACTIVE");

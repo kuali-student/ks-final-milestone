@@ -50,7 +50,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     @Before
     public void setUp() throws Exception {
     	createCluSet();
-    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList");
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
     }
     
     @After
@@ -96,7 +96,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     private void createReqComponent(String nlUsageTypeKey, String reqComponentType) throws DoesNotExistException {
     	this.reqComponent = new ReqComponent();
 		ReqComponentType reqCompType = new ReqComponentType();
-		reqCompType.setId("kuali.reqCompType.courseList");
+		reqCompType.setId("kuali.reqCompType.courseList.nof");
 		reqCompType.setName(reqComponentType);
 		
 		ReqComponentTypeNLTemplate templateType = new ReqComponentTypeNLTemplate();
@@ -117,7 +117,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     private void createReqComponentFields(String expectedValue, String operator) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setKey("reqCompFieldType.expectedValue");
+		field1.setKey("reqCompFieldType.requiredCount");
 		field1.setValue(expectedValue);
 		field1.prePersist();
 		fieldList.add(field1);

@@ -38,12 +38,12 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
         List<ReqComponentType> reqCompTypeList = dao.find(ReqComponentType.class);
         
         assertNotNull(reqCompTypeList);
-        assertEquals(3, reqCompTypeList.size());
+        assertEquals(5, reqCompTypeList.size());
     }
     
     @Test
     public void testGetReqCompNLTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-    	ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList");
+    	ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList.nof");
 
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
 
@@ -51,6 +51,6 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
 
         ReqComponentTypeNLTemplate template = templates.get(0);
         assertEquals("KUALI.CATALOG", template.getNlUsageTypeKey());
-        assertTrue(template.getTemplate().startsWith("#if($cluSet.getCluSet().getClus().size()"));
+        assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
     }
 }

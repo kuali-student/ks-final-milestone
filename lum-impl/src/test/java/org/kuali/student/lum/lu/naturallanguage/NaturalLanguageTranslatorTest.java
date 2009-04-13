@@ -32,7 +32,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
     @Before
     public void setUp() throws Exception {
-		this.reqComponent = luDao.fetch(ReqComponent.class, "REQCOMP-1");
+		this.reqComponent = luDao.fetch(ReqComponent.class, "REQCOMP-NL-1");
     }
     
     @After
