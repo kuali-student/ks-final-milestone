@@ -46,4 +46,6 @@ public interface OrgRpcServiceAsync {
     public void removeOrgPersonRelation(String orgPersonRelationId, AsyncCallback<StatusInfo> callback);
     public void getOrgPersonRelationTypesForOrgType(String orgTypeKey, AsyncCallback<List<OrgPersonRelationTypeInfo>> callback);
     public void getOrgPersonRelationsByOrg(String orgId, AsyncCallback<List<OrgPersonRelationInfo>> callback);
+    public void removeOrgOrgRelation(String orgOrgRelationId, AsyncCallback<StatusInfo> callback);
+	public void removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey, AsyncCallback<StatusInfo> callback);
 }

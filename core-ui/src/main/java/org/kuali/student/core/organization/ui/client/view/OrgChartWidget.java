@@ -2,7 +2,6 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;

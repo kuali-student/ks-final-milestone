@@ -18,10 +18,12 @@ package org.kuali.student.core.organization.ui.client.view;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -62,6 +64,8 @@ public class OrgPositionWidget extends Composite {
     String posId;
     String posVersion;
     String orgType;
+    
+    boolean deleted=false;
     
     boolean loaded = false;
        
@@ -206,7 +210,11 @@ public class OrgPositionWidget extends Composite {
         hLink.addClickHandler(new ClickHandler(){
 
             public void onClick(ClickEvent event) {
-                //TODO: Add call to remove position
+            	if(deleted==false){
+            		deleted=true;
+            		orgPosForm.setEditMode(EditMode.VIEW_ONLY);
+            		fTable.setWidget(0, 1, new KSLabel("Removed"));
+            	}
             }            
         });
         
@@ -216,4 +224,8 @@ public class OrgPositionWidget extends Composite {
     public void setDividerEnabled(boolean visible){
         divider.setVisible(visible);
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
 }

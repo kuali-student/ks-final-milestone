@@ -51,5 +51,6 @@ public interface OrgRemoteService {
     public StatusInfo removeOrgPersonRelation(String orgPersonRelationId);
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(String orgTypeKey);
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId);
-
+	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId);
+	public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey);
 }

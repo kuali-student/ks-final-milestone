@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -115,11 +116,21 @@ public class OrgPersonRelationWidget extends Composite{
     private Widget getRemoveLink() {
         Hyperlink hLink = new Hyperlink("(-)remove","");
         hLink.setStyleName("action");
-        
+
         hLink.addClickHandler(new ClickHandler(){
 
             public void onClick(ClickEvent event) {
                 //TODO: Add call to remove personrelation
+            	OrgRpcService.Util.getInstance().removeOrgPersonRelation(orgPersonRelId, new AsyncCallback<StatusInfo>(){
+
+					public void onFailure(Throwable caught) {
+					}
+
+					public void onSuccess(StatusInfo result) {
+						removeFromParent();
+					}
+            		
+            	});
             }            
         });
         

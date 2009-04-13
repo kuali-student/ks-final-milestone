@@ -20,11 +20,13 @@ import java.util.List;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -40,6 +42,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -66,6 +69,8 @@ public class OrgRelationWidget extends Composite{
     ListBox orgRelTypeDropDown = null;
 
     KSModalDialogPanel searchPopup = new KSModalDialogPanel();
+    
+    boolean deleted = false;
     
     boolean loaded = false;
     
@@ -109,7 +114,10 @@ public class OrgRelationWidget extends Composite{
                     searchPopup.show();
                 }                
             });
-            fTable.setWidget(0,1, searchButton);
+            fTable.setWidget(0, 1, searchButton);
+            if(orgRelId!=null){
+            	fTable.setWidget(1, 1, getRemoveLink());
+            }
             fTable.getCellFormatter().setVerticalAlignment(0, 1, VerticalPanel.ALIGN_TOP);
             root.add(fTable);
             loaded = true;
@@ -211,5 +219,31 @@ public class OrgRelationWidget extends Composite{
             }
         });                
     }
+    
+    protected Widget getRemoveLink(){
+        Hyperlink hLink = new Hyperlink("(-)remove","");
+        hLink.setStyleName("action");
+        
+        hLink.addClickHandler(new ClickHandler(){
+
+            public void onClick(ClickEvent event) {
+            	if(deleted==false){
+            		deleted=true;
+            		orgRelForm.setEditMode(EditMode.VIEW_ONLY);
+            		fTable.setWidget(0, 1, new KSLabel("Removed"));
+            		fTable.getWidget(1, 1).removeFromParent();
+            	}
+
+            }            
+        });
+        
+        return hLink;
+    }
+
+
+
+	public boolean isDeleted() {
+		return deleted;
+	}
     
 }

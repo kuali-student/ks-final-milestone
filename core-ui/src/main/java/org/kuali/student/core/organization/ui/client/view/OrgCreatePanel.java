@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
@@ -371,6 +372,17 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
                             vPanel.add(new Label("Org position created with id: " + result.getId()));                    
                         }
                     });
+                } else if(orgPosWidget.isDeleted()){
+                    OrgRpcService.Util.getInstance().removePositionRestrictionFromOrg(orgPosRestrictionInfo.getOrgId(), orgPosRestrictionInfo.getOrgPersonRelationTypeKey(), 
+                            new AsyncCallback<StatusInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(StatusInfo result) {
+                            vPanel.add(new Label("Org position deleted: " + result.getMessage()));                    
+                        }
+                    }); 
                 } else {
                     OrgRpcService.Util.getInstance().updatePositionRestrictionForOrg(orgPosRestrictionInfo,
                             new AsyncCallback<OrgPositionRestrictionInfo>(){
@@ -406,7 +418,18 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
                             vPanel.add(new Label("Org relation created with id: " + result.getId()));
                         }
                     });
-                } else {
+                }else if(orgRelationWidget.isDeleted()){
+                    OrgRpcService.Util.getInstance().removeOrgOrgRelation(orgRelationInfo.getId(), 
+                            new AsyncCallback<StatusInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(StatusInfo result) {
+                            vPanel.add(new Label("Org relation deleted: " + result.getMessage()));
+                        }
+                    });
+            	}else{
                     OrgRpcService.Util.getInstance().updateOrgOrgRelation(orgRelationInfo, 
                             new AsyncCallback<OrgOrgRelationInfo>(){
                         public void onFailure(Throwable caught) {
