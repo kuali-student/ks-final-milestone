@@ -130,6 +130,17 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 			OrgPersonRelationInfo orgPersonRelationInfo) {
 		return serviceImpl.updateOrgPersonRelation(orgPersonRelationId, orgPersonRelationInfo);
 	}
+
+	@Override
+	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId) {
+		return serviceImpl.removeOrgOrgRelation(orgOrgRelationId);
+	}
+
+	@Override
+	public StatusInfo removePositionRestrictionFromOrg(String orgId,
+			String orgPersonRelationTypeKey) {
+		return serviceImpl.removePositionRestrictionFromOrg(orgId, orgPersonRelationTypeKey);
+	}
 	
 	
 }

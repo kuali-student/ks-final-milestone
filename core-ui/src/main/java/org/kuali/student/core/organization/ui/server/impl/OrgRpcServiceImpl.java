@@ -38,6 +38,52 @@ public class OrgRpcServiceImpl implements OrgRpcService{
 	}
 
 	@Override
+	public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey){
+		try {
+			return service.removePositionRestrictionFromOrg(orgId, orgPersonRelationTypeKey);
+		} catch (DoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId){
+		try {
+			return service.removeOrgOrgRelation(orgOrgRelationId);
+		} catch (DoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
 	public List<OrgHierarchyInfo> getOrgHierarchies() {
 		try {
 			return service.getOrgHierarchies();
