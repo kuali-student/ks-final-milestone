@@ -7,6 +7,5 @@ package org.kuali.student.common.util;
  *
  */
 public interface Callback <T extends Object> { 
-    public void onFailure(Exception e);
-    public void onSuccess(T result);
+    public void exec(T result);
 }
