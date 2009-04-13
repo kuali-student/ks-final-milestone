@@ -117,10 +117,13 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
         super.setListItems(listItems);
         
         listBox.clear();
-        listBox.addItem("Select");
+        
         for (String id:listItems.getItemIds()){
             listBox.addItem(listItems.getItemText(id),id);            
-        }        
+        }
+        if(listBox.getItemCount() != 0){
+            listBox.setSelectedIndex(0);
+        }
     }
 
     /**
@@ -129,7 +132,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
     @Override
     public List<String> getSelectedItems() {
         List<String> result = new ArrayList<String>();
-        if (listBox.getSelectedIndex() > 0){
+        if (listBox.getItemCount() != 0){
             String id = listBox.getValue(listBox.getSelectedIndex());
             result.add(id);
         }
