@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
@@ -43,34 +44,45 @@ public class VelocityTemplateEngine {
 
 	private final VelocityEngine velocityEngine = new VelocityEngine();
 	private VelocityContext defaultContext;
+	private Map<String,Object> configMap = new HashMap<String, Object>();
 
 	/**
 	 * Constructs a velocity template engine.
 	 */
 	public VelocityTemplateEngine() {
-		this(false);
+		init();
 	}
 
 	/**
-	 * Constructs a velocity template engine.
+	 * Constructs a velocity template engine with velocity tools configurations.
 	 * 
-	 * @param enableLogging True enables logging; false disables logging
+	 * @param config Velocity tools configurations
 	 */
-	public VelocityTemplateEngine(boolean enableLogging) {
-        if (!enableLogging) {
-	        // Line below to disables logging, remove to enable
-        	velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.NullLogSystem");
-        }
-        
+	public VelocityTemplateEngine(Map<String,Object> config) {
+		this.configMap = config;
+		init();
+	}
+
+	/**
+	 * Initializes Velocity engine
+	 */
+	private void init() {
         velocityEngine.setProperty(VelocityEngine.RESOURCE_LOADER, "class");
         velocityEngine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
+        DateTool dateTool = new DateTool();
+        dateTool.configure(this.configMap);
+        MathTool mathTool = new MathTool();
+        NumberTool numberTool = new NumberTool();
+        numberTool.configure(this.configMap);
+        SortTool sortTool = new SortTool();
+        
         defaultContext = new VelocityContext();
-        defaultContext.put("dateTool", new DateTool());
+        defaultContext.put("dateTool", dateTool);
         defaultContext.put("dateComparisonTool", new ComparisonDateTool());
-        defaultContext.put("mathTool", new MathTool());
-        defaultContext.put("numberTool", new NumberTool());
-        defaultContext.put("sortTool", new SortTool());
+        defaultContext.put("mathTool", mathTool);
+        defaultContext.put("numberTool", numberTool);
+        defaultContext.put("sortTool", sortTool);
         // Following tools need VelocityTools version 2.0+
         //defaultContext.put("displayTool", new DisplayTool());
         //defaultContext.put("xmlTool", new XmlTool());
@@ -80,6 +92,20 @@ public class VelocityTemplateEngine {
 		} catch (Exception e) {
 			throw new VelocityException(e);
 		}
+	}
+
+	/**
+	 * Sets logging on or off.
+	 *   
+	 * @param enableLogging True enables logging; false disables logging
+	 */
+	public void setLogging(boolean enableLogging) {
+        if (!enableLogging) {
+	        // Line below to disables logging, remove to enable
+	    	velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.NullLogSystem");
+        } else {
+	    	velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, null);
+        }
 	}
 	
 	/**
