@@ -116,7 +116,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(stmt.getDesc(), "Statement 2");
 
         List<String> reqCompIds = stmt.getReqComponentIds();
-        assertEquals(3, reqCompIds.size());
+        assertEquals(4, reqCompIds.size());
 
         assertTrue(reqCompIds.contains("REQCOMP-1"));
         assertTrue(reqCompIds.contains("REQCOMP-2"));
@@ -147,7 +147,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(stmt.getDesc(), "Statement 2");
 
         List<String> reqCompIds = stmt.getReqComponentIds();
-        assertEquals(3, reqCompIds.size());
+        assertEquals(4, reqCompIds.size());
 
         assertTrue(reqCompIds.contains("REQCOMP-1"));
         assertTrue(reqCompIds.contains("REQCOMP-2"));
