@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.velocity.tools.generic.DateTool;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestVelocityTemplateEngine {
@@ -102,6 +103,7 @@ public class TestVelocityTemplateEngine {
 		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm:ss z"), eval);
 	}
 
+	@Ignore
 	@Test
 	public void testEvaluate_DateComparisonTool() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
@@ -113,6 +115,7 @@ public class TestVelocityTemplateEngine {
 		Assert.assertEquals("now", eval);
 	}
 
+	@Ignore
 	@Test
 	public void testEvaluate_DateComparisonTool_NullContextMap() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
