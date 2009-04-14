@@ -16,6 +16,8 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/public/KSAccordionPanel.css")
 	public CssResource accordionPanelCss();
     @Resource("org/kuali/student/common/ui/public/KSBlockingProgressIndicator.css")
+    public CssResource breadcrumbCss();
+    @Resource("org/kuali/student/common/ui/public/KSBreadcrumb.css")
 	public CssResource blockingProgressIndicatorCss();
     @Resource("org/kuali/student/common/ui/public/KSButton.css")
 	public CssResource buttonCss();
