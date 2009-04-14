@@ -3,6 +3,7 @@ package org.kuali.student.common.util;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,10 +107,11 @@ public class TestVelocityTemplateEngine {
 	public void testEvaluate_DateComparisonTool() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("date1", Calendar.getInstance());
 
-		String s = "$dateComparisonTool.whenIs('2010-01-01', '2010-01-01')";
+		String s = "$dateComparisonTool.whenIs($date1, $date1)";
 		String eval = templateEngine.evaluate(map, s);
-		
+
 		Assert.assertEquals("same time", eval);
 	}
 
@@ -117,10 +119,10 @@ public class TestVelocityTemplateEngine {
 	public void testEvaluate_DateComparisonTool_NullContextMap() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
-		String s = "$dateComparisonTool.difference('2010-01-01', '2020-01-01')";
+		String s = "$dateComparisonTool.difference($dateTool.calendar, $dateTool.calendar).hours";
 		String eval = templateEngine.evaluate(null, s);
 		
-		Assert.assertEquals("10 yr", eval);
+		Assert.assertEquals("0", eval);
 	}
 
 	@Test
