@@ -202,6 +202,16 @@ public class OrgCreatePanel extends Composite implements HasSelectionHandlers<Or
 	                        	vPersonRelations.add(new Label("Person relation created with id: " + result.getId()));
 	                        }
 	                    });
+	                } else if(orgPersonRelationWidget.isDeleted()){
+	                	OrgRpcService.Util.getInstance().removeOrgPersonRelation(orgPersonRelInfo.getId(), new AsyncCallback<StatusInfo>(){
+	    					public void onFailure(Throwable caught) {
+	    						Window.alert(caught.getMessage());
+	    					}
+	    					
+	    					public void onSuccess(StatusInfo result) {
+	    						vPersonRelations.add(new Label("Person relation deleted: " + result.getMessage()));
+	    					}
+	                	});
 	                } else {
 	                    OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelInfo.getId(),orgPersonRelInfo, new AsyncCallback<OrgPersonRelationInfo>(){
 	                        public void onFailure(Throwable caught) {

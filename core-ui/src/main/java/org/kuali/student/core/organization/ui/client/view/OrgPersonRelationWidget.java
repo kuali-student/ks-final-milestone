@@ -9,13 +9,14 @@ import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -39,7 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class OrgPersonRelationWidget extends Composite{
     boolean loaded = false;
-    
+    boolean deleted = false;
     String orgPersonRelId = null;
     String orgId;
     String orgPersonRelType;
@@ -121,16 +122,11 @@ public class OrgPersonRelationWidget extends Composite{
 
             public void onClick(ClickEvent event) {
                 //TODO: Add call to remove personrelation
-            	OrgRpcService.Util.getInstance().removeOrgPersonRelation(orgPersonRelId, new AsyncCallback<StatusInfo>(){
-
-					public void onFailure(Throwable caught) {
-					}
-
-					public void onSuccess(StatusInfo result) {
-						removeFromParent();
-					}
-            		
-            	});
+            	if(!deleted){
+            		deleted=true;
+            		orgPersonRelForm.setEditMode(EditMode.VIEW_ONLY);
+            		fTable.setWidget(1, 0, new KSLabel("Removed"));
+            	}
             }            
         });
         
@@ -281,5 +277,9 @@ public class OrgPersonRelationWidget extends Composite{
 
 	public String getOrgId() {
 		return orgId;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
 	}
 }
