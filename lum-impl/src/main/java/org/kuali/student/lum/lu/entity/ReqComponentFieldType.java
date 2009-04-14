@@ -1,11 +1,12 @@
 package org.kuali.student.lum.lu.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.FieldDescriptorEntity;
 
 @Entity
 @Table(name="KSLU_REQ_COM_FIELD_TYPE")
@@ -15,16 +16,9 @@ public class ReqComponentFieldType {
     @Column(name = "ID")
     private String id;
 	    
-    @Column(name="REQ_COM_FIELD_TYPE_KEY", unique=true, nullable=false)
-    private String key;
-
-    /**
-     * AutoGenerate the Id
-     */
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-          
+    @Embedded
+    private FieldDescriptorEntity fieldDescriptor;
+    
 	public String getId() {
 		return id;
 	}
@@ -33,11 +27,17 @@ public class ReqComponentFieldType {
 		this.id = id;
 	}
 
-    public String getKey() {
-        return key;
+    /**
+     * @return the fieldDescriptor
+     */
+    public FieldDescriptorEntity getFieldDescriptor() {
+        return fieldDescriptor;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }	
+    /**
+     * @param fieldDescriptor the fieldDescriptor to set
+     */
+    public void setFieldDescriptor(FieldDescriptorEntity fieldDescriptor) {
+        this.fieldDescriptor = fieldDescriptor;
+    }        
 }

@@ -15,6 +15,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -28,6 +29,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -116,7 +118,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(stmt.getDesc(), "Statement 2");
 
         List<String> reqCompIds = stmt.getReqComponentIds();
-        assertEquals(4, reqCompIds.size());
+        assertEquals(3, reqCompIds.size());
 
         assertTrue(reqCompIds.contains("REQCOMP-1"));
         assertTrue(reqCompIds.contains("REQCOMP-2"));
@@ -135,7 +137,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         List<LuStatementInfo> stmtList = client.getLuStatementsByType("kuali.luStatementType.prereqAcademicReadiness");
 
         assertNotNull(stmtList);
-        assertEquals(1, stmtList.size());
+        assertEquals(2, stmtList.size());
 
         LuStatementInfo stmt = stmtList.get(0);
 
@@ -147,7 +149,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(stmt.getDesc(), "Statement 2");
 
         List<String> reqCompIds = stmt.getReqComponentIds();
-        assertEquals(4, reqCompIds.size());
+        assertEquals(3, reqCompIds.size());
 
         assertTrue(reqCompIds.contains("REQCOMP-1"));
         assertTrue(reqCompIds.contains("REQCOMP-2"));
@@ -268,22 +270,42 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        ReqComponentTypeInfo rqt = client.getReqComponentType("kuali.reqCompType.courseList.all");
-
+       ReqComponentTypeInfo rqt = client.getReqComponentType("kuali.reqCompType.courseList.all");
+        
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqCompType.courseList.all");
         assertEquals(rqt.getDesc(), "Student must have completed all of <reqCompFieldType.cluSet>");
         assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
-        assertEquals(rqt.getExpirationDate(), df.parse("20001231"));
+        assertEquals(rqt.getExpirationDate(), df.parse("20001231"));                
     }
+    
+    @Test
+    public void testGetReqComponentFieldType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {        
+        ReqComponentTypeInfo rqt = client.getReqComponentType("kuali.reqCompType.courseList.all");
+        
+        List<ReqCompFieldTypeInfo> reqftList = rqt.getReqCompFieldTypeInfos();
+        assertNotNull(reqftList);
+        assertEquals(1, reqftList.size());
+        
+        ReqCompFieldTypeInfo ftInfo = reqftList.get(0);
+        
+        assertEquals(ftInfo.getId(), "reqCompFieldType.cluSet");
+        
+        FieldDescriptor fd = ftInfo.getFieldDescriptor();
+        
+        assertEquals(fd.getName(),"CLUSET");
+        assertEquals(fd.getDesc(),"CLUSET");
+        assertEquals(fd.getDataType(),"string");        
+    }
+    
 
     @Test
     public void testGetReqCompTypeForLuStmtType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = client.getReqComponentTypesForLuStatementType("kuali.luStatementType.prereqAcademicReadiness");
 
         assertNotNull(reqCompTypeInfoList);
-        assertEquals(3, reqCompTypeInfoList.size());
+        assertEquals(5, reqCompTypeInfoList.size());
 
         ReqComponentTypeInfo rqt = null;
 
@@ -293,6 +315,10 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
             rqt = reqCompTypeInfoList.get(1);
         } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(2).getId())) {
             rqt = reqCompTypeInfoList.get(2);
+        } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(3).getId())) {
+            rqt = reqCompTypeInfoList.get(3);
+        } else if ("kuali.reqCompType.gradecheck".equals(reqCompTypeInfoList.get(4).getId())) {
+            rqt = reqCompTypeInfoList.get(4);
         } else {
             assertTrue(false);
         }

@@ -62,20 +62,13 @@ public class CluUtil {
 		field2.prePersist();
 		fieldList.add(field2);
 		luDao.create(field2);
-		
+				
 		ReqComponentField field3 = new ReqComponentField();
-		field3.setKey("reqCompFieldType.countType");
-		field3.setValue("clu");
+		field3.setKey("reqCompFieldType.cluSet");
+		field3.setValue(target);
 		field3.prePersist();
 		fieldList.add(field3);
 		luDao.create(field3);
-		
-		ReqComponentField field4 = new ReqComponentField();
-		field4.setKey("reqCompFieldType.countTarget");
-		field4.setValue(target);
-		field4.prePersist();
-		fieldList.add(field4);
-		luDao.create(field4);
 		
 		reqComponent.setReqCompField(fieldList);
 		reqComponent = luDao.update(reqComponent);

@@ -131,18 +131,11 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		this.luDao.create(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
-		field3.setKey("reqCompFieldType.countType");
-		field3.setValue("clu");
+		field3.setKey("reqCompFieldType.cluSet");
+		field3.setValue(cluSetId1);
 		field3.prePersist();
 		fieldList.add(field3);
 		this.luDao.create(field3);
-		
-		ReqComponentField field4 = new ReqComponentField();
-		field4.setKey("reqCompFieldType.countTarget");
-		field4.setValue(cluSetId1);
-		field4.prePersist();
-		fieldList.add(field4);
-		this.luDao.create(field4);
 		
 		this.reqComponent.setReqCompField(fieldList);
 		this.reqComponent = this.luDao.update(reqComponent);

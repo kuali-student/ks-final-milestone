@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.RichText;
@@ -624,7 +625,6 @@ public class LuServiceAssembler extends BaseAssembler {
         return reqComp;
     }
 
-
     public static List<ReqComponentTypeInfo> toReqComponentTypeInfos(List<ReqComponentType> entities) {
         List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
         for (ReqComponentType entity : entities) {
@@ -635,7 +635,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static ReqComponentTypeInfo toReqComponentTypeInfo(ReqComponentType entity) {
-        return toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
+        ReqComponentTypeInfo dto =  toGenericTypeInfo(ReqComponentTypeInfo.class, entity);        
+        dto.setReqCompFieldTypeInfos(toReqCompFieldTypeInfos(entity.getReqCompFieldTypes()));        
+        return dto;        
     }
 
 	public static RichTextInfo toRichTextInfo(RichText entity) {
@@ -686,8 +688,13 @@ public class LuServiceAssembler extends BaseAssembler {
 			ReqComponentFieldType entity) {
 		ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
+		BeanUtils.copyProperties(entity, dto, new String[] { "fieldDescriptor" });
+		
+		FieldDescriptor fDTO = new FieldDescriptor();
+		BeanUtils.copyProperties(entity.getFieldDescriptor(), fDTO);
+		
+		dto.setFieldDescriptor(fDTO);
+		
 		return dto;
 	}
 

@@ -7,12 +7,34 @@
  */
 package org.kuali.student.lum.lu.dto;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import org.kuali.student.core.dto.TypeInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReqComponentTypeInfo extends TypeInfo {  
     private static final long serialVersionUID = 1L;
+    
+    @XmlElement(name = "reqCompFieldType")
+    @XmlElementWrapper(name = "reqCompFieldTypes")
+    private List<ReqCompFieldTypeInfo> reqCompFieldTypeInfos;
+
+    /**
+     * @return the reqCompFieldTypeInfos
+     */
+    public List<ReqCompFieldTypeInfo> getReqCompFieldTypeInfos() {
+        return reqCompFieldTypeInfos;
+    }
+
+    /**
+     * @param reqCompFieldTypeInfos the reqCompFieldTypeInfos to set
+     */
+    public void setReqCompFieldTypeInfos(List<ReqCompFieldTypeInfo> reqCompFieldTypeInfos) {
+        this.reqCompFieldTypeInfos = reqCompFieldTypeInfos;
+    }        
 }

@@ -19,10 +19,9 @@ public class ReqCompTypes {
 	}
 
 	public enum CountDefinitionType {
-		EXPECTED_VALUE_KEY("reqCompFieldType.requiredCount"),
+		REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
 		OPERATOR_KEY("reqCompFieldType.operator"),
-		COUNT_TYPE_KEY("reqCompFieldType.countType"),
-		COUNT_TARTGET_KEY("reqCompFieldType.countTarget"),
+		COUNT_CLUSET("reqCompFieldType.cluSet"),
 		INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
 		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
 

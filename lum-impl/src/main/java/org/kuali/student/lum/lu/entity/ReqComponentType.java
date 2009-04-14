@@ -24,7 +24,7 @@ public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     private List<ReqComponentTypeNLTemplate> nlUsageTemplates;	
 	
     @ManyToMany
-    @JoinTable(name = "KSLU_REQCOMTYP_JN_REQCOMFLDTYP", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"))
+    @JoinTable(name = "KSLU_REQCOMTYP_JN_REQCOMFLDTYP", joinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"))
     private List<ReqComponentFieldType> reqCompFieldTypes;
 
     public List<ReqComponentTypeAttribute> getAttributes() {

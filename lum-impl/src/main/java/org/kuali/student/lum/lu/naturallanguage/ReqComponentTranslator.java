@@ -58,7 +58,7 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 		}
 	}
 	
-	private CustomCluSet getCluSet(String countType, String countTarget) throws DoesNotExistException {
+	private CustomCluSet getCluSet(String countTarget) throws DoesNotExistException {
 		CluSet cluSet = this.luDao.fetch(CluSet.class, countTarget);
 		return new CustomCluSet(cluSet);
 	}
@@ -74,15 +74,14 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 
 		velocityContextMap.put(
 				ReqCompTypes.VelocityToken.EXPECTED_VALUE_KEY.getKey(), 
-				map.get(ReqCompTypes.CountDefinitionType.EXPECTED_VALUE_KEY.getKey()));
+				map.get(ReqCompTypes.CountDefinitionType.REQUIRED_COUNT_KEY.getKey()));
 		velocityContextMap.put(
 				ReqCompTypes.VelocityToken.OPERATOR_KEY.getKey(),
 				map.get(ReqCompTypes.CountDefinitionType.OPERATOR_KEY.getKey()));
 		
-		String countType =  map.get(ReqCompTypes.CountDefinitionType.COUNT_TYPE_KEY.getKey());
-		String countTarget = map.get(ReqCompTypes.CountDefinitionType.COUNT_TARTGET_KEY.getKey());
-
-		CustomCluSet cluSet = getCluSet(countType, countTarget);
+        String cluSetId = map.get(ReqCompTypes.CountDefinitionType.COUNT_CLUSET.getKey());
+        
+		CustomCluSet cluSet = getCluSet(cluSetId);
 		velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
 	}
 	
