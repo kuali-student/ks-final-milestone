@@ -142,19 +142,19 @@ INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES 
 
 // REQUIREMENT TYPES
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.all', 'Student must have completed all of <reqCompFieldType.cluSet>', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'All of required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.nof', '<reqCompFiledType.clu> or <reqCompFieldType.clu> course', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'One of two required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.1of2', 'Student needs <reqCompFiledType.requiredCount> courses from the following course(s): <reqCompFieldType.cluSet> ', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'N of required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradecheck', 'Student needs a minimum GPA of <reqCompFiledType.gpa>', '2000-01-01 00:00:00.0', '2001-11-30 00:00:00.0', 'Minimum overall GPA')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student needs a <reqCompFiledType.totalCredits> credits from the following course(s): <reqCompFiledType.cluSet>', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course completed with minimum specified grade')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.nof', '<reqCompFieldType.clu> or <reqCompFieldType.clu> course', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'One of two required courses')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.1of2', 'Student needs <reqCompFieldType.requiredCount> courses from the following course(s): <reqCompFieldType.cluSet> ', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'N of required courses')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradecheck', 'Student needs a minimum GPA of <reqCompFieldType.gpa>', '2000-01-01 00:00:00.0', '2001-11-30 00:00:00.0', 'Minimum overall GPA')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student needs a <reqCompFieldType.totalCredits> credits from the following course(s): <reqCompFieldType.cluSet>', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course completed with minimum specified grade')
 
 // REQUIREMENT FIELD TYPES
 INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('1','reqCompFieldType.clu')
 INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('2','reqCompFieldType.cluSet')
-INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('3','reqCompFiledType.requiredCount')
-INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('4','reqCompFiledType.gpa')
-INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('5','reqCompFiledType.totalCredits')
-INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('6','reqCompFiledType.operator')
-INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('7','reqCompFiledType.countType')
+INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('3','reqCompFieldType.requiredCount')
+INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('4','reqCompFieldType.gpa')
+INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('5','reqCompFieldType.totalCredits')
+INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('6','reqCompFieldType.operator')
+INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, REQ_COM_FIELD_TYPE_KEY) VALUES ('7','reqCompFieldType.countType')
 
 // REQ_COMPONENT_TYPE_NL_TEMPLATE
 // INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('1', 'KUALI.CATALOG', 'COURSE_LIST_CATALOG_VEL_TEMPLATE', 'kuali.reqCompType.courseList.all')

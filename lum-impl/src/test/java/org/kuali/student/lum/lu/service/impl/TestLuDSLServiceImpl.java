@@ -297,7 +297,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         }
 
-        assertEquals(rqt.getDesc(), "Student needs a minimum GPA of <reqCompFiledType.gpa>");
+        assertEquals(rqt.getDesc(), "Student needs a minimum GPA of <reqCompFieldType.gpa>");
         assertEquals(rqt.getName(), "Minimum overall GPA");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20011130"));
