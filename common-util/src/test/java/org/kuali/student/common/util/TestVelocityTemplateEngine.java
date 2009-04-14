@@ -103,27 +103,25 @@ public class TestVelocityTemplateEngine {
 		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm:ss z"), eval);
 	}
 
-	@Ignore
 	@Test
 	public void testEvaluate_DateComparisonTool() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		String s = "$dateComparisonTool.whenIs($dateComparisonTool.calendar)";
+		String s = "$dateComparisonTool.whenIs('2010-01-01', '2010-01-01')";
 		String eval = templateEngine.evaluate(map, s);
 		
-		Assert.assertEquals("now", eval);
+		Assert.assertEquals("same time", eval);
 	}
 
-	@Ignore
 	@Test
 	public void testEvaluate_DateComparisonTool_NullContextMap() throws Exception {
 		VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
-		String s = "$dateComparisonTool.whenIs($dateComparisonTool.calendar)";
+		String s = "$dateComparisonTool.difference('2010-01-01', '2020-01-01')";
 		String eval = templateEngine.evaluate(null, s);
 		
-		Assert.assertEquals("now", eval);
+		Assert.assertEquals("10 yr", eval);
 	}
 
 	@Test
