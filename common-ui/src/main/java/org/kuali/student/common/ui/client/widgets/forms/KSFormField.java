@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -133,8 +134,12 @@ public class KSFormField implements EditModeChangeHandler {
                     s = value.toString();
                 }
             } catch (ClassCastException e2) {
-            	//TODO: Should this return text for current selected item for single select list            	
-                GWT.log("Form field [" + name + "] does not support getText.", e);
+            	//TODO: Should this return text for current selected item for single select list... Derek says yes
+                try {
+                s = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItem();
+                } catch(ClassCastException e3) {
+                    GWT.log("Form field [" + name + "] does not support getText.", e);
+                }
             }
         }
         
