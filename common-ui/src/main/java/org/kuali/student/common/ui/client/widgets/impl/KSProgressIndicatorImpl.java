@@ -14,7 +14,7 @@ public class KSProgressIndicatorImpl extends KSProgressIndicatorAbstract {
     
     HorizontalPanel main = new HorizontalPanel();
     private KSImage image = new KSImage("images/twiddler3.gif");
-    private KSLabel label = new KSLabel(Application.getApplicationContext().getMessage(KSMessages.WAIT));
+    private KSLabel label = new KSLabel();
         
     public KSProgressIndicatorImpl(){ 
         super();
