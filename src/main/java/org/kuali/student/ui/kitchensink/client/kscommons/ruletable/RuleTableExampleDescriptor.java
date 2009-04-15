@@ -11,7 +11,7 @@ public class RuleTableExampleDescriptor extends KitchenSinkExample {
         //super.addResource("css", "KSToolTip.css", "KSToolTip.css", "Default styling of KSToolTip.");
     }
     public String getDescription() {       
-        return "Algrbra expression editor"; 
+        return "Algebra expression editor"; 
     }
 
     public Widget getExampleWidget() {

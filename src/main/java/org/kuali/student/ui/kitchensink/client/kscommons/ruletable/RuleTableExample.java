@@ -26,10 +26,10 @@ public class RuleTableExample extends Composite {
     public RuleTableExample() {
         main.addStyleName(STYLE_EXAMPLE);
         input.setPixelSize(400, 40);
-        main.add(new HTML("Boolean algebra: <BR> for example: a and b"));
+        main.add(new HTML("Boolean algebra, for example: a and b"));
         main.add(input);
         main.add(error);
-        
+        main.add(new HTML("<BR>"));
         input.addKeyUpHandler(new KeyUpHandler(){
             @Override
             public void onKeyUp(KeyUpEvent event) {
@@ -61,10 +61,10 @@ public class RuleTableExample extends Composite {
             error.setHTML(sb.toString());
             return;
         }
-        error.setText("");
+        error.setHTML("");
         main.remove(table);
         table = new TreeTable();
-        table.setPixelSize(500,500);
+        table.setPixelSize(300,300);
         main.add(table);
         table.buildTable(root);
     }
