@@ -47,6 +47,7 @@ public class BaseAssembler {
 				attribute = attributeClass.newInstance();
 				attribute.setName(attributeEntry.getKey());
 				attribute.setValue(attributeEntry.getValue());
+				attribute.setOwner(owner);
 				attributes.add(attribute);
 			} catch (Exception e) {
 				e.printStackTrace();// TODO Logging
