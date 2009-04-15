@@ -95,7 +95,6 @@ import org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslator;
-import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslatorImpl;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -334,6 +333,7 @@ public class LuServiceImpl implements LuService {
 		for(String orgId:cluInfo.getParticipatingOrgs()){
 			CluOrg cluOrg = new CluOrg();
 			cluOrg.setOrgId(orgId);
+			cluOrg.setClu(clu);
 			clu.getParticipatingOrgs().add(cluOrg);
 		}
 
@@ -359,6 +359,7 @@ public class LuServiceImpl implements LuService {
 			LuCode luCode = new LuCode();
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
 			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
+			luCode.setClu(clu);
 			clu.getLuCodes().add(luCode);
 		}
 

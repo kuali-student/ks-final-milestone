@@ -618,7 +618,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		//Do the actual create call
 		CluInfo createdClu = client.createClu("luType.shell.course", clu);
-
+		createdClu = client.getClu(createdClu.getId());
 		//Validate Results
 		assertNotNull(createdClu);
 
