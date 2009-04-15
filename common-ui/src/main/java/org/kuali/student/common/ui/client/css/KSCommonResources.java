@@ -34,7 +34,9 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/public/KSFormLayout.css")
 	public CssResource formLayoutCss();
     @Resource("org/kuali/student/common/ui/public/KSHelpLink.css")
-	public CssResource helpLinkCss();
+	public CssResource headerCss();
+    @Resource("org/kuali/student/common/ui/public/Header.css")
+    public CssResource helpLinkCss();
     @Resource("org/kuali/student/common/ui/public/KSImage.css")
 	public CssResource imageCss();
     @Resource("org/kuali/student/common/ui/public/KSInfoDialogPanel.css")
