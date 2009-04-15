@@ -52,6 +52,32 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 	}
 
 	@Test
+	public void testTranslateReqComponent_InvalidReqComponentId() throws DoesNotExistException, OperationFailedException {
+		NaturalLanguageTranslatorImpl translator = new NaturalLanguageTranslatorImpl();
+		translator.setLuDao(this.luDao);
+		
+		try {
+			translator.translateReqComponent("InvalidId", "KUALI.CATALOG");
+			Assert.fail("Requirement component translation should have failed since 'InvalidId' is not a valid requirement component id");
+		} catch (DoesNotExistException e) {
+			Assert.assertNotNull(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testTranslateReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, OperationFailedException {
+		NaturalLanguageTranslatorImpl translator = new NaturalLanguageTranslatorImpl();
+		translator.setLuDao(this.luDao);
+		
+		try {
+			translator.translateReqComponent(reqComponent.getId(), "KUALI.xxx.CATALOG");
+			Assert.fail("Requirement component translation should have failed since 'KUALI.xxx.CATALOG' is not a valid nlUsageTypeKey");
+		} catch (DoesNotExistException e) {
+			Assert.assertNotNull(e.getMessage());
+		}
+	}
+
+	@Test
 	public void testTranslateStatement() throws DoesNotExistException, OperationFailedException {
 	}
 }

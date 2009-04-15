@@ -22,11 +22,31 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 		this.luDao = luDao;
 	}
 
+	/**
+	 * Translates a requirement component by <code>reqComponentId</code> 
+	 * for a specific <code>nlUsageTypeKey</code> into natural language.
+	 * 
+	 * @param id Id of object type to translate
+	 * @param nlUsageTypeKey Natural language usuage type key (context)
+	 * @return Natural language translation
+	 * @throws DoesNotExistException Id or natural language usuage type key does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
 	public String translate(String reqComponentId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		ReqComponent reqComponent = this.luDao.fetch(ReqComponent.class, reqComponentId);
 		return translate(reqComponent,nlUsageTypeKey);
 	}
-	
+
+	/**
+	 * Translates an <code>reqComponent</code> for a specific 
+	 * <code>nlUsageTypeKey</code> into natural language.
+	 * 
+	 * @param reqComponent Requirement component to translate 
+	 * @param nlUsageTypeKey Natural language usuage type key (context)
+	 * @return Natural language translation
+	 * @throws DoesNotExistException Natural language usuage type key does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
 	public String translate(ReqComponent reqComponent, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
 
@@ -38,16 +58,23 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
         return translate(velocityContextMap, template.getTemplate());
 	}
 
+	/**
+	 * Builds Velocity context map.
+	 * 
+	 * @param velocityContextMap Velocity context map
+	 * @param reqComponent Requirement component
+	 * @throws DoesNotExistException
+	 */
 	private void buildVelocityContextMap(Map<String, Object> velocityContextMap, ReqComponent reqComponent) throws DoesNotExistException {
 		String reqComponentType = reqComponent.getRequiredComponentType().getId();
 		ReqCompTypes.CustomReqComponentType type = ReqCompTypes.CustomReqComponentType.valueOfKey(reqComponentType);
 
 		switch(type) {
 			case COURSE_LIST_ALL:
-			    doCount(reqComponent, velocityContextMap);
+				createContextMap(reqComponent, velocityContextMap);
 				break;
             case COURSE_LIST_NOF:
-                doCount(reqComponent, velocityContextMap);
+            	createContextMap(reqComponent, velocityContextMap);
                 break;				
 			case GRADE_CONDITION_COURSE_LIST:
 				break;
@@ -58,12 +85,27 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 		}
 	}
 	
-	private CustomCluSet getCluSet(String countTarget) throws DoesNotExistException {
-		CluSet cluSet = this.luDao.fetch(CluSet.class, countTarget);
+	/**
+	 * Gets the CLU set.
+	 * 
+	 * @param cluSetId CLU set id
+	 * @return CLU set
+	 * @throws DoesNotExistException
+	 */
+	private CustomCluSet getCluSet(String cluSetId) throws DoesNotExistException {
+		CluSet cluSet = this.luDao.fetch(CluSet.class, cluSetId);
 		return new CustomCluSet(cluSet);
 	}
 
-	private void doCount(ReqComponent reqComponent, Map<String, Object> velocityContextMap) throws DoesNotExistException {
+	/**
+	 * Creates the Velocity context map (template data) for the 
+	 * requirement component.
+	 * 
+	 * @param reqComponent Requirement component
+	 * @param velocityContextMap Context map
+	 * @throws DoesNotExistException
+	 */
+	private void createContextMap(ReqComponent reqComponent, Map<String, Object> velocityContextMap) throws DoesNotExistException {
 		List<ReqComponentField> fields = reqComponent.getReqCompField();
 		Map<String, String> map = new HashMap<String, String>();
 		for(ReqComponentField field : fields) {
@@ -85,16 +127,33 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
 		velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
 	}
 	
-	private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey) {
+	/**
+	 * Gets the requirement component type template for the 
+	 * <code>nlUsageTypeKey</code>.
+	 *  
+	 * @param reqComponentType Requirement component type
+	 * @param nlUsageTypeKey Natural language usuage type key (context)
+	 * @return Requirement component type template
+	 * @throws DoesNotExistException
+	 */
+	private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey) throws DoesNotExistException {
 		List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
 		for(ReqComponentTypeNLTemplate temp : templateList) {
 			if(nlUsageTypeKey.equals(temp.getNlUsageTypeKey())) {
 				return temp;
 			}
 		}
-		return null;
+		throw new DoesNotExistException("Natural language usage type key '"+nlUsageTypeKey+"' not found");
 	}
 
+	/**
+	 * Translates the template with the context map (data) into natural language.
+	 * 
+	 * @param contextMap Velocity context map (template data)
+	 * @param template Velocity template
+	 * @return Natural language translation
+	 * @throws OperationFailedException
+	 */
 	private String translate(Map<String, Object> contextMap, String template) throws OperationFailedException {
         VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
         String naturalLanguage;
