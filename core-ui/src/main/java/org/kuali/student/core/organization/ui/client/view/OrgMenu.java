@@ -59,9 +59,14 @@ public class OrgMenu extends VerticalPanel{
         addSubItem(locateItem, "by Chart", new OrgLocateChart());
         addSubItem(locateItem, "by Name", new OrgLocateName());
         
+        KSMenuItemData createNewItem = new KSMenuItemData("Create (alt)");
+        addSubItem(createNewItem, "Organization", new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL));
+        addSubItem(createNewItem, "Position", new OrganizationWidget(OrganizationWidget.Scope.ORG_POSITIONS));
+        
         menuItems.add(createItem);
         menuItems.add(modifyItem);
         menuItems.add(locateItem);
+        menuItems.add(createNewItem);
         menuPanel.setItems(menuItems);
         this.setStyleName("ks-OrgMenu"); 
 

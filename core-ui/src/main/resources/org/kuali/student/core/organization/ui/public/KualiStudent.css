@@ -47,7 +47,6 @@ BODY
 	padding-left: 5px;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	width: 250px;
 	background-color: #fbf4f7;
 	margin-right: 20px; 
 }
@@ -73,10 +72,45 @@ BODY
 	border-style: solid;
 	border-color: #ae1c27;
 	border-width: 1;
-	width: 100%;
 	margin-bottom: 20px;
 	padding: 5px;
 	background-color: #e8e8e8; 
+}
+
+.KS-Org-Multi .KS-Disclosure-Content-Open {
+	background: SelectionChoosingColor;
+}
+
+.KS-Close-Button {
+	font-size: xx-small;
+	background: #aa0000;
+	color: white;
+	width: 5em;
+	padding: 0;
+	height: 1.5em;
+}
+
+*.KS-Close-Button:hover {
+	background: #ff0000;
+}
+
+.KS-Org-Progress-Meter .KS-Textarea {
+	width: 100%;
+}
+
+.KS-Close-Panel {
+	/*border-bottom: solid thin blue;*/
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+.KS-Org-Multi-Widget {
+	background: SelectionChosenColor;
+	border: blue solid thin;
+	border-radius: 1ex;
+	-moz-border-radius: 1ex;
+	padding: 0 1em 1em 1em;
+	margin: 1ex;
 }
 
 .ks-orgChart{
@@ -150,7 +184,6 @@ BODY
 }
 .KS-Disclosure-Header{
 	font: bold;
-	width: 100%;
 	background-color: #F3F3F3; 
 	
 }
@@ -176,15 +209,12 @@ border: outset FormBackgroundColor thin;
 }
 
 .KS-Disclosure-Section{
-	  width: 75%;
 	  margin: 6px;
       border: 1px solid #c0c0c0; 
 
 }
 
 KS-Disclosure-Section-Open{
-	width: 100%; 
-
 }
 
 .KS-Dropdown{
