@@ -8,6 +8,7 @@
 
 package org.kuali.student.core.dictionary.dto;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +62,10 @@ import javax.xml.bind.annotation.XmlType;
     "_enum"
 })
 @XmlRootElement(name = "fieldDescriptor")
-public class FieldDescriptor {
+public class FieldDescriptor implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     @XmlElement(required = true)
     protected String name;
     @XmlElement(required = true)
