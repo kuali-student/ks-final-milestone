@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.kuali.student.brms.factfinder.dto.FactResultColumnInfoDTO;
-import org.kuali.student.brms.factfinder.dto.FactResultDTO;
-import org.kuali.student.brms.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.brms.factfinder.dto.FactStructureDTO;
+import org.kuali.student.brms.factfinder.dto.FactResultColumnInfo;
+import org.kuali.student.brms.factfinder.dto.FactResultInfo;
+import org.kuali.student.brms.factfinder.dto.FactResultTypeInfo;
+import org.kuali.student.brms.factfinder.dto.FactStructureInfo;
 import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
 import org.kuali.student.brms.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.brms.internal.common.statement.propositions.AbstractProposition;
@@ -23,7 +23,7 @@ import org.kuali.student.brms.internal.common.statement.report.PropositionReport
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.internal.common.utils.FactUtil;
 import org.kuali.student.common.util.VelocityTemplateEngine;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,19 +33,19 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 
 	protected Proposition proposition;
 
-	protected FactResultDTO criteriaDTO = null;
-	protected FactResultDTO factDTO = null;
+	protected FactResultInfo criteriaDTO = null;
+	protected FactResultInfo factDTO = null;
 	protected String factColumn = MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN;
 
     protected String id;
     protected String propositionName;
     protected PropositionType propositionType;
     protected PropositionReport report;
-    protected RulePropositionDTO ruleProposition;
+    protected RulePropositionInfo ruleProposition;
     protected String expectedValue;
     protected String comparisonOperator;
     protected String comparisonOperatorDataType;
-    protected FactResultDTO factResultDTO;
+    protected FactResultInfo factResultDTO;
 
     protected Boolean reportBuilt = Boolean.FALSE;
     
@@ -55,7 +55,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 
     public AbstractRuleProposition() {}
     
-    public AbstractRuleProposition(String id, String propositionName, PropositionType type, RulePropositionDTO ruleProposition) {
+    public AbstractRuleProposition(String id, String propositionName, PropositionType type, RulePropositionInfo ruleProposition) {
 		if (id == null || id.isEmpty()) {
 			throw new PropositionException("Proposition id cannot be null");
 		} else if (propositionName == null || propositionName.isEmpty()) {
@@ -77,8 +77,8 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
         this.comparisonOperatorDataType = ruleProposition.getComparisonOperatorTypeKey();
     }
 
-    protected Fact getFacts(Map<String, ?> factMap, FactStructureDTO fact, String columnKey) {
-    	FactResultDTO factDTO = null; 
+    protected Fact getFacts(Map<String, ?> factMap, FactStructureInfo fact, String columnKey) {
+    	FactResultInfo factDTO = null; 
     	String factColumn = null;
     	
     	if (fact.isStaticFact()) {
@@ -94,7 +94,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 				throw new PropositionException("Fact map cannot be null or empty");
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
-			factDTO = (FactResultDTO) factMap.get(factKey);
+			factDTO = (FactResultInfo) factMap.get(factKey);
 
 			factColumn = fact.getResultColumnKeyTranslations().get(columnKey);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
@@ -105,20 +105,20 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
     	return new Fact(factDTO, factColumn);
     }
 
-    public FactResultColumnInfoDTO getFactResultColumnInfo(FactResultDTO factResult, String columnKey) {
+    public FactResultColumnInfo getFactResultColumnInfo(FactResultInfo factResult, String columnKey) {
 		if (factResult == null) {
-			throw new PropositionException("FactResultDTO cannot be null");
+			throw new PropositionException("FactResultInfo cannot be null");
 		}
-		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
+		Map<String, FactResultColumnInfo> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
 		return columnMetaData.get(columnKey);
     }
 
-    public FactResultDTO createFactResult(FactResultColumnInfoDTO columnInfo, Collection<?> factList) {
-    	FactResultDTO factResult = new FactResultDTO();
-    	FactResultTypeInfoDTO factResultTypeInfo = new FactResultTypeInfoDTO();
-    	Map<String, FactResultColumnInfoDTO> columnMap = new HashMap<String, FactResultColumnInfoDTO>();
+    public FactResultInfo createFactResult(FactResultColumnInfo columnInfo, Collection<?> factList) {
+    	FactResultInfo factResult = new FactResultInfo();
+    	FactResultTypeInfo factResultTypeInfo = new FactResultTypeInfo();
+    	Map<String, FactResultColumnInfo> columnMap = new HashMap<String, FactResultColumnInfo>();
 
-    	FactResultColumnInfoDTO newColumnInfo = new FactResultColumnInfoDTO();
+    	FactResultColumnInfo newColumnInfo = new FactResultColumnInfo();
     	newColumnInfo.setKey(columnInfo.getKey());
     	newColumnInfo.setDescription(columnInfo.getDescription());
     	newColumnInfo.setDataType(columnInfo.getDataType());
@@ -145,12 +145,12 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
      * @param factList Comma separated list of values
      * @return Fact result
      */
-    public static FactResultDTO createStaticFactResult(String columnDataType, String factList) {
-    	FactResultDTO factResult = new FactResultDTO();
+    public static FactResultInfo createStaticFactResult(String columnDataType, String factList) {
+    	FactResultInfo factResult = new FactResultInfo();
     	
-    	FactResultTypeInfoDTO factResultTypeInfo = new FactResultTypeInfoDTO();
-    	Map<String, FactResultColumnInfoDTO> columnMap = new HashMap<String, FactResultColumnInfoDTO>();
-    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	FactResultTypeInfo factResultTypeInfo = new FactResultTypeInfo();
+    	Map<String, FactResultColumnInfo> columnMap = new HashMap<String, FactResultColumnInfo>();
+    	FactResultColumnInfo columnInfo = new FactResultColumnInfo();
     	columnInfo.setKey(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN);
     	columnInfo.setDescription("Static Fact Column");
     	columnInfo.setDataType(columnDataType);
@@ -186,17 +186,17 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Set<T> getSet(FactResultDTO factResult, String column) {
+	public static <T> Set<T> getSet(FactResultInfo factResult, String column) {
 		if (factResult == null) {
-			throw new PropositionException("FactResultDTO cannot be null");
+			throw new PropositionException("FactResultInfo cannot be null");
 		}
-		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
+		Map<String, FactResultColumnInfo> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
 		Set<T> set = new HashSet<T>();
 		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals(column)) {
 					String value = entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+					FactResultColumnInfo info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
 					try {
 						T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
@@ -227,14 +227,14 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> getList(FactResultDTO factResult, String column) {
-		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
+	public List<T> getList(FactResultInfo factResult, String column) {
+		Map<String, FactResultColumnInfo> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
 		List<T> list = new ArrayList<T>();
 		for(Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals(column)) {
 					String value = (String) entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+					FactResultColumnInfo info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
 					try {
 						T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
@@ -267,7 +267,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 					+ "\nProposition name="+this.getPropositionName()
 					+ "\nProposition result="+this.getResult());
 		}
-		FactResultColumnInfoDTO columnInfo = getFactResultColumnInfo(factDTO, factColumn);
+		FactResultColumnInfo columnInfo = getFactResultColumnInfo(factDTO, factColumn);
 		this.factResultDTO = createFactResult(columnInfo, this.getResultValues());
 		this.report.setPropositionResult(this.factResultDTO);
 		this.report.setCriteriaResult(criteriaDTO);
