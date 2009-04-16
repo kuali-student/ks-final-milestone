@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.eclipse.persistence.internal.sessions.UnitOfWorkImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
