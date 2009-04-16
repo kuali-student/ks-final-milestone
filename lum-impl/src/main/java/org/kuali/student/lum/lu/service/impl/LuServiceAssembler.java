@@ -612,12 +612,19 @@ public class LuServiceAssembler extends BaseAssembler {
         }
         reqComp.setRequiredComponentType(reqCompType);
 
+        // Detach previous binding with ReqCompField
+        if(isUpdate) {
+            for(ReqComponentField reqCompField : reqComp.getReqCompField()) {
+                dao.delete(reqCompField);
+            }
+        }
 
         // Create and copy ReqCompFields
         List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        for(ReqCompFieldInfo reqCompFiledInfo : reqCompInfo.getReqCompField()) {
+        for(ReqCompFieldInfo reqCompFieldInfo : reqCompInfo.getReqCompField()) {
             ReqComponentField reqCompField = new ReqComponentField();
-            BeanUtils.copyProperties(reqCompFiledInfo, reqCompField);
+            reqCompField.setKey(reqCompFieldInfo.getId());
+            reqCompField.setValue(reqCompFieldInfo.getValue());
             reqCompFieldList.add(reqCompField);
         }
         reqComp.setReqCompField(reqCompFieldList);
@@ -669,7 +676,8 @@ public class LuServiceAssembler extends BaseAssembler {
         }
 
         ReqCompFieldInfo dto = new ReqCompFieldInfo();
-        BeanUtils.copyProperties(entity, dto);
+        dto.setId(entity.getKey());
+        dto.setValue(entity.getValue());
         return dto;
     }
 
