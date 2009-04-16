@@ -105,42 +105,6 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
             }
         });
         buttonBar.add(save);
-        buttonBar.add(new KSButton("Test", new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                meter = new ProgressMeter(6);
-                meter.addMessage("test 1");
-                new Timer() {
-                    @Override
-                    public void run() {
-                        meter.addMessage("test 2");
-                    }
-                }.schedule(1000);
-                new Timer() {
-                    @Override
-                    public void run() {
-                        meter.addMessage("test 3");
-                    }
-                }.schedule(2000);
-                new Timer() {
-                    @Override
-                    public void run() {
-                        meter.addMessage("test 4");
-                    }
-                }.schedule(3000);
-                new Timer() {
-                    @Override
-                    public void run() {
-                        meter.addMessage("test 5");
-                    }
-                }.schedule(4000);
-                new Timer() {
-                    @Override
-                    public void run() {
-                        meter.addMessage("test 6");
-                    }
-                }.schedule(5000);
-            }}));
         
         widgets = new ArrayList<OrgAbstractWidget>();
         

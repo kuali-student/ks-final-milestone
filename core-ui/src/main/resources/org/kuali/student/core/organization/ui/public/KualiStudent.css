@@ -191,7 +191,7 @@ BODY
 	width: 100%;
 }
 
-.KS-Org-Search-Widget-Results {
+.KS-Org-Search-Widget-Results, .KS-Person-Search-Widget-Results {
 	margin: 5px;
 }
 
@@ -236,7 +236,7 @@ border: outset gray thin;
 padding: 0.5ex;
 border: inset gray thin;
 }
-.KS-Disclosure-Content-Open, .KS-Org-Tree, .KS-Org-Search-Widget{
+.KS-Disclosure-Content-Open, .KS-Org-Tree, .KS-Org-Search-Widget, .KS-Person-Search-Widget{
 	margin: 5px;
 background: FormBackgroundColor;
 border: outset FormBackgroundColor thin;

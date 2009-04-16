@@ -105,6 +105,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                 });
                 
                 VerticalPanel popupContent = new VerticalPanel();
+                popupContent.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
                 popupContent.add(personSearchWidget);
                 popupContent.add(new KSButton("Cancel", new ClickHandler(){
                     public void onClick(ClickEvent event) {
@@ -113,6 +114,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                 }));
                 
                 searchPopup.setWidget(popupContent);
+                searchPopup.setResizable(false);
                 searchPopup.show();
             }}));
 

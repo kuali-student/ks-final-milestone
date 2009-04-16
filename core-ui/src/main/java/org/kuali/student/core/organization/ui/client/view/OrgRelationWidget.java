@@ -213,6 +213,7 @@ class OrgRelationWidget extends OrgMultiWidget {
                 }));
                 
                 searchPopup.setWidget(popupContent);
+                searchPopup.setResizable(false);
                 searchPopup.show();
             }}));
         
