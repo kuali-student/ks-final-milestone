@@ -7,6 +7,7 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.Handler;
 import com.google.gwt.visualization.client.events.SelectHandler;
@@ -83,7 +85,11 @@ public class OrgChartWidget extends Composite {
     	                    Handler.addHandler(o, "select", new SelectHandler(){
 
     							public void onSelect(SelectEvent event) {
-    		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(o.getSelections().get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
+   		                        	JsArray<Selection> selections = o.getSelections();
+		        					if (selections.length() != 1) {
+		        						Window.alert("Logic error. No Organization selected");
+		        					}
+    		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(selections.get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
     		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
     		                            @Override
     		                            public void onClick(ClickEvent event) {
