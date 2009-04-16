@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="rule-management-lum/target/classes" path="rule-management-lum/src/main/java"/>
-	<classpathentry kind="src" output="rule-management-lum/target/test-classes" path="rule-management-lum/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="rule-management-lum/target/classes" path="rule-management-lum/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="rule-management-lum/target/test-classes" path="rule-management-lum/src/test/resources"/>
+	<classpathentry kind="src" output="lum-api/target/classes" path="lum-api/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="lum-api/target/classes" path="lum-api/src/main/resources"/>
+	<classpathentry kind="src" output="lum-impl/target/classes" path="lum-impl/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="lum-impl/target/classes" path="lum-impl/src/main/resources"/>
+	<classpathentry kind="src" output="lum-impl/target/test-classes" path="lum-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="lum-impl/target/test-classes" path="lum-impl/src/test/resources"/>
+	<classpathentry kind="src" output="lum-ui/target/classes" path="lum-ui/src/main/java"/>
+	<classpathentry kind="src" output="lum-ui/target/classes" path="lum-ui/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="lum-ui/target/test-classes" path="lum-ui/src/test/resources"/>
+	<classpathentry excluding="**" kind="src" output="lum-web/target/classes" path="lum-web/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
