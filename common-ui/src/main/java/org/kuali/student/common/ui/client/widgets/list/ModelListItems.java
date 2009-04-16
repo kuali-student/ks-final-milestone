@@ -1,0 +1,117 @@
+package org.kuali.student.common.ui.client.widgets.list;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
+import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
+import org.kuali.student.common.util.Callback;
+import org.kuali.student.core.dto.Idable;
+
+import com.google.gwt.event.shared.HandlerRegistration;
+
+public abstract class ModelListItems<T extends Idable> implements ListItems<T>{
+    private List<Callback<T>> addCallbacks = new ArrayList<Callback<T>>();
+    private List<Callback<T>> removeCallbacks = new ArrayList<Callback<T>>();
+    private List<Callback<T>> updateCallbacks = new ArrayList<Callback<T>>();
+    
+    private List<T> listItems = new ArrayList<T>();
+    private Comparator<T> listComparator = null;
+    private HandlerRegistration reg = null;
+    
+    private void add(T item){
+        listItems.add(item);
+        reSort();
+    }
+    
+    private void update(T item){
+        for(T i : listItems){
+            if(i.getId().equals(item.getId())){
+                listItems.remove(i);
+                listItems.add(item);
+                reSort();
+                break;
+            }
+        }
+    }
+    
+    private void remove(T item){
+        listItems.remove(item);
+    }
+    
+    private void reSort(){
+        if(listComparator != null){
+            Collections.sort(listItems, listComparator);
+        }
+    }
+    
+    public void setComparator(Comparator<T> c){
+        listComparator = c;
+        reSort();
+    }
+    
+    public void setModel(Model<T> model){
+        if(reg != null){
+           reg.removeHandler();
+        }
+        reg = model.addModelChangeHandler(new ModelChangeHandler<T>() {
+            public void onModelChange(ModelChangeEvent<T> event) {
+                switch (event.getAction()) {
+                    case ADD:
+                        ModelListItems.this.add(event.getValue());
+                        for (Callback<T> c : addCallbacks) {
+                            c.exec(event.getValue());
+                        }
+                        break;
+                    case UPDATE:
+                        ModelListItems.this.update(event.getValue());
+                        for (Callback<T> c : updateCallbacks) {
+                            c.exec(event.getValue());
+                        }
+                        break;
+                    case REMOVE:
+                        ModelListItems.this.remove(event.getValue());
+                        for (Callback<T> c : removeCallbacks) {
+                            c.exec(event.getValue());
+                        }
+                        break;
+                }
+            }
+        });
+        listItems.clear();
+        listItems.addAll(model.getValues());
+        reSort();
+    }
+
+    @Override
+    public void addOnAddCallback(Callback<T> callback) {
+        addCallbacks.add(callback);
+    }
+
+    @Override
+    public void addOnRemoveCallback(Callback<T> callback) {
+        removeCallbacks.add(callback);       
+    }
+    
+    @Override
+    public void addOnUpdateCallback(Callback<T> callback) {
+        updateCallbacks.add(callback);        
+    }
+    
+    @Override
+    public int getItemCount() {    
+        return listItems.size();
+    }
+
+    @Override
+    public List<String> getItemIds() {
+        List<String> ids = new ArrayList<String>();
+        for(T i: listItems){
+            ids.add(i.getId());
+        }
+        return ids;
+    }
+}

@@ -8,6 +8,8 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.util.Callback;
+import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -104,67 +106,100 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     @Override
     public void onLoad() {               
         Runnable onLoadCallback = new Runnable() {
-          public void run() {     
-             DataTable data = DataTable.create(); 
-             
-            ListItems listItems = getListItems();
-            List<String> attrKeys = listItems.getAttrKeys();
-
-            for (String attr:attrKeys){
-                data.addColumn(ColumnType.STRING, attr);
-            }
-
-            int row = 0;
-            int col = 0;
-
-            
-            for (String id:listItems.getItemIds()){
-                data.addRow();
-                idMapping.put(row,id);
-                rowMapping.put(id,row);
-                for (String attr:attrKeys){
-                    String value = listItems.getItemAttribute(id, attr);
-                    data.setCell(row, col, value, value, null);
-                    col++;
-                }
-                row ++;
-                col=0;
-            }
-            
-            if (table == null){
-                table = new Table();                
-                table.addSelectHandler(new SelectHandler(){
-                    public void onSelect(SelectEvent event) {
-                        if (!isMultipleSelect){
-                            //Make it to only select one row
-                            JsArray<Selection> selections = table.getSelections();
-                            if (selections.length() > 1){
-                                Selection sel = (selections.get(0).getRow() == selRow ? selections.get(1):selections.get(0));
-                                selections = (JsArray<Selection>)JsArray.createArray();
-                                selections.set(0,sel);
-                                selRow = sel.getRow();
-                                table.setSelections(selections);
-                            } else if (selections.length() == 1){
-                                selRow = selections.get(0).getRow();
-                            } else {
-                                selRow = -1;
-                            }
-                        }
-                        fireChangeEvent();
-                    }                   
-                });
-            }
-
-            Options options = Options.create();
-            table.draw(data,options);
-            table.addStyleName(KSStyles.KS_SELECT_TABLE_PANEL);
-            root.setWidget(table);
-          }
+              public void run() {     
+                redraw();
+            };
         };
-
         AjaxLoader.loadVisualizationApi(onLoadCallback, Table.PACKAGE);
     }
     
+    @Override
+    public <T extends Idable> void setListItems(ListItems<T> listItems) {
+        listItems.addOnAddCallback(new Callback<T>(){
+
+             @Override 
+             public void exec(T result){
+                 KSSelectableTableListImpl.this.redraw();
+             }
+         });
+         
+         listItems.addOnRemoveCallback(new Callback<T>(){
+
+             @Override 
+             public void exec(T result){
+                 KSSelectableTableListImpl.this.redraw();
+             }
+         });
+         
+         listItems.addOnUpdateCallback(new Callback<T>(){
+
+             @Override 
+             public void exec(T result){
+                 KSSelectableTableListImpl.this.redraw();
+             }
+         });
+         
+         super.setListItems(listItems);
+    }
+    
+    public void redraw() {
+        DataTable data = DataTable.create(); 
+
+        ListItems<Idable> listItems = getListItems();
+        List<String> attrKeys = listItems.getAttrKeys();
+
+        for (String attr:attrKeys){
+            data.addColumn(ColumnType.STRING, attr);
+        }
+
+        int row = 0;
+        int col = 0;
+
+        
+        for (String id: listItems.getItemIds()){
+            data.addRow();
+            idMapping.put(row,id);
+            rowMapping.put(id,row);
+            for (String attr:attrKeys){
+                String value = listItems.getItemAttribute(id, attr);
+                data.setCell(row, col, value, value, null);
+                col++;
+            }
+            row ++;
+            col=0;
+        }
+        
+        if (table == null){
+            table = new Table();                
+            table.addSelectHandler(new SelectHandler(){
+                public void onSelect(SelectEvent event) {
+                    if (!isMultipleSelect){
+                        //Make it to only select one row
+                        JsArray<Selection> selections = table.getSelections();
+                        if (selections.length() > 1){
+                            Selection sel = (selections.get(0).getRow() == selRow ? selections.get(1):selections.get(0));
+                            selections = (JsArray<Selection>)JsArray.createArray();
+                            selections.set(0,sel);
+                            selRow = sel.getRow();
+                            table.setSelections(selections);
+                        } else if (selections.length() == 1){
+                            selRow = selections.get(0).getRow();
+                        } else {
+                            selRow = -1;
+                        }
+                    }
+                    fireChangeEvent();
+                }                   
+            });
+        }
+
+        Options options = Options.create();
+        table.draw(data,options);
+        table.addStyleName(KSStyles.KS_SELECT_TABLE_PANEL);
+        root.setWidget(table);
+        
+    }
+
     public void addStyleName(String style){
         table.addStyleName(style);
     }

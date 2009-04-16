@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.util.Callback;
+import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -71,12 +74,10 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
             }
         }
     }
-
-    public void setListItems(ListItems listItems) {
-        super.setListItems(listItems);
-
+    
+    public void redraw(){
         checkBoxes.clear();
-        int itemCount = listItems.getItemCount();
+        int itemCount = super.getListItems().getItemCount();
         int currCount = 0;
         int row = 0;
         int col = 0;
@@ -84,7 +85,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         if (maxCols <= 2){
             //Row flow - increment row faster than column
             int maxRows = (itemCount / maxCols) + (itemCount % 2);
-            for (String id:listItems.getItemIds()){
+            for (String id:super.getListItems().getItemIds()){
                 currCount++;
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
@@ -95,7 +96,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
             }
         } else {
             //Column flow - increment column faster than row
-            for (String id:listItems.getItemIds()){
+            for (String id:super.getListItems().getItemIds()){
                 currCount++;
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
@@ -105,6 +106,36 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
+    }
+
+    public <T extends Idable> void setListItems(ListItems<T> listItems) {
+       listItems.addOnAddCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSCheckBoxListImpl.this.redraw();
+            }
+        });
+        
+        listItems.addOnRemoveCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSCheckBoxListImpl.this.redraw();
+            }
+        });
+        
+        listItems.addOnUpdateCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSCheckBoxListImpl.this.redraw();
+            }
+        });
+        
+        super.setListItems(listItems);
+
+        redraw();
     }
 
     private KSCheckBox createCheckbox(String id){

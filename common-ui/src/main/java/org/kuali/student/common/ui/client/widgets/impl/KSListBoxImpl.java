@@ -7,6 +7,8 @@ import org.kuali.student.common.ui.client.widgets.KSListBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.util.Callback;
+import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -33,6 +35,15 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
      */
     public KSListBoxImpl() {
         init();
+    }
+    
+    public void redraw(){
+        listBox.clear();
+        
+        for (String id: super.getListItems().getItemIds()){
+            listBox.addItem(super.getListItems().getItemText(id),id);            
+        }
+        
     }
 
     protected void init() {
@@ -103,7 +114,30 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
     }
 
     @Override
-    public void setListItems(ListItems listItems) {
+    public <T extends Idable> void setListItems(ListItems<T> listItems) {
+        listItems.addOnAddCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSListBoxImpl.this.redraw();
+            }
+        });
+        
+        listItems.addOnRemoveCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSListBoxImpl.this.redraw();
+            }
+        });
+        
+        listItems.addOnUpdateCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSListBoxImpl.this.redraw();
+            }
+        });
         super.setListItems(listItems);
         
         listBox.clear();

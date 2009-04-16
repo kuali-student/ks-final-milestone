@@ -6,6 +6,8 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.util.Callback;
+import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -24,9 +26,22 @@ import com.google.gwt.user.client.ui.ListBox;
 public class KSDropDownImpl extends KSSelectItemWidgetAbstract{ 
 
 	private ListBox listBox;
+	private boolean blankFirstItem = true;
 	
 	public KSDropDownImpl() {
 	    init();
+	}
+	
+	public void redraw(){
+        listBox.clear();
+        
+        if(blankFirstItem){
+            listBox.addItem("");
+        }
+        for (String id: super.getListItems().getItemIds()){
+            listBox.addItem(super.getListItems().getItemText(id),id);            
+        }
+        
 	}
 	
     protected void init() {
@@ -113,10 +128,37 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
     }
 
     @Override
-    public void setListItems(ListItems listItems) {
+    public <T extends Idable> void setListItems(ListItems<T> listItems) {
+        listItems.addOnAddCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSDropDownImpl.this.redraw();
+            }
+        });
+        
+        listItems.addOnRemoveCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSDropDownImpl.this.redraw();
+            }
+        });
+        
+        listItems.addOnUpdateCallback(new Callback<T>(){
+
+            @Override 
+            public void exec(T result){
+                KSDropDownImpl.this.redraw();
+            }
+        });
+        
         super.setListItems(listItems);
         
         listBox.clear();
+        if(blankFirstItem){
+            listBox.addItem("");
+        }
         
         for (String id:listItems.getItemIds()){
             listBox.addItem(listItems.getItemText(id),id);            
@@ -124,6 +166,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
         if(listBox.getItemCount() != 0){
             listBox.setSelectedIndex(0);
         }
+
     }
 
     /**
@@ -132,9 +175,17 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
     @Override
     public List<String> getSelectedItems() {
         List<String> result = new ArrayList<String>();
-        if (listBox.getItemCount() != 0){
+        if(blankFirstItem){
             String id = listBox.getValue(listBox.getSelectedIndex());
-            result.add(id);
+            if(!(listBox.getItemText(listBox.getSelectedIndex()).equals(""))){
+                result.add(id);
+            }
+        }
+        else{
+            if (listBox.getItemCount() != 0){
+                String id = listBox.getValue(listBox.getSelectedIndex());
+                result.add(id);
+            }
         }
         return result;
     }
@@ -157,4 +208,11 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
         return listBox.isEnabled();
     }
 
+    public boolean isBlankFirstItem() {
+        return blankFirstItem;
+    }
+
+    public void setBlankFirstItem(boolean blankFirstItem) {
+        this.blankFirstItem = blankFirstItem;
+    }
 }
