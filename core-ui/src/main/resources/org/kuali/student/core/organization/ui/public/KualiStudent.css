@@ -98,6 +98,29 @@ BODY
 	width: 100%;
 }
 
+.KS-Org-Progress-Bar {
+	border: groove black thin;
+	width: 100%;
+	margin: 1ex;
+}
+
+.KS-Org-Progress-Bar-Label {
+	width: 100%;
+	margin: 1ex;
+}
+
+.KS-Org-Progress-Bar-Image {
+	margin: 1ex;
+}
+
+.KS-Org-Progress-Bar-Image-Done {
+	visibility: hidden;
+}
+
+.KS-Org-Progress-Bar-Completed {
+	background: SubMenuColor;
+}
+
 .KS-Close-Panel {
 	/*border-bottom: solid thin blue;*/
 	width: 100%;

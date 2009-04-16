@@ -320,4 +320,15 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     protected void create() {
         createBlankPersonRelation();
     }
+    @Override
+    public int calculateSaveableWidgetCount() {
+        int count = 0;
+        for (Map<String,Object> formMap : forms) {
+            KSFormLayoutPanel orgPersonRelForm = (KSFormLayoutPanel) formMap.get("form");
+            if (orgPersonRelForm.getFieldValue("relPersonId").length() == 0)
+                continue; //skipping this one
+            count++;
+        }
+        return count;
+    }
 }

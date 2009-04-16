@@ -177,4 +177,5 @@ abstract class OrgMultiWidget extends OrgAbstractWidget implements HasWidgets, I
                     }});
             }
         }
+        public abstract int calculateSaveableWidgetCount();
     }

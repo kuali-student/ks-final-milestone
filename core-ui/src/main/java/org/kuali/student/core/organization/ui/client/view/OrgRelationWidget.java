@@ -316,4 +316,15 @@ class OrgRelationWidget extends OrgMultiWidget {
     protected void create() {
         createBlankRelation();
     }
+    @Override
+    public int calculateSaveableWidgetCount() {
+        int count = 0;
+        for (Map<String,Object> formMap : forms) {
+            KSFormLayoutPanel form = (KSFormLayoutPanel) formMap.get("form");
+            if (form.getFieldValue("relOrgId").length() == 0)
+                continue; //skipping this one
+            count++;
+        }
+        return count;
+    }
 }

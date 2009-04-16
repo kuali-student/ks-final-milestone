@@ -7,6 +7,8 @@ import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDialogPanel;
+import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -19,7 +21,9 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -63,6 +67,7 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
     private List<OrgAbstractWidget> widgets;
     private HorizontalPanel buttonBar;
     private KSButton closeButton;
+    ProgressMeter meter = new ProgressMeter();
     
     public OrganizationWidget(Scope... scopes) {
         this(null, scopes);
@@ -83,8 +88,59 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
 
     private void init(String orgId) {
         buttonBar = new HorizontalPanel();
-        KSButton save = new KSButton("Save");
+        KSButton save = new KSButton("Save", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                int numSteps = 0;
+                for(OrgAbstractWidget w : widgets) {
+                    if(w instanceof OrgWidget) {
+                        numSteps++;
+                    } else if(w instanceof OrgMultiWidget) {
+                        OrgMultiWidget m = (OrgMultiWidget)w;
+                        numSteps += m.calculateSaveableWidgetCount();
+                    }
+                }
+                meter = new ProgressMeter(numSteps);
+                meter.show();
+            }
+        });
         buttonBar.add(save);
+        buttonBar.add(new KSButton("Test", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                meter = new ProgressMeter(6);
+                meter.addMessage("test 1");
+                new Timer() {
+                    @Override
+                    public void run() {
+                        meter.addMessage("test 2");
+                    }
+                }.schedule(1000);
+                new Timer() {
+                    @Override
+                    public void run() {
+                        meter.addMessage("test 3");
+                    }
+                }.schedule(2000);
+                new Timer() {
+                    @Override
+                    public void run() {
+                        meter.addMessage("test 4");
+                    }
+                }.schedule(3000);
+                new Timer() {
+                    @Override
+                    public void run() {
+                        meter.addMessage("test 5");
+                    }
+                }.schedule(4000);
+                new Timer() {
+                    @Override
+                    public void run() {
+                        meter.addMessage("test 6");
+                    }
+                }.schedule(5000);
+            }}));
         
         widgets = new ArrayList<OrgAbstractWidget>();
         
@@ -120,80 +176,129 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
     }
     
     SaveHandler handler = new SaveHandler() {
-        ProgressMeter meter = new ProgressMeter();
 
         @Override
         public void onSave(SaveEvent event) {
             meter.addMessage(event.toString());
         }
-        
-        class ProgressMeter {
-            
-            private KSTextArea console;
-            private KSDialogPanel modal;
-            private KSProgressIndicator progress;
-
-            public ProgressMeter() {
-                modal = new KSModalDialogPanel();
-                
-                VerticalPanel pending = new VerticalPanel();
-                console = new KSTextArea();
-                console.setReadOnly(true);
-                pending.add(console);
-                
-                HorizontalPanel bottom = new HorizontalPanel();
-                progress = new KSProgressIndicator();
-                bottom.add(progress);
-                bottom.add(new KSButton("Dismiss", new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        clearMessages();
-                        modal.hide();
-                        if(closeButton != null) {
-                            closeButton.click();
-                        }
-                        if(w.isAttached()) {
-                            if(!scope.isModifyingExisting()) {
-                                w.clear();
-                                init(null);
-                            } else {
-                                String orgId = null;
-                                for(OrgAbstractWidget orgw : widgets) {
-                                    orgId = orgw.getOrgId();
-                                    if(orgId != null)
-                                        break;
-                                }
-                                w.clear();
-                                if(orgId != null) {
-                                    init(orgId);
-                                } 
-                            }
-                        }
-                    }
-                }));
-                pending.add(bottom);
-
-                modal.setHeader("Saving...");
-                modal.setModal(true);
-                modal.setResizable(false);
-                modal.setWidget(pending);
-                
-                modal.addStyleName("KS-Org-Progress-Meter");
-            }
-            
-            public void addMessage(String msg) {
-                progress.setText(msg);
-                console.setText(console.getText() + msg + "\n");
-                if(!modal.isShowing())
-                    modal.show();
-            }
-            
-            public void clearMessages() {
-                console.setText("");
-            }
-        }
     };
 
+    class ProgressMeter {
+        
+        private KSTextArea console;
+        private KSDialogPanel modal;
+        private KSProgressIndicator progress;
+        private Grid progressBar;
+        int progressBarCompleted = 0;
+        private KSLabel progressBarLbl;
+        private KSImage image;
+        private KSButton dismiss;
+
+        public ProgressMeter() {
+            this(-1);
+        }
+        
+        public ProgressMeter(int numSteps) {
+            modal = new KSModalDialogPanel();
+            
+            VerticalPanel pending = new VerticalPanel();
+            console = new KSTextArea();
+            console.setReadOnly(true);
+            pending.add(console);
+            
+            HorizontalPanel bottom = new HorizontalPanel();
+            if(numSteps < 1)
+            {
+                progress = new KSProgressIndicator();
+                bottom.add(progress);
+            } else {
+                image = new KSImage("images/loading.gif");
+                image.addStyleName("KS-Org-Progress-Bar-Image");
+                bottom.add(image);
+                progressBar = new Grid(1, numSteps);
+                progressBar.addStyleName("KS-Org-Progress-Bar");
+                bottom.add(progressBar);
+                progressBarLbl = new KSLabel();
+                progressBarLbl.addStyleName("KS-Org-Progress-Bar-Label");
+                bottom.add(progressBarLbl);
+            }
+            bottom.add(dismiss = new KSButton("Dismiss", new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    clearMessages();
+                    modal.hide();
+                    if(closeButton != null) {
+                        closeButton.click();
+                    }
+                    if(w.isAttached()) {
+                        if(!scope.isModifyingExisting()) {
+                            w.clear();
+                            init(null);
+                        } else {
+                            String orgId = null;
+                            for(OrgAbstractWidget orgw : widgets) {
+                                orgId = orgw.getOrgId();
+                                if(orgId != null)
+                                    break;
+                            }
+                            w.clear();
+                            if(orgId != null) {
+                                init(orgId);
+                            } 
+                        }
+                    }
+                }
+            }));
+            if(numSteps > 0) {
+                dismiss.setText("Wait...");
+                dismiss.setEnabled(false);
+            }
+            pending.add(bottom);
+
+            modal.setHeader("Saving...");
+            modal.setModal(true);
+            modal.setResizable(false);
+            modal.setWidget(pending);
+            
+            modal.addStyleName("KS-Org-Progress-Meter");
+        }
+        
+        public void addMessage(String msg) {
+            if(progress != null)
+                progress.setText(msg);
+            if(progressBar != null) {
+                progressBar.getCellFormatter().addStyleName(0, progressBarCompleted++, "KS-Org-Progress-Bar-Completed");
+                if(progressBarCompleted == progressBar.getColumnCount()) {
+                    image.addStyleName("KS-Org-Progress-Bar-Image-Done");
+                    dismiss.setText("Finished");
+                    dismiss.setEnabled(true);
+                }
+            }
+            if(progressBarLbl != null)
+                progressBarLbl.setText(msg);
+            console.setText(console.getText() + msg + "\n");
+            if(!modal.isShowing())
+                modal.show();
+        }
+        
+        public void clearMessages() {
+            console.setText("");
+        }
+        
+        public void show() {
+            modal.show();
+        }
+        
+        public void hide() {
+            modal.hide();
+        }
+        
+        public boolean isShowing() {
+            return modal.isShowing();
+        }
+
+    }
+    
     protected void addOrgWidget(OrgAbstractWidget w, KSButton save) {
         this.w.add(w);
         widgets.add(w);
