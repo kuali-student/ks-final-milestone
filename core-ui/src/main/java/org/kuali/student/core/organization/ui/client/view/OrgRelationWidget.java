@@ -204,6 +204,7 @@ class OrgRelationWidget extends OrgMultiWidget {
                 });
                 
                 VerticalPanel popupContent = new VerticalPanel();
+                popupContent.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
                 popupContent.add(orgSearchWidget);
                 popupContent.add(new KSButton("Cancel", new ClickHandler(){
                     public void onClick(ClickEvent event) {
@@ -212,6 +213,7 @@ class OrgRelationWidget extends OrgMultiWidget {
                 }));
                 
                 searchPopup.setWidget(popupContent);
+                searchPopup.show();
             }}));
         
         final HashMap<String, Object> map = new HashMap<String, Object>();

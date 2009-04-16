@@ -114,7 +114,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                 
                 searchPopup.setWidget(popupContent);
                 searchPopup.show();
-            }})); //TODO implement
+            }}));
 
         final HashMap<String, Object> map = new HashMap<String, Object>();
         
