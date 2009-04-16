@@ -88,6 +88,7 @@ public class OrgChartWidget extends Composite {
    		                        	JsArray<Selection> selections = o.getSelections();
 		        					if (selections.length() != 1) {
 		        						Window.alert("Logic error. No Organization selected");
+		        						return;
 		        					}
     		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(selections.get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
     		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
