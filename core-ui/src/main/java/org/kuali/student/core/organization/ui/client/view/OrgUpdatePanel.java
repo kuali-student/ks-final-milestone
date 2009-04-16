@@ -15,7 +15,6 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.organization.dto.OrgInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
