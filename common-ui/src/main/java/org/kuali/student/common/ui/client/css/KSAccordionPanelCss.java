@@ -15,5 +15,6 @@ public interface KSAccordionPanelCss extends CssResource {
     String KSAccordionTitlebarOpen();
 
     String KSAccordionTitlebarLabel();
-
+    
+    String KSButton();
 }
