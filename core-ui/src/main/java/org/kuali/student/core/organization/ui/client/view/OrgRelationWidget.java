@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -166,6 +167,24 @@ class OrgRelationWidget extends OrgMultiWidget {
                     @Override
                     public String getItemText(String id) {
                         return map.get(id);
+                    }
+
+                    @Override
+                    public void addOnAddCallback(Callback callback) {
+                        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                        
+                    }
+
+                    @Override
+                    public void addOnRemoveCallback(Callback callback) {
+                        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                        
+                    }
+
+                    @Override
+                    public void addOnUpdateCallback(Callback callback) {
+                        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                        
                     }
                 };
             }

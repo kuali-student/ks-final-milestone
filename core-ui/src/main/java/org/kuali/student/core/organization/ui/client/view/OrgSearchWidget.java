@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -176,6 +177,24 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
                         @Override
                         public String getItemText(String id) {
                             return ids.get(id);
+                        }
+
+                        @Override
+                        public void addOnAddCallback(Callback callback) {
+                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                            
+                        }
+
+                        @Override
+                        public void addOnRemoveCallback(Callback callback) {
+                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                            
+                        }
+
+                        @Override
+                        public void addOnUpdateCallback(Callback callback) {
+                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                            
                         }};
                     orgHierarchyDropDown.setListItems(list);
                 }
@@ -267,6 +286,24 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
 
         public String getItemText(String id) {
             return ((Result)orgInfoMap.get(id)).getResultCells().get(1).getValue();
+        }
+
+        @Override
+        public void addOnAddCallback(Callback callback) {
+            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+            
+        }
+
+        @Override
+        public void addOnRemoveCallback(Callback callback) {
+            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+            
+        }
+
+        @Override
+        public void addOnUpdateCallback(Callback callback) {
+            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+            
         }
                 
     }

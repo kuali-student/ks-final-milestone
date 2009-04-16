@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.search.dto.QueryParamValue;
@@ -121,6 +122,24 @@ public class OrgLocateName extends Composite {
                                 public String getItemText(String id) {
                                     return ((Result) orgInfoMap.get(id)).getResultCells().get(1).getValue();
                                 }
+
+                                @Override
+                                public void addOnAddCallback(Callback callback) {
+                                    // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                                    
+                                }
+
+                                @Override
+                                public void addOnRemoveCallback(Callback callback) {
+                                    // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                                    
+                                }
+
+                                @Override
+                                public void addOnUpdateCallback(Callback callback) {
+                                    // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                                    
+                                }
                             };
                             // OrgInfoList orgInfoList = new OrgInfoList(result);
                             resultTable = new KSSelectableTableList();
@@ -219,6 +238,24 @@ public class OrgLocateName extends Composite {
                         @Override
                         public String getItemText(String id) {
                             return values.get(id);
+                        }
+
+                        @Override
+                        public void addOnAddCallback(Callback callback) {
+                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                            
+                        }
+
+                        @Override
+                        public void addOnRemoveCallback(Callback callback) {
+                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                            
+                        }
+
+                        @Override
+                        public void addOnUpdateCallback(Callback callback) {
+                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
+                            
                         }
                     };
                     orgTypes.setListItems(items);
