@@ -5,8 +5,7 @@
 
 .KS-Button{
 	margin: 2px;
-	color: PRIMARYCOLOR2;   
-	font-weight: bold;
+	color: black;
 	border-right: 1px solid PRIMARYCOLOR2;
 	border-bottom: 1px solid PRIMARYCOLOR2;
 }
