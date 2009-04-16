@@ -8,6 +8,7 @@
 	
 	<inherits name="org.kuali.student.core.Core"/>
 	<inherits name="org.kuali.student.core.messages.Message"/>
+	<inherits name="org.kuali.student.common.CommonUtil"/>
  
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
   	<inherits name="com.google.gwt.visualization.Visualization"/>
