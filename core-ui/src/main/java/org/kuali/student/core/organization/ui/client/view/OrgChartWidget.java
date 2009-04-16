@@ -83,14 +83,14 @@ public class OrgChartWidget extends Composite {
     	                    Handler.addHandler(o, "select", new SelectHandler(){
     
     							public void onSelect(SelectEvent event) {
-    		                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+    		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(o.getSelections().get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
+    		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
     		                            @Override
     		                            public void onClick(ClickEvent event) {
     		                                w.remove(w.getWidgetCount() - 1);
     		                                w.showWidget(w.getWidgetCount() - 1);
     		                            }
     		                        });
-    		                        orgCreatePanel.setOrgId(data.getValueString(o.getSelections().get(0).getRow(), 0));
     		                        orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
                                         @Override
                                         public void onSelection(SelectionEvent<OrgInfo> event) {

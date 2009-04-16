@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -194,19 +195,19 @@ public class OrgLocatePanel extends Composite{
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");
             orgEditLbl.setStyleName("action");
-            orgEditLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_ALL));
+            orgEditLbl.addClickHandler(new OrgActionClickHandler(orgId, Scope.ORG_MODIFY_ALL));
             
             orgAddPosLbl = new Hyperlink("(+)org pos", "addPosRel");
             orgAddPosLbl.setStyleName("action");
-            orgAddPosLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_POSITIONS));
+            orgAddPosLbl.addClickHandler(new OrgActionClickHandler(orgId, Scope.ORG_POSITIONS, Scope.MODIFY));
 
             orgAddRelLbl = new Hyperlink("(+)org rel", "addOrgRel");
             orgAddRelLbl.setStyleName("action");
-            orgAddRelLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_RELATIONS));
+            orgAddRelLbl.addClickHandler(new OrgActionClickHandler(orgId, Scope.ORG_RELATIONS, Scope.MODIFY));
 
             orgAddPersonRelLbl = new Hyperlink("(+)person rel", "addPersonRel");
             orgAddPersonRelLbl.setStyleName("action");
-            orgAddPersonRelLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_PERSON_RELATIONS));
+            orgAddPersonRelLbl.addClickHandler(new OrgActionClickHandler(orgId, Scope.ORG_PERSON_RELATIONS, Scope.MODIFY));
 
             
             FlexTable ft = new FlexTable();
@@ -222,18 +223,17 @@ public class OrgLocatePanel extends Composite{
     
     public class OrgActionClickHandler implements ClickHandler{
 
-        String orgPanelType;
+        Scope scope;
         String orgId;
         
-        public OrgActionClickHandler(String orgId, String orgPanelType){
-            this.orgPanelType = orgPanelType;
+        public OrgActionClickHandler(String orgId, Scope... scopes){
+            this.scope = Scope.build(scopes);
             this.orgId = orgId;
         }
         
         public void onClick(ClickEvent event) {
             SimplePanel workPanel  = (SimplePanel)root.getParent().getParent();
-            OrgCreatePanel orgCreatePanel = new OrgCreatePanel(orgPanelType);
-            orgCreatePanel.setOrgId(orgId);
+            OrganizationWidget orgCreatePanel = new OrganizationWidget(orgId, scope);
             workPanel.setWidget(orgCreatePanel);            
         }
 

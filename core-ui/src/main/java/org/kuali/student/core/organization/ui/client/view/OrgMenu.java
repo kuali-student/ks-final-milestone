@@ -47,8 +47,8 @@ public class OrgMenu extends VerticalPanel{
         List<KSMenuItemData> menuItems = new ArrayList<KSMenuItemData>();
         
         KSMenuItemData createItem = new KSMenuItemData("Create"); 
-        addSubItem(createItem, "Organization", new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL));
-        addSubItem(createItem, "Position", new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_POSITIONS));
+        addSubItem(createItem, "Organization", new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL));
+        addSubItem(createItem, "Position", new OrganizationWidget(OrganizationWidget.Scope.ORG_POSITIONS));
         
         KSMenuItemData modifyItem = new KSMenuItemData("Search / Modify");
         modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel()));
@@ -59,14 +59,9 @@ public class OrgMenu extends VerticalPanel{
         addSubItem(locateItem, "by Chart", new OrgLocateChart());
         addSubItem(locateItem, "by Name", new OrgLocateName());
         
-        KSMenuItemData createNewItem = new KSMenuItemData("Create (alt)");
-        addSubItem(createNewItem, "Organization", new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL));
-        addSubItem(createNewItem, "Position", new OrganizationWidget(OrganizationWidget.Scope.ORG_POSITIONS));
-        
         menuItems.add(createItem);
         menuItems.add(modifyItem);
         menuItems.add(locateItem);
-        menuItems.add(createNewItem);
         menuPanel.setItems(menuItems);
         this.setStyleName("ks-OrgMenu"); 
 

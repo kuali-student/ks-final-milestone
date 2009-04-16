@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.organization.dto.OrgInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,14 +57,13 @@ public class OrgUpdatePanel extends Composite{
                 orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
 
                     public void onSelection(SelectionEvent<OrgInfo> event) {
-                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+                        OrganizationWidget orgCreatePanel = new OrganizationWidget(event.getSelectedItem().getId(), OrganizationWidget.Scope.ORG_MODIFY_ALL);
+                        orgCreatePanel.addCloseButton("Back", new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
-                                w.remove(w.getWidgetCount() - 1);
-                                w.showWidget(w.getWidgetCount() - 1);
-                            }
-                        });
-                        orgCreatePanel.setOrgId(event.getSelectedItem().getId());
+                              w.remove(w.getWidgetCount() - 1);
+                              w.showWidget(w.getWidgetCount() - 1);
+                            }});
                         w.add(orgCreatePanel);
                         w.showWidget(w.getWidgetCount() - 1);
                     }
@@ -71,7 +71,7 @@ public class OrgUpdatePanel extends Composite{
                 });
                 root.add(orgSearchWidget);
             } else {
-                editPanel.setWidget(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL));
+                editPanel.setWidget(new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL));
             }
             loaded = true;
             root.add(editPanel); 

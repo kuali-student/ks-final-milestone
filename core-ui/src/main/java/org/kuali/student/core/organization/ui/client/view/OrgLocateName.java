@@ -132,14 +132,14 @@ public class OrgLocateName extends Composite {
                                 @Override
                                 public void onSelectionChange(final KSSelectItemWidgetAbstract selected) {
                                     if(selected.getSelectedItem() != null) {
-                                        final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL, new ClickHandler() {
+                                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(selected.getSelectedItem(), OrganizationWidget.Scope.ORG_MODIFY_ALL);
+                                        orgCreatePanel.addCloseButton("Back", new ClickHandler() {
                                             @Override
                                             public void onClick(ClickEvent event) {
                                                 w.remove(w.getWidgetCount() - 1);
                                                 w.showWidget(w.getWidgetCount() - 1);
                                             }
                                         });
-                                        orgCreatePanel.setOrgId(selected.getSelectedItem());
                                         w.add(orgCreatePanel);
                                         w.showWidget(w.getWidgetCount() - 1);
                                     }

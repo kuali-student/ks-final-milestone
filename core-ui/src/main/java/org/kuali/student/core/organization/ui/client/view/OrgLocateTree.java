@@ -9,6 +9,7 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -123,7 +124,8 @@ public class OrgLocateTree extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     final DeckPanel deck = OrgLocateTree.this.w;
-                    final OrgCreatePanel orgCreatePanel = new OrgCreatePanel(((Hyperlink)event.getSource()).getTargetHistoryToken(), new ClickHandler() {
+                    final OrganizationWidget orgCreatePanel = new OrganizationWidget(id, Scope.make(Integer.parseInt(((Hyperlink)event.getSource()).getTargetHistoryToken())));
+                    orgCreatePanel.addCloseButton("Back", new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
                             deck.remove(deck.getWidgetCount() - 1);
@@ -136,22 +138,21 @@ public class OrgLocateTree extends Composite {
                             label.setText(event.getSelectedItem().getLongName());
                         }
                     });
-                    orgCreatePanel.setOrgId(id);
                     deck.add(orgCreatePanel);
                     deck.showWidget(deck.getWidgetCount() - 1);
                 }
             };
             
-            final Hyperlink edit = new Hyperlink("Edit",OrgCreatePanel.CREATE_ORG_ALL);
+            final Hyperlink edit = new Hyperlink("Edit", ""+Scope.ORG_MODIFY_ALL.value());
             edit.addStyleName("action");
             edit.addClickHandler(handler);
-            final Hyperlink orgAddPosLbl = new Hyperlink("(+)org pos", OrgCreatePanel.CREATE_ORG_POSITIONS);
+            final Hyperlink orgAddPosLbl = new Hyperlink("(+)org pos", ""+Scope.build(Scope.ORG_POSITIONS,Scope.MODIFY).value());
             orgAddPosLbl.addStyleName("action");
             orgAddPosLbl.addClickHandler(handler);
-            final Hyperlink orgAddRelLbl = new Hyperlink("(+)org rel", OrgCreatePanel.CREATE_ORG_RELATIONS);
+            final Hyperlink orgAddRelLbl = new Hyperlink("(+)org rel", ""+Scope.build(Scope.ORG_RELATIONS,Scope.MODIFY).value());
             orgAddRelLbl.addStyleName("action");
             orgAddRelLbl.addClickHandler(handler);
-            final Hyperlink orgAddPersonRelLbl = new Hyperlink("(+)person rel", OrgCreatePanel.CREATE_ORG_PERSON_RELATIONS);
+            final Hyperlink orgAddPersonRelLbl = new Hyperlink("(+)person rel", ""+Scope.build(Scope.ORG_PERSON_RELATIONS,Scope.MODIFY).value());
             orgAddPersonRelLbl.addStyleName("action");
             orgAddPersonRelLbl.addClickHandler(handler);
             

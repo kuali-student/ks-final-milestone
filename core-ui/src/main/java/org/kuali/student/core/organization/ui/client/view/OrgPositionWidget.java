@@ -15,217 +15,276 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.common.ui.client.dto.HelpInfo;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.event.SaveEvent;
+import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
-import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
-/**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
- * 
- * @author Kuali Student Team
- *
- */
-public class OrgPositionWidget extends Composite {
-
-    HTML divider = new HTML("<hr/>");
-
-    KSFormLayoutPanel orgPosForm = null;
+class OrgPositionWidget extends OrgMultiWidget {
+    private ListItems orgPosTypeList;
+    List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
     
-    FlexTable fTable = null;     
-   
-    DockPanel root = new DockPanel();
-
-    ListBox posTypeDropDown;
-    
-    String posType;
-    String posId;
-    String posVersion;
-    String orgType;
-    
-    boolean deleted=false;
-    
-    boolean loaded = false;
-       
-    public OrgPositionWidget(){
-        super.initWidget(root);       
+    public OrgPositionWidget() {
+        this(null);
     }
-       
-    protected void onLoad(){
-        if (!loaded){
-            if (orgPosForm == null){
-                initForm();
-            }               
-            
-            fTable = new FlexTable();
-            fTable.setWidget(0,0,orgPosForm);
-            if (posId != null){
-                fTable.setWidget(0,1, getRemoveLink());
-            }
-            
-            divider.setVisible(false);
-            root.setWidth("50%");
-            root.add(divider, DockPanel.NORTH);
-            root.add(fTable,DockPanel.CENTER);
-            root.setCellHorizontalAlignment(fTable, DockPanel.ALIGN_CENTER);
-            root.setStyleName("ks-position");
-            
-            loaded = true;
+    public OrgPositionWidget(String orgId) {
+        this(orgId,false);
+    }
+    public OrgPositionWidget(String orgId, boolean open) {
+        super(new KSDisclosureSection("Positions", null, open));
+        if(orgPosTypeList == null)
+            populateOrgPositionTypes();
+        this.orgId = orgId;
+        if(orgId == null)
+            createBlankPosition();
+        else {
+            populatePositionInfos();
         }
     }
     
-    protected void initForm(){
-        orgPosForm = new KSFormLayoutPanel();        
+    public KSFormLayoutPanel createBlankPosition() {
+        KSFormLayoutPanel orgForm = new KSFormLayoutPanel();
+
+        final KSDropDown posTypeDropDown = new KSDropDown();
+
+        addFormField(posTypeDropDown, "Position", "position", orgForm);
+        addFormField(new KSTextBox(), "Title", "title", orgForm);
+        addFormField(new KSTextArea(), "Description", "desc", orgForm);
+        addFormField(new KSTextBox(), "Min people", "min", orgForm);
+        addFormField(new KSTextBox(), "Max people", "max", orgForm);
+
+        final HashMap<String, Object> map = new HashMap<String, Object>();
         
-        posTypeDropDown = new ListBox();
-        loadPersonRelationTypes();                              
+        add(orgForm, new CloseHandler<OrgMultiWidget>() {
+            @Override
+            public void onClose(CloseEvent<OrgMultiWidget> event) {
+                map.put("deleted", Boolean.TRUE);
+            }});
         
-        addFormField(posTypeDropDown,"Position", "position");
-        addFormField(new KSTextBox(), "Title", "title");
-        addFormField(new KSTextArea(), "Description", "desc");
-        addFormField(new KSTextBox(), "Min people", "min");
-        addFormField(new KSTextBox(), "Max people", "max");        
+        if(orgPosTypeList == null)
+            DeferredCommand.addCommand(new IncrementalCommand() {
+                @Override
+                public boolean execute() {
+                    if(orgPosTypeList != null) {
+                        posTypeDropDown.setListItems(orgPosTypeList);
+                        return false;
+                    }
+                    return true;
+                }});
+        else
+            posTypeDropDown.setListItems(orgPosTypeList);
+
+        map.put("form",orgForm);
+        forms.add(map);
+
+        return orgForm;
     }
 
-    private void addFormField(Widget w, String label, String name){
-        KSFormField ff = new KSFormField();
-        ff.setLabelText(label);
-        ff.setWidget(w);
-        ((HasName)w).setName(name);
-        ff.setHelpInfo(new HelpInfo());
-        ff.setName(name);
-        
-        orgPosForm.addFormField(ff);
-    }
-    
-    public OrgPositionRestrictionInfo getPositionRestrictionInfo(){
-        OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
-        
-        orgPosRestriction.setId(posId);
-        
-        MetaInfo posMetaInfo = new MetaInfo();
-        posMetaInfo.setVersionInd(posVersion);        
-        orgPosRestriction.setMetaInfo(posMetaInfo);
-        
-        orgPosRestriction.setOrgPersonRelationTypeKey(posTypeDropDown.getValue(posTypeDropDown.getSelectedIndex()));
-        orgPosRestriction.setTitle(orgPosForm.getFieldValue("title"));
-        orgPosRestriction.setDesc(orgPosForm.getFieldValue("desc"));
-        
-        /*
-        TimeAmountInfo durationTimeAmtInfo = new TimeAmountInfo();
-        durationTimeAmtInfo.setAtpDurationTypeKey(atpDurationType.getText());
-        try {
-            durationTimeAmtInfo.setTimeQuantity(Integer.valueOf(posDuration.getText()));            
-        } catch (NumberFormatException e) {
-        }      
-        orgPosRestriction.setStdDuration(durationTimeAmtInfo);
-        */
-        
-        try {
-            orgPosRestriction.setMinNumRelations(Integer.valueOf(orgPosForm.getFieldValue("min")));
-        } catch (NumberFormatException e) {
-
-        }
-        orgPosRestriction.setMaxNumRelations(orgPosForm.getFieldValue("max"));
-               
-        return orgPosRestriction;        
-    }
-    
-    protected void setOrgPositionRestrictionInfo(OrgPositionRestrictionInfo orgPosRestriction){
-        if (orgPosForm == null){
-            initForm();
-        }
-        
-        posId = orgPosRestriction.getId();
-        posVersion = orgPosRestriction.getMetaInfo().getVersionInd();
-        posType = orgPosRestriction.getOrgPersonRelationTypeKey();
-        
-        orgPosForm.setFieldValue("title", orgPosRestriction.getTitle());        
-        orgPosForm.setFieldValue("desc", orgPosRestriction.getDesc());
-        
-        //TODO: Need to fix this
-        try{
-            //setFormValue("duration", orgPosRestriction.getStdDuration().getTimeQuantity());
-        } catch (Exception e){
-        }
-        try {
-            orgPosForm.setFieldValue("min", orgPosRestriction.getMinNumRelations().toString());
-        } catch (Exception e) {
-            orgPosForm.setFieldValue("min", "");
-            // TODO: handle exception
-        }
-        
-        orgPosForm.setFieldValue("max",orgPosRestriction.getMaxNumRelations()); 
-        
-        posTypeDropDown.setEnabled(false);
-    }
-        
-    protected void loadPersonRelationTypes(){
+    private void populateOrgPositionTypes() {
         OrgRpcService.Util.getInstance().getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
             }
 
             public void onSuccess(List<OrgPersonRelationTypeInfo> posTypes) {
-                posTypeDropDown.addItem("Select", "");
-               
-                int i =0;
-                for(OrgPersonRelationTypeInfo posTypeInfo:posTypes){
-                    i++;
-                    posTypeDropDown.addItem(posTypeInfo.getName(),posTypeInfo.getId());
-                    if (posTypeInfo.getId().equals(posType)){
-                        posTypeDropDown.setSelectedIndex(i);
-                    }
+                final Map<String,String> map = new LinkedHashMap<String, String>();
+                for(OrgPersonRelationTypeInfo info : posTypes) {
+                    map.put(info.getId(), info.getName());
                 }
-            }
-        });        
-    }
-     
-    protected Widget getRemoveLink(){
-        Hyperlink hLink = new Hyperlink("(-)remove","");
-        hLink.setStyleName("action");
-        
-        hLink.addClickHandler(new ClickHandler(){
+                orgPosTypeList = new ListItems() {
 
-            public void onClick(ClickEvent event) {
-            	if(deleted==false){
-            		deleted=true;
-            		orgPosForm.setEditMode(EditMode.VIEW_ONLY);
-            		fTable.setWidget(0, 1, new KSLabel("Removed"));
-            	}
-            }            
+                    @Override
+                    public List<String> getAttrKeys() {
+                        return null; //apparently unused
+                    }
+
+                    @Override
+                    public String getItemAttribute(String id, String attrkey) {
+                        return null; //apparently unused
+                    }
+
+                    @Override
+                    public int getItemCount() {
+                        return map.size();
+                    }
+
+                    @Override
+                    public List<String> getItemIds() {
+                        return new ArrayList<String>(map.keySet());
+                    }
+
+                    @Override
+                    public String getItemText(String id) {
+                        return map.get(id);
+                    }
+                };
+            }
         });
-        
-        return hLink;
     }
     
-    public void setDividerEnabled(boolean visible){
-        divider.setVisible(visible);
+    private void populatePositionInfos() {
+        OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId,
+                new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
+        
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+        
+                    public void onSuccess(List<OrgPositionRestrictionInfo> orgPositions) {
+                        for(OrgPositionRestrictionInfo info : orgPositions) {
+                            final KSFormLayoutPanel orgPosForm = createBlankPosition();
+                            Map<String,Object> map = forms.get(forms.size() - 1); //should always be the last one
+                            map.put("posId",info.getId());
+                            map.put("posVersion",info.getMetaInfo().getVersionInd());
+                            
+                            final String posType = info.getOrgPersonRelationTypeKey();
+                            
+                            orgPosForm.setFieldValue("title", info.getTitle());        
+                            orgPosForm.setFieldValue("desc", info.getDesc());
+                            
+                            //TODO: Need to fix this
+                            try{
+                                //setFormValue("duration", orgPosRestriction.getStdDuration().getTimeQuantity());
+                            } catch (Exception e){
+                            }
+                            try {
+                                orgPosForm.setFieldValue("min", info.getMinNumRelations().toString());
+                            } catch (Exception e) {
+                                orgPosForm.setFieldValue("min", "");
+                                // TODO: handle exception
+                            }
+                            
+                            orgPosForm.setFieldValue("max",info.getMaxNumRelations()); 
+                            
+                            final KSDropDown posTypeDropDown = (KSDropDown) orgPosForm.getFieldWidget("position");
+                            
+                            if(posTypeDropDown.getListItems() != null)
+                                posTypeDropDown.selectItem(posType);
+                            else
+                                DeferredCommand.addCommand(new IncrementalCommand() {
+                                    @Override
+                                    public boolean execute() {
+                                        if(posTypeDropDown.getListItems() != null) {
+                                            posTypeDropDown.selectItem(posType);
+                                            return false;
+                                        }
+                                        return true;
+                                    }});
+                            posTypeDropDown.setEnabled(false);
+                        }
+                    }            
+        });
+    }
+    
+    @Override
+    protected void save() {
+        for (Map<String,Object> formMap : forms) {
+            KSFormLayoutPanel orgPosForm = (KSFormLayoutPanel) formMap.get("form");
+            if (orgPosForm.getFieldValue("title").trim().length() == 0)
+                continue; //skipping this one
+            OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
+            
+            orgPosRestriction.setId((String) formMap.get("posId"));
+            orgPosRestriction.setOrgId(orgId);
+            
+            MetaInfo posMetaInfo = new MetaInfo();
+            posMetaInfo.setVersionInd((String) formMap.get("posVersion"));        
+            orgPosRestriction.setMetaInfo(posMetaInfo);
+            
+            orgPosRestriction.setOrgPersonRelationTypeKey(orgPosForm.getFieldValue("position"));
+            orgPosRestriction.setTitle(orgPosForm.getFieldValue("title"));
+            orgPosRestriction.setDesc(orgPosForm.getFieldValue("desc"));
+            
+            /*
+            TimeAmountInfo durationTimeAmtInfo = new TimeAmountInfo();
+            durationTimeAmtInfo.setAtpDurationTypeKey(atpDurationType.getText());
+            try {
+                durationTimeAmtInfo.setTimeQuantity(Integer.valueOf(posDuration.getText()));            
+            } catch (NumberFormatException e) {
+            }      
+            orgPosRestriction.setStdDuration(durationTimeAmtInfo);
+            */
+            
+            try {
+                orgPosRestriction.setMinNumRelations(Integer.valueOf(orgPosForm.getFieldValue("min")));
+            } catch (NumberFormatException e) {
+
+            }
+            orgPosRestriction.setMaxNumRelations(orgPosForm.getFieldValue("max"));
+            
+            if (orgPosRestriction.getId() == null){
+                OrgRpcService.Util.getInstance().addPositionRestrictionToOrg(orgPosRestriction,
+                        new AsyncCallback<OrgPositionRestrictionInfo>(){
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+        
+                    public void onSuccess(final OrgPositionRestrictionInfo result) {
+                        fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
+                            public String toString() {
+                                return "Org position created with id: " + result.getId();
+                            }
+                        });
+                    }
+                });
+            }else if(formMap.get("deleted") != null){
+                OrgRpcService.Util.getInstance().removePositionRestrictionFromOrg(orgPosRestriction.getOrgId(), orgPosRestriction.getOrgPersonRelationTypeKey(), 
+                        new AsyncCallback<StatusInfo>(){
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+        
+                    public void onSuccess(final StatusInfo result) {
+                        fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
+                            public String toString() {
+                                return "Org position deleted: " + result.getMessage();
+                            }
+                        });
+                    }
+                }); 
+            }else{
+                OrgRpcService.Util.getInstance().updatePositionRestrictionForOrg(orgPosRestriction,
+                        new AsyncCallback<OrgPositionRestrictionInfo>(){
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+        
+                    public void onSuccess(final OrgPositionRestrictionInfo result) {
+                        fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
+                            public String toString() {
+                                return "Org position updated for: " + result.getId();
+                            }
+                        });
+                    }
+                });                    
+            }
+        }
     }
 
-	public boolean isDeleted() {
-		return deleted;
-	}
+    @Override
+    protected void create() {
+        createBlankPosition();
+    }
+
 }

@@ -108,9 +108,20 @@ BODY
 	background: SelectionChosenColor;
 	border: blue solid thin;
 	border-radius: 1ex;
-	-moz-border-radius: 1ex;
+	/*-moz-border-radius: 1ex;
+	-webkit-border-radius: 1ex;*/
 	padding: 0 1em 1em 1em;
 	margin: 1ex;
+}
+
+@if user.agent safari {
+	.KS-Org-Multi-Widget {
+		\-webkit-border-radius: 1ex;
+	}
+} @elif user.agent gecko gecko1_8 {
+	.KS-Org-Multi-Widget {
+		\-moz-border-radius: 1ex;
+	}
 }
 
 .ks-orgChart{
