@@ -31,16 +31,16 @@ public class OrgChartWidget extends Composite {
 	String hierarchyId;
 	int maxLevels;
 	boolean loaded = false;
-	
+
 	public OrgChartWidget(String orgId, String hierarchyId, int maxLevels) {
 		super.initWidget(w);
 		w.add(root);
-		
+
 		root.setStyleName("ks-orgChart");
 		this.orgId=orgId;
 		this.hierarchyId=hierarchyId;
 		this.maxLevels=maxLevels;
-		
+
         KSLabel lbl = new KSLabel("Please Wait...");
         w.add(lbl);
         w.showWidget(1);
@@ -50,38 +50,38 @@ public class OrgChartWidget extends Composite {
 	    if (!loaded){
             Runnable onLoadCallback = new Runnable() {
                 public void run() {
-                    	
+
                 	OrgRpcService.Util.getInstance().getOrgDisplayTree(orgId, hierarchyId, maxLevels, new AsyncCallback<List<OrgTreeInfo> >(){
-     
+
     					public void onFailure(Throwable caught) {
     						Window.alert(caught.getMessage());
     					}
-    
+
     					public void onSuccess(List<OrgTreeInfo>  results) {
-                            
+
     						final DataTable data = DataTable.create();
-    	                    data.addColumn(ColumnType.STRING, "Name");
-    	                    data.addColumn(ColumnType.STRING, "Manager");
-    
+    	                    data.addColumn(ColumnType.STRING, "OrgId");
+    	                    data.addColumn(ColumnType.STRING, "ParentOrgId");
+    						data.addRows(results.size() + 1);
+
     						int lineCount=0;
-    
+
     						for(OrgTreeInfo orgTreeInfo:results){
-    		               		
-    		               		data.addRow();
-    							data.setCell(lineCount, 0, orgTreeInfo.getOrgId(), orgTreeInfo.getDisplayName(), null);
-    			                
+     							data.setCell(lineCount, 0, orgTreeInfo.getOrgId(), orgTreeInfo.getDisplayName(), null);
+
     							if(orgTreeInfo.getParentId()!=null && !"".equals(orgTreeInfo.getParentId())){
-    			                	data.setCell(lineCount, 1, orgTreeInfo.getParentId(), null, null);		               		
+    			                	data.setCell(lineCount, 1, orgTreeInfo.getParentId(), null, null);
     			                }
-    			                
+
     							lineCount++;
     		               	}
-    						
+
     	                    final Options orgChartOpts = Options.create();
+    	                    orgChartOpts.setOption("size", "small");
     	                    final OrgChart o = new OrgChart(data, orgChartOpts);
-    	                    
+
     	                    Handler.addHandler(o, "select", new SelectHandler(){
-    
+
     							public void onSelect(SelectEvent event) {
     		                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(data.getValueString(o.getSelections().get(0).getRow(), 0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
     		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
@@ -101,15 +101,15 @@ public class OrgChartWidget extends Composite {
     		                        w.add(orgCreatePanel);
     		                        w.showWidget(w.getWidgetCount() - 1);
     							}
-    	                    	
+
     	                    });
-    	                    
+
     	                    root.add(o);
     	                    while(w.getWidgetCount() != 1)
     	                        w.remove(w.getWidgetCount() - 1);
     	                    w.showWidget(0);
 
-    	                    	                    
+
     					}
                 	});
                 }
@@ -118,7 +118,7 @@ public class OrgChartWidget extends Composite {
               // Load the visualization api, passing the onLoadCallback to be called
               // when loading is done.
               AjaxLoader.loadVisualizationApi(onLoadCallback, OrgChart.PACKAGE);
-              
+
               loaded=true;
 	    } else {
             while(w.getWidgetCount() != 1)
