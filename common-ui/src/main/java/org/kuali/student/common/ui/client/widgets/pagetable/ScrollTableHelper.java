@@ -49,7 +49,7 @@ public class ScrollTableHelper {
         int column = 0;
         FlexCellFormatter headerFormatter = headerTable.getFlexCellFormatter();
         headerTable.setHTML(row, column, description);
-        headerFormatter.setColSpan(0, 0, 2);
+        headerFormatter.setColSpan(0, 0, columnHeaders.size());
         row++;
         String html;
         for(String header :columnHeaders  ) {
