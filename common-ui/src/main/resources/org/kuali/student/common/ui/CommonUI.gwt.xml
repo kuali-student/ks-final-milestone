@@ -13,6 +13,9 @@
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
   	<inherits name="com.google.gwt.libideas.StyleInjector" /> 
+    <inherits name='com.google.gwt.gen2.table.Table'/>
+
+ 
 	<script src="http://www.google.com/jsapi"/>
 	
 	<!--
