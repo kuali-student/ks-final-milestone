@@ -93,8 +93,9 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgInfo.setExpirationDate(df.parse("21001231"));
 		orgInfo.getAttributes().put("Alias", "OrgAlias");
 
-		OrgInfo createOrg = client.createOrganization("kuali.org.Program", orgInfo);
-
+		OrgInfo createOrg1 = client.createOrganization("kuali.org.Program", orgInfo);
+		OrgInfo createOrg = client.getOrganization(createOrg1.getId());
+		
 		//Validate all fields
 		assertEquals("Description for new OrgInfo",createOrg.getShortDesc());
 		assertEquals("Loooooooooong description for new OrgInfo", createOrg.getLongDesc());
