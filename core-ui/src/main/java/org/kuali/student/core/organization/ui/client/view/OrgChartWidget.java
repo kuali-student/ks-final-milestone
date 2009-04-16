@@ -82,7 +82,7 @@ public class OrgChartWidget extends Composite {
     	                    orgChartOpts.setOption("size", "small");
     	                    final OrgChart o = new OrgChart(data, orgChartOpts);
 
-    	                    Handler.addHandler(o, "select", new SelectHandler(){
+    	                    o.addSelectHandler(new SelectHandler(){
 
     							public void onSelect(SelectEvent event) {
    		                        	JsArray<Selection> selections = o.getSelections();
