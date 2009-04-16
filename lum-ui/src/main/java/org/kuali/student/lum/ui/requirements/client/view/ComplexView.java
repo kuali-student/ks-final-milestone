@@ -40,11 +40,12 @@ public class ComplexView extends ViewComposite {
 
     //displayed widgets
     private Panel mainPanel = new SimplePanel();
-    private KSButton btnEditClause = new KSButton("Edit Clause");
+    private KSButton btnEditClause = new KSButton("Edit");
     private KSButton btnSearchView = new KSButton("Search");
     private KSButton btnRetrieveStatement = new KSButton("Retrieve Rule");
     private KSButton btnSimpleView = new KSButton("Simple View");
     private KSLabel selectedClause = new KSLabel();
+    private KSLabel naturalLanguage = new KSLabel();
     private TreeTable ruleTable = new TreeTable();
     
     //view data
@@ -56,17 +57,19 @@ public class ComplexView extends ViewComposite {
         super.initWidget(mainPanel);
         Panel testPanel = new VerticalPanel();
         testPanel.add(new Label("Complex View"));
-        testPanel.add(btnEditClause);
         testPanel.add(btnSearchView);
         testPanel.add(btnRetrieveStatement);
         testPanel.add(ruleTable);
         testPanel.add(selectedClause);
+        testPanel.add(naturalLanguage);
+        testPanel.add(btnEditClause);
         testPanel.add(btnSimpleView);
         mainPanel.add(testPanel);
     }
     
     public void beforeShow() { 
-  
+        if (selectedReqComp != null)
+            System.out.println("SIZE... " + selectedReqComp.getReqCompField().size());
     //}
     
     
@@ -110,7 +113,7 @@ public class ComplexView extends ViewComposite {
         });
         btnRetrieveStatement.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RequirementsService.Util.getInstance().getStatementVO(RequirementsEntryPoint.testCluId, "kuali.luStatementType.createCourseAcademicReadiness", new AsyncCallback<StatementVO>() {
+                RequirementsService.Util.getInstance().getStatementVO(RequirementsEntryPoint.testCluId, "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
@@ -131,14 +134,7 @@ public class ComplexView extends ViewComposite {
                 redraw();
             }
         });
-        
-        ruleTable.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-               // ruleTable.get
-            }
-        });
-        
-               
+                       
         ruleTable.addClickHandler(new ClickHandler() {
 
             @Override
@@ -149,9 +145,24 @@ public class ComplexView extends ViewComposite {
                 NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
                 
                 if (widget != null) {
-                    ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();
+                    naturalLanguage.addStyleName("KS-ReqComp-Selected");
+                    widget.addStyleName("KS-ReqComp-Selected");
+                    ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();                    
                     selectedReqComp = clause.getReqComponentInfo();
                     selectedClause.setText("SELECTED: " + clause.getTypeDesc());
+                    
+                    //get natural language for selected Requirement Component
+                    RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(selectedReqComp.getId(), "KUALI.CATALOG", new AsyncCallback<String>() {
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                            System.out.println(caught.getMessage());
+                            caught.printStackTrace();
+                        }
+                        
+                        public void onSuccess(final String nl) {
+                            naturalLanguage.setText("NATURAL LANGUAGE: " + nl);
+                        } 
+                    });                                                            
                 }
             }
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.common.ui.client.widgets.table.NodeWidget;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
@@ -66,7 +67,36 @@ public class StatementVO extends Token implements Serializable {
         
         Node node = new Node();
         addChildrenNodes(node, this);
+        printTree(node);
         return node;
+    }
+    
+    private void printTree(Node node) {        
+        int level = 0;
+        ReqComponentVO content;
+        level++;
+        
+        if (node == null) {
+            System.out.println("null node found");
+            return;
+        }
+        
+        if (node.getUserObject() != null) {
+            Token token = (Token) node.getUserObject();
+            //content = (ReqComponentVO) token.value;
+            System.out.println("Node level " + level + ", content: " + token.value);
+        }
+        else System.out.println("Node user object null, level: " + level);
+        for (int i = 0; i < node.getChildCount(); i++) {
+            Node child = node.getChildAt(i);
+            if (child.isLeaf()) {
+                Token token = (Token) node.getUserObject();
+                //content = (ReqComponentVO) node.getUserObject();
+                System.out.println("Node level " + level++ + ", content: " + token.value);
+            } else {
+                printTree(child);
+            }
+        }
     }
     
     private void setOperatorNode(Node node, StatementVO statementVO) {
@@ -84,11 +114,11 @@ public class StatementVO extends Token implements Serializable {
     private void addChildrenNodes(Node node, StatementVO statementVO) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
+        
         if (statementVOs != null) {
 //            node.setUserObject(statementVO);
             setOperatorNode(node, statementVO);
-            for (int i = 0, statementVOCount = statementVOs.size();
-                i < statementVOCount; i++) {
+            for (int i = 0; i < statementVOs.size(); i++) {
                 StatementVO childStatementVO = statementVOs.get(i);
                 Node childNode = new Node();
                 node.addNode(childNode);
@@ -99,19 +129,20 @@ public class StatementVO extends Token implements Serializable {
                 addChildrenNodes(childNode, childStatementVO);
             }
         }
+
         if (reqComponentVOs != null) {
-            if (reqComponentVOs != null) {
-                for (int rcIndex = 0, rcCount = reqComponentVOs.size();
-                rcIndex < rcCount; rcIndex++) {
-                    ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
-                    if (rcCount > 1) {
-                        node.addNode(new Node(childReqComponentVO));
-                    } else {
-                        node.setUserObject(childReqComponentVO);
-                    }
+            //System.out.println("VO size: " + reqComponentVOs.size());
+            for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
+                ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
+                if (rcCount > 1) {
+                    //System.out.println("TESTING 00---> " + childReqComponentVO.getReqComponentInfo().getDesc() + " ### " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
+                    node.addNode(new Node(childReqComponentVO));
+                } else {
+                    //System.out.println("TESTING 0---> " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
+                    node.setUserObject(childReqComponentVO);
                 }
             }
-        }
+        }        
     }
 
     public void addStatementVO(StatementVO statementVO) {

@@ -36,22 +36,16 @@ public class ReqComponentVO extends Token implements Serializable {
     }
 
     @Override
-    public String toString() {
-        
-        System.out.println("HERE>...");
-        
+    public String toString() {                
         String reqCompType = reqComponentInfo.getType();
-        
-        List<ReqCompFieldInfo> fields = reqComponentInfo.getReqCompField();
-        
-        for (ReqCompFieldInfo field : fields) {
-            System.out.println("test: " + field.getValue());
-        }
-        
-        System.out.println(typeDesc);
-        return typeDesc;
-        
-        //return reqComponentInfo.getDesc();
+        String reqCompDescription = typeDesc;
+                
+        for (ReqCompFieldInfo fieldInfo : reqComponentInfo.getReqCompField()) {
+            //System.out.println("Field Info: " + fieldInfo.getId());
+            reqCompDescription = reqCompDescription.replaceAll("<" + fieldInfo.getId() + ">", fieldInfo.getValue());
+        }        
+
+        return reqCompDescription;
     }
     
 }

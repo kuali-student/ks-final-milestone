@@ -96,7 +96,7 @@ public class PrereqManager extends Controller {
                 return complexView;
             case SEARCH:
                 return searchView;
-            case CLAUSE_EDITOR:
+            case CLAUSE_EDITOR:                                
                 clauseEditorView.setEditedReqComp(complexView.getSelectedReqComp());
                 return clauseEditorView;
             default:

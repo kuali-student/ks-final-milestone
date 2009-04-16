@@ -16,6 +16,7 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
  */
 //TODO how do we do exceptions
 public interface RequirementsRemoteService {
+    public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) throws Exception;
     public CourseRuleInfo getCourseInfo(String cluId) throws Exception;
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception;
     public List<Result> getAllClus() throws Exception;

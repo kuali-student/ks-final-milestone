@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class RequirementsEntryPoint implements EntryPoint {
 
-    public final static String testCluId = "CLU-1"; //"CHEM111";
+    public final static String testCluId = "CLU-NL-1"; //"CLU-1", "CHEM111";
     
     public void onModuleLoad() {
         

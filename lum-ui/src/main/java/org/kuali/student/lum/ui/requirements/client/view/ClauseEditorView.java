@@ -154,6 +154,8 @@ public class ClauseEditorView extends ViewComposite {
             public void onClick(ClickEvent event) {
                 //store values in the req. component info
                 List<ReqCompFieldInfo> fields = editedReqComp.getReqCompField();
+                System.out.println("DESC: " + editedReqComp.getDesc());
+                //editedReqComp.setDesc("TEST");
                 for (KSTextBox reqCompWidget : reqCompWidgets) {
                     System.out.println("Widget " + reqCompWidget.getName() + ", value: " + reqCompWidget.getText());
                     if ((fields == null) || (fields.isEmpty())) {
@@ -210,8 +212,11 @@ public class ClauseEditorView extends ViewComposite {
             }
             
             //TODO use ENUMs and Switch()
-            //System.out.println(tokens[i]);            
-            if ((tokens[i].equals("value")) || (tokens[i].equals("Grade"))) {
+            //System.out.println(tokens[i]); 
+            String tag = tokens[i].replaceFirst("reqCompFieldType.", "");
+            tag = tag.replaceFirst("reqCompFiledType.", "");
+            //System.out.println("TAG: " + tag);
+            if ((tag.equals("requiredCount")) || (tag.equals("gpa")) || (tag.equals("clu"))) {
                 KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
@@ -220,7 +225,7 @@ public class ClauseEditorView extends ViewComposite {
                 parentWidget.add(valueWidget);
                 continue;                                
             }
-            if ((tokens[i].equals("Course")) || (tokens[i].equals("courses"))) {
+            if (tag.equals("cluSet")) {
                 KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);                
@@ -236,14 +241,19 @@ public class ClauseEditorView extends ViewComposite {
         
         //if we are showing new req. comp. type then show empty fields
         if (fields == null) {
+            System.out.println("Fields null");
             return "";
         }
+        
+        //System.out.println("FIELDS SIZE: " + fields.size());
     
         for (ReqCompFieldInfo fieldInfo : fields) {
+            //System.out.println("Field Info: " + fieldInfo.getId());
             if (fieldInfo.getId().equals(key)) {
                 return fieldInfo.getValue();
             }
         }
+        
         System.out.println("DID NOT FIND GIVEN KEY ??? key: " + key);
         return "";
     }
@@ -253,6 +263,8 @@ public class ClauseEditorView extends ViewComposite {
     }
 
     public void setEditedReqComp(ReqComponentInfo editedReqComp) {
+        //System.out.println("TESTING 1---> " + editedReqComp.getReqCompField().size());
         this.editedReqComp = editedReqComp;
+        //System.out.println("TESTING 2---> " + this.editedReqComp.getReqCompField().size());
     }       
 }

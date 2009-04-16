@@ -3,6 +3,13 @@ package org.kuali.student.lum.ui.requirements.server.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -25,6 +32,34 @@ public class RequirementsServiceImpl implements RequirementsService {
 
 	LuService service;
 
+    public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) throws Exception {
+        
+        String naturalLanguage = "";
+        
+        CluInfo cluInfo;
+        try {        
+            //cluInfo = service.getClu("123");         
+            naturalLanguage = service.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");            
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }   
+      
+        /* } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to retrieve natural language for req. component. reqComponentId: " + reqComponentId + ", nlUsageTypeKey: " + nlUsageTypeKey, ex);           
+        }  */        
+        
+        System.out.println("Natural Language: " + naturalLanguage);
+        
+        return naturalLanguage;
+    }	
+	
 	public CourseRuleInfo getCourseInfo(String cluId) throws Exception {
 	  
         CourseRuleInfo courseInfo = new CourseRuleInfo();

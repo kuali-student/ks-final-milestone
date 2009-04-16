@@ -10,6 +10,11 @@ a {
 	color: darkblue;
 }
 
+.KS-ReqComp-Selected {
+	background-color: #FFFF99;
+	font-size: 15pt;
+}
+
 .yvf_fields {
   background-color: lightblue;
   /* color: blue; */
@@ -396,7 +401,6 @@ a:visited {
 .gwt-DialogBox.dialogBottomCenterInner { the inner element of the cell }
 .gwt-DialogBox.dialogBottomRight { the bottom right cell }
 .gwt-DialogBox.dialogBottomRightInner { the inner element of the cell }
-
 
 .KSLumContentPanel {
 	border-style: solid;

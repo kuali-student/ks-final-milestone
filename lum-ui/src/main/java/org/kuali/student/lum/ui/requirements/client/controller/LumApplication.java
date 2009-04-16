@@ -75,7 +75,6 @@ public class LumApplication extends Controller {
     @Override
     @SuppressWarnings("unchecked")
     public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
-        System.out.println("HERE...." + modelType);
         if (modelType.equals(CourseRuleInfo.class)) {
             if (courseData == null) {
                 courseData = new Model<CourseRuleInfo>();
@@ -100,7 +99,7 @@ public class LumApplication extends Controller {
                     prereqInfo.setId(courseData.get(courseId).getId());
                     prereqInfo.setNaturalLanguage("Test natural language");
                     prereqInfo.setRationale("Test rationalle");
-                    prereqInfo.setStatementVO(new StatementVO(courseData.get(courseId).getLuStatementByType("kuali.luStatementType.createCourseAcademicReadiness")));
+                    prereqInfo.setStatementVO(new StatementVO(courseData.get(courseId).getLuStatementByType("kuali.luStatementType.prereqAcademicReadiness")));
                     courseRequisiteView.setPrereqInfo(prereqInfo);
                     return courseRequisiteView;
                 default:
