@@ -29,6 +29,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -557,7 +558,50 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(updReq.getType(), "kuali.reqCompType.courseList");
         assertEquals(updReq.getState(), "IN_PROGRESS");
         assertEquals(updReq.getDesc(), "Req Comp 3");
+        assertEquals(updReq.getReqCompField().size(), 0);
     }
+
+    public void testUpdateReqComponentField() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+
+        ReqComponentInfo req = client.getReqComponent("REQCOMP-1");
+        
+        assertEquals(req.getReqCompField().size(), 0);
+        
+        ReqCompFieldInfo rcfInfo = new ReqCompFieldInfo();
+        rcfInfo.setId("reqCompFieldType.clu");
+        rcfInfo.setValue("MATH 101");
+        
+        MetaInfo mfOrg = req.getMetaInfo();
+
+        MetaInfo mf = new MetaInfo();
+
+        req.setMetaInfo(mf);
+
+        ReqComponentInfo updReq = null;
+        try {
+            updReq = client.updateReqComponent(req.getId(), req);
+            fail("Should throw version mismatch exception");
+        } catch (VersionMismatchException e) {
+            assertTrue(true);
+        }
+
+        req.setMetaInfo(mfOrg);
+
+        try {
+            updReq = client.updateReqComponent(req.getId(), req);
+        } catch (VersionMismatchException e) {
+            fail("Should not throw version mismatch exception");
+        }
+        
+        assertEquals(updReq.getReqCompField().size(), 1);
+        ReqCompFieldInfo newrcfInfo = updReq.getReqCompField().get(0);
+                
+        assertNotNull(updReq.getId());
+        assertNotNull(newrcfInfo);
+        assertEquals("MATH 101", newrcfInfo.getValue());
+        assertEquals("reqCompFieldType.clu", newrcfInfo.getId());
+    }
+    
     
     @Test
     public void testDeleteReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
