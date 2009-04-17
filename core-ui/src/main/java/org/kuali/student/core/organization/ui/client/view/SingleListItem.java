@@ -18,7 +18,6 @@ package org.kuali.student.core.organization.ui.client.view;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 
 class SingleListItem implements ListItems {
