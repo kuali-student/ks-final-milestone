@@ -71,6 +71,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>	
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>	
 		</dependency>
