@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -526,6 +527,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(createdReq.getDesc(), "Required Component 5");
     }
 
+    @Test
     public void testUpdateReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
 
         ReqComponentInfo req = client.getReqComponent("REQCOMP-1");
@@ -555,12 +557,12 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         }
 
         assertNotNull(updReq.getId());
-        assertEquals(updReq.getType(), "kuali.reqCompType.courseList");
+        assertEquals(updReq.getType(), "kuali.reqCompType.courseList.all");
         assertEquals(updReq.getState(), "IN_PROGRESS");
         assertEquals(updReq.getDesc(), "Req Comp 3");
         assertEquals(updReq.getReqCompField().size(), 0);
     }
-
+    @Test
     public void testUpdateReqComponentField() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
 
         ReqComponentInfo req = client.getReqComponent("REQCOMP-1");
@@ -571,19 +573,14 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         rcfInfo.setId("reqCompFieldType.clu");
         rcfInfo.setValue("MATH 101");
         
+        List<ReqCompFieldInfo> reqCompField = new ArrayList<ReqCompFieldInfo>();
+        reqCompField.add(rcfInfo);
+        req.setReqCompField(reqCompField);
+
+        
         MetaInfo mfOrg = req.getMetaInfo();
 
-        MetaInfo mf = new MetaInfo();
-
-        req.setMetaInfo(mf);
-
         ReqComponentInfo updReq = null;
-        try {
-            updReq = client.updateReqComponent(req.getId(), req);
-            fail("Should throw version mismatch exception");
-        } catch (VersionMismatchException e) {
-            assertTrue(true);
-        }
 
         req.setMetaInfo(mfOrg);
 
@@ -599,7 +596,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertNotNull(updReq.getId());
         assertNotNull(newrcfInfo);
         assertEquals("MATH 101", newrcfInfo.getValue());
-        assertEquals("reqCompFieldType.clu", newrcfInfo.getId());
+        assertEquals("reqCompFieldType.clu", newrcfInfo.getId());       
     }
     
     
