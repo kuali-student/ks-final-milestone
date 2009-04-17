@@ -3,8 +3,10 @@ package org.kuali.student.lum.lu.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -46,7 +48,7 @@ public class ReqComponent extends MetaEntity {
     @JoinColumn(name="REQ_COM_TYPE_ID")
     private ReqComponentType requiredComponentType;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "KSLU_REQ_COM_JN_REQ_COM_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
     private List<ReqComponentField> reqCompField;
     

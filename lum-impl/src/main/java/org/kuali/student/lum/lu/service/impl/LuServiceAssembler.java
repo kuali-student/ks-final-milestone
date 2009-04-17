@@ -597,6 +597,9 @@ public class LuServiceAssembler extends BaseAssembler {
             }
             if (!String.valueOf(reqComp.getVersionInd()).equals(reqCompInfo.getMetaInfo().getVersionInd())) {
                 throw new VersionMismatchException("ReqComponent to be updated is not the current version");
+            }   
+            for(ReqComponentField reqCompField : reqComp.getReqCompField()) {
+                dao.delete(reqCompField);
             }
         } else {
             reqComp = new ReqComponent();
@@ -611,14 +614,7 @@ public class LuServiceAssembler extends BaseAssembler {
                     "ReqComponentType does not exist for id: " + reqCompInfo.getType());
         }
         reqComp.setRequiredComponentType(reqCompType);
-
-        // Detach previous binding with ReqCompField
-        if(isUpdate) {
-            for(ReqComponentField reqCompField : reqComp.getReqCompField()) {
-                dao.delete(reqCompField);
-            }
-        }
-
+      
         // Create and copy ReqCompFields
         List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
         for(ReqCompFieldInfo reqCompFieldInfo : reqCompInfo.getReqCompField()) {

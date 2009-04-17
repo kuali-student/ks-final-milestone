@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
@@ -24,6 +25,7 @@ public class ReqComponentField {
     /**
      * AutoGenerate the Id
      */
+    @PrePersist
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
     }
