@@ -180,11 +180,11 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
     public List<String> getSelectedItems() {
         List<String> result = new ArrayList<String>();
 
-        int selectedIdx = listBox.getSelectedIndex();        
-        String id = listBox.getValue(selectedIdx);
+        int selectedIdx = listBox.getSelectedIndex();                
         
         if((blankFirstItem && selectedIdx > 0) || (!blankFirstItem && selectedIdx >= 0)){
-                result.add(id);
+            String id = listBox.getValue(selectedIdx);            
+            result.add(id);
         }
         return result;
     }
