@@ -81,7 +81,6 @@ public class BooleanExpressionEditorModel implements NodeEditor {
             clonedWidgetList.add(n.clone());
         }
         undoStack.add(clonedWidgetList);
-        System.out.println("dump:"+undoStack+"\n");
     }
 
     public List<NodeWidget> getAllNodeWidget() {
