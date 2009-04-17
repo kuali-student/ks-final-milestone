@@ -13,7 +13,7 @@ import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public abstract class ModelListItems<T extends Idable> implements ListItems<T>{
+public abstract class ModelListItems<T extends Idable> implements ListItems{
     private List<Callback<T>> addCallbacks = new ArrayList<Callback<T>>();
     private List<Callback<T>> removeCallbacks = new ArrayList<Callback<T>>();
     private List<Callback<T>> updateCallbacks = new ArrayList<Callback<T>>();
@@ -86,17 +86,17 @@ public abstract class ModelListItems<T extends Idable> implements ListItems<T>{
         reSort();
     }
 
-    @Override
+
     public void addOnAddCallback(Callback<T> callback) {
         addCallbacks.add(callback);
     }
 
-    @Override
+
     public void addOnRemoveCallback(Callback<T> callback) {
         removeCallbacks.add(callback);       
     }
     
-    @Override
+
     public void addOnUpdateCallback(Callback<T> callback) {
         updateCallbacks.add(callback);        
     }

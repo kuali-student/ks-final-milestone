@@ -20,11 +20,11 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	private ListItems listItems = null;
 	private String name;
 	
-	public <T extends Idable> ListItems<T> getListItems() {
+	public ListItems getListItems() {
 		return listItems;
 	}
 
-	public <T extends Idable> void setListItems(ListItems<T> listItems) {
+	public <T extends Idable> void setListItems(ListItems listItems) {
 		this.listItems = listItems;
 	}
 

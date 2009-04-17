@@ -8,6 +8,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.dto.Idable;
 
@@ -114,30 +115,33 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     }
     
     @Override
-    public <T extends Idable> void setListItems(ListItems<T> listItems) {
-        listItems.addOnAddCallback(new Callback<T>(){
-
-             @Override 
-             public void exec(T result){
-                 KSSelectableTableListImpl.this.redraw();
-             }
-         });
-         
-         listItems.addOnRemoveCallback(new Callback<T>(){
-
-             @Override 
-             public void exec(T result){
-                 KSSelectableTableListImpl.this.redraw();
-             }
-         });
-         
-         listItems.addOnUpdateCallback(new Callback<T>(){
-
-             @Override 
-             public void exec(T result){
-                 KSSelectableTableListImpl.this.redraw();
-             }
-         });
+    public <T extends Idable> void setListItems(ListItems listItems) {
+        if(listItems instanceof ModelListItems){
+            ((ModelListItems<T>)listItems).addOnAddCallback(new Callback<T>(){
+    
+                @Override 
+                public void exec(T result){
+                    KSSelectableTableListImpl.this.redraw();
+                }
+            });
+            
+            ((ModelListItems<T>)listItems).addOnRemoveCallback(new Callback<T>(){
+    
+                @Override 
+                public void exec(T result){
+                    KSSelectableTableListImpl.this.redraw();
+                }
+            });
+            
+            ((ModelListItems<T>)listItems).addOnUpdateCallback(new Callback<T>(){
+    
+                @Override 
+                public void exec(T result){
+                    KSSelectableTableListImpl.this.redraw();
+                }
+            });
+        }
+        
          
          super.setListItems(listItems);
     }
@@ -145,7 +149,7 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     public void redraw() {
         DataTable data = DataTable.create(); 
 
-        ListItems<Idable> listItems = getListItems();
+        ListItems listItems = getListItems();
         List<String> attrKeys = listItems.getAttrKeys();
 
         for (String attr:attrKeys){

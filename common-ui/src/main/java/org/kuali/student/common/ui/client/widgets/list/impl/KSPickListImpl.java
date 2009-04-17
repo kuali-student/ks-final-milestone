@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.dto.Idable;
 
@@ -135,24 +136,6 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
                 return null;
             }
         }
-
-        @Override
-        public void addOnAddCallback(Callback callback) {
-            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-            
-        }
-
-        @Override
-        public void addOnRemoveCallback(Callback callback) {
-            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-            
-        }
-
-        @Override
-        public void addOnUpdateCallback(Callback callback) {
-            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-            
-        }
     };
     
     private final ListItems selectedAdapter = new ListItems() {
@@ -187,24 +170,6 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
             } else {
                 return null;
             }
-        }
-
-        @Override
-        public void addOnAddCallback(Callback callback) {
-            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-            
-        }
-
-        @Override
-        public void addOnRemoveCallback(Callback callback) {
-            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-            
-        }
-
-        @Override
-        public void addOnUpdateCallback(Callback callback) {
-            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-            
         }
     };
     
@@ -273,30 +238,34 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
         }
     }
 
-    public <T extends Idable> void setListItems(ListItems<T> listItems) {
-        listItems.addOnAddCallback(new Callback<T>(){
-
-            @Override 
-            public void exec(T result){
-                KSPickListImpl.this.redraw();
-            }
-        });
+    @Override
+    public <T extends Idable> void setListItems(ListItems listItems) {
+        if(listItems instanceof ModelListItems){
+            ((ModelListItems<T>)listItems).addOnAddCallback(new Callback<T>(){
+    
+                @Override 
+                public void exec(T result){
+                    KSPickListImpl.this.redraw();
+                }
+            });
+            
+            ((ModelListItems<T>)listItems).addOnRemoveCallback(new Callback<T>(){
+    
+                @Override 
+                public void exec(T result){
+                    KSPickListImpl.this.redraw();
+                }
+            });
+            
+            ((ModelListItems<T>)listItems).addOnUpdateCallback(new Callback<T>(){
+    
+                @Override 
+                public void exec(T result){
+                    KSPickListImpl.this.redraw();
+                }
+            });
+        }
         
-        listItems.addOnRemoveCallback(new Callback<T>(){
-
-            @Override 
-            public void exec(T result){
-                KSPickListImpl.this.redraw();
-            }
-        });
-        
-        listItems.addOnUpdateCallback(new Callback<T>(){
-
-            @Override 
-            public void exec(T result){
-                KSPickListImpl.this.redraw();
-            }
-        });
         super.setListItems(listItems);
         unselected.clear();
         unselected.addAll(listItems.getItemIds());
