@@ -24,42 +24,13 @@ import org.kuali.student.core.messages.service.impl.util.POJOConverter;
 
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")
 public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl"/*, testDataFile = "classpath:messages-test-beans.xml"*/)
+    @Dao(value = "org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml")
     public MessageManagementDAOImpl messageManagementDAO;
-    
-	private String xmlFile = "/testMessageData.xml";
-	private static final String CONTEXT_NAME = "org.kuali.student.core.messages.dto";
-	private JAXBContext context;
-	private Unmarshaller unmarshaller;
-	private boolean populated;
-	
-	@Before
-	public void setUp(){
-    		if(!populated)
-    		{
-    			
-				try {
-	    			context = JAXBContext.newInstance(CONTEXT_NAME);
-	    			unmarshaller = context.createUnmarshaller();
-	    			MessageList messageList = (MessageList)unmarshaller.unmarshal(MessageServiceImpl.class.getResource(xmlFile));
-	    	        List<Message> messages =  messageList.getMessages();
-	    		    List<MessageEntity> messageEntities =  POJOConverter.mapList(messages, MessageEntity.class);
-	    		    for(MessageEntity me: messageEntities){
-	    		    	messageManagementDAO.addMessage(me);
-	    		    }
-	    		    populated =true;
-	    		}
-	    		catch (JAXBException e) {
-	    				throw new MessageException("Message test data instantiation failed.", e);
-	    		}
-    		}
-    		assertEquals(6, messageManagementDAO.getTotalMessages());
-	}
-    
+    	    
 	@Test
     public void testGetLocales(){
     	List<String> locales = messageManagementDAO.getLocales();
-    	
+
     	assertEquals(2, locales.size());
     }
     
