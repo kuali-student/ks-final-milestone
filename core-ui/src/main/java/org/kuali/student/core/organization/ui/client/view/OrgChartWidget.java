@@ -84,7 +84,8 @@ public class OrgChartWidget extends Composite {
     	                    o.addSelectHandler(new SelectHandler(){
 
     							public void onSelect(SelectEvent event) {
-   		                        	JsArray<Selection> selections = o.getSelections();
+    								//Called after the user selects a chart element
+    								JsArray<Selection> selections = o.getSelections();
 		        					if (selections.length() != 1) {
 		        						Window.alert("Logic error. No Organization selected");
 		        						return;
@@ -93,6 +94,7 @@ public class OrgChartWidget extends Composite {
     		                        orgCreatePanel.addCloseButton("Close", new ClickHandler() {
     		                            @Override
     		                            public void onClick(ClickEvent event) {
+    		                            	//Called after user clicks close on the chart widget
     		                            	o.setSelections(null);
     		                                w.remove(w.getWidgetCount() - 1);
     		                                w.showWidget(w.getWidgetCount() - 1);
@@ -101,6 +103,7 @@ public class OrgChartWidget extends Composite {
     		                        orgCreatePanel.addSelectionHandler(new SelectionHandler<OrgInfo>(){
                                         @Override
                                         public void onSelection(SelectionEvent<OrgInfo> event) {
+    		                            	//Called after user clicks save on the chart widget
                                         	data.setFormattedValue(o.getSelections().get(0).getRow(), 0, event.getSelectedItem().getLongName());
                                         	o.setSelections(null);
                                             o.draw(data, orgChartOpts);
