@@ -7,7 +7,7 @@
 		<load-on-startup>1</load-on-startup>
 		<init-param>
       		<param-name>contextConfigLocation</param-name>
-      		<param-value>classpath:spring-beans.xml</param-value>
+      		<param-value>classpath:gwt-context.xml</param-value>
 		</init-param>
 	</servlet>
 
@@ -29,6 +29,17 @@
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/LuRpcService</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>messageServiceGwt</servlet-name>
+		<servlet-class>org.kuali.student.common.ui.server.messages.MessagesService</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/MessageService</url-pattern>
 	</servlet-mapping>
 
 </web-app>
