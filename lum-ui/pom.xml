@@ -97,6 +97,12 @@
 			<artifactId>ks-common-ui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- core-impl used to get mock message service impl -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-impl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
