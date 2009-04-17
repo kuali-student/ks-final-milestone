@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
@@ -14,7 +15,6 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.search.dto.QueryParamValue;
@@ -123,23 +123,6 @@ public class OrgLocateName extends Composite {
                                     return ((Result) orgInfoMap.get(id)).getResultCells().get(1).getValue();
                                 }
 
-                                @Override
-                                public void addOnAddCallback(Callback callback) {
-                                    // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                                    
-                                }
-
-                                @Override
-                                public void addOnRemoveCallback(Callback callback) {
-                                    // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                                    
-                                }
-
-                                @Override
-                                public void addOnUpdateCallback(Callback callback) {
-                                    // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                                    
-                                }
                             };
                             // OrgInfoList orgInfoList = new OrgInfoList(result);
                             resultTable = new KSSelectableTableList();
@@ -240,23 +223,6 @@ public class OrgLocateName extends Composite {
                             return values.get(id);
                         }
 
-                        @Override
-                        public void addOnAddCallback(Callback callback) {
-                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                            
-                        }
-
-                        @Override
-                        public void addOnRemoveCallback(Callback callback) {
-                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                            
-                        }
-
-                        @Override
-                        public void addOnUpdateCallback(Callback callback) {
-                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                            
-                        }
                     };
                     orgTypes.setListItems(items);
                 }

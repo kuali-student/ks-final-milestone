@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -28,7 +29,6 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
@@ -118,23 +118,7 @@ class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInf
                             return ids.get(id);
                         }
 
-                        @Override
-                        public void addOnAddCallback(Callback callback) {
-                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                            
-                        }
-
-                        @Override
-                        public void addOnRemoveCallback(Callback callback) {
-                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                            
-                        }
-
-                        @Override
-                        public void addOnUpdateCallback(Callback callback) {
-                            // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-                            
-                        }};
+                        };
                     KSDropDown orgTypeDropDown = (KSDropDown) orgForm.getFieldWidget("orgType");
                     orgTypeDropDown.setEnabled(true);
                     ListItems items = orgTypeDropDown.getListItems();

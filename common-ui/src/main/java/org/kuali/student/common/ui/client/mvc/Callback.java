@@ -1,4 +1,4 @@
-package org.kuali.student.common.util;
+package org.kuali.student.common.ui.client.mvc;
 /**
  * 
  * Generic callback used in place of return values, in cases where a response may be asynchronous, or may 

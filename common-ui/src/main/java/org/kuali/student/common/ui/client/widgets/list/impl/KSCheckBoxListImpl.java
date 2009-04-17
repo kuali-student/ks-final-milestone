@@ -3,12 +3,11 @@ package org.kuali.student.common.ui.client.widgets.list.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
-import org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
-import org.kuali.student.common.util.Callback;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.ClickEvent;

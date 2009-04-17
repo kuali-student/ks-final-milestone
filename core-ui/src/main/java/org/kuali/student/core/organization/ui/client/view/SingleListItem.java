@@ -18,8 +18,8 @@ package org.kuali.student.core.organization.ui.client.view;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.util.Callback;
 
 class SingleListItem implements ListItems {
     
@@ -54,24 +54,6 @@ class SingleListItem implements ListItems {
         if (id.equals(item))
             return item;
         return null;
-    }
-
-    @Override
-    public void addOnAddCallback(Callback callback) {
-        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-        
-    }
-
-    @Override
-    public void addOnRemoveCallback(Callback callback) {
-        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-        
-    }
-
-    @Override
-    public void addOnUpdateCallback(Callback callback) {
-        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-        
     }
 
 }
