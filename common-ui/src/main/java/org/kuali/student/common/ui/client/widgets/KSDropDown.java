@@ -118,5 +118,20 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
         return dropDown.isEnabled();
     }
 
+    public boolean isBlankFirstItem() {
+        //FIXME: This will break replacement via deferred binding. Anyway to do this w/o adding to KSSelectItemWidgetAbstract
+        return ((KSDropDownImpl)dropDown).isBlankFirstItem();
+    }
+
+    /** 
+     * Use when the first item in list should be blank. If set, it must be called before call to setListItems()
+     * 
+     * @param blankFirstItem
+     */
+    public void setBlankFirstItem(boolean blankFirstItem) {
+        //FIXME: This will break replacement via deferred binding. Anyway to do this w/o adding to KSSelectItemWidgetAbstract
+        ((KSDropDownImpl)dropDown).setBlankFirstItem(blankFirstItem);
+    }
+
 
 }

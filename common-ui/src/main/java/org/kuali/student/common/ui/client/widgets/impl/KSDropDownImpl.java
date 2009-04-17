@@ -108,7 +108,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
 	}
 	
 	
-	public void selectItem(String id){
+	public void selectItem(String id){	    
 		for(int i = 0; i < listBox.getItemCount(); i++){
 			if(id.equals(listBox.getValue(i))){
 				listBox.setSelectedIndex(i);
@@ -120,13 +120,12 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
      */
     @Override
-    public void deSelectItem(String id) {        
-        for(int i = 0; i < listBox.getItemCount(); i++){
-            if(id.equals(listBox.getValue(i))){
-                listBox.setItemSelected(i, false);
-                listBox.setItemSelected(0, true);
-            }
-        }        
+    public void deSelectItem(String id) {
+        int i = listBox.getSelectedIndex();
+        if (i >= 0 && listBox.getValue(i).equals(id)){
+            listBox.setItemSelected(i, false);
+            listBox.setItemSelected(0, true);            
+        }
     }
 
     @Override
@@ -180,17 +179,12 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
     @Override
     public List<String> getSelectedItems() {
         List<String> result = new ArrayList<String>();
-        if(blankFirstItem){
-            String id = listBox.getValue(listBox.getSelectedIndex());
-            if(!(listBox.getItemText(listBox.getSelectedIndex()).equals(""))){
+
+        int selectedIdx = listBox.getSelectedIndex();        
+        String id = listBox.getValue(selectedIdx);
+        
+        if((blankFirstItem && selectedIdx > 0) || (!blankFirstItem && selectedIdx >= 0)){
                 result.add(id);
-            }
-        }
-        else{
-            if (listBox.getItemCount() != 0){
-                String id = listBox.getValue(listBox.getSelectedIndex());
-                result.add(id);
-            }
         }
         return result;
     }
