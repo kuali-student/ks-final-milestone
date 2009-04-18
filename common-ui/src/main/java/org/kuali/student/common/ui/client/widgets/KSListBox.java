@@ -110,5 +110,11 @@ public class KSListBox extends KSSelectItemWidgetAbstract{
     public boolean isEnabled() {
         return dropDown.isEnabled();
     }
+
+    @Override
+    public void redraw() {
+        dropDown.redraw();
+        
+    }
     
 }

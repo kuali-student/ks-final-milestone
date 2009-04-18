@@ -111,29 +111,17 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     @Override
     public <T extends Idable> void setListItems(ListItems listItems) {
         if(listItems instanceof ModelListItems){
-            ((ModelListItems<T>)listItems).addOnAddCallback(new Callback<T>(){
-    
+            Callback<T> redrawCallback = new Callback<T>(){
+                
                 @Override 
                 public void exec(T result){
                     KSCheckBoxListImpl.this.redraw();
                 }
-            });
-            
-            ((ModelListItems<T>)listItems).addOnRemoveCallback(new Callback<T>(){
-    
-                @Override 
-                public void exec(T result){
-                    KSCheckBoxListImpl.this.redraw();
-                }
-            });
-            
-            ((ModelListItems<T>)listItems).addOnUpdateCallback(new Callback<T>(){
-    
-                @Override 
-                public void exec(T result){
-                    KSCheckBoxListImpl.this.redraw();
-                }
-            });
+            };
+            ((ModelListItems<T>)listItems).addOnAddCallback(redrawCallback);
+            ((ModelListItems<T>)listItems).addOnRemoveCallback(redrawCallback);
+            ((ModelListItems<T>)listItems).addOnUpdateCallback(redrawCallback);
+            ((ModelListItems<T>)listItems).addOnBulkUpdateCallback(redrawCallback);
         }
         
         super.setListItems(listItems);

@@ -133,5 +133,11 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
         ((KSDropDownImpl)dropDown).setBlankFirstItem(blankFirstItem);
     }
 
+    @Override
+    public void redraw() {
+        dropDown.redraw();
+        
+    }
+
 
 }

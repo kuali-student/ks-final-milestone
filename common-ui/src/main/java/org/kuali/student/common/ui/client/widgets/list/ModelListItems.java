@@ -17,6 +17,7 @@ public abstract class ModelListItems<T extends Idable> implements ListItems{
     private List<Callback<T>> addCallbacks = new ArrayList<Callback<T>>();
     private List<Callback<T>> removeCallbacks = new ArrayList<Callback<T>>();
     private List<Callback<T>> updateCallbacks = new ArrayList<Callback<T>>();
+    private List<Callback<T>> bulkUpdateCallbacks = new ArrayList<Callback<T>>();
     
     private List<T> listItems = new ArrayList<T>();
     private Comparator<T> listComparator = null;
@@ -26,7 +27,7 @@ public abstract class ModelListItems<T extends Idable> implements ListItems{
         listItems.add(item);
         reSort();
     }
-    
+        
     private void update(T item){
         for(T i : listItems){
             if(i.getId().equals(item.getId())){
@@ -48,11 +49,14 @@ public abstract class ModelListItems<T extends Idable> implements ListItems{
         }
     }
     
-    public void setComparator(Comparator<T> c){
-        listComparator = c;
+    public void setComparator(Comparator<T> comparator){
+        listComparator = comparator;
         reSort();
+        for (Callback<T> c : bulkUpdateCallbacks) {
+            c.exec(null);
+        }
     }
-    
+        
     public void setModel(Model<T> model){
         if(reg != null){
            reg.removeHandler();
@@ -99,6 +103,10 @@ public abstract class ModelListItems<T extends Idable> implements ListItems{
 
     public void addOnUpdateCallback(Callback<T> callback) {
         updateCallbacks.add(callback);        
+    }
+    
+    public void addOnBulkUpdateCallback(Callback<T> callback) {
+        bulkUpdateCallbacks.add(callback);        
     }
     
     @Override
