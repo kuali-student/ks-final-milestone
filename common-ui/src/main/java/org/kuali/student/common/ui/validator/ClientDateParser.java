@@ -1,6 +1,9 @@
-package org.kuali.student.common.validator;
+package org.kuali.student.common.ui.validator;
 
 import java.util.Date;
+
+import org.kuali.student.common.validator.DateParseException;
+import org.kuali.student.common.validator.DateParser;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 

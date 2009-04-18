@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class ValidationResult implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    public static final ValidationResult OK = new ImmutableOkResult();
+    
     public enum ErrorLevel {
         OK(0), WARN(1), ERROR(2);
 
@@ -24,7 +27,16 @@ public class ValidationResult implements Serializable {
     ErrorLevel errorLevel = ErrorLevel.OK;
     List<String> messages = new ArrayList<String>();
     String key = null;
-    
+
+    public ValidationResult() {
+        super();
+    }
+    public ValidationResult(String key, ErrorLevel errorLevel, String message) {
+        super();
+        this.key = key;
+        this.errorLevel = errorLevel;
+        this.messages.add(message);
+    }
     public String getKey() {
         return key;
     }
@@ -112,6 +124,35 @@ public class ValidationResult implements Serializable {
      */
     public boolean isError() {
         return getErrorLevel() == ErrorLevel.ERROR;
+    }
+    
+    private static class ImmutableOkResult extends ValidationResult {
+        private final List<String> messages = Collections.unmodifiableList(new ArrayList<String>());
+        @Override
+        public void addError(String message) {
+            throw new UnsupportedOperationException("ValidationResult.OK is immutable");
+        }
+
+        @Override
+        public void addMessage(ErrorLevel level, String message) {
+            throw new UnsupportedOperationException("ValidationResult.OK is immutable");
+        }
+
+        @Override
+        public void addWarning(String message) {
+            throw new UnsupportedOperationException("ValidationResult.OK is immutable");
+        }
+
+        @Override
+        public List<String> getMessages() {
+            return messages;
+        }
+
+        @Override
+        public void setKey(String key) {
+            throw new UnsupportedOperationException("ValidationResult.OK is immutable");
+        }
+        
     }
 
 }

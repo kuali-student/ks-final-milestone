@@ -2,8 +2,7 @@ package org.kuali.student.common.ui.client.application;
 
 
 /**
- * Example usage:
- * 
+ * TODO read the window location parameters to determine if a particular view should be shown first
  */
 public class Application {
 	private static ApplicationContext applicationContext;
