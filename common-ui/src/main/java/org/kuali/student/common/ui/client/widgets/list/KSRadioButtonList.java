@@ -153,6 +153,11 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract {
     public boolean isEnabled() {
         return selectItemWidget.isEnabled();
     }
+
+    @Override
+    public void redraw() {
+        selectItemWidget.redraw();
+    }
 }
 
 

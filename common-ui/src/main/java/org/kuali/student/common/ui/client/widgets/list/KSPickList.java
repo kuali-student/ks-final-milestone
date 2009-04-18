@@ -93,5 +93,10 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
         return selectItemWidget.isEnabled();
     }
 
+    @Override
+    public void redraw() {
+        selectItemWidget.redraw();
+    }
+
 
 }

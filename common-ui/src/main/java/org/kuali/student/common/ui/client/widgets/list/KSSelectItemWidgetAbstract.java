@@ -27,6 +27,9 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	public <T extends Idable> void setListItems(ListItems listItems) {
 		this.listItems = listItems;
 	}
+	
+	
+	public abstract void redraw();
 
 	/**
 	 * Used to had a selection change handler.
