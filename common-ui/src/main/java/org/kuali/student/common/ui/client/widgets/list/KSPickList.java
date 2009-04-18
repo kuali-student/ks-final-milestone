@@ -5,7 +5,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSPickListImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
