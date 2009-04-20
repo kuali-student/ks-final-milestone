@@ -1,5 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel;
 
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 import org.kuali.student.ui.kitchensink.client.KitchenSinkExample;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -9,6 +10,7 @@ public class AccordionPanelExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "AccordionPanelExample.java", "kscommons/accordionpanel/AccordionPanelExample.java", "Example usage of KSAccordionPanel.");
         super.addResource("css", "KSAccordionPanel.css", "KSAccordionPanel.css", "Default styling of KSAccordionPanel.");
+        super.addCssResource(KSCommonResources.INSTANCE.accordionPanelCss());
     }
     public String getDescription() {       
         return "AccordionPanel allows user to expand and contract content by clicking on headings.";
