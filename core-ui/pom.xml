@@ -102,6 +102,10 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-visualization</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>com.google.code.gwtx</groupId>
+		    <artifactId>gwtx</artifactId>
+		</dependency>     			
 		
 		<!-- KS common & core dependencies -->
 		<dependency>

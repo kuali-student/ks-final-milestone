@@ -3,7 +3,11 @@
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name="com.google.gwt.user.User"/>
 	
-	<inherits name="org.kuali.student.core.Core"/>
+	<inherits name="org.kuali.student.common.CommonUtil" />
+	
+	<inherits name="org.kuali.student.core.Core" />
+	<inherits name="org.kuali.student.core.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.core.validation.Validation" />
 	<inherits name="org.kuali.student.core.messages.Message"/>
  
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->

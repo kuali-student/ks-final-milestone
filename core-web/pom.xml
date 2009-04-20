@@ -96,6 +96,10 @@
 			<artifactId>gwt-servlet</artifactId>
 		</dependency>
 		<dependency>
+		    <groupId>com.google.code.gwtx</groupId>
+		    <artifactId>gwtx</artifactId>
+		</dependency>     			
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 		</dependency>

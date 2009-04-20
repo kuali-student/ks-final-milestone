@@ -57,6 +57,10 @@
 		      <groupId>com.google.gwt</groupId>
 		      <artifactId>gwt-incubator</artifactId>
     	</dependency>
+		<dependency>
+		    <groupId>com.google.code.gwtx</groupId>
+		    <artifactId>gwtx</artifactId>
+		</dependency>     	
 		
 		<!-- KS core & common dependencies -->
 		<dependency>
