@@ -35,8 +35,10 @@ public class Header extends Composite {
     private KSBreadcrumb breadcrumb;
 
 
-//    	private final KSImage logo = new KSImage("images/KULSTP_sml_2.gif");
-    private final KSImage logo = new KSImage("images/logo-ks.gif");
+    private final KSImage logo = new KSImage("images/Kuali_logo_bar.jpg");
+    private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
+    private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
+//  private final KSImage logo = new KSImage("images/logo-ks.gif");
 
     public Header() {
         super.initWidget(main);
@@ -46,21 +48,27 @@ public class Header extends Composite {
         buildLinksPanel();
         buildLogoPanel();
 
+        separator1.addStyleName("KS-Header-Separator");
+        separator2.addStyleName("KS-Header-Separator");
         main.add(logoPanel);
+        main.add(separator1);
         main.add(linksPanel);    
+        main.add(separator2);
         main.add(breadcrumb);
         main.addStyleName("KS-Header");
     }
 
     private void buildLogoPanel() {
+
+        logo.addStyleName("KS-Header-Logo");
         logoPanel.add(logo);
-        logoPanel.addStyleName("KS-Header-Logo");
+        logoPanel.addStyleName("KS-Header-Logo-Panel");
     }
 
     private void buildLinksPanel() {
         buildLogoutLink();
         buildPreferencesLink();
-        
+
         linksContentPanel.add(preferences);
         linksContentPanel.add(logout);
         linksContentPanel.addStyleName("KS-Header-Link-Panel");

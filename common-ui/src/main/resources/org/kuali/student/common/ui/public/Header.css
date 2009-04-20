@@ -1,18 +1,12 @@
 .KS-Header {
-	border: 2px solid #d8d8d8;
-}
-
-.KS-Header-Logo {
-	background-image: url('images/headerback.gif');
-	background-repeat: repeat-x;
-	width: 700px;
+	border: 2px solid #888888;
 }
 
 .KS-Header-Link {
 	width: 100%;
+	height: 8px;
 	padding-top: 5px;
-	cursor: pointer;
-	background-color: #990000;
+	background-color: #780000;
 	color: #ffffff;
 	text-decoration: none;
 	font-size: 70%;
@@ -22,12 +16,22 @@
 	width: 100%;
 }
 
+.KS-Header-Logo {
+	 width: 100%;
+}
+
+.KS-Header-Separator {
+	 height: 1px;
+	 width: 100%;
+}
+
 .KS-Header-Link-Focus {
+	cursor: pointer;
 	text-decoration: underline;
 }
 
 .KS-Header-Link-Panel {
 	float: right;
 	margin-right: 5px;
-	padding: 2px;	
+	padding: 2px;
 }
