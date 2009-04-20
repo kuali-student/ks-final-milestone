@@ -1,0 +1,33 @@
+.KS-Header {
+	border: 2px solid #d8d8d8;
+}
+
+.KS-Header-Logo {
+	background-image: url('images/headerback.gif');
+	background-repeat: repeat-x;
+	width: 700px;
+}
+
+.KS-Header-Link {
+	width: 100%;
+	padding-top: 5px;
+	cursor: pointer;
+	background-color: #990000;
+	color: #ffffff;
+	text-decoration: none;
+	font-size: 70%;
+}
+
+.KS-Header-Breadcrumb {
+	width: 100%;
+}
+
+.KS-Header-Link-Focus {
+	text-decoration: underline;
+}
+
+.KS-Header-Link-Panel {
+	float: right;
+	margin-right: 5px;
+	padding: 2px;	
+}

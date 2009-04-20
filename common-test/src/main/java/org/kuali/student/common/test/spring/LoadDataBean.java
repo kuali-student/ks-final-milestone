@@ -1,0 +1,153 @@
+package org.kuali.student.common.test.spring;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
+public class LoadDataBean implements ApplicationContextAware{
+	@PersistenceContext
+	EntityManager em;
+	private boolean loaded = false;
+	private String daoAnnotations;
+
+	private ApplicationContext applicationContext;
+	
+	public void loadData(boolean isOracle){
+		if (daoAnnotations == null || loaded == true) {
+			return;
+		}
+
+		// Load all the beans
+		String[] classes = daoAnnotations.split(",");
+		for (String line : classes) {
+			try {
+				String[] split = line.split("\\|");
+				
+				// Invoke the data loader for this dao
+                invokeDataLoader(split[0]);
+                
+                // Load data bean file for this dao
+                if (split.length > 1&& !split[1].isEmpty()) {
+				    String testDataFile = split[1];
+				   
+					ApplicationContext ac = new FileSystemXmlApplicationContext(
+							testDataFile);
+					for (Object bean : (List<?>) ac.getBean("persistList")) {
+						if(!em.contains(bean)){
+							em.persist(bean);
+						}
+					}
+				} 				    				
+                // Load sql file for this dao
+                if (split.length > 2&& !split[2].isEmpty()) {
+
+					String testDataFile = split[2];
+				    File sqlFile;
+				    if(testDataFile.startsWith("classpath:")){
+				 	   sqlFile = new ClassPathResource(testDataFile.substring("classpath:".length())).getFile();
+				    }else{
+				    	sqlFile = new File(testDataFile);
+				    }
+					BufferedReader in
+					   = new BufferedReader(new FileReader(sqlFile));
+					String ln;
+
+					String dbName=null;
+					if(em.getDelegate() instanceof org.hibernate.impl.SessionImpl){
+						dbName = ((org.hibernate.impl.SessionImpl)em.getDelegate()).connection().getMetaData().getDatabaseProductName();
+					}
+					if(em.getDelegate() instanceof org.eclipse.persistence.internal.jpa.EntityManagerImpl){
+						dbName = ((org.eclipse.persistence.internal.jpa.EntityManagerImpl)em.getDelegate()).getActiveSession().getPlatform().getClass().getSimpleName();
+					}
+					if(em.getDelegate() instanceof org.apache.openjpa.persistence.OpenJPAEntityManager){
+						dbName = ((java.sql.Connection)((org.apache.openjpa.persistence.OpenJPAEntityManager)em.getDelegate()).getConnection()).getMetaData().getDatabaseProductName();
+					}
+					if(dbName!=null&&dbName.toLowerCase().contains("oracle")){
+						isOracle=true;
+					}
+
+					
+					while((ln=in.readLine())!=null){
+						if(!ln.startsWith("/")&&!ln.isEmpty()){
+							if(isOracle){
+								ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
+							}
+							em.createNativeQuery(ln).executeUpdate();
+						}
+					}
+				} 				    				
+				
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	
+		loaded = true;
+
+	}
+
+	public boolean isOracle(){
+		boolean isOracle=false;
+		try{
+			em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
+			isOracle=true;
+		}catch(Exception e){
+			//Not Oracle 
+		}
+
+		return isOracle;
+	}
+	
+	protected void invokeDataLoader(String dao){
+	    try {
+            //Check if there is a loader class for this dao
+	        Class<?> daoType = Class.forName(dao).getInterfaces()[0];
+	        
+	        Class<?> clazz = Class.forName(daoType.getName() + "Loader");            
+            DaoLoader daoLoader = (DaoLoader)clazz.newInstance();                        
+
+            //Get spring bean for the dao
+            Map<?,?> daoBeans = applicationContext.getBeansOfType(daoType);
+            
+            //Invoke the loader for this doa bean (there shouldn't be more than one)
+            if (daoBeans.size() == 1){               
+                daoLoader.setDao(daoBeans.values().iterator().next());
+                daoLoader.run();
+            }
+ 
+	    } catch (Exception e) {
+            //TODO: Add logging
+        }
+	}
+	
+	/**
+	 * @return the daoAnnotations
+	 */
+	public String getDaoAnnotations() {
+		return daoAnnotations;
+	}
+
+	/**
+	 * @param daoAnnotations
+	 *            the daoAnnotations to set
+	 */
+	public void setDaoAnnotations(String daoAnnotations) {
+		this.daoAnnotations = daoAnnotations;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext){
+	    this.applicationContext = applicationContext;
+	}
+}

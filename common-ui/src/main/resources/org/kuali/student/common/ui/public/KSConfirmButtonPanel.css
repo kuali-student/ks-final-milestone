@@ -1,0 +1,13 @@
+.KS-CBP-Cancel-Button{
+	position: absolute;   
+    left: 2px;  
+}
+.KS-CBP-Confirm-Button{
+	position: absolute; 
+    right: 2px; 
+}
+
+.KS-CBP-Button-Panel{
+	width: 100%;
+}
+	
