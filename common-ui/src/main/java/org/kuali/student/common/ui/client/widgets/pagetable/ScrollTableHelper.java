@@ -42,7 +42,7 @@ public class ScrollTableHelper {
      * @param columnHeaders the number of HTML strings determines the number of columns
      * @return headerTable
      */
-    public FixedWidthFlexTable createDefaultHeader(String description, List<String> columnHeaders){
+    public FixedWidthFlexTable createStringListHeader(String description, List<String> columnHeaders){
         
         FixedWidthFlexTable headerTable = new FixedWidthFlexTable();
         int row = 0;
@@ -66,7 +66,7 @@ public class ScrollTableHelper {
         return dataTable;
       }
     
-    public void insertAllTextRow(int beforeRow, List<String> rowText, FixedWidthGrid dataTable) {
+    public void insertStringListRow(int beforeRow, List<String> rowText, FixedWidthGrid dataTable) {
         dataTable.insertRow(beforeRow);
         int column = 0;
         for(String text :rowText) {
