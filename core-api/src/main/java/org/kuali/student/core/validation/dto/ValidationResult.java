@@ -2,9 +2,9 @@ package org.kuali.student.core.validation.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class ValidationResult implements Serializable {
     private static final long serialVersionUID = 1L;

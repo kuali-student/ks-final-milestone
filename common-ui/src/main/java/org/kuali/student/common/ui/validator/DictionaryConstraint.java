@@ -2,7 +2,7 @@ package org.kuali.student.common.ui.validator;
 
 import java.util.Map;
 
-import org.kuali.student.common.util.Callback;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.validation.dto.ValidationResult;
@@ -24,5 +24,4 @@ public class DictionaryConstraint implements Constraint {
     public void validate(Object value, Callback<ValidationResult> callback) {
         callback.exec(validator.validate(descriptor.getName(), value, descriptorMap));
     }
-
 }
