@@ -1,5 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.richeditor;
 
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 import org.kuali.student.ui.kitchensink.client.KitchenSinkExample;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -9,6 +10,7 @@ public class RichEditorExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "RichEditorExample.java", "kscommons/richeditor/RichEditorExample.java", "Example usage of KSRichEditor.");
         super.addResource("css", "KSRichTextEditor.css", "KSRichTextEditor.css", "Default styling of KSRichEditor.");
+        super.addCssResource(KSCommonResources.INSTANCE.richTextEditorCss());
     }
     public String getDescription() {       
         return "RichEditor is text editor that allows complex styling and formatting. Exact functionality will depend on the browser"; 

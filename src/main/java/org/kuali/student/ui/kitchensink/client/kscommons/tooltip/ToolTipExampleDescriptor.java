@@ -1,5 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.tooltip;
 
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 import org.kuali.student.ui.kitchensink.client.KitchenSinkExample;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -9,6 +10,7 @@ public class ToolTipExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "ToolTipExample.java", "kscommons/tooltip/ToolTipExample.java", "Example usage of KSToolTip.");
         super.addResource("css", "KSToolTip.css", "KSToolTip.css", "Default styling of KSToolTip.");
+        super.addCssResource(KSCommonResources.INSTANCE.toolTipCss());
     }
     public String getDescription() {       
         return "ToolTip is a popup panel that appears when a user moves their mouse over a widget and disappears when the mouse leaves that widget."; 
