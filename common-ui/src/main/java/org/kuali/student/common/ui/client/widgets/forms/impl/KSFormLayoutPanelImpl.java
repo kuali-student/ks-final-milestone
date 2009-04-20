@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.forms.impl;
 
 import java.util.HashMap;
 
+import org.kuali.student.common.ui.client.event.DirtyStateChangeEvent;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent;
@@ -44,7 +45,9 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
     public static final int FORM_DESC_COL = 2;
 
     HandlerManager handlers = new HandlerManager(this);
+    
     EditMode editMode = EditMode.EDITABLE;
+    boolean isDirty = false;
     
     VerticalPanel form = new VerticalPanel();
     FlexTable table = new FlexTable();
@@ -75,7 +78,8 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         cf.setStyleName(rowIdx, FORM_DESC_COL, KSStyles.KS_FORMLAYOUT_HELP);
 
         formFields.put(field.getName(), field);
-        handlers.addHandler(EditModeChangeEvent.TYPE, field);        
+        handlers.addHandler(EditModeChangeEvent.TYPE, field);
+        handlers.addHandler(DirtyStateChangeEvent.TYPE, field);
     }    
 
     public String[] getFieldNames(){
@@ -108,5 +112,13 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
             this.editMode = editable;
             handlers.fireEvent(new EditModeChangeEvent(editable));
         }
+    }
+    
+    public void setDirtyState(boolean isDirty){
+        handlers.fireEvent(new DirtyStateChangeEvent(isDirty));        
+    }
+
+    public boolean isDirty() {
+        return isDirty;
     }
 }

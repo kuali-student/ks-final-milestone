@@ -47,6 +47,10 @@ public abstract class KSFormLayoutPanelAbstract extends Composite{
 
     public abstract void setEditMode(EditMode mode);
     
+    public abstract void setDirtyState(boolean isDirty);
+    
+    public abstract boolean isDirty();
+    
     public void init(String s){
         //Only impl class needs to implement this method.
     }

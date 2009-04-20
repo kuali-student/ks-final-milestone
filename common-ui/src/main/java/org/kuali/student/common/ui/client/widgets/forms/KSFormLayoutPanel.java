@@ -94,7 +94,34 @@ public class KSFormLayoutPanel extends KSFormLayoutPanelAbstract {
         return form.getRowCount();
     }
 
+    /**
+     * Use to set the edit mode of form fields. The possible edit modes are
+     * 
+     * EDITABLE:    Enable all form field input elements.
+     * UNEDITABLE:  Disable all form field input elements.
+     * VIEW_ONLY:   Do not display form field input elements, only display it's text value.
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanelAbstract#setEditMode(org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode)
+     */
     public void setEditMode(EditMode mode){
         form.setEditMode(mode);
+    }
+        
+    /**
+     * Use to set the dirty state of this form. All containing form fields are also set
+     * to the same dirty state.
+     *
+     */
+    public void setDirtyState(boolean isDirty){
+        form.setDirtyState(isDirty);
+    }
+    
+    /**
+     * Use to determine the dirty state of this form.
+     *  
+     * @return true if any of one of the form fields is in a dirty state.
+     */
+    public boolean isDirty(){
+        return form.isDirty();
     }
 }

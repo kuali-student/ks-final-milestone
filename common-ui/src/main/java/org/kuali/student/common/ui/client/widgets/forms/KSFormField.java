@@ -16,12 +16,18 @@
 package org.kuali.student.common.ui.client.widgets.forms;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.event.DirtyStateChangeEvent;
+import org.kuali.student.common.ui.client.event.DirtyStateChangeHandler;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
@@ -37,7 +43,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class KSFormField implements EditModeChangeHandler {
+public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandler {
     private SimplePanel fieldDispWidget = new SimplePanel();
     private KSHelpLink fieldHelpLink = new KSHelpLink();
     private KSLabel fieldValueLabel = new KSLabel();
@@ -48,6 +54,10 @@ public class KSFormField implements EditModeChangeHandler {
     private String desc = null;
     private HelpInfo helpInfo = null;
     private EditMode mode = EditMode.EDITABLE;
+    private Object previousValue = null;
+    private boolean isDirty = false;
+    
+    HandlerManager handlers = new HandlerManager(this);
       
     public KSFormField(){
     }
@@ -108,8 +118,22 @@ public class KSFormField implements EditModeChangeHandler {
      */
     public void setWidget(Widget formField) {
         try {
+            //Default form field name to widget name
             if (formField instanceof HasName && name == null){
                 name = ((HasName)formField).getName();
+            }
+            
+            //Add a value change handler to update dirty state
+            if (formField instanceof HasValueChangeHandlers){
+                ((HasValueChangeHandlers<Object>) formField).addValueChangeHandler(new ValueChangeHandler<Object>(){
+                    public void onValueChange(ValueChangeEvent<Object> event) {
+                        if (!isDirty && previousValue != null && previousValue.equals(event.getValue())){
+                            isDirty = true;
+                            handlers.fireEvent(new DirtyStateChangeEvent(true));
+                        }
+                        previousValue = event.getValue();
+                    }                    
+                });
             }
         } catch (Exception e) {
             
@@ -193,7 +217,7 @@ public class KSFormField implements EditModeChangeHandler {
     }
     
     /**
-     * Handle a edit mode event 
+     * Handle a edit mode change event. Should only be called by a handler manager. 
      * 
      * @see org.kuali.student.common.ui.client.widgets.forms.EditModeChangeHandler#onEditModeChange(org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent)
      */
@@ -235,5 +259,44 @@ public class KSFormField implements EditModeChangeHandler {
                 fieldHelpLink.setVisible(true);
         }
     }
+
+    /**
+     * Use this to determine if form field is dirty
+     * 
+     * @return
+     */
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    /** 
+     * Use to set the dirty state of the form field. 
+     * 
+     * @param isDirty
+     */
+    public void setDirty(boolean isDirty) {
+        this.isDirty = isDirty;
+    }
     
+    /** 
+     * Add handler to listen for dirty state change event. This is fired whenever user interaction with the underlying
+     * form widget causes it to be dirty. This handler is not be invoked if the fields dirty state is changed via
+     * calls to KSFormField.setDirty() or KSFormField.onDirtyStateChange().
+     *
+     */
+    public void addDirtyStateHandler(DirtyStateChangeHandler handler){
+        handlers.addHandler(DirtyStateChangeEvent.TYPE, handler);
+    }
+
+    /**
+     * This will set the dirty state of this form field based on the dirty event. Should only be called
+     * by a handler manager. 
+     * 
+     * @see org.kuali.student.common.ui.client.event.DirtyStateChangeHandler#onDirtyStateChange(org.kuali.student.common.ui.client.event.DirtyStateChangeEvent)
+     */
+    @Override
+    public void onDirtyStateChange(DirtyStateChangeEvent event) {
+        setDirty(event.isDirty());
+    }
+
 }
