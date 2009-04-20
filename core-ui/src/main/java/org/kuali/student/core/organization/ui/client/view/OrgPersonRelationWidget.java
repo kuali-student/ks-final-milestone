@@ -16,12 +16,14 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
@@ -30,6 +32,7 @@ import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
@@ -65,10 +68,49 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
         this(orgId,false);
     }
     public OrgPersonRelationWidget(String orgId, boolean open) {
+        this(orgId, null, open);
+    }
+    public OrgPersonRelationWidget(final String orgId, final Model<OrgPositionRestrictionInfo> model, final boolean open) {
         super(new KSDisclosureSection("Membership", null, open));
         this.orgId = orgId;
         if(orgId != null) { //basically can't do much without an orgId
-            populateRelationshipTypes();
+            if(model != null) {
+                orgPersonRelTypeList = new ModelListItems<OrgPositionRestrictionInfo>() {
+                    @Override
+                    public List<String> getAttrKeys() {
+                        return Arrays.asList("id");
+                    }
+
+                    @Override
+                    public String getItemAttribute(String id, String attrkey) {
+                        if("id".equals(attrkey) && id != null)
+                            for(OrgPositionRestrictionInfo info : listItems)
+                                if(id.equals(info.getOrgPersonRelationTypeKey()))
+                                    return info.getId();
+                        return null; //unused
+                    }
+
+                    @Override
+                    public List<String> getItemIds() {
+                        List<String> list = new ArrayList<String>();
+                        for(OrgPositionRestrictionInfo info : listItems)
+                            list.add(info.getOrgPersonRelationTypeKey());
+                        return list;
+                    }
+
+                    @Override
+                    public String getItemText(String id) {
+                        if(id == null)
+                            return null;
+                        for(OrgPositionRestrictionInfo info : listItems)
+                            if(id.equals(info.getOrgPersonRelationTypeKey()))
+                                return info.getTitle();
+                        return null;
+                    }};
+                ((ModelListItems<OrgPositionRestrictionInfo>)orgPersonRelTypeList).setModel(model);
+            }
+            else
+                populateRelationshipTypes();
             populatePersonRelationInfos();
         }
     }
@@ -247,12 +289,12 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     
     @Override
     protected void save() {
-        for (Map<String,Object> formMap : forms) {
+        for (final Map<String,Object> formMap : forms) {
             KSFormLayoutPanel orgPersonRelForm = (KSFormLayoutPanel) formMap.get("form");
             if (orgPersonRelForm.getFieldValue("relPersonId").length() == 0)
                 continue; //skipping this one
             
-            OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();        
+            final OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();        
             
             orgPersonRelationInfo.setId((String) formMap.get("orgPersonRelId"));
             orgPersonRelationInfo.setOrgId(orgId);
@@ -261,59 +303,76 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
             orgPersonRelMetaInfo.setVersionInd((String) formMap.get("orgPersonRelVersion"));
             orgPersonRelationInfo.setMetaInfo(orgPersonRelMetaInfo);
             
-            orgPersonRelationInfo.setType(orgPersonRelForm.getFieldValue("relType"));
-            
             //TODO: This should lookup orgId based on related org name
             orgPersonRelationInfo.setPersonId(orgPersonRelForm.getFieldValue("relPersonId"));
             
             orgPersonRelationInfo.setEffectiveDate(((KSDatePicker)orgPersonRelForm.getFieldWidget("relEffDate")).getValue());
             orgPersonRelationInfo.setExpirationDate(((KSDatePicker)orgPersonRelForm.getFieldWidget("relExpDate")).getValue());
             
-            if (orgPersonRelationInfo.getId() == null){
-                OrgRpcService.Util.getInstance().createOrgPersonRelation(orgId,orgPersonRelationInfo.getPersonId(),orgPersonRelationInfo.getType(), orgPersonRelationInfo, 
-                        new AsyncCallback<OrgPersonRelationInfo>(){
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-        
-                    public void onSuccess(final OrgPersonRelationInfo result) {
-                        fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
-                            public String toString() {
-                                return "Person relation created with id: " + result.getId();
-                            }
-                        });
-                    }
-                });
-            } else if(formMap.get("deleted") != null){
-                OrgRpcService.Util.getInstance().removeOrgPersonRelation(orgPersonRelationInfo.getId(), 
-                        new AsyncCallback<StatusInfo>(){
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-        
-                    public void onSuccess(final StatusInfo result) {
-                        fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
-                            public String toString() {
-                                return "Person relation deleted: " + result.getMessage();
-                            }
-                        });
-                    }
-                });
-            } else {
-                OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelationInfo.getId(),orgPersonRelationInfo, new AsyncCallback<OrgPersonRelationInfo>(){
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-        
-                    public void onSuccess(final OrgPersonRelationInfo result) {
-                        fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
-                            public String toString() {
-                                return "Person relation updated for id: " + result.getId();
-                            }
-                        });
-                    }
-                });
+            orgPersonRelationInfo.setType(orgPersonRelForm.getFieldValue("relType"));
+            //TODO this should probably be done differently, especially the FAKE_ID constant in case FAKE_ID is part of institutions actual id structure
+            if(((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems().getItemAttribute(orgPersonRelationInfo.getType(), "id").startsWith(OrgPositionWidget.FAKE_ID)) {
+                final ListItems checking = ((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems();
+                DeferredCommand.addCommand(new IncrementalCommand() {
+                    @Override
+                    public boolean execute() {
+                        if(checking.getItemAttribute(orgPersonRelationInfo.getType(), "id").startsWith(OrgPositionWidget.FAKE_ID)) {
+                            return true;
+                        }
+                        doSave(formMap, orgPersonRelationInfo);
+                        return false;
+                    }});
             }
+            
+            doSave(formMap, orgPersonRelationInfo);
+        }
+    }
+    
+    private void doSave(Map<String, Object> formMap, OrgPersonRelationInfo orgPersonRelationInfo) {
+        if (orgPersonRelationInfo.getId() == null){ //TODO deal with new creations that have been deleted (others too)
+            OrgRpcService.Util.getInstance().createOrgPersonRelation(orgId,orgPersonRelationInfo.getPersonId(),orgPersonRelationInfo.getType(), orgPersonRelationInfo, 
+                    new AsyncCallback<OrgPersonRelationInfo>(){
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                }
+      
+                public void onSuccess(final OrgPersonRelationInfo result) {
+                    fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
+                        public String toString() {
+                            return "Person relation created with id: " + result.getId();
+                        }
+                    });
+                }
+            });
+        } else if(formMap.get("deleted") != null){
+            OrgRpcService.Util.getInstance().removeOrgPersonRelation(orgPersonRelationInfo.getId(), 
+                    new AsyncCallback<StatusInfo>(){
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                }
+      
+                public void onSuccess(final StatusInfo result) {
+                    fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
+                        public String toString() {
+                            return "Person relation deleted: " + result.getMessage();
+                        }
+                    });
+                }
+            });
+        } else {
+            OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelationInfo.getId(),orgPersonRelationInfo, new AsyncCallback<OrgPersonRelationInfo>(){
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                }
+      
+                public void onSuccess(final OrgPersonRelationInfo result) {
+                    fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
+                        public String toString() {
+                            return "Person relation updated for id: " + result.getId();
+                        }
+                    });
+                }
+            });
         }
     }
 

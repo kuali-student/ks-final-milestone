@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
@@ -13,6 +14,7 @@ import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -108,6 +110,7 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
         widgets = new ArrayList<OrgAbstractWidget>();
         
         boolean openFirst = true;
+        Model<OrgPositionRestrictionInfo> model = null;
 
         if ((scope.value() & Scope.ORG.value()) != 0) {
             OrgWidget orgWidget = new OrgWidget(orgId,openFirst);
@@ -129,11 +132,13 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
             openFirst = false;
         }
         if ((scope.value() & Scope.ORG_POSITIONS.value()) != 0) {
-            addOrgWidget(new OrgPositionWidget(orgId,openFirst),save);
+            OrgPositionWidget positionWidget = new OrgPositionWidget(orgId,openFirst);
+            addOrgWidget(positionWidget,save);
+            model = positionWidget.getModel();
             openFirst = false;
         }
         if ((scope.value() & Scope.ORG_PERSON_RELATIONS.value()) != 0 && scope.isModifyingExisting()) {
-            addOrgWidget(new OrgPersonRelationWidget(orgId,openFirst),save);
+            addOrgWidget(new OrgPersonRelationWidget(orgId,model,openFirst),save);
         }
         w.add(buttonBar);
     }

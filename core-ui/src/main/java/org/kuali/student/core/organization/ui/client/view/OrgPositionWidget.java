@@ -22,12 +22,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
@@ -36,14 +39,19 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class OrgPositionWidget extends OrgMultiWidget {
+    static final String FAKE_ID = "FAKE-ID-";
     private ListItems orgPosTypeList;
     List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
+    private Model<OrgPositionRestrictionInfo> model = new Model<OrgPositionRestrictionInfo>();
+    int newCount;
     
     public OrgPositionWidget() {
         this(null);
@@ -56,23 +64,66 @@ class OrgPositionWidget extends OrgMultiWidget {
         if(orgPosTypeList == null)
             populateOrgPositionTypes();
         this.orgId = orgId;
-        if(orgId == null)
-            createBlankPosition();
-        else {
+        if(orgId == null) {
+            OrgPositionRestrictionInfo info = new OrgPositionRestrictionInfo();
+            createBlankPosition(info);
+            model.add(info);
+        } else {
             populatePositionInfos();
         }
     }
     
-    public KSFormLayoutPanel createBlankPosition() {
+    public KSFormLayoutPanel createBlankPosition(final OrgPositionRestrictionInfo info) {
         KSFormLayoutPanel orgForm = new KSFormLayoutPanel();
 
         final KSDropDown posTypeDropDown = new KSDropDown();
 
+        posTypeDropDown.setBlankFirstItem(false);
         addFormField(posTypeDropDown, "Position", "position", orgForm);
-        addFormField(new KSTextBox(), "Title", "title", orgForm);
-        addFormField(new KSTextArea(), "Description", "desc", orgForm);
-        addFormField(new KSTextBox(), "Min people", "min", orgForm);
-        addFormField(new KSTextBox(), "Max people", "max", orgForm);
+        
+        KSTextBox title = new KSTextBox();
+        title.addValueChangeHandler(new ValueChangeHandler<String>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+                info.setTitle(event.getValue());
+                model.update(info);
+            }
+        });
+        addFormField(title, "Title", "title", orgForm);
+        
+        KSTextArea desc = new KSTextArea();
+        desc.addValueChangeHandler(new ValueChangeHandler<String>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+                info.setDesc(event.getValue());
+                model.update(info);
+            }
+        });
+        addFormField(desc, "Description", "desc", orgForm);
+        
+        KSTextBox minPeople = new KSTextBox();
+        minPeople.addValueChangeHandler(new ValueChangeHandler<String>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+                try {
+                    info.setMinNumRelations(Integer.valueOf(event.getValue()));
+                    model.update(info);
+                } catch (NumberFormatException e) { //going to set it to null explicitly since that was the old behavior implictly
+                    info.setMinNumRelations(0);
+                }
+            }
+        });
+        addFormField(minPeople, "Min people", "min", orgForm);
+        
+        KSTextBox maxPeople = new KSTextBox();
+        maxPeople.addValueChangeHandler(new ValueChangeHandler<String>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+                info.setMaxNumRelations(event.getValue());
+                model.update(info);
+            }
+        });
+        addFormField(maxPeople, "Max people", "max", orgForm);
 
         final HashMap<String, Object> map = new HashMap<String, Object>();
         
@@ -82,18 +133,40 @@ class OrgPositionWidget extends OrgMultiWidget {
                 map.put("deleted", Boolean.TRUE);
             }});
         
+        if(info.getId() == null) {
+            info.setId(FAKE_ID+(newCount++));
+            map.put("new",info.getId());
+        }
+        
         if(orgPosTypeList == null)
             DeferredCommand.addCommand(new IncrementalCommand() {
                 @Override
                 public boolean execute() {
                     if(orgPosTypeList != null) {
                         posTypeDropDown.setListItems(orgPosTypeList);
+                        if(map.get("new") != null && !orgPosTypeList.getItemIds().isEmpty())
+                            info.setOrgPersonRelationTypeKey(orgPosTypeList.getItemIds().get(0));
+                        posTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
+                            @Override
+                            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                                info.setOrgPersonRelationTypeKey(posTypeDropDown.getSelectedItem());
+                                model.update(info);
+                            }});
                         return false;
                     }
                     return true;
                 }});
-        else
+        else {
             posTypeDropDown.setListItems(orgPosTypeList);
+            if(map.get("new") != null && !orgPosTypeList.getItemIds().isEmpty())
+                info.setOrgPersonRelationTypeKey(orgPosTypeList.getItemIds().get(0));
+            posTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                    info.setOrgPersonRelationTypeKey(posTypeDropDown.getSelectedItem());
+                    model.update(info);
+                }});
+        }
 
         map.put("form",orgForm);
         forms.add(map);
@@ -153,7 +226,8 @@ class OrgPositionWidget extends OrgMultiWidget {
         
                     public void onSuccess(List<OrgPositionRestrictionInfo> orgPositions) {
                         for(OrgPositionRestrictionInfo info : orgPositions) {
-                            final KSFormLayoutPanel orgPosForm = createBlankPosition();
+                            model.add(info);
+                            final KSFormLayoutPanel orgPosForm = createBlankPosition(info);
                             Map<String,Object> map = forms.get(forms.size() - 1); //should always be the last one
                             map.put("posId",info.getId());
                             map.put("posVersion",info.getMetaInfo().getVersionInd());
@@ -199,7 +273,8 @@ class OrgPositionWidget extends OrgMultiWidget {
     
     @Override
     protected void save() {
-        for (Map<String,Object> formMap : forms) {
+        for (int i = forms.size() - 1; i > -1; i--) {
+            final Map<String, Object> formMap = forms.get(i);
             KSFormLayoutPanel orgPosForm = (KSFormLayoutPanel) formMap.get("form");
             if (orgPosForm.getFieldValue("title").trim().length() == 0)
                 continue; //skipping this one
@@ -233,7 +308,10 @@ class OrgPositionWidget extends OrgMultiWidget {
             }
             orgPosRestriction.setMaxNumRelations(orgPosForm.getFieldValue("max"));
             
-            if (orgPosRestriction.getId() == null){
+            if (formMap.get("new") != null){
+                if(formMap.get("deleted") != null)
+                    continue;
+                orgPosRestriction.setId(null);
                 OrgRpcService.Util.getInstance().addPositionRestrictionToOrg(orgPosRestriction,
                         new AsyncCallback<OrgPositionRestrictionInfo>(){
                     public void onFailure(Throwable caught) {
@@ -241,6 +319,7 @@ class OrgPositionWidget extends OrgMultiWidget {
                     }
         
                     public void onSuccess(final OrgPositionRestrictionInfo result) {
+                        model.get((String) formMap.get("new")).setId(result.getId());
                         fireEvent(new SaveEvent() { //TODO fix this terrible terrible hack
                             public String toString() {
                                 return "Org position created with id: " + result.getId();
@@ -282,9 +361,17 @@ class OrgPositionWidget extends OrgMultiWidget {
         }
     }
 
+    public Model<OrgPositionRestrictionInfo> getModel() {
+        return model;
+    }
+    public void setModel(Model<OrgPositionRestrictionInfo> model) {
+        this.model = model;
+    }
     @Override
     protected void create() {
-        createBlankPosition();
+        OrgPositionRestrictionInfo info = new OrgPositionRestrictionInfo();
+        createBlankPosition(info);
+        model.add(info);
     }
     @Override
     public int calculateSaveableWidgetCount() {
