@@ -35,6 +35,8 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
 	}
 	
 	public void redraw(){
+	    String selectedItem = getSelectedItem();
+	    
         listBox.clear();
         
         if(blankFirstItem){
@@ -43,6 +45,8 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
         for (String id: super.getListItems().getItemIds()){
             listBox.addItem(super.getListItems().getItemText(id),id);            
         }
+        
+        selectItem(selectedItem);
         
 	}
 	
