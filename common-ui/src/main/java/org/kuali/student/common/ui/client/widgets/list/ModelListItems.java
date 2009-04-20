@@ -14,21 +14,21 @@ import org.kuali.student.core.dto.Idable;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 public abstract class ModelListItems<T extends Idable> implements ListItems{
-    private List<Callback<T>> addCallbacks = new ArrayList<Callback<T>>();
-    private List<Callback<T>> removeCallbacks = new ArrayList<Callback<T>>();
-    private List<Callback<T>> updateCallbacks = new ArrayList<Callback<T>>();
-    private List<Callback<T>> bulkUpdateCallbacks = new ArrayList<Callback<T>>();
+    protected List<Callback<T>> addCallbacks = new ArrayList<Callback<T>>();
+    protected List<Callback<T>> removeCallbacks = new ArrayList<Callback<T>>();
+    protected List<Callback<T>> updateCallbacks = new ArrayList<Callback<T>>();
+    protected List<Callback<T>> bulkUpdateCallbacks = new ArrayList<Callback<T>>();
     
-    private List<T> listItems = new ArrayList<T>();
-    private Comparator<T> listComparator = null;
-    private HandlerRegistration reg = null;
+    protected List<T> listItems = new ArrayList<T>();
+    protected Comparator<T> listComparator = null;
+    protected HandlerRegistration reg = null;
     
-    private void add(T item){
+    protected void add(T item){
         listItems.add(item);
         reSort();
     }
         
-    private void update(T item){
+    protected void update(T item){
         for(T i : listItems){
             if(i.getId().equals(item.getId())){
                 listItems.remove(i);
@@ -39,11 +39,11 @@ public abstract class ModelListItems<T extends Idable> implements ListItems{
         }
     }
     
-    private void remove(T item){
+    protected void remove(T item){
         listItems.remove(item);
     }
     
-    private void reSort(){
+    protected void reSort(){
         if(listComparator != null){
             Collections.sort(listItems, listComparator);
         }
