@@ -8,6 +8,8 @@
 
 package org.kuali.student.core.dictionary.dto;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -44,8 +46,10 @@ import javax.xml.bind.annotation.XmlType;
     "dynamic"
 })
 @XmlRootElement(name = "field")
-public class Field {
+public class Field implements Serializable{
 
+    private static final long serialVersionUID = 1L;
+    
     @XmlElement(required = true)
     protected FieldDescriptor fieldDescriptor;
     protected boolean selector;

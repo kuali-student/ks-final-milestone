@@ -8,6 +8,7 @@
 
 package org.kuali.student.core.dictionary.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @XmlRootElement(name = "enum")
-public class Enum {
+public class Enum implements Serializable{
 
     @XmlElement(required = true, name="context")
     @XmlElementWrapper(name="contexts")

@@ -8,6 +8,7 @@
 
 package org.kuali.student.core.dictionary.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,7 +42,9 @@ import javax.xml.bind.annotation.XmlType;
     "objectStructure"
 })
 @XmlRootElement(name = "Dictionary")
-public class Dictionary {
+public class Dictionary implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(required = true)
     protected List<ObjectStructure> objectStructure;

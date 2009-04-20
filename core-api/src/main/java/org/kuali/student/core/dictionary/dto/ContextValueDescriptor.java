@@ -1,6 +1,7 @@
 package org.kuali.student.core.dictionary.dto;
 
-	import java.util.HashMap;
+	import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -24,7 +25,10 @@ import javax.xml.bind.annotation.XmlType;
     "maxOccurs"
 })
 @XmlRootElement(name = "contextValueDescriptor")
-public class ContextValueDescriptor {
+public class ContextValueDescriptor implements Serializable{
+          
+    private static final long serialVersionUID = 1L;
+    
     @XmlElement(required = true)
     protected String desc;
     @XmlElement(required = true)
