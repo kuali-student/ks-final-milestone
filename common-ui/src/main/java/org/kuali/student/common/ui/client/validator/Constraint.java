@@ -1,4 +1,4 @@
-package org.kuali.student.common.ui.validator;
+package org.kuali.student.common.ui.client.validator;
 
 
 import org.kuali.student.common.ui.client.mvc.Callback;

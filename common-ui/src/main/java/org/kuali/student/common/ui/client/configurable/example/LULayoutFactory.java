@@ -10,8 +10,8 @@ import org.kuali.student.common.ui.client.configurable.LayoutConfigurationExcept
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.configurable.example.dto.MockCluInfo;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
-import org.kuali.student.common.ui.validator.DictionaryConstraint;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;

@@ -6,7 +6,8 @@
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
 	
-	<inherits name="org.kuali.student.core.Core"/>
+	<inherits name="org.kuali.student.core.Core" />
+	<inherits name="org.kuali.student.core.dictionary.Dictionary" />
 	<inherits name="org.kuali.student.core.messages.Message"/>
  
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>

@@ -25,12 +25,12 @@ import org.kuali.student.common.ui.client.event.DirtyStateChangeEvent;
 import org.kuali.student.common.ui.client.event.DirtyStateChangeHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Holder;
+import org.kuali.student.common.ui.client.validator.CharFilter;
+import org.kuali.student.common.ui.client.validator.Constraint;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.validator.CharFilter;
-import org.kuali.student.common.ui.validator.Constraint;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
 import com.google.gwt.core.client.GWT;
