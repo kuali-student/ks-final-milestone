@@ -1,5 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.image;
 
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 import org.kuali.student.ui.kitchensink.client.KitchenSinkExample;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -9,6 +10,7 @@ public class ImageExampleDescriptor extends KitchenSinkExample {
         super();
         super.addResource("java", "ImageExample.java", "kscommons/image/ImageExample.java", "Example usage of KSImage.");
         super.addResource("css", "KSImage.css", "KSImage.css", "Default styling of KSImage.");
+        super.addCssResource(KSCommonResources.INSTANCE.imageCss());
     }
     public String getDescription() {       
         return "Image is a widget that contains an image. Optionally can specify the size of the image"; 

@@ -1,5 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.helplink;
 
+import org.kuali.student.common.ui.client.css.KSCommonResources;
 import org.kuali.student.ui.kitchensink.client.KitchenSinkExample;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -12,6 +13,10 @@ public class HelpLinkExampleDescriptor extends KitchenSinkExample {
         super.addResource("css", "KSToolTip.css", "KSToolTip.css", "Default styling of KSToolTip.");
         super.addResource("css", "KSInfoDialogPanel.css", "KSInfoDialogPanel.css", "Default styling of KSInfoDialogPanel.");
         super.addResource("css", "KSDialogPanel.css", "KSDialogPanel.css", "Default styling of KSDialogPanel.");
+        super.addCssResource(KSCommonResources.INSTANCE.helpLinkCss());
+        super.addCssResource(KSCommonResources.INSTANCE.toolTipCss());
+        super.addCssResource(KSCommonResources.INSTANCE.infoDialogPanelCss());
+        super.addCssResource(KSCommonResources.INSTANCE.dialogPanelCss());
     }
     public String getDescription() {       
         return "This adds a dynamic link to indicate progress/status on a field.";
