@@ -46,6 +46,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.radiobuttonlist.RadioBu
 import org.kuali.student.ui.kitchensink.client.kscommons.resizablepanel.ResizablePanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.ruletable.RuleTableExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.scrolltable.ScrollTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.selectabletable.SelectableTableDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.sidebar.SidebarExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.tabpanel.TabPanelExampleDescriptor;
@@ -206,6 +207,7 @@ public class KitchenSinkMain extends Composite {
         
         initExample(ksForm, new FormLayoutPanelExampleDescriptor());
         
+        initExample(ksTable, new ScrollTableExampleDescriptor());
         initExample(ksTable, new PageTableExampleDescriptor());
 
 

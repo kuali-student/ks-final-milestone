@@ -21,5 +21,4 @@ public class PageTableExampleDescriptor extends KitchenSinkExample {
     public String getTitle() {
         return "PageTable";
     }
-
 }

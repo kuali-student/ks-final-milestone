@@ -1,4 +1,4 @@
-package org.kuali.student.ui.kitchensink.client.kscommons.pagetable;
+package org.kuali.student.ui.kitchensink.client.kscommons.scrolltable;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
@@ -17,7 +17,7 @@ import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 
 import com.google.gwt.gen2.table.override.client.FlexTable.FlexCellFormatter;
 
-public class PageTableExample extends Composite {
+public class ScrollTableExample extends Composite {
 
     final VerticalPanel main = new VerticalPanel();
     
@@ -25,7 +25,7 @@ public class PageTableExample extends Composite {
     ScrollTableHelper helper = new ScrollTableHelper();
     final KSLabel label = new KSLabel("Scrollable table with sortable columns: ", false);
 
-    public PageTableExample() {
+    public ScrollTableExample() {
 
         List<String> columnHeaders = populateMockColumnHeaders();
         FixedWidthFlexTable headerTable = helper.createStringListHeader("<b>Team 1</b>",columnHeaders);
