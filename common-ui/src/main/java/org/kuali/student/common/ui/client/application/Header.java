@@ -24,29 +24,66 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Header extends Composite {
     private final VerticalPanel main = new VerticalPanel();
 
-    private final HorizontalPanel linksPanel = new HorizontalPanel();
-    private final DockPanel linksSpacerPanel = new DockPanel();
+    private final HorizontalPanel linksContentPanel = new HorizontalPanel();
+    private final DockPanel linksPanel = new DockPanel();
     private final SimplePanel logoPanel = new SimplePanel();
+
+    private List<KSBreadcrumbItem> breadcrumbItems;
+    private List<HeaderLinkItem> linkItems;
 
     private KSBreadcrumb breadcrumb;
 
-    private final KSImage logo = new KSImage("images/Kuali_logo_bar.jpg");
+    private final KSImage logo = new KSImage("images/logo_bar.jpg");
     private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
 
+    /**
+     * 
+     * This constructs a default Header with no Breadcrumb menu and just Logout and Preferences 
+     * function links.
+     *
+     */
     public Header() {
+        super();
+        breadcrumbItems = new ArrayList<KSBreadcrumbItem>();
+        linkItems = new ArrayList<HeaderLinkItem>();
+        initHeader();
+    }
+
+    /**
+     * 
+     * This constructs a custom Header with breadcrumb menu and additional function links. N.B Always get Logout 
+     * and Preferences functions
+     * 
+     * if only one of breadcrumb or links is required, set other parameter to null
+     * 
+     * @param breadcrumbItems
+     * @param linkItems
+     */
+    public Header(List<KSBreadcrumbItem> breadcrumbItems,
+            List<HeaderLinkItem> linkItems) {
+        super();
+        this.breadcrumbItems = breadcrumbItems;
+        this.linkItems = linkItems;
+        initHeader();
+    }
+
+    private void initHeader() {
         super.initWidget(main);
 
-        buildInitialBreadcrumb();
-
-        buildLinksPanel();
         buildLogoPanel();
-        
         main.add(logoPanel);
+
         main.add(separator1);
-        main.add(linksSpacerPanel);    
+        buildLinksPanel();
+        main.add(linksPanel);    
         main.add(separator2);
-        main.add(breadcrumb);
+
+        if (breadcrumbItems != null &&
+                !breadcrumbItems.isEmpty()) {
+            buildBreadcrumb();
+            main.add(breadcrumb);
+        }
         main.addStyleName("KS-Header");
     }
 
@@ -58,26 +95,41 @@ public class Header extends Composite {
     }
 
     private void buildLinksPanel() {
-        //TODO This should be dynamic, i.e. accept a list of required links.
 
         separator1.addStyleName("KS-Header-Separator");
         separator2.addStyleName("KS-Header-Separator");
 
-        linksPanel.add(buildLink("Preferences", "Create, modify or delete user preferences"));
-        linksPanel.add(buildLink("Logout", "End current Kuali Student session"));
-        linksPanel.addStyleName("KS-Header-Link-Panel");
+        if (linkItems == null) {
+            System.out.println("null items");
+            linkItems = new ArrayList<HeaderLinkItem>();
+        }
+        else {
+            System.out.println("items = " + linkItems.size());            
+        }
 
-        linksSpacerPanel.add(linksPanel ,DockPanel.EAST);
-        linksSpacerPanel.addStyleName("KS-Header-Link-Spacer");
-        linksSpacerPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
-        linksSpacerPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
+        // Always have logout and preferences options
+        linkItems.add(new HeaderLinkItem("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
+        linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", "Logout not yet implemented"));
+
+        for (HeaderLinkItem i : linkItems) {
+            System.out.println("Adding " + i.getText());
+            linksContentPanel.add(buildLink(i.getText(), i.getTitle(), i.getActionUrl()));           
+        }
+
+        linksContentPanel.addStyleName("KS-Header-Link-Panel");
+
+        //linksPanel is a spacer panel for right alignment of links
+        linksPanel.add(linksContentPanel ,DockPanel.EAST);
+        linksPanel.addStyleName("KS-Header-Link-Spacer");
+        linksPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
+        linksPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
     }
 
-    private KSLabel buildLink(final String text, final String title) {
+    private KSLabel buildLink(final String text, final String title, String actionUrl) {
         //TODO need to add the action for the link        
 
         //Using KSLabel for now - couldn't change color for Anchor
-       final KSLabel link = new KSLabel(text);
+        final KSLabel link = new KSLabel(text);
         link.addStyleName("KS-Header-Link");
         link.setTitle(title);
         link.addMouseOverHandler(new MouseOverHandler() {
@@ -98,19 +150,23 @@ public class Header extends Composite {
 
             @Override
             public void onClick(ClickEvent event) {
-                Window.alert("Go to " + text + " function");               
+                //TODO need to set actionUrl
+                Window.alert(text + " not yet implemented");               
             }});
-        
+
         return link;
-        
+
     }
 
-    private void buildInitialBreadcrumb() {
+    private void buildBreadcrumb() {
+        //TODO need to allow Linked or Unlinked breadcrumb lists
+        
         breadcrumb = new KSBreadcrumb();
-        KSBreadcrumbItem item = new KSBreadcrumbItem("Home", "Home page");
-        List<KSBreadcrumbItem> items = new ArrayList<KSBreadcrumbItem>();
-        items.add(item);
-        breadcrumb.setUnLinkedBreadcrumbList(items);
-        breadcrumb.addStyleName("KS-Header-Breadcrumb");
-    }
+        for (KSBreadcrumbItem i : breadcrumbItems) {
+            breadcrumb.setUnLinkedBreadcrumbList(breadcrumbItems);
+            breadcrumb.addStyleName("KS-Header-Breadcrumb");
+        }
+
+    }   
+
 }
