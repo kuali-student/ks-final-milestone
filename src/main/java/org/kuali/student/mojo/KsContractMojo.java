@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Creates WS service interface from wiki service contract.
- * 
+ *
  * @goal contractToJava
  */
 public class KsContractMojo extends AbstractMojo {
@@ -60,49 +61,54 @@ public class KsContractMojo extends AbstractMojo {
 	 * @parameter
 	 */
 	private String packageName;
-	
+
+	/**
+	 * @parameter
+	 */
+	private String serviceName = "foo";
+
 	/**
 	 * Path to service contract file.
-	 * 
+	 *
 	 * @parameter
 	 */
 	private File contractFile;
 
 	/**
 	 * URL of service contract from wiki.
-	 * 
+	 *
 	 * @parameter
 	 */
 	private URL contractURL;
 
 	/**
 	 * Path to output directory.
-	 * 
+	 *
 	 * @parameter
 	 */
 	private File outputDirectory;
 
 	/**
 	 * Path to custom xslt.
-	 * 
+	 *
 	 * @parameter
 	 */
 	private File transformFile;
 
 	/**
 	 * Path to custom xslt.
-	 * 
+	 *
 	 * @parameter
 	 */
 	private File messageTransformFile;
-	
+
 	/**
 	 * JSESSIONID from a current session
-	 * 
+	 *
 	 * @parameter
 	 */
 	private String jsessionId;
-	
+
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
 		ContractReader contract;
@@ -131,10 +137,16 @@ public class KsContractMojo extends AbstractMojo {
 		try {
 			Transformer transformer = net.sf.saxon.TransformerFactoryImpl
 					.newInstance().newTransformer(wsdlXslt);
-			transformer.setParameter("packageName", this.getPackageName()+".service");
+			transformer.setParameter("packageName", this.getPackageName());
+			transformer.setParameter("serviceName", this.getServiceName());
+			transformer.setParameter("url", contract.getContractPath());
+			transformer.setParameter("date", new Date());
+			transformer.setParameter("user", System.getProperty("user.name"));
 			File serviceDir = new File(outputDirectory, "service");
 			serviceDir.mkdir();
-			Result result = new StreamResult(new File(serviceDir, "foo.java"));
+			Result result = new StreamResult(new File(serviceDir, getServiceName() + ".java"));
+			System.out.println("Creating Service Interface: "+ getServiceName() + ".java");
+
 			transformer.transform(contract.getStreamSource(), result);
 
 			findParams(contract.getDocument());
@@ -262,7 +274,11 @@ public class KsContractMojo extends AbstractMojo {
 		try {
 			Transformer transformer = net.sf.saxon.TransformerFactoryImpl
 					.newInstance().newTransformer(wsdlXslt);
-			transformer.setParameter("packageName", this.getPackageName()+".dto");
+			transformer.setParameter("packageName", this.getPackageName());
+			transformer.setParameter("sourcePath", contract.getContractPath());
+			transformer.setParameter("date", new Date());
+			transformer.setParameter("user", System.getProperty("user.name"));
+			transformer.setParameter("url", contract.getContractPath());
 			File dtoDirectory = new File(outputDirectory, "dto");
 			dtoDirectory.mkdir();
 			Result result = new StreamResult(new File(dtoDirectory, param
@@ -342,6 +358,14 @@ public class KsContractMojo extends AbstractMojo {
 	 */
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 
 }

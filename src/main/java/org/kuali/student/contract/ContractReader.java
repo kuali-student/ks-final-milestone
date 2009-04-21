@@ -39,7 +39,10 @@ public class ContractReader {
 
     private String contractText;
 
-    public ContractReader(File file) throws FileNotFoundException, IOException {
+    private String contractPath;
+
+	public ContractReader(File file) throws FileNotFoundException, IOException {
+		contractPath = file.getCanonicalPath();
         FileReader fileReader = new FileReader(file);
         BufferedReader reader = new BufferedReader(fileReader);
 
@@ -47,6 +50,7 @@ public class ContractReader {
     }
 
     public ContractReader(URL url, String jsessionId) throws IOException {
+    	this.contractPath = url.toString();
         URLConnection connection = url.openConnection();
         connection.setRequestProperty("Cookie", "JSESSIONID=" + jsessionId);
 
@@ -59,10 +63,10 @@ public class ContractReader {
     public Document getDocument() throws ParserConfigurationException, UnsupportedEncodingException, IOException, SAXException {
         DocumentBuilderFactory  factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        
+
         return builder.parse(new ByteArrayInputStream(contractText.getBytes("UTF-8")));
     }
-    
+
     public StreamSource getStreamSource() {
         StringReader stringReader = new StringReader(contractText);
 
@@ -101,4 +105,14 @@ public class ContractReader {
 	public String getContractText() {
 		return contractText;
 	}
+
+	/**
+	 *
+	 * @return the URL
+	 */
+    public String getContractPath() {
+		return contractPath;
+	}
+
+
 }

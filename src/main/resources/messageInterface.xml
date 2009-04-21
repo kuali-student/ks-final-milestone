@@ -19,15 +19,18 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:param name="packageName"></xsl:param>
+    <xsl:param name="url"></xsl:param>
+    <xsl:param name="date"></xsl:param>
+    <xsl:param name="user"></xsl:param>
 	<xsl:strip-space elements="*" />
 	<xsl:output method="text" />
 	<xsl:template match="/">
 		<xsl:apply-templates select="//div[@class='wiki-content'][1]" />
 	</xsl:template>
 	<xsl:template match="//div[@class='wiki-content'][1]">
-	
+
 <xsl:text>/*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,23 +45,27 @@
  * limitations under the License.
  */
 package </xsl:text>
-<xsl:value-of select="$packageName"/>
+<xsl:value-of select="concat($packageName, '.dto')"/>
 <xsl:text>;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 </xsl:text>
 
 <!-- Determine if it implements Idable (has a 'key' or 'id' element) and if it implements
-	 HasTypeState (has 'type' and 'state' elements) or HasAttributes -->
+	 HasTypeState (has 'type' and 'state' elements) or HasAttributes-->
 <xsl:variable name="hasKey">
 	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='key']" />
 </xsl:variable>
@@ -75,6 +82,10 @@ import javax.xml.bind.annotation.XmlElement;
 	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='attributes']" />
 </xsl:variable>
 
+<xsl:variable name="className">
+    <xsl:value-of select="concat(upper-case(substring(normalize-space(h2),1,1)),
+             substring(normalize-space(h2),2))" />
+</xsl:variable>
 <!-- import implemented core dto interfaces -->
 <xsl:if test="string-length($hasKey)>0 or string-length($hasId)>0">
 	<xsl:text>import org.kuali.student.core.dto.Idable;&#10;</xsl:text>
@@ -88,15 +99,19 @@ import javax.xml.bind.annotation.XmlElement;
 
 <xsl:text>
 /**
- *</xsl:text>
+ * </xsl:text>
  <xsl:value-of select="//h3[.='Description']/following-sibling::*[1]"/>
-<xsl:text>
- */ 
+<xsl:text>&#10; *&#10;</xsl:text>
+<xsl:text> * @Author KSContractMojo&#10;</xsl:text>
+<xsl:text> * @Author </xsl:text><xsl:value-of select="$user"/><xsl:text>&#10;</xsl:text>
+<xsl:text> * @Since </xsl:text><xsl:value-of select="$date"/><xsl:text>&#10;</xsl:text>
+<xsl:text> * @See &lt;a href="</xsl:text><xsl:value-of select="$url"/><xsl:text>"&gt;</xsl:text><xsl:value-of select="$className" /><xsl:text>&lt;/&gt;&#10;</xsl:text>
+<xsl:text> *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class </xsl:text>
 		<xsl:value-of
-			select="concat(upper-case(substring(normalize-space(h2),1,1)),
-             substring(normalize-space(h2),2))" />
+			select="$className" />
 		<xsl:text> implements Serializable</xsl:text>
 
 		<xsl:if test="string-length($hasKey)>0 or string-length($hasId)>0">
@@ -120,18 +135,18 @@ public class </xsl:text>
 					<!-- changing 'key' to 'id' in DTOs; ensure XML attribute will have 'key' -->
 					<xsl:if test="normalize-space(td[@class='structSName'])='key'" >
 						<xsl:text>(name="key")</xsl:text>
-					</xsl:if>	
+					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:text>&#10;    @XmlElement</xsl:text>
 					<!-- changing 'key' to 'id' in DTOs; ensure XML element will be 'key' -->
 					<xsl:if test="normalize-space(td[@class='structSName'])='key'" >
 						<xsl:text>("key")</xsl:text>
-					</xsl:if>	
+					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:text>&#10;</xsl:text>
-			<xsl:if test="normalize-space(td[@class='structType'])='attributeList'">
+			<xsl:if test="normalize-space(td[@class='structType'])='attributeInfoList'">
 				<xsl:text>    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)&#10;</xsl:text>
 			</xsl:if>
 			<xsl:text>    private </xsl:text>
@@ -141,7 +156,7 @@ public class </xsl:text>
 			<xsl:text>;&#10;</xsl:text>
 
 		</xsl:for-each>
-		
+
 		<!-- do getters/setters -->
 		<xsl:for-each
 			select="table[@class='structTable']/tr[position()>1]">
@@ -149,7 +164,7 @@ public class </xsl:text>
 			<xsl:text>&#10;    /**&#10;     * </xsl:text>
 			<xsl:value-of
 				select="normalize-space(td[@class='structDesc'])" />
-			<xsl:text>&#10;     */</xsl:text>	
+			<xsl:text>&#10;     */</xsl:text>
 			<xsl:text>&#10;    public </xsl:text>
 			<xsl:call-template name="deriveType" />
 			<xsl:text> get</xsl:text>
@@ -171,7 +186,7 @@ public class </xsl:text>
 				<xsl:value-of
 					select="normalize-space(td[@class='structSName'])" />
 				<xsl:choose>
-					<xsl:when test="normalize-space(td[@class='structType'])='attributeList'">
+					<xsl:when test="normalize-space(td[@class='structType'])='attributeInfoList'">
 						<xsl:text> = new Hash</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -179,7 +194,14 @@ public class </xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 				<xsl:call-template name="deriveType" />
-				<xsl:text>();&#10;</xsl:text>
+                <xsl:choose>
+                    <xsl:when test="normalize-space(td[@class='structType'])='attributeInfoList'">
+                        <xsl:text>();&#10;</xsl:text>
+                   </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>(0);&#10;</xsl:text>
+                   </xsl:otherwise>
+                </xsl:choose>
 				<xsl:text>        }&#10;</xsl:text>
 			</xsl:if>
 			<xsl:text>        return </xsl:text>
@@ -229,15 +251,26 @@ public class </xsl:text>
 
 	<xsl:template name="deriveType">
 		<xsl:choose>
-		    <xsl:when test="normalize-space(td[@class='structType'])='attributeList'">
+		    <xsl:when test="normalize-space(td[@class='structType'])='attributeInfoList'">
 		    	<xsl:text>Map&lt;String, String&gt;</xsl:text>
 		    </xsl:when>
 			<xsl:when
 				test="ends-with(normalize-space(td[@class='structType']),'List')">
-				<xsl:text>List&lt;</xsl:text>
-				<xsl:value-of
-					select="concat(upper-case(substring(normalize-space(td[@class='structType']),1,1)),
+                <xsl:variable name="listType">
+                  <xsl:value-of
+                    select="concat(upper-case(substring(normalize-space(td[@class='structType']),1,1)),
              substring(normalize-space(td[@class='structType']),2,string-length(normalize-space(td[@class='structType']))-5))" />
+                </xsl:variable>
+
+				<xsl:text>List&lt;</xsl:text>
+                <xsl:choose>
+                    <xsl:when test="ends-with($listType, 'Id') or ends-with($listType, 'Key')">
+                        <xsl:text>String</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$listType" />
+                    </xsl:otherwise>
+                </xsl:choose>
 				<xsl:text>&gt;</xsl:text>
 			</xsl:when>
 			<xsl:when

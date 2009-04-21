@@ -19,11 +19,15 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:param name="packageName"></xsl:param>
+    <xsl:param name="serviceName"></xsl:param>
+    <xsl:param name="url"></xsl:param>
+    <xsl:param name="date"></xsl:param>
+    <xsl:param name="user"></xsl:param>
 	<xsl:output method="text" />
 	<xsl:template match="/">
-	
+
 <xsl:text>/*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,13 +42,53 @@
  * limitations under the License.
  */
 package </xsl:text>
-<xsl:value-of select="$packageName"/>
+<xsl:value-of select="concat($packageName, '.service')"/>
 
 <xsl:text>;
- 
+
+import java.util.List;
+
+import javax.jws.WebParam;
+
 </xsl:text>
-	
-		<xsl:text>public interface foo {&#10;</xsl:text>
+
+        <!--  Generate include statements -->
+        <xsl:for-each select="distinct-values(contents/table/tr/td[@class='methodErrorType'])">
+          <xsl:sort select="."/>
+          <xsl:text>import org.kuali.student.core.exceptions.</xsl:text>
+          <xsl:value-of
+            select="normalize-space(string-join((for $word in tokenize(.,'_')[position() > 0] return concat(upper-case(substring($word,1,1)), lower-case(substring($word,2)))),''))" />
+          <xsl:text>Exception;</xsl:text>
+          <xsl:text>&#10;</xsl:text>
+        </xsl:for-each>
+        <xsl:text>&#10;</xsl:text>
+        <xsl:for-each select="distinct-values(contents/table/tr/td[@class='methodReturnType'])">
+          <xsl:sort select="."/>
+          <xsl:variable name="returnType">
+            <xsl:value-of select="normalize-space(.)" />
+          </xsl:variable>
+          <xsl:if test="ends-with($returnType, 'Info')">
+             <xsl:value-of
+              select="concat('import ', $packageName, '.dto.', upper-case(substring($returnType,1,1)), substring($returnType,2))" />
+            <xsl:text>;&#10;</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+        <xsl:text>&#10;</xsl:text>
+
+        <xsl:text>/**&#10;</xsl:text>
+        <xsl:text> *&#10;</xsl:text>
+        <xsl:text> * @Author KSContractMojo&#10;</xsl:text>
+        <xsl:text> * @Author </xsl:text><xsl:value-of select="$user"/><xsl:text>&#10;</xsl:text>
+        <xsl:text> * @Since </xsl:text><xsl:value-of select="$date"/><xsl:text>&#10;</xsl:text>
+        <xsl:text> * @See &lt;a href="</xsl:text><xsl:value-of select="$url"/><xsl:text>"&gt;</xsl:text><xsl:value-of select="$serviceName" /><xsl:text>&lt;/&gt;&#10;</xsl:text>
+        <xsl:text> *&#10;</xsl:text>
+        <xsl:text> */&#10;</xsl:text>
+
+        <xsl:text>public interface </xsl:text>
+        <xsl:value-of select="$serviceName" />
+        <xsl:text> { &#10;</xsl:text>
+
+        <!-- generate Interface -->
 		<xsl:for-each select="contents/table">
 			<xsl:text>    /** &#10;</xsl:text>
 			<xsl:text>     * </xsl:text>
