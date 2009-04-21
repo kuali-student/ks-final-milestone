@@ -100,11 +100,7 @@ public class Header extends Composite {
         separator2.addStyleName("KS-Header-Separator");
 
         if (linkItems == null) {
-            System.out.println("null items");
             linkItems = new ArrayList<HeaderLinkItem>();
-        }
-        else {
-            System.out.println("items = " + linkItems.size());            
         }
 
         // Always have logout and preferences options
