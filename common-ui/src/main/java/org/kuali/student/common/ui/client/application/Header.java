@@ -28,17 +28,11 @@ public class Header extends Composite {
     private final DockPanel linksSpacerPanel = new DockPanel();
     private final SimplePanel logoPanel = new SimplePanel();
 
-    //Using KSLabel for now - couldn't change color for Anchor
-    private final KSLabel logout = new KSLabel("Logout");
-    private final KSLabel preferences = new KSLabel("Preferences");
-
     private KSBreadcrumb breadcrumb;
-
 
     private final KSImage logo = new KSImage("images/Kuali_logo_bar.jpg");
     private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
-//  private final KSImage logo = new KSImage("images/logo-ks.gif");
 
     public Header() {
         super.initWidget(main);
@@ -47,9 +41,7 @@ public class Header extends Composite {
 
         buildLinksPanel();
         buildLogoPanel();
-
-        separator1.addStyleName("KS-Header-Separator");
-        separator2.addStyleName("KS-Header-Separator");
+        
         main.add(logoPanel);
         main.add(separator1);
         main.add(linksSpacerPanel);    
@@ -66,11 +58,13 @@ public class Header extends Composite {
     }
 
     private void buildLinksPanel() {
-        buildLogoutLink();
-        buildPreferencesLink();
+        //TODO This should be dynamic, i.e. accept a list of required links.
 
-        linksPanel.add(preferences);
-        linksPanel.add(logout);
+        separator1.addStyleName("KS-Header-Separator");
+        separator2.addStyleName("KS-Header-Separator");
+
+        linksPanel.add(buildLink("Preferences", "Create, modify or delete user preferences"));
+        linksPanel.add(buildLink("Logout", "End current Kuali Student session"));
         linksPanel.addStyleName("KS-Header-Link-Panel");
 
         linksSpacerPanel.add(linksPanel ,DockPanel.EAST);
@@ -79,55 +73,36 @@ public class Header extends Composite {
         linksSpacerPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
     }
 
-    private void buildPreferencesLink() {
-        preferences.addStyleName("KS-Header-Link");
-        preferences.setTitle("Create, modify or delete user preferences");
-        preferences.addMouseOverHandler(new MouseOverHandler() {
+    private KSLabel buildLink(final String text, final String title) {
+        //TODO need to add the action for the link        
+
+        //Using KSLabel for now - couldn't change color for Anchor
+       final KSLabel link = new KSLabel(text);
+        link.addStyleName("KS-Header-Link");
+        link.setTitle(title);
+        link.addMouseOverHandler(new MouseOverHandler() {
 
             @Override
             public void onMouseOver(MouseOverEvent event) {
-                preferences.addStyleName("KS-Header-Link-Focus");               
+                link.addStyleName("KS-Header-Link-Focus");               
             }});
 
-        preferences.addMouseOutHandler(new MouseOutHandler() {
+        link.addMouseOutHandler(new MouseOutHandler() {
 
             @Override
             public void onMouseOut(MouseOutEvent event) {
-                preferences.removeStyleName("KS-Header-Link-Focus");               
+                link.removeStyleName("KS-Header-Link-Focus");               
 
             }});
-        preferences.addClickHandler(new ClickHandler() {
+        link.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                Window.alert("Go to preferences dialogs");               
+                Window.alert("Go to " + text + " function");               
             }});
-    }
-
-    private void buildLogoutLink() {
-        logout.addStyleName("KS-Header-Link");
-        logout.setTitle("Logout of Kuali Student");
-        logout.addMouseOverHandler(new MouseOverHandler() {
-
-            @Override
-            public void onMouseOver(MouseOverEvent event) {
-                logout.addStyleName("KS-Header-Link-Focus");               
-            }});
-
-        logout.addMouseOutHandler(new MouseOutHandler() {
-
-            @Override
-            public void onMouseOut(MouseOutEvent event) {
-                logout.removeStyleName("KS-Header-Link-Focus");               
-
-            }});
-
-        logout.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                Window.alert("Logging out now?");               
-            }});
+        
+        return link;
+        
     }
 
     private void buildInitialBreadcrumb() {
