@@ -857,9 +857,10 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-			      <groupId>com.google.gwt</groupId>
-			      <artifactId>gwt-incubator</artifactId>
-			      <version>1.6</version>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-incubator</artifactId>
+				<version>1.6</version>
+				<scope>provided</scope>
 	    	</dependency>
 			<dependency>
 				<groupId>com.google.gwt</groupId>
@@ -886,7 +887,6 @@
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-servlet</artifactId>
 				<version>${gwtVersion}</version>
-				<scope>runtime</scope>
 				<exclusions>
 					<exclusion>
 						<artifactId>junit</artifactId>
@@ -898,6 +898,7 @@
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-visualization</artifactId>
 				<version>1.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 			    <groupId>com.google.code.gwtx</groupId>

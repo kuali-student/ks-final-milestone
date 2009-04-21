@@ -71,13 +71,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>	
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>	
 		</dependency>
@@ -91,14 +84,6 @@
 			<artifactId>ks-jta</artifactId>
 			<type>pom</type>
 		</dependency>		
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.google.code.gwtx</groupId>
-		    <artifactId>gwtx</artifactId>
-		</dependency>     			
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
@@ -142,11 +127,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>			
 	</dependencies>
 
 </project>
