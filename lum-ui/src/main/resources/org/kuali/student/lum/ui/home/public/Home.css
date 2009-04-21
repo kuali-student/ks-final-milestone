@@ -63,16 +63,13 @@
 	width: 100%;
 }
 
-.Content-Margin{
+.Content-Left-Margin{
 	margin-left: 25px;
-	margin-right: 25px;
 }
 
 .Home-Horizontal-Break{
 	width: 100%;
 	margin-left: 10px;
-	margin-right: 20px;
-	margin-top: 20px;
 }
 
 .Home-Small-Hyperlink{
@@ -91,50 +88,4 @@
 	color: white;
 	background: url("images/Home-selected-button.jpg") repeat-x;
 	font-weight: bold;
-}
-
-.KS-ReqMgr-Heading{
-	margin-top: 10px;
-	margin-bottom: 10px;
-	color: black;
-	font-weight: bold;
-	text-decoration: underline;	
-	font-size:12pt;
-	width: 100%;
-}
-
-.KS-ReqMgr-NoRuleText{
-	color: gray;
-	font-style: italic;	
-	font-size:10pt;
-	width: 100%;
-}
-
-.KS-Rules-Standard-Button{
-	margin-top: 20px;
-	color: white;
-	background: url("images/Home-selected-button.jpg") repeat-x;	
-	font-size:10pt;
-	width:150px;
-}
-
-.KS-Rules-Link{
-	margin-top: 20px;
-	margin-bottom: 20px;
-	font-size: 8pt;
-	text-decoration: underline;	
-	cursor: pointer;
-}
-
-.KS-Rules-Rationale{
-	width: 100px;
-	height: 50px;
-}
-
-.KS-ReqComp-Selected {
-	background-color: #FFFF99;
-}
-
-.KS-ReqComp-DeSelected {
-	background-color: white;
 }

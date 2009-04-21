@@ -1,6 +1,5 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;

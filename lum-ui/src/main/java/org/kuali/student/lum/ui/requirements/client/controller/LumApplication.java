@@ -29,21 +29,24 @@ public class LumApplication extends Controller {
     
     public enum CourseViews { COURSE_REQUISITES }
 
-    // TODO: to be removed when course info is ready.  Test course.
-    private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this);
+    private final SimplePanel viewPanel = new SimplePanel();    
+    private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this, "test");
     private final HorizontalPanel panel = new HorizontalPanel();
-    private final SimplePanel viewPanel = new SimplePanel();
     
     //application data
     private Model<CourseRuleInfo> courseData;
     private String courseId;
 
-    public LumApplication(CourseRuleInfo selectedCourse) {
+    public LumApplication() {
+        super();
+        super.initWidget(viewPanel);  
+        
+        
         courseData = new Model<CourseRuleInfo>();
-        courseData.add(selectedCourse);
+     //   courseData.add(selectedCourse);
      
-        this.courseId = selectedCourse.getId();
-        super.initWidget(panel);
+     //   this.courseId = selectedCourse.getId();
+
         panel.add(viewPanel);
         viewPanel.add(courseRequisiteView);
         showDefaultView();
@@ -51,7 +54,6 @@ public class LumApplication extends Controller {
 
     @Override
     protected void onLoad() {
-        // add event handler to show example of controller listening for unchecked events
         addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
             public void onLogout(LogoutEvent event) {
                 Window.alert("PersonApplication caught logout event");

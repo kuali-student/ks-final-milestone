@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -17,7 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author zzraly
  */
 public interface RequirementsServiceAsync {
-    public void getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
+    public void getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
     public void getCourseInfo(String cluId, AsyncCallback<CourseRuleInfo> asyncCallback);
     public void getReqComponentTypesForLuStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> asyncCallback);
     public void getAllClus(AsyncCallback<List<Result>> asyncCallback);  

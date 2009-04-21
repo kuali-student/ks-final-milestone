@@ -14,13 +14,12 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
-import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
@@ -31,15 +30,42 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 public class RequirementsServiceImpl implements RequirementsService {
 
 	LuService service;
-
-    public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) throws Exception {
+	
+    public String getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         
         String naturalLanguage = "";
+        ReqComponentInfo reqComponentInfo;
+   
+        for (ReqCompFieldInfo field : compInfo.getReqCompField()) {
+            System.out.println("before fields: " + field.getId() + " - " + field.getValue()); 
+        }           
         
-        CluInfo cluInfo;
+        //first store the rule in a temporary holder in order to retrieve its natural language
         try {        
-            //cluInfo = service.getClu("123");         
-            naturalLanguage = service.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");            
+            reqComponentInfo = service.getReqComponent(compInfo.getId());                   
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to retrieve ReqComponent for reqComponentId " + compInfo.getId(), ex);
+        }         
+        String version = reqComponentInfo.getMetaInfo().getVersionInd();
+        System.out.println("Retrieved ID: " + version);
+        
+        //right now we need to update the req. component before invoking natural language generation
+        //TODO replace with a method call that accepts modified ReqComponentInfo structure
+        compInfo.getMetaInfo().setVersionInd(version);
+        try {        
+            reqComponentInfo = service.updateReqComponent(compInfo.getId(), compInfo);                   
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to update ReqComponent for reqComponentId " + compInfo.getId(), ex);
+        }         
+        
+        for (ReqCompFieldInfo field : reqComponentInfo.getReqCompField()) {
+            System.out.println("updated fields: " + field.getId() + " - " + field.getValue()); 
+        }               
+        
+        try {             
+            naturalLanguage = service.getNaturalLanguageForReqComponent(reqComponentInfo.getId(), nlUsageTypeKey);            
         } catch (DoesNotExistException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {

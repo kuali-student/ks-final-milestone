@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
@@ -20,13 +21,17 @@ import org.kuali.student.lum.ui.requirements.client.view.SimpleView;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class PrereqManager extends Controller {
+    
     public enum PrereqViews {
         SIMPLE, COMPLEX, SEARCH, CLAUSE_EDITOR
     }
 
+    private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
     private final SimpleView simpleView = new SimpleView(this);
     private final ComplexView complexView = new ComplexView(this);
@@ -38,9 +43,14 @@ public class PrereqManager extends Controller {
     public PrereqManager(Model<PrereqInfo> prereqInfo) {
         super();
         super.initWidget(viewPanel);
+        viewPanel.add(mainPanel);              
         this.prereqInfo = prereqInfo;
     }
 
+    public SimplePanel getMainPanel() {
+        return mainPanel;
+    }
+    
     @Override
     protected void onLoad() {
         showDefaultView();
@@ -57,7 +67,7 @@ public class PrereqManager extends Controller {
     public void renderView(View view) {
         // in this case we know that all of our widgets are composites
         // but we could do view specific rendering, e.g. show a lightbox, etc
-        viewPanel.setWidget((ViewComposite) view);
+        mainPanel.setWidget((ViewComposite) view);
     }
 
     @Override
@@ -120,12 +130,10 @@ public class PrereqManager extends Controller {
                     for (ReqComponentTypeInfo reqCompInfo : reqComponentTypeInfoList) {
                         reqComponentTypes.add(reqCompInfo);
                     }      
-                    System.out.println("Printing model...");
                     //ComplexView.printModel(reqComponentTypes);
                     callback.onModelReady(reqComponentTypes);                                   
                 }
             });  
         }
-    }    
-    
+    }
 }

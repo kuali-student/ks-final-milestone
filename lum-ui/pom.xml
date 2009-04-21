@@ -90,8 +90,19 @@
 			<artifactId>gwt-incubator</artifactId>
 			<version>1.6</version>
 		</dependency>
+		<dependency>
+		  <groupId>com.google.code.gwtx</groupId>
+		  <artifactId>gwtx</artifactId>
+		</dependency>		
 
 		<!-- KS core & common dependencies -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>			
+		</dependency>		
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>

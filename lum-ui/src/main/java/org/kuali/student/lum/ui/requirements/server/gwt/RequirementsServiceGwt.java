@@ -30,8 +30,8 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
     	this.serviceImpl = serviceImpl;
     }
     
-    public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) throws Exception {
-        return serviceImpl.getNaturalLanguageForReqComponent(reqComponentId, nlUsageTypeKey);
+    public String getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
+        return serviceImpl.getNaturalLanguageForReqComponent(compInfo, nlUsageTypeKey);
     }
     
     public CourseRuleInfo getCourseInfo(String cluId) throws Exception {

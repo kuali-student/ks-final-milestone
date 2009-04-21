@@ -44,7 +44,6 @@ public class ComplexView extends ViewComposite {
     private KSButton btnSearchView = new KSButton("Search");
     private KSButton btnRetrieveStatement = new KSButton("Retrieve Rule");
     private KSButton btnSimpleView = new KSButton("Simple View");
-    private KSLabel selectedClause = new KSLabel();
     private KSLabel naturalLanguage = new KSLabel();
     private TreeTable ruleTable = new TreeTable();
     
@@ -55,30 +54,13 @@ public class ComplexView extends ViewComposite {
     public ComplexView(Controller controller) {
         super(controller, "Complex View");
         super.initWidget(mainPanel);
-        Panel testPanel = new VerticalPanel();
-        testPanel.add(new Label("Complex View"));
-        testPanel.add(btnSearchView);
-        testPanel.add(btnRetrieveStatement);
-        testPanel.add(ruleTable);
-        testPanel.add(selectedClause);
-        testPanel.add(naturalLanguage);
-        testPanel.add(btnEditClause);
-        testPanel.add(btnSimpleView);
-        mainPanel.add(testPanel);
     }
     
-    public void beforeShow() { 
-        if (selectedReqComp != null)
-            System.out.println("SIZE... " + selectedReqComp.getReqCompField().size());
-    //}
-    
-    
-    //@Override
-    //protected void onLoad() {
+    public void beforeShow() {       
         if (model == null) {
             getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
                 public void onModelReady(Model<PrereqInfo> theModel) {
-                    printModel(theModel);
+                    //printModel(theModel);
                     model = theModel;                    
                     setupHandlers();
                     redraw();
@@ -113,14 +95,14 @@ public class ComplexView extends ViewComposite {
         });
         btnRetrieveStatement.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RequirementsService.Util.getInstance().getStatementVO(RequirementsEntryPoint.testCluId, "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
+                RequirementsService.Util.getInstance().getStatementVO("CLU-NL-1", "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
                     }
                     
                     public void onSuccess(final StatementVO statementVO) {
-                        PrereqInfo prepreqInfo = model.get(RequirementsEntryPoint.testCluId);
+                        PrereqInfo prepreqInfo = model.get("CLU-NL-1");
                         prepreqInfo.setStatementVO(statementVO);                                               
                         model.update(prepreqInfo);
                         getController().showView(PrereqViews.COMPLEX);
@@ -142,27 +124,12 @@ public class ComplexView extends ViewComposite {
                 // TODO zzraly - THIS METHOD NEEDS JAVADOCS
                 
                 Cell cell = ruleTable.getCellForEvent(event);
-                NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
-                
+                NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                
                 if (widget != null) {
-                    naturalLanguage.addStyleName("KS-ReqComp-Selected");
                     widget.addStyleName("KS-ReqComp-Selected");
                     ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();                    
                     selectedReqComp = clause.getReqComponentInfo();
-                    selectedClause.setText("SELECTED: " + clause.getTypeDesc());
-                    
-                    //get natural language for selected Requirement Component
-                    RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(selectedReqComp.getId(), "KUALI.CATALOG", new AsyncCallback<String>() {
-                        public void onFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                            System.out.println(caught.getMessage());
-                            caught.printStackTrace();
-                        }
-                        
-                        public void onSuccess(final String nl) {
-                            naturalLanguage.setText("NATURAL LANGUAGE: " + nl);
-                        } 
-                    });                                                            
+                    updateNaturalLanguage();                                                         
                 }
             }
 
@@ -170,7 +137,21 @@ public class ComplexView extends ViewComposite {
     }
        
     private void redraw() {
-        PrereqInfo prereqInfo = model.get(RequirementsEntryPoint.testCluId);     
+        VerticalPanel complexView = new VerticalPanel();
+        complexView.add(new Label("Complex View"));
+        complexView.add(btnSearchView);
+        complexView.add(btnRetrieveStatement);
+        complexView.add(ruleTable);
+        complexView.add(naturalLanguage);
+        complexView.add(btnEditClause);
+        complexView.add(btnSimpleView);
+        complexView.setStyleName("Content-Margin");
+        mainPanel.clear();
+        mainPanel.add(complexView);        
+
+        Object[] temp = model.getValues().toArray();
+        PrereqInfo prereqInfo = (PrereqInfo)temp[0];                
+
         ruleTable.clear();
         Node tree = null;
         if (prereqInfo != null) {
@@ -178,6 +159,24 @@ public class ComplexView extends ViewComposite {
             if (tree != null) {
                 ruleTable.buildTable(tree);
             }
+        }
+        updateNaturalLanguage();        
+    }
+    
+    private void updateNaturalLanguage() {         
+        if (selectedReqComp != null) {        
+            //get natural language for selected Requirement Component
+            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(selectedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    System.out.println(caught.getMessage());
+                    caught.printStackTrace();
+                }
+                
+                public void onSuccess(final String nl) {
+                    naturalLanguage.setText("NATURAL LANGUAGE: " + nl);
+                } 
+            });          
         }
     }
     
