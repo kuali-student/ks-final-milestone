@@ -2,27 +2,29 @@
 	border: 2px solid #888888;
 }
 
-.KS-Header-Link {
+
+.KS-Header-Logo {
 	width: 100%;
-	height: 8px;
+}
+
+.KS-Header-Link-Panel {
 	padding-top: 5px;
-	background-color: #780000;
+	width: 20%;
+	background-color: #A80000;
+	float: right;
+}
+
+.KS-Header-Link-Spacer {
+	width: 100%;
+		background: #780000 url("images/Kuali_links_bar.jpg") no-repeat;
+}
+
+.KS-Header-Link {
 	color: #ffffff;
 	text-decoration: none;
 	font-size: 70%;
-}
-
-.KS-Header-Breadcrumb {
-	width: 100%;
-}
-
-.KS-Header-Logo {
-	 width: 100%;
-}
-
-.KS-Header-Separator {
-	 height: 1px;
-	 width: 100%;
+	text-align: right;
+	padding-right: 5px;
 }
 
 .KS-Header-Link-Focus {
@@ -30,8 +32,14 @@
 	text-decoration: underline;
 }
 
-.KS-Header-Link-Panel {
-	float: right;
-	margin-right: 5px;
-	padding: 2px;
+.KS-Header-Breadcrumb {
+	width: 100%;
 }
+
+
+.KS-Header-Separator {
+	height: 1px;
+	width: 100%;
+}
+
+

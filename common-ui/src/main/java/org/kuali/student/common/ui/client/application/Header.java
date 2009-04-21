@@ -24,8 +24,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Header extends Composite {
     private final VerticalPanel main = new VerticalPanel();
 
-    private final HorizontalPanel linksContentPanel = new HorizontalPanel();
-    private final DockPanel linksPanel = new DockPanel();
+    private final HorizontalPanel linksPanel = new HorizontalPanel();
+    private final DockPanel linksSpacerPanel = new DockPanel();
     private final SimplePanel logoPanel = new SimplePanel();
 
     //Using KSLabel for now - couldn't change color for Anchor
@@ -52,7 +52,7 @@ public class Header extends Composite {
         separator2.addStyleName("KS-Header-Separator");
         main.add(logoPanel);
         main.add(separator1);
-        main.add(linksPanel);    
+        main.add(linksSpacerPanel);    
         main.add(separator2);
         main.add(breadcrumb);
         main.addStyleName("KS-Header");
@@ -69,14 +69,14 @@ public class Header extends Composite {
         buildLogoutLink();
         buildPreferencesLink();
 
-        linksContentPanel.add(preferences);
-        linksContentPanel.add(logout);
-        linksContentPanel.addStyleName("KS-Header-Link-Panel");
+        linksPanel.add(preferences);
+        linksPanel.add(logout);
+        linksPanel.addStyleName("KS-Header-Link-Panel");
 
-        linksPanel.add(linksContentPanel ,DockPanel.EAST);
-        linksPanel.addStyleName("KS-Header-Link");
-        linksPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
-        linksPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
+        linksSpacerPanel.add(linksPanel ,DockPanel.EAST);
+        linksSpacerPanel.addStyleName("KS-Header-Link-Spacer");
+        linksSpacerPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
+        linksSpacerPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
     }
 
     private void buildPreferencesLink() {
