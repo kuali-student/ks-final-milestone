@@ -54,12 +54,6 @@ public class PrereqManager extends Controller {
     @Override
     protected void onLoad() {
         showDefaultView();
-        // add event handler to show example of a nested controller listening for unchecked events
-        addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
-            public void onLogout(LogoutEvent event) {
-                Window.alert("PrereqManager caught logout event");
-            }
-        });
     }
 
     // controller operations
@@ -114,23 +108,20 @@ public class PrereqManager extends Controller {
         }
     }
 
-    public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback callback) {
+    public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback<ReqComponentTypeInfo> callback) {
         
         if (modelType.equals(ReqComponentTypeInfo.class)) {        
             RequirementsService.Util.getInstance().getReqComponentTypesForLuStatementType("kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<List<ReqComponentTypeInfo>>() {
                 public void onFailure(Throwable caught) {
-                    // just re-throw it and let the uncaught exception handler deal with it
                     Window.alert(caught.getMessage());
                     // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                 }
     
                 public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {  
-                    System.out.println("TEST: " + reqComponentTypeInfoList.size());
                     reqComponentTypes = new Model<ReqComponentTypeInfo>();
                     for (ReqComponentTypeInfo reqCompInfo : reqComponentTypeInfoList) {
                         reqComponentTypes.add(reqCompInfo);
                     }      
-                    //ComplexView.printModel(reqComponentTypes);
                     callback.onModelReady(reqComponentTypes);                                   
                 }
             });  

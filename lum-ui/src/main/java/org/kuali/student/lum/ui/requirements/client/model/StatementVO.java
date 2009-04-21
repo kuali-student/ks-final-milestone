@@ -21,53 +21,20 @@ public class StatementVO extends Token implements Serializable {
         init();
     }
     
+    public StatementVO(LuStatementInfo luStatementInfo) {
+        init();
+        setLuStatementInfo(luStatementInfo);
+    }    
+    
     private void init() {
         reqComponentVOs = new ArrayList<ReqComponentVO>();
         statementVOs = new ArrayList<StatementVO>();
     }
     
-    public StatementVO(LuStatementInfo luStatementInfo) {
-        init();
-        setLuStatementInfo(luStatementInfo);
-    }
-
-    public LuStatementInfo getLuStatementInfo() {
-        return luStatementInfo;
-    }
-
-    public void setLuStatementInfo(LuStatementInfo luStatementInfo) {
-        this.luStatementInfo = luStatementInfo;
-    }
-    
-    public Node getTree() {
-//        Node testNode = new Node();
-//        testNode.setUserObject(Token.createAndToken());
-//        
-//        Node testSubNode = new Node();
-//        testSubNode.setUserObject(Token.createOrToken());
-//        
-//        Node childNode1 = new Node();
-//        childNode1.setUserObject("Child Node 1");
-//        testSubNode.addNode(childNode1);
-//        
-//        Node childNode2 = new Node();
-//        childNode2.setUserObject("Child Node 2");
-//        testSubNode.addNode(childNode2);
-//        
-//        Node childNode4 = new Node();
-//        childNode4.setUserObject("Child Node 4");
-//        testSubNode.addNode(childNode4);
-//
-//        testNode.addNode(testSubNode);
-//        Node childNode3 = new Node();
-//        childNode3.setUserObject("Child Node 3");
-//        testNode.addNode(childNode3);
-//
-//        return testNode;
-        
+    public Node getTree() {        
         Node node = new Node();
         addChildrenNodes(node, this);
-        printTree(node);
+        //printTree(node);
         return node;
     }
     
@@ -91,26 +58,14 @@ public class StatementVO extends Token implements Serializable {
             Node child = node.getChildAt(i);
             if (child.isLeaf()) {
                 Token token = (Token) node.getUserObject();
-                //content = (ReqComponentVO) node.getUserObject();
+                content = (ReqComponentVO) node.getUserObject();
                 System.out.println("Node level " + level++ + ", content: " + token.value);
             } else {
                 printTree(child);
             }
         }
     }
-    
-    private void setOperatorNode(Node node, StatementVO statementVO) {
-        if (statementVO.getLuStatementInfo() != null &&
-                statementVO.getLuStatementInfo().getOperator() ==
-                    StatementOperatorTypeKey.AND) {
-            node.setUserObject(Token.createAndToken());
-        } else if (statementVO.getLuStatementInfo() != null &&
-                statementVO.getLuStatementInfo().getOperator() ==
-                    StatementOperatorTypeKey.OR) {
-            node.setUserObject(Token.createOrToken());
-        }
-    }
-    
+       
     private void addChildrenNodes(Node node, StatementVO statementVO) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
@@ -145,6 +100,18 @@ public class StatementVO extends Token implements Serializable {
         }        
     }
 
+    private void setOperatorNode(Node node, StatementVO statementVO) {
+        if (statementVO.getLuStatementInfo() != null &&
+                statementVO.getLuStatementInfo().getOperator() ==
+                    StatementOperatorTypeKey.AND) {
+            node.setUserObject(Token.createAndToken());
+        } else if (statementVO.getLuStatementInfo() != null &&
+                statementVO.getLuStatementInfo().getOperator() ==
+                    StatementOperatorTypeKey.OR) {
+            node.setUserObject(Token.createOrToken());
+        }
+    }    
+    
     public void addStatementVO(StatementVO statementVO) {
         if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
             throw new java.lang.IllegalArgumentException(
@@ -154,10 +121,6 @@ public class StatementVO extends Token implements Serializable {
         statementVOs.add(statementVO);
     }
     
-    public void removeStatementVO(StatementVO statementVO) {
-        statementVOs.remove(statementVO);
-    }
-    
     public void addReqComponentVO(ReqComponentVO reqComponentVO) {
         if (statementVOs != null && !statementVOs.isEmpty()) {
             throw new java.lang.IllegalArgumentException(
@@ -165,11 +128,23 @@ public class StatementVO extends Token implements Serializable {
                     "component and statement");
         }
         reqComponentVOs.add(reqComponentVO);
-    }
+    }    
+    
+    public void removeStatementVO(StatementVO statementVO) {
+        statementVOs.remove(statementVO);
+    }   
 
     public void removeReqComponentVO(ReqComponentVO reqComponentVO) {
         reqComponentVOs.remove(reqComponentVO);
     }
+    
+    public LuStatementInfo getLuStatementInfo() {
+        return luStatementInfo;
+    }
+
+    public void setLuStatementInfo(LuStatementInfo luStatementInfo) {
+        this.luStatementInfo = luStatementInfo;
+    }    
     
     public List<ReqComponentVO> getReqComponentVOs() {
         return reqComponentVOs;
@@ -193,6 +168,5 @@ public class StatementVO extends Token implements Serializable {
         StringBuilder sbResult = new StringBuilder();
         sbResult.append(luStatementInfo.getDesc());
         return sbResult.toString();
-    }
-       
+    }      
 }

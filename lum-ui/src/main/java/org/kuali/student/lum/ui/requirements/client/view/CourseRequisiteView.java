@@ -2,17 +2,12 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
-import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
+import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CoreqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager;
-import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -56,14 +51,12 @@ public class CourseRequisiteView extends ViewComposite {
         courseData = new Model<CourseRuleInfo>();
         
         //TODO move elsewhere
-        RequirementsService.Util.getInstance().getCourseInfo(courseId, new AsyncCallback<CourseRuleInfo>() {
+        RequirementsService.Util.getInstance().getCourseAndRulesInfo(courseId, new AsyncCallback<CourseRuleInfo>() {
             
             PrereqInfo prereqInfo = new PrereqInfo();
             
             public void onFailure(Throwable caught) {
-                // just re-throw it and let the uncaught exception handler deal with it
                 Window.alert(caught.getMessage());
-                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
             }
 
             public void onSuccess(final CourseRuleInfo courseRuleInfo) {                
@@ -71,7 +64,6 @@ public class CourseRequisiteView extends ViewComposite {
                 prereqInfo.setId(courseData.get(getCourseId()).getId());
                 prereqInfo.setNaturalLanguage("This is natural language for this statement");
                 prereqInfo.setRationale("The course supplements Biology 100 level courses.");
-               // prereqInfo.setStatementVO(new StatementVO(courseData.get(getCourseId()).getLuStatementByType("kuali.luStatementType.prereqAcademicReadiness")));
                 
                 RequirementsService.Util.getInstance().getStatementVO("CLU-NL-1", "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
@@ -80,11 +72,12 @@ public class CourseRequisiteView extends ViewComposite {
                     }
                     
                     public void onSuccess(final StatementVO statementVO) {
+                        prereqInfo.setStatementVO(statementVO);
+                        //prereqInfo.setStatementVO(new StatementVO(courseData.get(getCourseId()).getLuStatementByType("kuali.luStatementType.prereqAcademicReadiness")));
                         setPrereqInfo(prereqInfo);                    
                         layoutMainPanel(viewPanel);
                     } 
                 });                
-
             }
         });                      
     }
@@ -137,7 +130,9 @@ public class CourseRequisiteView extends ViewComposite {
             EditPrerequisiteRule.setStyleName("KS-Rules-Standard-Button");            
             EditPrerequisiteRule.addClickHandler(handler);
         }
-        verticalPanel.add(new RowBreak());
+        RulesUtilities ruleUtil = new RulesUtilities();
+        RulesUtilities.RowBreak rowBreak = ruleUtil.new RowBreak();
+        verticalPanel.add(rowBreak);
 
         KSLabel coReqHeading = new KSLabel("Co-requisite Rule");
         coReqHeading.setStyleName("KS-ReqMgr-Heading");
@@ -171,15 +166,5 @@ public class CourseRequisiteView extends ViewComposite {
     
     public String getCourseId() {
         return selectedCourseId;        
-    }
-    
-    private class RowBreak extends Composite{
-        private HorizontalPanel row = new HorizontalPanel();
-        private HTML hr = new HTML("<HR />");
-        public RowBreak(){
-            row.addStyleName("Home-Horizontal-Break");
-            row.add(hr);
-            this.initWidget(row);
-        }
-    }    
+    }     
 }

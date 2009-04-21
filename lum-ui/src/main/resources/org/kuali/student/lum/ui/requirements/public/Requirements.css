@@ -126,15 +126,29 @@
 	cursor: pointer;
 }
 
-.KS-Rules-Rationale{
-	width: 100px;
-	height: 50px;
+.KS-Rules-Link-Right{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 8pt;
+	text-decoration: underline;	
+	cursor: pointer;
+	text-align: center	
 }
 
-.KS-ReqComp-Selected {
+.KS-Rules-FullWidth{
+	width: 100%;
+}
+
+.KS-ReqComp-Selected{
 	background-color: #FFFF99;
 }
 
-.KS-ReqComp-DeSelected {
+.KS-ReqComp-DeSelected{
 	background-color: white;
 }
+
+.KS-RichText-Normal{
+	width: 300px;
+	height: 90px;
+}
+

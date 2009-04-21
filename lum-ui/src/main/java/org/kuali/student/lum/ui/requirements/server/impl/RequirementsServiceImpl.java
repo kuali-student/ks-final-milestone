@@ -86,7 +86,7 @@ public class RequirementsServiceImpl implements RequirementsService {
         return naturalLanguage;
     }	
 	
-	public CourseRuleInfo getCourseInfo(String cluId) throws Exception {
+	public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
 	  
         CourseRuleInfo courseInfo = new CourseRuleInfo();
         
@@ -236,80 +236,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
         }       
         
-        return rootStatementVO;
-        
-        /*
-        StatementVO statementVO = null;
-        StatementVO statementVO1 = null;
-        StatementVO statementVO2 = null;
-        ReqComponentVO reqComponentVO1 = null;
-        ReqComponentVO reqComponentVO2 = null;
-        ReqComponentVO reqComponentVO3 = null;
-
-        // stub starts
-        // S0
-        List<String> s0luStatementIds = new ArrayList<String>();
-        s0luStatementIds.add("S1");
-        s0luStatementIds.add("S2");
-
-        LuStatementInfo luStatementInfo = new LuStatementInfo();
-        luStatementInfo.setDesc("Root statement");
-        luStatementInfo.setId("S0");
-        luStatementInfo.setLuStatementIds(s0luStatementIds);
-        luStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-
-        // S1
-        List<String> s1luReqComponentIds = new ArrayList<String>();
-        s1luReqComponentIds.add("RC1");
-        s1luReqComponentIds.add("RC2");
-
-        LuStatementInfo luStatementInfo1 = new LuStatementInfo();
-        luStatementInfo1.setDesc("Statement 1");
-        luStatementInfo1.setId("S1");
-        luStatementInfo1.setReqComponentIds(s1luReqComponentIds);
-        luStatementInfo1.setOperator(StatementOperatorTypeKey.OR);        
-
-        // S2
-        List<String> s2luReqComponentIds = new ArrayList<String>();
-        s1luReqComponentIds.add("RC3");
-
-        LuStatementInfo luStatementInfo2 = new LuStatementInfo();
-        luStatementInfo2.setDesc("Statement 2");
-        luStatementInfo2.setId("S2");
-        luStatementInfo2.setReqComponentIds(s2luReqComponentIds);
-
-        // RC1
-        ReqComponentInfo reqComponentInfo1 = new ReqComponentInfo();
-        reqComponentInfo1.setDesc("Requirement Component 1");
-        reqComponentInfo1.setId("RC1");
-        reqComponentInfo1.setType("PreReq");
-
-        // RC2
-        ReqComponentInfo reqComponentInfo2 = new ReqComponentInfo();
-        reqComponentInfo2.setDesc("Requirement Component 2");
-        reqComponentInfo2.setId("RC2");
-        reqComponentInfo2.setType("PreReq");
-        
-        // RC3
-        ReqComponentInfo reqComponentInfo3 = new ReqComponentInfo();
-        reqComponentInfo3.setDesc("Requirement Component 3");
-        reqComponentInfo3.setId("RC3");
-        reqComponentInfo3.setType("PreReq");
-        
-        // tie it all together
-        statementVO = new StatementVO(luStatementInfo);
-        statementVO1 = new StatementVO(luStatementInfo1);
-        statementVO2 = new StatementVO(luStatementInfo2);
-        reqComponentVO1 = new ReqComponentVO(reqComponentInfo1);
-        reqComponentVO2 = new ReqComponentVO(reqComponentInfo2);
-        reqComponentVO3 = new ReqComponentVO(reqComponentInfo3);
-        statementVO.addStatementVO(statementVO1);
-        statementVO.addStatementVO(statementVO2);
-        statementVO1.addReqComponentVO(reqComponentVO1);
-        statementVO1.addReqComponentVO(reqComponentVO2);
-        statementVO2.addReqComponentVO(reqComponentVO3);
-        // stub ends
-        return statementVO; */
+        return rootStatementVO;        
     }
 
     public String[] getNaturalLanguage(String cluId, String luStatementTypeKey) throws Exception {

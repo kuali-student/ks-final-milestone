@@ -14,23 +14,17 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class ClauseEditorView extends ViewComposite {
 
@@ -38,16 +32,15 @@ public class ClauseEditorView extends ViewComposite {
         TODO
     }
     
-    //display widgets
+    //view's widgets
     private Panel mainPanel = new SimplePanel();
     private KSButton btnToComplexView = new KSButton("Cancel");
     private KSButton submitClause = new KSButton("Submit");
     KSListBox compReqTypesList = new KSListBox();
     HorizontalPanel reqCompDesc = new HorizontalPanel();
     
-    //view data
+    //view's data
     private ReqComponentInfo editedReqComp;
-    private String statementType = "kuali.luStatementType.prereqAcademicReadiness"; 
     ListItems listItemReqCompTypes;
     private List<ReqComponentTypeInfo> reqCompTypeList;
     private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>(); 
@@ -77,13 +70,9 @@ public class ClauseEditorView extends ViewComposite {
                     reqTypeDesc = reqTypeInfo.getDesc();
                 }
             }
-            
-            //System.out.println("desc: " + reqTypeDesc);            
+         
             displayReqComponentText(reqTypeDesc, reqCompDesc, editedReqComp.getReqCompField());              
-        }
-        else {
-            
-        }                    
+        }                 
     }
     
     public void layoutWidgets() {        
@@ -149,7 +138,6 @@ public class ClauseEditorView extends ViewComposite {
                 getController().showView(PrereqViews.COMPLEX);
             }
         });
-
         submitClause.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 //store values in the req. component info
@@ -178,21 +166,13 @@ public class ClauseEditorView extends ViewComposite {
                 
                 getController().showView(PrereqViews.COMPLEX);                
             }
-        });        
-        
+        });                
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {  
              public void onSelectionChange(KSSelectItemWidgetAbstract w) {  
                  List<String> ids = w.getSelectedItems();
                  int index = Integer.valueOf(ids.get(0));
                  ReqComponentTypeInfo reqInfo = reqCompTypeList.get(index);
-                 displayReqComponentText(reqInfo.getDesc(), reqCompDesc, null);
-                 
-                 /*
-                 StringBuffer sb = new StringBuffer("You Have selected:\n");  
-                 for (String item:ids){  
-                     sb.append(listItemClus.getItemText(item)).append("\n");  
-                 }  
-                 Window.alert(sb.toString()); */                     
+                 displayReqComponentText(reqInfo.getDesc(), reqCompDesc, null);                  
              }});          
     }
     
@@ -244,11 +224,8 @@ public class ClauseEditorView extends ViewComposite {
             System.out.println("Fields null");
             return "";
         }
-        
-        //System.out.println("FIELDS SIZE: " + fields.size());
     
         for (ReqCompFieldInfo fieldInfo : fields) {
-            //System.out.println("Field Info: " + fieldInfo.getId());
             if (fieldInfo.getId().equals(key)) {
                 return fieldInfo.getValue();
             }
@@ -263,8 +240,6 @@ public class ClauseEditorView extends ViewComposite {
     }
 
     public void setEditedReqComp(ReqComponentInfo editedReqComp) {
-        //System.out.println("TESTING 1---> " + editedReqComp.getReqCompField().size());
         this.editedReqComp = editedReqComp;
-        //System.out.println("TESTING 2---> " + this.editedReqComp.getReqCompField().size());
     }       
 }
