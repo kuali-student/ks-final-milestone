@@ -78,8 +78,8 @@ public class LiveCSSComposite extends Composite {
     public void setExample(KitchenSinkExample example) {
         this.example = example;
         this.content.setWidget(example.getExampleWidget());
+        theStyle = StyleInjector.injectStylesheet("");
         loadCSS();
-        updateStyles();
     }
     private void loadCSS() {
         if(!example.getCssResources().isEmpty()){
@@ -87,8 +87,10 @@ public class LiveCSSComposite extends Composite {
             for(CssResource r: example.getCssResources()){
                 injectString = injectString + r.getText();
             }
-            theStyle = StyleInjector.injectStylesheet(injectString);
+            injectString = injectString.replace("/* CssEval */", "");
+            injectString = injectString.trim();
             css.setText(injectString);
+            updateStyles();
         }
         else{
             for (KitchenSinkResource ksr : example.getResources()) {
