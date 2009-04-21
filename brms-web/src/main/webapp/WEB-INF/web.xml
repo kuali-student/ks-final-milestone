@@ -7,7 +7,7 @@
 	version="2.5">
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:${ws.engine}-context.xml</param-value>
+		<param-value>classpath:cxf-context.xml</param-value>
 	</context-param>
 
 	<listener>
@@ -18,7 +18,7 @@
 
 	<servlet>
 		<servlet-name>CxfServlet</servlet-name>
-		<servlet-class>${ws.servlet}</servlet-class>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
     </servlet>
 

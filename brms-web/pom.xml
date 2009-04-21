@@ -137,11 +137,38 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.brms</groupId>
+            <artifactId>ks-brms-execution-impl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.brms</groupId>
+            <artifactId>ks-brms-execution-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
             <scope>runtime</scope>
         </dependency>
+        
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-cxf</artifactId>
+			<type>pom</type>
+		</dependency>	
+		
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-jta</artifactId>
+			<type>pom</type>
+  		</dependency>
+  		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
     </dependencies>
 
 	<repositories>

@@ -1017,7 +1017,7 @@
 		<property name="originalRuleId"
 			value="11223344-1122-1122-1112-100000000001" />
 		<property name="name" value="Intermediate CPR" />
-		<property name="description"
+		<property name="desc"
 			value="enrollment co-requisites for Intermediate CPR 201" />
 		<property name="successMessage" value="Rule 1 Success Message" />
 		<property name="failureMessage" value="Rule 1 Failure Message" />
@@ -1032,7 +1032,7 @@
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000042" />
 					<property name="name" value="PA" />
-					<property name="description" value="" />
+					<property name="desc" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="PROPOSITION" />
 					<property name="ordinalPosition" value="1" />
@@ -1045,7 +1045,7 @@
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000043" />
 					<property name="name" value="PB" />
-					<property name="description" value="" />
+					<property name="desc" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="OR" />
 					<property name="ordinalPosition" value="2" />
@@ -1056,7 +1056,7 @@
 					<property name="id"
 						value="11223344-1122-1122-1112-100000000044" />
 					<property name="name" value="PC" />
-					<property name="description" value="" />
+					<property name="desc" value="" />
 					<property name="businessRuleElemnetTypeKey"
 						value="PROPOSITION" />
 					<property name="ordinalPosition" value="3" />
@@ -1073,7 +1073,7 @@
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000045" />
 		<property name="name" value="P1" />
-		<property name="description"
+		<property name="desc"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
 		<property name="comparisonDataTypeKey"
@@ -1088,7 +1088,7 @@
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000047" />
 		<property name="name" value="P2" />
-		<property name="description"
+		<property name="desc"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
 		<property name="comparisonDataTypeKey"

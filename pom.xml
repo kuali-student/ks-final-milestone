@@ -43,7 +43,6 @@
 		<module>brms-web</module>
 		<module>execution-api</module>
 		<module>execution-impl</module>
-		<module>execution-web</module>
 	</modules>
 	
 	<build>

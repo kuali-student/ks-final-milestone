@@ -14,11 +14,11 @@
     <xs:element name="ruleReportDTO" type="tns:ruleReportDTO"/>
     <xs:complexType name="executeBusinessRuleTest">
         <xs:sequence>
-            <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfoDTO"/>
+            <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfo"/>
             <xs:element minOccurs="0" name="exectionParamMap" type="tns:jaxbAttributeList"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="businessRuleInfoDTO">
+    <xs:complexType name="businessRuleInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="originalRuleId" type="xs:string"/>
             <xs:element minOccurs="0" name="type" type="xs:string"/>
@@ -85,7 +85,7 @@
     </xs:complexType>
     <xs:complexType name="factStructureDTO">
         <xs:sequence>
-            <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfoDTO"/>
+            <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfo"/>
             <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
             <xs:element minOccurs="0" name="resultColumnKeyTranslations" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
@@ -96,7 +96,7 @@
         <xs:attribute name="factTypeKey" type="xs:string"/>
         <xs:attribute name="staticFact" type="xs:boolean"/>
     </xs:complexType>
-    <xs:complexType name="factCriteriaTypeInfoDTO">
+    <xs:complexType name="factCriteriaTypeInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
@@ -189,11 +189,11 @@
     </xs:complexType>
     <xs:complexType name="factResultDTO">
         <xs:sequence>
-            <xs:element minOccurs="0" name="factResultTypeInfo" type="tns:factResultTypeInfoDTO"/>
+            <xs:element minOccurs="0" name="factResultTypeInfo" type="tns:factResultTypeInfo"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="resultList" type="tns:jaxbAttributeList"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="factResultTypeInfoDTO">
+    <xs:complexType name="factResultTypeInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
@@ -208,11 +208,11 @@
     </xs:complexType>
     <xs:complexType name="factResultColumnInfoMapEntry">
         <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="tns:factResultColumnInfoDTO"/>
+            <xs:element minOccurs="0" name="value" type="tns:factResultColumnInfo"/>
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="factResultColumnInfoDTO">
+    <xs:complexType name="factResultColumnInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
@@ -222,11 +222,11 @@
     </xs:complexType>
     <xs:complexType name="executeAgenda">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleAnchorInfoList" type="tns:businessRuleAnchorInfoDTO"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleAnchorInfoList" type="tns:businessRuleAnchorInfo"/>
             <xs:element minOccurs="0" name="exectionParamMap" type="tns:jaxbAttributeList"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="businessRuleAnchorInfoDTO">
+    <xs:complexType name="businessRuleAnchorInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRuleTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>

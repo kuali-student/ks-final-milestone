@@ -21,7 +21,7 @@
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
     <import resource="classpath:cxf-rulerepository-context.xml" />
-    
+    <import resource="classpath:cxf-ruleexecution-context.xml" />
     <import resource="classpath:application-context.xml" />
 
     <jaxws:endpoint id="factFinderService"        
@@ -44,6 +44,9 @@
                 <prop key="ks.application-rulemanagement.properties">
                     classpath:application.properties
                 </prop>
+                <prop key="ks.application-ruleexecution.properties">
+                    classpath:application-ruleexecution.properties
+                </prop>
             </props>
         </property>
     </bean>
@@ -56,7 +59,9 @@
                 <value>classpath:application-rulerepository.properties</value>
                 <value>${ks.application-rulerepository.properties}</value>
                 <value>classpath:application.properties</value>
-                <value>${ks.application.properties}</value>                
+                <value>${ks.application.properties}</value>
+                <value>classpath:application-ruleexecution.properties</value>
+                <value>${ks.application-ruleexecution.properties}</value>                
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true" />
