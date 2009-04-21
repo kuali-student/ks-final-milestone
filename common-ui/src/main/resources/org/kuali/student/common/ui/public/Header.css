@@ -1,5 +1,6 @@
 .KS-Header {
 	border: 2px solid #888888;
+	width: 100%;
 }
 
 
@@ -16,7 +17,7 @@
 
 .KS-Header-Link-Spacer {
 	width: 100%;
-		background: #780000 url("images/Kuali_links_bar.jpg") no-repeat;
+		background: #A80000 url("images/Kuali_links_bar.jpg") no-repeat;
 }
 
 .KS-Header-Link {
