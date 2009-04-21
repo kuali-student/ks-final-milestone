@@ -108,7 +108,6 @@ public class Header extends Composite {
         linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", "Logout not yet implemented"));
 
         for (HeaderLinkItem i : linkItems) {
-            System.out.println("Adding " + i.getText());
             linksContentPanel.add(buildLink(i.getText(), i.getTitle(), i.getActionUrl()));           
         }
 
