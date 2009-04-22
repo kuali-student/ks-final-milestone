@@ -135,6 +135,23 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
+	<dict:fieldDescriptor id="parentFieldDescriptor">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:minLength>36</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+		<dict:validChars>ABCDEF0123456789-</dict:validChars>
+		<dict:invalidChars></dict:invalidChars>
+		<dict:minOccurs>0</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="childFieldDescriptor"
+		parent="parentFieldDescriptor">
+		<dict:name>Child CLU Identifier</dict:name>
+	</dict:fieldDescriptor>
 
 	<search:queryParam id="org.queryParam.orgType">
 		<dict:fieldDescriptor>
