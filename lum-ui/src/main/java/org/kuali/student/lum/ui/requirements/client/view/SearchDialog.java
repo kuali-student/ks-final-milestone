@@ -4,42 +4,76 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSListBox;
+import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
+import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SearchView extends ViewComposite {
+public class SearchDialog extends Composite {
     
-    private Panel mainPanel = new SimplePanel();
-    private KSButton btnToComplexView = new KSButton("Complex View");
+    private final SimplePanel mainPanel = new SimplePanel();
+    private final KSModalDialogPanel popupPanel = 
+        new KSModalDialogPanel();
+    private KSButton btnAddCourse = new KSButton("Add");
+    private KSButton btnCancel = new KSButton("Cancel");
+    private KSButton btnOK = new KSButton("OK");
     KSListBox cluList = new KSListBox();    
+    private Model<PrereqInfo> model;
+    private Controller controller;
 
-    public SearchView(Controller controller) {
-        super(controller, "Search View");
+    public SearchDialog(Controller controller) {
         super.initWidget(mainPanel);
         Panel testPanel = new VerticalPanel();
-        testPanel.add(new KSLabel("Search View"));
+        this.controller = controller; 
         testPanel.add(cluList);        
-        testPanel.add(btnToComplexView);
-        mainPanel.add(testPanel);
+        testPanel.add(btnCancel);
+        popupPanel.setWidget(testPanel);
+        popupPanel.setHeader("Courses");
+        popupPanel.setModal(true);
+        mainPanel.setWidget(btnAddCourse);
         setupHandlers();
-        layoutWidgets();        
+        layoutWidgets();
     }
     
+    
+    
+    public void show() {
+        if (model == null) {
+            controller.requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
+                public void onModelReady(Model<PrereqInfo> theModel) {
+                    //printModel(theModel);
+                    model = theModel;                    
+                }
+
+                public void onRequestFail(Throwable cause) {
+                    throw new RuntimeException("Unable to connect to model", cause);
+                }
+            });
+        }
+        popupPanel.show();
+    }
+    
+    public void hide() {
+        popupPanel.hide();
+    }
+
+
+
     public void layoutWidgets() {
         
         RequirementsService.Util.getInstance().getAllClus(new AsyncCallback<List<Result>>() {
@@ -97,9 +131,19 @@ public class SearchView extends ViewComposite {
     }
 
     private void setupHandlers() {
-        btnToComplexView.addClickHandler(new ClickHandler() {
+        btnAddCourse.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                getController().showView(PrereqViews.COMPLEX);
+                show();
+            }
+        });
+        btnCancel.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                hide();
+            }
+        });
+        btnOK.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                hide();
             }
         });
     }

@@ -21,6 +21,7 @@ import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.Pre
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -37,7 +38,7 @@ public class ClauseEditorView extends ViewComposite {
     private KSButton btnToComplexView = new KSButton("Cancel");
     private KSButton submitClause = new KSButton("Submit");
     KSListBox compReqTypesList = new KSListBox();
-    HorizontalPanel reqCompDesc = new HorizontalPanel();
+    SimplePanel reqCompDesc = new SimplePanel();
     
     //view's data
     private ReqComponentInfo editedReqComp;
@@ -71,12 +72,11 @@ public class ClauseEditorView extends ViewComposite {
                 }
             }
          
-            displayReqComponentText(reqTypeDesc, reqCompDesc, editedReqComp.getReqCompField());              
+            displayReqComponentText(reqTypeDesc, reqCompDesc, editedReqComp.getReqCompField());
         }                 
     }
     
     public void layoutWidgets() {        
-        reqCompDesc.setSpacing(5);
 
         getController().requestModel(ReqComponentTypeInfo.class, new ModelRequestCallback<ReqComponentTypeInfo>() {
             public void onModelReady(Model<ReqComponentTypeInfo> theModel) {
@@ -173,21 +173,24 @@ public class ClauseEditorView extends ViewComposite {
                  int index = Integer.valueOf(ids.get(0));
                  ReqComponentTypeInfo reqInfo = reqCompTypeList.get(index);
                  displayReqComponentText(reqInfo.getDesc(), reqCompDesc, null);                  
-             }});          
+             }});
+        
     }
     
-    private void displayReqComponentText(String reqInfoDesc, Panel parentWidget, List<ReqCompFieldInfo> fields) {
+    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, List<ReqCompFieldInfo> fields) {
         
         parentWidget.clear();
-        
+        FlowPanel innerReqComponentTextPanel = new FlowPanel();
         String[] tokens = reqInfoDesc.split("[<>]");
         boolean isValueWidget = true;
+        
         for (int i = 0; i < tokens.length; i++) {
+            
             isValueWidget = !isValueWidget;
             //this token is a text only
             if (isValueWidget == false) {
                 KSLabel text = new KSLabel(tokens[i]);
-                parentWidget.add(text);
+                innerReqComponentTextPanel.add(text);
                 continue;
             }
             
@@ -201,20 +204,27 @@ public class ClauseEditorView extends ViewComposite {
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
+//                valueWidget.setWidth(Integer.toString(parentWidget.getOffsetWidth()));
                 valueWidget.setWidth("50px");
-                parentWidget.add(valueWidget);
+                innerReqComponentTextPanel.add(valueWidget);
                 continue;                                
             }
             if (tag.equals("cluSet")) {
+                if (i > 0) {
+                    
+                }
                 KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);                
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
                 valueWidget.setWidth("250px");
-                parentWidget.add(valueWidget);
+                innerReqComponentTextPanel.add(valueWidget);
+                SearchDialog searchDialog = new SearchDialog(getController());
+                innerReqComponentTextPanel.add(searchDialog);
                 continue;                                
             }       
-        }                       
+        }
+        parentWidget.setWidget(innerReqComponentTextPanel);
     }
     
     private String getSpecificFieldValue(List<ReqCompFieldInfo> fields, String key) {

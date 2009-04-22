@@ -16,7 +16,7 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
-import org.kuali.student.lum.ui.requirements.client.view.SearchView;
+import org.kuali.student.lum.ui.requirements.client.view.SearchDialog;
 import org.kuali.student.lum.ui.requirements.client.view.SimpleView;
 
 import com.google.gwt.user.client.Window;
@@ -28,14 +28,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class PrereqManager extends Controller {
     
     public enum PrereqViews {
-        SIMPLE, COMPLEX, SEARCH, CLAUSE_EDITOR
+        SIMPLE, COMPLEX, CLAUSE_EDITOR
     }
 
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
     private final SimpleView simpleView = new SimpleView(this);
     private final ComplexView complexView = new ComplexView(this);
-    private final SearchView searchView = new SearchView(this);
     private final ClauseEditorView clauseEditorView = new ClauseEditorView(this);
     private final Model<PrereqInfo> prereqInfo;
     private Model<ReqComponentTypeInfo> reqComponentTypes;    
@@ -98,8 +97,6 @@ public class PrereqManager extends Controller {
                 return simpleView;
             case COMPLEX:
                 return complexView;
-            case SEARCH:
-                return searchView;
             case CLAUSE_EDITOR:                                
                 clauseEditorView.setEditedReqComp(complexView.getSelectedReqComp());
                 return clauseEditorView;
