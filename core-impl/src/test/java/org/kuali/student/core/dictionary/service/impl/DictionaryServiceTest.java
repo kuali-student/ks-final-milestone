@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Enum;
@@ -22,14 +21,18 @@ import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
-
-public class DictionaryServiceTest extends AbstractServiceTest{
-    @Client(value = "org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl", port = "8181")
-    public DictionaryService client;
+/**
+ * Unit tests for  
+ * 
+ * @author Kuali Student Team
+ *
+ */
+public class DictionaryServiceTest {
+    public DictionaryService client = new DictionaryServiceSpringImpl("classpath:dictionary-test-config.xml");
     
     private static final int TOTAL_OBJ = 2;
 	private static final int TOTAL_CLUINFO_TYPES = 2;
-	
+		
 	@Test
 	public void testGetObjectTypes(){
 		List<String> result = client.getObjectTypes();

@@ -15,17 +15,24 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 @WebService(endpointInterface = "org.kuali.student.core.dictionary.service.DictionaryService", serviceName = "DictionaryService", portName = "DictionaryService", targetNamespace = "http://org.kuali.student/core/dictonary")
 public class DictionaryServiceSpringImpl implements DictionaryService {
     
+    private String dictionaryContextFile;
     private Map<String, ObjectStructure> objectStructures;
 
-    @SuppressWarnings("unchecked")
-    public DictionaryServiceSpringImpl() {
-        ApplicationContext ac = new FileSystemXmlApplicationContext("classpath:organization-dictionary-config.xml");
+    @SuppressWarnings("unchecked")    
+    public void init(){
+        ApplicationContext ac = new FileSystemXmlApplicationContext(dictionaryContextFile);
         Map<String,ObjectStructure> beansOfType = (Map<String,ObjectStructure>) ac.getBeansOfType(ObjectStructure.class);
         objectStructures = new HashMap<String, ObjectStructure>();
         for(ObjectStructure objStr : beansOfType.values())
             objectStructures.put(objStr.getObjectTypeKey(), objStr);
     }
 
+    public DictionaryServiceSpringImpl(String dictionaryContextFile) {
+        super();
+        this.dictionaryContextFile = dictionaryContextFile;
+        init();
+    }
+    
     @Override
     public ObjectStructure getObjectStructure(String objectTypeKey) {
         return objectStructures.get(objectTypeKey);
@@ -46,6 +53,14 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
     public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
         // TODO ddean - THIS METHOD NEEDS JAVADOCS
         return false;
+    }
+
+    public String getDictionaryContextFile() {
+        return dictionaryContextFile;
+    }
+
+    public void setDictionaryContextFile(String dictionaryContextFile) {
+        this.dictionaryContextFile = dictionaryContextFile;
     }
 
 }
