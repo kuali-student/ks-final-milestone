@@ -68,6 +68,11 @@ public class KsContractMojo extends AbstractMojo {
 	private String serviceName = "foo";
 
 	/**
+	 * @parameter
+	 */
+	private String namespace = "http://student.kuali.org/lum/xxx";
+
+	/**
 	 * Path to service contract file.
 	 *
 	 * @parameter
@@ -142,6 +147,7 @@ public class KsContractMojo extends AbstractMojo {
 			transformer.setParameter("url", contract.getContractPath());
 			transformer.setParameter("date", new Date());
 			transformer.setParameter("user", System.getProperty("user.name"));
+			transformer.setParameter("namespace", namespace);
 			File serviceDir = new File(outputDirectory, "service");
 			serviceDir.mkdir();
 			Result result = new StreamResult(new File(serviceDir, getServiceName() + ".java"));
@@ -366,6 +372,20 @@ public class KsContractMojo extends AbstractMojo {
 
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
+	}
+
+	/**
+	 * @return the namespace
+	 */
+	public String getNamespace() {
+		return namespace;
+	}
+
+	/**
+	 * @param namespace the namespace to set
+	 */
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
 	}
 
 }

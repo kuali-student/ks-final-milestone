@@ -23,6 +23,7 @@
     <xsl:param name="url"></xsl:param>
     <xsl:param name="date"></xsl:param>
     <xsl:param name="user"></xsl:param>
+    <xsl:param name="namespace"></xsl:param>
 	<xsl:output method="text" />
 	<xsl:template match="/">
 
@@ -49,6 +50,8 @@ package </xsl:text>
 import java.util.List;
 
 import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 </xsl:text>
 
@@ -83,8 +86,10 @@ import javax.jws.WebParam;
         <xsl:text> * @See &lt;a href="</xsl:text><xsl:value-of select="$url"/><xsl:text>"&gt;</xsl:text><xsl:value-of select="$serviceName" /><xsl:text>&lt;/&gt;&#10;</xsl:text>
         <xsl:text> *&#10;</xsl:text>
         <xsl:text> */&#10;</xsl:text>
-
-        <xsl:text>public interface </xsl:text>
+        <xsl:value-of select="concat('@WebService(name = &#34;', $serviceName, '&#34;, targetNamespace = &#34;', $namespace, '&#34;) // TODO CHECK THESE VALUES')" />
+        <xsl:text>
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+public interface </xsl:text>
         <xsl:value-of select="$serviceName" />
         <xsl:text> { &#10;</xsl:text>
 
