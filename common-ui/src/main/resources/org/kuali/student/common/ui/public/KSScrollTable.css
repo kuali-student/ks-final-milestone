@@ -1,7 +1,9 @@
-body {
+/*body {
   padding: 10px;
+}*/
+.KS-Scroll-Table{
+	
 }
-
 /*
  * ScrollTable
  */
@@ -32,6 +34,8 @@ body {
 
 .gwt-ScrollTable .headerTable td,
 .gwt-ScrollTable .footerTable td {
+  font-weight: bold;
+  text-align: center;
   color: #fff;
 }
     
@@ -47,16 +51,6 @@ body {
 
 .gwt-ScrollTable .dataTable tr.selected td {
   background: #7AA5D6;
-}
-
-.badGPA {
-    background: #FFAAAA;
-}
-.goodGPA {
-  background: #AAAAFF;
-}
-.greatGPA {
-  background: #AAFFAA;
 }
 
 /**

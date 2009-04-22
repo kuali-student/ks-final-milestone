@@ -67,6 +67,8 @@ public interface KSCommonResources extends ImmutableResourceBundle{
 	public CssResource confirmButtonPanelCss();
     @Resource("org/kuali/student/common/ui/public/KSConfirmationDialog.css")
 	public CssResource confirmationDialogCss();
+    @Resource("org/kuali/student/common/ui/public/KSScrollTable.css")
+    public CssResource scrollTableCss();
     @Resource("org/kuali/student/common/ui/public/KSSidebar.css")
 	public CssResource sidebarCss();
     @Resource("org/kuali/student/common/ui/public/KSToolTip.css")
