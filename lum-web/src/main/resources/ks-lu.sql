@@ -173,7 +173,7 @@ INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Student must have completed all of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('2', 'KUALI.CATALOG', 'Student must have completed $expectedValue of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.nof')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('3', 'KUALI.CATALOG', 'Student must have <reqCompFieldType.clu> or <reqCompFieldType.clu>', 'kuali.reqCompType.courseList.1of2')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4', 'KUALI.CATALOG', 'Student needs a minimum GPA of <reqCompFieldType.gpa>', 'kuali.reqCompType.gradeCheck')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4', 'KUALI.CATALOG', 'Student needs a minimum GPA of <reqCompFieldType.gpa>', 'kuali.reqCompType.gradecheck')
 
 // STMT_TYPE <-> REQ_COM_TYPE
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList.all')
