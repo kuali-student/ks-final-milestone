@@ -3,6 +3,14 @@ package org.kuali.student.core.organization.ui.server.gwt;
 import java.util.List;
 
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -12,6 +20,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -22,125 +31,476 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 
 	private static final long serialVersionUID = 1L;
 
-	private OrgRpcService serviceImpl;
-	
-	public OrgRpcService getServiceImpl() {
-		return serviceImpl;
-	}
+    private OrganizationService service;
 
-	public void setServiceImpl(OrgRpcService serviceImpl) {
-		this.serviceImpl = serviceImpl;
-	}
+    public OrganizationService getService() {
+        return service;
+    }
 
-	public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList) {
-		return serviceImpl.getOrganizationsByIdList(orgIdList);
-	}
+    public void setService(OrganizationService service) {
+        this.service = service;
+    }
 
-	public List<OrgHierarchyInfo> getOrgHierarchies() {
-		return serviceImpl.getOrgHierarchies();
-	}
+    @Override
+    public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey){
+        try {
+            return service.removePositionRestrictionFromOrg(orgId, orgPersonRelationTypeKey);
+        } catch (DoesNotExistException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public StatusInfo removeOrgOrgRelation(String orgOrgRelationId){
+        try {
+            return service.removeOrgOrgRelation(orgOrgRelationId);
+        } catch (DoesNotExistException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public List<OrgHierarchyInfo> getOrgHierarchies() {
+        try {
+            return service.getOrgHierarchies();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;    
+    }
 
-	public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId) {
-		return serviceImpl.getOrgOrgRelationsByOrg(orgId);
-	}
+    @Override
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId) {
+        // TODO Auto-generated method stub
+        try {
+            return service.getOrgOrgRelationsByOrg(orgId);
+        } catch (DoesNotExistException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    @Override
+    public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList) {
+        // TODO Auto-generated method stub
+        try {
+            return service.getOrganizationsByIdList(orgIdList);
+        } catch (DoesNotExistException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public List<String> getAllDescendants(String orgId, String orgHierarchy) {
-        return serviceImpl.getAllDescendants(orgId, orgHierarchy);
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        try {
+            return service.getAllDescendants(orgId, orgHierarchy);
+        } catch (InvalidParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    @Override
     public OrgPositionRestrictionInfo addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo) {
-        return serviceImpl.addPositionRestrictionToOrg(orgPositionRestrictionInfo);
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        try {
+            return service.addPositionRestrictionToOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-
+    @Override
     public OrgInfo createOrganization(OrgInfo orgInfo) {
-        return serviceImpl.createOrganization(orgInfo);
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        try {
+            return service.createOrganization(orgInfo.getType(), orgInfo);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    @Override
     public OrgOrgRelationInfo createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo) {
-        return serviceImpl.createOrgOrgRelation(orgOrgRelationInfo);
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        try {
+            return service.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(),
+                    orgOrgRelationInfo.getType(), orgOrgRelationInfo);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes() {
-        return serviceImpl.getOrgPersonRelationTypes();
+        try {
+            return service.getOrgPersonRelationTypes();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } 
+        return null;
     }
 
     public List<OrgTypeInfo> getOrgTypes() {
-        return serviceImpl.getOrgTypes();
+        try {
+            return service.getOrgTypes();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes() {
-        return serviceImpl.getOrgOrgRelationTypes();
+        try {
+            return service.getOrgOrgRelationTypes();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<OrgTreeInfo> getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
+        try {
+            return service.getOrgTree(orgId, orgHierarchy, maxLevels);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public OrgInfo getOrganization(String orgId) {
-        return serviceImpl.getOrganization(orgId);
+        try {
+            return service.getOrganization(orgId);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId) {
-        return serviceImpl.getPositionRestrictionsByOrg(orgId);
+        try {
+            return service.getPositionRestrictionsByOrg(orgId);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-           
-	public List<OrgTreeInfo> getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
-		return serviceImpl.getOrgDisplayTree(orgId, orgHierarchy, maxLevels);
-	}
+
 
     public OrgInfo updateOrganization(OrgInfo orgInfo) {
-        return serviceImpl.updateOrganization(orgInfo); 
+        try {
+            return service.updateOrganization(orgInfo.getId(), orgInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        } 
+        return null;
     }
+
 
     public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo) {
-        return serviceImpl.updatePositionRestrictionForOrg(orgPositionRestrictionInfo);
+        try {
+            return service.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        } 
+        return null;
     }
 
+    @Override
     public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo) {
-        return serviceImpl.updateOrgOrgRelation(orgOrgRelationInfo);
+        try {
+            return service.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    @Override
     public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) {
-        return serviceImpl.searchForResults(searchTypeKey, queryParamValues);
+        try {
+            return service.searchForResults(searchTypeKey, queryParamValues);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-	@Override
-	public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
-			String personId, String orgPersonRelationTypeKey,
-			OrgPersonRelationInfo orgPersonRelationInfo) {
-		return serviceImpl.createOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey, orgPersonRelationInfo);
-	}
+    @Override
+    public OrgPersonRelationInfo createOrgPersonRelation(String orgId,
+            String personId, String orgPersonRelationTypeKey,
+            OrgPersonRelationInfo orgPersonRelationInfo) {
 
-	@Override
-	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(
-			String orgTypeKey) {
-		return serviceImpl.getOrgPersonRelationTypesForOrgType(orgTypeKey);
-	}
+        try {
+            return service.createOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey, orgPersonRelationInfo);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	@Override
-	public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId) {
-		return serviceImpl.getOrgPersonRelationsByOrg(orgId);
-	}
+    @Override
+    public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(
+            String orgTypeKey) {
+        try {
+            return service.getOrgPersonRelationTypesForOrgType(orgTypeKey);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	@Override
-	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId) {
-		return serviceImpl.removeOrgPersonRelation(orgPersonRelationId);
-	}
+    @Override
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId) {
+        try {
+            return service.getOrgPersonRelationsByOrg(orgId);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	@Override
-	public OrgPersonRelationInfo updateOrgPersonRelation(
-			String orgPersonRelationId,
-			OrgPersonRelationInfo orgPersonRelationInfo) {
-		return serviceImpl.updateOrgPersonRelation(orgPersonRelationId, orgPersonRelationInfo);
-	}
+    @Override
+    public StatusInfo removeOrgPersonRelation(String orgPersonRelationId) {
+        try {
+            return service.removeOrgPersonRelation(orgPersonRelationId);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	@Override
-	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId) {
-		return serviceImpl.removeOrgOrgRelation(orgOrgRelationId);
-	}
-
-	@Override
-	public StatusInfo removePositionRestrictionFromOrg(String orgId,
-			String orgPersonRelationTypeKey) {
-		return serviceImpl.removePositionRestrictionFromOrg(orgId, orgPersonRelationTypeKey);
-	}
-	
-	
+    @Override
+    public OrgPersonRelationInfo updateOrgPersonRelation(
+            String orgPersonRelationId,
+            OrgPersonRelationInfo orgPersonRelationInfo) {
+        try {
+            return service.updateOrgPersonRelation(orgPersonRelationId, orgPersonRelationInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }	
 }

@@ -35,17 +35,13 @@
 	
 	<!-- GWT Servlets -->
 	<bean id="orgRpcServiceGwt" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt">
-		<property name="serviceImpl" ref="orgRpcServiceImpl"/>
+		<property name="service" ref="orgClient"/>
 	</bean>
 
 	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-		
+	
 	</bean>
 	
-	<!-- Service Implementations -->
-	<bean id="orgRpcServiceImpl" class="org.kuali.student.core.organization.ui.server.impl.OrgRpcServiceImpl">
-		<property name="service" ref="orgClient" />
-	</bean>
 
 	<!-- Service Clients -->	
 	<bean id="orgClient"
