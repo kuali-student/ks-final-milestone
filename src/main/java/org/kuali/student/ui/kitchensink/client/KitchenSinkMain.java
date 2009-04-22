@@ -3,15 +3,16 @@ package org.kuali.student.ui.kitchensink.client;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_CONTENT_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MAIN_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MENU_PANEL;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_IMAGE;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WRAPPER_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_HEADER;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.application.Header;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
@@ -66,19 +67,19 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class KitchenSinkMain extends Composite {
 
-    private final static String WELCOME_MSG = "\n\n Welcome to the Kuali Student Kitchen Sink \n\n" +
+    private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
     "This is a catalog of all widgets developed by Kuali Student. Click the menus on the left to view the widgets";
 
-    private static final String BASIC_WIDGET_MSG = "These are the basic building block widgets, such as buttons, labels, checkboxes and more.";
-    private static final String INFO_WIDGET_MSG = "These are widgets used to display information such as additional help or tool tips";
-    private static final String NAVIGATION_WIDGET_MSG = "These are widgets that can be used to allow users to navigate  a set of options";
-    private static final String TEXT_WIDGET_MSG = "These are widgets used for entering and updating text and include a simple text box to a full featured rich text editor.";
-    private static final String PANEL_WIDGET_MSG = "These are widgets that display a content panel either inline or in a separate popup window.  They may be modal, resizeable, moveable or not , depending on the requirements.  These panels will act as containers for other widgets.";
-    private static final String STATUS_WIDGET_MSG = "These are widgets that indicate some action in progress";
-    private static final String LIST_WIDGET_MSG = "These are widgets that display some list of data";
-    private static final String DIALOG_WIDGET_MSG = "These are widgets that popup a panel over other widgets for user interaction or to display some information.";
-    private static final String RULE_WIDGET_MSG = "These are widgets that are used for rule maintenance including rule builder widgets.";
-    private static final String TABLE_WIDGET_MSG = "These are widgets that are used for scroll and paging tables.";
+    private static final String BASIC_WIDGET_MSG = "\n\nThese are the basic building block widgets, such as buttons, labels, checkboxes and more.";
+    private static final String INFO_WIDGET_MSG = "\n\nThese are widgets used to display information such as additional help or tool tips";
+    private static final String NAVIGATION_WIDGET_MSG = "\n\nThese are widgets that can be used to allow users to navigate  a set of options";
+    private static final String TEXT_WIDGET_MSG = "\n\nThese are widgets used for entering and updating text and include a simple text box to a full featured rich text editor.";
+    private static final String PANEL_WIDGET_MSG = "\n\nThese are widgets that display a content panel either inline or in a separate popup window.  They may be modal, resizeable, moveable or not , depending on the requirements.  These panels will act as containers for other widgets.";
+    private static final String STATUS_WIDGET_MSG = "\n\nThese are widgets that indicate some action in progress";
+    private static final String LIST_WIDGET_MSG = "\n\nThese are widgets that display some list of data";
+    private static final String DIALOG_WIDGET_MSG = "\n\nThese are widgets that popup a panel over other widgets for user interaction or to display some information.";
+    private static final String RULE_WIDGET_MSG = "\n\nThese are widgets that are used for rule maintenance including rule builder widgets.";
+    private static final String TABLE_WIDGET_MSG = "\n\nThese are widgets that are used for scroll and paging tables.";
 
     private static final String COMMON_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
 
@@ -99,17 +100,17 @@ public class KitchenSinkMain extends Composite {
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     VerticalPanel welcomePanel = new VerticalPanel();
     final KSMenu menuPanel = new KSAccordionMenu(); // TODO update deferred binding in common-ui
+    private final VerticalPanel wrapper = new VerticalPanel();
+    
     KSLabel welcomeMsg;
-    final KSImage ksImage = new KSImage("images/KULSTP.jpg");
-
-
+    private final Header header = new Header();
 
     boolean loaded = false;
 
     private final Map<String, KitchenSinkExample> exampleMap = new HashMap<String, KitchenSinkExample>();
 
     public KitchenSinkMain() {
-        super.initWidget(main);
+        super.initWidget(wrapper);
         initExamples();
     }
 
@@ -122,13 +123,12 @@ public class KitchenSinkMain extends Composite {
         if (!loaded) {
             loaded = true;
 
-            ksImage.setStyleName(STYLE_WELCOME_IMAGE);
-
             main.setStyleName(STYLE_MAIN_PANEL);
             menuPanel.setStyleName(STYLE_MENU_PANEL);
             contentPanel.setStyleName(STYLE_CONTENT_PANEL);     
+            wrapper.addStyleName(STYLE_WRAPPER_PANEL);
+            header.addStyleName(STYLE_HEADER);
 
-            welcomePanel.add(ksImage);
             welcomeMsg = new KSLabel(WELCOME_MSG, true);
             welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
             welcomePanel.add(welcomeMsg);              
@@ -137,6 +137,9 @@ public class KitchenSinkMain extends Composite {
             main.add(menuPanel);
             main.add(contentPanel);
             main.setCellWidth(menuPanel, "200px");
+            
+            wrapper.add(header);
+            wrapper.add(main);
 
         }
     }
@@ -260,7 +263,7 @@ public class KitchenSinkMain extends Composite {
                     contentPanel.remove(contentPanel.getWidget());
                 }
 
-                contentPanel.setWidget(buildGroupMessage(arg0));                
+                contentPanel.setWidget(buildGroupMessage(arg0));  
             }
         });       
         return groupItem;

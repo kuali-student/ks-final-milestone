@@ -1,3 +1,13 @@
+.KSinkWrapperPanel{
+    width: 800px;
+}
+
+.KSinkHeader {
+	width: 99%;
+	margin: 1px;
+
+}
+
 .KSinkMainPanel{
     height: 100%;
     width: 100%;
@@ -8,8 +18,8 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: gray;	
-    height: 95%;
-    padding: 5px;
+    height: 300px;
+    padding: 3px;
 
 }
 
@@ -17,8 +27,8 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: gray;
-    height: 95%;
-	padding: 5px;
+    height: 100%;
+	padding: 3px;
 }
 
 .KSinkExamplePanel {
@@ -42,12 +52,8 @@
 	font-size: 18px;
 	font-weight: bold;
 	padding: 5px;
-}
-
-.KSinkWelcomeImage {
-	width: 200px;
-	height: 100px;
-	align: center;
+	padding-top: 10%;
+	padding-bottom: 20%;
 }
 
 .KSinkDescription {
