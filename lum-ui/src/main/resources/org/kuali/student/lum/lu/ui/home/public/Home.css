@@ -1,6 +1,6 @@
 .Course-Home-Menu-Item{
 	background-color: #dbdbdd;
-	background: url("images/Home-unselected-button.jpg") repeat-x;
+	background: url("images/Home-unselected-button.jpg") repeat-x 0 100%;
 	font-weight: bold;
 	font-size: 10pt;
 	border: 1px solid #a2a3a5;
@@ -19,7 +19,7 @@
 
 .Course-Home-Menu-Item-Selected{
 	background-color: #233259;
-	background: url("images/Home-selected-button.jpg") repeat-x;
+	background: url("images/Home-selected-button.jpg") repeat-x scroll 0 100%;
 	border-color: 1px solid #20335b;
 }
 
@@ -53,7 +53,6 @@
 }
 
 .Home-Standard-Button{
-	color: black;
 	font-size:10pt;
 	width:175px;
 }
