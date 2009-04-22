@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -29,7 +30,7 @@ public class SearchDialog extends Composite {
     private final SimplePanel mainPanel = new SimplePanel();
     private final KSModalDialogPanel popupPanel = 
         new KSModalDialogPanel();
-    private KSButton btnAddCourse = new KSButton("Add");
+    private KSButton btnAddCourse = new KSButton("Add Courses");
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnOK = new KSButton("OK");
     KSListBox cluList = new KSListBox();    
@@ -39,9 +40,12 @@ public class SearchDialog extends Composite {
     public SearchDialog(Controller controller) {
         super.initWidget(mainPanel);
         Panel testPanel = new VerticalPanel();
+        HorizontalPanel pnlButtons = new HorizontalPanel();
         this.controller = controller; 
         testPanel.add(cluList);        
-        testPanel.add(btnCancel);
+        pnlButtons.add(btnOK);
+        pnlButtons.add(btnCancel);
+        testPanel.add(pnlButtons);
         popupPanel.setWidget(testPanel);
         popupPanel.setHeader("Courses");
         popupPanel.setModal(true);
