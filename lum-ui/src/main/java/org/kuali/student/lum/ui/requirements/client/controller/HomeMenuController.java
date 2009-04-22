@@ -57,7 +57,7 @@ public class HomeMenuController extends Controller implements View {
     private MenuItemPanel empty6 = new MenuItemPanel("");    
     
     private List<MenuItemPanel> menuItems = new ArrayList<MenuItemPanel>();
-    public final static String testCluId = "CLU-NL-1"; //"CLU-1", "CHEM111";  //TODO: let user select a course to modify    
+    public final static String testCluId = "CLU-NL-2"; //"CLU-1", "CHEM111";  //TODO: let user select a course to modify    
     
     private class MenuItemPanel extends Composite{
         KSLabel itemLabel = new KSLabel();

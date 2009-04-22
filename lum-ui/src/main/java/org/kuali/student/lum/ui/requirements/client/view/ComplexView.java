@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class ComplexView extends ViewComposite {
@@ -37,12 +38,15 @@ public class ComplexView extends ViewComposite {
     private KSLabel linkToSimpleView = new KSLabel("Simple Rules");    
     private KSButton btnAddClause = new KSButton("Add Clause");
     private KSButton btnEditClause = new KSButton("Edit Clause");
+    private KSButton btnDeleteClause = new KSButton("Delete Clause");
+    private KSButton btnDuplicateClause = new KSButton("Duplicate Clause");    
     private KSLabel naturalLanguage = new KSLabel();
-    private TreeTable ruleTable = new TreeTable();
+    private TreeTable ruleTable = new TreeTable();    
     
     //view's data
     private Model<PrereqInfo> model;
     private ReqComponentInfo selectedReqComp;
+    private Widget selectedTableCellWidget = null;
     //private boolean reqComponentSelected = false;
 
     public ComplexView(Controller controller) {
@@ -94,14 +98,21 @@ public class ComplexView extends ViewComposite {
             @Override
             public void onClick(ClickEvent event) {
                 Cell cell = ruleTable.getCellForEvent(event);
-                NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                
+                
+                if (selectedTableCellWidget != null) {
+                    selectedTableCellWidget.setStyleName("KS-ReqComp-DeSelected");
+                    selectedTableCellWidget = null;
+                }                
+                
+                NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 if (widget == null) {
                    // reqComponentSelected = false;
                     selectedReqComp = null;
                     btnAddClause.setEnabled(true);
                     btnEditClause.setEnabled(false);                    
                 } else {
-                    widget.addStyleName("KS-ReqComp-Selected");
+                    selectedTableCellWidget = widget;
+                    widget.setStyleName("KS-ReqComp-Selected");
                     ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();                    
                     selectedReqComp = clause.getReqComponentInfo();
                     updateNaturalLanguage();
@@ -126,26 +137,40 @@ public class ComplexView extends ViewComposite {
         complexView.add(tempPanel);        
         complexView.add(ruleTable);
         
-        HorizontalPanel tempPanelButtons = new HorizontalPanel();
-        tempPanelButtons.setStyleName("KS-Rules-FullWidth");        
-        tempPanelButtons.add(btnAddClause);
+        HorizontalPanel tempPanelButtons1 = new HorizontalPanel();
+        tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
+        tempPanelButtons1.add(btnAddClause);
         btnAddClause.setStyleName("KS-Rules-Standard-Button");        
-        tempPanelButtons.add(btnEditClause);
-        btnEditClause.setStyleName("KS-Rules-Standard-Button");         
-        complexView.add(tempPanelButtons);
+        tempPanelButtons1.add(btnEditClause);
+        btnEditClause.setStyleName("KS-Rules-Standard-Button"); 
+        HorizontalPanel tempPanelButtons2 = new HorizontalPanel(); 
+        tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
+        tempPanelButtons2.add(btnDeleteClause);
+        btnDeleteClause.setStyleName("KS-Rules-Standard-Button");  
+        tempPanelButtons2.add(btnDuplicateClause);
+        btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");          
+        complexView.add(tempPanelButtons1);
+        complexView.add(tempPanelButtons2);
         
         btnAddClause.setEnabled(false);
-        btnEditClause.setEnabled(false);   
+        btnEditClause.setEnabled(false);  
+        btnDeleteClause.setEnabled(false);
+        btnDuplicateClause.setEnabled(false);
         if (selectedReqComp == null) {
             btnAddClause.setEnabled(true);
         } else {
             btnAddClause.setEnabled(true);            
-            btnEditClause.setEnabled(true);           
+            btnEditClause.setEnabled(true);
+            btnDeleteClause.setEnabled(true);
+            btnDuplicateClause.setEnabled(true);
         }
         
         RulesUtilities ruleUtil = new RulesUtilities();
         RulesUtilities.RowBreak rowBreak = ruleUtil.new RowBreak();
         complexView.add(rowBreak);
+        KSLabel nlHeading = new KSLabel("Natural Language");
+        nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
+        complexView.add(nlHeading);        
         complexView.add(naturalLanguage);        
         complexView.setStyleName("Content-Margin");
         mainPanel.clear();
@@ -174,7 +199,7 @@ public class ComplexView extends ViewComposite {
                 }
                 
                 public void onSuccess(final String nl) {
-                    naturalLanguage.setText("NATURAL LANGUAGE: " + nl);
+                    naturalLanguage.setText(nl);
                 } 
             });          
         }

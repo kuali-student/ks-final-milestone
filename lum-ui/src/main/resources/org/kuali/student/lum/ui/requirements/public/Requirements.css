@@ -37,7 +37,7 @@
 }
 
 .Course-Home-Content-Panel{
-	width: 410px;
+	width: 610px;
 	height: 100%;
 }
 
@@ -66,6 +66,7 @@
 .Content-Margin{
 	margin-left: 25px;
 	margin-right: 25px;
+	margin-bottom: 25px;
 }
 
 .Home-Horizontal-Break{
@@ -100,6 +101,15 @@
 	font-weight: bold;
 	text-decoration: underline;	
 	font-size:12pt;
+	width: 100%;
+}
+
+.KS-ReqMgr-SubHeading{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: black;
+	font-weight: bold;
+	font-size:11pt;
 	width: 100%;
 }
 
@@ -144,11 +154,11 @@
 }
 
 .KS-ReqComp-DeSelected{
-	background-color: white;
+	background-color: #FFFFFF;
 }
 
 .KS-RichText-Normal{
-	width: 300px;
+	width: 400px;
 	height: 90px;
 }
 

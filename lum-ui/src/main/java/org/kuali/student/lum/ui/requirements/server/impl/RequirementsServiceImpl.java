@@ -74,12 +74,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             e.printStackTrace();
         } catch (OperationFailedException e) {
             e.printStackTrace();
-        }   
-      
-        /* } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Unable to retrieve natural language for req. component. reqComponentId: " + reqComponentId + ", nlUsageTypeKey: " + nlUsageTypeKey, ex);           
-        }  */        
+        }              
         
         System.out.println("Natural Language: " + naturalLanguage);
         
@@ -230,11 +225,14 @@ public class RequirementsServiceImpl implements RequirementsService {
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
         
         LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);        
+        
         StatementVO rootStatementVO = new StatementVO(luStatementInfo);
-        String error = composeStatementVO(luStatementInfo, rootStatementVO);
-        if (error.isEmpty() == false) {
-            throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
-        }       
+        if (luStatementInfo != null) {
+            String error = composeStatementVO(luStatementInfo, rootStatementVO);
+            if (error.isEmpty() == false) {
+                throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
+            }
+        }
         
         return rootStatementVO;        
     }

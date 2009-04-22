@@ -17,9 +17,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -65,7 +62,7 @@ public class CourseRequisiteView extends ViewComposite {
                 prereqInfo.setNaturalLanguage("This is natural language for this statement");
                 prereqInfo.setRationale("The course supplements Biology 100 level courses.");
                 
-                RequirementsService.Util.getInstance().getStatementVO("CLU-NL-1", "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
+                RequirementsService.Util.getInstance().getStatementVO(courseData.get(getCourseId()).getId(), "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
