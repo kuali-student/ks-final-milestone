@@ -34,12 +34,7 @@
 
 	<bean id="systemPropertyConfigurer"
 		class="org.kuali.student.common.util.SystemPropertyConfigurer">
-		<property name="properties">
-			<map>
-				<entry key="derby.stream.error.file"
-					value="target/derby.log" />
-			</map>
-		</property>
+		<property name="properties" value="${propertiesPrefix.systemProperties}"/>
 	</bean>
 
 	<bean id="dataSource"
@@ -82,20 +77,19 @@
 		<property name="persistenceUnitPostProcessors" ref="postProcessorList" />
 	</bean>
 
-
 	<bean id="AtomikosTxMgr"
 		class="com.atomikos.icatch.jta.UserTransactionManager"
-		init-method="init" destroy-method="close">
+		init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
 		<property name="forceShutdown" value="true" />
 		<property name="startupTransactionService" value="true" />
 		<property name="transactionTimeout" value="60" />
 	</bean>
 
 	<bean id="AtomikosUsrTx"
-		class="com.atomikos.icatch.jta.UserTransactionImp" />
+		class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
 
 	<bean id="JtaTxManager"
-		class="org.springframework.transaction.jta.JtaTransactionManager">
+		class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer">
 		<property name="transactionManager" ref="AtomikosTxMgr" />
 		<property name="userTransaction" ref="AtomikosUsrTx" />
 		<property name="transactionSynchronizationName"
