@@ -29,12 +29,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!--<dependency>
+		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>10.2.0.3.0</version>
 			<scope>runtime</scope>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -87,7 +87,7 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>
-			<scope>compile</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

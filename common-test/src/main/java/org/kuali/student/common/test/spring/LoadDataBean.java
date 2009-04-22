@@ -24,7 +24,7 @@ public class LoadDataBean implements ApplicationContextAware{
 
 	private ApplicationContext applicationContext;
 	
-	public void loadData(boolean isOracle){
+	public void loadData(){
 		if (daoAnnotations == null || loaded == true) {
 			return;
 		}
@@ -63,27 +63,9 @@ public class LoadDataBean implements ApplicationContextAware{
 					BufferedReader in
 					   = new BufferedReader(new FileReader(sqlFile));
 					String ln;
-
-					String dbName=null;
-					if(em.getDelegate() instanceof org.hibernate.impl.SessionImpl){
-						dbName = ((org.hibernate.impl.SessionImpl)em.getDelegate()).connection().getMetaData().getDatabaseProductName();
-					}
-					if(em.getDelegate() instanceof org.eclipse.persistence.internal.jpa.EntityManagerImpl){
-						dbName = ((org.eclipse.persistence.internal.jpa.EntityManagerImpl)em.getDelegate()).getActiveSession().getPlatform().getClass().getSimpleName();
-					}
-					if(em.getDelegate() instanceof org.apache.openjpa.persistence.OpenJPAEntityManager){
-						dbName = ((java.sql.Connection)((org.apache.openjpa.persistence.OpenJPAEntityManager)em.getDelegate()).getConnection()).getMetaData().getDatabaseProductName();
-					}
-					if(dbName!=null&&dbName.toLowerCase().contains("oracle")){
-						isOracle=true;
-					}
-
-					
+	
 					while((ln=in.readLine())!=null){
 						if(!ln.startsWith("/")&&!ln.isEmpty()){
-							if(isOracle){
-								ln=ln.replaceAll("'(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}).\\d'", "to_timestamp('$1','YYYY-MM-DD HH24:MI:SS.FF')");
-							}
 							em.createNativeQuery(ln).executeUpdate();
 						}
 					}
@@ -98,18 +80,6 @@ public class LoadDataBean implements ApplicationContextAware{
 
 	}
 
-	public boolean isOracle(){
-		boolean isOracle=false;
-		try{
-			em.createNativeQuery("SELECT SYSDATE FROM DUAL").getSingleResult();
-			isOracle=true;
-		}catch(Exception e){
-			//Not Oracle 
-		}
-
-		return isOracle;
-	}
-	
 	protected void invokeDataLoader(String dao){
 	    try {
             //Check if there is a loader class for this dao

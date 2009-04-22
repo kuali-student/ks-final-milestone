@@ -58,7 +58,7 @@ public class ModPropertyPlaceholderConfigurer extends
 			super.setLocations(finalLocations);
 		
 		}catch(Exception e){
-			logger.warn("\nCould not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation+"\n");
+			logger.info("Could not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation);
 		}
 	}
 
@@ -131,7 +131,7 @@ public class ModPropertyPlaceholderConfigurer extends
 				String keyStr = (String)key; 
 				if(keyStr.startsWith(strVal)){
 					String newKeyStr = keyStr.substring(strVal.length()+1);
-					prefixedProps.put(newKeyStr, props.get(key));
+					prefixedProps.put(newKeyStr, resolveStringValue((String)props.get(key)));
 				}
 			}
 			
