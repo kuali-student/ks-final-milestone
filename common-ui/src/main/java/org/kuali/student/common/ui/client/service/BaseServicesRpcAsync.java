@@ -27,7 +27,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * Async methods for dictionary and search operations. 
  * 
  * @author Kuali Student Team
  *

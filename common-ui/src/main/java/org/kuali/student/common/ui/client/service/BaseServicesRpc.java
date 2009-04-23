@@ -24,6 +24,8 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
+import com.google.gwt.user.client.rpc.RemoteService;
+
 /**
  *  A base RPC service interface that exposes dictionary and search interfaces
  *  of a service endpoint interface SEI
@@ -31,7 +33,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
  * @author Kuali Student Team
  *
  */
-public interface BaseServicesRpc /* extends DictionaryService, SearchService */{
+public interface BaseServicesRpc extends RemoteService{
 
     /* Dictionary Operations */
     
