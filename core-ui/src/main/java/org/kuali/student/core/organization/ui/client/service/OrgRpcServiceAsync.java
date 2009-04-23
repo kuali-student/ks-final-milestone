@@ -2,6 +2,7 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.service.BaseServicesRpcAsync;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -17,7 +18,7 @@ import org.kuali.student.core.search.dto.Result;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface OrgRpcServiceAsync {
+public interface OrgRpcServiceAsync extends BaseServicesRpcAsync {
     public void createOrganization(OrgInfo orgInfo, AsyncCallback<OrgInfo> callback);
     public void createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
 
@@ -38,8 +39,6 @@ public interface OrgRpcServiceAsync {
     public void updateOrganization(OrgInfo orgInfo, AsyncCallback<OrgInfo> callback);
     public void updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo, AsyncCallback<OrgPositionRestrictionInfo> callback);
     public void updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
-
-    public void searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues, AsyncCallback<List<Result>> callback);
     
     public void createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo, AsyncCallback<OrgPersonRelationInfo> callback);
     public void updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo, AsyncCallback<OrgPersonRelationInfo> callback);

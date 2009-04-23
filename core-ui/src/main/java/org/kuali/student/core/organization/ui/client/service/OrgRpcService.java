@@ -2,6 +2,7 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.service.BaseServicesRpc;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -12,8 +13,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.organization.service.OrganizationService;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -23,7 +23,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 * This class lists all of the methods that the remote calls between client and servlet make, 
 * most of these will be verbatim from the web service  
 */
-public interface OrgRpcService extends RemoteService {
+public interface OrgRpcService extends RemoteService, BaseServicesRpc {
 	
 	public static final String SERVICE_URI = "OrgRpcService";
 
@@ -58,9 +58,7 @@ public interface OrgRpcService extends RemoteService {
     public OrgInfo updateOrganization(OrgInfo orgInfo);
     public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
     public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
-    
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues);
-    
+       
     public OrgPersonRelationInfo createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo);
     public OrgPersonRelationInfo updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo);
     public StatusInfo removeOrgPersonRelation(String orgPersonRelationId);

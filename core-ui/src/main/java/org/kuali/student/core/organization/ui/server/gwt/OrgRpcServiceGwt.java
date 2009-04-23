@@ -2,6 +2,7 @@ package org.kuali.student.core.organization.ui.server.gwt;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.server.BaseServicesRpcAbstract;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -22,24 +23,10 @@ import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcService{
+public class OrgRpcServiceGwt extends BaseServicesRpcAbstract<OrganizationService> implements OrgRpcService{
 
 	private static final long serialVersionUID = 1L;
-
-    private OrganizationService service;
-
-    public OrganizationService getService() {
-        return service;
-    }
-
-    public void setService(OrganizationService service) {
-        this.service = service;
-    }
 
     @Override
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey){
@@ -379,24 +366,6 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
         } catch (PermissionDeniedException e) {
             e.printStackTrace();
         } catch (VersionMismatchException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) {
-        try {
-            return service.searchForResults(searchTypeKey, queryParamValues);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        } catch (PermissionDeniedException e) {
             e.printStackTrace();
         }
         return null;
