@@ -5,12 +5,17 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -20,6 +25,17 @@ public class SimpleView extends ViewComposite {
     private Panel mainPanel = new SimplePanel();
     private KSRichEditor rationalle = new KSRichEditor();
     private KSLabel linkToComplexView = new KSLabel("Show me more options...");
+    private static final String SIMPLE_RULE_RB_GROUP = "SIMPLE_RULE_RB_GROUP";
+    private KSRadioButton rbCourseList = new KSRadioButton(SIMPLE_RULE_RB_GROUP); 
+    private KSRadioButton rbCourse1OrCourse2 = new KSRadioButton(SIMPLE_RULE_RB_GROUP); 
+    private KSRadioButton rbNumCreditFromCourseList = new KSRadioButton(SIMPLE_RULE_RB_GROUP); 
+    private KSRadioButton rbExistingRule = new KSRadioButton(SIMPLE_RULE_RB_GROUP);
+    private KSTextBox choice1CourseList = new KSTextBox();
+    private KSTextBox choice2CourseA = new KSTextBox();
+    private KSTextBox choice2CourseB = new KSTextBox();
+    private KSTextBox choice3NumCredits = new KSTextBox();
+    private KSTextBox choice3CourseList = new KSTextBox();
+    private KSLabel choice4ExistingRule = new KSLabel("existing pre-requisite");
     
     private Model<PrereqInfo> model;
 
@@ -27,7 +43,7 @@ public class SimpleView extends ViewComposite {
         super(controller, "Simple View");
         super.initWidget(mainPanel);
         setupHandlers();
-    }    
+    }
     
     private void setupHandlers() {
         linkToComplexView.addClickHandler(new ClickHandler() {
@@ -66,7 +82,54 @@ public class SimpleView extends ViewComposite {
         Object[] temp = model.getValues().toArray();
         rationalle.setText(((PrereqInfo)temp[0]).getRationale());
         simpleView.add(rationalle);
+        
+        CaptionPanel capPnlPickRuleType = 
+            new CaptionPanel("Student must have taken:");
+        VerticalPanel pnlChoices = new VerticalPanel(); 
+        HorizontalPanel choice1 = new HorizontalPanel(); 
+        HorizontalPanel choice2 = new HorizontalPanel(); 
+        HorizontalPanel choice3 = new HorizontalPanel(); 
+        HorizontalPanel choice4 = new HorizontalPanel();
+        choice1.setSpacing(5);
+        choice2.setSpacing(5);
+        choice3.setSpacing(5);
+        choice4.setSpacing(5);
+        // choice 1
+        KSLabel lbChoice1 = new KSLabel("The following course(s):");
+        lbChoice1.addStyleName("KS-Rules-Choices");
+        choice1.add(rbCourseList);
+        choice1.add(lbChoice1);
+        choice1.add(choice1CourseList);
+        // choice 2
+        KSLabel lbChoice2 = new KSLabel("or");
+        lbChoice2.addStyleName("KS-Rules-Choices");
+        choice2.add(rbCourse1OrCourse2);
+        choice2.add(choice2CourseA);
+        choice2.add(lbChoice2);
+        choice2.add(choice2CourseB);
+        // choice 3
+        KSLabel lbChoice3 = new KSLabel("credits from the following course(s):");
+        lbChoice3.addStyleName("KS-Rules-Choices");
+        choice3.add(rbNumCreditFromCourseList);
+        choice3.add(choice3NumCredits);
+        choice3.add(lbChoice3);
+        choice3.add(choice3CourseList);
+        // choice 4
+        KSLabel lbChoice4 = new KSLabel("Use an");
+        lbChoice4.addStyleName("KS-Rules-Choices");
+        choice4.add(rbExistingRule);
+        choice4.add(lbChoice4);
+        choice4ExistingRule.addStyleName("KS-Rules-Choices-Link");
+        choice4.add(choice4ExistingRule);
+        
+        pnlChoices.add(choice1);
+        pnlChoices.add(choice2);
+        pnlChoices.add(choice3);
+        pnlChoices.add(choice4);
+        capPnlPickRuleType.add(pnlChoices);
+        
         linkToComplexView.addStyleName("KS-Rules-Link");
+        simpleView.add(capPnlPickRuleType);
         simpleView.add(linkToComplexView);
         simpleView.setStyleName("Content-Margin");
         mainPanel.clear();

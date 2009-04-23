@@ -216,9 +216,6 @@ public class ClauseEditorView extends ViewComposite {
                 continue;                                
             }
             if (tag.equals("cluSet")) {
-                if (i > 0) {
-                    
-                }
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
