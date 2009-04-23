@@ -96,24 +96,34 @@ public class SimpleView extends ViewComposite {
         choice4.setSpacing(5);
         // choice 1
         KSLabel lbChoice1 = new KSLabel("The following course(s):");
+        SearchDialog searchPanelChoice1 = new SearchDialog(getController());
         lbChoice1.addStyleName("KS-Rules-Choices");
         choice1.add(rbCourseList);
         choice1.add(lbChoice1);
+        choice1CourseList.setWidth("150px");
         choice1.add(choice1CourseList);
+        choice1.add(searchPanelChoice1);
+        
         // choice 2
         KSLabel lbChoice2 = new KSLabel("or");
         lbChoice2.addStyleName("KS-Rules-Choices");
         choice2.add(rbCourse1OrCourse2);
+        choice2CourseA.setWidth("100px");
         choice2.add(choice2CourseA);
         choice2.add(lbChoice2);
+        choice2CourseB.setWidth("100px");
         choice2.add(choice2CourseB);
         // choice 3
         KSLabel lbChoice3 = new KSLabel("credits from the following course(s):");
+        SearchDialog searchPanelChoice3 = new SearchDialog(getController());
         lbChoice3.addStyleName("KS-Rules-Choices");
         choice3.add(rbNumCreditFromCourseList);
+        choice3NumCredits.setWidth("50px");
         choice3.add(choice3NumCredits);
         choice3.add(lbChoice3);
+        choice3CourseList.setWidth("150px");
         choice3.add(choice3CourseList);
+        choice3.add(searchPanelChoice3);
         // choice 4
         KSLabel lbChoice4 = new KSLabel("Use an");
         lbChoice4.addStyleName("KS-Rules-Choices");

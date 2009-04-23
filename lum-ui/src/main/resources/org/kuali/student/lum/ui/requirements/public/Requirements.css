@@ -136,6 +136,13 @@
 	cursor: pointer;
 }
 
+.KS-Rules-Choice-Buttons{
+	font-size: 8pt;
+	width: 20px;
+	height: 20px;	
+}
+
+
 .KS-Rules-Choices{
 	font-size: 8pt;
 }

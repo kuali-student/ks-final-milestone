@@ -15,8 +15,10 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -30,13 +32,13 @@ public class SearchDialog extends Composite {
     private final SimplePanel mainPanel = new SimplePanel();
     private final KSModalDialogPanel popupPanel = 
         new KSModalDialogPanel();
-    private KSButton btnAddCourse = new KSButton("Add Courses");
+    private KSButton btnAddCourse = new KSButton("...");
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnOK = new KSButton("OK");
     KSListBox cluList = new KSListBox();    
     private Model<PrereqInfo> model;
     private Controller controller;
-
+    
     public SearchDialog(Controller controller) {
         super.initWidget(mainPanel);
         Panel testPanel = new VerticalPanel();
@@ -49,11 +51,18 @@ public class SearchDialog extends Composite {
         popupPanel.setWidget(testPanel);
         popupPanel.setHeader("Courses");
         popupPanel.setModal(true);
+//        btnAddCourse.setWidth("10px");
+//        btnAddCourse.setText(text)
+        btnAddCourse.addStyleName("KS-Rules-Choice-Buttons");
+//        testElement.set("font-size", "40px");
         mainPanel.setWidget(btnAddCourse);
         setupHandlers();
         layoutWidgets();
     }
     
+    public void setMultipleSelect(boolean multipleSelect) {
+        cluList.setMultipleSelect(multipleSelect);
+    }
     
     
     public void show() {
@@ -152,6 +161,11 @@ public class SearchDialog extends Composite {
     private void setupHandlers() {
         btnAddCourse.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                if (cluList != null && cluList.getSelectedItems() != null) {
+                    for (String id : cluList.getSelectedItems()) {
+                        cluList.deSelectItem(id);
+                    }
+                }
                 show();
             }
         });
