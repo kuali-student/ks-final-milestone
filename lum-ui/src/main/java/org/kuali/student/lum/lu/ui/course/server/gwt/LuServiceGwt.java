@@ -15,7 +15,16 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -29,22 +38,67 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class LuServiceGwt extends RemoteServiceServlet implements LuRpcService{
 
     private static final long serialVersionUID = 1L;
-    LuRpcService luRpcService;
+
+    LuService luService;
+    
+    public LuService getLuService() {
+        return luService;
+    }
+    
+    public void setLuService(LuService luService) {
+        this.luService = luService;
+    }
+
     
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
      */
-    @Override
     public CluInfo createClu(String luTypeKey, CluInfo cluInfo) {
-        return luRpcService.createClu(luTypeKey, cluInfo);
+        try {
+            return luService.createClu(luTypeKey, cluInfo);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+    
+    /**
+     * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#updateClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
+     */
+    @Override
+    public CluInfo updateClu(String cluId, CluInfo cluInfo) {
 
-    public LuRpcService getLuRpcService() {
-        return luRpcService;
-    }
-
-    public void setLuRpcService(LuRpcService luRpcService) {
-        this.luRpcService = luRpcService;
+        try {
+            return luService.updateClu(cluId, cluInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        }
+ 
+        return null;
     }
 
 }
