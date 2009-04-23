@@ -15,8 +15,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.view;
 
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.libideas.resources.client.CssResource;
+import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -24,27 +25,9 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  * @author Kuali Student Team
  *
  */
-public class CourseAuthor extends CourseSection{
-    public CourseAuthor(Controller controller) {
-        super(controller, "CourseAuthor", "Author + Collaborators");
-    }
-        
-    public void init() {
-        addTextField("faculty", "Originating Faculty Member");
-        addTextField("delegate", "Adminstrative Delegate");
-        addTextField("collaborators", "Collaborators");       
-    }
+public interface CourseResources extends ImmutableResourceBundle{
 
-    public void redraw() {
-        CluInfo clu = getCourseInformation();
-       // setFieldValue("faculty", clu.getPrimaryInstructor().getPersonId());
-    }
-
-    @Override
-    public CluInfo convert() {
-        //Nothing here that can be saved in the CLU
-        return getCourseInformation();
-    }
-
-
+        public static final CourseResources INSTANCE =  (CourseResources) GWT.create(CourseResources.class);
+        @Resource("org/kuali/student/lum/lu/ui/course/public/Course.css")
+        public CssResource homeCss();
 }

@@ -20,12 +20,10 @@ import org.kuali.student.common.ui.client.event.SaveHandler;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.lum.lu.dto.CluCreditInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
@@ -36,7 +34,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 
 /**
  * @author Kuali Student Team
@@ -63,6 +63,7 @@ public class CourseBeginProposal extends Composite{
     
     public CourseBeginProposal(){
         form.addFormField(getFormField(PROPOSED_TITLE,  "Proposed Course Title"));
+        //TODO: Way to convert person name to a person object
         form.addFormField(getFormField(FACULTY,         "Originating Faculty Member"));
         form.addFormField(getFormField(DELEGATE,        "Adminstrative Delegate"));
         
@@ -70,10 +71,15 @@ public class CourseBeginProposal extends Composite{
         deptField.setWidget(getDeptDropDown());
         form.addFormField(deptField);
         
-        vPanel.add(new KSLabel("Begin Proposal"));
+        KSLabel headerLabel = new KSLabel("Begin Proposal");
+        headerLabel.setStyleName("KS-Course-Section-Header");
+        vPanel.add(headerLabel);
         vPanel.add(form);
         
-        vPanel.add(saveButton); //TODO: enable this button only if required fields filled in
+        VerticalPanel row = new VerticalPanel();
+        row.add(saveButton);
+        row.setStyleName("KS-Course-Save-Button");
+        vPanel.add(row); //TODO: enable this button only if required fields filled in
         vPanel.add(cancelButton);
         
         super.initWidget(vPanel);
@@ -100,9 +106,13 @@ public class CourseBeginProposal extends Composite{
         
         CluInstructorInfo cluInstructor = new CluInstructorInfo();
         clu.setPrimaryInstructor(cluInstructor);
+
                 
-        //FIXME: Is this supposed to be the adminOrg id or name
+        //FIXME: Is this supposed to be the adminOrg id or name?
         clu.setAdminOrg(((KSDropDown)form.getFieldWidget(DEPARTMENT)).getSelectedItem());
+        
+        //FIXME: Where are valid states defined?
+        clu.setState("Proposal");
         return clu;        
     }
     

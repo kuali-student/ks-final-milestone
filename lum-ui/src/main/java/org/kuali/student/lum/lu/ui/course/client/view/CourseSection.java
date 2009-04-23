@@ -15,20 +15,25 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.view;
 
+import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,22 +44,25 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public abstract class CourseSection extends ViewComposite {
+    private final KSConfirmationDialog confirmSaveDialog = new KSConfirmationDialog();
     
     private VerticalPanel vPanel = new VerticalPanel();
     private KSFormLayoutPanel form;
-    private Model<CluInfo> clus = null;
-    
+    private Model<CluInfo> clus = null;        
     private String title;
-
-    KSButton saveButton = new KSButton("Save Changes", new ClickHandler(){
+    
+    private ClickHandler saveClickHandler = new ClickHandler(){
         public void onClick(ClickEvent event) {
             // TODO: Validate data && update model
             form.setEditMode(EditMode.VIEW_ONLY);
             saveButton.setVisible(false);
             editButton.setVisible(true);
             nextButton.setVisible(true);
+            fireSaveEvent();
         }                
-    });
+    };
+
+    KSButton saveButton = new KSButton("Save Changes", saveClickHandler);
     
     KSButton editButton = new KSButton("Edit", new ClickHandler(){
         public void onClick(ClickEvent event) {
@@ -75,6 +83,8 @@ public abstract class CourseSection extends ViewComposite {
         super(controller, name);
         super.initWidget(vPanel);
         this.title = title;
+        confirmSaveDialog.setWidget(new KSLabel("Section data not saved. Do you wish to save?"));
+        confirmSaveDialog.addConfirmHandler(saveClickHandler);        
     }
     
     
@@ -111,10 +121,10 @@ public abstract class CourseSection extends ViewComposite {
         form.addFormField(ff);
     }
     
-    public void setFieldValue(String name, Object value){
-        form.setFieldValue(name, (String)value);
+    public KSFormLayoutPanel getForm(){
+        return form;
     }
-    
+
     public void initSection(){
         /*
         clus.addModelChangeHandler(new ModelChangeHandler<CluInfo>() {
@@ -128,15 +138,22 @@ public abstract class CourseSection extends ViewComposite {
             form = new KSFormLayoutPanel();
             init();
             
-            vPanel.add(new KSLabel(title));
+            KSLabel titleLabel = new KSLabel(title);
+            titleLabel.setStyleName("KS-Course-Section-Header");
+            vPanel.add(titleLabel);
             vPanel.add(form);
             
             saveButton.setVisible(true);
             editButton.setVisible(false);
             nextButton.setVisible(false);
-            vPanel.add(saveButton);
-            vPanel.add(editButton);
-            vPanel.add(nextButton);
+            
+            VerticalPanel buttonPanel = new VerticalPanel();
+            buttonPanel.add(saveButton);
+            buttonPanel.add(editButton);
+            buttonPanel.add(nextButton);
+            buttonPanel.setStyleName("KS-Course-Save-Button");
+            
+            vPanel.add(buttonPanel);
         };
         redraw();
     }
@@ -147,12 +164,56 @@ public abstract class CourseSection extends ViewComposite {
         }
         return null;
     }
-    
+      
+    /**
+     * Implement this method to add fields to this sections form
+     */
     public abstract void init();  
 
+    /**
+     * Implement this method to redraw the form, ie set the form fields
+     * using latest data from cluInfo.
+     */
     public abstract void redraw();
+    
+    /**
+     *  Implement this method to transfer values from form to the cluInfo
+     *  model.
+     *   
+     * @return
+     */
+    public abstract CluInfo convert();
     
     public void addNextSectionClickHandler(ClickHandler handler){
         this.nextButton.addClickHandler(handler);
+    }
+    
+    public void fireSaveEvent(){
+        //TODO: Validate data
+        clus.update(convert());
+        CluInfo clu = getCourseInformation();
+        LuRpcService.Util.getInstance().updateClu(clu.getId(), clu, new AsyncCallback<CluInfo>(){
+
+            public void onFailure(Throwable caught) {
+                //TODO: Display error
+                Window.alert(caught.toString());
+            }
+
+            @Override
+            public void onSuccess(CluInfo result) {
+                
+                clus.update(result);
+                fireEvent(new SaveEvent());
+            }
+        });        
+    }
+    
+    public boolean beforeHide(){
+        if (form.isDirty()){
+            confirmSaveDialog.show();
+            return false;
+        } else {
+            return true;
+        }           
     }
 }

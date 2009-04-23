@@ -1,0 +1,30 @@
+.KS-FormLayout-Label {
+	width: 90px;
+	text-align: left;
+	font-size: 11px;
+	padding-bottom: 20px;
+	vertical-align: middle;	
+}
+
+.KS-FormLayout-Field {
+	padding-bottom: 20px;
+}
+
+
+.KS-Textbox{
+	width: 300px;
+	font-size: 16px; 	
+}
+
+.KS-Course-Section-Header {
+	font-size: 20px;
+	margin-bottom: 30px;
+}
+
+.KS-Course-Save-Button{
+	margin-left: 100px;	
+}
+
+.KS-Course-Number {
+	width: 50px;
+}

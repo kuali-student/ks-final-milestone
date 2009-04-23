@@ -15,14 +15,12 @@
  */
 package org.kuali.student.lum.lu.ui.course.client;
 
-import org.kuali.student.common.ui.client.event.SaveEvent;
-import org.kuali.student.common.ui.client.event.SaveHandler;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.view.BeginCourseProposal;
+import org.kuali.student.lum.lu.ui.course.client.view.CourseResources;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.libideas.resources.client.CssResource;
+import com.google.gwt.libideas.resources.client.ResourcePrototype;
 
 /**
  * Entry point for courses 
@@ -32,6 +30,21 @@ import com.google.gwt.user.client.Window;
  */
 public class CoursesEntryPoint implements EntryPoint {
 
+    @Override
     public void onModuleLoad() {
+        final String injectString = this.getCssString();
+        StyleInjector.injectStylesheet(injectString);   
+    }
+
+    public String getCssString(){
+        String injectString = "";
+         for(ResourcePrototype r: CourseResources.INSTANCE.getResources()){
+             if(r instanceof CssResource){
+                 if(((CssResource)r).getText() != null){
+                     injectString = injectString + "\n" + (((CssResource)r).getText());
+                 }
+             }
+         }
+         return injectString;
     }
 }

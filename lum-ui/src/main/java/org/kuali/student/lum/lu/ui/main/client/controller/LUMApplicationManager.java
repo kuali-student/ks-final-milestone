@@ -4,7 +4,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager;
 import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager.CourseProposalType;
-import org.kuali.student.lum.lu.ui.course.client.view.BeginCourseProposal;
+import org.kuali.student.lum.lu.ui.course.client.view.CourseBeginProposal;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
