@@ -47,7 +47,6 @@ public class ComplexView extends ViewComposite {
     private Model<PrereqInfo> model;
     private ReqComponentInfo selectedReqComp;
     private Widget selectedTableCellWidget = null;
-    //private boolean reqComponentSelected = false;
 
     public ComplexView(Controller controller) {
         super(controller, "Complex View");
@@ -55,6 +54,13 @@ public class ComplexView extends ViewComposite {
     }
     
     public void beforeShow() {
+
+        System.out.println("SELECTED?  " + selectedTableCellWidget);  
+        if (selectedTableCellWidget != null) {
+            selectedTableCellWidget.setStyleName("KS-ReqComp-Selected");
+            selectedTableCellWidget.addStyleName("KS-ReqComp-RaisedButtonText");
+        }          
+        
         if (model != null) {
             redraw();
             return;
@@ -70,7 +76,7 @@ public class ComplexView extends ViewComposite {
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        }); 
+        });                  
     }
 
     private void setupHandlers() {
@@ -81,6 +87,7 @@ public class ComplexView extends ViewComposite {
         });
         btnAddClause.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                selectedReqComp = null;
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
             }
         });     
@@ -97,6 +104,7 @@ public class ComplexView extends ViewComposite {
         ruleTable.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                
                 Cell cell = ruleTable.getCellForEvent(event);
                 
                 if (selectedTableCellWidget != null) {
@@ -106,23 +114,23 @@ public class ComplexView extends ViewComposite {
                 
                 NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 if (widget == null) {
-                   // reqComponentSelected = false;
                     selectedReqComp = null;
                     btnAddClause.setEnabled(true);
                     btnEditClause.setEnabled(false);                    
                 } else {
                     selectedTableCellWidget = widget;
                     widget.setStyleName("KS-ReqComp-Selected");
+                    widget.addStyleName("KS-ReqComp-RaisedButtonText");
                     ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();                    
                     selectedReqComp = clause.getReqComponentInfo();
                     updateNaturalLanguage();
                     btnAddClause.setEnabled(false);
-                    btnEditClause.setEnabled(true);                    
-                   // reqComponentSelected = true;
+                    btnEditClause.setEnabled(true); 
+                    //TODO need to handle double-click event -> getController().showView(PrereqViews.CLAUSE_EDITOR);
                 }
             }
 
-         });
+         });  
     }
        
     private void redraw() {
@@ -138,13 +146,13 @@ public class ComplexView extends ViewComposite {
         complexView.add(ruleTable);
         
         HorizontalPanel tempPanelButtons1 = new HorizontalPanel();
-        tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
+       // tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
         tempPanelButtons1.add(btnAddClause);
         btnAddClause.setStyleName("KS-Rules-Standard-Button");        
         tempPanelButtons1.add(btnEditClause);
         btnEditClause.setStyleName("KS-Rules-Standard-Button"); 
         HorizontalPanel tempPanelButtons2 = new HorizontalPanel(); 
-        tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
+        //tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
         tempPanelButtons2.add(btnDeleteClause);
         btnDeleteClause.setStyleName("KS-Rules-Standard-Button");  
         tempPanelButtons2.add(btnDuplicateClause);
@@ -155,11 +163,13 @@ public class ComplexView extends ViewComposite {
         btnAddClause.setEnabled(false);
         btnEditClause.setEnabled(false);  
         btnDeleteClause.setEnabled(false);
-        btnDuplicateClause.setEnabled(false);
-        if (selectedReqComp == null) {
+        btnDuplicateClause.setEnabled(false);        
+        if ((selectedReqComp == null) || (selectedTableCellWidget == null)) {
             btnAddClause.setEnabled(true);
-        } else {
-            btnAddClause.setEnabled(true);            
+        } else {          
+            selectedTableCellWidget.setStyleName("KS-ReqComp-Selected");
+            selectedTableCellWidget.addStyleName("KS-ReqComp-RaisedButtonText");
+            btnAddClause.setEnabled(true);
             btnEditClause.setEnabled(true);
             btnDeleteClause.setEnabled(true);
             btnDuplicateClause.setEnabled(true);

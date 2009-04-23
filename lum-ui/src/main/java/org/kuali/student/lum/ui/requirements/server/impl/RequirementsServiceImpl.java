@@ -37,7 +37,7 @@ public class RequirementsServiceImpl implements RequirementsService {
         ReqComponentInfo reqComponentInfo;
    
         for (ReqCompFieldInfo field : compInfo.getReqCompField()) {
-            System.out.println("before fields: " + field.getId() + " - " + field.getValue()); 
+            //System.out.println("before fields: " + field.getId() + " - " + field.getValue()); 
         }           
         
         //first store the rule in a temporary holder in order to retrieve its natural language
@@ -61,7 +61,7 @@ public class RequirementsServiceImpl implements RequirementsService {
         }         
         
         for (ReqCompFieldInfo field : reqComponentInfo.getReqCompField()) {
-            System.out.println("updated fields: " + field.getId() + " - " + field.getValue()); 
+            //System.out.println("updated fields: " + field.getId() + " - " + field.getValue()); 
         }               
         
         try {             

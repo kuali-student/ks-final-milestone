@@ -56,6 +56,7 @@ public class SearchDialog extends Composite {
         btnAddCourse.addStyleName("KS-Rules-Choice-Buttons");
 //        testElement.set("font-size", "40px");
         mainPanel.setWidget(btnAddCourse);
+        btnAddCourse.setStyleName("KS-Rules-Standard-Button"); 
         setupHandlers();
         layoutWidgets();
     }
