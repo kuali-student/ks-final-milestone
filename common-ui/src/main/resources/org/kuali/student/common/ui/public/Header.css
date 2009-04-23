@@ -3,9 +3,19 @@
 	width: 100%;
 }
 
-
 .KS-Header-Logo {
-	width: 100%;
+	width: 130px;
+	height: 46px;
+}
+
+.KS-Header-Logo-Spacer {
+width: 100%;
+	background: #f8f8f8 url("images/grey_gradient.jpg") repeat-x;
+}
+
+.KS-Header-Logo-Panel {
+	background-color: #f8f8f8;
+	float: left;
 }
 
 .KS-Header-Link-Panel {
@@ -17,7 +27,7 @@
 
 .KS-Header-Link-Spacer {
 	width: 100%;
-		background: #A80000 url("images/Kuali_links_bar.jpg") no-repeat;
+	background: #A80000 url("images/Kuali_links_bar.jpg") no-repeat;
 }
 
 .KS-Header-Link {
@@ -37,10 +47,7 @@
 	width: 100%;
 }
 
-
 .KS-Header-Separator {
 	height: 1px;
 	width: 100%;
 }
-
-

@@ -24,16 +24,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Header extends Composite {
     private final VerticalPanel main = new VerticalPanel();
 
+    private final SimplePanel logoContentPanel = new SimplePanel();
+    private final DockPanel logoPanel = new DockPanel();
+
     private final HorizontalPanel linksContentPanel = new HorizontalPanel();
     private final DockPanel linksPanel = new DockPanel();
-    private final SimplePanel logoPanel = new SimplePanel();
 
     private List<KSBreadcrumbItem> breadcrumbItems;
     private List<HeaderLinkItem> linkItems;
 
     private KSBreadcrumb breadcrumb;
 
-    private final KSImage logo = new KSImage("images/logo_bar.jpg");
+    private final KSImage logo = new KSImage("images/KS_logo_on_grey.jpg");
     private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
 
@@ -90,8 +92,14 @@ public class Header extends Composite {
     private void buildLogoPanel() {
 
         logo.addStyleName("KS-Header-Logo");
-        logoPanel.add(logo);
-        logoPanel.addStyleName("KS-Header-Logo-Panel");
+        logoContentPanel.add(logo);
+        logoContentPanel.addStyleName("KS-Header-Logo-Panel");
+        
+        //logoPanel is a spacer panel to allow for expansion of browser
+        logoPanel.add(logoContentPanel ,DockPanel.WEST);
+        logoPanel.addStyleName("KS-Header-Logo-Spacer");
+        logoPanel.setHorizontalAlignment(DockPanel.ALIGN_LEFT);
+        logoPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
     }
 
     private void buildLinksPanel() {
@@ -155,12 +163,10 @@ public class Header extends Composite {
 
     private void buildBreadcrumb() {
         //TODO need to allow Linked or Unlinked breadcrumb lists
-        
+
         breadcrumb = new KSBreadcrumb();
-        for (KSBreadcrumbItem i : breadcrumbItems) {
-            breadcrumb.setUnLinkedBreadcrumbList(breadcrumbItems);
-            breadcrumb.addStyleName("KS-Header-Breadcrumb");
-        }
+        breadcrumb.setUnLinkedBreadcrumbList(breadcrumbItems);
+        breadcrumb.addStyleName("KS-Header-Breadcrumb");
 
     }   
 
