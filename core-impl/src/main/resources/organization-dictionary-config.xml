@@ -7,14 +7,14 @@
 	 ">
 	 <dict:objectStructure key="orgInfo">
 		<dict:type key="kuali.org.Program">
-			<dict:state key="active">
-				<dict:field key="desc">
+			<dict:state id="kuali.org.orgInfo.Program.active" key="active">
+				<dict:field id="field1" key="desc">
 					<dict:fieldDescriptor>
 						<dict:name>Description</dict:name>
 						<dict:desc>Description of this Org.</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
+						<dict:maxOccurs>1</dict:maxOccurs> 
 					</dict:fieldDescriptor>
 				</dict:field>
 				<dict:field key="longName">
@@ -63,6 +63,7 @@
 					</dict:fieldDescriptor>
 				</dict:field>
 			</dict:state>
+			<dict:state key="proposed" parent="kuali.org.orgInfo.Program.active"/>
 		</dict:type>
 
 		<dict:type key="kuali.org.College">

@@ -24,7 +24,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="stateSelector">
-		<xsd:sequence maxOccurs="unbounded">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
 			<xsd:choice>
 				<xsd:element name="field" type="fieldSelector"></xsd:element>
 				<xsd:element ref="beans:ref" />
@@ -36,7 +36,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="typeSelector">
-		<xsd:sequence maxOccurs="unbounded">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
 			<xsd:choice>
 				<xsd:element name="state" type="stateSelector"></xsd:element>
 				<xsd:element ref="beans:ref" />
@@ -47,7 +47,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="objectStructure">
-		<xsd:sequence maxOccurs="unbounded">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
 			<xsd:choice>
 				<xsd:element name="type" type="typeSelector"></xsd:element>
 				<xsd:element ref="beans:ref" />

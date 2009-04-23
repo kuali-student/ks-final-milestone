@@ -59,17 +59,23 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 
         if("state".equals(element.getLocalName())){
             List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
-            builder.addPropertyValue("field",refList);
+            if(refList!=null&&!refList.isEmpty()){
+            	builder.addPropertyValue("field",refList);
+            }
         }else if("type".equals(element.getLocalName())){
             List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
-            builder.addPropertyValue("state",refList);
+            if(refList!=null&&!refList.isEmpty()){
+            	builder.addPropertyValue("state",refList);
+            }
         }else if("objectStructure".equals(element.getLocalName())){
     		if(element.hasAttribute("key")){
                 builder.addPropertyValue("objectTypeKey", element.getAttribute("key"));
     		}
 
         	List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
-            builder.addPropertyValue("type",refList);
+        	if(refList!=null&&!refList.isEmpty()){
+        		builder.addPropertyValue("type",refList);
+        	}
 
         }else{
 	        //Parse the children
@@ -78,7 +84,9 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	            if(Node.ELEMENT_NODE == node.getNodeType()){
 	                if(isList(node.getLocalName())){
 	                    List<?> refList = pc.getDelegate().parseListElement((Element) node, pc.getContainingBeanDefinition());
-	                    builder.addPropertyValue(node.getLocalName(),refList);
+	                    if(refList!=null&&!refList.isEmpty()){
+	                    	builder.addPropertyValue(node.getLocalName(),refList);
+	                    }
 	                }else{
 	                    Element childElement = getFirstChildElement(node);
 	                    if(childElement!=null){
