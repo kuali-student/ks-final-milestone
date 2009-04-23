@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.ui.kitchensink.client.kscommons.pagetable;
-
+import org.kuali.student.core.dto.Idable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -23,7 +23,9 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
-public class Staffer implements IsSerializable{
+public class Staffer implements IsSerializable, Idable{
+    
+    private String id;
     private String institution;
     private String name;
     private String ftePercent;
@@ -140,5 +142,16 @@ public class Staffer implements IsSerializable{
      */
     public void setSubTeamName(String subTeamName) {
         this.subTeamName = subTeamName;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+        
     }
 }
