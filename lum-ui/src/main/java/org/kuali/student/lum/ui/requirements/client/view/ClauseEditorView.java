@@ -1,7 +1,12 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -177,11 +182,11 @@ public class ClauseEditorView extends ViewComposite {
         
     }
     
-    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, List<ReqCompFieldInfo> fields) {
+    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) {
         
         parentWidget.clear();
         FlowPanel innerReqComponentTextPanel = new FlowPanel();
-        String[] tokens = reqInfoDesc.split("[<>]");
+        final String[] tokens = reqInfoDesc.split("[<>]");
         boolean isValueWidget = true;
         
         for (int i = 0; i < tokens.length; i++) {
@@ -201,6 +206,7 @@ public class ClauseEditorView extends ViewComposite {
             //System.out.println("TAG: " + tag);
             if ((tag.equals("requiredCount")) || (tag.equals("gpa")) || (tag.equals("clu"))) {
                 KSTextBox valueWidget = new KSTextBox();
+                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
@@ -213,13 +219,34 @@ public class ClauseEditorView extends ViewComposite {
                 if (i > 0) {
                     
                 }
-                KSTextBox valueWidget = new KSTextBox();
+                final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
-                valueWidget.setName(tokens[i]);                
+                valueWidget.setName(tokens[i]);
+                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
                 valueWidget.setWidth("250px");
                 innerReqComponentTextPanel.add(valueWidget);
-                SearchDialog searchDialog = new SearchDialog(getController());
+                final SearchDialog searchDialog = new SearchDialog(
+                        getController());
+                searchDialog.addCourseAddHandler(new ClickHandler() {
+                    public void onClick(ClickEvent event) {
+                        String origFieldValue = valueWidget.getText();
+                        int fieldValueCount = 0;
+                        origFieldValue = (origFieldValue == null)? "" : origFieldValue;
+                        StringBuilder newFieldValue = new StringBuilder("");
+                        SortedSet<String> newValues = new TreeSet<String>();
+                        newValues.addAll(Arrays.asList(origFieldValue.split(", +")));
+                        newValues.addAll(searchDialog.getSelections());
+                        for (String newValue : newValues) {
+                            if (fieldValueCount > 0) {
+                                newFieldValue.append(", ");
+                            }
+                            newFieldValue.append(newValue);
+                            fieldValueCount++;
+                        }
+                        valueWidget.setText(newFieldValue.toString());
+                    }
+                });
                 innerReqComponentTextPanel.add(searchDialog);
                 continue;                                
             }       
@@ -227,22 +254,43 @@ public class ClauseEditorView extends ViewComposite {
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
     
+    private ReqCompFieldInfo getReqCompFieldInfo(List<ReqCompFieldInfo> fields, String key) {
+        ReqCompFieldInfo result = null;
+        if (fields == null) {
+            return null;
+        }
+        for (ReqCompFieldInfo fieldInfo : fields) {
+            if (fieldInfo.getId().equals(key)) {
+                result = fieldInfo;
+            }
+        }
+        return result;
+    }
+    
+    private void setSpecificFieldValue(List<ReqCompFieldInfo> fields, String key, String value) {
+        ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, key);
+        
+        if (reqCompFieldInfo == null) {
+            System.out.println("Fields null");
+        }
+        
+        reqCompFieldInfo.setValue(value);
+    }
+    
     private String getSpecificFieldValue(List<ReqCompFieldInfo> fields, String key) {
+        ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, key);
+        String result = null;
         
         //if we are showing new req. comp. type then show empty fields
-        if (fields == null) {
+        if (reqCompFieldInfo == null) {
             System.out.println("Fields null");
             return "";
         }
-    
-        for (ReqCompFieldInfo fieldInfo : fields) {
-            if (fieldInfo.getId().equals(key)) {
-                return fieldInfo.getValue();
-            }
-        }
         
-        System.out.println("DID NOT FIND GIVEN KEY ??? key: " + key);
-        return "";
+        result = reqCompFieldInfo.getValue();
+        result = (result == null)? "" : result;
+    
+        return result;
     }
 
     public ReqComponentInfo getEditedReqComp() {

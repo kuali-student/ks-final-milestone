@@ -77,6 +77,9 @@ public class SearchDialog extends Composite {
     }
 
 
+    public void addCourseAddHandler(ClickHandler addCourseHandler) {
+        btnOK.addClickHandler(addCourseHandler);
+    }
 
     public void layoutWidgets() {
         
@@ -132,6 +135,18 @@ public class SearchDialog extends Composite {
                 cluList.setListItems(listItemClus);
             }
         });
+    }
+    
+    public List<String> getSelections() {
+        List<String> selections = new ArrayList<String>();
+        ListItems listItems = cluList.getListItems();
+        List<String> selectedIds = cluList.getSelectedItems();
+        if (listItems != null && selectedIds != null) {
+            for (String id : selectedIds) {
+                selections.add(listItems.getItemAttribute(id, "?"));
+            }
+        }
+        return selections;
     }
 
     private void setupHandlers() {
