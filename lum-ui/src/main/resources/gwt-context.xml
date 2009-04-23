@@ -51,7 +51,7 @@
 	</bean>
 	
 	<bean id="LuServiceGwt" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuServiceGwt">
-		<property name="luService" ref="lumClient" />
+		<property name="service" ref="lumClient" />
 	</bean>
 
 	<bean id="messagesServiceGwt"

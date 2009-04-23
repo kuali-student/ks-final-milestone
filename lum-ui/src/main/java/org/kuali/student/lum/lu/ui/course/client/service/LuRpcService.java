@@ -15,10 +15,10 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import org.kuali.student.common.ui.client.service.BaseServicesRpc;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
@@ -27,7 +27,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  * @author Kuali Student Team
  *
  */
-public interface LuRpcService extends RemoteService {
+public interface LuRpcService extends BaseServicesRpc {
         
         public static final String SERVICE_URI = "LuRpcService";
 

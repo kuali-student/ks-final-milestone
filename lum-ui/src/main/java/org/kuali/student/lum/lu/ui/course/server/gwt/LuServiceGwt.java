@@ -15,6 +15,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import org.kuali.student.common.ui.server.BaseServicesRpcAbstract;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -27,35 +28,22 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
  * 
  * @author Kuali Student Team
  *
  */
-public class LuServiceGwt extends RemoteServiceServlet implements LuRpcService{
+public class LuServiceGwt extends BaseServicesRpcAbstract<LuService> implements LuRpcService{
 
     private static final long serialVersionUID = 1L;
-
-    LuService luService;
-    
-    public LuService getLuService() {
-        return luService;
-    }
-    
-    public void setLuService(LuService luService) {
-        this.luService = luService;
-    }
-
     
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
      */
     public CluInfo createClu(String luTypeKey, CluInfo cluInfo) {
         try {
-            return luService.createClu(luTypeKey, cluInfo);
+            return service.createClu(luTypeKey, cluInfo);
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
         } catch (DataValidationErrorException e) {
@@ -81,7 +69,7 @@ public class LuServiceGwt extends RemoteServiceServlet implements LuRpcService{
     public CluInfo updateClu(String cluId, CluInfo cluInfo) {
 
         try {
-            return luService.updateClu(cluId, cluInfo);
+            return service.updateClu(cluId, cluInfo);
         } catch (DataValidationErrorException e) {
             e.printStackTrace();
         } catch (DoesNotExistException e) {
