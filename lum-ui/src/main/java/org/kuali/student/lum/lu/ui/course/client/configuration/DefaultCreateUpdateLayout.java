@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
+import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,16 +41,19 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 	public ConfigurableLayout<T> addSection(final String[] hierarchy,
 			final LayoutSection<T> section) {
 		String path = "";
+		
 		KSMenuItemData current = null;
 		for (int i=0; i<hierarchy.length; i++) {
-			path = "/" + hierarchy[i];
+			path = path + "/" + hierarchy[i];
 			KSMenuItemData item = sectionMap.get(path);
 			if (item == null) {
 				item = new KSMenuItemData(hierarchy[i]);
 				if (current == null) {
 					topLevelMenuItems.add(item);
+					current = item;
 				} else {
 					current.addSubItem(item);
+					current = item;
 				}
 				sectionMap.put(path, item);
 			} else {
@@ -57,13 +61,12 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 			}
 		}
 		
-		/*
 		current.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showSection(section);
 			}
 		});
-		*/
+		
 		
 		return this;
 	}
@@ -75,7 +78,9 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 
 	@Override
 	public void render() {
-		final KSAccordionMenu sectionMenu = new KSAccordionMenu();
+		final KSBasicMenu sectionMenu = new KSBasicMenu();
+		sectionMenu.setTitle("Proposal Sections");
+		sectionMenu.setDescription("complete sections to submit");
 		sectionMenu.setItems(topLevelMenuItems);
 		menuPanel.clear();
 		menuPanel.add(sectionMenu);
