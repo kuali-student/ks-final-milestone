@@ -1,0 +1,260 @@
+.Course-Home-Menu-Item{
+	background-color: #dbdbdd;
+	background: url("images/Home-unselected-button.jpg") repeat-x;
+	font-weight: bold;
+	font-size: 10pt;
+	border: 1px solid #a2a3a5;
+	height: 40px;
+	width: 100%;
+	margin:0px;
+}
+
+.Course-Home-Menu-Label{
+	font-weight: bold;
+	font-size: 10pt;
+	color: #6b6d6a;
+	margin-left:10px;
+	margin-left:5px;
+}
+
+.Course-Home-Menu-Item-Selected{
+	background-color: #233259;
+	background: url("images/Home-selected-button.jpg") repeat-x;
+	border-color: 1px solid #20335b;
+}
+
+.Course-Home-Menu-Label-Selected{
+	color: #96a6b6;
+}
+
+.Course-Home-Menu-Item-Hover{
+	cursor: pointer;
+}
+
+.Course-Home-Menu-Panel{
+	width: 145px;
+	height: 100%;
+}
+
+.Course-Home-Content-Panel{
+	width: 610px;
+	height: 100%;
+}
+
+.Course-Home-Main-Panel{
+	width: 555px;
+	height: 320px;
+	border: 1px solid #808080;
+}
+
+.Home-Description-Label{
+	font-size: 8pt;
+	width: 200px;
+}
+
+.Home-Standard-Button{
+	color: black;
+	font-size:10pt;
+	width:175px;
+}
+
+.Home-Button-Row{
+	height: 50px;
+	width: 100%;
+}
+
+.Content-Margin{
+	margin-left: 25px;
+	margin-right: 25px;
+	margin-bottom: 25px;
+}
+
+.Home-Horizontal-Break{
+	width: 100%;
+	margin-left: 10px;
+	margin-right: 20px;
+	margin-top: 20px;
+}
+
+.Home-Small-Hyperlink{
+	font-size: 8pt;
+}
+
+.Home-Category-Label{
+	font-weight: bold;
+}
+
+.Home-Search-Textbox{
+	width: 250px;
+}
+
+.Home-Blue-Button{
+	color: white;
+	background: url("images/Home-selected-button.jpg") repeat-x;
+	font-weight: bold;
+}
+
+.KS-ReqMgr-Heading{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: black;
+	font-weight: bold;
+	text-decoration: underline;	
+	font-size:12pt;
+	width: 100%;
+}
+
+.KS-ReqMgr-SubHeading{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: black;
+	font-weight: bold;
+	font-size:11pt;
+	width: 100%;
+}
+
+.KS-RuleEditor-SubHeading{
+	/* margin-top: 10px;
+	margin-bottom: 10px; */
+	color: black;
+	font-weight: bold;
+	font-size:11pt;
+	width: 100%;
+}
+
+.KS-ReqMgr-NoRuleText{
+	color: gray;
+	font-style: italic;	
+	font-size:10pt;
+	width: 100%;
+}
+
+.KS-RuleEditor-ExampleText1{
+	margin-bottom: 50px;
+	margin-top: 10px;
+	margin-right: 0px;
+	color: gray;
+	font-size:10pt;
+	/* width: 100%;	 */
+}
+
+.KS-RuleEditor-ExampleText2{
+	margin-top: 10px;
+	color: gray;
+	font-style: italic;	
+	font-size:10pt;
+	float: left;		
+	width: 100%;	
+}
+
+.KS-RuleEditor-LabelPanel{
+	margin-left: 30px;
+	margin-right: 60px;
+	color: gray;
+	font-size:10pt;
+}
+
+.KS-RuleEditor-SimplePanel-ReqCompTypes{
+	margin-top: 40px;
+}
+
+.KS-Rules-Standard-Button{
+	margin-top: 20px;
+	color: white;
+	background: url("images/Home-selected-button.jpg") repeat-x;	
+	font-size:10pt;
+	width:160px;
+}
+
+.KS-Rules-Tight-Button{
+	color: white;
+	background: url("images/Home-selected-button.jpg") repeat-x;	
+	font-size:10pt;
+}
+
+.KS-Rules-Link{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 8pt;
+	text-decoration: underline;	
+	cursor: pointer;
+}
+
+.KS-Rules-Link-Right{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 8pt;
+	text-decoration: underline;	
+	cursor: pointer;
+	text-align: center	
+}
+
+.KS-Textbox-Fix {
+	border:1px solid #4583D5;
+	margin-left: 10x;
+	margin-right: 10x;
+}
+
+.KS-Rules-BoldText{
+	font-weight: bold;
+}
+
+.KS-Rules-FullWidth{
+	width: 100%;
+}
+
+.KS-ReqCompEditor-BottomButtons{
+	width: 100%;
+	margin-top: 60px;
+}
+
+.KS-Rules-FlexPanelFix{
+	float: left;
+}
+
+.KS-ReqCompEditor-EditFirstColumn{
+	width: 100px;
+}
+
+.KS-Rules-SearchPanel{
+	width: 450px;
+	height: 300px;
+}
+
+.KS-ReqComp-Selected{
+	background-color: #FFFF99;
+	border: 2px #d1ec4c outset;
+	padding: 1px 4px;
+	color: black;
+	text-decoration: none;
+	/* font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif; */
+}
+
+.KS-ReqComp-DeSelected{
+	background-color: #FFFFFF;
+	border: 2px #d1ec4c outset;
+	padding: 1px 4px;
+	color: black;
+	text-decoration: none;
+	/* font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif; */
+}
+
+.KS-ReqComp-RaisedButtonText-visited{
+	color: black;
+}
+
+.KS-ReqComp-RaisedButtonText-hover{
+	border-style: inset;
+	background-color: #e3f48e;
+	padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
+}
+
+.KS-ReqComp-RaisedButtonText-active{
+	color: black;
+}
+
+.KS-RichText-Normal{
+	width: 400px;
+	height: 90px;
+}
+
