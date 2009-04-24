@@ -113,9 +113,33 @@
 	</xsd:complexType>
 	
 	<xsd:complexType name="contextValueDescriptorSelector">
-		<xsd:sequence maxOccurs="unbounded">
-			<xsd:element name="desc" type="xsd:string"></xsd:element>
-		</xsd:sequence>
+		<xsd:choice>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element name="name" type="xsd:string" minOccurs="0"
+					maxOccurs="1"></xsd:element>
+				<xsd:element name="desc" type="xsd:string" minOccurs="0"
+					maxOccurs="1"></xsd:element>
+				<xsd:element name="dataType" type="xsd:string"
+					minOccurs="0" maxOccurs="1"></xsd:element>
+				<xsd:element name="minLength" type="xsd:int" minOccurs="0"
+					maxOccurs="1"></xsd:element>
+				<xsd:element name="maxLength" type="xsd:int" minOccurs="0"
+					maxOccurs="1"></xsd:element>
+				<xsd:element name="validChars" type="xsd:string"
+					minOccurs="0" maxOccurs="1"></xsd:element>
+				<xsd:element name="invalidChars" type="xsd:string"
+					minOccurs="0" maxOccurs="1"></xsd:element>
+				<xsd:element name="minOccurs" type="xsd:int" minOccurs="0"
+					maxOccurs="1"></xsd:element>
+				<xsd:element name="maxOccurs" type="xsd:int" minOccurs="0"
+					maxOccurs="1"></xsd:element>
+				<xsd:element name="readOnly" type="xsd:boolean"
+					minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:element ref="beans:ref" maxOccurs="1" minOccurs="1" />
+		</xsd:choice>
+		<xsd:attribute name="parent" type="xsd:IDREF"></xsd:attribute>
+		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 

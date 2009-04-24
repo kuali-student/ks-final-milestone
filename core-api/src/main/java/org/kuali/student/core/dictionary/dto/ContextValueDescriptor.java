@@ -41,7 +41,8 @@ public class ContextValueDescriptor implements Serializable{
     protected String invalidChars;
     protected Integer minOccurs;
     protected Integer maxOccurs;
-
+    protected boolean readOnly;
+    
 	public String getDesc() {
 		return desc;
 	}
@@ -247,5 +248,13 @@ public class ContextValueDescriptor implements Serializable{
     	fieldDescMap.put("dataType", dataType);
     	return fieldDescMap;
     }
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
 
 }
