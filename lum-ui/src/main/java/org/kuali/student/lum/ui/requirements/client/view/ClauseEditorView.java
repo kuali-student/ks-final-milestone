@@ -42,7 +42,6 @@ public class ClauseEditorView extends ViewComposite {
     private KSButton btnCancelView = new KSButton("Cancel");
     private KSButton addReqComp = new KSButton("Add Rule");
     private KSButton submitReqComp = new KSButton("Submit");
-    private KSButton addCourses = new KSButton("Add Courses");
     KSListBox compReqTypesList = new KSListBox();
     SimplePanel reqCompDesc = new SimplePanel();  
     HorizontalPanel examplePanel = new HorizontalPanel();
@@ -318,11 +317,6 @@ public class ClauseEditorView extends ViewComposite {
             //this token is a text only
             if (isValueWidget == false) {
                 KSLabel text = new KSLabel(tokens[i]);
-                SimplePanel tempPanel = new SimplePanel();
-                //tempPanel.add(text);
-                //tempPanel.addStyleName("KS-Rules-FlexPanelFix");
-                
-                //text.setStyleName("KS-Textbox-Fix");
                 text.addStyleName("KS-Rules-FlexPanelFix");  
                 innerReqComponentTextPanel.add(text);
                 continue;
@@ -350,10 +344,10 @@ public class ClauseEditorView extends ViewComposite {
             }
             
             if (tag.equals("cluSet")) {
-                KSTextBox valueWidget = new KSTextBox();
+                final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
-                //final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
+                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));             
                 valueWidget.setWidth("50px");                           
                 valueWidget.setStyleName("KS-Textbox-Fix"); 
@@ -362,9 +356,8 @@ public class ClauseEditorView extends ViewComposite {
                 tempPanel.setStyleName("KS-Rules-FlexPanelFix");
                 tempPanel.add(valueWidget);                     
                 innerReqComponentTextPanel.add(tempPanel);
-                /*
                 final SearchDialog searchDialog = new SearchDialog(getController());
-                addCourses.addCourseAddHandler(new ClickHandler() {
+                searchDialog.addCourseAddHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
                         String origFieldValue = valueWidget.getText();
                         int fieldValueCount = 0;
@@ -374,7 +367,8 @@ public class ClauseEditorView extends ViewComposite {
                         newValues.addAll(Arrays.asList(origFieldValue.split(", +")));
                         newValues.addAll(searchDialog.getSelections());
                         for (String newValue : newValues) {
-                            if (fieldValueCount > 0) {
+                            if (fieldValueCount > 0 && 
+                                    newFieldValue.toString().trim().length() > 0) {
                                 newFieldValue.append(", ");
                             }
                             newFieldValue.append(newValue);
@@ -382,11 +376,8 @@ public class ClauseEditorView extends ViewComposite {
                         }
                         valueWidget.setText(newFieldValue.toString());
                     }
-                }); */
-  
-                addCourses.setStyleName("KS-Rules-Tight-Button");
-                addCourses.addStyleName("KS-Rules-FlexPanelFix");  
-                innerReqComponentTextPanel.add(addCourses);
+                });
+                innerReqComponentTextPanel.add(searchDialog);
                 continue;                                
             }       
         }

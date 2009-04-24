@@ -51,20 +51,12 @@ public class SearchDialog extends Composite {
         popupPanel.setWidget(testPanel);
         popupPanel.setHeader("Courses");
         popupPanel.setModal(true);
-//        btnAddCourse.setWidth("10px");
-//        btnAddCourse.setText(text)
-        btnAddCourse.addStyleName("KS-Rules-Choice-Buttons");
-//        testElement.set("font-size", "40px");
+        btnAddCourse.addStyleName("KS-Rules-Tight-Button");
+        btnAddCourse.addStyleName("KS-Rules-FlexPanelFix");
         mainPanel.setWidget(btnAddCourse);
-        btnAddCourse.setStyleName("KS-Rules-Standard-Button"); 
         setupHandlers();
         layoutWidgets();
     }
-    
-    public void setMultipleSelect(boolean multipleSelect) {
-        cluList.setMultipleSelect(multipleSelect);
-    }
-    
     
     public void show() {
         if (model == null) {

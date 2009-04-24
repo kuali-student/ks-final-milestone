@@ -1,5 +1,10 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -72,7 +77,32 @@ public class SimpleView extends ViewComposite {
         {
             redraw();
         }
-    }    
+    }
+    
+    /**
+     * returns a comma delimited string that represents the union of the originalValue and selectedValues
+     * @param originalValue
+     * @param selectedValues
+     * @return
+     */
+    private String combineValues(String originalValue, List<String> selectedValues) {
+        int fieldValueCount = 0;
+        String tempOriginalValue = 
+            (originalValue == null)? "" : originalValue;
+        StringBuilder newFieldValue = new StringBuilder("");
+        SortedSet<String> newValues = new TreeSet<String>();
+        newValues.addAll(Arrays.asList(tempOriginalValue.split(", +")));
+        newValues.addAll(selectedValues);
+        for (String newValue : newValues) {
+            if (fieldValueCount > 0 && 
+                    newFieldValue.toString().trim().length() > 0) {
+                newFieldValue.append(", ");
+            }
+            newFieldValue.append(newValue);
+            fieldValueCount++;
+        }
+        return newFieldValue.toString();
+    }
     
     private void redraw() {
         Panel simpleView = new VerticalPanel();
@@ -96,13 +126,23 @@ public class SimpleView extends ViewComposite {
         choice4.setSpacing(5);
         // choice 1
         KSLabel lbChoice1 = new KSLabel("The following course(s):");
-        SearchDialog searchPanelChoice1 = new SearchDialog(getController());
+        final SearchDialog searchPanelChoice1 = new SearchDialog(getController());
         lbChoice1.addStyleName("KS-Rules-Choices");
         choice1.add(rbCourseList);
         choice1.add(lbChoice1);
         choice1CourseList.setWidth("150px");
         choice1.add(choice1CourseList);
         choice1.add(searchPanelChoice1);
+        searchPanelChoice1.addCourseAddHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                String origFieldValue = choice1CourseList.getText();
+                String newFieldValue = 
+                    combineValues(
+                            origFieldValue,
+                            searchPanelChoice1.getSelections());
+                choice1CourseList.setText(newFieldValue);
+            }
+        });
         
         // choice 2
         KSLabel lbChoice2 = new KSLabel("or");
@@ -115,7 +155,7 @@ public class SimpleView extends ViewComposite {
         choice2.add(choice2CourseB);
         // choice 3
         KSLabel lbChoice3 = new KSLabel("credits from the following course(s):");
-        SearchDialog searchPanelChoice3 = new SearchDialog(getController());
+        final SearchDialog searchPanelChoice3 = new SearchDialog(getController());
         lbChoice3.addStyleName("KS-Rules-Choices");
         choice3.add(rbNumCreditFromCourseList);
         choice3NumCredits.setWidth("50px");
@@ -124,6 +164,16 @@ public class SimpleView extends ViewComposite {
         choice3CourseList.setWidth("150px");
         choice3.add(choice3CourseList);
         choice3.add(searchPanelChoice3);
+        searchPanelChoice3.addCourseAddHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                String origFieldValue = choice3CourseList.getText();
+                String newFieldValue = 
+                    combineValues(
+                            origFieldValue,
+                            searchPanelChoice3.getSelections());
+                choice3CourseList.setText(newFieldValue);
+            }
+        });
         // choice 4
         KSLabel lbChoice4 = new KSLabel("Use an");
         lbChoice4.addStyleName("KS-Rules-Choices");
