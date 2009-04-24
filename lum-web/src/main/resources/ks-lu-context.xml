@@ -84,6 +84,7 @@
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="searchManager" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryServiceDelegate" />
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 	</bean>
 

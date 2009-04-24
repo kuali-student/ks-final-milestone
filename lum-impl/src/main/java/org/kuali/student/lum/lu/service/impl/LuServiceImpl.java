@@ -15,6 +15,7 @@ import javax.jws.WebService;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
@@ -105,11 +106,16 @@ public class LuServiceImpl implements LuService {
 
 	private LuDao luDao;
     private SearchManager searchManager;
+    private DictionaryService dictionaryServiceDelegate;
     private NaturalLanguageTranslator naturalLanguageTranslator;
 
 	public void setSearchManager(SearchManager searchManager) {
 		this.searchManager = searchManager;
 	}
+
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+    }
 
 	public void setNaturalLanguageTranslator(NaturalLanguageTranslator translator) {
 		this.naturalLanguageTranslator = translator;
@@ -2375,28 +2381,24 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public ObjectStructure getObjectStructure(String objectTypeKey) {
-		// TODO Auto-generated method stub
-		return null;
+		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
 	}
 
 	@Override
 	public List<String> getObjectTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return dictionaryServiceDelegate.getObjectTypes();
 	}
 
 	@Override
 	public boolean validateObject(String objectTypeKey, String stateKey,
 			String info) {
-		// TODO Auto-generated method stub
-		return false;
+		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
 	}
 
 	@Override
 	public boolean validateStructureData(String objectTypeKey, String stateKey,
 			String info) {
-		// TODO Auto-generated method stub
-		return false;
+		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
 	}
 
 	@Override
