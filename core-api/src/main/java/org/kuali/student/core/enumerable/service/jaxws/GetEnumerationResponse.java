@@ -15,9 +15,9 @@ import org.kuali.student.core.enumerable.dto.EnumeratedValue;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getEnumerationResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlRootElement(name = "getEnumerationResponse", namespace = "http://student.kuali.org/core/enumerable")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getEnumerationResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlType(name = "getEnumerationResponse", namespace = "http://student.kuali.org/core/enumerable")
 
 public class GetEnumerationResponse {
 
