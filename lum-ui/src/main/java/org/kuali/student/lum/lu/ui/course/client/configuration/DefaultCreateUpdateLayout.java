@@ -24,11 +24,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLayout<T> {
 	private final HorizontalPanel panel = new HorizontalPanel();
-	private final SimplePanel menuPanel = new SimplePanel();
+	private final VerticalPanel menuPanel = new VerticalPanel();
 	private final SimplePanel contentPanel = new SimplePanel();
 	
 	private final Map<String, KSMenuItemData> sectionMap = new HashMap<String, KSMenuItemData>();
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
+	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
 	
 	public DefaultCreateUpdateLayout() {
 		super.initWidget(panel);
@@ -71,6 +72,19 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 		return this;
 	}
 	
+	public ConfigurableLayout<T> addViewSection(String viewName,
+            final LayoutSection<T> section) {
+	    KSMenuItemData item = new KSMenuItemData(viewName);
+	    viewMenuItems.add(item);
+	    item.setClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                showSection(section);
+            }
+        });
+	    
+	    return this;
+	}
+	
 	protected void showSection(LayoutSection<T> section) {
 		contentPanel.clear();
 		contentPanel.setWidget(section);
@@ -82,7 +96,11 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 		sectionMenu.setTitle("Proposal Sections");
 		sectionMenu.setDescription("complete sections to submit");
 		sectionMenu.setItems(topLevelMenuItems);
+		final KSBasicMenu viewMenu = new KSBasicMenu();
+        viewMenu.setTitle("Views...");
+        viewMenu.setItems(viewMenuItems);
 		menuPanel.clear();
+		menuPanel.add(viewMenu);
 		menuPanel.add(sectionMenu);
 		
 		contentPanel.clear();

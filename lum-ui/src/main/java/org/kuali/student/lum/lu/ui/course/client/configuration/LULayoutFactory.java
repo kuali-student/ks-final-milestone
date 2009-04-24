@@ -66,6 +66,19 @@ public class LULayoutFactory {
 	private ConfigurableLayout<CluInfo> getProposedCourseLayout(
 			final Map<String, FieldDescriptor> fields) {
 		return new DefaultCreateUpdateLayout<CluInfo>() {{
+		    
+		    addViewSection("Overview", 
+		            new SimpleConfigurableSection<CluInfo>()
+		    );
+		    
+		    addViewSection("Checklist", 
+		            new SimpleConfigurableSection<CluInfo>()
+		    );
+		    
+		    addViewSection("Proposal Summary", 
+		            new SimpleConfigurableSection<CluInfo>()
+		    );
+		    
 			addSection(new String[] {"Proposal Information", "Author + Collaborators"}, 
 					new SimpleConfigurableSection<CluInfo>()
 					.addField(new ConfigurableField<CluInfo>()
@@ -172,8 +185,62 @@ public class LULayoutFactory {
 					.setInstructions("Instructions go here...")
 						
 			);
+			
+			addSection(new String[] {"Proposal Information", "Governance"}, 
+	                new SimpleConfigurableSection<CluInfo>()
+	        );
+			
+			addSection(new String[] {"Proposal Information", "Course Format"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Academic Content", "Course Information"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Academic Content", "Learning Objectives"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Academic Content", "Syllabus"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Academic Content", "Learning Results"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Student Eligibility", "Course Restrictions"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Student Eligibility", "Pre + Co Requisites"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Administrative", "Credits"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Administrative", "Active Dates"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Administrative", "Financials"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Administrative", "Program Requirements"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
+			
+			addSection(new String[] {"Attachments", "Supporting Documents"}, 
+                    new SimpleConfigurableSection<CluInfo>()
+            );
 
 		}};
+		
+		
 	}
 
 
