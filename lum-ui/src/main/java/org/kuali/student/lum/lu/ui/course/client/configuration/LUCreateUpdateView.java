@@ -8,23 +8,41 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUCreateUpdateView extends Composite implements View {
-	private final ConfigurableLayout<CluInfo> layout;
+	private final SimplePanel panel = new SimplePanel();
+    private ConfigurableLayout<CluInfo> layout;
 	private final Validator validator;
+	private final String luType;
+	private final String luState;
 	
 	public LUCreateUpdateView(String type, String state, Validator validator) {
 		this.validator = validator;
-		this.layout = getLayout(type, state);
-		super.initWidget(layout);
+		this.luType = type;
+		this.luState = state;
+		
+        LuRpcService.Util.getInstance().getObjectStructure("cluInfo", new AsyncCallback<ObjectStructure>(){
+            public void onFailure(Throwable caught) {
+                GWT.log("Unable to load object structure", caught);                
+            }
+
+            @Override
+            public void onSuccess(ObjectStructure result) {
+                layout = getLayout(result, luType, luState);
+                panel.setWidget(layout);
+            }
+        });
+        
+		super.initWidget(panel);
 	}
 	
-	private ConfigurableLayout<CluInfo> getLayout(String type, String state) {
-		// TODO wire in calls to LU service to get the ObjectStructure
-		ObjectStructure structure = null; // this is going to explode if someone runs it :)
-		
+	private ConfigurableLayout<CluInfo> getLayout(ObjectStructure structure, String type, String state) {	   	
 		LULayoutFactory factory = new LULayoutFactory(structure, validator);
 		return factory.getLayout(type, state);
 	}

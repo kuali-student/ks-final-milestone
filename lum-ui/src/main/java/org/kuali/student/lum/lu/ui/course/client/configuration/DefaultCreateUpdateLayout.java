@@ -57,11 +57,13 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 			}
 		}
 		
+		/*
 		current.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showSection(section);
 			}
 		});
+		*/
 		
 		return this;
 	}
