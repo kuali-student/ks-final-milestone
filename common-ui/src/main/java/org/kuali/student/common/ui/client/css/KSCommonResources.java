@@ -73,4 +73,10 @@ public interface KSCommonResources extends ImmutableResourceBundle{
 	public CssResource sidebarCss();
     @Resource("org/kuali/student/common/ui/public/KSToolTip.css")
 	public CssResource toolTipCss();
+    @Resource("org/kuali/student/common/ui/public/KSBasicMenu.css")
+    public CssResource basicMenuCss();
+    @Resource("org/kuali/student/common/ui/public/KSPickList.css")
+    public CssResource pickListCss();
+    @Resource("org/kuali/student/common/ui/public/KSSelectableTableList.css")
+    public CssResource selectableTableListCss();
 }

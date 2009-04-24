@@ -135,6 +135,22 @@ public interface KSStyles {
     public static final String KS_PICK_LIST_UNSELECTED_LABEL = "KS-Pick-List-Unselected-Label";
     public static final String KS_PICK_LIST_SELECTED_LABEL = "KS-Pick-List-Selected-Label";
     public static final String KS_PICK_LIST_TABLE_LAYOUT = "KS-Pick-List-Table-Layout";
+   
+    public static final String KS_BASIC_MENU_PARENT_CONTAINER = "KS-Basic-Menu-Parent-Container";
+    public static final String KS_BASIC_MENU_TITLE_PANEL = "KS-Basic-Menu-Title-Panel";
+    public static final String KS_BASIC_MENU_PANEL = "KS-Basic-Menu-Panel";
+    public static final String KS_BASIC_MENU_TITLE_LABEL = "KS-Basic-Menu-Title-Label";
+    public static final String KS_BASIC_MENU_DESC_LABEL = "KS-Basic-Menu-Desc-Label";
+    public static final String KS_BASIC_MENU_CLICKABLE_ITEM_LABEL = "KS-Basic-Menu-Clickable-Item-Label";
+    public static final String KS_BASIC_MENU_ITEM_LABEL = "KS-Basic-Menu-Item-Label";
+    public static final String KS_BASIC_MENU_ITEM_PANEL = "KS-Basic-Menu-Item-Panel";
+    public static final String KS_BASIC_MENU_ITEM_PANEL_SELECTED = "KS-Basic-Menu-Item-Panel-Selected";
+    public static final String KS_BASIC_MENU_ITEM_LABEL_SELECTED = "KS-Basic-Menu-Item-Label-Selected";
+    public static final String KS_BASIC_MENU_ITEM_PANEL_HOVER = "KS-Basic-Menu-Item-Panel-Hover";
+    public static final String KS_BASIC_MENU_ITEM_LABEL_HOVER = "KS-Basic-Menu-Item-Label-Hover";
+    public static final String KS_BASIC_MENU_TOPLEVEL_ITEM_LABEL = "KS-Basic-Menu-Toplevel-Item-Label";
+    public static final String KS_BASIC_MENU_TOPLEVEL_ITEM_PANEL = "KS-Basic-Menu-Toplevel-Item-Panel";
+
 	
 	
 }
