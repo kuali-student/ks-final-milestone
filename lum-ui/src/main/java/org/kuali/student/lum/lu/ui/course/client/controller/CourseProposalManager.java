@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
+import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.dto.Idable;
@@ -115,32 +116,35 @@ public class CourseProposalManager extends Controller implements View {
     
     public void setup(){
         HorizontalPanel hPanel = new HorizontalPanel();
-        KSMenu menuPanel = new KSAccordionMenu();
+        KSMenu menuPanel = new KSBasicMenu(){{
+            setTitle("Proposal Sections"); 
+            setDescription("complete sections to submit");
+            }};
         
         List<KSMenuItemData> menuItems = new ArrayList<KSMenuItemData>();
         
-        KSMenuItemData proposalInfo = new KSMenuItemData("1. Proposal Information"); 
+        KSMenuItemData proposalInfo = new KSMenuItemData("Proposal Information"); 
         addSubItem(proposalInfo, "Author + Collaborators", CourseViews.COURSE_AUTHOR);
         addSubItem(proposalInfo, "Governance", CourseViews.COURSE_DUMMY);
         addSubItem(proposalInfo, "Course Format", CourseViews.COURSE_DUMMY);
         
-        KSMenuItemData academicContent = new KSMenuItemData("2. Academic Content");
+        KSMenuItemData academicContent = new KSMenuItemData("Academic Content");
         addSubItem(academicContent, "Course Information", CourseViews.COURSE_INFORMATION);
         addSubItem(academicContent, "Learning Objectives", CourseViews.COURSE_DUMMY);
         addSubItem(academicContent, "Syllabus", CourseViews.COURSE_DUMMY);
         addSubItem(academicContent, "Learning Results", CourseViews.COURSE_DUMMY);
         
-        KSMenuItemData studentElig = new KSMenuItemData("3. Student Eligibility");
+        KSMenuItemData studentElig = new KSMenuItemData("Student Eligibility");
         addSubItem(studentElig, "Course Restrictions", CourseViews.COURSE_DUMMY);
         addSubItem(studentElig, "Pre + Co Requisites", CourseViews.COURSE_DUMMY);
        
-        KSMenuItemData admin = new KSMenuItemData("4. Administrative");
+        KSMenuItemData admin = new KSMenuItemData("Administrative");
         addSubItem(admin, "Credits", CourseViews.COURSE_DUMMY);
         addSubItem(admin, "Active Dates", CourseViews.COURSE_DUMMY);
         addSubItem(admin, "Financials", CourseViews.COURSE_DUMMY);
         addSubItem(admin, "Program Requirements", CourseViews.COURSE_DUMMY);
 
-        KSMenuItemData attachments = new KSMenuItemData("5. Attachments");
+        KSMenuItemData attachments = new KSMenuItemData("Attachments");
         addSubItem(attachments, "Supporting Documents", CourseViews.COURSE_DUMMY);
         
         menuItems.add(proposalInfo);
