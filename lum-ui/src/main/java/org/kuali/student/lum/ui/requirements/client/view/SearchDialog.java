@@ -34,23 +34,27 @@ public class SearchDialog extends Composite {
         new KSModalDialogPanel();
     private KSButton btnAddCourse = new KSButton("...");
     private KSButton btnCancel = new KSButton("Cancel");
-    private KSButton btnOK = new KSButton("OK");
+    private KSButton btnAdd = new KSButton("Add");
     KSListBox cluList = new KSListBox();    
     private Model<PrereqInfo> model;
     private Controller controller;
     
     public SearchDialog(Controller controller) {
         super.initWidget(mainPanel);
-        Panel testPanel = new VerticalPanel();
+        Panel searchView = new VerticalPanel();       
         HorizontalPanel pnlButtons = new HorizontalPanel();
         this.controller = controller; 
-        testPanel.add(cluList);        
-        pnlButtons.add(btnOK);
+        searchView.add(cluList);        
+        pnlButtons.add(btnAdd);
+        btnAdd.setStyleName("KS-Rules-Standard-Button");        
         pnlButtons.add(btnCancel);
-        testPanel.add(pnlButtons);
-        popupPanel.setWidget(testPanel);
+        btnCancel.setStyleName("KS-Rules-Standard-Button");        
+        searchView.add(pnlButtons);
+        popupPanel.setWidget(searchView);
+        popupPanel.addStyleName("KS-Rules-SearchPanel");  
         popupPanel.setHeader("Courses");
         popupPanel.setModal(true);
+       // popupPanel.center();
         btnAddCourse.addStyleName("KS-Rules-Tight-Button");
         btnAddCourse.addStyleName("KS-Rules-FlexPanelFix");
         mainPanel.setWidget(btnAddCourse);
@@ -80,7 +84,7 @@ public class SearchDialog extends Composite {
 
 
     public void addCourseAddHandler(ClickHandler addCourseHandler) {
-        btnOK.addClickHandler(addCourseHandler);
+        btnAdd.addClickHandler(addCourseHandler);
     }
 
     public void layoutWidgets() {
@@ -167,7 +171,7 @@ public class SearchDialog extends Composite {
                 hide();
             }
         });
-        btnOK.addClickHandler(new ClickHandler() {
+        btnAdd.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 hide();
             }

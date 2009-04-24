@@ -115,6 +115,7 @@ public class SimpleView extends ViewComposite {
         
         CaptionPanel capPnlPickRuleType = 
             new CaptionPanel("Student must have taken:");
+        capPnlPickRuleType.setStyleName("KS-RuleEditor-SimplePanel-ReqCompTypes");        
         VerticalPanel pnlChoices = new VerticalPanel(); 
         HorizontalPanel choice1 = new HorizontalPanel(); 
         HorizontalPanel choice2 = new HorizontalPanel(); 

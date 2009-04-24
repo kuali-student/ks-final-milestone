@@ -94,63 +94,66 @@ public class ClauseEditorView extends ViewComposite {
       
         editorView.clear();
         examplePanel.clear();
+        editorView.setStyleName("KS-Rules-FullWidth"); 
                
         KSLabel Heading = new KSLabel((editedReqComp == null ? "Add Rule" : "Edit Rule"));
+        Heading.setStyleName("KS-Rules-FullWidth"); 
         Heading.setStyleName("KS-ReqMgr-Heading");
         editorView.add(Heading);
         
-        //show specific requirement component
-        HorizontalPanel reqCompPanel = new HorizontalPanel();
-        
+        //show requirement type
+        HorizontalPanel reqTypePanel = new HorizontalPanel();        
+                
         //requirement component label
         SimplePanel labelPanel = new SimplePanel();
-        labelPanel.setStyleName("KS-RuleEditor-LabelPanel");        
-        KSLabel nlHeading = new KSLabel("Rule Type");
-        nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
-        labelPanel.add(nlHeading);          
+        //labelPanel.setStyleName("KS-RuleEditor-LabelPanel");        
+        KSLabel reqTypeLabel = new KSLabel("Rule Type");
+        reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading"); 
+      //  labelPanel.add(nlHeading);
+        labelPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn");        
+        labelPanel.add(reqTypeLabel);
+        reqTypePanel.add(labelPanel);  
         
-        //requirement component specifics
-        VerticalPanel reqComponentPanel = new VerticalPanel();
-        
-        compReqTypesList.setVisible(false);
-        //System.out.println("edited comp null? -> " + (editedReqComp == null ? "NULL" : editedReqComp.getDesc()));        
+        //requirement component type name        
+        compReqTypesList.setVisible(false);       
         if (editedReqComp == null) {
-            compReqTypesList.deSelectItem("0");
-            
+            compReqTypesList.deSelectItem("0");            
             compReqTypesList.setVisible(true);
-            reqComponentPanel.add(compReqTypesList);            
+            reqTypePanel.add(compReqTypesList);            
         } else {
             KSLabel reqCompType = new KSLabel(selectedReqCompName);
             reqCompType.setStyleName("KS-Rules-BoldText");
-            reqComponentPanel.add(reqCompType);
+            reqTypePanel.add(reqCompType);
         }
-           
+        
+        //show req. component details
+        HorizontalPanel reqCompPanel = new HorizontalPanel();
+        SimplePanel emptyPanel = new SimplePanel();
+        emptyPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn");        
+        VerticalPanel reqCompDetailsPanel = new VerticalPanel(); 
+        
+        examplePanel.setSpacing(0);
         examplePanel.setStyleName("KS-Rules-FullWidth");        
-        KSLabel exampleText1 = new KSLabel("Example: ");
+        KSLabel exampleText1 = new KSLabel("Example:");
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);        
         KSLabel exampleText2 = new KSLabel("Student must have... (WIP)");
         exampleText2.setStyleName("KS-RuleEditor-ExampleText2");
         examplePanel.add(exampleText2);
-        reqComponentPanel.add(examplePanel);                
-        reqComponentPanel.add(reqCompDesc);
+        reqCompDetailsPanel.add(examplePanel);                
+        reqCompDetailsPanel.add(reqCompDesc);
             
         if (editedReqComp == null) {
             examplePanel.setVisible(false);
             reqCompDesc.setVisible(false);
-        }
-                
-        //Requirement Component fields
-      //  SimplePanel reqCompFieldsPanel = new SimplePanel();
-      //  reqCompFieldsPanel.setStyleName("KS-Rules-FullWidth");          
-      //  reqCompFieldsPanel.add(reqCompDesc);
+        }              
         
-        reqCompPanel.add(labelPanel);
-        reqCompPanel.add(reqComponentPanel);        
+        reqCompPanel.add(emptyPanel);
+        reqCompPanel.add(reqCompDetailsPanel);
         
         //buttons at the bottom
         HorizontalPanel tempPanelButtons = new HorizontalPanel();        
-        tempPanelButtons.setStyleName("KS-Rules-FullWidth");        
+        tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");        
         tempPanelButtons.add(btnCancelView);
         btnCancelView.setStyleName("KS-Rules-Standard-Button");   
         if (editedReqComp == null) {
@@ -161,6 +164,7 @@ public class ClauseEditorView extends ViewComposite {
             submitReqComp.setStyleName("KS-Rules-Standard-Button"); 
         }                                
         
+        editorView.add(reqTypePanel);
         editorView.add(reqCompPanel);
         editorView.add(tempPanelButtons);
         editorView.setStyleName("Content-Margin");
@@ -349,7 +353,7 @@ public class ClauseEditorView extends ViewComposite {
                 valueWidget.setName(tokens[i]);
                 final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));             
-                valueWidget.setWidth("50px");                           
+                valueWidget.setWidth("250px");                           
                 valueWidget.setStyleName("KS-Textbox-Fix"); 
                 valueWidget.addStyleName("KS-Rules-FlexPanelFix");
                 SimplePanel tempPanel = new SimplePanel();

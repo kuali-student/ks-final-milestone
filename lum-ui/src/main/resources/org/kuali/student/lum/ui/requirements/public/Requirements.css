@@ -113,6 +113,15 @@
 	width: 100%;
 }
 
+.KS-RuleEditor-SubHeading{
+	/* margin-top: 10px;
+	margin-bottom: 10px; */
+	color: black;
+	font-weight: bold;
+	font-size:11pt;
+	width: 100%;
+}
+
 .KS-ReqMgr-NoRuleText{
 	color: gray;
 	font-style: italic;	
@@ -120,16 +129,22 @@
 	width: 100%;
 }
 
+.KS-RuleEditor-ExampleText1{
+	margin-bottom: 50px;
+	margin-top: 10px;
+	margin-right: 0px;
+	color: gray;
+	font-size:10pt;
+	/* width: 100%;	 */
+}
+
 .KS-RuleEditor-ExampleText2{
+	margin-top: 10px;
 	color: gray;
 	font-style: italic;	
 	font-size:10pt;
-	width: 80%;
-}
-
-.KS-RuleEditor-ExampleText1{
-	color: gray;
-	font-size:10pt;
+	float: left;		
+	width: 100%;	
 }
 
 .KS-RuleEditor-LabelPanel{
@@ -139,12 +154,16 @@
 	font-size:10pt;
 }
 
+.KS-RuleEditor-SimplePanel-ReqCompTypes{
+	margin-top: 40px;
+}
+
 .KS-Rules-Standard-Button{
 	margin-top: 20px;
 	color: white;
 	background: url("images/Home-selected-button.jpg") repeat-x;	
 	font-size:10pt;
-	width:150px;
+	width:160px;
 }
 
 .KS-Rules-Tight-Button{
@@ -161,23 +180,6 @@
 	cursor: pointer;
 }
 
-.KS-Rules-Choice-Buttons{
-	font-size: 8pt;
-	width: 20px;
-	height: 20px;	
-}
-
-
-.KS-Rules-Choices{
-	font-size: 8pt;
-}
-
-.KS-Rules-Choices-Link{
-	font-size: 8pt;
-	text-decoration: underline;	
-	cursor: pointer;
-}
-
 .KS-Rules-Link-Right{
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -189,7 +191,8 @@
 
 .KS-Textbox-Fix {
 	border:1px solid #4583D5;
-	margin:0x;
+	margin-left: 10x;
+	margin-right: 10x;
 }
 
 .KS-Rules-BoldText{
@@ -200,39 +203,54 @@
 	width: 100%;
 }
 
+.KS-ReqCompEditor-BottomButtons{
+	width: 100%;
+	margin-top: 60px;
+}
+
 .KS-Rules-FlexPanelFix{
 	float: left;
 }
 
+.KS-ReqCompEditor-EditFirstColumn{
+	width: 100px;
+}
+
+.KS-Rules-SearchPanel{
+	width: 450px;
+	height: 300px;
+}
+
 .KS-ReqComp-Selected{
 	background-color: #FFFF99;
-}
-
-.KS-ReqComp-RaisedButtonText{
-background-color: yellow;
-border: 2px #d1ec4c outset;
-padding: 1px 4px;
-color: black;
-text-decoration: none;
-font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
-}
-
-.KS-ReqComp-RaisedButtonText-visited{
-color: black;
-}
-
-.KS-ReqComp-RaisedButtonText-hover{
-border-style: inset;
-background-color: #e3f48e;
-padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
-}
-
-.KS-ReqComp-RaisedButtonText-active{
-color: black;
+	border: 2px #d1ec4c outset;
+	padding: 1px 4px;
+	color: black;
+	text-decoration: none;
+	/* font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif; */
 }
 
 .KS-ReqComp-DeSelected{
 	background-color: #FFFFFF;
+	border: 2px #d1ec4c outset;
+	padding: 1px 4px;
+	color: black;
+	text-decoration: none;
+	/* font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif; */
+}
+
+.KS-ReqComp-RaisedButtonText-visited{
+	color: black;
+}
+
+.KS-ReqComp-RaisedButtonText-hover{
+	border-style: inset;
+	background-color: #e3f48e;
+	padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
+}
+
+.KS-ReqComp-RaisedButtonText-active{
+	color: black;
 }
 
 .KS-RichText-Normal{

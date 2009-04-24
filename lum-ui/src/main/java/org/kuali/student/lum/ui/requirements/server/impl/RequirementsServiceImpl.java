@@ -74,9 +74,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             e.printStackTrace();
         } catch (OperationFailedException e) {
             e.printStackTrace();
-        }              
-        
-        System.out.println("Natural Language: " + naturalLanguage);
+        }                      
         
         return naturalLanguage;
     }	

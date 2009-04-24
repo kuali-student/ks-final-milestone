@@ -35,6 +35,7 @@ public class ComplexView extends ViewComposite {
 
     //view's widgets
     private Panel mainPanel = new SimplePanel();
+    VerticalPanel complexView = new VerticalPanel();
     private KSLabel linkToSimpleView = new KSLabel("Simple Rules");    
     private KSButton btnAddClause = new KSButton("Add Clause");
     private KSButton btnEditClause = new KSButton("Edit Clause");
@@ -55,10 +56,12 @@ public class ComplexView extends ViewComposite {
     
     public void beforeShow() {
 
-        System.out.println("SELECTED?  " + selectedTableCellWidget);  
         if (selectedTableCellWidget != null) {
+            complexView.remove(ruleTable);
             selectedTableCellWidget.setStyleName("KS-ReqComp-Selected");
-            selectedTableCellWidget.addStyleName("KS-ReqComp-RaisedButtonText");
+            selectedTableCellWidget.setHeight("20px");
+            System.out.println("SELECTED?  " + selectedTableCellWidget);
+            complexView.add(ruleTable);
         }          
         
         if (model != null) {
@@ -76,7 +79,15 @@ public class ComplexView extends ViewComposite {
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        });                  
+        });
+        
+        //TODO: ruleTable should allow to set the type of widget that will be 
+        int rowCount = ruleTable.getRowCount();
+System.out.println("Row count: " + rowCount);        
+        for (int colIx = 0; colIx < rowCount; colIx++) {
+            NodeWidget widget = (NodeWidget) ruleTable.getWidget(1, colIx);
+            widget.setStyleName("KS-ReqComp-DeSelected");
+        }
     }
 
     private void setupHandlers() {
@@ -110,7 +121,7 @@ public class ComplexView extends ViewComposite {
                 if (selectedTableCellWidget != null) {
                     selectedTableCellWidget.setStyleName("KS-ReqComp-DeSelected");
                     selectedTableCellWidget = null;
-                }                
+                }               
                 
                 NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 if (widget == null) {
@@ -120,7 +131,6 @@ public class ComplexView extends ViewComposite {
                 } else {
                     selectedTableCellWidget = widget;
                     widget.setStyleName("KS-ReqComp-Selected");
-                    widget.addStyleName("KS-ReqComp-RaisedButtonText");
                     ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();                    
                     selectedReqComp = clause.getReqComponentInfo();
                     updateNaturalLanguage();
@@ -134,7 +144,8 @@ public class ComplexView extends ViewComposite {
     }
        
     private void redraw() {
-        VerticalPanel complexView = new VerticalPanel();
+        complexView.clear();
+        
         HorizontalPanel tempPanel = new HorizontalPanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
         KSLabel preReqHeading = new KSLabel("Pre-requisite Rule");
