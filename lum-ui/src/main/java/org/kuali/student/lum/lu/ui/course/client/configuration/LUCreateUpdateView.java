@@ -5,6 +5,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -35,7 +36,9 @@ public class LUCreateUpdateView extends Composite implements View {
             @Override
             public void onSuccess(ObjectStructure result) {
                 layout = getLayout(result, luType, luState);
+                
                 panel.setWidget(layout);
+                layout.render();
             }
         });
         
