@@ -22,7 +22,8 @@ import javax.xml.bind.annotation.XmlType;
     "validChars",
     "invalidChars",
     "minOccurs",
-    "maxOccurs"
+    "maxOccurs",
+    "readOnly"
 })
 @XmlRootElement(name = "contextValueDescriptor")
 public class ContextValueDescriptor implements Serializable{
