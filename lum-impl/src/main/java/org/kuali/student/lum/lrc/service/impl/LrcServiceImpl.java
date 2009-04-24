@@ -26,6 +26,7 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.dto.StatusInfo;
+import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -140,8 +141,10 @@ public class LrcServiceImpl implements LrcService {
 	public CreditInfo getCredit(String creditKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(creditKey, "creditKey");
+		Credit credit = lrcDao.fetch(Credit.class, creditKey);
+
+		return LrcServiceAssembler.toCreditInfo(credit);
 	}
 
 	/* (non-Javadoc)
@@ -183,6 +186,8 @@ public class LrcServiceImpl implements LrcService {
 	public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
+	    checkForMissingParameter(creditKeyList, "creditKeyList");
+	    checkForEmptyList(creditKeyList, "creditKeyList");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -357,5 +362,31 @@ public class LrcServiceImpl implements LrcService {
 	public void setLrcDao(LrcDao lrcDao) {
 		this.lrcDao = lrcDao;
 	}
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param parameter name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    /**
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForEmptyList(Object param, String paramName)
+            throws MissingParameterException {
+        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+            throw new MissingParameterException(paramName + " can not be an empty list");
+        }
+    }
 
 }
