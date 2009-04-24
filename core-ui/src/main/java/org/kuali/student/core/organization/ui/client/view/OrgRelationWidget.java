@@ -249,7 +249,9 @@ class OrgRelationWidget extends OrgMultiWidget {
             KSFormLayoutPanel form = (KSFormLayoutPanel) formMap.get("form");
             if (form.getFieldValue("relOrgId").length() == 0)
                 continue; //skipping this one
-            OrgOrgRelationInfo orgRelationInfo = new OrgOrgRelationInfo();        
+            if(formMap.get("orgRelId") == null && formMap.get("deleted") != null)
+                continue; //if not created AND deleted
+            OrgOrgRelationInfo orgRelationInfo = new OrgOrgRelationInfo();
             
             orgRelationInfo.setOrgId(orgId);
             orgRelationInfo.setId((String) formMap.get("orgRelId"));
@@ -326,7 +328,9 @@ class OrgRelationWidget extends OrgMultiWidget {
             KSFormLayoutPanel form = (KSFormLayoutPanel) formMap.get("form");
             if (form.getFieldValue("relOrgId").length() == 0)
                 continue; //skipping this one
-            count++;
+            if(formMap.get("orgRelId") == null && formMap.get("deleted") != null)
+                continue; //if not created AND deleted
+           count++;
         }
         return count;
     }

@@ -278,6 +278,8 @@ class OrgPositionWidget extends OrgMultiWidget {
             KSFormLayoutPanel orgPosForm = (KSFormLayoutPanel) formMap.get("form");
             if (orgPosForm.getFieldValue("title").trim().length() == 0)
                 continue; //skipping this one
+            if(formMap.get("posId") == null && formMap.get("deleted") != null)
+                continue; //if not created AND deleted
             OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
             
             orgPosRestriction.setId((String) formMap.get("posId"));
@@ -380,7 +382,9 @@ class OrgPositionWidget extends OrgMultiWidget {
             KSFormLayoutPanel orgPosForm = (KSFormLayoutPanel) formMap.get("form");
             if (orgPosForm.getFieldValue("title").trim().length() == 0)
                 continue; //skipping this one
-            count++;
+            if(formMap.get("posId") == null && formMap.get("deleted") != null)
+                continue; //if not created AND deleted
+           count++;
         }
         return count;
     }
