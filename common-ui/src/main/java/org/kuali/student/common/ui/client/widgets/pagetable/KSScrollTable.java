@@ -51,8 +51,8 @@ public class KSScrollTable extends AbstractScrollTable {
      */
     @Override
     public int getMaximumColumnWidth(int column) {
-        // TODO Gary Struthers - THIS METHOD NEEDS JAVADOCS
-        return 100;
+        
+        return 150;//guess
     }
 
     /**
@@ -74,7 +74,7 @@ public class KSScrollTable extends AbstractScrollTable {
     @Override
     public int getPreferredColumnWidth(int column) {
         // TODO Gary Struthers - THIS METHOD NEEDS JAVADOCS
-        return 20;
+        return 60;
     }
 
     /**
