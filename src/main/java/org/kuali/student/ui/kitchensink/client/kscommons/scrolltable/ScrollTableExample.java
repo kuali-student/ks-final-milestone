@@ -28,13 +28,24 @@ public class ScrollTableExample extends Composite {
     public ScrollTableExample() {
 
         List<String> columnHeaders = populateMockColumnHeaders();
-        FixedWidthFlexTable headerTable = helper.createStringListHeader("<b>Team 1</b>",columnHeaders);
+        FixedWidthFlexTable headerTable = helper.createStringListHeader("Team 1",columnHeaders);
         
         FixedWidthGrid dataTable = helper.createDataTable(SelectionPolicy.MULTI_ROW, columnHeaders.size());
         scrollTable = new KSScrollTable(dataTable, headerTable);
         populateMockData(dataTable);
 
-        scrollTable.setPixelSize(440,200);//FIXME workaround for incubator bug
+
+        int column = 0;
+        int guessCharWidth = 10;//Guess how many pixels wide a header string is, to set min column width
+        int totalColWidth = 0;
+        int tableDecorationsWidth = 32;
+        for(String columnHeader :columnHeaders) {
+            int colWidth = columnHeader.length() * guessCharWidth;
+            totalColWidth += colWidth;
+            scrollTable.setColumnWidth(column, colWidth);
+            column++;           
+        }
+        scrollTable.setPixelSize(totalColWidth + tableDecorationsWidth + 50,200);//FIXME workaround for incubator bug
         main.addStyleName(STYLE_EXAMPLE);
 
         main.add(label);
@@ -44,9 +55,9 @@ public class ScrollTableExample extends Composite {
     
     private List<String>  populateMockColumnHeaders() {
         List<String> columnHeaders = new ArrayList<String>();
-        columnHeaders.add("<b>First Name<b/>");
-        columnHeaders.add("<b>Last Name<b/>");
-        columnHeaders.add("<b>School Name<b/>");
+        columnHeaders.add("First Name");
+        columnHeaders.add("Last Name");
+        columnHeaders.add("School Name");
         return columnHeaders;
     }
     

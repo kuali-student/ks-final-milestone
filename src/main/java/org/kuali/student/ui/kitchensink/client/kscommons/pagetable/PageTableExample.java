@@ -2,13 +2,18 @@ package org.kuali.student.ui.kitchensink.client.kscommons.pagetable;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.CachedTableModel;
+import com.google.gwt.gen2.table.client.ColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
 import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
@@ -43,7 +48,13 @@ public class PageTableExample extends Composite {
             "There is no data to display"));
 
 
-        pagingScrollTable.setPixelSize(460,200);//FIXME workaround for incubator bug
+        pagingScrollTable.setPixelSize(480,200);//FIXME workaround for incubator bug
+        //Incubator Issue 266 workaround to set column width
+        int column = 0;
+        for(Integer width :colPxWidths) {
+            pagingScrollTable.setColumnWidth(column, width);
+            column++;
+        }
         main.addStyleName(STYLE_EXAMPLE);
 
         main.add(label);
@@ -63,12 +74,13 @@ public class PageTableExample extends Composite {
         cachedTableModel.setPostCachedRowCount(pageSize);
         cachedTableModel.setRowCount(pageSize * 10);
     }
-    
+    private List<Integer> colPxWidths = new ArrayList<Integer>();
     private TableDefinition<Staffer> createTableDefinition() {
         tableDefinition = new DefaultTableDefinition<Staffer>();
+        int guessCharWidth = 9;//Guess how many pixels wide a header string is, to set min column width
         
-        StafferColumnDefinition<String> columnDefInstitution = new StafferColumnDefinition<String>(
-           "Institution" ){
+        String institutionHdr = "Institution";
+        StafferColumnDefinition<String> columnDefInstitution = new StafferColumnDefinition<String>(institutionHdr ){
 
                     @Override
                     public String getCellValue(Staffer rowValue) {        
@@ -80,11 +92,14 @@ public class PageTableExample extends Composite {
                         rowValue.setInstitution(cellValue);   
                     }
         };
+        columnDefInstitution.setMinimumColumnWidth(institutionHdr.length());
+        columnDefInstitution.setPreferredColumnWidth(institutionHdr.length() * guessCharWidth);//Incubator Issue 266 no effect
+        colPxWidths.add(institutionHdr.length() * guessCharWidth);//Incubator Issue 266 workaround to set column width
         columnDefInstitution.setColumnSortable(true);
         tableDefinition.addColumnDefinition(columnDefInstitution);
         
-        StafferColumnDefinition<String> columnDefName = new StafferColumnDefinition<String>(
-        "First and Last Name" ){
+        String nameHdr = "First and Last Name";
+        StafferColumnDefinition<String> columnDefName = new StafferColumnDefinition<String>(nameHdr){
 
                  @Override
                  public String getCellValue(Staffer rowValue) {        
@@ -96,6 +111,9 @@ public class PageTableExample extends Composite {
                      rowValue.setName(cellValue);   
                  }
         };
+        columnDefName.setMinimumColumnWidth(nameHdr.length());
+        columnDefName.setPreferredColumnWidth(nameHdr.length() * guessCharWidth);//Incubator Issue 266 no effect
+        colPxWidths.add(nameHdr.length() * guessCharWidth);//Incubator Issue 266 workaround to set column width
         columnDefName.setColumnSortable(true);
         tableDefinition.addColumnDefinition(columnDefName);
 /*        
@@ -129,8 +147,8 @@ public class PageTableExample extends Composite {
         };
         tableDefinition.addColumnDefinition(columnDefComment);
 */        
-        StafferColumnDefinition<String> columnDefPrimaryProjectRole = new StafferColumnDefinition<String>(
-        "Primary Project Role" ){
+        String roleHdr = "Primary Project Role";
+        StafferColumnDefinition<String> columnDefPrimaryProjectRole = new StafferColumnDefinition<String>(roleHdr){
 
                  @Override
                  public String getCellValue(Staffer rowValue) {        
@@ -142,12 +160,14 @@ public class PageTableExample extends Composite {
                      rowValue.setPrimaryProjectRole(cellValue);   
                  }
         };
+        columnDefPrimaryProjectRole.setMinimumColumnWidth(roleHdr.length());
+        columnDefPrimaryProjectRole.setPreferredColumnWidth(roleHdr.length() * guessCharWidth);//Incubator Issue 266 no effect
+        colPxWidths.add(roleHdr.length() * guessCharWidth);//Incubator Issue 266 workaround to set column width
         columnDefPrimaryProjectRole.setColumnSortable(true);
         tableDefinition.addColumnDefinition(columnDefPrimaryProjectRole);
         
-        
-        StafferColumnDefinition<String> columnDefPrimaryTeam = new StafferColumnDefinition<String>(
-        "Primary Team" ){
+        String teamHdr = "Primary Team";
+        StafferColumnDefinition<String> columnDefPrimaryTeam = new StafferColumnDefinition<String>(teamHdr){
 
                  @Override
                  public String getCellValue(Staffer rowValue) {        
@@ -159,6 +179,9 @@ public class PageTableExample extends Composite {
                      rowValue.setPrimaryTeam(cellValue);   
                  }
         };
+        columnDefPrimaryTeam.setMinimumColumnWidth(teamHdr.length());
+        columnDefPrimaryTeam.setPreferredColumnWidth(teamHdr.length() * guessCharWidth);//Incubator Issue 266 no effect
+        colPxWidths.add(teamHdr.length() * guessCharWidth);//Incubator Issue 266 workaround to set column width
         columnDefPrimaryTeam.setColumnSortable(true);
         tableDefinition.addColumnDefinition(columnDefPrimaryTeam);
         
@@ -202,4 +225,5 @@ public class PageTableExample extends Composite {
     public void insertDataRow(int beforeRow) {
       getCachedTableModel().insertRow(beforeRow);
     }
+
 }
