@@ -26,6 +26,8 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.dto.StatusInfo;
+import org.kuali.student.lum.lrc.entity.Credential;
+import org.kuali.student.lum.lrc.entity.CredentialType;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.CreditType;
 import org.kuali.student.lum.lrc.service.LrcService;
@@ -86,8 +88,10 @@ public class LrcServiceImpl implements LrcService {
 	public CredentialInfo getCredential(String credentialKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	      checkForMissingParameter(credentialKey, "credentialKey");
+	      Credential credential = lrcDao.fetch(Credential.class, credentialKey);
+
+	      return LrcServiceAssembler.toCredentialInfo(credential);
 	}
 
 	/* (non-Javadoc)
@@ -98,8 +102,9 @@ public class LrcServiceImpl implements LrcService {
 			String credentialTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(credentialTypeKey, "credentialTypeKey");
+        List<String> credentialIds = lrcDao.getCredentialIdsByCredentialType(credentialTypeKey);
+        return credentialIds;
 	}
 
 	/* (non-Javadoc)
@@ -109,8 +114,10 @@ public class LrcServiceImpl implements LrcService {
 	public CredentialTypeInfo getCredentialType(String credentialTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(credentialTypeKey, "credentialTypeKey");
+        CredentialType credentialType = lrcDao.fetch(CredentialType.class, credentialTypeKey);
+
+        return LrcServiceAssembler.toCredentialTypeInfo(credentialType);
 	}
 
 	/* (non-Javadoc)
@@ -119,8 +126,8 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public List<CredentialTypeInfo> getCredentialTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        List<CredentialType> entities = lrcDao.find(CredentialType.class);
+        return LrcServiceAssembler.toCredentialTypeInfos(entities);
 	}
 
 	/* (non-Javadoc)
@@ -131,8 +138,10 @@ public class LrcServiceImpl implements LrcService {
 			List<String> credentialKeyList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(credentialKeyList, "credentialKeyList");
+        checkForEmptyList(credentialKeyList, "credentialKeyList");
+        List<Credential> credentials = lrcDao.getCredentialsByIdList(credentialKeyList);
+        return LrcServiceAssembler.toCredentialInfos(credentials);
 	}
 
 	/* (non-Javadoc)

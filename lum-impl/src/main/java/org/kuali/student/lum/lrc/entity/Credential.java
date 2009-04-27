@@ -25,6 +25,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,6 +38,10 @@ import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_LCR_CREDENTIAL")
+@NamedQueries( {
+    @NamedQuery(name = "Credential.getCredentialsByIdList", query = "SELECT c FROM Credential c WHERE c.id IN (:credentialIdList)"),
+    @NamedQuery(name = "Credential.getCredentialIdsByCredentialType", query = "SELECT c.id FROM Credential c JOIN c.type type WHERE type.id = :credentialTypeId")
+})
 public class Credential extends MetaEntity implements AttributeOwner<CredentialAttribute> {
     @Id
     @Column(name = "ID")

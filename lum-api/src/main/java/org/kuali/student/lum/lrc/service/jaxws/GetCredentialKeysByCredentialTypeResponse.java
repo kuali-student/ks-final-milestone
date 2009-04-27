@@ -1,6 +1,8 @@
 
 package org.kuali.student.lum.lrc.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,6 +25,9 @@ public class GetCredentialKeysByCredentialTypeResponse {
     private java.util.List<String> _return;
 
     public java.util.List<String> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<String>(0);
+        }
         return this._return;
     }
 

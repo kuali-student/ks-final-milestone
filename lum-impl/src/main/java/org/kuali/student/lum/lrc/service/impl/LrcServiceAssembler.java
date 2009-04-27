@@ -5,14 +5,58 @@ import java.util.List;
 
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.lum.lrc.dto.CredentialInfo;
+import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
 import org.kuali.student.lum.lrc.dto.RichTextInfo;
+import org.kuali.student.lum.lrc.entity.Credential;
+import org.kuali.student.lum.lrc.entity.CredentialType;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.CreditType;
 import org.springframework.beans.BeanUtils;
 
 public class LrcServiceAssembler extends BaseAssembler {
+    public static CredentialInfo toCredentialInfo(Credential entity) {
+        CredentialInfo dto = new CredentialInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "desc", "attributes", "type" });
+
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setType(entity.getType().getId());
+        return dto;
+    }
+
+    public static List<CredentialInfo> toCredentialInfos(List<Credential> entities) {
+        List<CredentialInfo> dtos = new ArrayList<CredentialInfo>(entities.size());
+        for (Credential entity : entities) {
+            dtos.add(toCredentialInfo(entity));
+        }
+        return dtos;
+    }
+
+
+    public static CredentialTypeInfo toCredentialTypeInfo(CredentialType entity) {
+        CredentialTypeInfo dto = new CredentialTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
+    }
+
+    public static List<CredentialTypeInfo> toCredentialTypeInfos(List<CredentialType> entities) {
+        List<CredentialTypeInfo> dtos = new ArrayList<CredentialTypeInfo>(entities.size());
+        for (CredentialType entity : entities) {
+            dtos.add(toCredentialTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+
     public static CreditInfo toCreditInfo(Credit entity) {
         CreditInfo dto = new CreditInfo();
 

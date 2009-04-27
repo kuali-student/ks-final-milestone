@@ -17,6 +17,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.lrc.dto.CredentialInfo;
+import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
@@ -26,6 +28,93 @@ import org.kuali.student.lum.lrc.service.LrcService;
 public class TestLrcServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.lum.lrc.service.impl.LrcServiceImpl", port = "8181",additionalContextFile="classpath:lrc-additional-context.xml")
 	public LrcService client;
+
+    @Test
+    public void testGetCredential() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        CredentialInfo credentialInfo = client.getCredential("LRC-CREDENTIAL-1");
+        assertNotNull(credentialInfo);
+
+        try {
+            credentialInfo = client.getCredential("LRC-CREDENTIAL-1X");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+        try {
+            credentialInfo = client.getCredential(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetCredentialByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ArrayList<String> keys = new ArrayList<String>();
+        keys.add("LRC-CREDENTIAL-1");
+        keys.add("LRC-CREDENTIAL-2");
+        keys.add("LRC-CREDENTIAL-1x");
+        List<CredentialInfo> credentials = client.getCredentialsByKeyList(keys);
+        assertNotNull(credentials);
+        assertEquals(2, credentials.size());
+
+        keys.clear();
+        keys.add("LRC-CREDENTIAL-1x");
+        credentials = client.getCredentialsByKeyList(keys);
+        assertNotNull(credentials);
+        assertEquals(0, credentials.size());
+
+        keys.clear();
+        try {
+            credentials = client.getCredentialsByKeyList(keys);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+        try {
+            credentials = client.getCredentialsByKeyList(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetCredentialKeysByCredentialType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<String> credentialIds = client.getCredentialKeysByCredentialType("lcrType.credential.3");
+        assertNotNull(credentialIds);
+        assertEquals(2, credentialIds.size());
+
+        credentialIds = client.getCredentialKeysByCredentialType("lcrType.credential.3x");
+        assertNotNull(credentialIds);
+        assertEquals(0, credentialIds.size());
+
+        try {
+            credentialIds = client.getCredentialKeysByCredentialType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetCredentialType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        CredentialTypeInfo credentialTypeInfo = client.getCredentialType("lcrType.credential.2");
+        assertNotNull(credentialTypeInfo);
+
+        try {
+            credentialTypeInfo = client.getCredentialType("lcrType.credential.2x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+        try {
+            credentialTypeInfo = client.getCredentialType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
 
 	@Test
     public void testGetCredit() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
