@@ -18,11 +18,21 @@ public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao 
 	}
 
 	@Override
-	public List<Credit> getCreditsByKeyList(List<String> creditKeyList) {
-	    Query query = em.createNamedQuery("Credit.getCreditsByKeyList");
-        query.setParameter("creditKeyList", creditKeyList);
+	public List<Credit> getCreditsByIdList(List<String> creditIdList) {
+	    Query query = em.createNamedQuery("Credit.getCreditsByIdList");
+        query.setParameter("creditIdList", creditIdList);
         @SuppressWarnings("unchecked")
         List<Credit> resultList = query.getResultList();
         return resultList;
+	}
+
+	@Override
+	public List<String> getCreditIdsByCreditType(String creditTypeId) {
+	       Query query = em.createNamedQuery("Credit.getCreditIdsByCreditType");
+	        query.setParameter("creditTypeId", creditTypeId);
+	        @SuppressWarnings("unchecked")
+	        List<String> resultList = query.getResultList();
+	        return resultList;
+
 	}
 }

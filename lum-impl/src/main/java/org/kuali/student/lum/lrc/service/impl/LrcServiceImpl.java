@@ -154,8 +154,9 @@ public class LrcServiceImpl implements LrcService {
 	public List<String> getCreditKeysByCreditType(String creditTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(creditTypeKey, "creditTypeKey");
+		List<String> creditIds = lrcDao.getCreditIdsByCreditType(creditTypeKey);
+		return creditIds;
 	}
 
 	/* (non-Javadoc)
@@ -188,7 +189,7 @@ public class LrcServiceImpl implements LrcService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(creditKeyList, "creditKeyList");
 	    checkForEmptyList(creditKeyList, "creditKeyList");
-		List<Credit> credits = lrcDao.getCreditsByKeyList(creditKeyList);
+		List<Credit> credits = lrcDao.getCreditsByIdList(creditKeyList);
 		return LrcServiceAssembler.toCreditInfos(credits);
 	}
 

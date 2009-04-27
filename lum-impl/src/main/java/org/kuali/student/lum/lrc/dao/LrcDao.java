@@ -6,5 +6,6 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.lum.lrc.entity.Credit;
 
 public interface LrcDao extends CrudDao  {
-    List<Credit> getCreditsByKeyList(List<String> creditKeyList);
+    public List<Credit> getCreditsByIdList(List<String> creditIdList);
+    public List<String> getCreditIdsByCreditType(String creditTypeId);
 }

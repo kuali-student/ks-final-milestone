@@ -75,5 +75,21 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
+    @Test
+    public void testGetCreditKeysByCreditType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<String> creditIds = client.getCreditKeysByCreditType("lcrType.credit.3");
+        assertNotNull(creditIds);
+        assertEquals(2, creditIds.size());
 
+        creditIds = client.getCreditKeysByCreditType("lcrType.credit.3x");
+        assertNotNull(creditIds);
+        assertEquals(0, creditIds.size());
+
+        try {
+            creditIds = client.getCreditKeysByCreditType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
 }

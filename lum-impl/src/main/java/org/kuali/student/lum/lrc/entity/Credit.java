@@ -39,7 +39,8 @@ import org.kuali.student.core.entity.RichText;
 @Entity
 @Table(name = "KSLU_LCR_CREDIT")
 @NamedQueries( {
-    @NamedQuery(name = "Credit.getCreditsByKeyList", query = "SELECT c FROM Credit c WHERE c.id IN (:creditKeyList)")
+    @NamedQuery(name = "Credit.getCreditsByIdList", query = "SELECT c FROM Credit c WHERE c.id IN (:creditIdList)"),
+    @NamedQuery(name = "Credit.getCreditIdsByCreditType", query = "SELECT c.id FROM Credit c JOIN c.type type WHERE type.id = :creditTypeId")
 })
 public class Credit extends MetaEntity implements AttributeOwner<CreditAttribute> {
     @Id
