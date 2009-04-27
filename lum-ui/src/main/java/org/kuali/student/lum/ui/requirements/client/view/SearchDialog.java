@@ -143,6 +143,10 @@ public class SearchDialog extends Composite {
         });
     }
     
+    public void setEnabled(boolean enabled) {
+        btnAddCourse.setEnabled(enabled);
+    }
+    
     public List<String> getSelections() {
         List<String> selections = new ArrayList<String>();
         ListItems listItems = cluList.getListItems();

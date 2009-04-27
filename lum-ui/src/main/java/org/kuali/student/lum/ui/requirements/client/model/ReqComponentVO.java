@@ -33,7 +33,7 @@ public class ReqComponentVO extends Token implements Serializable {
     public void setTypeDesc(String typeDesc) {
         this.typeDesc = typeDesc;
     }
-
+    
     @Override
     public String toString() {                
         String reqCompType = reqComponentInfo.getType();
