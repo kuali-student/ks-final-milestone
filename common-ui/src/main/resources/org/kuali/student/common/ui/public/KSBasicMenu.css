@@ -49,6 +49,7 @@
 .KS-Basic-Menu-Item-Panel-Selected{
 	background-color: white;
 	border: 1px solid #b8d7c8;
+	margin-bottom: 2px;
 }
 .KS-Basic-Menu-Item-Label-Selected{
 	color: black;
