@@ -38,13 +38,14 @@ public class LUCreateUpdateView extends Composite implements View {
                 layout = getLayout(result, luType, luState);
                 
                 panel.setWidget(layout);
+
                 layout.render();
             }
         });
         
 		super.initWidget(panel);
 	}
-	
+
 	private ConfigurableLayout<CluInfo> getLayout(ObjectStructure structure, String type, String state) {	   	
 		LULayoutFactory factory = new LULayoutFactory(structure, validator);
 		return factory.getLayout(type, state);

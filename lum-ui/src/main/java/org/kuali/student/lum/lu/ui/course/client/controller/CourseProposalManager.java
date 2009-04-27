@@ -26,22 +26,22 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
-import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.ui.course.client.view.CourseBeginProposal;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.view.CourseAuthor;
+import org.kuali.student.lum.lu.ui.course.client.view.CourseBeginProposal;
 import org.kuali.student.lum.lu.ui.course.client.view.CourseInformation;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -56,6 +56,9 @@ public class CourseProposalManager extends Controller implements View {
     
     private View courseInformation = new CourseInformation(this);
     private View courseAuthor = new CourseAuthor(this);
+    
+    private View courseCreateUpdate = new LUCreateUpdateView("course", "proposed", null);
+    
     Model<CluInfo> cluInfo = new Model<CluInfo>();
     ApplicationComposite app = new ApplicationComposite();
     SimplePanel contentPanel = new SimplePanel();
@@ -115,6 +118,7 @@ public class CourseProposalManager extends Controller implements View {
     }
     
     public void setup(){
+        /*
         HorizontalPanel hPanel = new HorizontalPanel();
         KSMenu menuPanel = new KSBasicMenu(){{
             setTitle("Proposal Sections"); 
@@ -157,7 +161,9 @@ public class CourseProposalManager extends Controller implements View {
         
         hPanel.add(menuPanel);
         hPanel.add(contentPanel);
-        app.setContent(hPanel);
+        */
+
+        app.setContent(contentPanel);
     }
     
     private void addSubItem(final KSMenuItemData group, String title, final CourseViews view) {
@@ -180,6 +186,7 @@ public class CourseProposalManager extends Controller implements View {
      * @see org.kuali.student.common.ui.client.mvc.Controller#getView(java.lang.Enum)
      */   
     protected <V extends Enum<?>> View getView(V viewType) {
+        /*
         switch ((CourseViews)viewType){
             case COURSE_AUTHOR:
                 return courseAuthor;
@@ -188,6 +195,9 @@ public class CourseProposalManager extends Controller implements View {
             default:
                 return dummyView;
         }
+        */
+        
+        return courseCreateUpdate;
     }
 
     /**
@@ -201,7 +211,7 @@ public class CourseProposalManager extends Controller implements View {
      */
     protected void renderView(View view) {
         if (view != null){
-            contentPanel.setWidget((ViewComposite)view);
+            contentPanel.setWidget((Composite)view);
         }
     }
 

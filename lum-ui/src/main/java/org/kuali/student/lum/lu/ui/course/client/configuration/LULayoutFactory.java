@@ -129,6 +129,7 @@ public class LULayoutFactory {
 					)
 					.setSectionTitle("Author + Collaborators")
 					.setInstructions("Instructions go here...")
+					.setParentLayout(this)
 						
 			);
 			
@@ -183,13 +184,10 @@ public class LULayoutFactory {
 					)
 					.setSectionTitle("Governance")
 					.setInstructions("Instructions go here...")
+                    .setParentLayout(this)					
 						
 			);
-			
-			addSection(new String[] {"Proposal Information", "Governance"}, 
-	                new SimpleConfigurableSection<CluInfo>()
-	        );
-			
+						
 			addSection(new String[] {"Proposal Information", "Course Format"}, 
                     new SimpleConfigurableSection<CluInfo>()
             );

@@ -2,13 +2,14 @@ package org.kuali.student.lum.lu.ui.main.client.controller;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager;
 import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager.CourseProposalType;
-import org.kuali.student.lum.lu.ui.course.client.view.CourseBeginProposal;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
 
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUMApplicationManager extends Controller{
@@ -18,9 +19,12 @@ public class LUMApplicationManager extends Controller{
     private final View homeMenu = new HomeMenuController(this);
     private CourseProposalManager createCourse = new CourseProposalManager(this);
     
+    //Wire in validator
+    private LUCreateUpdateView createUpdateCourse;
+    
     public LUMApplicationManager(){
         super();
-        super.initWidget(viewPanel);
+        super.initWidget(viewPanel);        
     }
     
     protected void onLoad() {
@@ -57,7 +61,7 @@ public class LUMApplicationManager extends Controller{
     @Override
     protected void renderView(View view) {
         // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
-        viewPanel.setWidget((Controller)view);
+        viewPanel.setWidget((Composite)view);
     }
     
     
@@ -65,9 +69,6 @@ public class LUMApplicationManager extends Controller{
     @Override
     public void showDefaultView() {
         this.showView(LUMViews.HOME_MENU);
-    }
-    
-    
-    
+    }        
 
 }
