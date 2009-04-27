@@ -1,6 +1,8 @@
 
 package org.kuali.student.lum.lrc.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,6 +27,9 @@ public class GetCreditsByKeyListResponse {
     private java.util.List<CreditInfo> _return;
 
     public java.util.List<CreditInfo> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<CreditInfo>(0);
+        }
         return this._return;
     }
 

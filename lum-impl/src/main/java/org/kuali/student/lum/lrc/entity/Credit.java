@@ -25,6 +25,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,6 +38,9 @@ import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_LCR_CREDIT")
+@NamedQueries( {
+    @NamedQuery(name = "Credit.getCreditsByKeyList", query = "SELECT c FROM Credit c WHERE c.id IN (:creditKeyList)")
+})
 public class Credit extends MetaEntity implements AttributeOwner<CreditAttribute> {
     @Id
     @Column(name = "ID")

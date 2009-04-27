@@ -188,8 +188,8 @@ public class LrcServiceImpl implements LrcService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(creditKeyList, "creditKeyList");
 	    checkForEmptyList(creditKeyList, "creditKeyList");
-		// TODO Auto-generated method stub
-		return null;
+		List<Credit> credits = lrcDao.getCreditsByKeyList(creditKeyList);
+		return LrcServiceAssembler.toCreditInfos(credits);
 	}
 
 	/* (non-Javadoc)

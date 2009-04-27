@@ -1,7 +1,11 @@
 package org.kuali.student.lum.lrc.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -40,4 +44,36 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
+
+	@Test
+    public void testGetCreditByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ArrayList<String> keys = new ArrayList<String>();
+        keys.add("LRC-CREDIT-1");
+        keys.add("LRC-CREDIT-2");
+        keys.add("LRC-CREDIT-1x");
+        List<CreditInfo> credits = client.getCreditsByKeyList(keys);
+        assertNotNull(credits);
+        assertEquals(2, credits.size());
+
+        keys.clear();
+        keys.add("LRC-CREDIT-1x");
+        credits = client.getCreditsByKeyList(keys);
+        assertNotNull(credits);
+        assertEquals(0, credits.size());
+
+        keys.clear();
+        try {
+            credits = client.getCreditsByKeyList(keys);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+        try {
+            credits = client.getCreditsByKeyList(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
 }

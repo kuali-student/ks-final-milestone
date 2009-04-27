@@ -1,11 +1,23 @@
 // RichText
-INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-1', '<p>Credit</p>', 'Credit')
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-1', '<p>Credit 1</p>', 'Credit 1')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-2', '<p>Credit 2</p>', 'Credit 2')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-3', '<p>Credit 3</p>', 'Credit 3')
 /
 
 // Credit Type
-INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.1', 'A Basic Credit', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit')
+INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.1', 'A Basic Credit 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit 1')
+/
+INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.2', 'A Basic Credit 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit 2')
+/
+INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.3', 'A Basic Credit 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit 3')
 /
 
 // Credit
 INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-1', 'Credit 1', 'RT-DESC-LCR-1','LCR Value 1',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.1', 0)
+/
+INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-2', 'Credit 2', 'RT-DESC-LCR-2','LCR Value 2',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.2', 0)
+/
+INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-3', 'Credit 3', 'RT-DESC-LCR-3','LCR Value 3',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.3', 0)
 /
