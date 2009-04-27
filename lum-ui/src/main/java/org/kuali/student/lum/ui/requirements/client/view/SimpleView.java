@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -221,8 +222,12 @@ public class SimpleView extends ViewComposite {
         pnlChoices.add(choice2);
         pnlChoices.add(choice3);
         pnlChoices.add(choice4);
-        capPnlPickRuleType.add(pnlChoices);
+        enableChoice(1, false);
+        enableChoice(2, false);
+        enableChoice(3, false);
+        enableChoice(4, false);
         
+        capPnlPickRuleType.add(pnlChoices);
         linkToComplexView.addStyleName("KS-Rules-Link");
         simpleView.add(capPnlPickRuleType);
         simpleView.add(linkToComplexView);
@@ -234,16 +239,16 @@ public class SimpleView extends ViewComposite {
     private void enableChoice(int choice, boolean enabled) {
         switch (choice) {
             case 1:
-                choice1CourseList.setEnabled(enabled);
+                enableTextBox(choice1CourseList, enabled);
                 searchPanelChoice1.setEnabled(enabled);
                 break;
             case 2:
-                choice2CourseA.setEnabled(enabled);
-                choice2CourseB.setEnabled(enabled);
+                enableTextBox(choice2CourseA, enabled);
+                enableTextBox(choice2CourseB, enabled);
                 break;
             case 3:
-                choice3NumCredits.setEnabled(enabled);
-                choice3CourseList.setEnabled(enabled);
+                enableTextBox(choice3NumCredits, enabled);
+                enableTextBox(choice3CourseList, enabled);
                 searchPanelChoice3.setEnabled(enabled);
                 break;
             case 4:
@@ -254,5 +259,18 @@ public class SimpleView extends ViewComposite {
                 }
                 break;
         }
+    }
+    
+    private void enableTextBox(KSTextBox textField, boolean enabled) {
+        if (enabled) {
+//          DOM.setStyleAttribute(choice1CourseList.getElement(),
+//          "backgroundColor", "#FFFFFF");
+            textField.removeStyleName(
+                    "KS-Rules-Choices-Disabled-TextField");
+        } else {
+            textField.addStyleName(
+                    "KS-Rules-Choices-Disabled-TextField");
+        }
+        textField.setEnabled(enabled);
     }
 }
