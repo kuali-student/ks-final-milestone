@@ -38,7 +38,7 @@ public class MessageBuilderTest {
 	public void setUp() throws Exception {
 		builder = new MessageBuilderImpl(executor);
 	}
-	
+
 	@Test
 	public void testBuildMessage1_InvalidBooleanExpression() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();
@@ -177,9 +177,105 @@ public class MessageBuilderTest {
 		messageContainer.addMessage(bm3);
 		
 		String message = builder.buildMessage("(A*B)+(A*C)+(B*C)", messageContainer);
-		Assert.assertEquals("A is true AND B is true OR A is true AND C is true OR B is true AND C is true", message);
+		Assert.assertEquals("(A is true AND B is true) OR (A is true AND C is true) OR (B is true AND C is true)", message);
 	}
 
+	@Test
+	public void testBuildMessage8() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", true, "B");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", true, "C");
+		BooleanMessage bm4 = new BooleanMessageImpl("D", true, "D");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		messageContainer.addMessage(bm4);
+		
+		String message = builder.buildMessage("A*(B+C+D)", messageContainer);
+		Assert.assertEquals("A AND (B OR C OR D)", message);
+	}
+	
+	@Test
+	public void testBuildMessage9() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", true, "B");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", true, "C");
+		BooleanMessage bm4 = new BooleanMessageImpl("D", true, "D");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		messageContainer.addMessage(bm4);
+		
+		String message = builder.buildMessage("A*(B+(C+D))", messageContainer);
+		Assert.assertEquals("A AND (B OR C OR D)", message);
+	}
+	
+	@Test
+	public void testBuildMessage10() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", true, "B");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", true, "C");
+		BooleanMessage bm4 = new BooleanMessageImpl("D", true, "D");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		messageContainer.addMessage(bm4);
+		
+		String message = builder.buildMessage("(A*(B+C))+D", messageContainer);
+		Assert.assertEquals("(A AND (B OR C)) OR D", message);
+	}
+	
+	@Test
+	public void testBuildMessage11() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", true, "B");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", false, "C");
+		BooleanMessage bm4 = new BooleanMessageImpl("D", false, "D");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		messageContainer.addMessage(bm4);
+		
+		String message = builder.buildMessage("(A*(B+C))+D", messageContainer);
+		Assert.assertEquals("A AND B", message);
+	}
+	
+	@Test
+	public void testBuildMessage12() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", true, "B");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", true, "C");
+		BooleanMessage bm4 = new BooleanMessageImpl("D", true, "D");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		messageContainer.addMessage(bm4);
+		
+		String message = builder.buildMessage("(A*B)+(C+D)", messageContainer);
+		Assert.assertEquals("(A AND B) OR C OR D", message);
+	}
+	
+	@Test
+	public void testBuildMessage13() throws Exception {
+		MessageContainer messageContainer = new MessageContainer();
+		BooleanMessage bm1 = new BooleanMessageImpl("A", true, "A");
+		BooleanMessage bm2 = new BooleanMessageImpl("B", false, "B");
+		BooleanMessage bm3 = new BooleanMessageImpl("C", false, "C");
+		BooleanMessage bm4 = new BooleanMessageImpl("D", false, "D");
+		messageContainer.addMessage(bm1);
+		messageContainer.addMessage(bm2);
+		messageContainer.addMessage(bm3);
+		messageContainer.addMessage(bm4);
+		
+		String message = builder.buildMessage("(A*B)+(C+D)", messageContainer);
+		Assert.assertEquals("B OR C OR D", message);
+	}
+	
 	@Test
 	public void testBuildMessageTemplate1_NullContextMap_True() throws Exception {
 		MessageContainer messageContainer = new MessageContainer();

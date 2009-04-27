@@ -1,4 +1,4 @@
-// $ANTLR 3.1.1 BooleanFunction.g 2009-04-21 16:07:04
+// $ANTLR 3.1.1 BooleanFunction.g 2009-04-27 14:52:34
  package org.kuali.student.brms.internal.common.parsers; 
 
 import org.antlr.runtime.*;
@@ -121,7 +121,7 @@ public class BooleanFunctionParser extends Parser {
         }
 
         catch (RecognitionException e) {
-        throw e;
+            throw e;
         }
         finally {
         }
@@ -207,7 +207,7 @@ public class BooleanFunctionParser extends Parser {
         }
 
         catch (RecognitionException e) {
-        throw e;
+            throw e;
         }
         finally {
         }
@@ -293,7 +293,7 @@ public class BooleanFunctionParser extends Parser {
         }
 
         catch (RecognitionException e) {
-        throw e;
+            throw e;
         }
         finally {
         }
@@ -386,7 +386,7 @@ public class BooleanFunctionParser extends Parser {
         }
 
         catch (RecognitionException e) {
-        throw e;
+            throw e;
         }
         finally {
         }

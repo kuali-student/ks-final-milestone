@@ -9,8 +9,12 @@ rule "AND"
 		n : BooleanNode( label == "*", leftNode.value == true, rightNode.value == true, leftNode.nodeMessage != "null", rightNode.nodeMessage != "null" )
 	then
 		String logMessage = n.getLeftNode().getNodeMessage() + " AND " + n.getRightNode().getNodeMessage();
+		//n.setNodeMessage(logMessage);
+		
+		if(n.getParent() != null && ( (n.getLabel().equals("+") && n.getParent().getLabel().equals("*")) || (n.getLabel().equals("*") && n.getParent().getLabel().equals("+")))) {
+		    logMessage = "(" + logMessage + ")";
+		}
 		n.setNodeMessage(logMessage);
-        //System.out.println( logMessage + " (rule=\"AND\")");
 		
 		BooleanNode parent = n.getParent();
 		if (parent != null){
@@ -25,8 +29,12 @@ rule "OR2"
 		n : BooleanNode( label == "+", leftNode.value == true, rightNode.value == true, leftNode.nodeMessage != "null", rightNode.nodeMessage != "null" )
 	then
 		String logMessage = n.getLeftNode().getNodeMessage() + " OR " + n.getRightNode().getNodeMessage();
+		//n.setNodeMessage(logMessage);
+
+		if(n.getParent() != null && ( (n.getLabel().equals("+") && n.getParent().getLabel().equals("*")) || (n.getLabel().equals("*") && n.getParent().getLabel().equals("+")))) {
+		    logMessage = "(" + logMessage + ")";
+		}
 		n.setNodeMessage(logMessage);
-		//System.out.println( logMessage + " (rule=\"OR2\")");
 		
 		BooleanNode parent = n.getParent();
 		if (parent != null){
@@ -48,7 +56,6 @@ rule "OR1"
 			logMessage = n.getRightNode().getNodeMessage();
 		
 		n.setNodeMessage(logMessage);
-		//System.out.println( logMessage + " (rule=\"OR1\")");
 		
 		BooleanNode parent = n.getParent();
 		if (parent != null){

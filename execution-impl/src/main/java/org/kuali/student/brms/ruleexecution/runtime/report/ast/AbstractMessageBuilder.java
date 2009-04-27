@@ -120,6 +120,14 @@ public abstract class AbstractMessageBuilder {
         // This is the final rule report message summary
         String message = astTree.getRoot().getNodeMessage();
         Boolean result = astTree.getRoot().getValue();
+        
+		// Removed starting and ending brackets if they are the only brackets in the message
+        if (message.startsWith("(") && message.endsWith(")") && 
+				message.replaceAll("[^(]","").length() == 1 &&
+				message.replaceAll("[^)]","").length() == 1) {
+			message = message.substring(1, message.length()-1);
+		}
+        
         return new BooleanFunctionResult(this.booleanExpression, result, message);
     }
 

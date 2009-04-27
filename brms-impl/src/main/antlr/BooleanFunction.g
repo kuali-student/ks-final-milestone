@@ -48,7 +48,7 @@ private boolean isTokenParenthesis(String paren){
 
 @rulecatch {
 catch (RecognitionException e) {
-throw e;
+    throw e;
 }
 }
 
@@ -56,7 +56,7 @@ throw e;
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-//boolexpr: orterm {if ( isTokenParenthesis(input.LT(1).getText()) ) System.out.println("got paren"); };
+//booleanExpression: orTerm {if ( isTokenParenthesis(input.LT(1).getText()) ) System.out.println("+++ got paren +++"); };
 booleanExpression:   orTerm {if ( isTokenParenthesis(input.LT(1).getText()) ) throw new RecognitionException(); };
 orTerm  :   andTerm (OR^ andTerm)*;
 andTerm :   atom (AND^ atom)*;
