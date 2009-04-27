@@ -91,5 +91,10 @@ public class KSAccordionMenu extends KSAccordionMenuAbstract{
     public void setItems(List<KSMenuItemData> items) {
         accordionMenu.setItems(items);
     }
+
+    @Override
+    public boolean selectMenuItem(String[] hierarchy) {
+        return accordionMenu.selectMenuItem(hierarchy);
+    }
 	
 }

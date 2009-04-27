@@ -34,4 +34,6 @@ public abstract class KSMenu extends Composite {
 	}
 	
 	protected abstract void populateMenu();
+	
+	public abstract boolean selectMenuItem(String[] hierarchy);
 }

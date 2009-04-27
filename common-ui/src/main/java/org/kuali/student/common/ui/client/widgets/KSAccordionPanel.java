@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -47,8 +48,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * @param title the title of the category titlebar
      * @param subContent the category's content - what will be shown below the titlebar when it is clicked
      */
-    public void addPanel(String title, Widget subContent){
-        accordionPanel.addPanel(title, subContent);
+    public FocusPanel addPanel(String title, Widget subContent){
+        return accordionPanel.addPanel(title, subContent);
     }
     
 
@@ -59,8 +60,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * @param titleWidget the widget used in the titlebar
      * @param subContent the category's content - what will be shown below the titlebar when it is clicked
      */
-    public void addPanel(Widget titleWidget, Widget subContent){
-        accordionPanel.addPanel(titleWidget);
+    public FocusPanel addPanel(Widget titleWidget, Widget subContent){
+        return accordionPanel.addPanel(titleWidget);
     }
 
 	/**
@@ -73,8 +74,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * @param subContent the category's content - what will be shown below the titlebar when it is clicked
      * 
      */
-	public void addPanel(Widget titleWidget, ClickHandler clickHandler, Widget subContent) {
-    accordionPanel.addPanel(titleWidget, clickHandler, subContent);
+	public FocusPanel addPanel(Widget titleWidget, ClickHandler clickHandler, Widget subContent) {
+	    return accordionPanel.addPanel(titleWidget, clickHandler, subContent);
 		
 	}
 	
@@ -86,8 +87,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * @param clickHandler the handler to handle clicks on the titlebar itself
      * 
 	 */
-	public void addPanel(Widget titleWidget, ClickHandler clickHandler) {
-	    accordionPanel.addPanel(titleWidget, clickHandler);
+	public FocusPanel addPanel(Widget titleWidget, ClickHandler clickHandler) {
+	    return accordionPanel.addPanel(titleWidget, clickHandler);
 	}
    
     /**
@@ -95,8 +96,8 @@ public class KSAccordionPanel extends KSAccordionPanelAbstract{
      * 
      * @param titleWidget the widget used in the titlebar
      */
-    public void addPanel(Widget titleWidget){
-        accordionPanel.addPanel(titleWidget);
+    public FocusPanel addPanel(Widget titleWidget){
+        return accordionPanel.addPanel(titleWidget);
     }
      
     /**

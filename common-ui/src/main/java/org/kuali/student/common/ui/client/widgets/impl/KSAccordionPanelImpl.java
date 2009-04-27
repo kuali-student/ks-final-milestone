@@ -47,34 +47,37 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
     	}
     }
     @Override
-    public void addPanel(String title, Widget subContent) {
+    public FocusPanel addPanel(String title, Widget subContent) {
         AccordionTitleBar titleBar = new AccordionTitleBar(title);
         setupPanelContent(titleBar, subContent);
+        return titleBar;
     }
     @Override
-    public void addPanel(Widget titleWidget, Widget subContent) {
+    public FocusPanel addPanel(Widget titleWidget, Widget subContent) {
         AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
         setupPanelContent(titleBar, subContent);
-
+        return titleBar;
     }
     @Override
-    public void addPanel(Widget titleWidget) {
+    public FocusPanel addPanel(Widget titleWidget) {
         AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
         setupPanelContent(titleBar, null);
+        return titleBar;
     }
     @Override
-    public void addPanel(Widget titleWidget, ClickHandler clickHandler, Widget subContent) {
+    public FocusPanel addPanel(Widget titleWidget, ClickHandler clickHandler, Widget subContent) {
         AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
         setupPanelContent(titleBar, subContent);
         titleBar.addClickHandler(clickHandler);
-        
+        return titleBar;
     }
     
     @Override
-    public void addPanel(Widget titleWidget, ClickHandler clickHandler) {
+    public FocusPanel addPanel(Widget titleWidget, ClickHandler clickHandler) {
         AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
         setupPanelContent(titleBar, null);
         titleBar.addClickHandler(clickHandler);
+        return titleBar;
     }    
     private void setupPanelContent(AccordionTitleBar titleBar, Widget subContent){
     	titleBarList.add(titleBar);

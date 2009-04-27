@@ -68,5 +68,10 @@ public class KSBasicMenu extends KSBasicMenuAbstract{
         basicMenu.setTitle(title);
         
     }
+
+    @Override
+    public boolean selectMenuItem(String[] hierarchy) {
+        return basicMenu.selectMenuItem(hierarchy);
+    }
     
 }

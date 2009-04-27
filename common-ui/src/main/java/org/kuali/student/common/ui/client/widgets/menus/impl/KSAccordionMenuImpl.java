@@ -1,17 +1,25 @@
 package org.kuali.student.common.ui.client.widgets.menus.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.FocusPanel;
+
 public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{ 
 	//TODO make this work with KSAccordionPanel
 	private KSAccordionPanelImpl menu = new KSAccordionPanelImpl();
+	
+	private final Map<String, FocusPanel> accordionMenuItemPanels = new HashMap<String, FocusPanel>();
+	private final Map<String, KSAccordionMenuImpl> subMenuMap = new HashMap<String, KSAccordionMenuImpl>();
+	
 	private boolean retainHistory = false;
 	
 	public KSAccordionMenuImpl(){
@@ -31,17 +39,15 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
 			}
 			categoryLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
 			
-/*			if(i.getClickHandler() != null){
-			    fp.addClickHandler(i.getClickHandler());
-			}*/
+			String key = i.getLabel().toLowerCase().trim();
 			
 			if(i.getSubItems().isEmpty()){		
 				if(i.getClickHandler() != null)
 				{
-					menu.addPanel(categoryLabel, i.getClickHandler());
+					accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel, i.getClickHandler()));
 				}
 				else{
-					menu.addPanel(categoryLabel);
+				    accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel));
 				}
 			}
 			else{
@@ -50,11 +56,12 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
 				subMenu.setItems(i.getSubItems());
 				if(i.getClickHandler() != null)
 				{
-					menu.addPanel(categoryLabel, i.getClickHandler(), subMenu);
+				    accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel, i.getClickHandler(), subMenu));
 				}
 				else{
-					menu.addPanel(categoryLabel, subMenu);
+				    accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel, subMenu));
 				}
+				subMenuMap.put(key, subMenu);
 			}
 		}
 		
@@ -94,6 +101,28 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
     @Override
     public void setItems(List<KSMenuItemData> items) {
         super.setItems(items);
+    }
+
+    @Override
+    public boolean selectMenuItem(String[] hierarchy) {
+        boolean selected = false;
+        String current = hierarchy[0].toLowerCase().trim();
+        FocusPanel itemToSelect = accordionMenuItemPanels.get(current);
+        if(itemToSelect != null){
+            itemToSelect.fireEvent(new ClickEvent(){});
+            selected = true;
+        }
+        
+        KSAccordionMenuImpl subMenu = subMenuMap.get(current);
+        if(subMenu != null){
+            String[] subHierarchy = new String[hierarchy.length - 1];
+            for(int i = 0; i < subHierarchy.length; i++){
+                subHierarchy[i] = hierarchy[i + 1];
+            }
+            selected = subMenu.selectMenuItem(subHierarchy);
+        }
+        
+        return selected;
     }
 	
 }

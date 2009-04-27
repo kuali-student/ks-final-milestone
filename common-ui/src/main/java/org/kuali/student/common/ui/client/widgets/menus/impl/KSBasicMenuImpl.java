@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,6 +20,8 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -73,17 +76,11 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         public void onClick(ClickEvent event) {
             Widget sender = (Widget) event.getSource();
             if(sender instanceof MenuItemPanel){
-                if(((MenuItemPanel) sender).isSelectable()){
-                    
-                    //deselect menu items
-                    for(MenuItemPanel m : menuItems){
-                        m.deSelect();
-                    }
-                    
-                    ((MenuItemPanel) sender).select();
-                }
-            }  
+                selectMenuItemPanel((MenuItemPanel)sender);
+            }
         }
+
+
 
         @Override
         public void onMouseOver(MouseOverEvent event) {
@@ -117,6 +114,19 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         public void onBlur(BlurEvent event) {
             // no function yet
             
+        }
+        
+    }
+    
+    private void selectMenuItemPanel(MenuItemPanel toBeSelected) {
+        if(toBeSelected.isSelectable()){
+            
+            //deselect menu items
+            for(MenuItemPanel m : menuItems){
+                m.deSelect();
+            }
+            
+            toBeSelected.select();
         }
         
     }
@@ -193,6 +203,10 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         public void setSelectable(boolean selectable) {
             this.selectable = selectable;
         }
+        
+        public KSMenuItemData getItem() {
+            return item;
+        }
     }
     
     @Override
@@ -222,6 +236,35 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
 
     public void setNumberAllItems(boolean numberAllItems) {
         this.numberAllItems = numberAllItems;
+    }
+
+    @Override
+    public boolean selectMenuItem(String[] hierarchy) {
+        List<KSMenuItemData> currentItems = items;
+        KSMenuItemData itemToSelect = null;
+        for(String s: hierarchy){
+            s = s.trim();
+            for(KSMenuItemData i: currentItems){
+                if(s.equalsIgnoreCase(i.getLabel().trim())){
+                    itemToSelect = i;
+                    currentItems = i.getSubItems();
+                    break;
+                }
+            }
+        }
+        
+        if(itemToSelect != null){
+        
+            for(MenuItemPanel p: menuItems){
+                if(itemToSelect.equals(p.getItem())){
+                    p.fireEvent(new ClickEvent(){});
+                    return true;
+                }
+            }
+            
+        }
+        
+        return false;
     }
     
 }
