@@ -6,8 +6,10 @@ import java.util.List;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
+import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
 import org.kuali.student.lum.lrc.dto.RichTextInfo;
 import org.kuali.student.lum.lrc.entity.Credit;
+import org.kuali.student.lum.lrc.entity.CreditType;
 import org.springframework.beans.BeanUtils;
 
 public class LrcServiceAssembler extends BaseAssembler {
@@ -44,6 +46,25 @@ public class LrcServiceAssembler extends BaseAssembler {
         return dto;
 
     }
+
+    public static CreditTypeInfo toCreditTypeInfo(CreditType entity) {
+        CreditTypeInfo dto = new CreditTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
+    }
+
+    public static List<CreditTypeInfo> toCreditTypeInfos(List<CreditType> entities) {
+        List<CreditTypeInfo> dtos = new ArrayList<CreditTypeInfo>(entities.size());
+        for (CreditType entity : entities) {
+            dtos.add(toCreditTypeInfo(entity));
+        }
+        return dtos;
+    }
+
 
 }
 

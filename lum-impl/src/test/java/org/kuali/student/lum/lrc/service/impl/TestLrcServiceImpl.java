@@ -18,6 +18,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
+import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -28,7 +29,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
 	@Test
     public void testGetCredit() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        Object creditInfo = client.getCredit("LRC-CREDIT-1");
+        CreditInfo creditInfo = client.getCredit("LRC-CREDIT-1");
         assertNotNull(creditInfo);
 
         try {
@@ -75,6 +76,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
+
     @Test
     public void testGetCreditKeysByCreditType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<String> creditIds = client.getCreditKeysByCreditType("lcrType.credit.3");
@@ -91,5 +93,31 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
+    }
+
+    @Test
+    public void testGetCreditType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        CreditTypeInfo creditTypeInfo = client.getCreditType("lcrType.credit.2");
+        assertNotNull(creditTypeInfo);
+
+        try {
+            creditTypeInfo = client.getCreditType("lcrType.credit.2x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+        try {
+            creditTypeInfo = client.getCreditType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetCreditTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<CreditTypeInfo> creditTypeInfos = client.getCreditTypes();
+        assertNotNull(creditTypeInfos);
+        assertEquals(3, creditTypeInfos.size());
     }
 }

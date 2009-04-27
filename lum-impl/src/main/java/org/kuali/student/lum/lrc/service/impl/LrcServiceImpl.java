@@ -27,6 +27,7 @@ import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.dto.StatusInfo;
 import org.kuali.student.lum.lrc.entity.Credit;
+import org.kuali.student.lum.lrc.entity.CreditType;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -166,8 +167,10 @@ public class LrcServiceImpl implements LrcService {
 	public CreditTypeInfo getCreditType(String creditTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(creditTypeKey, "creditTypeKey");
+        CreditType creditType = lrcDao.fetch(CreditType.class, creditTypeKey);
+
+        return LrcServiceAssembler.toCreditTypeInfo(creditType);
 	}
 
 	/* (non-Javadoc)
@@ -176,8 +179,8 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public List<CreditTypeInfo> getCreditTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<CreditType> entities = lrcDao.find(CreditType.class);
+		return LrcServiceAssembler.toCreditTypeInfos(entities);
 	}
 
 	/* (non-Javadoc)
