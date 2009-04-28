@@ -10,6 +10,7 @@ import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.entity.Credential;
 import org.kuali.student.lum.lrc.entity.Credit;
+import org.kuali.student.lum.lrc.entity.Grade;
 
 public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao {
 	@PersistenceContext(unitName = "Lrc")
@@ -51,6 +52,33 @@ public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao 
         query.setParameter("creditTypeId", creditTypeId);
         @SuppressWarnings("unchecked")
         List<String> resultList = query.getResultList();
+        return resultList;
+    }
+
+    @Override
+    public List<Grade> getGradesByIdList(List<String> gradeIdList) {
+        Query query = em.createNamedQuery("Grade.getGradesByIdList");
+        query.setParameter("gradeIdList", gradeIdList);
+        @SuppressWarnings("unchecked")
+        List<Grade> resultList = query.getResultList();
+        return resultList;
+    }
+
+    @Override
+    public List<String> getGradeIdsByGradeType(String gradeTypeId) {
+        Query query = em.createNamedQuery("Grade.getGradeIdsByGradeType");
+        query.setParameter("gradeTypeId", gradeTypeId);
+        @SuppressWarnings("unchecked")
+        List<String> resultList = query.getResultList();
+        return resultList;
+    }
+
+    @Override
+    public List<Grade> getGradesByScale(String scale) {
+        Query query = em.createNamedQuery("Grade.getGradesByScale");
+        query.setParameter("scale", scale);
+        @SuppressWarnings("unchecked")
+        List<Grade> resultList = query.getResultList();
         return resultList;
     }
 }

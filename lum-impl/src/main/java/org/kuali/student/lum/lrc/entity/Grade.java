@@ -25,6 +25,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +37,11 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LCR_GRADE")
+@NamedQueries( {
+    @NamedQuery(name = "Grade.getGradesByIdList", query = "SELECT c FROM Grade c WHERE c.id IN (:gradeIdList)"),
+    @NamedQuery(name = "Grade.getGradeIdsByGradeType", query = "SELECT c.id FROM Grade c JOIN c.type type WHERE type.id = :gradeTypeId"),
+    @NamedQuery(name = "Grade.getGradesByScale", query = "SELECT c FROM Grade c WHERE c.scaleKey = :scale")
+})
 public class Grade extends MetaEntity implements AttributeOwner<GradeAttribute> {
     @Id
     @Column(name = "ID")

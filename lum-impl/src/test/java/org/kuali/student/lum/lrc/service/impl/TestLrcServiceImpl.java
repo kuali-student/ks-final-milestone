@@ -21,6 +21,8 @@ import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
+import org.kuali.student.lum.lrc.dto.GradeInfo;
+import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -209,4 +211,118 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(creditTypeInfos);
         assertEquals(3, creditTypeInfos.size());
     }
+
+    @Test
+    public void testGetGrade() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        GradeInfo gradeInfo = client.getGrade("LRC-GRADE-1");
+        assertNotNull(gradeInfo);
+
+        try {
+            gradeInfo = client.getGrade("LRC-GRADE-1X");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+        try {
+            gradeInfo = client.getGrade(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetGradeByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ArrayList<String> keys = new ArrayList<String>();
+        keys.add("LRC-GRADE-1");
+        keys.add("LRC-GRADE-2");
+        keys.add("LRC-GRADE-1x");
+        List<GradeInfo> grades = client.getGradesByKeyList(keys);
+        assertNotNull(grades);
+        assertEquals(2, grades.size());
+
+        keys.clear();
+        keys.add("LRC-GRADE-1x");
+        grades = client.getGradesByKeyList(keys);
+        assertNotNull(grades);
+        assertEquals(0, grades.size());
+
+        keys.clear();
+        try {
+            grades = client.getGradesByKeyList(keys);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+        try {
+            grades = client.getGradesByKeyList(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetGradeKeysByGradeType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<String> gradeIds = client.getGradeKeysByGradeType("lcrType.grade.3");
+        assertNotNull(gradeIds);
+        assertEquals(2, gradeIds.size());
+
+        gradeIds = client.getGradeKeysByGradeType("lcrType.grade.3x");
+        assertNotNull(gradeIds);
+        assertEquals(0, gradeIds.size());
+
+        try {
+            gradeIds = client.getGradeKeysByGradeType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetGradeType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        GradeTypeInfo gradeTypeInfo = client.getGradeType("lcrType.grade.2");
+        assertNotNull(gradeTypeInfo);
+
+        try {
+            gradeTypeInfo = client.getGradeType("lcrType.grade.2x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+        try {
+            gradeTypeInfo = client.getGradeType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetGradeTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<GradeTypeInfo> gradeTypeInfos = client.getGradeTypes();
+        assertNotNull(gradeTypeInfos);
+        assertEquals(3, gradeTypeInfos.size());
+    }
+
+    @Test
+    public void testGetGradesByScale() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<GradeInfo> grades = client.getGradesByScale("Scale Key 1");
+        assertNotNull(grades);
+        assertEquals(2, grades.size());
+
+        grades = client.getGradesByScale("Scale Key 1x");
+        assertNotNull(grades);
+        assertEquals(0, grades.size());
+        
+        try {
+            grades = client.getGradesByScale(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+
 }

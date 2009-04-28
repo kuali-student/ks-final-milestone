@@ -9,11 +9,15 @@ import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
+import org.kuali.student.lum.lrc.dto.GradeInfo;
+import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
 import org.kuali.student.lum.lrc.dto.RichTextInfo;
 import org.kuali.student.lum.lrc.entity.Credential;
 import org.kuali.student.lum.lrc.entity.CredentialType;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.CreditType;
+import org.kuali.student.lum.lrc.entity.Grade;
+import org.kuali.student.lum.lrc.entity.GradeType;
 import org.springframework.beans.BeanUtils;
 
 public class LrcServiceAssembler extends BaseAssembler {
@@ -105,6 +109,42 @@ public class LrcServiceAssembler extends BaseAssembler {
         List<CreditTypeInfo> dtos = new ArrayList<CreditTypeInfo>(entities.size());
         for (CreditType entity : entities) {
             dtos.add(toCreditTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+    public static GradeInfo toGradeInfo(Grade entity) {
+        GradeInfo dto = new GradeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes", "type" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setType(entity.getType().getId());
+        return dto;
+    }
+
+    public static List<GradeInfo> toGradeInfos(List<Grade> entities) {
+        List<GradeInfo> dtos = new ArrayList<GradeInfo>(entities.size());
+        for (Grade entity : entities) {
+            dtos.add(toGradeInfo(entity));
+        }
+        return dtos;
+    }
+
+    public static GradeTypeInfo toGradeTypeInfo(GradeType entity) {
+        GradeTypeInfo dto = new GradeTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
+    }
+
+    public static List<GradeTypeInfo> toGradeTypeInfos(List<GradeType> entities) {
+        List<GradeTypeInfo> dtos = new ArrayList<GradeTypeInfo>(entities.size());
+        for (GradeType entity : entities) {
+            dtos.add(toGradeTypeInfo(entity));
         }
         return dtos;
     }

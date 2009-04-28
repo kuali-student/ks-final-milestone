@@ -1,6 +1,8 @@
 
 package org.kuali.student.lum.lrc.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,6 +27,9 @@ public class GetGradesByKeyListResponse {
     private java.util.List<GradeInfo> _return;
 
     public java.util.List<GradeInfo> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<GradeInfo>(0);
+        }
         return this._return;
     }
 

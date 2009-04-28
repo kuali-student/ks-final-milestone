@@ -30,6 +30,8 @@ import org.kuali.student.lum.lrc.entity.Credential;
 import org.kuali.student.lum.lrc.entity.CredentialType;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.CreditType;
+import org.kuali.student.lum.lrc.entity.Grade;
+import org.kuali.student.lum.lrc.entity.GradeType;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -205,59 +207,65 @@ public class LrcServiceImpl implements LrcService {
 		return LrcServiceAssembler.toCreditInfos(credits);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getGrade(java.lang.String)
-	 */
-	@Override
-	public GradeInfo getGrade(String gradeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.kuali.student.lum.lrc.service.LrcService#getGrade(java.lang.String)
+     */
+    @Override
+    public GradeInfo getGrade(String gradeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(gradeKey, "gradeKey");
+        Grade grade = lrcDao.fetch(Grade.class, gradeKey);
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradeKeysByGradeType(java.lang.String)
-	 */
-	@Override
-	public List<String> getGradeKeysByGradeType(String gradeTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return LrcServiceAssembler.toGradeInfo(grade);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradeType(java.lang.String)
-	 */
-	@Override
-	public GradeTypeInfo getGradeType(String gradeTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.kuali.student.lum.lrc.service.LrcService#getGradeKeysByGradeType(java.lang.String)
+     */
+    @Override
+    public List<String> getGradeKeysByGradeType(String gradeTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(gradeTypeKey, "gradeTypeKey");
+        List<String> gradeIds = lrcDao.getGradeIdsByGradeType(gradeTypeKey);
+        return gradeIds;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradeTypes()
-	 */
-	@Override
-	public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see org.kuali.student.lum.lrc.service.LrcService#getGradeType(java.lang.String)
+     */
+    @Override
+    public GradeTypeInfo getGradeType(String gradeTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(gradeTypeKey, "gradeTypeKey");
+        GradeType gradeType = lrcDao.fetch(GradeType.class, gradeTypeKey);
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByKeyList(java.util.List)
-	 */
-	@Override
-	public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return LrcServiceAssembler.toGradeTypeInfo(gradeType);
+    }
 
+    /* (non-Javadoc)
+     * @see org.kuali.student.lum.lrc.service.LrcService#getGradeTypes()
+     */
+    @Override
+    public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException {
+        List<GradeType> entities = lrcDao.find(GradeType.class);
+        return LrcServiceAssembler.toGradeTypeInfos(entities);
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByKeyList(java.util.List)
+     */
+    @Override
+    public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(gradeKeyList, "gradeKeyList");
+        checkForEmptyList(gradeKeyList, "gradeKeyList");
+        List<Grade> grades = lrcDao.getGradesByIdList(gradeKeyList);
+        return LrcServiceAssembler.toGradeInfos(grades);
+    }
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByScale(java.lang.String)
 	 */
@@ -265,8 +273,10 @@ public class LrcServiceImpl implements LrcService {
 	public List<GradeInfo> getGradesByScale(String scale)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(scale, "scale");
+        List<Grade> grades = lrcDao.getGradesByScale(scale);
+
+        return LrcServiceAssembler.toGradeInfos(grades);
 	}
 
 	/* (non-Javadoc)
