@@ -110,6 +110,11 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
     	return widgetList;
     }
    
+    public void selectOption(int index){
+        if(!titleBarList.get(index).isOpen())
+            titleBarList.get(index).openAction();
+    }
+    
     class AccordionTitleBar extends FocusPanel {
         private boolean isOpen = false;
     	
@@ -187,7 +192,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 		}
 		
 		
-		private void openAction(){
+		void openAction(){
 			for (Widget w : widgetList) {
 	            if(w != null){
 	            	content.remove(w);
