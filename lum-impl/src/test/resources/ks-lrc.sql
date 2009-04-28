@@ -1,0 +1,67 @@
+// RichText
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-1', '<p>Credit 1</p>', 'Credit 1')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-2', '<p>Credit 2</p>', 'Credit 2')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-3', '<p>Credit 3</p>', 'Credit 3')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-4', '<p>Credential 1</p>', 'Credential 1')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-5', '<p>Credential 2</p>', 'Credential 2')
+/
+INSERT INTO KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-6', '<p>Credential 3</p>', 'Credential 3')
+/
+
+// Credential Type
+INSERT INTO KSLU_LCR_CREDENTIAL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credential.1', 'A Basic credential 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'credential 1')
+/
+INSERT INTO KSLU_LCR_CREDENTIAL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credential.2', 'A Basic credential 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'credential 2')
+/
+INSERT INTO KSLU_LCR_CREDENTIAL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credential.3', 'A Basic credential 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'credential 3')
+/
+
+// Credential
+INSERT INTO KSLU_LCR_CREDENTIAL (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDENTIAL-1', 'Credential 1', 'RT-DESC-LCR-4','LCR Value 1',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credential.1', 0)
+/
+INSERT INTO KSLU_LCR_CREDENTIAL (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDENTIAL-2', 'Credential 2', 'RT-DESC-LCR-5','LCR Value 2',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credential.2', 0)
+/
+INSERT INTO KSLU_LCR_CREDENTIAL (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDENTIAL-3', 'Credential 3', 'RT-DESC-LCR-6','LCR Value 3',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credential.3', 0)
+/
+INSERT INTO KSLU_LCR_CREDENTIAL (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDENTIAL-4', 'Credential 4', 'RT-DESC-LCR-6','LCR Value 4',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credential.3', 0)
+/
+
+// Credit Type
+INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.1', 'A Basic Credit 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit 1')
+/
+INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.2', 'A Basic Credit 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit 2')
+/
+INSERT INTO KSLU_LCR_CREDIT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.credit.3', 'A Basic Credit 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit 3')
+/
+
+// Credit
+INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-1', 'Credit 1', 'RT-DESC-LCR-1','LCR Value 1',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.1', 0)
+/
+INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-2', 'Credit 2', 'RT-DESC-LCR-2','LCR Value 2',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.2', 0)
+/
+INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-3', 'Credit 3', 'RT-DESC-LCR-3','LCR Value 3',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.3', 0)
+/
+INSERT INTO KSLU_LCR_CREDIT (ID, NAME, RT_DESCR_ID, VALUE, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-CREDIT-4', 'Credit 4', 'RT-DESC-LCR-3','LCR Value 4',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.credit.3', 0)
+/
+
+// Grade Type
+INSERT INTO KSLU_LCR_GRADE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.grade.1', 'A Basic Grade 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Grade 1')
+/
+INSERT INTO KSLU_LCR_GRADE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.grade.2', 'A Basic Grade 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Grade 2')
+/
+INSERT INTO KSLU_LCR_GRADE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lcrType.grade.3', 'A Basic Grade 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Grade 3')
+/
+
+// Grade
+INSERT INTO KSLU_LCR_GRADE (ID, NAME, VALUE, SCALE_KEY, RANK, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-GRADE-1', 'Grade 1', 'LCR Value 1', 'Scale Key 1', 'Rank 1', {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.grade.1', 0)
+/
+INSERT INTO KSLU_LCR_GRADE (ID, NAME, VALUE, SCALE_KEY, RANK, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-GRADE-2', 'Grade 2', 'LCR Value 2', 'Scale Key 2', 'Rank 2', {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.grade.2', 0)
+/
+INSERT INTO KSLU_LCR_GRADE (ID, NAME, VALUE, SCALE_KEY, RANK, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-GRADE-3', 'Grade 3', 'LCR Value 3', 'Scale Key 3', 'Rank 3', {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.grade.3', 0)
+/
+INSERT INTO KSLU_LCR_GRADE (ID, NAME, VALUE, SCALE_KEY, RANK, EFF_DT, EXPIR_DT, TYPE, VERSIONIND) VALUES ('LRC-GRADE-4', 'Grade 4', 'LCR Value 4', 'Scale Key 1', 'Rank 4', {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'lcrType.grade.3', 0)
+/
