@@ -132,13 +132,12 @@
 .KS-RuleEditor-ExampleText1{
 	margin-bottom: 50px;
 	margin-top: 10px;
-	margin-right: 0px;
 	color: gray;
 	font-size:10pt;
-	/* width: 100%;	 */
 }
 
 .KS-RuleEditor-ExampleText2{
+	margin-bottom: 50px;
 	margin-top: 10px;
 	color: gray;
 	font-style: italic;	

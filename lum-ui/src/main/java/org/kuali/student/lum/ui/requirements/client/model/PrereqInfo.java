@@ -1,15 +1,7 @@
 package org.kuali.student.lum.ui.requirements.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.common.ui.client.widgets.table.ExpressionNode;
-import org.kuali.student.common.ui.client.widgets.table.ExpressionParser;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.common.ui.client.widgets.table.Token;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 
 public class PrereqInfo implements Idable {
 

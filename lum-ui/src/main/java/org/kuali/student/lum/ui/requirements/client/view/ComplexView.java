@@ -84,8 +84,8 @@ public class ComplexView extends ViewComposite {
         //TODO: ruleTable should allow to set the type of widget that will be 
         int rowCount = ruleTable.getRowCount();
 System.out.println("Row count: " + rowCount);        
-        for (int colIx = 0; colIx < rowCount; colIx++) {
-            NodeWidget widget = (NodeWidget) ruleTable.getWidget(1, colIx);
+        for (int rowIx = 0; rowIx < rowCount; rowIx++) {
+            NodeWidget widget = (NodeWidget) ruleTable.getWidget(rowIx, 0);
             widget.setStyleName("KS-ReqComp-DeSelected");
         }
     }
@@ -224,7 +224,7 @@ System.out.println("Row count: " + rowCount);
                 } 
             });          
         }
-    }    
+    }       
 
     public ReqComponentInfo getSelectedReqComp() {       
         return selectedReqComp;

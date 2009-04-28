@@ -138,6 +138,7 @@ public class CourseRequisiteView extends ViewComposite {
             KSLabel coReqText = new KSLabel("No co-requisite rule has been defined. To add one, click Add Co-Requisite Rule.");
             coReqText.setStyleName("KS-ReqMgr-NoRuleText");
             verticalPanel.add(coReqText);
+            AddCoreqRule.setEnabled(false);
             verticalPanel.add(AddCoreqRule);
             AddCoreqRule.setStyleName("KS-Rules-Standard-Button");             
             AddCoreqRule.addClickHandler(handler);

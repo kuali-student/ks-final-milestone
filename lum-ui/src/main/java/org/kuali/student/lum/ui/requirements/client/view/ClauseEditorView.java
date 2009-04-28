@@ -26,9 +26,12 @@ import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.Pre
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -48,6 +51,7 @@ public class ClauseEditorView extends ViewComposite {
     KSListBox compReqTypesList = new KSListBox();
     SimplePanel reqCompDesc = new SimplePanel();  
     HorizontalPanel examplePanel = new HorizontalPanel();
+    private KSLabel exampleText2 = new KSLabel();    
     
     //view's data
     private ReqComponentInfo editedReqComp;
@@ -145,11 +149,10 @@ public class ClauseEditorView extends ViewComposite {
         VerticalPanel reqCompDetailsPanel = new VerticalPanel(); 
         
         examplePanel.setSpacing(0);
-        examplePanel.setStyleName("KS-Rules-FullWidth");        
+        //examplePanel.setStyleName("KS-Rules-FullWidth");        
         KSLabel exampleText1 = new KSLabel("Example:");
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);        
-        KSLabel exampleText2 = new KSLabel("Student must have... (WIP)");
         exampleText2.setStyleName("KS-RuleEditor-ExampleText2");
         examplePanel.add(exampleText2);
         reqCompDetailsPanel.add(examplePanel);                
@@ -181,7 +184,8 @@ public class ClauseEditorView extends ViewComposite {
         editorView.add(tempPanelButtons);
         editorView.setStyleName("Content-Margin");
         mainPanel.clear();
-        mainPanel.add(editorView); 
+        mainPanel.add(editorView);
+        updateExampleContext();
     }
     
     public void setReqComponentList() {        
@@ -417,6 +421,7 @@ public class ClauseEditorView extends ViewComposite {
         return result;
     }
     
+    /*
     private void setSpecificFieldValue(List<ReqCompFieldInfo> fields, String key, String value) {
         ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, key);
         
@@ -425,7 +430,7 @@ public class ClauseEditorView extends ViewComposite {
         }
         
         reqCompFieldInfo.setValue(value);
-    }
+    }*/
     
     private String getSpecificFieldValue(List<ReqCompFieldInfo> fields, String key) {
         ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, key);
@@ -433,7 +438,6 @@ public class ClauseEditorView extends ViewComposite {
         
         //if we are showing new req. comp. type then show empty fields
         if (reqCompFieldInfo == null) {
-            System.out.println("Fields null");
             return "";
         }
         
@@ -442,7 +446,23 @@ public class ClauseEditorView extends ViewComposite {
     
         return result;
     }
-
+    
+    private void updateExampleContext() {         
+        if (editedReqComp != null) {        
+            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(editedReqComp, "KUALI.EXAMPLE", new AsyncCallback<String>() {
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    System.out.println(caught.getMessage());
+                    caught.printStackTrace();
+                }
+                
+                public void onSuccess(final String nl) {
+                    exampleText2.setText(nl);
+                } 
+            });          
+        }
+    }      
+    
     public ReqComponentInfo getEditedReqComp() {
         return editedReqComp;
     }

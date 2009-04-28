@@ -58,6 +58,7 @@ public class SimpleView extends ViewComposite {
     private void setupHandlers() {
         linkToComplexView.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+System.out.println("changing to complex view...");                
                 getController().showView(PrereqViews.COMPLEX);
             }
         });
