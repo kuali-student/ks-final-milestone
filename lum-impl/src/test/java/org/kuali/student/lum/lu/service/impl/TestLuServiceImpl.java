@@ -1811,7 +1811,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetNaturalLanguageForLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-3", "KUALI.CATALOG");
-		assertEquals("Student must have completed 1 of MATH 152, MATH 221", naturalLanguage);
+		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-4", "KUALI.CATALOG");
+		assertEquals("Student must have completed 1 of MATH 152, MATH 221 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 }
