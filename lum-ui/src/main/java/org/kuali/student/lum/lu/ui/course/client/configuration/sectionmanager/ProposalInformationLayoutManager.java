@@ -20,12 +20,17 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
+import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 
 import com.google.gwt.user.client.ui.TextBox;
@@ -64,7 +69,8 @@ public class ProposalInformationLayoutManager {
     }
 
     private void addAuthorAndCollaboratorsSection() {
-        layout.addSection(new String[] {"Proposal Information", "Author + Collaborators"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
+                LUConstants.SUB_SECTION_AUTHORS_AND_COLLABORATORS}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
@@ -106,7 +112,7 @@ public class ProposalInformationLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("administrativeDelegate")))
                         )
                 )
-                .setSectionTitle("Author + Collaborators")
+                .setSectionTitle(LUConstants.SUB_SECTION_AUTHORS_AND_COLLABORATORS)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)
 
@@ -114,7 +120,8 @@ public class ProposalInformationLayoutManager {
     }
 
     private void addGovernanceSection() {
-        layout.addSection(new String[] {"Proposal Information", "Governance"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
+                LUConstants.SUB_SECTION_GOVERNANCE}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
@@ -140,73 +147,138 @@ public class ProposalInformationLayoutManager {
                         .setBinding(new PropertyBinding<CluInfo>() {
                             @Override
                             public Object getValue(CluInfo object) {
+                                // TODO figure out how to get values
+                                return "South campus";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                // TODO figure out how to set value                                
+                            }
+                        })
+                        .setFormField(new KSFormField("campusLocation", "Campus Location")
+                        .setWidget(new KSCheckBoxList())
+                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
+                        "http://www.google.com/")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
+                        )
+                )                
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
                                 // finally, a field with an obvious cluinfo mapping
                                 return object.getAdminOrg();
                             }
                             @Override
                             public void setValue(CluInfo object, Object value) {
-                                object.setAdminOrg(value.toString());
+                                // TODO figure out how to set value                                
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
-                        .setWidget(new KSTextBox())
+                        .setWidget(new KSDropDown())
                         .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
                         "http://www.google.com/")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
-                .setSectionTitle("Governance")
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                // TODO figure out how to get values
+                                return new Boolean(false);
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                object.setAdminOrg(value.toString());
+                            }
+                        })
+                        .setFormField(new KSFormField("crossListed", "Cross Listed")
+                        .setWidget(new KSCheckBox())
+                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
+                        "http://www.google.com/")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
+                        )
+                )                
+                .setSectionTitle(LUConstants.SUB_SECTION_GOVERNANCE)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)      
         );
     }
 
     private void addCourseFormatSection() {
-        //TODO: How do we specify fields should be on same line?
-        layout.addSection(new String[] {"Proposal Information", "Course Format"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
+                LUConstants.SUB_SECTION_COURSE_FORMAT}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
                             @Override
                             public Object getValue(CluInfo object) {
-                                // TODO figure out how to get the curriculum oversight
-                                return "graduate";
+                                // TODO figure out how to get values
+                                return "Summer";
                             }
                             @Override
                             public void setValue(CluInfo object, Object value) {
-                                // TODO figure out which field is the curriculum oversight
+                                // TODO figure out how to set values
+
                             }
                         })
-                        .setFormField(new KSFormField("courseSubject", "Course Subject")
-                        .setWidget(new KSTextBox())
+                        .setFormField(new KSFormField("term", "Term")
+                        .setWidget(new KSDropDown())
                         .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
                         "http://www.google.com/")
                         )
-//                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
                             @Override
                             public Object getValue(CluInfo object) {
-                                // TODO figure out how to get the curriculum oversight
-                                return "graduate";
+                                // TODO figure out how to get values
+                                return "13 week";
                             }
                             @Override
                             public void setValue(CluInfo object, Object value) {
-                                // TODO figure out which field is the curriculum oversight
+                                // TODO figure out how to set values
+//                              object.setStdDuration();
+
                             }
                         })
-                        .setFormField(new KSFormField("courseNumber", "Course Number")
-                        .setWidget(new KSTextBox())
+                        .setFormField(new KSFormField("duration", "Duration")
+                        .setWidget(new KSDropDown())
                         .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
                         "http://www.google.com/")
                         )
-//                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
-                .setSectionTitle("Course Format")
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                // TODO figure out how to get values
+                                return "Lecture";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                // TODO figure out how to set values
+//                              object.setStdDuration();
+
+                            }
+                        })
+                        .setFormField(new KSFormField("activityType", "Activity")
+                        .setWidget(new KSDropDown())
+                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
+                        "http://www.google.com/")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
+                        )
+                )
+                .setSectionTitle(LUConstants.SUB_SECTION_COURSE_FORMAT)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)  
         );

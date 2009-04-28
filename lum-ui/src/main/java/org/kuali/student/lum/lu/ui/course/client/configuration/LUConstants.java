@@ -38,5 +38,18 @@ public class LUConstants {
     public final static String LU_STATE_NOT_APPROVED = "Not Approved";// Maybe Rejected would be a better value?
     public final static String LU_STATE_ACTIVATED = "Activated";
     public final static String LU_STATE_RETIRED = "Retired";
+    
+    //Section names
+    public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
+    public static final String SECTION_ACADEMIC_CONTENT = "Academic Content";
+    public static final String SECTION_STUDENT_ELIGIBILITY = "Student Eligibility";
+    public static final String SECTION_ADMINISTRATIVE = "Administrative";
+    public static final String SECTION_ATTACHMENTS = "Attachments";
+
+    //Sub Section names
+    public static final String SUB_SECTION_AUTHORS_AND_COLLABORATORS = "Authors + Collaborators";
+    public static final String SUB_SECTION_GOVERNANCE = "Governance";
+    public static final String SUB_SECTION_COURSE_FORMAT = "Course Format";
+
 
 }
