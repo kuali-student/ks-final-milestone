@@ -18,10 +18,15 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
  * 
+ *
+ * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
 public class LUConstants {
+    
+    //TODO These should probably be somewhere else as they are LUM wide constants - not just
+    //     UI specific
     
     public final static String LU_TYPE_CREDIT_COURSE = "Course";
     
