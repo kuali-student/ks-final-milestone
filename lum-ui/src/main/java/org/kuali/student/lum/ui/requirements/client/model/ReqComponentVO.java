@@ -11,6 +11,7 @@ public class ReqComponentVO extends Token implements Serializable {
     private static final long serialVersionUID = 1L;
     private ReqComponentInfo reqComponentInfo;
     private String typeDesc;
+    private boolean dirty;
     
     public ReqComponentVO() {}
     
@@ -34,6 +35,14 @@ public class ReqComponentVO extends Token implements Serializable {
         this.typeDesc = typeDesc;
     }
     
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+    }
+
     @Override
     public String toString() {                
         String reqCompType = reqComponentInfo.getType();

@@ -280,6 +280,7 @@ public class ClauseEditorView extends ViewComposite {
                 int index = Integer.valueOf(compReqTypesList.getSelectedItem());
                 ReqComponentTypeInfo reqInfo = reqCompTypeList.get(index);
                 reqComponentVO.setTypeDesc(reqInfo.getDesc());
+                reqComponentVO.setDirty(true);
                 statementVO.addReqComponentVO(reqComponentVO);
                 getController().showView(PrereqViews.COMPLEX);                
             }

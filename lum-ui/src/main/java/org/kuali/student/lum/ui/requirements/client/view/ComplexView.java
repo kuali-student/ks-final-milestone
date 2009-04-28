@@ -46,7 +46,7 @@ public class ComplexView extends ViewComposite {
     
     //view's data
     private Model<PrereqInfo> model;
-    private ReqComponentInfo selectedReqComp;
+    private ReqComponentVO selectedReqCompVO;
     private Widget selectedTableCellWidget = null;
 
     public ComplexView(Controller controller) {
@@ -98,7 +98,7 @@ System.out.println("Row count: " + rowCount);
         });
         btnAddClause.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                selectedReqComp = null;
+                selectedReqCompVO = null;
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
             }
         });     
@@ -125,14 +125,14 @@ System.out.println("Row count: " + rowCount);
                 
                 NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 if (widget == null) {
-                    selectedReqComp = null;
+                    selectedReqCompVO = null;
                     btnAddClause.setEnabled(true);
                     btnEditClause.setEnabled(false);                    
                 } else {
                     selectedTableCellWidget = widget;
                     widget.setStyleName("KS-ReqComp-Selected");
-                    ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();                    
-                    selectedReqComp = clause.getReqComponentInfo();
+                    ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();
+                    selectedReqCompVO = clause;
                     updateNaturalLanguage();
                     btnAddClause.setEnabled(false);
                     btnEditClause.setEnabled(true); 
@@ -175,7 +175,7 @@ System.out.println("Row count: " + rowCount);
         btnEditClause.setEnabled(false);  
         btnDeleteClause.setEnabled(false);
         btnDuplicateClause.setEnabled(false);        
-        if ((selectedReqComp == null) || (selectedTableCellWidget == null)) {
+        if ((selectedReqCompVO == null) || (selectedTableCellWidget == null)) {
             btnAddClause.setEnabled(true);
         } else {          
             selectedTableCellWidget.setStyleName("KS-ReqComp-Selected");
@@ -210,9 +210,11 @@ System.out.println("Row count: " + rowCount);
         updateNaturalLanguage();        
     }
     
-    private void updateNaturalLanguage() {         
-        if (selectedReqComp != null) {        
-            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(selectedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
+    private void updateNaturalLanguage() {
+        naturalLanguage.setText("");
+        if (selectedReqCompVO != null && !selectedReqCompVO.isDirty()) {        
+            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(
+                    selectedReqCompVO.getReqComponentInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     System.out.println(caught.getMessage());
@@ -226,7 +228,10 @@ System.out.println("Row count: " + rowCount);
         }
     }       
 
-    public ReqComponentInfo getSelectedReqComp() {       
-        return selectedReqComp;
+    public ReqComponentInfo getSelectedReqComp() {
+        ReqComponentInfo result = 
+            (selectedReqCompVO == null)? null :
+                selectedReqCompVO.getReqComponentInfo();
+        return result;
     }   
 }
