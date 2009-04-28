@@ -28,6 +28,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl") 
 	public LuDao luDao;
 
+	private ReqComponentTranslator translator;
 	private String cluSetId1;
 	private ReqComponent reqComponent;
     private String courseTemplate = 
@@ -51,6 +52,8 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     public void setUp() throws Exception {
     	createCluSet();
     	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		this.translator = new ReqComponentTranslator();
+		this.translator.setLuDao(this.luDao);
     }
     
     @After
@@ -146,9 +149,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		createReqComponentFields("1", "greater_than_or_equal_to");
 		
-		ReqComponentTranslator translator = new ReqComponentTranslator();
-		translator.setLuDao(this.luDao);
-		String text = translator.translate(reqComponent.getId(), nlUsageTypeKey);
+		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
 	}
@@ -158,9 +159,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		createReqComponentFields("2", "equal_to");
 		
-		ReqComponentTranslator translator = new ReqComponentTranslator();
-		translator.setLuDao(this.luDao);
-		String text = translator.translate(reqComponent.getId(), nlUsageTypeKey);
+		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed all of MATH 152, MATH 221", text);
 	}
@@ -170,20 +169,15 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		createReqComponentFields("0", "less_than_or_equal_to");
 		
-		ReqComponentTranslator translator = new ReqComponentTranslator();
-		translator.setLuDao(this.luDao);
-		String text = translator.translate(reqComponent.getId(), nlUsageTypeKey);
+		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed none of MATH 152, MATH 221", text);
 	}
 
 	@Test
 	public void testTranslate_InvalidReqComponentId() throws DoesNotExistException, OperationFailedException {
-		ReqComponentTranslator translator = new ReqComponentTranslator();
-		translator.setLuDao(this.luDao);
-
 		try {
-			translator.translate("InvalidId", "KUALI.CATALOG");
+			this.translator.translate("InvalidId", "KUALI.CATALOG");
 			Assert.fail("Requirement component translation should have failed since 'InvalidId' is not a valid requirement component id");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());
@@ -194,11 +188,8 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	public void testTranslate_InvalidNlUsageTypeKey() throws DoesNotExistException, OperationFailedException {
 		createReqComponentFields("0", "less_than_or_equal_to");
 
-		ReqComponentTranslator translator = new ReqComponentTranslator();
-		translator.setLuDao(this.luDao);
-
 		try {
-			translator.translate(reqComponent.getId(), "KUALI.xxx.CATALOG");
+			this.translator.translate(reqComponent.getId(), "KUALI.xxx.CATALOG");
 			Assert.fail("Requirement component translation should have failed since 'KUALI.xxx.CATALOG' is not a valid nlUsageTypeKey");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());

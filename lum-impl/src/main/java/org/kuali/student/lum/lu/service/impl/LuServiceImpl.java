@@ -1411,10 +1411,9 @@ public class LuServiceImpl implements LuService {
 			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
 		}
 		
-//		String nl = this.naturalLanguageTranslator.translateStatement(luStatementId, nlUsageTypeKey);
-//
-//		return nl;
-		throw new RuntimeException("Method 'getNaturalLanguageForLuStatement' not yet implemented");
+		String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatementId, nlUsageTypeKey);
+
+		return nl;
 	}
 	
 	/**
