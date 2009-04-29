@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSImage;
+
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * The data object used to populate interactive ui menus.
@@ -17,6 +23,10 @@ public class KSMenuItemData {
 	private ClickHandler clickHandler;
 	private List<KSMenuItemData> subItems = new ArrayList<KSMenuItemData>();
 	private KSMenuItemData parent = null;
+	private boolean selected = false;
+	private KSImage shownIcon = null;
+	
+	private HandlerManager manager = new HandlerManager(this);
 
 	public KSMenuItemData(String label) {
 		super();
@@ -38,6 +48,7 @@ public class KSMenuItemData {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
+		manager.fireEvent(new MenuChangeEvent());
 	}
 	/**
 	 * Get the ClickHandler for this menu item.
@@ -92,4 +103,35 @@ public class KSMenuItemData {
     public KSMenuItemData getParent() {
         return parent;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+        if(selected == true){
+            manager.fireEvent(new MenuSelectEvent());
+        }
+    }
+    
+    public void unhandledSetSelected(boolean selected){
+        this.selected = selected;
+    }
+
+    public KSImage getShownIcon() {
+        return shownIcon;
+    }
+
+    public void setShownIcon(KSImage shownIcon) {
+        this.shownIcon = shownIcon;
+        manager.fireEvent(new MenuChangeEvent());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public HandlerRegistration addMenuEventHandler(Type type, MenuEventHandler meh){
+        return manager.addHandler(type, meh);
+    }
+    
+    
 }

@@ -3,11 +3,16 @@ package org.kuali.student.common.ui.client.widgets.menus.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl.AccordionTitleBar;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
+import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
+import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -24,6 +29,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,6 +44,44 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
     private boolean numberAllItems = false;
     
     private EventHandler handler = new EventHandler();
+    
+    private MenuEventHandler menuHandler = new MenuEventHandler(){
+
+        @Override
+        public void onChange(MenuChangeEvent e) {
+            KSMenuItemData i = (KSMenuItemData) e.getSource();
+            MenuItemPanel itemToChange = null;
+            for(MenuItemPanel p: menuItems){
+                if(i.equals(p.getItem())){
+                    itemToChange = p;
+                }
+            }
+            if(itemToChange != null){
+                if(!(i.getLabel().equals(itemToChange.getItemLabel().getText()))){
+                    itemToChange.getItemLabel().setText(i.getLabel());
+                }
+                else if(i.getShownIcon() != null){
+                    itemToChange.addImage(i.getShownIcon());
+                }
+            } 
+            
+        }
+
+        @Override
+        public void onSelect(MenuSelectEvent e) {
+            
+            KSMenuItemData i = (KSMenuItemData) e.getSource();
+            MenuItemPanel itemToSelect = null;
+            for(MenuItemPanel p: menuItems){
+                if(i.equals(p.getItem())){
+                    itemToSelect = p;
+                }
+            }
+            if(itemToSelect != null){
+                itemToSelect.fireEvent(new ClickEvent(){});
+            }
+        }
+    };
     
     public KSBasicMenuImpl(){
         menuTitlePanel.add(menuTitle);
@@ -124,16 +168,18 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
             //deselect menu items
             for(MenuItemPanel m : menuItems){
                 m.deSelect();
+                m.getItem().unhandledSetSelected(false);
             }
             
             toBeSelected.select();
+            toBeSelected.getItem().unhandledSetSelected(true);
         }
         
     }
     
     private class MenuItemPanel extends FocusPanel{
         KSLabel itemLabel = new KSLabel();
-        boolean selected = false;
+        HorizontalPanel contentPanel = new HorizontalPanel();
         boolean selectable = false;
         KSMenuItemData item;
         int indent;
@@ -177,17 +223,22 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
             this.addMouseOutHandler(handler);
             this.addFocusHandler(handler);
             this.addBlurHandler(handler);
-            this.add(itemLabel);
+            contentPanel.add(itemLabel);
+            this.add(contentPanel);
         }
         
+        public void addImage(KSImage shownIcon) {
+            shownIcon.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_IMAGE);
+            contentPanel.add(shownIcon);
+            
+        }
+
         public void deSelect(){
-            selected = false;
             this.removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL_SELECTED);
             itemLabel.removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_SELECTED);
         }
         
         public void select(){
-            selected = true;
             this.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL_SELECTED);
             itemLabel.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_SELECTED);
         }
@@ -222,6 +273,8 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
             if(!(i.getSubItems().isEmpty())){
                 createMenuItems(i.getSubItems(), currentDepth + 1);
             }
+            i.addMenuEventHandler(MenuSelectEvent.TYPE, menuHandler);
+            i.addMenuEventHandler(MenuChangeEvent.TYPE, menuHandler);
         }
     }
     

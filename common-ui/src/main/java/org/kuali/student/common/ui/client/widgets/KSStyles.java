@@ -150,6 +150,8 @@ public interface KSStyles {
     public static final String KS_BASIC_MENU_ITEM_LABEL_HOVER = "KS-Basic-Menu-Item-Label-Hover";
     public static final String KS_BASIC_MENU_TOPLEVEL_ITEM_LABEL = "KS-Basic-Menu-Toplevel-Item-Label";
     public static final String KS_BASIC_MENU_TOPLEVEL_ITEM_PANEL = "KS-Basic-Menu-Toplevel-Item-Panel";
+    public static final String KS_ACCORDION_TITLEBAR_IMAGE = "KS-Accordion-Titlebar-Image";
+    public static final String KS_BASIC_MENU_ITEM_IMAGE = "KS-Basic-Menu-Item-Image";
 
 	
 	
