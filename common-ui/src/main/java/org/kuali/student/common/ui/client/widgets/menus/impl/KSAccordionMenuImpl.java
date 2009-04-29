@@ -7,20 +7,60 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
+import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl.AccordionTitleBar;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
+import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
+import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{ 
 	//TODO make this work with KSAccordionPanel
 	private KSAccordionPanelImpl menu = new KSAccordionPanelImpl();
 	
-	private final Map<String, FocusPanel> accordionMenuItemPanels = new HashMap<String, FocusPanel>();
+	private final Map<KSMenuItemData, FocusPanel> accordionMenuItemPanels = new HashMap<KSMenuItemData, FocusPanel>();
 	private final Map<String, KSAccordionMenuImpl> subMenuMap = new HashMap<String, KSAccordionMenuImpl>();
 	
 	private boolean retainHistory = false;
+	
+	private MenuEventHandler menuHandler = new MenuEventHandler(){
+
+        @Override
+        public void onChange(MenuChangeEvent e) {
+            KSMenuItemData i = (KSMenuItemData) e.getSource();
+            //String key = i.getLabel().toLowerCase().trim();
+            AccordionTitleBar itemToChange = (AccordionTitleBar)accordionMenuItemPanels.get(i);
+
+            KSLabel theLabel = (KSLabel) itemToChange.getTitleBarWidget();
+            if(!(i.getLabel().equals(theLabel.getText()))){
+                theLabel.setText(i.getLabel());
+            }
+            else if(i.getShownIcon() != null){
+                itemToChange.addImage(i.getShownIcon());
+            }
+        }
+
+        @Override
+        public void onSelect(MenuSelectEvent e) {
+            KSMenuItemData i = (KSMenuItemData) e.getSource();
+            
+            AccordionTitleBar itemToSelect = (AccordionTitleBar)accordionMenuItemPanels.get(i);
+            if(i.getParent() != null){
+                i.getParent().setSelected(true);
+            }
+
+            if(itemToSelect != null){
+                if(!(itemToSelect.isOpen())){
+                    itemToSelect.fireEvent(new ClickEvent(){});
+                }  
+            }
+            
+        }
+    };
 	
 	public KSAccordionMenuImpl(){
 	    this.initWidget(menu);
@@ -30,6 +70,7 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
 	protected void populateMenu() {
 	    
 		for(KSMenuItemData i: items){
+
 			int level = calculateDepth(i);
 			
 			KSLabel categoryLabel = new KSLabel(i.getLabel(), false);
@@ -44,10 +85,10 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
 			if(i.getSubItems().isEmpty()){		
 				if(i.getClickHandler() != null)
 				{
-					accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel, i.getClickHandler()));
+					accordionMenuItemPanels.put(i, menu.addPanel(categoryLabel, i.getClickHandler()));
 				}
 				else{
-				    accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel));
+				    accordionMenuItemPanels.put(i, menu.addPanel(categoryLabel));
 				}
 			}
 			else{
@@ -56,13 +97,59 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
 				subMenu.setItems(i.getSubItems());
 				if(i.getClickHandler() != null)
 				{
-				    accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel, i.getClickHandler(), subMenu));
+				    accordionMenuItemPanels.put(i, menu.addPanel(categoryLabel, i.getClickHandler(), subMenu));
 				}
 				else{
-				    accordionMenuItemPanels.put(key, menu.addPanel(categoryLabel, subMenu));
+				    accordionMenuItemPanels.put(i, menu.addPanel(categoryLabel, subMenu));
 				}
 				subMenuMap.put(key, subMenu);
 			}
+			
+			for(final KSMenuItemData d: accordionMenuItemPanels.keySet()){
+			    final FocusPanel fp = accordionMenuItemPanels.get(d);
+			    fp.addClickHandler(new ClickHandler(){
+
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        if(((AccordionTitleBar)fp).isOpen()){
+                            
+                            unSelect(items);
+                            
+                            d.unhandledSetSelected(true);
+                            
+                            if(d.getParent() != null){
+                                KSMenuItemData parent = d.getParent();
+                                while (parent != null) {
+                                    parent.unhandledSetSelected(true);
+                                    parent = parent.getParent();
+                                }
+                            }
+                        }
+                        else{
+                            d.unhandledSetSelected(false);
+                            if(retainHistory == false){
+                                
+                                if(!(d.getSubItems().isEmpty())){
+                                    unSelect(d.getSubItems());
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    public void unSelect(List<KSMenuItemData> theItems){
+                        for(KSMenuItemData i: theItems){
+                            i.unhandledSetSelected(false);
+                            if(!(i.getSubItems().isEmpty())){
+                                unSelect(i.getSubItems());
+                            }
+                        }
+                    }
+                });
+			}
+			
+	        i.addMenuEventHandler(MenuSelectEvent.TYPE, menuHandler);
+	        i.addMenuEventHandler(MenuChangeEvent.TYPE, menuHandler);
 		}
 		
 	}
