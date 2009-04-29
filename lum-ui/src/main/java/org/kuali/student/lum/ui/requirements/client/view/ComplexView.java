@@ -24,6 +24,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -43,8 +44,8 @@ public class ComplexView extends ViewComposite {
     private KSButton btnEditClause = new KSButton("Edit Clause");
     private KSButton btnDeleteClause = new KSButton("Delete Clause");
     private KSButton btnDuplicateClause = new KSButton("Duplicate Clause");
-    private KSButton btnMoveClauseDown = new KSButton("Down");
-    private KSButton btnMoveClauseUp = new KSButton("Up");
+    private KSButton btnMoveClauseDown = new KSButton();
+    private KSButton btnMoveClauseUp = new KSButton();
     private KSLabel naturalLanguage = new KSLabel();
     private TreeTable ruleTable = new TreeTable();    
     
@@ -144,23 +145,27 @@ System.out.println("Row count: " + rowCount);
         
         btnMoveClauseDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                StatementVO enclosingStatementVO = 
-                    prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
-                enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
-                redraw();
+                if (selectedReqCompVO != null) {
+                    Object[] temp = model.getValues().toArray();
+                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                    StatementVO enclosingStatementVO = 
+                        prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
+                    enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
+                    redraw();
+                }
             }
         });
 
         btnMoveClauseUp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                StatementVO enclosingStatementVO = 
-                    prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
-                enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
-                redraw();
+                if (selectedReqCompVO != null) {
+                    Object[] temp = model.getValues().toArray();
+                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                    StatementVO enclosingStatementVO = 
+                        prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
+                    enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
+                    redraw();
+                }
             }
         });
     }
@@ -175,8 +180,26 @@ System.out.println("Row count: " + rowCount);
         tempPanel.add(preReqHeading);
         tempPanel.add(linkToSimpleView);
         linkToSimpleView.addStyleName("KS-Rules-Link-Right");
-        complexView.add(tempPanel);        
-        complexView.add(ruleTable);
+        complexView.add(tempPanel);
+        
+        HorizontalPanel tempPanel2 = new HorizontalPanel();
+        HorizontalPanel tableButtonsPanel = new HorizontalPanel();
+        VerticalPanel arrowButtonsPanel = new VerticalPanel();
+        tempPanel2.add(ruleTable);
+//        DOM.setStyleAttribute(btnMoveClauseUp.getElement(), 
+//                "background", "url(\"images/B_up.png\") no-repeat");
+//        DOM.setStyleAttribute(btnMoveClauseUp.getElement(), 
+//                "height", "25px");
+//        DOM.setStyleAttribute(btnMoveClauseUp.getElement(), 
+//                "width", "25px");
+//        DOM.setStyleAttribute(btnMoveClauseUp.getElement(), "borderWidth", "0px");
+        arrowButtonsPanel.add(btnMoveClauseUp);
+        btnMoveClauseUp.setStyleName("KS-RuleTable-UpArrow");
+        arrowButtonsPanel.add(btnMoveClauseDown);
+        btnMoveClauseDown.setStyleName("KS-RuleTable-DownArrow");
+        tableButtonsPanel.add(arrowButtonsPanel);
+        tempPanel2.add(tableButtonsPanel);
+        complexView.add(tempPanel2);
         
         HorizontalPanel tempPanelButtons1 = new HorizontalPanel();
        // tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
@@ -189,8 +212,6 @@ System.out.println("Row count: " + rowCount);
         tempPanelButtons2.add(btnDeleteClause);
         btnDeleteClause.setStyleName("KS-Rules-Standard-Button");  
         tempPanelButtons2.add(btnDuplicateClause);
-        tempPanelButtons2.add(btnMoveClauseDown);
-        tempPanelButtons2.add(btnMoveClauseUp);
         btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");          
         complexView.add(tempPanelButtons1);
         complexView.add(tempPanelButtons2);
