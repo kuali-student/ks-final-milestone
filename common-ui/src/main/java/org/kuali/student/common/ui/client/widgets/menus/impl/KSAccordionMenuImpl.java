@@ -32,7 +32,6 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
         @Override
         public void onChange(MenuChangeEvent e) {
             KSMenuItemData i = (KSMenuItemData) e.getSource();
-            //String key = i.getLabel().toLowerCase().trim();
             AccordionTitleBar itemToChange = (AccordionTitleBar)accordionMenuItemPanels.get(i);
 
             KSLabel theLabel = (KSLabel) itemToChange.getTitleBarWidget();
