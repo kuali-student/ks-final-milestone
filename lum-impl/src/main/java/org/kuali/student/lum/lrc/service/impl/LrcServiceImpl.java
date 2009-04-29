@@ -106,6 +106,9 @@ public class LrcServiceImpl implements LrcService {
 			OperationFailedException {
         checkForMissingParameter(credentialTypeKey, "credentialTypeKey");
         List<String> credentialIds = lrcDao.getCredentialIdsByCredentialType(credentialTypeKey);
+        if (credentialIds.isEmpty()) {
+            throw new DoesNotExistException(credentialTypeKey);
+        }
         return credentialIds;
 	}
 
@@ -143,6 +146,9 @@ public class LrcServiceImpl implements LrcService {
         checkForMissingParameter(credentialKeyList, "credentialKeyList");
         checkForEmptyList(credentialKeyList, "credentialKeyList");
         List<Credential> credentials = lrcDao.getCredentialsByIdList(credentialKeyList);
+        if (credentials.isEmpty()) {
+            throw new DoesNotExistException();
+        }
         return LrcServiceAssembler.toCredentialInfos(credentials);
 	}
 
@@ -168,6 +174,9 @@ public class LrcServiceImpl implements LrcService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(creditTypeKey, "creditTypeKey");
 		List<String> creditIds = lrcDao.getCreditIdsByCreditType(creditTypeKey);
+		if (creditIds.isEmpty()) {
+		    throw new DoesNotExistException(creditTypeKey);
+		}
 		return creditIds;
 	}
 
@@ -204,6 +213,9 @@ public class LrcServiceImpl implements LrcService {
 	    checkForMissingParameter(creditKeyList, "creditKeyList");
 	    checkForEmptyList(creditKeyList, "creditKeyList");
 		List<Credit> credits = lrcDao.getCreditsByIdList(creditKeyList);
+		if (credits.isEmpty()) {
+		    throw new DoesNotExistException();
+		}
 		return LrcServiceAssembler.toCreditInfos(credits);
 	}
 
@@ -229,6 +241,9 @@ public class LrcServiceImpl implements LrcService {
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(gradeTypeKey, "gradeTypeKey");
         List<String> gradeIds = lrcDao.getGradeIdsByGradeType(gradeTypeKey);
+        if (gradeIds.isEmpty()) {
+            throw new DoesNotExistException(gradeTypeKey);
+        }
         return gradeIds;
     }
 
@@ -264,6 +279,9 @@ public class LrcServiceImpl implements LrcService {
         checkForMissingParameter(gradeKeyList, "gradeKeyList");
         checkForEmptyList(gradeKeyList, "gradeKeyList");
         List<Grade> grades = lrcDao.getGradesByIdList(gradeKeyList);
+        if (grades.isEmpty()) {
+            throw new DoesNotExistException();
+        }
         return LrcServiceAssembler.toGradeInfos(grades);
     }
 	/* (non-Javadoc)
@@ -275,6 +293,9 @@ public class LrcServiceImpl implements LrcService {
 			MissingParameterException, OperationFailedException {
         checkForMissingParameter(scale, "scale");
         List<Grade> grades = lrcDao.getGradesByScale(scale);
+        if (grades.isEmpty()) {
+            throw new DoesNotExistException(scale);
+        }
 
         return LrcServiceAssembler.toGradeInfos(grades);
 	}

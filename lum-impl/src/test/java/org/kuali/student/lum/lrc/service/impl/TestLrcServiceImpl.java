@@ -62,9 +62,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
         keys.clear();
         keys.add("LRC-CREDENTIAL-1x");
-        credentials = client.getCredentialsByKeyList(keys);
-        assertNotNull(credentials);
-        assertEquals(0, credentials.size());
+        try {
+            credentials = client.getCredentialsByKeyList(keys);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
 
         keys.clear();
         try {
@@ -87,9 +90,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(credentialIds);
         assertEquals(2, credentialIds.size());
 
-        credentialIds = client.getCredentialKeysByCredentialType("lcrType.credential.3x");
-        assertNotNull(credentialIds);
-        assertEquals(0, credentialIds.size());
+        try {
+            credentialIds = client.getCredentialKeysByCredentialType("lcrType.credential.3x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
 
         try {
             credentialIds = client.getCredentialKeysByCredentialType(null);
@@ -149,9 +155,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
         keys.clear();
         keys.add("LRC-CREDIT-1x");
-        credits = client.getCreditsByKeyList(keys);
-        assertNotNull(credits);
-        assertEquals(0, credits.size());
+        try {
+            credits = client.getCreditsByKeyList(keys);
+            assertTrue(false);
+        } catch (DoesNotExistException e1) {
+            assertTrue(true);
+        }
 
         keys.clear();
         try {
@@ -174,9 +183,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(creditIds);
         assertEquals(2, creditIds.size());
 
-        creditIds = client.getCreditKeysByCreditType("lcrType.credit.3x");
-        assertNotNull(creditIds);
-        assertEquals(0, creditIds.size());
+        try {
+            creditIds = client.getCreditKeysByCreditType("lcrType.credit.3x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
 
         try {
             creditIds = client.getCreditKeysByCreditType(null);
@@ -243,9 +255,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
         keys.clear();
         keys.add("LRC-GRADE-1x");
-        grades = client.getGradesByKeyList(keys);
-        assertNotNull(grades);
-        assertEquals(0, grades.size());
+        try {
+            grades = client.getGradesByKeyList(keys);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
 
         keys.clear();
         try {
@@ -268,9 +283,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(gradeIds);
         assertEquals(2, gradeIds.size());
 
-        gradeIds = client.getGradeKeysByGradeType("lcrType.grade.3x");
-        assertNotNull(gradeIds);
-        assertEquals(0, gradeIds.size());
+        try {
+            gradeIds = client.getGradeKeysByGradeType("lcrType.grade.3x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
 
         try {
             gradeIds = client.getGradeKeysByGradeType(null);
@@ -312,10 +330,13 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(grades);
         assertEquals(2, grades.size());
 
-        grades = client.getGradesByScale("Scale Key 1x");
-        assertNotNull(grades);
-        assertEquals(0, grades.size());
-        
+        try {
+            grades = client.getGradesByScale("Scale Key 1x");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
         try {
             grades = client.getGradesByScale(null);
             assertTrue(false);
