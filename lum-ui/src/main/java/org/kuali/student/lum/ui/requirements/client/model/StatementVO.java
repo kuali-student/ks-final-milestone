@@ -79,10 +79,6 @@ public class StatementVO extends Token implements Serializable {
                 StatementVO childStatementVO = statementVOs.get(i);
                 Node childNode = new Node();
                 node.addNode(childNode);
-//                if (childStatementVO.getStatementVOs() == null ||
-//                        childStatementVO.getStatementVOs().isEmpty()) {
-//                    setOperatorNode(childNode, childStatementVO);
-//                }
                 addChildrenNodes(childNode, childStatementVO);
             }
         }
@@ -106,11 +102,15 @@ public class StatementVO extends Token implements Serializable {
         if (statementVO.getLuStatementInfo() != null &&
                 statementVO.getLuStatementInfo().getOperator() ==
                     StatementOperatorTypeKey.AND) {
-            node.setUserObject(Token.createAndToken());
+            statementVO.type = Token.And;
+            statementVO.value = "and";
+            node.setUserObject(statementVO);
         } else if (statementVO.getLuStatementInfo() != null &&
                 statementVO.getLuStatementInfo().getOperator() ==
                     StatementOperatorTypeKey.OR) {
-            node.setUserObject(Token.createOrToken());
+            statementVO.type = Token.Or;
+            statementVO.value = "or";
+            node.setUserObject(statementVO);
         }
     }
     
@@ -239,7 +239,7 @@ public class StatementVO extends Token implements Serializable {
     @Override
     public String toString() {
         StringBuilder sbResult = new StringBuilder();
-        sbResult.append(luStatementInfo.getDesc());
+        sbResult.append(value);
         return sbResult.toString();
     }      
 }

@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.NodeWidget;
 import org.kuali.student.common.ui.client.widgets.table.TreeTable;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
@@ -44,6 +45,7 @@ public class ComplexView extends ViewComposite {
     private KSButton btnEditClause = new KSButton("Edit Clause");
     private KSButton btnDeleteClause = new KSButton("Delete Clause");
     private KSButton btnDuplicateClause = new KSButton("Duplicate Clause");
+    private KSButton btnToggleOperator = new KSButton("Toggle And/Or");
     private KSButton btnMoveClauseDown = new KSButton();
     private KSButton btnMoveClauseUp = new KSButton();
     private KSLabel naturalLanguage = new KSLabel();
@@ -52,6 +54,7 @@ public class ComplexView extends ViewComposite {
     //view's data
     private Model<PrereqInfo> model;
     private ReqComponentVO selectedReqCompVO;
+    private StatementVO selectedStatementVO;
 
     public ComplexView(Controller controller) {
         super(controller, "Complex View");
@@ -121,23 +124,32 @@ System.out.println("Row count: " + rowCount);
                     btnEditClause.setEnabled(false);                    
                 } else {
                     widget.setStyleName("KS-ReqComp-Selected");
-                    ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();
-                    // TODO remove when done. test starts
-//                    Object[] temp = model.getValues().toArray();
-//                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-//                    StatementVO enclosingStatementVO = 
-//                        prereqInfo.getStatementVO().getEnclosingStatementVO(clause);
-//                    if (enclosingStatementVO != null) {
-//                        Node testNode = enclosingStatementVO.getTree();
-//                        enclosingStatementVO.printTree(testNode);
-//                    }
-                    // test ends
-                    selectedReqCompVO = clause;
-//                    updateNaturalLanguage();
-//                    btnAddClause.setEnabled(false);
-//                    btnEditClause.setEnabled(true);
-                    redraw();
-                    //TODO need to handle double-click event -> getController().showView(PrereqViews.CLAUSE_EDITOR);
+                    Object userObject = widget.getNode().getUserObject();
+                    if (userObject instanceof ReqComponentVO) {
+                        ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();
+                        // TODO remove when done. test starts
+//                      Object[] temp = model.getValues().toArray();
+//                      PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+//                      StatementVO enclosingStatementVO = 
+//                      prereqInfo.getStatementVO().getEnclosingStatementVO(clause);
+//                      if (enclosingStatementVO != null) {
+//                      Node testNode = enclosingStatementVO.getTree();
+//                      enclosingStatementVO.printTree(testNode);
+//                      }
+                        // test ends
+                        selectedStatementVO = null;
+                        selectedReqCompVO = clause;
+//                      updateNaturalLanguage();
+//                      btnAddClause.setEnabled(false);
+//                      btnEditClause.setEnabled(true);
+                        redraw();
+                        //TODO need to handle double-click event -> getController().showView(PrereqViews.CLAUSE_EDITOR);
+                    } else {
+                        StatementVO statementVO = (StatementVO) widget.getNode().getUserObject();
+                        selectedReqCompVO = null;
+                        selectedStatementVO = statementVO;
+                        redraw();
+                    }
                 }
             }
 
@@ -164,6 +176,25 @@ System.out.println("Row count: " + rowCount);
                     StatementVO enclosingStatementVO = 
                         prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
                     enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
+                    redraw();
+                }
+            }
+        });
+        
+        btnToggleOperator.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                if (selectedStatementVO != null) {
+                    Object[] temp = model.getValues().toArray();
+                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                    StatementOperatorTypeKey currentOp =
+                        (selectedStatementVO.getLuStatementInfo().getOperator());
+                    StatementOperatorTypeKey newOp = null;
+                    if (currentOp == StatementOperatorTypeKey.AND) {
+                        newOp = StatementOperatorTypeKey.OR;
+                    } else {
+                        newOp = StatementOperatorTypeKey.AND;
+                    }
+                    selectedStatementVO.getLuStatementInfo().setOperator(newOp);
                     redraw();
                 }
             }
@@ -207,12 +238,14 @@ System.out.println("Row count: " + rowCount);
         btnAddClause.setStyleName("KS-Rules-Standard-Button");        
         tempPanelButtons1.add(btnEditClause);
         btnEditClause.setStyleName("KS-Rules-Standard-Button"); 
+        tempPanelButtons1.add(btnToggleOperator);
+        btnToggleOperator.setStyleName("KS-Rules-Standard-Button"); 
         HorizontalPanel tempPanelButtons2 = new HorizontalPanel(); 
         //tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
         tempPanelButtons2.add(btnDeleteClause);
         btnDeleteClause.setStyleName("KS-Rules-Standard-Button");  
         tempPanelButtons2.add(btnDuplicateClause);
-        btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");          
+        btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");
         complexView.add(tempPanelButtons1);
         complexView.add(tempPanelButtons2);
         
@@ -258,28 +291,34 @@ System.out.println("Row count: " + rowCount);
                 NodeWidget nodeWidget = ruleTable.getNodeWidget(node);
                 if (nodeWidget != null) {
                     nodeWidget.setStyleName("KS-ReqComp-Selected");
-//                    nodeWidget.setStyleName("KS-ReqComp-RaisedButtonText");
+                }
+            }
+            if (selectedStatementVO != null) {
+                Node node = getNode(tree, selectedStatementVO);
+                NodeWidget nodeWidget = ruleTable.getNodeWidget(node);
+                if (nodeWidget != null) {
+                    nodeWidget.setStyleName("KS-ReqComp-Selected");
                 }
             }
         }
         updateNaturalLanguage();        
     }
     
-    private Node getNode(Node rootNode, ReqComponentVO reqComponentVO) {
+    private Node getNode(Node rootNode, Object userObject) {
         Node result = null;
-        result = doGetNode(rootNode, reqComponentVO);
+        result = doGetNode(rootNode, userObject);
         return result;
     }
     
-    private Node doGetNode(Node node, ReqComponentVO reqComponentVO) {
+    private Node doGetNode(Node node, Object userObject) {
         Node result = null;
         if (node == null) return null;
-        if (node.getUserObject() == reqComponentVO) {
+        if (node.getUserObject() == userObject) {
             result = node;
         } else {
             List<Node> children = node.getAllChildren();
             for (Node child : children) {
-                result = doGetNode(child, reqComponentVO);
+                result = doGetNode(child, userObject);
                 if (result != null) {
                     break;
                 }
