@@ -84,8 +84,7 @@ public class ProposalInformationLayoutManager {
                         })
                         .setFormField(new KSFormField("originatingFacultyMember", "Originating Faculty Member")
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("originatingFacultyMember")))
                         )
@@ -104,8 +103,7 @@ public class ProposalInformationLayoutManager {
                         })
                         .setFormField(new KSFormField("administrativeDelegate", "Administrative Delegate")
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("administrativeDelegate")))
                         )
@@ -135,8 +133,7 @@ public class ProposalInformationLayoutManager {
                         })
                         .setFormField(new KSFormField("curriculumOversight", "Curriculum Oversight")
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
                         )
@@ -154,9 +151,9 @@ public class ProposalInformationLayoutManager {
                             }
                         })
                         .setFormField(new KSFormField("campusLocation", "Campus Location")
-                        .setWidget(new KSCheckBoxList())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        // Wireframe shows this as a group of checkboxes
+                        .setWidget(new KSDropDown())
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
                         )
@@ -175,8 +172,7 @@ public class ProposalInformationLayoutManager {
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
                         .setWidget(new KSDropDown())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
@@ -190,13 +186,12 @@ public class ProposalInformationLayoutManager {
                             }
                             @Override
                             public void setValue(CluInfo object, Object value) {
-                                object.setAdminOrg(value.toString());
+                                // TODO figure out how to set values
                             }
                         })
                         .setFormField(new KSFormField("crossListed", "Cross Listed")
                         .setWidget(new KSCheckBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
@@ -221,14 +216,11 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public void setValue(CluInfo object, Object value) {
                                 // TODO figure out how to set values
-
                             }
                         })
                         .setFormField(new KSFormField("term", "Term")
                         .setWidget(new KSDropDown())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
-                        )
+                        .setHelpInfo(new HelpInfo("helpid"))
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
@@ -248,34 +240,12 @@ public class ProposalInformationLayoutManager {
                         })
                         .setFormField(new KSFormField("duration", "Duration")
                         .setWidget(new KSDropDown())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
-                            @Override
-                            public Object getValue(CluInfo object) {
-                                // TODO figure out how to get values
-                                return "Lecture";
-                            }
-                            @Override
-                            public void setValue(CluInfo object, Object value) {
-                                // TODO figure out how to set values
-//                              object.setStdDuration();
 
-                            }
-                        })
-                        .setFormField(new KSFormField("activityType", "Activity")
-                        .setWidget(new KSDropDown())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
-                        )
-//                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
-                        )
-                )
                 .setSectionTitle(LUConstants.SECTION_COURSE_FORMAT)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)  

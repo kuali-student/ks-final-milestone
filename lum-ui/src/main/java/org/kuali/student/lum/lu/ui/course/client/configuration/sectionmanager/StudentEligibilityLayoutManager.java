@@ -21,6 +21,7 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 
 /**
@@ -49,16 +50,31 @@ public class StudentEligibilityLayoutManager {
 
     public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
 
-
-        layout.addSection(new String[] {"Student Eligibility", "Course Restrictions"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
-
-        layout.addSection(new String[] {"Student Eligibility", "Pre + Co Requisites"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
+        addCourseRestrictions();
+        addPreqsAndCreqs();
 
         return layout;
+    }
+
+    private void addCourseRestrictions() {
+        layout.addSection(new String[] {LUConstants.SECTION_STUDENT_ELIGIBILITY, 
+                LUConstants.SECTION_COURSE_RESTRICTIONS}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_COURSE_RESTRICTIONS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
+    }
+
+    private void addPreqsAndCreqs() {
+
+        layout.addSection(new String[] {LUConstants.SECTION_STUDENT_ELIGIBILITY, 
+                LUConstants.SECTION_PREQS_AND_CREQS}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_PREQS_AND_CREQS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
     }
 
 }

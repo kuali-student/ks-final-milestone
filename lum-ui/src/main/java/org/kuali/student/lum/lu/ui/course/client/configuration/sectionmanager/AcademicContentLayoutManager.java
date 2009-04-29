@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.counting.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
@@ -68,10 +69,8 @@ public class AcademicContentLayoutManager {
     }
     private void addCourseInformation() {
 
-        // TODO Need to be able to group fields and potentially control layout of fields.
-        //      e.g. sometimes horizontal fields make more sense. ALignment of labels
-        
-        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, "Course Information"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
+                LUConstants.SECTION_COURSE_INFORMATION}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
@@ -86,8 +85,7 @@ public class AcademicContentLayoutManager {
                         })
                         .setFormField(new KSFormField("courseSubject", "Course Subject")
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("myhelpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseSubject")))
                         )
@@ -107,8 +105,7 @@ public class AcademicContentLayoutManager {
                         })
                         .setFormField(new KSFormField("courseNumber", "Course Number")
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("myhelpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseNumber")))
                         )
@@ -125,10 +122,27 @@ public class AcademicContentLayoutManager {
                             }
                         })
                         .setFormField(new KSFormField("proposedCourseTitle", "Proposed Course Title")
-//            TODO    Tech spec says this may need to be Rich Text
+//                      TODO    Tech spec says this may need to be Rich Text
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("proposedCourseTitle")))
+                        )
+                )
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return object.getOfficialIdentifier().getLongName(); 
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                object.getOfficialIdentifier().setLongName(value.toString());
+                            }
+                        })
+                        .setFormField(new KSFormField("hasAlternateCourseNumbers", "Alternate Course Numbers?")
+                        .setWidget(new KSCheckBox())
+                        .setHelpInfo(new HelpInfo("myhelpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("proposedCourseTitle")))
                         )
@@ -146,8 +160,7 @@ public class AcademicContentLayoutManager {
                         })
                         .setFormField(new KSFormField("transcriptTitle", "Transcript Title")
                         .setWidget(new KSTextBox())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("myhelpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("transcriptTitle")))
                         )
@@ -167,8 +180,7 @@ public class AcademicContentLayoutManager {
                         })
                         .setFormField(new KSFormField("description", "Description")
                         .setWidget(new KSRichEditor())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("myhelpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("description")))
                         )
@@ -188,36 +200,82 @@ public class AcademicContentLayoutManager {
                         })
                         .setFormField(new KSFormField("rationale", "Rationale")
                         .setWidget(new KSRichEditor())
-                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
-                        "http://www.google.com/")
+                        .setHelpInfo(new HelpInfo("myhelpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("rationale")))
                         )
                 ) 
-                .setSectionTitle("Course Information")
-                .setInstructions("\n\nYour department will determine the course number based on " +
-                        " course format, restrictions, available numbers and other factors. " +
-                        "You can submit a proposal without a course subject and number.")
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return object.getMarketingDesc(); 
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                RichTextInfo info = new RichTextInfo();
+                                info.setPlain(value.toString());
+                                object.setMarketingDesc(info);
+                            }
+                        })
+                        .setFormField(new KSFormField("rationale", "Rationale")
+                        .setWidget(new KSRichEditor())
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("rationale")))
+                        )
+                )
+                .setSectionTitle(LUConstants.SECTION_COURSE_INFORMATION)
+                .setInstructions("Instructions here....")
                 .setParentLayout(layout)      
-
         );
     }
 
     private void addLearningObjectives() {
-        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, "Learning Objectives"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
+                LUConstants.SECTION_LEARNING_OBJECTIVES}, 
                 new SimpleConfigurableSection<CluInfo>()
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return object.getOfficialIdentifier().getDivision();
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                object.getOfficialIdentifier().setDivision(value.toString());
+                            }
+                        })
+                        .setFormField(new KSFormField("learningObjectives", "Learning Objectives")
+                        .setWidget(new KSRichEditor())
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseSubject")))
+                        )
+                )
+                .setSectionTitle(LUConstants.SECTION_LEARNING_OBJECTIVES)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)      
         );
     }
 
     private void addSyllabus() {
-        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, "Syllabus"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
+                LUConstants.SECTION_SYLLABUS}, 
                 new SimpleConfigurableSection<CluInfo>()
+                .setSectionTitle(LUConstants.SECTION_SYLLABUS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)
         );
     }
 
     private void addLearningResults() {
-        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, "Learning Results"}, 
+        layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
+                LUConstants.SECTION_LEARNING_RESULTS}, 
                 new SimpleConfigurableSection<CluInfo>()
+                .setSectionTitle(LUConstants.SECTION_LEARNING_RESULTS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)
         );
     }
 

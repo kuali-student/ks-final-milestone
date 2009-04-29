@@ -21,6 +21,7 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 
 /**
@@ -48,11 +49,22 @@ public class AttachmentsLayoutManager {
     }
 
     public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
-        layout.addSection(new String[] {"Attachments", "Supporting Documents"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
+
+        addSupportingDocs();
 
         return layout;
+    }
+    
+
+    private void addSupportingDocs() {
+
+        layout.addSection(new String[] {LUConstants.SECTION_ATTACHMENTS, 
+                LUConstants.SECTION_SUPPORTING_DOCUMENTS}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_SUPPORTING_DOCUMENTS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
     }
 
 }

@@ -21,6 +21,7 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 
 /**
@@ -48,24 +49,56 @@ public class AdminstrativeLayoutManager {
     }
 
     public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
-        layout.addSection(new String[] {"Administrative", "Credits"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
 
-        layout.addSection(new String[] {"Administrative", "Active Dates"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
-
-        layout.addSection(new String[] {"Administrative", "Financials"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
-
-        layout.addSection(new String[] {"Administrative", "Program Requirements"}, 
-                new SimpleConfigurableSection<CluInfo>()
-        );
-
+        addCredits();
+        addActiveDates();
+        addFinancials();
+        addProgramRequirements();
+        
         return layout;
     }
+    
+    private void addCredits() {
 
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
+                LUConstants.SECTION_CREDITS}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_CREDITS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
+    }
 
+    private void addActiveDates() {
+
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
+                LUConstants.SECTION_ACTIVE_DATES}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_ACTIVE_DATES)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
+    }
+
+    private void addFinancials() {
+
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
+                LUConstants.SECTION_FINANCIALS}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_FINANCIALS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
+    }
+
+    private void addProgramRequirements() {
+
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
+                LUConstants.SECTION_PROGRAM_REQUIREMENTS}, 
+                new SimpleConfigurableSection<CluInfo>()                
+                .setSectionTitle(LUConstants.SECTION_PROGRAM_REQUIREMENTS)
+                .setInstructions("Instructions here....")
+                .setParentLayout(layout)   
+        );
+    }
 }
