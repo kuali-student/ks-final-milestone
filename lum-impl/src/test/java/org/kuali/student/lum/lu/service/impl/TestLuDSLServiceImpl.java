@@ -139,7 +139,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         List<LuStatementInfo> stmtList = client.getLuStatementsByType("kuali.luStatementType.prereqAcademicReadiness");
 
         assertNotNull(stmtList);
-        assertEquals(3, stmtList.size());
+        assertEquals(4, stmtList.size());
 
         LuStatementInfo stmt = stmtList.get(0);
 
