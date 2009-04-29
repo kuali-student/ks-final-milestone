@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanelAbstract;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
@@ -28,6 +29,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{ 
@@ -109,30 +111,47 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
     public List<Widget> getWidgetList(){
     	return widgetList;
     }
-   
+    
     public void selectOption(int index){
         if(!titleBarList.get(index).isOpen())
             titleBarList.get(index).openAction();
     }
-    
-    class AccordionTitleBar extends FocusPanel {
+   
+    public class AccordionTitleBar extends FocusPanel {
         private boolean isOpen = false;
+        private HorizontalPanel contentPanel = new HorizontalPanel();
+        private KSLabel titleLabel = null;
+        private Widget widget = null;
     	
-    	AccordionTitleBar(String name) {
-    		KSLabel titleLabel = new KSLabel(name,false); 
+    	public AccordionTitleBar(String name) {
+    	    KSLabel titleLabel = new KSLabel(name,false);
     		titleLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
-            add(titleLabel);
+    		contentPanel.add(titleLabel);
+            add(contentPanel);
             setDefaultStyle();
             addEventHandlers();
         }
         
-        AccordionTitleBar(Widget widget) {
-        	add(widget);
+        public AccordionTitleBar(Widget w) {
+            this.widget = w;
+            contentPanel.add(w);
+        	add(contentPanel);
         	setDefaultStyle();
         	addEventHandlers();
         }
+
+        public Widget getTitleBarWidget() {
+            return widget;
+        }
+
+        public void setTitleBarWidget(Widget widget) {
+            this.widget = widget;
+        }
         
-        
+        public void addImage(KSImage image){
+            contentPanel.add(image);
+            image.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_IMAGE);
+        }
         
         public boolean isOpen() {
 			return isOpen;
@@ -192,7 +211,7 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 		}
 		
 		
-		void openAction(){
+		public void openAction(){
 			for (Widget w : widgetList) {
 	            if(w != null){
 	            	content.remove(w);
@@ -262,6 +281,8 @@ public class KSAccordionPanelImpl extends KSAccordionPanelAbstract{
 	            }
 	        }
         }
+
+
     }
 
 }
