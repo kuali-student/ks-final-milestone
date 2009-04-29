@@ -74,6 +74,20 @@ public class TreeTable extends FlexTable {
         }
         return count;
     }
+    
+    public NodeWidget getNodeWidget(Node node) {
+        NodeWidget result = null;
+        for (int i = 0; i < getRowCount(); i++) {
+            for (int j =0; j < getRowCount(); j++) {
+                NodeWidget w = (NodeWidget) getWidget(i, j);
+                if (w.getNode() == node) {
+                    return w;
+                }
+            }
+        }
+        return result;
+    }
+    
     /**
      * Get the starting row for node passed in
      * 
