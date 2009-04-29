@@ -48,7 +48,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		translator.setLuDao(this.luDao);
 		String text = translator.translateReqComponent(reqComponent.getId(), nlUsageTypeKey);
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", text);
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		}
 	}
 
-	@Test
-	public void testTranslateStatement() throws DoesNotExistException, OperationFailedException {
-	}
+    public void testTranslateGPAReq() throws DoesNotExistException, OperationFailedException {
+        
+    }
 }

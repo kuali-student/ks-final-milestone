@@ -615,6 +615,13 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testTranslateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	String nl = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");
-    	assertEquals("Student must have completed 1 of MATH 152, MATH 221", nl);
+    	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
     }
+
+    @Test
+    public void testTranslateGPAReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = client.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.CATALOG");
+        assertEquals("Student needs a minimum GPA of 3.5", nl);
+    }
+	
 }

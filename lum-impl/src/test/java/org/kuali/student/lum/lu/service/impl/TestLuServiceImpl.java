@@ -1787,7 +1787,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);
 		List<Result> clus = client.searchForResults("lu.search.clus", queryParamValues);
 		assertNotNull(clus);
-		assertEquals(7, clus.size());
+		assertEquals(9, clus.size());
 		Result result = clus.get(0);
 		assertNotNull(result);
 
@@ -1806,12 +1806,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");
-        assertEquals("Student must have completed 1 of MATH 152, MATH 221", naturalLanguage);
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-4", "KUALI.CATALOG");
-		assertEquals("Student must have completed 1 of MATH 152, MATH 221 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-5", "KUALI.CATALOG");
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 }

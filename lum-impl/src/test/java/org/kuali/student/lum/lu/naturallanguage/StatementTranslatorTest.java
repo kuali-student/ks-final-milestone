@@ -59,7 +59,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		
 		String translation = translator.translate(stmt1, "KUALI.CATALOG");
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", translation);
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		
 		String translation = translator.translate(stmt1, "KUALI.CATALOG");
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", translation);
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		
 		String translation = translator.translate(stmt1, "KUALI.CATALOG");
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221 AND Student must have completed 2 of MATH 152, MATH 221", translation);
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 AND Student must have completed 2 of MATH 152, MATH 180", translation);
 	}
 
 	@Test

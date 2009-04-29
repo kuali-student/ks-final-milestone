@@ -195,4 +195,5 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 			Assert.assertNotNull(e.getMessage());
 		}
 	}
+	
 }

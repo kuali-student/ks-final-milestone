@@ -5,7 +5,9 @@ public class ReqCompTypes {
 	public enum VelocityToken {
 		CLU_SET_KEY("cluSet"),
 		EXPECTED_VALUE_KEY("expectedValue"),
-		OPERATOR_KEY("relationalOperator");
+		OPERATOR_KEY("relationalOperator"),
+		CLU("clu"),
+		GPA("gpa");
 
 		private String key;
 		
@@ -18,16 +20,17 @@ public class ReqCompTypes {
 		}
 	}
 
-	public enum CountDefinitionType {
+	public enum ReqCompFiledDefinitions {
 		REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
 		OPERATOR_KEY("reqCompFieldType.operator"),
 		COUNT_CLUSET("reqCompFieldType.cluSet"),
 		INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
-		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
+		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value"),
+        GPA_KEY("reqCompFieldType.gpa");
 
 		private String key;
 		
-		CountDefinitionType(String key) {
+		ReqCompFiledDefinitions(String key) {
 			this.key = key;
 		}
 		
@@ -35,12 +38,14 @@ public class ReqCompTypes {
 			return this.key;
 		}
 	}
-	
+		
 	public enum CustomReqComponentType {
 		COURSE_LIST_ALL("kuali.reqCompType.courseList.all"),
 		COURSE_LIST_NOF("kuali.reqCompType.courseList.nof"),
+		COURSE_LIST_1OF2("kuali.reqCompType.courseList.1of2"),
 		GRADE_CONDITION_COURSE_LIST("kuali.reqCompType.grdCondCourseList"),
 		GRADE_CHECK("kuali.reqCompType.gradecheck");
+		
 		
 		private String key;
 		
