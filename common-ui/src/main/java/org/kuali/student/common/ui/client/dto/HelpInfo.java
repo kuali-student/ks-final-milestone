@@ -11,6 +11,17 @@ public class HelpInfo {
         super();
     }
 
+    
+    public HelpInfo(String id) {
+        super();
+        this.id = id;
+        //TODO Load help info based on this id when we have a help system. For now just set default values
+        this.shortVersion = "Short help information";
+        this.title = "Help title";
+        this.url = "http://www.google.com/";
+    }
+
+
     public HelpInfo(String id,  String shortVersion, String title, String url) {
         super();
         this.id = id;
