@@ -78,7 +78,7 @@ public class TreeTable extends FlexTable {
     public NodeWidget getNodeWidget(Node node) {
         NodeWidget result = null;
         for (int i = 0; i < getRowCount(); i++) {
-            for (int j =0; j < getRowCount(); j++) {
+            for (int j =0; j < getCellCount(i); j++) {
                 NodeWidget w = (NodeWidget) getWidget(i, j);
                 if (w.getNode() == node) {
                     return w;
