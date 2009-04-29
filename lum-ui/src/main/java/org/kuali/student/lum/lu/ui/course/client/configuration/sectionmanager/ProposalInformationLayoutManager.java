@@ -20,6 +20,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -27,13 +28,10 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
-
-import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -70,7 +68,7 @@ public class ProposalInformationLayoutManager {
 
     private void addAuthorAndCollaboratorsSection() {
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
-                LUConstants.SUB_SECTION_AUTHORS_AND_COLLABORATORS}, 
+                LUConstants.SECTION_AUTHORS_AND_COLLABORATORS}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
@@ -112,7 +110,7 @@ public class ProposalInformationLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("administrativeDelegate")))
                         )
                 )
-                .setSectionTitle(LUConstants.SUB_SECTION_AUTHORS_AND_COLLABORATORS)
+                .setSectionTitle(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)
 
@@ -121,7 +119,7 @@ public class ProposalInformationLayoutManager {
 
     private void addGovernanceSection() {
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
-                LUConstants.SUB_SECTION_GOVERNANCE}, 
+                LUConstants.SECTION_GOVERNANCE}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
@@ -172,7 +170,7 @@ public class ProposalInformationLayoutManager {
                             }
                             @Override
                             public void setValue(CluInfo object, Object value) {
-                                // TODO figure out how to set value                                
+                                object.setAdminOrg(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
@@ -203,7 +201,7 @@ public class ProposalInformationLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )                
-                .setSectionTitle(LUConstants.SUB_SECTION_GOVERNANCE)
+                .setSectionTitle(LUConstants.SECTION_GOVERNANCE)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)      
         );
@@ -211,7 +209,7 @@ public class ProposalInformationLayoutManager {
 
     private void addCourseFormatSection() {
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
-                LUConstants.SUB_SECTION_COURSE_FORMAT}, 
+                LUConstants.SECTION_COURSE_FORMAT}, 
                 new SimpleConfigurableSection<CluInfo>()
                 .addField(new ConfigurableField<CluInfo>()
                         .setBinding(new PropertyBinding<CluInfo>() {
@@ -278,10 +276,9 @@ public class ProposalInformationLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
-                .setSectionTitle(LUConstants.SUB_SECTION_COURSE_FORMAT)
+                .setSectionTitle(LUConstants.SECTION_COURSE_FORMAT)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)  
         );
     }
-
 }

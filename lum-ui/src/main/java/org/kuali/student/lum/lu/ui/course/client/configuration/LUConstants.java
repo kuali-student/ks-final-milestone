@@ -47,9 +47,9 @@ public class LUConstants {
     public static final String SECTION_ATTACHMENTS = "Attachments";
 
     //Sub Section names
-    public static final String SUB_SECTION_AUTHORS_AND_COLLABORATORS = "Authors + Collaborators";
-    public static final String SUB_SECTION_GOVERNANCE = "Governance";
-    public static final String SUB_SECTION_COURSE_FORMAT = "Course Format";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors + Collaborators";
+    public static final String SECTION_GOVERNANCE = "Governance";
+    public static final String SECTION_COURSE_FORMAT = "Course Format";
 
 
 }
