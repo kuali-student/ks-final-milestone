@@ -39,8 +39,8 @@ public class KSTextAreaImpl extends KSTextAreaAbstract {
     private final VerticalPanel panel = new VerticalPanel();
     private KSTextArea textArea = new KSTextArea();
     private KSLabel label = new KSLabel();
-    private String label2ndPart = " Characters remaining | "; //TODO get from resource
-    private String label4thPart = " Character Maximum"; //TODO get from resource
+    private static final String REMAINING = " Characters remaining | "; //TODO get from resource
+    private static final String MAXIMUM = " Character Maximum"; //TODO get from resource
     private int maxTextLength = -1;
 
     private final KeyDownHandler keyDownHandler = new KeyDownHandler(){
@@ -64,7 +64,9 @@ public class KSTextAreaImpl extends KSTextAreaAbstract {
     };
     private final KeyUpHandler keyUpHandler = new KeyUpHandler(){
         public void onKeyUp(KeyUpEvent event) {
-            label.setText(textArea.getText().length() + label2ndPart + maxTextLength + label4thPart); 
+            int remaining = maxTextLength - textArea.getText().length();
+            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM); 
+
         }
     };
 
@@ -96,7 +98,7 @@ public class KSTextAreaImpl extends KSTextAreaAbstract {
     @Override
     protected void setMaxTextLength(int maxTextLength) {
         this.maxTextLength = maxTextLength;
-        label.setText(textArea.getText().length() + label2ndPart + maxTextLength + label4thPart);
+        label.setText(maxTextLength + REMAINING + maxTextLength + MAXIMUM);
     }
 
 }

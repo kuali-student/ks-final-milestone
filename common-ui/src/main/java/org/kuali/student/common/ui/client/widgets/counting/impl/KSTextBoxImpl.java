@@ -39,8 +39,8 @@ public class KSTextBoxImpl extends KSTextBoxAbstract {
     private final VerticalPanel panel = new VerticalPanel();
     private KSTextBox textBox = new KSTextBox();
     private KSLabel label = new KSLabel();
-    private String label2ndPart = " Characters remaining | "; //TODO get from resource
-    private String label4thPart = " Character Maximum"; //TODO get from resource
+    private static final String REMAINING = " Characters remaining | "; //TODO get from resource
+    private static final String MAXIMUM = " Character Maximum"; //TODO get from resource
     private int maxTextLength = -1;
 
     private final KeyDownHandler keyDownHandler = new KeyDownHandler(){
@@ -64,7 +64,8 @@ public class KSTextBoxImpl extends KSTextBoxAbstract {
     };
     private final KeyUpHandler keyUpHandler = new KeyUpHandler(){
         public void onKeyUp(KeyUpEvent event) {
-            label.setText(textBox.getText().length() + label2ndPart + maxTextLength + label4thPart); 
+            int remaining = maxTextLength - textBox.getText().length();
+            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM); 
         }
     };
 
@@ -96,7 +97,7 @@ public class KSTextBoxImpl extends KSTextBoxAbstract {
     @Override
     protected void setMaxTextLength(int maxTextLength) {
         this.maxTextLength = maxTextLength;
-        label.setText(textBox.getText().length() + label2ndPart + maxTextLength + label4thPart);
+        label.setText(maxTextLength + REMAINING + maxTextLength + MAXIMUM);
     }
 
 }

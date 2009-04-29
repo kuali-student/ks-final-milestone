@@ -97,13 +97,14 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     };
     private final VerticalPanel textPanel = new VerticalPanel();
     private KSLabel label = new KSLabel();
-    private String label2ndPart = " Characters remaining | "; //TODO get from resource
-    private String label4thPart = " Character Maximum"; //TODO get from resource
+    private static final String REMAINING = " Characters remaining | "; //TODO get from resource
+    private static final String MAXIMUM = " Character Maximum"; //TODO get from resource
     private int maxTextLength = 256;    
     private final KeyUpHandler keyUpHandler = new KeyUpHandler(){
         @Override
         public void onKeyUp(KeyUpEvent event) {
-            label.setText(getHTML().length() + label2ndPart + maxTextLength + label4thPart); 
+            int remaining = maxTextLength - getHTML().length();
+            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM); 
         }
     };    
     public KSRichEditorImpl(){
@@ -120,7 +121,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     protected void init(boolean isUsedInPopup,int maxTextLength) {
         this.isUsedInPopup = isUsedInPopup;  
         this.maxTextLength = maxTextLength;
-        label.setText("0" + label2ndPart + maxTextLength + label4thPart);
+        label.setText(maxTextLength + REMAINING + maxTextLength + MAXIMUM);
         setupDefaultStyle();
                 
         if(isUsedInPopup){
