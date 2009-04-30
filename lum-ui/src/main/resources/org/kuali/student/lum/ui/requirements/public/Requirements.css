@@ -179,6 +179,7 @@
 }
 
 .KS-Rules-Tight-Button{
+	margin-top: 20px;
 	color: white;
 	background: url("images/Home-selected-button.jpg") repeat-x;	
 	font-size:10pt;

@@ -34,6 +34,10 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
         return serviceImpl.getNaturalLanguageForReqComponent(compInfo, nlUsageTypeKey);
     }
     
+    public String getNaturalLanguageForLuStatement(String cluId, String luStatementId) throws Exception {
+        return serviceImpl.getNaturalLanguageForLuStatement(cluId, luStatementId);
+    }
+    
     public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
         return serviceImpl.getCourseAndRulesInfo(cluId);
     }     

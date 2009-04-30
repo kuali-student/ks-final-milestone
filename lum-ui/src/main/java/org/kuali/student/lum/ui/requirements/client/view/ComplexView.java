@@ -1,5 +1,6 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,8 +65,25 @@ public class ComplexView extends ViewComposite {
     public void beforeShow() {
 
         if (model != null) {
-            redraw();
-            return;
+            
+            //set the selected Req. Comp. based on previous user action of adding or editing a req. component
+            getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
+                public void onModelReady(Model<ReqComponentVO> theModel) {
+                    //check if any req. component was selected and update local var if true
+                    if (theModel != null) {
+                        List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
+                        selectedReqComp.addAll(theModel.getValues());
+                        if (selectedReqComp.size() > 0) {
+                            selectedReqCompVO = theModel.get(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model
+                        }
+                    }
+                    redraw();
+                }
+
+                public void onRequestFail(Throwable cause) {
+                    throw new RuntimeException("Unable to connect to model", cause);
+                }
+            });                
         }
         
         getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
@@ -78,15 +96,7 @@ public class ComplexView extends ViewComposite {
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        });
-        
-        //TODO: ruleTable should allow to set the type of widget that will be 
-        int rowCount = ruleTable.getRowCount();
-System.out.println("Row count: " + rowCount);        
-        for (int rowIx = 0; rowIx < rowCount; rowIx++) {
-            NodeWidget widget = (NodeWidget) ruleTable.getWidget(rowIx, 0);
-            widget.setStyleName("KS-ReqComp-DeSelected");
-        }
+        });        
     }
 
     private void setupHandlers() {
@@ -97,14 +107,58 @@ System.out.println("Row count: " + rowCount);
         });
         btnAddClause.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                selectedReqCompVO = null;
+                selectedReqCompVO = null;          
+                
+                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
+                    public void onModelReady(Model<ReqComponentVO> theModel) {
+                        if (theModel != null) {
+                            List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
+                            selectedReqComp.addAll(theModel.getValues());
+                            if (selectedReqComp.size() > 0) {
+                                theModel.remove(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model
+                            }
+                        }                    
+                        redraw();
+                    }
+
+                    public void onRequestFail(Throwable cause) {
+                        throw new RuntimeException("Unable to connect to model", cause);
+                    }
+                });                  
+                
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
             }
         });     
-        btnEditClause.addClickHandler(new ClickHandler() {
+        btnEditClause.addClickHandler(new ClickHandler() {                              
+            
             public void onClick(ClickEvent event) {
+            
+                if (selectedReqCompVO == null) {                                        
+                    System.out.println("No Req. Component selected but Edit button clicked on?");
+                    return;
+                }   
+                
+                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
+                    public void onModelReady(Model<ReqComponentVO> theModel) {
+                        //check if any req. component was selected and update local var if true
+                        List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
+                        Collection<ReqComponentVO> reqList = theModel.getValues();
+                        if (reqList != null) {
+                            selectedReqComp.addAll(theModel.getValues());
+                            if (selectedReqComp.size() > 0) {
+                                theModel.remove(selectedReqComp.get(0));        //we should have only 1 selected Req. Comp. in the model
+                            }
+                        }                        
+                        theModel.add(selectedReqCompVO);
+                    }
+
+                    public void onRequestFail(Throwable cause) {
+                        throw new RuntimeException("Unable to connect to model", cause);
+                    }
+                });                                 
+                
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
-            }
+            } 
         });               
         model.addModelChangeHandler(new ModelChangeHandler<PrereqInfo>() {
             public void onModelChange(ModelChangeEvent<PrereqInfo> event) {
@@ -115,8 +169,12 @@ System.out.println("Row count: " + rowCount);
             @Override
             public void onClick(ClickEvent event) {
 
-                Cell cell = ruleTable.getCellForEvent(event);
-
+                Cell cell = ruleTable.getCellForEvent(event); 
+                if (cell == null) {
+                    System.out.println("Cell is NULL");
+                    return;
+                }
+                
                 NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 if (widget == null) {
                     selectedReqCompVO = null;
@@ -231,7 +289,8 @@ System.out.println("Row count: " + rowCount);
         tableButtonsPanel.add(arrowButtonsPanel);
         tempPanel2.add(tableButtonsPanel);
         complexView.add(tempPanel2);
-        
+
+		        
         HorizontalPanel tempPanelButtons1 = new HorizontalPanel();
        // tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
         tempPanelButtons1.add(btnAddClause);
@@ -244,20 +303,18 @@ System.out.println("Row count: " + rowCount);
         //tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
         tempPanelButtons2.add(btnDeleteClause);
         btnDeleteClause.setStyleName("KS-Rules-Standard-Button");  
+        btnDeleteClause.setEnabled(false);
         tempPanelButtons2.add(btnDuplicateClause);
-        btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");
+        btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");  
+        btnDuplicateClause.setEnabled(false);
         complexView.add(tempPanelButtons1);
         complexView.add(tempPanelButtons2);
         
-        btnAddClause.setEnabled(false);
+        btnAddClause.setEnabled(true);
         btnEditClause.setEnabled(false);  
         btnDeleteClause.setEnabled(false);
-        btnDuplicateClause.setEnabled(false);
-        
-        if (selectedReqCompVO == null) {
-            btnAddClause.setEnabled(true);
-        } else {
-            btnAddClause.setEnabled(true);
+        btnDuplicateClause.setEnabled(false);        
+        if (selectedReqCompVO != null) {
             btnEditClause.setEnabled(true);
             btnDeleteClause.setEnabled(true);
             btnDuplicateClause.setEnabled(true);
@@ -346,9 +403,7 @@ System.out.println("Row count: " + rowCount);
     }       
 
     public ReqComponentInfo getSelectedReqComp() {
-        ReqComponentInfo result = 
-            (selectedReqCompVO == null)? null :
-                selectedReqCompVO.getReqComponentInfo();
+        ReqComponentInfo result = (selectedReqCompVO == null)? null : selectedReqCompVO.getReqComponentInfo();
         return result;
-    }   
+    }      
 }

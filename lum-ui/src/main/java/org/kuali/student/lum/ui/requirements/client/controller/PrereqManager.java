@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
@@ -31,6 +32,7 @@ public class PrereqManager extends Controller {
     private final ComplexView complexView = new ComplexView(this);
     private final ClauseEditorView clauseEditorView = new ClauseEditorView(this);
     private final Model<PrereqInfo> prereqInfo;
+    private final Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes;    
 
     public PrereqManager(Model<PrereqInfo> prereqInfo) {
@@ -38,6 +40,7 @@ public class PrereqManager extends Controller {
         super.initWidget(viewPanel);
         viewPanel.add(mainPanel);              
         this.prereqInfo = prereqInfo;
+        this.selectedReqCompVO = new Model<ReqComponentVO>();
     }
 
     public SimplePanel getMainPanel() {
@@ -74,7 +77,10 @@ public class PrereqManager extends Controller {
             else {
                 callback.onModelReady(reqComponentTypes);
             }
-        } else {
+        } else if (modelType.equals(ReqComponentVO.class)) {
+            callback.onModelReady(selectedReqCompVO);
+        }
+        else {
             super.requestModel(modelType, callback);
         }
     }
@@ -92,7 +98,6 @@ public class PrereqManager extends Controller {
             case COMPLEX:
                 return complexView;
             case CLAUSE_EDITOR:                                
-                clauseEditorView.setEditedReqComp(complexView.getSelectedReqComp());
                 return clauseEditorView;
             default:
                 return null;

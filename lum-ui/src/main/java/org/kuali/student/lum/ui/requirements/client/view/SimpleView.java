@@ -1,5 +1,6 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
@@ -16,6 +17,7 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -58,7 +60,22 @@ public class SimpleView extends ViewComposite {
     private void setupHandlers() {
         linkToComplexView.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-System.out.println("changing to complex view...");                
+                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
+                    public void onModelReady(Model<ReqComponentVO> theModel) {
+                        if (theModel != null) {
+                            List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
+                            selectedReqComp.addAll(theModel.getValues());
+                            if (selectedReqComp.size() > 0) {
+                                theModel.remove(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model
+                            }
+                        }                    
+                        redraw();
+                    }
+
+                    public void onRequestFail(Throwable cause) {
+                        throw new RuntimeException("Unable to connect to model", cause);
+                    }
+                }); 
                 getController().showView(PrereqViews.COMPLEX);
             }
         });
@@ -100,7 +117,6 @@ System.out.println("changing to complex view...");
         if (model == null) {
             getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
                 public void onModelReady(Model<PrereqInfo> theModel) {
-                    //printModel(theModel);
                     model = theModel;                    
                     setupHandlers();
                     redraw();

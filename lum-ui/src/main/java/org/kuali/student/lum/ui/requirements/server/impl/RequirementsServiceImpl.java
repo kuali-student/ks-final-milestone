@@ -48,7 +48,6 @@ public class RequirementsServiceImpl implements RequirementsService {
             throw new Exception("Unable to retrieve ReqComponent for reqComponentId " + compInfo.getId(), ex);
         }         
         String version = reqComponentInfo.getMetaInfo().getVersionInd();
-        System.out.println("Retrieved ID: " + version);
         
         //right now we need to update the req. component before invoking natural language generation
         //TODO replace with a method call that accepts modified ReqComponentInfo structure
@@ -78,7 +77,20 @@ public class RequirementsServiceImpl implements RequirementsService {
         
         return naturalLanguage;
     }	
-	
+	    
+    public String getNaturalLanguageForLuStatement(String cluId, String luStatementId) throws Exception {
+                     
+        String NLStatement = "";
+        try {        
+            NLStatement = service.getNaturalLanguageForLuStatement(cluId, luStatementId, "KUALI.CATALOG");            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to get natural language for clu: " + cluId + " and luStamentId: " + luStatementId, ex);
+        }; 
+        
+        return NLStatement;
+    }
+    
 	public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
 	  
         CourseRuleInfo courseInfo = new CourseRuleInfo();
@@ -143,7 +155,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             ex.printStackTrace();
             throw new Exception("Unable to retrieve Clus", ex);
         }
-        
+
         return clus;
     }      
     

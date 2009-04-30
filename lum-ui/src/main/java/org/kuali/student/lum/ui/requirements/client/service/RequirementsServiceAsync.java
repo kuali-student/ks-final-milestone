@@ -19,6 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface RequirementsServiceAsync {
     public void getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
+    public void getNaturalLanguageForLuStatement(String cluId, String luStatementId, AsyncCallback<String> asyncCallback);
     public void getCourseAndRulesInfo(String cluId, AsyncCallback<CourseRuleInfo> asyncCallback);
     public void getReqComponentTypesForLuStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> asyncCallback);
     public void getAllClus(AsyncCallback<List<Result>> asyncCallback);  

@@ -59,7 +59,6 @@ public class CourseRequisiteView extends ViewComposite {
             public void onSuccess(final CourseRuleInfo courseRuleInfo) {                
                 courseData.add(courseRuleInfo);
                 prereqInfo.setId(courseData.get(getCourseId()).getId());
-                prereqInfo.setNaturalLanguage("This is natural language for this statement");
                 prereqInfo.setRationale("The course supplements Biology 100 level courses.");
                 
                 RequirementsService.Util.getInstance().getStatementVO(courseData.get(getCourseId()).getId(), "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
@@ -70,9 +69,19 @@ public class CourseRequisiteView extends ViewComposite {
                     
                     public void onSuccess(final StatementVO statementVO) {
                         prereqInfo.setStatementVO(statementVO);
-                        //prereqInfo.setStatementVO(new StatementVO(courseData.get(getCourseId()).getLuStatementByType("kuali.luStatementType.prereqAcademicReadiness")));
                         setPrereqInfo(prereqInfo);                    
-                        layoutMainPanel(viewPanel);
+
+                        RequirementsService.Util.getInstance().getNaturalLanguageForLuStatement(courseData.get(getCourseId()).getId(), statementVO.getLuStatementInfo().getId(), new AsyncCallback<String>() {
+                            public void onFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                                caught.printStackTrace();
+                            }
+                            
+                            public void onSuccess(final String statementNaturalLanguage) {
+                                prereqInfo.setNaturalLanguage(statementNaturalLanguage);
+                                layoutMainPanel(viewPanel);  
+                            } 
+                        });                                                 
                     } 
                 });                
             }
@@ -119,12 +128,12 @@ public class CourseRequisiteView extends ViewComposite {
             preReqText.setStyleName("KS-ReqMgr-NoRuleText");
             verticalPanel.add(preReqText);
             verticalPanel.add(AddPrerequisiteRule);
-            AddPrerequisiteRule.setStyleName("KS-Rules-Standard-Button");
+            AddPrerequisiteRule.setStyleName("KS-Rules-Tight-Button"); //"KS-Rules-Standard-Button");
             AddPrerequisiteRule.addClickHandler(handler);
         } else {
             verticalPanel.add(getNaturalLanguage());
             verticalPanel.add(EditPrerequisiteRule);
-            EditPrerequisiteRule.setStyleName("KS-Rules-Standard-Button");            
+            EditPrerequisiteRule.setStyleName("KS-Rules-Tight-Button"); //"KS-Rules-Standard-Button");            
             EditPrerequisiteRule.addClickHandler(handler);
         }
         RulesUtilities ruleUtil = new RulesUtilities();
