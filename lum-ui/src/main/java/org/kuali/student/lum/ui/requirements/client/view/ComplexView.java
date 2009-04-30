@@ -26,14 +26,12 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class ComplexView extends ViewComposite {
@@ -56,14 +54,36 @@ public class ComplexView extends ViewComposite {
     private Model<PrereqInfo> model;
     private ReqComponentVO selectedReqCompVO;
     private StatementVO selectedStatementVO;
+    private boolean isInitialized = false;
 
     public ComplexView(Controller controller) {
         super(controller, "Complex View");
-        super.initWidget(mainPanel);
+        super.initWidget(mainPanel);                
     }
     
     public void beforeShow() {
 
+        if (isInitialized == false) {
+            setupHandlers();            
+            isInitialized = true;
+            
+            getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
+                public void onModelReady(Model<PrereqInfo> theModel) {
+                    model = theModel;    
+                    
+                    model.addModelChangeHandler(new ModelChangeHandler<PrereqInfo>() {
+                        public void onModelChange(ModelChangeEvent<PrereqInfo> event) {
+                            redraw();
+                        }
+                    });                                                                      
+                }
+
+                public void onRequestFail(Throwable cause) {
+                    throw new RuntimeException("Unable to connect to model", cause);
+                }
+            }); 
+        }
+        
         if (model != null) {
             
             //set the selected Req. Comp. based on previous user action of adding or editing a req. component
@@ -77,26 +97,15 @@ public class ComplexView extends ViewComposite {
                             selectedReqCompVO = theModel.get(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model
                         }
                     }
-                    redraw();
                 }
 
                 public void onRequestFail(Throwable cause) {
                     throw new RuntimeException("Unable to connect to model", cause);
                 }
-            });                
+            });
         }
         
-        getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
-            public void onModelReady(Model<PrereqInfo> theModel) {
-                model = theModel;                    
-                setupHandlers();
-                redraw();
-            }
-
-            public void onRequestFail(Throwable cause) {
-                throw new RuntimeException("Unable to connect to model", cause);
-            }
-        });        
+        redraw();
     }
 
     private void setupHandlers() {
@@ -159,12 +168,7 @@ public class ComplexView extends ViewComposite {
                 
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
             } 
-        });               
-        model.addModelChangeHandler(new ModelChangeHandler<PrereqInfo>() {
-            public void onModelChange(ModelChangeEvent<PrereqInfo> event) {
-                redraw();
-            }
-        });                       
+        });                                    
         ruleTable.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
