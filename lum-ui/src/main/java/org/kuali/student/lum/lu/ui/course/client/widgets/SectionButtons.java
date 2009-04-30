@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This is a button panel to display a set of buttons for layout sections. 
  * 
  * @author Kuali Student Team
  *
@@ -90,7 +90,7 @@ public class SectionButtons extends Composite{
     }
 
     public void addEditClickHandler(ClickHandler handler){
-        this.saveButton.addClickHandler(handler);
+        this.editButton.addClickHandler(handler);
     }
     
     public void showSaveDialog(){
