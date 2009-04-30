@@ -69,6 +69,7 @@ public class VelocityTemplateEngine {
 	private void init() {
         velocityEngine.setProperty(VelocityEngine.RESOURCE_LOADER, "class");
         velocityEngine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        setLogFile();
 
         DateTool dateTool = new DateTool();
         dateTool.configure(this.configMap);
@@ -100,12 +101,34 @@ public class VelocityTemplateEngine {
 	 * @param enableLogging True enables logging; false disables logging
 	 */
 	public void setLogging(boolean enableLogging) {
-        if (!enableLogging) {
+		if (!enableLogging) {
 	        // Line below to disables logging, remove to enable
 	    	velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.NullLogSystem");
         } else {
 	    	velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, null);
+	    	setLogFile();
         }
+	}
+		
+	/**
+	 * Sets the Velocity Log File to the default location.  Either 
+	 * <code>{catalina.base}/velocity.log</code> or <code>target/velocity.log</code>. 
+	 */
+	public void setLogFile() {
+		if (System.getProperty("catalina.base") != null) {
+			setLogFile(System.getProperty("catalina.base") + "/velocity.log");
+		} else {
+			setLogFile("target/velocity.log");
+		}
+	}
+	
+	/**
+	 * Sets the Velocity Log File.
+	 *   
+	 * @param logFile the path and filename for velocity logging 
+	 */
+	public void setLogFile(String logfile) {
+		velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG, logfile);
 	}
 	
 	/**
