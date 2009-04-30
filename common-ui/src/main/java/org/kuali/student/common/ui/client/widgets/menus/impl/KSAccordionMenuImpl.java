@@ -192,22 +192,37 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
     @Override
     public boolean selectMenuItem(String[] hierarchy) {
         boolean selected = false;
-        String current = hierarchy[0].toLowerCase().trim();
-        FocusPanel itemToSelect = accordionMenuItemPanels.get(current);
-        if(itemToSelect != null){
-            itemToSelect.fireEvent(new ClickEvent(){});
-            selected = true;
-        }
-        
-        KSAccordionMenuImpl subMenu = subMenuMap.get(current);
-        if(subMenu != null){
-            String[] subHierarchy = new String[hierarchy.length - 1];
-            for(int i = 0; i < subHierarchy.length; i++){
-                subHierarchy[i] = hierarchy[i + 1];
+        String currentString = hierarchy[0].toLowerCase().trim();
+        KSMenuItemData current = null;
+        for(KSMenuItemData i: items){
+            if(i.getLabel().toLowerCase().trim().equals(currentString)){
+                System.out.println("Got here");
+                current = i;
+                break;
             }
-            selected = subMenu.selectMenuItem(subHierarchy);
         }
         
+        if(current != null)
+        {
+            if(hierarchy.length == 1){
+                FocusPanel itemToSelect = accordionMenuItemPanels.get(current);
+                if(itemToSelect != null){
+                    selected = true;
+                    current.setSelected(true);
+                }
+            }
+            else if(hierarchy.length > 1){
+                KSAccordionMenuImpl subMenu = subMenuMap.get(currentString);
+                if(subMenu != null){
+                    String[] subHierarchy = new String[hierarchy.length - 1];
+                    for(int i = 0; i < subHierarchy.length; i++){
+                        subHierarchy[i] = hierarchy[i + 1];
+                    }
+                    selected = subMenu.selectMenuItem(subHierarchy);
+                }
+            }
+        }
+
         return selected;
     }
 	

@@ -310,7 +310,7 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         
             for(MenuItemPanel p: menuItems){
                 if(itemToSelect.equals(p.getItem())){
-                    p.fireEvent(new ClickEvent(){});
+                    p.getItem().setSelected(true);
                     return true;
                 }
             }
