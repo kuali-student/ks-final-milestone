@@ -17,16 +17,23 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.typemanager;
 
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.ConfigurableField;
+import org.kuali.student.common.ui.client.configurable.PropertyBinding;
+import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
+import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AcademicContentLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AdminstrativeLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AttachmentsLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ProposalInformationLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.StudentEligibilityLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ViewsLayoutManager;
+
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -53,16 +60,40 @@ public class CreditCourseLayoutManager {
 
         DefaultCreateUpdateLayout<CluInfo> layout = new DefaultCreateUpdateLayout<CluInfo>();
 
+        layout = addStartSection(layout);
         layout = addViewsSection(layout, type, state);
         layout = addAuthorAndCollaboratorsSection(layout, type, state);
         layout = addAcademicContentSection(layout, type, state);
         layout = addStudentEligibilitySection(layout, type, state);
         layout = addAdministrativeSection(layout, type, state);
-        layout = addAttachmentsSection(layout, type, state);  
-        
+        layout = addAttachmentsSection(layout, type, state);
+                
         return layout;
     }
 
+    private DefaultCreateUpdateLayout<CluInfo> addStartSection(DefaultCreateUpdateLayout<CluInfo> layout){
+        layout.addStartSection(new SimpleConfigurableSection<CluInfo>()
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return null;
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                            }
+                        })
+                        .setFormField(new KSFormField("proposedCourseTitle", "Proposed Course Title")
+                        .setWidget(new TextBox())
+                        .setHelpInfo(new HelpInfo("myhelpid", "help short version", "help title",
+                        "http://www.google.com/")
+                        )
+                        )
+                )
+                .setSectionTitle("Begin Proposal"));
+        return layout;
+    }
+    
     private DefaultCreateUpdateLayout<CluInfo> addViewsSection(DefaultCreateUpdateLayout<CluInfo> layout,
         String type, String state) {
             ViewsLayoutManager manager = new ViewsLayoutManager(layout, 

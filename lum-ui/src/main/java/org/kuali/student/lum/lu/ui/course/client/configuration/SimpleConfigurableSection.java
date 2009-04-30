@@ -10,26 +10,34 @@ import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Holder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class SimpleConfigurableSection<T extends Object> extends ConfigurableLayoutSection<T> {
-	private final VerticalPanel panel = new VerticalPanel();
+	protected final VerticalPanel panel = new VerticalPanel();
 	private final Label sectionTitleLabel = new Label();
 	private final Label instructionsLabel = new Label();
 	private final KSFormLayoutPanel form = new KSFormLayoutPanel();
+	private final SimplePanel buttonPanel = new SimplePanel();
 	
 	private final List<ConfigurableField<T>> fields = new ArrayList<ConfigurableField<T>>();
-	
+		
 	public SimpleConfigurableSection() {
 		super.initWidget(panel);
 		panel.add(sectionTitleLabel);
 		panel.add(instructionsLabel);
-		panel.add(form);
+		panel.add(form);		
+		panel.add(buttonPanel);
 	}
+	
 	@Override
 	public LayoutSection<T> setInstructions(String instructions) {
 		instructionsLabel.setText(instructions);
@@ -86,5 +94,13 @@ public class SimpleConfigurableSection<T extends Object> extends ConfigurableLay
 		for (ConfigurableField<T> cf : fields) {
 			cf.getBinding().setValue(bound, cf.getFormField().getValue());
 		}
+	}
+	
+	public void addSectionButtons(Widget buttons){
+	    this.buttonPanel.setWidget(buttons);
+	}
+	
+	public void setEditMode(EditMode mode){
+	    this.form.setEditMode(mode);
 	}
 }
