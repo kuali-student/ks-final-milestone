@@ -31,6 +31,9 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 	private final SimplePanel contentPanel = new SimplePanel();
 
 	private final Map<String, KSMenuItemData> sectionMap = new HashMap<String, KSMenuItemData>();
+	
+	private List<LayoutSection<T>> sections = new ArrayList<LayoutSection<T>>();	
+	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
 	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
 	
@@ -88,7 +91,8 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 			}
 		});
 		
-		
+		//This assumes that sections are added in order
+		sections.add(section);
 		return this;
 	}
 	
@@ -135,11 +139,34 @@ public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLay
 		menuPanel.add(viewMenu);
 		menuPanel.add(sectionMenu);
 		
+		//Add next section button handlers, this code assumes section was added in order
+		//and that they appear in same sequence in the menu.
+		int sectionIndex = 0;
+		for (KSMenuItemData menuItem:topLevelMenuItems){
+		    for (KSMenuItemData subItem:menuItem.getSubItems()){
+		        if (sectionIndex > 0){
+    		        SimpleConfigurableSection prevSection = (SimpleConfigurableSection)sections.get(sectionIndex-1);
+    		        SectionButtons sectionButtons = (SectionButtons)prevSection.getSectionButtons();
+    		        sectionButtons.addNextSectionClickHandler(getNextSectionClickHandler(subItem));
+		        }
+		        sectionIndex++;
+		    }
+		}
+		
 		contentPanel.clear();
 		
 		if (showStart){
 		    startSectionDialog.show();
 		}
+	}
+	
+	protected ClickHandler getNextSectionClickHandler(final KSMenuItemData menuItem){
+	    ClickHandler handler = new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                menuItem.setSelected(true);
+            }	        
+	    };
+	    return handler;
 	}
 
 	protected void addSectionButtons(final LayoutSection<T> section){

@@ -13,9 +13,8 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.lum.lu.ui.course.client.widgets.SectionButtons;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -98,6 +97,10 @@ public class SimpleConfigurableSection<T extends Object> extends ConfigurableLay
 	
 	public void addSectionButtons(Widget buttons){
 	    this.buttonPanel.setWidget(buttons);
+	}
+	
+	public Widget getSectionButtons(){
+	    return buttonPanel.getWidget();
 	}
 	
 	public void setEditMode(EditMode mode){

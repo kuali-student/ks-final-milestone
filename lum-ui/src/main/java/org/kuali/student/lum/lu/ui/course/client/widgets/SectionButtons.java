@@ -64,9 +64,7 @@ public class SectionButtons extends Composite{
         super.initWidget(vPanel);
         confirmSaveDialog.setWidget(new KSLabel("Section data not saved. Do you wish to save?"));
         confirmSaveDialog.addConfirmHandler(saveClickHandler);        
-    }
-        
-    protected void onLoad() {
+
         saveButton.setVisible(true);
         editButton.setVisible(false);
         nextButton.setVisible(false);
@@ -78,6 +76,10 @@ public class SectionButtons extends Composite{
         buttonPanel.setStyleName("KS-Course-Save-Button");
         
         vPanel.add(buttonPanel);
+
+    }
+        
+    protected void onLoad() {
     }
     
     public void addNextSectionClickHandler(ClickHandler handler){
