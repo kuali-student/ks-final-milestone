@@ -20,7 +20,7 @@ public class LUMApplicationManager extends Controller{
     private CourseProposalManager createCourse = new CourseProposalManager(this);
     
     //Wire in validator
-    private LUCreateUpdateView createUpdateCourse;
+    private View courseCreateUpdate = new LUCreateUpdateView("course", "proposed", null);
     
     public LUMApplicationManager(){
         super();
@@ -45,8 +45,11 @@ public class LUMApplicationManager extends Controller{
             case HOME_MENU:
                 return homeMenu;
             case CREATE_COURSE:
+                /*
                 createCourse.setCourseProposalType(CourseProposalType.NEW_COURSE);                
                 return createCourse;
+                */
+                return courseCreateUpdate;
             default:
                 return null;
         }
