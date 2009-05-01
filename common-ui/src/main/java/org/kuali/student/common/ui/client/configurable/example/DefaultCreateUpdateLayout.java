@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLayout<T> {
+public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLayout<T> {
 	private final HorizontalPanel panel = new HorizontalPanel();
 	private final SimplePanel menuPanel = new SimplePanel();
 	private final SimplePanel contentPanel = new SimplePanel();

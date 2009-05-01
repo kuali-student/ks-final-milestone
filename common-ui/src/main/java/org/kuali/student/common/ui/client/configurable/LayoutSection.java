@@ -1,12 +1,13 @@
 package org.kuali.student.common.ui.client.configurable;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Composite;
 
-public abstract class LayoutSection<T extends Object> extends Composite {
+public abstract class LayoutSection<T extends Idable> extends Composite {
 	private String sectionTitle = null;
 	private String instructions = null;
 	private ConfigurableLayout<T> parentLayout = null;

@@ -10,13 +10,14 @@ import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Holder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SimpleConfigurableSection<T extends Object> extends ConfigurableLayoutSection<T> {
+public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLayoutSection<T> {
 	private final VerticalPanel panel = new VerticalPanel();
 	private final Label sectionTitleLabel = new Label();
 	private final Label instructionsLabel = new Label();

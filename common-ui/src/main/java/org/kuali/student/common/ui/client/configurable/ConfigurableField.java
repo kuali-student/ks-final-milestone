@@ -1,8 +1,9 @@
 package org.kuali.student.common.ui.client.configurable;
 
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
+import org.kuali.student.core.dto.Idable;
 
-public class ConfigurableField<T extends Object> {
+public class ConfigurableField<T extends Idable> {
 	private PropertyBinding<T> binding = null;
 	private KSFormField formField = null;
 	

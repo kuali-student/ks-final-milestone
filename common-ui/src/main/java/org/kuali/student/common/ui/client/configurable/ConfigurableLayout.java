@@ -1,8 +1,10 @@
 package org.kuali.student.common.ui.client.configurable;
 
+import org.kuali.student.core.dto.Idable;
+
 import com.google.gwt.user.client.ui.Composite;
 
-public abstract class ConfigurableLayout<T extends Object> extends Composite {
+public abstract class ConfigurableLayout<T extends Idable> extends Composite {
 	private T object = null;
 
 	public T getObject() {
