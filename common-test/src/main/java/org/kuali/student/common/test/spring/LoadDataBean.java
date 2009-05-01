@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -17,15 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class LoadDataBean implements ApplicationContextAware{
+	private static final Log LOG = LogFactory.getLog(LoadDataBean.class);
+
+
+
 	@PersistenceContext
 	EntityManager em;
 	private boolean loaded = false;
 	private String daoAnnotations;
 
 	private ApplicationContext applicationContext;
-	
+
 	public void loadData(){
-		if (daoAnnotations == null || loaded == true) {
+		if (daoAnnotations == null || loaded || daoAnnotations.trim().isEmpty()) {
 			return;
 		}
 
@@ -34,14 +40,14 @@ public class LoadDataBean implements ApplicationContextAware{
 		for (String line : classes) {
 			try {
 				String[] split = line.split("\\|");
-				
+
 				// Invoke the data loader for this dao
                 invokeDataLoader(split[0]);
-                
+
                 // Load data bean file for this dao
                 if (split.length > 1&& !split[1].isEmpty()) {
 				    String testDataFile = split[1];
-				   
+
 					ApplicationContext ac = new FileSystemXmlApplicationContext(
 							testDataFile);
 					for (Object bean : (List<?>) ac.getBean("persistList")) {
@@ -49,7 +55,7 @@ public class LoadDataBean implements ApplicationContextAware{
 							em.persist(bean);
 						}
 					}
-				} 				    				
+				}
                 // Load sql file for this dao
                 if (split.length > 2&& !split[2].isEmpty()) {
 
@@ -63,19 +69,19 @@ public class LoadDataBean implements ApplicationContextAware{
 					BufferedReader in
 					   = new BufferedReader(new FileReader(sqlFile));
 					String ln;
-	
+
 					while((ln=in.readLine())!=null){
 						if(!ln.startsWith("/")&&!ln.isEmpty()){
 							em.createNativeQuery(ln).executeUpdate();
 						}
 					}
-				} 				    				
-				
+				}
+
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
-	
+
 		loaded = true;
 
 	}
@@ -84,24 +90,26 @@ public class LoadDataBean implements ApplicationContextAware{
 	    try {
             //Check if there is a loader class for this dao
 	        Class<?> daoType = Class.forName(dao).getInterfaces()[0];
-	        
-	        Class<?> clazz = Class.forName(daoType.getName() + "Loader");            
-            DaoLoader daoLoader = (DaoLoader)clazz.newInstance();                        
+
+	        Class<?> clazz = Class.forName(daoType.getName() + "Loader");
+            DaoLoader daoLoader = (DaoLoader)clazz.newInstance();
 
             //Get spring bean for the dao
             Map<?,?> daoBeans = applicationContext.getBeansOfType(daoType);
-            
+
             //Invoke the loader for this doa bean (there shouldn't be more than one)
-            if (daoBeans.size() == 1){               
+            if (daoBeans.size() == 1){
                 daoLoader.setDao(daoBeans.values().iterator().next());
                 daoLoader.run();
             }
- 
+
+	    } catch (ClassNotFoundException cnfe) {
+	    	LOG.info(cnfe);
 	    } catch (Exception e) {
-            //TODO: Add logging
+            LOG.error(e);
         }
 	}
-	
+
 	/**
 	 * @return the daoAnnotations
 	 */
