@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="brms-api/src/main/java"/>
-	<classpathentry kind="src" path="execution-impl/src/main/resources"/>
-	<classpathentry kind="src" path="execution-impl/src/test/java"/>
-	<classpathentry kind="src" path="execution-impl/src/main/java"/>
-	<classpathentry kind="src" path="execution-impl/src/test/resources"/>
-	<classpathentry kind="src" path="execution-api/src/main/resources"/>
-	<classpathentry kind="src" path="execution-api/src/main/java"/>
-	<classpathentry kind="src" path="brms-api/src/main/resources"/>
-	<classpathentry kind="src" path="brms-api/src/test/resources"/>
-	<classpathentry kind="src" path="brms-api/src/test/java"/>
-	<classpathentry kind="src" path="brms-impl/src/main/java"/>
-	<classpathentry kind="src" path="brms-impl/src/main/resources"/>
-	<classpathentry kind="src" path="brms-impl/src/test/java"/>
-	<classpathentry kind="src" path="brms-impl/src/test/resources"/>
-	<classpathentry kind="src" path="brms-ui/src/main/java"/>
-	<classpathentry kind="src" path="brms-ui/src/main/resources"/>
-	<classpathentry kind="src" path="brms-ui/src/main/webapp"/>
-	<classpathentry kind="src" path="brms-ui/src/test/java"/>
-	<classpathentry kind="src" path="brms-ui/src/test/resources"/>
-	<classpathentry kind="src" path="brms-web/src/main/resources"/>
-	<classpathentry kind="src" path="brms-web/src/main/webapp"/>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry kind="src" output="brms-api/target/classes" path="brms-api/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="brms-api/target/classes" path="brms-api/src/main/resources"/>
+	<classpathentry kind="src" output="brms-api/target/test-classes" path="brms-api/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="brms-api/target/test-classes" path="brms-api/src/test/resources"/>
+	<classpathentry kind="src" output="brms-impl/target/classes" path="brms-impl/src/main/java"/>
+    <!-- 
+	<classpathentry kind="src" output="brms-impl/target/classes" path="brms-impl/target/generated-sources/antlr"/>
+    -->
+	<classpathentry excluding="**" kind="src" output="brms-impl/target/classes" path="brms-impl/src/main/resources"/>
+	<classpathentry kind="src" output="brms-impl/target/test-classes" path="brms-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="brms-impl/target/test-classes" path="brms-impl/src/test/resources"/>
+	<classpathentry kind="src" output="execution-api/target/classes" path="execution-api/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="execution-api/target/classes" path="execution-api/src/main/resources"/>
+	<classpathentry kind="src" output="execution-impl/target/classes" path="execution-impl/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="execution-impl/target/classes" path="execution-impl/src/main/resources"/>
+	<classpathentry kind="src" output="execution-impl/target/test-classes" path="execution-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="execution-impl/target/test-classes" path="execution-impl/src/test/resources"/>
+	<classpathentry excluding="**" kind="src" output="brms-web/target/classes" path="brms-web/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
