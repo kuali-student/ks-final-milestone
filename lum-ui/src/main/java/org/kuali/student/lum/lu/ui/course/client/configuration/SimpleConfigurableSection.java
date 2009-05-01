@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Holder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.widgets.SectionButtons;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SimpleConfigurableSection<T extends Object> extends ConfigurableLayoutSection<T> {
+public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLayoutSection<T> {
 	protected final VerticalPanel panel = new VerticalPanel();
 	private final Label sectionTitleLabel = new Label();
 	private final Label instructionsLabel = new Label();

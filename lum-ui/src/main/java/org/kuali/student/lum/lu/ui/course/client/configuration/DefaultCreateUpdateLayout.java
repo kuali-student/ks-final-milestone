@@ -13,6 +13,7 @@ import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.ui.course.client.widgets.SectionButtons;
 import org.kuali.student.lum.lu.ui.course.client.widgets.StartSectionButtons;
 
@@ -22,7 +23,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class DefaultCreateUpdateLayout<T extends Object> extends ConfigurableLayout<T> {
+public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLayout<T> {
     private final KSModalDialogPanel startSectionDialog = new KSModalDialogPanel();
     StartSectionButtons startSectionButtons = new StartSectionButtons();   
     
