@@ -1,8 +1,0 @@
-<module>
-	<inherits name="com.googlecode.gwtx.Java" />
-	<source path='validator' >
-		<include name="Validator.java"/>
-		<include name="DateParser.java"/>
-		<include name="DateParseException.java"/>
-	</source>	
-</module>
