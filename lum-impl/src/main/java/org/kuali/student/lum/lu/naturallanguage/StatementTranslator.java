@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.naturallanguage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
@@ -14,6 +15,7 @@ import org.kuali.student.brms.ruleexecution.runtime.report.ast.MessageBuilderImp
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
@@ -43,6 +45,10 @@ public class StatementTranslator extends AbstractTranslator<LuStatement> {
 	}
 
 	public String translate(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		if(luStatement == null) {
+			return null;
+		}
+
 		String booleanExpression = statementParser.getBooleanExpressionAsReqComponents(luStatement);
 
 		List<CustomReqComponent> reqComponentList = statementParser.getLeafReqComponents(luStatement);
@@ -60,41 +66,74 @@ public class StatementTranslator extends AbstractTranslator<LuStatement> {
 		return message;
 	}
 
-	public NLTranslationNode translateAsTree(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public NLTranslationNodeInfo translateToTree(String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
+		return translateToTree(luStatement, nlUsageTypeKey);
+	}
+
+	public NLTranslationNodeInfo translateToTree(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		if(luStatement == null) {
+			return null;
+		}
+
 		String booleanExpression = statementParser.getBooleanExpressionAsReqComponents(luStatement);
-		traverseStatementTree(luStatement, nlUsageTypeKey);
-		NLTranslationNode root = new NLTranslationNode(Boolean.TRUE, booleanExpression);
-		root.addChildNode(this.tempNode);
-		return tempNode;
+		String operator = (luStatement.getOperator() == null ? null : luStatement.getOperator().toString());
+		String booleanId = statementParser.getIdMap().get(luStatement.getId());
+		NLTranslationNodeInfo root = new NLTranslationNodeInfo(luStatement.getId(), booleanId, operator);
+		root.setBooleanExpression(booleanExpression);
+		createStatementTree(luStatement, root, nlUsageTypeKey);
+
+		return root;
 	}
 	
-	//private List<NLTranslationNode> nodes = new ArrayList<NLTranslationNode>();
-	private NLTranslationNode tempNode = null;
-		
-	private void traverseStatementTree(LuStatement rootLuStatement, String nlUsageTypeKey) 
+	private void createStatementTree(LuStatement luStatement, NLTranslationNodeInfo rootNode, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {
-		for(Iterator<LuStatement> it = rootLuStatement.getChildren().iterator(); it.hasNext();) {
+		if (luStatement.getChildren() == null || luStatement.getChildren().isEmpty()) {
+			List<NLTranslationNodeInfo> children = getReqComponents(luStatement.getRequiredComponents(), nlUsageTypeKey);
+			rootNode.setChildNodes(children);
+			rootNode.setNLTranslation(getNLTranslation(children, rootNode.getOperator()));
+			return;
+		}
+
+		for(Iterator<LuStatement> it = luStatement.getChildren().iterator(); it.hasNext();) {
 			LuStatement stmt = it.next();
+			String operator = (stmt.getOperator() == null ? null : stmt.getOperator().toString());
+			String booleanId = statementParser.getIdMap().get(stmt.getId());
+			NLTranslationNodeInfo node = new NLTranslationNodeInfo(stmt.getId(), booleanId, operator);
+			node.setParent(rootNode);
+			rootNode.addChildNode(node);
 			if (stmt.getChildren() == null || stmt.getChildren().isEmpty()) {
-//				NLTranslationNode node = new NLTranslationNode(stmt.getId(), null);
-//				List<NLTranslationNode> children = getReqComponents(stmt.getRequiredComponents(), nlUsageTypeKey);
-//				node.setChildNodes(children);
-//				this.tempNode = node;
+				List<NLTranslationNodeInfo> children = getReqComponents(stmt.getRequiredComponents(), nlUsageTypeKey);
+				node.setChildNodes(children);
+				node.setNLTranslation(getNLTranslation(children, node.getOperator()));
 			} else {
-				traverseStatementTree(stmt, nlUsageTypeKey);
-//				NLTranslationNode node = new NLTranslationNode(stmt.getId(), null);
-//				node.addChildNode(this.tempNode);
-//				this.tempNode = node;
+				createStatementTree(stmt, node, nlUsageTypeKey);
 			}
 		}
 	}
 	
-	private List<NLTranslationNode> getReqComponents(List<ReqComponent> reqComponentList, String nlUsageTypeKey) 
+	private String getNLTranslation(List<NLTranslationNodeInfo> children, String operator) {
+		StringBuilder sb = new StringBuilder();
+		for(Iterator<NLTranslationNodeInfo> it = children.iterator(); it.hasNext();) {
+			NLTranslationNodeInfo node = it.next();
+			sb.append(node.getNLTranslation());
+			if(it.hasNext()) {
+				sb.append(" ");
+				sb.append(operator);
+				sb.append(" ");
+			}
+		}
+		return sb.toString();
+	}
+
+	private List<NLTranslationNodeInfo> getReqComponents(List<ReqComponent> reqComponentList, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {
-		List<NLTranslationNode> list = new ArrayList<NLTranslationNode>(reqComponentList.size());
+		List<NLTranslationNodeInfo> list = new ArrayList<NLTranslationNodeInfo>(reqComponentList.size());
 		for(ReqComponent reqComp : reqComponentList) {
 			String translation = this.reqComponentTranslator.translate(reqComp, nlUsageTypeKey);
-			NLTranslationNode node = new NLTranslationNode(reqComp.getId(), translation);
+			String booleanId = statementParser.getIdMap().get(reqComp.getId());
+			NLTranslationNodeInfo node = new NLTranslationNodeInfo(reqComp.getId(), booleanId, null);
+			node.setNLTranslation(translation);
 			list.add(node);
 		}
 		return list;

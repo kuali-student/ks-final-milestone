@@ -58,6 +58,7 @@ import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
@@ -1393,11 +1394,23 @@ public class LuServiceImpl implements LuService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	/**
+	 * Translates a statement for a specific usuage type (context) 
+	 * into natural language.
+	 * 
+	 * @param cluId Clu anchor for statement
+	 * @param luStatementId Statement to translate
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+     * @throws DoesNotExistException Statement not found
+     * @throws InvalidParameterException Invalid nlUsageTypeKey 
+     * @throws MissingParameterException Missing luStatementId or nlUsageTypeKey
+     * @throws OperationFailedException Unable to complete request
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+	 */
 	@Override
 	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey) 
-			throws DoesNotExistException, InvalidParameterException, 
-			MissingParameterException, OperationFailedException {
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(luStatementId, "luStatementId");
@@ -1417,11 +1430,49 @@ public class LuServiceImpl implements LuService {
 	}
 	
 	/**
+	 * Translates a statement for a specific usuage type (context) 
+	 * into natural language.
+	 * 
+	 * @param cluId Clu anchor for statement
+	 * @param statementInfo Statement to translate
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+     * @throws DoesNotExistException Statement not found
+     * @throws InvalidParameterException Invalid nlUsageTypeKey 
+     * @throws MissingParameterException Missing statementInfo or nlUsageTypeKey
+     * @throws OperationFailedException Unable to complete request
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+	 */
+	@Override
+	public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(statementInfo, "statementInfo");
+		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		
+		if(cluId.trim().isEmpty()) {
+			throw new InvalidParameterException("cluId cannot be empty");
+		} else if(nlUsageTypeKey.trim().isEmpty()) {
+			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
+		}
+		
+		LuStatement luStatement = LuServiceAssembler.toLuStatementRelation(false, statementInfo, luDao);
+		String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatement, nlUsageTypeKey);
+
+		return nl;
+	}
+	
+	/**
 	 * Translates a requirement component for a specific usuage type (context) 
 	 * into natural language.
 	 * 
-	 * @param reqComponentId Requirement component to be translated
+	 * @param reqComponentId Requirement component to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+     * @throws DoesNotExistException ReqComponent not found
+     * @throws InvalidParameterException Invalid nlUsageTypeKey 
+     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
+     * @throws OperationFailedException Unable to complete request
+     * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
 	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) 
@@ -1439,6 +1490,93 @@ public class LuServiceImpl implements LuService {
 		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponentId, nlUsageTypeKey);
 
 		return nl;
+	}
+
+	/**
+	 * Translates a requirement component for a specific usuage type (context) 
+	 * into natural language.
+	 * 
+	 * @param reqComponentId Requirement component to translate
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+     * @throws DoesNotExistException ReqComponent not found
+     * @throws InvalidParameterException Invalid nlUsageTypeKey 
+     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
+     * @throws OperationFailedException Unable to complete request
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+	 */
+	@Override
+	public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo reqCompInfo, String nlUsageTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+
+		checkForMissingParameter(reqCompInfo, "reqCompInfo");
+		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		
+		if(nlUsageTypeKey.trim().isEmpty()) {
+			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
+		}
+
+		ReqComponent reqComponent = LuServiceAssembler.toReqComponentRelation(false, reqCompInfo, luDao);
+		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
+
+		return nl;
+	}
+
+	/**
+	 * Translates a statement for a specific natural language 
+	 * usuage type (context) into a natural language tree structure.
+	 * 
+	 * @param cluId Clu anchor
+	 * @param statementId Statement to translated
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @return Natural language root tree node
+	 * @throws DoesNotExistException CLU or statement does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
+	@Override
+	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(statementId, "statementId");
+		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
+
+		if(cluId.trim().isEmpty()) {
+			throw new InvalidParameterException("cluId cannot be empty");
+		} else if(statementId.trim().isEmpty()) {
+			throw new InvalidParameterException("statementId cannot be empty");
+		} else if(nlUsageTypeKey.trim().isEmpty()) {
+			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
+		}
+
+		return this.naturalLanguageTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
+	}
+
+	/**
+	 * Translates a statement for a specific natural language 
+	 * usuage type (context) into a natural language tree structure.
+	 * 
+	 * @param cluId Clu anchor
+	 * @param statement Statement to translated
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @return Natural language root tree node
+	 * @throws DoesNotExistException CLU or statement does not exist
+	 * @throws OperationFailedException Translation fails
+     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
+     * @throws InvalidParameterException Invalid LCU id or nlUsageTypeKey 
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+	 */
+	@Override
+	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(statementInfo, "statementInfo");
+		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
+
+		if(cluId.trim().isEmpty()) {
+			throw new InvalidParameterException("cluId cannot be empty");
+		} else if(nlUsageTypeKey.trim().isEmpty()) {
+			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
+		}
+
+		LuStatement statement = LuServiceAssembler.toLuStatementRelation(false, statementInfo, luDao);
+		return this.naturalLanguageTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
 	}
 
 	@Override

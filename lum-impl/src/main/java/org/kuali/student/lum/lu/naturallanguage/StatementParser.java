@@ -1,15 +1,19 @@
 package org.kuali.student.lum.lu.naturallanguage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class StatementParser {
 	private StringBuilder sb;
+	private Map<String,String> idMap;
 	private List<CustomReqComponent> reqComponentList;
 	private String andOperator;
 	private String orOperator;
@@ -28,6 +32,8 @@ public class StatementParser {
 	
 	private void init() {
 		idCounter = 1;
+		this.idMap = new HashMap<String, String>();
+		this.sb = new StringBuilder();
 	}
 
 	/**
@@ -41,9 +47,8 @@ public class StatementParser {
 	 * @param rootLuStatement Starting (root) LU statement node
 	 * @return A boolean expression of the LU statement tree
 	 */
-	public String getBooleanExpressionAsStatements(LuStatement rootLuStatement) {
+	public String getBooleanExpressionAsStatements(LuStatement rootLuStatement) throws OperationFailedException {
 		init();
-		this.sb = new StringBuilder();
 		if(rootLuStatement.getChildren() == null || rootLuStatement.getChildren().isEmpty()) {
 			return parseReqComponent(rootLuStatement, false);
 		} else {
@@ -63,9 +68,8 @@ public class StatementParser {
 	 * @param rootLuStatement Starting (root) LU statement node
 	 * @return A boolean expression of the LU statement tree
 	 */
-	public String getBooleanExpressionAsReqComponents(LuStatement rootLuStatement) {
+	public String getBooleanExpressionAsReqComponents(LuStatement rootLuStatement) throws OperationFailedException {
 		init();
-		this.sb = new StringBuilder();
 		if(rootLuStatement.getChildren() == null || rootLuStatement.getChildren().isEmpty()) {
 			return parseReqComponent(rootLuStatement, true);
 		} else {
@@ -74,13 +78,17 @@ public class StatementParser {
 		return sb.toString();
 	}
 	
+	public Map<String, String> getIdMap() {
+		return this.idMap;
+	}
+	
 	/**
 	 * Gets a list of all leaf requirement components.
 	 * 
 	 * @param rootLuStatement Starting (root) LU statement node
 	 * @return List of all requirement components
 	 */
-	public List<CustomReqComponent> getLeafReqComponents(LuStatement rootLuStatement) {
+	public List<CustomReqComponent> getLeafReqComponents(LuStatement rootLuStatement) throws OperationFailedException {
 		init();
 		this.reqComponentList = new ArrayList<CustomReqComponent>();
 		if(rootLuStatement.getChildren() == null || rootLuStatement.getChildren().isEmpty()) {
@@ -91,7 +99,7 @@ public class StatementParser {
 		return this.reqComponentList;
 	}
 
-	private void traverseStatementTree(LuStatement rootLuStatement) {
+	private void traverseStatementTree(LuStatement rootLuStatement) throws OperationFailedException {
 		for(Iterator<LuStatement> it = rootLuStatement.getChildren().iterator(); it.hasNext();) {
 			LuStatement stmt = it.next();
 			if (stmt.getChildren() == null || stmt.getChildren().isEmpty()) {
@@ -102,15 +110,15 @@ public class StatementParser {
 		}
 	}
 	
-	private List<CustomReqComponent> getCustomReqComponent(List<ReqComponent> list) {
+	private List<CustomReqComponent> getCustomReqComponent(List<ReqComponent> list) throws OperationFailedException {
 		List<CustomReqComponent> newList = new ArrayList<CustomReqComponent>(list.size());
 		for(ReqComponent reqComp : list) {
-			newList.add(new CustomReqComponent(reqComp, getBooleanReqComponentId()));
+			newList.add(new CustomReqComponent(reqComp, getBooleanReqComponentId(reqComp)));
 		}
 		return newList;
 	}
 	
-	private void traverseStatementTreeAndReduce(LuStatement rootLuStatement, boolean parseReqComponent) {
+	private void traverseStatementTreeAndReduce(LuStatement rootLuStatement, boolean parseReqComponent) throws OperationFailedException {
 		if(rootLuStatement.getChildren() != null && 
 			(rootLuStatement.getOperator() == StatementOperatorTypeKey.OR || 
 			(rootLuStatement.getParent() != null && rootLuStatement.getParent().getOperator() == StatementOperatorTypeKey.OR)) ) {
@@ -123,7 +131,7 @@ public class StatementParser {
 					this.sb.append(parseReqComponent(stmt, false));
 				} else {
 //					this.sb.append(StatementUtil.formatId(stmt.getId()));
-					this.sb.append(getBooleanStatementId());
+					this.sb.append(getBooleanStatementId(stmt));
 				}
 			} else {
 				traverseStatementTreeAndReduce(stmt, parseReqComponent);
@@ -142,7 +150,7 @@ public class StatementParser {
 		}
 	}
 
-	private String parseReqComponent(LuStatement luStatement, boolean reduce) {
+	private String parseReqComponent(LuStatement luStatement, boolean reduce) throws OperationFailedException {
 		if (luStatement.getRequiredComponents() == null) {
 			return "";
 		}
@@ -154,7 +162,7 @@ public class StatementParser {
 		}
 		for(Iterator<ReqComponent> it = luStatement.getRequiredComponents().iterator(); it.hasNext(); ) {
 			ReqComponent reqComponent = it.next();
-			sb.append(getBooleanReqComponentId());
+			sb.append(getBooleanReqComponentId(reqComponent));
 			if (it.hasNext()) {
 				sb.append(" ");
 				sb.append(getOperator(luStatement.getOperator()));
@@ -180,11 +188,29 @@ public class StatementParser {
 		return null;
 	}
 
-	private String getBooleanStatementId() {
-		return STATEMENT_ID + this.idCounter++;
+	private String getBooleanStatementId(LuStatement luStatement) throws OperationFailedException {
+		if(luStatement.getId() == null || luStatement.getId().isEmpty()) {
+			throw new OperationFailedException("Statement id cannot be null");
+		}
+		
+		if(this.idMap.containsKey(luStatement.getId())) {
+			return this.idMap.get(luStatement.getId());
+		}
+		String id = STATEMENT_ID + this.idCounter++;
+		this.idMap.put(luStatement.getId(), id);
+		return id;
 	}
 
-	private String getBooleanReqComponentId() {
-		return REC_COMPONENT_ID + this.idCounter++;
+	private String getBooleanReqComponentId(ReqComponent reqComponent) throws OperationFailedException {
+		if(reqComponent.getId() == null || reqComponent.getId().isEmpty()) {
+			throw new OperationFailedException("Req component id cannot be null");
+		}
+		
+		if(this.idMap.containsKey(reqComponent.getId())) {
+			return this.idMap.get(reqComponent.getId());
+		}
+		String id = REC_COMPONENT_ID + this.idCounter++;
+		this.idMap.put(reqComponent.getId(), id);
+		return id;
 	}
 }

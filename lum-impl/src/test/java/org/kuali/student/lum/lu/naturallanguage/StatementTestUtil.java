@@ -22,12 +22,18 @@ public class StatementTestUtil {
 	}
 
 	public ReqComponent createReqComponent(String reqComponentTypeId, List<ReqComponentField> fieldList) throws DoesNotExistException {
+		return createReqComponent(reqComponentTypeId, fieldList, false);
+	}
+
+	public ReqComponent createReqComponent(String reqComponentTypeId, List<ReqComponentField> fieldList, boolean persist) throws DoesNotExistException {
 		ReqComponentType reqCompType = this.luDao.fetch(ReqComponentType.class, reqComponentTypeId);
 		
 		ReqComponent reqComponent = new ReqComponent();
 		reqComponent.setRequiredComponentType(reqCompType);
 		reqComponent.setReqCompField(fieldList);
-		reqComponent = this.luDao.create(reqComponent);
+		if(persist) {
+			reqComponent = this.luDao.create(reqComponent);
+		}
 
 		return reqComponent;
     }
@@ -39,24 +45,24 @@ public class StatementTestUtil {
 		field1.setValue(expectedValue);
 		field1.prePersist();
 		fieldList.add(field1);
-		luDao.create(field1);
+		//luDao.create(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setKey("reqCompFieldType.operator");
 		field2.setValue(operator);
 		field2.prePersist();
 		fieldList.add(field2);
-		luDao.create(field2);
+		//luDao.create(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setKey("reqCompFieldType.cluSet");
 		field3.setValue(cluSetId);
 		field3.prePersist();
 		fieldList.add(field3);
-		luDao.create(field3);
+		//luDao.create(field3);
 		
-//		reqComponent.setReqCompField(fieldList);
-//		reqComponent = this.luDao.update(reqComponent);
+		//reqComponent.setReqCompField(fieldList);
+		//reqComponent = this.luDao.update(reqComponent);
 		return fieldList;
     }
 }
