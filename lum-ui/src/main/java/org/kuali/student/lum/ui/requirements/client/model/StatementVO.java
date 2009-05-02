@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.common.ui.client.widgets.table.NodeWidget;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
@@ -16,7 +15,8 @@ public class StatementVO extends Token implements Serializable {
     private static final long serialVersionUID = 1L;
     private LuStatementInfo luStatementInfo;
     private List<ReqComponentVO> reqComponentVOs;
-    private List<StatementVO> statementVOs; 
+    private List<StatementVO> statementVOs;
+    private boolean checkBoxOn;
     
     public StatementVO() {
         init();
@@ -32,13 +32,14 @@ public class StatementVO extends Token implements Serializable {
         statementVOs = new ArrayList<StatementVO>();
     }
     
-    public Node getTree() {        
-        Node node = new Node();
-        addChildrenNodes(node, this);
-        //printTree(node);
-        return node;
+    public boolean isCheckBoxOn() {
+        return checkBoxOn;
     }
-    
+
+    public void setCheckBoxOn(boolean checkBoxOn) {
+        this.checkBoxOn = checkBoxOn;
+    }
+
     public void printTree(Node node) {        
         int level = 0;
         ReqComponentVO content;
@@ -68,52 +69,6 @@ public class StatementVO extends Token implements Serializable {
         }
     }
        
-    private void addChildrenNodes(Node node, StatementVO statementVO) {
-        List<StatementVO> statementVOs = statementVO.getStatementVOs();
-        List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
-        
-        if (statementVOs != null) {
-//            node.setUserObject(statementVO);
-            setOperatorNode(node, statementVO);
-            for (int i = 0; i < statementVOs.size(); i++) {
-                StatementVO childStatementVO = statementVOs.get(i);
-                Node childNode = new Node();
-                node.addNode(childNode);
-                addChildrenNodes(childNode, childStatementVO);
-            }
-        }
-
-        if (reqComponentVOs != null) {
-            //System.out.println("VO size: " + reqComponentVOs.size());
-            for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
-                ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
-                if (rcCount > 1) {
-                    //System.out.println("TESTING 00---> " + childReqComponentVO.getReqComponentInfo().getDesc() + " ### " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
-                    node.addNode(new Node(childReqComponentVO));
-                } else {
-                    //System.out.println("TESTING 0---> " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
-                    node.setUserObject(childReqComponentVO);
-                }
-            }
-        }        
-    }
-
-    private void setOperatorNode(Node node, StatementVO statementVO) {
-        if (statementVO.getLuStatementInfo() != null &&
-                statementVO.getLuStatementInfo().getOperator() ==
-                    StatementOperatorTypeKey.AND) {
-            statementVO.type = Token.And;
-            statementVO.value = "and";
-            node.setUserObject(statementVO);
-        } else if (statementVO.getLuStatementInfo() != null &&
-                statementVO.getLuStatementInfo().getOperator() ==
-                    StatementOperatorTypeKey.OR) {
-            statementVO.type = Token.Or;
-            statementVO.value = "or";
-            node.setUserObject(statementVO);
-        }
-    }
-    
     /**
      * Gets the immediate parent statement of reqComponentVO
      * Example: (a and b) or (c and d) or (e)
@@ -200,7 +155,7 @@ public class StatementVO extends Token implements Serializable {
     public List<StatementVO> getStatementVOs() {
         return statementVOs;
     }
-
+    
     public void clearStatementAndReqComponents() {
         if (statementVOs != null) {
             statementVOs.clear();
@@ -209,6 +164,8 @@ public class StatementVO extends Token implements Serializable {
             reqComponentVOs.clear();
         }
     }
+    
+    
     
     public void shiftReqComponent(String shiftType, 
             final ReqComponentVO reqComponentVO) {
@@ -236,6 +193,59 @@ public class StatementVO extends Token implements Serializable {
         }
     }
 
+    public Node getTree() {        
+        Node node = new Node();
+        addChildrenNodes(node, this);
+        //printTree(node);
+        return node;
+    }
+    
+    private void addChildrenNodes(Node node, StatementVO statementVO) {
+        List<StatementVO> statementVOs = statementVO.getStatementVOs();
+        List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
+        
+        if (statementVOs != null) {
+//            node.setUserObject(statementVO);
+            setOperatorNode(node, statementVO);
+            for (int i = 0; i < statementVOs.size(); i++) {
+                StatementVO childStatementVO = statementVOs.get(i);
+                Node childNode = new Node();
+                node.addNode(childNode);
+                addChildrenNodes(childNode, childStatementVO);
+            }
+        }
+
+        if (reqComponentVOs != null) {
+            //System.out.println("VO size: " + reqComponentVOs.size());
+            for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
+                ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
+                if (rcCount > 1) {
+                    //System.out.println("TESTING 00---> " + childReqComponentVO.getReqComponentInfo().getDesc() + " ### " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
+                    node.addNode(new Node(childReqComponentVO));
+                } else {
+                    //System.out.println("TESTING 0---> " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
+                    node.setUserObject(childReqComponentVO);
+                }
+            }
+        }        
+    }
+    
+    private void setOperatorNode(Node node, StatementVO statementVO) {
+        if (statementVO.getLuStatementInfo() != null &&
+                statementVO.getLuStatementInfo().getOperator() ==
+                    StatementOperatorTypeKey.AND) {
+            statementVO.type = Token.And;
+            statementVO.value = "and";
+            node.setUserObject(statementVO);
+        } else if (statementVO.getLuStatementInfo() != null &&
+                statementVO.getLuStatementInfo().getOperator() ==
+                    StatementOperatorTypeKey.OR) {
+            statementVO.type = Token.Or;
+            statementVO.value = "or";
+            node.setUserObject(statementVO);
+        }
+    }
+    
     @Override
     public String toString() {
         StringBuilder sbResult = new StringBuilder();

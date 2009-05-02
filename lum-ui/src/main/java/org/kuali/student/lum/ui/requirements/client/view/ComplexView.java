@@ -13,8 +13,6 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.common.ui.client.widgets.table.NodeWidget;
-import org.kuali.student.common.ui.client.widgets.table.TreeTable;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
@@ -41,14 +39,16 @@ public class ComplexView extends ViewComposite {
     VerticalPanel complexView = new VerticalPanel();
     private KSLabel linkToSimpleView = new KSLabel("Simple Rules");    
     private KSButton btnAddClause = new KSButton("Add Clause");
-    private KSButton btnEditClause = new KSButton("Edit Clause");
     private KSButton btnDeleteClause = new KSButton("Delete Clause");
     private KSButton btnDuplicateClause = new KSButton("Duplicate Clause");
-    private KSButton btnToggleOperator = new KSButton("Toggle And/Or");
     private KSButton btnMoveClauseDown = new KSButton();
     private KSButton btnMoveClauseUp = new KSButton();
     private KSLabel naturalLanguage = new KSLabel();
-    private TreeTable ruleTable = new TreeTable();    
+    private RuleTable ruleTable = new RuleTable();
+    private ClickHandler ruleTableClickHandler = null;
+    private ClickHandler ruleTableCheckBoxHandler = null;
+    private ClickHandler ruleTableToggleClickHandler = null;
+    private ClickHandler ruleTableEditClauseHandler = null;
     
     //view's data
     private Model<PrereqInfo> model;
@@ -138,14 +138,127 @@ public class ComplexView extends ViewComposite {
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
             }
         });     
-        btnEditClause.addClickHandler(new ClickHandler() {                              
-            
+        ruleTableCheckBoxHandler = new ClickHandler() {
+
+            @Override
             public void onClick(ClickEvent event) {
-            
-                if (selectedReqCompVO == null) {                                        
-                    System.out.println("No Req. Component selected but Edit button clicked on?");
+                Cell cell = ruleTable.getCellForEvent(event);
+                if (cell == null) {
                     return;
-                }   
+                }
+                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
+                Object userObject = widget.getNode().getUserObject();
+                if (userObject instanceof StatementVO) {
+                    StatementVO statementVO = (StatementVO) userObject;
+                    statementVO.setCheckBoxOn(widget.isSelected());
+                    selectedStatementVO = statementVO;
+                    selectedReqCompVO = null;
+                } else if (userObject instanceof ReqComponentVO) {
+                    ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
+                    reqComponentVO.setCheckBoxOn(widget.isSelected());
+                    selectedStatementVO = null;
+                    selectedReqCompVO = reqComponentVO;
+                }
+//                redraw();
+            }
+        };
+        ruleTableToggleClickHandler = new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Cell cell = ruleTable.getCellForEvent(event); 
+                if (cell == null) {
+                    System.out.println("Cell is NULL");
+                    return;
+                }
+                
+                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
+                Object userObject = widget.getNode().getUserObject();
+                
+                if (userObject instanceof StatementVO) {
+                    StatementVO statementVO = (StatementVO) userObject;
+                    if (statementVO != null) {
+                        Object[] temp = model.getValues().toArray();
+                        PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                        StatementOperatorTypeKey currentOp =
+                            (statementVO.getLuStatementInfo().getOperator());
+                        StatementOperatorTypeKey newOp = null;
+                        if (currentOp == StatementOperatorTypeKey.AND) {
+                            newOp = StatementOperatorTypeKey.OR;
+                        } else {
+                            newOp = StatementOperatorTypeKey.AND;
+                        }
+                        statementVO.getLuStatementInfo().setOperator(newOp);
+                        selectedStatementVO = statementVO;
+                        selectedReqCompVO = null;
+//                        redraw();
+                    }
+                }
+            }
+        };
+        ruleTableClickHandler = new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+
+                Cell cell = ruleTable.getCellForEvent(event); 
+                if (cell == null) {
+                    System.out.println("Cell is NULL");
+                    return;
+                }
+                
+                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
+                if (widget == null) {
+                    selectedReqCompVO = null;
+                    btnAddClause.setEnabled(true);
+                } else {
+                    widget.setStyleName("KS-ReqComp-Selected");
+                    Object userObject = widget.getNode().getUserObject();
+                    if (userObject instanceof ReqComponentVO) {
+                        ReqComponentVO clause = (ReqComponentVO) userObject;
+                        // TODO remove when done. test starts
+//                      Object[] temp = model.getValues().toArray();
+//                      PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+//                      StatementVO enclosingStatementVO = 
+//                      prereqInfo.getStatementVO().getEnclosingStatementVO(clause);
+//                      if (enclosingStatementVO != null) {
+//                      Node testNode = enclosingStatementVO.getTree();
+//                      enclosingStatementVO.printTree(testNode);
+//                      }
+                        // test ends
+                        selectedStatementVO = null;
+                        selectedReqCompVO = clause;
+//                      updateNaturalLanguage();
+//                      btnAddClause.setEnabled(false);
+//                      btnEditClause.setEnabled(true);
+                        redraw();
+                        //TODO need to handle double-click event -> getController().showView(PrereqViews.CLAUSE_EDITOR);
+                    } else {
+                        StatementVO statementVO = (StatementVO) userObject;
+                        selectedReqCompVO = null;
+                        selectedStatementVO = statementVO;
+                        redraw();
+                    }
+                }
+            }
+
+        };
+        ruleTable.addClickHandler(ruleTableClickHandler);
+        
+        ruleTableEditClauseHandler = new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Cell cell = ruleTable.getCellForEvent(event); 
+            
+                if (cell == null) {
+                    System.out.println("Cell is NULL");
+                    return;
+                }
+                
+                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
+                Object userObject = widget.getNode().getUserObject();
+                
+                if (userObject instanceof ReqComponentVO) {
+                    selectedReqCompVO = (ReqComponentVO) userObject;
+                }
                 
                 getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
                     public void onModelReady(Model<ReqComponentVO> theModel) {
@@ -167,55 +280,8 @@ public class ComplexView extends ViewComposite {
                 });                                 
                 
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
-            } 
-        });                                    
-        ruleTable.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-
-                Cell cell = ruleTable.getCellForEvent(event); 
-                if (cell == null) {
-                    System.out.println("Cell is NULL");
-                    return;
-                }
-                
-                NodeWidget widget = (NodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
-                if (widget == null) {
-                    selectedReqCompVO = null;
-                    btnAddClause.setEnabled(true);
-                    btnEditClause.setEnabled(false);                    
-                } else {
-                    widget.setStyleName("KS-ReqComp-Selected");
-                    Object userObject = widget.getNode().getUserObject();
-                    if (userObject instanceof ReqComponentVO) {
-                        ReqComponentVO clause = (ReqComponentVO) widget.getNode().getUserObject();
-                        // TODO remove when done. test starts
-//                      Object[] temp = model.getValues().toArray();
-//                      PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-//                      StatementVO enclosingStatementVO = 
-//                      prereqInfo.getStatementVO().getEnclosingStatementVO(clause);
-//                      if (enclosingStatementVO != null) {
-//                      Node testNode = enclosingStatementVO.getTree();
-//                      enclosingStatementVO.printTree(testNode);
-//                      }
-                        // test ends
-                        selectedStatementVO = null;
-                        selectedReqCompVO = clause;
-//                      updateNaturalLanguage();
-//                      btnAddClause.setEnabled(false);
-//                      btnEditClause.setEnabled(true);
-                        redraw();
-                        //TODO need to handle double-click event -> getController().showView(PrereqViews.CLAUSE_EDITOR);
-                    } else {
-                        StatementVO statementVO = (StatementVO) widget.getNode().getUserObject();
-                        selectedReqCompVO = null;
-                        selectedStatementVO = statementVO;
-                        redraw();
-                    }
-                }
             }
-
-        });
+        };
         
         btnMoveClauseDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -238,25 +304,6 @@ public class ComplexView extends ViewComposite {
                     StatementVO enclosingStatementVO = 
                         prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
                     enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
-                    redraw();
-                }
-            }
-        });
-        
-        btnToggleOperator.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                if (selectedStatementVO != null) {
-                    Object[] temp = model.getValues().toArray();
-                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                    StatementOperatorTypeKey currentOp =
-                        (selectedStatementVO.getLuStatementInfo().getOperator());
-                    StatementOperatorTypeKey newOp = null;
-                    if (currentOp == StatementOperatorTypeKey.AND) {
-                        newOp = StatementOperatorTypeKey.OR;
-                    } else {
-                        newOp = StatementOperatorTypeKey.AND;
-                    }
-                    selectedStatementVO.getLuStatementInfo().setOperator(newOp);
                     redraw();
                 }
             }
@@ -299,10 +346,6 @@ public class ComplexView extends ViewComposite {
        // tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
         tempPanelButtons1.add(btnAddClause);
         btnAddClause.setStyleName("KS-Rules-Standard-Button");        
-        tempPanelButtons1.add(btnEditClause);
-        btnEditClause.setStyleName("KS-Rules-Standard-Button"); 
-        tempPanelButtons1.add(btnToggleOperator);
-        btnToggleOperator.setStyleName("KS-Rules-Standard-Button"); 
         HorizontalPanel tempPanelButtons2 = new HorizontalPanel(); 
         //tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
         tempPanelButtons2.add(btnDeleteClause);
@@ -315,11 +358,9 @@ public class ComplexView extends ViewComposite {
         complexView.add(tempPanelButtons2);
         
         btnAddClause.setEnabled(true);
-        btnEditClause.setEnabled(false);  
         btnDeleteClause.setEnabled(false);
         btnDuplicateClause.setEnabled(false);        
         if (selectedReqCompVO != null) {
-            btnEditClause.setEnabled(true);
             btnDeleteClause.setEnabled(true);
             btnDuplicateClause.setEnabled(true);
         }
@@ -342,21 +383,25 @@ public class ComplexView extends ViewComposite {
         if (prereqInfo != null) {
             Node tree = prereqInfo.getStatementTree();
             
-            if (tree != null) {              
+            if (tree != null) {
+//                ruleTable.removeCheckBoxHandler(this.ruleTableCheckBoxHandler);
                 ruleTable.buildTable(tree);
+                ruleTable.addCheckBoxHandler(this.ruleTableCheckBoxHandler);
+                ruleTable.addToggleHandler(this.ruleTableToggleClickHandler);
+                ruleTable.addEditClauseHandler(this.ruleTableEditClauseHandler);
             }
             if (selectedReqCompVO != null) {
                 // get the NodeWidget that contains selectedReqCompVO
                 // and set style as KS-ReqComp-Selected
                 Node node = getNode(tree, selectedReqCompVO);
-                NodeWidget nodeWidget = ruleTable.getNodeWidget(node);
+                RuleNodeWidget nodeWidget = ruleTable.getRuleNodeWidget(node);
                 if (nodeWidget != null) {
                     nodeWidget.setStyleName("KS-ReqComp-Selected");
                 }
             }
             if (selectedStatementVO != null) {
                 Node node = getNode(tree, selectedStatementVO);
-                NodeWidget nodeWidget = ruleTable.getNodeWidget(node);
+                RuleNodeWidget nodeWidget = ruleTable.getRuleNodeWidget(node);
                 if (nodeWidget != null) {
                     nodeWidget.setStyleName("KS-ReqComp-Selected");
                 }

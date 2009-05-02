@@ -9,6 +9,7 @@ public class PrereqInfo implements Idable {
     private StatementVO statementVO;
     private String rationale;
     private String naturalLanguage;
+//    private NodeConverter nodeConverter = new NodeConverter();
 
     
     @Override

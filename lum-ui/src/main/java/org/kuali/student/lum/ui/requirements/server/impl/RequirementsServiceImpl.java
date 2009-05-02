@@ -12,6 +12,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
@@ -148,15 +149,34 @@ public class RequirementsServiceImpl implements RequirementsService {
     public List<Result> getAllClus() throws Exception {
         
         List<Result> clus;
+        List<Result> cluCodes = null;
         try {
             List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);           
-            clus = service.searchForResults("lu.search.clus", queryParamValues);                         
+            clus = service.searchForResults("lu.search.clus", queryParamValues);
+            if (clus != null) {
+                for (Result result : clus) {
+                    Result cluCodeResult = new Result();
+                    List<ResultCell> cluCodeResultCells = new ArrayList<ResultCell>();
+                    ResultCell cluCodeResultCell = new ResultCell();
+                    cluCodes = (cluCodes == null)? new ArrayList<Result>() : cluCodes;
+                    String code = service.getClu(
+                            result.getResultCells().get(0).getValue()).getOfficialIdentifier()
+                    .getCode();
+                    code = (code == null)? "" : code;
+                    code = code.replace(',', '/');
+                    cluCodeResultCell.setKey("");
+                    cluCodeResultCell.setValue(code);
+                    cluCodeResultCells.add(cluCodeResultCell);
+                    cluCodeResult.setResultCells(cluCodeResultCells);
+                    cluCodes.add(cluCodeResult);
+                }
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to retrieve Clus", ex);
         }
 
-        return clus;
+        return cluCodes;
     }      
     
     //retrieve statement based on CLU ID and STATEMENT TYPE
