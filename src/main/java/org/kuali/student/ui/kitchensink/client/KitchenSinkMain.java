@@ -39,6 +39,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel.InfoDia
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.modaldialogpanel.ModalDialogPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.selectable.PageSelectableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.pagetable.PageTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.picklist.PickListDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.progressindicator.ProgressIndicatorExampleDescriptor;
@@ -47,6 +48,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.radiobuttonlist.RadioBu
 import org.kuali.student.ui.kitchensink.client.kscommons.resizablepanel.ResizablePanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.ruletable.RuleTableExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.selectable.ScrollSelectableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.scrolltable.ScrollTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.selectabletable.SelectableTableDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.sidebar.SidebarExampleDescriptor;
@@ -201,6 +203,8 @@ public class KitchenSinkMain extends Composite {
         initExample(ksNav, new TabPanelExampleDescriptor());
         initExample(ksNav, new SidebarExampleDescriptor());
 
+        initExample(ksList, new PageSelectableExampleDescriptor());
+        initExample(ksList, new ScrollSelectableExampleDescriptor());
         initExample(ksList, new SelectableTableDescriptor());
         initExample(ksList, new PickListDescriptor());
         initExample(ksList, new RadioButtonListDescriptor());
