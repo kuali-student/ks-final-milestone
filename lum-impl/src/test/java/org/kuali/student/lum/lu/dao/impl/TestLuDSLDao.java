@@ -47,9 +47,14 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
 
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
 
-        assertEquals(templates.size(), 1);
-
-        ReqComponentTypeNLTemplate template = templates.get(0);
+        assertEquals(templates.size(), 2);
+        
+        ReqComponentTypeNLTemplate template = null;
+        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.CATALOG")) {
+        	template = templates.get(0);
+        } else {
+        	template = templates.get(1);
+        }
         assertEquals("KUALI.CATALOG", template.getNlUsageTypeKey());
         assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
     }
