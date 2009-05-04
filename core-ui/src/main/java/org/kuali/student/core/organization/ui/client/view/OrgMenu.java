@@ -58,8 +58,9 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
         addSubItem(createItem, "Organization", new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL), "0.0");
         addSubItem(createItem, "Position", new OrganizationWidget(OrganizationWidget.Scope.ORG_POSITIONS), "0.1");
         
-        KSMenuItemData modifyItem = new KSMenuItemData("Search / Modify");
-        modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel(), "1"));
+        KSMenuItemData modifyItem = new KSMenuItemData("Search");
+//        modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel(), "1"));
+        addSubItem(modifyItem, "Search / Modify", new OrgUpdatePanel(), "1.0");
         
         KSMenuItemData locateItem = new KSMenuItemData("Browse");
         addSubItem(locateItem, "by Tree", new OrgLocateTree(), "2.0");
