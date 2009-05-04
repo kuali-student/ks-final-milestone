@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
+import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSAccordionMenuImpl;
@@ -49,7 +50,7 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
     public OrgMenu(SimplePanel contentPanel){
         this.contentPanel = contentPanel;
         
-        menuPanel = new KSAccordionMenu();
+        menuPanel = new KSBasicMenu();
         
         List<KSMenuItemData> menuItems = new ArrayList<KSMenuItemData>();
         
