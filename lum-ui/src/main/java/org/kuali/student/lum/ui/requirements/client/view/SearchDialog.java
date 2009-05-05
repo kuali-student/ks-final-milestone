@@ -32,7 +32,7 @@ public class SearchDialog extends Composite {
     private final SimplePanel mainPanel = new SimplePanel();
     private final KSModalDialogPanel popupPanel = 
         new KSModalDialogPanel();
-    private KSButton btnAddCourse = new KSButton("...");
+    private KSLabel linkAddCourses = new KSLabel("Advanced search");
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnAdd = new KSButton("Add");
     KSListBox cluList = new KSListBox();    
@@ -55,9 +55,8 @@ public class SearchDialog extends Composite {
         popupPanel.setHeader("Courses");
         popupPanel.setModal(true);
        // popupPanel.center();
-        btnAddCourse.addStyleName("KS-Rules-Tight-Button");
-        btnAddCourse.addStyleName("KS-Rules-FlexPanelFix");
-        mainPanel.setWidget(btnAddCourse);
+        linkAddCourses.setStyleName("KS-Rules-Search-Link");
+        mainPanel.setWidget(linkAddCourses);
         setupHandlers();
         layoutWidgets();
     }
@@ -144,7 +143,11 @@ public class SearchDialog extends Composite {
     }
     
     public void setEnabled(boolean enabled) {
-        btnAddCourse.setEnabled(enabled);
+        if (enabled) {
+            linkAddCourses.setStyleName("KS-Rules-Search-Link");
+        } else {
+            linkAddCourses.setStyleName("KS-Rules-Search-Link-Disabled");            
+        }
     }
     
     public List<String> getSelections() {
@@ -160,7 +163,7 @@ public class SearchDialog extends Composite {
     }
 
     private void setupHandlers() {
-        btnAddCourse.addClickHandler(new ClickHandler() {
+        linkAddCourses.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 if (cluList != null && cluList.getSelectedItems() != null) {
                     for (String id : cluList.getSelectedItems()) {
