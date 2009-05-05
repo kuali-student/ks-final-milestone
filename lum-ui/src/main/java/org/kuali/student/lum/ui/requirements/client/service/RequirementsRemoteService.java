@@ -17,13 +17,12 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
  */
 //TODO how do we do exceptions
 public interface RequirementsRemoteService {
-    public String getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception;
-    public String getNaturalLanguageForLuStatement(String cluId, String luStatementId) throws Exception;  
+    public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception;
+    public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception;  
     public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception;
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception;
     public List<Result> getAllClus() throws Exception;
     public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey) throws Exception;
-    public String[] getNaturalLanguage(String cluId, String luStatementTypeKey) throws Exception;
     public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception;
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception;
 }

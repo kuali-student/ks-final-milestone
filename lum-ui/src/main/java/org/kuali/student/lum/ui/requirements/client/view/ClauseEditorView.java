@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -55,7 +56,7 @@ public class ClauseEditorView extends ViewComposite {
     private KSLabel exampleText2 = new KSLabel();    
     
     //view's data
-    ReqComponentTypeInfo selectedReqInfo;
+    ReqComponentTypeInfo selectedReqType;
     ReqComponentInfo editedReqComp; 
     ReqComponentVO editedReqCompVO;     
     ListItems listItemReqCompTypes;
@@ -93,7 +94,7 @@ public class ClauseEditorView extends ViewComposite {
                 if (theModel != null) {
                     List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
                     selectedReqComp.addAll(theModel.getValues());
-                    System.out.println("Model size: " + selectedReqComp.size());
+
                     if (selectedReqComp.size() > 0) {
                         editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model                        
                         System.out.println("ID: " + editedReqCompVO.getId());
@@ -270,19 +271,18 @@ public class ClauseEditorView extends ViewComposite {
         });
         addReqComp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                System.out.println("In add...");                  
                 //store values in the req. component info
                 Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];                
+                final PrereqInfo prereqInfo = (PrereqInfo)temp[0];                
                 editedReqComp = new ReqComponentInfo();
                 List<ReqCompFieldInfo> fields = editedReqComp.getReqCompField();
                 fields = (fields == null)? new ArrayList<ReqCompFieldInfo>() : fields;
                 // clears all the existing entries to make sure we are populating
                 // the fields with the latest field values.
                 fields.clear();
-                System.out.println("DESC: " + editedReqComp.getDesc());
-                //editedReqComp.setDesc("TEST");
+
                 for (KSTextBox reqCompWidget : reqCompWidgets) {
-                    System.out.println("Widget " + reqCompWidget.getName() + ", value: " + reqCompWidget.getText());
                     ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                     fieldInfo.setId(reqCompWidget.getName());
                     fieldInfo.setValue(reqCompWidget.getText());
@@ -291,7 +291,7 @@ public class ClauseEditorView extends ViewComposite {
                 editedReqComp.setReqCompField(fields);
                 editedReqComp.setDesc("New Req. Comp. Description");
                 editedReqComp.setId("999");
-                editedReqComp.setType(selectedReqInfo.getId());
+                editedReqComp.setType(selectedReqType.getId());
                 // TODO for now just add the new requirement component
                 // to the first level StatmentVO
                 StatementVO statementVO = prereqInfo.getStatementVO();
@@ -301,6 +301,8 @@ public class ClauseEditorView extends ViewComposite {
                 editedReqCompVO.setTypeDesc(reqInfo.getDesc());
                 editedReqCompVO.setDirty(true);
                 statementVO.addReqComponentVO(editedReqCompVO);
+                LuStatementInfo stmtInfo = statementVO.getLuStatementInfo();
+                //TODO do we need to store the new req. component in order to generate NL for statement?
                 
                 getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
                     public void onModelReady(Model<ReqComponentVO> theModel) {                        
@@ -320,11 +322,34 @@ public class ClauseEditorView extends ViewComposite {
                     }
                 });   
                 
-                getController().showView(PrereqViews.COMPLEX);                
+                System.out.println("In add2a..."); 
+                
+                getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
+                    public void onModelReady(Model<PrereqInfo> theModel) {
+                        List<PrereqInfo> prereq = new ArrayList<PrereqInfo>();
+                        Collection<PrereqInfo> reqList = theModel.getValues();
+                        System.out.println("In add2b..."); 
+                        if (reqList != null) {
+                            prereq.addAll(theModel.getValues());
+                            if (prereq.size() > 0) {
+                                theModel.remove(prereq.get(0));        //we should have only 1 selected Req. Comp. in the model
+                            }
+                        }
+                        System.out.println("In add2c...");                          
+                        theModel.add(prereqInfo);                        
+                        getController().showView(PrereqViews.COMPLEX); 
+                    }
+
+                    public void onRequestFail(Throwable cause) {
+                        throw new RuntimeException("Unable to connect to model", cause);
+                    }
+                });                 
+                               
             }
         });         
         submitReqComp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                System.out.println("In submit...");                  
                 //store values in the req. component info
                 List<ReqCompFieldInfo> fields = editedReqComp.getReqCompField();
                 System.out.println("DESC: " + editedReqComp.getDesc());
@@ -362,7 +387,7 @@ public class ClauseEditorView extends ViewComposite {
                         throw new RuntimeException("Unable to connect to model", cause);
                     }
                 });   
-                
+              
                 getController().showView(PrereqViews.COMPLEX);                
             }
         });                
@@ -372,8 +397,8 @@ public class ClauseEditorView extends ViewComposite {
                  reqCompDesc.setVisible(true);               
                  List<String> ids = w.getSelectedItems();
                  int index = Integer.valueOf(ids.get(0));
-                 selectedReqInfo = reqCompTypeList.get(index);
-                 displayReqComponentText(selectedReqInfo.getDesc(), reqCompDesc, null);   
+                 selectedReqType = reqCompTypeList.get(index);
+                 displayReqComponentText(selectedReqType.getDesc(), reqCompDesc, null);   
                  updateExampleContext();                 
              }});
         
@@ -501,7 +526,7 @@ public class ClauseEditorView extends ViewComposite {
     
     private void updateExampleContext() {         
         if (editedReqComp != null) {        
-            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(editedReqComp, "KUALI.EXAMPLE", new AsyncCallback<String>() {
+            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.EXAMPLE", new AsyncCallback<String>() {
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     System.out.println(caught.getMessage());

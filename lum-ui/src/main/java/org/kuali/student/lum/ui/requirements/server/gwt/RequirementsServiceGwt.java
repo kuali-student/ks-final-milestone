@@ -6,7 +6,6 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
@@ -30,12 +29,12 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
     	this.serviceImpl = serviceImpl;
     }
     
-    public String getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
-        return serviceImpl.getNaturalLanguageForReqComponent(compInfo, nlUsageTypeKey);
+    public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
+        return serviceImpl.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey);
     }
     
-    public String getNaturalLanguageForLuStatement(String cluId, String luStatementId) throws Exception {
-        return serviceImpl.getNaturalLanguageForLuStatement(cluId, luStatementId);
+    public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
+        return serviceImpl.getNaturalLanguageForLuStatementInfo(cluId, luStatementInfo, nlUsageTypeKey);
     }
     
     public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
@@ -53,10 +52,6 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
     public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey)  throws Exception {
         return serviceImpl.getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);
     }    
-    
-    public String[] getNaturalLanguage(String cluId, String luStatementTypeKey) throws Exception {
-        return serviceImpl.getNaturalLanguage(cluId, luStatementTypeKey);
-    }
     
     public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception { 
         return serviceImpl.getRuleRationale(cluId, luStatementTypeKey);

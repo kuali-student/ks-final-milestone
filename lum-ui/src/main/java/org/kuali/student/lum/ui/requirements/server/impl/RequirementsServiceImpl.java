@@ -32,40 +32,12 @@ public class RequirementsServiceImpl implements RequirementsService {
 
 	LuService service;
 	
-    public String getNaturalLanguageForReqComponent(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
+    public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         
-        String naturalLanguage = "";
-        ReqComponentInfo reqComponentInfo;
-   
-        for (ReqCompFieldInfo field : compInfo.getReqCompField()) {
-            //System.out.println("before fields: " + field.getId() + " - " + field.getValue()); 
-        }           
-        
-        //first store the rule in a temporary holder in order to retrieve its natural language
-        try {        
-            reqComponentInfo = service.getReqComponent(compInfo.getId());                   
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Unable to retrieve ReqComponent for reqComponentId " + compInfo.getId(), ex);
-        }         
-        String version = reqComponentInfo.getMetaInfo().getVersionInd();
-        
-        //right now we need to update the req. component before invoking natural language generation
-        //TODO replace with a method call that accepts modified ReqComponentInfo structure
-        compInfo.getMetaInfo().setVersionInd(version);
-        try {        
-            reqComponentInfo = service.updateReqComponent(compInfo.getId(), compInfo);                   
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Unable to update ReqComponent for reqComponentId " + compInfo.getId(), ex);
-        }         
-        
-        for (ReqCompFieldInfo field : reqComponentInfo.getReqCompField()) {
-            //System.out.println("updated fields: " + field.getId() + " - " + field.getValue()); 
-        }               
+        String naturalLanguage = "";           
         
         try {             
-            naturalLanguage = service.getNaturalLanguageForReqComponent(reqComponentInfo.getId(), nlUsageTypeKey);            
+            naturalLanguage = service.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey);            
         } catch (DoesNotExistException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {
@@ -79,14 +51,14 @@ public class RequirementsServiceImpl implements RequirementsService {
         return naturalLanguage;
     }	
 	    
-    public String getNaturalLanguageForLuStatement(String cluId, String luStatementId) throws Exception {
+    public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
                      
         String NLStatement = "";
         try {        
-            NLStatement = service.getNaturalLanguageForLuStatement(cluId, luStatementId, "KUALI.CATALOG");            
+            NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luStatementInfo, nlUsageTypeKey);            
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and luStamentId: " + luStatementId, ex);
+            throw new Exception("Unable to get natural language for clu: " + cluId + " and luStamentId: " + luStatementInfo.getId(), ex);
         }; 
         
         return NLStatement;
@@ -123,21 +95,8 @@ public class RequirementsServiceImpl implements RequirementsService {
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
                 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
-        try {
-/*
-            List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);
-            QueryParamValue cluId = new QueryParamValue();
-            cluId.setKey("queryParam.CD");
-            cluId.setValue("Code");
-            queryParamValues.add(cluId);            
-            List<Result> clus = service.searchForResults("lu.search.clus", queryParamValues);
-            
-            for (Result clu : clus) {
-                System.out.println("CLU: " + clu.getResultCells().get(0).getValue());
-            }
-  */          
-            reqComponentTypeInfoList = service.getReqComponentTypesForLuStatementType(luStatementTypeKey);           
-           //reqComponentTypeInfoList = this.getReqComponentTypesForLuStatementTypeSTUB(luStatementTypeKey);                        
+        try {        
+            reqComponentTypeInfoList = service.getReqComponentTypesForLuStatementType(luStatementTypeKey);                                   
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
@@ -200,6 +159,21 @@ public class RequirementsServiceImpl implements RequirementsService {
         return null;
     }
     
+    public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
+        
+        LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);        
+        
+        StatementVO rootStatementVO = new StatementVO(luStatementInfo);
+        if (luStatementInfo != null) {
+            String error = composeStatementVO(luStatementInfo, rootStatementVO);
+            if (error.isEmpty() == false) {
+                throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
+            }
+        }
+        
+        return rootStatementVO;        
+    }      
+    
     private String composeStatementVO(LuStatementInfo luStatementInfo, StatementVO statementVO) throws Exception {
         
         List<String> statementIDs = luStatementInfo.getLuStatementIds();       
@@ -250,28 +224,6 @@ public class RequirementsServiceImpl implements RequirementsService {
         }        
         
         return "";
-    }
-    
-    public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
-        
-        LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);        
-        
-        StatementVO rootStatementVO = new StatementVO(luStatementInfo);
-        if (luStatementInfo != null) {
-            String error = composeStatementVO(luStatementInfo, rootStatementVO);
-            if (error.isEmpty() == false) {
-                throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
-            }
-        }
-        
-        return rootStatementVO;        
-    }
-
-    public String[] getNaturalLanguage(String cluId, String luStatementTypeKey) throws Exception {
-               
-        String[] naturalLanguage = {"Course Catalog", "EDUC 100", "Department Brochure", "Student must have completed EDUC 100 \"Introduction to Education" +
-                " and Diversity in Schools\""};
-        return naturalLanguage;
     }     
     
     public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception {        
@@ -291,35 +243,5 @@ public class RequirementsServiceImpl implements RequirementsService {
 
     public void setService(LuService service) {
         this.service = service;
-    } 
-	
-	
-    /******************************************************************************************************************
-     * 
-     *                                                     STUBS OF LU SERVICE
-     *
-     *******************************************************************************************************************/             
-	
-	List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementTypeSTUB(String luStatementTypeKey) {
-	    List<ReqComponentTypeInfo> reqComponentTypeInfoList = new ArrayList<ReqComponentTypeInfo>();
-	    ReqComponentTypeInfo reqInfo = new ReqComponentTypeInfo();
-	    reqInfo.setName("Courses completed");
-	    reqInfo.setDesc("This is a description and example...1");
-	    reqComponentTypeInfoList.add(reqInfo);
-        ReqComponentTypeInfo reqInfo1 = new ReqComponentTypeInfo();
-        reqInfo1.setName("Minimum GPA for courses");
-        reqInfo1.setDesc("Student must have a minimum GPA for all of <Courses>");
-        reqComponentTypeInfoList.add(reqInfo1);
-        ReqComponentTypeInfo reqInfo2 = new ReqComponentTypeInfo();
-        reqInfo2.setName("Credits completed in courses");
-        reqInfo2.setDesc("This is a description and example...3");
-        reqComponentTypeInfoList.add(reqInfo2);        
-        reqInfo2.setName("Minimum GPA");
-        reqInfo2.setDesc("This is a description and example...4");
-        reqComponentTypeInfoList.add(reqInfo2);       
-        reqInfo2.setName("Credits completed from CLU sets");
-        reqInfo2.setDesc("This is a description and example...5");
-        reqComponentTypeInfoList.add(reqInfo2);               
-        return reqComponentTypeInfoList;
-	}
+    } 	
 }

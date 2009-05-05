@@ -38,11 +38,17 @@ public class ComplexView extends ViewComposite {
     private Panel mainPanel = new SimplePanel();
     VerticalPanel complexView = new VerticalPanel();
     private KSLabel linkToSimpleView = new KSLabel("Simple Rules");    
-    private KSButton btnAddClause = new KSButton("Add Clause");
-    private KSButton btnDeleteClause = new KSButton("Delete Clause");
-    private KSButton btnDuplicateClause = new KSButton("Duplicate Clause");
+    private KSButton btnAddRule = new KSButton("+ Add new rule");
+    private KSButton btnaddAND = new KSButton("AND");
+    private KSButton btnaddOR = new KSButton("OR");
+    private KSButton btnAddToGroup = new KSButton("Add to group");
+    private KSButton btnUndo = new KSButton("Undo");
+    private KSButton btnRedo = new KSButton("Redo");
+    private KSButton btnDeleteRule = new KSButton("Delete");
+    private KSButton btnDuplicateRule = new KSButton("Duplicate Rule");
     private KSButton btnMoveClauseDown = new KSButton();
     private KSButton btnMoveClauseUp = new KSButton();
+    private KSButton btnSaveRule = new KSButton("Save");    
     private KSLabel naturalLanguage = new KSLabel();
     private RuleTable ruleTable = new RuleTable();
     private ClickHandler ruleTableClickHandler = null;
@@ -65,24 +71,27 @@ public class ComplexView extends ViewComposite {
 
         if (isInitialized == false) {
             setupHandlers();            
-            isInitialized = true;
+        }            
             
-            getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
-                public void onModelReady(Model<PrereqInfo> theModel) {
-                    model = theModel;    
-                    
+        getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
+            public void onModelReady(Model<PrereqInfo> theModel) {
+                model = theModel;    
+                
+                if (isInitialized == false) {                    
                     model.addModelChangeHandler(new ModelChangeHandler<PrereqInfo>() {
                         public void onModelChange(ModelChangeEvent<PrereqInfo> event) {
-                            redraw();
+                            //redraw();
                         }
-                    });                                                                      
+                    });                          
                 }
+            }
 
-                public void onRequestFail(Throwable cause) {
-                    throw new RuntimeException("Unable to connect to model", cause);
-                }
-            }); 
-        }
+            public void onRequestFail(Throwable cause) {
+                throw new RuntimeException("Unable to connect to model", cause);
+            }
+        }); 
+
+        isInitialized = true;
         
         if (model != null) {
             
@@ -94,7 +103,8 @@ public class ComplexView extends ViewComposite {
                         List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
                         selectedReqComp.addAll(theModel.getValues());
                         if (selectedReqComp.size() > 0) {
-                            selectedReqCompVO = theModel.get(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model
+                          //we should have only 1 selected Req. Comp. in the model
+                            selectedReqCompVO = theModel.get(selectedReqComp.get(0).getId());        
                         }
                     }
                 }
@@ -102,7 +112,7 @@ public class ComplexView extends ViewComposite {
                 public void onRequestFail(Throwable cause) {
                     throw new RuntimeException("Unable to connect to model", cause);
                 }
-            });
+            });                                  
         }
         
         redraw();
@@ -114,7 +124,7 @@ public class ComplexView extends ViewComposite {
                 getController().showView(PrereqViews.SIMPLE);
             }
         });
-        btnAddClause.addClickHandler(new ClickHandler() {
+        btnAddRule.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 selectedReqCompVO = null;          
                 
@@ -124,7 +134,8 @@ public class ComplexView extends ViewComposite {
                             List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
                             selectedReqComp.addAll(theModel.getValues());
                             if (selectedReqComp.size() > 0) {
-                                theModel.remove(selectedReqComp.get(0).getId());        //we should have only 1 selected Req. Comp. in the model
+                                //we should have only 1 selected Req. Comp. in the model
+                                theModel.remove(selectedReqComp.get(0).getId());        
                             }
                         }                    
                         redraw();
@@ -159,7 +170,6 @@ public class ComplexView extends ViewComposite {
                     selectedStatementVO = null;
                     selectedReqCompVO = reqComponentVO;
                 }
-//                redraw();
             }
         };
         ruleTableToggleClickHandler = new ClickHandler() {
@@ -177,8 +187,6 @@ public class ComplexView extends ViewComposite {
                 if (userObject instanceof StatementVO) {
                     StatementVO statementVO = (StatementVO) userObject;
                     if (statementVO != null) {
-                        Object[] temp = model.getValues().toArray();
-                        PrereqInfo prereqInfo = (PrereqInfo)temp[0];
                         StatementOperatorTypeKey currentOp =
                             (statementVO.getLuStatementInfo().getOperator());
                         StatementOperatorTypeKey newOp = null;
@@ -190,7 +198,6 @@ public class ComplexView extends ViewComposite {
                         statementVO.getLuStatementInfo().setOperator(newOp);
                         selectedStatementVO = statementVO;
                         selectedReqCompVO = null;
-//                        redraw();
                     }
                 }
             }
@@ -208,29 +215,15 @@ public class ComplexView extends ViewComposite {
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 if (widget == null) {
                     selectedReqCompVO = null;
-                    btnAddClause.setEnabled(true);
+                    btnAddRule.setEnabled(true);
                 } else {
                     widget.setStyleName("KS-ReqComp-Selected");
                     Object userObject = widget.getNode().getUserObject();
                     if (userObject instanceof ReqComponentVO) {
                         ReqComponentVO clause = (ReqComponentVO) userObject;
-                        // TODO remove when done. test starts
-//                      Object[] temp = model.getValues().toArray();
-//                      PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-//                      StatementVO enclosingStatementVO = 
-//                      prereqInfo.getStatementVO().getEnclosingStatementVO(clause);
-//                      if (enclosingStatementVO != null) {
-//                      Node testNode = enclosingStatementVO.getTree();
-//                      enclosingStatementVO.printTree(testNode);
-//                      }
-                        // test ends
                         selectedStatementVO = null;
                         selectedReqCompVO = clause;
-//                      updateNaturalLanguage();
-//                      btnAddClause.setEnabled(false);
-//                      btnEditClause.setEnabled(true);
                         redraw();
-                        //TODO need to handle double-click event -> getController().showView(PrereqViews.CLAUSE_EDITOR);
                     } else {
                         StatementVO statementVO = (StatementVO) userObject;
                         selectedReqCompVO = null;
@@ -315,12 +308,58 @@ public class ComplexView extends ViewComposite {
         
         HorizontalPanel tempPanel = new HorizontalPanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
-        KSLabel preReqHeading = new KSLabel("Pre-requisite Rule");
+        KSLabel preReqHeading = new KSLabel("Manage Prerequisite Rules");
         preReqHeading.setStyleName("KS-ReqMgr-Heading");
         tempPanel.add(preReqHeading);
         tempPanel.add(linkToSimpleView);
         linkToSimpleView.addStyleName("KS-Rules-Link-Right");
         complexView.add(tempPanel);
+        
+        //setup top rules table buttons
+        HorizontalPanel topButtonsPanel = new HorizontalPanel();
+        btnAddRule.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnAddRule);
+        SimplePanel spacer1 = new SimplePanel();
+        spacer1.setWidth("30px");
+        topButtonsPanel.add(spacer1);       
+        btnaddAND.addStyleName("KS-Rules-Tight-Grey-Button");
+        topButtonsPanel.add(btnaddAND);   
+        btnaddOR.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnaddOR);        
+        btnAddToGroup.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnAddToGroup);
+        SimplePanel spacer2 = new SimplePanel();
+        spacer2.setWidth("30px");
+        topButtonsPanel.add(spacer2);
+        btnUndo.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnUndo);    
+        btnRedo.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnRedo);
+        SimplePanel spacer3 = new SimplePanel();
+        spacer3.setWidth("30px");
+        topButtonsPanel.add(spacer3);         
+        btnDeleteRule.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnDeleteRule);        
+        complexView.add(topButtonsPanel);        
+    
+        btnaddAND.setEnabled(false);  
+        btnaddOR.setEnabled(false);  
+        btnAddToGroup.setEnabled(false);  
+        btnUndo.setEnabled(false);  
+        btnRedo.setEnabled(false);          
+        btnDuplicateRule.setEnabled(false);        
+        btnAddRule.setEnabled(true);
+        btnDeleteRule.setEnabled(false);
+        btnDuplicateRule.setEnabled(false); 
+        btnSaveRule.setEnabled(false);
+        if (selectedReqCompVO != null) {
+            btnDeleteRule.setEnabled(true);
+            btnDuplicateRule.setEnabled(true);
+        }        
+        
+        SimplePanel verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("30px");
+        complexView.add(verticalSpacer);        
         
         HorizontalPanel tempPanel2 = new HorizontalPanel();
         HorizontalPanel tableButtonsPanel = new HorizontalPanel();
@@ -340,44 +379,31 @@ public class ComplexView extends ViewComposite {
         tableButtonsPanel.add(arrowButtonsPanel);
         tempPanel2.add(tableButtonsPanel);
         complexView.add(tempPanel2);
-
-		        
-        HorizontalPanel tempPanelButtons1 = new HorizontalPanel();
-       // tempPanelButtons1.setStyleName("KS-Rules-FullWidth");        
-        tempPanelButtons1.add(btnAddClause);
-        btnAddClause.setStyleName("KS-Rules-Standard-Button");        
-        HorizontalPanel tempPanelButtons2 = new HorizontalPanel(); 
-        //tempPanelButtons2.setStyleName("KS-Rules-FullWidth");         
-        tempPanelButtons2.add(btnDeleteClause);
-        btnDeleteClause.setStyleName("KS-Rules-Standard-Button");  
-        btnDeleteClause.setEnabled(false);
-        tempPanelButtons2.add(btnDuplicateClause);
-        btnDuplicateClause.setStyleName("KS-Rules-Standard-Button");  
-        btnDuplicateClause.setEnabled(false);
-        complexView.add(tempPanelButtons1);
-        complexView.add(tempPanelButtons2);
-        
-        btnAddClause.setEnabled(true);
-        btnDeleteClause.setEnabled(false);
-        btnDuplicateClause.setEnabled(false);        
-        if (selectedReqCompVO != null) {
-            btnDeleteClause.setEnabled(true);
-            btnDuplicateClause.setEnabled(true);
-        }
         
         RulesUtilities ruleUtil = new RulesUtilities();
         RulesUtilities.RowBreak rowBreak = ruleUtil.new RowBreak();
-        complexView.add(rowBreak);
+        
+        SimplePanel verticalSpacer2 = new SimplePanel();
+        verticalSpacer2.setHeight("30px");
+        complexView.add(verticalSpacer2);             
+        
+        //complexView.add(rowBreak);
         KSLabel nlHeading = new KSLabel("Natural Language");
         nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
         complexView.add(nlHeading);        
-        complexView.add(naturalLanguage);        
+        complexView.add(naturalLanguage); 
+        
+        SimplePanel verticalSpacer3 = new SimplePanel();
+        verticalSpacer3.setHeight("20px");
+        complexView.add(verticalSpacer3);          
+        
+        btnSaveRule.addStyleName("KS-Rules-Standard-Button");        
+        complexView.add(btnSaveRule);         
         complexView.setStyleName("Content-Margin");
         mainPanel.clear();
         mainPanel.add(complexView);        
 
-        Object[] temp = model.getValues().toArray();
-        PrereqInfo prereqInfo = (PrereqInfo)temp[0];                
+        PrereqInfo prereqInfo = getPrereqInfo();               
 
         ruleTable.clear();
         if (prereqInfo != null) {
@@ -407,7 +433,8 @@ public class ComplexView extends ViewComposite {
                 }
             }
         }
-        updateNaturalLanguage();        
+        
+        updateNaturalLanguage();
     }
     
     private Node getNode(Node rootNode, Object userObject) {
@@ -434,25 +461,37 @@ public class ComplexView extends ViewComposite {
     }
     
     private void updateNaturalLanguage() {
-        naturalLanguage.setText("");
-        if (selectedReqCompVO != null && !selectedReqCompVO.isDirty()) {        
-            RequirementsService.Util.getInstance().getNaturalLanguageForReqComponent(
-                    selectedReqCompVO.getReqComponentInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
-                public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage());
-                    System.out.println(caught.getMessage());
-                    caught.printStackTrace();
-                }
-                
-                public void onSuccess(final String nl) {
-                    naturalLanguage.setText(nl);
-                } 
-            });          
+        
+        //we need to update the edited req. component within the top statement before generating a new NL
+        if ((selectedReqCompVO != null) && (selectedReqCompVO.isDirty())) {
+            //TODO update req. component
         }
+        
+        naturalLanguage.setText("");      
+        RequirementsService.Util.getInstance().getNaturalLanguageForLuStatementInfo(getPrereqInfo().getCluId(), getPrereqInfo().getStatementVO().getLuStatementInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                caught.printStackTrace();
+            }
+            
+            public void onSuccess(final String statementNaturalLanguage) {                               
+                naturalLanguage.setText(statementNaturalLanguage);  
+            } 
+        });                
     }       
 
     public ReqComponentInfo getSelectedReqComp() {
         ReqComponentInfo result = (selectedReqCompVO == null)? null : selectedReqCompVO.getReqComponentInfo();
         return result;
     }      
+    
+    private PrereqInfo getPrereqInfo() {
+        for (Object prereq : model.getValues().toArray()) {
+            if (prereq != null) {
+                return (PrereqInfo)prereq;
+            }
+        }         
+        System.out.println("NULL model.....");
+        return null;
+    }
 }

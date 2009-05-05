@@ -96,8 +96,6 @@ public class RuleTable extends Composite {
     static int test = 0;
     
     public void addEditClauseHandler(ClickHandler editClauseHandler) {
-        test++;
-        System.out.println("addEditClauseHandler called " + test);
         for (int i = 0; i < treeTable.getRowCount(); i++) {
             for (int j = 0; j < treeTable.getCellCount(i); j++) {
                 RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
