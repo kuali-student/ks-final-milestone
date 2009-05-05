@@ -118,6 +118,18 @@ public class Validator {
                 value = ((HasAttributes)object).getAttributes().get(f.getKey());
             }
             if(value instanceof Collection){
+            	if(((FieldDescriptor)f.getFieldDescriptor()).getMinOccurs()>((Collection<?>)value).size()){
+                    ValidationResult result = new ValidationResult();
+                    result.setKey(f.getKey());
+                    result.addError(messages.get("validation.minOccurs"));
+                    results.add(result);
+            	}
+            	if(((FieldDescriptor)f.getFieldDescriptor()).getMaxOccurs()<((Collection<?>)value).size()){
+                    ValidationResult result = new ValidationResult();
+                    result.setKey(f.getKey());
+                    result.addError(messages.get("validation.maxOccurs"));
+                    results.add(result);
+            	}
             	for(Object o:(Collection<?>)value){
             		results.add(validate(f.getKey(), o, map));
             	}
