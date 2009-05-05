@@ -76,7 +76,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
         	if(refList!=null&&!refList.isEmpty()){
         		builder.addPropertyValue("type",refList);
         	}
-
+        	
         }else{
 	        //Parse the children
 	        for(int i = 0;i<element.getChildNodes().getLength();i++){
@@ -98,7 +98,12 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                            builder.addPropertyValue(node.getLocalName(), childBean);
 	                        }
 	                    }else{
-	                        builder.addPropertyValue(node.getLocalName(), node.getTextContent());
+	                    	if("field".equals(element.getLocalName())&&"ref".equals(node.getLocalName())){
+	                    		Object refBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
+	                    		builder.addPropertyValue("fieldDescriptor", refBean);
+	                    	}else{
+	                    		builder.addPropertyValue(node.getLocalName(), node.getTextContent());
+	                    	}
 	                    }
 	                }
 	            }

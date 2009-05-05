@@ -26,7 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "enum")
 public class Enum implements Serializable{
 
-    @XmlElement(required = true, name="context")
+	private static final long serialVersionUID = 1L;
+
+	@XmlElement(required = true, name="context")
     @XmlElementWrapper(name="contexts")
     protected List<ContextDescriptor> contextDescriptors;
     

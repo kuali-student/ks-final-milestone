@@ -28,6 +28,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.dto.OrgCodeInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -92,7 +93,17 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgInfo.setEffectiveDate(df.parse("20090101"));
 		orgInfo.setExpirationDate(df.parse("21001231"));
 		orgInfo.getAttributes().put("Alias", "OrgAlias");
-
+		
+		OrgCodeInfo orgCode1 = new OrgCodeInfo();
+		orgCode1.setDesc("Org Code 1 Desc");
+		orgCode1.setValue("OrgCodeValue 1");
+		orgInfo.getOrgCodes().add(orgCode1);
+		
+		OrgCodeInfo orgCode2 = new OrgCodeInfo();
+		orgCode2.setDesc("Org Code 2 Desc");
+		orgCode2.setValue("OrgCodeValue 2");
+		orgInfo.getOrgCodes().add(orgCode2);
+		
 		OrgInfo createOrg1 = client.createOrganization("kuali.org.Program", orgInfo);
 		OrgInfo createOrg = client.getOrganization(createOrg1.getId());
 		

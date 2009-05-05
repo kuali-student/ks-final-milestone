@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.example;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
@@ -49,7 +48,7 @@ public class LULayoutFactory {
 						if (s.getKey().equalsIgnoreCase(state)) {
 							result = new HashMap<String, FieldDescriptor>();
 							for (Field f : s.getField()) {
-								result.put(f.getKey(), f.getFieldDescriptor());
+								result.put(f.getKey(), (FieldDescriptor)f.getFieldDescriptor());
 							}
 							indexedFields.put(type.toLowerCase() + ":" + state.toLowerCase(), result);
 						}

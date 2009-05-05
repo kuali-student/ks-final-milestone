@@ -62,7 +62,7 @@ import javax.xml.bind.annotation.XmlType;
     "_enum"
 })
 @XmlRootElement(name = "fieldDescriptor")
-public class FieldDescriptor implements Serializable {
+public class FieldDescriptor extends FieldItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     

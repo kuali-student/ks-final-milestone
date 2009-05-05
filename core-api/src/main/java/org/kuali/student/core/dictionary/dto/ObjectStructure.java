@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "type"
 })
 @XmlRootElement(name = "objectStructure")
-public class ObjectStructure implements Serializable{
+public class ObjectStructure extends FieldItem implements Serializable{
 
     private static final long serialVersionUID = 1L;
     

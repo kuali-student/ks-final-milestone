@@ -13,7 +13,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -50,8 +50,8 @@ public class Field implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
-    @XmlElement(required = true)
-    protected FieldDescriptor fieldDescriptor;
+    @XmlElementRef //TODO there is no required here but there should be
+    protected FieldItem fieldDescriptor;
     protected boolean selector;
     protected boolean dynamic;
     @XmlAttribute(required = true)
@@ -65,7 +65,7 @@ public class Field implements Serializable{
      *     {@link FieldDescriptor }
      *     
      */
-    public FieldDescriptor getFieldDescriptor() {
+    public FieldItem getFieldDescriptor() {
         return fieldDescriptor;
     }
 
@@ -77,7 +77,7 @@ public class Field implements Serializable{
      *     {@link FieldDescriptor }
      *     
      */
-    public void setFieldDescriptor(FieldDescriptor value) {
+    public void setFieldDescriptor(FieldItem value) {
         this.fieldDescriptor = value;
     }
 

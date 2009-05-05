@@ -5,6 +5,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
@@ -78,29 +80,19 @@ public class Validator {
         return properties;
     }
     
-    public List<ValidationResult> validateTypeStateObject(HasTypeState object, ObjectStructure objStruct) {
+    public List<ValidationResult> validateTypeStateObject(Object object, ObjectStructure objStruct) {
         List<ValidationResult> results = new ArrayList<ValidationResult>();
 
         Map<String, PropertyDescriptor> beanInfo = getBeanInfo(object.getClass());
         
         List<Type> types = objStruct.getType();
-        for(Type t: types){
-            if(t.getKey().equalsIgnoreCase(object.getType())){
+        for(Type t: types){        	
+            if((object instanceof HasTypeState && t.getKey().equalsIgnoreCase(((HasTypeState)object).getType())) || !(object instanceof HasTypeState)){
                 for(State s: t.getState()){
-                    if(s.getKey().equalsIgnoreCase(object.getState())){
+                    if((object instanceof HasTypeState && s.getKey().equalsIgnoreCase(((HasTypeState)object).getState())) || !(object instanceof HasTypeState)){
                         for(Field f: s.getField()){
-                            Map<String, Object> map = f.getFieldDescriptor().toMap();
-                            Object value = null;
                             PropertyDescriptor propertyDescriptor = beanInfo.get(f.getKey());
-                            if(propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
-                                try {
-                                    value = propertyDescriptor.getReadMethod().invoke(object);
-                                } catch (Exception e) {
-                                }
-                            } else if(object instanceof HasAttributes) {
-                                value = ((HasAttributes)object).getAttributes().get(f.getKey());
-                            }
-                            results.add(validate(f.getKey(), value, map));
+                           	results.addAll(validateField(f,propertyDescriptor,object));
                         }
                         break;
                     }
@@ -110,7 +102,46 @@ public class Validator {
         }
         return results;
     }
+    private List<ValidationResult> validateField(Field f, PropertyDescriptor propertyDescriptor, Object object){
+    	
+    	List<ValidationResult> results = new ArrayList<ValidationResult>();
+        Object value = null;
+    	if(f.getFieldDescriptor() instanceof FieldDescriptor){
+            Map<String, Object> map = ((FieldDescriptor)f.getFieldDescriptor()).toMap();
 
+            if(propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
+                try {
+                    value = propertyDescriptor.getReadMethod().invoke(object);
+                } catch (Exception e) {
+                }
+            } else if(object instanceof HasAttributes) {
+                value = ((HasAttributes)object).getAttributes().get(f.getKey());
+            }
+            if(value instanceof Collection){
+            	for(Object o:(Collection<?>)value){
+            		results.add(validate(f.getKey(), o, map));
+            	}
+            }else{
+            	results.add(validate(f.getKey(), value, map));
+            }
+        }else if(f.getFieldDescriptor() instanceof ObjectStructure){
+            if(propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
+                try {
+                    value = propertyDescriptor.getReadMethod().invoke(object);
+                } catch (Exception e) {
+                }
+            }
+            if(value instanceof Collection){
+            	for(Object o:(Collection<?>)value){
+            		results.addAll(validateTypeStateObject(o,(ObjectStructure)f.getFieldDescriptor()));
+            	}
+            }else{
+            	results.addAll(validateTypeStateObject(value,(ObjectStructure)f.getFieldDescriptor()));
+            }
+        }
+    	return results;
+    }
+    
     private void validateBoolean(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         Integer minOccurs = getInteger("minOccurs", fieldDesc);
 

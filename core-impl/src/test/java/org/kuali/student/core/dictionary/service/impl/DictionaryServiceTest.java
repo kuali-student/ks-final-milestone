@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
@@ -59,7 +58,7 @@ public class DictionaryServiceTest {
 				List<Field> fields = s.getField();
 				assertTrue("A States's field items are null or empty", fields != null && fields.isEmpty() == false);
 				for(Field f: fields){
-					FieldDescriptor fd = f.getFieldDescriptor();
+					FieldDescriptor fd = (FieldDescriptor) f.getFieldDescriptor();
 					
 					assertTrue("No field descriptor exists for " + f.getKey(), fd != null);
 					//String dataType = fd.getDataType();
@@ -155,7 +154,8 @@ public class DictionaryServiceTest {
 					if(s.getKey().equals("proposed")){
 						for(Field f: s.getField()){
 							if(f.getKey().equals("cluId")){
-								Map<String, Object> map = f.getFieldDescriptor().toMap();
+								
+								Map<String, Object> map = ((FieldDescriptor)f.getFieldDescriptor()).toMap();
 								ValidationResult result = validator.validate(f.getKey(), "A", map);
 								assertTrue("Did not pass validation", result.isOk());
 								result = validator.validate(f.getKey(), "ABC123", map);

@@ -8,13 +8,19 @@
 		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" />
 
 	<xsd:complexType name="fieldSelector">
-		<xsd:choice>
+		<xsd:choice minOccurs="1" maxOccurs="1">
 			<xsd:sequence>
 				<xsd:element name="fieldDescriptor" type="fieldDescriptor"
 					maxOccurs="1" minOccurs="1"></xsd:element>
 				<xsd:element name="selector" type="xsd:boolean"
 					maxOccurs="1" minOccurs="0"></xsd:element>
 				<xsd:element name="dynamic" type="xsd:boolean"
+					maxOccurs="1" minOccurs="0"></xsd:element>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="objectStructure" type="objectStructure"
+					maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="selector" type="xsd:boolean"
 					maxOccurs="1" minOccurs="0"></xsd:element>
 			</xsd:sequence>
 			<xsd:element ref="beans:ref" />
