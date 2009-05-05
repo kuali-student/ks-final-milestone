@@ -70,7 +70,7 @@ public class LULayoutFactory {
                         if (s.getKey().equalsIgnoreCase(state)) {
                             result = new HashMap<String, FieldDescriptor>();
                             for (Field f : s.getField()) {
-                                result.put(f.getKey(), f.getFieldDescriptor());
+                                result.put(f.getKey(), (FieldDescriptor)f.getFieldDescriptor());
                             }
                             indexedFields.put(type.toLowerCase() + ":" + state.toLowerCase(), result);
                         }
