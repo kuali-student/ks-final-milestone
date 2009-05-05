@@ -112,6 +112,14 @@
 	width: 100%;
 }
 
+.KS-ReqMgr-Label{
+	/*&margin-right: 30px;*/
+	color: black;
+	font-weight: bold;
+	font-size:11pt;
+	width: 100%;
+}
+
 .KS-RuleTable-UpArrow{
 	background: url("images/B_up_small.png") no-repeat;
 	height: 25px;
@@ -196,6 +204,19 @@
 	font-size: 8pt;
 	text-decoration: underline;	
 	cursor: pointer;
+}
+
+.KS-Rules-Search-Link{
+	font-size: 8pt;
+	color: #0033CC;
+	text-decoration: underline;	
+	cursor: pointer;
+}
+
+.KS-Rules-Search-Link-Disabled{
+	font-size: 8pt;
+	color: grey;
+	text-decoration: underline;	
 }
 
 .KS-Rules-Choices-Disabled-TextField{
