@@ -161,8 +161,8 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="service" ref="orgServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
-                <property name="localServiceName" value="orgService" />
-                <property name="serviceNameSpaceURI" value="orgNamespace" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://org.kuali.student/core/organization" />
                 <property name="busSecurity" value="false"></property>
             </bean>
         </property>
