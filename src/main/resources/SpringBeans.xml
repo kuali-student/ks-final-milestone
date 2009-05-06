@@ -77,13 +77,13 @@
     <bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-        <property name="url" value="jdbc:derby:/java/projects/ks-rice-ksb-client/target/derby/orgDB;create=true" />
+        <property name="url" value="${org.datasource.url}" />
         <property name="maxSize" value="10" />
         <property name="minSize" value="10" />
         <property name="maxWait" value="600" />
         <property name="validationQuery" value="values(1)" />
-        <property name="username" value="org" />
-        <property name="password" value="org" />
+        <property name="username" value="${org.datasource.username}" />
+        <property name="password" value="${org.datasource.password}" />
     </bean>
 
 <!--
