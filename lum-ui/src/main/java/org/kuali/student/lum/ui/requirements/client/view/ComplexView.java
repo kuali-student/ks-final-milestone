@@ -58,8 +58,6 @@ public class ComplexView extends ViewComposite {
     
     //view's data
     private Model<PrereqInfo> model;
-    private ReqComponentVO selectedReqCompVO;
-    private StatementVO selectedStatementVO;
     private boolean isInitialized = false;
 
     public ComplexView(Controller controller) {
@@ -92,28 +90,6 @@ public class ComplexView extends ViewComposite {
         }); 
 
         isInitialized = true;
-        
-        if (model != null) {
-            
-            //set the selected Req. Comp. based on previous user action of adding or editing a req. component
-            getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
-                public void onModelReady(Model<ReqComponentVO> theModel) {
-                    //check if any req. component was selected and update local var if true
-                    if (theModel != null) {
-                        List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
-                        selectedReqComp.addAll(theModel.getValues());
-                        if (selectedReqComp.size() > 0) {
-                          //we should have only 1 selected Req. Comp. in the model
-                            selectedReqCompVO = theModel.get(selectedReqComp.get(0).getId());        
-                        }
-                    }
-                }
-
-                public void onRequestFail(Throwable cause) {
-                    throw new RuntimeException("Unable to connect to model", cause);
-                }
-            });                                  
-        }
         
         redraw();
     }
@@ -150,8 +126,6 @@ public class ComplexView extends ViewComposite {
                             newOp = StatementOperatorTypeKey.AND;
                         }
                         statementVO.getLuStatementInfo().setOperator(newOp);
-                        selectedStatementVO = statementVO;
-                        selectedReqCompVO = null;
                     }
                 }
             }
@@ -171,14 +145,11 @@ public class ComplexView extends ViewComposite {
                 if (userObject instanceof StatementVO) {
                     StatementVO statementVO = (StatementVO) userObject;
                     statementVO.setCheckBoxOn(widget.isSelected());
-                    selectedStatementVO = statementVO;
-                    selectedReqCompVO = null;
                 } else if (userObject instanceof ReqComponentVO) {
                     ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
                     reqComponentVO.setCheckBoxOn(widget.isSelected());
-                    selectedStatementVO = null;
-                    selectedReqCompVO = reqComponentVO;
                 }
+                updateRulesTable();
             }
         };        
         
@@ -188,6 +159,7 @@ public class ComplexView extends ViewComposite {
 
                 Cell cell = ruleTable.getCellForEvent(event); 
                 if (cell == null) {
+                    System.out.println("Cell is NULL 1");
                     return;
                 }
                 
@@ -199,22 +171,10 @@ public class ComplexView extends ViewComposite {
                     Object userObject = widget.getNode().getUserObject();
                     if (userObject instanceof ReqComponentVO) {
                         ReqComponentVO rule = (ReqComponentVO) userObject;
-                        if (rule.isCheckBoxOn()) {
-                            selectedReqCompVO = null;
-                        } else {
-                            selectedReqCompVO = rule;
-                        }
                         rule.setCheckBoxOn(!rule.isCheckBoxOn());                        
-                        selectedStatementVO = null;
                     } else {
                         StatementVO statementVO = (StatementVO) userObject;
-                        if (statementVO.isCheckBoxOn()) {
-                            selectedStatementVO = null;
-                        } else {
-                            selectedStatementVO = statementVO;
-                        }
-                        statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());                        
-                        selectedReqCompVO = null;                        
+                        statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());                                               
                     }
                     updateRulesTable();
                 }
@@ -228,55 +188,40 @@ public class ComplexView extends ViewComposite {
                 Cell cell = ruleTable.getCellForEvent(event); 
             
                 if (cell == null) {
-                    System.out.println("Cell is NULL");
+                    System.out.println("Cell is NULL 2");
                     return;
                 }
                 
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
-                Object userObject = widget.getNode().getUserObject();
-                
+                Object userObject = widget.getNode().getUserObject();   
                 if (userObject instanceof ReqComponentVO) {
-                    selectedReqCompVO = (ReqComponentVO) userObject;
+                    final ReqComponentVO rule = (ReqComponentVO) userObject;
+                
+                    getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
+                        public void onModelReady(Model<ReqComponentVO> theModel) {
+                            RulesUtilities.clearModel(theModel);
+                            theModel.add(rule);                            
+                        }
+        
+                        public void onRequestFail(Throwable cause) {
+                            throw new RuntimeException("Unable to connect to model", cause);
+                        }
+                    });                
+                                    
+                    getController().showView(PrereqViews.CLAUSE_EDITOR);
                 }
-                
-                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
-                    public void onModelReady(Model<ReqComponentVO> theModel) {
-                        //check if any req. component was selected and update local var if true
-                        List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
-                        Collection<ReqComponentVO> reqList = theModel.getValues();
-                        if (reqList != null) {
-                            selectedReqComp.addAll(theModel.getValues());
-                            if (selectedReqComp.size() > 0) {
-                                theModel.remove(selectedReqComp.get(0));        //we should have only 1 selected Req. Comp. in the model
-                            }
-                        }                        
-                        theModel.add(selectedReqCompVO);
-                    }
-
-                    public void onRequestFail(Throwable cause) {
-                        throw new RuntimeException("Unable to connect to model", cause);
-                    }
-                });                                 
-                
-                getController().showView(PrereqViews.CLAUSE_EDITOR);
             }
         };
         
         btnAddRule.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                selectedReqCompVO = null;          
+            public void onClick(ClickEvent event) {      
                 
                 getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
                     public void onModelReady(Model<ReqComponentVO> theModel) {
                         if (theModel != null) {
-                            List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
-                            selectedReqComp.addAll(theModel.getValues());
-                            if (selectedReqComp.size() > 0) {
-                                //we should have only 1 selected Req. Comp. in the model
-                                theModel.remove(selectedReqComp.get(0).getId());        
-                            }
+                            RulesUtilities.clearModel(theModel);
                         }                    
-                        redraw();
+                      //  redraw();
                     }
 
                     public void onRequestFail(Throwable cause) {
@@ -288,27 +233,31 @@ public class ComplexView extends ViewComposite {
             }
         });         
         
+        ruleTable.addClickHandler(ruleTableClickHandler);
+        
         btnMoveRuleDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                /*
                 if (selectedReqCompVO != null) {
                     Object[] temp = model.getValues().toArray();
                     PrereqInfo prereqInfo = (PrereqInfo)temp[0];
                     StatementVO enclosingStatementVO = prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
                     enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
                     redraw();
-                }
+                } */
             }
         });
 
         btnMoveRuleUp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                /*
                 if (selectedReqCompVO != null) {
                     Object[] temp = model.getValues().toArray();
                     PrereqInfo prereqInfo = (PrereqInfo)temp[0];
                     StatementVO enclosingStatementVO = prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
                     enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
                     redraw();
-                }
+                } */
             }
         });
     }
@@ -395,7 +344,7 @@ public class ComplexView extends ViewComposite {
     }
     
     private void updateRulesTable() {
-        PrereqInfo prereqInfo = getPrereqInfo();               
+        PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);               
 
         btnaddAND.setEnabled(false);  
         btnaddOR.setEnabled(false);  
@@ -407,10 +356,11 @@ public class ComplexView extends ViewComposite {
         btnDeleteRule.setEnabled(false);
         btnDuplicateRule.setEnabled(false); 
         btnSaveRule.setEnabled(false);
+        /* TODO
         if (selectedReqCompVO != null) {
             btnDeleteRule.setEnabled(true);
             btnDuplicateRule.setEnabled(true);
-        }             
+        } */       
         
         ruleTable.clear();
         if (prereqInfo != null) {
@@ -418,23 +368,18 @@ public class ComplexView extends ViewComposite {
             
             if (tree != null) {
                 ruleTable.buildTable(tree);
-                ruleTable.addClickHandler(ruleTableClickHandler);
                 ruleTable.addCheckBoxHandler(ruleTableCheckBoxHandler);
                 ruleTable.addToggleHandler(ruleTableToggleClickHandler);
-                ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);
+                ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
             }
         }        
     }        
     
     private void updateNaturalLanguage() {
-        
-        //we need to update the edited req. component within the top statement before generating a new NL
-        if ((selectedReqCompVO != null) && (selectedReqCompVO.isDirty())) {
-            //TODO update req. component
-        }
-        
+                
         naturalLanguage.setText("");      
-        RequirementsService.Util.getInstance().getNaturalLanguageForLuStatementInfo(getPrereqInfo().getCluId(), getPrereqInfo().getStatementVO().getLuStatementInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
+        RequirementsService.Util.getInstance().getNaturalLanguageForLuStatementInfo(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
+                                RulesUtilities.getPrereqInfoModelObject(model).getStatementVO().getLuStatementInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
@@ -444,20 +389,5 @@ public class ComplexView extends ViewComposite {
                 naturalLanguage.setText(statementNaturalLanguage);  
             } 
         });                
-    }       
-
-    public ReqComponentInfo getSelectedReqComp() {
-        ReqComponentInfo result = (selectedReqCompVO == null)? null : selectedReqCompVO.getReqComponentInfo();
-        return result;
-    }      
-    
-    private PrereqInfo getPrereqInfo() {
-        for (Object prereq : model.getValues().toArray()) {
-            if (prereq != null) {
-                return (PrereqInfo)prereq;
-            }
-        }         
-        System.out.println("NULL model.....");
-        return null;
-    }
+    }           
 }
