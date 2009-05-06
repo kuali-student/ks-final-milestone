@@ -151,7 +151,7 @@ public class KSAdvancedSearchWindow {
         generateResultLayout();
         tabPanel.addTab(searchLayout, "Search");
         tabPanel.addTab(resultLayout, "Results");
-        
+        tabPanel.selectTab(0);
         dialogLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_WINDOW);
         dialog.setWidget(dialogLayout);
         
