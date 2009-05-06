@@ -70,6 +70,7 @@ public class RuleNodeWidget extends SimplePanel {
         Object userObject = null;
         node = n;
         userObject = node.getUserObject();
+
         if (userObject instanceof StatementVO) {
             StatementVO statementVO = (StatementVO) userObject;
             VerticalPanel checkBoxAndToggle = new VerticalPanel();
@@ -77,6 +78,7 @@ public class RuleNodeWidget extends SimplePanel {
             checkBoxAndToggle.add(checkBox);
             checkBoxAndToggle.add(toggle);
             html.setHTML(node.getUserObject().toString());
+            checkBoxAndToggle.setStyleName((statementVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
             checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(new Boolean(statementVO.isCheckBoxOn()), false);
         } else if (userObject instanceof ReqComponentVO) {
@@ -86,6 +88,7 @@ public class RuleNodeWidget extends SimplePanel {
             checkBoxAndEdit.add(checkBox);
             checkBoxAndEdit.add(edit);
             html.setHTML(node.getUserObject().toString());
+            checkBoxAndEdit.setStyleName((reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
             checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(new Boolean(reqComponentVO.isCheckBoxOn()));
         } else {

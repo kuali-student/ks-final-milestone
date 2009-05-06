@@ -39,20 +39,20 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
         this.typeDesc = typeDesc;
     }
     
-    public boolean isCheckBoxOn() {
-        return checkBoxOn;
-    }
-
-    public void setCheckBoxOn(boolean checkBoxOn) {
-        this.checkBoxOn = checkBoxOn;
-    }
-
     public boolean isDirty() {
         return dirty;
     }
 
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
+    }
+
+    public boolean isCheckBoxOn() {
+        return checkBoxOn;
+    }
+
+    public void setCheckBoxOn(boolean checkBoxOn) {
+        this.checkBoxOn = checkBoxOn;
     }
 
     @Override
