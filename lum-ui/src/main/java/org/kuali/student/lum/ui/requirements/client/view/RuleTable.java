@@ -92,6 +92,15 @@ public class RuleTable extends Composite {
             }
         }
     }
+
+    public void addTextClickHandler(ClickHandler clickHandler) {
+        for (int i = 0; i < treeTable.getRowCount(); i++) {
+            for (int j = 0; j < treeTable.getCellCount(i); j++) {
+                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
+                w.addTextClicHandler(clickHandler);
+            }
+        }
+    }    
     
     static int test = 0;
     

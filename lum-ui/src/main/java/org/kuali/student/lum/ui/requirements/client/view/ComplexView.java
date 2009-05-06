@@ -51,8 +51,8 @@ public class ComplexView extends ViewComposite {
     private KSButton btnSaveRule = new KSButton("Save");    
     private KSLabel naturalLanguage = new KSLabel();
     private RuleTable ruleTable = new RuleTable();
-    private ClickHandler ruleTableClickHandler = null;
-    private ClickHandler ruleTableCheckBoxHandler = null;
+    //private ClickHandler ruleTableClickHandler = null;
+    private ClickHandler ruleTableSelectionHandler = null;
     private ClickHandler ruleTableToggleClickHandler = null;
     private ClickHandler ruleTableEditClauseHandler = null;
     
@@ -131,29 +131,32 @@ public class ComplexView extends ViewComposite {
             }
         };
         
-        ruleTableCheckBoxHandler = new ClickHandler() {
+        ruleTableSelectionHandler = new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
+                              
                 Cell cell = ruleTable.getCellForEvent(event);
                 if (cell == null) {
+                    System.out.println("Cell is NULL 0");
                     return;
                 }
                 
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
                 Object userObject = widget.getNode().getUserObject();
-                if (userObject instanceof StatementVO) {
+                if (userObject instanceof StatementVO) { 
                     StatementVO statementVO = (StatementVO) userObject;
-                    statementVO.setCheckBoxOn(widget.isSelected());
-                } else if (userObject instanceof ReqComponentVO) {
+                    statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());
+                } else if (userObject instanceof ReqComponentVO) {                    
                     ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
-                    reqComponentVO.setCheckBoxOn(widget.isSelected());
+                    reqComponentVO.setCheckBoxOn(!reqComponentVO.isCheckBoxOn());
                 }
                 updateRulesTable();
             }
-        };        
+        };    
+        ruleTable.addClickHandler(ruleTableSelectionHandler);
         
-        ruleTableClickHandler = new ClickHandler() {
+     /*   ruleTableClickHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
 
@@ -163,24 +166,19 @@ public class ComplexView extends ViewComposite {
                     return;
                 }
                 
-                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
-                if (widget == null) {
-                    //selectedReqCompVO = null;
-                    btnAddRule.setEnabled(true);
-                } else {                    
-                    Object userObject = widget.getNode().getUserObject();
-                    if (userObject instanceof ReqComponentVO) {
-                        ReqComponentVO rule = (ReqComponentVO) userObject;
-                        rule.setCheckBoxOn(!rule.isCheckBoxOn());                        
-                    } else {
-                        StatementVO statementVO = (StatementVO) userObject;
-                        statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());                                               
-                    }
-                    updateRulesTable();
+                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                                  
+                Object userObject = widget.getNode().getUserObject();
+                if (userObject instanceof ReqComponentVO) {
+                    ReqComponentVO rule = (ReqComponentVO) userObject;
+                    rule.setCheckBoxOn(!rule.isCheckBoxOn());                        
+                } else {
+                    StatementVO statementVO = (StatementVO) userObject;
+                    statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());                                               
                 }
+                updateRulesTable();
             }
 
-        };
+        };  */
         
         ruleTableEditClauseHandler = new ClickHandler() {
             @Override
@@ -231,9 +229,7 @@ public class ComplexView extends ViewComposite {
                 
                 getController().showView(PrereqViews.CLAUSE_EDITOR);
             }
-        });         
-        
-        ruleTable.addClickHandler(ruleTableClickHandler);
+        });                
         
         btnMoveRuleDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -355,12 +351,7 @@ public class ComplexView extends ViewComposite {
         btnAddRule.setEnabled(true);
         btnDeleteRule.setEnabled(false);
         btnDuplicateRule.setEnabled(false); 
-        btnSaveRule.setEnabled(false);
-        /* TODO
-        if (selectedReqCompVO != null) {
-            btnDeleteRule.setEnabled(true);
-            btnDuplicateRule.setEnabled(true);
-        } */       
+        btnSaveRule.setEnabled(false); 
         
         ruleTable.clear();
         if (prereqInfo != null) {
@@ -368,7 +359,7 @@ public class ComplexView extends ViewComposite {
             
             if (tree != null) {
                 ruleTable.buildTable(tree);
-                ruleTable.addCheckBoxHandler(ruleTableCheckBoxHandler);
+                ruleTable.addCheckBoxHandler(ruleTableSelectionHandler);
                 ruleTable.addToggleHandler(ruleTableToggleClickHandler);
                 ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
             }

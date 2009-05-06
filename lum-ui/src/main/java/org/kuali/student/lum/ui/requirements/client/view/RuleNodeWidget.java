@@ -1,6 +1,7 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -17,18 +18,17 @@ public class RuleNodeWidget extends SimplePanel {
     private Node node;
     HTML html = new HTML();
     CheckBox checkBox = new CheckBox();
-    KSButton edit = new KSButton("Edit");
+    KSLabel edit = new KSLabel("Edit");
     KSButton toggle = new KSButton("Toggle");
+    HorizontalPanel checkBoxAndEdit;
     HandlerRegistration clickHandlerRegistration;
     HandlerRegistration toggleHandlerRegistration;
     HandlerRegistration editClauseHandlerRegistration;
-//    SimplePanel ruleNodeWidgetPanel new 
+    HandlerRegistration textClickHandlerRegistration;
+    
     public RuleNodeWidget(Node n) {
         node = n;
         setNode(n); 
-        
-       // DOM.setStyleAttribute(checkBox.getElement(), "background", "#ffeeff"); 
-       //DOM.setStyleAttribute(checkBox.getElement(), "fontStyle", "italic");
     }
 
     public Node getNode() {
@@ -65,6 +65,16 @@ public class RuleNodeWidget extends SimplePanel {
             editClauseHandlerRegistration.removeHandler();
         }
     }
+    
+    public void addTextClicHandler(ClickHandler ch) {
+       // textClickHandlerRegistration = checkBoxAndEdit.addClickHandler(ch);
+    }
+    
+    public void clearTextClickHandler() {
+        if (textClickHandlerRegistration != null) {
+            textClickHandlerRegistration.removeHandler();
+        }
+    }    
 
     public void setNode(Node n) {
         Object userObject = null;
@@ -83,9 +93,11 @@ public class RuleNodeWidget extends SimplePanel {
             checkBox.setValue(new Boolean(statementVO.isCheckBoxOn()), false);
         } else if (userObject instanceof ReqComponentVO) {
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
-            HorizontalPanel checkBoxAndEdit= new HorizontalPanel();
+            checkBoxAndEdit= new HorizontalPanel();
+            checkBoxAndEdit.setStyleName("KS-Rules-Table-Cell-Margin");
             super.setWidget(checkBoxAndEdit);
             checkBoxAndEdit.add(checkBox);
+            edit.addStyleName("KS-Rules-Edit-Link");
             checkBoxAndEdit.add(edit);
             html.setHTML(node.getUserObject().toString());
             checkBoxAndEdit.setStyleName((reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
