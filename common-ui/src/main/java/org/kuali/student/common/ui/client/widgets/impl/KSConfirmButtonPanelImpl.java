@@ -28,8 +28,11 @@ public class KSConfirmButtonPanelImpl extends KSConfirmButtonPanelAbstract{
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		confirm.setText(Application.getApplicationContext().getMessage(KSMessages.CONFIRM));
-		confirm.setText(Application.getApplicationContext().getMessage(KSMessages.CANCEL));
+		confirm.setText("OK");
+		cancel.setText("Cancel");
+		//TODO messages no working for this
+		//confirm.setText(Application.getApplicationContext().getMessage(KSMessages.CONFIRM));
+		//confirm.setText(Application.getApplicationContext().getMessage(KSMessages.CANCEL));
 		buttonPanel.setHeight(confirm.getOffsetHeight() + "px");
 	}
 
