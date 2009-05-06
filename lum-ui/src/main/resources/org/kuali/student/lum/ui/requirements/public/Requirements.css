@@ -229,6 +229,14 @@
 	cursor: pointer;
 }
 
+.KS-Rules-Edit-Link{
+	margin-left: 20px;
+	font-size: 8pt;
+	color: #0033CC;
+	text-decoration: underline;	
+	cursor: pointer;
+}
+
 .KS-Rules-Link-Right{
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -307,3 +315,10 @@
 	height: 90px;
 }
 
+.KS-Rules-Table-Cell{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 8pt;	
+}
