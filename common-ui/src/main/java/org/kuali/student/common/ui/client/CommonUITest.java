@@ -17,9 +17,18 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.list.impl.KSSelectableTableListImpl;
+import org.kuali.student.common.ui.client.widgets.list.testData.Color;
+import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBasicMenuImpl;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSListItemsSuggestOracle;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow.SearchParameter;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -35,8 +44,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CommonUITest implements EntryPoint {
@@ -45,29 +56,7 @@ public class CommonUITest implements EntryPoint {
     public StyleElement commonStyle;
     int pan;
     
-    public class Color implements Idable{
-        private String id;
-        private String color;
-        
-        public Color(String id, String color) {
-            super();
-            this.color = color;
-            this.id = id;
-        }
-        public String getId() {
-            return id;
-        }
-        public void setId(String id) {
-            this.id = id;
-        }
-        public String getColor() {
-            return color;
-        }
-        public void setColor(String color) {
-            this.color = color;
-        }
-        
-    }
+    
     
     //private List<Color> colors = new ArrayList<Color>();
     private Model<Color> colors = new Model<Color>();
@@ -77,6 +66,8 @@ public class CommonUITest implements EntryPoint {
         public List<String> getAttrKeys() {
             List<String> attributes = new ArrayList<String>();
             attributes.add("Color");
+            attributes.add("Warmth");
+            attributes.add("Type");
             return attributes;
         }
 
@@ -87,6 +78,12 @@ public class CommonUITest implements EntryPoint {
                 if(c.getId().equals(id)){
                     if(attrkey.equals("Color")){
                         value = c.getColor();
+                    }
+                    else if(attrkey.equals("Warmth")){
+                        value = c.getWarmth();
+                    }
+                    else if(attrkey.equals("Type")){
+                        value = c.getType();
                     }
                     break;
                 }
@@ -108,7 +105,7 @@ public class CommonUITest implements EntryPoint {
     };
 
 	public void onModuleLoad() {
-
+/*
 	    final ClickHandler handler = new ClickHandler(){
 
             @Override
@@ -117,14 +114,15 @@ public class CommonUITest implements EntryPoint {
                 
             }
         };
-		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+		final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 		KSMenuItemData proposalInfo = new KSMenuItemData("Proposal Information");
 		proposalInfo.addSubItem(new KSMenuItemData("Author + Collaborators"){{
 		    setClickHandler(handler);
 		}});
-		proposalInfo.addSubItem(new KSMenuItemData("Governance"){{
+		final KSMenuItemData governance = new KSMenuItemData("Governance"){{
             setClickHandler(handler);
-        }});
+        }};
+		proposalInfo.addSubItem(governance);
 		proposalInfo.addSubItem(new KSMenuItemData("Course Format"){{
             setClickHandler(handler);
         }});
@@ -134,10 +132,17 @@ public class CommonUITest implements EntryPoint {
         }});
         academicContent.addSubItem(new KSMenuItemData("Learning Objectives"){{
             setClickHandler(handler);
-        }});		
-        academicContent.addSubItem(new KSMenuItemData("Syllabus"){{
+        }});
+        final KSMenuItemData syllabus = new KSMenuItemData("Syllabus"){{
+            setClickHandler(handler);
+        }};
+        syllabus.addSubItem(new KSMenuItemData("Syllabus Stuff 1"){{
             setClickHandler(handler);
         }});
+        syllabus.addSubItem(new KSMenuItemData("Syllabus Stuff 2"){{
+            setClickHandler(handler);
+        }});
+        academicContent.addSubItem(syllabus);
         academicContent.addSubItem(new KSMenuItemData("Learning Results"){{
             setClickHandler(handler);
         }});
@@ -145,12 +150,70 @@ public class CommonUITest implements EntryPoint {
 		items.add(proposalInfo);
 		items.add(academicContent);
 		
-		KSBasicMenu haha = new KSBasicMenu();
-		haha.setItems(items);
-		haha.setTitle("Proposal Sections");
-		haha.setDescription("complete sections to submit");
-		RootPanel.get().add(haha);
-		/*
+		//final KSAccordionMenu haha = new KSAccordionMenu();
+		//haha.setItems(items);
+		KSBasicMenu haha2 = new KSBasicMenu();
+		haha2.setItems(items);
+		haha2.setTitle("Proposal Sections");
+		haha2.setDescription("complete sections to submit");
+		
+		RootPanel.get().add(haha2);
+		final HTML html = new HTML();
+		KSButton button0 = new KSButton("Refresh Item data");
+		RootPanel.get().add(html);
+		
+        button0.addClickHandler(new ClickHandler(){
+
+            @Override
+            public void onClick(ClickEvent event) {
+                html.setText(printItems(items, ""));
+                
+            }
+            
+            public String printItems(List<KSMenuItemData> theItems, String indent){
+                String returnString = "";
+                for(KSMenuItemData i: theItems){
+                    returnString = returnString + indent + i.getLabel() + " S: " + i.isSelected() + " I: " + (i.getShownIcon() != null) + "\n";
+                    if(!(i.getSubItems().isEmpty())){
+                        returnString = returnString + printItems(i.getSubItems(), indent + "  ");
+                    }
+                }
+                return returnString;
+            }
+        });
+        RootPanel.get().add(button0);
+		//RootPanel.get().add(haha2);
+        haha2.selectMenuItem(new String[] {"Academic Content", "Syllabus"});
+		KSButton button1 = new KSButton("Select Syllabus");
+		button1.addClickHandler(new ClickHandler(){
+
+            @Override
+            public void onClick(ClickEvent event) {
+                syllabus.setSelected(true);
+                //haha.selectMenuItem(new String[] {"Academic Content", "Syllabus"});
+            }});
+		KSButton button2 = new KSButton("Select Governance");
+          button2.addClickHandler(new ClickHandler(){
+    
+                @Override
+                public void onClick(ClickEvent event) {
+                   governance.setSelected(true);
+                    
+                }
+          });
+          KSButton button3 = new KSButton("Change Governance->GoverNANCE");
+          button3.addClickHandler(new ClickHandler(){
+    
+                @Override
+                public void onClick(ClickEvent event) {
+                   governance.setLabel("GoverNANCE");
+                    
+                }
+          });
+          RootPanel.get().add(button1);
+          RootPanel.get().add(button2);
+          RootPanel.get().add(button3);
+		
 		items.add(mi3);
 		KSAccordionMenu am = new KSAccordionMenu();
 		am.setItems(items);
@@ -218,14 +281,15 @@ public class CommonUITest implements EntryPoint {
 		sb.addTab(new Label("AAAAAHHHHHHH"), "Screaming");
 		sb.show();
 		*/
-        final KSDropDown list = new KSDropDown();
-        list.setBlankFirstItem(false);
-        colors.add(new Color("1", "Blue"));
-        colors.add(new Color("2", "Red"));
-        colors.add(new Color("3", "Orange"));
-        colors.add(new Color("4", "Yellow"));
-        colors.add(new Color("5", "Green"));
-        colors.add(new Color("6", "Purple"));
+        //final KSDropDown list = new KSDropDown();
+        //list.setBlankFirstItem(false);
+        colors.add(new Color("1", "Blue", "Cool", "Primary"));
+        colors.add(new Color("2", "Red", "Warm", "Primary"));
+        colors.add(new Color("3", "Orange", "Warm", "Secondary"));
+        colors.add(new Color("4", "Yellow", "Warm", "Primary"));
+        colors.add(new Color("5", "Green", "Cool", "Secondary"));
+        colors.add(new Color("6", "Purple", "Cool", "Secondary"));
+        colors.add(new Color("7", "Black", "Neutral", "None"));
         tableItems.setModel(colors);
         tableItems.setComparator(new Comparator<Color>(){
 
@@ -234,7 +298,26 @@ public class CommonUITest implements EntryPoint {
                 return c1.getColor().compareToIgnoreCase(c2.getColor());
             }
         });
-        list.setListItems(tableItems);
+        
+        KSListItemsSuggestOracle oracle = new KSListItemsSuggestOracle();
+        oracle.setListItems(tableItems);
+        //SuggestBox sb = new KSSuggestBox(oracle);
+        //sb.setLimit(2);
+        KSSelectableTableList stl = new KSSelectableTableList();
+        KSSuggestBox sb = new KSSuggestBox(oracle);
+        List<SearchParameter> params = new ArrayList<SearchParameter>();
+        params.add(new SearchParameter("Color", "Color"));
+        params.add(new SearchParameter("Warmth", "Warmth"));
+        List<String> enumeratedValues = new ArrayList<String>();
+        enumeratedValues.add("Primary");
+        enumeratedValues.add("Secondary");
+        enumeratedValues.add("None");
+        params.add(new SearchParameter("Type", "Type", enumeratedValues));
+        
+        KSSuggestBoxWAdvSearch suggest = new KSSuggestBoxWAdvSearch(sb, new KSAdvancedSearchWindow(params));
+        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);
+        RootPanel.get().add(sbp);
+       /* list.setListItems(tableItems);
         list.addSelectionChangeHandler(new SelectionChangeHandler(){
 
             @Override
@@ -291,7 +374,7 @@ public class CommonUITest implements EntryPoint {
             
             @Override
             public void onClick(ClickEvent event) {
-                colors.add(new Color("" + Random.nextInt(), tb.getText()));
+                colors.add(new Color("" + Random.nextInt(), tb.getText(), "Neutral", "None"));
             }
         }));
         
@@ -340,7 +423,7 @@ public class CommonUITest implements EntryPoint {
         
         final KSPickList list6 = new KSPickList();
         list6.setListItems(tableItems);
-        RootPanel.get().add(list6);
+        RootPanel.get().add(list6);*/
         /*
         KSPickList newList = new KSPickList();
         newList.setListItems(tableItems);
