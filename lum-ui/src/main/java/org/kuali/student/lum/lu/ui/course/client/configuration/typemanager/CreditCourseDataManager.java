@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonNameInfo;
 
@@ -40,135 +41,73 @@ public  class CreditCourseDataManager {
 
     //TODO These will all be RPC calls but for now just hard code them
 
-
     public static ListItems getOriginators() {
 
-        CreditCourseDataManager x = new CreditCourseDataManager();
+        PersonInfo person1 = new PersonInfo();
+        PersonNameInfo name1 = new PersonNameInfo();
+        name1.setGivenName("Joe");
+        name1.setSurname("Bloggs");
+        List<PersonNameInfo> namesList1 = new ArrayList<PersonNameInfo>();
+        namesList1.add(name1);
 
-        Person person1 = x.new Person("9988", "Joe Bloggs");
-        Person person2 = x.new Person("955988", "Janet Biggs");
-
-        final List<Person> namesList = new ArrayList<Person>(); 
-        namesList.add(person1);
-        namesList.add(person2);
+        person1.setId("9988");
+        person1.setPersonNameInfoList(namesList1);
 
 
-        ListItems originatorList = new ListItems() {
+        PersonInfo person2 = new PersonInfo();
+        PersonNameInfo name2 = new PersonNameInfo();
+        name2.setGivenName("Janet");
+        name2.setSurname("Biggs");
+        List<PersonNameInfo> namesList2 = new ArrayList<PersonNameInfo>();
+        namesList2.add(name2);
 
-            @Override
-            public List<String> getAttrKeys() {
-                List<String> attributes = new ArrayList<String>();
-                attributes.add("Name");
-                return attributes;
-            }
+        person2.setId("993488");
+        person2.setPersonNameInfoList(namesList2);
 
-            @Override
-            public String getItemAttribute(String id, String attrkey) {
-                String value = null;
-                for(Person n : namesList){
-                    if(n.getId().equals(id)){
-                        if(attrkey.equals("Name")){
-                            value = n.getName();
-                        }
-                        break;
-                    }
-                }
-                return value;
-            }
+        final List<PersonInfo> personList = new ArrayList<PersonInfo>(); 
+        personList.add(person1);
+        personList.add(person2);
 
-            @Override
-            public int getItemCount() {
-                return namesList.size();
-            }
 
-            @Override
-            public List<String> getItemIds() {
-                List<String> ids = new ArrayList<String>();
-                for(Person n: namesList){
-                    ids.add(n.getId());
-                }
-                return ids; 
-            }
+        ListItems originatorList = buildPersonNameList(personList);
 
-            @Override
-            public String getItemText(String id) {
-                String value = null;
-                for(Person n: namesList){
-                    if(n.getId().equals(id)){
-                        value = n.getName();
-                        break;
-                    }
-                }
-                return value;
-            }
-        };
         return originatorList;
 
     }
 
+
+
     public static ListItems getDelegators() {
 
-        CreditCourseDataManager x = new CreditCourseDataManager();
+        PersonInfo person1 = new PersonInfo();
+        PersonNameInfo name1 = new PersonNameInfo();
+        name1.setGivenName("Anne");
+        name1.setSurname("Smith");
+        List<PersonNameInfo> namesList1 = new ArrayList<PersonNameInfo>();
+        namesList1.add(name1);
 
-        Person person1 = x.new Person("56gfh", "Anne Smith");
-        Person person2 = x.new Person("95ghdg8", "Alan Scott");
+        person1.setId("6fghh");
+        person1.setPersonNameInfoList(namesList1);
 
-        final List<Person> personList = new ArrayList<Person>(); 
+
+        PersonInfo person2 = new PersonInfo();
+        PersonNameInfo name2 = new PersonNameInfo();
+        name2.setGivenName("Alan");
+        name2.setSurname("Scott");
+        List<PersonNameInfo> namesList2 = new ArrayList<PersonNameInfo>();
+        namesList2.add(name2);
+
+        person2.setId("dfgh7u67");
+        person2.setPersonNameInfoList(namesList2);
+
+        final List<PersonInfo> personList = new ArrayList<PersonInfo>(); 
         personList.add(person1);
-        personList.add(person2);     
-        
-        ListItems list = new ListItems() {
+        personList.add(person2);
 
-            @Override
-            public List<String> getAttrKeys() {
-                List<String> attributes = new ArrayList<String>();
-                attributes.add("Name");
-                return attributes;
-            }
 
-            @Override
-            public String getItemAttribute(String id, String attrkey) {
-                String value = null;
-                for(Person n : personList){
-                    if(n.getId().equals(id)){
-                        if(attrkey.equals("Name")){
-                            value = n.getName();
-                        }
-                        break;
-                    }
-                }
-                return value;
-            }
+        ListItems delegatorList = buildPersonNameList(personList);
 
-            @Override
-            public int getItemCount() {
-                return personList.size();
-            }
-
-            @Override
-            public List<String> getItemIds() {
-                List<String> ids = new ArrayList<String>();
-                for(Person n: personList){
-                    ids.add(n.getId());
-                }
-                return ids; 
-            }
-
-            @Override
-            public String getItemText(String id) {
-                String value = null;
-                for(Person n: personList){
-                    if(n.getId().equals(id)){
-                        value = n.getName();
-                        break;
-                    }
-                }
-                return value;
-            }
-
-        };
-        return list;
-
+        return delegatorList;
     }
 
     public static ListItems getCurriculumOversights() {
@@ -178,13 +117,13 @@ public  class CreditCourseDataManager {
         CurriculumOversight oversight1 = x.new CurriculumOversight("2", "Undergraduate");
         CurriculumOversight oversight2 = x.new CurriculumOversight("29", "Graduate");
         CurriculumOversight oversight3 = x.new CurriculumOversight("82", "Extended Studies");
-        
+
         final List<CurriculumOversight> oversightList = new ArrayList<CurriculumOversight>();
         oversightList.add(oversight1);
         oversightList.add(oversight2);
         oversightList.add(oversight3);
-        
-        
+
+
         ListItems list = new ListItems() {
 
             @Override
@@ -242,18 +181,32 @@ public  class CreditCourseDataManager {
     }
 
     public static ListItems getOrganizations() {
+//      CreditCourseDataManager x = new CreditCourseDataManager();
 
-        CreditCourseDataManager x = new CreditCourseDataManager();
+        OrgInfo org1 = new OrgInfo();
+        org1.setId("9933");
+        org1.setShortName("Faculty of Arts" );
 
-        Organization org1 = x.new Organization("9933","Faculty of Arts" );
-        Organization org2 = x.new Organization("577", "Department of Chemistry");
+        OrgInfo org2 = new OrgInfo();
+        org2.setId("577");
+        org2.setShortName("Department of Chemistry");
 
-        final List<Organization> orgList = new ArrayList<Organization>(); 
-        orgList.add(org1);
-        orgList.add(org2);
-        
-        ListItems list = new ListItems() {
+        final List<OrgInfo> result = new ArrayList<OrgInfo>(); 
+        result.add(org1);
+        result.add(org2);
 
+//      OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
+
+//      public void onFailure(Throwable caught) {
+//      Window.alert(caught.getMessage());
+//      }
+
+//      public void onSuccess(final List<OrgHierarchyInfo> result) {              
+        final Map<String,String> ids = new LinkedHashMap<String,String>();
+        for(OrgInfo org:result){
+            ids.put(org.getId(),org.getShortName());
+        }
+        ListItems orgList = new ListItems() {
             @Override
             public List<String> getAttrKeys() {
                 List<String> attributes = new ArrayList<String>();
@@ -264,10 +217,10 @@ public  class CreditCourseDataManager {
             @Override
             public String getItemAttribute(String id, String attrkey) {
                 String value = null;
-                for(Organization o : orgList){
+                for(OrgInfo o : result){
                     if(o.getId().equals(id)){
                         if(attrkey.equals("Name")){
-                            value = o.getName();
+                            value = o.getShortName();
                         }
                         break;
                     }
@@ -277,13 +230,13 @@ public  class CreditCourseDataManager {
 
             @Override
             public int getItemCount() {
-                return orgList.size();
+                return result.size();
             }
 
             @Override
             public List<String> getItemIds() {
                 List<String> ids = new ArrayList<String>();
-                for(Organization o: orgList){
+                for(OrgInfo o: result){
                     ids.add(o.getId());
                 }
                 return ids; 
@@ -292,20 +245,19 @@ public  class CreditCourseDataManager {
             @Override
             public String getItemText(String id) {
                 String value = null;
-                for(Organization o: orgList){
+                for(OrgInfo o: result){
                     if(o.getId().equals(id)){
-                        value = o.getName();
+                        value = o.getShortName();
                         break;
                     }
                 }
                 return value;
             }
         };
-        return list;
-
-
+//      }
+//      });
+        return orgList;
     }
-
 
     public static ListItems getCampusLocations() {
 
@@ -314,12 +266,12 @@ public  class CreditCourseDataManager {
         CampusLocation location1 = x.new CampusLocation("2", "North Campus");
         CampusLocation location2 = x.new CampusLocation("29", "South Campus");
         CampusLocation location3 = x.new CampusLocation("82", "Singleton Park Campus");
-        
+
         final List<CampusLocation> locationList = new ArrayList<CampusLocation>();
         locationList.add(location1);
         locationList.add(location2);
         locationList.add(location3);
-        
+
         ListItems list = new ListItems() {
 
             @Override
@@ -414,7 +366,7 @@ public  class CreditCourseDataManager {
         List<AtpInfo> atpInfoList = new ArrayList<AtpInfo>(); 
         atpInfoList.add(atpInfo1);
         atpInfoList.add(atpInfo2);
-        
+
         final Map<String,String> map = new LinkedHashMap<String, String>();
         for(AtpInfo info : atpInfoList) {
             map.put(info.getId(), info.getName());
@@ -470,7 +422,7 @@ public  class CreditCourseDataManager {
         durationList.add(duration4);
         durationList.add(duration5);
         durationList.add(duration6);
-        
+
         ListItems list = new ListItems() {
 
             @Override
@@ -525,6 +477,63 @@ public  class CreditCourseDataManager {
         return list;
     }
 
+
+    private static ListItems buildPersonNameList(final List<PersonInfo> personList) {
+
+
+        ListItems originatorList = new ListItems() {
+
+            @Override
+            public List<String> getAttrKeys() {
+                List<String> attributes = new ArrayList<String>();
+                attributes.add("Name");
+                return attributes;
+            }
+
+            @Override
+            public String getItemAttribute(String id, String attrkey) {
+                String value = null;
+                for(PersonInfo p : personList){
+                    PersonNameInfo n = p.getPersonNameInfoList().get(0); 
+                    if(n.getId().equals(id)){
+                        if(attrkey.equals("Name")){
+                            value = n.getSurname() + ", " + n.getGivenName();
+                        }
+                        break;
+                    }
+                }
+                return value;
+            }
+
+            @Override
+            public int getItemCount() {
+                return personList.size();
+            }
+
+            @Override
+            public List<String> getItemIds() {
+                List<String> ids = new ArrayList<String>();
+                for(PersonInfo p: personList){
+                    ids.add(p.getId());
+                }
+                return ids; 
+            }
+
+            @Override
+            public String getItemText(String id) {
+                String value = null;
+                for(PersonInfo p: personList){
+                    if(p.getId().equals(id)){
+                        PersonNameInfo n = p.getPersonNameInfoList().get(0); 
+                        value = n.getSurname() + ", " + n.getGivenName();
+                        break;
+                    }
+                }
+                return value;
+            }
+        };
+        return originatorList;
+    }
     //TODO Use real CampusLocation once its created
     public class CampusLocation  {
         private String id;
@@ -597,51 +606,4 @@ public  class CreditCourseDataManager {
         }
     }
 
-    //TODO Use real OrgInfo
-    public class Organization  {
-        private String id;
-        private String name;
-
-        public Organization(String id, String name) {
-            super();
-            this.name = name;
-            this.id = id;
-        }
-        public String getId() {
-            return id;
-        }
-        public void setId(String id) {
-            this.id = id;
-        }
-        public String getName() {
-            return name;
-        }
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    //TODO Use real PersonInfo
-    public class Person  {
-        private String id;
-        private String name;
-
-        public Person(String id, String name) {
-            super();
-            this.name = name;
-            this.id = id;
-        }
-        public String getId() {
-            return id;
-        }
-        public void setId(String id) {
-            this.id = id;
-        }
-        public String getName() {
-            return name;
-        }
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 }

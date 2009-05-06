@@ -15,9 +15,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
@@ -29,18 +26,12 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager;
-import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager.CampusLocation;
-import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager.CurriculumOversight;
-import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager.LuDuration;
-import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager.Organization;
-import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager.Person;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -155,6 +146,7 @@ public class ProposalInformationLayoutManager {
         KSDropDown locationDropDown = new KSDropDown();
         locationDropDown.setListItems(campusLocationList);
 
+        //TODO This will probably need to be a search or selectable tree to cope with the Org hierarchies
         KSDropDown organizationDropDown = new KSDropDown();
         organizationDropDown.setListItems(organizationList);
 
