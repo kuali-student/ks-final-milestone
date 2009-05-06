@@ -1,5 +1,5 @@
 <config>
-    <param name="module.name">ks-rice-ksb</param>
+    <param name="module.name">ks-rice-ksb-client</param>
 
     <param name="environment" override="false">dev</param>
     <param name="app.code" override="false">ks-ksb</param>
@@ -33,8 +33,8 @@
     <param name="datasource.ojb.sequenceManager.className">org.apache.ojb.broker.util.sequence.SequenceManagerInMemoryImpl</param>
 -->
     <param name="datasource.ojb.platform">Derby</param>
-    <param name="db.location">/java/projects/ks-rice-ksb/target/derby/rice-db</param>
-    <param name="datasource.url">jdbc:derby:/java/projects/ks-rice-ksb/target/derby/rice-db;create=true</param>
+    <param name="db.location">/java/projects/ks-rice-ksb-client/target/derby/rice-db</param>
+    <param name="datasource.url">jdbc:derby:/java/projects/ks-rice-ksb-client/target/derby/rice-db;create=true</param>
     <param name="datasource.username">rice</param>
     <param name="datasource.password">r1c3</param>
     <param name="datasource.pool.validationQuery">values(1)</param>
@@ -57,6 +57,6 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
-    <param name="config.location">${user.home}/ks-rice-ksb-config.xml</param> 
+    <param name="config.location">${user.home}/ks-rice-ksb-client-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 </config>

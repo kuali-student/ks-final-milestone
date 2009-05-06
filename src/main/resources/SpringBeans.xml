@@ -14,7 +14,7 @@
 	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/ks-rice-ksb-config.xml</value>
+				<value>classpath:META-INF/ks-rice-ksb-client-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -77,7 +77,7 @@
     <bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-        <property name="url" value="jdbc:derby:/java/projects/ks-rice-ksb/target/derby/orgDB;create=true" />
+        <property name="url" value="jdbc:derby:/java/projects/ks-rice-ksb-client/target/derby/orgDB;create=true" />
         <property name="maxSize" value="10" />
         <property name="minSize" value="10" />
         <property name="maxWait" value="600" />
