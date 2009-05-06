@@ -54,8 +54,8 @@
 
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
-    <param name="datasource.username">RICE094DEV</param>
-    <param name="datasource.password">riceisnice</param>
+    <param name="datasource.username">TO FILL IN</param>
+    <param name="datasource.password">TO FILL IN</param>
 -->
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
