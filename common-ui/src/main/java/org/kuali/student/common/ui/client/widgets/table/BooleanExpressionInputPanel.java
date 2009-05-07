@@ -1,12 +1,19 @@
 package org.kuali.student.common.ui.client.widgets.table;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 public class BooleanExpressionInputPanel extends VerticalPanel{
+    Button applyButton = new Button("Apply");
+    Hyperlink editLink = new Hyperlink("Edit", "");
 
+    
     TextBox textBox = new TextBox();
     ExpressionParser parser = new ExpressionParser();
     BooleanExpressionEditorModel ruleEditorModel;
@@ -17,12 +24,23 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
     
     public BooleanExpressionInputPanel(BooleanExpressionEditorModel m){
         textBox.setPixelSize(600, 30);
-        
-        this.add(textBox);
+        applyButton.setEnabled(false);
+        //this.add(textBox);
         this.add(errorMessage);
         this.add(expressionFromTableEditor);
+        this.add(editLink);
+        this.add(applyButton);
         
         ruleEditorModel = m;
+        
+        editLink.addClickHandler(new ClickHandler(){
+            @Override
+            public void onClick(ClickEvent event) {
+                
+            }
+            
+        });
+        
         textBox.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
@@ -42,7 +60,9 @@ public class BooleanExpressionInputPanel extends VerticalPanel{
                 Node root = parser.parse(expression);
                 if (parser.hasError() == false) {
                     ruleEditorModel.setNodeFromExpressionEditor(root);
+                    applyButton.setEnabled(true);
                 }else{
+                    applyButton.setEnabled(false);
                     displayError();
                 }
             }
