@@ -40,6 +40,7 @@ public class ReqCompTypes {
 	}
 		
 	public enum CustomReqComponentType {
+		COURSE_LIST_NONE("kuali.reqCompType.courseList.none"),
 		COURSE_LIST_ALL("kuali.reqCompType.courseList.all"),
 		COURSE_LIST_NOF("kuali.reqCompType.courseList.nof"),
 		COURSE_LIST_1OF2("kuali.reqCompType.courseList.1of2"),

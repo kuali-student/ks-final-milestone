@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
@@ -28,11 +29,13 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -64,6 +67,7 @@ import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentFieldType;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.springframework.beans.BeanUtils;
 
 public class LuServiceAssembler extends BaseAssembler {
@@ -433,6 +437,57 @@ public class LuServiceAssembler extends BaseAssembler {
         return stmt;
     }
 
+    public static LuStatement toLuStatementRelation(LuNlStatementInfo stmtInfo, LuDao luDao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException, OperationFailedException {
+    	LuStatement stmt = new LuStatement();
+    	stmt.setName(stmtInfo.getName());
+    	stmt.setOperator(stmtInfo.getOperator());
+    	if(stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
+        	List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
+    		for(ReqComponentInfo rc : stmtInfo.getRequiredComponents()) {
+    	    	ReqComponent reqComp = toReqComponentRelation(false, rc, luDao);
+    	    	reqCompList.add(reqComp);
+    		}
+        	stmt.setRequiredComponents(reqCompList);
+    	} else {
+    		createStatement(stmtInfo, stmt, luDao);
+    	}
+    	
+    	return stmt;
+    }
+    
+    private static void createStatement(LuNlStatementInfo stmtInfo, LuStatement rootLuStatement, LuDao luDao) 
+    	throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+		if (stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
+			rootLuStatement.setRequiredComponents(rootLuStatement.getRequiredComponents());
+			return;
+		}
+
+		for(Iterator<LuNlStatementInfo> it = stmtInfo.getChildren().iterator(); it.hasNext();) {
+			LuNlStatementInfo luNlStmt = it.next();
+			LuStatement stmt = new LuStatement();
+			stmt.setName(luNlStmt.getName());
+			stmt.setParent(rootLuStatement);
+			stmt.setOperator(luNlStmt.getOperator());
+			rootLuStatement.getChildren().add(stmt);
+			if (luNlStmt.getChildren() == null || luNlStmt.getChildren().isEmpty()) {
+				List<ReqComponent> children = getReqComponents(luNlStmt.getRequiredComponents(), luDao);
+				stmt.setRequiredComponents(children);
+			} else {
+				createStatement(luNlStmt, stmt, luDao);
+			}
+		}
+    }
+    
+    private static List<ReqComponent> getReqComponents(List<ReqComponentInfo> reqComponentInfoList, LuDao luDao)
+    	throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+    	List<ReqComponent> list = new ArrayList<ReqComponent>();
+    	for(ReqComponentInfo reqCompInfo : reqComponentInfoList) {
+	    	ReqComponent reqComp = toReqComponentRelation(false, reqCompInfo, luDao);
+	    	list.add(reqComp);
+    	}
+    	return list;
+    }
+    
 	public static LuStatementTypeInfo toLuStatementTypeInfo(LuStatementType entity) {
         LuStatementTypeInfo stmtTypeInfo = toGenericTypeInfo(LuStatementTypeInfo.class, entity);
         

@@ -79,6 +79,9 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
         ReqCompTypes.CustomReqComponentType type = ReqCompTypes.CustomReqComponentType.valueOfKey(reqComponentType);
         
         switch (type) {
+            case COURSE_LIST_NONE:
+                createContextMap(reqComponent, velocityContextMap);
+                break;
             case COURSE_LIST_ALL:
                 createContextMap(reqComponent, velocityContextMap);
                 break;

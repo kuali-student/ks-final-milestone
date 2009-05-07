@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -28,8 +29,10 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
+import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -249,7 +252,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = client.getReqComponentTypes();
 
         assertNotNull(reqCompTypeInfoList);
-        assertEquals(5, reqCompTypeInfoList.size());
+        assertEquals(6, reqCompTypeInfoList.size());
 
         ReqComponentTypeInfo rqt = null;
 
@@ -624,4 +627,229 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals("Student needs a minimum GPA of 3.5", nl);
     }
 	
+	@Test
+	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String naturalLanguage = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForReqComponentInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+        ReqComponentInfo reqCompInfo = client.getReqComponent("REQCOMP-NL-1");
+		String naturalLanguage = client.getNaturalLanguageForReqComponentInfo(reqCompInfo, "KUALI.CATALOG");
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-5", "KUALI.CATALOG");
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+	}
+	
+	private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String cluSetId) {
+		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
+		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
+		field1.setId("reqCompFieldType.requiredCount");
+		field1.setValue(expectedValue);
+		fieldList.add(field1);
+		
+		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
+		field2.setId("reqCompFieldType.operator");
+		field2.setValue(operator);
+		fieldList.add(field2);
+		
+		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
+		field3.setId("reqCompFieldType.cluSet");
+		field3.setValue(cluSetId);
+		fieldList.add(field3);
+		
+		return fieldList;
+    }
+
+	private ReqComponentInfo createReqComponent(String reqComponentType, List<ReqCompFieldInfo> fieldList) throws DoesNotExistException {
+		ReqComponentTypeInfo reqCompType = new ReqComponentTypeInfo();
+		reqCompType.setId(reqComponentType);
+
+		ReqComponentInfo reqComp = new ReqComponentInfo();
+		reqComp.setReqCompField(fieldList);
+		reqComp.setType(reqComponentType);
+		
+		return reqComp;
+    }
+
+	@Test
+	public void testGetNaturalLanguageForLuStatementInfo_Simple() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+		LuNlStatementInfo statementInfo = new LuNlStatementInfo();
+		statementInfo.setOperator(StatementOperatorTypeKey.OR);
+
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
+		reqComp1.setId("req-1");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
+		reqComp2.setId("req-2");
+		
+		statementInfo.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
+		
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", statementInfo, "KUALI.CATALOG");
+
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForLuStatementInfo_Complex1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+		//Rule: ((R1 OR R2) AND R3) OR R4
+		LuNlStatementInfo s1 = new LuNlStatementInfo();
+		s1.setName("s1");
+		s1.setOperator(StatementOperatorTypeKey.OR);
+
+		LuNlStatementInfo s2 = new LuNlStatementInfo();
+		s2.setName("s2");
+		s2.setOperator(StatementOperatorTypeKey.AND);
+
+		LuNlStatementInfo s3 = new LuNlStatementInfo();
+		s3.setName("s3");
+		s3.setOperator(StatementOperatorTypeKey.OR);
+
+		LuNlStatementInfo s4 = new LuNlStatementInfo();
+		s4.setName("s4");
+		s4.setOperator(StatementOperatorTypeKey.AND);
+
+		s2.setChildren(Arrays.asList(s3, s4));
+
+		LuNlStatementInfo s5 = new LuNlStatementInfo();
+		s5.setName("s5");
+		s5.setOperator(StatementOperatorTypeKey.AND);
+
+		s1.setChildren(Arrays.asList(s2, s5));
+		
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("0", "greater_than_or_equal_to", "CLUSET-NL-1");
+		ReqComponentInfo r1 = createReqComponent("kuali.reqCompType.courseList.none", fieldList1);
+		r1.setId("req-1");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("3", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo r2 = createReqComponent("kuali.reqCompType.courseList.all", fieldList2);
+		r2.setId("req-2");
+		List<ReqCompFieldInfo> fieldList3 = createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo r3 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList3);
+		r3.setId("req-3");
+		List<ReqCompFieldInfo> fieldList4 = createReqComponentFields("4", "greater_than_or_equal_to", "CLUSET-NL-3");
+		ReqComponentInfo r4 = createReqComponent("kuali.reqCompType.courseList.all", fieldList4);
+		r4.setId("req-4");
+		
+		s3.setRequiredComponents(Arrays.asList(r1, r2));
+		s4.setRequiredComponents(Arrays.asList(r3));
+		s5.setRequiredComponents(Arrays.asList(r4));
+		
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", s1, "KUALI.CATALOG");
+
+		assertEquals("((Student must have completed none of MATH 152, MATH 180 " +
+				"OR Student must have completed all of MATH 152, MATH 221, MATH 180) " +
+				"AND Student must have completed 2 of MATH 152, MATH 221, MATH 180) " +
+				"OR Student must have completed all of MATH 221, MATH 180, MATH 200, MATH 215", naturalLanguage);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForLuStatementInfo_Complex2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+		//Rule: ((R1 OR R2) AND (R3 OR R4)) OR R5 OR (R6 AND (R7 OR R8))
+		LuNlStatementInfo s1 = new LuNlStatementInfo();
+		s1.setName("s1");
+		s1.setOperator(StatementOperatorTypeKey.OR);
+
+		LuNlStatementInfo s2 = new LuNlStatementInfo();
+		s2.setName("s2");
+		s2.setOperator(StatementOperatorTypeKey.AND);
+
+		LuNlStatementInfo s3 = new LuNlStatementInfo();
+		s3.setName("s3");
+		s3.setOperator(StatementOperatorTypeKey.OR);
+
+		LuNlStatementInfo s4 = new LuNlStatementInfo();
+		s4.setName("s4");
+		s4.setOperator(StatementOperatorTypeKey.OR);
+
+		s2.setChildren(Arrays.asList(s3, s4));
+
+		LuNlStatementInfo s5 = new LuNlStatementInfo();
+		s5.setName("s5");
+		s5.setOperator(StatementOperatorTypeKey.AND);
+
+		LuNlStatementInfo s6 = new LuNlStatementInfo();
+		s6.setName("s6");
+		s6.setOperator(StatementOperatorTypeKey.AND);
+		
+		s1.setChildren(Arrays.asList(s2, s5, s6));
+
+		LuNlStatementInfo s7 = new LuNlStatementInfo();
+		s7.setName("s7");
+		s7.setOperator(StatementOperatorTypeKey.AND);
+		
+		LuNlStatementInfo s8 = new LuNlStatementInfo();
+		s8.setName("s8");
+		s8.setOperator(StatementOperatorTypeKey.OR);
+		
+		s6.setChildren(Arrays.asList(s7, s8));
+
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("0", "greater_than_or_equal_to", "CLUSET-NL-1");
+		ReqComponentInfo r1 = createReqComponent("kuali.reqCompType.courseList.none", fieldList1);
+		r1.setId("req-1");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		ReqComponentInfo r2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
+		r2.setId("req-2");
+		List<ReqCompFieldInfo> fieldList3 = createReqComponentFields("0", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo r3 = createReqComponent("kuali.reqCompType.courseList.none", fieldList3);
+		r3.setId("req-3");
+		List<ReqCompFieldInfo> fieldList4 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo r4 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList4);
+		r4.setId("req-4");
+		List<ReqCompFieldInfo> fieldList5 = createReqComponentFields("3", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo r5 = createReqComponent("kuali.reqCompType.courseList.all", fieldList5);
+		r5.setId("req-5");
+		List<ReqCompFieldInfo> fieldList6 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-3");
+		ReqComponentInfo r6 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList6);
+		r6.setId("req-6");
+		List<ReqCompFieldInfo> fieldList7 = createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		ReqComponentInfo r7 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList7);
+		r7.setId("req-7");
+		List<ReqCompFieldInfo> fieldList8 = createReqComponentFields("4", "greater_than_or_equal_to", "CLUSET-NL-3");
+		ReqComponentInfo r8 = createReqComponent("kuali.reqCompType.courseList.all", fieldList8);
+		r8.setId("req-8");
+		
+		s3.setRequiredComponents(Arrays.asList(r1, r2));
+		s4.setRequiredComponents(Arrays.asList(r3, r4));
+		s5.setRequiredComponents(Arrays.asList(r5));
+		s7.setRequiredComponents(Arrays.asList(r6));
+		s8.setRequiredComponents(Arrays.asList(r7, r8));
+		
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", s1, "KUALI.CATALOG");
+
+		assertEquals("((Student must have completed none of MATH 152, MATH 180 " +
+				"OR Student must have completed 1 of MATH 152, MATH 180) " +
+				"AND (Student must have completed none of MATH 152, MATH 221, MATH 180 " +
+				"OR Student must have completed 1 of MATH 152, MATH 221, MATH 180)) " +
+				"OR Student must have completed all of MATH 152, MATH 221, MATH 180 " +
+				"OR (Student must have completed 1 of MATH 221, MATH 180, MATH 200, MATH 215 " +
+				"AND (Student must have completed 2 of MATH 152, MATH 221, MATH 180 " +
+				"OR Student must have completed all of MATH 221, MATH 180, MATH 200, MATH 215))", naturalLanguage);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForStatementAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
+		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementAsTree("someid", "STMT-5", "KUALI.CATALOG");
+
+		assertEquals("STMT-5", rootNode.getId());
+		assertEquals("R1 OR R2", rootNode.getBooleanExpression());
+		assertEquals(2, rootNode.getChildNodes().size());
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
+	}
+
+	@Test
+	public void testGetNaturalLanguageForStatementInfoAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
+		LuStatementInfo statementInfo = client.getLuStatement("STMT-5");
+		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementInfoAsTree("someid", statementInfo, "KUALI.CATALOG");
+
+		assertEquals("STMT-5", rootNode.getId());
+		assertEquals("R1 OR R2", rootNode.getBooleanExpression());
+		assertEquals(2, rootNode.getChildNodes().size());
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
+	}
 }

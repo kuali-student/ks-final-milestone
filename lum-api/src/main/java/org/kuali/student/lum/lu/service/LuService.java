@@ -46,6 +46,7 @@ import org.kuali.student.lum.lu.dto.LrTypeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -225,7 +226,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey) 
+	public String getNaturalLanguageForLuStatementInfo(@WebParam(name="cluId")String cluId, @WebParam(name="statementInfo")LuNlStatementInfo statementInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException;
     
     /**
@@ -269,7 +270,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException Missing cluId, statementId or nlUsageTypeKey
 	 * @throws OperationFailedException Translation fails
 	 */
-	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException ;
+	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(@WebParam(name="cluId")String cluId, @WebParam(name="statementId")String statementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException ;
 
 	/**
 	 * Translates a statement for a specific natural language 

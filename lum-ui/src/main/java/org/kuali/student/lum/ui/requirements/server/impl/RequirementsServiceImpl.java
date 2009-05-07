@@ -14,6 +14,7 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
@@ -51,14 +52,14 @@ public class RequirementsServiceImpl implements RequirementsService {
         return naturalLanguage;
     }	
 	    
-    public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
+    public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
                      
         String NLStatement = "";
         try {        
             NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luStatementInfo, nlUsageTypeKey);            
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and luStamentId: " + luStatementInfo.getId(), ex);
+            throw new Exception("Unable to get natural language for clu: " + cluId + " and luStatementName: " + luStatementInfo.getName(), ex);
         }; 
         
         return NLStatement;

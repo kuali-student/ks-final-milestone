@@ -38,7 +38,7 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
         List<ReqComponentType> reqCompTypeList = dao.find(ReqComponentType.class);
         
         assertNotNull(reqCompTypeList);
-        assertEquals(5, reqCompTypeList.size());
+        assertEquals(6, reqCompTypeList.size());
     }
     
     @Test

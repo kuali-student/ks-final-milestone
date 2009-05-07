@@ -3,6 +3,7 @@ package org.kuali.student.lum.ui.requirements.server.gwt;
 import java.util.List;
 
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -33,7 +34,7 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
         return serviceImpl.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey);
     }
     
-    public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
+    public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
         return serviceImpl.getNaturalLanguageForLuStatementInfo(cluId, luStatementInfo, nlUsageTypeKey);
     }
     

@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.naturallanguage;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.After;
@@ -415,6 +414,14 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		stmt1.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
 		
 		NLTranslationNodeInfo root = translator.translateToTree(stmt1, "KUALI.CATALOG");
+
+		Assert.assertEquals("stmt-1", root.getId());
+		Assert.assertEquals(2, root.getChildNodes().size());
+		Assert.assertEquals("req-1", root.getChildNodes().get(0).getId());
+		Assert.assertEquals("req-2", root.getChildNodes().get(1).getId());
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", root.getChildNodes().get(0).getNLTranslation());
+		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getChildNodes().get(1).getNLTranslation());
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getNLTranslation());
 	}
 	
 	@Test

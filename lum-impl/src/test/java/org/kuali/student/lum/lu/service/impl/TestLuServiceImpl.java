@@ -50,12 +50,16 @@ import org.kuali.student.lum.lu.dto.LrTypeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl",testSqlFile="classpath:ks-lu.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -1804,52 +1808,5 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		resultCell = resultCells.get(1);
 		assertEquals("lu.resultColumn.cluOfficialIdentifier", resultCell.getKey());
 		assertEquals("IDENT-1", resultCell.getValue());
-	}
-	
-	@Test
-	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG");
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
-	}
-
-	@Test
-	public void testGetNaturalLanguageForReqComponentInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
-        ReqComponentInfo reqCompInfo = client.getReqComponent("REQCOMP-NL-1");
-		String naturalLanguage = client.getNaturalLanguageForReqComponentInfo(reqCompInfo, "KUALI.CATALOG");
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
-	}
-
-	@Test
-	public void testGetNaturalLanguageForLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-5", "KUALI.CATALOG");
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
-	}
-
-	@Test
-	public void testGetNaturalLanguageForLuStatementInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
-		LuStatementInfo statementInfo = client.getLuStatement("STMT-5");
-		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", statementInfo, "KUALI.CATALOG");
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
-	}
-
-	@Test
-	public void testGetNaturalLanguageForStatementAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
-		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementAsTree("someid", "STMT-5", "KUALI.CATALOG");
-
-		assertEquals("STMT-5", rootNode.getId());
-		assertEquals("R1 OR R2", rootNode.getBooleanExpression());
-		assertEquals(2, rootNode.getChildNodes().size());
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
-	}
-
-	@Test
-	public void testGetNaturalLanguageForStatementInfoAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
-		LuStatementInfo statementInfo = client.getLuStatement("STMT-5");
-		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementInfoAsTree("someid", statementInfo, "KUALI.CATALOG");
-
-		assertEquals("STMT-5", rootNode.getId());
-		assertEquals("R1 OR R2", rootNode.getBooleanExpression());
-		assertEquals(2, rootNode.getChildNodes().size());
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 }

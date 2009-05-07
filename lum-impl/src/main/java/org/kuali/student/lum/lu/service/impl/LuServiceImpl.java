@@ -51,6 +51,7 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -1396,10 +1397,15 @@ public class LuServiceImpl implements LuService {
 	}
 
 	/**
-	 * Translates a statement for a specific usuage type (context) 
-	 * into natural language.
+	 * <p>Translates a statement for a specific usuage type (context) 
+	 * into natural language.</p>
 	 * 
-	 * @param cluId Clu anchor for statement
+	 * <p>An <code>LuStatementInfo</code> can either have a list of
+	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
+	 * 
+	 * @param cluId Clu id anchor for statement
 	 * @param luStatementId Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
      * @throws DoesNotExistException Statement not found
@@ -1430,10 +1436,15 @@ public class LuServiceImpl implements LuService {
 	}
 	
 	/**
-	 * Translates a statement for a specific usuage type (context) 
-	 * into natural language.
+	 * <p>Translates a statement for a specific usuage type (context) 
+	 * into natural language.</p>
 	 * 
-	 * @param cluId Clu anchor for statement
+	 * <p>An <code>LuNlStatementInfo</code> can either have a list of
+	 * <code>LuNlStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
+	 * 
+	 * @param cluId Clu id anchor for statement
 	 * @param statementInfo Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
      * @throws DoesNotExistException Statement not found
@@ -1443,7 +1454,7 @@ public class LuServiceImpl implements LuService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
-	public String getNaturalLanguageForLuStatementInfo(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey) 
+	public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo statementInfo, String nlUsageTypeKey) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 
 		checkForMissingParameter(cluId, "cluId");
@@ -1455,8 +1466,8 @@ public class LuServiceImpl implements LuService {
 		} else if(nlUsageTypeKey.trim().isEmpty()) {
 			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
 		}
-		
-		LuStatement luStatement = LuServiceAssembler.toLuStatementRelation(false, statementInfo, luDao);
+
+		LuStatement luStatement = LuServiceAssembler.toLuStatementRelation(statementInfo, luDao);
 		String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatement, nlUsageTypeKey);
 
 		return nl;
@@ -1525,6 +1536,11 @@ public class LuServiceImpl implements LuService {
 	 * Translates a statement for a specific natural language 
 	 * usuage type (context) into a natural language tree structure.
 	 * 
+	 * <p>An <code>LuStatementInfo</code> can either have a list of
+	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
+	 * 
 	 * @param cluId Clu anchor
 	 * @param statementId Statement to translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
@@ -1552,6 +1568,11 @@ public class LuServiceImpl implements LuService {
 	/**
 	 * Translates a statement for a specific natural language 
 	 * usuage type (context) into a natural language tree structure.
+	 * 
+	 * <p>An <code>LuStatementInfo</code> can either have a list of
+	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
 	 * 
 	 * @param cluId Clu anchor
 	 * @param statement Statement to translated

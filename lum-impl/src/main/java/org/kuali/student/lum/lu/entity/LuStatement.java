@@ -51,11 +51,11 @@ public class LuStatement extends MetaEntity implements AttributeOwner<LuStatemen
     private LuStatement parent;
 
     @OneToMany(mappedBy = "parent")
-    private List<LuStatement> children;
+    private List<LuStatement> children = new ArrayList<LuStatement>();
 
     @ManyToMany
     @JoinTable(name = "KSLU_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "LU_STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
-    private List<ReqComponent> requiredComponents;
+    private List<ReqComponent> requiredComponents = new ArrayList<ReqComponent>();
 
     @ManyToOne
     @JoinColumn(name = "LU_STMT_TYPE_ID")
