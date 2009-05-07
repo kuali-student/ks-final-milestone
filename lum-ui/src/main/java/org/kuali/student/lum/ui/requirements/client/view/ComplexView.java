@@ -283,7 +283,7 @@ public class ComplexView extends ViewComposite {
             public void onClick(ClickEvent event) {
                 Object[] temp = model.getValues().toArray();
                 PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                prereqInfo.deGroup();
+                prereqInfo.deleteItem();
                 redraw();
             }
         });

@@ -496,6 +496,14 @@ public class StatementVO extends Token implements Serializable {
         return getReqComponentVOCount() + getStatementVOCount();
     }
     
+    public boolean isWrapperStatementVO() {
+        boolean result = false;
+        if (getReqComponentVOCount() == 1 && getStatementVOCount() == 0) {
+            result = true;
+        }
+        return result;
+    }
+    
     public String getPrintableStatement() {
         StringBuilder sbResult = null;
         Map<String, ReqComponentVO> reqComponentMap = new HashMap<String, ReqComponentVO>();

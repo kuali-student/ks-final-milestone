@@ -147,6 +147,12 @@ public class PrereqInfo implements Idable {
             enclosingStatementVO.removeReqComponentVO(selectedReqComponentVO);
             newStatementVO.addReqComponentVO(selectedReqComponentVO);
         }
+        // remove the selected StatementVOs from original statement and move them into
+        // the new StatementVO
+        for (StatementVO selectedStatementVO : selectedStatementVOs) {
+            enclosingStatementVO.removeStatementVO(selectedStatementVO);
+            newStatementVO.addStatementVO(selectedStatementVO);
+        }
         enclosingStatementVO.addStatementVO(newStatementVO);
     }
     
@@ -168,6 +174,12 @@ public class PrereqInfo implements Idable {
             enclosingStatementVO.removeReqComponentVO(selectedReqComponentVO);
             newStatementVO.addReqComponentVO(selectedReqComponentVO);
         }
+        // remove the selected StatementVOs from original statement and move them into
+        // the new StatementVO
+        for (StatementVO selectedStatementVO : selectedStatementVOs) {
+            enclosingStatementVO.removeStatementVO(selectedStatementVO);
+            newStatementVO.addStatementVO(selectedStatementVO);
+        }
         enclosingStatementVO.addStatementVO(newStatementVO);
     }
     
@@ -181,30 +193,70 @@ public class PrereqInfo implements Idable {
             List<StatementVO> selectedStatementVOs,
             List<ReqComponentVO> selectedReqComponentVOs) {
         boolean degroupAble = false;
-        // Only statements are selected
-        if (selectedStatementVOs != null && !selectedStatementVOs.isEmpty() &&
-                (selectedReqComponentVOs == null || selectedReqComponentVOs.isEmpty())) {
-            boolean selectedRootStatementVO = false;
-            // root statement should not be selected
-            for (StatementVO selectedStatement : selectedStatementVOs) {
-                if (selectedStatement == this.statementVO) {
-                    selectedRootStatementVO = true;
-                    break;
+        boolean selectedRootStatementVO = false;
+        boolean otherItemsExist = false;
+        // at least one item is selected
+        if ((selectedStatementVOs != null && !selectedStatementVOs.isEmpty()) || 
+                (selectedReqComponentVOs != null && !selectedReqComponentVOs.isEmpty())) {
+            degroupAble = true;
+        }
+        
+        // root statement should not be selected if there are other items.
+        for (StatementVO selectedStatement : selectedStatementVOs) {
+            if (selectedStatement == this.statementVO) {
+                selectedRootStatementVO = true;
+                break;
+            }
+        }
+        otherItemsExist = this.statementVO.getChildCount() > 0;
+        if (selectedRootStatementVO && otherItemsExist) {
+            degroupAble = degroupAble && false;
+        } else{
+            degroupAble = degroupAble && true;
+        }
+        
+        // must leave at least 2 children in a group unselected.
+        for (ReqComponentVO selectedRC : selectedReqComponentVOs) {
+            StatementVO parentStatementVO = 
+                this.statementVO.getEnclosingStatementVO(this.statementVO,
+                        selectedRC);
+            int numSelectedChildren = 0;
+            if (parentStatementVO.getStatementVOCount() > 0) {
+                for (StatementVO subStatementVO : 
+                    parentStatementVO.getStatementVOs()) {
+                    if (subStatementVO.isWrapperStatementVO() &&
+                            subStatementVO.getReqComponentVOs().get(0).isCheckBoxOn()) {
+                        numSelectedChildren++;
+                    } else if (subStatementVO.isCheckBoxOn()) {
+                        numSelectedChildren++;
+                    }
+                }
+            } else if (parentStatementVO.getReqComponentVOCount() > 0) {
+                for (ReqComponentVO rcVO : parentStatementVO.getReqComponentVOs()) {
+                    if (rcVO.isCheckBoxOn()) {
+                        numSelectedChildren++;
+                    }
                 }
             }
-            if (selectedRootStatementVO) {
-                degroupAble = false;
-            } else{
-                degroupAble = true;
+            if (parentStatementVO.getChildCount() - numSelectedChildren > 1) {
+                degroupAble = degroupAble && true;
+            } else {
+                degroupAble = degroupAble && false;
             }
         }
         return degroupAble;
     }
     
-    public void deGroup() {
+    public void deleteItem() {
         List<StatementVO> selectedStatmentVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
         if (!statementVOIsDegroupAble(selectedStatmentVOs, selectedReqComponentVOs)) return;
+        for (ReqComponentVO selectedReqComponent : selectedReqComponentVOs) {
+            StatementVO parentStatementVO = null;
+            parentStatementVO =
+                this.statementVO.getEnclosingStatementVO(this.statementVO, selectedReqComponent);
+            parentStatementVO.removeReqComponentVO(selectedReqComponent);
+        }
         for (StatementVO selectedStatement : selectedStatmentVOs) {
             StatementVO parentStatementVO = null; 
             parentStatementVO = 
@@ -219,6 +271,31 @@ public class PrereqInfo implements Idable {
                 } else if (selectedStatement.getReqComponentVOCount() > 0) {
                     for (ReqComponentVO leafReqComponent : selectedStatement.getReqComponentVOs()) {
                         parentStatementVO.addReqComponentVO(leafReqComponent);
+                    }
+                }
+                // clean up wrapper statements
+                if (parentStatementVO.getStatementVOCount() > 0 &&
+                        parentStatementVO.getReqComponentVOCount() == 0) {
+                    boolean allStatementsWrapped = true;
+                    List<ReqComponentVO> wrappedRCs = new ArrayList<ReqComponentVO>();
+                    for (StatementVO subStatementVO : 
+                        parentStatementVO.getStatementVOs()) {
+                        if (subStatementVO.isWrapperStatementVO()) {
+                            wrappedRCs.add(subStatementVO.getReqComponentVOs().get(0));
+                        } else {
+                            allStatementsWrapped = false;
+                            break;
+                        }
+                    }
+                    if (allStatementsWrapped) {
+                        List<StatementVO> tempStatementVOs =
+                            new ArrayList<StatementVO>(parentStatementVO.getStatementVOs());
+                        for (StatementVO subStatementVO : tempStatementVOs) {
+                            parentStatementVO.removeStatementVO(subStatementVO);
+                        }
+                        for (ReqComponentVO wrappedReqComponentVO : wrappedRCs) {
+                            parentStatementVO.addReqComponentVO(wrappedReqComponentVO);
+                        }
                     }
                 }
             }

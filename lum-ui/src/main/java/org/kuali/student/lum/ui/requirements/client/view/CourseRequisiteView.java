@@ -70,6 +70,8 @@ public class CourseRequisiteView extends ViewComposite {
                     public void onSuccess(final StatementVO statementVO) {
                         prereqInfo.setStatementVO(statementVO);
                         setPrereqInfo(prereqInfo);                    
+                        prereqInfo.setNaturalLanguage("");
+                        layoutMainPanel(viewPanel);
 
                         /*RequirementsService.Util.getInstance().getNaturalLanguageForLuStatementInfo(courseData.get(getCourseId()).getId(), statementVO.getLuStatementInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
                             public void onFailure(Throwable caught) {
