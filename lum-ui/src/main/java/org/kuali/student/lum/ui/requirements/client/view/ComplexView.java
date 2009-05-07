@@ -39,12 +39,12 @@ public class ComplexView extends ViewComposite {
     VerticalPanel complexView = new VerticalPanel();
     private KSLabel linkToSimpleView = new KSLabel("Simple Rules");    
     private KSButton btnAddRule = new KSButton("+ Add new rule");
-    private KSButton btnaddAND = new KSButton("AND");
-    private KSButton btnaddOR = new KSButton("OR");
+    private KSButton btnAddAND = new KSButton("AND");
+    private KSButton btnAddOR = new KSButton("OR");
     private KSButton btnAddToGroup = new KSButton("Add to group");
     private KSButton btnUndo = new KSButton("Undo");
     private KSButton btnRedo = new KSButton("Redo");
-    private KSButton btnDeleteRule = new KSButton("Delete");
+    private KSButton btnDelete = new KSButton("Delete");
     private KSButton btnDuplicateRule = new KSButton("Duplicate Rule");
     private KSButton btnMoveRuleDown = new KSButton();
     private KSButton btnMoveRuleUp = new KSButton();
@@ -237,7 +237,9 @@ public class ComplexView extends ViewComposite {
                 if (selectedReqCompVO != null) {
                     Object[] temp = model.getValues().toArray();
                     PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                    StatementVO enclosingStatementVO = prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
+                    StatementVO enclosingStatementVO = 
+                        prereqInfo.getStatementVO().getEnclosingStatementVO(
+                                prereqInfo.getStatementVO(), selectedReqCompVO);
                     enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
                     redraw();
                 } */
@@ -250,10 +252,39 @@ public class ComplexView extends ViewComposite {
                 if (selectedReqCompVO != null) {
                     Object[] temp = model.getValues().toArray();
                     PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                    StatementVO enclosingStatementVO = prereqInfo.getStatementVO().getEnclosingStatementVO(selectedReqCompVO);
+                    StatementVO enclosingStatementVO = 
+                        prereqInfo.getStatementVO().getEnclosingStatementVO(
+                                prereqInfo.getStatementVO(), selectedReqCompVO);
                     enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
                     redraw();
                 } */
+            }
+        });
+        
+        btnAddOR.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                Object[] temp = model.getValues().toArray();
+                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                prereqInfo.insertOR();
+                redraw();
+            }
+        });
+        
+        btnAddAND.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                Object[] temp = model.getValues().toArray();
+                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                prereqInfo.insertAND();
+                redraw();
+            }
+        });
+        
+        btnDelete.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                Object[] temp = model.getValues().toArray();
+                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                prereqInfo.deGroup();
+                redraw();
             }
         });
     }
@@ -277,10 +308,10 @@ public class ComplexView extends ViewComposite {
         SimplePanel spacer1 = new SimplePanel();
         spacer1.setWidth("30px");
         topButtonsPanel.add(spacer1);       
-        btnaddAND.addStyleName("KS-Rules-Tight-Grey-Button");
-        topButtonsPanel.add(btnaddAND);   
-        btnaddOR.addStyleName("KS-Rules-Tight-Grey-Button");        
-        topButtonsPanel.add(btnaddOR);        
+        btnAddAND.addStyleName("KS-Rules-Tight-Grey-Button");
+        topButtonsPanel.add(btnAddAND);   
+        btnAddOR.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnAddOR);        
         btnAddToGroup.addStyleName("KS-Rules-Tight-Grey-Button");        
         topButtonsPanel.add(btnAddToGroup);
         SimplePanel spacer2 = new SimplePanel();
@@ -293,8 +324,8 @@ public class ComplexView extends ViewComposite {
         SimplePanel spacer3 = new SimplePanel();
         spacer3.setWidth("30px");
         topButtonsPanel.add(spacer3);         
-        btnDeleteRule.addStyleName("KS-Rules-Tight-Grey-Button");        
-        topButtonsPanel.add(btnDeleteRule);        
+        btnDelete.addStyleName("KS-Rules-Tight-Grey-Button");        
+        topButtonsPanel.add(btnDelete);        
         complexView.add(topButtonsPanel);        
         
         SimplePanel verticalSpacer = new SimplePanel();
@@ -342,19 +373,20 @@ public class ComplexView extends ViewComposite {
     private void updateRulesTable() {
         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);               
 
-        btnaddAND.setEnabled(false);  
-        btnaddOR.setEnabled(false);  
+        btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
+        btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
         btnAddToGroup.setEnabled(false);  
         btnUndo.setEnabled(false);  
         btnRedo.setEnabled(false);          
         btnDuplicateRule.setEnabled(false);        
         btnAddRule.setEnabled(true);
-        btnDeleteRule.setEnabled(false);
+        btnDelete.setEnabled(prereqInfo.statementVOIsDegroupAble());
         btnDuplicateRule.setEnabled(false); 
-        btnSaveRule.setEnabled(false); 
-        
+        btnSaveRule.setEnabled(false);
         ruleTable.clear();
         if (prereqInfo != null) {
+            System.out.println("statement is: " +
+                    prereqInfo.getStatementVO().getPrintableStatement());
             Node tree = prereqInfo.getStatementTree();
             
             if (tree != null) {

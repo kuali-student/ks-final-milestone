@@ -77,5 +77,10 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
     public void setId(String id) {
         this.id = id;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
+
 }

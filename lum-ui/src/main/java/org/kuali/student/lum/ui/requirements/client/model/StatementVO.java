@@ -3,7 +3,9 @@ package org.kuali.student.lum.ui.requirements.client.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
@@ -81,9 +83,9 @@ public class StatementVO extends Token implements Serializable {
      * @param reqComponentVO
      * @return
      */
-    public StatementVO getEnclosingStatementVO(ReqComponentVO reqComponentVO) {
+    public StatementVO getEnclosingStatementVO(StatementVO root, ReqComponentVO reqComponentVO) {
         StatementVO result = null;
-        result = doGetEnclosingStatementVO(this, reqComponentVO);
+        result = doGetEnclosingStatementVO(root, reqComponentVO);
         return result;
     }
     
@@ -97,16 +99,25 @@ public class StatementVO extends Token implements Serializable {
         
         if (statementVOs != null && !statementVOs.isEmpty()) {
             for (StatementVO subStatementVO : statementVOs) {
-                result = doGetEnclosingStatementVO(subStatementVO, reqComponentVO);
-                // found the enclosing statement exit
-                if (result != null) {
-                    break;
+                List<ReqComponentVO>subStatementReqComponentVOs = subStatementVO.getReqComponentVOs();
+                if (subStatementReqComponentVOs.size() == 1) {
+                    if (subStatementReqComponentVOs.get(0) == reqComponentVO) {
+                        result = statementVO;
+                        break;
+                    }
+                }
+                else {
+                    result = doGetEnclosingStatementVO(subStatementVO, reqComponentVO);
+                    // found the enclosing statement exit
+                    if (result != null) {
+                        break;
+                    }
                 }
             }
         } else if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
             for (ReqComponentVO leafReqComponentVO : reqComponentVOs) {
                 if (leafReqComponentVO == reqComponentVO) {
-                    result = this;
+                    result = statementVO;
                     break;
                 }
             }
@@ -114,30 +125,158 @@ public class StatementVO extends Token implements Serializable {
         return result;
     }
     
-    public void addStatementVO(StatementVO statementVO) {
+    public StatementVO getParentStatementVO(StatementVO root, StatementVO nodeStatement) {
+        StatementVO parentStatementVO = null;
+        if (nodeStatement == root) {
+            parentStatementVO = null;
+        } else {
+            parentStatementVO = doGetParentStatementVO(root, nodeStatement);
+        }
+        return parentStatementVO;
+    }
+    
+    private StatementVO doGetParentStatementVO(StatementVO statementVO, StatementVO nodeStatement) {
+        StatementVO parentStatementVO = null;
+        if (statementVO.getStatementVOCount() > 0) {
+            for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
+                if (childStatementVO == nodeStatement) {
+                    return statementVO;
+                } else {
+                    parentStatementVO = doGetParentStatementVO(childStatementVO, nodeStatement);
+                }
+            }
+        }
+        return parentStatementVO;
+    }
+    
+    /**
+     * returns the number of leaf requirement componentVO of the this statement
+     * excluding those compound sub statements.
+     * e.g. if this method is called on S1, the return value will be 2. 
+     * <pre>
+     *                    S1:OR
+     *           S2:OR    S3:OR   S4:AND
+     *             a        b     c d e
+     * </pre>
+     * @return
+     */
+    public int getImmediateChildReqComponentCount() {
+        int result = 0;
         if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
-            throw new java.lang.IllegalArgumentException(
-                    "A statement cannot contain both Requirement " +
-                    "component and statement");
+            result = reqComponentVOs.size();
+        } else if (statementVOs != null && !statementVOs.isEmpty()) {
+            for (StatementVO subStatementVO : statementVOs) {
+                List<ReqComponentVO> subStatementReqComponentVOs =
+                    subStatementVO.getReqComponentVOs();
+                if (subStatementReqComponentVOs != null &&
+                        subStatementReqComponentVOs.size() == 1) {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+    
+    private void validate() {
+        if (statementVOs != null && !statementVOs.isEmpty() &&
+                reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
+            throw new java.lang.IllegalStateException(
+                    "Requirement components and statements can not exist together in a statement");
+        }
+        checkDuplicateRC(this, new ArrayList<ReqComponentVO>());
+    }
+    
+    private void checkDuplicateRC(StatementVO statementVO, List<ReqComponentVO> seenRCs) {
+        if (statementVO.getStatementVOs() != null &&
+                !statementVO.getStatementVOs().isEmpty()) {
+            for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
+                checkDuplicateRC(childStatementVO, seenRCs);
+            }
+        } else {
+            if (statementVO.getReqComponentVOs() != null &&
+                    !statementVO.getReqComponentVOs().isEmpty()) {
+                for (ReqComponentVO childReqComponent : statementVO.getReqComponentVOs()) {
+                    if (seenRCs.contains(childReqComponent)) {
+                        throw new java.lang.IllegalStateException(
+                                "statement and sub statements cannot have duplicated components");
+                    } else {
+                        seenRCs.add(childReqComponent);
+                    }
+                }
+            }
+        }
+    }
+    
+    public void addStatementVO(StatementVO statementVO) {
+        doAddStatementVO(statementVO);
+        validate();
+    }
+    
+    private void doAddStatementVO(StatementVO statementVO) {
+        // if there are currently requirement components in this StatementVO
+        // move all the existing requirement components into separate wrapping 
+        // StatementVOs
+        if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
+            List<ReqComponentVO> tempReqComponentVOs = 
+                new ArrayList<ReqComponentVO>(reqComponentVOs);
+            for (ReqComponentVO currReqComponentVO : tempReqComponentVOs) {
+                StatementVO wrapStatementVO = new StatementVO(luStatementInfo);
+                wrapStatementVO.addReqComponentVO(currReqComponentVO);
+                reqComponentVOs.remove(currReqComponentVO);
+                statementVOs.add(wrapStatementVO);
+            }
         }
         statementVOs.add(statementVO);
     }
     
     public void addReqComponentVO(ReqComponentVO reqComponentVO) {
+        doAddReqComponentVO(reqComponentVO);
+        validate();
+    }
+    
+    private void doAddReqComponentVO(ReqComponentVO reqComponentVO) {
+        // if there are sub statements in this statement already
+        // add a new sub statement with the same operator as this statement
+        // and a the requirement component
         if (statementVOs != null && !statementVOs.isEmpty()) {
-            throw new java.lang.IllegalArgumentException(
-                    "A statement cannot contain both Requirement " +
-                    "component and statement");
+            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+            StatementVO newStatementVO = new StatementVO();
+            newLuStatementInfo.setOperator(luStatementInfo.getOperator());
+            newStatementVO.setLuStatementInfo(newLuStatementInfo);
+            newStatementVO.getReqComponentVOs().add(reqComponentVO);
+            statementVOs.add(newStatementVO);
+        } else {
+            reqComponentVOs.add(reqComponentVO);
         }
-        reqComponentVOs.add(reqComponentVO);
-    }    
+    }
     
     public void removeStatementVO(StatementVO statementVO) {
         statementVOs.remove(statementVO);
+        validate();
     }   
 
     public void removeReqComponentVO(ReqComponentVO reqComponentVO) {
-        reqComponentVOs.remove(reqComponentVO);
+        doRemoveReqComponentVO(reqComponentVO);
+        validate();
+    }
+    
+    private void doRemoveReqComponentVO(ReqComponentVO reqComponentVO) {
+        if (statementVOs != null && !statementVOs.isEmpty()) {
+            List<StatementVO> tempStatementVOs = new ArrayList<StatementVO>(statementVOs);
+            for (StatementVO subStatementVO : tempStatementVOs) {
+                List<ReqComponentVO> subStatementReqComponentVOs = 
+                    (subStatementVO == null)? null : subStatementVO.getReqComponentVOs();
+                if (subStatementReqComponentVOs != null &&
+                        subStatementReqComponentVOs.size() == 1 &&
+                        subStatementReqComponentVOs.get(0) == reqComponentVO) {
+                    subStatementVO.removeReqComponentVO(reqComponentVO);
+                    // cleans up empty statements with neither statements nor requirement components.
+                    statementVOs.remove(subStatementVO);
+                }
+            }
+        } else { 
+            reqComponentVOs.remove(reqComponentVO);
+        }
     }
     
     public LuStatementInfo getLuStatementInfo() {
@@ -165,30 +304,50 @@ public class StatementVO extends Token implements Serializable {
         }
     }
     
-    
-    
     public void shiftReqComponent(String shiftType, 
             final ReqComponentVO reqComponentVO) {
-        int reqComponentIndex = 0;
-        if (reqComponentVOs != null && reqComponentVOs.size() > 1) {
-            for (ReqComponentVO currReqComponentVO :
-                reqComponentVOs) {
-                if (shiftType != null && shiftType.equals("RIGHT")) {
-                    if (currReqComponentVO == reqComponentVO &&
-                            reqComponentIndex + 1 < reqComponentVOs.size()) {
-                        Collections.swap(reqComponentVOs, reqComponentIndex,
-                                reqComponentIndex + 1);
+        if (statementVOs != null && !statementVOs.isEmpty()) {
+            // the statementVO that wraps the reqComponentVO
+            StatementVO reqComponentVOWrap = null;
+            for (StatementVO currStatementVO : statementVOs) {
+                List<ReqComponentVO> currReqComponentVOs =
+                    (currStatementVO == null)? null : 
+                        currStatementVO.getReqComponentVOs();
+                if (currReqComponentVOs != null &&
+                        currReqComponentVOs.size() == 1 &&
+                        currReqComponentVOs.get(0) == reqComponentVO) {
+                    reqComponentVOWrap = currStatementVO;
+                }
+            }
+            if (reqComponentVOWrap != null) {
+                swapElement(statementVOs, reqComponentVOWrap, shiftType);
+            }
+        } else if (reqComponentVOs != null && reqComponentVOs.size() > 1) {
+            swapElement(reqComponentVOs, reqComponentVO, shiftType);
+        }
+    }
+    
+    private <T> void swapElement(List<T> elements, T element, String direction) {
+        int elementIndex = 0;
+        if (elements != null && elements.size() > 1) {
+            for (T currElement :
+                elements) {
+                if (direction != null && direction.equals("RIGHT")) {
+                    if (currElement == element &&
+                            elementIndex + 1 < elements.size()) {
+                        Collections.swap(elements, elementIndex,
+                                elementIndex + 1);
                         break;
                     }
-                } else if (shiftType != null && shiftType.equals("LEFT")) {
-                    if (currReqComponentVO == reqComponentVO &&
-                            reqComponentIndex > 0) {
-                        Collections.swap(reqComponentVOs, reqComponentIndex,
-                                reqComponentIndex - 1);
+                } else if (direction != null && direction.equals("LEFT")) {
+                    if (currElement == element &&
+                            elementIndex > 0) {
+                        Collections.swap(elements, elementIndex,
+                                elementIndex - 1);
                         break;
                     }
                 }
-                reqComponentIndex++;
+                elementIndex++;
             }
         }
     }
@@ -246,10 +405,145 @@ public class StatementVO extends Token implements Serializable {
         }
     }
     
+    public List<StatementVO> getSelectedStatementVOs() {
+        List<StatementVO> selectedStatementVOs = new ArrayList<StatementVO>();
+        return doGetSelectedStatmentVOs(this, selectedStatementVOs);
+    }
+    
+    private List<StatementVO> doGetSelectedStatmentVOs(StatementVO statementVO,
+            List<StatementVO> selectedStatementVOs) {
+        List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
+        if (statementVO.isCheckBoxOn()) {
+            selectedStatementVOs.add(statementVO);
+        }
+        // check children
+        if (childrenStatementVOs != null && !childrenStatementVOs.isEmpty()) {
+            for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
+                doGetSelectedStatmentVOs(childStatementVO, selectedStatementVOs);
+            }
+        }
+        return selectedStatementVOs;
+    }
+    
+    public List<ReqComponentVO> getSelectedReqComponentVOs() {
+        List<ReqComponentVO> selectedReqComponentVOs = new ArrayList<ReqComponentVO>();
+        return doGetSelectedReqComponentVOs(this, selectedReqComponentVOs);
+    }
+    
+    private List<ReqComponentVO> doGetSelectedReqComponentVOs(StatementVO statementVO,
+            List<ReqComponentVO> selectedReqComponentVOs) {
+        List<ReqComponentVO> childernReqComponentVOs = statementVO.getReqComponentVOs();
+        List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
+        if (childernReqComponentVOs != null && !childernReqComponentVOs.isEmpty()) {
+            for (ReqComponentVO childReqComponentVO : childernReqComponentVOs) {
+                if (childReqComponentVO.isCheckBoxOn()) {
+                    selectedReqComponentVOs.add(childReqComponentVO);
+                }
+            }
+        }
+        if (childrenStatementVOs != null && !childrenStatementVOs.isEmpty()) {
+            for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
+                doGetSelectedReqComponentVOs(childStatementVO, selectedReqComponentVOs);
+            }
+        }
+        return selectedReqComponentVOs;
+    }
+    
+    /**
+     * 
+     * @param statementVO
+     * @return
+     */
+    public int getNestingDepth() {
+        return doGetNestingDepth(this);
+    }
+    
+    private int doGetNestingDepth(StatementVO statementVO) {
+        int depth = 0;
+        List<StatementVO> statementVOs = getStatementVOs();
+        if (this == statementVO) {
+            return depth;
+        }
+        if (statementVOs != null && !statementVOs.isEmpty()) {
+            for (StatementVO childStatementVO : statementVOs) {
+                depth = depth + doGetNestingDepth(childStatementVO);
+            }
+        }
+        return depth;
+    }
+    
     @Override
     public String toString() {
         StringBuilder sbResult = new StringBuilder();
         sbResult.append(value);
         return sbResult.toString();
-    }      
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
+    
+    public int getReqComponentVOCount() {
+        return (reqComponentVOs == null)? 0 : reqComponentVOs.size();
+    }
+    
+    public int getStatementVOCount() {
+        return (statementVOs == null)? 0 : statementVOs.size();
+    }
+    
+    public int getChildCount() {
+        return getReqComponentVOCount() + getStatementVOCount();
+    }
+    
+    public String getPrintableStatement() {
+        StringBuilder sbResult = null;
+        Map<String, ReqComponentVO> reqComponentMap = new HashMap<String, ReqComponentVO>();
+        sbResult = doPrintStatement(new StringBuilder(),
+                this, reqComponentMap);
+        return sbResult.toString();
+    }
+    
+    private StringBuilder doPrintStatement(StringBuilder inSbResult, 
+            StatementVO statementVO,
+            Map<String, ReqComponentVO> reqComponentMap) {
+        List<StatementVO> currStatementVOs = (statementVO == null)? null :
+            statementVO.getStatementVOs();
+        List<ReqComponentVO> currReqComponentVOs = (statementVO == null)? null :
+            statementVO.getReqComponentVOs();
+        if (currStatementVOs != null && !currStatementVOs.isEmpty()) {
+            int statementCounter = 0;
+            for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
+                if (statementCounter > 0) {
+                    StatementOperatorTypeKey operator =
+                        (statementVO == null ||
+                                statementVO.getLuStatementInfo() == null)? null :
+                                    statementVO.getLuStatementInfo().getOperator();
+                    inSbResult.append(" " + operator + " ");
+                }
+                inSbResult.append("(");
+                inSbResult.append(doPrintStatement(new StringBuilder(), childStatementVO, reqComponentMap).toString());
+                inSbResult.append(")");
+                statementCounter++;
+            }
+        } else if (currReqComponentVOs != null && !currReqComponentVOs.isEmpty()) {
+            int rcCounter = 0;
+            for (ReqComponentVO childReqComponentInfo : currReqComponentVOs) {
+                String rcId = Integer.toString(reqComponentMap.size());
+                if (rcCounter > 0) {
+                    StatementOperatorTypeKey operator =
+                        (statementVO == null ||
+                                statementVO.getLuStatementInfo() == null)? null :
+                                    statementVO.getLuStatementInfo().getOperator();
+                    inSbResult.append(" " + operator + " ");
+                }
+                reqComponentMap.put(rcId,
+                        childReqComponentInfo);
+                inSbResult.append(rcId);
+                rcCounter++;
+            }
+        }
+        return inSbResult;
+    }
+
 }

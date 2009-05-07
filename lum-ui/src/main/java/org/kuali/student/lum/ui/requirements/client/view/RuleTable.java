@@ -39,7 +39,7 @@ public class RuleTable extends Composite {
     }
     
     public void buildTable(Node root) {
-        root = ExpressionParser.mergeBinaryTree(root);
+//        root = ExpressionParser.mergeBinaryTree(root);
         //root = ExpressionParser.reStructure(root);
         initTable(root);
         buildTable(root, 0);
