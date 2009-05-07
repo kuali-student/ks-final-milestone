@@ -12,16 +12,20 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class RuleTable extends Composite {
 
     private TreeTable treeTable;
+    private SimplePanel simplePanel;
     
     public RuleTable() {
         treeTable = new TreeTable();
-        super.initWidget(treeTable);
+        simplePanel = new SimplePanel();
+        super.initWidget(simplePanel);
+        simplePanel.add(treeTable);
     }
     
     private void initTable(Node root) {
@@ -206,7 +210,10 @@ public class RuleTable extends Composite {
     }
     
     public void clear() {
-        treeTable.clear();
+        treeTable = null;
+        simplePanel.clear();
+        treeTable = new TreeTable();
+        simplePanel.add(treeTable);
     }
 
     
