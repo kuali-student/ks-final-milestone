@@ -50,16 +50,9 @@ import org.kuali.student.lum.lu.dto.LrTypeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl",testSqlFile="classpath:ks-lu.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -1794,7 +1787,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);
 		List<Result> clus = client.searchForResults("lu.search.clus", queryParamValues);
 		assertNotNull(clus);
-		assertEquals(9, clus.size());
+		assertEquals(108, clus.size());
 		Result result = clus.get(0);
 		assertNotNull(result);
 
