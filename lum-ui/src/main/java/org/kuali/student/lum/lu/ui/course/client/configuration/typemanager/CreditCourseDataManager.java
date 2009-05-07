@@ -69,9 +69,7 @@ public  class CreditCourseDataManager {
         personList.add(person2);
 
 
-        ListItems originatorList = buildPersonNameList(personList);
-
-        return originatorList;
+        return buildPersonNameList(personList);
 
     }
 
@@ -105,9 +103,8 @@ public  class CreditCourseDataManager {
         personList.add(person2);
 
 
-        ListItems delegatorList = buildPersonNameList(personList);
+        return buildPersonNameList(personList);
 
-        return delegatorList;
     }
 
     public static ListItems getCurriculumOversights() {
@@ -118,11 +115,15 @@ public  class CreditCourseDataManager {
         CurriculumOversight oversight2 = x.new CurriculumOversight("29", "Graduate");
         CurriculumOversight oversight3 = x.new CurriculumOversight("82", "Extended Studies");
 
-        final List<CurriculumOversight> oversightList = new ArrayList<CurriculumOversight>();
-        oversightList.add(oversight1);
-        oversightList.add(oversight2);
-        oversightList.add(oversight3);
+        final List<CurriculumOversight> result = new ArrayList<CurriculumOversight>();
+        result.add(oversight1);
+        result.add(oversight2);
+        result.add(oversight3);
 
+        final Map<String,CurriculumOversight> ids = new LinkedHashMap<String,CurriculumOversight>();
+        for(CurriculumOversight o : result){
+            ids.put(o.getId(),o);
+        }
 
         ListItems list = new ListItems() {
 
@@ -136,52 +137,34 @@ public  class CreditCourseDataManager {
             @Override
             public String getItemAttribute(String id, String attrkey) {
                 String value = null;
-                for(CurriculumOversight c : oversightList){
-                    if(c.getId().equals(id)){
-                        if(attrkey.equals("Name")){
-                            value = c.getName();
-                        }
-                        break;
-                    }
+                CurriculumOversight c = ids.get(id);
+                if(attrkey.equals("Name")){
+                    value = c.getName();
                 }
                 return value;
             }
 
             @Override
             public int getItemCount() {
-                return oversightList.size();
+                return result.size();
             }
 
             @Override
             public List<String> getItemIds() {
-                List<String> ids = new ArrayList<String>();
-                for(CurriculumOversight c: oversightList){
-                    ids.add(c.getId());
-                }
-                return ids;     
+                return new ArrayList<String>(ids.keySet());   
             }
 
             @Override
             public String getItemText(String id) {
-                String value = null;
-                for(CurriculumOversight c: oversightList){
-                    if(c.getId().equals(id)){
-                        value = c.getName();
-                        break;
-                    }
-                }
-                return value;
+                CurriculumOversight c = ids.get(id);
+                return c.getName();
             }
         };
 
-
         return list;
-
-
     }
 
     public static ListItems getOrganizations() {
-//      CreditCourseDataManager x = new CreditCourseDataManager();
 
         OrgInfo org1 = new OrgInfo();
         org1.setId("9933");
@@ -202,75 +185,10 @@ public  class CreditCourseDataManager {
 //      }
 
 //      public void onSuccess(final List<OrgHierarchyInfo> result) {              
-        final Map<String,String> ids = new LinkedHashMap<String,String>();
-        for(OrgInfo org:result){
-            ids.put(org.getId(),org.getShortName());
+        final Map<String,OrgInfo> ids = new LinkedHashMap<String,OrgInfo>();
+        for(OrgInfo o : result){
+            ids.put(o.getId(),o);
         }
-        ListItems orgList = new ListItems() {
-            @Override
-            public List<String> getAttrKeys() {
-                List<String> attributes = new ArrayList<String>();
-                attributes.add("Name");
-                return attributes;
-            }
-
-            @Override
-            public String getItemAttribute(String id, String attrkey) {
-                String value = null;
-                for(OrgInfo o : result){
-                    if(o.getId().equals(id)){
-                        if(attrkey.equals("Name")){
-                            value = o.getShortName();
-                        }
-                        break;
-                    }
-                }
-                return value;
-            }
-
-            @Override
-            public int getItemCount() {
-                return result.size();
-            }
-
-            @Override
-            public List<String> getItemIds() {
-                List<String> ids = new ArrayList<String>();
-                for(OrgInfo o: result){
-                    ids.add(o.getId());
-                }
-                return ids; 
-            }
-
-            @Override
-            public String getItemText(String id) {
-                String value = null;
-                for(OrgInfo o: result){
-                    if(o.getId().equals(id)){
-                        value = o.getShortName();
-                        break;
-                    }
-                }
-                return value;
-            }
-        };
-//      }
-//      });
-        return orgList;
-    }
-
-    public static ListItems getCampusLocations() {
-
-        CreditCourseDataManager x = new CreditCourseDataManager();
-
-        CampusLocation location1 = x.new CampusLocation("2", "North Campus");
-        CampusLocation location2 = x.new CampusLocation("29", "South Campus");
-        CampusLocation location3 = x.new CampusLocation("82", "Singleton Park Campus");
-
-        final List<CampusLocation> locationList = new ArrayList<CampusLocation>();
-        locationList.add(location1);
-        locationList.add(location2);
-        locationList.add(location3);
 
         ListItems list = new ListItems() {
 
@@ -284,44 +202,89 @@ public  class CreditCourseDataManager {
             @Override
             public String getItemAttribute(String id, String attrkey) {
                 String value = null;
-                for(CampusLocation c : locationList){
-                    if(c.getId().equals(id)){
-                        if(attrkey.equals("Name")){
-                            value = c.getName();
-                        }
-                        break;
-                    }
+                OrgInfo o = ids.get(id);
+                if(attrkey.equals("Name")){
+                    value = o.getShortName();
                 }
                 return value;
             }
 
             @Override
             public int getItemCount() {
-                return locationList.size();
+                return result.size();
             }
 
             @Override
             public List<String> getItemIds() {
-                List<String> ids = new ArrayList<String>();
-                for(CampusLocation c: locationList){
-                    ids.add(c.getId());
-                }
-                return ids;     
+                return new ArrayList<String>(ids.keySet());
+
             }
 
             @Override
             public String getItemText(String id) {
+                OrgInfo o = ids.get(id);
+                return o.getShortName();
+            }
+        };
+        //      }
+        //      });    
+        return list;
+
+    }
+
+    public static ListItems getCampusLocations() {
+
+        CreditCourseDataManager x = new CreditCourseDataManager();
+
+        CampusLocation location1 = x.new CampusLocation("2", "North Campus");
+        CampusLocation location2 = x.new CampusLocation("29", "South Campus");
+        CampusLocation location3 = x.new CampusLocation("82", "Singleton Park Campus");
+
+        final List<CampusLocation> result = new ArrayList<CampusLocation>();
+        result.add(location1);
+        result.add(location2);
+        result.add(location3);
+
+        final Map<String,CampusLocation> ids = new LinkedHashMap<String,CampusLocation>();
+        for(CampusLocation o : result){
+            ids.put(o.getId(),o);
+        }
+
+        ListItems list = new ListItems() {
+
+            @Override
+            public List<String> getAttrKeys() {
+                List<String> attributes = new ArrayList<String>();
+                attributes.add("Name");
+                return attributes;
+            }
+
+            @Override
+            public String getItemAttribute(String id, String attrkey) {
                 String value = null;
-                for(CampusLocation c: locationList){
-                    if(c.getId().equals(id)){
-                        value = c.getName();
-                        break;
-                    }
+                CampusLocation c = ids.get(id);
+                if(attrkey.equals("Name")){
+                    value = c.getName();
                 }
                 return value;
             }
-        };
 
+            @Override
+            public int getItemCount() {
+                return result.size();
+            }
+
+            @Override
+            public List<String> getItemIds() {
+                return new ArrayList<String>(ids.keySet());    
+            }
+
+            @Override
+            public String getItemText(String id) {
+                CampusLocation c = ids.get(id);
+                return c.getName();
+            }
+        };
         return list;
     }
 
@@ -363,13 +326,13 @@ public  class CreditCourseDataManager {
         atpInfo2.setExpirationDate(new Date());
         atpInfo2.setState("new");
 
-        List<AtpInfo> atpInfoList = new ArrayList<AtpInfo>(); 
-        atpInfoList.add(atpInfo1);
-        atpInfoList.add(atpInfo2);
+        List<AtpInfo> result = new ArrayList<AtpInfo>(); 
+        result.add(atpInfo1);
+        result.add(atpInfo2);
 
-        final Map<String,String> map = new LinkedHashMap<String, String>();
-        for(AtpInfo info : atpInfoList) {
-            map.put(info.getId(), info.getName());
+        final Map<String,AtpInfo> ids = new LinkedHashMap<String, AtpInfo>();
+        for(AtpInfo info : result) {
+            ids.put(info.getId(), info);
         }
         ListItems list = new ListItems() {
 
@@ -382,22 +345,28 @@ public  class CreditCourseDataManager {
 
             @Override
             public String getItemAttribute(String id, String attrkey) {
-                return map.get(id);
+                String value = null;
+                AtpInfo a = ids.get(id);
+                if(attrkey.equals("Name")){
+                    value = a.getName();
+                }
+                return value;
             }
 
             @Override
             public int getItemCount() {
-                return map.size();
+                return ids.size();
             }
 
             @Override
             public List<String> getItemIds() {
-                return new ArrayList<String>(map.keySet());
+                return new ArrayList<String>(ids.keySet());
             }
 
             @Override
             public String getItemText(String id) {
-                return map.get(id);
+                AtpInfo a = ids.get(id);
+                return a.getName();
             }
         };
         return list;
@@ -534,7 +503,7 @@ public  class CreditCourseDataManager {
         };
         return originatorList;
     }
-    //TODO Use real CampusLocation once its created
+//  TODO Use real CampusLocation once its created
     public class CampusLocation  {
         private String id;
         private String name;
@@ -558,7 +527,7 @@ public  class CreditCourseDataManager {
         }
     }
 
-    //TODO Use real LuDuration once its created
+//  TODO Use real LuDuration once its created
     public class LuDuration  {
         private String id;
         private String name;
@@ -582,7 +551,7 @@ public  class CreditCourseDataManager {
         }
     }
 
-    //TODO Use real CurriculumOversight once its created
+//  TODO Use real CurriculumOversight once its created
     public class CurriculumOversight  {
         private String id;
         private String name;
