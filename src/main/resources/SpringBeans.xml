@@ -159,6 +159,7 @@
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">     
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
                 <property name="service" ref="orgServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
                 <property name="localServiceName" value="OrganizationService" />

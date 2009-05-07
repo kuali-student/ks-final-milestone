@@ -56,7 +56,7 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
-      <version>0.9.4-SNAPSHOT</version>
+      <version>0.9.4-KS-2-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
