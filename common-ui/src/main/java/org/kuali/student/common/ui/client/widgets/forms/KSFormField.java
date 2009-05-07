@@ -211,8 +211,11 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
                 }
             } catch (ClassCastException e2) {
             	//TODO: Should this return text for current selected item for single select list... Derek says yes
+                //TODO   Try returning text instead of ID.
                 try {
-                s = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItem();
+                String x = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItem();
+                s = ((KSSelectItemWidgetAbstract)fieldWidget).getListItems().getItemText(x);
+ 
                 } catch(ClassCastException e3) {
                     GWT.log("Form field [" + name + "] does not support getText.", e);
                 }
@@ -292,7 +295,8 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
     public KSFormField setEditMode(EditMode mode){
         switch (mode) {
             case VIEW_ONLY:
-                fieldValueLabel.setText(getText());
+                fieldValueLabel.setText(getText());  
+//                fieldValueLabel.setText((String) getValue());//TODO Check if this is OK?
                 fieldDispWidget.setWidget(fieldValueLabel);
                 fieldHelpLink.setVisible(false);
                 break;
