@@ -119,12 +119,12 @@ public class RequirementsServiceImpl implements RequirementsService {
                     List<ResultCell> cluCodeResultCells = new ArrayList<ResultCell>();
                     ResultCell cluCodeResultCell = new ResultCell();
                     cluCodes = (cluCodes == null)? new ArrayList<Result>() : cluCodes;
-                    String shortName = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getShortName();
-                    shortName = (shortName == null)? "" : shortName;
-                    if (shortName.trim().equals("Shortname")) continue;
-                    shortName = shortName.replace(',', '/');
+                    String cd = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getCode();
+                    cd = (cd == null)? "" : cd;
+                    if (cd.trim().toLowerCase().equals("code")) continue;
+                    cd = cd.replace(',', '/');
                     cluCodeResultCell.setKey("");
-                    cluCodeResultCell.setValue(shortName);
+                    cluCodeResultCell.setValue(cd);
                     cluCodeResultCells.add(cluCodeResultCell);
                     cluCodeResult.setResultCells(cluCodeResultCells);
                     cluCodes.add(cluCodeResult);
