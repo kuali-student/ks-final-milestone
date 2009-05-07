@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSPickList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -19,6 +20,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -77,6 +79,7 @@ public class KSSuggestBoxPicker extends Composite{
         listWidget.setListItems(selectedItems);
         layout.setWidget(1, 0, listWidget);
         layout.setWidget(1, 1, remove);
+        layout.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
         suggest.getSearchWindow().addConfirmHandler(new ClickHandler(){
 
             @Override
@@ -90,6 +93,8 @@ public class KSSuggestBoxPicker extends Composite{
             }
         });
         this.setupHandlers();
+        layout.getRowFormatter().addStyleName(1, KSStyles.KS_SUGGEST_PICKER_LIST_ROW);
+        layout.addStyleName(KSStyles.KS_SUGGEST_PICKER_LAYOUT_TABLE);
         this.initWidget(layout);
     }
     

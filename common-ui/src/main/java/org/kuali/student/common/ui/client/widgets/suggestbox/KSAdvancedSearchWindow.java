@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.list.testData.Color;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -31,6 +32,7 @@ public class KSAdvancedSearchWindow {
     private KSSelectableTableList searchResults = new KSSelectableTableList();
     private KSLabel resultLabel = new KSLabel("No Search Results");
     
+    //Mock data
     private List<Color> colors = new ArrayList<Color>();
     
     //private Map<String, Widget> param
@@ -152,7 +154,13 @@ public class KSAdvancedSearchWindow {
         tabPanel.addTab(searchLayout, "Search");
         tabPanel.addTab(resultLayout, "Results");
         tabPanel.selectTab(0);
+        
+        resultLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_PANEL);
+        searchLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PANEL);
+        searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+        tabPanel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
         dialogLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_WINDOW);
+        dialog.setHeader("Advanced Search");
         dialog.setWidget(dialogLayout);
         
     }
@@ -163,10 +171,14 @@ public class KSAdvancedSearchWindow {
         int column = 0;
         for(SearchParameter p: params){
             KSLabel paramLabel = new KSLabel(p.getLabel());
+            paramLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PARAM_LABELS);
+            table.getColumnFormatter().addStyleName(0, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN);
+            table.getCellFormatter().addStyleName(row, column, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_CELLS);
             table.setWidget(row, column, paramLabel);
             column++;
             if(p.isEnumeration()){
                ListBox lb = new ListBox();
+               lb.addItem("");
                for(String v : p.getEnumeratedValues()){
                    lb.addItem(v);
                }
@@ -206,8 +218,11 @@ public class KSAdvancedSearchWindow {
     }
     
     private void generateResultLayout(){
-        resultLayout.add(resultLabel);
-        resultLayout.add(searchResults);
+        FlexTable table = new FlexTable();
+        resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
+        table.setWidget(0, 0, resultLabel);
+        table.setWidget(1, 0, searchResults);
+        resultLayout.add(table);
     }
 
     public void addConfirmHandler(ClickHandler handler){
