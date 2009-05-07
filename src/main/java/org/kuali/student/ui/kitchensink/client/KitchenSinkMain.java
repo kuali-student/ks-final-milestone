@@ -19,6 +19,8 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu.AccordionMenuExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.advancedsearchwindow.AdvancedSearchWindowExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.basicmenu.BasicMenuExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.breadcrumb.BreadcrumbExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
@@ -52,6 +54,8 @@ import org.kuali.student.ui.kitchensink.client.kscommons.selectable.ScrollSelect
 import org.kuali.student.ui.kitchensink.client.kscommons.scrolltable.ScrollTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.selectabletable.SelectableTableDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.sidebar.SidebarExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.suggestbox.SuggestBoxExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.suggestboxpicker.SuggestBoxPickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.tabpanel.TabPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textbox.TextBoxExampleDescriptor;
@@ -82,6 +86,7 @@ public class KitchenSinkMain extends Composite {
     private static final String DIALOG_WIDGET_MSG = "\n\nThese are widgets that popup a panel over other widgets for user interaction or to display some information.";
     private static final String RULE_WIDGET_MSG = "\n\nThese are widgets that are used for rule maintenance including rule builder widgets.";
     private static final String TABLE_WIDGET_MSG = "\n\nThese are widgets that are used for scroll and paging tables.";
+    private static final String SEARCH_WIDGET_MSG = "\n\nThese are widgets that are used for searching for and selecting data.";
 
     private static final String COMMON_WIDGET_MSG = "\n\nClick on the menu options on the left to try out the widgets of this type.";
 
@@ -96,6 +101,7 @@ public class KitchenSinkMain extends Composite {
     private static final String RULE_WIDGETS = "Rule Widgets";
     private static final String FORM_WIDGETS = "Form Widgets";
     private static final String TABLE_WIDGETS = "Table Widgets";
+    private static final String SEARCH_WIDGETS = "Search Widgets";
 
 
     final HorizontalPanel main = new HorizontalPanel();
@@ -159,6 +165,7 @@ public class KitchenSinkMain extends Composite {
         KSMenuItemData ksList = initGroup(LIST_WIDGETS);
         KSMenuItemData ksNav = initGroup(NAVIGATION_WIDGETS);
         KSMenuItemData ksDialog = initGroup(DIALOG_WIDGETS);
+        KSMenuItemData ksSearch = initGroup(SEARCH_WIDGETS);
         KSMenuItemData ksRule = initGroup(RULE_WIDGETS);
         KSMenuItemData ksForm = initGroup(FORM_WIDGETS);
         KSMenuItemData ksTable = initGroup(TABLE_WIDGETS);
@@ -197,7 +204,8 @@ public class KitchenSinkMain extends Composite {
 
         initExample(ksInfo, new ToolTipExampleDescriptor());
         initExample(ksInfo, new HelpLinkExampleDescriptor()); 
-
+        
+        initExample(ksNav, new BasicMenuExampleDescriptor());
         initExample(ksNav, new AccordionMenuExampleDescriptor());
         initExample(ksNav, new BreadcrumbExampleDescriptor());
         initExample(ksNav, new TabPanelExampleDescriptor());
@@ -209,6 +217,10 @@ public class KitchenSinkMain extends Composite {
         initExample(ksList, new PickListDescriptor());
         initExample(ksList, new RadioButtonListDescriptor());
         initExample(ksList, new CheckBoxListDescriptor());
+        
+        initExample(ksSearch, new SuggestBoxExampleDescriptor());
+        initExample(ksSearch, new AdvancedSearchWindowExampleDescriptor());
+        initExample(ksSearch, new SuggestBoxPickerExampleDescriptor());
         
         initExample(ksRule, new RuleTableExampleDescriptor());
         
@@ -226,6 +238,7 @@ public class KitchenSinkMain extends Composite {
         ksCommons.addSubItem(ksStatus);
         ksCommons.addSubItem(ksText);
         ksCommons.addSubItem(ksList);
+        ksCommons.addSubItem(ksSearch);
         ksCommons.addSubItem(ksRule);
         ksCommons.addSubItem(ksForm);
         ksCommons.addSubItem(ksTable);
@@ -326,6 +339,9 @@ public class KitchenSinkMain extends Composite {
         }
         else if (source.equals(TABLE_WIDGETS)) {
             label.setText(TABLE_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
+        }
+        else if (source.equals(SEARCH_WIDGETS)) {
+            label.setText(SEARCH_WIDGET_MSG + ' ' + COMMON_WIDGET_MSG);
         }
         return label;
     }
