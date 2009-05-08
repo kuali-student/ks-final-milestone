@@ -1,7 +1,5 @@
 <config>
 
-    <param name="java.workspace.location">/java/projects</param>
-
     <param name="environment" override="false">dev</param>
     <param name="http.port" override="false">8083</param>  
     <param name="app.context.name" override="false">ks-web-ksb</param>
@@ -34,7 +32,7 @@
     <param name="datasource.ojb.sequenceManager.className">org.apache.ojb.broker.util.sequence.SequenceManagerInMemoryImpl</param>
 -->
     <param name="datasource.ojb.platform">Derby</param>
-    <param name="datasource.url">jdbc:derby:${java.workspace.location}/ks-core/core-web/target/rice-db;create=true</param>
+    <param name="datasource.url">jdbc:derby:/target/rice-db;create=true</param>
     <param name="datasource.username">rice</param>
     <param name="datasource.password">r1c3</param>
     <param name="datasource.pool.validationQuery">values(1)</param>
