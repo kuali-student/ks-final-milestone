@@ -504,6 +504,69 @@ public class StatementVO extends Token implements Serializable {
         return result;
     }
     
+    /**
+     * looks for statements where all sub statements are wrapped statements and
+     * unwrap them
+     */
+    public void unwrapRCs() {
+        doUnwrapRCs(this);
+    }
+    
+    private List<ReqComponentVO> doUnwrapRCs(StatementVO statementVO) {
+        int numWrappedS = 0;
+        List<ReqComponentVO> wrappedRCs = null;
+        List<ReqComponentVO> runningWrappedRCs = new ArrayList<ReqComponentVO>();
+        if (statementVO.getStatementVOCount() > 0) {
+            System.out.println("doUnwrapRCs statementVO: " + statementVO);
+            System.out.println("doUnwrapRCs statementVO.getStatementVOs(): " + statementVO.getStatementVOs());
+            for (StatementVO subS : statementVO.getStatementVOs()) {
+                if (subS.isWrapperStatementVO()) {
+                    runningWrappedRCs.add(subS.getReqComponentVOs().get(0));
+                    numWrappedS++;
+                }
+//                else {
+//                    List<ReqComponentVO> subSUwrappableRCs = doUnwrapRCs(subS);
+//                    if (subSUwrappableRCs != null && !subSUwrappableRCs.isEmpty()) {
+//                        List<StatementVO> tempStatementVOs =
+//                            new ArrayList<StatementVO>(statementVO.getSelectedStatementVOs());
+//                        for (StatementVO subStatementVO : tempStatementVOs) {
+//                            statementVO.removeStatementVO(subStatementVO);
+//                        }
+//                        for (ReqComponentVO rc : subSUwrappableRCs) {
+//                            statementVO.addReqComponentVO(rc);
+//                        }
+//                    }
+//                }
+            }
+            if (numWrappedS == statementVO.getChildCount()) {
+                wrappedRCs = runningWrappedRCs;
+            } else {
+                wrappedRCs = null;
+            }
+        }
+        return wrappedRCs;
+    }
+    
+    /**
+     * goes through the tree recursively to delete statements with no child.
+     */
+    public void cleanupStatementVO() {
+        doCleanupStatementVO(this, null);
+    }
+    
+    private void doCleanupStatementVO(StatementVO statementVO, StatementVO parent) {
+        if (statementVO.getStatementVOCount() == 0 &&
+                statementVO.getReqComponentVOCount() == 0) {
+            if (parent != null) {
+                parent.removeStatementVO(statementVO);
+            }
+        } else if (statementVO.getStatementVOCount() > 0) {
+            for (StatementVO subS : statementVO.getStatementVOs()) {
+                doCleanupStatementVO(subS, statementVO);
+            }
+        }
+    }
+
     public String getPrintableStatement() {
         StringBuilder sbResult = null;
         Map<String, ReqComponentVO> reqComponentMap = new HashMap<String, ReqComponentVO>();

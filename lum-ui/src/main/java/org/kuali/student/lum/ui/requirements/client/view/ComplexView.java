@@ -287,6 +287,15 @@ public class ComplexView extends ViewComposite {
                 redraw();
             }
         });
+        
+        btnAddToGroup.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                Object[] temp = model.getValues().toArray();
+                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                prereqInfo.addToGroup();
+                redraw();
+            }
+        });
     }
        
     private void redraw() {
@@ -375,7 +384,7 @@ public class ComplexView extends ViewComposite {
 
         btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
         btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
-        btnAddToGroup.setEnabled(false);  
+        btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
         btnUndo.setEnabled(false);  
         btnRedo.setEnabled(false);          
         btnDuplicateRule.setEnabled(false);        
@@ -385,8 +394,10 @@ public class ComplexView extends ViewComposite {
         btnSaveRule.setEnabled(false);
         ruleTable.clear();
         if (prereqInfo != null) {
-            System.out.println("statement is: " +
-                    prereqInfo.getStatementVO().getPrintableStatement());
+            if (prereqInfo.getStatementVO() != null) {
+                System.out.println("statement is: " +
+                        prereqInfo.getStatementVO().getPrintableStatement());
+            }
             Node tree = prereqInfo.getStatementTree();
             
             if (tree != null) {

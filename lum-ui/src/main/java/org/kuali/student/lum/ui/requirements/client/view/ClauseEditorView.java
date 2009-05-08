@@ -24,6 +24,7 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
@@ -283,6 +284,13 @@ public class ClauseEditorView extends ViewComposite {
                         //add new req. component (rule) to the top level of the rule
                         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(theModel);
                         StatementVO statementVO = prereqInfo.getStatementVO();
+                        if (statementVO == null) {
+                            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+                            statementVO = new StatementVO();
+                            newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                            statementVO.setLuStatementInfo(newLuStatementInfo);
+                            prereqInfo.setStatementVO(statementVO);
+                        }
                         editedReqCompVO = new ReqComponentVO(newReqComp);
                         int index = Integer.valueOf(compReqTypesList.getSelectedItem());
                         ReqComponentTypeInfo reqInfo = reqCompTypeList.get(index);
