@@ -11,6 +11,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	<import resource="classpath:ks-core-context.xml" />
+	<import resource="classpath:ks-spring-security.xml" />
 
 	<jaxws:endpoint id="orgService"
 		implementorClass="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl"

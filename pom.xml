@@ -85,6 +85,7 @@
 		<metro.version>1.4</metro.version>
 		<junit.version>4.4</junit.version>
 		<spring.version>2.5.4</spring.version>
+		<spring.security.version>2.0.4</spring.security.version>
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
 		<dozer.version>4.4</dozer.version>
@@ -552,7 +553,19 @@
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
+			
+			<!-- This jar is only needed if you are using CAS with Spring Security -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-cas-client</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
+		
 			<!-- Metro Dependencies -->
 			<dependency>
 				<groupId>com.sun.xml.ws</groupId>
