@@ -113,7 +113,7 @@ public class StatementParser {
 	private List<CustomReqComponent> getCustomReqComponent(List<ReqComponent> list) throws OperationFailedException {
 		List<CustomReqComponent> newList = new ArrayList<CustomReqComponent>(list.size());
 		for(ReqComponent reqComp : list) {
-			newList.add(new CustomReqComponent(reqComp, getBooleanReqComponentId(reqComp)));
+			newList.add(new CustomReqComponent(reqComp, getReqComponentReferenceId(reqComp)));
 		}
 		return newList;
 	}
@@ -131,7 +131,7 @@ public class StatementParser {
 					this.sb.append(parseReqComponent(stmt, false));
 				} else {
 //					this.sb.append(StatementUtil.formatId(stmt.getId()));
-					this.sb.append(getBooleanStatementId(stmt));
+					this.sb.append(getStatementReferenceId(stmt));
 				}
 			} else {
 				traverseStatementTreeAndReduce(stmt, parseReqComponent);
@@ -162,7 +162,7 @@ public class StatementParser {
 		}
 		for(Iterator<ReqComponent> it = luStatement.getRequiredComponents().iterator(); it.hasNext(); ) {
 			ReqComponent reqComponent = it.next();
-			sb.append(getBooleanReqComponentId(reqComponent));
+			sb.append(getReqComponentReferenceId(reqComponent));
 			if (it.hasNext()) {
 				sb.append(" ");
 				sb.append(getOperator(luStatement.getOperator()));
@@ -176,19 +176,18 @@ public class StatementParser {
 		return sb.toString();
 	}
 	
-	private String getOperator(StatementOperatorTypeKey operator) {
+	private String getOperator(StatementOperatorTypeKey operator) throws OperationFailedException {
 		switch(operator) {
 			case AND:
 				return this.andOperator;
 			case OR:
 				return this.orOperator;
 			default:
-//				throw new OperationFailedException("Invalid statement operator: "+luStatement.getOperator().name());
+				throw new OperationFailedException("Invalid statement operator: "+operator);
 		}
-		return null;
 	}
 
-	private String getBooleanStatementId(LuStatement luStatement) throws OperationFailedException {
+	private String getStatementReferenceId(LuStatement luStatement) throws OperationFailedException {
 		if(luStatement.getId() == null || luStatement.getId().isEmpty()) {
 			throw new OperationFailedException("Statement id cannot be null");
 		}
@@ -201,7 +200,7 @@ public class StatementParser {
 		return id;
 	}
 
-	private String getBooleanReqComponentId(ReqComponent reqComponent) throws OperationFailedException {
+	private String getReqComponentReferenceId(ReqComponent reqComponent) throws OperationFailedException {
 		if(reqComponent.getId() == null || reqComponent.getId().isEmpty()) {
 			throw new OperationFailedException("Req component id cannot be null");
 		}

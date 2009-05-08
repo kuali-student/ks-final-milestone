@@ -18,7 +18,7 @@ import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
 
-public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
+public class ReqComponentTranslator {
     private LuDao luDao;
 
     public void setLuDao(LuDao luDao) {
@@ -166,7 +166,10 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
             CustomCluSet cluSet = getCluSet(cluSetId);
             velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
         } else {
-        	throw new DoesNotExistException("ReqComponent Field not set");
+        	throw new DoesNotExistException("Invalid ReqComponent field. " +
+        			"ReqComponent field must be " + 
+        			ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLU + " or " + 
+        			ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLUSET);
         }
 
     }

@@ -22,7 +22,7 @@ import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
-public class StatementTranslator { //extends AbstractTranslator<LuStatement> {
+public class StatementTranslator {
 	private LuDao luDao;
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator = new ReqComponentTranslator();

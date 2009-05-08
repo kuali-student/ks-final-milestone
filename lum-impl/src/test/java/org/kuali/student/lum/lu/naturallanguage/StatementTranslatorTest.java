@@ -483,8 +483,8 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals(2, node.getChildNodes().size());
 		Assert.assertEquals("S111", node.getChildNodes().get(0).getId());
 		Assert.assertEquals("S112", node.getChildNodes().get(1).getId());
-		Assert.assertEquals("R1", node.getChildNodes().get(0).getChildNodes().get(0).getBooleanId());
-		Assert.assertEquals("R2", node.getChildNodes().get(1).getChildNodes().get(0).getBooleanId());
+		Assert.assertEquals("R1", node.getChildNodes().get(0).getChildNodes().get(0).getReferenceId());
+		Assert.assertEquals("R2", node.getChildNodes().get(1).getChildNodes().get(0).getReferenceId());
 		Assert.assertEquals("Student must have completed 0 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(1).getNLTranslation());
 
@@ -492,7 +492,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals(2, node.getChildNodes().size());
 		Assert.assertEquals("S121", node.getChildNodes().get(0).getId());
 		Assert.assertEquals("S122", node.getChildNodes().get(1).getId());
-		Assert.assertEquals("R5", node.getChildNodes().get(1).getChildNodes().get(0).getBooleanId());
+		Assert.assertEquals("R5", node.getChildNodes().get(1).getChildNodes().get(0).getReferenceId());
 		Assert.assertEquals(null, node.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(1).getNLTranslation());
 
@@ -500,7 +500,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals(2, node.getChildNodes().size());
 		Assert.assertEquals("S131", node.getChildNodes().get(0).getId());
 		Assert.assertEquals("S132", node.getChildNodes().get(1).getId());
-		Assert.assertEquals("R6", node.getChildNodes().get(0).getChildNodes().get(0).getBooleanId());
+		Assert.assertEquals("R6", node.getChildNodes().get(0).getChildNodes().get(0).getReferenceId());
 		Assert.assertEquals("Student must have completed 3 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals(null, node.getChildNodes().get(1).getNLTranslation());
 
@@ -508,8 +508,8 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals(2, node.getChildNodes().size());
 		Assert.assertEquals("S1211", node.getChildNodes().get(0).getId());
 		Assert.assertEquals("S1212", node.getChildNodes().get(1).getId());
-		Assert.assertEquals("R3", node.getChildNodes().get(0).getChildNodes().get(0).getBooleanId());
-		Assert.assertEquals("R4", node.getChildNodes().get(1).getChildNodes().get(0).getBooleanId());
+		Assert.assertEquals("R3", node.getChildNodes().get(0).getChildNodes().get(0).getReferenceId());
+		Assert.assertEquals("R4", node.getChildNodes().get(1).getChildNodes().get(0).getReferenceId());
 		Assert.assertEquals("Student must have completed 0 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(1).getNLTranslation());
 
@@ -518,9 +518,9 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals("S1321", node.getChildNodes().get(0).getId());
 		Assert.assertEquals("S1322", node.getChildNodes().get(1).getId());
 		Assert.assertEquals("S1323", node.getChildNodes().get(2).getId());
-		Assert.assertEquals("R7", node.getChildNodes().get(0).getChildNodes().get(0).getBooleanId());
-		Assert.assertEquals("R8", node.getChildNodes().get(1).getChildNodes().get(0).getBooleanId());
-		Assert.assertEquals("R9", node.getChildNodes().get(2).getChildNodes().get(0).getBooleanId());
+		Assert.assertEquals("R7", node.getChildNodes().get(0).getChildNodes().get(0).getReferenceId());
+		Assert.assertEquals("R8", node.getChildNodes().get(1).getChildNodes().get(0).getReferenceId());
+		Assert.assertEquals("R9", node.getChildNodes().get(2).getChildNodes().get(0).getReferenceId());
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 3 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(1).getNLTranslation());
 		Assert.assertEquals("Student must have completed 0 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(2).getNLTranslation());

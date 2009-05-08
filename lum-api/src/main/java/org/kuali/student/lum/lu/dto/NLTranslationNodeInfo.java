@@ -11,7 +11,7 @@ public class NLTranslationNodeInfo {
 	private String id;
 
     @XmlAttribute
-    private String booleanId;
+    private String referenceId;
 
     @XmlAttribute
     private String operator;
@@ -31,9 +31,9 @@ public class NLTranslationNodeInfo {
 	public NLTranslationNodeInfo() {
 	}
 
-	public NLTranslationNodeInfo(String id, String booleanId, String operator) {
+	public NLTranslationNodeInfo(String id, String referenceId, String operator) {
 		this.id = id;
-		this.booleanId = booleanId;
+		this.referenceId = referenceId;
 		this.operator = operator;
 	}
 
@@ -81,11 +81,11 @@ public class NLTranslationNodeInfo {
 		this.parentNode = parent;
 	}
 
-	public String getBooleanId() {
-		return booleanId;
+	public String getReferenceId() {
+		return referenceId;
 	}
 	
 	public String toString() {
-		return "id="+this.id+", translation="+this.nlTranslation;
+		return "id="+this.id+", referenceId="+this.referenceId+", translation="+this.nlTranslation;
 	}
 }
