@@ -367,7 +367,6 @@ public class BooleanExpressionEditorModel implements NodeEditor {
             w.addSelectionHandler(new ValueChangeHandler<Boolean>(){
                 @Override
                 public void onValueChange(ValueChangeEvent<Boolean> event) {
-                    System.out.println("changed");
                     fireEvent();
                 }
             });
