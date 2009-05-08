@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.mvc;
 
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
+import org.kuali.student.common.ui.client.mvc.test.AddressManager.AddressViews;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.core.client.GWT;
@@ -20,6 +21,7 @@ public abstract class Controller extends Composite {
 
     private Controller parentController = null;
     private View currentView = null;
+    private Enum<?> currentViewEnum = null;
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
@@ -52,6 +54,7 @@ public abstract class Controller extends Composite {
                 hideView(currentView);
             }
             view.beforeShow();
+            currentViewEnum = viewType;
             fireApplicationEvent(new ViewChangeEvent(currentView, view));
             currentView = view;
             GWT.log("renderView " + viewType.toString(), null);
@@ -70,6 +73,10 @@ public abstract class Controller extends Composite {
      */
     public View getCurrentView() {
         return currentView;
+    }
+    
+    public Enum<?> getCurrentViewEnum() {
+        return currentViewEnum;
     }
 
     /**
@@ -206,5 +213,7 @@ public abstract class Controller extends Composite {
      * Shows the default view. Must be implemented by subclass, in order to define the default view.
      */
     public abstract void showDefaultView();
+
+    public abstract Class<? extends Enum<?>> getViewsEnum();
 
 }
