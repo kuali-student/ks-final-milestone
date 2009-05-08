@@ -64,7 +64,14 @@ public class NodeWidget extends FocusPanel {
                 setFocus(true);
             }
         });
-
+        checkBox.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+             //   event.stopPropagation();
+               // checkBox.setFocus(true);
+               // setFocus(true);
+            }
+        });
     }
 
     public Node getNode() {
