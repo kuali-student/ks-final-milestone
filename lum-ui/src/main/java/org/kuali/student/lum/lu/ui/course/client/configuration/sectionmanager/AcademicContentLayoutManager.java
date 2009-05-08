@@ -21,10 +21,11 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
-import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.counting.KSRichEditor;
+import org.kuali.student.common.ui.client.widgets.counting.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
@@ -33,6 +34,8 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
+
+import com.google.gwt.user.client.ui.FileUpload;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -205,26 +208,6 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("rationale")))
                         )
                 ) 
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
-                            @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getMarketingDesc(); 
-                            }
-                            @Override
-                            public void setValue(CluInfo object, Object value) {
-                                RichTextInfo info = new RichTextInfo();
-                                info.setPlain(value.toString());
-                                object.setMarketingDesc(info);
-                            }
-                        })
-                        .setFormField(new KSFormField("rationale", "Rationale")
-                        .setWidget(new KSRichEditor())
-                        .setHelpInfo(new HelpInfo("myhelpid")
-                        )
-//                      .addConstraint(new DictionaryConstraint(validator, fields.get("rationale")))
-                        )
-                )
                 .setSectionTitle(LUConstants.SECTION_COURSE_INFORMATION)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)      
@@ -263,6 +246,96 @@ public class AcademicContentLayoutManager {
         layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
                 LUConstants.SECTION_SYLLABUS}, 
                 new SimpleConfigurableSection<CluInfo>()
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return "Dummy value";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                //TODO figure out linkedFileSyllabus()
+                            }
+                        })
+                        .setFormField(new KSFormField("linkedFileSyllabus", "Linked File Syllabus")
+                        .setWidget(new FileUpload())
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseTopics")))
+                        )
+                )                
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return "Dummy value";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                //TODO figure out courseTopics()
+                            }
+                        })
+                        .setFormField(new KSFormField("courseTopics", "Course Topics")
+                        .setWidget(new KSTextBox())
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseTopics")))
+                        )
+                )
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return "Dummy value";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                //TODO figure out requiredTexts()
+                            }
+                        })
+                        .setFormField(new KSFormField("requiredTexts", "Required Texts")
+                        .setWidget(new KSRichEditor())
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("requiredTexts")))
+                        )
+                )
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return "Dummy value";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                //TODO figure out assignments()
+                            }
+                        })
+                        .setFormField(new KSFormField("assignments", "Assignments")
+                        .setWidget(new KSTextArea(500))
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("assignments")))
+                        )
+                )
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return "Dummy value";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                //TODO figure out evaluation()
+                            }
+                        })
+                        .setFormField(new KSFormField("evaluation", "Evaluation")
+                        .setWidget(new KSTextArea(500))
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("evaluation")))
+                        )
+                )                
                 .setSectionTitle(LUConstants.SECTION_SYLLABUS)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)
@@ -273,6 +346,24 @@ public class AcademicContentLayoutManager {
         layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
                 LUConstants.SECTION_LEARNING_RESULTS}, 
                 new SimpleConfigurableSection<CluInfo>()
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                return "Dummy value";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                //TODO figure out evaluation()
+                            }
+                        })
+                        .setFormField(new KSFormField("evaluationApproach", "Evaluation Approach")
+                        .setWidget(new KSDropDown())
+                        .setHelpInfo(new HelpInfo("myhelpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("evaluationApproach")))
+                        )
+                )                 
                 .setSectionTitle(LUConstants.SECTION_LEARNING_RESULTS)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)

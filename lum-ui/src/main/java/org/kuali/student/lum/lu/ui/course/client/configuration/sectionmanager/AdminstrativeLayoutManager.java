@@ -17,6 +17,11 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.ConfigurableField;
+import org.kuali.student.common.ui.client.configurable.PropertyBinding;
+import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -73,7 +78,45 @@ public class AdminstrativeLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
                 LUConstants.SECTION_ACTIVE_DATES}, 
-                new SimpleConfigurableSection<CluInfo>()                
+                new SimpleConfigurableSection<CluInfo>()      
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                // TODO figure out how to get the originating faculty member
+                                return "Jan 1, 2010";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                // TODO figure out startDate
+                            }
+                        })
+                        .setFormField(new KSFormField("startDate", "Start Date")
+                        .setWidget(new KSDatePicker())
+                        .setHelpInfo(new HelpInfo("helpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("startDAte")))
+                        )
+                )                
+                .addField(new ConfigurableField<CluInfo>()
+                        .setBinding(new PropertyBinding<CluInfo>() {
+                            @Override
+                            public Object getValue(CluInfo object) {
+                                // TODO figure out how to get the originating faculty member
+                                return "Jan 1, 2010";
+                            }
+                            @Override
+                            public void setValue(CluInfo object, Object value) {
+                                // TODO figure out endDate
+                            }
+                        })
+                        .setFormField(new KSFormField("endDate", "EndDate")
+                        .setWidget(new KSDatePicker())
+                        .setHelpInfo(new HelpInfo("helpid")
+                        )
+//                      .addConstraint(new DictionaryConstraint(validator, fields.get("endDAte")))
+                        )
+                ) 
                 .setSectionTitle(LUConstants.SECTION_ACTIVE_DATES)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)   
