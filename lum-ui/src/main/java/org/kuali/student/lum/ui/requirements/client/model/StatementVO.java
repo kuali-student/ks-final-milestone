@@ -504,53 +504,102 @@ public class StatementVO extends Token implements Serializable {
         return result;
     }
     
+    public void addStatementVOs(List<StatementVO> statementVOs) {
+        if (statementVOs != null && !statementVOs.isEmpty()) {
+            for (StatementVO s : statementVOs) {
+                this.addStatementVO(s);
+            }
+        }
+    }
+    
+    public void addReqComponentVOs(List<ReqComponentVO> reqComponentVOs) {
+        if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
+            for (ReqComponentVO rc : reqComponentVOs) {
+                this.addReqComponentVO(rc);
+            }
+        }
+    }
+    
+    public void simplify() {
+        doSimplify(this);
+        cleanupStatementVO();
+        unwrapRCs();
+    } 
+    
+    private void doSimplify(StatementVO statementVO) {
+        StatementOperatorTypeKey op =
+            (statementVO == null || statementVO.getLuStatementInfo() == null)? null :
+                statementVO.getLuStatementInfo().getOperator();
+        if (statementVO.getStatementVOCount() > 0) {
+            List<StatementVO> subSs = new ArrayList<StatementVO>(
+                    statementVO.getStatementVOs());
+            for (StatementVO subS : subSs) {
+                StatementOperatorTypeKey 
+                    subOp = (subS == null || subS.getLuStatementInfo() == null)? null :
+                        subS.getLuStatementInfo().getOperator();
+                // operator of sub statement is the same as that of this statement
+                // combine the
+                // Note: to maintain the requirement that no statement will have both RCs 
+                // and Sub statements as a child an additional condition is added to ignore
+                // the duplicated operators of wrapped statements
+                if (subOp == op && !subS.isWrapperStatementVO()) {
+                    // if sub statement contains further subs delete the sub statement and
+                    // move all the grand sub statements to the current statement.
+                    // else if sub statement contains RCs delete the sub statements and
+                    // move all the RCs to the current statement.
+                    statementVO.removeStatementVO(subS);
+                    if (subS.getStatementVOCount() > 0) {
+                        statementVO.addStatementVOs(subS.getStatementVOs());
+                    } else if (subS.getReqComponentVOCount() > 0) {
+                        statementVO.addReqComponentVOs(subS.getReqComponentVOs());
+                    }
+                } else if (!subS.isWrapperStatementVO()) {
+                    doSimplify(subS);
+                }
+                
+            }
+        }
+    }
+    
     /**
      * looks for statements where all sub statements are wrapped statements and
      * unwrap them
      */
-    public void unwrapRCs() {
-        doUnwrapRCs(this);
+    private void unwrapRCs() {
+        doUnwrapRCs(this, 0);
     }
     
-    private List<ReqComponentVO> doUnwrapRCs(StatementVO statementVO) {
-        int numWrappedS = 0;
-        List<ReqComponentVO> wrappedRCs = null;
-        List<ReqComponentVO> runningWrappedRCs = new ArrayList<ReqComponentVO>();
+    private void doUnwrapRCs(StatementVO statementVO, int level) {
+        List<ReqComponentVO> wrappedRCs = new ArrayList<ReqComponentVO>();
         if (statementVO.getStatementVOCount() > 0) {
-            System.out.println("doUnwrapRCs statementVO: " + statementVO);
-            System.out.println("doUnwrapRCs statementVO.getStatementVOs(): " + statementVO.getStatementVOs());
-            for (StatementVO subS : statementVO.getStatementVOs()) {
-                if (subS.isWrapperStatementVO()) {
-                    runningWrappedRCs.add(subS.getReqComponentVOs().get(0));
-                    numWrappedS++;
+            List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
+            for (StatementVO subS : subSs) {
+                if (!subS.isWrapperStatementVO()) {
+                    doUnwrapRCs(subS, level + 1);
                 }
-//                else {
-//                    List<ReqComponentVO> subSUwrappableRCs = doUnwrapRCs(subS);
-//                    if (subSUwrappableRCs != null && !subSUwrappableRCs.isEmpty()) {
-//                        List<StatementVO> tempStatementVOs =
-//                            new ArrayList<StatementVO>(statementVO.getSelectedStatementVOs());
-//                        for (StatementVO subStatementVO : tempStatementVOs) {
-//                            statementVO.removeStatementVO(subStatementVO);
-//                        }
-//                        for (ReqComponentVO rc : subSUwrappableRCs) {
-//                            statementVO.addReqComponentVO(rc);
-//                        }
-//                    }
-//                }
             }
-            if (numWrappedS == statementVO.getChildCount()) {
-                wrappedRCs = runningWrappedRCs;
-            } else {
-                wrappedRCs = null;
+            
+            for (StatementVO subS : subSs) {
+                if (subS.isWrapperStatementVO()) {
+                    wrappedRCs.add(subS.getReqComponentVOs().get(0));
+                }
+            }
+            if (wrappedRCs != null && 
+                    wrappedRCs.size() == statementVO.getChildCount()) {
+                for (StatementVO subS : subSs) {
+                    statementVO.removeStatementVO(subS);
+                }
+                for (ReqComponentVO wrappedRC : wrappedRCs) {
+                    statementVO.addReqComponentVO(wrappedRC);
+                }
             }
         }
-        return wrappedRCs;
     }
     
     /**
      * goes through the tree recursively to delete statements with no child.
      */
-    public void cleanupStatementVO() {
+    private void cleanupStatementVO() {
         doCleanupStatementVO(this, null);
     }
     

@@ -154,6 +154,7 @@ public class PrereqInfo implements Idable {
             newStatementVO.addStatementVO(selectedStatementVO);
         }
         enclosingStatementVO.addStatementVO(newStatementVO);
+        statementVO.simplify();
     }
     
     public void insertAND() {
@@ -181,6 +182,7 @@ public class PrereqInfo implements Idable {
             newStatementVO.addStatementVO(selectedStatementVO);
         }
         enclosingStatementVO.addStatementVO(newStatementVO);
+        statementVO.simplify();
     }
     
     public boolean statementVOIsDegroupAble() {
@@ -258,12 +260,14 @@ public class PrereqInfo implements Idable {
         List<StatementVO> selectedStatementVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
         if (!statementVOIsDegroupAble(selectedStatementVOs, selectedReqComponentVOs)) return;
+        // remove the selected RCs
         for (ReqComponentVO selectedReqComponent : selectedReqComponentVOs) {
             StatementVO parentStatementVO = null;
             parentStatementVO =
                 this.statementVO.getEnclosingStatementVO(this.statementVO, selectedReqComponent);
             parentStatementVO.removeReqComponentVO(selectedReqComponent);
         }
+        // remove the selected operator cells/statements.
         for (StatementVO selectedStatement : selectedStatementVOs) {
             StatementVO parentStatementVO = null; 
             parentStatementVO = 
@@ -282,32 +286,10 @@ public class PrereqInfo implements Idable {
                         parentStatementVO.addReqComponentVO(leafReqComponent);
                     }
                 }
-                // clean up wrapper statements
-                if (parentStatementVO.getStatementVOCount() > 0 &&
-                        parentStatementVO.getReqComponentVOCount() == 0) {
-                    boolean allStatementsWrapped = true;
-                    List<ReqComponentVO> wrappedRCs = new ArrayList<ReqComponentVO>();
-                    for (StatementVO subStatementVO : 
-                        parentStatementVO.getStatementVOs()) {
-                        if (subStatementVO.isWrapperStatementVO()) {
-                            wrappedRCs.add(subStatementVO.getReqComponentVOs().get(0));
-                        } else {
-                            allStatementsWrapped = false;
-                            break;
-                        }
-                    }
-                    if (allStatementsWrapped) {
-                        List<StatementVO> tempStatementVOs =
-                            new ArrayList<StatementVO>(parentStatementVO.getStatementVOs());
-                        for (StatementVO subStatementVO : tempStatementVOs) {
-                            parentStatementVO.removeStatementVO(subStatementVO);
-                        }
-                        for (ReqComponentVO wrappedReqComponentVO : wrappedRCs) {
-                            parentStatementVO.addReqComponentVO(wrappedReqComponentVO);
-                        }
-                    }
-                }
             }
+        }
+        if (statementVO != null) {
+            statementVO.simplify();
         }
     }
     
@@ -331,7 +313,9 @@ public class PrereqInfo implements Idable {
     public void addToGroup() {
         List<StatementVO> selectedStatementVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
+        StatementVO selectedS = null;
         if (!isAddToGroupOK(selectedStatementVOs, selectedReqComponentVOs)) return;
+        selectedS = selectedStatementVOs.get(0);
         if (selectedReqComponentVOs != null &&
                 !selectedReqComponentVOs.isEmpty()) {
             for (ReqComponentVO selectedRC : selectedReqComponentVOs) {
@@ -339,10 +323,27 @@ public class PrereqInfo implements Idable {
                     this.statementVO, selectedRC);
                 if (parentS == null) continue;
                 parentS.removeReqComponentVO(selectedRC);
-                selectedStatementVOs.get(0).addReqComponentVO(selectedRC);
+                // The following if else statement cleans up parent statements that
+                // has no more children other than the selectedS
+                if (parentS.getChildCount() == 1 &&
+                        parentS.getSelectedStatementVOs() != null &&
+                        parentS.getSelectedStatementVOs().contains(selectedS)) {
+                    // if parent is root replace the current root with
+                    // the selected statement.
+                    // otherwise remove the parent from grand parent and add the selected
+                    // statement
+                    if (parentS == statementVO) {
+                        this.statementVO = selectedS;
+                    } else {
+                        StatementVO grandParentS = this.statementVO.getParentStatementVO(
+                                this.statementVO, parentS);
+                        grandParentS.removeStatementVO(parentS);
+                        grandParentS.addStatementVO(selectedS);
+                    }
+                }
+                selectedS.addReqComponentVO(selectedRC);
             }
-            statementVO.cleanupStatementVO();
-//            statementVO.unwrapRCs();
+            statementVO.simplify();
         }
     }
     
