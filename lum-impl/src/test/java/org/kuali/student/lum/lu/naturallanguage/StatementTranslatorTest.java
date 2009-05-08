@@ -66,6 +66,22 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	}
 
 	@Test
+	public void testTranslateStatement1b() throws Exception {
+		// Rule = R1
+		LuStatement stmt1 = new LuStatement();
+		stmt1.setOperator(StatementOperatorTypeKey.AND);
+
+		List<ReqComponentField> fieldList1 = statementTestUtil.createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
+		ReqComponent reqComp1 = statementTestUtil.createReqComponent("kuali.reqCompType.courseList.1of2", fieldList1, false);
+		reqComp1.setId("req-1");
+		stmt1.setRequiredComponents(Arrays.asList(reqComp1));
+
+		String translation = translator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
+
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have MATH 152 or MATH 180", translation);
+	}
+
+	@Test
 	public void testTranslateStatementId1() throws Exception {
 		// Rule = R1
 		LuStatement stmt1 = new LuStatement();

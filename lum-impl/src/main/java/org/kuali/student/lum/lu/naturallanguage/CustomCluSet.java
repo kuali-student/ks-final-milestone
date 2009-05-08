@@ -15,6 +15,10 @@ public class CustomCluSet {
 		return this.cluSet;
 	}
 	
+	public String getCluAsString(int index) {
+		return this.cluSet.getClus().get(index).getOfficialIdentifier().getShortName();
+	}
+	
 	public String getCluSetAsString() {
 		StringBuilder sb = new StringBuilder();
 		for(Clu clu : this.cluSet.getClus()) {
