@@ -23,7 +23,7 @@ public class ShowPeopleView extends ViewComposite {
     private Person selectedPerson = null;
 
     public ShowPeopleView(Controller controller) {
-        super(controller, "Show People");
+        super(controller, PersonApplication.PersonViews.SHOW_PEOPLE.toString());
         super.initWidget(table);
 
         controller.requestModel(Person.class, new ModelRequestCallback<Person>() {

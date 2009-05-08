@@ -1,14 +1,26 @@
 package org.kuali.student.common.ui.client.mvc.test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeHandler;
+import org.kuali.student.common.ui.client.mvc.test.PersonApplication.PersonViews;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -21,13 +33,68 @@ public class HistoryView extends ViewComposite {
             history.clear();
         }
     });
+    Map<String, Controller> map;
+    HistoryModel model = null;
 
-    public HistoryView(Controller controller) {
-        super(controller, "History");
+    public HistoryView(final Controller controller) {
+        this(controller, new HistoryModel());
+//        History.addValueChangeHandler(new ValueChangeHandler<String>() {
+//            @Override
+//            public void onValueChange(ValueChangeEvent<String> event) {
+//                Map<String, List<String>> params = buildListParamMap(event.getValue());
+//                List<String> view = params.get("view");
+//                if(view != null && !view.isEmpty()) {
+//                    try {
+//                        controller.showView(PersonViews.valueOf(view.get(0)));
+//                    } catch(IllegalArgumentException e) {
+//                        try {
+//                            controller.showView(AddressManager.AddressViews.valueOf(view.get(0)));
+//                        } catch(IllegalArgumentException e1){
+//                        }
+//                    }
+//                }
+//            }
+//            /* stolen from Window.Location */
+//            Map<String, List<String>> buildListParamMap(String queryString) {
+//                Map<String, List<String>> out = new HashMap<String, List<String>>();
+//
+//                if (queryString != null && queryString.length() > 0) {
+//                  String qs = queryString;
+//
+//                  for (String kvPair : qs.split("&")) {
+//                    String[] kv = kvPair.split("=", 2);
+//                    if (kv[0].length() == 0) {
+//                      continue;
+//                    }
+//
+//                    List<String> values = out.get(kv[0]);
+//                    if (values == null) {
+//                      values = new ArrayList<String>();
+//                      out.put(kv[0], values);
+//                    }
+//                    values.add(kv.length > 1 ? URL.decode(kv[1]) : "");
+//                  }
+//                }
+//
+//                for (Map.Entry<String, List<String>> entry : out.entrySet()) {
+//                  entry.setValue(Collections.unmodifiableList(entry.getValue()));
+//                }
+//
+//                out = Collections.unmodifiableMap(out);
+//
+//                return out;
+//              }
+//        });
+    }
+    
+    public HistoryView(Controller controller, HistoryModel hist) {
+        super(controller, PersonApplication.PersonViews.HISTORY.toString());
         super.initWidget(panel);
+        model = hist;
         panel.add(label);
         panel.add(history);
         panel.add(reset);
+        model.addController("view", controller);
         controller.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
             public void onViewChange(ViewChangeEvent event) {
                 history.addItem(event.getNewView().getName());

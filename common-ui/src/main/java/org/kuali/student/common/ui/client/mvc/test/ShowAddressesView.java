@@ -27,7 +27,7 @@ public class ShowAddressesView extends ViewComposite {
     private Model<Address> addresses = null;
 
     public ShowAddressesView(Controller controller) {
-        super(controller, "Show People");
+        super(controller, AddressManager.AddressViews.ADDRESS_LIST.toString());
         super.initWidget(table);
     }
 

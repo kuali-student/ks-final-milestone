@@ -23,15 +23,17 @@ public class PersonApplication extends Controller {
         ADD_PERSON, SHOW_PEOPLE, HISTORY, PERSON_ADDRESS
     }
 
+    private final HistoryModel hist = new HistoryModel();
+
     private final AddPersonView addPersonView = new AddPersonView(this);
     private final ShowPeopleView peopleView = new ShowPeopleView(this);
-    private final HistoryView history = new HistoryView(this);
-    private final PersonAddressView personAddress = new PersonAddressView(this);
+    private final HistoryView history = new HistoryView(this, hist);
+    private final PersonAddressView personAddress = new PersonAddressView(this, hist);
 
     private final HorizontalPanel panel = new HorizontalPanel();
     private final VerticalPanel menu = new VerticalPanel();
     private final SimplePanel viewPanel = new SimplePanel();
-
+    
     private Model<Person> people;
 
     private final KSButton showAddView = new KSButton("Add Person", new ClickHandler() {
@@ -131,6 +133,11 @@ public class PersonApplication extends Controller {
             }
         }
         return null;
+    }
+
+    @Override
+    public Class<PersonViews> getViewsEnum() {
+        return PersonViews.class;
     }
 
 }

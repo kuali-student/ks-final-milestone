@@ -60,7 +60,7 @@ public class AddAddressView extends ViewComposite {
     private boolean dirty = false;
 
     public AddAddressView(Controller controller) {
-        super(controller, "Add Address");
+        super(controller, AddressManager.AddressViews.ADD_ADDRESS.toString());
         super.initWidget(table);
 
         table.setText(0, 0, "Address ID");

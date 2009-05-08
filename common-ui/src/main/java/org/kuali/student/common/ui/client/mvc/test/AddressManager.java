@@ -79,4 +79,9 @@ public class AddressManager extends Controller {
         }
     }
 
+    @Override
+    public Class<AddressViews> getViewsEnum() {
+        return AddressViews.class;
+    }
+
 }

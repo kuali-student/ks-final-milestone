@@ -13,7 +13,11 @@ public class PersonAddressView extends ViewComposite {
     private Person person = null;
 
     public PersonAddressView(Controller controller) {
-        super(controller, "Person Addresses");
+        this(controller, null);
+    }
+
+    public PersonAddressView(Controller controller, HistoryModel hist) {
+        super(controller, PersonApplication.PersonViews.PERSON_ADDRESS.toString());
         super.initWidget(manager);
         model.addModelChangeHandler(new ModelChangeHandler<Address>() {
             public void onModelChange(ModelChangeEvent<Address> event) {
@@ -31,6 +35,9 @@ public class PersonAddressView extends ViewComposite {
                 }
             }
         });
+        if(hist != null) {
+            hist.addController("subview", manager);
+        }
     }
 
     public Person getPerson() {

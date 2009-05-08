@@ -56,7 +56,7 @@ public class AddPersonView extends ViewComposite {
     private boolean dirty = false;
 
     public AddPersonView(Controller controller) {
-        super(controller, "Add Person");
+        super(controller, PersonApplication.PersonViews.ADD_PERSON.toString());
         super.initWidget(table);
 
         table.setText(0, 0, "Person ID");
