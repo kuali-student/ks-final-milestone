@@ -35,31 +35,34 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
     String htmlString = "";
     
     private List<IdableSuggestion> getSuggestions(String query, int limit){
+        query = query.trim();
         List<IdableSuggestion> suggestions = new ArrayList<IdableSuggestion>();
-        List<String> ids = listItems.getItemIds();
-        List<String> attributes = listItems.getAttrKeys();
-        
-        String[] splitQueryArr = splitQuery(query);
-        
-        boolean limitReached = false;
-        for(String id: ids){
-            for(String attr: attributes){
-                String attrString = listItems.getItemAttribute(id, attr);
-                
-                htmlString = "";
-                if(isValidSuggestion(splitQueryArr, id, attr, attrString)){
-                    IdableSuggestion suggestion = new IdableSuggestion(id, htmlString, listItems.getItemText(id));
-                    addAttributesToSuggestion(suggestion);
-                    suggestions.add(suggestion);
-                    if(suggestions.size() == limit){
-                        limitReached = true;
-                        break;
+        if(!query.equals("")){
+            List<String> ids = listItems.getItemIds();
+            List<String> attributes = listItems.getAttrKeys();
+            
+            String[] splitQueryArr = splitQuery(query);
+            
+            boolean limitReached = false;
+            for(String id: ids){
+                for(String attr: attributes){
+                    String attrString = listItems.getItemAttribute(id, attr);
+                    
+                    htmlString = "";
+                    if(isValidSuggestion(splitQueryArr, id, attr, attrString)){
+                        IdableSuggestion suggestion = new IdableSuggestion(id, htmlString, listItems.getItemText(id));
+                        addAttributesToSuggestion(suggestion);
+                        suggestions.add(suggestion);
+                        if(suggestions.size() == limit){
+                            limitReached = true;
+                            break;
+                        }
                     }
+    
                 }
-
-            }
-            if(limitReached){
-                break;
+                if(limitReached){
+                    break;
+                }
             }
         }
         
