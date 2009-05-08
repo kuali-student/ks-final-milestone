@@ -148,6 +148,7 @@
             <scope>provided</scope>
         </dependency>
         <!-- CXF DEPENDENCIES -->
+<!--
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-tools-common</artifactId>
@@ -188,6 +189,7 @@
             <artifactId>cxf-rt-bindings-soap</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+-->
     </dependencies>
 
 </project>
