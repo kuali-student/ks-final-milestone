@@ -401,8 +401,8 @@ public class ComplexView extends ViewComposite {
     private void updateNaturalLanguage() {
                 
         naturalLanguage.setText("");      
-        /*RequirementsService.Util.getInstance().getNaturalLanguageForLuStatementInfo(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
-                                RulesUtilities.getPrereqInfoModelObject(model).getStatementVO().getLuStatementInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
+        RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
+                                RulesUtilities.getPrereqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
@@ -411,6 +411,6 @@ public class ComplexView extends ViewComposite {
             public void onSuccess(final String statementNaturalLanguage) {                               
                 naturalLanguage.setText(statementNaturalLanguage);  
             } 
-        });*/
+        });
     }           
 }

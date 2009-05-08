@@ -280,7 +280,7 @@
 
 .KS-ReqComp-Selected{
 	background-color: #FFFF99;
-	border: 2px #d1ec4c outset;
+	/*border: 2px #d1ec4c outset;*/
 	padding: 1px 4px;
 	color: black;
 	text-decoration: none;
@@ -289,7 +289,7 @@
 
 .KS-ReqComp-DeSelected{
 	background-color: #FFFFFF;
-	border: 2px #d1ec4c outset;
+	/*border: 2px #d1ec4c outset;*/
 	padding: 1px 4px;
 	color: black;
 	text-decoration: none;
@@ -316,9 +316,9 @@
 }
 
 .KS-Rules-Table-Cell{
-	margin-left: 20px;
-	margin-right: 20px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	font-size: 8pt;	
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	font-size: 7pt;	
 }

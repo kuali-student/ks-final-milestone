@@ -100,7 +100,7 @@ public class RuleNodeWidget extends SimplePanel {
             edit.addStyleName("KS-Rules-Edit-Link");
             checkBoxAndEdit.add(edit);
             html.setHTML(node.getUserObject().toString());
-            checkBoxAndEdit.setStyleName((reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
+            checkBoxAndEdit.addStyleName((reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
             checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(new Boolean(reqComponentVO.isCheckBoxOn()));
         } else {

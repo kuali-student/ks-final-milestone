@@ -72,8 +72,9 @@ public class CourseRequisiteView extends ViewComposite {
                         setPrereqInfo(prereqInfo);                    
                         prereqInfo.setNaturalLanguage("");
                         layoutMainPanel(viewPanel);
-
-                        /*RequirementsService.Util.getInstance().getNaturalLanguageForLuStatementInfo(courseData.get(getCourseId()).getId(), statementVO.getLuStatementInfo(), "KUALI.CATALOG", new AsyncCallback<String>() {
+                        
+                        /*
+                        RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(courseData.get(getCourseId()).getId(), statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
                             public void onFailure(Throwable caught) {
                                 Window.alert(caught.getMessage());
                                 caught.printStackTrace();
@@ -83,7 +84,7 @@ public class CourseRequisiteView extends ViewComposite {
                                 prereqInfo.setNaturalLanguage(statementNaturalLanguage);
                                 layoutMainPanel(viewPanel);  
                             } 
-                        });*/                                                 
+                        }); */                                                
                     } 
                 });                
             }

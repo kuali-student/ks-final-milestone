@@ -3,21 +3,16 @@ package org.kuali.student.lum.ui.requirements.server.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -52,14 +47,23 @@ public class RequirementsServiceImpl implements RequirementsService {
         return naturalLanguage;
     }	
 	    
-    public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo luStatementInfo, String nlUsageTypeKey) throws Exception {
+    public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception {
                      
+        LuNlStatementInfo luNlStatementInfo = new LuNlStatementInfo();
+        luNlStatementInfo.setOperator(statementVO.getLuStatementInfo().getOperator());
+        
+        //first translate StatementVO to LuNlStatementInfo object
+        String error = composeLuNlStatementInfo(statementVO, luNlStatementInfo);
+        if (error.isEmpty() == false) {
+            throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);            
+        }
+                
         String NLStatement = "";
         try {        
-            NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luStatementInfo, nlUsageTypeKey);            
+            NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey);            
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and luStatementName: " + luStatementInfo.getName(), ex);
+            throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey, ex);
         }; 
         
         return NLStatement;
@@ -109,7 +113,7 @@ public class RequirementsServiceImpl implements RequirementsService {
     public List<Result> getAllClus() throws Exception {
         
         List<Result> clus;
-        List<Result> cluCodes = null;
+        List<Result> cluNames = null;
         try {
             List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);           
             clus = service.searchForResults("lu.search.clus", queryParamValues);
@@ -118,16 +122,17 @@ public class RequirementsServiceImpl implements RequirementsService {
                     Result cluCodeResult = new Result();
                     List<ResultCell> cluCodeResultCells = new ArrayList<ResultCell>();
                     ResultCell cluCodeResultCell = new ResultCell();
-                    cluCodes = (cluCodes == null)? new ArrayList<Result>() : cluCodes;
-                    String cd = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getCode();
-                    cd = (cd == null)? "" : cd;
-                    if (cd.trim().toLowerCase().equals("code")) continue;
-                    cd = cd.replace(',', '/');
+                    
+                    String shortName = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getShortName();
+                    shortName = (shortName == null)? "" : shortName;
+                    if (shortName.trim().equals("Shortname")) continue;                   
+                    shortName = shortName.replace(',', '/');
                     cluCodeResultCell.setKey("");
-                    cluCodeResultCell.setValue(cd);
+                    cluCodeResultCell.setValue(shortName);
                     cluCodeResultCells.add(cluCodeResultCell);
                     cluCodeResult.setResultCells(cluCodeResultCells);
-                    cluCodes.add(cluCodeResult);
+                    cluNames = (cluNames == null)? new ArrayList<Result>() : cluNames;
+                    cluNames.add(cluCodeResult);
                 }
             }
         } catch (Exception ex) {
@@ -135,7 +140,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             throw new Exception("Unable to retrieve Clus", ex);
         }
 
-        return cluCodes;
+        return cluNames;
     }      
     
     //retrieve statement based on CLU ID and STATEMENT TYPE
@@ -221,6 +226,44 @@ public class RequirementsServiceImpl implements RequirementsService {
 
                 statementVO.addReqComponentVO(tempReqCompVO);
             }               
+        }        
+        
+        return "";
+    }     
+    
+    private String composeLuNlStatementInfo(StatementVO statementVO, LuNlStatementInfo luNlStatementInfo) throws Exception {
+        
+        List<StatementVO> statementVOs = statementVO.getStatementVOs();       
+        List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
+        
+        if ((statementVOs != null) && (reqComponentVOs != null) && (statementVOs.size() > 0) && (reqComponentVOs.size() > 0))
+        {
+            return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
+        } 
+        
+        if ((statementVOs != null) && (statementVOs.size() > 0)) {
+            //retrieve all statements
+            List<LuNlStatementInfo> stmtInfoList = new ArrayList<LuNlStatementInfo>();
+            for (StatementVO statement : statementVOs) {  
+                System.out.println("got STATEMENT witho operator: " + statement.getLuStatementInfo().getOperator());
+                LuNlStatementInfo tempLuNlStmtInfo = new LuNlStatementInfo(); 
+                tempLuNlStmtInfo.setOperator(statement.getLuStatementInfo().getOperator());                
+                composeLuNlStatementInfo(statement, tempLuNlStmtInfo);  //inside set the children of this LuNlStatementInfo
+                stmtInfoList.add(tempLuNlStmtInfo);
+            }   
+            luNlStatementInfo.setChildren(stmtInfoList);
+        } else {
+            //retrieve all req. component LEAFS
+            List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
+            for (ReqComponentVO reqComponent : reqComponentVOs) {                                    
+                System.out.println("got REQ: " + reqComponent.getTypeDesc());
+                ReqComponentInfo newReqComp = new ReqComponentInfo();
+                newReqComp.setId(reqComponent.getReqComponentInfo().getId());
+                newReqComp.setType(reqComponent.getReqComponentInfo().getType());
+                newReqComp.setDesc(reqComponent.getTypeDesc());
+                reqComponentList.add(newReqComp);
+            }  
+            luNlStatementInfo.setRequiredComponents(reqComponentList);
         }        
         
         return "";
