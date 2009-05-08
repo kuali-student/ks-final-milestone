@@ -24,9 +24,8 @@ public class KSHistory implements ValueChangeHandler<String> {
     public static final String LAYOUT_KEY = "section";
     public static final String IDABLE_KEY = "id";
 
-    DefaultCreateUpdateLayout<?> layout;
-    Controller controller;
-    Map<Enum<?>, ConfigurableLayout<?>> layoutMap;
+    private Controller controller;
+    private Map<Enum<?>, ConfigurableLayout<?>> layoutMap;
     
     public KSHistory(final Controller controller) {
         this.controller = controller;
@@ -59,65 +58,12 @@ public class KSHistory implements ValueChangeHandler<String> {
             }
         });
     }
-    @Deprecated
-    public KSHistory(final Controller controller, DefaultCreateUpdateLayout<?> layout) {
-        this.controller = controller;
-        this.layout = layout;
-        History.newItem("view="+controller.getCurrentViewEnum().name()+(layout.getObject() == null? "": "&id="+layout.getObject().getId()));
-        controller.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
-            String key = CONTROLLER_KEY;
-            @Override
-            public void onViewChange(ViewChangeEvent event) {
-                Map<String, List<String>> params = buildListParamMap(History.getToken());
-                if(params.get(key) == null) {
-                    History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+controller.getCurrentViewEnum().name());
-                } else {
-                    String temp = "";
-                    for(String name : params.keySet()) {
-                        if(name.equals(key)) {
-                            temp += "&" + name + "=" + event.getNewView().getName();
-                        } else {
-                            String t = "&"+name+"=";
-                            List<String> values = params.get(name);
-                            for(String value : values) {
-                                temp += t + value;
-                            }
-                        }
-                    }
-                    History.newItem(temp.substring(1));
-                }
-            }
-        });
-        layout.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
-            String key = LAYOUT_KEY;
-            @Override
-            public void onViewChange(ViewChangeEvent event) {
-                Map<String, List<String>> params = buildListParamMap(History.getToken());
-                if(params.get(key) == null) {
-                    History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+event.getNewView().getName());
-                } else {
-                    String temp = "";
-                    for(String name : params.keySet()) {
-                        if(name.equals(key)) {
-                            temp += "&" + name + "=" + event.getNewView().getName();
-                        } else {
-                            String t = "&"+name+"=";
-                            List<String> values = params.get(name);
-                            for(String value : values) {
-                                temp += t + value;
-                            }
-                        }
-                    }
-                    History.newItem(temp.substring(1));
-                }
-            }});
-        History.addValueChangeHandler(this);
-    }
     
     public void addLayoutToView(Enum<?> view, ConfigurableLayout<?> layout) {
+        if(view == null)
+            throw new NullPointerException("view cannot be null (not as worried about this one)");
         if(layout == null) {
-            System.out.println("!!!LAYOUT IS NULL! BAD BAD BAD!");
-            return;
+            throw new NullPointerException("layout cannot be null");
         }
         layoutMap.put(view, layout);
         layout.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
