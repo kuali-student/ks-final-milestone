@@ -60,9 +60,9 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 		this.luDao.create(stmt1);
 		
-		String translation = translator.translate(stmt1.getId(), "KUALI.CATALOG");
+		String translation = translator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		reqComp.setId("req-1");
 		stmt1.setRequiredComponents(Arrays.asList(reqComp));
 
-		String translation = translator.translate(stmt1, "KUALI.CATALOG");
+		String translation = translator.translate(null, stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
@@ -100,7 +100,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		stmt1.setChildren(Arrays.asList(stmt11));
 		this.luDao.create(stmt1);
 		
-		String translation = translator.translate(stmt1, "KUALI.CATALOG");
+		String translation = translator.translate(null, stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
@@ -120,7 +120,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		
 		stmt1.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
 
-		String translation = translator.translate(stmt1, "KUALI.CATALOG");
+		String translation = translator.translate(null, stmt1, "KUALI.CATALOG");
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", translation);
 	}
 
@@ -151,9 +151,9 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		stmt1.setChildren(Arrays.asList(stmt11, stmt12));
 		this.luDao.create(stmt1);
 		
-		String translation = translator.translate(stmt1, "KUALI.CATALOG");
+		String translation = translator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 AND Student must have completed 2 of MATH 152, MATH 180", translation);
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 AND Student must have completed 2 of MATH 152, MATH 180", translation);
 	}
 
 	@Test
@@ -208,7 +208,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		stmt1.setOperator(StatementOperatorTypeKey.AND);
 		stmt1.setChildren(Arrays.asList(stmt11, stmt12));
 		
-		String translation = this.translator.translate(stmt1, "KUALI.CATALOG");
+		String translation = this.translator.translate(null, stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("Student must have completed 0 of MATH 152, MATH 221, MATH 180 AND " +
 				"(Student must have completed 1 of MATH 152, MATH 221, MATH 180 OR " +
@@ -342,7 +342,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		// Rule: R1 AND R2 AND ((R3 AND R4) OR R5) AND R6 AND (R7 OR R8 OR R9)
 		LuStatement stmt1 = getComplexStatement();
 		
-		String translation = this.translator.translate(stmt1, "KUALI.CATALOG");
+		String translation = this.translator.translate(null, stmt1, "KUALI.CATALOG");
 
 		// Rule: R1 AND R2 AND ((R3 AND R4) OR R5) AND R6 AND (R7 OR R8 OR R9)
 		Assert.assertEquals(
@@ -355,6 +355,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	}
 
 	private LuStatement createSimpleStatement(boolean persist) throws DoesNotExistException {
+		//Rule: (R1 OR R2) AND R3
 		LuStatement stmt1 = new LuStatement();
 		stmt1.setOperator(StatementOperatorTypeKey.AND);
 
@@ -366,7 +367,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		reqComp1.setId("req-1");
 		List<ReqComponentField> fieldList2 = statementTestUtil.createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
 		ReqComponent reqComp2 = statementTestUtil.createReqComponent("kuali.reqCompType.courseList.nof", fieldList2, persist);
-		reqComp2.setId("req-1");
+		reqComp2.setId("req-2");
 		stmt11.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
 		if(persist) {
 			this.luDao.create(stmt11);
@@ -379,7 +380,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		stmt12.setOperator(StatementOperatorTypeKey.AND);
 		List<ReqComponentField> fieldList3 = statementTestUtil.createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-1");
 		ReqComponent reqComp3 = statementTestUtil.createReqComponent("kuali.reqCompType.courseList.nof", fieldList3, persist);
-		reqComp3.setId("req-1");
+		reqComp3.setId("req-3");
 		stmt12.setRequiredComponents(Arrays.asList(reqComp3));
 		if(persist) {
 			this.luDao.create(stmt12);
@@ -399,7 +400,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void testTranslateStatementTree1() throws Exception {
-		// Rule = R1 AND R2
+		// Rule: R1 AND R2
 		LuStatement stmt1 = new LuStatement();
 		stmt1.setId("stmt-1");
 		stmt1.setOperator(StatementOperatorTypeKey.OR);
@@ -413,7 +414,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		
 		stmt1.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
 		
-		NLTranslationNodeInfo root = translator.translateToTree(stmt1, "KUALI.CATALOG");
+		NLTranslationNodeInfo root = translator.translateToTree("CLU-NL-1", stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("stmt-1", root.getId());
 		Assert.assertEquals(2, root.getChildNodes().size());
@@ -421,15 +422,15 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals("req-2", root.getChildNodes().get(1).getId());
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", root.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getChildNodes().get(1).getNLTranslation());
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getNLTranslation());
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getNLTranslation());
 	}
 	
 	@Test
 	public void testTranslateStatementTree2() throws Exception {
-		// Rule = R1 AND R2
+		//Rule: (R1 OR R2) AND R3
 		LuStatement stmt1 = createSimpleStatement(false);
 		
-		NLTranslationNodeInfo root = translator.translateToTree(stmt1, "KUALI.CATALOG");
+		NLTranslationNodeInfo root = translator.translateToTree("CLU-NL-1", stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("S1", root.getId());
 		Assert.assertEquals(2, root.getChildNodes().size());
@@ -439,6 +440,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 180", root.getChildNodes().get(1).getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 180", root.getChildNodes().get(1).getNLTranslation());
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: (Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180) AND Student must have completed 2 of MATH 152, MATH 180", root.getNLTranslation());
 	}
 
 	@Test
@@ -446,7 +448,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		// Rule = R1 AND R2
 		LuStatement stmt1 = createSimpleStatement(true);
 		
-		NLTranslationNodeInfo root = translator.translateToTree(stmt1.getId(), "KUALI.CATALOG");
+		NLTranslationNodeInfo root = translator.translateToTree("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
 		Assert.assertNotNull(root.getId());
 		Assert.assertEquals(2, root.getChildNodes().size());
 		Assert.assertNotNull(root.getChildNodes().get(0).getId());
@@ -461,6 +463,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 180", root.getChildNodes().get(1).getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 180", root.getChildNodes().get(1).getNLTranslation());
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: (Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180) AND Student must have completed 2 of MATH 152, MATH 180", root.getNLTranslation());
 	}
 	
 	@Test
@@ -468,7 +471,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		// Rule: R1 AND R2 AND ((R3 AND R4) OR R5) AND R6 AND (R7 OR R8 OR R9)
 		LuStatement stmt1 = getComplexStatement();
 
-		NLTranslationNodeInfo root = translator.translateToTree(stmt1, "KUALI.CATALOG");
+		NLTranslationNodeInfo root = translator.translateToTree("CLU-NL-1", stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("S1", root.getId());
 		Assert.assertEquals(3, root.getChildNodes().size());
@@ -521,5 +524,15 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(0).getNLTranslation());
 		Assert.assertEquals("Student must have completed 3 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(1).getNLTranslation());
 		Assert.assertEquals("Student must have completed 0 of MATH 152, MATH 221, MATH 180", node.getChildNodes().get(2).getNLTranslation());
+		Assert.assertEquals("Requirement for MATH 152 Linear Systems: " +
+				"Student must have completed 0 of MATH 152, MATH 221, MATH 180 " +
+				"AND Student must have completed 1 of MATH 152, MATH 221, MATH 180 " +
+				"AND ((Student must have completed 0 of MATH 152, MATH 221, MATH 180 " +
+				"AND Student must have completed 1 of MATH 152, MATH 221, MATH 180) " +
+				"OR Student must have completed 2 of MATH 152, MATH 221, MATH 180) " +
+				"AND Student must have completed 3 of MATH 152, MATH 221, MATH 180 " +
+				"AND (Student must have completed 2 of MATH 152, MATH 221, MATH 180 " +
+				"OR Student must have completed 3 of MATH 152, MATH 221, MATH 180 " +
+				"OR Student must have completed 0 of MATH 152, MATH 221, MATH 180)", root.getNLTranslation());
 	}
 }

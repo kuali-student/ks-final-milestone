@@ -66,7 +66,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException
 	 */
 	public String translateStatement(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translate(statementId, nlUsageTypeKey);
+		return statementTranslator.translate(cluId, statementId, nlUsageTypeKey);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException Translation fails
 	 */
 	public String translateStatement(String cluId, LuStatement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translate(statement, nlUsageTypeKey);
+		return statementTranslator.translate(cluId, statement, nlUsageTypeKey);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException Translation fails
 	 */
 	public NLTranslationNodeInfo translateToTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translateToTree(statementId, nlUsageTypeKey);
+		return statementTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
 	}
 
 	/**
@@ -111,6 +111,6 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException Translation fails
 	 */
 	public NLTranslationNodeInfo translateToTree(String cluId, LuStatement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translateToTree(statement, nlUsageTypeKey);
+		return statementTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
 	}
 }

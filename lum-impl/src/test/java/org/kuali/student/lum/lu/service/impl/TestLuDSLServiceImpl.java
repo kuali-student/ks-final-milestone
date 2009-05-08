@@ -642,8 +642,8 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetNaturalLanguageForLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = client.getNaturalLanguageForLuStatement("someid", "STMT-5", "KUALI.CATALOG");
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+		String naturalLanguage = client.getNaturalLanguageForLuStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 	
 	private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String cluSetId) {
@@ -691,9 +691,9 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		
 		statementInfo.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
 		
-		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", statementInfo, "KUALI.CATALOG");
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("CLU-NL-1", statementInfo, "KUALI.CATALOG");
 
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
@@ -740,9 +740,10 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		s4.setRequiredComponents(Arrays.asList(r3));
 		s5.setRequiredComponents(Arrays.asList(r4));
 		
-		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", s1, "KUALI.CATALOG");
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("CLU-NL-1", s1, "KUALI.CATALOG");
 
-		assertEquals("((Student must have completed none of MATH 152, MATH 180 " +
+		assertEquals("Requirement for MATH 152 Linear Systems: " +
+				"((Student must have completed none of MATH 152, MATH 180 " +
 				"OR Student must have completed all of MATH 152, MATH 221, MATH 180) " +
 				"AND Student must have completed 2 of MATH 152, MATH 221, MATH 180) " +
 				"OR Student must have completed all of MATH 221, MATH 180, MATH 200, MATH 215", naturalLanguage);
@@ -820,9 +821,10 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		s7.setRequiredComponents(Arrays.asList(r6));
 		s8.setRequiredComponents(Arrays.asList(r7, r8));
 		
-		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("someid", s1, "KUALI.CATALOG");
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("CLU-NL-1", s1, "KUALI.CATALOG");
 
-		assertEquals("((Student must have completed none of MATH 152, MATH 180 " +
+		assertEquals("Requirement for MATH 152 Linear Systems: " +
+				"((Student must have completed none of MATH 152, MATH 180 " +
 				"OR Student must have completed 1 of MATH 152, MATH 180) " +
 				"AND (Student must have completed none of MATH 152, MATH 221, MATH 180 " +
 				"OR Student must have completed 1 of MATH 152, MATH 221, MATH 180)) " +
@@ -834,22 +836,22 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetNaturalLanguageForStatementAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
-		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementAsTree("someid", "STMT-5", "KUALI.CATALOG");
+		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementAsTree("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 OR R2", rootNode.getBooleanExpression());
 		assertEquals(2, rootNode.getChildNodes().size());
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
+		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 
 	@Test
 	public void testGetNaturalLanguageForStatementInfoAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
 		LuStatementInfo statementInfo = client.getLuStatement("STMT-5");
-		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementInfoAsTree("someid", statementInfo, "KUALI.CATALOG");
+		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementInfoAsTree("CLU-NL-1", statementInfo, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 OR R2", rootNode.getBooleanExpression());
 		assertEquals(2, rootNode.getChildNodes().size());
-		assertEquals("Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
+		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 }

@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.naturallanguage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,14 +13,16 @@ import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.report.MessageBuilder;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.MessageBuilderImpl;
+import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
+import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
-public class StatementTranslator extends AbstractTranslator<LuStatement> {
+public class StatementTranslator { //extends AbstractTranslator<LuStatement> {
 	private LuDao luDao;
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator = new ReqComponentTranslator();
@@ -38,13 +41,13 @@ public class StatementTranslator extends AbstractTranslator<LuStatement> {
 		this.reqComponentTranslator.setLuDao(this.luDao);
 	}
 
-	public String translate(String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public String translate(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
-		String message = translate(luStatement, nlUsageTypeKey);
+		String message = translate(cluId, luStatement, nlUsageTypeKey);
 		return message;
 	}
 
-	public String translate(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public String translate(String cluId, LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
 			return null;
 		}
@@ -62,16 +65,17 @@ public class StatementTranslator extends AbstractTranslator<LuStatement> {
 		}
 		
 		String message = this.messageBuilder.buildMessage(booleanExpression, messageContainer);
-
-		return message;
+		String header = getHeader(cluId);
+		
+		return header + message;
 	}
 
-	public NLTranslationNodeInfo translateToTree(String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public NLTranslationNodeInfo translateToTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
-		return translateToTree(luStatement, nlUsageTypeKey);
+		return translateToTree(cluId, luStatement, nlUsageTypeKey);
 	}
 
-	public NLTranslationNodeInfo translateToTree(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	public NLTranslationNodeInfo translateToTree(String cluId, LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
 			return null;
 		}
@@ -81,11 +85,33 @@ public class StatementTranslator extends AbstractTranslator<LuStatement> {
 		String booleanId = statementParser.getIdMap().get(luStatement.getId());
 		NLTranslationNodeInfo root = new NLTranslationNodeInfo(luStatement.getId(), booleanId, operator);
 		root.setBooleanExpression(booleanExpression);
+
 		createStatementTree(luStatement, root, nlUsageTypeKey);
+
+		String translation = translate(cluId, luStatement, nlUsageTypeKey);
+		root.setNLTranslation(translation);
 
 		return root;
 	}
 	
+	private String getHeader(String cluId) throws DoesNotExistException {
+        if(cluId == null) {
+        	return "";
+        }
+        
+		Clu clu = this.luDao.fetch(Clu.class, cluId);
+        String cluName = clu.getOfficialIdentifier().getLongName();
+		
+		String templateHeader = "Requirement for $cluName: ";
+		
+        VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        contextMap.put("cluName", cluName);
+        String s = templateEngine.evaluate(contextMap, templateHeader);
+        
+        return s;
+	}
+
 	private void createStatementTree(LuStatement luStatement, NLTranslationNodeInfo rootNode, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {
 		if (luStatement.getChildren() == null || luStatement.getChildren().isEmpty()) {
