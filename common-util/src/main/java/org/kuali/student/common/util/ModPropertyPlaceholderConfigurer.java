@@ -42,23 +42,25 @@ public class ModPropertyPlaceholderConfigurer extends
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		String customConfigLocation = System.getProperty(customConfigSystemProperty);
-		
-		try{
-			Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigLocation);
-	
-			Resource[] finalLocations = new Resource[locations.length+1];
-			int i=0;
-			for(Resource resource:locations){
-				finalLocations[i]=resource;
-				i++;
-			}
-			finalLocations[i]=customConfigResource;
+		if(customConfigSystemProperty!=null){
+			String customConfigLocation = System.getProperty(customConfigSystemProperty);
 			
-			super.setLocations(finalLocations);
+			try{
+				Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigLocation);
 		
-		}catch(Exception e){
-			logger.info("Could not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation);
+				Resource[] finalLocations = new Resource[locations.length+1];
+				int i=0;
+				for(Resource resource:locations){
+					finalLocations[i]=resource;
+					i++;
+				}
+				finalLocations[i]=customConfigResource;
+				
+				super.setLocations(finalLocations);
+			
+			}catch(Exception e){
+				logger.info("Could not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation);
+			}
 		}
 	}
 
