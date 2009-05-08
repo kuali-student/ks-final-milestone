@@ -49,7 +49,7 @@ public class HomeMenuController extends Controller implements View {
     
     private MenuItemPanel createCourse = new MenuItemPanel(CREATE_COURSE);
     private MenuItemPanel modifyCourse = new MenuItemPanel(MODIFY_COURSE);
-    private MenuItemPanel empty1 = new MenuItemPanel("");
+    private MenuItemPanel empty1 = new MenuItemPanel("Bob");
     private MenuItemPanel empty2 = new MenuItemPanel("");
     private MenuItemPanel empty3 = new MenuItemPanel("");
     private MenuItemPanel empty4 = new MenuItemPanel("");
@@ -218,5 +218,9 @@ public class HomeMenuController extends Controller implements View {
     @Override
     public String getName() {
         return "LUM Home Menu";
+    }
+
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return MenuViews.class;
     }    
 }

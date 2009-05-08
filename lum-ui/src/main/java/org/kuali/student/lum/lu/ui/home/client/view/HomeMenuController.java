@@ -240,5 +240,9 @@ public class HomeMenuController extends Controller implements View{
             super.fireApplicationEvent(event);
         }
     }
+
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return MenuViews.class;
+    }
     
 }

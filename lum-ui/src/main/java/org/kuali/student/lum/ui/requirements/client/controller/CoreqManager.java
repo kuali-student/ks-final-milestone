@@ -79,4 +79,9 @@ public class CoreqManager extends Controller {
         return null;
     }
 
+    public Class<? extends Enum<?>> getViewsEnum() {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 }

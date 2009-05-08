@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
@@ -26,6 +27,7 @@ public class LUCreateUpdateView extends Composite implements View {
 	private final Validator validator;
 	private final String luType;
 	private final String luState;
+	KSHistory history;
 	
 	public LUCreateUpdateView(String type, String state, Validator validator) {
 		this.validator = validator;
@@ -33,12 +35,25 @@ public class LUCreateUpdateView extends Composite implements View {
 		this.luState = state;		        
 		app.setContent(panel);
 		super.initWidget(app);
+		
+        LuRpcService.Util.getInstance().getObjectStructure("cluInfo", new AsyncCallback<ObjectStructure>(){
+            public void onFailure(Throwable caught) {
+                GWT.log("Unable to load object structure", caught);                
+            }
+
+            @Override
+            public void onSuccess(ObjectStructure result) {
+                layout = getLayout(result, luType, luState);
+                
+            }
+        }); 
 	}
 
 	private ConfigurableLayout<CluInfo> getLayout(ObjectStructure structure, String type, String state) {	   	
 		LULayoutFactory factory = new LULayoutFactory(structure, validator);
         
-        DefaultCreateUpdateLayout layout = (DefaultCreateUpdateLayout)factory.getLayout(type, state); 
+        DefaultCreateUpdateLayout layout = (DefaultCreateUpdateLayout)factory.getLayout(type, state);
+//        history = new KSHistory(getController(), layout);
         layout.addCancelSectionHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 LUCreateUpdateView.this.getController().showView(LUMViews.HOME_MENU);
@@ -56,20 +71,9 @@ public class LUCreateUpdateView extends Composite implements View {
 
 	@Override
 	public void beforeShow() {
-        LuRpcService.Util.getInstance().getObjectStructure("cluInfo", new AsyncCallback<ObjectStructure>(){
-            public void onFailure(Throwable caught) {
-                GWT.log("Unable to load object structure", caught);                
-            }
+        panel.setWidget(layout);
 
-            @Override
-            public void onSuccess(ObjectStructure result) {
-                layout = getLayout(result, luType, luState);
-                
-                panel.setWidget(layout);
-
-                layout.render();
-            }
-        });	
+        layout.render();
 	}
 
 	@Override
@@ -82,6 +86,8 @@ public class LUCreateUpdateView extends Composite implements View {
 		return this.getClass().getName();
 	}
 	
-	
+	public ConfigurableLayout<CluInfo> getLayout() {
+	    return layout;
+	}
 
 }

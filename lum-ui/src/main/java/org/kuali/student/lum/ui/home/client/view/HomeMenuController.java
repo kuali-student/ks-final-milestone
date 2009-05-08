@@ -203,5 +203,9 @@ public class HomeMenuController extends Controller implements View {
     @Override
     public String getName() {
         return "LUM Home Menu";
+    }
+
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return MenuViews.class;
     }    
 }

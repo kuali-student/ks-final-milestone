@@ -123,4 +123,8 @@ public class PrereqManager extends Controller {
             });  
         }
     }
+
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return PrereqViews.class;
+    }
 }

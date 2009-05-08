@@ -261,5 +261,9 @@ public class CourseProposalManager extends Controller implements View {
             super.requestModel(modelType, callback);
         }
     }
+
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return CourseViews.class;
+    }
     
 }

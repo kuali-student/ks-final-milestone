@@ -9,6 +9,10 @@ import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
+import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
@@ -19,9 +23,12 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.StartSectionButtons;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLayout<T> {
     private final KSModalDialogPanel startSectionDialog = new KSModalDialogPanel();
@@ -85,9 +92,49 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 				current = item;
 			}
 		}
+		final String fullPath = path;
 		
 		current.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+	                fireEvent(new ViewChangeEvent(new View() {
+
+	                    @Override
+	                    public boolean beforeHide() {
+	                        return false;
+	                    }
+
+	                    @Override
+	                    public void beforeShow() {
+	                    }
+
+	                    @Override
+	                    public Controller getController() {
+	                        return null;
+	                    }
+
+	                    @Override
+	                    public String getName() {
+	                        return null;
+	                    }}, new View() {
+
+	                        @Override
+	                        public boolean beforeHide() {
+	                            return false;
+	                        }
+
+	                        @Override
+	                        public void beforeShow() {
+	                        }
+
+	                        @Override
+	                        public Controller getController() {
+	                            return null;
+	                        }
+
+	                        @Override
+	                        public String getName() {
+	                            return fullPath;
+	                        }}));
 				showSection(section);
 			}
 		});
@@ -95,6 +142,20 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		//This assumes that sections are added in order
 		sections.add(section);
 		return this;
+	}
+	
+	public void selectSection(String...hierarchy) {
+        String path = "";
+        
+        if(hierarchy.length == 1 && hierarchy[0].startsWith("/")) {
+            path = hierarchy[0];
+            hierarchy = path.split("/");
+        } else
+            for (int i=0; i<hierarchy.length; i++)
+                path = path + "/" + hierarchy[i];
+        
+        KSBasicMenu proposalMenu = (KSBasicMenu)menuPanel.getWidget(1);
+        proposalMenu.selectMenuItem(hierarchy);
 	}
 	
 	public ConfigurableLayout<T> addStartSection(LayoutSection<T> section){
@@ -123,7 +184,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		contentPanel.setWidget(section);
 	}
 
-	public void setShowSartSectionEnabled(boolean showStart){
+	public void setShowStartSectionEnabled(boolean showStart){
 	    this.showStart = showStart;
 	}
 	

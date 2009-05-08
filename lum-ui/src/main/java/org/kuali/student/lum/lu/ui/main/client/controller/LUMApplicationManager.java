@@ -3,8 +3,8 @@ package org.kuali.student.lum.lu.ui.main.client.controller;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
+import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager;
-import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager.CourseProposalType;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
@@ -18,13 +18,15 @@ public class LUMApplicationManager extends Controller{
     
     private final View homeMenu = new HomeMenuController(this);
     private CourseProposalManager createCourse = new CourseProposalManager(this);
+    KSHistory history;
     
     //Wire in validator
     private View courseCreateUpdate = new LUCreateUpdateView("course", "proposed", null);
     
     public LUMApplicationManager(){
         super();
-        super.initWidget(viewPanel);        
+        super.initWidget(viewPanel);
+        history = new KSHistory(this);
     }
     
     protected void onLoad() {
@@ -49,6 +51,7 @@ public class LUMApplicationManager extends Controller{
                 createCourse.setCourseProposalType(CourseProposalType.NEW_COURSE);                
                 return createCourse;
                 */
+                history.addLayoutToView(LUMViews.CREATE_COURSE, ((LUCreateUpdateView)courseCreateUpdate).getLayout()); //TODO should getLayout be moved to View?
                 return courseCreateUpdate;
             default:
                 return null;
@@ -72,6 +75,10 @@ public class LUMApplicationManager extends Controller{
     @Override
     public void showDefaultView() {
         this.showView(LUMViews.HOME_MENU);
+    }
+
+    public Class<? extends Enum<?>> getViewsEnum() {
+        return LUMViews.class;
     }        
 
 }
