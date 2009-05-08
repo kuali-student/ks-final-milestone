@@ -37,8 +37,12 @@ public class StatementTestUtil {
 
 		return reqComponent;
     }
-    
+
     public List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String cluSetId) {
+    	return createReqComponentFields(expectedValue, operator, "reqCompFieldType.cluSet", cluSetId);
+    }
+    
+    public List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setKey("reqCompFieldType.requiredCount");
@@ -55,8 +59,8 @@ public class StatementTestUtil {
 		//luDao.create(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
-		field3.setKey("reqCompFieldType.cluSet");
-		field3.setValue(cluSetId);
+		field3.setKey(reqCompFieldType);
+		field3.setValue(id);
 		field3.prePersist();
 		fieldList.add(field3);
 		//luDao.create(field3);

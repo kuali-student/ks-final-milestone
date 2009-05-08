@@ -1,5 +1,7 @@
 package org.kuali.student.lum.lu.naturallanguage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
@@ -107,10 +110,29 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
      * @param cluSetId
      *            CLU set id
      * @return CLU set
-     * @throws DoesNotExistException
+     * @throws DoesNotExistException If CLU set does not exist
      */
     private CustomCluSet getCluSet(String cluSetId) throws DoesNotExistException {
         CluSet cluSet = this.luDao.fetch(CluSet.class, cluSetId);
+        return new CustomCluSet(cluSet);
+    }
+
+    /**
+     * Gets a new CLU set from comma separated list of CLU ids.
+     * 
+     * @param cluIds Comma separated list of CLU ids
+     * @return A new CLU set
+     * @throws DoesNotExistException If CLU does not exist
+     */
+    private CustomCluSet getClusAsCluSet(String cluIds) throws DoesNotExistException {
+    	String[] cluIdArray = cluIds.split("\\s*,\\s*");
+    	CluSet cluSet = new CluSet();
+    	List<Clu> list = new ArrayList<Clu>();
+    	for(String cluId : cluIdArray) {
+    		Clu clu = this.luDao.fetch(Clu.class, cluId.trim());
+    		list.add(clu);
+    	}
+    	cluSet.setClus(list);
         return new CustomCluSet(cluSet);
     }
 
@@ -132,13 +154,21 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
             map.put(key, value);
         }
 
-        velocityContextMap.put(ReqCompTypes.VelocityToken.EXPECTED_VALUE_KEY.getKey(), map.get(ReqCompTypes.ReqCompFiledDefinitions.REQUIRED_COUNT_KEY.getKey()));
-        velocityContextMap.put(ReqCompTypes.VelocityToken.OPERATOR_KEY.getKey(), map.get(ReqCompTypes.ReqCompFiledDefinitions.OPERATOR_KEY.getKey()));
+        velocityContextMap.put(ReqCompTypes.VelocityToken.EXPECTED_VALUE_KEY.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.REQUIRED_COUNT_KEY.getKey()));
+        velocityContextMap.put(ReqCompTypes.VelocityToken.OPERATOR_KEY.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.OPERATOR_KEY.getKey()));
 
-        String cluSetId = map.get(ReqCompTypes.ReqCompFiledDefinitions.COUNT_CLUSET.getKey());
+        if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLU.getKey())) {
+        	String cluIds = map.get(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLU.getKey());
+        	CustomCluSet cluSet = getClusAsCluSet(cluIds);
+            velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
+        } else if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLUSET.getKey())) {
+        	String cluSetId = map.get(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLUSET.getKey());
+            CustomCluSet cluSet = getCluSet(cluSetId);
+            velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
+        } else {
+        	throw new DoesNotExistException("ReqComponent Field not set");
+        }
 
-        CustomCluSet cluSet = getCluSet(cluSetId);
-        velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
     }
 
     /**
@@ -157,7 +187,7 @@ public class ReqComponentTranslator extends AbstractTranslator<ReqComponent> {
             map.put(key, value);
         }
         
-        velocityContextMap.put(ReqCompTypes.VelocityToken.GPA.getKey(), map.get(ReqCompTypes.ReqCompFiledDefinitions.GPA_KEY.getKey()));
+        velocityContextMap.put(ReqCompTypes.VelocityToken.GPA.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.GPA_KEY.getKey()));
     }
 
     /**

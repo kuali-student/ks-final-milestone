@@ -645,8 +645,8 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		String naturalLanguage = client.getNaturalLanguageForLuStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
-	
-	private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String cluSetId) {
+
+	private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
 		field1.setId("reqCompFieldType.requiredCount");
@@ -659,8 +659,8 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		fieldList.add(field2);
 		
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-		field3.setId("reqCompFieldType.cluSet");
-		field3.setValue(cluSetId);
+		field3.setId(reqCompFieldType);
+		field3.setValue(id);
 		fieldList.add(field3);
 		
 		return fieldList;
@@ -678,14 +678,32 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
     }
 
 	@Test
-	public void testGetNaturalLanguageForLuStatementInfo_Simple() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+	public void testGetNaturalLanguageForLuStatementInfo_Simple_CluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		LuNlStatementInfo statementInfo = new LuNlStatementInfo();
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
-		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-1");
 		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
 		reqComp1.setId("req-1");
-		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
+		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
+		reqComp2.setId("req-2");
+		
+		statementInfo.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
+		
+		String naturalLanguage = client.getNaturalLanguageForLuStatementInfo("CLU-NL-1", statementInfo, "KUALI.CATALOG");
+
+		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 OR Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+	}
+
+	public void testGetNaturalLanguageForLuStatementInfo_Simple_Clu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+		LuNlStatementInfo statementInfo = new LuNlStatementInfo();
+		statementInfo.setOperator(StatementOperatorTypeKey.OR);
+
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
+		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
+		reqComp1.setId("req-1");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
 		reqComp2.setId("req-2");
 		
@@ -723,16 +741,16 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 
 		s1.setChildren(Arrays.asList(s2, s5));
 		
-		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("0", "greater_than_or_equal_to", "CLUSET-NL-1");
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("0", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-1");
 		ReqComponentInfo r1 = createReqComponent("kuali.reqCompType.courseList.none", fieldList1);
 		r1.setId("req-1");
-		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("3", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("3", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-2,CLU-NL-3");
 		ReqComponentInfo r2 = createReqComponent("kuali.reqCompType.courseList.all", fieldList2);
 		r2.setId("req-2");
-		List<ReqCompFieldInfo> fieldList3 = createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList3 = createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo r3 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList3);
 		r3.setId("req-3");
-		List<ReqCompFieldInfo> fieldList4 = createReqComponentFields("4", "greater_than_or_equal_to", "CLUSET-NL-3");
+		List<ReqCompFieldInfo> fieldList4 = createReqComponentFields("4", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-3");
 		ReqComponentInfo r4 = createReqComponent("kuali.reqCompType.courseList.all", fieldList4);
 		r4.setId("req-4");
 		
@@ -790,28 +808,28 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		
 		s6.setChildren(Arrays.asList(s7, s8));
 
-		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("0", "greater_than_or_equal_to", "CLUSET-NL-1");
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("0", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-1");
 		ReqComponentInfo r1 = createReqComponent("kuali.reqCompType.courseList.none", fieldList1);
 		r1.setId("req-1");
-		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-1");
 		ReqComponentInfo r2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
 		r2.setId("req-2");
-		List<ReqCompFieldInfo> fieldList3 = createReqComponentFields("0", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList3 = createReqComponentFields("0", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo r3 = createReqComponent("kuali.reqCompType.courseList.none", fieldList3);
 		r3.setId("req-3");
-		List<ReqCompFieldInfo> fieldList4 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList4 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo r4 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList4);
 		r4.setId("req-4");
-		List<ReqCompFieldInfo> fieldList5 = createReqComponentFields("3", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList5 = createReqComponentFields("3", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo r5 = createReqComponent("kuali.reqCompType.courseList.all", fieldList5);
 		r5.setId("req-5");
-		List<ReqCompFieldInfo> fieldList6 = createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-3");
+		List<ReqCompFieldInfo> fieldList6 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-3");
 		ReqComponentInfo r6 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList6);
 		r6.setId("req-6");
-		List<ReqCompFieldInfo> fieldList7 = createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqCompFieldInfo> fieldList7 = createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponentInfo r7 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList7);
 		r7.setId("req-7");
-		List<ReqCompFieldInfo> fieldList8 = createReqComponentFields("4", "greater_than_or_equal_to", "CLUSET-NL-3");
+		List<ReqCompFieldInfo> fieldList8 = createReqComponentFields("4", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-2, CLU-NL-3, CLU-NL-4, CLU-NL-5");
 		ReqComponentInfo r8 = createReqComponent("kuali.reqCompType.courseList.all", fieldList8);
 		r8.setId("req-8");
 		

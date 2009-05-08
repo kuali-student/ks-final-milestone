@@ -20,17 +20,18 @@ public class ReqCompTypes {
 		}
 	}
 
-	public enum ReqCompFiledDefinitions {
+	public enum ReqCompFieldDefinitions {
 		REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
 		OPERATOR_KEY("reqCompFieldType.operator"),
 		COUNT_CLUSET("reqCompFieldType.cluSet"),
+		COUNT_CLU("reqCompFieldType.clu"),
 		INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
 		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value"),
         GPA_KEY("reqCompFieldType.gpa");
 
 		private String key;
 		
-		ReqCompFiledDefinitions(String key) {
+		ReqCompFieldDefinitions(String key) {
 			this.key = key;
 		}
 		

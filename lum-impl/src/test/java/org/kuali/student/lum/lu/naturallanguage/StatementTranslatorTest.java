@@ -362,10 +362,10 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		LuStatement stmt11 = new LuStatement();
 		stmt11.setParent(stmt1);
 		stmt11.setOperator(StatementOperatorTypeKey.OR);
-		List<ReqComponentField> fieldList1 = statementTestUtil.createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		List<ReqComponentField> fieldList1 = statementTestUtil.createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
 		ReqComponent reqComp1 = statementTestUtil.createReqComponent("kuali.reqCompType.courseList.nof", fieldList1, persist);
 		reqComp1.setId("req-1");
-		List<ReqComponentField> fieldList2 = statementTestUtil.createReqComponentFields("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		List<ReqComponentField> fieldList2 = statementTestUtil.createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
 		ReqComponent reqComp2 = statementTestUtil.createReqComponent("kuali.reqCompType.courseList.nof", fieldList2, persist);
 		reqComp2.setId("req-2");
 		stmt11.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));

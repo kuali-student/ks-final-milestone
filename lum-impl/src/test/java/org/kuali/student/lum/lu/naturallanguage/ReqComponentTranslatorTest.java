@@ -30,6 +30,8 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 
 	private ReqComponentTranslator translator;
 	private String cluSetId1;
+	private String cluId1;
+	private String cluId2;
 	private ReqComponent reqComponent;
     private String courseTemplate = 
 		"#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue)) \n" +
@@ -71,7 +73,8 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     	clu1.setOfficialIdentifier(cluId1);
     	
     	clu1 = this.luDao.create(clu1);
-
+    	this.cluId1 = clu1.getId();
+    	
     	Clu clu2 = new Clu();
     	CluIdentifier cluId2 = new CluIdentifier();
     	cluId2.setCode("MATH221");
@@ -82,6 +85,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     	clu2.setOfficialIdentifier(cluId2);
     	
     	clu2 = this.luDao.create(clu2);
+    	this.cluId2 = clu2.getId();
 
     	List<Clu> cluList = new ArrayList<Clu>();
     	cluList.add(clu1);
@@ -144,10 +148,58 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		this.reqComponent = this.luDao.update(reqComponent);
     }
 
+    private void createReqComponentFieldsForClu(String expectedValue, String operator, String cluIds) {
+		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
+		ReqComponentField field1 = new ReqComponentField();
+		field1.setKey("reqCompFieldType.requiredCount");
+		field1.setValue(expectedValue);
+		field1.prePersist();
+		fieldList.add(field1);
+		this.luDao.create(field1);
+		
+		ReqComponentField field2 = new ReqComponentField();
+		field2.setKey("reqCompFieldType.operator");
+		field2.setValue(operator);
+		field2.prePersist();
+		fieldList.add(field2);
+		this.luDao.create(field2);
+		
+		ReqComponentField field3 = new ReqComponentField();
+		field3.setKey("reqCompFieldType.clu");
+		field3.setValue(cluIds);
+		field3.prePersist();
+		fieldList.add(field3);
+		this.luDao.create(field3);
+		
+		this.reqComponent.setReqCompField(fieldList);
+		this.reqComponent = this.luDao.update(reqComponent);
+    }
+
 	@Test
 	public void testTranslate_OneOf() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		createReqComponentFields("1", "greater_than_or_equal_to");
+		
+		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
+
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
+	}
+
+	@Test
+	public void testTranslate_OneOf_1Clu() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.CATALOG";
+		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluId1);
+		
+		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
+
+		Assert.assertEquals("Student must have completed all of MATH 152", text);
+	}
+
+	@Test
+	public void testTranslate_OneOf_2Clus() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.CATALOG";
+		String clus = cluId1 + "," + cluId2;
+		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
 
