@@ -6,6 +6,8 @@ import java.util.Stack;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BooleanExpressionEditorModel implements NodeEditor {
@@ -361,10 +363,11 @@ public class BooleanExpressionEditorModel implements NodeEditor {
         List<NodeWidget> list = getAllNodeWidget();
         for (NodeWidget w : list) {
             w.installCheckBox();
-            w.clearCheckBoxClickHandler();
-            w.addCheckBoxClickHandler(new ClickHandler(){
+            
+            w.addSelectionHandler(new ValueChangeHandler<Boolean>(){
                 @Override
-                public void onClick(ClickEvent event) {
+                public void onValueChange(ValueChangeEvent<Boolean> event) {
+                    System.out.println("changed");
                     fireEvent();
                 }
             });
@@ -403,13 +406,11 @@ public class BooleanExpressionEditorModel implements NodeEditor {
     }
 
     private boolean isAllInUngroupedNodes(List<Node> list) {
-
         List<Node> ungroupNodeList = this.getUngroupedNodeList();
         for (Node selected : list) {
             if (ungroupNodeList.indexOf(selected) == -1) {
                 return false;
             }
-
         }
         return true;
     }

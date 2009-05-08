@@ -53,8 +53,11 @@ public class ExpressionParser {
 
         Node<Token> root = binaryTreeFromRPN(rpnList);
         
+        //Node<Token> ruleRoot = root;
         Node<Token> ruleRoot = mergeBinaryTree(root);
-      //  ruleRoot = reStructure(root);
+      
+        
+        //  ruleRoot = reStructure(root);
         ruleRoot = orderLeafChildren(ruleRoot, tokenList );
         ruleRoot = orderNonLeafChildren(ruleRoot, tokenList );
         return ruleRoot;
