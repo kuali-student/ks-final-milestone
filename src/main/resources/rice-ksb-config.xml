@@ -32,7 +32,7 @@
     <param name="datasource.ojb.sequenceManager.className">org.apache.ojb.broker.util.sequence.SequenceManagerInMemoryImpl</param>
 -->
     <param name="datasource.ojb.platform">Derby</param>
-    <param name="datasource.url">jdbc:derby:/target/rice-db;create=true</param>
+    <param name="datasource.url">jdbc:derby:target/rice-db;create=true</param>
     <param name="datasource.username">rice</param>
     <param name="datasource.password">r1c3</param>
     <param name="datasource.pool.validationQuery">values(1)</param>

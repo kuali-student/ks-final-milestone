@@ -12,9 +12,9 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-<!--
+
 	<import resource="classpath:rice-ksb-context.xml" />
--->
+
 	<bean id="propertyConfigurer"
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -24,14 +24,12 @@
 		</property>
 		<property name="customConfigSystemProperty" value="ks.config.location"/>
 		<property name="order" value="0" />
-<!--
         <property name="properties">
             <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
                 <property name="targetObject" ref="riceConfig" />
                 <property name="targetMethod" value="getProperties" />
             </bean>
         </property>
--->        
 	</bean>
 
 	<!-- Datasources -->

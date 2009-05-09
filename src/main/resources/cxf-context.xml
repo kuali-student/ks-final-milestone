@@ -11,11 +11,11 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	<import resource="classpath:ks-core-context.xml" />
-
+<!--
 	<jaxws:endpoint id="orgService"
 		implementorClass="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl"
 		implementor="#orgServiceImpl" address="/OrgService" />
-
+-->
 	<jaxws:endpoint id="emService"
 		implementorClass="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl"
 		implementor="#emServiceImpl" address="/EmService" />

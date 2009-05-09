@@ -10,6 +10,17 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	 </listener> 
 	
+    <servlet>
+        <servlet-name>remoting</servlet-name>
+        <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>remoting</servlet-name>
+        <url-pattern>/remoting/*</url-pattern>
+    </servlet-mapping>
+
 	<servlet>
 		<servlet-name>CXF</servlet-name>
 		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
