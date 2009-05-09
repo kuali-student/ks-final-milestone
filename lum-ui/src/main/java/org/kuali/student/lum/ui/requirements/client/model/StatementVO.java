@@ -351,15 +351,40 @@ public class StatementVO extends Token implements Serializable {
             }
         }
     }
+    
+    /**
+     * returns A, B, C, ... etc depending on the number of
+     * Requirement components in the list.
+     * @param rcs
+     * @return
+     */
+    private String getNextGuiRCId(List<ReqComponentVO> rcs) {
+        int charCode = 65; // ASCII code for capitalized A
+        String guiRCId = null;
+        if (rcs != null) {
+            charCode += rcs.size();
+        }
+        // the next GUI id will be A - Z, and A1, A2, A3 afterwards.
+        if (charCode < 65 + 26) {
+            guiRCId = new String(Character.toString((char)charCode));
+        } else {
+            guiRCId = new String(Character.toString((char)(65 + 26)));
+            guiRCId = guiRCId + Integer.toString(
+                    charCode - 65 + 26 - 1);
+        }
+        return guiRCId;
+    }
 
     public Node getTree() {        
         Node node = new Node();
-        addChildrenNodes(node, this);
+        addChildrenNodes(node, this, 
+                new ArrayList<ReqComponentVO>());
         //printTree(node);
         return node;
     }
     
-    private void addChildrenNodes(Node node, StatementVO statementVO) {
+    private void addChildrenNodes(Node node, StatementVO statementVO,
+            List<ReqComponentVO> rcs) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
@@ -370,7 +395,7 @@ public class StatementVO extends Token implements Serializable {
                 StatementVO childStatementVO = statementVOs.get(i);
                 Node childNode = new Node();
                 node.addNode(childNode);
-                addChildrenNodes(childNode, childStatementVO);
+                addChildrenNodes(childNode, childStatementVO, rcs);
             }
         }
 
@@ -378,6 +403,9 @@ public class StatementVO extends Token implements Serializable {
             //System.out.println("VO size: " + reqComponentVOs.size());
             for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
                 ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
+                String guiRCId = null;
+                guiRCId = getNextGuiRCId(rcs);
+                childReqComponentVO.setGuiReferenceLabelId(guiRCId);
                 if (rcCount > 1) {
                     //System.out.println("TESTING 00---> " + childReqComponentVO.getReqComponentInfo().getDesc() + " ### " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
                     node.addNode(new Node(childReqComponentVO));
@@ -385,6 +413,7 @@ public class StatementVO extends Token implements Serializable {
                     //System.out.println("TESTING 0---> " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
                     node.setUserObject(childReqComponentVO);
                 }
+                rcs.add(childReqComponentVO);
             }
         }        
     }

@@ -93,9 +93,14 @@ public class RuleNodeWidget extends SimplePanel {
             checkBox.setValue(new Boolean(statementVO.isCheckBoxOn()), false);
         } else if (userObject instanceof ReqComponentVO) {
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
+            KSLabel rcLabel = null;
             checkBoxAndEdit= new HorizontalPanel();
             checkBoxAndEdit.setStyleName("KS-Rules-Table-Cell-Margin");
             super.setWidget(checkBoxAndEdit);
+            if (reqComponentVO.getGuiReferenceLabelId() != null) {
+                rcLabel = new KSLabel(reqComponentVO.getGuiReferenceLabelId());
+                checkBoxAndEdit.add(rcLabel);
+            }
             checkBoxAndEdit.add(checkBox);
             edit.addStyleName("KS-Rules-Edit-Link");
             checkBoxAndEdit.add(edit);
