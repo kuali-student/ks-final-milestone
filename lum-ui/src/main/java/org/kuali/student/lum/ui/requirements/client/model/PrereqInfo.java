@@ -14,6 +14,8 @@ public class PrereqInfo implements Idable {
     private StatementVO statementVO;
     private String rationale;
     private String naturalLanguage;
+    private String expression; // current state of rule expression
+    private String previewedExpression; // the state of the expression when it was previewed
 //    private NodeConverter nodeConverter = new NodeConverter();
 
     
@@ -52,14 +54,14 @@ public class PrereqInfo implements Idable {
         this.statementVO = statementVO;
     }
     
-    public Node getStatementTree() {
+    public Node getStatementTree(boolean assignGuiRCKeys) {
         Node tree = null;
         if (statementVO != null) {          
-            tree = statementVO.getTree();
+            tree = statementVO.getTree(assignGuiRCKeys);
         }
         return tree;
     }
-    
+
     private boolean statementVOIsGroupAble(
             List<StatementVO> selectedStatementVOs,
             List<ReqComponentVO> selectedReqComponentVOs) {
@@ -353,6 +355,23 @@ public class PrereqInfo implements Idable {
     
     public List<ReqComponentVO> getSelectedReqComponentVOs() {
         return (statementVO == null)? null : statementVO.getSelectedReqComponentVOs();
+    }
+    
+    public void populateExpression() {
+        expression = (statementVO == null)? null : statementVO.convertToExpression();
+    }
+    
+    public String getExpression() {
+        return expression;
+    }
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+    public String getPreviewedExpression() {
+        return previewedExpression;
+    }
+    public void setPreviewedExpression(String previewedExpression) {
+        this.previewedExpression = previewedExpression;
     }
 
 }

@@ -48,6 +48,7 @@ public class ComplexView extends ViewComposite {
     private KSButton btnDuplicateRule = new KSButton("Duplicate Rule");
     private KSButton btnMoveRuleDown = new KSButton();
     private KSButton btnMoveRuleUp = new KSButton();
+    private KSButton btnManualEdit = new KSButton("Edit Manually");
     private KSButton btnSaveRule = new KSButton("Save");    
     private KSLabel naturalLanguage = new KSLabel();
     private RuleTable ruleTable = new RuleTable();
@@ -302,6 +303,15 @@ public class ComplexView extends ViewComposite {
                 redraw();
             }
         });
+        
+        btnManualEdit.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                prereqInfo.populateExpression();
+                prereqInfo.setPreviewedExpression(prereqInfo.getExpression());
+                getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR);
+            }
+        });
     }
        
     private void redraw() {
@@ -358,8 +368,12 @@ public class ComplexView extends ViewComposite {
         tableButtonsPanel.add(arrowButtonsPanel);
         tempPanel2.add(tableButtonsPanel);
         complexView.add(tempPanel2);
-               
         SimplePanel verticalSpacer2 = new SimplePanel();
+        verticalSpacer2.setHeight("15px");
+        btnManualEdit.addStyleName("KS-Rules-Tight-Grey-Button");
+        complexView.add(btnManualEdit);
+               
+        SimplePanel verticalSpacer3 = new SimplePanel();
         verticalSpacer2.setHeight("30px");
         complexView.add(verticalSpacer2);             
         
@@ -371,7 +385,7 @@ public class ComplexView extends ViewComposite {
         complexView.add(nlHeading);        
         complexView.add(naturalLanguage); 
         
-        SimplePanel verticalSpacer3 = new SimplePanel();
+        SimplePanel verticalSpacer4= new SimplePanel();
         verticalSpacer3.setHeight("20px");
         complexView.add(verticalSpacer3);          
         
@@ -400,11 +414,11 @@ public class ComplexView extends ViewComposite {
         btnSaveRule.setEnabled(false);
         ruleTable.clear();
         if (prereqInfo != null) {
+            Node tree = prereqInfo.getStatementTree(true);
             if (prereqInfo.getStatementVO() != null) {
                 System.out.println("statement is: " +
                         prereqInfo.getStatementVO().getPrintableStatement());
             }
-            Node tree = prereqInfo.getStatementTree();
             
             if (tree != null) {
                 ruleTable.buildTable(tree);

@@ -20,14 +20,24 @@ public class RuleTable extends Composite {
 
     private TreeTable treeTable;
     private SimplePanel simplePanel;
+    private boolean showControls;
     
     public RuleTable() {
         treeTable = new TreeTable();
         simplePanel = new SimplePanel();
+        showControls = true;
         super.initWidget(simplePanel);
         simplePanel.add(treeTable);
     }
     
+    public boolean isShowControls() {
+        return showControls;
+    }
+
+    public void setShowControls(boolean showControls) {
+        this.showControls = showControls;
+    }
+
     private void initTable(Node root) {
         treeTable.clear();
         int column = root.getMaxLevelDistance() + 1; // 1 is for root
@@ -124,7 +134,7 @@ public class RuleTable extends Composite {
      * */
     private void buildTable(Node node, int columnIndex) {
         int rowIndex = getRowIndexAmongSibings(node);
-        RuleNodeWidget nodeWidget = new RuleNodeWidget(node);
+        RuleNodeWidget nodeWidget = new RuleNodeWidget(node, showControls);
         treeTable.setWidget(rowIndex, columnIndex, nodeWidget);
 
         for (int i = 0; i < node.getChildCount(); i++) {
@@ -133,6 +143,7 @@ public class RuleTable extends Composite {
                 int childRowIndex = getRowIndexAmongSibings(child);
                 RuleNodeWidget childNodeWidget = 
                     (RuleNodeWidget) ((FlexTable)treeTable).getWidget(childRowIndex, columnIndex + 1);
+                childNodeWidget.setShowControls(this.showControls);
                 childNodeWidget.setNode(child);
             } else {
                 buildTable(child, columnIndex + 1);

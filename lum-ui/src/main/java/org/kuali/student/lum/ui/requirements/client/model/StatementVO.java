@@ -375,16 +375,18 @@ public class StatementVO extends Token implements Serializable {
         return guiRCId;
     }
 
-    public Node getTree() {        
+    public Node getTree(boolean assignGuiRCKeys) {        
         Node node = new Node();
         addChildrenNodes(node, this, 
-                new ArrayList<ReqComponentVO>());
+                new ArrayList<ReqComponentVO>(),
+                assignGuiRCKeys);
         //printTree(node);
         return node;
     }
     
     private void addChildrenNodes(Node node, StatementVO statementVO,
-            List<ReqComponentVO> rcs) {
+            List<ReqComponentVO> rcs,
+            boolean assignGuiRCKeys) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
@@ -395,7 +397,7 @@ public class StatementVO extends Token implements Serializable {
                 StatementVO childStatementVO = statementVOs.get(i);
                 Node childNode = new Node();
                 node.addNode(childNode);
-                addChildrenNodes(childNode, childStatementVO, rcs);
+                addChildrenNodes(childNode, childStatementVO, rcs, assignGuiRCKeys);
             }
         }
 
@@ -403,9 +405,11 @@ public class StatementVO extends Token implements Serializable {
             //System.out.println("VO size: " + reqComponentVOs.size());
             for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
                 ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
-                String guiRCId = null;
-                guiRCId = getNextGuiRCId(rcs);
-                childReqComponentVO.setGuiReferenceLabelId(guiRCId);
+                if (assignGuiRCKeys) {
+                    String guiRCId = null;
+                    guiRCId = getNextGuiRCId(rcs);
+                    childReqComponentVO.setGuiReferenceLabelId(guiRCId);
+                }
                 if (rcCount > 1) {
                     //System.out.println("TESTING 00---> " + childReqComponentVO.getReqComponentInfo().getDesc() + " ### " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
                     node.addNode(new Node(childReqComponentVO));
@@ -454,6 +458,43 @@ public class StatementVO extends Token implements Serializable {
         return selectedStatementVOs;
     }
     
+    /**
+     * goes through the entire tree recursively and returns the list of all RCs
+     * @return
+     */
+    public List<ReqComponentVO> getAllReqComponentVOs() {
+        return doGetAllReqComponentVOs(this, new ArrayList<ReqComponentVO>());
+    }
+    
+    public ReqComponentVO getReqComponentVOByGuiKey(String guiKey) {
+        ReqComponentVO result = null;
+        List<ReqComponentVO> allRCs = getAllReqComponentVOs();
+        for (ReqComponentVO rc : allRCs) {
+            if (rc.getGuiReferenceLabelId() != null && rc.getGuiReferenceLabelId().equals(guiKey)) {
+                result = rc;
+                break;
+            }
+        }
+        return result;
+    }
+    
+    private List<ReqComponentVO> doGetAllReqComponentVOs(StatementVO statementVO,
+            List<ReqComponentVO> allRCs) {
+        List<ReqComponentVO> childrenReqComponentVOs = statementVO.getReqComponentVOs();
+        List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
+        if (childrenReqComponentVOs != null && !childrenReqComponentVOs.isEmpty()) {
+            for (ReqComponentVO childReqComponentVO : childrenReqComponentVOs) {
+                allRCs.add(childReqComponentVO);
+            }
+        }
+        if (childrenStatementVOs != null && !childrenStatementVOs.isEmpty()) {
+            for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
+                doGetAllReqComponentVOs(childStatementVO, allRCs);
+            }
+        }
+        return allRCs;
+    }
+    
     public List<ReqComponentVO> getSelectedReqComponentVOs() {
         List<ReqComponentVO> selectedReqComponentVOs = new ArrayList<ReqComponentVO>();
         return doGetSelectedReqComponentVOs(this, selectedReqComponentVOs);
@@ -461,10 +502,10 @@ public class StatementVO extends Token implements Serializable {
     
     private List<ReqComponentVO> doGetSelectedReqComponentVOs(StatementVO statementVO,
             List<ReqComponentVO> selectedReqComponentVOs) {
-        List<ReqComponentVO> childernReqComponentVOs = statementVO.getReqComponentVOs();
+        List<ReqComponentVO> childrenReqComponentVOs = statementVO.getReqComponentVOs();
         List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
-        if (childernReqComponentVOs != null && !childernReqComponentVOs.isEmpty()) {
-            for (ReqComponentVO childReqComponentVO : childernReqComponentVOs) {
+        if (childrenReqComponentVOs != null && !childrenReqComponentVOs.isEmpty()) {
+            for (ReqComponentVO childReqComponentVO : childrenReqComponentVOs) {
                 if (childReqComponentVO.isCheckBoxOn()) {
                     selectedReqComponentVOs.add(childReqComponentVO);
                 }
@@ -550,42 +591,37 @@ public class StatementVO extends Token implements Serializable {
     }
     
     public void simplify() {
-        doSimplify(this);
+        doSimplify(this, null);
         cleanupStatementVO();
         unwrapRCs();
     } 
     
-    private void doSimplify(StatementVO statementVO) {
+    private void doSimplify(StatementVO statementVO, StatementVO parent) {
         StatementOperatorTypeKey op =
             (statementVO == null || statementVO.getLuStatementInfo() == null)? null :
                 statementVO.getLuStatementInfo().getOperator();
-        if (statementVO.getStatementVOCount() > 0) {
-            List<StatementVO> subSs = new ArrayList<StatementVO>(
-                    statementVO.getStatementVOs());
-            for (StatementVO subS : subSs) {
-                StatementOperatorTypeKey 
-                    subOp = (subS == null || subS.getLuStatementInfo() == null)? null :
-                        subS.getLuStatementInfo().getOperator();
-                // operator of sub statement is the same as that of this statement
-                // combine the
-                // Note: to maintain the requirement that no statement will have both RCs 
-                // and Sub statements as a child an additional condition is added to ignore
-                // the duplicated operators of wrapped statements
-                if (subOp == op && !subS.isWrapperStatementVO()) {
-                    // if sub statement contains further subs delete the sub statement and
-                    // move all the grand sub statements to the current statement.
-                    // else if sub statement contains RCs delete the sub statements and
-                    // move all the RCs to the current statement.
-                    statementVO.removeStatementVO(subS);
-                    if (subS.getStatementVOCount() > 0) {
-                        statementVO.addStatementVOs(subS.getStatementVOs());
-                    } else if (subS.getReqComponentVOCount() > 0) {
-                        statementVO.addReqComponentVOs(subS.getReqComponentVOs());
-                    }
-                } else if (!subS.isWrapperStatementVO()) {
-                    doSimplify(subS);
+        StatementOperatorTypeKey
+        parentOp = (parent == null || parent.getLuStatementInfo() == null)? null :
+            parent.getLuStatementInfo().getOperator();
+        if (parentOp == op && !statementVO.isWrapperStatementVO()) {
+            if (statementVO.getReqComponentVOCount() > 0) {
+                parent.removeStatementVO(statementVO);
+                for (ReqComponentVO rc : statementVO.getReqComponentVOs()) {
+                    parent.addReqComponentVO(rc);
                 }
-                
+            } else if (statementVO.getStatementVOCount() > 0) {
+                parent.removeStatementVO(statementVO);
+                List<StatementVO> subSs = new ArrayList<StatementVO>(
+                        statementVO.getStatementVOs());
+                for (StatementVO subS : subSs) {
+                    doSimplify(subS, statementVO);
+                }
+                parent.addStatementVOs(statementVO.getStatementVOs());
+            }
+        } else if (statementVO.getStatementVOCount() > 0) {
+            List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
+            for (StatementVO subS : subSs) {
+                doSimplify(subS, statementVO);
             }
         }
     }
@@ -647,15 +683,21 @@ public class StatementVO extends Token implements Serializable {
 
     public String getPrintableStatement() {
         StringBuilder sbResult = null;
-        Map<String, ReqComponentVO> reqComponentMap = new HashMap<String, ReqComponentVO>();
-        sbResult = doPrintStatement(new StringBuilder(),
-                this, reqComponentMap);
+        sbResult = doConvertToExpression(new StringBuilder(),
+                this, true);
         return sbResult.toString();
     }
     
-    private StringBuilder doPrintStatement(StringBuilder inSbResult, 
+    public String convertToExpression() {
+        StringBuilder sbResult = null;
+        sbResult = doConvertToExpression(new StringBuilder(),
+                this, false);
+        return sbResult.toString();
+    }
+    
+    private StringBuilder doConvertToExpression(StringBuilder inSbResult, 
             StatementVO statementVO,
-            Map<String, ReqComponentVO> reqComponentMap) {
+            boolean extraBrackets) {
         List<StatementVO> currStatementVOs = (statementVO == null)? null :
             statementVO.getStatementVOs();
         List<ReqComponentVO> currReqComponentVOs = (statementVO == null)? null :
@@ -670,15 +712,19 @@ public class StatementVO extends Token implements Serializable {
                                     statementVO.getLuStatementInfo().getOperator();
                     inSbResult.append(" " + operator + " ");
                 }
-                inSbResult.append("(");
-                inSbResult.append(doPrintStatement(new StringBuilder(), childStatementVO, reqComponentMap).toString());
-                inSbResult.append(")");
+                if (extraBrackets || !childStatementVO.isWrapperStatementVO()) {
+                    inSbResult.append("(");
+                }
+                inSbResult.append(doConvertToExpression(new StringBuilder(), childStatementVO, 
+                        extraBrackets).toString());
+                if (extraBrackets || !childStatementVO.isWrapperStatementVO()) {
+                    inSbResult.append(")");
+                }
                 statementCounter++;
             }
         } else if (currReqComponentVOs != null && !currReqComponentVOs.isEmpty()) {
             int rcCounter = 0;
             for (ReqComponentVO childReqComponentInfo : currReqComponentVOs) {
-                String rcId = Integer.toString(reqComponentMap.size());
                 if (rcCounter > 0) {
                     StatementOperatorTypeKey operator =
                         (statementVO == null ||
@@ -686,9 +732,7 @@ public class StatementVO extends Token implements Serializable {
                                     statementVO.getLuStatementInfo().getOperator();
                     inSbResult.append(" " + operator + " ");
                 }
-                reqComponentMap.put(rcId,
-                        childReqComponentInfo);
-                inSbResult.append(rcId);
+                inSbResult.append(childReqComponentInfo.getGuiReferenceLabelId());
                 rcCounter++;
             }
         }
