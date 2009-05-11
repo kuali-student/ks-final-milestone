@@ -19,17 +19,7 @@
 
 	<context:annotation-config/>
 	
-	<bean id="propertyConfigurer"
-		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:META-INF/test.properties</value>
-			</list>
-		</property>
-		<property name="customConfigSystemProperty" value="ks.config.location"/>
-		<property name="order" value="0" />
-	</bean>
-
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
 	<import resource="classpath:*-mock-dao-context.xml" />
 
 	<bean id="systemPropertyConfigurer"

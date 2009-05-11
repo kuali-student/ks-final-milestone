@@ -144,7 +144,6 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			Daos daos = testImplClass.getAnnotation(Daos.class);
 
 			String daoImpls = "";
-			System.setProperty("ks.test.daoImplClasses", daoImpls);
 			if (daos != null) {
 				int i = 1;
 				for (Dao dao : daos.value()) {
@@ -154,9 +153,9 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 					}
 					i++;
 				}
-				System.setProperty("ks.test.daoImplClasses", daoImpls);
 			}
-
+			System.setProperty("ks.test.daoImplClasses", daoImpls);
+			
 			server = new Server(Integer.valueOf(System
 					.getProperty("ks.test.port")));
 
@@ -192,8 +191,15 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			context.setResourceBase("src/test/resources");
 
 			Map<String, String> initParams = new HashMap<String, String>();
-			initParams.put("contextConfigLocation", "classpath:META-INF/"
-					+ wsEngine + "-context.xml");
+			
+			//Set the context config location
+			String contextConfigLocation = "classpath:META-INF/" + wsEngine + "-context.xml";
+			if(!"".equals(daoImpls)){
+				//If there are Daos defined, add the dao context file
+				contextConfigLocation +="\nclasspath:META-INF/default-dao-context-test.xml";
+			}
+			
+			initParams.put("contextConfigLocation", contextConfigLocation);
 			initParams.put("log4jConfigLocation", "log4j.properties");
 			context.setInitParams(initParams);
 			context

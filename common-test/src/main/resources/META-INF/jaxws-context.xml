@@ -10,7 +10,6 @@
           http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd 
           http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
 
-	<import resource="classpath:META-INF/default-dao-context-test.xml" />
 	<import resource="classpath:META-INF/default-service-context-test.xml" />
 
 	<ws:service id="serviceWS" bean="#service"

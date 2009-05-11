@@ -10,7 +10,6 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<import resource="classpath:META-INF/default-dao-context-test.xml" />
 	
 	<!--  This import sets up a listener to inject WebServiceContext when using spring transactions -->
 	<import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml"/>	

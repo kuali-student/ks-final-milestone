@@ -79,4 +79,9 @@ public class MyServiceImpl implements MyService {
 		this.myClass = myClass;
 	}
 
+	@Override
+	public String echo(String string) {
+		return "Echo: "+ string;
+	}
+
 }

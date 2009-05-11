@@ -19,4 +19,7 @@ public interface MyService {
     @WebMethod
     public String findValueFromValue(String value);
 
+    @WebMethod
+    public String echo(String string);
+    
 }
