@@ -42,7 +42,7 @@ public class NLTranslationNodeInfo {
 	}
 
 	public String getProperBooleanExpression() {
-		return (this.booleanExpr == null ? null : this.booleanExpr.replaceAll("\\*", "AND").replaceAll("\\+", "OR"));
+		return (this.booleanExpr == null ? null : this.booleanExpr.replaceAll("\\*", "and").replaceAll("\\+", "or"));
 	}
 
 	public String getBooleanExpression() {
