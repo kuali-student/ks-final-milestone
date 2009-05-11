@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,6 @@ import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
-import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
@@ -23,12 +23,9 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.StartSectionButtons;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLayout<T> {
     private final KSModalDialogPanel startSectionDialog = new KSModalDialogPanel();
@@ -143,7 +140,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		sections.add(section);
 		return this;
 	}
-	
+	String[] initHierarchy;
 	public void selectSection(String...hierarchy) {
         String path = "";
         
@@ -154,8 +151,12 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
             for (int i=0; i<hierarchy.length; i++)
                 path = path + "/" + hierarchy[i];
         
-        KSBasicMenu proposalMenu = (KSBasicMenu)menuPanel.getWidget(1);
-        proposalMenu.selectMenuItem(hierarchy);
+        if(menuPanel.getWidgetCount() == 0) {
+            initHierarchy = hierarchy;
+        } else {
+            KSBasicMenu proposalMenu = (KSBasicMenu)menuPanel.getWidget(1);
+            proposalMenu.selectMenuItem(hierarchy);
+        }
 	}
 	
 	public ConfigurableLayout<T> addStartSection(LayoutSection<T> section){
@@ -217,6 +218,8 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		
 		contentPanel.clear();
 		
+        sectionMenu.selectMenuItem(initHierarchy);
+        
 		if (showStart){
 		    startSectionDialog.show();
 		}

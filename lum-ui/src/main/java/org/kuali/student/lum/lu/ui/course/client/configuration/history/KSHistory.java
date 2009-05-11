@@ -16,6 +16,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpda
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 
 public class KSHistory implements ValueChangeHandler<String> {
@@ -30,33 +32,38 @@ public class KSHistory implements ValueChangeHandler<String> {
     public KSHistory(final Controller controller) {
         this.controller = controller;
         layoutMap = new HashMap<Enum<?>, ConfigurableLayout<?>>();
-        History.addValueChangeHandler(this);
-        controller.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
-            String key = CONTROLLER_KEY;
+        DeferredCommand.addCommand(new Command() {
             @Override
-            public void onViewChange(ViewChangeEvent event) {
-                Map<String, List<String>> params = buildListParamMap(History.getToken());
-                if(params.get(key) == null) {
-                    if(controller.getCurrentViewEnum() != null)
-                        History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+controller.getCurrentViewEnum().name());
-                } else {
-                    String temp = "";
-                    for(String name : params.keySet()) {
-                        if(name.equals(key)) {
+            public void execute() {
+                History.addValueChangeHandler(KSHistory.this);
+                History.fireCurrentHistoryState();
+                controller.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
+                    String key = CONTROLLER_KEY;
+                    @Override
+                    public void onViewChange(ViewChangeEvent event) {
+                        Map<String, List<String>> params = buildListParamMap(History.getToken());
+                        if(params.get(key) == null) {
                             if(controller.getCurrentViewEnum() != null)
-                                temp += "&" + name + "=" + controller.getCurrentViewEnum().name();
+                                History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+controller.getCurrentViewEnum().name());
                         } else {
-                            String t = "&"+name+"=";
-                            List<String> values = params.get(name);
-                            for(String value : values) {
-                                temp += t + value;
+                            String temp = "";
+                            for(String name : params.keySet()) {
+                                if(name.equals(key)) {
+                                    if(controller.getCurrentViewEnum() != null)
+                                        temp += "&" + name + "=" + controller.getCurrentViewEnum().name();
+                                } else {
+                                    String t = "&"+name+"=";
+                                    List<String> values = params.get(name);
+                                    for(String value : values) {
+                                        temp += t + value;
+                                    }
+                                }
                             }
+                            History.newItem(temp.substring(1));
                         }
                     }
-                    History.newItem(temp.substring(1));
-                }
-            }
-        });
+                });
+            }});
     }
     
     public void addLayoutToView(Enum<?> view, ConfigurableLayout<?> layout) {

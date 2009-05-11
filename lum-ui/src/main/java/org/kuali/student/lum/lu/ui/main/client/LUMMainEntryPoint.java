@@ -31,7 +31,8 @@ public class LUMMainEntryPoint implements EntryPoint{
             public void onSuccess(MessageList result) {
                 context.addMessages(result.getMessages());
                 RootPanel.get().add(manager);
-                manager.showDefaultView();
+                if(manager.getCurrentView() == null)
+                    manager.showDefaultView();
             }           
         });
     }

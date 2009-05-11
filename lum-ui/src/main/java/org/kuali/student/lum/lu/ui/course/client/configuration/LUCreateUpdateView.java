@@ -16,6 +16,9 @@ import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -27,7 +30,6 @@ public class LUCreateUpdateView extends Composite implements View {
 	private final Validator validator;
 	private final String luType;
 	private final String luState;
-	KSHistory history;
 	
 	public LUCreateUpdateView(String type, String state, Validator validator) {
 		this.validator = validator;
@@ -71,9 +73,23 @@ public class LUCreateUpdateView extends Composite implements View {
 
 	@Override
 	public void beforeShow() {
-        panel.setWidget(layout);
+	    IncrementalCommand command = new IncrementalCommand() {
 
-        layout.render();
+            @Override
+            public boolean execute() {
+                if(layout == null) {
+                    return true; //wait for stupid thing to load
+                }
+                panel.setWidget(layout);
+
+                layout.render();
+                return false;
+            }
+	        
+	    };
+	    if(command.execute()) //only scheduling it if I must
+	        DeferredCommand.addCommand(command);
+	    
 	}
 
 	@Override
@@ -89,5 +105,25 @@ public class LUCreateUpdateView extends Composite implements View {
 	public ConfigurableLayout<CluInfo> getLayout() {
 	    return layout;
 	}
+
+    public void addLayoutToHistory(final KSHistory history, final LUMViews create_course) {
+        IncrementalCommand command = new IncrementalCommand() {
+
+            @Override
+            public boolean execute() {
+                if(layout == null) {
+                    return true; //wait for stupid thing to load
+                }
+                history.addLayoutToView(create_course, layout);
+//                if(layout instanceof DefaultCreateUpdateLayout)
+//                    ((DefaultCreateUpdateLayout<CluInfo>)layout).setShowStartSectionEnabled(false); //TODO this needs to be figured out
+                History.fireCurrentHistoryState();
+                return false;
+            }
+            
+        };
+        if(command.execute()) //only scheduling it if I must
+            DeferredCommand.addCommand(command);
+    }
 
 }

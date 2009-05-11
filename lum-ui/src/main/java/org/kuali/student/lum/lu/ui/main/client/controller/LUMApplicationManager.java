@@ -25,8 +25,8 @@ public class LUMApplicationManager extends Controller{
     
     public LUMApplicationManager(){
         super();
-        super.initWidget(viewPanel);
         history = new KSHistory(this);
+        super.initWidget(viewPanel);
     }
     
     protected void onLoad() {
@@ -51,7 +51,7 @@ public class LUMApplicationManager extends Controller{
                 createCourse.setCourseProposalType(CourseProposalType.NEW_COURSE);                
                 return createCourse;
                 */
-                history.addLayoutToView(LUMViews.CREATE_COURSE, ((LUCreateUpdateView)courseCreateUpdate).getLayout()); //TODO should getLayout be moved to View?
+                ((LUCreateUpdateView)courseCreateUpdate).addLayoutToHistory(history, LUMViews.CREATE_COURSE);
                 return courseCreateUpdate;
             default:
                 return null;
