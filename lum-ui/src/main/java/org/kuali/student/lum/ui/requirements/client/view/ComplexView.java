@@ -240,31 +240,53 @@ public class ComplexView extends ViewComposite {
         
         btnMoveRuleDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                /*
-                if (selectedReqCompVO != null) {
-                    Object[] temp = model.getValues().toArray();
-                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                    StatementVO enclosingStatementVO = 
-                        prereqInfo.getStatementVO().getEnclosingStatementVO(
-                                prereqInfo.getStatementVO(), selectedReqCompVO);
-                    enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
-                    redraw();
-                } */
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                StatementVO statementVO = prereqInfo.getStatementVO();
+                if (statementVO != null) {
+                    List<ReqComponentVO> selectedRCs =
+                        statementVO.getSelectedReqComponentVOs();
+                    List<StatementVO> selectedSs =
+                        statementVO.getSelectedStatementVOs();
+                    int numSelectedRCs = (selectedRCs == null)? 0 :
+                        selectedRCs.size();
+                    int numSelectedSs = (selectedSs == null)? 0 :
+                        selectedSs.size();
+                    ReqComponentVO selectedReqCompVO = null;
+                    if (numSelectedRCs == 1 && numSelectedSs == 0) {
+                        selectedReqCompVO = selectedRCs.get(0);
+                        StatementVO enclosingStatementVO = 
+                            prereqInfo.getStatementVO().getEnclosingStatementVO(
+                                    prereqInfo.getStatementVO(), selectedReqCompVO);
+                        enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
+                        redraw();
+                    }
+                }
             }
         });
 
         btnMoveRuleUp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                /*
-                if (selectedReqCompVO != null) {
-                    Object[] temp = model.getValues().toArray();
-                    PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                    StatementVO enclosingStatementVO = 
-                        prereqInfo.getStatementVO().getEnclosingStatementVO(
-                                prereqInfo.getStatementVO(), selectedReqCompVO);
-                    enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
-                    redraw();
-                } */
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                StatementVO statementVO = prereqInfo.getStatementVO();
+                if (statementVO != null) {
+                    List<ReqComponentVO> selectedRCs =
+                        statementVO.getSelectedReqComponentVOs();
+                    List<StatementVO> selectedSs =
+                        statementVO.getSelectedStatementVOs();
+                    int numSelectedRCs = (selectedRCs == null)? 0 :
+                        selectedRCs.size();
+                    int numSelectedSs = (selectedSs == null)? 0 :
+                        selectedSs.size();
+                    ReqComponentVO selectedReqCompVO = null;
+                    if (numSelectedRCs == 1 && numSelectedSs == 0) {
+                        selectedReqCompVO = selectedRCs.get(0);
+                        StatementVO enclosingStatementVO = 
+                            prereqInfo.getStatementVO().getEnclosingStatementVO(
+                                    prereqInfo.getStatementVO(), selectedReqCompVO);
+                        enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
+                        redraw();
+                    }
+                }
             }
         });
         
