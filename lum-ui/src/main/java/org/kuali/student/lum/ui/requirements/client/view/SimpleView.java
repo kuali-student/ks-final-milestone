@@ -82,30 +82,6 @@ public class SimpleView extends ViewComposite {
                 getController().showView(PrereqViews.COMPLEX);
             }
         });
-        rbCourseList.addFocusHandler(new FocusHandler() {
-            public void onFocus(FocusEvent event) {
-                enableChoice(1, true);
-                enableChoice(2, false);
-                enableChoice(3, false);
-                enableChoice(4, false);
-            }
-        });
-        rbCourse1OrCourse2.addFocusHandler(new FocusHandler() {
-            public void onFocus(FocusEvent event) {
-                enableChoice(1, false);
-                enableChoice(2, true);
-                enableChoice(3, false);
-                enableChoice(4, false);
-            }
-        });
-        rbNumCreditFromCourseList.addFocusHandler(new FocusHandler() {
-            public void onFocus(FocusEvent event) {
-                enableChoice(1, false);
-                enableChoice(2, false);
-                enableChoice(3, true);
-                enableChoice(4, false);
-            }
-        });
     }
     
     public void beforeShow() {       
@@ -127,31 +103,7 @@ public class SimpleView extends ViewComposite {
             redraw();
         }
     }
-    
-    /**
-     * returns a comma delimited string that represents the union of the originalValue and selectedValues
-     * @param originalValue
-     * @param selectedValues
-     * @return
-     */
-    private String combineValues(String originalValue, List<String> selectedValues) {
-        int fieldValueCount = 0;
-        String tempOriginalValue = 
-            (originalValue == null)? "" : originalValue;
-        StringBuilder newFieldValue = new StringBuilder("");
-        SortedSet<String> newValues = new TreeSet<String>();
-        newValues.addAll(Arrays.asList(tempOriginalValue.split(", +")));
-        newValues.addAll(selectedValues);
-        for (String newValue : newValues) {
-            if (fieldValueCount > 0 && 
-                    newFieldValue.toString().trim().length() > 0) {
-                newFieldValue.append(", ");
-            }
-            newFieldValue.append(newValue);
-            fieldValueCount++;
-        }
-        return newFieldValue.toString();
-    }
+   
     
     private void redraw() {
         
@@ -188,7 +140,7 @@ public class SimpleView extends ViewComposite {
         prereq.setWidget(1, 0, holder1);                            
         
         VerticalPanel ruleTypes = new VerticalPanel();
-        ruleTypes.add(setupRuleTypeChoicePanel());        
+       // ruleTypes.add(setupRuleTypeChoicePanel());        
         linkToComplexView.addStyleName("KS-Rules-Link");
         ruleTypes.add(linkToComplexView);
         btnAddPrereq.addStyleName("KS-Rules-Tight-Button"); 
@@ -199,132 +151,5 @@ public class SimpleView extends ViewComposite {
         simpleView.setStyleName("Content-Margin");
         mainPanel.clear();
         mainPanel.add(simpleView);
-    }
-    
-    private CaptionPanel setupRuleTypeChoicePanel() {
-        
-        CaptionPanel capPnlPickRuleType = new CaptionPanel("Student must have taken:");
-       // capPnlPickRuleType.setStyleName("KS-RuleEditor-SimplePanel-ReqCompTypes");        
-        VerticalPanel pnlChoices = new VerticalPanel(); 
-        HorizontalPanel choice1 = new HorizontalPanel(); 
-        HorizontalPanel choice2 = new HorizontalPanel(); 
-        HorizontalPanel choice3 = new HorizontalPanel(); 
-        choice1.setSpacing(5);
-        choice2.setSpacing(5);
-        choice3.setSpacing(5);       
-
-        // choice 1
-        KSLabel lbChoice1 = new KSLabel("The following course(s):");
-        lbChoice1.addStyleName("KS-Rules-Choices");
-        choice1.add(rbCourseList);
-        choice1.add(lbChoice1);
-        VerticalPanel holder = new VerticalPanel();
-        choice1CourseList.setWidth("250px");
-        holder.add(choice1CourseList);
-        holder.add(searchPanelChoice1);
-        searchPanelChoice1.addCourseAddHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                String origFieldValue = choice1CourseList.getText();
-                String newFieldValue = combineValues(origFieldValue, searchPanelChoice1.getSelections());
-                choice1CourseList.setText(newFieldValue);
-            }
-        });
-        choice1.add(holder);
-                
-        // choice 2
-        choice2.add(rbCourse1OrCourse2);
-        choice2CourseA.setWidth("100px");
-        VerticalPanel holder2a = new VerticalPanel();
-        holder2a.add(choice2CourseA);
-        holder2a.add(searchPanelChoice2a);
-        searchPanelChoice2a.addCourseAddHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                String origFieldValue = choice2CourseA.getText();
-                String newFieldValue = combineValues(origFieldValue, searchPanelChoice2a.getSelections());
-                choice2CourseA.setText(newFieldValue);
-            }
-        });        
-        choice2.add(holder2a);
-        
-        KSLabel lbChoice2 = new KSLabel("or");
-        
-        lbChoice2.addStyleName("KS-Rules-Choices");
-        choice2.add(lbChoice2);
-        choice2CourseB.setWidth("100px");        
-        VerticalPanel holder2b = new VerticalPanel();
-        holder2b.add(choice2CourseB);
-        holder2b.add(searchPanelChoice2b);
-        searchPanelChoice2b.addCourseAddHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                String origFieldValue = choice2CourseB.getText();
-                String newFieldValue = combineValues(origFieldValue, searchPanelChoice2b.getSelections());
-                choice2CourseB.setText(newFieldValue);
-            }
-        });        
-        choice2.add(holder2b);               
-        
-        // choice 3
-        KSLabel lbChoice3 = new KSLabel("credits from the following course(s):");
-        lbChoice3.addStyleName("KS-Rules-Choices");
-        choice3.add(rbNumCreditFromCourseList);
-        choice3NumCredits.setWidth("50px");
-        choice3.add(choice3NumCredits);
-        choice3.add(lbChoice3);
-        choice3CourseList.setWidth("150px");      
-        VerticalPanel holder3 = new VerticalPanel();
-        holder3.add(choice3CourseList);
-        holder3.add(searchPanelChoice3);        
-        searchPanelChoice3.addCourseAddHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                String origFieldValue = choice3CourseList.getText();
-                String newFieldValue = combineValues(origFieldValue, searchPanelChoice3.getSelections());
-                choice3CourseList.setText(newFieldValue);
-            }
-        });
-        choice3.add(holder3);
-        
-        pnlChoices.add(choice1);
-        pnlChoices.add(choice2);
-        pnlChoices.add(choice3);
-        capPnlPickRuleType.add(pnlChoices);   
-        
-        enableChoice(1, false);
-        enableChoice(2, false);
-        enableChoice(3, false);   
-        
-        return capPnlPickRuleType;
-    }
-    
-    private void enableChoice(int choice, boolean enabled) {
-        switch (choice) {
-            case 1:
-                enableTextBox(choice1CourseList, enabled);
-                searchPanelChoice1.setEnabled(enabled);
-                break;
-            case 2:
-                enableTextBox(choice2CourseA, enabled);
-                searchPanelChoice2a.setEnabled(enabled);                
-                enableTextBox(choice2CourseB, enabled);
-                searchPanelChoice2b.setEnabled(enabled);                
-                break;
-            case 3:
-                enableTextBox(choice3NumCredits, enabled);
-                enableTextBox(choice3CourseList, enabled);
-                searchPanelChoice3.setEnabled(enabled);
-                break;
-        }
-    }
-    
-    private void enableTextBox(KSTextBox textField, boolean enabled) {
-        if (enabled) {
-//          DOM.setStyleAttribute(choice1CourseList.getElement(),
-//          "backgroundColor", "#FFFFFF");
-            textField.removeStyleName(
-                    "KS-Rules-Choices-Disabled-TextField");
-        } else {
-            textField.addStyleName(
-                    "KS-Rules-Choices-Disabled-TextField");
-        }
-        textField.setEnabled(enabled);
-    }
+    }      
 }

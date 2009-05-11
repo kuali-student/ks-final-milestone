@@ -261,6 +261,7 @@ public class RequirementsServiceImpl implements RequirementsService {
                 newReqComp.setId(reqComponent.getReqComponentInfo().getId());
                 newReqComp.setType(reqComponent.getReqComponentInfo().getType());
                 newReqComp.setDesc(reqComponent.getTypeDesc());
+                newReqComp.setReqCompField(reqComponent.getReqComponentInfo().getReqCompField());
                 reqComponentList.add(newReqComp);
             }  
             luNlStatementInfo.setRequiredComponents(reqComponentList);

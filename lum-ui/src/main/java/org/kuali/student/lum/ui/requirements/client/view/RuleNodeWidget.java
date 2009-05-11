@@ -133,8 +133,8 @@ public class RuleNodeWidget extends SimplePanel {
                 checkBoxAndEdit.add(html);
                 checkBoxAndEdit.addStyleName("KS-ReqComp-DeSelected");
             }
-            html.setHTML(node.getUserObject().toString());
-            checkBox.setHTML(node.getUserObject().toString());
+           // html.setHTML(node.getUserObject().toString());
+            checkBox.setHTML(node.getUserObject().toString());            
             checkBox.setValue(new Boolean(reqComponentVO.isCheckBoxOn()));
         } else {
             super.setWidget(html);

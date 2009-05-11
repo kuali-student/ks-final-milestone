@@ -49,7 +49,7 @@ public class HomeMenuController extends Controller implements View {
     
     private MenuItemPanel createCourse = new MenuItemPanel(CREATE_COURSE);
     private MenuItemPanel modifyCourse = new MenuItemPanel(MODIFY_COURSE);
-    private MenuItemPanel empty1 = new MenuItemPanel("Bob");
+    private MenuItemPanel empty1 = new MenuItemPanel("");
     private MenuItemPanel empty2 = new MenuItemPanel("");
     private MenuItemPanel empty3 = new MenuItemPanel("");
     private MenuItemPanel empty4 = new MenuItemPanel("");

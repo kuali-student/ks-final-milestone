@@ -29,7 +29,6 @@ public class PrereqManager extends Controller {
 
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
-    private final SimpleView simpleView = new SimpleView(this);
     private final ComplexView complexView = new ComplexView(this);
     private final ClauseEditorView clauseEditorView = new ClauseEditorView(this);
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
@@ -89,14 +88,12 @@ public class PrereqManager extends Controller {
 
     @Override
     public void showDefaultView() {
-        showView(PrereqViews.SIMPLE);
+        showView(PrereqViews.COMPLEX);
     }
 
     @Override
     protected <V extends Enum<?>> View getView(V viewType) {
         switch ((PrereqViews) viewType) {
-            case SIMPLE:
-                return simpleView;
             case COMPLEX:
                 return complexView;
             case CLAUSE_EDITOR:                                

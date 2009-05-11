@@ -1,9 +1,5 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -13,7 +9,6 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
@@ -36,8 +31,7 @@ public class ComplexView extends ViewComposite {
 
     //view's widgets
     private Panel mainPanel = new SimplePanel();
-    VerticalPanel complexView = new VerticalPanel();
-    private KSLabel linkToSimpleView = new KSLabel("Simple Rules");    
+    VerticalPanel complexView = new VerticalPanel();  
     private KSButton btnAddRule = new KSButton("+ Add new rule");
     private KSButton btnAddAND = new KSButton("AND");
     private KSButton btnAddOR = new KSButton("OR");
@@ -95,13 +89,7 @@ public class ComplexView extends ViewComposite {
         redraw();
     }
 
-    private void setupHandlers() {
-        
-        linkToSimpleView.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                getController().showView(PrereqViews.SIMPLE);
-            }
-        });         
+    private void setupHandlers() {            
                
         ruleTableToggleClickHandler = new ClickHandler() {
             @Override
@@ -161,31 +149,7 @@ public class ComplexView extends ViewComposite {
                 updateRulesTable();
             }
         };    
-        ruleTable.addClickHandler(ruleTableSelectionHandler);
-        
-     /*   ruleTableClickHandler = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-
-                Cell cell = ruleTable.getCellForEvent(event); 
-                if (cell == null) {
-                    System.out.println("Cell is NULL 1");
-                    return;
-                }
-                
-                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                                  
-                Object userObject = widget.getNode().getUserObject();
-                if (userObject instanceof ReqComponentVO) {
-                    ReqComponentVO rule = (ReqComponentVO) userObject;
-                    rule.setCheckBoxOn(!rule.isCheckBoxOn());                        
-                } else {
-                    StatementVO statementVO = (StatementVO) userObject;
-                    statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());                                               
-                }
-                updateRulesTable();
-            }
-
-        };  */
+        ruleTable.addClickHandler(ruleTableSelectionHandler);        
         
         ruleTableEditClauseHandler = new ClickHandler() {
             @Override
@@ -226,7 +190,6 @@ public class ComplexView extends ViewComposite {
                         if (theModel != null) {
                             RulesUtilities.clearModel(theModel);
                         }                    
-                      //  redraw();
                     }
 
                     public void onRequestFail(Throwable cause) {
@@ -344,8 +307,6 @@ public class ComplexView extends ViewComposite {
         KSLabel preReqHeading = new KSLabel("Manage Prerequisite Rules");
         preReqHeading.setStyleName("KS-ReqMgr-Heading");
         tempPanel.add(preReqHeading);
-        tempPanel.add(linkToSimpleView);
-        linkToSimpleView.addStyleName("KS-Rules-Link-Right");
         complexView.add(tempPanel);
         
         //setup top rules table buttons
@@ -398,10 +359,7 @@ public class ComplexView extends ViewComposite {
         SimplePanel verticalSpacer3 = new SimplePanel();
         verticalSpacer2.setHeight("30px");
         complexView.add(verticalSpacer2);             
-        
-        //RulesUtilities ruleUtil = new RulesUtilities();
-        //RulesUtilities.RowBreak rowBreak = ruleUtil.new RowBreak();        
-        //complexView.add(rowBreak);
+
         KSLabel nlHeading = new KSLabel("Natural Language");
         nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
         complexView.add(nlHeading);        
