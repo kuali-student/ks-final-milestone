@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSListBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
@@ -73,7 +74,7 @@ public class ClauseEditorView extends ViewComposite {
     private KSButton btnCancelView = new KSButton("Cancel");
     private KSButton addReqComp = new KSButton("Add Rule");
     private KSButton submitReqComp = new KSButton("Submit Rule");
-    KSListBox compReqTypesList = new KSListBox();
+    KSDropDown compReqTypesList = new KSDropDown();
     SimplePanel reqCompDesc = new SimplePanel();  
     private KSLabel exampleText2 = new KSLabel();    
     

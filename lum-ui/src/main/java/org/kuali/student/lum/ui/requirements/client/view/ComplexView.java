@@ -1,5 +1,7 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -410,18 +412,18 @@ public class ComplexView extends ViewComposite {
     }        
     
     private void updateNaturalLanguage() {
-//                
-//        naturalLanguage.setText("");      
-//        RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
-//                                RulesUtilities.getPrereqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
-//            public void onFailure(Throwable caught) {
-//                Window.alert(caught.getMessage());
-//                caught.printStackTrace();
-//            }
-//            
-//            public void onSuccess(final String statementNaturalLanguage) {                               
-//                naturalLanguage.setText(statementNaturalLanguage);  
-//            } 
-//        });
+                
+        naturalLanguage.setText("");      
+        RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
+                                RulesUtilities.getPrereqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                caught.printStackTrace();
+           }
+            
+            public void onSuccess(final String statementNaturalLanguage) {                               
+                naturalLanguage.setText(statementNaturalLanguage);  
+            } 
+        });
     }           
 }
