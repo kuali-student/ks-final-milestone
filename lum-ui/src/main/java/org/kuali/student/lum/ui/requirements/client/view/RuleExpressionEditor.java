@@ -10,6 +10,8 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
@@ -22,7 +24,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -36,11 +37,13 @@ public class RuleExpressionEditor extends ViewComposite {
     private KSTextArea taExpression = new KSTextArea();
     private KSButton btnPreview = new KSButton("Preview");
     private Panel pnlMissingExpressions = new SimplePanel();
-    private FlexTable tableMissingExpressions = new FlexTable();
+    private KSSelectableTableList tableMissingExpressions = 
+        new KSSelectableTableList();
     private RuleTable ruleTable = new RuleTable();
     private KSButton btnDone = new KSButton("Done");
     private KSButton btnCancel = new KSButton("Cancel");
     private HTML htmlErrorMessage = new HTML();
+
 
     // views's data
     private Model<PrereqInfo> model;
@@ -81,7 +84,6 @@ public class RuleExpressionEditor extends ViewComposite {
                 String expression = taExpression.getText();
                 PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
                 prereqInfo.setExpression(expression);
-                redrawMissingRules();
             }
         });
         btnPreview.addClickHandler(new ClickHandler() {
@@ -131,6 +133,7 @@ public class RuleExpressionEditor extends ViewComposite {
         verticalPanel.add(verticalSpacer);
         VerticalPanel pnlMissingDisplay = new VerticalPanel();
         pnlMissingDisplay.add(new KSLabel("Rule(s) missing from expression"));
+        tableMissingExpressions = new KSSelectableTableList();
         pnlMissingDisplay.add(tableMissingExpressions);
         pnlMissingExpressions.clear();
         pnlMissingExpressions.add(pnlMissingDisplay);
@@ -161,8 +164,11 @@ public class RuleExpressionEditor extends ViewComposite {
                                     new ArrayList<ReqComponentVO>() :
                                         prereqInfo.getStatementVO().getAllReqComponentVOs();
                 ruleTable.clear();
+                ruleExpressionParser.setExpression(previewExpression);
                 List<String> errorMessages = new ArrayList<String>();
-                if (!ruleExpressionParser.validateExpression(errorMessages, previewExpression)) {
+                List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
+                boolean validExpression = ruleExpressionParser.validateExpression(errorMessages);
+                if (!validExpression) {
                     if (errorMessages != null) {
                         StringBuilder sb = new StringBuilder("Error Message: <BR>");
                         for (String errorMessage : errorMessages) {
@@ -177,16 +183,92 @@ public class RuleExpressionEditor extends ViewComposite {
                         ruleTable.buildTable(tree);
                     }
                 }
+                // redraw missing rules table.
+                ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
+                RCTableItems rcTableItems = new RCTableItems();
+                rcTableItems.setRcs(missingRCs);
+                tableMissingExpressions.setListItems(rcTableItems);
+
             }
         }
         
-        redrawMissingRules();
         mainPanel.clear();
         mainPanel.add(verticalPanel);
     }
     
-    private void redrawMissingRules() {
+    class RCTableItems implements ListItems {
+        private List<ReqComponentVO> rcs;
+        private final String ATTR_KEY_LABEL = "Label";
+        private final String ATTR_KEY_DESCR = "Description";
         
-    }
+        public List<ReqComponentVO> getRcs() {
+            return rcs;
+        }
 
+        public void setRcs(List<ReqComponentVO> rcs) {
+            this.rcs = rcs;
+        }
+        
+        public ReqComponentVO lookup(String id) {
+            ReqComponentVO result = null;
+            if (rcs != null && !rcs.isEmpty()) {
+                for (ReqComponentVO rc : rcs) {
+                    if (rc.getGuiReferenceLabelId() != null &&
+                            rc.getGuiReferenceLabelId().equals(id)) {
+                        result = rc;
+                    }
+                }
+            }
+            return result;
+        }
+
+        @Override
+        public List<String> getAttrKeys() {
+            List<String> attrKeys = new ArrayList<String>();
+            attrKeys.add(ATTR_KEY_LABEL);
+            attrKeys.add(ATTR_KEY_DESCR);
+            return attrKeys;
+        }
+
+        @Override
+        public String getItemAttribute(String id, String attrkey) {
+            String value = null;
+            ReqComponentVO rc = lookup(id);
+            if (attrkey != null) {
+                if (attrkey.equals(ATTR_KEY_LABEL)) {
+                    value = rc.getGuiReferenceLabelId();
+                } else if (attrkey.equals(ATTR_KEY_DESCR)) {
+                    value = rc.toString();
+                }
+            }
+            return value;
+        }
+
+        @Override
+        public int getItemCount() {
+            int count = (rcs == null)? 0 : rcs.size();
+            return count;
+        }
+
+        @Override
+        public List<String> getItemIds() {
+            List<String> itemIds = null;
+            if (rcs != null && !rcs.isEmpty()) {
+                for (ReqComponentVO rc : rcs) {
+                    itemIds = (itemIds == null)? new ArrayList<String>() : itemIds;
+                    itemIds.add(rc.getGuiReferenceLabelId());
+                }
+            }
+            return itemIds;
+        }
+
+        @Override
+        public String getItemText(String id) {
+            String itemText = null;
+            ReqComponentVO rc = lookup(id);
+            itemText = rc.getGuiReferenceLabelId() + ", " + rc.toString();
+            return itemText;
+        }
+    }
+    
 }

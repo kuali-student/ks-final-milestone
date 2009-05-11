@@ -10,16 +10,64 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class RuleExpressionParser {
-
-    public boolean validateExpression(List<String> errorMessages, String expression) {
-        boolean valid = false;
+    
+    private String expression;
+    private List<Token> tokenList;
+    
+    public void setExpression(String expression) {
+        this.expression = expression;
         List<String> tokenValueList = getTokenValue(expression);
-        List<Token> tokenList = getTokenList(tokenValueList);
+        this.tokenList = getTokenList(tokenValueList);
+    }
+    
+    public String getExpression() {
+        return expression;
+    }
+    
+    private void checkExpressionSet() {
+        if (tokenList == null || expression == null) {
+            throw new java.lang.IllegalStateException("setExpression must be called first");
+        }
+    }
+    
+    public boolean validateExpression(List<String> errorMessages) {
+        boolean valid = false;
+        checkExpressionSet();
         valid = doValidateExpression(errorMessages, tokenList);
         return valid;
     }
     
-    private boolean doValidateExpression(List<String> errorMessages, List<Token> tokens) {
+    public void checkMissingRCs(List<ReqComponentVO> missingRCs, List<ReqComponentVO> rcs) {
+        List<String> conditionValues = new ArrayList<String>();
+        checkExpressionSet();
+        for (int i = 0; i < tokenList.size(); i++) {
+            Token token = tokenList.get(i);
+            if (token.type == Token.Condition) {
+                conditionValues.add(token.value);
+            }
+        }
+        if (rcs != null && !rcs.isEmpty()) {
+            for (ReqComponentVO rc : rcs) {
+                boolean foundId;
+                foundId = false;
+                if (conditionValues != null && !conditionValues.isEmpty()) {
+                    for (String conditionValue : conditionValues) {
+                        if (conditionValue != null && 
+                                conditionValue.equalsIgnoreCase(
+                                        rc.getGuiReferenceLabelId())) {
+                            foundId = true;
+                            break;
+                        }
+                    }
+                }
+                if (!foundId) {
+                    missingRCs.add(rc);
+                }
+            }
+        }
+    }
+    
+    private boolean doValidateExpression(List<String> errorMessages, final List<Token> tokens) {
         boolean valid = true;
         // allow empty expression. ie. user wants the entire rule deleted.
         if (tokens.size() == 0) {
