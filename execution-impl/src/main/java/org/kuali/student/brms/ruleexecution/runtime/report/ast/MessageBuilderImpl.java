@@ -20,10 +20,21 @@ public class MessageBuilderImpl extends AbstractMessageBuilder implements Messag
 	 * 
 	 * @param executor A simple rule engine executor
 	 */
-	public MessageBuilderImpl(SimpleExecutor executor) {
+	public MessageBuilderImpl(final SimpleExecutor executor) {
 		super(executor);
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param executor A simple rule engine executor
+     * @param andOperator String representation of boolean 'and'
+     * @param orOperator String representation of boolean 'or'
+	 */
+	public MessageBuilderImpl(final SimpleExecutor executor, final String andOperator, final String orOperator) {
+		super(executor, andOperator, orOperator);
+	}
+	
     /**
      * <p>Builds and evaluates a boolean expression and returns the message and result 
      * of the expression.</p>

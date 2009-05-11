@@ -3,6 +3,7 @@ package org.kuali.student.brms.ruleexecution.runtime.report.ast;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +38,38 @@ public abstract class AbstractMessageBuilder {
     
     private SimpleExecutor executor;
 
-    public AbstractMessageBuilder(SimpleExecutor executor) {
+    /**
+     * Constructor. 
+     * Default 'and' operator is translated as 'AND' and 
+     * default 'or' operator is translated as 'OR'
+     * 
+     * @param executor Rule engine
+     */
+    public AbstractMessageBuilder(final SimpleExecutor executor) {
         this.executor = executor;
+        Map<String, Object> map = new HashMap<String, Object>();
+        BooleanOperators bo = new BooleanOperators();
+        map.put("booleanOperators", bo);
+        this.executor.setGlobalObjects(map);
     	setup();
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param executor Rule engine
+     * @param andOperator String representation of boolean 'and'
+     * @param orOperator String representation of boolean 'or'
+     */
+    public AbstractMessageBuilder(final SimpleExecutor executor, final String andOperator, final String orOperator) {
+        this.executor = executor;
+        Map<String, Object> map = new HashMap<String, Object>();
+        BooleanOperators bo = new BooleanOperators(andOperator, orOperator);
+        map.put("booleanOperators", bo);
+        this.executor.setGlobalObjects(map);
+    	setup();
+    }
+    
 	/**
      * <p>Builds and evaluates a boolean expression and returns the message and result 
      * of the expression. Messages in the <code>messageMap</code> can 

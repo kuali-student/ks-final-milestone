@@ -2,6 +2,7 @@ package org.kuali.student.brms.ruleexecution.runtime;
 
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 
@@ -76,6 +77,15 @@ public interface SimpleExecutor {
      * @see #addRuleSet(String, RuleSetInfo)
      */
     public void clearRuleSetCache(String ruleBaseType);
+
+    /**
+     * Sets global read only objects for the rule engine. 
+     * These objects are usually constants, Hibernate sessions, 
+     * JPA session etc.
+     * 
+     * @param globalObjectMap Global key,value map
+     */
+    public void setGlobalObjects(Map<String, Object> globalObjectMap);
 
     /**
      * Executes rules in the default execution cache with a list of 

@@ -19,6 +19,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.drools.KnowledgeBase;
 import org.drools.command.Command;
@@ -54,8 +56,12 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     
     /** Statistics logging */
     private boolean statlogging = false;
-    
+
+    /** Drools execution statistics */
     private final DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
+    
+    /** Rule engine's global objects */
+    private Map<String, Object> globalObjectMap;
 
     public SimpleExecutorDroolsImpl() {}
     
@@ -91,6 +97,17 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      */
     public void setRuleBaseCache(DroolsKnowledgeBase ruleBase) {
     	this.ruleBaseCache = ruleBase;
+    }
+    
+    /**
+     * Sets global read only objects for the rule engine. 
+     * These objects are usually constants, Hibernate sessions, 
+     * JPA session etc.
+     * 
+     * @param globalObjectMap Global key,value map
+     */
+    public void setGlobalObjects(Map<String, Object> globalObjectMap) {
+    	this.globalObjectMap = globalObjectMap;
     }
     
     /**
@@ -295,6 +312,12 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
         			session, "SimpleExecutorDroolsImpl", executionStats);
         }
 
+        if(this.globalObjectMap != null && !this.globalObjectMap.isEmpty()) {
+	        for(Entry<String, Object> entry : this.globalObjectMap.entrySet()) {
+	        	session.setGlobal(entry.getKey(), entry.getValue());
+	        }
+        }
+        
         List<Command<?>> commands = new ArrayList<Command<?>>();
         int i = 0;
         for(Object fact : facts) {

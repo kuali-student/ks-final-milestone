@@ -56,6 +56,15 @@ public interface RuleSetExecutor {
     public void clearRuleSetCache();
 
     /**
+     * Sets global read only objects for the rule engine. 
+     * These objects are usually constants, Hibernate sessions, 
+     * JPA session etc.
+     * 
+     * @param globalObjectMap Global key,value map
+     */
+    public void setGlobalObjects(Map<String, Object> globalObjectMap);
+
+    /**
      * Executes a business rule <code>businessRule</code> in a rule set <code>ruleSet</code>.
      * 
      * @param businessRule Business rule to be executed

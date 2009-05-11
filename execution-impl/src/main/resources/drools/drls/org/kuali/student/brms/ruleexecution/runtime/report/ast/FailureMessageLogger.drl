@@ -1,14 +1,17 @@
 package org.kuali.student.brms.runtime.ast.failure
  
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanNode;
- 
+
+global org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators booleanOperators;
+
 rule "OR"
 	#salience 1
 	#no-loop true
 	when
 		n : BooleanNode( label == "+", leftNode.value == false, rightNode.value == false, leftNode.nodeMessage != "null", rightNode.nodeMessage != "null" )
 	then
-		String logMessage = n.getLeftNode().getNodeMessage() + " OR " + n.getRightNode().getNodeMessage();
+		//String logMessage = n.getLeftNode().getNodeMessage() + " OR " + n.getRightNode().getNodeMessage();
+        String logMessage = n.getLeftNode().getNodeMessage() + " " + booleanOperators.getOrOperator() + " " + n.getRightNode().getNodeMessage();
 		//n.setNodeMessage(logMessage);
 		
 		if(n.getParent() != null && ( (n.getLabel().equals("+") && n.getParent().getLabel().equals("*")) || (n.getLabel().equals("*") && n.getParent().getLabel().equals("+")))) {
@@ -22,13 +25,13 @@ rule "OR"
 		}
 end
 
-
 rule "AND2"
 	#no-loop true
 	when
 		n : BooleanNode( label == "*", leftNode.value == false, rightNode.value == false, leftNode.nodeMessage != "null", rightNode.nodeMessage != "null" )
 	then
-		String logMessage = n.getLeftNode().getNodeMessage() + " AND " + n.getRightNode().getNodeMessage();
+		//String logMessage = n.getLeftNode().getNodeMessage() + " AND " + n.getRightNode().getNodeMessage();
+        String logMessage = n.getLeftNode().getNodeMessage() + " " + booleanOperators.getAndOperator() + " " + n.getRightNode().getNodeMessage();
 		//n.setNodeMessage(logMessage);
 		
 		if(n.getParent() != null && ( (n.getLabel().equals("+") && n.getParent().getLabel().equals("*")) || (n.getLabel().equals("*") && n.getParent().getLabel().equals("+")))) {

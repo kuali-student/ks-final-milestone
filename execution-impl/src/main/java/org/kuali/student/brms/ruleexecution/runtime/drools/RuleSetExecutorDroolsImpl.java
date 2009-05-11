@@ -19,6 +19,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -55,6 +56,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
     private DroolsKnowledgeBase ruleBaseCache;
+
+    /** Rule engine's global objects */
+    private Map<String, Object> globalObjectMap;
 
     // Each rule base must have unique anchors
     private final ConcurrentMap<String,String> anchorMap = new ConcurrentHashMap<String,String>();
@@ -108,6 +112,17 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.ruleBaseCache = ruleBase;
     }
 
+    /**
+     * Sets global read only objects for the rule engine. 
+     * These objects are usually constants, Hibernate sessions, 
+     * JPA session etc.
+     * 
+     * @param globalObjectMap Global key,value map
+     */
+    public void setGlobalObjects(Map<String, Object> globalObjectMap) {
+    	this.globalObjectMap = globalObjectMap;
+    }
+    
     /**
      * Logs a business rule.
      * 
@@ -386,6 +401,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         if(this.statLogging) {
         	statLogger = new DroolsWorkingMemoryStatisticsLogger(
         			session, ruleBaseType, this.executionStats);
+        }
+        
+        if(this.globalObjectMap != null && !this.globalObjectMap.isEmpty()) {
+	        for(Entry<String, Object> entry : this.globalObjectMap.entrySet()) {
+	        	session.setGlobal(entry.getKey(), entry.getValue());
+	        }
         }
         
         List<Object> factList = assembleFacts(fact);
