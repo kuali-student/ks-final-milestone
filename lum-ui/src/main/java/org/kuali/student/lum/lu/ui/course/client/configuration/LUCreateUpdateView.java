@@ -115,8 +115,8 @@ public class LUCreateUpdateView extends Composite implements View {
                     return true; //wait for stupid thing to load
                 }
                 history.addLayoutToView(create_course, layout);
-//                if(layout instanceof DefaultCreateUpdateLayout)
-//                    ((DefaultCreateUpdateLayout<CluInfo>)layout).setShowStartSectionEnabled(false); //TODO this needs to be figured out
+                if(layout instanceof DefaultCreateUpdateLayout)
+                    ((DefaultCreateUpdateLayout<CluInfo>)layout).setShowStartSectionEnabled(false); //TODO this needs to be figured out
                 History.fireCurrentHistoryState();
                 return false;
             }

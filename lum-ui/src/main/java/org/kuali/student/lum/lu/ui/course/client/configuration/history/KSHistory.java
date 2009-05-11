@@ -77,9 +77,10 @@ public class KSHistory implements ValueChangeHandler<String> {
             String key = LAYOUT_KEY;
             @Override
             public void onViewChange(ViewChangeEvent event) {
+                System.out.println(event.getNewView().getName());
                 Map<String, List<String>> params = buildListParamMap(History.getToken());
                 if(params.get(key) == null) {
-                    History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+event.getNewView().getName());
+                    History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+event.getNewView().getName(), false);
                 } else {
                     String temp = "";
                     for(String name : params.keySet()) {
@@ -93,7 +94,7 @@ public class KSHistory implements ValueChangeHandler<String> {
                             }
                         }
                     }
-                    History.newItem(temp.substring(1));
+                    History.newItem(temp.substring(1), false);
                 }
             }});
     }

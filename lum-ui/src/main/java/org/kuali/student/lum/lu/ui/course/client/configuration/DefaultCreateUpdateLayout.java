@@ -218,7 +218,8 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		
 		contentPanel.clear();
 		
-        sectionMenu.selectMenuItem(initHierarchy);
+		if(initHierarchy != null)
+		    sectionMenu.selectMenuItem(initHierarchy);
         
 		if (showStart){
 		    startSectionDialog.show();
