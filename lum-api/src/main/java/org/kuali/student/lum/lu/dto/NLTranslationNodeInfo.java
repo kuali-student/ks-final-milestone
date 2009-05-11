@@ -38,11 +38,11 @@ public class NLTranslationNodeInfo {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getBooleanExpression() {
-		return (booleanExpr == null ? null : booleanExpr.replaceAll("\\*", "AND").replaceAll("\\+", "OR"));
+		return this.booleanExpr;
 	}
 
 	public void setBooleanExpression(String booleanExpression) {
@@ -50,11 +50,11 @@ public class NLTranslationNodeInfo {
 	}
 	
 	public String getOperator() {
-		return operator;
+		return this.operator;
 	}
 
 	public String getNLTranslation() {
-		return nlTranslation;
+		return this.nlTranslation;
 	}
 	
 	public void setNLTranslation(String nlTranslation) {
@@ -74,7 +74,7 @@ public class NLTranslationNodeInfo {
 	}
 
 	public NLTranslationNodeInfo getParent() {
-		return parentNode;
+		return this.parentNode;
 	}
 
 	public void setParent(NLTranslationNodeInfo parent) {
@@ -82,7 +82,7 @@ public class NLTranslationNodeInfo {
 	}
 
 	public String getReferenceId() {
-		return referenceId;
+		return this.referenceId;
 	}
 	
 	public String toString() {

@@ -37,7 +37,7 @@ public class StatementParserTest {
 		String expressionReduced = parser.getBooleanExpressionAsStatements(stmt1);
 
 		// S11 AND (S121 OR S122)
-		Assert.assertEquals("S1 AND (S2 OR S3)", expressionReduced);
+		Assert.assertEquals("S1 and (S2 or S3)", expressionReduced);
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class StatementParserTest {
 		String expressionReduced = parser.getBooleanExpressionAsStatements(stmt1);
 
 		// S11 AND (S121 OR S122)
-		Assert.assertEquals("S1 AND (S2 OR S3)", expressionReduced);
+		Assert.assertEquals("S1 and (S2 or S3)", expressionReduced);
 	}
 
 	@Test
@@ -145,7 +145,7 @@ public class StatementParserTest {
 		String expressionReduced = parser.getBooleanExpressionAsStatements(stmt1);
 		
 		// S111 AND S112 AND ((S1211 AND S1212) OR S122) AND S131 AND (S1321 OR S1322 OR S1323)
-		Assert.assertEquals("S1 AND S2 AND ((S3 AND S4) OR S5) AND S6 AND (S7 OR S8 OR S9)", expressionReduced);
+		Assert.assertEquals("S1 and S2 and ((S3 and S4) or S5) and S6 and (S7 or S8 or S9)", expressionReduced);
 	}
 
 	@Test
@@ -210,7 +210,7 @@ public class StatementParserTest {
 		StatementParser parser = new StatementParser();
 		String expressionReduced = parser.getBooleanExpressionAsReqComponents(stmt1);
 
-		Assert.assertEquals("R1 AND (R2 OR (R3 AND R4))", expressionReduced);
+		Assert.assertEquals("R1 and (R2 or (R3 and R4))", expressionReduced);
 	}
 
 	/*@Test
@@ -317,7 +317,7 @@ System.out.println("expr="+expressionReduced);
 		String expressionReduced = parser.getBooleanExpressionAsReqComponents(stmt1);
 		List<CustomReqComponent> list = parser.getLeafReqComponents(stmt1);
 
-		Assert.assertEquals("R1 AND (R2 OR (R3 AND R4))", expressionReduced);
+		Assert.assertEquals("R1 and (R2 or (R3 and R4))", expressionReduced);
 		Assert.assertEquals(4, list.size());
 	}
 
@@ -448,7 +448,7 @@ System.out.println("expr="+expressionReduced);
 		String expressionReduced = parser.getBooleanExpressionAsReqComponents(stmt1);
 		List<CustomReqComponent> list = parser.getLeafReqComponents(stmt1);
 		
-		Assert.assertEquals("(R1 OR R2) AND (R3 AND R4) AND ((R5 AND (R6 OR R7)) OR R8) AND R9 AND (R10 OR (R11 OR R12) OR R13)", expressionReduced);
+		Assert.assertEquals("(R1 or R2) and (R3 and R4) and ((R5 and (R6 or R7)) or R8) and R9 and (R10 or (R11 or R12) or R13)", expressionReduced);
 		Assert.assertEquals(13, list.size());
 	}
 }

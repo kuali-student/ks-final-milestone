@@ -442,12 +442,12 @@ INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE
 //INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsString() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsString() #end', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Student must have completed all of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('2', 'KUALI.CATALOG', 'Student must have completed $expectedValue of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.nof')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('3', 'KUALI.CATALOG', 'Student must have $cluSet.getCluAsString(0) or $cluSet.getCluAsString(1)', 'kuali.reqCompType.courseList.1of2')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('3', 'KUALI.CATALOG', 'Student must have completed $cluSet.getCluAsString(0) or $cluSet.getCluAsString(1)', 'kuali.reqCompType.courseList.1of2')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4', 'KUALI.CATALOG', 'Student needs a minimum GPA of $gpa', 'kuali.reqCompType.gradecheck')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('5', 'KUALI.EXAMPLE', 'Student must have completed all of MATH100, MATH101, MATH102', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('6', 'KUALI.EXAMPLE', 'Student must have completed 2 of MATH100, MATH101, MATH102', 'kuali.reqCompType.courseList.nof')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('7', 'KUALI.EXAMPLE', 'Student must have MATH100 or MATH101', 'kuali.reqCompType.courseList.1of2')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('7', 'KUALI.EXAMPLE', 'Student must have completed MATH100 or MATH101', 'kuali.reqCompType.courseList.1of2')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('8', 'KUALI.EXAMPLE', 'Student needs a minimum GPA of 2.5', 'kuali.reqCompType.gradecheck')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('9', 'KUALI.CATALOG', 'Student must have completed none of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.none')

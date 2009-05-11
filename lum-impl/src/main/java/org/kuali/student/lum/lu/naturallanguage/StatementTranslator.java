@@ -33,7 +33,7 @@ public class StatementTranslator {
     public StatementTranslator() {
 		this.executor.setEnableStatisticsLogging(true);
 		this.executor.setRuleBaseCache(this.ruleBase);
-		this.messageBuilder = new MessageBuilderImpl(this.executor);
+		this.messageBuilder = new MessageBuilderImpl(this.executor, "and", "or");
     }
 
 	public void setLuDao(LuDao luDao) {
@@ -145,7 +145,7 @@ public class StatementTranslator {
 			sb.append(node.getNLTranslation());
 			if(it.hasNext()) {
 				sb.append(" ");
-				sb.append(operator);
+				sb.append(operator.toLowerCase());
 				sb.append(" ");
 			}
 		}

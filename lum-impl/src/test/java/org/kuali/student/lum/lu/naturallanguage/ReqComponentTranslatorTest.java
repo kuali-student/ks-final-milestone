@@ -253,12 +253,12 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	public void testTranslate_1Of2() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		String clus = cluId1 + "," + cluId2;
-		this.courseTemplate = "Student must have $cluSet.getCluAsString(0) or $cluSet.getCluAsString(1)";
+		this.courseTemplate = "Student must have completed $cluSet.getCluAsString(0) or $cluSet.getCluAsString(1)";
     	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.1of2");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
 
-		Assert.assertEquals("Student must have MATH 152 or MATH 221", text);
+		Assert.assertEquals("Student must have completed MATH 152 or MATH 221", text);
 	}
 }

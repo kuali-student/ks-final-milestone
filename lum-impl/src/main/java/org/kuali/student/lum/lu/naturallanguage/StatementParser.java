@@ -26,8 +26,8 @@ public class StatementParser {
 	}
 
 	public StatementParser(String andOperator, String orOperator) {
-		this.andOperator = andOperator;
-		this.orOperator = orOperator;
+		this.andOperator = andOperator.toLowerCase();
+		this.orOperator = orOperator.toLowerCase();
 	}
 	
 	private void init() {
