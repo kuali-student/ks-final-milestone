@@ -16,56 +16,34 @@
 package org.kuali.student.lum.lrc.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LCR_GRADE")
 @NamedQueries( {
     @NamedQuery(name = "Grade.getGradesByIdList", query = "SELECT c FROM Grade c WHERE c.id IN (:gradeIdList)"),
     @NamedQuery(name = "Grade.getGradeIdsByGradeType", query = "SELECT c.id FROM Grade c JOIN c.type type WHERE type.id = :gradeTypeId"),
-    @NamedQuery(name = "Grade.getGradesByScale", query = "SELECT c FROM Grade c WHERE c.scaleKey = :scale")
+    @NamedQuery(name = "Grade.getGradesByScale", query = "SELECT c FROM Grade c WHERE c.scale.id = :scale")
 })
-public class Grade extends MetaEntity implements AttributeOwner<GradeAttribute> {
-    @Id
-    @Column(name = "ID")
-    private String id;
-
-    @Column(name = "NAME")
-    private String name;
-
-    @Column(name = "VALUE")
-    private String value;
-
-    @Column(name = "SCALE_KEY")
-    private String scaleKey;
+public class Grade extends ResultValue implements AttributeOwner<GradeAttribute> {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SCALE_KEY")
+    private Scale scale;
 
     @Column(name = "RANK")
     private String rank;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT")
-    private Date effectiveDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
-    private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<GradeAttribute> attributes;
@@ -73,65 +51,18 @@ public class Grade extends MetaEntity implements AttributeOwner<GradeAttribute> 
     @ManyToOne
     @JoinColumn(name = "TYPE")
     private GradeType type;
-
-   /**
-     * @return the id
+    /**
+     * @return the scale
      */
-    public String getId() {
-        return id;
+    public Scale getScale() {
+        return scale;
     }
 
     /**
-     * @param id
-     *            the id to set
+     * @param scale the scale to set
      */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the value
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * @param value
-     *            the value to set
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * @return the scaleKey
-     */
-    public String getScaleKey() {
-        return scaleKey;
-    }
-
-    /**
-     * @param scaleKey
-     *            the scaleKey to set
-     */
-    public void setScaleKey(String scaleKey) {
-        this.scaleKey = scaleKey;
+    public void setScale(Scale scale) {
+        this.scale = scale;
     }
 
     /**
@@ -147,36 +78,6 @@ public class Grade extends MetaEntity implements AttributeOwner<GradeAttribute> 
      */
     public void setRank(String rank) {
         this.rank = rank;
-    }
-
-    /**
-     * @return the effectiveDate
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    /**
-     * @param effectiveDate
-     *            the effectiveDate to set
-     */
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
-     * @return the expirationDate
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    /**
-     * @param expirationDate
-     *            the expirationDate to set
-     */
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
     }
 
     /**

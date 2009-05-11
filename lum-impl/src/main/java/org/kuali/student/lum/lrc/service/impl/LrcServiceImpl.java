@@ -32,6 +32,9 @@ import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.CreditType;
 import org.kuali.student.lum.lrc.entity.Grade;
 import org.kuali.student.lum.lrc.entity.GradeType;
+import org.kuali.student.lum.lrc.entity.ResultComponent;
+import org.kuali.student.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.lum.lrc.entity.Scale;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -307,8 +310,10 @@ public class LrcServiceImpl implements LrcService {
 	public ResultComponentInfo getResultComponent(String resultComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(resultComponentId, "resultComponentId");
+	    ResultComponent resultComponent = lrcDao.fetch(ResultComponent.class, resultComponentId);
+
+	    return LrcServiceAssembler.toResultComponentInfo(resultComponent);
 	}
 
 	/* (non-Javadoc)
@@ -319,8 +324,13 @@ public class LrcServiceImpl implements LrcService {
 			String resultComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(resultValueId, "resultValueId");
+	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
+	    List<String> ids = lrcDao.getResultComponentIdsByResult(resultValueId, resultComponentTypeKey);
+	    if (ids.isEmpty()) {
+	        throw new DoesNotExistException();
+	    }
+	    return ids;
 	}
 
 	/* (non-Javadoc)
@@ -331,8 +341,12 @@ public class LrcServiceImpl implements LrcService {
 			String resultComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
+        List<String> ids = lrcDao.getResultComponentIdsByResultComponentType(resultComponentTypeKey);
+        if (ids.isEmpty()) {
+            throw new DoesNotExistException();
+        }
+        return ids;
 	}
 
 	/* (non-Javadoc)
@@ -343,8 +357,9 @@ public class LrcServiceImpl implements LrcService {
 			String resultComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
+		ResultComponentType entity = lrcDao.getResultComponentType(resultComponentTypeKey);
+		return LrcServiceAssembler.toResultComponentTypeInfo(entity);
 	}
 
 	/* (non-Javadoc)
@@ -353,8 +368,8 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public List<ResultComponentTypeInfo> getResultComponentTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ResultComponentType> rct = lrcDao.find(ResultComponentType.class);
+		return LrcServiceAssembler.toResultComponentTypeInfos(rct);
 	}
 
 	/* (non-Javadoc)
@@ -364,8 +379,9 @@ public class LrcServiceImpl implements LrcService {
 	public ScaleInfo getScale(String scaleKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(scaleKey, "scaleKey");
+		Scale scale = lrcDao.fetch(Scale.class, scaleKey);
+		return LrcServiceAssembler.toScaleInfo(scale);
 	}
 
 	/* (non-Javadoc)

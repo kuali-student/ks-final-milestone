@@ -15,39 +15,36 @@
  */
 package org.kuali.student.lum.lrc.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
-import javax.persistence.NamedQuery;
 
+/**
+ * This is a description of what this class does - lindholm don't forget to fill this in.
+ *
+ * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ *
+ */
 @Entity
-@Table(name = "KSLU_LCR_RESCOMP")
-@NamedQueries( {
-    @NamedQuery(name = "ResultComponent.getResultComponentIdsByResult", query = "SELECT rc.id FROM ResultComponent rc JOIN rc.resultValues rv WHERE rv.id = :resultValueId AND rc.type.id = :resultComponentTypeKey"),
-    @NamedQuery(name = "ResultComponent.getResultComponentIdsByResultComponentType", query = "SELECT rc.id FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey"),
-    @NamedQuery(name = "ResultComponent.getResultComponentType", query = "SELECT rc.type FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey")
-})
+@Table(name="KSLU_LCR_RESULT_VALUE")
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="SUBTYPE")
 
-public class ResultComponent extends MetaInfo implements AttributeOwner<ResultComponentAttribute> {
-    private static final long serialVersionUID = 1L;
-
+public abstract class ResultValue extends MetaEntity {
     @Id
     @Column(name = "ID")
     private String id;
@@ -59,11 +56,8 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
     @JoinColumn(name = "RT_DESCR_ID")
     private RichText desc;
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="KSLU_LCR_RESCOMP_JN_RESVALUE",
-            joinColumns=@JoinColumn(name="COMPONENT_ID"),
-            inverseJoinColumns=@JoinColumn(name="RESULT_ID"))
-    private List<ResultValue> resultValues;
+    @Column(name = "VALUE")
+    private String value;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -73,17 +67,7 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ResultComponentAttribute> attributes;
-
-    @ManyToOne
-    @JoinColumn(name = "TYPE")
-    private ResultComponentType type;
-
-    @Column(name = "STATE")
-    private String state;
-
-   /**
+    /**
      * @return the id
      */
     public String getId() {
@@ -126,17 +110,17 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
     }
 
     /**
-     * @return the resultValues
+     * @return the value
      */
-    public List<? extends ResultValue> getResultValues() {
-        return resultValues;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * @param resultValues the resultValues to set
+     * @param value the value to set
      */
-    public void setResultValues(List<ResultValue> resultValues) {
-        this.resultValues = resultValues;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     /**
@@ -167,45 +151,5 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * @return the type
-     */
-    public ResultComponentType getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(ResultComponentType type) {
-        this.type = type;
-    }
-
-    /**
-     * @return the state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * @param state the state to set
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    @Override
-    public List<ResultComponentAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ResultComponentAttribute>(0);
-        }
-        return attributes;
-    }
-
-    @Override
-    public void setAttributes(List<ResultComponentAttribute> attributes) {
-        this.attributes = attributes;
-    }
 
 }

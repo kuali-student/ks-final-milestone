@@ -12,12 +12,19 @@ import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
 import org.kuali.student.lum.lrc.dto.GradeInfo;
 import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
+import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.entity.Credential;
 import org.kuali.student.lum.lrc.entity.CredentialType;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.CreditType;
 import org.kuali.student.lum.lrc.entity.Grade;
 import org.kuali.student.lum.lrc.entity.GradeType;
+import org.kuali.student.lum.lrc.entity.ResultComponent;
+import org.kuali.student.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.lum.lrc.entity.ResultValue;
+import org.kuali.student.lum.lrc.entity.Scale;
 import org.springframework.beans.BeanUtils;
 
 public class LrcServiceAssembler extends BaseAssembler {
@@ -67,7 +74,6 @@ public class LrcServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "type" });
 
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
         return dto;
@@ -149,6 +155,55 @@ public class LrcServiceAssembler extends BaseAssembler {
         return dtos;
     }
 
+    public static ResultComponentInfo toResultComponentInfo(ResultComponent entity) {
+        ResultComponentInfo dto = new ResultComponentInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "resultValueIds", "desc", "attributes", "type" });
+        List<String> ids = new ArrayList<String>(entity.getResultValues().size());
+        for (ResultValue rv : entity.getResultValues()) {
+            ids.add(rv.getId());
+        }
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setResultValueIds(ids);
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setType(entity.getType().getId());
+        return dto;
+    }
+
+    public static List<ResultComponentInfo> toReListComonentInfos(List<ResultComponent> entities) {
+        List<ResultComponentInfo> dtos = new ArrayList<ResultComponentInfo>(entities.size());
+        for (ResultComponent entity : entities) {
+            dtos.add(toResultComponentInfo(entity));
+        }
+        return dtos;
+    }
+
+    public static ResultComponentTypeInfo toResultComponentTypeInfo(ResultComponentType entity) {
+        ResultComponentTypeInfo dto = new ResultComponentTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] {"attributes" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
+    }
+    public static List<ResultComponentTypeInfo> toResultComponentTypeInfos(List<ResultComponentType> entites) {
+        List<ResultComponentTypeInfo> dtos = new ArrayList<ResultComponentTypeInfo>(entites.size());
+        for (ResultComponentType entity : entites) {
+            dtos.add(toResultComponentTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+
+    public static ScaleInfo toScaleInfo(Scale entity) {
+       ScaleInfo dto = new ScaleInfo();
+       BeanUtils.copyProperties(entity, dto,
+               new String[] { "desc", "attributes" });
+       dto.setDesc(toRichTextInfo(entity.getDesc()));
+       dto.setAttributes(toAttributeMap(entity.getAttributes()));
+       return dto;
+    }
 
 }
-

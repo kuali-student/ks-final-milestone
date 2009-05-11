@@ -3,14 +3,17 @@ package org.kuali.student.lum.lrc.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.entity.Credential;
 import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.Grade;
+import org.kuali.student.lum.lrc.entity.ResultComponentType;
 
 public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao {
 	@PersistenceContext(unitName = "Lrc")
@@ -80,5 +83,32 @@ public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao 
         @SuppressWarnings("unchecked")
         List<Grade> resultList = query.getResultList();
         return resultList;
+    }
+
+    public List<String> getResultComponentIdsByResult(String resultValueId, String resultComponentTypeKey) {
+        Query query = em.createNamedQuery("ResultComponent.getResultComponentIdsByResult");
+        query.setParameter("resultValueId", resultValueId);
+        query.setParameter("resultComponentTypeKey", resultComponentTypeKey);
+        @SuppressWarnings("unchecked")
+        List<String> resultList = query.getResultList();
+        return resultList;
+    }
+
+    public List<String> getResultComponentIdsByResultComponentType(String resultComponentTypeKey) {
+        Query query = em.createNamedQuery("ResultComponent.getResultComponentIdsByResultComponentType");
+        query.setParameter("resultComponentTypeKey", resultComponentTypeKey);
+        @SuppressWarnings("unchecked")
+        List<String> resultList = query.getResultList();
+        return resultList;
+    }
+
+    public ResultComponentType getResultComponentType(String resultComponentTypeKey) throws DoesNotExistException {
+        Query query = em.createNamedQuery("ResultComponent.getResultComponentType");
+        query.setParameter("resultComponentTypeKey", resultComponentTypeKey);
+        try {
+            return (ResultComponentType)query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new DoesNotExistException();
+        }
     }
 }
