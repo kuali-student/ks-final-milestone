@@ -127,6 +127,7 @@ public class RuleExpressionEditor extends ViewComposite {
         expressionAndError.add(htmlErrorMessage);
         verticalPanel.add(expressionAndError);
         verticalPanel.add(btnPreview);
+        btnPreview.addStyleName("KS-Rules-Tight-Grey-Button");
         SimplePanel verticalSpacer = null;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
@@ -141,13 +142,17 @@ public class RuleExpressionEditor extends ViewComposite {
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
         verticalPanel.add(verticalSpacer);
+        verticalPanel.add(new KSLabel("Preview"));
         ruleTable.setShowControls(false);
         verticalPanel.add(ruleTable);
-        
+        verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("30px");
+        verticalPanel.add(verticalSpacer);
         HorizontalPanel buttonsPanel = new HorizontalPanel();
+        btnCancel.addStyleName("KS-Rules-Tight-Grey-Button");
         buttonsPanel.add(btnCancel);
+        btnDone.addStyleName("KS-Rules-Tight-Grey-Button");
         buttonsPanel.add(btnDone);
-        
         verticalPanel.add(buttonsPanel);
         
         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
