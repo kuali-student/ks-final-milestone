@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_LCR_CREDIT_TYPE_ATTR")
+@Table(name = "KSLU_LRC_CREDIT_TYPE_ATTR")
 public class CreditTypeAttribute extends Attribute<CreditType> {
     @ManyToOne
     @JoinColumn(name = "OWNER")

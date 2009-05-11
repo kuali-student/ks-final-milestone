@@ -38,7 +38,7 @@ import org.kuali.student.core.entity.RichText;
 import javax.persistence.NamedQuery;
 
 @Entity
-@Table(name = "KSLU_LCR_RESCOMP")
+@Table(name = "KSLU_LRC_RESCOMP")
 @NamedQueries( {
     @NamedQuery(name = "ResultComponent.getResultComponentIdsByResult", query = "SELECT rc.id FROM ResultComponent rc JOIN rc.resultValues rv WHERE rv.id = :resultValueId AND rc.type.id = :resultComponentTypeKey"),
     @NamedQuery(name = "ResultComponent.getResultComponentIdsByResultComponentType", query = "SELECT rc.id FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey"),
@@ -60,7 +60,7 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
     private RichText desc;
 
     @OneToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="KSLU_LCR_RESCOMP_JN_RESVALUE",
+    @JoinTable(name="KSLU_LRC_RESCOMP_JN_RESVALUE",
             joinColumns=@JoinColumn(name="COMPONENT_ID"),
             inverseJoinColumns=@JoinColumn(name="RESULT_ID"))
     private List<ResultValue> resultValues;

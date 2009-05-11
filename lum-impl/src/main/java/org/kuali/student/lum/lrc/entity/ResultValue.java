@@ -40,7 +40,7 @@ import org.kuali.student.core.entity.RichText;
  *
  */
 @Entity
-@Table(name="KSLU_LCR_RESULT_VALUE")
+@Table(name="KSLU_LRC_RESULT_VALUE")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="SUBTYPE")
 

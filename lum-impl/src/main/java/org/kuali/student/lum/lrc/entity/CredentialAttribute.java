@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_LCR_CREDENTIAL_ATTR")
+@Table(name = "KSLU_LRC_CREDENTIAL_ATTR")
 public class CredentialAttribute extends Attribute<Credential> {
 
     @ManyToOne

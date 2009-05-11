@@ -26,7 +26,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSLU_LCR_CREDENTIAL_TYPE")
+@Table(name = "KSLU_LRC_CREDENTIAL_TYPE")
 public class CredentialType extends Type<CredentialTypeAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CredentialTypeAttribute> attributes;

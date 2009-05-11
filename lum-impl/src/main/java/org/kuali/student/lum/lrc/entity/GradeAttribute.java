@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_LCR_GRADE_ATTR")
+@Table(name = "KSLU_LRC_GRADE_ATTR")
 public class GradeAttribute extends Attribute<Grade> {
     @ManyToOne
     @JoinColumn(name = "OWNER")

@@ -26,7 +26,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSLU_LCR_GRADE_TYPE")
+@Table(name = "KSLU_LRC_GRADE_TYPE")
 public class GradeType extends Type<GradeTypeAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<GradeTypeAttribute> attributes;

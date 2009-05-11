@@ -26,7 +26,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSLU_LCR_CREDIT_TYPE")
+@Table(name = "KSLU_LRC_CREDIT_TYPE")
 public class CreditType extends Type<CreditTypeAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CreditTypeAttribute> attributes;

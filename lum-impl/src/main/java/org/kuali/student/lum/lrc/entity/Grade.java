@@ -31,7 +31,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KSLU_LCR_GRADE")
+@Table(name = "KSLU_LRC_GRADE")
 @NamedQueries( {
     @NamedQuery(name = "Grade.getGradesByIdList", query = "SELECT c FROM Grade c WHERE c.id IN (:gradeIdList)"),
     @NamedQuery(name = "Grade.getGradeIdsByGradeType", query = "SELECT c.id FROM Grade c JOIN c.type type WHERE type.id = :gradeTypeId"),

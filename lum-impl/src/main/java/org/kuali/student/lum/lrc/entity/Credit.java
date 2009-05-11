@@ -30,7 +30,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name="KSLU_LCR_CREDIT")
+@Table(name="KSLU_LRC_CREDIT")
 @NamedQueries( {
     @NamedQuery(name = "Credit.getCreditsByIdList", query = "SELECT c FROM Credit c WHERE c.id IN (:creditIdList)"),
     @NamedQuery(name = "Credit.getCreditIdsByCreditType", query = "SELECT c.id FROM Credit c JOIN c.type type WHERE type.id = :creditTypeId")
