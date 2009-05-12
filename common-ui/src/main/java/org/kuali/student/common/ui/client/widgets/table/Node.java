@@ -13,44 +13,82 @@ public class Node<T> {
     /** User Object*/
     T userObject;
     String id;
-
+    /**
+     * Empty, default constructor
+     * */
     public Node() {}
-
+    /**
+     * Constructor of Node which accepts the user object
+     * 
+     * @param obj user object
+     * */
     public Node(T obj) {
         userObject = obj;
     }
-
+    /**
+     * Get the user object from node
+     * 
+     * @return T returns the user object. User object must by type T 
+     * */
     public T getUserObject() {
         return userObject;
     }
-
+    /**
+     * Set the user object to this node
+     * 
+     * @param obj obj must be an instanceo of type T
+     * */
     public void setUserObject(T obj) {
         userObject = obj;
     }
-
-    public void setParent(Node p) {
-        parent = p;
+    /**
+     * Set the Parent node for current node
+     * 
+     * @param parent new parent
+     * */
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
 
+    /**
+     * Get the parent of current node
+     * @return the parent
+     * */
     public Node getParent() {
         return parent;
     }
     /**
      * Add one child and set child's parent to current node
+     * 
+     * @param node new child
+     * 
      * */
     public void addNode(Node node) {
         childrenList.add(node);
         node.setParent(this);
     }
-    /** If it has no children, it is a leaf*/
+    /** If it has no children, it is a leaf
+     * 
+     * @return boolean is it a leaf
+     * 
+     * */
     public boolean isLeaf() {
         return getChildCount() == 0;
     }
-    /** Return the child count */
+    /** 
+     * Return the child count 
+     * 
+     * @retrun int the child count
+     * */
     public int getChildCount() {
         return childrenList.size();
     }
-    /** Get the child at index*/
+    /** 
+     * Get the child at index
+     *
+     * @param index the index of the child
+     * @return the child
+     * */
     public Node getChildAt(int index) {
         return childrenList.get(index);
     }
@@ -64,7 +102,10 @@ public class Node<T> {
             this.setParent(null);
         }
     }
-    /** Remove child at childIndex*/
+    /** Remove child at childIndex
+     * 
+     * @param childIndex child indexs
+     * */
     public void remove(int childIndex) {
         Node child = getChildAt(childIndex);
         childrenList.remove(childIndex);
@@ -82,7 +123,10 @@ public class Node<T> {
         childrenList.clear();
     }
     /** 
-     * Is parsed in node a child
+     * Is passed node a child of current node
+     *  
+     *  @param aNode 
+     * 
      * */
     public boolean isNodeChild(Node aNode) {
         boolean retval;

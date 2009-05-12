@@ -24,35 +24,19 @@ public class BooleanExpressionInputPanel extends VerticalPanel {
     private Label expressionFromTableEditor = new Label();
 
     public BooleanExpressionInputPanel(BooleanExpressionEditorModel m) {
-        // this.add(textBox);
-
         this.add(expressionFromTableEditor);
         this.add(editLink);
-
         ruleEditorModel = m;
-
         editLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 final AlgebraEditDialog dialog = new AlgebraEditDialog();
                 dialog.setAlgebra(oldInput);
                 dialog.setModal(true);
-                dialog.setLocation(0,0);
+               // dialog.setLocation(0,0);
                 dialog.show();
-
-                dialog.addCloseHandler(new CloseHandler(){
-                    @Override
-                    public void onClose(CloseEvent event) {
-                        System.out.println(dialog.getResult() == AlgebraEditDialog.OK);
-                        if (dialog.getResult() == AlgebraEditDialog.OK) {
-                            Node root = dialog.getAlgebra();
-                            ruleEditorModel.setNodeFromExpressionEditor(root);
-                        }
-                    }
-                });
             }
         });
-
     }
      public void addExpressionFromTableEditor(String s){
      expressionFromTableEditor.setText(s);
@@ -61,92 +45,95 @@ public class BooleanExpressionInputPanel extends VerticalPanel {
     // parser.parse(s);
      //displayError();
      }
+     class AlgebraEditDialog extends KSModalDialogPanel {
+         ExpressionParser parser = new ExpressionParser();
+         TextBox textBox = new TextBox();
+         Button okButton = new Button("OK");
+         Node root;
+         private HTML errorMessage = new HTML();
+         private int result = -1;
+         public final static int OK = 1;
+         public final static int Cancel = 2;
 
+         public AlgebraEditDialog() {
+             textBox.setPixelSize(600, 30);
+             HorizontalPanel panel = new HorizontalPanel();
+             VerticalPanel verticalPanel = new VerticalPanel();
+             verticalPanel.add(errorMessage);
+             verticalPanel.add(panel);
+             Button cancelButton = new Button("Cancel");
+             okButton.addClickHandler(new ClickHandler() {
+                 @Override
+                 public void onClick(ClickEvent arg0) {
+                     result = OK;
+                     hide();
+                     Node root = getAlgebra();
+                     ruleEditorModel.setNodeFromExpressionEditor(root);
+
+                 }
+             });
+             cancelButton.addClickHandler(new ClickHandler() {
+
+                 @Override
+                 public void onClick(ClickEvent arg0) {
+                     result = Cancel;
+                     hide();
+
+                 }
+             });
+             
+             panel.add(textBox);
+           //  panel.add(errorMessage);
+             panel.add(okButton);
+             panel.add(cancelButton);
+             textBox.addKeyUpHandler(new KeyUpHandler() {
+                 @Override
+                 public void onKeyUp(KeyUpEvent event) {
+                     String expression = textBox.getText();
+                     root = parser.parse(expression);
+                     if (parser.hasError() == false) {
+                         okButton.setEnabled(true);
+                     } else {
+                         okButton.setEnabled(false);
+                     }
+                     displayError();
+                 }
+             });
+             super.setWidget(verticalPanel);
+         }
+
+         private void displayError() {
+             errorMessage.setText("");
+             if (parser.hasError()) {
+                 StringBuilder sb = new StringBuilder("Error Message: <BR>");
+                 for (String error : parser.getErrorMessage()) {
+                     sb.append(error + ",<BR>");
+                 }
+                 errorMessage.setHTML(sb.toString() + "<HR>");
+             }
+         }
+
+         public int getResult() {
+             return result;
+         }
+
+         public void setAlgebra(String algebra) {
+             textBox.setText(algebra);
+         }
+
+         public Node getAlgebra() {
+             if (textBox.getText() == null || textBox.getText().isEmpty()) {
+                 return null;
+             } else {
+                 root = parser.parse(textBox.getText());
+                 return root;
+             }
+
+         }
+     }
 }
 
-class AlgebraEditDialog extends KSModalDialogPanel {
-    ExpressionParser parser = new ExpressionParser();
-    TextBox textBox = new TextBox();
-    Button okButton = new Button("OK");
-    Node root;
-    private HTML errorMessage = new HTML();
-    private int result = -1;
-    public final static int OK = 1;
-    public final static int Cancel = 2;
 
-    public AlgebraEditDialog() {
-        textBox.setPixelSize(600, 30);
-        HorizontalPanel panel = new HorizontalPanel();
-        VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel.add(errorMessage);
-        verticalPanel.add(panel);
-        Button cancelButton = new Button("Cancel");
-        okButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent arg0) {
-                result = OK;
-                hide();
-            }
-        });
-        cancelButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent arg0) {
-                result = Cancel;
-                hide();
-
-            }
-        });
-        
-        panel.add(textBox);
-      //  panel.add(errorMessage);
-        panel.add(okButton);
-        panel.add(cancelButton);
-        textBox.addKeyUpHandler(new KeyUpHandler() {
-            @Override
-            public void onKeyUp(KeyUpEvent event) {
-                String expression = textBox.getText();
-                root = parser.parse(expression);
-                if (parser.hasError() == false) {
-                    okButton.setEnabled(true);
-                } else {
-                    okButton.setEnabled(false);
-                }
-                displayError();
-            }
-        });
-        super.setWidget(verticalPanel);
-    }
-
-    private void displayError() {
-        errorMessage.setText("");
-        if (parser.hasError()) {
-            StringBuilder sb = new StringBuilder("Error Message: <BR>");
-            for (String error : parser.getErrorMessage()) {
-                sb.append(error + ",<BR>");
-            }
-            errorMessage.setHTML(sb.toString() + "<HR>");
-        }
-    }
-
-    public int getResult() {
-        return result;
-    }
-
-    public void setAlgebra(String algebra) {
-        textBox.setText(algebra);
-    }
-
-    public Node getAlgebra() {
-        if (textBox.getText() == null || textBox.getText().isEmpty()) {
-            return null;
-        } else {
-            root = parser.parse(textBox.getText());
-            return root;
-        }
-
-    }
-}
 // textBox.addKeyUpHandler(new KeyUpHandler() {
 // @Override
 // public void onKeyUp(KeyUpEvent event) {

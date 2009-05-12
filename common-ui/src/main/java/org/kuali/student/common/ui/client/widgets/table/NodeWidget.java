@@ -13,18 +13,19 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NodeWidget extends FocusPanel {
     private Node node;
     HTML html = new HTML();
     CheckBox checkBox = new CheckBox();
     HandlerRegistration handlerRegistration;
-    public NodeWidget(Node n) {
+    VerticalPanel verticalPanel = new VerticalPanel();
+    public NodeWidget(Node<Token> n) {
         node = n;
         super.setWidth("100%");
         super.setHeight("100%");
-
-        super.setWidget(checkBox);
         setNode(n);
 
         checkBox.addBlurHandler(new BlurHandler() {
@@ -58,7 +59,6 @@ public class NodeWidget extends FocusPanel {
               //  event.stopPropagation();
                 boolean before = checkBox.getValue();
                 checkBox.setValue(!before);
-
                 ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());
                 checkBox.setFocus(true);
                 setFocus(true);
@@ -79,7 +79,12 @@ public class NodeWidget extends FocusPanel {
     }
 
     public void installCheckBox() {
-        super.setWidget(checkBox);
+        verticalPanel.clear();
+        verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        verticalPanel.setWidth("100%");
+        verticalPanel.setHeight("100%");
+        verticalPanel.add(checkBox);
+        super.setWidget(verticalPanel);
         //contentPanel.setWidget(checkBox);
     }
 

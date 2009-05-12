@@ -9,6 +9,9 @@ public class TreeTable extends FlexTable {
     public TreeTable() {
         super();
         setBorderWidth(1);
+        
+     //   super.setWidth("800px");
+       // super.setHeight("800px");
     }
     public NodeWidget getRootNodeWidget(){
         return (NodeWidget)super.getWidget(0, 0);
@@ -113,7 +116,7 @@ public class TreeTable extends FlexTable {
      * @param node target node
      * @Param columnIndex column index
      * */
-    private void buildTable(Node node, int columnIndex) {
+    private void buildTable(Node<Token> node, int columnIndex) {
         int rowIndex = getRowIndexAmongSibings(node);
         setWidget(rowIndex, columnIndex, new NodeWidget(node));
 

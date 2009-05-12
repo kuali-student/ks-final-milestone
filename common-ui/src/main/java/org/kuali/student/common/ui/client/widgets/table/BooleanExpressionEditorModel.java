@@ -207,20 +207,20 @@ public class BooleanExpressionEditorModel implements NodeEditor {
         reBuildWidgetList();
 
     }
-
+    @Override
     public void doAnd() {
         Node<Token> andNode = new Node<Token>();
         andNode.setUserObject(Token.createAndToken());
         addNode(andNode);
     }
-
+    @Override
     public void doOr() {
 
         Node<Token> orNode = new Node<Token>();
         orNode.setUserObject(Token.createOrToken());
         addNode(orNode);
     }
-
+    @Override
     public void doRemoveFromGroup() {
         List<Node> selectedList = getSelectedNodeList();
         for (Node node : selectedList) {
@@ -299,7 +299,7 @@ public class BooleanExpressionEditorModel implements NodeEditor {
         }
         return true;
     }
-
+    @Override
     public void doAddToGroup() {
         // should only have one
         Node groupedRelation = getSelectedGroupedRelationList().get(0);
@@ -397,9 +397,11 @@ public class BooleanExpressionEditorModel implements NodeEditor {
 
     // More than one ungrouped node selected
     // or More than one not all grouped node under same parent selected
+
     public boolean isAndable() {
         return isAndable(null, getSelectedNodeList());
     }
+    @Override
     public boolean isOrable() {
         return isOrable(null, getSelectedNodeList());
     }
@@ -432,6 +434,7 @@ public class BooleanExpressionEditorModel implements NodeEditor {
     }
 
     // end is addable
+    @Override
     public boolean isTogglable() {
         List<Node> selectedList = this.getSelectedNodeList();
 
@@ -446,7 +449,7 @@ public class BooleanExpressionEditorModel implements NodeEditor {
 
         return true;
     }
-
+    @Override
     public void doToggle() {
         List<Node> selectedList = this.getSelectedNodeList();
         for (Node n : selectedList) {
@@ -458,7 +461,7 @@ public class BooleanExpressionEditorModel implements NodeEditor {
     }
 
     // one grouped relation and one or more ungrouped node selected
-
+    @Override
     public boolean isAddable() {
         List<Node> selectedGroupedRelationList = getSelectedGroupedRelationList();
         if (selectedGroupedRelationList.size() != 1) {
@@ -553,20 +556,6 @@ public class BooleanExpressionEditorModel implements NodeEditor {
         return true;
     }
 
-    @Override
-    public void doAdd(Node to, List<Node> nList) {
-
-    }
-
-    @Override
-    public void doAnd(Node target, List<Node> nList) {
-
-    }
-
-    @Override
-    public void doOr(Node target, List<Node> nList) {
-
-    }
 
     @Override
     public void doRedo() {
@@ -584,9 +573,6 @@ public class BooleanExpressionEditorModel implements NodeEditor {
         reBuildWidgetList();
 
     }
-
-    @Override
-    public void doRemove(Node from, List<Node> nodeList) {}
 
     @Override
     public void doUndo() {
