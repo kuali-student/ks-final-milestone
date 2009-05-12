@@ -1,13 +1,22 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -20,10 +29,8 @@ public class RuleNodeWidget extends SimplePanel {
     HTML html = new HTML();
     CheckBox checkBox = new CheckBox();
     KSLabel edit = new KSLabel("Edit");
-    KSButton toggle = new KSButton("Toggle");
+    AndOrButton toggle = new AndOrButton();
     HorizontalPanel checkBoxAndEdit;
-    HandlerRegistration clickHandlerRegistration;
-    HandlerRegistration toggleHandlerRegistration;
     HandlerRegistration editClauseHandlerRegistration;
     HandlerRegistration textClickHandlerRegistration;
     
@@ -55,23 +62,12 @@ public class RuleNodeWidget extends SimplePanel {
     public boolean isSelected(){
         return checkBox.getValue() == true;
     }
-    public void clearCheckBoxClickHandler(){
-        if(clickHandlerRegistration != null){
-            clickHandlerRegistration.removeHandler();
-        }   
-    }
-    public void addCheckBoxClickHandler(ClickHandler ch){
-        clickHandlerRegistration = checkBox.addClickHandler(ch);
-    }
-    
     public void addToggleHandler(ClickHandler ch) {
-        toggleHandlerRegistration = toggle.addClickHandler(ch);
+        toggle.addClickHandler(ch);
     }
     
     public void clearToggleHandler() {
-        if (toggleHandlerRegistration != null) {
-            toggleHandlerRegistration.removeHandler();
-        }
+        toggle.removeClickHandler();
     }
     
     public void addEditClauseHandler(ClickHandler ch) {
@@ -84,15 +80,28 @@ public class RuleNodeWidget extends SimplePanel {
         }
     }
     
-    public void addTextClicHandler(ClickHandler ch) {
-       // textClickHandlerRegistration = checkBoxAndEdit.addClickHandler(ch);
+    public void addTextClickHandler(ClickHandler ch) {
+        textClickHandlerRegistration = 
+            addDomHandler(ch, ClickEvent.getType());
     }
     
     public void clearTextClickHandler() {
-        if (textClickHandlerRegistration != null) {
-            textClickHandlerRegistration.removeHandler();
+        textClickHandlerRegistration.removeHandler();
+    }
+    
+    @Override
+    public void onBrowserEvent(Event event) {
+        super.onBrowserEvent(event);
+        switch (DOM.eventGetType(event)) {
+            case Event.ONMOUSEUP:
+                Element related = event.getRelatedTarget();
+                if (related != null && getElement().isOrHasChild(related)) {
+                    return;
+                }
+                break;
         }
-    }    
+        DomEvent.fireNativeEvent(event, this, this.getElement());
+    }
 
     public void setNode(Node n) {
         Object userObject = null;
@@ -105,6 +114,13 @@ public class RuleNodeWidget extends SimplePanel {
             super.setWidget(checkBoxAndToggle);
             if (showControls) {
                 checkBoxAndToggle.add(checkBox);
+                if (statementVO.getLuStatementInfo() != null &&
+                        statementVO.getLuStatementInfo().getOperator() ==
+                            StatementOperatorTypeKey.OR) {
+                    toggle.setValue(AndOrButton.Or);
+                } else {
+                    toggle.setValue(AndOrButton.And);
+                }
                 checkBoxAndToggle.add(toggle);
                 checkBoxAndToggle.setStyleName((statementVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
             } else {
@@ -112,7 +128,7 @@ public class RuleNodeWidget extends SimplePanel {
                 checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
             }
             html.setHTML(node.getUserObject().toString());
-            checkBox.setHTML(node.getUserObject().toString());
+//            checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(new Boolean(statementVO.isCheckBoxOn()), false);
         } else if (userObject instanceof ReqComponentVO) {
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;

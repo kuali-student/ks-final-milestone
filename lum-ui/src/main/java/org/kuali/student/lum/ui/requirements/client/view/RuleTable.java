@@ -80,26 +80,6 @@ public class RuleTable extends Composite {
         }
     }
     
-    public void addCheckBoxHandler(ClickHandler checkboxHandler) {
-        for (int i = 0; i < treeTable.getRowCount(); i++) {
-            for (int j = 0; j < treeTable.getCellCount(i); j++) {
-                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
-                w.addCheckBoxClickHandler(checkboxHandler);
-            }
-        }
-    }
-    
-    public void removeCheckBoxHandler(ClickHandler checkboxHandler) {
-        for (int i = 0; i < treeTable.getRowCount(); i++) {
-            for (int j = 0; j < treeTable.getCellCount(i); j++) {
-                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
-                if (w != null) {
-                    w.clearCheckBoxClickHandler();
-                }
-            }
-        }
-    }
-
     public void addToggleHandler(ClickHandler toggleHandler) {
         for (int i = 0; i < treeTable.getRowCount(); i++) {
             for (int j = 0; j < treeTable.getCellCount(i); j++) {
@@ -109,15 +89,24 @@ public class RuleTable extends Composite {
         }
     }
 
-    public void addTextClickHandler(ClickHandler clickHandler) {
+    public void addTextClickHandler(ClickHandler textClickHandler) {
         for (int i = 0; i < treeTable.getRowCount(); i++) {
             for (int j = 0; j < treeTable.getCellCount(i); j++) {
                 RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
-                w.addTextClicHandler(clickHandler);
+                w.addTextClickHandler(textClickHandler);
             }
         }
     }    
     
+    public void removeTextClickHandler(ClickHandler textClickHandler) {
+        for (int i = 0; i < treeTable.getRowCount(); i++) {
+            for (int j = 0; j < treeTable.getCellCount(i); j++) {
+                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
+                w.clearTextClickHandler();
+            }
+        }
+    }    
+
     static int test = 0;
     
     public void addEditClauseHandler(ClickHandler editClauseHandler) {
@@ -138,6 +127,7 @@ public class RuleTable extends Composite {
         int rowIndex = getRowIndexAmongSibings(node);
         RuleNodeWidget nodeWidget = new RuleNodeWidget(node, showControls);
         treeTable.setWidget(rowIndex, columnIndex, nodeWidget);
+        nodeWidget.setWidth("100%");
 
         for (int i = 0; i < node.getChildCount(); i++) {
             Node child = node.getChildAt(i);

@@ -404,7 +404,7 @@ public class ComplexView extends ViewComposite {
             
             if (tree != null) {
                 ruleTable.buildTable(tree);
-                ruleTable.addCheckBoxHandler(ruleTableSelectionHandler);
+                ruleTable.addTextClickHandler(ruleTableSelectionHandler);
                 ruleTable.addToggleHandler(ruleTableToggleClickHandler);
                 ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
             }
