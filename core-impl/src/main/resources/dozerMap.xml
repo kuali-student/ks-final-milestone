@@ -42,12 +42,12 @@
       
       <field>
         <a>maxOccurs</a>
-        <b>fieldDescriptor.maxOccurs</b>
+        <b>maxOccurs</b>
       </field>
 
       <field>
         <a>minOccurs</a>
-        <b>fieldDescriptor.minOccurs</b>
+        <b>minOccurs</b>
       </field>
 
       <field>

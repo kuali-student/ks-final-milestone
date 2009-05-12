@@ -283,8 +283,8 @@ public class DozerTest {
     		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs().intValue());
-    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs().intValue());
+    		assertEquals(fieldDao.getMaxOccurs(), Integer.parseInt(field.getMaxOccurs()));
+    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
@@ -303,8 +303,8 @@ public class DozerTest {
     	fieldDto.setKey("key4");
     	fieldDto.getFieldDescriptor().setMaxLength(2);
     	fieldDto.getFieldDescriptor().setMinLength(0);
-    	fieldDto.getFieldDescriptor().setMaxOccurs(2);
-    	fieldDto.getFieldDescriptor().setMinOccurs(1);
+    	fieldDto.setMaxOccurs("2");
+    	fieldDto.setMinOccurs(1);
     	fieldDto.getFieldDescriptor().setDataType("string");
 
     	dto.getEnumeratedValueFields().getEnumeratedValueField().add(fieldDto);
@@ -316,8 +316,8 @@ public class DozerTest {
     	fieldDto2.setKey("key3");
     	fieldDto2.getFieldDescriptor().setMaxLength(2);
     	fieldDto2.getFieldDescriptor().setMinLength(0);
-    	fieldDto2.getFieldDescriptor().setMaxOccurs(2);
-    	fieldDto2.getFieldDescriptor().setMinOccurs(1);
+    	fieldDto2.setMaxOccurs("2");
+    	fieldDto2.setMinOccurs(1);
     	fieldDto2.getFieldDescriptor().setDataType("int");
 
     	dto.getEnumeratedValueFields().getEnumeratedValueField().add(fieldDto2);
@@ -337,8 +337,8 @@ public class DozerTest {
     		assertEquals(fieldDao.getMinLength(), fieldDto.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), fieldDto.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), fieldDto.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), fieldDto.getFieldDescriptor().getMaxOccurs().intValue());
-    		assertEquals(fieldDao.getMinOccurs(), fieldDto.getFieldDescriptor().getMinOccurs().intValue());
+    		assertEquals(fieldDao.getMaxOccurs(), Integer.parseInt(fieldDto.getMaxOccurs()));
+    		assertEquals(fieldDao.getMinOccurs(), fieldDto.getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), fieldDto.getFieldDescriptor().getDataType());
     		i++;
     	}

@@ -166,8 +166,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs().intValue());
-    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs().intValue());
+    		assertEquals(fieldDao.getMaxOccurs(), Integer.parseInt(field.getMaxOccurs()));
+    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
@@ -194,8 +194,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs().intValue());
-    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs().intValue());
+    		assertEquals(fieldDao.getMaxOccurs(), Integer.parseInt(field.getMaxOccurs()));
+    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}

@@ -12,8 +12,6 @@
 		<dict:maxLength>2000</dict:maxLength>
 		<!-- The space character is important -->
 		<dict:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -.,</dict:validChars>
-		<dict:minOccurs>0</dict:minOccurs>
-		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
@@ -22,8 +20,6 @@
 		<dict:minLength>8</dict:minLength>
 		<dict:maxLength>8</dict:maxLength>
 		<dict:validChars>0123456789</dict:validChars>
-		<dict:minOccurs>0</dict:minOccurs>
-		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 

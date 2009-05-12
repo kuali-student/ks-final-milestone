@@ -49,6 +49,8 @@ public class EnumeratedValueField implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;
 	@XmlElement(required = true, namespace="http://org.kuali.student/core/dictionary")
     protected FieldDescriptor fieldDescriptor;
+    protected Integer minOccurs;
+    protected String maxOccurs;
     @XmlAttribute
     protected String key;
 
@@ -99,5 +101,24 @@ public class EnumeratedValueField implements java.io.Serializable{
     public void setKey(String value) {
         this.key = value;
     }
+
+	public Integer getMinOccurs() {
+		return minOccurs;
+	}
+
+	public void setMinOccurs(Integer minOccurs) {
+		this.minOccurs = minOccurs;
+	}
+
+	public String getMaxOccurs() {
+		return maxOccurs;
+	}
+
+	/**
+	 * @param maxOccurs valid values are positive integers and the string "unbounded"
+	 */
+	public void setMaxOccurs(String maxOccurs) {
+		this.maxOccurs = maxOccurs;
+	}
 
 }

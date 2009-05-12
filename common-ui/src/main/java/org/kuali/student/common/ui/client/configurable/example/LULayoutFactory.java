@@ -13,7 +13,6 @@ import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
@@ -23,7 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 public class LULayoutFactory {
 	private final ObjectStructure structure;
 	private final Validator validator;
-	private final Map<String, Map<String, FieldDescriptor>> indexedFields = new HashMap<String, Map<String,FieldDescriptor>>();
+	private final Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
 	
 	public LULayoutFactory(ObjectStructure structure, Validator validator) {
 		this.structure = structure;
@@ -38,17 +37,17 @@ public class LULayoutFactory {
 		}
 	}
 
-	private Map<String, FieldDescriptor> getFields(String type, String state) {
-		Map<String, FieldDescriptor> result = indexedFields.get(type.toLowerCase() + ":" + state.toLowerCase());
+	private Map<String, Field> getFields(String type, String state) {
+		Map<String, Field> result = indexedFields.get(type.toLowerCase() + ":" + state.toLowerCase());
 		
 		if (result == null) {
 			for (Type t : structure.getType()) {
 				if (t.getKey().equalsIgnoreCase(type)) {
 					for (State s : t.getState()) {
 						if (s.getKey().equalsIgnoreCase(state)) {
-							result = new HashMap<String, FieldDescriptor>();
+							result = new HashMap<String, Field>();
 							for (Field f : s.getField()) {
-								result.put(f.getKey(), (FieldDescriptor)f.getFieldDescriptor());
+								result.put(f.getKey(), f);
 							}
 							indexedFields.put(type.toLowerCase() + ":" + state.toLowerCase(), result);
 						}
@@ -64,7 +63,7 @@ public class LULayoutFactory {
 	
 
 	private ConfigurableLayout<MockCluInfo> getProposedCourseLayout(
-			final Map<String, FieldDescriptor> fields) {
+			final Map<String, Field> fields) {
 		return new DefaultCreateUpdateLayout<MockCluInfo>() {{
 			addSection(new String[] {"Proposal Information", "Author + Collaborators"}, 
 					new SimpleConfigurableSection<MockCluInfo>()

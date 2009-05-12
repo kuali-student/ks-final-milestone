@@ -52,6 +52,20 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 		if(element.hasAttribute("key")&&!"objectStructure".equals(element.getLocalName())){
             builder.addPropertyValue("key", element.getAttribute("key"));
 		}
+		
+		if("field".equals(element.getLocalName())){
+			if(element.hasAttribute("minOccurs")){
+				builder.addPropertyValue("minOccurs", element.getAttribute("minOccurs"));
+			}else{
+				builder.addPropertyValue("minOccurs", 0);
+			}
+			if(element.hasAttribute("maxOccurs")){
+				builder.addPropertyValue("maxOccurs", element.getAttribute("maxOccurs"));
+			}else{
+				builder.addPropertyValue("maxOccurs", "1");
+			}
+
+		}
 
 		if("contextDescriptor".equals(element.getLocalName())){
 			 builder.addPropertyValue("type", element.getAttribute("type"));
@@ -91,16 +105,16 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                    Element childElement = getFirstChildElement(node);
 	                    if(childElement!=null){
 	                        if("ref".equals(childElement.getLocalName())){
-	                            Object childBean = pc.getDelegate().parsePropertySubElement(childElement, pc.getContainingBeanDefinition());
-	                            builder.addPropertyValue(node.getLocalName(), childBean);
+//	                            Object childBean = pc.getDelegate().parsePropertySubElement(childElement, pc.getContainingBeanDefinition());
+	                            builder.addPropertyReference(node.getLocalName(), childElement.getAttribute("bean"));
 	                        }else{
 	                            Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
 	                            builder.addPropertyValue(node.getLocalName(), childBean);
 	                        }
 	                    }else{
 	                    	if("field".equals(element.getLocalName())&&"ref".equals(node.getLocalName())){
-	                    		Object refBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
-	                    		builder.addPropertyValue("fieldDescriptor", refBean);
+	                    		//Object refBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
+	                    		builder.addPropertyReference("fieldDescriptor", ((Element)node).getAttribute("bean"));
 	                    	}else{
 	                    		builder.addPropertyValue(node.getLocalName(), node.getTextContent());
 	                    	}

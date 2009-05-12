@@ -126,8 +126,6 @@
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
 						<dict:validChars>ABCDEF0123456789-</dict:validChars>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</search:queryParam>
@@ -143,8 +141,6 @@
 		<dict:maxLength>36</dict:maxLength>
 		<dict:validChars>ABCDEF0123456789-</dict:validChars>
 		<dict:invalidChars></dict:invalidChars>
-		<dict:minOccurs>0</dict:minOccurs>
-		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 

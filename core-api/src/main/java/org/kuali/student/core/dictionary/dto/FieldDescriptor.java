@@ -15,8 +15,6 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -45,31 +43,25 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "", propOrder = {
+//    "name",
+//    "desc",
+//	"dataType",
+//	"minValue",
+//	"maxValue",
+//    "minLength",
+//    "maxLength",
+//    "validChars",
+//    "invalidChars",
+//    "readOnly",
+//    "_enum"
+//})
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "name",
-    "desc",
-	"dataType",
-	"minValue",
-	"maxValue",
-    "minLength",
-    "maxLength",
-    "validChars",
-    "invalidChars",
-    "minOccurs",
-    "maxOccurs",
-    "readOnly",
-    "_enum"
-})
-@XmlRootElement(name = "fieldDescriptor")
 public class FieldDescriptor extends FieldItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @XmlElement(required = true)
-    protected String name;
-    @XmlElement(required = true)
-    protected String desc;
     @XmlElement(required = true)
     protected String dataType;
     protected String minValue;
@@ -78,28 +70,9 @@ public class FieldDescriptor extends FieldItem implements Serializable {
     protected Integer maxLength;
     protected String validChars;
     protected String invalidChars;
-    protected Integer minOccurs;
-    protected Integer maxOccurs;
-    protected boolean readOnly;
     @XmlElement(name = "enum")
     protected Enum _enum;
     
-    public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-
 	public String getMinValue() {
 		return minValue;
 	}
@@ -116,22 +89,7 @@ public class FieldDescriptor extends FieldItem implements Serializable {
 		this.maxValue = maxValue;
 	}
 
-	/**
-     * Gets the value of the readOnly property.
-     * 
-     */
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    /**
-     * Sets the value of the readOnly property.
-     * 
-     */
-    public void setReadOnly(boolean value) {
-        this.readOnly = value;
-    }
-    
+  
     /**
      * Gets the value of the dataType property.
      * 
@@ -253,54 +211,6 @@ public class FieldDescriptor extends FieldItem implements Serializable {
     }
 
     /**
-     * Gets the value of the minOccurs property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getMinOccurs() {
-        return minOccurs;
-    }
-
-    /**
-     * Sets the value of the minOccurs property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setMinOccurs(Integer value) {
-        this.minOccurs = value;
-    }
-
-    /**
-     * Gets the value of the maxOccurs property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getMaxOccurs() {
-        return maxOccurs;
-    }
-
-    /**
-     * Sets the value of the maxOccurs property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setMaxOccurs(Integer value) {
-        this.maxOccurs = value;
-    }
-
-    /**
      * Gets the value of the enum property.
      * 
      * @return
@@ -326,10 +236,8 @@ public class FieldDescriptor extends FieldItem implements Serializable {
     
     public Map<String, Object> toMap(){
     	Map<String, Object> fieldDescMap = new HashMap<String, Object>();
-    	fieldDescMap.put("maxOccurs", maxOccurs);
     	fieldDescMap.put("maxValue", maxValue);
     	fieldDescMap.put("maxLength", maxLength);
-    	fieldDescMap.put("minOccurs", minOccurs);
     	fieldDescMap.put("minValue", minValue);
     	fieldDescMap.put("minLength", minLength);
     	fieldDescMap.put("validChars", validChars);

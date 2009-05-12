@@ -72,8 +72,8 @@ public class DictionaryServiceTest {
 					int maxLength = fd.getMaxLength();
 					String validChars = fd.getValidChars();
 					//String invalidChars = fd.getInvalidChars();
-					int minOccurs = fd.getMinOccurs();
-					int maxOccurs = fd.getMaxOccurs();
+					int minOccurs = f.getMinOccurs();
+					int maxOccurs = "unbounded".equals(f.getMaxOccurs())?Integer.MAX_VALUE:Integer.parseInt(f.getMaxOccurs());
 					Enum e = fd.getEnum();
 					testEnum(e);
 					if(f.getKey().equals("cluId") && s.getKey().equals("proposed") && t.getKey().equals("course")){

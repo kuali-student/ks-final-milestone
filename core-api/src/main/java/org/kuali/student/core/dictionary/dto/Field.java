@@ -13,7 +13,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -43,17 +43,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "fieldDescriptor",
     "selector",
-    "dynamic"
+    "dynamic",
+    "maxOccurs",
+    "minOccurs"
 })
 @XmlRootElement(name = "field")
 public class Field implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
-    @XmlElementRef //TODO there is no required here but there should be
+    @XmlElement //TODO there is no required here but there should be
     protected FieldItem fieldDescriptor;
     protected boolean selector;
     protected boolean dynamic;
+    protected Integer minOccurs;
+    protected String maxOccurs;
     @XmlAttribute(required = true)
     protected String key;
 
@@ -120,5 +124,53 @@ public class Field implements Serializable{
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
 	}
+	
+    /**
+     * Gets the value of the minOccurs property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getMinOccurs() {
+        return minOccurs;
+    }
 
+    /**
+     * Sets the value of the minOccurs property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setMinOccurs(Integer value) {
+        this.minOccurs = value;
+    }
+
+    /**
+     * Gets the value of the maxOccurs property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMaxOccurs() {
+        return maxOccurs;
+    }
+
+    /**
+     * Sets the value of the maxOccurs property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     Values are String represented positive integers or "unbounded"
+     *     
+     */
+    public void setMaxOccurs(String value) {
+        this.maxOccurs = value;
+    }
 }

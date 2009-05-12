@@ -27,6 +27,14 @@
 		</xsd:choice>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="minOccurs" use="optional" type="xsd:nonNegativeInteger"></xsd:attribute>
+		<xsd:attribute name="maxOccurs" use="optional">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern value="[1-9][0-9]*|unbounded"></xsd:pattern>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="stateSelector">
@@ -55,7 +63,11 @@
 	<xsd:complexType name="objectStructure">
 		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
 			<xsd:choice>
-				<xsd:element name="type" type="typeSelector"></xsd:element>
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+					<xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+					<xsd:element name="type" type="typeSelector"></xsd:element>
+				</xsd:sequence>
 				<xsd:element ref="beans:ref" />
 			</xsd:choice>
 		</xsd:sequence>
@@ -80,10 +92,6 @@
 					minOccurs="0" maxOccurs="1"></xsd:element>
 				<xsd:element name="invalidChars" type="xsd:string"
 					minOccurs="0" maxOccurs="1"></xsd:element>
-				<xsd:element name="minOccurs" type="xsd:int" minOccurs="0"
-					maxOccurs="1"></xsd:element>
-				<xsd:element name="maxOccurs" type="xsd:int" minOccurs="0"
-					maxOccurs="1"></xsd:element>
 				<xsd:element name="readOnly" type="xsd:boolean"
 					minOccurs="0" maxOccurs="1" />
 				<xsd:element name="enum" type="enumSelector" minOccurs="0"
