@@ -135,6 +135,7 @@ public class RuleExpressionEditor extends ViewComposite {
         VerticalPanel pnlMissingDisplay = new VerticalPanel();
         pnlMissingDisplay.add(new KSLabel("Rule(s) missing from expression"));
         tableMissingExpressions = new KSSelectableTableList();
+        tableMissingExpressions.setListItems(new RCTableItems());
         pnlMissingDisplay.add(tableMissingExpressions);
         pnlMissingExpressions.clear();
         pnlMissingExpressions.add(pnlMissingDisplay);
@@ -202,7 +203,7 @@ public class RuleExpressionEditor extends ViewComposite {
     }
     
     class RCTableItems implements ListItems {
-        private List<ReqComponentVO> rcs;
+        private List<ReqComponentVO> rcs = new ArrayList<ReqComponentVO>();
         private final String ATTR_KEY_LABEL = "Label";
         private final String ATTR_KEY_DESCR = "Description";
         
@@ -237,7 +238,7 @@ public class RuleExpressionEditor extends ViewComposite {
 
         @Override
         public String getItemAttribute(String id, String attrkey) {
-            String value = null;
+            String value = "";
             ReqComponentVO rc = lookup(id);
             if (attrkey != null) {
                 if (attrkey.equals(ATTR_KEY_LABEL)) {
@@ -257,10 +258,9 @@ public class RuleExpressionEditor extends ViewComposite {
 
         @Override
         public List<String> getItemIds() {
-            List<String> itemIds = null;
+            List<String> itemIds = new ArrayList<String>();
             if (rcs != null && !rcs.isEmpty()) {
                 for (ReqComponentVO rc : rcs) {
-                    itemIds = (itemIds == null)? new ArrayList<String>() : itemIds;
                     itemIds.add(rc.getGuiReferenceLabelId());
                 }
             }
