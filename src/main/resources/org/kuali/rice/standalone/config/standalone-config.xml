@@ -29,7 +29,7 @@
 
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
-    <param name="datasource.url">jdbc:oracle:thin:@<URL-TO-USE>:1521:KUALI</param>
+    <param name="datasource.url">jdbc:oracle:thin:@** URL-TO-USE **:1521:KUALI</param>
     <param name="datasource.username">!! FILL IN !!</param>
     <param name="datasource.password">!! FILL IN !!</param>
 
