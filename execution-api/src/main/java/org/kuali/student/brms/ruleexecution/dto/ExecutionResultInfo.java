@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class ExecutionResultDTO implements java.io.Serializable {
+public class ExecutionResultInfo implements java.io.Serializable {
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class ExecutionResultDTO implements java.io.Serializable {
 	private Boolean executionResult = null;
 
     @XmlElement
-	private RuleReportDTO report;
+	private RuleReportInfo report;
 
     @XmlElement
 	private String executionLog;
@@ -41,7 +41,7 @@ public class ExecutionResultDTO implements java.io.Serializable {
     /**
      * Constructor
      */
-	public ExecutionResultDTO() {
+	public ExecutionResultInfo() {
 	}
 
 	public void setExecutionLog(final String log) {
@@ -60,11 +60,11 @@ public class ExecutionResultDTO implements java.io.Serializable {
 		this.executionResult = executionResult;
 	}
 
-	public RuleReportDTO getReport() {
+	public RuleReportInfo getReport() {
 		return this.report;
 	}
 
-	public void setReport(final RuleReportDTO report) {
+	public void setReport(final RuleReportInfo report) {
 		this.report = report;
 	}
 	

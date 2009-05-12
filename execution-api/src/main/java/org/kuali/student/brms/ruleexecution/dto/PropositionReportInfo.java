@@ -31,7 +31,7 @@ import org.kuali.student.brms.factfinder.dto.FactResultInfo;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class PropositionReportDTO implements java.io.Serializable {
+public class PropositionReportInfo implements java.io.Serializable {
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,7 @@ public class PropositionReportDTO implements java.io.Serializable {
 	/**
      * Constructor
      */
-    public PropositionReportDTO() {
+    public PropositionReportInfo() {
     }
 
     /**

@@ -2,16 +2,16 @@
 <wsdl:definitions name="RuleExecutionService" targetNamespace="http://student.kuali.org/wsdl/brms/RuleExecution" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleExecution" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleExecution" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/brms/RuleExecution">
-    <xs:element name="agendaExecutionResultDTO" type="tns:agendaExecutionResultDTO"/>
+    <xs:element name="agendaExecutionResultInfo" type="tns:agendaExecutionResultInfo"/>
     <xs:element name="executeAgenda" type="tns:executeAgenda"/>
     <xs:element name="executeAgendaResponse" type="tns:executeAgendaResponse"/>
     <xs:element name="executeBusinessRule" type="tns:executeBusinessRule"/>
     <xs:element name="executeBusinessRuleResponse" type="tns:executeBusinessRuleResponse"/>
     <xs:element name="executeBusinessRuleTest" type="tns:executeBusinessRuleTest"/>
     <xs:element name="executeBusinessRuleTestResponse" type="tns:executeBusinessRuleTestResponse"/>
-    <xs:element name="executionResultDTO" type="tns:executionResultDTO"/>
-    <xs:element name="propositionReportDTO" type="tns:propositionReportDTO"/>
-    <xs:element name="ruleReportDTO" type="tns:ruleReportDTO"/>
+    <xs:element name="executionResultInfo" type="tns:executionResultInfo"/>
+    <xs:element name="propositionReportInfo" type="tns:propositionReportInfo"/>
+    <xs:element name="ruleReportInfo" type="tns:ruleReportInfo"/>
     <xs:complexType name="executeBusinessRuleTest">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfo"/>
@@ -36,7 +36,7 @@
             <xs:element minOccurs="0" name="businessRuleElementList">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleElement" type="tns:ruleElementDTO"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleElement" type="tns:ruleElementInfo"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -45,17 +45,17 @@
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="ruleElementDTO">
+    <xs:complexType name="ruleElementInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRuleElemnetTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="ordinalPosition" type="xs:int"/>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
-            <xs:element minOccurs="0" name="businessRuleProposition" type="tns:rulePropositionDTO"/>
+            <xs:element minOccurs="0" name="businessRuleProposition" type="tns:rulePropositionInfo"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="rulePropositionDTO">
+    <xs:complexType name="rulePropositionInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
@@ -63,7 +63,7 @@
             <xs:element minOccurs="0" name="comparisonDataTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="leftHandSide" type="tns:leftHandSideDTO"/>
             <xs:element minOccurs="0" name="comparisonOperatorTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="rightHandSide" type="tns:rightHandSideDTO"/>
+            <xs:element minOccurs="0" name="rightHandSide" type="tns:rightHandSideInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="leftHandSideDTO">
@@ -139,7 +139,7 @@
         <xs:attribute name="type" type="xs:string"/>
         <xs:attribute name="value" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="rightHandSideDTO">
+    <xs:complexType name="rightHandSideInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="expectedValue" type="xs:string"/>
         </xs:sequence>
@@ -156,38 +156,38 @@
     </xs:complexType>
     <xs:complexType name="executeBusinessRuleTestResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:executionResultDTO"/>
+            <xs:element minOccurs="0" name="return" type="tns:executionResultInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="executionResultDTO">
+    <xs:complexType name="executionResultInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="executionResult" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="report" type="tns:ruleReportDTO"/>
+            <xs:element minOccurs="0" name="report" type="tns:ruleReportInfo"/>
             <xs:element minOccurs="0" name="executionLog" type="xs:string"/>
             <xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="ruleReportDTO">
+    <xs:complexType name="ruleReportInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="successful" type="xs:boolean"/>
             <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="propositionReportList" type="tns:propositionReportDTO"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="propositionReportList" type="tns:propositionReportInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="propositionReportDTO">
+    <xs:complexType name="propositionReportInfo">
         <xs:sequence>
             <xs:element name="successful" type="xs:boolean"/>
             <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
-            <xs:element minOccurs="0" name="criteria" type="tns:factResultDTO"/>
-            <xs:element minOccurs="0" name="fact" type="tns:factResultDTO"/>
-            <xs:element minOccurs="0" name="propositionResult" type="tns:factResultDTO"/>
+            <xs:element minOccurs="0" name="criteria" type="tns:factResultInfo"/>
+            <xs:element minOccurs="0" name="fact" type="tns:factResultInfo"/>
+            <xs:element minOccurs="0" name="propositionResult" type="tns:factResultInfo"/>
         </xs:sequence>
         <xs:attribute name="propositionName" type="xs:string"/>
         <xs:attribute name="propositionType" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="factResultDTO">
+    <xs:complexType name="factResultInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="factResultTypeInfo" type="tns:factResultTypeInfo"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="resultList" type="tns:jaxbAttributeList"/>
@@ -235,15 +235,15 @@
     </xs:complexType>
     <xs:complexType name="executeAgendaResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:agendaExecutionResultDTO"/>
+            <xs:element minOccurs="0" name="return" type="tns:agendaExecutionResultInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="agendaExecutionResultDTO">
+    <xs:complexType name="agendaExecutionResultInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="id" type="xs:string"/>
             <xs:element minOccurs="0" name="executionSuccessful" type="xs:boolean"/>
             <xs:element minOccurs="0" name="agendaReportSuccessful" type="xs:boolean"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="executionResultList" type="tns:executionResultDTO"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="executionResultList" type="tns:executionResultInfo"/>
             <xs:element minOccurs="0" name="successMessageSummary" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessageSummary" type="xs:string"/>
         </xs:sequence>
@@ -256,7 +256,7 @@
     </xs:complexType>
     <xs:complexType name="executeBusinessRuleResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:executionResultDTO"/>
+            <xs:element minOccurs="0" name="return" type="tns:executionResultInfo"/>
         </xs:sequence>
     </xs:complexType>
     <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>

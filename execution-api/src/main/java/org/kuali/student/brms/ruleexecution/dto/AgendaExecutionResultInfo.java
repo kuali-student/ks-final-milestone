@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class AgendaExecutionResultDTO {
+public class AgendaExecutionResultInfo {
 
     @XmlElement
 	private String id;
@@ -22,7 +22,7 @@ public class AgendaExecutionResultDTO {
     private Boolean agendaReportSuccessful = Boolean.FALSE;
 
     @XmlElement
-    private List<ExecutionResultDTO> executionResultList = new ArrayList<ExecutionResultDTO>();
+    private List<ExecutionResultInfo> executionResultList = new ArrayList<ExecutionResultInfo>();
 
     @XmlElement
     private String successMessageSummary;
@@ -33,7 +33,7 @@ public class AgendaExecutionResultDTO {
     /**
      * Constructor
      */
-	public AgendaExecutionResultDTO() {
+	public AgendaExecutionResultInfo() {
 	}
 
 	public String getId() {
@@ -51,15 +51,15 @@ public class AgendaExecutionResultDTO {
 		this.executionSuccessful = executionSuccessful;
 	}
 
-	public void addExecutionResult(ExecutionResultDTO executionResult) {
+	public void addExecutionResult(ExecutionResultInfo executionResult) {
 		this.executionResultList.add(executionResult);
 	}
 	
-	public List<ExecutionResultDTO> getExecutionResultList() {
+	public List<ExecutionResultInfo> getExecutionResultList() {
 		return this.executionResultList;
 	}
 
-	public void setExecutionResultList(List<ExecutionResultDTO> executionResultList) {
+	public void setExecutionResultList(List<ExecutionResultInfo> executionResultList) {
 		this.executionResultList = executionResultList;
 	}
 

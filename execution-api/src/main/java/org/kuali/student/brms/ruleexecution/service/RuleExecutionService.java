@@ -29,8 +29,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.brms.ruleexecution.dto.AgendaExecutionResultDTO;
-import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.brms.ruleexecution.dto.AgendaExecutionResultInfo;
+import org.kuali.student.brms.ruleexecution.dto.ExecutionResultInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 
@@ -60,7 +60,7 @@ public interface RuleExecutionService {
      * @throws OperationFailedException Thrown if execution fails
 	 */
     @WebMethod
-    public AgendaExecutionResultDTO executeAgenda(
+    public AgendaExecutionResultInfo executeAgenda(
 			@WebParam(name="businessRuleAnchorInfoList") List<BusinessRuleAnchorInfo> businessRuleAnchorInfoList,
 			@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
@@ -80,7 +80,7 @@ public interface RuleExecutionService {
      * @throws OperationFailedException Thrown if execution fails
      */
     @WebMethod
-    public ExecutionResultDTO executeBusinessRule(
+    public ExecutionResultInfo executeBusinessRule(
     		@WebParam(name="businessRuleId")String businessRuleId, 
     		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
@@ -122,7 +122,7 @@ public interface RuleExecutionService {
      * @throws OperationFailedException Thrown if business rule translation or execution fails
      */
     @WebMethod
-    public ExecutionResultDTO executeBusinessRuleTest(
+    public ExecutionResultInfo executeBusinessRuleTest(
     		@WebParam(name="businessRule")BusinessRuleInfo businessRule, 
     		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;

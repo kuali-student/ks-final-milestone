@@ -36,10 +36,10 @@ import org.kuali.student.brms.internal.common.statement.report.RuleReport;
 import org.kuali.student.brms.internal.common.utils.FactUtil;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.repository.service.RuleRepositoryService;
-import org.kuali.student.brms.ruleexecution.dto.AgendaExecutionResultDTO;
-import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.brms.ruleexecution.dto.PropositionReportDTO;
-import org.kuali.student.brms.ruleexecution.dto.RuleReportDTO;
+import org.kuali.student.brms.ruleexecution.dto.AgendaExecutionResultInfo;
+import org.kuali.student.brms.ruleexecution.dto.ExecutionResultInfo;
+import org.kuali.student.brms.ruleexecution.dto.PropositionReportInfo;
+import org.kuali.student.brms.ruleexecution.dto.RuleReportInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
@@ -220,19 +220,19 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	 * @param executionResult Rule Execution result
 	 * @return Rule execution result DTO
 	 */
-    private ExecutionResultDTO createExecutionResultDTO(ExecutionResult executionResult) {
-    	ExecutionResultDTO exeDTO = new ExecutionResultDTO();
+    private ExecutionResultInfo createExecutionResultInfo(ExecutionResult executionResult) {
+    	ExecutionResultInfo exeDTO = new ExecutionResultInfo();
     	exeDTO.setExecutionLog(executionResult.getExecutionLog());
     	exeDTO.setErrorMessage(executionResult.getErrorMessage());
     	exeDTO.setExecutionSuccessful(executionResult.getExecutionResult());
     	
-    	RuleReportDTO reportDTO = new RuleReportDTO();
+    	RuleReportInfo reportDTO = new RuleReportInfo();
     	RuleReport report = createReport(executionResult.getResults());
     		
     	if (report != null) {
-    		List<PropositionReportDTO> propositionReportList = new ArrayList<PropositionReportDTO>();
+    		List<PropositionReportInfo> propositionReportList = new ArrayList<PropositionReportInfo>();
     		for(PropositionReport propositionReport : report.getPropositionReports()) {
-	    		PropositionReportDTO prDTO = new PropositionReportDTO();
+	    		PropositionReportInfo prDTO = new PropositionReportInfo();
 	    		prDTO.setPropositionName(propositionReport.getPropositionName());
 	    		prDTO.setPropositionType(propositionReport.getPropositionType().toString());
 	    		prDTO.setSuccessful(propositionReport.isSuccessful());
@@ -252,8 +252,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	return exeDTO;
     }
 
-    private AgendaExecutionResultDTO createAgendaExecutionResult(List<ExecutionResultDTO> executionResultList) {
-    	AgendaExecutionResultDTO agendaExecutionResult = new AgendaExecutionResultDTO();
+    private AgendaExecutionResultInfo createAgendaExecutionResult(List<ExecutionResultInfo> executionResultList) {
+    	AgendaExecutionResultInfo agendaExecutionResult = new AgendaExecutionResultInfo();
 
     	// Clear execution level fact finder caching
     	this.factFinderCache.clear();
@@ -264,7 +264,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	Boolean reportSucccessful = Boolean.TRUE;
     	Boolean executionSucccessful = Boolean.TRUE;
     	
-    	for(ExecutionResultDTO executionResult : executionResultList) {
+    	for(ExecutionResultInfo executionResult : executionResultList) {
     		agendaExecutionResult.addExecutionResult(executionResult);
     		reportSucccessful = reportSucccessful && executionResult.getReport().isSuccessful();
     		executionSucccessful = executionSucccessful && executionResult.isExecutionSuccessful();
@@ -467,7 +467,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      * @throws MissingParameterException Thrown if parameters are missing parameters
      * @throws OperationFailedException Thrown if execution fails
 	 */
-    public AgendaExecutionResultDTO executeAgenda(
+    public AgendaExecutionResultInfo executeAgenda(
     		final List<BusinessRuleAnchorInfo> businessRuleAnchorInfoList,
     		final Map<String,String> executionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
@@ -479,9 +479,9 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	this.factFinderCache.clear();
     	//this.factFinderTypeCache.clear();
 
-    	List<ExecutionResultDTO> executionResultList = new ArrayList<ExecutionResultDTO>();
+    	List<ExecutionResultInfo> executionResultList = new ArrayList<ExecutionResultInfo>();
     	for(BusinessRuleInfo businessRule : businessRuleInfoList) {
-	 		ExecutionResultDTO executionResult = executeRule(businessRule.getId(), executionParamMap);
+	 		ExecutionResultInfo executionResult = executeRule(businessRule.getId(), executionParamMap);
 	 		executionResultList.add(executionResult);
     	}
 
@@ -502,7 +502,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      * @throws MissingParameterException Thrown if business rule id is null or empty
      * @throws OperationFailedException Thrown if execution fails
      */
-    public ExecutionResultDTO executeBusinessRule(final String businessRuleId, final Map<String,String> exectionParamMap)
+    public ExecutionResultInfo executeBusinessRule(final String businessRuleId, final Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
     	// Clear execution level fact finder cache
@@ -523,7 +523,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      * @throws MissingParameterException Thrown if business rule id is null or empty
      * @throws OperationFailedException Thrown if execution fails
      */
-    private ExecutionResultDTO executeRule(
+    private ExecutionResultInfo executeRule(
     			final String businessRuleId, 
     			final Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
@@ -540,7 +540,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		
         try {
         	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, factMap);
-    		return createExecutionResultDTO(result);
+    		return createExecutionResultInfo(result);
     	} catch(RuleSetExecutionException e) {
     		logger.error(e.getMessage(), e);
     		throw new OperationFailedException(e.getMessage());
@@ -611,7 +611,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      * @throws OperationFailedException Thrown if business rule translation or execution fails
      */
-    public ExecutionResultDTO executeBusinessRuleTest(final BusinessRuleInfo businessRule, final Map<String,String> exectionParamMap)
+    public ExecutionResultInfo executeBusinessRuleTest(final BusinessRuleInfo businessRule, final Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		if (businessRule == null) {
 			throw new MissingParameterException("businessRule is null");
@@ -624,7 +624,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		try {
         	this.ruleSetExecutorTest.addRuleSet(businessRule, ruleSet);
         	ExecutionResult result = this.ruleSetExecutorTest.execute(businessRule, factMap);
-    		return createExecutionResultDTO(result);
+    		return createExecutionResultInfo(result);
     	} catch(RuleSetExecutionException e) {
     		logger.error(e.getMessage(), e);
     		throw new OperationFailedException(e.getMessage());

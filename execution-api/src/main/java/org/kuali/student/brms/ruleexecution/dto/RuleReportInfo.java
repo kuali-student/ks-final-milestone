@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class RuleReportDTO implements java.io.Serializable {
+public class RuleReportInfo implements java.io.Serializable {
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
@@ -44,12 +44,12 @@ public class RuleReportDTO implements java.io.Serializable {
     private String failureMessage;
     
     @XmlElement
-    private List<PropositionReportDTO> propositionReportList;
+    private List<PropositionReportInfo> propositionReportList;
     
     /**
      * Constructor
      */
-    public RuleReportDTO() {
+    public RuleReportInfo() {
     }
 
     /**
@@ -97,7 +97,7 @@ public class RuleReportDTO implements java.io.Serializable {
      * Returns a list of proposition reports.
      * @return List of proposition reports
      */
-	public List<PropositionReportDTO> getPropositionReports() {
+	public List<PropositionReportInfo> getPropositionReports() {
 		return propositionReportList;
 	}
 
@@ -105,7 +105,7 @@ public class RuleReportDTO implements java.io.Serializable {
      * Sets a list of proposition reports.
 	 * @param propositionReportList List of proposition reports
 	 */
-	public void setPropositionReports(List<PropositionReportDTO> propositionReportList) {
+	public void setPropositionReports(List<PropositionReportInfo> propositionReportList) {
 		this.propositionReportList = propositionReportList;
 	}
 

@@ -43,6 +43,7 @@
 	<modules>
 		<module>brms-api</module>
 		<module>brms-impl</module>
+		<!-- <module>brms-ui</module> -->
 		<module>brms-web</module>
 		<module>execution-api</module>
 		<module>execution-impl</module>

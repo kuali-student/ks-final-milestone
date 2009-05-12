@@ -33,7 +33,7 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.brms.factfinder.dto.FactStructureInfo;
 import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
-import org.kuali.student.brms.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.brms.ruleexecution.dto.ExecutionResultInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 import org.kuali.student.brms.rulemanagement.entity.BusinessRule;
 import org.kuali.student.brms.rulemanagement.entity.FactStructure;
@@ -104,7 +104,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     
     @Test
     public void testExecuteBusinessRule_StaticFact_TestBeans_Rule1() throws Exception {
-    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, null);
+    	ExecutionResultInfo result = ruleExecutionService.executeBusinessRule(businessRuleId1, null);
         Assert.assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
@@ -125,7 +125,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 
     @Test
     public void testExecuteBusinessRuleTest_StaticFact_TestBeans_Rule2() throws Exception {
-    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRuleTest(businessRuleInfo2, null);
+    	ExecutionResultInfo result = ruleExecutionService.executeBusinessRuleTest(businessRuleInfo2, null);
         Assert.assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
@@ -167,7 +167,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         
         ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
         
-    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, paramMap);
+    	ExecutionResultInfo result = ruleExecutionService.executeBusinessRule(businessRuleId1, paramMap);
         Assert.assertNotNull(result);
 
         Assert.assertTrue(result.isExecutionSuccessful());
