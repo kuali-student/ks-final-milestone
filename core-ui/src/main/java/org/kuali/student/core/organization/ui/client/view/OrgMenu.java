@@ -55,18 +55,17 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
         List<KSMenuItemData> menuItems = new ArrayList<KSMenuItemData>();
         
         KSMenuItemData createItem = new KSMenuItemData("Create"); 
-        addSubItem(createItem, "Organization", new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL), "0.0");
-        addSubItem(createItem, "Position", new OrganizationWidget(OrganizationWidget.Scope.ORG_POSITIONS), "0.1");
+        addSubItem(createItem, "Organization", new OrganizationWidget(OrganizationWidget.Scope.ORG_CREATE_ALL));
+        addSubItem(createItem, "Position", new OrganizationWidget(OrganizationWidget.Scope.ORG_POSITIONS));
         
         KSMenuItemData modifyItem = new KSMenuItemData("Search");
-//        modifyItem.setClickHandler(getClickHandler(new OrgUpdatePanel(), "1"));
-        addSubItem(modifyItem, "Search / Modify", new OrgUpdatePanel(), "1.0");
+        addSubItem(modifyItem, "Search & Modify", new OrgUpdatePanel());
         
         KSMenuItemData locateItem = new KSMenuItemData("Browse");
-        addSubItem(locateItem, "by Tree", new OrgLocateTree(), "2.0");
-        addSubItem(locateItem, "by List", new OrgLocatePanel(), "2.1");
-        addSubItem(locateItem, "by Chart", new OrgLocateChart(), "2.2");
-        addSubItem(locateItem, "by Name", new OrgLocateName(), "2.3");
+        addSubItem(locateItem, "by Tree", new OrgLocateTree());
+        addSubItem(locateItem, "by List", new OrgLocatePanel());
+        addSubItem(locateItem, "by Chart", new OrgLocateChart());
+        addSubItem(locateItem, "by Name", new OrgLocateName());
         
         menuItems.add(createItem);
         menuItems.add(modifyItem);
@@ -78,11 +77,11 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
         
     }
 
-    private void addSubItem(final KSMenuItemData group, String title, final Widget orgWidget, String state) {
+    private void addSubItem(final KSMenuItemData group, String title, final Widget orgWidget) {
 
         KSMenuItemData item = new KSMenuItemData(title);
     
-        item.setClickHandler(getClickHandler(orgWidget, state));              
+        item.setClickHandler(getClickHandler(orgWidget, "/"+group.getLabel()+"/"+title));              
         group.addSubItem(item);
     }
     
@@ -102,31 +101,6 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
     public void onValueChange(ValueChangeEvent<String> event) {
         String value = event.getValue();
         System.out.println("Got event #"+value);
-//        menuPanel.selectMenuItem(new String[] {"by name"}); // don't like the way this is implemented
-        //TODO this all so hacky and relies on impl code and everything and -- gah! team1 needs to make their widgets better
-        if(!value.matches("\\d+(\\.\\d)*(;session=\\d+)?"))
-            return;
-        String[] split = value.split(";");
-        String session = split.length > 1? split[1].split("=")[1]: null;
-        split = split[0].split("\\.");
-        KSAccordionPanelImpl menu = ((KSAccordionMenu)menuPanel).getMenu();
-        for(int i = 0; i < split.length; i++) {
-//            if(i == split.length - 1)
-                menu.selectOption(Integer.valueOf(split[i]));
-            if(i != split.length - 1) {
-                menu = ((KSAccordionMenuImpl)((FlowPanel)menu.getWidgetList().get(Integer.valueOf(split[i]))).getWidget(0)).getMenu();
-            }
-        }
-//        if(((KSAccordionMenu)menuPanel).getMenu())
-        List<KSMenuItemData> items = menuPanel.getItems();
-        KSMenuItemData menuItemData = null;
-        for(int i = 0; i < split.length; i++) {
-            menuItemData = items.get(Integer.valueOf(split[i]));
-            if(menuItemData.getSubItems() != null)
-                items = menuItemData.getSubItems();
-        }
-        if(menuItemData != null && menuItemData.getClickHandler() != null) {
-            menuItemData.getClickHandler().onClick(null);
-        }
+        menuPanel.selectMenuItem(value.split("/")); // don't like the way this is implemented, but oh well
     }                    
 }
