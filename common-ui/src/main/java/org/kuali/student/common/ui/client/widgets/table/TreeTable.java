@@ -10,8 +10,8 @@ public class TreeTable extends FlexTable {
         super();
         setBorderWidth(1);
         
-     //   super.setWidth("800px");
-       // super.setHeight("800px");
+       // super.setWidth("800px");
+        //super.setHeight("800px");
     }
     public NodeWidget getRootNodeWidget(){
         return (NodeWidget)super.getWidget(0, 0);

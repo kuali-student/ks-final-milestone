@@ -1,11 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.table;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -28,31 +24,31 @@ public class NodeWidget extends FocusPanel {
         super.setHeight("100%");
         setNode(n);
 
-        checkBox.addBlurHandler(new BlurHandler() {
-            @Override
-            public void onBlur(BlurEvent event) {
-                DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffffff");
-            }
-        });
-        checkBox.addFocusHandler(new FocusHandler() {
-            @Override
-            public void onFocus(FocusEvent event) {
-                DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffeeff");
-            }
-        });
+//        checkBox.addBlurHandler(new BlurHandler() {
+  //          @Override
+    //        public void onBlur(BlurEvent event) {
+      //          DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffffff");
+        //    }
+//        });
+  //      checkBox.addFocusHandler(new FocusHandler() {
+    //        @Override
+      //      public void onFocus(FocusEvent event) {
+        //        DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffeeff");
+          //  }
+//        });
        
-        super.addBlurHandler(new BlurHandler() {
-            @Override
-            public void onBlur(BlurEvent event) {
-                DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffffff");
-            }
-        });
-        super.addFocusHandler(new FocusHandler() {
-            @Override
-            public void onFocus(FocusEvent event) {
-                DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffeeff");
-            }
-        });
+  //      super.addBlurHandler(new BlurHandler() {
+    //        @Override
+      //      public void onBlur(BlurEvent event) {
+        //        DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffffff");
+          //  }
+//        });
+  //      super.addFocusHandler(new FocusHandler() {
+    //        @Override
+      //      public void onFocus(FocusEvent event) {
+        //        DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffeeff");
+          //  }
+//        });
         super.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -63,6 +59,17 @@ public class NodeWidget extends FocusPanel {
                 checkBox.setFocus(true);
                 setFocus(true);
             }
+        });
+        checkBox.addValueChangeHandler(new ValueChangeHandler(){
+            @Override
+            public void onValueChange(ValueChangeEvent event) {
+                if(checkBox.getValue() == true){
+                    DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffeeff");
+                }else{
+                    DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffffff");
+                }
+            }
+            
         });
         checkBox.addClickHandler(new ClickHandler() {
             @Override
