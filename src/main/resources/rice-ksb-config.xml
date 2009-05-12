@@ -1,8 +1,8 @@
 <config>
 
-    <param name="environment" override="false">dev</param>
-    <param name="http.port" override="false">8083</param>  
-    <param name="app.context.name" override="false">ks-web-ksb</param>
+    <param name="environment">dev</param>
+    <param name="http.port">8083</param>  
+    <param name="app.context.name">ks-web-ksb</param>
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:log4j.properties</param>
@@ -24,13 +24,18 @@
     <param name="rice.jpa.JpaProperties.hibernate.use_sql_comments">true</param>
     <param name="rice.jpa.JpaProperties.hibernate.format_sql">true</param>
 
-    <!-- Oracle Config Settings -->
-    <param name="rice.jpa.DatabasePlatform">org.hibernate.dialect.DerbyDialect</param>
     <param name="rice.jpa.UseSerialization">false</param>
 
+    <!-- Oracle Config Settings -->
+    <param name="rice.jpa.DatabasePlatform">org.hibernate.dialect.OracleDialect</param>
+    <param name="datasource.ojb.platform">Oracle9i</param>
+    <param name="datasource.url">jdbc:oracle:thin:@** FILL IN **:1521:KUALI</param>
+    <param name="datasource.username">TO FILL IN</param>
+    <param name="datasource.password">TO FILL IN</param>
+
+    <!-- Derby Config Settings -->
 <!--
-    <param name="datasource.ojb.sequenceManager.className">org.apache.ojb.broker.util.sequence.SequenceManagerInMemoryImpl</param>
--->
+    <param name="rice.jpa.DatabasePlatform">org.hibernate.dialect.DerbyDialect</param>
     <param name="datasource.ojb.platform">Derby</param>
     <param name="datasource.url">jdbc:derby:target/rice-db;create=true</param>
     <param name="datasource.username">rice</param>
@@ -40,21 +45,13 @@
     <param name="datasource.pool.size">5</param>
     <param name="datasource.pool.maxSize">10</param>
     <param name="datasource.pool.minSize">10</param>
-
-    <!-- Oracle Config Settings
-    <param name="rice.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
-    <param name="rice.jpa.UseSerialization">false</param>
-
-    <param name="datasource.ojb.platform">Oracle9i</param>
-    <param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
-    <param name="datasource.username">TO FILL IN</param>
-    <param name="datasource.password">TO FILL IN</param>
 -->
+
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
-    <param name="config.location">${user.home}/ks-core-web-ksb-config.xml</param> 
+    <param name="config.location">${user.home}/kuali/main/${environment}ks-core-web-ksb-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 </config>

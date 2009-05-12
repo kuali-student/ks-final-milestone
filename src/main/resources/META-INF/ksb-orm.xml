@@ -3,6 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
     version="1.0">
+
+<!-- DERBY CONFIGURATION -->
+<!-- 
     <entity class="org.kuali.rice.ksb.messaging.ServiceInfo" >
         <attributes>
             <id name="messageEntryId">
@@ -10,4 +13,17 @@
             </id>
         </attributes>
     </entity>
+-->
+
+<!-- PROPER JPA CONFIGURATION (but doesn't work with Rice custom sequence processing) -->
+<!--                
+    <entity class="org.kuali.rice.ksb.messaging.ServiceInfo" >
+        <attributes>
+            <id name="messageEntryId">
+                <generated-value generator="messageIdSeq" />
+                <sequence-generator name="messageIdSeq" sequence-name="MSG_END_S" />
+            </id>
+        </attributes>
+    </entity>
+-->
 </entity-mappings>
