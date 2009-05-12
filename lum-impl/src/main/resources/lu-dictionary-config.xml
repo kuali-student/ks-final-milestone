@@ -13,8 +13,6 @@
 		<dict:maxLength>36</dict:maxLength>
 		<dict:validChars>ABCDEF0123456789-</dict:validChars>
 		<dict:invalidChars></dict:invalidChars>
-		<dict:minOccurs>0</dict:minOccurs>
-		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
@@ -40,8 +38,6 @@
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
 						<dict:validChars>ABCDEF0123456789-</dict:validChars>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -52,8 +48,6 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 						<dict:enum key="lu.cluCategories">
 							<dict:contextDescriptors>
 								<dict:contextDescriptor type="default">
@@ -74,7 +68,7 @@
 			</dict:state>
 
 			<dict:state key="active">
-				<dict:field key="cluId">
+				<dict:field key="cluId" maxOccurs="1" minOccurs="1">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit(CLU).</dict:desc>
@@ -82,8 +76,6 @@
 						<dict:minLength>36</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
 						<dict:validChars>ABCDEF0123456789-</dict:validChars>
-						<dict:minOccurs>1</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -94,8 +86,6 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
@@ -112,8 +102,6 @@
 						<dict:maxLength>36</dict:maxLength>
 						<dict:validChars>ABCDEF0123456789-</dict:validChars>
 						<dict:invalidChars></dict:invalidChars>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -124,14 +112,12 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 			<dict:state key="active">
-				<dict:field key="cluId">
+				<dict:field key="cluId" maxOccurs="1" minOccurs="1">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit
@@ -140,8 +126,6 @@
 						<dict:minLength>36</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
 						<dict:validChars>ABCDEF0123456789-</dict:validChars>
-						<dict:minOccurs>1</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -152,8 +136,6 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
-						<dict:minOccurs>0</dict:minOccurs>
-						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
