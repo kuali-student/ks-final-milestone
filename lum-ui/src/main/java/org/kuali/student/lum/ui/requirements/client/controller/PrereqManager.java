@@ -147,6 +147,11 @@ public class PrereqManager extends Controller {
                 clusData = cluData;                   
             }
         });
+        
+        cluSetsData.put("CLUSET-1", "CLUSET-1");
+        cluSetsData.put("CLUSET-2", "CLUSET-2");
+        cluSetsData.put("CLUSET-3", "CLUSET-3");
+        
         /*
         RequirementsService.Util.getInstance().getAllClusets(new AsyncCallback<Map<String, String>>() {
             public void onFailure(Throwable caught) {
