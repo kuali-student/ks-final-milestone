@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
 import com.google.gwt.core.client.GWT;
@@ -67,7 +68,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
     private String desc = null;
     private HelpInfo helpInfo = null;
     private EditMode mode = EditMode.EDITABLE;
-    private Object previousValue = null;
+    private Object initValue = null;
     private boolean isDirty = false;
     
     private final List<Constraint> constraints = new ArrayList<Constraint>();
@@ -80,7 +81,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
         }
     };
     
-    HandlerManager handlers = new HandlerManager(this);
+    private HandlerManager handlers = new HandlerManager(this);
       
     public KSFormField(){
     }
@@ -142,6 +143,8 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
      * the same name as the underlying widget. 
      */
     public KSFormField setWidget(Widget formField) {
+        this.fieldWidget = formField;
+        
         try {
             //Default form field name to widget name
             if (formField instanceof HasName && name == null){
@@ -149,17 +152,31 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
             }
             
             //Add a value change handler to update dirty state
-            if (formField instanceof HasValueChangeHandlers){
+            if (formField instanceof HasValueChangeHandlers){ 
                 ((HasValueChangeHandlers<Object>) formField).addValueChangeHandler(new ValueChangeHandler<Object>(){
                     public void onValueChange(ValueChangeEvent<Object> event) {
-                        if (!isDirty && previousValue != null && previousValue.equals(event.getValue())){
-                            isDirty = true;
-                            handlers.fireEvent(new DirtyStateChangeEvent(true));
-                        }
-                        previousValue = event.getValue();
+                        Object currentValue = event.getValue();
+                        isDirty =   (initValue == null && (currentValue instanceof String ? ((String)currentValue).length() > 0:currentValue != null)) || 
+                                    (initValue != null && !initValue.equals(event.getValue()));
+                        handlers.fireEvent(new DirtyStateChangeEvent(isDirty));
                     }                    
                 });
             }
+            
+            //TODO: Would this be better if KSSelectItemWidgetAbstract implemented HasValueChangeHandlers instead
+            if (formField instanceof KSSelectItemWidgetAbstract){
+                ((KSSelectItemWidgetAbstract) formField).addSelectionChangeHandler(new SelectionChangeHandler(){
+                    public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                        List<String> currentSelected = w.getSelectedItems();
+                        isDirty = !(currentSelected.size() == ((List<String>)initValue).size() &&
+                                   currentSelected.containsAll((List<String>)initValue));
+                        handlers.fireEvent(new DirtyStateChangeEvent(isDirty));
+                    }                    
+                });
+            }
+            
+            
+            setDirty(false);
             
             if (formField instanceof HasFocusHandlers) {
                 ((HasFocusHandlers)formField).addFocusHandler(fieldFocusHandler);
@@ -167,7 +184,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
         } catch (Exception e) {
             
         }
-        this.fieldWidget = formField;
+
         return this;
     }
     
@@ -186,6 +203,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
     public KSFormField setValue(Object value) {
         if (fieldWidget instanceof HasValue) {
             ((HasValue)fieldWidget).setValue(value);
+            setDirty(false);
         } else {
             throw new UnsupportedOperationException(fieldWidget.getClass().getName() + " does not implement HasValue");
         }
@@ -321,7 +339,9 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
     }
 
     /**
-     * Use this to determine if form field is dirty
+     * Use this to determine if form field is dirty. Form field is dirty if the value of the field changes
+     * based on user input which differ from the value from the last value of the field's widget based on setValue, 
+     * setFieldWidget, or setDirty operations.  
      * 
      * @return
      */
@@ -336,6 +356,11 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
      */
     public KSFormField setDirty(boolean isDirty) {
         this.isDirty = isDirty;
+        if (fieldWidget instanceof HasValue){
+            initValue = ((HasValue)fieldWidget).getValue();
+        } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
+            initValue = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItems();
+        }
         return this;
     }
     

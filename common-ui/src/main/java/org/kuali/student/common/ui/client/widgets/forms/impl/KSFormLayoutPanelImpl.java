@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets.forms.impl;
 import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.event.DirtyStateChangeEvent;
+import org.kuali.student.common.ui.client.event.DirtyStateChangeHandler;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent;
@@ -77,6 +78,23 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         cf.setStyleName(rowIdx, FORM_FIELD_COL, KSStyles.KS_FORMLAYOUT_FIELD);
         cf.setStyleName(rowIdx, FORM_DESC_COL, KSStyles.KS_FORMLAYOUT_HELP);
 
+        //Add dirty handler to field to set form's dirty state when field becomes clean/dirty
+        field.addDirtyStateHandler(new DirtyStateChangeHandler(){
+            public void onDirtyStateChange(DirtyStateChangeEvent event) {
+                if (event.isDirty()){
+                    KSFormLayoutPanelImpl.this.isDirty = true;
+                } else {
+                    //Unfortunately must iterate through all form fields to see if other fields are still dirty
+                    KSFormLayoutPanelImpl.this.isDirty = false;
+                    for (KSFormField f:formFields.values()){
+                        if (f.isDirty()){
+                            KSFormLayoutPanelImpl.this.isDirty = true;
+                            break;
+                        }
+                    }
+                }
+            }            
+        });
         formFields.put(field.getName(), field);
         handlers.addHandler(EditModeChangeEvent.TYPE, field);
         handlers.addHandler(DirtyStateChangeEvent.TYPE, field);
