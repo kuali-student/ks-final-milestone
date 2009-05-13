@@ -78,7 +78,8 @@ public class ClauseEditorView extends ViewComposite {
     private List<ReqComponentTypeInfo> advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();     //list of advanced Requirement Component Types    
     private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>(); 
     private Map<String, String> clusData = new HashMap<String, String>(); 
-    private Map<String, String> cluSetsData = new HashMap<String, String>(); 
+    private Map<String, String> cluSetsData = new HashMap<String, String>();
+    private Model<PrereqInfo> modelPrereqInfo;
 
     public ClauseEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -92,6 +93,17 @@ System.out.println("IN ...beforeShow()...");
         if (compReqTypesList.getSelectedItem() != null) {
             compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
         }
+        
+        getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
+            public void onModelReady(Model<PrereqInfo> theModel) {
+                modelPrereqInfo = theModel;
+            }
+
+            public void onRequestFail(Throwable cause) {
+                throw new RuntimeException("Unable to connect to model", cause);
+            }
+        });                 
+
         
         getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
             public void onModelReady(Model<ReqComponentVO> theModel) {
@@ -302,70 +314,34 @@ System.out.println("IN ...setupHandlers()...");
         addReqComp.addClickHandler(new ClickHandler() {
             
             public void onClick(ClickEvent event) {              
-           
-                //store new values in the req. component info   
-                getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
-                    public void onModelReady(Model<PrereqInfo> theModel) {
-                                             
-                        List<ReqCompFieldInfo> fields = new ArrayList<ReqCompFieldInfo>();
-                        for (KSTextBox reqCompWidget : reqCompWidgets) {
-                            ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                            fieldInfo.setId(reqCompWidget.getName());
-                            fieldInfo.setValue(reqCompWidget.getText());
-                            fields.add(fieldInfo);
-                        }
+                updateFields();
+                editedReqComp.setType(selectedReqType.getId());                         
 
-                        editedReqComp.setReqCompField(fields);
-                        editedReqComp.setType(selectedReqType.getId());                         
-                        
-                        //add new req. component (rule) to the top level of the rule
-                        PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(theModel);
-                        StatementVO statementVO = prereqInfo.getStatementVO();
-                        // in the case when there is currently no statement...
-                        // i.e. the user creates the rules from scratch.
-                        if (statementVO == null) {
-                            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
-                            statementVO = new StatementVO();
-                            newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-                            statementVO.setLuStatementInfo(newLuStatementInfo);
-                            prereqInfo.setStatementVO(statementVO);
-                        }
-                        statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
-                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                        
-                        updateNLAndExit();
-                    }
+                //add new req. component (rule) to the top level of the rule
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                StatementVO statementVO = prereqInfo.getStatementVO();
+                // in the case when there is currently no statement...
+                // i.e. the user creates the rules from scratch.
+                if (statementVO == null) {
+                    LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+                    statementVO = new StatementVO();
+                    newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                    statementVO.setLuStatementInfo(newLuStatementInfo);
+                    prereqInfo.setStatementVO(statementVO);
+                }
+                statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
 
-                    public void onRequestFail(Throwable cause) {
-                        throw new RuntimeException("Unable to connect to model", cause);
-                    }
-                });                 
-                               
+                updateNLAndExit();
             }
         });   
         
         submitReqComp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {                
-                List<ReqCompFieldInfo> fields = editedReqComp.getReqCompField();
-
-                for (KSTextBox reqCompWidget : reqCompWidgets) {
-                    if ((fields == null) || (fields.isEmpty())) {
-                        fields = new ArrayList<ReqCompFieldInfo>();
-                        ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                        fieldInfo.setId(reqCompWidget.getName());
-                        fieldInfo.setValue(reqCompWidget.getText());
-                        fields.add(fieldInfo);
-                    }
-                    else
-                    {
-                        for (ReqCompFieldInfo field : fields) {
-                            if (reqCompWidget.getName().equals(field.getId())) {
-                                field.setValue(reqCompWidget.getText());
-                            }
-                        }
-                    }
+                updateFields();
+                if (modelPrereqInfo != null) {
+                    PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                    prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 }
-              
                 updateNLAndExit();                
             }
         });        
@@ -402,6 +378,43 @@ System.out.println("IN ...setupHandlers()...");
                  displayReqComponentDetails();             
              }});
         
+    }
+    
+    /**
+     * reads and check what are in the widgets and update the fields in editedReqComp
+     */
+    private void updateFields() {
+        List<ReqCompFieldInfo> fields = null;
+
+        // if there are editable widgets and that the 
+        if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
+            fields = new ArrayList<ReqCompFieldInfo>();
+            editedReqComp.setReqCompField(fields);
+            for (KSTextBox reqCompWidget : reqCompWidgets) {
+                ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+                fieldInfo.setId(reqCompWidget.getName());
+                fieldInfo.setValue(reqCompWidget.getText());
+                checkField(fieldInfo);
+                fields.add(fieldInfo);
+            }
+        }
+        editedReqComp.setReqCompField(fields);
+    }
+    
+    private void checkField(ReqCompFieldInfo fieldInfo) {
+//        boolean value
+        if (fieldInfo != null) {
+            // TODO
+            // get the type of fieldInfo (clu/cluset) to determine which map to check against.
+            // for now check against BOTH sets valid if value matches one if the sets.
+            String fieldValue = fieldInfo.getValue();
+            Map testClus = getTestCluCodes();
+            Map testCluSet = getTestCluCodes();
+            if (!testClus.containsKey(fieldValue) &&
+                    !testCluSet.containsKey(fieldValue)) {
+                // throw exception here
+            }
+        }
     }
     
     private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) { 
@@ -696,5 +709,16 @@ System.out.println("IN ...setupNewEditedReqComp()...");
     public void setCluSetsData(Map<String, String> cluSetsData) {
         this.cluSetsData = cluSetsData;
     }    
+    
+    /**
+     * TODO test method remove when real clu codes are retrieved.
+     * @return
+     */
+    private Map<String, String> getTestCluCodes() {
+        Map<String, String> cluCodes = new HashMap<String, String>();
+        cluCodes.put("12345", "CHEM 100");
+        cluCodes.put("123444", "CLUSET-NL-1");
+        return cluCodes;
+    }
     
 }
