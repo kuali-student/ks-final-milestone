@@ -323,6 +323,7 @@ public class ClauseEditorView extends ViewComposite {
                         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(theModel);
                         StatementVO statementVO = prereqInfo.getStatementVO();                                                 
                         statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
+                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                         
                         getController().showView(PrereqViews.COMPLEX); 
                     }

@@ -16,6 +16,7 @@ public class PrereqInfo implements Idable {
     private String naturalLanguage;
     private String expression; // current state of rule expression
     private String previewedExpression; // the state of the expression when it was previewed
+    private EditHistory editHistory;
 //    private NodeConverter nodeConverter = new NodeConverter();
 
     
@@ -61,7 +62,14 @@ public class PrereqInfo implements Idable {
         }
         return tree;
     }
-
+    
+    public EditHistory getEditHistory() {
+        return editHistory;
+    }
+    public void setEditHistory(EditHistory editHistory) {
+        this.editHistory = editHistory;
+    }
+    
     private boolean statementVOIsGroupAble(
             List<StatementVO> selectedStatementVOs,
             List<ReqComponentVO> selectedReqComponentVOs) {

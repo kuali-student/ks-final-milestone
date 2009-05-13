@@ -106,6 +106,7 @@ public class RuleExpressionEditor extends ViewComposite {
                 prereqInfo.setStatementVO(newStatementVO);
                 prereqInfo.setPreviewedExpression(null);
                 getController().showView(PrereqViews.COMPLEX);
+                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
             }
         });
         

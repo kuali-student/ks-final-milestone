@@ -118,10 +118,9 @@ public class ComplexView extends ViewComposite {
                         }
                         statementVO.getLuStatementInfo().setOperator(newOp);
                         Object[] temp = model.getValues().toArray();
-                        PrereqInfo prereqInfo = (PrereqInfo)temp[0];
-                        if (prereqInfo.getStatementVO() != null) {
-                            prereqInfo.getStatementVO().simplify();
-                        }
+                        PrereqInfo prereqInfo = 
+                            RulesUtilities.getPrereqInfoModelObject(model);
+                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     }
                     redraw();
                 }
@@ -141,6 +140,8 @@ public class ComplexView extends ViewComposite {
                 
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
                 Object userObject = widget.getNode().getUserObject();
+                PrereqInfo prereqInfo = 
+                    RulesUtilities.getPrereqInfoModelObject(model);
                 if (userObject instanceof StatementVO) { 
                     StatementVO statementVO = (StatementVO) userObject;
                     statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());
@@ -223,6 +224,7 @@ public class ComplexView extends ViewComposite {
                             prereqInfo.getStatementVO().getEnclosingStatementVO(
                                     prereqInfo.getStatementVO(), selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
+                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                         redraw();
                     }
                 }
@@ -249,6 +251,7 @@ public class ComplexView extends ViewComposite {
                             prereqInfo.getStatementVO().getEnclosingStatementVO(
                                     prereqInfo.getStatementVO(), selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
+                        prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                         redraw();
                     }
                 }
@@ -257,36 +260,36 @@ public class ComplexView extends ViewComposite {
         
         btnAddOR.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
                 prereqInfo.insertOR();
+                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
             }
         });
         
         btnAddAND.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
                 prereqInfo.insertAND();
+                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
             }
         });
         
         btnDelete.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
                 prereqInfo.deleteItem();
+                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
             }
         });
         
         btnAddToGroup.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                Object[] temp = model.getValues().toArray();
-                PrereqInfo prereqInfo = (PrereqInfo)temp[0];
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
                 prereqInfo.addToGroup();
+                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
             }
         });
@@ -297,6 +300,28 @@ public class ComplexView extends ViewComposite {
                 prereqInfo.populateExpression();
                 prereqInfo.setPreviewedExpression(prereqInfo.getExpression());
                 getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR);
+            }
+        });
+        
+        btnUndo.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                StatementVO previousState = prereqInfo.getEditHistory().undo();
+                if (previousState != null) {
+                    prereqInfo.setStatementVO(previousState);
+                }
+                redraw();
+            }
+        });
+        
+        btnRedo.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                StatementVO nextState = prereqInfo.getEditHistory().redo();
+                if (nextState != null) {
+                    prereqInfo.setStatementVO(nextState);
+                }
+                redraw();
             }
         });
     }
@@ -387,8 +412,8 @@ public class ComplexView extends ViewComposite {
         btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
         btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
         btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
-        btnUndo.setEnabled(false);  
-        btnRedo.setEnabled(false);          
+        btnUndo.setEnabled(prereqInfo.getEditHistory().isUndoable());  
+        btnRedo.setEnabled(prereqInfo.getEditHistory().isRedoable());          
         btnDuplicateRule.setEnabled(false);        
         btnAddRule.setEnabled(true);
         btnDelete.setEnabled(prereqInfo.statementVOIsDegroupAble());

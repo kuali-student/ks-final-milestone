@@ -9,6 +9,7 @@ import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CoreqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
+import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
@@ -68,7 +69,13 @@ public class CourseRequisiteView extends ViewComposite {
                     }
                     
                     public void onSuccess(final StatementVO statementVO) {
+                        // sets the retrieved statementVO
+                        // initializes edit history.
+                        // i.e. the previous edit history will be replaced
+                        EditHistory editHistory = new EditHistory();
                         prereqInfo.setStatementVO(statementVO);
+                        editHistory.save(statementVO);
+                        prereqInfo.setEditHistory(editHistory);
                         setPrereqInfo(prereqInfo);                    
                                                 
                         RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(courseData.get(getCourseId()).getId(), statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
