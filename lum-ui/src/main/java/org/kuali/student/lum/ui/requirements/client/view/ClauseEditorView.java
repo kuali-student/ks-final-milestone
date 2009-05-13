@@ -27,6 +27,7 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
@@ -322,7 +323,16 @@ System.out.println("IN ...setupHandlers()...");
                         
                         //add new req. component (rule) to the top level of the rule
                         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(theModel);
-                        StatementVO statementVO = prereqInfo.getStatementVO();                                                 
+                        StatementVO statementVO = prereqInfo.getStatementVO();
+                        // in the case when there is currently no statement...
+                        // i.e. the user creates the rules from scratch.
+                        if (statementVO == null) {
+                            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+                            statementVO = new StatementVO();
+                            newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                            statementVO.setLuStatementInfo(newLuStatementInfo);
+                            prereqInfo.setStatementVO(statementVO);
+                        }
                         statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                         

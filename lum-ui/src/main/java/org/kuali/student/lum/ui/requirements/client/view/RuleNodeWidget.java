@@ -136,10 +136,13 @@ public class RuleNodeWidget extends SimplePanel {
             checkBoxAndEdit.setStyleName("KS-Rules-Table-Cell-Margin");
             super.setWidget(checkBoxAndEdit);
             if (reqComponentVO.getGuiReferenceLabelId() != null) {
-                rcLabel = new KSLabel(reqComponentVO.getGuiReferenceLabelId());
-                rcLabel.getElement().getStyle().setProperty("fontWeight", "bold");
-                rcLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
-                checkBoxAndEdit.add(rcLabel);
+                Node parent = node.getParent();
+                if (parent != null) {
+                    rcLabel = new KSLabel(reqComponentVO.getGuiReferenceLabelId());
+                    rcLabel.getElement().getStyle().setProperty("fontWeight", "bold");
+                    rcLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
+                    checkBoxAndEdit.add(rcLabel);
+                }
             }
             if (showControls) {
                 checkBoxAndEdit.add(checkBox);

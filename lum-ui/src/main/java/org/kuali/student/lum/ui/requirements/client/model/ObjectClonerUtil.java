@@ -29,23 +29,26 @@ public class ObjectClonerUtil {
     }
     
     private static StatementVO doClone(StatementVO inStatementVO) {
-        StatementVO cloned = new StatementVO();
+        StatementVO cloned = null;
         LuStatementInfo clonedLuStatementInfo = null;
 
-        clonedLuStatementInfo = clone(
-                inStatementVO.getLuStatementInfo());
-        cloned.setLuStatementInfo(clonedLuStatementInfo);
         if (inStatementVO != null) {
-            for (ReqComponentVO reqComponentVO : inStatementVO.getReqComponentVOs()) {
-                cloned.addReqComponentVO(clone(reqComponentVO));
+            cloned = new StatementVO();
+            clonedLuStatementInfo = clone(
+                    inStatementVO.getLuStatementInfo());
+            cloned.setLuStatementInfo(clonedLuStatementInfo);
+            if (inStatementVO != null) {
+                for (ReqComponentVO reqComponentVO : inStatementVO.getReqComponentVOs()) {
+                    cloned.addReqComponentVO(clone(reqComponentVO));
+                }
             }
-        }
-        if (inStatementVO != null) {
-            for (StatementVO statementVO : inStatementVO.getStatementVOs()) {
-                cloned.addStatementVO(doClone(statementVO));
+            if (inStatementVO != null) {
+                for (StatementVO statementVO : inStatementVO.getStatementVOs()) {
+                    cloned.addStatementVO(doClone(statementVO));
+                }
             }
+            cloned.setCheckBoxOn(inStatementVO.isCheckBoxOn());
         }
-        cloned.setCheckBoxOn(inStatementVO.isCheckBoxOn());
         return cloned;
     }
     
