@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
@@ -22,6 +25,7 @@ import org.kuali.student.lum.lrc.entity.CreditType;
 import org.kuali.student.lum.lrc.entity.Grade;
 import org.kuali.student.lum.lrc.entity.GradeType;
 import org.kuali.student.lum.lrc.entity.ResultComponent;
+import org.kuali.student.lum.lrc.entity.ResultComponentAttribute;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 import org.kuali.student.lum.lrc.entity.ResultValue;
 import org.kuali.student.lum.lrc.entity.Scale;
@@ -206,4 +210,24 @@ public class LrcServiceAssembler extends BaseAssembler {
        return dto;
     }
 
+    public static ResultComponent toResultComponent(String resultComponentTypeKey, ResultComponentInfo dto, LrcDao lrcDao) throws DoesNotExistException, InvalidParameterException {
+        ResultComponent entity = new ResultComponent();
+        toResultComponent(entity, dto, lrcDao);
+        ResultComponentType type = lrcDao.fetch(ResultComponentType.class, resultComponentTypeKey);
+        entity.setType(type);
+        return entity;
+    }
+
+    public static void toResultComponent(ResultComponent entity, ResultComponentInfo dto, LrcDao lrcDao) throws DoesNotExistException, InvalidParameterException {
+        BeanUtils.copyProperties(dto, entity,
+                new String[] { "desc", "resultValueIds", "attributes", "metaInfo", "type", "id" });
+        entity.setDesc(toRichText(dto.getDesc()));
+        List<ResultValue> resultValues =new ArrayList<ResultValue>(dto.getResultValueIds().size());
+        for (String resultValueId : dto.getResultValueIds()) {
+            ResultValue resultValue = lrcDao.fetch(ResultValue.class, resultValueId);
+            resultValues.add(resultValue);
+        }
+        entity.setResultValues(resultValues);
+        entity.setAttributes(toGenericAttributes(ResultComponentAttribute.class, dto.getAttributes(), entity, lrcDao));
+    }
 }

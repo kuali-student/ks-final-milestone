@@ -3,6 +3,7 @@
  */
 package org.kuali.student.lum.lrc.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -34,6 +35,7 @@ import org.kuali.student.lum.lrc.entity.Grade;
 import org.kuali.student.lum.lrc.entity.GradeType;
 import org.kuali.student.lum.lrc.entity.ResultComponent;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
+import org.kuali.student.lum.lrc.entity.ResultValue;
 import org.kuali.student.lum.lrc.entity.Scale;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +72,12 @@ public class LrcServiceImpl implements LrcService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
+	    checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
+
+	    ResultComponent rc = LrcServiceAssembler.toResultComponent(resultComponentTypeKey, resultComponentInfo, lrcDao);
+	    lrcDao.create(rc);
+	    return LrcServiceAssembler.toResultComponentInfo(rc);
 	}
 
 	/* (non-Javadoc)
@@ -82,8 +88,10 @@ public class LrcServiceImpl implements LrcService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(resultComponentId, "resultComponentId");
+		lrcDao.delete(ResultComponent.class, resultComponentId);
+		StatusInfo statusInfo = new StatusInfo();
+		return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -405,9 +413,14 @@ public class LrcServiceImpl implements LrcService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	    checkForMissingParameter(resultComponentId, "resultComponentId");
+        checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
+
+        ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
+        LrcServiceAssembler.toResultComponent(entity, resultComponentInfo, lrcDao);
+        lrcDao.update(entity);
+        return LrcServiceAssembler.toResultComponentInfo(entity);
+    }
 
 	/**
 	 * @return the lrcDao

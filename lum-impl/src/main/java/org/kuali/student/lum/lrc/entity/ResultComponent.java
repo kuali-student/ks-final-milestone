@@ -25,17 +25,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
-import javax.persistence.NamedQuery;
 
 @Entity
 @Table(name = "KSLU_LRC_RESCOMP")
@@ -45,7 +48,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "ResultComponent.getResultComponentType", query = "SELECT rc.type FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey")
 })
 
-public class ResultComponent extends MetaInfo implements AttributeOwner<ResultComponentAttribute> {
+public class ResultComponent extends MetaEntity implements AttributeOwner<ResultComponentAttribute> {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -59,7 +62,7 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
     @JoinColumn(name = "RT_DESCR_ID")
     private RichText desc;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="KSLU_LRC_RESCOMP_JN_RESVALUE",
             joinColumns=@JoinColumn(name="COMPONENT_ID"),
             inverseJoinColumns=@JoinColumn(name="RESULT_ID"))
@@ -82,6 +85,14 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
 
     @Column(name = "STATE")
     private String state;
+
+    /**
+     * AutoGenerate the Id
+     */
+    @PrePersist
+    public void prePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
 
    /**
      * @return the id
@@ -129,6 +140,9 @@ public class ResultComponent extends MetaInfo implements AttributeOwner<ResultCo
      * @return the resultValues
      */
     public List<? extends ResultValue> getResultValues() {
+        if (resultValues == null) {
+            resultValues = new ArrayList<ResultValue>();
+        }
         return resultValues;
     }
 

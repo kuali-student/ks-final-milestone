@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lrc.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -66,6 +68,9 @@ public abstract class ResultValue extends MetaEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
+
+    @ManyToMany(mappedBy="resultValues")
+    private List<ResultComponent> resultComponents;
 
     /**
      * @return the id
@@ -149,6 +154,20 @@ public abstract class ResultValue extends MetaEntity {
      */
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    /**
+     * @return the resultComponents
+     */
+    public List<ResultComponent> getResultComponents() {
+        return resultComponents;
+    }
+
+    /**
+     * @param resultComponents the resultComponents to set
+     */
+    public void setResultComponents(List<ResultComponent> resultComponents) {
+        this.resultComponents = resultComponents;
     }
 
 
