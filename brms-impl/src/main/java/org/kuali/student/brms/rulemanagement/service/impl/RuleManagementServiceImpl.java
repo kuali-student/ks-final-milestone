@@ -36,6 +36,7 @@ import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
 import org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -400,7 +401,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     @Override
-    public BusinessRuleInfo updateBusinessRuleState(String businessRuleId, String brState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public BusinessRuleInfo updateBusinessRuleState(String businessRuleId, String brState) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         BusinessRule orgRule = null;
         try {
@@ -516,7 +517,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     @Override
-    public BusinessRuleInfo createNewVersion(BusinessRuleInfo businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
+    public BusinessRuleInfo createNewVersion(BusinessRuleInfo businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DataValidationErrorException, OperationFailedException, PermissionDeniedException {
 
         // Check if the rule exists
         BusinessRule orgRule = null;

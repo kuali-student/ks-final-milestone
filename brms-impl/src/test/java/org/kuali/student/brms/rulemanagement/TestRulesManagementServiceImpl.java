@@ -41,6 +41,7 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -320,7 +321,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testActivateBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException {
+    public void testActivateBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException {
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         brInfoDTO.setName("Activate rule test");
         BusinessRuleInfo createdBrInfo = client.createBusinessRule(brInfoDTO);
@@ -340,7 +341,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }   
     
     @Test
-    public void testActivatingMultipleVersion() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
+    public void testActivatingMultipleVersion() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException, DataValidationErrorException {
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         String origName = create_rule_name + "_ma1";
         brInfoDTO.setName(origName);
@@ -377,7 +378,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
 
     
     @Test
-    public void testActivatingMultipleVersionWithDateConflicts() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
+    public void testActivatingMultipleVersionWithDateConflicts() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException, DataValidationErrorException {
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         String origName = create_rule_name + "_ma2";
         brInfoDTO.setName(origName);
@@ -424,7 +425,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
     
     @Test
-    public void testRetireBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException {
+    public void testRetireBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException {
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         brInfoDTO.setName("Retire rule test");
         BusinessRuleInfo createdBrInfo = client.createBusinessRule(brInfoDTO);
@@ -469,7 +470,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, ReadOnlyException {
+    public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, ReadOnlyException, DataValidationErrorException {
         // Activate the rule before fetching the rule
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
@@ -499,7 +500,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testFetchBusinessRuleByAnchorList()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, ReadOnlyException {
+    public void testFetchBusinessRuleByAnchorList()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, ReadOnlyException, DataValidationErrorException {
         // Activate the rule before fetching the rule
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
@@ -642,7 +643,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     
     
     @Test
-    public void testCreateNewRuleVersion()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
+    public void testCreateNewRuleVersion()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException, DataValidationErrorException {
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         String origName = create_rule_name + "_version1";
         brInfoDTO.setName(origName);
@@ -660,7 +661,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
 
  
     @Test
-    public void testFirstVersionRuleId() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
+    public void testFirstVersionRuleId() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException, DataValidationErrorException {
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         String origName = create_rule_name + "_version1";
         brInfoDTO.setName(origName);
@@ -687,7 +688,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     
     
     @Test
-    public void testCreateNewRuleVersionForInProgress()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {
+    public void testCreateNewRuleVersionForInProgress()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, DataValidationErrorException {
 
         BusinessRuleInfo brInfoDTO = generateNewBusinessRuleInfo();
         brInfoDTO.setName(create_rule_name + "_version1");
