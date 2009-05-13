@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,7 +32,10 @@ public class ResultComponentType extends Type<ResultComponentTypeAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ResultComponentTypeAttribute> attributes;
 
-     @Override
+    @Column(name = "VALUE_TYPE")
+    Class<? extends ResultValue> resultValueType;
+
+    @Override
     public List<ResultComponentTypeAttribute> getAttributes() {
         if(attributes==null){
             attributes = new ArrayList<ResultComponentTypeAttribute>(0);
@@ -43,5 +47,20 @@ public class ResultComponentType extends Type<ResultComponentTypeAttribute> {
     public void setAttributes(List<ResultComponentTypeAttribute> attributes) {
         this.attributes=attributes;
     }
+
+    /**
+     * @return the resultValueType
+     */
+    public Class<? extends ResultValue> getResultValueType() {
+        return resultValueType;
+    }
+
+    /**
+     * @param resultValueType the resultValueType to set
+     */
+    public void setResultValueType(Class<? extends ResultValue> resultValueType) {
+        this.resultValueType = resultValueType;
+    }
+
 
 }

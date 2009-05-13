@@ -117,6 +117,16 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             } catch (VersionMismatchException e) {
                 assertTrue(false);
             }
+            rci.getResultValueIds().add("LRC-RESULT_VALUE-CREDIT-1");
+            try {
+                client.updateResultComponent(id, rci);
+                assertTrue(false);
+            } catch (DataValidationErrorException e) {
+                assertTrue(true);
+            } catch (VersionMismatchException e) {
+                assertTrue(false);
+            }
+
 
             StatusInfo statusInfo = client.deleteResultComponent(id);
             assertTrue(statusInfo.getSuccess());

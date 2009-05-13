@@ -44,11 +44,11 @@ INSERT INTO KSLU_LRC_GRADE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) va
 /
 
 // ResultComponentType
-INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('resultComponentType.credential', 'A Basic ResultComponent 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 1')
+INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) values ('resultComponentType.credential', 'A Basic ResultComponent 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 1', 'org.kuali.student.lum.lrc.entity.Credential')
 /
-INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('resultComponentType.credit', 'A Basic ResultComponent 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 2')
+INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) values ('resultComponentType.credit', 'A Basic ResultComponent 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 2', 'org.kuali.student.lum.lrc.entity.Credit')
 /
-INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('resultComponentType.grade', 'A Basic ResultComponent 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 3')
+INSERT INTO KSLU_LRC_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, VALUE_TYPE) values ('resultComponentType.grade', 'A Basic ResultComponent 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 3', 'org.kuali.student.lum.lrc.entity.Grade')
 /
 
 // ResultComponent
