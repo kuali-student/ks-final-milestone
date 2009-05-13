@@ -66,11 +66,14 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
      * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
      */
     public List<String> getSelectedItems() {
-        JsArray<Selection> selections = table.getSelections();
 
         List<String> selected = new ArrayList<String>();
-        for (int i=0; i < selections.length(); i++){
-            selected.add(idMapping.get(new Integer(selections.get(i).getRow())));
+        
+        if (table != null){
+            JsArray<Selection> selections = table.getSelections();
+            for (int i=0; i < selections.length(); i++){
+                selected.add(idMapping.get(new Integer(selections.get(i).getRow())));
+            }
         }
         
         return selected;
