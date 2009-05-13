@@ -83,9 +83,13 @@ public class ObjectClonerUtil {
         if (inMetaInfo != null) {
             clonedMetaInfo = new MetaInfo();
             clonedMetaInfo.setVersionInd(inMetaInfo.getVersionInd());
-            clonedMetaInfo.setCreateTime((java.util.Date)inMetaInfo.getCreateTime().clone());
+            if (inMetaInfo.getCreateTime() != null) {
+                clonedMetaInfo.setCreateTime((java.util.Date)inMetaInfo.getCreateTime().clone());
+            }
             clonedMetaInfo.setCreateId(inMetaInfo.getCreateId());
-            clonedMetaInfo.setUpdateTime((java.util.Date)inMetaInfo.getUpdateTime().clone());
+            if (inMetaInfo.getUpdateTime() != null) {
+                clonedMetaInfo.setUpdateTime((java.util.Date)inMetaInfo.getUpdateTime().clone());
+            }
             clonedMetaInfo.setUpdateId(inMetaInfo.getUpdateId());
         }
         return clonedMetaInfo;
@@ -111,10 +115,14 @@ public class ObjectClonerUtil {
             clonedReqComponentInfo = new ReqComponentInfo();
             clonedReqComponentInfo.setDesc(inReqComponentInfo.getDesc());
             clonedReqComponentInfo.setReqCompField(clone(inReqComponentInfo.getReqCompField()));
-            clonedReqComponentInfo.setEffectiveDate(
-                    (java.util.Date)inReqComponentInfo.getEffectiveDate().clone());
-            clonedReqComponentInfo.setExpirationDate(
-                    (java.util.Date)inReqComponentInfo.getExpirationDate().clone());
+            if (inReqComponentInfo.getEffectiveDate() != null) {
+                clonedReqComponentInfo.setEffectiveDate(
+                        (java.util.Date)inReqComponentInfo.getEffectiveDate().clone());
+            }
+            if (inReqComponentInfo.getExpirationDate() != null) {
+                clonedReqComponentInfo.setExpirationDate(
+                        (java.util.Date)inReqComponentInfo.getExpirationDate().clone());
+            }
             clonedReqComponentInfo.setMetaInfo(clone(inReqComponentInfo.getMetaInfo()));
             clonedReqComponentInfo.setType(inReqComponentInfo.getType());
             clonedReqComponentInfo.setState(inReqComponentInfo.getState());

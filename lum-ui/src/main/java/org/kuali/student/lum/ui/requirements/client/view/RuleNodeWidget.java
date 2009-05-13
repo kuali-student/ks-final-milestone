@@ -128,7 +128,6 @@ public class RuleNodeWidget extends SimplePanel {
                 checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
             }
             html.setHTML(node.getUserObject().toString());
-//            checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(new Boolean(statementVO.isCheckBoxOn()), false);
         } else if (userObject instanceof ReqComponentVO) {
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
@@ -138,7 +137,8 @@ public class RuleNodeWidget extends SimplePanel {
             super.setWidget(checkBoxAndEdit);
             if (reqComponentVO.getGuiReferenceLabelId() != null) {
                 rcLabel = new KSLabel(reqComponentVO.getGuiReferenceLabelId());
-                rcLabel.getElement().getStyle().setProperty("background", "#C0C0C0");
+                rcLabel.getElement().getStyle().setProperty("fontWeight", "bold");
+                rcLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
                 checkBoxAndEdit.add(rcLabel);
             }
             if (showControls) {
