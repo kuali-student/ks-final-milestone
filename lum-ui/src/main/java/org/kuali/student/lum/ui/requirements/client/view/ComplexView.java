@@ -396,12 +396,7 @@ public class ComplexView extends ViewComposite {
         btnSaveRule.setEnabled(false);
         ruleTable.clear();
         if (prereqInfo != null) {
-            Node tree = prereqInfo.getStatementTree(true);
-            if (prereqInfo.getStatementVO() != null) {
-                System.out.println("statement is: " +
-                        prereqInfo.getStatementVO().getPrintableStatement());
-            }
-            
+            Node tree = prereqInfo.getStatementTree(true);            
             if (tree != null) {
                 ruleTable.buildTable(tree);
                 ruleTable.addTextClickHandler(ruleTableSelectionHandler);

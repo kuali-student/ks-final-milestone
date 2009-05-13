@@ -28,6 +28,19 @@ public class RequirementsServiceImpl implements RequirementsService {
 
 	LuService service;
 	
+    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {
+        
+        String[] templates = new String[3];           
+        
+        if (compInfo.getReqCompField() != null) {
+            templates[0] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.CATALOG");
+        }
+        templates[1] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.EXAMPLE");
+        templates[2] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.COMPOSITION");                                   
+        
+        return templates;
+    }   	
+	
     public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         
         String naturalLanguage = "";           
@@ -218,7 +231,7 @@ public class RequirementsServiceImpl implements RequirementsService {
                 ReqComponentVO tempReqCompVO = new ReqComponentVO(tempReqCompInfo);
                 
                 try {
-                    tempReqCompVO.setTypeDesc(service.getReqComponentType(tempReqCompInfo.getType()).getDesc());
+                    tempReqCompVO.setTypeDesc(getNaturalLanguageForReqComponentInfo(tempReqCompInfo, "KUALI.CATALOG"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     throw new Exception("Unable to retrieve Lu Statemetn based on reqComponentID: " + reqCompID, ex);
@@ -256,7 +269,6 @@ public class RequirementsServiceImpl implements RequirementsService {
             //retrieve all req. component LEAFS
             List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
             for (ReqComponentVO reqComponent : reqComponentVOs) {                                    
-                System.out.println("got REQ: " + reqComponent.getTypeDesc());
                 ReqComponentInfo newReqComp = new ReqComponentInfo();
                 newReqComp.setId(reqComponent.getReqComponentInfo().getId());
                 newReqComp.setType(reqComponent.getReqComponentInfo().getType());

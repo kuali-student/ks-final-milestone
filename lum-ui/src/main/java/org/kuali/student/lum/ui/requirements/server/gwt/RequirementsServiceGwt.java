@@ -29,6 +29,10 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
     	this.serviceImpl = serviceImpl;
     }
     
+    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {
+        return serviceImpl.getReqComponentTemplates(compInfo);
+    }
+    
     public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         return serviceImpl.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey);
     }

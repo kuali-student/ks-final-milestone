@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
@@ -27,11 +28,14 @@ public class PrereqManager extends Controller {
         SIMPLE, COMPLEX, CLAUSE_EDITOR, RULE_EXPRESSION_EDITOR
     }
 
+    //controller's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
     private final ComplexView complexView = new ComplexView(this);
     private final ClauseEditorView clauseEditorView = new ClauseEditorView(this);
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
+    
+    //controller's data
     private final Model<PrereqInfo> prereqInfo;
     private final Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes;    
@@ -96,7 +100,8 @@ public class PrereqManager extends Controller {
         switch ((PrereqViews) viewType) {
             case COMPLEX:
                 return complexView;
-            case CLAUSE_EDITOR:                                
+            case CLAUSE_EDITOR:    
+                clauseEditorView.setSelectedCourseId(RulesUtilities.getPrereqInfoModelObject(prereqInfo).getCluId());
                 return clauseEditorView;
             case RULE_EXPRESSION_EDITOR:
                 return ruleExpressionEditorView;

@@ -18,6 +18,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author zzraly
  */
 public interface RequirementsServiceAsync {
+    public void getReqComponentTemplates(ReqComponentInfo compInfo, AsyncCallback<String[]> asyncCallback);
     public void getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
     public void getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
     public void getCourseAndRulesInfo(String cluId, AsyncCallback<CourseRuleInfo> asyncCallback);

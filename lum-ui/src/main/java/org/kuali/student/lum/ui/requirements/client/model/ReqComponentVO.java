@@ -68,11 +68,10 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
 
     @Override
     public String toString() {                
-        String reqCompType = reqComponentInfo.getType();
+
         String reqCompDescription = typeDesc;
                 
         for (ReqCompFieldInfo fieldInfo : reqComponentInfo.getReqCompField()) {
-            //System.out.println("Field Info: " + fieldInfo.getId());
             reqCompDescription = reqCompDescription.replaceAll("<" + fieldInfo.getId() + ">", fieldInfo.getValue());
         }        
 
