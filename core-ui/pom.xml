@@ -5,7 +5,7 @@
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>KS Core-UI</name>
 	<description>KS Core-UI</description>
 
@@ -19,62 +19,83 @@
 		<google.webtoolkit.extrajvmargs>-Xmx512m</google.webtoolkit.extrajvmargs>
 	</properties>
 	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.totsp.gwt</groupId>
-				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<gwtVersion>${gwtVersion}</gwtVersion>
-					<logLevel>INFO</logLevel>
-					<!-- defines which page should be launched when run in hosted mode -->
-					<startupUrl>org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</startupUrl>
-					<runTarget>
-						org.kuali.student.core.organization.ui.OrgEntry
-					</runTarget>
-					<!-- define which GWT modules get compiled during the build process -->
-					<compileTargets>
-						<param>
-							org.kuali.student.core.organization.ui.OrgEntry
-						</param>
-						<!-- add any other GWT modules in your project that are required -->
-					</compileTargets>
-					<extraJvmArgs>-Xmx512m</extraJvmArgs>
-				</configuration>
-			</plugin>
+	<profiles>
+		<profile>
+			<id>build-gwt</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.0</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>war</goal>
+								</goals>	
+							</execution>							
+						</executions>
+					</plugin>
 
-			<!-- Create additional jar file of gwt classes -->	
-			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-jar-plugin</artifactId>
-		        <executions>
-		          <execution>
-		            <goals>
-		              <goal>jar</goal>
-		            </goals>
-					<configuration>
-              			<classifier>classes</classifier>
-						<includes>
-				            <include>**/org/kuali/student/**/*.class</include>
-						</includes>
-            		</configuration>
-		          </execution>
-		        </executions>
-			</plugin>        
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+					<plugin>
+						<groupId>com.totsp.gwt</groupId>
+						<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>gwt</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<gwtVersion>${gwtVersion}</gwtVersion>
+							<logLevel>INFO</logLevel>
+							<!-- defines which page should be launched when run in hosted mode -->
+							<startupUrl>org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</startupUrl>
+							<runTarget>
+								org.kuali.student.core.organization.ui.OrgEntry
+							</runTarget>
+							<!-- define which GWT modules get compiled during the build process -->
+							<compileTargets>
+								<param>
+									org.kuali.student.core.organization.ui.OrgEntry
+								</param>
+								<!-- add any other GWT modules in your project that are required -->
+							</compileTargets>
+							<extraJvmArgs>-Xmx512m</extraJvmArgs>
+						</configuration>
+					</plugin>
+		
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+					</plugin>
+				</plugins>				
+			</build>	
+			
+			<!-- Required dependencies for testing core-ui -->
+			<dependencies>
+				<dependency>
+					<!-- 
+						Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
+						which has problems finding exception beans. 
+					-->
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-cxf</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<type>pom</type>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+					<scope>runtime</scope>
+				</dependency>			
+			</dependencies>
+		</profile>
+	</profiles>
 	
 	
 	<dependencies>		
@@ -109,25 +130,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
-		</dependency>
- 			
-		<!-- Required dependencies for testing core-ui -->
-		<dependency>
-			<!-- 
-				Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
-				which has problems finding exception beans. 
-			-->
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-cxf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>pom</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+		</dependency> 			
 	</dependencies>
 
 </project>
