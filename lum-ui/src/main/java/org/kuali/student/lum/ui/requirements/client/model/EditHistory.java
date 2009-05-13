@@ -25,8 +25,9 @@ public class EditHistory {
         histories.add(cloned);
         
         // delete old element
-        if (histories.size() == MAX_NUM_HISTORIES) {
+        if (histories.size() > MAX_NUM_HISTORIES) {
             histories.remove(0);
+            currHistoryIndex = histories.size() - 1;
         }
     }
     
