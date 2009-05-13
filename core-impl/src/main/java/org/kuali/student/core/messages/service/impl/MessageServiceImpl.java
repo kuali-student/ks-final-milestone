@@ -12,7 +12,6 @@ import org.kuali.student.core.messages.dto.MessageGroupKeyList;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.messages.entity.MessageEntity;
 import org.kuali.student.core.messages.service.MessageService;
-import org.kuali.student.core.messages.service.impl.util.POJOConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +34,6 @@ public class MessageServiceImpl implements MessageService{
 
     public void setMessageDAO(MessageManagementDAO messageDAO) {
         this.messageDAO = messageDAO;
-/*		 */
     }
 
 	public LocaleKeyList getLocales() {
@@ -66,7 +64,7 @@ public class MessageServiceImpl implements MessageService{
 			MessageEntity messageEntity = this.messageDAO.getMessage(localeKey, messageGroupKey, messageKey);
 			if(messageEntity != null){
 				message = new Message();
-				POJOConverter.map(messageEntity, message);
+				MessageAssembler.toMessage(messageEntity,message); 
 			}
 		}
 		return message;
@@ -80,7 +78,7 @@ public class MessageServiceImpl implements MessageService{
 			List<MessageEntity> messages =  this.messageDAO.getMessages(localeKey, messageGroupKey);
 	        
 	        MessageList messageList = new MessageList();
-	        List<Message> messageDTOs =  POJOConverter.mapList(messages, Message.class);
+	        List<Message> messageDTOs =  MessageAssembler.toMessageList(messages,Message.class);
 	        messageList.setMessages(messageDTOs);
 			return messageList;
 		}
@@ -93,7 +91,7 @@ public class MessageServiceImpl implements MessageService{
 		else{
 			List<MessageEntity> messages =  this.messageDAO.getMessagesByGroups(localeKey, messageGroupKeyList.getMessageGroupKeys());
 		    MessageList messageList = new MessageList();
-		    List<Message> messageDTOs =  POJOConverter.mapList(messages, Message.class);
+		    List<Message> messageDTOs =  MessageAssembler.toMessageList(messages,Message.class);
 		    messageList.setMessages(messageDTOs);
 			return messageList;
 		}
@@ -106,9 +104,9 @@ public class MessageServiceImpl implements MessageService{
 		}
 		else{
 		    MessageEntity messageEntity = new MessageEntity();    
-		    POJOConverter.map(messageInfo, messageEntity);
+		    MessageAssembler.toMessageEntity( messageInfo, messageEntity);
 		    messageEntity =  messageDAO.updateMessage(localeKey, messageGroupKey, messageKey, messageEntity);
-		    POJOConverter.map(messageEntity, messageInfo);
+		    MessageAssembler.toMessage( messageEntity,messageInfo);
 		    return messageInfo;
 		}
         
@@ -117,9 +115,9 @@ public class MessageServiceImpl implements MessageService{
 	public Message addMessage(Message messageInfo) {
 		if(messageInfo != null)	{
 			MessageEntity messageEntity = new MessageEntity();    
-			POJOConverter.map(messageInfo, messageEntity);
+			MessageAssembler.toMessageEntity(messageInfo, messageEntity);
 			messageEntity =  messageDAO.addMessage(messageEntity);
-			POJOConverter.map(messageEntity, messageInfo);
+			MessageAssembler.toMessage(messageEntity, messageInfo);
 		}
 		return messageInfo;
 	}
