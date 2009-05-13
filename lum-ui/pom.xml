@@ -25,7 +25,6 @@
 					<execution>
 						<goals>
 							<goal>mergewebxml</goal>
-							<goal>compile</goal>
 						</goals>
 					</execution>
 				</executions>
