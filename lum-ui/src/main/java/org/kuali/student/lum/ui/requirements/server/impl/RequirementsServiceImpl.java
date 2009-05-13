@@ -1,7 +1,9 @@
 package org.kuali.student.lum.ui.requirements.server.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -10,6 +12,8 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
@@ -125,8 +129,9 @@ public class RequirementsServiceImpl implements RequirementsService {
         return reqComponentTypeInfoList;
     }  
     
-    public List<Result> getAllClus() throws Exception {
+    public Map<String, String> getAllClus() throws Exception {
         
+        Map<String, String> cluCodes = new HashMap<String, String>();
         List<Result> clus;
         List<Result> cluNames = null;
         try {
@@ -137,17 +142,22 @@ public class RequirementsServiceImpl implements RequirementsService {
                     Result cluCodeResult = new Result();
                     List<ResultCell> cluCodeResultCells = new ArrayList<ResultCell>();
                     ResultCell cluCodeResultCell = new ResultCell();
-                    
-                    String shortName = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getShortName();
-                    shortName = (shortName == null)? "" : shortName;
-                    if (shortName.trim().equals("Shortname")) continue;                   
-                    shortName = shortName.replace(',', '/');
-                    cluCodeResultCell.setKey("");
-                    cluCodeResultCell.setValue(shortName);
+
+                    CluInfo cluInfo = service.getClu(result.getResultCells().get(0).getValue());   
+                    CluIdentifierInfo cluIdentInfo = cluInfo.getOfficialIdentifier();
+                    String displayName = cluIdentInfo.getCode();
+                    //String displayName = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getShortName();
+                    displayName = (displayName == null)? "" : displayName;                  
+                    displayName = displayName.replace(',', '/'); 
+                    if (displayName.equals("Code")) continue;  //TODO: remove once these Clus are not in ks-lu.sql
+                    cluCodeResultCell.setKey(cluInfo.getId());
+                    cluCodeResultCell.setValue(displayName);
                     cluCodeResultCells.add(cluCodeResultCell);
                     cluCodeResult.setResultCells(cluCodeResultCells);
                     cluNames = (cluNames == null)? new ArrayList<Result>() : cluNames;
                     cluNames.add(cluCodeResult);
+                    
+                    cluCodes.put(cluInfo.getId(), displayName);
                 }
             }
         } catch (Exception ex) {
@@ -155,8 +165,47 @@ public class RequirementsServiceImpl implements RequirementsService {
             throw new Exception("Unable to retrieve Clus", ex);
         }
 
-        return cluNames;
+        return cluCodes;
     }      
+    
+    public Map<String, String> getAllClusets() throws Exception {
+        
+        Map<String, String> clusetCodes = new HashMap<String, String>();
+        List<Result> clus;
+        List<Result> cluNames = null;
+        try {
+            List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);           
+            clus = service.searchForResults("lu.search.clusets", queryParamValues);
+            if (clus != null) {
+                for (Result result : clus) {
+                    Result cluCodeResult = new Result();
+                    List<ResultCell> cluCodeResultCells = new ArrayList<ResultCell>();
+                    ResultCell cluCodeResultCell = new ResultCell();
+
+                    CluSetInfo cluSetInfo = service.getCluSetInfo(result.getResultCells().get(0).getValue());   
+                 /*   CluIdentifierInfo cluIdentInfo = cluInfo.getOfficialIdentifier();
+                    String displayName = cluIdentInfo.getCode();
+                    //String displayName = service.getClu(result.getResultCells().get(0).getValue()).getOfficialIdentifier().getShortName();
+                    displayName = (displayName == null)? "" : displayName;                  
+                    displayName = displayName.replace(',', '/'); 
+                    if (displayName.equals("Code")) continue;  //TODO: remove once these Clus are not in ks-lu.sql
+                    cluCodeResultCell.setKey(cluInfo.getId());
+                    cluCodeResultCell.setValue(displayName);
+                    cluCodeResultCells.add(cluCodeResultCell);
+                    cluCodeResult.setResultCells(cluCodeResultCells);
+                    cluNames = (cluNames == null)? new ArrayList<Result>() : cluNames;
+                    cluNames.add(cluCodeResult); */
+                    
+                    clusetCodes.put(cluSetInfo.getId(), cluSetInfo.getName());
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Unable to retrieve Clusets", ex);
+        }
+
+        return clusetCodes;
+    }         
     
     //retrieve statement based on CLU ID and STATEMENT TYPE
     public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey) throws Exception {

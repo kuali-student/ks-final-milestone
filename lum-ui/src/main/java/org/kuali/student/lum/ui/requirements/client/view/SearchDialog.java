@@ -2,6 +2,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -88,16 +89,16 @@ public class SearchDialog extends Composite {
 
     public void layoutWidgets() {
         
-        RequirementsService.Util.getInstance().getAllClus(new AsyncCallback<List<Result>>() {
+        RequirementsService.Util.getInstance().getAllClus(new AsyncCallback<Map<String, String>>() {
             public void onFailure(Throwable caught) {
                 // just re-throw it and let the uncaught exception handler deal with it
                 Window.alert(caught.getMessage());
                 // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
             }
 
-            public void onSuccess(final List<Result> clus) {
+            public void onSuccess(final Map<String, String> clus) {
                 ListItems listItemClus = new ListItems() {
-                    private List<Result> results = clus;
+                    private Map<String, String> results = clus;
                     @Override
                     public List<String> getAttrKeys() {
                         List<String> attributes = new ArrayList<String>();
@@ -111,7 +112,9 @@ public class SearchDialog extends Composite {
                         Integer index;
                         try{
                             index = Integer.valueOf(id);
-                            value = results.get(index).getResultCells().get(0).getValue();
+                            if (attrkey.isEmpty()) {
+                                value = results.get(id);
+                            }
                         } catch (Exception e) {
                         }
 
@@ -126,15 +129,16 @@ public class SearchDialog extends Composite {
                     @Override
                     public List<String> getItemIds() {
                         List<String> ids = new ArrayList<String>();
-                        for(int i=0; i < results.size(); i++){
-                            ids.add(String.valueOf(i));
+                        for (String key : results.keySet()) {
+                            ids.add(results.get(key));
                         }
+                        
                         return ids;
                     }
 
                     @Override
                     public String getItemText(String id) {
-                        return getItemAttribute(id, "?");
+                        return getItemAttribute(id, ""); //"Key");
                     }
                 };                    
                 cluList.setListItems(listItemClus);

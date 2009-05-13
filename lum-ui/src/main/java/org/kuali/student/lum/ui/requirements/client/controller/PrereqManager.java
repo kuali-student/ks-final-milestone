@@ -1,6 +1,8 @@
 package org.kuali.student.lum.ui.requirements.client.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -38,14 +40,17 @@ public class PrereqManager extends Controller {
     //controller's data
     private final Model<PrereqInfo> prereqInfo;
     private final Model<ReqComponentVO>  selectedReqCompVO;    
-    private Model<ReqComponentTypeInfo> reqComponentTypes;    
-
+    private Model<ReqComponentTypeInfo> reqComponentTypes;  
+    private Map<String, String> clusData = new HashMap<String, String>(); 
+    private Map<String, String> cluSetsData = new HashMap<String, String>(); 
+    
     public PrereqManager(Model<PrereqInfo> prereqInfo) {
         super();
         super.initWidget(viewPanel);
         viewPanel.add(mainPanel);              
         this.prereqInfo = prereqInfo;
         this.selectedReqCompVO = new Model<ReqComponentVO>();
+        loadData();
     }
 
     public SimplePanel getMainPanel() {
@@ -101,7 +106,8 @@ public class PrereqManager extends Controller {
             case COMPLEX:
                 return complexView;
             case CLAUSE_EDITOR:    
-                //clauseEditorView.setSelectedCourseId(RulesUtilities.getPrereqInfoModelObject(prereqInfo).getCluId());
+                clauseEditorView.setClusData(clusData);
+                clauseEditorView.setCluSetsData(cluSetsData);
                 return clauseEditorView;
             case RULE_EXPRESSION_EDITOR:
                 return ruleExpressionEditorView;
@@ -130,6 +136,30 @@ public class PrereqManager extends Controller {
         }
     }
 
+    private void loadData() {
+        RequirementsService.Util.getInstance().getAllClus(new AsyncCallback<Map<String, String>>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+            }
+
+            public void onSuccess(final Map<String, String> cluData) {  
+                clusData = cluData;                   
+            }
+        });
+        /*
+        RequirementsService.Util.getInstance().getAllClusets(new AsyncCallback<Map<String, String>>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+            }
+
+            public void onSuccess(final Map<String, String> cluSetData) {  
+                cluSetsData = cluSetData;                   
+            }
+        }); */         
+    }
+    
     public Class<? extends Enum<?>> getViewsEnum() {
         return PrereqViews.class;
     }

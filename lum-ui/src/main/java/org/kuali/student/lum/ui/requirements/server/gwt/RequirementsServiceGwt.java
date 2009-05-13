@@ -1,6 +1,7 @@
 package org.kuali.student.lum.ui.requirements.server.gwt;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
@@ -49,9 +50,13 @@ public class RequirementsServiceGwt extends RemoteServiceServlet implements Requ
         return serviceImpl.getReqComponentTypesForLuStatementType(luStatementTypeKey);
     }
     
-    public List<Result> getAllClus() throws Exception {
+    public Map<String, String> getAllClus() throws Exception {
         return serviceImpl.getAllClus();
     }
+    
+    public Map<String, String> getAllClusets() throws Exception {
+        return serviceImpl.getAllClusets();
+    }    
     
     public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey)  throws Exception {
         return serviceImpl.getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);

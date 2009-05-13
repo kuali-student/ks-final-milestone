@@ -2,10 +2,9 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -16,14 +15,11 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSListBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
-import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -41,13 +37,11 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class ClauseEditorView extends ViewComposite {
 
@@ -82,6 +76,8 @@ public class ClauseEditorView extends ViewComposite {
     private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
     private List<ReqComponentTypeInfo> advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();     //list of advanced Requirement Component Types    
     private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>(); 
+    private Map<String, String> clusData = new HashMap<String, String>(); 
+    private Map<String, String> cluSetsData = new HashMap<String, String>(); 
 
     public ClauseEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -432,34 +428,33 @@ System.out.println("IN ...displayReqComponentText()...");
             String tag = tokens[i].replaceFirst("reqCompFieldType.", "");
             tag = tag.replaceFirst("reqCompFiledType.", "");
 
-            if ((tag.equals("requiredCount")) || (tag.equals("gpa")) || (tag.equals("clu"))) {
-                KSTextBox valueWidget = new KSTextBox();
+            if ((tag.equals("requiredCount")) || (tag.equals("gpa"))) {
+                final KSTextBox valueWidget = new KSTextBox();
+                reqCompWidgets.add(valueWidget);
+                valueWidget.setName(tokens[i]);
+                valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
+//                valueWidget.setWidth(Integer.toString(parentWidget.getOffsetWidth()));
+                valueWidget.setWidth("30px");
+                valueWidget.setStyleName("KS-Textbox-Fix");
+                SimplePanel tempPanel = new SimplePanel();
+                tempPanel.addStyleName("KS-Rules-FlexPanelFix");
+                tempPanel.add(valueWidget);                
+                innerReqComponentTextPanel.add(tempPanel);                
+                continue;                                
+            }
+            
+            if (tag.equals("clu")) {
+                final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
 //                valueWidget.setWidth(Integer.toString(parentWidget.getOffsetWidth()));
                 valueWidget.setWidth("100px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
-                SimplePanel tempPanel = new SimplePanel();
+                VerticalPanel tempPanel = new VerticalPanel();
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
                 tempPanel.add(valueWidget);                
-                innerReqComponentTextPanel.add(tempPanel);
-                continue;                                
-            }
-            
-            if (tag.equals("cluSet")) {
-                final KSTextBox valueWidget = new KSTextBox();
-                reqCompWidgets.add(valueWidget);
-                valueWidget.setName(tokens[i]);
-                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
-                valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));             
-                valueWidget.setWidth("250px");                           
-                valueWidget.setStyleName("KS-Textbox-Fix"); 
-                valueWidget.addStyleName("KS-Rules-FlexPanelFix");
-                SimplePanel tempPanel = new SimplePanel();
-                tempPanel.setStyleName("KS-Rules-FlexPanelFix");
-                tempPanel.add(valueWidget);                     
-                innerReqComponentTextPanel.add(tempPanel);
+
                 final SearchDialog searchDialog = new SearchDialog(getController());
                 searchDialog.addCourseAddHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
@@ -480,7 +475,46 @@ System.out.println("IN ...displayReqComponentText()...");
                         valueWidget.setText(newFieldValue.toString());
                     }
                 });
-                innerReqComponentTextPanel.add(searchDialog);
+                tempPanel.add(searchDialog);
+                innerReqComponentTextPanel.add(tempPanel);
+                
+                continue;                                
+            }            
+            
+            if (tag.equals("cluSet")) {
+                final KSTextBox valueWidget = new KSTextBox();
+                reqCompWidgets.add(valueWidget);
+                valueWidget.setName(tokens[i]);
+                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
+                valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));             
+                valueWidget.setWidth("250px");                           
+                valueWidget.setStyleName("KS-Textbox-Fix"); 
+                valueWidget.addStyleName("KS-Rules-FlexPanelFix");
+                VerticalPanel tempPanel = new VerticalPanel();
+                tempPanel.setStyleName("KS-Rules-FlexPanelFix");
+                tempPanel.add(valueWidget);                     
+                final SearchDialog searchDialog = new SearchDialog(getController());
+                searchDialog.addCourseAddHandler(new ClickHandler() {
+                    public void onClick(ClickEvent event) {
+                        String origFieldValue = valueWidget.getText();
+                        int fieldValueCount = 0;
+                        origFieldValue = (origFieldValue == null)? "" : origFieldValue;
+                        StringBuilder newFieldValue = new StringBuilder("");
+                        SortedSet<String> newValues = new TreeSet<String>();
+                        newValues.addAll(Arrays.asList(origFieldValue.split(", +")));
+                        newValues.addAll(searchDialog.getSelections());
+                        for (String newValue : newValues) {
+                            if (fieldValueCount > 0 && newFieldValue.toString().trim().length() > 0) {
+                                newFieldValue.append(", ");
+                            }
+                            newFieldValue.append(newValue);
+                            fieldValueCount++;
+                        }
+                        valueWidget.setText(newFieldValue.toString());
+                    }
+                });
+                tempPanel.add(searchDialog);
+                innerReqComponentTextPanel.add(tempPanel);
                 continue;                                
             }       
         }
@@ -645,5 +679,21 @@ System.out.println("IN ...setupNewEditedReqComp()...");
             } 
         });        
     }
+
+    private Map<String, String> getClusData() {
+        return clusData;
+    }
+
+    public void setClusData(Map<String, String> clusData) {
+        this.clusData = clusData;
+    }
+
+    private Map<String, String> getCluSetsData() {
+        return cluSetsData;
+    }
+
+    public void setCluSetsData(Map<String, String> cluSetsData) {
+        this.cluSetsData = cluSetsData;
+    }    
     
 }

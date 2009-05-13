@@ -1,6 +1,7 @@
 package org.kuali.student.lum.ui.requirements.client.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
@@ -22,7 +23,8 @@ public interface RequirementsRemoteService {
     public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception;  
     public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception;
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception;
-    public List<Result> getAllClus() throws Exception;
+    public Map<String, String> getAllClus() throws Exception;
+    public Map<String, String> getAllClusets() throws Exception;  
     public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey) throws Exception;
     public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception;
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception;
