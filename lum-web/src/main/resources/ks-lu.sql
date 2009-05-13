@@ -452,14 +452,12 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) 
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('9', 'KUALI.CATALOG', 'Student must have completed none of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.none')
 
- 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('10', 'KUALI.COMPOSITION', '<reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('11', 'KUALI.COMPOSITION', '<reqCompFieldType.gpa>', 'kuali.reqCompType.gradecheck')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('12', 'KUALI.COMPOSITION', '<reqCompFieldType.clu> or <reqCompFieldType.clu>', 'kuali.reqCompType.courseList.1of2')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('13', 'KUALI.COMPOSITION', '<reqCompFieldType.totalCredits> from <reqCompFieldType.cluSet>', 'kuali.reqCompType.grdCondCourseList')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('14', 'KUALI.COMPOSITION', '<reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.none')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('15', 'KUALI.COMPOSITION', '<reqCompFieldType.requiredCount> from <reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.nof')
-
 
 // STMT_TYPE <-> REQ_COM_TYPE
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList.all')
