@@ -29,11 +29,12 @@ public class RequirementsServiceImpl implements RequirementsService {
 	LuService service;
 	
     public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {
-        
+        System.out.println("IN ...getReqComponentTemplates()...");         
         String[] templates = new String[3];           
         
+        templates[0] = "";
         if (compInfo.getReqCompField() != null) {
-            templates[0] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.CATALOG");
+            templates[0] = ""; //getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.CATALOG");
         }
         templates[1] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.EXAMPLE");
         templates[2] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.COMPOSITION");                                   
@@ -71,6 +72,7 @@ public class RequirementsServiceImpl implements RequirementsService {
             throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);            
         }
                 
+        //then get natural language for the statement
         String NLStatement = "";
         try {        
             NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey);            

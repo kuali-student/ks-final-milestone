@@ -73,7 +73,7 @@ public class ClauseEditorView extends ViewComposite {
     private KSLabel exampleText = new KSLabel();    
     
     //view's data
-    private String selectedCourseId;
+    private boolean addNewReqComp;
     private ReqComponentTypeInfo selectedReqType;
     private ReqComponentInfo editedReqComp; 
     private ReqComponentVO editedReqCompVO;     
@@ -90,7 +90,7 @@ public class ClauseEditorView extends ViewComposite {
     }
     
     public void beforeShow() {
-                       
+System.out.println("IN ...beforeShow()...");                       
         if (compReqTypesList.getSelectedItem() != null) {
             compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
         }
@@ -104,6 +104,7 @@ public class ClauseEditorView extends ViewComposite {
                    
                     //true if we are editing existing rule
                     if (selectedReqComp.size() > 0) {
+                        addNewReqComp = false;
                         editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());                       
                         editedReqComp = editedReqCompVO.getReqComponentInfo();        
                         for (int i = 0; i < reqCompTypeList.size(); i++) {
@@ -115,6 +116,7 @@ public class ClauseEditorView extends ViewComposite {
                         
                     } else {
                         //create a basic structure for a new rule
+                        addNewReqComp = true;
                         setupNewEditedReqComp(null);    
                         selectedReqType = null;
                     }                    
@@ -129,7 +131,7 @@ public class ClauseEditorView extends ViewComposite {
     }
     
     public void redraw() { 
-      
+System.out.println("IN ...redraw()...");       
         addEditRuleView.clear();
         addEditRuleView.setStyleName("KS-Rules-FullWidth");
         
@@ -167,7 +169,7 @@ public class ClauseEditorView extends ViewComposite {
         tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");        
         tempPanelButtons.add(btnCancelView);
         btnCancelView.setStyleName("KS-Rules-Standard-Button");   
-        if (editedReqComp == null) {
+        if (addNewReqComp) {
             tempPanelButtons.add(addReqComp);
             addReqComp.setStyleName("KS-Rules-Standard-Button");            
         } else {
@@ -185,7 +187,7 @@ public class ClauseEditorView extends ViewComposite {
     
     //show basic and advanced requirement types
     private void displayReqComponentTypes(Panel container) {
-        
+System.out.println("IN ...displayReqComponentTypes()...");         
         //TODO list of basic and advanced types based on configuration somewhere
         
         //show radio button for each basic Requirement Component Type
@@ -225,7 +227,7 @@ public class ClauseEditorView extends ViewComposite {
     
     
     private void displayReqComponentDetails() {
-        
+System.out.println("IN ...displayReqComponentDetails()...");         
         //TODO generic function that will retrieve all data required to display details of this req. componenet type...
         
         //true if no Requirement Component Type selected
@@ -292,7 +294,7 @@ public class ClauseEditorView extends ViewComposite {
     }   
 
     private void setupHandlers() {
-        
+System.out.println("IN ...setupHandlers()...");         
         btnCancelView.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 getController().showView(PrereqViews.COMPLEX);
@@ -316,8 +318,7 @@ public class ClauseEditorView extends ViewComposite {
                         }
 
                         editedReqComp.setReqCompField(fields);
-                        editedReqComp.setType(selectedReqType.getId());
-                        editedReqCompVO.setTypeDesc(editedReqComp.getDesc());                         
+                        editedReqComp.setType(selectedReqType.getId());                         
                         
                         //add new req. component (rule) to the top level of the rule
                         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(theModel);
@@ -325,7 +326,7 @@ public class ClauseEditorView extends ViewComposite {
                         statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                         
-                        getController().showView(PrereqViews.COMPLEX); 
+                        updateNLAndExit();
                     }
 
                     public void onRequestFail(Throwable cause) {
@@ -358,7 +359,7 @@ public class ClauseEditorView extends ViewComposite {
                     }
                 }
               
-                getController().showView(PrereqViews.COMPLEX);                
+                updateNLAndExit();                
             }
         });        
         
@@ -396,7 +397,8 @@ public class ClauseEditorView extends ViewComposite {
         
     }
     
-    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) {
+    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) { 
+System.out.println("IN ...displayReqComponentText()...");         
         // resets the list of reqCompWidgets to make sure it is created fresh.
         reqCompWidgets.clear();
         parentWidget.clear();
@@ -426,7 +428,7 @@ public class ClauseEditorView extends ViewComposite {
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
 //                valueWidget.setWidth(Integer.toString(parentWidget.getOffsetWidth()));
-                valueWidget.setWidth("50px");
+                valueWidget.setWidth("100px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 SimplePanel tempPanel = new SimplePanel();
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
@@ -503,7 +505,8 @@ public class ClauseEditorView extends ViewComposite {
     }            
     
     private void setupNewEditedReqComp(String reqCompID) {
-        
+System.out.println("IN ...setupNewEditedReqComp()...");         
+        /*
         List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo field1 = new ReqCompFieldInfo();
         field1.setId("reqCompFieldType.requiredCount");
@@ -513,22 +516,22 @@ public class ClauseEditorView extends ViewComposite {
         ReqCompFieldInfo field2 = new ReqCompFieldInfo();
         field2.setId("reqCompFieldType.operator");
         field2.setValue("greater_than_or_equal_to");
-        fieldList.add(field2);
+        fieldList.add(field2); 
         
         ReqCompFieldInfo field3 = new ReqCompFieldInfo();
         field3.setId("reqCompFieldType.cluSet");
-        field3.setValue("CLUSET-NL-1");
+        field3.setValue(""); //"CLUSET-NL-1");
         fieldList.add(field3);        
 
         ReqCompFieldInfo field4 = new ReqCompFieldInfo();
         field4.setId("reqCompFieldType.clu");
-        field4.setValue("CLU-NL-1");
-        fieldList.add(field4);         
+        field4.setValue(""); //"CLU-NL-1");
+        fieldList.add(field4); */         
         
         editedReqComp = new ReqComponentInfo();
-        editedReqComp.setDesc("New Req. Comp. Description");
+        editedReqComp.setDesc("");      //will be set after user is finished with all changes
         editedReqComp.setId("999");  //TODO       
-        editedReqComp.setReqCompField(fieldList);
+        editedReqComp.setReqCompField(null); //fieldList);
         if (reqCompID != null) editedReqComp.setType(reqCompID);
         editedReqCompVO = new ReqComponentVO(editedReqComp);             
     }
@@ -619,8 +622,18 @@ public class ClauseEditorView extends ViewComposite {
         });                                               
     }
 
-
-    public void setSelectedCourseId(String selectedCourseId) {
-        this.selectedCourseId = selectedCourseId;
+    private void updateNLAndExit() {
+        RequirementsService.Util.getInstance().getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                caught.printStackTrace();
+            }
+            
+            public void onSuccess(final String reqCompNaturalLanguage) {                               
+                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
+                getController().showView(PrereqViews.COMPLEX);
+            } 
+        });        
     }
+    
 }

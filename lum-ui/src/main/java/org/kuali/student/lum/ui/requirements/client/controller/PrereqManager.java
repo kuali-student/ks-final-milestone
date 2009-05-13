@@ -101,7 +101,7 @@ public class PrereqManager extends Controller {
             case COMPLEX:
                 return complexView;
             case CLAUSE_EDITOR:    
-                clauseEditorView.setSelectedCourseId(RulesUtilities.getPrereqInfoModelObject(prereqInfo).getCluId());
+                //clauseEditorView.setSelectedCourseId(RulesUtilities.getPrereqInfoModelObject(prereqInfo).getCluId());
                 return clauseEditorView;
             case RULE_EXPRESSION_EDITOR:
                 return ruleExpressionEditorView;
