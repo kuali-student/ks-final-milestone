@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.Type;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.springframework.beans.BeanUtils;
@@ -114,5 +116,15 @@ public class BaseAssembler {
 
 		return metaInfo;
 	}
+
+	public static RichText toRichText(RichTextInfo richTextInfo) {
+		if(richTextInfo == null){
+			return null;
+		}
+		RichText richText = new RichText();
+		BeanUtils.copyProperties(richTextInfo, richText);
+		return richText;
+	}
+
 
 }
