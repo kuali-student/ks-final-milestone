@@ -494,7 +494,7 @@ System.out.println("IN ...displayReqComponentText()...");
             String tag = tokens[i].replaceFirst("reqCompFieldType.", "");
             tag = tag.replaceFirst("reqCompFiledType.", "");
 
-            if ((tag.equals("requiredCount")) || (tag.equals("gpa"))) {
+            if ((tag.equals("requiredCount")) || (tag.equals("gpa")) || (tag.equals("totalCredits"))) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
