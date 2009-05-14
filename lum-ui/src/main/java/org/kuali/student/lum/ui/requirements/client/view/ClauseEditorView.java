@@ -63,7 +63,7 @@ public class ClauseEditorView extends ViewComposite {
     private HorizontalPanel ruleDetailsPanel = new HorizontalPanel(); 
     private KSButton btnCancelView = new KSButton("Cancel");
     private KSButton addReqComp = new KSButton("Add Rule");
-    private KSButton submitReqComp = new KSButton("Submit Rule");
+    private KSButton updateReqComp = new KSButton("Update Rule");
     private KSDropDown compReqTypesList = new KSDropDown();
     private SimplePanel reqCompDesc = new SimplePanel();  
     private KSLabel exampleText = new KSLabel();    
@@ -80,6 +80,7 @@ public class ClauseEditorView extends ViewComposite {
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private Model<PrereqInfo> modelPrereqInfo;
+    private static int tempCounterID = 2000;
 
     public ClauseEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -186,10 +187,10 @@ System.out.println("IN ...redraw()...");
                 addReqComp.setEnabled(false);
             }
         } else {
-            tempPanelButtons.add(submitReqComp);
-            submitReqComp.setStyleName("KS-Rules-Standard-Button");
+            tempPanelButtons.add(updateReqComp);
+            updateReqComp.setStyleName("KS-Rules-Standard-Button");
             if (selectedReqType == null) {
-                submitReqComp.setEnabled(false);
+                updateReqComp.setEnabled(false);
             }            
         }                                
         
@@ -345,7 +346,7 @@ System.out.println("IN ...setupHandlers()...");
             }
         });   
         
-        submitReqComp.addClickHandler(new ClickHandler() {
+        updateReqComp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {                
 
                 if (updateFields() == false) {
@@ -364,7 +365,7 @@ System.out.println("IN ...setupHandlers()...");
             public void onFocus(FocusEvent event) {
                 
                 addReqComp.setEnabled(true);
-                submitReqComp.setEnabled(true);
+                updateReqComp.setEnabled(true);
                 
                 KSRadioButton btn = ((KSRadioButton) event.getSource());
                 
@@ -386,7 +387,7 @@ System.out.println("IN ...setupHandlers()...");
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {  
              public void onSelectionChange(KSSelectItemWidgetAbstract w) {
                  addReqComp.setEnabled(true);
-                 submitReqComp.setEnabled(true);
+                 updateReqComp.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
                      button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);                     
                  }
@@ -651,7 +652,7 @@ System.out.println("IN ...setupNewEditedReqComp()...");
         
         editedReqComp = new ReqComponentInfo();
         editedReqComp.setDesc("");      //will be set after user is finished with all changes
-        editedReqComp.setId("999");  //TODO       
+        editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO       
         editedReqComp.setReqCompField(null); //fieldList);
         if (reqCompID != null) editedReqComp.setType(reqCompID);
         editedReqCompVO = new ReqComponentVO(editedReqComp);             
