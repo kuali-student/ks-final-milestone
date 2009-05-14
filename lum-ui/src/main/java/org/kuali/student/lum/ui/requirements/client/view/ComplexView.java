@@ -117,9 +117,9 @@ public class ComplexView extends ViewComposite {
                             newOp = StatementOperatorTypeKey.AND;
                         }
                         statementVO.getLuStatementInfo().setOperator(newOp);
-                        Object[] temp = model.getValues().toArray();
                         PrereqInfo prereqInfo = 
                             RulesUtilities.getPrereqInfoModelObject(model);
+                        prereqInfo.getStatementVO().simplify();
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     }
                     redraw();
