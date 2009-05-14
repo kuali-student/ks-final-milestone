@@ -25,7 +25,7 @@ import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl") 
+	@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") 
 	public LuDao luDao;
 
 	private ReqComponentTranslator translator;
@@ -33,14 +33,14 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	private String cluId1;
 	private String cluId2;
 	private ReqComponent reqComponent;
-    private String courseTemplate = 
-		"#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue)) \n" +
-		"  Student must have completed all of $cluSet.getCluSetAsString() \n" +
-		"#elseif($mathTool.toNumber($expectedValue) <= 0 && ($relationalOperator == 'less_than' || $relationalOperator == 'less_than_or_equal_to') ) \n" +
-		"  Student must have completed none of $cluSet.getCluSetAsString() \n" +
-		"#else \n" +
-		"  Student must have completed $expectedValue of $cluSet.getCluSetAsString() \n" +
-		"#end";
+//    private String courseTemplate = 
+//		"#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue)) \n" +
+//		"  Student must have completed all of $cluSet.getCluSetAsString() \n" +
+//		"#elseif($mathTool.toNumber($expectedValue) <= 0 && ($relationalOperator == 'less_than' || $relationalOperator == 'less_than_or_equal_to') ) \n" +
+//		"  Student must have completed none of $cluSet.getCluSetAsString() \n" +
+//		"#else \n" +
+//		"  Student must have completed $expectedValue of $cluSet.getCluSetAsString() \n" +
+//		"#end";
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -53,7 +53,6 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     @Before
     public void setUp() throws Exception {
     	createCluSet();
-    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
 		this.translator = new ReqComponentTranslator();
 		this.translator.setLuDao(this.luDao);
     }
@@ -102,7 +101,9 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 
     private void createReqComponent(String nlUsageTypeKey, String reqComponentType) throws DoesNotExistException {
     	this.reqComponent = new ReqComponent();
-		ReqComponentType reqCompType = new ReqComponentType();
+		ReqComponentType reqCompType = this.luDao.fetch(ReqComponentType.class, reqComponentType);
+
+/*		ReqComponentType reqCompType = new ReqComponentType();
 //		reqCompType.setId("kuali.reqCompType.courseList.nof");
 		reqCompType.setId(reqComponentType);
 		reqCompType.setName(reqComponentType);
@@ -116,10 +117,19 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		templateList.add(templateType);
 		
 		reqCompType.setNlUsageTemplates(templateList);
-		reqCompType = this.luDao.create(reqCompType);
-		
+		//reqCompType = this.luDao.create(reqCompType);
+*/		
 		this.reqComponent.setRequiredComponentType(reqCompType);
 		this.reqComponent = this.luDao.create(this.reqComponent);
+    }
+    
+    private ReqComponent createReqComponentFromType(String nlUsageTypeKey, String reqComponentType) throws DoesNotExistException {
+    	ReqComponent reqComponent = new ReqComponent();
+		ReqComponentType reqCompType = this.luDao.fetch(ReqComponentType.class, reqComponentType);
+		
+		reqComponent.setRequiredComponentType(reqCompType);
+		//this.reqComponent = this.luDao.create(this.reqComponent);
+		return reqComponent;
     }
     
     private void createReqComponentFields(String expectedValue, String operator) {
@@ -156,29 +166,30 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		field1.setValue(expectedValue);
 		field1.prePersist();
 		fieldList.add(field1);
-		this.luDao.create(field1);
+		//this.luDao.create(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setKey("reqCompFieldType.operator");
 		field2.setValue(operator);
 		field2.prePersist();
 		fieldList.add(field2);
-		this.luDao.create(field2);
+		//this.luDao.create(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setKey("reqCompFieldType.clu");
 		field3.setValue(cluIds);
 		field3.prePersist();
 		fieldList.add(field3);
-		this.luDao.create(field3);
+		//this.luDao.create(field3);
 		
 		this.reqComponent.setReqCompField(fieldList);
-		this.reqComponent = this.luDao.update(reqComponent);
+		//this.reqComponent = this.luDao.update(reqComponent);
     }
 
 	@Test
 	public void testTranslate_OneOf() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
 		createReqComponentFields("1", "greater_than_or_equal_to");
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
@@ -189,6 +200,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslate_OneOf_1Clu() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.all");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluId1);
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
@@ -200,6 +212,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	public void testTranslate_OneOf_2Clus() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		String clus = cluId1 + "," + cluId2;
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
@@ -210,6 +223,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslate_AllOf() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.all");
 		createReqComponentFields("2", "equal_to");
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
@@ -220,6 +234,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslate_NoneOf() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.none");
 		createReqComponentFields("0", "less_than_or_equal_to");
 		
 		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
@@ -239,6 +254,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 
 	@Test
 	public void testTranslate_InvalidNlUsageTypeKey() throws DoesNotExistException, OperationFailedException {
+    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.none");
 		createReqComponentFields("0", "less_than_or_equal_to");
 
 		try {
@@ -252,13 +268,55 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslate_1Of2() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
-		String clus = cluId1 + "," + cluId2;
-		this.courseTemplate = "Student must have completed $cluSet.getCluAsString(0) or $cluSet.getCluAsString(1)";
-    	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.1of2");
-		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
+		String cluIds = "CLU-NL-1, CLU-NL-2";
+		this.reqComponent = createReqComponentFromType("KUALI.CATALOG", "kuali.reqCompType.courseList.1of2");
+		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluIds);
 		
-		String text = this.translator.translate(reqComponent.getId(), nlUsageTypeKey);
+		String text = this.translator.translate(this.reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed MATH 152 or MATH 221", text);
+	}
+
+	@Test
+	public void testTranslate_TotalCredits() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.CATALOG";
+		String cluIds = "CLU-NL-1, CLU-NL-2";
+		this.reqComponent = createReqComponentFromType("KUALI.CATALOG", "kuali.reqCompType.grdCondCourseList");
+		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
+		ReqComponentField field1 = new ReqComponentField();
+		field1.setKey("reqCompFieldType.clu");
+		field1.setValue(cluIds);
+		field1.prePersist();
+		fieldList.add(field1);
+		ReqComponentField field2 = new ReqComponentField();
+		field2.setKey("reqCompFieldType.totalCredits");
+		field2.setValue("6");
+		field2.prePersist();
+		fieldList.add(field2);
+
+		this.reqComponent.setReqCompField(fieldList);
+		
+		String text = this.translator.translate(this.reqComponent, nlUsageTypeKey);
+
+		Assert.assertEquals("Students must take 6 credits from MATH 152, MATH 221", text);
+	}
+
+
+	@Test
+	public void testTranslate_GPA() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.CATALOG";
+		this.reqComponent = createReqComponentFromType("KUALI.CATALOG", "kuali.reqCompType.gradecheck");
+		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
+		ReqComponentField field1 = new ReqComponentField();
+		field1.setKey("reqCompFieldType.gpa");
+		field1.setValue("70.0%");
+		field1.prePersist();
+		fieldList.add(field1);
+
+		this.reqComponent.setReqCompField(fieldList);
+		
+		String text = this.translator.translate(this.reqComponent, nlUsageTypeKey);
+
+		Assert.assertEquals("Student needs a minimum GPA of 70.0%", text);
 	}
 }

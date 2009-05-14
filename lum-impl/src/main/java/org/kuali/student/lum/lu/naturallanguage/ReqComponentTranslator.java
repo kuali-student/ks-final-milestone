@@ -95,6 +95,7 @@ public class ReqComponentTranslator {
                 createContextMap(reqComponent, velocityContextMap);
                 break;
             case GRADE_CONDITION_COURSE_LIST:
+                createGradeConditionContextMap(reqComponent, velocityContextMap);
                 break;
             case GRADE_CHECK:
                 createGPAContextMap(reqComponent, velocityContextMap);
@@ -157,25 +158,25 @@ public class ReqComponentTranslator {
         velocityContextMap.put(ReqCompTypes.VelocityToken.EXPECTED_VALUE_KEY.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.REQUIRED_COUNT_KEY.getKey()));
         velocityContextMap.put(ReqCompTypes.VelocityToken.OPERATOR_KEY.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.OPERATOR_KEY.getKey()));
 
-        if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLU.getKey())) {
-        	String cluIds = map.get(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLU.getKey());
+        if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY.getKey());
         	CustomCluSet cluSet = getClusAsCluSet(cluIds);
             velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
-        } else if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLUSET.getKey())) {
-        	String cluSetId = map.get(ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLUSET.getKey());
+        } else if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY.getKey());
             CustomCluSet cluSet = getCluSet(cluSetId);
             velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
-        } else {
+        } /*else {
         	throw new DoesNotExistException("Invalid ReqComponent field. " +
         			"ReqComponent field must be " + 
-        			ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLU + " or " + 
-        			ReqCompTypes.ReqCompFieldDefinitions.COUNT_CLUSET);
-        }
+        			ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY + " or " + 
+        			ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY);
+        }*/
 
     }
 
     /**
-     * This method creates the velocity  
+     * This method creates the velocity context map  
      * 
      * @param reqComponent
      * @param velocityContextMap
@@ -191,6 +192,35 @@ public class ReqComponentTranslator {
         }
         
         velocityContextMap.put(ReqCompTypes.VelocityToken.GPA.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.GPA_KEY.getKey()));
+    }
+
+    /**
+     * This method creates the velocity context map  
+     * 
+     * @param reqComponent
+     * @param velocityContextMap
+     * @throws DoesNotExistException
+     */
+    private void createGradeConditionContextMap(ReqComponent reqComponent, Map<String, Object> velocityContextMap) throws DoesNotExistException {
+        List<ReqComponentField> fields = reqComponent.getReqCompField();
+        Map<String, String> map = new HashMap<String, String>();
+        for (ReqComponentField field : fields) {
+            String key = field.getKey();
+            String value = field.getValue();
+            map.put(key, value);
+        }
+        
+        velocityContextMap.put(ReqCompTypes.VelocityToken.TOTAL_CREDITS.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.TOTAL_CREDIT_KEY.getKey()));
+
+        if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY.getKey());
+        	CustomCluSet cluSet = getClusAsCluSet(cluIds);
+            velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
+        } else if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY.getKey());
+            CustomCluSet cluSet = getCluSet(cluSetId);
+            velocityContextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
+        }
     }
 
     /**

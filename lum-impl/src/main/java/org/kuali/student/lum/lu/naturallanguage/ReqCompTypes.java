@@ -2,12 +2,23 @@ package org.kuali.student.lum.lu.naturallanguage;
 
 public class ReqCompTypes {
 
+	/**
+	 * These tokens are needed since velocity doesn't allow periods in tokens.
+	 * E.g. reqCompFieldType.totalCredits must either be convert to 
+	 * totalCredits or reqCompFieldType_totalCredits so a template would look 
+	 * like: 
+	 * 
+	 * 'Student must take $totalCredits of MATH 100'
+	 * or
+	 * 'Student must take $reqCompFieldType_totalCredits of MATH 100'
+	 */
 	public enum VelocityToken {
 		CLU_SET_KEY("cluSet"),
 		EXPECTED_VALUE_KEY("expectedValue"),
 		OPERATOR_KEY("relationalOperator"),
 		CLU("clu"),
-		GPA("gpa");
+		GPA("gpa"),
+		TOTAL_CREDITS("totalCredits");
 
 		private String key;
 		
@@ -21,13 +32,15 @@ public class ReqCompTypes {
 	}
 
 	public enum ReqCompFieldDefinitions {
+		CLU_KEY("reqCompFieldType.clu"),
+		CLUSET_KEY("reqCompFieldType.cluSet"),
 		REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
+        GPA_KEY("reqCompFieldType.gpa"),
+        TOTAL_CREDIT_KEY("reqCompFieldType.totalCredits"),
 		OPERATOR_KEY("reqCompFieldType.operator"),
-		COUNT_CLUSET("reqCompFieldType.cluSet"),
-		COUNT_CLU("reqCompFieldType.clu"),
+		COUNT_TYPE__KEY("reqCompFieldType.countType"),
 		INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
-		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value"),
-        GPA_KEY("reqCompFieldType.gpa");
+		INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
 
 		private String key;
 		

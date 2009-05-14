@@ -451,6 +451,7 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('8', 'KUALI.EXAMPLE', 'Student needs a minimum GPA of 2.5', 'kuali.reqCompType.gradecheck')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('9', 'KUALI.CATALOG', 'Student must have completed none of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.none')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('10', 'KUALI.CATALOG', 'Students must take $totalCredits credits from $cluSet.getCluSetAsString()', 'kuali.reqCompType.grdCondCourseList')
 
 // STMT_TYPE <-> REQ_COM_TYPE
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList.all')
