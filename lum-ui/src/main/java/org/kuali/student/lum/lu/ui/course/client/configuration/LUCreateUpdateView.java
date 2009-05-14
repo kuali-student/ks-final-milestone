@@ -54,7 +54,7 @@ public class LUCreateUpdateView extends Composite implements View {
 	private ConfigurableLayout<CluInfo> getLayout(ObjectStructure structure, String type, String state) {	   	
 		LULayoutFactory factory = new LULayoutFactory(structure, validator);
         
-        DefaultCreateUpdateLayout layout = (DefaultCreateUpdateLayout)factory.getLayout(type, state);
+        DefaultCreateUpdateLayout<CluInfo> layout = (DefaultCreateUpdateLayout<CluInfo>)factory.getLayout(type, state);
 //        history = new KSHistory(getController(), layout);
         layout.addCancelSectionHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -115,9 +115,16 @@ public class LUCreateUpdateView extends Composite implements View {
                     return true; //wait for stupid thing to load
                 }
                 history.addLayoutToView(create_course, layout);
-                if(layout instanceof DefaultCreateUpdateLayout)
-                    ((DefaultCreateUpdateLayout<CluInfo>)layout).setShowStartSectionEnabled(false); //TODO this needs to be figured out
+                DefaultCreateUpdateLayout<CluInfo> l = null;
+                boolean showStart = true;
+                if(layout instanceof DefaultCreateUpdateLayout) {
+                    l = (DefaultCreateUpdateLayout<CluInfo>)layout;
+                    showStart = l.isShowStartSectionEnabled();
+                    l.setShowStartSectionEnabled(false);//TODO this needs to be figured out
+                }
                 History.fireCurrentHistoryState();
+                if(l != null)
+                    l.setShowStartSectionEnabled(showStart);
                 return false;
             }
             

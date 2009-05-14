@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,6 +186,10 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 
 	public void setShowStartSectionEnabled(boolean showStart){
 	    this.showStart = showStart;
+	}
+	
+	public boolean isShowStartSectionEnabled() {
+	    return showStart;
 	}
 	
 	@Override
