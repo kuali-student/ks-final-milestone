@@ -129,7 +129,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	fieldDao.setFieldKey("key");
     	fieldDao.setMaxLength(2);
     	fieldDao.setMinLength(0);
-    	fieldDao.setMaxOccurs(2);
+    	fieldDao.setMaxOccurs("2");
     	fieldDao.setMinOccurs(1);
     	fieldDao.setEnumerationMetaEntity(dao);
     	fieldDao.setDataType("string");
@@ -142,7 +142,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	fieldDao2.setFieldKey("key2");
     	fieldDao2.setMaxLength(2);
     	fieldDao2.setMinLength(0);
-    	fieldDao2.setMaxOccurs(2);
+    	fieldDao2.setMaxOccurs("2");
     	fieldDao2.setMinOccurs(1);
     	fieldDao2.setEnumerationMetaEntity(dao);
     	fieldDao2.setDataType("int");
@@ -162,12 +162,12 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	for(EnumeratedValueField field: fields){
     		fieldDao = dao.getEnumeratedValueFieldList().get(i);
     		assertEquals(fieldDao.getFieldKey(), field.getKey());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength().intValue());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
+    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
+    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), Integer.parseInt(field.getMaxOccurs()));
-    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs().intValue());
+    		assertEquals(fieldDao.getMaxOccurs(), field.getMaxOccurs());
+    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
@@ -190,12 +190,12 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	for(EnumeratedValueField field: fields){
     		fieldDao = dao.getEnumeratedValueFieldList().get(i);
     		assertEquals(fieldDao.getFieldKey(), field.getKey());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength().intValue());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
+    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
+    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), Integer.parseInt(field.getMaxOccurs()));
-    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs().intValue());
+    		assertEquals(fieldDao.getMaxOccurs(), field.getMaxOccurs());
+    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
