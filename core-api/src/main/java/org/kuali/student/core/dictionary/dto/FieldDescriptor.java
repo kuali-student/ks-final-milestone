@@ -72,6 +72,7 @@ public class FieldDescriptor extends FieldItem implements Serializable {
     protected String invalidChars;
     @XmlElement(name = "enum")
     protected Enum _enum;
+    protected String searchTypeId;
     
 	public String getMinValue() {
 		return minValue;
@@ -245,5 +246,13 @@ public class FieldDescriptor extends FieldItem implements Serializable {
     	fieldDescMap.put("dataType", dataType);
     	return fieldDescMap;
     }
+
+	public String getSearchTypeId() {
+		return searchTypeId;
+	}
+
+	public void setSearchTypeId(String searchTypeId) {
+		this.searchTypeId = searchTypeId;
+	}
 
 }

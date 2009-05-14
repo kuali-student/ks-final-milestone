@@ -94,8 +94,12 @@
 					minOccurs="0" maxOccurs="1"></xsd:element>
 				<xsd:element name="readOnly" type="xsd:boolean"
 					minOccurs="0" maxOccurs="1" />
-				<xsd:element name="enum" type="enumSelector" minOccurs="0"
-					maxOccurs="1" />
+				<xsd:choice>
+					<xsd:element name="enum" type="enumSelector" minOccurs="0"
+						maxOccurs="1" />
+					<xsd:element name="searchTypeId" type="xsd:string" minOccurs="0"
+						maxOccurs="1" />
+				</xsd:choice>
 			</xsd:sequence>
 			<xsd:element ref="beans:ref" maxOccurs="1"
 				minOccurs="1" />
