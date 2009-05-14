@@ -25,6 +25,6 @@ public class CustomCluSet {
 			sb.append(clu.getOfficialIdentifier().getShortName());
 			sb.append(", ");
 		}
-		return (sb.length() == 0 ? "N/A" : sb.toString().substring(0, sb.toString().length() - 2));
+		return (sb.length() == 0 ? "No Clus available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
 	}
 }
