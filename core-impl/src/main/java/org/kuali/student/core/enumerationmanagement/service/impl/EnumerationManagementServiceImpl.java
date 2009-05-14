@@ -17,7 +17,7 @@ import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaList;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
 import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.core.enumerationmanagement.service.impl.util.POJOConverter;
+import org.kuali.student.core.enumerationmanagement.service.impl.util.EnumerationAssembler;
 import org.kuali.student.core.validation.Validator;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.slf4j.Logger;
@@ -47,9 +47,8 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         List<EnumerationMetaEntity> listDAOEntity =  this.enumDAO.findEnumerationMetas();
         
         EnumerationMetaList metaList = new EnumerationMetaList();
-        List<EnumerationMeta> listDTOEntity =  POJOConverter.mapList(listDAOEntity, EnumerationMeta.class);
+        List<EnumerationMeta> listDTOEntity = EnumerationAssembler.toEnumerationMetaList(listDAOEntity,EnumerationMeta.class);
         metaList.setEnumerationMeta(listDTOEntity);
-        
         return metaList;
     }
     
@@ -93,7 +92,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     	
     	if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
     		EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
-        	POJOConverter.map(valueDTO, valueEntity);
+    		EnumerationAssembler.toEnumeratedValueEntity(valueDTO, valueEntity);
         	enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
     	}
     	else{
@@ -119,8 +118,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         	enumeratedValueEntityList = enumDAO.fetchEnumeration(enumerationKey);
         }
         
-        List<EnumeratedValue> enumeratedValueList = POJOConverter.mapList(enumeratedValueEntityList, EnumeratedValue.class);
-        
+        List<EnumeratedValue> enumeratedValueList = EnumerationAssembler.toEnumeratedValueList(enumeratedValueEntityList, EnumeratedValue.class);
         enumeratedValuesDTO.setEnumeratedValues(enumeratedValueList);
         return enumeratedValuesDTO;
     }
@@ -131,7 +129,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         EnumerationMeta enumerationMeta = null;
         if(enumerationMetaEntity != null){
         	enumerationMeta = new EnumerationMeta();
-	        POJOConverter.map(enumerationMetaEntity, enumerationMeta);
+	        EnumerationAssembler.toEnumeratedMeta(enumerationMetaEntity, enumerationMeta);
         }
         return enumerationMeta;
     }
@@ -149,12 +147,12 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     	if(meta != null){
 	        result = this.validateEnumeratedValue(meta, value);
     	}
-    	
+
     	if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
 		    EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();    
-		    POJOConverter.map(value, enumeratedValueEntity);
+		    EnumerationAssembler.toEnumeratedValueEntity(value, enumeratedValueEntity);
 		    enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
-		    POJOConverter.map(enumeratedValueEntity,value);
+		    EnumerationAssembler.toEnumeratedValue(enumeratedValueEntity, value);
     	}
     	else{
     		throw new EnumerationException("updateEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.getMessages());
@@ -166,7 +164,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	public EnumerationMeta addEnumerationMeta(EnumerationMeta meta) {
 		EnumerationMetaEntity metaEntity = new EnumerationMetaEntity();
 		
-		POJOConverter.map(meta, metaEntity);
+		EnumerationAssembler.toEnumeratedMetaEntity(meta,metaEntity);
 		enumDAO.addEnumerationMeta(metaEntity);
 		return meta;
 	}
