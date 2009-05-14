@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
+import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
 import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -17,8 +18,12 @@ import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReqComponentTranslator {
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(DroolsJackrabbitRepository.class);
     private LuDao luDao;
 
     public void setLuDao(LuDao luDao) {
@@ -259,6 +264,9 @@ public class ReqComponentTranslator {
         try {
             naturalLanguage = templateEngine.evaluate(contextMap, template);
         } catch (VelocityException e) {
+			logger.error("template: "+template);
+			logger.error("contextMap: "+contextMap);
+			logger.error(e.getMessage(), e);
             throw new OperationFailedException("Generating template failed: " + e.getMessage(), e);
         }
         return naturalLanguage.trim();

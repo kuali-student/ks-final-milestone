@@ -266,7 +266,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	}
 	
 	@Test
-	public void testTranslate_1Of2() throws DoesNotExistException, OperationFailedException {
+	public void testTranslate1_1Of2() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		String cluIds = "CLU-NL-1, CLU-NL-2";
 		this.reqComponent = createReqComponentFromType("KUALI.CATALOG", "kuali.reqCompType.courseList.1of2");
@@ -275,6 +275,18 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		String text = this.translator.translate(this.reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed MATH 152 or MATH 221", text);
+	}
+
+	@Test
+	public void testTranslate2_1Of2() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.CATALOG";
+		String cluIds = "d9dbf300-b75a-4c50-ae18-d45f7cc81cc7, 8e108d5e-44d0-40eb-bd3e-01c4e8dd7472";
+		this.reqComponent = createReqComponentFromType("KUALI.CATALOG", "kuali.reqCompType.courseList.1of2");
+		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluIds);
+		
+		String text = this.translator.translate(this.reqComponent, nlUsageTypeKey);
+
+		Assert.assertEquals("Student must have completed INTRO ASIAN AMERICAN LIT or FILIPINO AMER STUDIES", text);
 	}
 
 	@Test
