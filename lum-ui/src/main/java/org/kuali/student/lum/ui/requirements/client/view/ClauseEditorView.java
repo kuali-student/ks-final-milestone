@@ -405,6 +405,7 @@ System.out.println("IN ...setupHandlers()...");
     private boolean updateFields() {
         List<ReqCompFieldInfo> fields = null;
         //boolean isError = false;
+        StringBuffer cluIds = new StringBuffer();
 
         if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
             fields = new ArrayList<ReqCompFieldInfo>();
@@ -416,7 +417,17 @@ System.out.println("IN ...setupHandlers()...");
                 if (checkField(fieldInfo) == false) {
                     return false;
                 }
-System.out.println("FIELD INFO: " + fieldInfo.getId() + " - " + fieldInfo.getValue());                
+System.out.println("FIELD INFO: " + fieldInfo.getId() + " - " + fieldInfo.getValue());  
+                if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
+                    cluIds.append((cluIds.length() > 0 ? ", " : "") + fieldInfo.getValue()); 
+                } else {
+                    fields.add(fieldInfo);
+                }
+            }
+            if (cluIds.length() > 0) {
+                ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+                fieldInfo.setId("reqCompFieldType.clu");
+                fieldInfo.setValue(cluIds.toString());
                 fields.add(fieldInfo);
             }
         }
