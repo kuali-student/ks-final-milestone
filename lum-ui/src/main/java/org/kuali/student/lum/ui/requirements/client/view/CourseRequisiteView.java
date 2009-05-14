@@ -7,9 +7,12 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CoreqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager;
+import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
@@ -27,28 +30,40 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequisiteView extends ViewComposite {
 
+    //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
     private KSButton AddPrerequisiteRule = new KSButton("Add Pre-Requisite Rule");
     private KSButton EditPrerequisiteRule = new KSButton("Edit Pre-Requisite Rule");  
     private KSButton AddCoreqRule = new KSButton("Add Co-Requisite Rule");
     private KSButton EditCoreqRule = new KSButton("Edit Co-Requisite Rule"); 
+    private ButtonEventHandler handler = new ButtonEventHandler(); 
+    private final CoreqManager coreqManager = new CoreqManager();
     
+    //view's data
     private String selectedCourseId = null;
-    private Model<CourseRuleInfo> courseData;    
+    private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
     private final Model<PrereqInfo> model = new Model<PrereqInfo>();
     private final PrereqManager prereqManager = new PrereqManager(model);
-    private final CoreqManager coreqManager = new CoreqManager();
-    private ButtonEventHandler handler = new ButtonEventHandler();    
+    private static int tempCounterID = 5000;
     
-    public CourseRequisiteView(Controller controller, String courseId) {
+    public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
-        super.initWidget(mainPanel);
-        this.selectedCourseId = courseId;
-        mainPanel.add(viewPanel);        
+        super.initWidget(mainPanel);                   
+    }
+    
+    public void initializeView(String courseId) {
         
-        //set prereq for this course    
-        courseData = new Model<CourseRuleInfo>();
+        mainPanel.clear();
+        viewPanel.clear();
+        mainPanel.add(viewPanel);
+        
+        this.selectedCourseId = courseId; 
+        
+        if (courseId == null) {
+            layoutMainPanel(viewPanel);
+            return;
+        }        
         
         //TODO move elsewhere
         RequirementsService.Util.getInstance().getCourseAndRulesInfo(courseId, new AsyncCallback<CourseRuleInfo>() {
@@ -94,12 +109,7 @@ public class CourseRequisiteView extends ViewComposite {
                     } 
                 });                
             }
-        });                      
-    }
-    
-    public void initializeView() {
-        mainPanel.clear();
-        mainPanel.add(viewPanel);
+        });          
     }    
     
     private class ButtonEventHandler implements ClickHandler{
@@ -109,7 +119,30 @@ public class CourseRequisiteView extends ViewComposite {
             Widget sender = (Widget) event.getSource();
             
             if(sender == AddPrerequisiteRule){
-                //CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_COURSE));
+                RulesUtilities.clearModel(courseData);
+                CourseRuleInfo newCourse = new CourseRuleInfo();
+                newCourse.setId("CLU-NL-5"); //Integer.toString(tempCounterID++));
+                CluInfo newCourseInfo = new CluInfo();
+                newCourseInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID+1000));
+                newCourse.setCourseInfo(newCourseInfo);
+                //newCourse.setLuStatementInfoList(luStatementInfoList);
+                courseData.add(newCourse);
+                
+                RulesUtilities.clearModel(model);
+                PrereqInfo newPrereqInfo = new PrereqInfo();
+                newPrereqInfo.setCluId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
+                newPrereqInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
+                //StatementVO stmtVO = new StatementVO();
+                //stmtVO.setCheckBoxOn(false);               
+                //newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                //stmtVO.setLuStatementInfo(luStatementInfo);
+                newPrereqInfo.setStatementVO(null);
+                newPrereqInfo.setEditHistory(new EditHistory());
+                model.add(newPrereqInfo);               
+                
+                mainPanel.clear();
+                mainPanel.add(prereqManager.getMainPanel());
+                prereqManager.showView(PrereqViews.CLAUSE_EDITOR);
             } else if (sender == EditPrerequisiteRule) {
                 mainPanel.clear();
                 mainPanel.add(prereqManager.getMainPanel());

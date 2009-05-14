@@ -36,7 +36,7 @@ public class HomeMenuController extends Controller implements View {
     
     public View defaultPanel = new DefaultPanel(this);
    // public View createCoursePanel = new CreateCreditCoursePanel(this);
-    public CourseRequisiteView modifyCoursePanel = new CourseRequisiteView(this, testCluId);
+    public CourseRequisiteView createModifyCoursePanel = new CourseRequisiteView(this);
     
     public HorizontalPanel mainPanel = new HorizontalPanel();
     public VerticalPanel menuPanel = new VerticalPanel();
@@ -173,12 +173,12 @@ public class HomeMenuController extends Controller implements View {
             case DEFAULT_VIEW:
                 return defaultPanel;
             case CREATE_COURSE_VIEW:
-                modifyCoursePanel.initializeView();                
-                return modifyCoursePanel;      
+                createModifyCoursePanel.initializeView(null);                
+                return createModifyCoursePanel;      
                 //return defaultPanel;                
             case MODIFY_COURSE_VIEW:
-                modifyCoursePanel.initializeView();
-                return modifyCoursePanel;
+                createModifyCoursePanel.initializeView(testCluId);
+                return createModifyCoursePanel;
             default:
                 return defaultPanel;
         }
