@@ -76,7 +76,7 @@ public class ClauseEditorView extends ViewComposite {
     private List<ReqComponentTypeInfo> reqCompTypeList;     //list of all Requirement Component Types
     private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
     private List<ReqComponentTypeInfo> advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();     //list of advanced Requirement Component Types    
-    private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>(); 
+    private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>();
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private Model<PrereqInfo> modelPrereqInfo;
@@ -270,7 +270,7 @@ System.out.println("IN ...displayReqComponentDetails()...");
         
         SimplePanel emptyPanel = new SimplePanel();       
         emptyPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn"); 
-        ruleDetailsPanel.add(emptyPanel);         
+        ruleDetailsPanel.add(emptyPanel);
         
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel(); 
@@ -516,7 +516,7 @@ System.out.println("IN ...displayReqComponentText()...");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 SimplePanel tempPanel = new SimplePanel();
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
-                tempPanel.add(valueWidget);                
+                tempPanel.add(valueWidget); 
                 innerReqComponentTextPanel.add(tempPanel);                
                 continue;                                
             }
@@ -753,6 +753,8 @@ System.out.println("IN ...setupNewEditedReqComp()...");
             
             public void onSuccess(final String reqCompNaturalLanguage) {                               
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
+                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 getController().showView(PrereqViews.COMPLEX);
             } 
         });        

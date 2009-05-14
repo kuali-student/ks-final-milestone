@@ -408,7 +408,6 @@ public class ComplexView extends ViewComposite {
     
     private void updateRulesTable() {
         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);               
-
         btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
         btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
         btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
@@ -421,6 +420,13 @@ public class ComplexView extends ViewComposite {
         btnSaveRule.setEnabled(false);
         ruleTable.clear();
         if (prereqInfo != null) {
+            boolean simpleRule = 
+                (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isSimple();
+            btnAddAND.setVisible(!simpleRule);
+            btnAddOR.setVisible(!simpleRule);
+            btnAddToGroup.setVisible(!simpleRule);
+            btnManualEdit.setVisible(!simpleRule);
+            
             Node tree = prereqInfo.getStatementTree(true);            
             if (tree != null) {
                 ruleTable.buildTable(tree);

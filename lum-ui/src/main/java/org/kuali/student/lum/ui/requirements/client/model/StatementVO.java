@@ -738,5 +738,13 @@ public class StatementVO extends Token implements Serializable {
         }
         return inSbResult;
     }
+    
+    public boolean isSimple() {
+        boolean simple = false;
+        if (getStatementVOCount() == 0 && getReqComponentVOCount() == 1) {
+            simple = true;
+        }
+        return simple;
+    }
 
 }
