@@ -439,13 +439,13 @@ INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE
 
 // REQ_COMPONENT_TYPE_NL_TEMPLATE
 // INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('1', 'KUALI.CATALOG', 'COURSE_LIST_CATALOG_VEL_TEMPLATE', 'kuali.reqCompType.courseList.all')
-//INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsString() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsString() #end', 'kuali.reqCompType.courseList.all')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Student must have completed none of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.none')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('2', 'KUALI.CATALOG', 'Student must have completed all of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.all')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('3', 'KUALI.CATALOG', 'Student must have completed $cluSet.getCluAsString(0) or $cluSet.getCluAsString(1)', 'kuali.reqCompType.courseList.1of2')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4', 'KUALI.CATALOG', 'Student must have completed $expectedValue of $cluSet.getCluSetAsString()', 'kuali.reqCompType.courseList.nof')
+//INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsCode() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsCode() #end', 'kuali.reqCompType.courseList.all')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Student must have completed none of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.none')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('2', 'KUALI.CATALOG', 'Student must have completed all of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.all')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('3', 'KUALI.CATALOG', 'Student must have completed $cluSet.getCluAsCode(0) or $cluSet.getCluAsCode(1)', 'kuali.reqCompType.courseList.1of2')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4', 'KUALI.CATALOG', 'Student must have completed $expectedValue of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.nof')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('5', 'KUALI.CATALOG', 'Student needs a minimum GPA of $gpa', 'kuali.reqCompType.gradecheck')
-INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('6', 'KUALI.CATALOG', 'Students must take $totalCredits credits from $cluSet.getCluSetAsString()', 'kuali.reqCompType.grdCondCourseList')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('6', 'KUALI.CATALOG', 'Students must take $totalCredits credits from $cluSet.getCluSetAsCode()', 'kuali.reqCompType.grdCondCourseList')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('101', 'KUALI.EXAMPLE', 'Student must have completed none of MATH100, MATH101', 'kuali.reqCompType.courseList.none')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('102', 'KUALI.EXAMPLE', 'Student must have completed all of MATH100, MATH101, MATH102', 'kuali.reqCompType.courseList.all')

@@ -35,11 +35,11 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	private ReqComponent reqComponent;
 //    private String courseTemplate = 
 //		"#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue)) \n" +
-//		"  Student must have completed all of $cluSet.getCluSetAsString() \n" +
+//		"  Student must have completed all of $cluSet.getCluSetAsShortName() \n" +
 //		"#elseif($mathTool.toNumber($expectedValue) <= 0 && ($relationalOperator == 'less_than' || $relationalOperator == 'less_than_or_equal_to') ) \n" +
-//		"  Student must have completed none of $cluSet.getCluSetAsString() \n" +
+//		"  Student must have completed none of $cluSet.getCluSetAsShortName() \n" +
 //		"#else \n" +
-//		"  Student must have completed $expectedValue of $cluSet.getCluSetAsString() \n" +
+//		"  Student must have completed $expectedValue of $cluSet.getCluSetAsShortName() \n" +
 //		"#end";
 
     @BeforeClass
