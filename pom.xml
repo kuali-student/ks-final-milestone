@@ -88,7 +88,6 @@
 		<spring.security.version>2.0.4</spring.security.version>
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
-		<dozer.version>4.4</dozer.version>
 		<eclipselink.version>1.0</eclipselink.version>
 		
 		<!-- plugin versions -->
@@ -572,13 +571,6 @@
 				<artifactId>webservices-rt</artifactId>
 				<version>${metro.version}</version>
 			</dependency>
-
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>${dozer.version}</version>
-            </dependency>
-
 			<dependency>
 				<groupId>org.jvnet.jax-ws-commons.spring</groupId>
 				<artifactId>jaxws-spring</artifactId>
@@ -588,7 +580,6 @@
 						<groupId>org.springframework</groupId>
 						<artifactId>spring</artifactId>
 					</exclusion>
-
 					<!-- These must be excluded for WSIT to work -->
 					<exclusion>
 						<groupId>com.sun.xml.ws</groupId>
