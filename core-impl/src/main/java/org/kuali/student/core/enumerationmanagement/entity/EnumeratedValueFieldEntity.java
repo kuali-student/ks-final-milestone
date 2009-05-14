@@ -26,13 +26,13 @@ public class EnumeratedValueFieldEntity {
     @Column(name="FLD_KEY")
     String fieldKey;
     @Column(name="MIN_LGTH")
-    int minLength;
+    Integer minLength;
     @Column(name="MAX_LGTH")
-    int maxLength;
+    Integer maxLength;
     @Column(name="MIN_OCCRS")
-    int minOccurs;
+    Integer minOccurs;
     @Column(name="MAX_OCCRS")
-    int maxOccurs;
+    String maxOccurs;
     @Column(name="MIN_VAL")
     String minValue;
     @Column(name="MAX_VAL")
@@ -78,35 +78,35 @@ public class EnumeratedValueFieldEntity {
         this.dataType = dataType;
     }
 
-    public int getMinLength() {
+    public Integer getMinLength() {
         return minLength;
     }
 
-    public void setMinLength(int minLength) {
+    public void setMinLength(Integer minLength) {
         this.minLength = minLength;
     }
 
-    public int getMaxLength() {
+    public Integer getMaxLength() {
         return maxLength;
     }
 
-    public void setMaxLength(int maxLength) {
+    public void setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;
     }
 
-    public int getMinOccurs() {
+    public Integer getMinOccurs() {
         return minOccurs;
     }
 
-    public void setMinOccurs(int minOccurs) {
+    public void setMinOccurs(Integer minOccurs) {
         this.minOccurs = minOccurs;
     }
 
-    public int getMaxOccurs() {
+    public String getMaxOccurs() {
         return maxOccurs;
     }
 
-    public void setMaxOccurs(int maxOccurs) {
+    public void setMaxOccurs(String maxOccurs) {
         this.maxOccurs = maxOccurs;
     }
 
