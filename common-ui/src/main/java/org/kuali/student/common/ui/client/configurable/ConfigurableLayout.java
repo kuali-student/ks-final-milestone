@@ -19,6 +19,7 @@ public abstract class ConfigurableLayout<T extends Idable> extends Composite {
 	}
 	
 	public abstract ConfigurableLayout<T> addSection(String[] hierarchy, LayoutSection<T>section);
+	public abstract void selectSection(String...hierarchy);
 	public abstract void render();
 	
     @SuppressWarnings("unchecked")
