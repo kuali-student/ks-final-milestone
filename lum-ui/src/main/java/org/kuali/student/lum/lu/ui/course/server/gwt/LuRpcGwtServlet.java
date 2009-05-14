@@ -34,7 +34,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
  * @author Kuali Student Team
  *
  */
-public class LuServiceGwt extends BaseRpcGwtServletAbstract<LuService> implements LuRpcService{
+public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements LuRpcService{
 
     private static final long serialVersionUID = 1L;
     

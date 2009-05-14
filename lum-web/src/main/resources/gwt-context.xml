@@ -26,10 +26,10 @@
 					<ref bean="requirementsServiceGwtController"/>
 				</entry>
 				<entry key="/org.kuali.student.lum.lu.ui.course.Course/LuRpcService">
-					<ref bean="LuServiceGwtController"/>
+					<ref bean="LuRpcGwtServletController"/>
 				</entry>				
 				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/LuRpcService">
-					<ref bean="LuServiceGwtController"/>
+					<ref bean="LuRpcGwtServletController"/>
 				</entry>				
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/MessageService">
@@ -45,9 +45,9 @@
 		<property name="servletInstance" ref="requirementsServiceGwt"/>
 	</bean>
 	
-	<bean id="LuServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="LuServiceGwt"/>
-		<property name="servletInstance" ref="LuServiceGwt"/>
+	<bean id="LuRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="LuRpcGwtServlet"/>
+		<property name="servletInstance" ref="LuRpcGwtServlet"/>
 	</bean>
 	
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -60,7 +60,7 @@
 		<property name="serviceImpl" ref="requirementsServiceImpl"/>
 	</bean>
 	
-	<bean id="LuServiceGwt" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuServiceGwt">
+	<bean id="LuRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />
 	</bean>
 
