@@ -18,7 +18,6 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
 import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleExpressionEditor;
-import org.kuali.student.lum.ui.requirements.client.view.SimpleView;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -148,9 +147,10 @@ public class PrereqManager extends Controller {
             }
         });
         
-        cluSetsData.put("CLUSET-1", "CLUSET-1");
-        cluSetsData.put("CLUSET-2", "CLUSET-2");
-        cluSetsData.put("CLUSET-3", "CLUSET-3");
+        cluSetsData.put("CLUSET-NL-3", "CLUSET-NL-3");
+        cluSetsData.put("CLUSET-NL-2", "CLUSET-NL-2");
+        cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");
+
         
         /*
         RequirementsService.Util.getInstance().getAllClusets(new AsyncCallback<Map<String, String>>() {

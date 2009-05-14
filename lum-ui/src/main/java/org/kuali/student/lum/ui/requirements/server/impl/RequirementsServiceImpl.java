@@ -157,7 +157,7 @@ public class RequirementsServiceImpl implements RequirementsService {
                     cluNames = (cluNames == null)? new ArrayList<Result>() : cluNames;
                     cluNames.add(cluCodeResult);
                     
-                    cluCodes.put(cluInfo.getId(), displayName);
+                    cluCodes.put(displayName, cluInfo.getId());  //should be other way around but...we go by name that user enters
                 }
             }
         } catch (Exception ex) {

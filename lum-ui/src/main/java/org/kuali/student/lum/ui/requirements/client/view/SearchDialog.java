@@ -1,6 +1,7 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+
 public class SearchDialog extends Composite {
     
     private final SimplePanel mainPanel = new SimplePanel();
@@ -39,9 +41,11 @@ public class SearchDialog extends Composite {
     KSListBox cluList = new KSListBox();    
     private Model<PrereqInfo> model;
     private Controller controller;
+    private Map<String, String> listData;
     
-    public SearchDialog(Controller controller) {
+    public SearchDialog(Controller controller, Map<String, String> listData) {
         super.initWidget(mainPanel);
+        this.listData = listData;
         Panel searchView = new VerticalPanel();       
         HorizontalPanel pnlButtons = new HorizontalPanel();
         this.controller = controller; 
@@ -98,7 +102,7 @@ public class SearchDialog extends Composite {
 
             public void onSuccess(final Map<String, String> clus) {
                 ListItems listItemClus = new ListItems() {
-                    private Map<String, String> results = clus;
+                    private Map<String, String> results = listData; //clus; - to be fixed
                     @Override
                     public List<String> getAttrKeys() {
                         List<String> attributes = new ArrayList<String>();
@@ -109,11 +113,10 @@ public class SearchDialog extends Composite {
                     @Override
                     public String getItemAttribute(String id, String attrkey) {
                         String value = null;
-                        Integer index;
+                        
                         try{
-                            index = Integer.valueOf(id);
                             if (attrkey.isEmpty()) {
-                                value = results.get(id);
+                                value = id; //results.get(id); fix later
                             }
                         } catch (Exception e) {
                         }
@@ -128,11 +131,8 @@ public class SearchDialog extends Composite {
 
                     @Override
                     public List<String> getItemIds() {
-                        List<String> ids = new ArrayList<String>();
-                        for (String key : results.keySet()) {
-                            ids.add(results.get(key));
-                        }
-                        
+                        List temp = Arrays.asList(results.keySet().toArray());
+                        List<String> ids = new ArrayList<String>(temp);                        
                         return ids;
                     }
 
@@ -160,7 +160,7 @@ public class SearchDialog extends Composite {
         List<String> selectedIds = cluList.getSelectedItems();
         if (listItems != null && selectedIds != null) {
             for (String id : selectedIds) {
-                selections.add(listItems.getItemAttribute(id, "?"));
+                selections.add(listItems.getItemAttribute(id, ""));
             }
         }
         return selections;

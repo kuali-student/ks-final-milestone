@@ -181,10 +181,16 @@ System.out.println("IN ...redraw()...");
         btnCancelView.setStyleName("KS-Rules-Standard-Button");   
         if (addNewReqComp) {
             tempPanelButtons.add(addReqComp);
-            addReqComp.setStyleName("KS-Rules-Standard-Button");            
+            addReqComp.setStyleName("KS-Rules-Standard-Button");
+            if (selectedReqType == null) {
+                addReqComp.setEnabled(false);
+            }
         } else {
             tempPanelButtons.add(submitReqComp);
-            submitReqComp.setStyleName("KS-Rules-Standard-Button"); 
+            submitReqComp.setStyleName("KS-Rules-Standard-Button");
+            if (selectedReqType == null) {
+                submitReqComp.setEnabled(false);
+            }            
         }                                
         
         addEditRuleView.add(tempPanelButtons);
@@ -313,8 +319,12 @@ System.out.println("IN ...setupHandlers()...");
         
         addReqComp.addClickHandler(new ClickHandler() {
             
-            public void onClick(ClickEvent event) {              
-                updateFields();
+            public void onClick(ClickEvent event) { 
+                
+                if (updateFields() == false) {
+                    return;
+                }
+                
                 editedReqComp.setType(selectedReqType.getId());                         
 
                 //add new req. component (rule) to the top level of the rule
@@ -337,7 +347,11 @@ System.out.println("IN ...setupHandlers()...");
         
         submitReqComp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {                
-                updateFields();
+
+                if (updateFields() == false) {
+                    return;
+                }
+                
                 if (modelPrereqInfo != null) {
                     PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
@@ -348,7 +362,10 @@ System.out.println("IN ...setupHandlers()...");
         
         ruleTypeSelectionHandler = new FocusHandler() {
             public void onFocus(FocusEvent event) {
-                //TODO
+                
+                addReqComp.setEnabled(true);
+                submitReqComp.setEnabled(true);
+                
                 KSRadioButton btn = ((KSRadioButton) event.getSource());
                 
                 if (compReqTypesList.getSelectedItem() != null) {
@@ -368,6 +385,8 @@ System.out.println("IN ...setupHandlers()...");
         
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {  
              public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                 addReqComp.setEnabled(true);
+                 submitReqComp.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
                      button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);                     
                  }
@@ -383,10 +402,10 @@ System.out.println("IN ...setupHandlers()...");
     /**
      * reads and check what are in the widgets and update the fields in editedReqComp
      */
-    private void updateFields() {
+    private boolean updateFields() {
         List<ReqCompFieldInfo> fields = null;
+        //boolean isError = false;
 
-        // if there are editable widgets and that the 
         if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
             fields = new ArrayList<ReqCompFieldInfo>();
             editedReqComp.setReqCompField(fields);
@@ -394,27 +413,60 @@ System.out.println("IN ...setupHandlers()...");
                 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                 fieldInfo.setId(reqCompWidget.getName());
                 fieldInfo.setValue(reqCompWidget.getText());
-                checkField(fieldInfo);
+                if (checkField(fieldInfo) == false) {
+                    return false;
+                }
+System.out.println("FIELD INFO: " + fieldInfo.getId() + " - " + fieldInfo.getValue());                
                 fields.add(fieldInfo);
             }
         }
         editedReqComp.setReqCompField(fields);
+        return true;
     }
     
-    private void checkField(ReqCompFieldInfo fieldInfo) {
-//        boolean value
+    private boolean checkField(ReqCompFieldInfo fieldInfo) {
+
         if (fieldInfo != null) {
-            // TODO
-            // get the type of fieldInfo (clu/cluset) to determine which map to check against.
-            // for now check against BOTH sets valid if value matches one if the sets.
+            String fieldId = fieldInfo.getId().replaceFirst("reqCompFieldType.", "");            
             String fieldValue = fieldInfo.getValue();
-            Map testClus = getTestCluCodes();
-            Map testCluSet = getTestCluCodes();
-            if (!testClus.containsKey(fieldValue) &&
-                    !testCluSet.containsKey(fieldValue)) {
-                // throw exception here
+            System.out.println("Field ID: " + fieldId + ", value: " + fieldValue);  
+            
+            if (fieldValue.trim().isEmpty()) {
+                Window.alert("Please enter all fields");
+                return false;
+            }            
+                      
+            if (fieldId.equals("clu")) {
+                String cluId = clusData.get(fieldValue);
+                System.out.println("Clu id: " + cluId);
+                if (cluId != null) {
+                    fieldInfo.setValue(cluId);
+                    return true;
+                }
+                if (fieldValue.contains(",")) {
+                    Window.alert("Please enter only one course");                  
+                } else {                
+                    Window.alert("Cannot find course '" + fieldValue + "'");
+                }
+                return false;
             }
+           
+            if (fieldId.equals("cluSet")) {
+                String cluSetId = cluSetsData.get(fieldValue);
+                System.out.println("Cluset id: " + cluSetId);                
+                if (cluSetId != null) {
+                    fieldInfo.setValue(cluSetId);
+                    return true;
+                }                                
+                if (fieldValue.contains(",")) {
+                    Window.alert("Please enter only one course set");                  
+                } else {
+                    Window.alert("Cannot find course set '" + fieldValue + "'");
+                }
+                return false;
+            }            
         }
+        return true;
     }
     
     private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) { 
@@ -469,7 +521,7 @@ System.out.println("IN ...displayReqComponentText()...");
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
                 tempPanel.add(valueWidget);                
 
-                final SearchDialog searchDialog = new SearchDialog(getController());
+                final SearchDialog searchDialog = new SearchDialog(getController(), clusData);
                 searchDialog.addCourseAddHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
                         String origFieldValue = valueWidget.getText();
@@ -507,7 +559,7 @@ System.out.println("IN ...displayReqComponentText()...");
                 VerticalPanel tempPanel = new VerticalPanel();
                 tempPanel.setStyleName("KS-Rules-FlexPanelFix");
                 tempPanel.add(valueWidget);                     
-                final SearchDialog searchDialog = new SearchDialog(getController());
+                final SearchDialog searchDialog = new SearchDialog(getController(), cluSetsData);
                 searchDialog.addCourseAddHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
                         String origFieldValue = valueWidget.getText();
