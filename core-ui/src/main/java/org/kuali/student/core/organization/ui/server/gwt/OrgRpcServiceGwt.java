@@ -2,7 +2,7 @@ package org.kuali.student.core.organization.ui.server.gwt;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.server.BaseServicesRpcAbstract;
+import org.kuali.student.common.ui.server.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -24,7 +24,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
-public class OrgRpcServiceGwt extends BaseServicesRpcAbstract<OrganizationService> implements OrgRpcService{
+public class OrgRpcServiceGwt extends BaseRpcGwtServletAbstract<OrganizationService> implements OrgRpcService{
 
 	private static final long serialVersionUID = 1L;
 

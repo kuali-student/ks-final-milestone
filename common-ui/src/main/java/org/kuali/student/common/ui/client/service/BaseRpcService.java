@@ -33,7 +33,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * @author Kuali Student Team
  *
  */
-public interface BaseServicesRpc extends RemoteService{
+public interface BaseRpcService extends RemoteService{
 
     /* Dictionary Operations */
     

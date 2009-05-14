@@ -2,7 +2,7 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.service.BaseServicesRpcAsync;
+import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -18,7 +18,7 @@ import org.kuali.student.core.search.dto.Result;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface OrgRpcServiceAsync extends BaseServicesRpcAsync {
+public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
     public void createOrganization(OrgInfo orgInfo, AsyncCallback<OrgInfo> callback);
     public void createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
 

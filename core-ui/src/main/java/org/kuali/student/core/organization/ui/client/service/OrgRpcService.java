@@ -2,7 +2,7 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.service.BaseServicesRpc;
+import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -23,7 +23,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 * This class lists all of the methods that the remote calls between client and servlet make, 
 * most of these will be verbatim from the web service  
 */
-public interface OrgRpcService extends RemoteService, BaseServicesRpc {
+public interface OrgRpcService extends RemoteService, BaseRpcService {
 	
 	public static final String SERVICE_URI = "OrgRpcService";
 

@@ -32,7 +32,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
-public interface BaseServicesRpcAsync {
+public interface BaseRpcServiceAsync {
 
     public void getObjectTypes(AsyncCallback<List<String>> callback);
 
