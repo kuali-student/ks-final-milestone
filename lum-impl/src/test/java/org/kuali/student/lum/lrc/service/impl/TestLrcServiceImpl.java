@@ -36,7 +36,6 @@ import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
-import org.kuali.student.lum.lrc.entity.ResultComponent;
 import org.kuali.student.lum.lrc.service.LrcService;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -92,8 +91,10 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertEquals("resultComponentType.grade", newRci.getType());
             assertEquals("Active", newRci.getState());
 
+            rci = client.getResultComponent(id);
             rci.getResultValueIds().add("LRC-RESULT_VALUE-GRADE-2");
             try {
+            	
                 client.updateResultComponent(id, rci);
                 newRci = client.getResultComponent(newRci.getId());
                 assertNotNull(newRci);
@@ -117,6 +118,16 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             } catch (VersionMismatchException e) {
                 assertTrue(false);
             }
+            
+            //Updateing an out of date version should throw an exception
+            try{
+            	client.updateResultComponent(id, rci);
+            	assertTrue(false);
+            }catch(VersionMismatchException e){
+            	assertTrue(true);
+            }
+            
+            rci = client.getResultComponent(id);
             rci.getResultValueIds().add("LRC-RESULT_VALUE-CREDIT-1");
             try {
                 client.updateResultComponent(id, rci);
@@ -127,6 +138,8 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
                 assertTrue(false);
             }
 
+            
+            
 
             StatusInfo statusInfo = client.deleteResultComponent(id);
             assertTrue(statusInfo.getSuccess());

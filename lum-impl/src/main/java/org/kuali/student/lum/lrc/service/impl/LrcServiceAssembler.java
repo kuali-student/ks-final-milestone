@@ -172,6 +172,7 @@ public class LrcServiceAssembler extends BaseAssembler {
         dto.setDesc(toRichTextInfo(entity.getDesc()));
         dto.setResultValueIds(ids);
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setType(entity.getType().getId());
         return dto;
     }
