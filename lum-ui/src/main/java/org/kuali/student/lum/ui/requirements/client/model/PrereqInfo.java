@@ -231,6 +231,8 @@ public class PrereqInfo implements Idable {
         
         // must leave at least 2 children in a group unselected or
         // all children are RCs and are selected.
+        // Except for root.  For root, if root statement does not have
+        // any sub statements then it is okay to delete
         for (ReqComponentVO selectedRC : selectedReqComponentVOs) {
             StatementVO parentStatementVO = 
                 this.statementVO.getEnclosingStatementVO(this.statementVO,
@@ -258,6 +260,9 @@ public class PrereqInfo implements Idable {
             if (parentStatementVO.getChildCount() - numSelectedChildren > 1) {
                 degroupAble = degroupAble && true;
             } else if (numSelectedChildrenRC == parentStatementVO.getChildCount()) {
+                degroupAble = degroupAble && true;
+            } else if (parentStatementVO == this.statementVO &&
+                    parentStatementVO.getStatementVOCount() == 0) {
                 degroupAble = degroupAble && true;
             } else {
                 degroupAble = degroupAble && false;
