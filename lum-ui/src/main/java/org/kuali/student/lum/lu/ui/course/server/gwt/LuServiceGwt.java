@@ -15,7 +15,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.kuali.student.common.ui.server.BaseServicesRpcAbstract;
+import org.kuali.student.common.ui.server.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -34,7 +34,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
  * @author Kuali Student Team
  *
  */
-public class LuServiceGwt extends BaseServicesRpcAbstract<LuService> implements LuRpcService{
+public class LuServiceGwt extends BaseRpcGwtServletAbstract<LuService> implements LuRpcService{
 
     private static final long serialVersionUID = 1L;
     

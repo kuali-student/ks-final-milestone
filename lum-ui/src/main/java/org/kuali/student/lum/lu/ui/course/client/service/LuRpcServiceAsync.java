@@ -15,7 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.service;
 
-import org.kuali.student.common.ui.client.service.BaseServicesRpcAsync;
+
+import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -26,7 +27,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
-public interface LuRpcServiceAsync extends BaseServicesRpcAsync{
+public interface LuRpcServiceAsync extends BaseRpcServiceAsync{
     public void createClu(String luTypeKey, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
     public void updateClu(String cluId, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
 }
