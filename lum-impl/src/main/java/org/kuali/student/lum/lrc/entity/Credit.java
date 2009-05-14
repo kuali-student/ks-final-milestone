@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,13 +29,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.core.entity.AttributeOwner;
-
 @Entity
 @Table(name="KSLU_LRC_CREDIT")
 @NamedQueries( {
     @NamedQuery(name = "Credit.getCreditsByIdList", query = "SELECT c FROM Credit c WHERE c.id IN (:creditIdList)"),
     @NamedQuery(name = "Credit.getCreditIdsByCreditType", query = "SELECT c.id FROM Credit c JOIN c.type type WHERE type.id = :creditTypeId")
 })
+@DiscriminatorValue("Credit")
 public class Credit extends ResultValue implements AttributeOwner<CreditAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CreditAttribute> attributes;

@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -37,6 +38,7 @@ import org.kuali.student.core.entity.AttributeOwner;
     @NamedQuery(name = "Grade.getGradeIdsByGradeType", query = "SELECT c.id FROM Grade c JOIN c.type type WHERE type.id = :gradeTypeId"),
     @NamedQuery(name = "Grade.getGradesByScale", query = "SELECT c FROM Grade c WHERE c.scale.id = :scale")
 })
+@DiscriminatorValue("Grade")
 public class Grade extends ResultValue implements AttributeOwner<GradeAttribute> {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "SCALE_KEY")
