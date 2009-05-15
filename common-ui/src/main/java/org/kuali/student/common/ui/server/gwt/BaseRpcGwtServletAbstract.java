@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.ui.server;
+package org.kuali.student.common.ui.server.gwt;
 
 import java.util.List;
 
