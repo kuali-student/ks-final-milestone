@@ -195,6 +195,8 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
         Object result = null;
         if (fieldWidget instanceof HasValue) {
             result = ((HasValue)fieldWidget).getValue();
+        } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
+            result = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItem();
         }
         return result;
     }
