@@ -276,7 +276,7 @@ class OrgPositionWidget extends OrgMultiWidget {
         for (int i = forms.size() - 1; i > -1; i--) {
             final Map<String, Object> formMap = forms.get(i);
             KSFormLayoutPanel orgPosForm = (KSFormLayoutPanel) formMap.get("form");
-            if (orgPosForm.getFieldValue("title").trim().length() == 0)
+            if (orgPosForm.getFieldText("title").trim().length() == 0)
                 continue; //skipping this one
             if(formMap.get("posId") == null && formMap.get("deleted") != null)
                 continue; //if not created AND deleted
@@ -289,9 +289,9 @@ class OrgPositionWidget extends OrgMultiWidget {
             posMetaInfo.setVersionInd((String) formMap.get("posVersion"));        
             orgPosRestriction.setMetaInfo(posMetaInfo);
             
-            orgPosRestriction.setOrgPersonRelationTypeKey(orgPosForm.getFieldValue("position"));
-            orgPosRestriction.setTitle(orgPosForm.getFieldValue("title"));
-            orgPosRestriction.setDesc(orgPosForm.getFieldValue("desc"));
+            orgPosRestriction.setOrgPersonRelationTypeKey((String)orgPosForm.getFieldValue("position"));
+            orgPosRestriction.setTitle(orgPosForm.getFieldText("title"));
+            orgPosRestriction.setDesc(orgPosForm.getFieldText("desc"));
             
             /*
             TimeAmountInfo durationTimeAmtInfo = new TimeAmountInfo();
@@ -304,11 +304,11 @@ class OrgPositionWidget extends OrgMultiWidget {
             */
             
             try {
-                orgPosRestriction.setMinNumRelations(Integer.valueOf(orgPosForm.getFieldValue("min")));
+                orgPosRestriction.setMinNumRelations(Integer.valueOf((String)orgPosForm.getFieldValue("min")));
             } catch (NumberFormatException e) {
 
             }
-            orgPosRestriction.setMaxNumRelations(orgPosForm.getFieldValue("max"));
+            orgPosRestriction.setMaxNumRelations((String)orgPosForm.getFieldValue("max"));
             
             if (formMap.get("new") != null){
                 if(formMap.get("deleted") != null)
@@ -380,7 +380,7 @@ class OrgPositionWidget extends OrgMultiWidget {
         int count = 0;
         for (Map<String,Object> formMap : forms) {
             KSFormLayoutPanel orgPosForm = (KSFormLayoutPanel) formMap.get("form");
-            if (orgPosForm.getFieldValue("title").trim().length() == 0)
+            if (orgPosForm.getFieldText("title").trim().length() == 0)
                 continue; //skipping this one
             if(formMap.get("posId") == null && formMap.get("deleted") != null)
                 continue; //if not created AND deleted

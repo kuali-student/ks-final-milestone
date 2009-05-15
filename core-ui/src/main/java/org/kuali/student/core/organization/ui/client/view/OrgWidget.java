@@ -139,9 +139,9 @@ class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInf
             KSDropDown orgTypeDropDown = (KSDropDown) orgForm.getFieldWidget("orgType");
             
             orgInfo.setType(orgTypeDropDown.getSelectedItems().get(0));        
-            orgInfo.setShortDesc(orgForm.getFieldValue("orgDesc"));
-            orgInfo.setLongName(orgForm.getFieldValue("orgName"));
-            orgInfo.setShortName(orgForm.getFieldValue("orgAbbrev"));
+            orgInfo.setShortDesc((String)orgForm.getFieldValue("orgDesc"));
+            orgInfo.setLongName((String)orgForm.getFieldValue("orgName"));
+            orgInfo.setShortName((String)orgForm.getFieldValue("orgAbbrev"));
 
             orgInfo.setEffectiveDate(((KSDatePicker)orgForm.getFieldWidget("orgEffDate")).getValue());
             orgInfo.setExpirationDate(((KSDatePicker)orgForm.getFieldWidget("orgExpDate")).getValue());

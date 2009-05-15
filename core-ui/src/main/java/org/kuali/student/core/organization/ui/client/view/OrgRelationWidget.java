@@ -16,6 +16,7 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -247,7 +248,7 @@ class OrgRelationWidget extends OrgMultiWidget {
     protected void save() {
         for (Map<String,Object> formMap : forms) {
             KSFormLayoutPanel form = (KSFormLayoutPanel) formMap.get("form");
-            if (form.getFieldValue("relOrgId").length() == 0)
+            if (form.getFieldText("relOrgId").length() == 0)
                 continue; //skipping this one
             if(formMap.get("orgRelId") == null && formMap.get("deleted") != null)
                 continue; //if not created AND deleted
@@ -260,13 +261,13 @@ class OrgRelationWidget extends OrgMultiWidget {
             orgRelMetaInfo.setVersionInd((String) formMap.get("orgRelVersion"));
             orgRelationInfo.setMetaInfo(orgRelMetaInfo);
             
-            orgRelationInfo.setType(form.getFieldValue("relType"));
+            orgRelationInfo.setType((String)form.getFieldValue("relType"));
             
             //TODO: This should lookup orgId based on related org name
-            orgRelationInfo.setRelatedOrgId(form.getFieldValue("relOrgId"));
+            orgRelationInfo.setRelatedOrgId((String)form.getFieldValue("relOrgId"));
             
-            orgRelationInfo.setEffectiveDate(((KSDatePicker)form.getFieldWidget("relEffDate")).getValue());
-            orgRelationInfo.setExpirationDate(((KSDatePicker)form.getFieldWidget("relExpDate")).getValue());
+            orgRelationInfo.setEffectiveDate((Date)form.getFieldValue("relEffDate"));
+            orgRelationInfo.setExpirationDate((Date)form.getFieldValue("relExpDate"));
             
             if (orgRelationInfo.getId() == null){
                 OrgRpcService.Util.getInstance().createOrgOrgRelation(orgRelationInfo, 
@@ -326,7 +327,7 @@ class OrgRelationWidget extends OrgMultiWidget {
         int count = 0;
         for (Map<String,Object> formMap : forms) {
             KSFormLayoutPanel form = (KSFormLayoutPanel) formMap.get("form");
-            if (form.getFieldValue("relOrgId").length() == 0)
+            if (form.getFieldText("relOrgId").length() == 0)
                 continue; //skipping this one
             if(formMap.get("orgRelId") == null && formMap.get("deleted") != null)
                 continue; //if not created AND deleted

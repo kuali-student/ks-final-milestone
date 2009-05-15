@@ -61,18 +61,26 @@ public class KSFormLayoutPanel extends KSFormLayoutPanelAbstract {
     }
     
     /**
-     * Use to get the text value of the form field with the given name. If the 
-     * field has no text value, use getFieldWidget() to get the desired value(s) 
-     * from the underlying widget.
+     * Use to get the 
      * 
      * @param name
      * @return
      */
-    public String getFieldValue(String name){
+    public Object getFieldValue(String name){
         return form.getFieldValue(name);
     }
     
-    public void setFieldValue(String name, String value){
+    /**
+     * Get text value of the form field. This may not necessarily be the string
+     * representation of getFieldValue(). (eg. For drop down list fields, this
+     * would be the visible text, rather than it's associated value)  
+     */
+    public String getFieldText(String name){
+        return form.getFieldText(name);
+    }
+
+
+    public void setFieldValue(String name, Object value){
         form.setFieldValue(name, value);
     }
     

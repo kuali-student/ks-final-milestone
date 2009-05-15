@@ -35,9 +35,11 @@ public abstract class KSFormLayoutPanelAbstract extends Composite{
     
     public abstract String[] getFieldNames();
     
-    public abstract String getFieldValue(String name);
+    public abstract Object getFieldValue(String name);
     
-    public abstract void setFieldValue(String name, String value);
+    public abstract String getFieldText(String name);
+    
+    public abstract void setFieldValue(String name, Object value);
     
     public abstract Widget getFieldWidget(String name);
     

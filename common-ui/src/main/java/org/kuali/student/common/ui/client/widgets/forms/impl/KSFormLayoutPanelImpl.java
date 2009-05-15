@@ -104,7 +104,11 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         return (String[])formFields.keySet().toArray();
     }
 
-    public String getFieldValue(String name){
+    public Object getFieldValue(String name){
+        return ((KSFormField)formFields.get(name)).getValue();
+    }
+
+    public String getFieldText(String name){
         return ((KSFormField)formFields.get(name)).getText();
     }
 
@@ -121,8 +125,8 @@ public class KSFormLayoutPanelImpl extends KSFormLayoutPanelAbstract{
         return table.getRowCount();
     }
     
-    public void setFieldValue(String name, String value){
-        ((KSFormField)formFields.get(name)).setText(value);
+    public void setFieldValue(String name, Object value){
+        ((KSFormField)formFields.get(name)).setValue(value);
     }
     
     public void setEditMode(EditMode editable){

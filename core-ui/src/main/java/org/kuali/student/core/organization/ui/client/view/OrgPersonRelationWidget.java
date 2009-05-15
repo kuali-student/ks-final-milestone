@@ -291,7 +291,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     protected void save() {
         for (final Map<String,Object> formMap : forms) {
             KSFormLayoutPanel orgPersonRelForm = (KSFormLayoutPanel) formMap.get("form");
-            if (orgPersonRelForm.getFieldValue("relPersonId").length() == 0)
+            if (orgPersonRelForm.getFieldText("relPersonId").length() == 0)
                 continue; //skipping this one
             if(formMap.get("orgPersonRelId") == null && formMap.get("deleted") != null)
                 continue; //if not created AND deleted
@@ -306,12 +306,12 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
             orgPersonRelationInfo.setMetaInfo(orgPersonRelMetaInfo);
             
             //TODO: This should lookup orgId based on related org name
-            orgPersonRelationInfo.setPersonId(orgPersonRelForm.getFieldValue("relPersonId"));
+            orgPersonRelationInfo.setPersonId(orgPersonRelForm.getFieldText("relPersonId"));
             
             orgPersonRelationInfo.setEffectiveDate(((KSDatePicker)orgPersonRelForm.getFieldWidget("relEffDate")).getValue());
             orgPersonRelationInfo.setExpirationDate(((KSDatePicker)orgPersonRelForm.getFieldWidget("relExpDate")).getValue());
             
-            orgPersonRelationInfo.setType(orgPersonRelForm.getFieldValue("relType"));
+            orgPersonRelationInfo.setType((String)orgPersonRelForm.getFieldValue("relType"));
             //TODO this should probably be done differently, especially the FAKE_ID constant in case FAKE_ID is part of institutions actual id structure
             if(((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems().getItemAttribute(orgPersonRelationInfo.getType(), "id").startsWith(OrgPositionWidget.FAKE_ID)) {
                 final ListItems checking = ((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems();
@@ -387,7 +387,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
         int count = 0;
         for (Map<String,Object> formMap : forms) {
             KSFormLayoutPanel orgPersonRelForm = (KSFormLayoutPanel) formMap.get("form");
-            if (orgPersonRelForm.getFieldValue("relPersonId").length() == 0)
+            if (orgPersonRelForm.getFieldText("relPersonId").length() == 0)
                 continue; //skipping this one
             if(formMap.get("orgPersonRelId") == null && formMap.get("deleted") != null)
                 continue; //if not created AND deleted
