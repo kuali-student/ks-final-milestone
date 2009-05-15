@@ -14,7 +14,7 @@ import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
-import org.kuali.student.lum.lu.naturallanguage.util.ReqCompTypes;
+import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class ReqComponentTranslator {
     public void setContextRegistry(ContextRegistry contextRegistry) {
     	this.contextRegistry = contextRegistry;
     }
-    
+
     /**
      * Translates a requirement component by <code>reqComponentId</code> for a specific <code>nlUsageTypeKey</code> into
      * natural language.
@@ -67,7 +67,7 @@ public class ReqComponentTranslator {
     public String translate(ReqComponent reqComponent, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
         ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
 
-        Map<String, Object> velocityContextMap = buildVelocityContextMap(reqComponent);
+        Map<String, Object> velocityContextMap = buildContextMap(reqComponent);
 
         ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey);
 
@@ -83,9 +83,9 @@ public class ReqComponentTranslator {
      *            Requirement component
      * @throws DoesNotExistException
      */
-    private Map<String, Object> buildVelocityContextMap(ReqComponent reqComponent) throws DoesNotExistException {
+    private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException {
         String reqComponentType = reqComponent.getRequiredComponentType().getId();
-        ReqCompTypes.CustomReqComponentType type = ReqCompTypes.CustomReqComponentType.valueOfKey(reqComponentType);
+        ReqComponentTypes.ReqCompTypes type = ReqComponentTypes.ReqCompTypes.valueOfKey(reqComponentType);
         
     	Context context = this.contextRegistry.get(type.getKey());
     	Map<String, Object> velocityContextMap = context.createContextMap(reqComponent);
@@ -136,5 +136,4 @@ public class ReqComponentTranslator {
         }
         return naturalLanguage.trim();
     }
-
 }

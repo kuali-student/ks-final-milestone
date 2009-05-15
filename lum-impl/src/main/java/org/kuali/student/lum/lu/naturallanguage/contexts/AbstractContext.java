@@ -12,11 +12,30 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomCluSet;
+import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 
 public abstract class AbstractContext implements Context {
     private LuDao luDao;
 
-    /**
+	/**
+	 * <p>These common shared tokens are needed since velocity doesn't 
+	 * allow periods in tokens.</p>
+	 * <p>E.g. reqCompFieldType.totalCredits must either be convert to 
+	 * totalCredits or reqCompFieldType_totalCredits so a template would look 
+	 * like:</p>
+	 * <p>'Student must take $totalCredits of MATH 100'</p>
+	 * or
+	 * <p>'Student must take $reqCompFieldType_totalCredits of MATH 100'</p>
+	 */
+	final static String CLU_TOKEN = "clu";
+	final static String CLU_SET_TOKEN = "cluSet";
+	final static String EXPECTED_VALUE_TOKEN = "expectedValue";
+	final static String OPERATOR_TOKEN = "relationalOperator";
+
+	public AbstractContext() {
+	}
+
+	/**
      * Sets the LU DAO.
      * 
      * @param luDao LU DAO
@@ -28,8 +47,7 @@ public abstract class AbstractContext implements Context {
     /**
      * Gets the CLU set.
      * 
-     * @param cluSetId
-     *            CLU set id
+     * @param cluSetId CLU set id
      * @return CLU set
      * @throws DoesNotExistException If CLU set does not exist
      */
@@ -58,12 +76,32 @@ public abstract class AbstractContext implements Context {
     }
 
     /**
+     * Gets a custom CLU set from a requirement component.
+     * 
+     * @param reqComponent Requirement component
+     * @return custom CLU set
+     * @throws DoesNotExistException
+     */
+    public CustomCluSet getCluSet(ReqComponent reqComponent) throws DoesNotExistException {
+        Map<String, String> map = getReqCompField(reqComponent);
+    	CustomCluSet cluSet = null;
+    	if(map.containsKey(ReqComponentTypes.ReqCompFieldTypes.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqComponentTypes.ReqCompFieldTypes.CLU_KEY.getKey());
+        	cluSet = getClusAsCluSet(cluIds);
+        } else if(map.containsKey(ReqComponentTypes.ReqCompFieldTypes.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqComponentTypes.ReqCompFieldTypes.CLUSET_KEY.getKey());
+            cluSet = getCluSet(cluSetId);
+        }
+    	return cluSet;
+    }
+
+    /**
      * Gets requirement component fields as a map.
      * 
      * @param reqComponent Requirement Component
      * @return Map of requirement component fields
      */
-    public Map<String, String> getReqCompField(ReqComponent reqComponent) {
+    private Map<String, String> getReqCompField(ReqComponent reqComponent) {
         List<ReqComponentField> fields = reqComponent.getReqCompField();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqComponentField field : fields) {
@@ -74,5 +112,23 @@ public abstract class AbstractContext implements Context {
         return map;
     }
 
+    /**
+     * Gets the value of the ReqComponentField key. 
+     * See {@link ReqComponentField#getKey()} 
+     * 
+     * @param reqComponent Requirement Component
+     * @param key <code>ReqComponentField</code> key
+     * @return Value of <code>ReqComponentField</code>
+     */
+    public String getReqCompFieldValue(ReqComponent reqComponent, String key) {
+        return getReqCompField(reqComponent).get(key);
+    }
+
+    /**
+     * Creates the context map (template data) for the requirement component.
+     * 
+     * @param reqComponent Requirement component
+     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     */
 	public abstract Map<String, Object> createContextMap(ReqComponent reqComponent) throws DoesNotExistException;
 }

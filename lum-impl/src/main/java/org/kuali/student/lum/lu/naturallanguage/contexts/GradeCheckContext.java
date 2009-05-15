@@ -5,24 +5,24 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.entity.ReqComponent;
-import org.kuali.student.lum.lu.naturallanguage.util.ReqCompTypes;
+import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 
+/**
+ * This class creates the template context for grade check type.
+ */
 public class GradeCheckContext extends AbstractContext {
-
+	/** GPA template token */ 
+	private final static String GPA_TOKEN = "gpa";
+	
     /**
-     * Creates the Velocity context map (template data) for the requirement component.
+     * Creates the context map (template data) for the requirement component.
      * 
-     * @param reqComponent
-     *            Requirement component
-     * @param velocityContextMap
-     *            Context map
-     * @throws DoesNotExistException
+     * @param reqComponent Requirement component
+     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws DoesNotExistException {
-        Map<String, String> map = super.getReqCompField(reqComponent);
-
     	Map<String, Object> contextMap = new HashMap<String, Object>();
-    	contextMap.put(ReqCompTypes.VelocityToken.GPA.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.GPA_KEY.getKey()));
+    	contextMap.put(GPA_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.GPA_KEY.getKey()));
 
         return contextMap;
     }

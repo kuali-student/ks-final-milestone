@@ -5,36 +5,27 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.entity.ReqComponent;
-import org.kuali.student.lum.lu.naturallanguage.util.CustomCluSet;
-import org.kuali.student.lum.lu.naturallanguage.util.ReqCompTypes;
+import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 
+/**
+ * This class creates the template context for grade condition type.
+ */
 public class GradeConditionCourseListContext extends AbstractContext {
+	/** Total credits template token */ 
+	private final static String TOTAL_CREDITS_TOKEN = "totalCredits";
 
     /**
-     * Creates the Velocity context map (template data) for the requirement component.
+     * Creates the context map (template data) for the requirement component.
      * 
-     * @param reqComponent
-     *            Requirement component
-     * @param velocityContextMap
-     *            Context map
+     * @param reqComponent Requirement component
      * @throws DoesNotExistException
+     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws DoesNotExistException {
-        Map<String, String> map = super.getReqCompField(reqComponent);
-
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
-        contextMap.put(ReqCompTypes.VelocityToken.TOTAL_CREDITS.getKey(), map.get(ReqCompTypes.ReqCompFieldDefinitions.TOTAL_CREDIT_KEY.getKey()));
-
-        if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY.getKey())) {
-        	String cluIds = map.get(ReqCompTypes.ReqCompFieldDefinitions.CLU_KEY.getKey());
-        	CustomCluSet cluSet = getClusAsCluSet(cluIds);
-        	contextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
-        } else if(map.containsKey(ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY.getKey())) {
-        	String cluSetId = map.get(ReqCompTypes.ReqCompFieldDefinitions.CLUSET_KEY.getKey());
-            CustomCluSet cluSet = getCluSet(cluSetId);
-            contextMap.put(ReqCompTypes.VelocityToken.CLU_SET_KEY.getKey(), cluSet);
-        }
+        contextMap.put(TOTAL_CREDITS_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.TOTAL_CREDIT_KEY.getKey()));
+        contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
         return contextMap;
     }
