@@ -101,7 +101,7 @@ public class CourseBeginProposal extends Composite{
         CluInfo clu = new CluInfo();
         
         CluIdentifierInfo cluId = new CluIdentifierInfo();
-        cluId.setLongName(form.getFieldValue(PROPOSED_TITLE));
+        cluId.setLongName(form.getFieldText(PROPOSED_TITLE));
         clu.setOfficialIdentifier(cluId);
         
         CluInstructorInfo cluInstructor = new CluInstructorInfo();

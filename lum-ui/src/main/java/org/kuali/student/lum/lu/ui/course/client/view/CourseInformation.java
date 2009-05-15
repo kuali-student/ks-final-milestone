@@ -60,10 +60,10 @@ public class CourseInformation extends CourseSection{
     public CluInfo convert(){
         CluInfo clu = getCourseInformation();
         
-        clu.getOfficialIdentifier().setLongName(getForm().getFieldValue("proposedTitle"));
-        clu.getOfficialIdentifier().setShortName(getForm().getFieldValue("transcriptTitle"));
+        clu.getOfficialIdentifier().setLongName(getForm().getFieldText("proposedTitle"));
+        clu.getOfficialIdentifier().setShortName(getForm().getFieldText("transcriptTitle"));
         
-        String desc = getForm().getFieldValue("description");
+        String desc = getForm().getFieldText("description");
         if (clu.getDesc() == null){
             RichTextInfo richTextDesc = new RichTextInfo();
             richTextDesc.setFormatted(desc);
@@ -72,7 +72,7 @@ public class CourseInformation extends CourseSection{
             clu.getDesc().setFormatted(desc);
         }
         
-        String rationale = getForm().getFieldValue("rationale");
+        String rationale = getForm().getFieldText("rationale");
         if (clu.getMarketingDesc() == null){
             RichTextInfo richTextRationale = new RichTextInfo();
             richTextRationale.setFormatted(rationale);
