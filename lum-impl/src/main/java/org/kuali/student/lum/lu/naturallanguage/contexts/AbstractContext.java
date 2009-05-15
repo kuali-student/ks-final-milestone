@@ -27,11 +27,14 @@ public abstract class AbstractContext implements Context {
 	 * or
 	 * <p>'Student must take $reqCompFieldType_totalCredits of MATH 100'</p>
 	 */
-	final static String CLU_TOKEN = "clu";
-	final static String CLU_SET_TOKEN = "cluSet";
-	final static String EXPECTED_VALUE_TOKEN = "expectedValue";
-	final static String OPERATOR_TOKEN = "relationalOperator";
+	protected final static String CLU_TOKEN = "clu";
+	protected final static String CLU_SET_TOKEN = "cluSet";
+	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
+	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
+	/*
+	 * Constructor.
+	 */
 	public AbstractContext() {
 	}
 
