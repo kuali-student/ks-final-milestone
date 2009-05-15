@@ -109,6 +109,10 @@
 			</activation>
 
 			<repositories>
+                <repository>
+		            <id>ibiblio.maven</id>
+		            <url>http://www.ibiblio.org/maven</url>
+                </repository>
 				<repository>
 					<id>maven2-repository.dev.java.net</id>
 					<url>http://download.java.net/maven/2</url>
