@@ -30,6 +30,11 @@
 				<configuration>
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
+					<!-- defines which page should be launched when run in hosted mode -->
+					<startupUrl>org.kuali.student.lum.ui.requirements.Requirements/Requirements.html</startupUrl>
+					<runTarget>
+						org.kuali.student.lum.ui.requirements.Requirements
+					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
 						<param>
