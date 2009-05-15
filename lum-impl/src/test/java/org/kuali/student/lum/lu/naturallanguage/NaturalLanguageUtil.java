@@ -9,9 +9,9 @@ import org.kuali.student.lum.lu.entity.CluIdentifier;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
-import org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContext;
-import org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContext;
-import org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContext;
+import org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContextImpl;
+import org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContextImpl;
+import org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContextImpl;
 
 public class NaturalLanguageUtil {
 	public static String createCluSet(LuDao luDao) {
@@ -80,18 +80,18 @@ public class NaturalLanguageUtil {
 
     public static ContextRegistry getContextRegistry(LuDao luDao) {
     	ContextRegistry contextRegistry = new ContextRegistry();
-    	CourseListContext courseListContext = new CourseListContext();
+    	CourseListContextImpl courseListContext = new CourseListContextImpl();
     	courseListContext.setLuDao(luDao);
     	contextRegistry.put("kuali.reqCompType.courseList.none", courseListContext);
     	contextRegistry.put("kuali.reqCompType.courseList.all", courseListContext);
     	contextRegistry.put("kuali.reqCompType.courseList.nof", courseListContext);
     	contextRegistry.put("kuali.reqCompType.courseList.1of2", courseListContext);
 
-    	GradeConditionCourseListContext gradeConditionCourseListContext = new GradeConditionCourseListContext();
+    	GradeConditionCourseListContextImpl gradeConditionCourseListContext = new GradeConditionCourseListContextImpl();
     	gradeConditionCourseListContext.setLuDao(luDao);
     	contextRegistry.put("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
     	
-    	GradeCheckContext gradeCheckContext = new GradeCheckContext();
+    	GradeCheckContextImpl gradeCheckContext = new GradeCheckContextImpl();
     	gradeConditionCourseListContext.setLuDao(luDao);
     	contextRegistry.put("kuali.reqCompType.gradecheck", gradeCheckContext);
     	

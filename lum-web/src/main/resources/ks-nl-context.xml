@@ -4,7 +4,7 @@
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-    <bean id="courseListContext" class="org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContext">
+    <bean id="courseListContext" class="org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContextImpl">
         <property name="luDao" ref="luDao" />
     </bean>
     
@@ -25,12 +25,12 @@
                     <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.grdCondCourseList">
-                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContext">
+                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContextImpl">
                         <property name="luDao" ref="luDao" />
                     </bean>
                 </entry>
                 <entry key="kuali.reqCompType.gradecheck">
-                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContext">
+                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContextImpl">
                         <property name="luDao" ref="luDao" />
                     </bean>
                 </entry>
