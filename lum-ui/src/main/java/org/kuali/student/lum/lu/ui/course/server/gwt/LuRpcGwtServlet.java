@@ -15,7 +15,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.kuali.student.common.ui.server.BaseRpcGwtServletAbstract;
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
