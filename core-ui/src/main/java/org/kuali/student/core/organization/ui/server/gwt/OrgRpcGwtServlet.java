@@ -24,7 +24,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
-public class OrgRpcServiceGwt extends BaseRpcGwtServletAbstract<OrganizationService> implements OrgRpcService{
+public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationService> implements OrgRpcService{
 
 	private static final long serialVersionUID = 1L;
 

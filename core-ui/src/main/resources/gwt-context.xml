@@ -24,8 +24,8 @@
 	
 	<!-- Controllers -->
 	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="orgRpcServiceGwt"/>
-		<property name="servletInstance" ref="orgRpcServiceGwt"/>
+		<property name="servletName" value="orgRpcGwtServlet"/>
+		<property name="servletInstance" ref="orgRpcGwtServlet"/>
 	</bean>
 	
 	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -34,7 +34,7 @@
 	</bean>
 	
 	<!-- GWT Servlets -->
-	<bean id="orgRpcServiceGwt" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt">
+	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
 	</bean>
 
