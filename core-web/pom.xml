@@ -50,6 +50,7 @@
         		<artifactId>tomcat-maven-plugin</artifactId>
 		        <configuration>
 		        	<server>ks-core-web</server>
+		        	<port>8181</port>
 		        </configuration>
 		    </plugin>
 		</plugins>
