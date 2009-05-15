@@ -13,6 +13,8 @@
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+    <import resource="ks-nl-context.xml"/>
+    
 	<bean id="propertyConfigurer"
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -97,11 +99,6 @@
 	<bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />	
 	</bean>
-
-    <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslatorImpl">
-        <property name="luDao" ref="luDao" />
-    </bean>
 
 	<!-- Preloaded data -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.util;
 
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -29,7 +29,7 @@ public class CustomCluSet {
 			sb.append(clu.getOfficialIdentifier().getShortName());
 			sb.append(", ");
 		}
-		return (sb.length() == 0 ? "No Clus available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
+		return getString(sb);
 	}
 
 	public String getCluSetAsLongName() {
@@ -38,7 +38,7 @@ public class CustomCluSet {
 			sb.append(clu.getOfficialIdentifier().getShortName());
 			sb.append(", ");
 		}
-		return (sb.length() == 0 ? "No Clus available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
+		return getString(sb);
 	}
 
 	public String getCluSetAsCode() {
@@ -47,6 +47,10 @@ public class CustomCluSet {
 			sb.append(clu.getOfficialIdentifier().getCode());
 			sb.append(", ");
 		}
+		return getString(sb);
+	}
+	
+	private String getString(StringBuilder sb) {
 		return (sb.length() == 0 ? "No Clus available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
 	}
 }

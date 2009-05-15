@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.naturallanguage.translators.StatementParser;
+import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class StatementParserTest {

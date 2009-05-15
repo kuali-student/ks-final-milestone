@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,9 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
-import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
+import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
+import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
@@ -33,14 +35,6 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	private String cluId1;
 	private String cluId2;
 	private ReqComponent reqComponent;
-//    private String courseTemplate = 
-//		"#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue)) \n" +
-//		"  Student must have completed all of $cluSet.getCluSetAsShortName() \n" +
-//		"#elseif($mathTool.toNumber($expectedValue) <= 0 && ($relationalOperator == 'less_than' || $relationalOperator == 'less_than_or_equal_to') ) \n" +
-//		"  Student must have completed none of $cluSet.getCluSetAsShortName() \n" +
-//		"#else \n" +
-//		"  Student must have completed $expectedValue of $cluSet.getCluSetAsShortName() \n" +
-//		"#end";
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -52,9 +46,11 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 
     @Before
     public void setUp() throws Exception {
+    	ContextRegistry contextRegistry = NaturalLanguageUtil.getContextRegistry(this.luDao);
     	createCluSet();
 		this.translator = new ReqComponentTranslator();
 		this.translator.setLuDao(this.luDao);
+		this.translator.setContextRegistry(contextRegistry);
     }
     
     @After
@@ -102,23 +98,6 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     private void createReqComponent(String nlUsageTypeKey, String reqComponentType) throws DoesNotExistException {
     	this.reqComponent = new ReqComponent();
 		ReqComponentType reqCompType = this.luDao.fetch(ReqComponentType.class, reqComponentType);
-
-/*		ReqComponentType reqCompType = new ReqComponentType();
-//		reqCompType.setId("kuali.reqCompType.courseList.nof");
-		reqCompType.setId(reqComponentType);
-		reqCompType.setName(reqComponentType);
-		
-		ReqComponentTypeNLTemplate templateType = new ReqComponentTypeNLTemplate();
-		templateType.setNlUsageTypeKey(nlUsageTypeKey);
-		templateType.setTemplate(this.courseTemplate);
-		templateType = this.luDao.create(templateType);
-
-		List<ReqComponentTypeNLTemplate> templateList = new ArrayList<ReqComponentTypeNLTemplate>();
-		templateList.add(templateType);
-		
-		reqCompType.setNlUsageTemplates(templateList);
-		//reqCompType = this.luDao.create(reqCompType);
-*/		
 		this.reqComponent.setRequiredComponentType(reqCompType);
 		this.reqComponent = this.luDao.create(this.reqComponent);
     }
@@ -126,9 +105,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     private ReqComponent createReqComponentFromType(String nlUsageTypeKey, String reqComponentType) throws DoesNotExistException {
     	ReqComponent reqComponent = new ReqComponent();
 		ReqComponentType reqCompType = this.luDao.fetch(ReqComponentType.class, reqComponentType);
-		
 		reqComponent.setRequiredComponentType(reqCompType);
-		//this.reqComponent = this.luDao.create(this.reqComponent);
 		return reqComponent;
     }
     

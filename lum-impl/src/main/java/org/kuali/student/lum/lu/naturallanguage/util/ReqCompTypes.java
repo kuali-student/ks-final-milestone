@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.util;
 
 public class ReqCompTypes {
 
@@ -26,7 +26,7 @@ public class ReqCompTypes {
 			this.key = key;
 		}
 		
-		String getKey() {
+		public String getKey() {
 			return this.key;
 		}
 	}
@@ -48,7 +48,7 @@ public class ReqCompTypes {
 			this.key = key;
 		}
 		
-		String getKey() {
+		public String getKey() {
 			return this.key;
 		}
 	}
@@ -68,11 +68,11 @@ public class ReqCompTypes {
 			this.key = key;
 		}
 		
-		String getKey() {
+		public String getKey() {
 			return this.key;
 		}
 		
-		static CustomReqComponentType valueOfKey(String key) {
+		public static CustomReqComponentType valueOfKey(String key) {
 	        if (key == null) {
 	            throw new NullPointerException("Key is null");
 	        }
@@ -118,7 +118,7 @@ public class ReqCompTypes {
 			this.operator = operator;
 		}
 		
-		String getKey() {
+		public String getKey() {
 			return this.operator;
 		}
 	}	

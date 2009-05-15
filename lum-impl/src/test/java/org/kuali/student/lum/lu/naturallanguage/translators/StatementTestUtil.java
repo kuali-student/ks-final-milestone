@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.ArrayList;
 import java.util.List;

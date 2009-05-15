@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +18,10 @@ import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
+import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
+import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator;
+import org.kuali.student.lum.lu.naturallanguage.translators.StatementTranslator;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -39,7 +43,15 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
     public void setUp() throws Exception {
     	statementTestUtil = new StatementTestUtil();
     	statementTestUtil.setLuDao(luDao);
-		this.translator = new StatementTranslator();
+
+    	ContextRegistry contextRegistry = NaturalLanguageUtil.getContextRegistry(this.luDao);
+
+    	ReqComponentTranslator reqComponentTranslator = new ReqComponentTranslator();
+    	reqComponentTranslator.setLuDao(this.luDao);
+    	reqComponentTranslator.setContextRegistry(contextRegistry);
+
+    	this.translator = new StatementTranslator();
+    	this.translator.setReqComponentTranslator(reqComponentTranslator);
 		this.translator.setLuDao(this.luDao);
     }
     

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.util;
 
 import org.kuali.student.lum.lu.entity.ReqComponent;
 

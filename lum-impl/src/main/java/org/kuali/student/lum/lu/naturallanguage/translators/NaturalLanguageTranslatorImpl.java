@@ -1,31 +1,27 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslator;
 
 public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator {
-	private LuDao luDao;
-	private ReqComponentTranslator reqComponentTranslator = new ReqComponentTranslator();
-	private StatementTranslator statementTranslator = new StatementTranslator();
+	private ReqComponentTranslator reqComponentTranslator;
+	private StatementTranslator statementTranslator;
 	
 	public NaturalLanguageTranslatorImpl() {
 	}
 
-	/**
-	 * Sets the LU DAO.
-	 * 
-	 * @param luDao LU DAO
-	 */
-	public void setLuDao(LuDao luDao) {
-		this.luDao = luDao;
-		this.reqComponentTranslator.setLuDao(this.luDao);
-		this.statementTranslator.setLuDao(this.luDao);
+	public void setReqComponentTranslator(ReqComponentTranslator reqComponentTranslator) {
+		this.reqComponentTranslator = reqComponentTranslator;
 	}
 
+	public void setStatementTranslator(StatementTranslator statementTranslator) {
+		this.statementTranslator = statementTranslator;
+	}
+	
 	/**
 	 * Translates a requirement component for a specific natural language 
 	 * usuage type (context) into natural language.
@@ -66,7 +62,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException
 	 */
 	public String translateStatement(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translate(cluId, statementId, nlUsageTypeKey);
+		return this.statementTranslator.translate(cluId, statementId, nlUsageTypeKey);
 	}
 
 	/**
@@ -81,7 +77,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException Translation fails
 	 */
 	public String translateStatement(String cluId, LuStatement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translate(cluId, statement, nlUsageTypeKey);
+		return this.statementTranslator.translate(cluId, statement, nlUsageTypeKey);
 	}
 
 	/**
@@ -96,7 +92,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException Translation fails
 	 */
 	public NLTranslationNodeInfo translateToTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
+		return this.statementTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
 	}
 
 	/**
@@ -111,6 +107,6 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @throws OperationFailedException Translation fails
 	 */
 	public NLTranslationNodeInfo translateToTree(String cluId, LuStatement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return statementTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
+		return this.statementTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
 	}
 }

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +21,12 @@ import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 
 public class StatementTranslator {
 	private LuDao luDao;
 	private StatementParser statementParser = new StatementParser("*", "+");
-	private ReqComponentTranslator reqComponentTranslator = new ReqComponentTranslator();
+	private ReqComponentTranslator reqComponentTranslator;
 	private SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
     private final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
     private MessageBuilder messageBuilder;
@@ -38,7 +39,10 @@ public class StatementTranslator {
 
 	public void setLuDao(LuDao luDao) {
 		this.luDao = luDao;
-		this.reqComponentTranslator.setLuDao(this.luDao);
+	}
+	
+	public void setReqComponentTranslator(ReqComponentTranslator reqComponentTranslator) {
+		this.reqComponentTranslator = reqComponentTranslator;
 	}
 
 	public String translate(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
@@ -52,9 +56,9 @@ public class StatementTranslator {
 			return null;
 		}
 
-		String booleanExpression = statementParser.getBooleanExpressionAsReqComponents(luStatement);
+		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(luStatement);
 
-		List<CustomReqComponent> reqComponentList = statementParser.getLeafReqComponents(luStatement);
+		List<CustomReqComponent> reqComponentList = this.statementParser.getLeafReqComponents(luStatement);
 
 		MessageContainer messageContainer = new MessageContainer();
 

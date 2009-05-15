@@ -9,8 +9,11 @@ import org.kuali.student.lum.lu.entity.CluIdentifier;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
+import org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContext;
+import org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContext;
+import org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContext;
 
-public class CluUtil {
+public class NaturalLanguageUtil {
 	public static String createCluSet(LuDao luDao) {
     	Clu clu1 = new Clu();
     	CluIdentifier cluId1 = new CluIdentifier();
@@ -75,4 +78,23 @@ public class CluUtil {
     }
 
 
+    public static ContextRegistry getContextRegistry(LuDao luDao) {
+    	ContextRegistry contextRegistry = new ContextRegistry();
+    	CourseListContext courseListContext = new CourseListContext();
+    	courseListContext.setLuDao(luDao);
+    	contextRegistry.put("kuali.reqCompType.courseList.none", courseListContext);
+    	contextRegistry.put("kuali.reqCompType.courseList.all", courseListContext);
+    	contextRegistry.put("kuali.reqCompType.courseList.nof", courseListContext);
+    	contextRegistry.put("kuali.reqCompType.courseList.1of2", courseListContext);
+
+    	GradeConditionCourseListContext gradeConditionCourseListContext = new GradeConditionCourseListContext();
+    	gradeConditionCourseListContext.setLuDao(luDao);
+    	contextRegistry.put("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
+    	
+    	GradeCheckContext gradeCheckContext = new GradeCheckContext();
+    	gradeConditionCourseListContext.setLuDao(luDao);
+    	contextRegistry.put("kuali.reqCompType.gradecheck", gradeCheckContext);
+    	
+    	return contextRegistry;
+    }
 }

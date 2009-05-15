@@ -4,6 +4,8 @@
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
+	<import resource="nl-additional-context.xml"/>
+	
 	<bean id="searchManager"
 		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
 		autowire="byType">
@@ -14,9 +16,4 @@
 	   class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
-
-    <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslatorImpl">
-        <property name="luDao" ref="LuDaoImpl" />
-    </bean>
 </beans>

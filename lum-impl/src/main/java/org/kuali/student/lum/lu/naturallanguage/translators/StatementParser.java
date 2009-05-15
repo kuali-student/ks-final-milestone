@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.naturallanguage;
+package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.Map;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class StatementParser {
