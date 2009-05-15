@@ -35,6 +35,9 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/MessageService">
 					<ref bean="messageServiceGwtController" />
 				</entry>
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/OrgRpcService">
+					<ref bean="OrgRpcGwtServletController"/>
+				</entry>								
 			</map>
 		</property>
 	</bean>
@@ -49,10 +52,15 @@
 		<property name="servletName" value="LuRpcGwtServlet"/>
 		<property name="servletInstance" ref="LuRpcGwtServlet"/>
 	</bean>
-	
+		
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="messagesServiceGwt" />
 		<property name="servletInstance" ref="messagesServiceGwt" />
+	</bean>
+
+	<bean id="OrgRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="orgRpcGwtServlet"/>
+		<property name="servletInstance" ref="orgRpcGwtServlet"/>
 	</bean>
 	
 	<!-- GWT Servlets -->
@@ -67,6 +75,10 @@
 	<bean id="messagesServiceGwt"
 		class="org.kuali.student.common.ui.server.messages.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />
+	</bean>
+
+	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
+		<property name="service" ref="orgClient"/>
 	</bean>
 
 	<!-- Service Implementations -->
@@ -94,5 +106,16 @@
 		<property name="address"
 			value="${ks.lum.serviceAddress}"/>
 	</bean>
+	
+	<bean id="orgClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/OrganizationService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceQNameString"
+			value="{http://org.kuali.student/core/organization}OrganizationService" />
+		<property name="address" value="${ks.core.org.serviceAddress}"/>		
+	</bean>	
 
 </beans>
