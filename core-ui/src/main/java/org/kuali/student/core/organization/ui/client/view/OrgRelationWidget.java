@@ -123,7 +123,9 @@ class OrgRelationWidget extends OrgMultiWidget {
                             //Disable editing of rel org id and name
                             ((FocusWidget)orgRelForm.getFieldWidget("relOrgId")).setEnabled(false);
                             ((FocusWidget)orgRelForm.getFieldWidget("relOrgName")).setEnabled(false);
-
+                            
+                            orgRelForm.setFieldValue("relNote", orgRelationInfo.getAttributes().get("Note"));
+                            
                             ((KSDatePicker)orgRelForm.getFieldWidget("relEffDate")).setValue(orgRelationInfo.getEffectiveDate());
                             ((KSDatePicker)orgRelForm.getFieldWidget("relExpDate")).setValue(orgRelationInfo.getExpirationDate());
                         }
@@ -268,6 +270,8 @@ class OrgRelationWidget extends OrgMultiWidget {
             
             orgRelationInfo.setEffectiveDate((Date)form.getFieldValue("relEffDate"));
             orgRelationInfo.setExpirationDate((Date)form.getFieldValue("relExpDate"));
+            
+            orgRelationInfo.getAttributes().put("Note", (String) form.getFieldValue("relNote"));
             
             if (orgRelationInfo.getId() == null){
                 OrgRpcService.Util.getInstance().createOrgOrgRelation(orgRelationInfo, 
