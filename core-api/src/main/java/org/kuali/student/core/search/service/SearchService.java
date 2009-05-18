@@ -57,7 +57,7 @@ public interface SearchService {
      * @throws OperationFailedException unable to complete request
 	 */
     @RequestWrapper(className="org.kuali.student.core.search.service.jaxws.GetSearchType", targetNamespace="http://org.kuali.student/core/search")    
-    @ResponseWrapper(className="org.kuali.student.core.search.service.jaxws.GetSearchTypesResponse", targetNamespace="http://org.kuali.student/core/search")
+    @ResponseWrapper(className="org.kuali.student.core.search.service.jaxws.GetSearchTypeResponse", targetNamespace="http://org.kuali.student/core/search")
     public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey")String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
