@@ -110,8 +110,10 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     @Override
     public void onLoad() {               
         Runnable onLoadCallback = new Runnable() {
-              public void run() {     
-                redraw();
+              public void run() {
+                  if (getListItems() != null){
+                      redraw();
+                  }
             };
         };
         AjaxLoader.loadVisualizationApi(onLoadCallback, Table.PACKAGE);
