@@ -51,7 +51,7 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/exceptions" xmlns:ns1="http://org.kuali.student/core/search" xmlns:ns2="http://org.kuali.student/core/dictionary" xmlns:tns="http://org.kuali.student/core/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/organization">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/exceptions" xmlns:ns1="http://org.kuali.student/core/search" xmlns:ns2="http://org.kuali.student/core/dictionary" xmlns:ns3="http://student.kuali.org/core/enumerable" xmlns:tns="http://org.kuali.student/core/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/organization">
     <xs:import namespace="http://org.kuali.student/core/search"/>
     <xs:import namespace="http://org.kuali.student/core/dictionary"/>
     <xs:import namespace="http://org.kuali.student/core/exceptions"/>
@@ -94,8 +94,6 @@
     <xs:element name="getAllOrgPersonRelationsByPersonResponse" type="tns:getAllOrgPersonRelationsByPersonResponse"/>
     <xs:element name="getAncestors" type="tns:getAncestors"/>
     <xs:element name="getAncestorsResponse" type="tns:getAncestorsResponse"/>
-    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
     <xs:element name="getOrgHierarchies" type="tns:getOrgHierarchies"/>
     <xs:element name="getOrgHierarchiesResponse" type="tns:getOrgHierarchiesResponse"/>
     <xs:element name="getOrgHierarchy" type="tns:getOrgHierarchy"/>
@@ -878,39 +876,6 @@
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:orgOrgRelationTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getEnumeration">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="code" type="xs:string"/>
-                        <xs:element name="abbrevValue" type="xs:string"/>
-                        <xs:element name="effectiveDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
-                        <xs:element maxOccurs="unbounded" name="contexts">
-                            <xs:complexType>
-                                <xs:simpleContent>
-                                    <xs:extension base="xs:string">
-                                        <xs:attribute name="type" type="xs:string" use="required"/>
-                                    </xs:extension>
-                                </xs:simpleContent>
-                            </xs:complexType>
-                        </xs:element>
-                        <xs:element name="value" type="xs:string"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
     <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
     <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
     <xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
@@ -944,13 +909,53 @@
     <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns1:getSearchTypesByCriteria"/>
     <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns1:getSearchTypesByCriteriaResponse"/>
     <xs:element name="getSearchType" nillable="true" type="ns1:getSearchType"/>
-    <xs:element name="getSearchTypeResponse" nillable="true" type="ns1:getSearchTypesResponse"/>
+    <xs:element name="getSearchTypeResponse" nillable="true" type="ns1:getSearchTypeResponse"/>
+    <xs:element name="getEnumeration" nillable="true" type="ns3:getEnumeration"/>
+    <xs:element name="getEnumerationResponse" nillable="true" type="ns3:getEnumerationResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.kuali.student/core/organization" xmlns:tns="http://student.kuali.org/core/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/core/enumerable">
+    <xs:import namespace="http://org.kuali.student/core/organization"/>
+    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
+    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
+    <xs:complexType name="getEnumeration">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="code" type="xs:string"/>
+                        <xs:element name="abbrevValue" type="xs:string"/>
+                        <xs:element name="effectiveDate" type="xs:dateTime"/>
+                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
+                        <xs:element maxOccurs="unbounded" name="contexts">
+                            <xs:complexType>
+                                <xs:simpleContent>
+                                    <xs:extension base="xs:string">
+                                        <xs:attribute name="type" type="xs:string" use="required"/>
+                                    </xs:extension>
+                                </xs:simpleContent>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="value" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.kuali.student/core/dictionary">
     <xs:element name="Dictionary">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:objectStructure"/>
+                <xs:element maxOccurs="unbounded" name="objectStructure" type="tns:objectStructure"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -984,6 +989,7 @@
                 <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
                 <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
                 <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+                <xs:element name="readOnly" type="xs:boolean"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -991,44 +997,20 @@
     <xs:element name="field">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="tns:fieldDescriptor"/>
+                <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldItem"/>
                 <xs:element name="selector" type="xs:boolean"/>
                 <xs:element name="dynamic" type="xs:boolean"/>
+                <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+                <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
             </xs:sequence>
             <xs:attribute name="key" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="fieldDescriptor">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-                <xs:element name="desc" type="xs:string"/>
-                <xs:element name="dataType" type="xs:string"/>
-                <xs:element minOccurs="0" name="minValue" type="xs:string"/>
-                <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
-                <xs:element minOccurs="0" name="minLength" type="xs:int"/>
-                <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
-                <xs:element minOccurs="0" name="validChars" type="xs:string"/>
-                <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
-                <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-                <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
-                <xs:element name="readOnly" type="xs:boolean"/>
-                <xs:element minOccurs="0" ref="tns:enum"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
     <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
     <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
     <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
-    <xs:element name="objectStructure">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:type"/>
-            </xs:sequence>
-            <xs:attribute name="objectTypeKey" type="xs:string" use="required"/>
-        </xs:complexType>
-    </xs:element>
     <xs:element name="state">
         <xs:complexType>
             <xs:sequence>
@@ -1061,6 +1043,30 @@
             <xs:element form="unqualified" name="return" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="fieldDescriptor">
+        <xs:complexContent>
+            <xs:extension base="tns:fieldItem">
+                <xs:sequence>
+                    <xs:element name="dataType" type="xs:string"/>
+                    <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+                    <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+                    <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+                    <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+                    <xs:element minOccurs="0" name="validChars" type="xs:string"/>
+                    <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
+                    <xs:element minOccurs="0" ref="tns:enum"/>
+                    <xs:element minOccurs="0" name="searchTypeId" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType abstract="true" name="fieldItem">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="desc" type="xs:string"/>
+            <xs:element name="readOnly" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="enum">
         <xs:sequence>
             <xs:element minOccurs="0" name="contexts">
@@ -1087,15 +1093,18 @@
     </xs:complexType>
     <xs:complexType name="getObjectStructureResponse">
         <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="return">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" ref="tns:type"/>
-                    </xs:sequence>
-                    <xs:attribute name="objectTypeKey" type="xs:string" use="required"/>
-                </xs:complexType>
-            </xs:element>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="objectStructure">
+        <xs:complexContent>
+            <xs:extension base="tns:fieldItem">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" ref="tns:type"/>
+                </xs:sequence>
+                <xs:attribute name="objectTypeKey" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="getObjectTypes">
         <xs:sequence/>
@@ -1129,6 +1138,7 @@
     <xs:element name="getSearchResultTypes" type="tns:getSearchResultTypes"/>
     <xs:element name="getSearchResultTypesResponse" type="tns:getSearchResultTypesResponse"/>
     <xs:element name="getSearchType" type="tns:getSearchType"/>
+    <xs:element name="getSearchTypeResponse" type="tns:getSearchTypeResponse"/>
     <xs:element name="getSearchTypes" type="tns:getSearchTypes"/>
     <xs:element name="getSearchTypesByCriteria" type="tns:getSearchTypesByCriteria"/>
     <xs:element name="getSearchTypesByCriteriaResponse" type="tns:getSearchTypesByCriteriaResponse"/>
@@ -1317,6 +1327,11 @@
     <xs:complexType name="getSearchType">
         <xs:sequence>
             <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSearchTypeResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
