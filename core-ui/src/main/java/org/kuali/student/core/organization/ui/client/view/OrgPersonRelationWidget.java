@@ -39,7 +39,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.person.dto.PersonInfo;
-import org.kuali.student.core.person.ui.client.service.PersonRpc;
+import org.kuali.student.core.person.ui.client.service.PersonRpcService;
 import org.kuali.student.core.person.ui.client.view.PersonSearchWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -250,7 +250,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                             orgPersonRelForm.setFieldValue("relPersonId",orgPersonRelationInfo.getPersonId());
                             final String orgPersonRelType = orgPersonRelationInfo.getType();
                             
-                            PersonRpc.Util.getInstance().fetchPerson(orgPersonRelationInfo.getPersonId(), 
+                            PersonRpcService.Util.getInstance().fetchPerson(orgPersonRelationInfo.getPersonId(), 
                                     new AsyncCallback<PersonInfo>(){
 
                                         public void onFailure(Throwable caught) {

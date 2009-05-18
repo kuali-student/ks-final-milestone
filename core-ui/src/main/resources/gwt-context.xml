@@ -15,7 +15,7 @@
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
 				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpc">
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpcService">
 					<ref bean="personRpcGwtServletController"/>
 				</entry>
 			</map>

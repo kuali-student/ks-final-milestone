@@ -6,14 +6,14 @@ import java.util.List;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonNameInfo;
 import org.kuali.student.core.person.service.PersonService;
-import org.kuali.student.core.person.ui.client.service.PersonRpc;
+import org.kuali.student.core.person.ui.client.service.PersonRpcService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class PersonRpcGwtServlet extends RemoteServiceServlet implements PersonRpc {
+public class PersonRpcGwtServlet extends RemoteServiceServlet implements PersonRpcService {
 
 	private static final long serialVersionUID = 3797505861921543183L;
 	

@@ -10,16 +10,16 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-public interface PersonRpc extends RemoteService {
+public interface PersonRpcService extends RemoteService {
 	
-	public static final String SERVICE_URI = "PersonRpc";
+	public static final String SERVICE_URI = "PersonRpcService";
 
 	public static class Util {
 
-		public static PersonRpcAsync getInstance() {
+		public static PersonRpcServiceAsync getInstance() {
 
-			PersonRpcAsync instance = (PersonRpcAsync) GWT
-					.create(PersonRpc.class);
+			PersonRpcServiceAsync instance = (PersonRpcServiceAsync) GWT
+					.create(PersonRpcService.class);
 			ServiceDefTarget target = (ServiceDefTarget) instance;
 			target.setServiceEntryPoint(GWT.getModuleBaseURL() + SERVICE_URI);
 			return instance;

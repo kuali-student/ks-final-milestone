@@ -13,7 +13,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.person.dto.PersonInfo;
-import org.kuali.student.core.person.ui.client.service.PersonRpc;
+import org.kuali.student.core.person.ui.client.service.PersonRpcService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 
@@ -73,7 +73,7 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
                     String personId ;
                     personId = resultTable.getSelectedItems().get(0);
 
-                    PersonRpc.Util.getInstance().fetchPerson(personId, new AsyncCallback<PersonInfo>(){
+                    PersonRpcService.Util.getInstance().fetchPerson(personId, new AsyncCallback<PersonInfo>(){
                         public void onFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                         }
@@ -103,7 +103,7 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
         qpv1.setValue(personName.getText().replace('*', '%'));
         queryParamValues.add(qpv1);
         
-        PersonRpc.Util.getInstance().searchForResults("person.search.personQuickViewByGivenName", 
+        PersonRpcService.Util.getInstance().searchForResults("person.search.personQuickViewByGivenName", 
                 queryParamValues, new AsyncCallback<List<Result>>(){
 
                     public void onFailure(Throwable caught) {
