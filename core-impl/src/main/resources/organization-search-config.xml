@@ -9,6 +9,17 @@
 	 ">
 	<import resource="organization-dictionary-config.xml" />
 
+	<search:searchType id="org.search.orgHierarchyIds">
+		<search:name>All org Hierarchies</search:name>
+		<search:desc>Returns all org hierarchy ids.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgHierarchyIds" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgHierarchyIds" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
 	<search:searchType id="org.search.orgQuickViewByOrgType">
 		<search:name>Organization Quick View By Org Type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
@@ -41,6 +52,14 @@
 			<ref bean="org.criteria.orgByFirstLetter" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+
+	<search:searchResultTypeInfo id="org.result.orgHierarchyIds">
+		<search:name>Organization Quick View</search:name>
+		<search:desc>Quick view of the Organization</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgHierarchyId" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
 
 	<search:searchResultTypeInfo id="org.result.orgQuickView">
 		<search:name>Organization Quick View</search:name>
@@ -85,6 +104,12 @@
 	<search:resultColumn id="org.resultColumn.orgHierarchyName">
 		<search:name>Organization Hierarchy Name</search:name>
 		<search:desc>Name for the Hierarchy an Organization is in.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgHierarchyId">
+		<search:name>Organization Hierarchy Id</search:name>
+		<search:desc>Id for the Hierarchy an Organization is in.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
@@ -157,7 +182,7 @@
 	
 	<search:queryParam id="org.queryParam.orgHierarchyId">
 		<dict:fieldDescriptor>
-			<ref bean="childFieldDescriptor" />
+			<dict:searchTypeId>org.search.orgHierarchyIds</dict:searchTypeId>
 		</dict:fieldDescriptor>
 	</search:queryParam>
 	
@@ -166,6 +191,11 @@
 			<ref bean="childFieldDescriptor" />
 		</dict:fieldDescriptor>
 	</search:queryParam>
+
+	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds">
+		<search:name>OrgHierarchyIdsCriteria</search:name>
+		<search:desc>OrgHierarchyIdsCriteria Description</search:desc>
+	</search:searchCriteriaTypeInfo>
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
 		<search:name>OrgByOrgTypeCriteria</search:name>
@@ -195,6 +225,9 @@
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
+				<entry key="org.search.orgHierarchyIds">
+					<value>SELECT oh.id FROM OrgHierarchy oh</value>
+				</entry>
 				<entry key="org.search.orgQuickViewByOrgType">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE
 						org.type.id = :org_queryParam_orgType</value>

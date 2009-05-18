@@ -22,9 +22,11 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			List<QueryParamValue> queryParamValues) {
 
 		Query query = em.createQuery(queryString);
-		for (QueryParamValue queryParamValue : queryParamValues) {
-			query.setParameter(queryParamValue.getKey().replace(".", "_"), queryParamValue
-					.getValue());
+		if(queryParamValues!=null){
+			for (QueryParamValue queryParamValue : queryParamValues) {
+				query.setParameter(queryParamValue.getKey().replace(".", "_"), queryParamValue
+						.getValue());
+			}
 		}
 
 		// Turn into results
