@@ -82,18 +82,18 @@ public class NaturalLanguageUtil {
     	ContextRegistry contextRegistry = new ContextRegistry();
     	CourseListContextImpl courseListContext = new CourseListContextImpl();
     	courseListContext.setLuDao(luDao);
-    	contextRegistry.put("kuali.reqCompType.courseList.none", courseListContext);
-    	contextRegistry.put("kuali.reqCompType.courseList.all", courseListContext);
-    	contextRegistry.put("kuali.reqCompType.courseList.nof", courseListContext);
-    	contextRegistry.put("kuali.reqCompType.courseList.1of2", courseListContext);
+    	contextRegistry.add("kuali.reqCompType.courseList.none", courseListContext);
+    	contextRegistry.add("kuali.reqCompType.courseList.all", courseListContext);
+    	contextRegistry.add("kuali.reqCompType.courseList.nof", courseListContext);
+    	contextRegistry.add("kuali.reqCompType.courseList.1of2", courseListContext);
 
     	GradeConditionCourseListContextImpl gradeConditionCourseListContext = new GradeConditionCourseListContextImpl();
     	gradeConditionCourseListContext.setLuDao(luDao);
-    	contextRegistry.put("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
+    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
     	
     	GradeCheckContextImpl gradeCheckContext = new GradeCheckContextImpl();
     	gradeConditionCourseListContext.setLuDao(luDao);
-    	contextRegistry.put("kuali.reqCompType.gradecheck", gradeCheckContext);
+    	contextRegistry.add("kuali.reqCompType.gradecheck", gradeCheckContext);
     	
     	return contextRegistry;
     }
