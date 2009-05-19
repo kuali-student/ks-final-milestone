@@ -67,7 +67,7 @@
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 
-	<bean id="orgRpcServiceGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt">
+	<bean id="OrgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
 	</bean>
 
