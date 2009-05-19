@@ -165,6 +165,9 @@ public class PagingScrollTableBuilder<RowType> {
         }
         pagingScrollTable.setPixelSize(tablePixelWidth,tablePixelHeight);//FIXME workaround for incubator bug
         pagingScrollTable.setEmptyTableWidget(new HTML("There is no data to display"));
+        /*DefaultColumnSorter isn't initialized with GenericTableModel setting columnSorter null
+        causes table to use DefaultColumnSorter */
+        pagingScrollTable.getDataTable().setColumnSorter(null);
   
         return this.pagingScrollTable;
     }
