@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
+import org.kuali.student.common.ui.client.configurable.ConfigurableLayoutGroup;
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayoutSection;
 import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -88,4 +89,9 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 			cf.getBinding().setValue(bound, cf.getFormField().getValue());
 		}
 	}
+    @Override
+    public ConfigurableLayoutSection<T> addGroup(ConfigurableLayoutGroup<T> field) {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 }
