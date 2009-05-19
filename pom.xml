@@ -19,7 +19,6 @@
     <url>http://student.kuali.org/site/brms/${project.version}</url>
 	
 	<properties>
-		<!--drools.version>4.0.7</drools.version-->
         <drools.version>5.0.1.FINAL</drools.version>
         <velocity.version>1.5</velocity.version>
         <velocity.tools.version>1.4</velocity.tools.version>
