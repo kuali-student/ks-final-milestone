@@ -5,10 +5,8 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSConfirmButtonPanel;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -27,6 +25,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
@@ -34,13 +33,19 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSAdvancedRpcSearchWindow {
-    private KSModalDialogPanel dialog = new KSModalDialogPanel();
+/**
+ * 
+ * This a search widget that builds a query form using parameters defined in a 
+ * search type defined in a search service and displays results of said query
+ * by calling the search service methods. 
+ * 
+ * @author Kuali Student Team
+ *
+ */
+public class KSAdvancedSearchRpc extends Composite{
     private KSTabPanel tabPanel = new KSTabPanel();
-    private KSConfirmButtonPanel buttonPanel = new KSConfirmButtonPanel();
     private VerticalPanel searchLayout = new VerticalPanel();
     private VerticalPanel resultLayout = new VerticalPanel();
-    private VerticalPanel dialogLayout = new VerticalPanel();
     private KSSelectableTableList searchResults = new KSSelectableTableList();
     private KSLabel resultLabel = new KSLabel("No Search Results");
     private SearchResultListItems searchResultList = new SearchResultListItems();
@@ -50,22 +55,18 @@ public class KSAdvancedRpcSearchWindow {
     private BaseRpcServiceAsync searchService;
     private String searchTypeKey;
     
-    public KSAdvancedRpcSearchWindow(BaseRpcServiceAsync searchService, String searchTypeKey){
+    /** 
+     * This constructs a search widget.
+     * 
+     * @param searchService - instance of rpc service implementing the base search/dictionary service methods
+     * @param searchTypeKey - the predefined search to use. The search results must return an id as first column.
+     */
+    public KSAdvancedSearchRpc(BaseRpcServiceAsync searchService, String searchTypeKey){
         this.searchService = searchService;
         this.searchTypeKey = searchTypeKey;
         
         generateSearchLayout();
-        
-        dialogLayout.add(tabPanel);
-        dialogLayout.add(buttonPanel);
-        buttonPanel.addCancelHandler(new ClickHandler(){
-
-            @Override
-            public void onClick(ClickEvent event) {
-                dialog.hide();
-            }
-        });
-                
+                        
         tabPanel.addTab(searchLayout, "Search");
         tabPanel.addTab(resultLayout, "Results");
         tabPanel.selectTab(0);
@@ -77,10 +78,8 @@ public class KSAdvancedRpcSearchWindow {
         searchLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PANEL);
         searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
         tabPanel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
-        dialogLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_WINDOW);
-        dialog.setHeader("Advanced Search");
-        dialog.setWidget(dialogLayout);
         
+        initWidget(tabPanel);
     }
     
     private void generateSearchLayout() {
@@ -148,20 +147,12 @@ public class KSAdvancedRpcSearchWindow {
             }            
         });       
     }
-    
 
-    public void addConfirmHandler(ClickHandler handler){
-        buttonPanel.addConfirmHandler(handler);
-    }
-    
-    public void show(){
-        dialog.show();
-    }
-    
-    public void hide(){
-        dialog.hide();
-    }
-    
+    /** 
+     * Use to get a list of items selected from the results of search displayed to the user.
+     * 
+     * @return
+     */
     public List<String> getSelectedIds(){
         return searchResults.getSelectedItems();
     }
@@ -195,10 +186,14 @@ public class KSAdvancedRpcSearchWindow {
             @Override
             public void onSuccess(List<Result> result) {
                 if (result != null){
+                    resultLabel.setVisible(false);
+                    searchResults.setVisible(true);
                     searchResultList.setResults(result);
                     searchResults.redraw();
+                } else{
+                    resultLabel.setVisible(true);
+                    searchResults.setVisible(false);                    
                 }
-
                 tabPanel.selectTab(1);
             }               
         });
