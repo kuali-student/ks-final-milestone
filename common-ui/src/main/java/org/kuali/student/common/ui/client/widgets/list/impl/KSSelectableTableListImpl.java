@@ -38,6 +38,7 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     boolean loaded = false;
     boolean isMultipleSelect = true;
     int selRow = -1;
+    int pageSize = 0;
     
     public KSSelectableTableListImpl(){
         initWidget(root);
@@ -191,6 +192,10 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
         }
 
         Options options = Options.create();
+        if (pageSize > 0){
+            options.setOption("page", "enable");
+            options.setOption("pageSize", pageSize);
+        }
         table.draw(data,options);
         table.addStyleName(KSStyles.KS_SELECT_TABLE_PANEL);
         root.setWidget(table);
@@ -216,4 +221,7 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
         return true; //TODO can't disable currently
     }
     
+    public void setPageSize(int pageSize){
+        this.pageSize = pageSize;
+    }
 }

@@ -124,4 +124,9 @@ public class KSSelectableTableList extends KSSelectItemWidgetAbstract {
         selectItemWidget.redraw();
     }
     
+    public void setPageSize(int pageSize){
+        //FIXME: This will break deferred binding if impl is switched
+        ((KSSelectableTableListImpl)selectItemWidget).setPageSize(pageSize);
+    }
+    
 }
