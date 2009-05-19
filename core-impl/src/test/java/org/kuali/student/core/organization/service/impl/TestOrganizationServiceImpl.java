@@ -41,6 +41,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
 
@@ -61,6 +62,11 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		List<Result> results = client.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues);
 		assertEquals(6,results.size());
 		assertEquals(2,results.get(0).getResultCells().size());
+		
+		SearchTypeInfo st = client.getSearchType("org.search.orgQuickViewByHierarchyShortName");
+		String searchId = st.getSearchCriteriaTypeInfo().getQueryParams().get(0).getFieldDescriptor().getSearchTypeId();
+		results = client.searchForResults(searchId, null);
+		assertEquals(2,results.size());
 	}
 	
 	@Test

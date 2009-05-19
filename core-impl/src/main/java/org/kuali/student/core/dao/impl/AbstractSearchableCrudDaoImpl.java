@@ -16,12 +16,15 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
 
 
+
 	@Override
 	public List<Result> searchForResults(String queryString,
 			SearchTypeInfo searchTypeInfo,
 			List<QueryParamValue> queryParamValues) {
 
 		Query query = em.createQuery(queryString);
+		
+		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(queryParamValues!=null){
 			for (QueryParamValue queryParamValue : queryParamValues) {
 				query.setParameter(queryParamValue.getKey().replace(".", "_"), queryParamValue
@@ -31,20 +34,31 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 
 		// Turn into results
 		List<Result> results = new ArrayList<Result>();
-		@SuppressWarnings("unchecked")
-		List<Object[]> queryResults = query.getResultList();
-		for(Object[] queryResult:queryResults){
-			Result result = new Result();
-			int i=0;
-			for (ResultColumnInfo resultColumn : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()) {
 		
-				ResultCell resultCell = new ResultCell();
-				resultCell.setKey(resultColumn.getKey());
-				resultCell.setValue(queryResult[i].toString());
-				result.getResultCells().add(resultCell);
-				i++;
+		List<?> queryResults = query.getResultList();
+		
+		if(queryResults!=null){
+			//Copy the query results to a Result object
+			for(Object queryResult:queryResults){
+				Result result = new Result();
+				int i=0;
+				for (ResultColumnInfo resultColumn : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()) {
+			
+					ResultCell resultCell = new ResultCell();
+					resultCell.setKey(resultColumn.getKey());
+					
+					if(queryResult.getClass().isArray()){
+						resultCell.setValue(((Object[])queryResult)[i].toString());
+					}else{
+						resultCell.setValue(queryResult.toString());
+					}
+					
+					result.getResultCells().add(resultCell);
+					i++;
+				}
+				results.add(result);
 			}
-			results.add(result);
+		
 		}
 		return results;
 	}
