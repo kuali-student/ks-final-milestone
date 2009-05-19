@@ -63,18 +63,20 @@ public class SearchResultListItems implements ListItems{
     
     public void setResults(List<Result> results){            
         resultDataMap.clear();
-        for (Result r: results){
-            //FIXME: This assumes search results have id as first column
-            resultDataMap.put(r.getResultCells().get(0).getValue(), r);
-        }
-        
-        //Default keys for column attributes
-        if (results.size() > 0){
-            Result r = results.get(0);
-            if (attrKeys == null){
-                attrKeys = new ArrayList<String>();
-                for (int i=0; i < r.getResultCells().size(); i ++){
-                    attrKeys.add("attr" + String.valueOf(i));
+        if (results != null){
+            for (Result r: results){
+                //FIXME: This assumes search results have id as first column
+                resultDataMap.put(r.getResultCells().get(0).getValue(), r);
+            }
+            
+            //Default keys for column attributes
+            if (results.size() > 0){
+                Result r = results.get(0);
+                if (attrKeys == null){
+                    attrKeys = new ArrayList<String>();
+                    for (int i=0; i < r.getResultCells().size(); i ++){
+                        attrKeys.add("attr" + String.valueOf(i));
+                    }
                 }
             }
         }
