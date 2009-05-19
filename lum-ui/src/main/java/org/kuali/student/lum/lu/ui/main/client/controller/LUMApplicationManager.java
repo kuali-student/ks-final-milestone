@@ -4,7 +4,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
-import org.kuali.student.lum.lu.ui.course.client.controller.CourseProposalManager;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
@@ -17,7 +16,7 @@ public class LUMApplicationManager extends Controller{
     private final SimplePanel viewPanel = new SimplePanel();
     
     private final View homeMenu = new HomeMenuController(this);
-    private CourseProposalManager createCourse = new CourseProposalManager(this);
+    //private CourseProposalManager createCourse = new CourseProposalManager(this);
     KSHistory history;
     
     //Wire in validator
