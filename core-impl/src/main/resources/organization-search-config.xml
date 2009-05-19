@@ -58,6 +58,7 @@
 		<search:desc>Quick view of the Organization</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgHierarchyId" />
+			<ref bean="org.resultColumn.orgHierarchyName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -182,13 +183,14 @@
 	
 	<search:queryParam id="org.queryParam.orgHierarchyId">
 		<dict:fieldDescriptor>
+			<dict:name>Hierarchy</dict:name>
 			<dict:searchTypeId>org.search.orgHierarchyIds</dict:searchTypeId>
 		</dict:fieldDescriptor>
 	</search:queryParam>
 	
 	<search:queryParam id="org.queryParam.orgShortName">
-		<dict:fieldDescriptor>
-			<ref bean="childFieldDescriptor" />
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Org Name</dict:name>
 		</dict:fieldDescriptor>
 	</search:queryParam>
 
@@ -226,7 +228,7 @@
 		<property name="sourceMap">
 			<map>
 				<entry key="org.search.orgHierarchyIds">
-					<value>SELECT oh.id FROM OrgHierarchy oh</value>
+					<value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByOrgType">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE
