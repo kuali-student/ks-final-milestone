@@ -113,11 +113,13 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract{
 	
 	
 	public void selectItem(String id){
-		for(int i = 0; i < listBox.getItemCount(); i++){
-			if(id.equals(listBox.getValue(i))){
-				listBox.setSelectedIndex(i);
-			}
-		}
+	    if (id != null){
+    		for(int i = 0; i < listBox.getItemCount(); i++){
+    			if(id.equals(listBox.getValue(i))){
+    				listBox.setSelectedIndex(i);
+    			}
+    		}
+	    }
 	}
 
     /**
