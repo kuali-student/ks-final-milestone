@@ -89,9 +89,9 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 			cf.getBinding().setValue(bound, cf.getFormField().getValue());
 		}
 	}
-    @Override
-    public ConfigurableLayoutSection<T> addGroup(ConfigurableLayoutGroup<T> field) {
+  //  @Override
+    //public ConfigurableLayoutSection<T> addGroup(ConfigurableLayoutGroup<T> field) {
         // TODO joeyin - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+      //  return null;
+   // }
 }
