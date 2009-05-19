@@ -6,7 +6,4 @@
 	<inherits name='org.kuali.student.core.Core'/>  
 	<inherits name='org.kuali.student.core.search.Search'/>  
 	<inherits name='org.kuali.student.core.atp.Atp'/> 
-	
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.lum.lu.ui.course.client.CoursesEntryPoint"/>    	
 </module>
