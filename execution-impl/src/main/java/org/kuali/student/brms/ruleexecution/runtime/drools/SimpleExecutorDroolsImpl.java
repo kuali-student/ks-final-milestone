@@ -26,7 +26,7 @@ import org.drools.KnowledgeBase;
 import org.drools.command.Command;
 import org.drools.command.CommandFactory;
 import org.drools.definition.KnowledgePackage;
-import org.drools.runtime.BatchExecutionResults;
+import org.drools.runtime.ExecutionResults;
 import org.drools.runtime.StatelessKnowledgeSession;
 
 import org.kuali.student.brms.repository.drools.util.DroolsUtil;
@@ -322,11 +322,11 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
         int i = 0;
         for(Object fact : facts) {
         	String id = "id." + i++;
-        	Command<?> cmd = CommandFactory.newInsertObject(fact, id);
+        	Command<?> cmd = CommandFactory.newInsert(fact, id);
             commands.add(cmd);
         }
         Command<?> cmd = CommandFactory.newBatchExecution(commands);
-        BatchExecutionResults results = session.execute(cmd);
+        ExecutionResults results = session.execute(cmd);
         
         if(this.logExecution) {
         	executionLog.append("--------------------------------");

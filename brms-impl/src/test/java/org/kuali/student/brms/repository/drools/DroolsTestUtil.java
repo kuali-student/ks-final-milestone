@@ -272,7 +272,7 @@ public class DroolsTestUtil
 
         List<Command<?>> commands = new ArrayList<Command<?>>();
         for(Object fact : facts) {
-            commands.add(CommandFactory.newInsertObject(fact));
+            commands.add(CommandFactory.newInsert(fact));
         }
         Command<?> cmd = CommandFactory.newBatchExecution(commands);
         session.execute(cmd);

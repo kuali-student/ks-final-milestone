@@ -27,7 +27,7 @@ import org.drools.KnowledgeBase;
 import org.drools.command.Command;
 import org.drools.command.CommandFactory;
 import org.drools.definition.KnowledgePackage;
-import org.drools.runtime.BatchExecutionResults;
+import org.drools.runtime.ExecutionResults;
 import org.drools.runtime.StatelessKnowledgeSession;
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.repository.drools.util.DroolsUtil;
@@ -416,11 +416,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         int i = 0;
         for(Object f : factList) {
         	String id = "id." + i++;
-            Command<?> cmd = CommandFactory.newInsertObject(f, id);
+            Command<?> cmd = CommandFactory.newInsert(f, id);
             commands.add(cmd);
         }
         Command<?> cmd = CommandFactory.newBatchExecution( commands );
-        BatchExecutionResults results = session.execute(cmd);
+        ExecutionResults results = session.execute(cmd);
         
     
         if(this.logExecution) {
