@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -146,9 +147,11 @@ public class ProposalInformationLayoutManager {
         KSDropDown locationDropDown = new KSDropDown();
         locationDropDown.setListItems(campusLocationList);
 
-        //TODO This will probably need to be a search or selectable tree to cope with the Org hierarchies
-        KSDropDown organizationDropDown = new KSDropDown();
-        organizationDropDown.setListItems(organizationList);
+        //TODO This will probably need to be a search or selectable tree 
+//        KSDropDown organizationDropDown = new KSDropDown();
+//        organizationDropDown.setListItems(organizationList);
+              
+        OrgLocateTree orgTree = new OrgLocateTree();
 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
                 LUConstants.SECTION_GOVERNANCE}, 
@@ -205,7 +208,8 @@ public class ProposalInformationLayoutManager {
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
-                        .setWidget(organizationDropDown)
+                        .setWidget(orgTree)
+//                        .setWidget(organizationDropDown)
                         .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
