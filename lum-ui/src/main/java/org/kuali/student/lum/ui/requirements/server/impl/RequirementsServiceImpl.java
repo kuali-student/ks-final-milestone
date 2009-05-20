@@ -32,8 +32,7 @@ public class RequirementsServiceImpl implements RequirementsService {
 
 	LuService service;
 	
-    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {
-        System.out.println("IN ...getReqComponentTemplates()...");         
+    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {       
         String[] templates = new String[3];           
         
         templates[0] = "";

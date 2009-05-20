@@ -350,7 +350,7 @@ public class ClauseEditorView extends ViewComposite {
 
                 if (updateFields() == false) {
                     return;
-                }
+                }                
                 
                 if (modelPrereqInfo != null) {
                     PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
@@ -375,7 +375,11 @@ public class ClauseEditorView extends ViewComposite {
                 for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
                     if (btn.getText().trim().equals(reqCompTypeList.get(i).getDesc().trim())) {
                         selectedReqType = reqCompTypeList.get(i); 
-                        setupNewEditedReqComp(selectedReqType.getId());
+                        if (addNewReqComp) {
+                            setupNewEditedReqComp(selectedReqType.getId());
+                        } else {
+                            editedReqComp.setType(selectedReqType.getId());
+                        }
                         displayReqComponentDetails();
                         return;
                     }                              
@@ -393,9 +397,13 @@ public class ClauseEditorView extends ViewComposite {
                  
                  List<String> ids = w.getSelectedItems();
                  selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
-                 setupNewEditedReqComp(selectedReqType.getId());                 
+                 if (addNewReqComp) {
+                     setupNewEditedReqComp(selectedReqType.getId());                 
+                 } else {
+                     editedReqComp.setType(selectedReqType.getId());
+                 }
                  displayReqComponentDetails();             
-             }});
+         }});
         
     }
     
@@ -404,7 +412,6 @@ public class ClauseEditorView extends ViewComposite {
      */
     private boolean updateFields() {
         List<ReqCompFieldInfo> fields = null;
-        //boolean isError = false;
         StringBuffer cluIds = new StringBuffer();
 
         if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
@@ -448,7 +455,6 @@ public class ClauseEditorView extends ViewComposite {
                       
             if (fieldId.equals("clu")) {
                 String cluId = clusData.get(fieldValue);
-                System.out.println("Clu id: " + cluId);
                 if (cluId != null) {
                     fieldInfo.setValue(cluId);
                     return true;
@@ -462,8 +468,7 @@ public class ClauseEditorView extends ViewComposite {
             }
            
             if (fieldId.equals("cluSet")) {
-                String cluSetId = cluSetsData.get(fieldValue);
-                System.out.println("Cluset id: " + cluSetId);                
+                String cluSetId = cluSetsData.get(fieldValue);              
                 if (cluSetId != null) {
                     fieldInfo.setValue(cluSetId);
                     return true;
@@ -509,7 +514,6 @@ public class ClauseEditorView extends ViewComposite {
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
-//                valueWidget.setWidth(Integer.toString(parentWidget.getOffsetWidth()));
                 valueWidget.setWidth("30px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 SimplePanel tempPanel = new SimplePanel();
@@ -524,7 +528,6 @@ public class ClauseEditorView extends ViewComposite {
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
-//                valueWidget.setWidth(Integer.toString(parentWidget.getOffsetWidth()));
                 valueWidget.setWidth("100px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 VerticalPanel tempPanel = new VerticalPanel();
@@ -624,30 +627,7 @@ public class ClauseEditorView extends ViewComposite {
         return result;
     }            
     
-    private void setupNewEditedReqComp(String reqCompID) {
-System.out.println("IN ...setupNewEditedReqComp()...");         
-        /*
-        List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
-        ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-        field1.setId("reqCompFieldType.requiredCount");
-        field1.setValue("1");
-        fieldList.add(field1);
-        
-        ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-        field2.setId("reqCompFieldType.operator");
-        field2.setValue("greater_than_or_equal_to");
-        fieldList.add(field2); 
-        
-        ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-        field3.setId("reqCompFieldType.cluSet");
-        field3.setValue(""); //"CLUSET-NL-1");
-        fieldList.add(field3);        
-
-        ReqCompFieldInfo field4 = new ReqCompFieldInfo();
-        field4.setId("reqCompFieldType.clu");
-        field4.setValue(""); //"CLU-NL-1");
-        fieldList.add(field4); */         
-        
+    private void setupNewEditedReqComp(String reqCompID) {            
         editedReqComp = new ReqComponentInfo();
         editedReqComp.setDesc("");      //will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO       

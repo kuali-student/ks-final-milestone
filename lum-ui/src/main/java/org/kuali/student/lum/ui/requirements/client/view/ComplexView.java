@@ -135,14 +135,12 @@ public class ComplexView extends ViewComposite {
                 Cell cell = ruleTable.getCellForEvent(event);
                 System.out.println("Cell is NULL 0 ???");
                 if (cell == null) {
-                    System.out.println("Cell is NULL 0" + event);
+                    System.out.println("Cell is NULL 0" + event.getSource());
                     return;
                 }
                 
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
                 Object userObject = widget.getNode().getUserObject();
-                PrereqInfo prereqInfo = 
-                    RulesUtilities.getPrereqInfoModelObject(model);
                 if (userObject instanceof StatementVO) { 
                     StatementVO statementVO = (StatementVO) userObject;
                     statementVO.setCheckBoxOn(!statementVO.isCheckBoxOn());
@@ -161,7 +159,6 @@ public class ComplexView extends ViewComposite {
                 Cell cell = ruleTable.getCellForEvent(event); 
             
                 if (cell == null) {
-                    System.out.println("Cell is NULL 2");
                     return;
                 }
                 
