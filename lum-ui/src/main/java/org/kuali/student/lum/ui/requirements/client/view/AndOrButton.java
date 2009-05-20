@@ -21,8 +21,8 @@ public class AndOrButton extends HorizontalPanel {
     public AndOrButton(){
         super.add(andButton);
         super.add(andLabel);
-        super.add(orButton);
         super.add(orLabel);
+        super.add(orButton);
         update(AndOrButton.And);
         andButton.addClickHandler(new ClickHandler(){
             @Override

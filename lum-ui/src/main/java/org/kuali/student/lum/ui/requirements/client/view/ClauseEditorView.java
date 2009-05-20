@@ -90,7 +90,7 @@ public class ClauseEditorView extends ViewComposite {
     }
     
     public void beforeShow() {
-System.out.println("IN ...beforeShow()...");                       
+                     
         if (compReqTypesList.getSelectedItem() != null) {
             compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
         }
@@ -141,8 +141,7 @@ System.out.println("IN ...beforeShow()...");
         });                  
     }
     
-    public void redraw() { 
-System.out.println("IN ...redraw()...");       
+    public void redraw() {   
         addEditRuleView.clear();
         addEditRuleView.setStyleName("KS-Rules-FullWidth");
         
@@ -204,7 +203,7 @@ System.out.println("IN ...redraw()...");
     
     //show basic and advanced requirement types
     private void displayReqComponentTypes(Panel container) {
-System.out.println("IN ...displayReqComponentTypes()...");         
+        
         //TODO list of basic and advanced types based on configuration somewhere
         
         //show radio button for each basic Requirement Component Type
@@ -244,7 +243,7 @@ System.out.println("IN ...displayReqComponentTypes()...");
     
     
     private void displayReqComponentDetails() {
-System.out.println("IN ...displayReqComponentDetails()...");         
+        
         //TODO generic function that will retrieve all data required to display details of this req. componenet type...
         
         //true if no Requirement Component Type selected
@@ -311,7 +310,7 @@ System.out.println("IN ...displayReqComponentDetails()...");
     }   
 
     private void setupHandlers() {
-System.out.println("IN ...setupHandlers()...");         
+         
         btnCancelView.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 getController().showView(PrereqViews.COMPLEX);
@@ -418,7 +417,7 @@ System.out.println("IN ...setupHandlers()...");
                 if (checkField(fieldInfo) == false) {
                     return false;
                 }
-System.out.println("FIELD INFO: " + fieldInfo.getId() + " - " + fieldInfo.getValue());  
+
                 if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
                     cluIds.append((cluIds.length() > 0 ? ", " : "") + fieldInfo.getValue()); 
                 } else {
@@ -441,7 +440,6 @@ System.out.println("FIELD INFO: " + fieldInfo.getId() + " - " + fieldInfo.getVal
         if (fieldInfo != null) {
             String fieldId = fieldInfo.getId().replaceFirst("reqCompFieldType.", "");            
             String fieldValue = fieldInfo.getValue();
-            System.out.println("Field ID: " + fieldId + ", value: " + fieldValue);  
             
             if (fieldValue.trim().isEmpty()) {
                 Window.alert("Please enter all fields");
@@ -482,7 +480,7 @@ System.out.println("FIELD INFO: " + fieldInfo.getId() + " - " + fieldInfo.getVal
     }
     
     private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) { 
-System.out.println("IN ...displayReqComponentText()...");         
+       
         // resets the list of reqCompWidgets to make sure it is created fresh.
         reqCompWidgets.clear();
         parentWidget.clear();

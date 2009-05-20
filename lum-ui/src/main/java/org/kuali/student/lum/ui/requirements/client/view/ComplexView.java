@@ -96,7 +96,7 @@ public class ComplexView extends ViewComposite {
         ruleTableToggleClickHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Cell cell = ruleTable.getCellForEvent(event); 
+                Cell cell = ruleTable.getCellForEvent(event);
                 if (cell == null) {
                     System.out.println("Cell is NULL");
                     return;
@@ -133,8 +133,9 @@ public class ComplexView extends ViewComposite {
             public void onClick(ClickEvent event) {
                               
                 Cell cell = ruleTable.getCellForEvent(event);
+                System.out.println("Cell is NULL 0 ???");
                 if (cell == null) {
-                    System.out.println("Cell is NULL 0");
+                    System.out.println("Cell is NULL 0" + event);
                     return;
                 }
                 
@@ -403,7 +404,6 @@ public class ComplexView extends ViewComposite {
         mainPanel.add(complexView);        
         
         updateRulesTable();        
-        updateNaturalLanguage();
     }
     
     private void updateRulesTable() {
@@ -420,12 +420,17 @@ public class ComplexView extends ViewComposite {
         btnSaveRule.setEnabled(false);
         ruleTable.clear();
         if (prereqInfo != null) {
-            boolean simpleRule = 
-                (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isSimple();
+            boolean simpleRule = (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isSimple();
             btnAddAND.setVisible(!simpleRule);
             btnAddOR.setVisible(!simpleRule);
             btnAddToGroup.setVisible(!simpleRule);
             btnManualEdit.setVisible(!simpleRule);
+            
+            boolean emptyRule = (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isEmpty();
+            naturalLanguage.setText("");
+            if (!emptyRule) {
+                updateNaturalLanguage();
+            }
             
             Node tree = prereqInfo.getStatementTree(true);            
             if (tree != null) {
@@ -437,9 +442,8 @@ public class ComplexView extends ViewComposite {
         }        
     }        
     
-    private void updateNaturalLanguage() {
-                
-        naturalLanguage.setText("");      
+    private void updateNaturalLanguage() {                 
+        
         RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
                                 RulesUtilities.getPrereqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
@@ -450,6 +454,6 @@ public class ComplexView extends ViewComposite {
             public void onSuccess(final String statementNaturalLanguage) {                               
                 naturalLanguage.setText(statementNaturalLanguage);  
             } 
-        });
+        }); 
     }           
 }
