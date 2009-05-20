@@ -17,8 +17,10 @@ import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -29,7 +31,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequisiteView extends ViewComposite {
-
+    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
+    
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
@@ -66,7 +69,7 @@ public class CourseRequisiteView extends ViewComposite {
         }        
         
         //TODO move elsewhere
-        RequirementsService.Util.getInstance().getCourseAndRulesInfo(courseId, new AsyncCallback<CourseRuleInfo>() {
+        requirementsRpcServiceAsync.getCourseAndRulesInfo(courseId, new AsyncCallback<CourseRuleInfo>() {
             
             PrereqInfo prereqInfo = new PrereqInfo();
             
@@ -79,7 +82,7 @@ public class CourseRequisiteView extends ViewComposite {
                 prereqInfo.setId(courseData.get(getCourseId()).getId());
                 prereqInfo.setRationale("The course supplements Biology 100 level courses.");
                 
-                RequirementsService.Util.getInstance().getStatementVO(courseData.get(getCourseId()).getId(), "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
+                requirementsRpcServiceAsync.getStatementVO(courseData.get(getCourseId()).getId(), "kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<StatementVO>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
@@ -95,7 +98,7 @@ public class CourseRequisiteView extends ViewComposite {
                         prereqInfo.setEditHistory(editHistory);
                         setPrereqInfo(prereqInfo);                    
                                                 
-                        RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(courseData.get(getCourseId()).getId(), statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
+                        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(courseData.get(getCourseId()).getId(), statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
                             public void onFailure(Throwable caught) {
                                 Window.alert(caught.getMessage());
                                 caught.printStackTrace();

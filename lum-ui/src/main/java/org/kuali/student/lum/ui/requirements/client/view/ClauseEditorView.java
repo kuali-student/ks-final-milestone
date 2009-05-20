@@ -30,8 +30,10 @@ import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.Pre
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -45,7 +47,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ClauseEditorView extends ViewComposite {
-
+    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
+    
     public enum reqCompFieldDefinitions { TODO }
     
     //view's widgets
@@ -252,7 +255,7 @@ public class ClauseEditorView extends ViewComposite {
             return;
         }       
         
-        RequirementsService.Util.getInstance().getReqComponentTemplates(editedReqComp, new AsyncCallback<String[]>() {
+        requirementsRpcServiceAsync.getReqComponentTemplates(editedReqComp, new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 System.out.println(caught.getMessage());
@@ -723,7 +726,7 @@ public class ClauseEditorView extends ViewComposite {
     }
 
     private void updateNLAndExit() {
-        RequirementsService.Util.getInstance().getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
+        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();

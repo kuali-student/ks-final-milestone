@@ -15,8 +15,10 @@ import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,6 +33,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 public class SearchDialog extends Composite {
+    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     private final SimplePanel mainPanel = new SimplePanel();
     private final KSModalDialogPanel popupPanel = 
@@ -93,7 +96,7 @@ public class SearchDialog extends Composite {
 
     public void layoutWidgets() {
         
-        RequirementsService.Util.getInstance().getAllClus(new AsyncCallback<Map<String, String>>() {
+        requirementsRpcServiceAsync.getAllClus(new AsyncCallback<Map<String, String>>() {
             public void onFailure(Throwable caught) {
                 // just re-throw it and let the uncaught exception handler deal with it
                 Window.alert(caught.getMessage());

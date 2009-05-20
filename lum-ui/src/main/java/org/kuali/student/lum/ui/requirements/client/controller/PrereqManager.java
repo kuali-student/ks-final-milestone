@@ -11,19 +11,21 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
 import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleExpressionEditor;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class PrereqManager extends Controller {
+    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     public enum PrereqViews {
         SIMPLE, COMPLEX, CLAUSE_EDITOR, RULE_EXPRESSION_EDITOR
@@ -118,7 +120,7 @@ public class PrereqManager extends Controller {
     public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback<ReqComponentTypeInfo> callback) {
         
         if (modelType.equals(ReqComponentTypeInfo.class)) {        
-            RequirementsService.Util.getInstance().getReqComponentTypesForLuStatementType("kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<List<ReqComponentTypeInfo>>() {
+            requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType("kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<List<ReqComponentTypeInfo>>() {
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
@@ -136,7 +138,7 @@ public class PrereqManager extends Controller {
     }
 
     private void loadData() {
-        RequirementsService.Util.getInstance().getAllClus(new AsyncCallback<Map<String, String>>() {
+        requirementsRpcServiceAsync.getAllClus(new AsyncCallback<Map<String, String>>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);

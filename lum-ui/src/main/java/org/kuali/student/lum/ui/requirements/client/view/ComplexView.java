@@ -17,8 +17,10 @@ import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.Pre
 import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -30,7 +32,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class ComplexView extends ViewComposite {
-
+    private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
+    
     //view's widgets
     private Panel mainPanel = new SimplePanel();
     VerticalPanel complexView = new VerticalPanel();  
@@ -441,7 +444,7 @@ public class ComplexView extends ViewComposite {
     
     private void updateNaturalLanguage() {                 
         
-        RequirementsService.Util.getInstance().getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
+        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
                                 RulesUtilities.getPrereqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
