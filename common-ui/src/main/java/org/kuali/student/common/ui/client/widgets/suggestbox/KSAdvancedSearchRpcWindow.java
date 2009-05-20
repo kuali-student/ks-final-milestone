@@ -31,7 +31,8 @@ public class KSAdvancedSearchRpcWindow implements HasSelectionHandlers<List<Stri
     HandlerManager handlers = new HandlerManager(this);
     
     public KSAdvancedSearchRpcWindow(BaseRpcServiceAsync searchService, String searchTypeKey){
-        init(searchService, searchTypeKey);        
+        init(searchService, searchTypeKey);
+        dialog.setHeader("Advanced Search");        
     }
 
     public KSAdvancedSearchRpcWindow(BaseRpcServiceAsync searchService, String searchTypeKey, String title){
@@ -53,7 +54,6 @@ public class KSAdvancedSearchRpcWindow implements HasSelectionHandlers<List<Stri
         });
                 
         dialogLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_WINDOW);
-        dialog.setHeader("Advanced Search");
         dialog.setWidget(dialogLayout);
         
         buttonPanel.addConfirmHandler(new ClickHandler(){
