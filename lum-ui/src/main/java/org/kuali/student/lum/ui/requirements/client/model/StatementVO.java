@@ -10,6 +10,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class StatementVO extends Token implements Serializable {
@@ -360,33 +361,47 @@ public class StatementVO extends Token implements Serializable {
      */
     private String getNextGuiRCId(List<ReqComponentVO> rcs) {
         int charCode = 65; // ASCII code for capitalized A
+        int newCharCode = -1;
         String guiRCId = null;
-        if (rcs != null) {
-            charCode += rcs.size();
+        
+        while (newCharCode == -1) {
+            boolean charUsed = false;
+            if (rcs != null) {
+                for (ReqComponentVO rc : rcs) {
+                    String currGuiRCId = rc.getGuiReferenceLabelId();
+                    currGuiRCId = (currGuiRCId == null)? "" : currGuiRCId;
+                    if (currGuiRCId.equals(Character.toString((char)charCode))) {
+                        charUsed = true;
+                        charCode++;
+                    }
+                }
+            }
+            if (!charUsed) {
+                newCharCode = charCode;
+            }
         }
+        
         // the next GUI id will be A - Z, and A1, A2, A3 afterwards.
-        if (charCode < 65 + 26) {
-            guiRCId = new String(Character.toString((char)charCode));
+        if (newCharCode < 65 + 26) {
+            guiRCId = new String(Character.toString((char)newCharCode));
         } else {
             guiRCId = new String(Character.toString((char)(65 + 26)));
             guiRCId = guiRCId + Integer.toString(
-                    charCode - 65 + 26 - 1);
+                    newCharCode - 65 + 26 - 1);
         }
         return guiRCId;
     }
 
-    public Node getTree(boolean assignGuiRCKeys) {        
+    public Node getTree() {        
         Node node = new Node();
         addChildrenNodes(node, this, 
-                new ArrayList<ReqComponentVO>(),
-                assignGuiRCKeys);
+                new ArrayList<ReqComponentVO>());
         //printTree(node);
         return node;
     }
     
     private void addChildrenNodes(Node node, StatementVO statementVO,
-            List<ReqComponentVO> rcs,
-            boolean assignGuiRCKeys) {
+            List<ReqComponentVO> rcs) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
@@ -397,7 +412,7 @@ public class StatementVO extends Token implements Serializable {
                 StatementVO childStatementVO = statementVOs.get(i);
                 Node childNode = new Node();
                 node.addNode(childNode);
-                addChildrenNodes(childNode, childStatementVO, rcs, assignGuiRCKeys);
+                addChildrenNodes(childNode, childStatementVO, rcs);
             }
         }
 
@@ -405,7 +420,8 @@ public class StatementVO extends Token implements Serializable {
             //System.out.println("VO size: " + reqComponentVOs.size());
             for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
                 ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
-                if (assignGuiRCKeys) {
+                if (childReqComponentVO.getGuiReferenceLabelId() == null ||
+                        childReqComponentVO.getGuiReferenceLabelId().trim().length() == 0) {
                     String guiRCId = null;
                     guiRCId = getNextGuiRCId(rcs);
                     childReqComponentVO.setGuiReferenceLabelId(guiRCId);
@@ -737,6 +753,23 @@ public class StatementVO extends Token implements Serializable {
             }
         }
         return inSbResult;
+    }
+    
+    public void clearSelections() {
+        doClearSelections(this);
+    }
+    
+    private void doClearSelections(StatementVO statementVO) {
+        statementVO.setCheckBoxOn(false);
+        if (statementVO.getStatementVOCount() > 0) {
+            for (StatementVO childS : statementVOs) {
+                doClearSelections(childS);
+            }
+        } else if (statementVO.getReqComponentVOCount() > 0) {
+            for (ReqComponentVO rc : statementVO.getReqComponentVOs()) {
+                rc.setCheckBoxOn(false);
+            }
+        }
     }
     
     public boolean isSimple() {

@@ -188,7 +188,7 @@ public class RuleExpressionParser {
         if (expression != null && expression.trim().length() > 0) {
             StatementVO parsedS = parseExpressionIntoStatementVO(expression, rcs);
             if (parsedS != null) {
-                tree = parsedS.getTree(true);
+                tree = parsedS.getTree();
             }
         }
         return tree;

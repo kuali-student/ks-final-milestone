@@ -407,7 +407,7 @@ public class ComplexView extends ViewComposite {
     }
     
     private void updateRulesTable() {
-        PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);               
+        PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
         btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
         btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
         btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
@@ -425,6 +425,8 @@ public class ComplexView extends ViewComposite {
             btnAddOR.setVisible(!simpleRule);
             btnAddToGroup.setVisible(!simpleRule);
             btnManualEdit.setVisible(!simpleRule);
+            btnMoveRuleUp.setVisible(!simpleRule);
+            btnMoveRuleDown.setVisible(!simpleRule);
             
             boolean emptyRule = (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isEmpty();
             naturalLanguage.setText("");
@@ -432,7 +434,7 @@ public class ComplexView extends ViewComposite {
                 updateNaturalLanguage();
             }
             
-            Node tree = prereqInfo.getStatementTree(true);            
+            Node tree = prereqInfo.getStatementTree();            
             if (tree != null) {
                 ruleTable.buildTable(tree);
                 ruleTable.addTextClickHandler(ruleTableSelectionHandler);

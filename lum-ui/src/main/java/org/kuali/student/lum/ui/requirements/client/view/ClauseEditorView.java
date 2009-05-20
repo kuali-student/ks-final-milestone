@@ -343,7 +343,8 @@ public class ClauseEditorView extends ViewComposite {
                     prereqInfo.setStatementVO(statementVO);
                 }
                 statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
-
+                statementVO.clearSelections();
+                editedReqCompVO.setCheckBoxOn(true);
                 updateNLAndExit();
             }
         });   
@@ -357,7 +358,10 @@ public class ClauseEditorView extends ViewComposite {
                 
                 if (modelPrereqInfo != null) {
                     PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                    StatementVO statementVO = prereqInfo.getStatementVO();
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                    statementVO.clearSelections();
+                    editedReqCompVO.setCheckBoxOn(true);
                 }
                 updateNLAndExit();                
             }

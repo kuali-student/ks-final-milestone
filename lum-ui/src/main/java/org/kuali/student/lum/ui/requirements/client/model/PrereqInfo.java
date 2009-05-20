@@ -55,10 +55,10 @@ public class PrereqInfo implements Idable {
         this.statementVO = statementVO;
     }
     
-    public Node getStatementTree(boolean assignGuiRCKeys) {
+    public Node getStatementTree() {
         Node tree = null;
         if (statementVO != null) {          
-            tree = statementVO.getTree(assignGuiRCKeys);
+            tree = statementVO.getTree();
         }
         return tree;
     }
