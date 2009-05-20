@@ -24,6 +24,10 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -37,17 +41,20 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * This a search widget that builds a query form using parameters defined in a 
  * search type defined in a search service and displays results of said query
- * by calling the search service methods. 
+ * by calling the search service methods. Adding a select click handler to this
+ * widget will result in a select button being displayed in the result tab.
  * 
  * @author Kuali Student Team
  *
  */
-public class KSAdvancedSearchRpc extends Composite{
+public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandlers<List<String>>{
     private KSTabPanel tabPanel = new KSTabPanel();
     private VerticalPanel searchLayout = new VerticalPanel();
     private VerticalPanel resultLayout = new VerticalPanel();
     private KSSelectableTableList searchResults = new KSSelectableTableList();
     private KSLabel resultLabel = new KSLabel("No Search Results");
+    private KSButton selectButton = new KSButton("Select");
+    private boolean hasSelectionHandlers = false;
     private SearchResultListItems searchResultList = new SearchResultListItems();
     
     private FlexTable searchParamTable = new FlexTable();
@@ -79,8 +86,17 @@ public class KSAdvancedSearchRpc extends Composite{
         searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
         tabPanel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
         
+        selectButton.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                List<String> selectedItems = searchResults.getSelectedItems();
+                if (selectedItems != null && selectedItems.size() > 0){
+                    fireSelectEvent(selectedItems);
+                }                
+            }            
+        });
         initWidget(tabPanel);
     }
+    
     
     private void generateSearchLayout() {
         searchService.getSearchType(searchTypeKey, new AsyncCallback<SearchTypeInfo>(){
@@ -144,10 +160,32 @@ public class KSAdvancedSearchRpc extends Composite{
                 resultTable.setWidget(1, 0, searchResults);
                 resultLayout.add(resultTable);
 
+                //Add select button, this will only be visible if a select handler is directly added
+                //to this widget.
+                resultLayout.add(selectButton);
+                selectButton.setVisible(hasSelectionHandlers);
             }            
         });       
     }
-
+    
+    /** 
+     * Use this to allow multiple select of items from search results
+     *
+     */
+    public void setMultipleSelect(boolean enable){
+       searchResults.setMultipleSelect(enable); 
+    }
+    
+    /**
+     * Id of selected item.  If multiple items are selected, this will return the
+     * first selected item.
+     * 
+     * @return
+     */
+    public String getSelectedId(){
+        return searchResults.getSelectedItem();
+    }
+    
     /** 
      * Use to get a list of items selected from the results of search displayed to the user.
      * 
@@ -190,9 +228,11 @@ public class KSAdvancedSearchRpc extends Composite{
                     searchResults.setVisible(true);
                     searchResultList.setResults(result);
                     searchResults.redraw();
+                    selectButton.setVisible(hasSelectionHandlers);
                 } else{
                     resultLabel.setVisible(true);
-                    searchResults.setVisible(false);                    
+                    searchResults.setVisible(false);
+                    selectButton.setVisible(false);
                 }
                 tabPanel.selectTab(1);
             }               
@@ -218,5 +258,22 @@ public class KSAdvancedSearchRpc extends Composite{
     
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, Enum enumInfo){
         //TODO: Call the enumeration managment service to get enum
+    }
+
+
+    /**
+     * Use to add a selection handler to this widget. Adding a selection handler will display a select button
+     * in results tab.
+     * 
+     * @see com.google.gwt.event.logical.shared.HasSelectionHandlers#addSelectionHandler(com.google.gwt.event.logical.shared.SelectionHandler)
+     */
+    @Override
+    public HandlerRegistration addSelectionHandler(SelectionHandler<List<String>> handler) {
+        this.hasSelectionHandlers = true;
+        return addHandler(handler,SelectionEvent.getType());
+    }
+    
+    private void fireSelectEvent(List<String> selectedItems){
+        SelectionEvent.fire(this, selectedItems);
     }
 }

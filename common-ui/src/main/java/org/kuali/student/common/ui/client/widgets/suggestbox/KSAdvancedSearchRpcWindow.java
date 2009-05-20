@@ -9,6 +9,12 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /** 
@@ -17,11 +23,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  *
  */
-public class KSAdvancedSearchRpcWindow {
+public class KSAdvancedSearchRpcWindow implements HasSelectionHandlers<List<String>>{
     private KSModalDialogPanel dialog = new KSModalDialogPanel();
     private VerticalPanel dialogLayout = new VerticalPanel();
     private KSAdvancedSearchRpc advancedSearch;
     private KSConfirmButtonPanel buttonPanel = new KSConfirmButtonPanel();    
+    HandlerManager handlers = new HandlerManager(this);
     
     public KSAdvancedSearchRpcWindow(BaseRpcServiceAsync searchService, String searchTypeKey){
         init(searchService, searchTypeKey);        
@@ -47,12 +54,17 @@ public class KSAdvancedSearchRpcWindow {
                 
         dialogLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_WINDOW);
         dialog.setHeader("Advanced Search");
-        dialog.setWidget(dialogLayout);        
+        dialog.setWidget(dialogLayout);
+        
+        buttonPanel.addConfirmHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                List<String> selectedItems = advancedSearch.getSelectedIds();
+                if (selectedItems != null && selectedItems.size() > 0){
+                    fireSelectEvent(selectedItems);
+                }
+            }            
+        });
     }       
-
-    public void addConfirmHandler(ClickHandler handler){
-        buttonPanel.addConfirmHandler(handler);
-    }
     
     public void show(){
         dialog.show();
@@ -62,7 +74,29 @@ public class KSAdvancedSearchRpcWindow {
         dialog.hide();
     }
     
-    public List<String> getSelectedIds(){
-        return advancedSearch.getSelectedIds();
-    }           
+    public void setMultipleSelect(boolean enable){
+        advancedSearch.setMultipleSelect(enable);
+    }
+    
+
+    /**
+     * @see com.google.gwt.event.logical.shared.HasSelectionHandlers#addSelectionHandler(com.google.gwt.event.logical.shared.SelectionHandler)
+     */
+    @Override
+    public HandlerRegistration addSelectionHandler(SelectionHandler<List<String>> handler) {
+        return handlers.addHandler(SelectionEvent.getType(), handler);
+    }
+
+    /**
+     * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
+     */
+    @Override
+    public void fireEvent(GwtEvent<?> event) {
+        handlers.fireEvent(event);
+    }
+    
+    private void fireSelectEvent(List<String> selectedItems){
+        SelectionEvent.fire(this, selectedItems);
+    }
+
 }
