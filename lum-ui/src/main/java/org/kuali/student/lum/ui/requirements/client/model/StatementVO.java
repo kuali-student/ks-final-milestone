@@ -3,14 +3,11 @@ package org.kuali.student.lum.ui.requirements.client.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class StatementVO extends Token implements Serializable {
