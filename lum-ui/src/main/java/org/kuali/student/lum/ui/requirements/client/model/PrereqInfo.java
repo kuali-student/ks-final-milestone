@@ -303,6 +303,10 @@ public class PrereqInfo implements Idable {
                 }
             }
         }
+        // clears off the root if the root no longer has any children after the deletions
+        if (statementVO.getChildCount() == 0) {
+            statementVO = null;
+        }
         if (statementVO != null) {
             statementVO.simplify();
         }
