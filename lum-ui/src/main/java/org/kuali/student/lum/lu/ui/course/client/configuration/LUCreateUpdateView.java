@@ -11,6 +11,7 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;
@@ -24,6 +25,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUCreateUpdateView extends Composite implements View {
+    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    
     ApplicationComposite app = new ApplicationComposite();
     private final SimplePanel panel = new SimplePanel();
     private ConfigurableLayout<CluInfo> layout;
@@ -38,7 +41,7 @@ public class LUCreateUpdateView extends Composite implements View {
 		app.setContent(panel);
 		super.initWidget(app);
 		
-        LuRpcService.Util.getInstance().getObjectStructure("cluInfo", new AsyncCallback<ObjectStructure>(){
+        luRpcServiceAsync.getObjectStructure("cluInfo", new AsyncCallback<ObjectStructure>(){
             public void onFailure(Throwable caught) {
                 GWT.log("Unable to load object structure", caught);                
             }
