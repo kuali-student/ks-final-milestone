@@ -15,7 +15,10 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
-import org.kuali.student.core.organization.dto.OrgInfo;
+import java.util.List;
+
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -35,7 +38,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class OrgUpdatePanel extends Composite{
     VerticalPanel root = new VerticalPanel();
     SimplePanel editPanel = new SimplePanel();
-    DeckPanel w = new DeckPanel();
+    DeckPanel w = new DeckPanel();    
     
     String orgId = null;
     
@@ -51,12 +54,13 @@ public class OrgUpdatePanel extends Composite{
     public void onLoad(){
         if (!loaded){
             if (orgId == null){
-                OrgSearchWidget orgSearchWidget = new OrgSearchWidget(); 
-                
-                orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
 
-                    public void onSelection(SelectionEvent<OrgInfo> event) {
-                        OrganizationWidget orgCreatePanel = new OrganizationWidget(event.getSelectedItem().getId(), OrganizationWidget.Scope.ORG_MODIFY_ALL);
+                final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(OrgRpcService.Util.getInstance(), "org.search.orgQuickViewByHierarchyShortName");
+
+                orgSearchWidget.setMultipleSelect(false);
+                orgSearchWidget.addSelectionHandler(new SelectionHandler<List<String>>(){
+                    public void onSelection(SelectionEvent<List<String>> event) {                    
+                        OrganizationWidget orgCreatePanel = new OrganizationWidget(event.getSelectedItem().get(0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
                         orgCreatePanel.addCloseButton("Back", new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
@@ -66,6 +70,7 @@ public class OrgUpdatePanel extends Composite{
                         w.add(orgCreatePanel);
                         w.showWidget(w.getWidgetCount() - 1);
                     }
+
                     
                 });
                 root.add(orgSearchWidget);

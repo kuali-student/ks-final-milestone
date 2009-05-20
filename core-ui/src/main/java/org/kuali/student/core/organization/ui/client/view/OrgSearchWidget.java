@@ -58,7 +58,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  * @author Kuali Student Team
  *
+ * @deprecated Use the generic KSAdvancedSearchRpc widget instead
  */
+@Deprecated
 public class OrgSearchWidget extends Composite implements HasSelectionHandlers<OrgInfo>{
     VerticalPanel root = new VerticalPanel();
        
@@ -272,4 +274,5 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         }
                 
     }
+    
 }

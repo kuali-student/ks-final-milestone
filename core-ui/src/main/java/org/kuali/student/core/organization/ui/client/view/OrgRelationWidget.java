@@ -27,11 +27,11 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpcWindow;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -194,30 +194,27 @@ class OrgRelationWidget extends OrgMultiWidget {
         panel.add(new KSButton("Find Org", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final KSModalDialogPanel searchPopup = new KSModalDialogPanel();
-                
-                OrgSearchWidget orgSearchWidget = new OrgSearchWidget();
-                orgSearchWidget.addSelectionHandler(new SelectionHandler<OrgInfo>(){
-                    public void onSelection(SelectionEvent<OrgInfo> event) {
-                        OrgInfo o = event.getSelectedItem();
-                        orgRelForm.setFieldValue("relOrgName", o.getLongName());
-                        orgRelForm.setFieldValue("relOrgId", o.getId());
-                        searchPopup.hide();
+                final KSAdvancedSearchRpcWindow orgSearchPopup = new KSAdvancedSearchRpcWindow(OrgRpcService.Util.getInstance(), "org.search.orgQuickViewByHierarchyShortName", "Find Organization");
+
+                orgSearchPopup.addSelectionHandler(new SelectionHandler<List<String>>(){
+                    @Override
+                    public void onSelection(SelectionEvent<List<String>> event) {
+                        String orgId = event.getSelectedItem().get(0);
+                        OrgRpcService.Util.getInstance().getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+                            public void onFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                            }
+
+                            public void onSuccess(OrgInfo orgInfo) {
+                                orgRelForm.setFieldValue("relOrgName", orgInfo.getLongName());
+                                orgRelForm.setFieldValue("relOrgId", orgInfo.getId());
+                                orgSearchPopup.hide();
+                            }            
+                        });                                        
                     }
                 });
                 
-                VerticalPanel popupContent = new VerticalPanel();
-                popupContent.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-                popupContent.add(orgSearchWidget);
-                popupContent.add(new KSButton("Cancel", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        searchPopup.hide();
-                    }                
-                }));
-                
-                searchPopup.setWidget(popupContent);
-                searchPopup.setResizable(false);
-                searchPopup.show();
+                orgSearchPopup.show();
             }}));
         
         final HashMap<String, Object> map = new HashMap<String, Object>();
