@@ -16,9 +16,11 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -34,6 +36,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class OrgLocateName extends Composite {
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     DeckPanel w = new DeckPanel();
     Panel root = new HorizontalPanel();
     private KSCheckBoxList orgTypes;
@@ -69,7 +73,7 @@ public class OrgLocateName extends Composite {
                 qpv1.setValue(source.getText() + '%');
                 queryParamValues.add(qpv1);
 
-                OrgRpcService.Util.getInstance().searchForResults("org.search.orgQuickLongViewByFirstLetter", queryParamValues, new AsyncCallback<List<Result>>() {
+                orgRpcServiceAsync.searchForResults("org.search.orgQuickLongViewByFirstLetter", queryParamValues, new AsyncCallback<List<Result>>() {
 
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
@@ -184,7 +188,7 @@ public class OrgLocateName extends Composite {
 
     protected void onLoad() {
         if (!loaded) {
-            OrgRpcService.Util.getInstance().getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>() {
+            orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>() {
 
                 @Override
                 public void onFailure(Throwable caught) {}

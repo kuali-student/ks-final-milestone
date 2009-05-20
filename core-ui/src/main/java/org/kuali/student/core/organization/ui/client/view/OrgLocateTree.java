@@ -9,8 +9,10 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -25,6 +27,8 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public class OrgLocateTree extends Composite {
+    
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
     
     DeckPanel w = new DeckPanel();
     Tree tree = new Tree();
@@ -49,7 +53,7 @@ public class OrgLocateTree extends Composite {
         if (!loaded){
             loaded = true;
             
-            OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
+            orgRpcServiceAsync.getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                 }
@@ -71,7 +75,7 @@ public class OrgLocateTree extends Composite {
     }
     
     protected void getOrgTree(String orgId, String hierarchyId){
-        OrgRpcService.Util.getInstance().getOrgDisplayTree(orgId, hierarchyId, 0, new AsyncCallback<List<OrgTreeInfo> >(){
+        orgRpcServiceAsync.getOrgDisplayTree(orgId, hierarchyId, 0, new AsyncCallback<List<OrgTreeInfo> >(){
             
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());

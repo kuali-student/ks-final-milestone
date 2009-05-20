@@ -38,7 +38,9 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -51,9 +53,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 class OrgRelationWidget extends OrgMultiWidget {
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     private ListItems orgRelTypeList;
     
     List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
@@ -77,7 +80,7 @@ class OrgRelationWidget extends OrgMultiWidget {
     }
 
     private void populateRelationInfos() {
-        OrgRpcService.Util.getInstance().getOrgOrgRelationsByOrg(orgId, 
+        orgRpcServiceAsync.getOrgOrgRelationsByOrg(orgId, 
                 new AsyncCallback<List<OrgOrgRelationInfo>>(){
 
                     public void onFailure(Throwable caught) {
@@ -94,7 +97,7 @@ class OrgRelationWidget extends OrgMultiWidget {
                             final String orgRelType = orgRelationInfo.getType();
                             
                             //TODO would be nicer to just have this info fetched with initial request
-                            OrgRpcService.Util.getInstance().getOrganization(orgRelationInfo.getRelatedOrgId(), 
+                            orgRpcServiceAsync.getOrganization(orgRelationInfo.getRelatedOrgId(), 
                                     new AsyncCallback<OrgInfo>(){
 
                                         public void onFailure(Throwable caught) {
@@ -134,7 +137,7 @@ class OrgRelationWidget extends OrgMultiWidget {
     }
     
     private void populateOrgRelationTypes() {
-        OrgRpcService.Util.getInstance().getOrgOrgRelationTypes(new AsyncCallback<List<OrgOrgRelationTypeInfo>>(){
+        orgRpcServiceAsync.getOrgOrgRelationTypes(new AsyncCallback<List<OrgOrgRelationTypeInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
             }
@@ -194,13 +197,13 @@ class OrgRelationWidget extends OrgMultiWidget {
         panel.add(new KSButton("Find Org", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final KSAdvancedSearchRpcWindow orgSearchPopup = new KSAdvancedSearchRpcWindow(OrgRpcService.Util.getInstance(), "org.search.orgQuickViewByHierarchyShortName", "Find Organization");
+                final KSAdvancedSearchRpcWindow orgSearchPopup = new KSAdvancedSearchRpcWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "Find Organization");
 
                 orgSearchPopup.addSelectionHandler(new SelectionHandler<List<String>>(){
                     @Override
                     public void onSelection(SelectionEvent<List<String>> event) {
                         String orgId = event.getSelectedItem().get(0);
-                        OrgRpcService.Util.getInstance().getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+                        orgRpcServiceAsync.getOrganization(orgId, new AsyncCallback<OrgInfo>(){
                             public void onFailure(Throwable caught) {
                                 Window.alert(caught.getMessage());
                             }
@@ -271,7 +274,7 @@ class OrgRelationWidget extends OrgMultiWidget {
             orgRelationInfo.getAttributes().put("Note", (String) form.getFieldValue("relNote"));
             
             if (orgRelationInfo.getId() == null){
-                OrgRpcService.Util.getInstance().createOrgOrgRelation(orgRelationInfo, 
+                orgRpcServiceAsync.createOrgOrgRelation(orgRelationInfo, 
                         new AsyncCallback<OrgOrgRelationInfo>(){
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
@@ -286,7 +289,7 @@ class OrgRelationWidget extends OrgMultiWidget {
                     }
                 });
             }else if(formMap.get("deleted") != null){
-                OrgRpcService.Util.getInstance().removeOrgOrgRelation(orgRelationInfo.getId(), 
+                orgRpcServiceAsync.removeOrgOrgRelation(orgRelationInfo.getId(), 
                         new AsyncCallback<StatusInfo>(){
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
@@ -301,7 +304,7 @@ class OrgRelationWidget extends OrgMultiWidget {
                     }
                 });
             }else{
-                OrgRpcService.Util.getInstance().updateOrgOrgRelation(orgRelationInfo, 
+                orgRpcServiceAsync.updateOrgOrgRelation(orgRelationInfo, 
                         new AsyncCallback<OrgOrgRelationInfo>(){
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());

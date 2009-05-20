@@ -6,7 +6,9 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -26,13 +28,16 @@ import com.google.gwt.visualization.client.visualizations.OrgChart;
 import com.google.gwt.visualization.client.visualizations.OrgChart.Options;
 
 public class OrgChartWidget extends Composite {
+    
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     DeckPanel w = new DeckPanel();
 	ScrollPanel root = new ScrollPanel();
 	String orgId;
 	String hierarchyId;
 	int maxLevels;
 	boolean loaded = false;
-
+	
 	public OrgChartWidget(String orgId, String hierarchyId, int maxLevels) {
 		super.initWidget(w);
 		w.add(root);
@@ -52,7 +57,7 @@ public class OrgChartWidget extends Composite {
             Runnable onLoadCallback = new Runnable() {
                 public void run() {
 
-                	OrgRpcService.Util.getInstance().getOrgDisplayTree(orgId, hierarchyId, maxLevels, new AsyncCallback<List<OrgTreeInfo> >(){
+                	orgRpcServiceAsync.getOrgDisplayTree(orgId, hierarchyId, maxLevels, new AsyncCallback<List<OrgTreeInfo> >(){
 
     					public void onFailure(Throwable caught) {
     						Window.alert(caught.getMessage());

@@ -5,7 +5,9 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -14,10 +16,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class OrgLocateChart extends Composite {
 
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     Panel w = new VerticalPanel();
     
     boolean loaded = false;
-    
+        
     public OrgLocateChart() {
         super.initWidget(w);
     }
@@ -28,7 +32,7 @@ public class OrgLocateChart extends Composite {
             
             addStyleName("KS-Org-Chart");
             
-            OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
+            orgRpcServiceAsync.getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                 }

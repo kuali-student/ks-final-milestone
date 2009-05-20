@@ -17,28 +17,16 @@ import org.kuali.student.core.organization.service.OrganizationService;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
 * This class lists all of the methods that the remote calls between client and servlet make, 
 * most of these will be verbatim from the web service  
 */
+@RemoteServiceRelativePath("OrgRpcService")
 public interface OrgRpcService extends RemoteService, BaseRpcService {
 	
-	public static final String SERVICE_URI = "OrgRpcService";
-
-	public static class Util {
-
-		public static OrgRpcServiceAsync getInstance() {
-
-			OrgRpcServiceAsync instance = (OrgRpcServiceAsync) GWT
-					.create(OrgRpcService.class);
-			ServiceDefTarget target = (ServiceDefTarget) instance;
-			target.setServiceEntryPoint(GWT.getModuleBaseURL() + SERVICE_URI);
-			return instance;
-		}
-	}
-
 	public OrgInfo createOrganization(OrgInfo orgInfo);
     public OrgOrgRelationInfo createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
     

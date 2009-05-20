@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -36,6 +38,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public class OrgUpdatePanel extends Composite{
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+
     VerticalPanel root = new VerticalPanel();
     SimplePanel editPanel = new SimplePanel();
     DeckPanel w = new DeckPanel();    
@@ -55,7 +59,7 @@ public class OrgUpdatePanel extends Composite{
         if (!loaded){
             if (orgId == null){
 
-                final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(OrgRpcService.Util.getInstance(), "org.search.orgQuickViewByHierarchyShortName");
+                final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName");
 
                 orgSearchWidget.setMultipleSelect(false);
                 orgSearchWidget.addSelectionHandler(new SelectionHandler<List<String>>(){

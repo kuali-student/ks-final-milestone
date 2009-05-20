@@ -32,9 +32,11 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -62,6 +64,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 @Deprecated
 public class OrgSearchWidget extends Composite implements HasSelectionHandlers<OrgInfo>{
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     VerticalPanel root = new VerticalPanel();
        
     KSDropDown orgHierarchyDropDown = null;
@@ -121,7 +125,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
                     String orgId ;
                     orgId = resultTable.getSelectedItems().get(0);
 
-                    OrgRpcService.Util.getInstance().getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+                    orgRpcServiceAsync.getOrganization(orgId, new AsyncCallback<OrgInfo>(){
                         public void onFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                         }
@@ -142,7 +146,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
             
 
     protected void populateOrgHierarchy(){
-        OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
+        orgRpcServiceAsync.getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
 
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -205,7 +209,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         qpv1.setValue(orgName.getText().replace('*', '%'));
         queryParamValues.add(qpv1);
         
-        OrgRpcService.Util.getInstance().searchForResults("org.search.orgQuickViewByHierarchyShortName", 
+        orgRpcServiceAsync.searchForResults("org.search.orgQuickViewByHierarchyShortName", 
                 queryParamValues, new AsyncCallback<List<Result>>(){
 
                     public void onFailure(Throwable caught) {

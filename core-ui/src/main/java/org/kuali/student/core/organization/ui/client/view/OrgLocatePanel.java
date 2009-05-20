@@ -24,8 +24,10 @@ import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -46,6 +48,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class OrgLocatePanel extends Composite{
 
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     VerticalPanel root = new VerticalPanel();
     VerticalPanel browsePanel;
     
@@ -98,7 +102,7 @@ public class OrgLocatePanel extends Composite{
         orgList = new HorizontalPanel();        
         orgChart = new SimplePanel();
         
-        OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
+        orgRpcServiceAsync.getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
             }
@@ -130,7 +134,7 @@ public class OrgLocatePanel extends Composite{
     }
     
     protected void getOrgList(List<String> orgIds){
-        OrgRpcService.Util.getInstance().getOrganizationsByIdList(orgIds, new AsyncCallback<List<OrgInfo>>(){
+        orgRpcServiceAsync.getOrganizationsByIdList(orgIds, new AsyncCallback<List<OrgInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
             }
@@ -149,7 +153,7 @@ public class OrgLocatePanel extends Composite{
     }
 
     protected void getOrgChildren(String orgId){
-        OrgRpcService.Util.getInstance().getAllDescendants(orgId, activeHierarchyId, new AsyncCallback<List<String>>(){
+        orgRpcServiceAsync.getAllDescendants(orgId, activeHierarchyId, new AsyncCallback<List<String>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
             }

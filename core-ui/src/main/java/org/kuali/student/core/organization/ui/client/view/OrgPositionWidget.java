@@ -36,7 +36,9 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -47,6 +49,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class OrgPositionWidget extends OrgMultiWidget {
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     static final String FAKE_ID = "FAKE-ID-";
     private ListItems orgPosTypeList;
     List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
@@ -175,7 +179,7 @@ class OrgPositionWidget extends OrgMultiWidget {
     }
 
     private void populateOrgPositionTypes() {
-        OrgRpcService.Util.getInstance().getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
+        orgRpcServiceAsync.getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
             }
@@ -217,7 +221,7 @@ class OrgPositionWidget extends OrgMultiWidget {
     }
     
     private void populatePositionInfos() {
-        OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId,
+        orgRpcServiceAsync.getPositionRestrictionsByOrg(orgId,
                 new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
         
                     public void onFailure(Throwable caught) {
@@ -314,7 +318,7 @@ class OrgPositionWidget extends OrgMultiWidget {
                 if(formMap.get("deleted") != null)
                     continue;
                 orgPosRestriction.setId(null);
-                OrgRpcService.Util.getInstance().addPositionRestrictionToOrg(orgPosRestriction,
+                orgRpcServiceAsync.addPositionRestrictionToOrg(orgPosRestriction,
                         new AsyncCallback<OrgPositionRestrictionInfo>(){
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
@@ -330,7 +334,7 @@ class OrgPositionWidget extends OrgMultiWidget {
                     }
                 });
             }else if(formMap.get("deleted") != null){
-                OrgRpcService.Util.getInstance().removePositionRestrictionFromOrg(orgPosRestriction.getOrgId(), orgPosRestriction.getOrgPersonRelationTypeKey(), 
+                orgRpcServiceAsync.removePositionRestrictionFromOrg(orgPosRestriction.getOrgId(), orgPosRestriction.getOrgPersonRelationTypeKey(), 
                         new AsyncCallback<StatusInfo>(){
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
@@ -345,7 +349,7 @@ class OrgPositionWidget extends OrgMultiWidget {
                     }
                 }); 
             }else{
-                OrgRpcService.Util.getInstance().updatePositionRestrictionForOrg(orgPosRestriction,
+                orgRpcServiceAsync.updatePositionRestrictionForOrg(orgPosRestriction,
                         new AsyncCallback<OrgPositionRestrictionInfo>(){
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());

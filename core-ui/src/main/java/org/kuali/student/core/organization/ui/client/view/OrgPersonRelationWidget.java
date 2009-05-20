@@ -38,10 +38,12 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
 import org.kuali.student.core.person.ui.client.view.PersonSearchWidget;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -57,6 +59,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 class OrgPersonRelationWidget extends OrgMultiWidget {
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
     private ListItems orgPersonRelTypeList;
     
     List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
@@ -189,7 +193,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
 
     private void populateRelationshipTypes() {
         if(orgId != null){
-            OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId, new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
+            orgRpcServiceAsync.getPositionRestrictionsByOrg(orgId, new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                 }
@@ -234,7 +238,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     }
     
     private void populatePersonRelationInfos() {
-        OrgRpcService.Util.getInstance().getOrgPersonRelationsByOrg(orgId, 
+        orgRpcServiceAsync.getOrgPersonRelationsByOrg(orgId, 
                 new AsyncCallback<List<OrgPersonRelationInfo>>(){
 
                     public void onFailure(Throwable caught) {
@@ -332,7 +336,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     
     private void doSave(Map<String, Object> formMap, OrgPersonRelationInfo orgPersonRelationInfo) {
         if (orgPersonRelationInfo.getId() == null){ //TODO deal with new creations that have been deleted (others too)
-            OrgRpcService.Util.getInstance().createOrgPersonRelation(orgId,orgPersonRelationInfo.getPersonId(),orgPersonRelationInfo.getType(), orgPersonRelationInfo, 
+            orgRpcServiceAsync.createOrgPersonRelation(orgId,orgPersonRelationInfo.getPersonId(),orgPersonRelationInfo.getType(), orgPersonRelationInfo, 
                     new AsyncCallback<OrgPersonRelationInfo>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -347,7 +351,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                 }
             });
         } else if(formMap.get("deleted") != null){
-            OrgRpcService.Util.getInstance().removeOrgPersonRelation(orgPersonRelationInfo.getId(), 
+            orgRpcServiceAsync.removeOrgPersonRelation(orgPersonRelationInfo.getId(), 
                     new AsyncCallback<StatusInfo>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -362,7 +366,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                 }
             });
         } else {
-            OrgRpcService.Util.getInstance().updateOrgPersonRelation(orgPersonRelationInfo.getId(),orgPersonRelationInfo, new AsyncCallback<OrgPersonRelationInfo>(){
+            orgRpcServiceAsync.updateOrgPersonRelation(orgPersonRelationInfo.getId(),orgPersonRelationInfo, new AsyncCallback<OrgPersonRelationInfo>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                 }
