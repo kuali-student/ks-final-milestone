@@ -9,24 +9,24 @@ import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * @author Zdenek Zraly
  */
-public class RequirementsServiceGwt extends RemoteServiceServlet implements RequirementsService {
+public class RequirementsServiceGwt extends RemoteServiceServlet implements RequirementsRpcService {
 
     private static final long serialVersionUID = 822326113643828855L;
 
-    private RequirementsService serviceImpl;  
+    private RequirementsRpcService serviceImpl;  
     
-    public RequirementsService getServiceImpl() {
+    public RequirementsRpcService getServiceImpl() {
         return serviceImpl;
     }
 
-    public void setServiceImpl(RequirementsService serviceImpl) {
+    public void setServiceImpl(RequirementsRpcService serviceImpl) {
     	this.serviceImpl = serviceImpl;
     }
     

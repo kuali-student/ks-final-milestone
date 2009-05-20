@@ -23,12 +23,12 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.client.service.RequirementsService;
+import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 
 /**
  * @author Zdenek Zraly
  */
-public class RequirementsServiceImpl implements RequirementsService {
+public class RequirementsServiceImpl implements RequirementsRpcService {
 
 	LuService service;
 	
