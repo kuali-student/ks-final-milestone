@@ -32,7 +32,7 @@ public abstract class LayoutGroup<T extends Idable> {
         return parentLayout;
     }   
     
-    public abstract void validate(Callback<ErrorLevel> callback);
-    public abstract void populate();
-    public abstract void updateObject();
+//    public abstract void validate(Callback<ErrorLevel> callback);
+  //  public abstract void populate();
+   // public abstract void updateObject();
 }
