@@ -43,6 +43,9 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
+        if(username==null || username.equals("")){
+            throw new UsernameNotFoundException("Cannot pass null or empty values to constructor");
+        }
         password = username;
         
         ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
