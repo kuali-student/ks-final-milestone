@@ -55,7 +55,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.lum.lrc.service.LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/lum/lrc")
-@Transactional
+@Transactional(rollbackFor={Throwable.class})
 public class LrcServiceImpl implements LrcService {
 	private LrcDao lrcDao;
 
