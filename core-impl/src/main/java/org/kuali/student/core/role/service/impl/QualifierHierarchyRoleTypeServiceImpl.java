@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.rice.kim.bo.types.KimAttributesTranslator;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.role.QualifierHierarchyRoleTypeService;
 import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
@@ -249,10 +248,6 @@ public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchy
     
     public boolean performMatches(final AttributeSet inputAttributeSet, final List<AttributeSet> standardAttributeSet){
     	return false;
-    }
-    
-    public List<KimAttributesTranslator> getKimAttributesTranslators(){
-    	return null;
     }
     
     public AttributeSet translateInputAttributeSet(final AttributeSet inputAttributeSet){
