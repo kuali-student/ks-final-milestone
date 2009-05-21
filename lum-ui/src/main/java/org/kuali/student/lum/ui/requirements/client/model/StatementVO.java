@@ -766,7 +766,7 @@ public class StatementVO extends Token implements Serializable {
                         (statementVO == null ||
                                 statementVO.getLuStatementInfo() == null)? null :
                                     statementVO.getLuStatementInfo().getOperator();
-                    inSbResult.append(" " + operator + " ");
+                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
                 }
                 inSbResult.append(childReqComponentInfo.getGuiReferenceLabelId());
                 rcCounter++;
