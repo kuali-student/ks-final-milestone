@@ -200,4 +200,36 @@
 		</property>
 	</bean>
 
+    <bean id="mapExceptionAdvisor"
+        class="org.kuali.student.common.util.ExceptionMappingAdvice">
+        <property name="defaultException"
+            value="org.kuali.student.core.exceptions.OperationFailedException" />
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                <entry
+                    key="org.hibernate.exception.ConstraintViolationException"
+                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="mapExceptionAdvisor">
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.core.organization.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.core.person.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.core.atp.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+        </aop:aspect>
+    </aop:config>
+
 </beans>
