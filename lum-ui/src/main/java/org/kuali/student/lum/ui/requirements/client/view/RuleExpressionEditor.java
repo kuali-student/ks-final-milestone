@@ -105,8 +105,8 @@ public class RuleExpressionEditor extends ViewComposite {
                         prereqInfo.getStatementVO().getAllReqComponentVOs());
                 prereqInfo.setStatementVO(newStatementVO);
                 prereqInfo.setPreviewedExpression(null);
-                getController().showView(PrereqViews.COMPLEX);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                getController().showView(PrereqViews.COMPLEX);
             }
         });
         
@@ -165,6 +165,8 @@ public class RuleExpressionEditor extends ViewComposite {
             }
             if (prereqInfo.getPreviewedExpression() != null) {
                 String previewExpression = prereqInfo.getPreviewedExpression();
+                previewExpression = previewExpression.replaceAll("\n", " ");
+                previewExpression = previewExpression.replaceAll("\r", " ");
                 List<ReqComponentVO> rcs = 
                     (prereqInfo.getStatementVO() == null ||
                             prereqInfo.getStatementVO().getAllReqComponentVOs() == null)?
@@ -174,7 +176,8 @@ public class RuleExpressionEditor extends ViewComposite {
                 ruleExpressionParser.setExpression(previewExpression);
                 List<String> errorMessages = new ArrayList<String>();
                 List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
-                boolean validExpression = ruleExpressionParser.validateExpression(errorMessages);
+                boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
+                htmlErrorMessage.setHTML("");
                 if (!validExpression) {
                     if (errorMessages != null) {
                         StringBuilder sb = new StringBuilder("Error Message: <BR>");

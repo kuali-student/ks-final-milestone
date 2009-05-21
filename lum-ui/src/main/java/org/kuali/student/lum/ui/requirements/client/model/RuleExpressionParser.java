@@ -30,10 +30,10 @@ public class RuleExpressionParser {
         }
     }
     
-    public boolean validateExpression(List<String> errorMessages) {
+    public boolean validateExpression(List<String> errorMessages, List<ReqComponentVO> validRCs) {
         boolean valid = false;
         checkExpressionSet();
-        valid = doValidateExpression(errorMessages, tokenList);
+        valid = doValidateExpression(errorMessages, tokenList, validRCs);
         return valid;
     }
     
@@ -67,8 +67,10 @@ public class RuleExpressionParser {
         }
     }
     
-    private boolean doValidateExpression(List<String> errorMessages, final List<Token> tokens) {
+    private boolean doValidateExpression(List<String> errorMessages, final List<Token> tokens,
+            List<ReqComponentVO> validRCs) {
         boolean valid = true;
+        List<String> seenConditonValues = new ArrayList<String>();
         // allow empty expression. ie. user wants the entire rule deleted.
         if (tokens.size() == 0) {
             return true;
@@ -92,18 +94,34 @@ public class RuleExpressionParser {
             return false;
         }
         // condition cannot duplicate
-        for (int i = 1; i < tokens.size(); i++) {
+        for (int i = 0; i < tokens.size(); i++) {
             Token token = tokens.get(i);
             if (token.type == Token.And) {
-                checkAnd(errorMessages, tokens, i);
+                if (!checkAnd(errorMessages, tokens, i)) {
+                    return false;
+                }
             } else if (token.type == Token.Or) {
-                checkOr(errorMessages, tokens, i);
+                if (!checkOr(errorMessages, tokens, i)) {
+                    return false;
+                }
             } else if (token.type == Token.StartParenthesis) {
-                checkStartParenthesis(errorMessages, tokens, i);
+                if (!checkStartParenthesis(errorMessages, tokens, i)) {
+                    return false;
+                }
             } else if (token.type == Token.EndParenthesis) {
-                checkEndParenthesis(errorMessages, tokens, i);
+                if (!checkEndParenthesis(errorMessages, tokens, i)) {
+                    return false;
+                }
             } else if (token.type == Token.Condition) {
-                checkCondition(errorMessages, tokens, i);
+                if (seenConditonValues.contains(token.value)) {
+                    errorMessages.add("Condition " + token.value + " is duplicated.");
+                    return false;
+                } else {
+                    seenConditonValues.add(token.value);
+                }
+                if (!checkCondition(errorMessages, tokens, i, validRCs)) {
+                    return false;
+                }
             }
         }
         return valid;
@@ -119,68 +137,105 @@ public class RuleExpressionParser {
         return count;
     }
 
-    private void checkAnd(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
-        if ((tokenList.get(currentIndex - 1).type == Token.Condition || tokenList.get(currentIndex - 1).type == Token.EndParenthesis) == false) {
+    private boolean checkAnd(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
+        Token prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+            tokenList.get(currentIndex - 1);
+        Token nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+            tokenList.get(currentIndex + 1);
+        boolean validToken = true;
+        if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ) and condition could sit before and");
+            validToken = validToken && false;
         }
-        if (currentIndex == tokenList.size() - 1) {
-            return;
-        }
-        if ((tokenList.get(currentIndex + 1).type == Token.Condition || tokenList.get(currentIndex + 1).type == Token.StartParenthesis) == false) {
+        if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after and");
+            validToken = validToken && false;
         }
-
+        return validToken;
     }
 
-    private void checkOr(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
-        if ((tokenList.get(currentIndex - 1).type == Token.Condition || tokenList.get(currentIndex - 1).type == Token.EndParenthesis) == false) {
+    private boolean checkOr(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
+        Token prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+            tokenList.get(currentIndex - 1);
+        Token nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+            tokenList.get(currentIndex + 1);
+        boolean validToken = true;
+        if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ) and condition could sit before or");
+            validToken = validToken && false;
         }
-        if (currentIndex == tokenList.size() - 1) {
-            return;
-        }
-        if ((tokenList.get(currentIndex + 1).type == Token.Condition || tokenList.get(currentIndex + 1).type == Token.StartParenthesis) == false) {
+        if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after or");
+            validToken = validToken && false;
         }
+        return validToken;
     }
 
-    private void checkStartParenthesis(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
-        if ((tokenList.get(currentIndex - 1).type == Token.And || tokenList.get(currentIndex - 1).type == Token.Or || tokenList.get(currentIndex - 1).type == Token.StartParenthesis) == false) {
+    private boolean checkStartParenthesis(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
+        Token prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+            tokenList.get(currentIndex - 1);
+        Token nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+            tokenList.get(currentIndex + 1);
+        boolean validToken = true;
+        if (prevToken != null && (prevToken.type == Token.And || prevToken.type == Token.Or || prevToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only and, or, ( could sit before (");
+            validToken = validToken && false;
         }
-        if (currentIndex == tokenList.size() - 1) {
-            return;
-        }
-        if ((tokenList.get(currentIndex + 1).type == Token.Condition || tokenList.get(currentIndex + 1).type == Token.StartParenthesis) == false) {
+        if (nextToken != null && (nextToken.type == Token.Condition || nextToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only ( and condition could sit after (");
+            validToken = validToken && false;
         }
-
+        return validToken;
     }
 
-    private void checkEndParenthesis(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
-        if ((tokenList.get(currentIndex - 1).type == Token.Condition || tokenList.get(currentIndex - 1).type == Token.EndParenthesis) == false) {
+    private boolean checkEndParenthesis(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
+        Token prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+            tokenList.get(currentIndex - 1);
+        Token nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+            tokenList.get(currentIndex + 1);
+        boolean validToken = true;
+        if (prevToken != null && (prevToken.type == Token.Condition || prevToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only condition and ) could sit before )");
+            validToken = validToken && false;
         }
-        if (currentIndex == tokenList.size() - 1) {
-            return;
-        }
-        if ((tokenList.get(currentIndex + 1).type == Token.Or || tokenList.get(currentIndex + 1).type == Token.And || tokenList.get(currentIndex + 1).type == Token.EndParenthesis) == false) {
+        if (nextToken != null && (nextToken.type == Token.Or || nextToken.type == Token.And || nextToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ), and, or could sit after )");
+            validToken = validToken && false;
         }
-
+        return validToken;
     }
 
-    private void checkCondition(List<String> errorMessages, List<Token> tokenList, int currentIndex) {
-        if ((tokenList.get(currentIndex - 1).type == Token.And || tokenList.get(currentIndex - 1).type == Token.Or || tokenList.get(currentIndex - 1).type == Token.StartParenthesis) == false) {
+    private boolean checkCondition(List<String> errorMessages, List<Token> tokenList, int currentIndex,
+            List<ReqComponentVO> validRCs) {
+        Token prevToken = (tokenList == null || currentIndex - 1 < 0)? null :
+            tokenList.get(currentIndex - 1);
+        Token nextToken = (tokenList == null || currentIndex + 1 >= tokenList.size())? null :
+            tokenList.get(currentIndex + 1);
+        boolean validToken = true;
+        if (prevToken != null && (prevToken.type == Token.And || prevToken.type == Token.Or || prevToken.type == Token.StartParenthesis) == false) {
             errorMessages.add("only and, or could sit before condition");
+            validToken = validToken && false;
         }
-        if (currentIndex == tokenList.size() - 1) {
-            return;
-        }
-        if ((tokenList.get(currentIndex + 1).type == Token.Or || tokenList.get(currentIndex + 1).type == Token.And || tokenList.get(currentIndex + 1).type == Token.EndParenthesis) == false) {
+        if (nextToken != null && (nextToken.type == Token.Or || nextToken.type == Token.And || nextToken.type == Token.EndParenthesis) == false) {
             errorMessages.add("only ), and, or could sit after condition");
+            validToken = validToken && false;
         }
-
+        Token conditionToken = tokenList.get(currentIndex);
+        String conditionLetter = conditionToken.value;
+        boolean validConditonLetter = false;
+        if (validRCs != null) {
+            for (ReqComponentVO rc : validRCs) {
+                if (rc.getGuiReferenceLabelId() != null &&
+                        rc.getGuiReferenceLabelId().equalsIgnoreCase(conditionLetter)) {
+                    validConditonLetter = true;
+                }
+            }
+        }
+        if (!validConditonLetter) {
+            errorMessages.add(conditionLetter + " is not a valid conditon");
+            validToken = validToken && false;
+        }
+        return validToken;
     }
     
     public Node parseExpressionIntoTree(String expression, List<ReqComponentVO> rcs) {
@@ -200,7 +255,7 @@ public class RuleExpressionParser {
         try {
             List<String> tokenValueList = getTokenValue(expression);
             List<Token> tokenList = getTokenList(tokenValueList);
-            if (!doValidateExpression(new ArrayList<String>(), tokenList)) return null;
+            if (!doValidateExpression(new ArrayList<String>(), tokenList, rcs)) return null;
             List<Node<Token>> nodeList = toNodeList(tokenList);
             List<Node<Token>> rpnList = getRPN(nodeList);
             parsedS = statementVOFromRPN(rpnList, rcs);
