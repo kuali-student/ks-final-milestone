@@ -53,9 +53,8 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
-@Transactional
+@Transactional(rollbackFor={Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
-
 
 	private OrganizationDao organizationDao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change

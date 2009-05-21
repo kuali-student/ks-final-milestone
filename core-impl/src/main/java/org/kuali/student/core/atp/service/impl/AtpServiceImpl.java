@@ -36,7 +36,7 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/core/atp")
-@Transactional
+@Transactional(rollbackFor={Throwable.class})
 public class AtpServiceImpl implements AtpService {
 
 	private AtpDao atpDao;
