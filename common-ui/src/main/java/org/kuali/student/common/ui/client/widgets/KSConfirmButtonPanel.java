@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.impl.KSConfirmButtonPanelImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -23,25 +24,6 @@ public class KSConfirmButtonPanel extends KSConfirmButtonPanelAbstract{
 		this.initWidget(confirmButtonPanel);
 		
 	}
-
-	/**
-	 * Adds a click handler to handle click events on the Confirm button.
-	 * 
-	 * @param handler the ClickHandler to handle click events on the Confirm button.
-	 */
-	public void addConfirmHandler(ClickHandler handler){
-		confirmButtonPanel.addConfirmHandler(handler);
-	}
-	
-
-	/**
-	 * Adds a click handler to handle click events on the Cancel button.
-	 * 
-	 * @param handler the ClickHandler to handle click events on the Cancel button.
-	 */
-	public void addCancelHandler(ClickHandler handler){
-		confirmButtonPanel.addCancelHandler(handler);
-	}
 	
 	/**
 	 * Sets the current focus to the Confirm button.
@@ -59,5 +41,18 @@ public class KSConfirmButtonPanel extends KSConfirmButtonPanelAbstract{
 	public void setCancelFocus(){
 		confirmButtonPanel.setCancelFocus();
 	}
+
+
+
+    
+    /**
+     * Adds a callback that is called when the user presses the confirm or cancel button.  The callback
+     * is returned true if the user confirms, false otherwise.
+     * 
+     */
+    public void addConfirmationCallback(Callback<Boolean> callback) {
+        confirmButtonPanel.addConfirmationCallback(callback);
+        
+    }
 
 }
