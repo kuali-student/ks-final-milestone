@@ -388,17 +388,46 @@ public class StatementVO extends Token implements Serializable {
         }
         return guiRCId;
     }
+    
+    private void assignGuiRCId() {
+        doAssignGuiRCId(this, new ArrayList<ReqComponentVO>());
+    }
+    
+    private void doAssignGuiRCId(StatementVO statementVO, List<ReqComponentVO> rcs) {
+        List<StatementVO> statementVOs = statementVO.getStatementVOs();
+        List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
+        
+        if (statementVOs != null) {
+//            node.setUserObject(statementVO);
+            for (int i = 0; i < statementVOs.size(); i++) {
+                StatementVO childStatementVO = statementVOs.get(i);
+                doAssignGuiRCId(childStatementVO, rcs);
+            }
+        }
 
+        if (reqComponentVOs != null) {
+            for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
+                ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
+                if (childReqComponentVO.getGuiReferenceLabelId() == null ||
+                        childReqComponentVO.getGuiReferenceLabelId().trim().length() == 0) {
+                    String guiRCId = null;
+                    guiRCId = getNextGuiRCId(rcs);
+                    childReqComponentVO.setGuiReferenceLabelId(guiRCId);
+                }
+                rcs.add(childReqComponentVO);
+            }
+        }        
+    }
+    
     public Node getTree() {        
         Node node = new Node();
-        addChildrenNodes(node, this, 
-                new ArrayList<ReqComponentVO>());
+        assignGuiRCId();
+        addChildrenNodes(node, this);
         //printTree(node);
         return node;
     }
     
-    private void addChildrenNodes(Node node, StatementVO statementVO,
-            List<ReqComponentVO> rcs) {
+    private void addChildrenNodes(Node node, StatementVO statementVO) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
@@ -409,7 +438,7 @@ public class StatementVO extends Token implements Serializable {
                 StatementVO childStatementVO = statementVOs.get(i);
                 Node childNode = new Node();
                 node.addNode(childNode);
-                addChildrenNodes(childNode, childStatementVO, rcs);
+                addChildrenNodes(childNode, childStatementVO);
             }
         }
 
@@ -417,12 +446,6 @@ public class StatementVO extends Token implements Serializable {
             //System.out.println("VO size: " + reqComponentVOs.size());
             for (int rcIndex = 0, rcCount = reqComponentVOs.size(); rcIndex < rcCount; rcIndex++) {
                 ReqComponentVO childReqComponentVO = reqComponentVOs.get(rcIndex);
-                if (childReqComponentVO.getGuiReferenceLabelId() == null ||
-                        childReqComponentVO.getGuiReferenceLabelId().trim().length() == 0) {
-                    String guiRCId = null;
-                    guiRCId = getNextGuiRCId(rcs);
-                    childReqComponentVO.setGuiReferenceLabelId(guiRCId);
-                }
                 if (rcCount > 1) {
                     //System.out.println("TESTING 00---> " + childReqComponentVO.getReqComponentInfo().getDesc() + " ### " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
                     node.addNode(new Node(childReqComponentVO));
@@ -430,7 +453,6 @@ public class StatementVO extends Token implements Serializable {
                     //System.out.println("TESTING 0---> " + childReqComponentVO.getReqComponentInfo().getReqCompField().size());
                     node.setUserObject(childReqComponentVO);
                 }
-                rcs.add(childReqComponentVO);
             }
         }        
     }
@@ -703,6 +725,7 @@ public class StatementVO extends Token implements Serializable {
     
     public String convertToExpression() {
         StringBuilder sbResult = null;
+        assignGuiRCId();
         sbResult = doConvertToExpression(new StringBuilder(),
                 this, false);
         return sbResult.toString();
