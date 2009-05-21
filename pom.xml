@@ -89,6 +89,7 @@
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
 		<eclipselink.version>1.0</eclipselink.version>
+        <aspectj.version>1.5.4</aspectj.version>
 		
 		<!-- plugin versions -->
 		<cobertura.plugin.version>2.2</cobertura.plugin.version>
