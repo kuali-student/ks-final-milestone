@@ -1,10 +1,11 @@
 package org.kuali.student.common.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.core.Ordered;
 
@@ -12,7 +13,7 @@ import org.springframework.core.Ordered;
  * @author Daniel Epstein
  *         <p>
  *         Use this Advice to map one exception to another for use when other
- *         advice eats your exceptions outside of your code. This happens in
+ *         advice eats your runtime exceptions outside of your code. This happens in
  *         Transactions when commit is not called until outside of your DAO
  *         layer.
  *         </p>
@@ -55,7 +56,7 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 	private static final long serialVersionUID = 1L;
 	private Map<Class<? extends Exception>, Class<? extends Exception>> exceptionMapping;
 	private Class<? extends Exception> defaultException;
-	final Logger logger = LoggerFactory.getLogger(ExceptionMappingAdvice.class);
+	final Logger logger = Logger.getLogger(ExceptionMappingAdvice.class);
 
 	/**
 	 * This method will use the real exception thrown and look up the exception
@@ -67,21 +68,41 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 	public void afterThrowing(Exception ex) throws Exception {
 		Class<? extends Exception> mappedExceptionClass = exceptionMapping
 				.get(ex.getClass());
-        logger.debug("Mapping exception {} to {}",ex.getClass(),mappedExceptionClass);
+
 		if (mappedExceptionClass != null) {
-			Constructor<? extends Exception> c = mappedExceptionClass
+	        logger.debug("Mapping exception "+ex.getClass()+" to "+mappedExceptionClass);
+	        Constructor<? extends Exception> c = mappedExceptionClass
 					.getConstructor(String.class);
 			Exception mappedException = c.newInstance(ex.getMessage());
 			throw mappedException;
 		}
-		logger.trace("No mapping available, throwing default exception {}",defaultException);
-		if (defaultException != null) {
-			Constructor<? extends Exception> c = defaultException
-					.getConstructor(String.class);
-			throw c.newInstance(ex.getMessage());
+		
+		//Throw a default exception if this is a runtime exception
+		if(ex instanceof RuntimeException){
+			logger.trace("No mapping available, throwing default exception "+defaultException);
+			if (defaultException != null) {
+				//Log the error
+				StringWriter traceWriter = new StringWriter();
+				PrintWriter printWriter = new PrintWriter(traceWriter, false);
+				ex.printStackTrace(printWriter);
+				printWriter.close();
+				String faultMessage = traceWriter.getBuffer().toString();
+				logger.error(faultMessage);
+				//Throw the default exception
+				try{
+					Constructor<? extends Exception> c = defaultException
+							.getConstructor(String.class, Throwable.class);
+					throw c.newInstance(ex.getMessage(), ex);
+				}catch(NoSuchMethodException e){
+					Constructor<? extends Exception> c = defaultException
+							.getConstructor(String.class);
+					throw c.newInstance(ex.getMessage());
+				}
+			}
+			//Check if no default was defined
+			logger.debug("No mapping or default exception available. Exception "+ex.getClass());
+			throw new RuntimeException("Could Not Map Exception: " + ex.toString());
 		}
-		logger.debug("No mapping or default exception available. Exception {}",ex.getClass());
-		throw new RuntimeException("Could Not Map: " + ex.toString());
 	}
 
 	@Override
