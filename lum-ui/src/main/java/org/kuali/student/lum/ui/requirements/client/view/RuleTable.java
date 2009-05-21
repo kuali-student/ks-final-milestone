@@ -7,11 +7,16 @@ import org.kuali.student.common.ui.client.widgets.table.ExpressionParser;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.TreeTable;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -80,6 +85,10 @@ public class RuleTable extends Composite {
         }
     }
     
+    public CellFormatter getCellFormatter() {
+        return treeTable.getCellFormatter();
+    }
+    
     public void addToggleHandler(ClickHandler toggleHandler) {
         for (int i = 0; i < treeTable.getRowCount(); i++) {
             for (int j = 0; j < treeTable.getCellCount(i); j++) {
@@ -89,24 +98,10 @@ public class RuleTable extends Composite {
         }
     }
 
-    public void addTextClickHandler(ClickHandler textClickHandler) {
-        for (int i = 0; i < treeTable.getRowCount(); i++) {
-            for (int j = 0; j < treeTable.getCellCount(i); j++) {
-                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
-                w.addTextClickHandler(textClickHandler);
-            }
-        }
+    public HandlerRegistration addTextClickHandler(ClickHandler textClickHandler) {
+        return addDomHandler(textClickHandler, ClickEvent.getType());
     }    
     
-    public void removeTextClickHandler(ClickHandler textClickHandler) {
-        for (int i = 0; i < treeTable.getRowCount(); i++) {
-            for (int j = 0; j < treeTable.getCellCount(i); j++) {
-                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
-                w.clearTextClickHandler();
-            }
-        }
-    }    
-
     static int test = 0;
     
     public void addEditClauseHandler(ClickHandler editClauseHandler) {
@@ -126,6 +121,7 @@ public class RuleTable extends Composite {
     private void buildTable(Node node, int columnIndex) {
         int rowIndex = getRowIndexAmongSibings(node);
         RuleNodeWidget nodeWidget = new RuleNodeWidget(node, showControls);
+        nodeWidget.drawNode(node, this, rowIndex, columnIndex);
         treeTable.setWidget(rowIndex, columnIndex, nodeWidget);
         nodeWidget.setWidth("100%");
 
@@ -136,14 +132,14 @@ public class RuleTable extends Composite {
                 RuleNodeWidget childNodeWidget = 
                     (RuleNodeWidget) ((FlexTable)treeTable).getWidget(childRowIndex, columnIndex + 1);
                 childNodeWidget.setShowControls(this.showControls);
-                childNodeWidget.setNode(child);
+                childNodeWidget.drawNode(child, this, childRowIndex, columnIndex + 1);
             } else {
                 buildTable(child, columnIndex + 1);
             }
         }
 
     }
-
+    
     public RuleNodeWidget getRuleNodeWidget(Node node) {
         RuleNodeWidget result = null;
         for (int i = 0; i < treeTable.getRowCount(); i++) {
@@ -219,5 +215,4 @@ public class RuleTable extends Composite {
         simplePanel.add(treeTable);
     }
 
-    
 }

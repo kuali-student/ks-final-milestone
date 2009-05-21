@@ -18,12 +18,12 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class RuleNodeWidget extends SimplePanel {
+public class RuleNodeWidget extends FocusPanel {
     private Node node;
     private boolean showControls;
     HTML html = new HTML();
@@ -32,7 +32,6 @@ public class RuleNodeWidget extends SimplePanel {
     AndOrButton toggle = new AndOrButton();
     HorizontalPanel checkBoxAndEdit;
     HandlerRegistration editClauseHandlerRegistration;
-    HandlerRegistration textClickHandlerRegistration;
     
     public RuleNodeWidget(Node n) {
         init(n, true);
@@ -45,9 +44,9 @@ public class RuleNodeWidget extends SimplePanel {
     private void init(Node n, boolean showControls) {
         node = n;
         this.showControls = showControls;
-        setNode(n); 
+        drawNode(n, null, -1, -1); 
     }
-
+    
     public boolean isShowControls() {
         return showControls;
     }
@@ -80,30 +79,8 @@ public class RuleNodeWidget extends SimplePanel {
         }
     }
     
-    public void addTextClickHandler(ClickHandler ch) {
-        textClickHandlerRegistration = 
-            addDomHandler(ch, ClickEvent.getType());
-    }
-    
-    public void clearTextClickHandler() {
-        textClickHandlerRegistration.removeHandler();
-    }
-    
-    @Override
-    public void onBrowserEvent(Event event) {
-        super.onBrowserEvent(event);
-        switch (DOM.eventGetType(event)) {
-            case Event.ONMOUSEUP:
-                Element related = event.getRelatedTarget();
-                if (related != null && getElement().isOrHasChild(related)) {
-                    return;
-                }
-                break;
-        }
-        DomEvent.fireNativeEvent(event, this, this.getElement());
-    }
-
-    public void setNode(Node n) {
+    public void drawNode(Node n, RuleTable ruleTable,
+            int rowIndex, int columnIndex) {
         Object userObject = null;
         node = n;
         userObject = node.getUserObject();
@@ -122,7 +99,11 @@ public class RuleNodeWidget extends SimplePanel {
                     toggle.setValue(AndOrButton.And);
                 }
                 checkBoxAndToggle.add(toggle);
-                checkBoxAndToggle.setStyleName((statementVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
+                if (ruleTable != null) {
+                    String selectionStyle = (statementVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
+                    ruleTable.getCellFormatter().setStyleName(
+                            rowIndex, columnIndex, selectionStyle);
+                }
             } else {
                 checkBoxAndToggle.add(html);
                 checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
@@ -148,10 +129,13 @@ public class RuleNodeWidget extends SimplePanel {
                 checkBoxAndEdit.add(checkBox);
                 edit.addStyleName("KS-Rules-Edit-Link");
                 checkBoxAndEdit.add(edit);
-                checkBoxAndEdit.addStyleName((reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected"));
+                if (ruleTable != null) {
+                    String selectionStyle = (reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
+                    ruleTable.getCellFormatter().setStyleName(
+                            rowIndex, columnIndex, selectionStyle);
+                }
             } else {
                 checkBoxAndEdit.add(html);
-                checkBoxAndEdit.addStyleName("KS-ReqComp-DeSelected");
             }
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());

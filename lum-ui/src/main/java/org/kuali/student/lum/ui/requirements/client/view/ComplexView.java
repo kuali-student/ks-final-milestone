@@ -23,6 +23,7 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -55,6 +56,7 @@ public class ComplexView extends ViewComposite {
     private ClickHandler ruleTableSelectionHandler = null;
     private ClickHandler ruleTableToggleClickHandler = null;
     private ClickHandler ruleTableEditClauseHandler = null;
+    private HandlerRegistration textClickHandler = null;
     
     //view's data
     private Model<PrereqInfo> model;
@@ -153,8 +155,8 @@ public class ComplexView extends ViewComposite {
                 }
                 updateRulesTable();
             }
-        };    
-        ruleTable.addClickHandler(ruleTableSelectionHandler);        
+        };
+        textClickHandler = ruleTable.addTextClickHandler(ruleTableSelectionHandler);
         
         ruleTableEditClauseHandler = new ClickHandler() {
             @Override
@@ -437,6 +439,7 @@ public class ComplexView extends ViewComposite {
             Node tree = prereqInfo.getStatementTree();            
             if (tree != null) {
                 ruleTable.buildTable(tree);
+                textClickHandler.removeHandler();
                 ruleTable.addTextClickHandler(ruleTableSelectionHandler);
                 ruleTable.addToggleHandler(ruleTableToggleClickHandler);
                 ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
