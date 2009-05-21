@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-server</artifactId>
-      <version>0.9.4-KS-1-SNAPSHOT</version>
+      <version>0.9.4-KS-3-SNAPSHOT</version>
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
