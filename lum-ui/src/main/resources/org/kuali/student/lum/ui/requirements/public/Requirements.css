@@ -287,6 +287,19 @@
 	
 }
 
+.KS-Rules-Toggle-Label{
+	background: #003399;
+	color: white;
+	height: 20;
+	width: 30;
+	text-align: center;
+}
+
+.KS-Rules-Toggle-Button{
+	height: 20;
+	width: 30;
+}
+
 .KS-Radio{
 	/*margin: 2px;*/
 	font-size: 80%;

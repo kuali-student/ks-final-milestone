@@ -23,6 +23,10 @@ public class AndOrButton extends HorizontalPanel {
         super.add(andLabel);
         super.add(orLabel);
         super.add(orButton);
+        andLabel.setStyleName("KS-Rules-Toggle-Label");
+        andButton.setStyleName("KS-Rules-Toggle-Button");
+        orLabel.setStyleName("KS-Rules-Toggle-Label");
+        orButton.setStyleName("KS-Rules-Toggle-Button");
         update(AndOrButton.And);
         andButton.addClickHandler(new ClickHandler(){
             @Override
