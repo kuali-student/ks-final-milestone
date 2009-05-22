@@ -99,14 +99,25 @@ public class RuleExpressionEditor extends ViewComposite {
         btnDone.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
-                StatementVO newStatementVO = ruleExpressionParser
-                .parseExpressionIntoStatementVO(
-                        prereqInfo.getExpression(),
-                        prereqInfo.getStatementVO().getAllReqComponentVOs());
-                prereqInfo.setStatementVO(newStatementVO);
-                prereqInfo.setPreviewedExpression(null);
-                prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                getController().showView(PrereqViews.COMPLEX);
+                List<String> errorMessages = new ArrayList<String>();
+                List<ReqComponentVO> rcs = 
+                    (prereqInfo.getStatementVO() == null ||
+                            prereqInfo.getStatementVO().getAllReqComponentVOs() == null)?
+                                    new ArrayList<ReqComponentVO>() :
+                                        prereqInfo.getStatementVO().getAllReqComponentVOs();
+                ruleExpressionParser.setExpression(prereqInfo.getExpression());
+                boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
+                if (validExpression) {
+                    StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(
+                            prereqInfo.getExpression(),
+                            prereqInfo.getStatementVO().getAllReqComponentVOs());
+                    prereqInfo.setStatementVO(newStatementVO);
+                    prereqInfo.setPreviewedExpression(null);
+                    prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                    getController().showView(PrereqViews.COMPLEX);
+                } else {
+                    showErrors(errorMessages);
+                }
             }
         });
         
@@ -172,24 +183,18 @@ public class RuleExpressionEditor extends ViewComposite {
                             prereqInfo.getStatementVO().getAllReqComponentVOs() == null)?
                                     new ArrayList<ReqComponentVO>() :
                                         prereqInfo.getStatementVO().getAllReqComponentVOs();
-                ruleTable.clear();
-                ruleExpressionParser.setExpression(previewExpression);
                 List<String> errorMessages = new ArrayList<String>();
                 List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
+                ruleExpressionParser.setExpression(previewExpression);
                 boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
                 htmlErrorMessage.setHTML("");
                 if (!validExpression) {
-                    if (errorMessages != null) {
-                        StringBuilder sb = new StringBuilder("Error Message: <BR>");
-                        for (String errorMessage : errorMessages) {
-                            sb.append(errorMessage + ",<BR>");
-                        }
-                        htmlErrorMessage.setHTML(sb.toString() + "<HR>");
-                    }
+                    showErrors(errorMessages);
                 } else {
                     Node tree = ruleExpressionParser.parseExpressionIntoTree(
                         previewExpression, rcs);
                     if (tree != null) {
+                        ruleTable.clear();
                         ruleTable.buildTable(tree);
                     }
                 }
@@ -198,12 +203,21 @@ public class RuleExpressionEditor extends ViewComposite {
                 RCTableItems rcTableItems = new RCTableItems();
                 rcTableItems.setRcs(missingRCs);
                 tableMissingExpressions.setListItems(rcTableItems);
-
             }
         }
         
         mainPanel.clear();
         mainPanel.add(verticalPanel);
+    }
+    
+    private void showErrors(List<String> errorMessages) {
+        if (errorMessages != null) {
+            StringBuilder sb = new StringBuilder("Error Message: <BR>");
+            for (String errorMessage : errorMessages) {
+                sb.append(errorMessage + ",<BR>");
+            }
+            htmlErrorMessage.setHTML(sb.toString() + "<HR>");
+        }
     }
     
     class RCTableItems implements ListItems {
