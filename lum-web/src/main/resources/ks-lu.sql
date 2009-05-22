@@ -438,8 +438,7 @@ INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.grdCondCourseList','reqCompFieldType.cluSet')
 
 // REQ_COMPONENT_TYPE_NL_TEMPLATE
-// INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('1', 'KUALI.CATALOG', 'COURSE_LIST_CATALOG_VEL_TEMPLATE', 'kuali.reqCompType.courseList.all')
-//INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsCode() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsCode() #end', 'kuali.reqCompType.courseList.all')
+// INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsCode() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsCode() #end', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Student must have completed none of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.none')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('2', 'KUALI.CATALOG', 'Student must have completed all of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.all')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('3', 'KUALI.CATALOG', 'Student must have completed $cluSet.getCluAsCode(0) or $cluSet.getCluAsCode(1)', 'kuali.reqCompType.courseList.1of2')
@@ -462,7 +461,7 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('206', 'KUALI.COMPOSITION', '<reqCompFieldType.totalCredits> from <reqCompFieldType.cluSet>', 'kuali.reqCompType.grdCondCourseList')
 
 // STATEMENT HEADER TEMPLATE
-INSERT INTO KSLU_STMT_HEADER (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Requirement for $cluName: ', 'kuali.luStatementType.prereqAcademicReadiness')
+INSERT INTO KSLU_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Requirement for $clu.getOfficialIdentifier().getLongName(): ', 'kuali.luStatementType.prereqAcademicReadiness')
 
 // STMT_TYPE <-> REQ_COM_TYPE
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList.all')

@@ -58,18 +58,8 @@ public class StatementTranslator {
 		}
 
 		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(luStatement);
-
 		List<CustomReqComponent> reqComponentList = this.statementParser.getLeafReqComponents(luStatement);
-
-		MessageContainer messageContainer = new MessageContainer();
-
-		for(CustomReqComponent reqComponent : reqComponentList) {
-			String translation = this.reqComponentTranslator.translate(reqComponent.getReqComponent(), nlUsageTypeKey);
-			BooleanMessage bm = new BooleanMessageImpl(reqComponent.getBooleanId(), true, translation);
-			messageContainer.addMessage(bm);
-		}
-		
-		String message = this.messageBuilder.buildMessage(booleanExpression, messageContainer);
+		String message = buildMessage(nlUsageTypeKey, booleanExpression, reqComponentList);
 		String header = getHeader(luStatement, nlUsageTypeKey, cluId);
 		
 		return header + message;
@@ -99,6 +89,17 @@ public class StatementTranslator {
 		return root;
 	}
 	
+	private String buildMessage(String nlUsageTypeKey, String booleanExpression, List<CustomReqComponent> reqComponentList) throws DoesNotExistException, OperationFailedException {
+		MessageContainer messageContainer = new MessageContainer();
+		for(CustomReqComponent reqComponent : reqComponentList) {
+			String translation = this.reqComponentTranslator.translate(reqComponent.getReqComponent(), nlUsageTypeKey);
+			BooleanMessage bm = new BooleanMessageImpl(reqComponent.getBooleanId(), true, translation);
+			messageContainer.addMessage(bm);
+		}
+		String message = this.messageBuilder.buildMessage(booleanExpression, messageContainer);
+		return message;
+	}
+	
 	/**
 	 * Gets header for root <code>luStatement</code>.
 	 * 
@@ -114,13 +115,11 @@ public class StatementTranslator {
         }
         
 		Clu clu = this.luDao.fetch(Clu.class, cluId);
-        String cluName = clu.getOfficialIdentifier().getLongName();
-		
-        String templateHeader = getHeaderTemplate(luStatement, nlUsageTypeKey); //"Requirement for $cluName: ";
+        String templateHeader = getHeaderTemplate(luStatement, nlUsageTypeKey);
 		
         VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put("cluName", cluName);
+        contextMap.put("clu", clu);
         String s = templateEngine.evaluate(contextMap, templateHeader);
         
         return s;

@@ -69,6 +69,6 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
         LuStatementTypeHeaderTemplate header = templates.get(0);
         assertEquals(templates.size(), 1);
         assertEquals("KUALI.CATALOG", header.getNlUsageTypeKey());
-        assertEquals(header.getTemplate(), "Requirement for $cluName: ");
+        assertEquals(header.getTemplate(), "Requirement for $clu.getOfficialIdentifier().getLongName(): ");
     }
 }

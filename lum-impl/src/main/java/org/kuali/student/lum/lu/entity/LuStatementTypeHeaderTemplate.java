@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_STMT_HEADER")
+@Table(name = "KSLU_STMT_TYPE_HEADER_TMPL")
 public class LuStatementTypeHeaderTemplate extends Attribute<LuStatementType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
