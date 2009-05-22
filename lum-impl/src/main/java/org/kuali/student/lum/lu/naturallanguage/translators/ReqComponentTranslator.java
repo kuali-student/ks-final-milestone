@@ -105,12 +105,12 @@ public class ReqComponentTranslator {
      */
     private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey) throws DoesNotExistException {
         List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
-        for (ReqComponentTypeNLTemplate temp : templateList) {
-            if (nlUsageTypeKey.equals(temp.getNlUsageTypeKey())) {
-                return temp;
+        for (ReqComponentTypeNLTemplate template : templateList) {
+            if (nlUsageTypeKey.equals(template.getNlUsageTypeKey())) {
+                return template;
             }
         }
-        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "' not found");
+        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "' for requirement component type template not found");
     }
 
     /**

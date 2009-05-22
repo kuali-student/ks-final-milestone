@@ -680,6 +680,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testGetNaturalLanguageForLuStatementInfo_Simple_CluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		LuNlStatementInfo statementInfo = new LuNlStatementInfo();
+		statementInfo.setStatementTypeId("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
 		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-1");
@@ -699,6 +700,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testGetNaturalLanguageForLuStatementInfo1_Simple_Clu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		LuNlStatementInfo statementInfo = new LuNlStatementInfo();
+		statementInfo.setStatementTypeId("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
 		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
@@ -718,6 +720,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testGetNaturalLanguageForLuStatementInfo2_Simple_Clu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		LuNlStatementInfo statementInfo = new LuNlStatementInfo();
+		statementInfo.setStatementTypeId("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
 		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
@@ -738,6 +741,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 	public void testGetNaturalLanguageForLuStatementInfo_Complex1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		//Rule: ((R1 OR R2) AND R3) OR R4
 		LuNlStatementInfo s1 = new LuNlStatementInfo();
+		s1.setStatementTypeId("kuali.luStatementType.prereqAcademicReadiness");
 		s1.setName("s1");
 		s1.setOperator(StatementOperatorTypeKey.OR);
 
@@ -791,6 +795,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 	public void testGetNaturalLanguageForLuStatementInfo_Complex2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		//Rule: ((R1 OR R2) AND (R3 OR R4)) OR R5 OR (R6 AND (R7 OR R8))
 		LuNlStatementInfo s1 = new LuNlStatementInfo();
+		s1.setStatementTypeId("kuali.luStatementType.prereqAcademicReadiness");
 		s1.setName("s1");
 		s1.setOperator(StatementOperatorTypeKey.OR);
 

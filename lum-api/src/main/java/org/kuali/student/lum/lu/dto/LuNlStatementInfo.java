@@ -37,6 +37,9 @@ public class LuNlStatementInfo implements Serializable {
     private String name;
 
     @XmlElement
+    private String statementTypeId;
+    
+    @XmlElement
     private StatementOperatorTypeKey operator;
 
     @XmlElement
@@ -81,6 +84,14 @@ public class LuNlStatementInfo implements Serializable {
 
 	public void setRequiredComponents(List<ReqComponentInfo> reqComponentList) {
 		this.reqComponentList = reqComponentList;
+	}
+
+	public String getStatementTypeId() {
+		return statementTypeId;
+	}
+
+	public void setStatementTypeId(String statementTypeId) {
+		this.statementTypeId = statementTypeId;
 	}
 
 }

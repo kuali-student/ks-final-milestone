@@ -16,6 +16,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
@@ -57,5 +58,17 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
         }
         assertEquals("KUALI.CATALOG", template.getNlUsageTypeKey());
         assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
+    }
+
+    @Test
+    public void testGetStatementHeaderTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	LuStatementType stmtType  = dao.fetch(LuStatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+
+        List<LuStatementTypeHeaderTemplate> templates = stmtType.getHeaders();
+
+        LuStatementTypeHeaderTemplate header = templates.get(0);
+        assertEquals(templates.size(), 1);
+        assertEquals("KUALI.CATALOG", header.getNlUsageTypeKey());
+        assertEquals(header.getTemplate(), "Requirement for $cluName: ");
     }
 }

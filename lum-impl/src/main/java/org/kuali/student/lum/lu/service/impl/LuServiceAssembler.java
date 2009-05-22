@@ -439,6 +439,10 @@ public class LuServiceAssembler extends BaseAssembler {
     	LuStatement stmt = new LuStatement();
     	stmt.setName(stmtInfo.getName());
     	stmt.setOperator(stmtInfo.getOperator());
+    	
+        LuStatementType stmtType = luDao.fetch(LuStatementType.class, stmtInfo.getStatementTypeId());
+        stmt.setLuStatementType(stmtType);
+    	
     	if(stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
         	List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
     		for(ReqComponentInfo rc : stmtInfo.getRequiredComponents()) {

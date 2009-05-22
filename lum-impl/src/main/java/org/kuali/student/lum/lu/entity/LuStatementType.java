@@ -32,6 +32,9 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
     @JoinTable(name = "KSLU_STY_JN_LUSTY", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_LU_STMT_TYPE_ID"))
     private List<LuStatementType> allowedLuStatementTypes;
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<LuStatementTypeHeaderTemplate> statementHeader;
+
 	public List<LuType> getLuTypes() {
 		return luTypes;
 	}
@@ -74,4 +77,12 @@ public class LuStatementType extends Type<LuStatementTypeAttribute> {
     public void setAllowedLuStatementTypes(List<LuStatementType> allowedLuStatementTypes) {
         this.allowedLuStatementTypes = allowedLuStatementTypes;
     }
+
+	public List<LuStatementTypeHeaderTemplate> getHeaders() {
+		return statementHeader;
+	}
+
+	public void setHeaders(List<LuStatementTypeHeaderTemplate> header) {
+		this.statementHeader = header;
+	}
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.LuStatementType;
+import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
@@ -19,6 +21,13 @@ public class StatementTestUtil {
 
 	public LuStatement createStatement(LuStatement luStatement) {
 		return this.luDao.create(luStatement);
+	}
+	
+	public LuStatement createStatement(String statementTypeId) throws DoesNotExistException {
+		LuStatement stmt = new LuStatement();
+		LuStatementType type = this.luDao.fetch(LuStatementType.class, statementTypeId);
+		stmt.setLuStatementType(type);
+		return stmt;
 	}
 
 	public ReqComponent createReqComponent(String reqComponentTypeId, List<ReqComponentField> fieldList) throws DoesNotExistException {

@@ -48,6 +48,7 @@
 		<class>org.kuali.student.lum.lu.entity.LuStatementAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuStatementType</class>
 		<class>org.kuali.student.lum.lu.entity.LuStatementTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate</class>
 		<class>org.kuali.student.lum.lu.entity.LuType</class>
 		<class>org.kuali.student.lum.lu.entity.LuTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.ReqComponent</class>

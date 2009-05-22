@@ -16,6 +16,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.LuStatementType;
+import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
@@ -62,7 +64,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslateStatement1() throws Exception {
 		// Rule = R1
-		LuStatement stmt1 = new LuStatement();
+		LuStatement stmt1 = statementTestUtil.createStatement("kuali.luStatementType.prereqAcademicReadiness");
 		stmt1.setOperator(StatementOperatorTypeKey.AND);
 
 		List<ReqComponentField> fieldList = statementTestUtil.createReqComponentFields("1", "greater_than_or_equal_to", "CLUSET-NL-1");
@@ -80,7 +82,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslateStatement1b() throws Exception {
 		// Rule = R1
-		LuStatement stmt1 = new LuStatement();
+		LuStatement stmt1 = statementTestUtil.createStatement("kuali.luStatementType.prereqAcademicReadiness");
 		stmt1.setOperator(StatementOperatorTypeKey.AND);
 
 		List<ReqComponentField> fieldList1 = statementTestUtil.createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
@@ -155,7 +157,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslateStatement4() throws Exception {
 		// Rule = R1 AND R2
-		LuStatement stmt1 = new LuStatement();
+		LuStatement stmt1 = statementTestUtil.createStatement("kuali.luStatementType.prereqAcademicReadiness");
 		stmt1.setOperator(StatementOperatorTypeKey.AND);
 
 		LuStatement stmt11 = new LuStatement();
@@ -246,7 +248,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 	private LuStatement getComplexStatement() throws DoesNotExistException {
 		// Rule: R1 AND R2 AND ((R3 AND R4) OR R5) AND R6 AND (R7 OR R8 OR R9)
-		LuStatement stmt1 = new LuStatement();
+		LuStatement stmt1 = statementTestUtil.createStatement("kuali.luStatementType.prereqAcademicReadiness");
 		stmt1.setId("S1");
 
 		LuStatement stmt11 = new LuStatement();
@@ -384,7 +386,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 	private LuStatement createSimpleStatement(boolean persist) throws DoesNotExistException {
 		//Rule: (R1 OR R2) AND R3
-		LuStatement stmt1 = new LuStatement();
+		LuStatement stmt1 = statementTestUtil.createStatement("kuali.luStatementType.prereqAcademicReadiness");
 		stmt1.setOperator(StatementOperatorTypeKey.AND);
 
 		LuStatement stmt11 = new LuStatement();
@@ -429,7 +431,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	@Test
 	public void testTranslateStatementTree1() throws Exception {
 		// Rule: R1 AND R2
-		LuStatement stmt1 = new LuStatement();
+		LuStatement stmt1 = statementTestUtil.createStatement("kuali.luStatementType.prereqAcademicReadiness");
 		stmt1.setId("stmt-1");
 		stmt1.setOperator(StatementOperatorTypeKey.OR);
 

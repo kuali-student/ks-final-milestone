@@ -20,6 +20,7 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 
@@ -69,7 +70,7 @@ public class StatementTranslator {
 		}
 		
 		String message = this.messageBuilder.buildMessage(booleanExpression, messageContainer);
-		String header = getHeader(cluId);
+		String header = getHeader(luStatement, nlUsageTypeKey, cluId);
 		
 		return header + message;
 	}
@@ -98,7 +99,16 @@ public class StatementTranslator {
 		return root;
 	}
 	
-	private String getHeader(String cluId) throws DoesNotExistException {
+	/**
+	 * Gets header for root <code>luStatement</code>.
+	 * 
+	 * @param luStatement LU statement
+	 * @param nlUsageTypeKey Natural language usuage type context key
+	 * @param cluId Anchor CLU id
+	 * @return Statement header
+	 * @throws DoesNotExistException CLU or header template does not exist
+	 */
+	private String getHeader(LuStatement luStatement, String nlUsageTypeKey, String cluId) throws DoesNotExistException {
         if(cluId == null) {
         	return "";
         }
@@ -106,7 +116,7 @@ public class StatementTranslator {
 		Clu clu = this.luDao.fetch(Clu.class, cluId);
         String cluName = clu.getOfficialIdentifier().getLongName();
 		
-		String templateHeader = "Requirement for $cluName: ";
+        String templateHeader = getHeaderTemplate(luStatement, nlUsageTypeKey); //"Requirement for $cluName: ";
 		
         VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
         Map<String, Object> contextMap = new HashMap<String, Object>();
@@ -115,7 +125,33 @@ public class StatementTranslator {
         
         return s;
 	}
+	
+	/**
+	 * Gets header template for root <code>luStatement</code>.
+	 * 
+	 * @param luStatement LU statement
+	 * @param nlUsageTypeKey Natural language usuage type context key
+	 * @return Header template
+	 * @throws DoesNotExistException Header template does not exist
+	 */
+	private String getHeaderTemplate(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException {
+		for(LuStatementTypeHeaderTemplate header : luStatement.getLuStatementType().getHeaders()) {
+			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey)) {
+				return header.getTemplate();
+			}
+		}
+        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "' for statement type header not found");
+	}
 
+	/**
+	 * Create a statement tree as <code>NLTranslationNodeInfo</code>.
+	 * 
+	 * @param luStatement LU statement
+	 * @param rootNode Root node to translate to
+	 * @param nlUsageTypeKey Natural language usuage type context key
+	 * @throws DoesNotExistException
+	 * @throws OperationFailedException
+	 */
 	private void createStatementTree(LuStatement luStatement, NLTranslationNodeInfo rootNode, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {
 		if (luStatement.getChildren() == null || luStatement.getChildren().isEmpty()) {
