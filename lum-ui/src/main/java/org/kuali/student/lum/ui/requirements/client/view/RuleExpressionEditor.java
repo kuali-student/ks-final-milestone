@@ -10,7 +10,6 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
@@ -24,8 +23,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,13 +37,12 @@ public class RuleExpressionEditor extends ViewComposite {
     private Panel mainPanel = new SimplePanel();
     private KSTextArea taExpression = new KSTextArea();
     private KSButton btnPreview = new KSButton("Preview");
-    private Panel pnlMissingExpressions = new SimplePanel();
-    private KSSelectableTableList tableMissingExpressions = 
-        new KSSelectableTableList();
+    private Panel pnlMissingExpressions = new VerticalPanel();
     private RuleTable ruleTable = new RuleTable();
     private KSButton btnDone = new KSButton("Done");
     private KSButton btnCancel = new KSButton("Cancel");
     private HTML htmlErrorMessage = new HTML();
+    private HTML htmlMissingExpressionNotice = new HTML();
 
 
     // views's data
@@ -107,7 +107,9 @@ public class RuleExpressionEditor extends ViewComposite {
                                         prereqInfo.getStatementVO().getAllReqComponentVOs();
                 ruleExpressionParser.setExpression(prereqInfo.getExpression());
                 boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
-                if (validExpression) {
+                List<ReqComponentVO> missingRCs = new ArrayList<ReqComponentVO>();
+                ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
+                if (validExpression && missingRCs.isEmpty()) {
                     StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(
                             prereqInfo.getExpression(),
                             prereqInfo.getStatementVO().getAllReqComponentVOs());
@@ -116,7 +118,9 @@ public class RuleExpressionEditor extends ViewComposite {
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     getController().showView(PrereqViews.COMPLEX);
                 } else {
-                    showErrors(errorMessages);
+                    String expression = prereqInfo.getExpression();
+                    prereqInfo.setPreviewedExpression(expression);
+                    redraw();
                 }
             }
         });
@@ -131,42 +135,61 @@ public class RuleExpressionEditor extends ViewComposite {
     }
     
     private void redraw() {
-        VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel.add(new KSLabel("Manually Edit Logic"));
-        HorizontalPanel expressionAndError = new HorizontalPanel();
-        expressionAndError.add(taExpression);
+        FlexTable flexTable = new FlexTable();
+        int rowNum = 0;
+        // row 0
+        flexTable.setWidget(rowNum,0,new KSLabel("Manually Edit Logic"));
+        // row 1
+        Label horizontalSpacer = new Label();
+        horizontalSpacer.setWidth("5px");
+        rowNum++;
+        taExpression.getElement().getStyle().setProperty("width", "350");
+        flexTable.setWidget(rowNum,0,taExpression);
         taExpression.setHeight("100px");
-        expressionAndError.add(htmlErrorMessage);
-        verticalPanel.add(expressionAndError);
-        verticalPanel.add(btnPreview);
+        flexTable.setWidget(rowNum,1,horizontalSpacer);
+        flexTable.setWidget(rowNum,2,htmlErrorMessage);
+        // row 2
+        rowNum++;
+        flexTable.setWidget(rowNum, 0, btnPreview);
         btnPreview.addStyleName("KS-Rules-Tight-Grey-Button");
+        // row 3
+        rowNum++;
         SimplePanel verticalSpacer = null;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
-        verticalPanel.add(verticalSpacer);
-        VerticalPanel pnlMissingDisplay = new VerticalPanel();
-        pnlMissingDisplay.add(new KSLabel("Rule(s) missing from expression"));
-        tableMissingExpressions = new KSSelectableTableList();
-        tableMissingExpressions.setListItems(new RCTableItems());
-        pnlMissingDisplay.add(tableMissingExpressions);
-        pnlMissingExpressions.clear();
-        pnlMissingExpressions.add(pnlMissingDisplay);
-        verticalPanel.add(pnlMissingExpressions);
+        flexTable.setWidget(rowNum, 0, verticalSpacer);
+        // row 4
+        rowNum++;
+        flexTable.setWidget(rowNum, 0, pnlMissingExpressions);
+        pnlMissingExpressions.getElement().getStyle().setProperty("borderWidth", "1px");
+        flexTable.setWidget(rowNum, 1, horizontalSpacer);
+        flexTable.setWidget(rowNum, 2, htmlMissingExpressionNotice);
+        // row 5
+        rowNum++;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
-        verticalPanel.add(verticalSpacer);
-        verticalPanel.add(new KSLabel("Preview"));
+        flexTable.setWidget(rowNum, 0, verticalSpacer);
+        // row 6
+        rowNum++;
+        flexTable.setWidget(rowNum, 0, new KSLabel("Preview"));
+        // row 7
+        rowNum++;
         ruleTable.setShowControls(false);
-        verticalPanel.add(ruleTable);
+        flexTable.setWidget(rowNum, 0, ruleTable);
+        flexTable.getFlexCellFormatter().setColSpan(rowNum, 0, 100);
+        // row 8
+        rowNum++;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
-        verticalPanel.add(verticalSpacer);
+        flexTable.setWidget(rowNum, 0, verticalSpacer);
+        // row 9
+        rowNum++;
         HorizontalPanel buttonsPanel = new HorizontalPanel();
         btnCancel.addStyleName("KS-Rules-Tight-Grey-Button");
         buttonsPanel.add(btnCancel);
         btnDone.addStyleName("KS-Rules-Tight-Grey-Button");
         buttonsPanel.add(btnDone);
-        verticalPanel.add(buttonsPanel);
+        flexTable.setWidget(rowNum, 0, buttonsPanel);
         
         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
         if (prereqInfo != null) {
@@ -198,16 +221,49 @@ public class RuleExpressionEditor extends ViewComposite {
                         ruleTable.buildTable(tree);
                     }
                 }
-                // redraw missing rules table.
                 ruleExpressionParser.checkMissingRCs(missingRCs, rcs);
-                RCTableItems rcTableItems = new RCTableItems();
-                rcTableItems.setRcs(missingRCs);
-                tableMissingExpressions.setListItems(rcTableItems);
+                showMissingRCs(missingRCs);
             }
         }
         
         mainPanel.clear();
-        mainPanel.add(verticalPanel);
+        mainPanel.add(flexTable);
+    }
+    
+    private void showMissingRCs(List<ReqComponentVO> missingRCs) {
+        VerticalPanel pnlRCList = new VerticalPanel();
+        
+        pnlMissingExpressions.clear();
+        htmlMissingExpressionNotice.setHTML("");
+        
+        pnlMissingExpressions.add(new KSLabel("Rule(s) missing from expression"));
+        if (missingRCs != null) {
+            for (ReqComponentVO rc : missingRCs) {
+                HorizontalPanel pnlRcListRow = new HorizontalPanel();
+                KSLabel rcLabel = null;
+                HTML rcText = new HTML();
+                if (rc.getGuiReferenceLabelId() != null) {
+                    rcLabel = new KSLabel(rc.getGuiReferenceLabelId());
+                    rcLabel.getElement().getStyle().setProperty("fontWeight", "bold");
+                    rcLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
+                    pnlRcListRow.add(rcLabel);
+                }
+                pnlRcListRow.getElement().getStyle().setProperty("padding", "3px");
+                rcText.setHTML(rc.toString());
+                rcText.getElement().getStyle().setProperty("color", "red");
+                pnlRcListRow.add(rcText);
+                pnlRCList.add(pnlRcListRow);
+            }
+        }
+        pnlMissingExpressions.add(pnlRCList);
+        
+        if (missingRCs != null && !missingRCs.isEmpty()) {
+            StringBuilder sb = new StringBuilder(
+            		"All rules must be included <BR/>");
+            sb.append("in the Logic Expression.");
+            htmlMissingExpressionNotice.getElement().getStyle().setProperty("color", "red");
+            htmlMissingExpressionNotice.setHTML(sb.toString());
+        }
     }
     
     private void showErrors(List<String> errorMessages) {
@@ -216,7 +272,8 @@ public class RuleExpressionEditor extends ViewComposite {
             for (String errorMessage : errorMessages) {
                 sb.append(errorMessage + ",<BR>");
             }
-            htmlErrorMessage.setHTML(sb.toString() + "<HR>");
+            htmlErrorMessage.getElement().getStyle().setProperty("color", "red");
+            htmlErrorMessage.setHTML(sb.toString());
         }
     }
     
