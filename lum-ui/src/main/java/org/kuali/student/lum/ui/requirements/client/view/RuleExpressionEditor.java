@@ -188,13 +188,13 @@ public class RuleExpressionEditor extends ViewComposite {
                 ruleExpressionParser.setExpression(previewExpression);
                 boolean validExpression = ruleExpressionParser.validateExpression(errorMessages, rcs);
                 htmlErrorMessage.setHTML("");
+                ruleTable.clear();
                 if (!validExpression) {
                     showErrors(errorMessages);
                 } else {
                     Node tree = ruleExpressionParser.parseExpressionIntoTree(
                         previewExpression, rcs);
                     if (tree != null) {
-                        ruleTable.clear();
                         ruleTable.buildTable(tree);
                     }
                 }
