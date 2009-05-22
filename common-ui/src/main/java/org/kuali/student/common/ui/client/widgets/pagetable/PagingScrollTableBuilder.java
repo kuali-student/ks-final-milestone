@@ -161,7 +161,7 @@ public class PagingScrollTableBuilder<RowType> {
 
         }else {
             pagingScrollTable = new PagingScrollTable<RowType>(tableModel,tableDefinition);
-
+            pagingScrollTable.setPageSize(tableModel.getRowCount());
         }
         pagingScrollTable.setPixelSize(tablePixelWidth,tablePixelHeight);//FIXME workaround for incubator bug
         pagingScrollTable.setEmptyTableWidget(new HTML("There is no data to display"));
