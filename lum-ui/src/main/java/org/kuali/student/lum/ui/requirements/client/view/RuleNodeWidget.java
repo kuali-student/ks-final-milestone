@@ -35,6 +35,7 @@ public class RuleNodeWidget extends FocusPanel {
     
     public RuleNodeWidget(Node n) {
         init(n, true);
+        this.setStyleName("KS-Rules-Table");
     }
     
     public RuleNodeWidget(Node n, boolean showControls) {
@@ -114,7 +115,6 @@ public class RuleNodeWidget extends FocusPanel {
             ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
             KSLabel rcLabel = null;
             checkBoxAndEdit= new HorizontalPanel();
-            checkBoxAndEdit.setStyleName("KS-Rules-Table-Cell-Margin");
             super.setWidget(checkBoxAndEdit);
             if (reqComponentVO.getGuiReferenceLabelId() != null) {
                 Node parent = node.getParent();
@@ -127,7 +127,7 @@ public class RuleNodeWidget extends FocusPanel {
             }
             if (showControls) {
                 checkBoxAndEdit.add(checkBox);
-                edit.addStyleName("KS-Rules-Edit-Link");
+                edit.addStyleName("KS-Rules-URL-Link");
                 checkBoxAndEdit.add(edit);
                 if (ruleTable != null) {
                     String selectionStyle = (reqComponentVO.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");

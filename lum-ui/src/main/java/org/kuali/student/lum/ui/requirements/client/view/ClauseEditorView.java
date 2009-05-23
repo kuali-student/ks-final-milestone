@@ -149,7 +149,7 @@ public class ClauseEditorView extends ViewComposite {
         addEditRuleView.setStyleName("KS-Rules-FullWidth");
         
         //1. show view HEADING
-        KSLabel Heading = new KSLabel((editedReqComp == null ? "Add" : "Edit") + " Prerequisite Rule");
+        KSLabel Heading = new KSLabel((addNewReqComp ? "Add" : "Edit") + " Prerequisite Rule");
         Heading.setStyleName("KS-Rules-FullWidth"); 
         Heading.setStyleName("KS-ReqMgr-Heading");
         addEditRuleView.add(Heading);
@@ -226,7 +226,7 @@ public class ClauseEditorView extends ViewComposite {
         KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, RULE_TYPES_OTHER);
         rbRuleType.add(newButton);
         hodler.add(newButton); 
-        compReqTypesList.setStyleName("KS-Radio");
+        compReqTypesList.setStyleName("KS-Radio-Dropdown");
        
         if (selectedReqType != null) { 
             ListItems advancedTypes = compReqTypesList.getListItems();
@@ -521,7 +521,7 @@ public class ClauseEditorView extends ViewComposite {
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tokens[i]);
                 valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
-                valueWidget.setWidth("30px");
+                valueWidget.setWidth("50px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 SimplePanel tempPanel = new SimplePanel();
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");

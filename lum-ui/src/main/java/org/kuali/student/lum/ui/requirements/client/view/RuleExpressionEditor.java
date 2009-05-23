@@ -226,6 +226,7 @@ public class RuleExpressionEditor extends ViewComposite {
             }
         }
         
+        verticalPanel.addStyleName("Content-Margin");
         mainPanel.clear();
         mainPanel.add(flexTable);
     }

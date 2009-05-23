@@ -229,7 +229,7 @@
 	cursor: pointer;
 }
 
-.KS-Rules-Edit-Link{
+.KS-Rules-URL-Link{
 	margin-left: 20px;
 	font-size: 8pt;
 	color: #0033CC;
@@ -273,6 +273,11 @@
 	float: left;
 }
 
+.KS-Dropdown-Focus{  
+    background-color: #ECF2FA;  
+    width: 250px;
+}  
+
 .KS-ReqCompEditor-EditFirstColumn{
 	width: 50px;
 }
@@ -300,10 +305,11 @@
 	width: 30;
 }
 
-.KS-Radio{
+.KS-Radio-Dropdown{
 	/*margin: 2px;*/
 	font-size: 80%;
 	font-weight: normal;
+	width: 150px;
 }
 .KS-Radio-Focus{
 	color: #9B251C;
@@ -348,6 +354,20 @@
 .KS-RichText-Normal{
 	width: 400px;
 	height: 90px;
+}
+
+.KS-Rules-Rule-Views{
+	width: 750px;
+	height: 180px;
+}
+
+.KS-Rules-Table{
+	padding: 0px;
+	border-width: 10px 0px 0px 0px;
+	border-spacing: 0px;
+	border-style: none none none none;
+	border-color: green gray gray gray;
+	border-collapse: collapse;	
 }
 
 .KS-Rules-Table-Cell{

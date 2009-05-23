@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
@@ -48,11 +49,13 @@ public class ComplexView extends ViewComposite {
     private KSButton btnDuplicateRule = new KSButton("Duplicate Rule");
     private KSButton btnMoveRuleDown = new KSButton();
     private KSButton btnMoveRuleUp = new KSButton();
-    private KSButton btnManualEdit = new KSButton("Edit Manually");
-    private KSButton btnSaveRule = new KSButton("Save");    
+    private KSButton btnSaveRule = new KSButton("Save");     
+    private KSTabPanel ruleViewsPanel = new KSTabPanel();
+    private KSLabel logicalExpression = new KSLabel();
+    private KSLabel editManually = new KSLabel("Edit manually");    
     private KSLabel naturalLanguage = new KSLabel();
     private RuleTable ruleTable = new RuleTable();
-    //private ClickHandler ruleTableClickHandler = null;
+
     private ClickHandler ruleTableSelectionHandler = null;
     private ClickHandler ruleTableToggleClickHandler = null;
     private ClickHandler ruleTableEditClauseHandler = null;
@@ -90,10 +93,10 @@ public class ComplexView extends ViewComposite {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
         }); 
-
-        isInitialized = true;
-        
+       
         redraw();
+        
+        isInitialized = true;
     }
 
     private void setupHandlers() {            
@@ -140,7 +143,7 @@ public class ComplexView extends ViewComposite {
                 Cell cell = ruleTable.getCellForEvent(event);
                 System.out.println("Cell is NULL 0 ???");
                 if (cell == null) {
-                    System.out.println("Cell is NULL 0" + event.getSource());
+                    //System.out.println("Cell is NULL 0" + event.getSource());
                     return;
                 }
                 
@@ -297,7 +300,7 @@ public class ComplexView extends ViewComposite {
             }
         });
         
-        btnManualEdit.addClickHandler(new ClickHandler() {
+        editManually.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
                 prereqInfo.populateExpression();
@@ -383,29 +386,23 @@ public class ComplexView extends ViewComposite {
         complexView.add(tempPanel2);
         SimplePanel verticalSpacer2 = new SimplePanel();
         verticalSpacer2.setHeight("15px");
-        btnManualEdit.addStyleName("KS-Rules-Tight-Grey-Button");
-        complexView.add(btnManualEdit);
                
         SimplePanel verticalSpacer3 = new SimplePanel();
         verticalSpacer2.setHeight("30px");
-        complexView.add(verticalSpacer2);             
-
-        KSLabel nlHeading = new KSLabel("Natural Language");
-        nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
-        complexView.add(nlHeading);        
-        complexView.add(naturalLanguage); 
+        complexView.add(verticalSpacer2);                                    
+               
+        updateRulesTable();    
         
         SimplePanel verticalSpacer4= new SimplePanel();
         verticalSpacer3.setHeight("20px");
-        complexView.add(verticalSpacer3);          
+        complexView.add(verticalSpacer4);         
         
         btnSaveRule.addStyleName("KS-Rules-Standard-Button");        
         complexView.add(btnSaveRule);         
-        complexView.setStyleName("Content-Margin");
-        mainPanel.clear();
-        mainPanel.add(complexView);        
+        complexView.setStyleName("Content-Margin");        
         
-        updateRulesTable();        
+        mainPanel.clear();
+        mainPanel.add(complexView); 
     }
     
     private void updateRulesTable() {
@@ -421,20 +418,50 @@ public class ComplexView extends ViewComposite {
         btnDuplicateRule.setEnabled(false); 
         btnSaveRule.setEnabled(false);
         ruleTable.clear();
+        
         if (prereqInfo != null) {
+            
             boolean simpleRule = (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isSimple();
+            boolean emptyRule = (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isEmpty();
+            
             btnAddAND.setVisible(!simpleRule);
             btnAddOR.setVisible(!simpleRule);
             btnAddToGroup.setVisible(!simpleRule);
-            btnManualEdit.setVisible(!simpleRule);
             btnMoveRuleUp.setVisible(!simpleRule);
             btnMoveRuleDown.setVisible(!simpleRule);
             
-            boolean emptyRule = (prereqInfo.getStatementVO() == null)? true : prereqInfo.getStatementVO().isEmpty();
-            naturalLanguage.setText("");
-            if (!emptyRule) {
+            System.out.println("Simple rule: " + simpleRule);
+            System.out.println("Empty rule: " + emptyRule);
+            
+            if (emptyRule) {    //don't show NL or tabs
+                ruleViewsPanel.setVisible(false);
+            } else if (simpleRule) {                
+                KSLabel nlHeading = new KSLabel("Natural Language");
+                nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
+                complexView.add(nlHeading);        
+                complexView.add(naturalLanguage);
                 updateNaturalLanguage();
-            }
+                ruleViewsPanel.setVisible(false);
+            } else {  //rule with 1 or more logical operators
+                if (isInitialized == false) {
+                    HorizontalPanel logicExpressionTab = new HorizontalPanel();
+                    logicExpressionTab.add(logicalExpression);
+                    editManually.addStyleName("KS-Rules-URL-Link");
+                    logicExpressionTab.add(editManually);
+                    ruleViewsPanel.addTab(logicExpressionTab, "Logic Expression");
+                    SimplePanel NLPanel = new SimplePanel();
+                    NLPanel.add(naturalLanguage);
+                    //NLPanel.setStyleName("KS-Rules-Rule-Views");
+                    ruleViewsPanel.addTab(NLPanel, "Natural Language");
+                    ruleViewsPanel.setStyleName("KS-Rules-Rule-Views");
+                }           
+                complexView.add(ruleViewsPanel);
+                logicalExpression.setText((prereqInfo.getStatementVO() == null ? "" : prereqInfo.getStatementVO().convertToExpression()));
+                updateNaturalLanguage();
+                ruleViewsPanel.setVisible(true);
+                ruleViewsPanel.selectTab(0);
+                naturalLanguage.setText("TEST.....");
+            }                                          
             
             Node tree = prereqInfo.getStatementTree();            
             if (tree != null) {
@@ -456,7 +483,8 @@ public class ComplexView extends ViewComposite {
                 caught.printStackTrace();
            }
             
-            public void onSuccess(final String statementNaturalLanguage) {                               
+            public void onSuccess(final String statementNaturalLanguage) {
+System.out.println("NL: " + statementNaturalLanguage);                
                 naturalLanguage.setText(statementNaturalLanguage);  
             } 
         }); 

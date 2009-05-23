@@ -46,8 +46,8 @@ public class CourseRequisiteView extends ViewComposite {
     //view's data
     private String selectedCourseId = null;
     private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
-    private final Model<PrereqInfo> model = new Model<PrereqInfo>();
-    private final PrereqManager prereqManager = new PrereqManager(model);
+    private final Model<PrereqInfo> prereqData = new Model<PrereqInfo>();
+    private final PrereqManager prereqManager = new PrereqManager(prereqData);
     private static int tempCounterID = 5000;
     
     public CourseRequisiteView(Controller controller) {
@@ -131,7 +131,7 @@ public class CourseRequisiteView extends ViewComposite {
                 //newCourse.setLuStatementInfoList(luStatementInfoList);
                 courseData.add(newCourse);
                 
-                RulesUtilities.clearModel(model);
+                RulesUtilities.clearModel(prereqData);
                 PrereqInfo newPrereqInfo = new PrereqInfo();
                 newPrereqInfo.setCluId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
                 newPrereqInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
@@ -141,7 +141,9 @@ public class CourseRequisiteView extends ViewComposite {
                 //stmtVO.setLuStatementInfo(luStatementInfo);
                 newPrereqInfo.setStatementVO(null);
                 newPrereqInfo.setEditHistory(new EditHistory());
-                model.add(newPrereqInfo);               
+                prereqData.add(newPrereqInfo);               
+                
+                prereqManager.resetReqCompVOModel();
                 
                 mainPanel.clear();
                 mainPanel.add(prereqManager.getMainPanel());
@@ -155,12 +157,12 @@ public class CourseRequisiteView extends ViewComposite {
     }    
     
     public void setPrereqInfo(PrereqInfo prereqInfo) {
-        if (model.getValues() != null && !model.getValues().isEmpty()) {
-            for (PrereqInfo oldPrereqInfo : model.getValues()) {
-                model.remove(oldPrereqInfo);
+        if (prereqData.getValues() != null && !prereqData.getValues().isEmpty()) {
+            for (PrereqInfo oldPrereqInfo : prereqData.getValues()) {
+                prereqData.remove(oldPrereqInfo);
             }
         }
-        model.add(prereqInfo);
+        prereqData.add(prereqInfo);
     }
     
     private void layoutMainPanel(Panel parentPanel) {
@@ -208,7 +210,7 @@ public class CourseRequisiteView extends ViewComposite {
     }
     
     private Widget getNaturalLanguage() {
-        PrereqInfo reqInfo = model.get(selectedCourseId);
+        PrereqInfo reqInfo = prereqData.get(selectedCourseId);
         return new KSLabel(reqInfo.getNaturalLanguage());
     }
     

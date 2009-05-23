@@ -40,7 +40,7 @@ public class PrereqManager extends Controller {
     
     //controller's data
     private final Model<PrereqInfo> prereqInfo;
-    private final Model<ReqComponentVO>  selectedReqCompVO;    
+    private Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes;  
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
@@ -50,7 +50,7 @@ public class PrereqManager extends Controller {
         super.initWidget(viewPanel);
         viewPanel.add(mainPanel);              
         this.prereqInfo = prereqInfo;
-        this.selectedReqCompVO = new Model<ReqComponentVO>();
+        resetReqCompVOModel();
         loadData();
     }
 
@@ -169,5 +169,9 @@ public class PrereqManager extends Controller {
     
     public Class<? extends Enum<?>> getViewsEnum() {
         return PrereqViews.class;
+    }
+    
+    public void resetReqCompVOModel () {
+        this.selectedReqCompVO = new Model<ReqComponentVO>();
     }
 }
