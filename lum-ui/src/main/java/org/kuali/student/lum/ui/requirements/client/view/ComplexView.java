@@ -46,14 +46,15 @@ public class ComplexView extends ViewComposite {
     private KSButton btnUndo = new KSButton("Undo");
     private KSButton btnRedo = new KSButton("Redo");
     private KSButton btnDelete = new KSButton("Delete");
-    private KSButton btnDuplicateRule = new KSButton("Duplicate Rule");
     private KSButton btnMoveRuleDown = new KSButton();
     private KSButton btnMoveRuleUp = new KSButton();
     private KSButton btnSaveRule = new KSButton("Save");     
     private KSTabPanel ruleViewsPanel = new KSTabPanel();
     private KSLabel logicalExpression = new KSLabel();
+    private KSLabel simpleRuleNL = new KSLabel();
+    private KSLabel complexRuleNL = new KSLabel();
     private KSLabel editManually = new KSLabel("Edit manually");    
-    private KSLabel naturalLanguage = new KSLabel();
+    private String naturalLanguage;
     private RuleTable ruleTable = new RuleTable();
 
     private ClickHandler ruleTableSelectionHandler = null;
@@ -156,7 +157,7 @@ public class ComplexView extends ViewComposite {
                     ReqComponentVO reqComponentVO = (ReqComponentVO) userObject;
                     reqComponentVO.setCheckBoxOn(!reqComponentVO.isCheckBoxOn());
                 }
-                updateRulesTable();
+                updateButtons();
             }
         };
         textClickHandler = ruleTable.addTextClickHandler(ruleTableSelectionHandler);
@@ -334,6 +335,7 @@ public class ComplexView extends ViewComposite {
        
     private void redraw() {
         complexView.clear();
+        complexView.setStyleName("Content-Margin");
         
         HorizontalPanel tempPanel = new HorizontalPanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
@@ -393,31 +395,24 @@ public class ComplexView extends ViewComposite {
                
         updateRulesTable();    
         
-        SimplePanel verticalSpacer4= new SimplePanel();
+        SimplePanel verticalSpacer4 = new SimplePanel();
         verticalSpacer3.setHeight("20px");
         complexView.add(verticalSpacer4);         
         
         btnSaveRule.addStyleName("KS-Rules-Standard-Button");        
-        complexView.add(btnSaveRule);         
-        complexView.setStyleName("Content-Margin");        
+        complexView.add(btnSaveRule);                 
         
         mainPanel.clear();
         mainPanel.add(complexView); 
     }
     
     private void updateRulesTable() {
+        
         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
-        btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
-        btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
-        btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
-        btnUndo.setEnabled(prereqInfo.getEditHistory().isUndoable());  
-        btnRedo.setEnabled(prereqInfo.getEditHistory().isRedoable());          
-        btnDuplicateRule.setEnabled(false);        
-        btnAddRule.setEnabled(true);
-        btnDelete.setEnabled(prereqInfo.statementVOIsDegroupAble());
-        btnDuplicateRule.setEnabled(false); 
-        btnSaveRule.setEnabled(false);
-        ruleTable.clear();
+        simpleRuleNL.setText("");                
+        complexRuleNL.setText("");
+        updateButtons();
+        ruleTable.clear(); 
         
         if (prereqInfo != null) {
             
@@ -428,18 +423,15 @@ public class ComplexView extends ViewComposite {
             btnAddOR.setVisible(!simpleRule);
             btnAddToGroup.setVisible(!simpleRule);
             btnMoveRuleUp.setVisible(!simpleRule);
-            btnMoveRuleDown.setVisible(!simpleRule);
-            
-            System.out.println("Simple rule: " + simpleRule);
-            System.out.println("Empty rule: " + emptyRule);
+            btnMoveRuleDown.setVisible(!simpleRule);           
             
             if (emptyRule) {    //don't show NL or tabs
                 ruleViewsPanel.setVisible(false);
             } else if (simpleRule) {                
                 KSLabel nlHeading = new KSLabel("Natural Language");
                 nlHeading.setStyleName("KS-ReqMgr-SubHeading"); 
-                complexView.add(nlHeading);        
-                complexView.add(naturalLanguage);
+                complexView.add(nlHeading);
+                complexView.add(simpleRuleNL);
                 updateNaturalLanguage();
                 ruleViewsPanel.setVisible(false);
             } else {  //rule with 1 or more logical operators
@@ -450,17 +442,18 @@ public class ComplexView extends ViewComposite {
                     logicExpressionTab.add(editManually);
                     ruleViewsPanel.addTab(logicExpressionTab, "Logic Expression");
                     SimplePanel NLPanel = new SimplePanel();
-                    NLPanel.add(naturalLanguage);
+                    NLPanel.add(complexRuleNL);
                     //NLPanel.setStyleName("KS-Rules-Rule-Views");
                     ruleViewsPanel.addTab(NLPanel, "Natural Language");
                     ruleViewsPanel.setStyleName("KS-Rules-Rule-Views");
+                    ruleViewsPanel.selectTab(0);                    
                 }           
                 complexView.add(ruleViewsPanel);
                 logicalExpression.setText((prereqInfo.getStatementVO() == null ? "" : prereqInfo.getStatementVO().convertToExpression()));
+                
                 updateNaturalLanguage();
+                
                 ruleViewsPanel.setVisible(true);
-                ruleViewsPanel.selectTab(0);
-                naturalLanguage.setText("TEST.....");
             }                                          
             
             Node tree = prereqInfo.getStatementTree();            
@@ -474,6 +467,18 @@ public class ComplexView extends ViewComposite {
         }        
     }        
     
+    private void updateButtons() {        
+        PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+        btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
+        btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
+        btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
+        btnUndo.setEnabled(prereqInfo.getEditHistory().isUndoable());  
+        btnRedo.setEnabled(prereqInfo.getEditHistory().isRedoable());                 
+        btnAddRule.setEnabled(true);
+        btnDelete.setEnabled(prereqInfo.statementVOIsDegroupAble());
+        btnSaveRule.setEnabled(false);        
+    }
+    
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
@@ -483,9 +488,10 @@ public class ComplexView extends ViewComposite {
                 caught.printStackTrace();
            }
             
-            public void onSuccess(final String statementNaturalLanguage) {
-System.out.println("NL: " + statementNaturalLanguage);                
-                naturalLanguage.setText(statementNaturalLanguage);  
+            public void onSuccess(final String statementNaturalLanguage) {               
+                naturalLanguage = statementNaturalLanguage;
+                simpleRuleNL.setText(naturalLanguage);                
+                complexRuleNL.setText(naturalLanguage);
             } 
         }); 
     }           
