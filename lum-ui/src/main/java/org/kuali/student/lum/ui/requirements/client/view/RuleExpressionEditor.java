@@ -138,8 +138,15 @@ public class RuleExpressionEditor extends ViewComposite {
         FlexTable flexTable = new FlexTable();
         int rowNum = 0;
         // row 0
-        flexTable.setWidget(rowNum,0,new KSLabel("Manually Edit Logic"));
+        KSLabel preReqHeading = new KSLabel("Edit Prerequisite Logic");
+        preReqHeading.setStyleName("KS-ReqMgr-Heading");
+        flexTable.setWidget(rowNum,0,preReqHeading);
+        rowNum++;
         // row 1
+        KSLabel logicEditTitle = new KSLabel("Logic Expression");
+        logicEditTitle.setStyleName("KS-RuleEditor-SubHeading");
+        flexTable.setWidget(rowNum,0,logicEditTitle);
+        // row 2
         Label horizontalSpacer = new Label();
         horizontalSpacer.setWidth("5px");
         rowNum++;
@@ -148,41 +155,43 @@ public class RuleExpressionEditor extends ViewComposite {
         taExpression.setHeight("100px");
         flexTable.setWidget(rowNum,1,horizontalSpacer);
         flexTable.setWidget(rowNum,2,htmlErrorMessage);
-        // row 2
+        // row 3
         rowNum++;
         flexTable.setWidget(rowNum, 0, btnPreview);
         btnPreview.addStyleName("KS-Rules-Tight-Grey-Button");
-        // row 3
+        // row 4
         rowNum++;
         SimplePanel verticalSpacer = null;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
         flexTable.setWidget(rowNum, 0, verticalSpacer);
-        // row 4
+        // row 5
         rowNum++;
         flexTable.setWidget(rowNum, 0, pnlMissingExpressions);
         pnlMissingExpressions.getElement().getStyle().setProperty("borderWidth", "1px");
         flexTable.setWidget(rowNum, 1, horizontalSpacer);
         flexTable.setWidget(rowNum, 2, htmlMissingExpressionNotice);
-        // row 5
+        // row 6
         rowNum++;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
         flexTable.setWidget(rowNum, 0, verticalSpacer);
-        // row 6
-        rowNum++;
-        flexTable.setWidget(rowNum, 0, new KSLabel("Preview"));
         // row 7
+        rowNum++;
+        KSLabel previewTitle = new KSLabel("Preview");
+        previewTitle.setStyleName("KS-RuleEditor-SubHeading");        
+        flexTable.setWidget(rowNum, 0, previewTitle);
+        // row 8
         rowNum++;
         ruleTable.setShowControls(false);
         flexTable.setWidget(rowNum, 0, ruleTable);
         flexTable.getFlexCellFormatter().setColSpan(rowNum, 0, 100);
-        // row 8
+        // row 9
         rowNum++;
         verticalSpacer = new SimplePanel();
         verticalSpacer.setHeight("30px");
         flexTable.setWidget(rowNum, 0, verticalSpacer);
-        // row 9
+        // row 10
         rowNum++;
         HorizontalPanel buttonsPanel = new HorizontalPanel();
         btnCancel.addStyleName("KS-Rules-Tight-Grey-Button");
@@ -227,6 +236,7 @@ public class RuleExpressionEditor extends ViewComposite {
         }
         
         flexTable.addStyleName("Content-Margin");
+        flexTable.setCellSpacing(5);
         mainPanel.clear();
         mainPanel.add(flexTable);
     }
@@ -237,7 +247,9 @@ public class RuleExpressionEditor extends ViewComposite {
         pnlMissingExpressions.clear();
         htmlMissingExpressionNotice.setHTML("");
         
-        pnlMissingExpressions.add(new KSLabel("Rule(s) missing from expression"));
+        KSLabel missingExprTitle = new KSLabel("Rules missing from logic expression");
+        missingExprTitle.setStyleName("KS-RuleEditor-SubHeading");
+        pnlMissingExpressions.add(missingExprTitle);
         if (missingRCs != null) {
             for (ReqComponentVO rc : missingRCs) {
                 HorizontalPanel pnlRcListRow = new HorizontalPanel();

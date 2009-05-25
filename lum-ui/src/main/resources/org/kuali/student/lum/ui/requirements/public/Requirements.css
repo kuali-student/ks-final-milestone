@@ -363,10 +363,10 @@
 
 .KS-Rules-Table{
 	padding: 0px;
-	border-width: 10px 0px 0px 0px;
+	border-width: 0px 0px 0px 0px;
 	border-spacing: 0px;
 	border-style: none none none none;
-	border-color: green gray gray gray;
+	border-color: black black black black;
 	border-collapse: collapse;	
 }
 
