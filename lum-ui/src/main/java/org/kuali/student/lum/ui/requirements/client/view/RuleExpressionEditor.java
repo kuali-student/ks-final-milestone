@@ -189,15 +189,20 @@ public class RuleExpressionEditor extends ViewComposite {
         // row 9
         rowNum++;
         verticalSpacer = new SimplePanel();
-        verticalSpacer.setHeight("30px");
+        verticalSpacer.setHeight("15px");
         flexTable.setWidget(rowNum, 0, verticalSpacer);
         // row 10
         rowNum++;
+       
         HorizontalPanel buttonsPanel = new HorizontalPanel();
-        btnCancel.addStyleName("KS-Rules-Tight-Grey-Button");
-        buttonsPanel.add(btnCancel);
-        btnDone.addStyleName("KS-Rules-Tight-Grey-Button");
+        buttonsPanel.setSpacing(0);
+        btnDone.addStyleName("KS-Rules-Tight-Button");  
         buttonsPanel.add(btnDone);
+        SimplePanel horizSpacer = new SimplePanel();
+        horizSpacer.setWidth("30px");        
+        buttonsPanel.add(horizSpacer);
+        btnCancel.addStyleName("KS-Rules-Tight-Grey-Button"); 
+        buttonsPanel.add(btnCancel);                
         flexTable.setWidget(rowNum, 0, buttonsPanel);
         
         PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
@@ -243,13 +248,11 @@ public class RuleExpressionEditor extends ViewComposite {
     
     private void showMissingRCs(List<ReqComponentVO> missingRCs) {
         VerticalPanel pnlRCList = new VerticalPanel();
+        boolean missingExprFound = false;
         
         pnlMissingExpressions.clear();
         htmlMissingExpressionNotice.setHTML("");
         
-        KSLabel missingExprTitle = new KSLabel("Rules missing from logic expression");
-        missingExprTitle.setStyleName("KS-RuleEditor-SubHeading");
-        pnlMissingExpressions.add(missingExprTitle);
         if (missingRCs != null) {
             for (ReqComponentVO rc : missingRCs) {
                 HorizontalPanel pnlRcListRow = new HorizontalPanel();
@@ -260,6 +263,7 @@ public class RuleExpressionEditor extends ViewComposite {
                     rcLabel.getElement().getStyle().setProperty("fontWeight", "bold");
                     rcLabel.getElement().getStyle().setProperty("background", "#E0E0E0");
                     pnlRcListRow.add(rcLabel);
+                    missingExprFound = true;
                 }
                 pnlRcListRow.getElement().getStyle().setProperty("padding", "3px");
                 rcText.setHTML(rc.toString());
@@ -268,7 +272,13 @@ public class RuleExpressionEditor extends ViewComposite {
                 pnlRCList.add(pnlRcListRow);
             }
         }
-        pnlMissingExpressions.add(pnlRCList);
+        
+        if (missingExprFound) {
+            KSLabel missingExprTitle = new KSLabel("Rules missing from logic expression");
+            missingExprTitle.setStyleName("KS-RuleEditor-SubHeading");
+            pnlMissingExpressions.add(missingExprTitle);                        
+            pnlMissingExpressions.add(pnlRCList);
+        }
         
         if (missingRCs != null && !missingRCs.isEmpty()) {
             StringBuilder sb = new StringBuilder(

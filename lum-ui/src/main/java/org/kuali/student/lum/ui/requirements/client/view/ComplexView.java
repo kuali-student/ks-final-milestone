@@ -397,13 +397,16 @@ public class ComplexView extends ViewComposite {
         verticalSpacer3.setHeight("30px");
         complexView.add(verticalSpacer3);         
         
-        HorizontalPanel buttonPanel = new HorizontalPanel();
-        buttonPanel.setSpacing(5);
+        HorizontalPanel buttonsPanel = new HorizontalPanel();
+        buttonsPanel.setSpacing(0);
         btnSaveRule.addStyleName("KS-Rules-Tight-Button");  
-        buttonPanel.add(btnSaveRule);
+        buttonsPanel.add(btnSaveRule);
+        SimplePanel horizSpacer = new SimplePanel();
+        horizSpacer.setWidth("30px");        
+        buttonsPanel.add(horizSpacer);        
         btnCancelChange.addStyleName("KS-Rules-Tight-Grey-Button"); 
-        buttonPanel.add(btnCancelChange);
-        complexView.add(buttonPanel);                 
+        buttonsPanel.add(btnCancelChange);
+        complexView.add(buttonsPanel);                 
         
         mainPanel.clear();
         mainPanel.add(complexView); 
