@@ -1,13 +1,11 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSConfirmButtonPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.KSMessages;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -37,31 +35,12 @@ public class KSConfirmButtonPanelImpl extends KSConfirmButtonPanelAbstract{
 		//confirm.setText(Application.getApplicationContext().getMessage(KSMessages.CANCEL));
 		buttonPanel.setHeight(confirm.getOffsetHeight() + "px");
 	}
-	
-	public void addConfirmationCallback(final Callback<Boolean> callback) {
-        this.addConfirmHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                callback.exec(true);
-                
-            }
-        });
-        
-        this.addCancelHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                callback.exec(false);
-                
-            }
-        });
-        
-    }
 
-	private void addConfirmHandler(ClickHandler handler){
+	public void addConfirmHandler(ClickHandler handler){
 		confirm.addClickHandler(handler);
 	}
 	
-	private void addCancelHandler(ClickHandler handler){
+	public void addCancelHandler(ClickHandler handler){
 		cancel.addClickHandler(handler);
 	}
 	

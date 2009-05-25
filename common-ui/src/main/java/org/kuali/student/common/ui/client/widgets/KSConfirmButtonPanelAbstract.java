@@ -1,11 +1,13 @@
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 
 public abstract class KSConfirmButtonPanelAbstract extends Composite{
 	
-    public abstract void addConfirmationCallback(final Callback<Boolean> callback);
+	public abstract void addConfirmHandler(ClickHandler handler);
+	
+	public abstract void addCancelHandler(ClickHandler handler);
 	
 	public abstract void setConfirmFocus();
 	
