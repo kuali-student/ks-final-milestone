@@ -2,7 +2,7 @@ package org.kuali.student.brms.internal.common.runtime.ast;
 
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 
-public class BooleanMessageImpl /*extends MessageImpl*/ implements BooleanMessage {
+public class BooleanMessageImpl implements BooleanMessage {
 	private String messageId;
 	private Boolean successful;
 	private String message;
