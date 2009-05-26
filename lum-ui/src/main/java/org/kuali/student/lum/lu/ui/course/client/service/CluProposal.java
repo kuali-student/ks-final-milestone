@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.client.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;

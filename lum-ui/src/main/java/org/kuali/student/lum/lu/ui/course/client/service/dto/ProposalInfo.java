@@ -36,7 +36,8 @@ public class ProposalInfo implements Idable, HasTypeState {
     RichTextInfo rationale;
     String type = "clu";
     String state = "proposal";
-    List<ProposalReference> proposalReferences;
+    String refTypeKey;
+    List<String> referenceIds;
     
     public String getId() {
         return id;
@@ -130,13 +131,20 @@ public class ProposalInfo implements Idable, HasTypeState {
         this.rationale = rationale;
     }
 
-    public List<ProposalReference> getProposalReferences() {
-        return proposalReferences;
+    public String getRefTypeKey() {
+        return refTypeKey;
     }
 
-    public void setProposalReferences(List<ProposalReference> proposalReferences) {
-        this.proposalReferences = proposalReferences;
+    public void setRefTypeKey(String refTypeKey) {
+        this.refTypeKey = refTypeKey;
     }
 
+    public List<String> getReferences() {
+        return referenceIds;
+    }
+
+    public void setReferences(List<String> referenceIds) {
+        this.referenceIds = referenceIds;
+    }
     
 }
