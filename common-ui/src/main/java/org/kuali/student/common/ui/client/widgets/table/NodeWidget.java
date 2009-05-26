@@ -1,24 +1,33 @@
 package org.kuali.student.common.ui.client.widgets.table;
 
+import com.google.gwt.dom.client.EventTarget;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class NodeWidget extends FocusPanel {
+public class NodeWidget extends SimplePanel implements NativePreviewHandler {
     private Node node;
     HTML html = new HTML();
     CheckBox checkBox = new CheckBox();
     HandlerRegistration handlerRegistration;
     VerticalPanel verticalPanel = new VerticalPanel();
     public NodeWidget(Node<Token> n) {
+        Event.addNativePreviewHandler(this);
+        
         node = n;
         super.setWidth("100%");
         super.setHeight("100%");
@@ -49,17 +58,17 @@ public class NodeWidget extends FocusPanel {
         //        DOM.setStyleAttribute(NodeWidget.this.getElement(), "background", "#ffeeff");
           //  }
 //        });
-        super.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-              //  event.stopPropagation();
-                boolean before = checkBox.getValue();
-                checkBox.setValue(!before);
-                ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());
-                checkBox.setFocus(true);
-                setFocus(true);
-            }
-        });
+//        super.addClickHandler(new ClickHandler() {
+  //          @Override
+    //        public void onClick(ClickEvent event) {
+      
+//                boolean before = checkBox.getValue();
+  //              checkBox.setValue(!before);
+    //            ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());
+      //          checkBox.setFocus(true);
+        //        setFocus(true);
+         //   }
+       // });
         checkBox.addValueChangeHandler(new ValueChangeHandler(){
             @Override
             public void onValueChange(ValueChangeEvent event) {
@@ -71,16 +80,26 @@ public class NodeWidget extends FocusPanel {
             }
             
         });
-        checkBox.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-             //   event.stopPropagation();
-               // checkBox.setFocus(true);
-               // setFocus(true);
-            }
-        });
     }
+    @Override
+    public void onPreviewNativeEvent(NativePreviewEvent pevent) {
+        NativeEvent event = pevent.getNativeEvent();
+        EventTarget target = event.getEventTarget();
+     //   System.out.println(this.getElement().is(Element.as(target)));
+        if(checkBox.getElement().isOrHasChild(Element.as(target))){
+            return;
+        }else if(this.getElement().is(Element.as(target)) && 
+                Event.as(event).getTypeInt() == Event.ONMOUSEDOWN ){
+                    System.out.println("doing");
+                  boolean before = checkBox.getValue();
+                                  checkBox.setValue(!before);
+//                                  ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());
+                                  //checkBox.setFocus(true);
+                          //        setFocus(true);
+                    
+        }
 
+    }
     public Node getNode() {
         return node;
     }
