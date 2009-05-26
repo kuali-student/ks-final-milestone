@@ -93,7 +93,7 @@ public class NodeWidget extends SimplePanel implements NativePreviewHandler {
                     System.out.println("doing");
                   boolean before = checkBox.getValue();
                                   checkBox.setValue(!before);
-//                                  ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());
+                                  ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());
                                   //checkBox.setFocus(true);
                           //        setFocus(true);
                     
