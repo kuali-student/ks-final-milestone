@@ -24,16 +24,6 @@
 		<property name="order" value="0" />
 	</bean>
 
-	<!-- To denote that Atomikos should not search for a transaction.properties file in the class path -->
-	<!-- The properties are embedded in the spring config -->
-	<bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
-		<property name="properties">
-			<props>
-				<prop key="com.atomikos.icatch.no_file">true</prop>
-			</props>
-		</property>
-	</bean>
-	
 	
 	<!-- Datasources -->
 	<bean id="orgDataSource"
@@ -122,20 +112,7 @@
 	<!--  Atomikos Configurations -->
 	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
 		init-method="init" destroy-method="shutdownForce">
-		<constructor-arg>
-			<props>
-				<prop key="com.atomikos.icatch.service">${atomikos.properties.service}
-				</prop>
-				<prop key="com.atomikos.icatch.output_dir">${atomikos.properties.output_dir}
-				</prop>
-				<prop key="com.atomikos.icatch.log_base_dir">${atomikos.properties.log_base_dir}
-				</prop>
-				<prop key="com.atomikos.icatch.console_log_level">${atomikos.properties.console_log_level}
-				</prop>
-				<prop key="com.atomikos.icatch.enable_logging">${atomikos.properties.enable_logging}
-				</prop>
-			</props>
-		</constructor-arg>
+		<constructor-arg value="${propertiesPrefix.atomikos.properties}"/>
 	</bean>
 
 	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
