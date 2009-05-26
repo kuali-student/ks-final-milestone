@@ -51,20 +51,26 @@
 		<property name="dataSource" ref="luDataSource" />
 		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
+	
+		<!--  Atomikos Configurations -->
+	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
+		init-method="init" destroy-method="shutdownForce">
+		<constructor-arg value="${propertiesPrefix.atomikos.properties}"/>
+	</bean>
 
 	<bean id="AtomikosTxMgr"
 		class="com.atomikos.icatch.jta.UserTransactionManager"
-		init-method="init" destroy-method="close">
+		init-method="init" destroy-method="close" depends-on="userTransactionService">
 		<property name="forceShutdown" value="true" />
 		<property name="startupTransactionService" value="true" />
 		<property name="transactionTimeout" value="60" />
 	</bean>
 
 	<bean id="AtomikosUsrTx"
-		class="com.atomikos.icatch.jta.UserTransactionImp" />
+		class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="userTransactionService"/>
 
 	<bean id="JtaTxManager"
-		class="org.springframework.transaction.jta.JtaTransactionManager">
+		class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="userTransactionService">
 		<property name="transactionManager" ref="AtomikosTxMgr" />
 		<property name="userTransaction" ref="AtomikosUsrTx" />
 		<property name="transactionSynchronizationName"
