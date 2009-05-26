@@ -28,7 +28,7 @@ public class LUConstants {
     //TODO These should probably be somewhere else as they are LUM wide constants - not just
     //     UI specific
 
-    public final static String LU_TYPE_CREDIT_COURSE = "Course";
+    public final static String LU_TYPE_CREDIT_COURSE = "course";
 
     // Valid states for Credit Course
     public final static String LU_STATE_PROPOSED = "Proposed"; // Should this be Draft

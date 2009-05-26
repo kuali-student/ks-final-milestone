@@ -24,10 +24,10 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -37,7 +37,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurabl
  */
 public class AdminstrativeLayoutManager {
     
-    private DefaultCreateUpdateLayout<CluInfo> layout;
+    private DefaultCreateUpdateLayout<CluProposal> layout;
     private Map<String, FieldDescriptor> fields;
     private Validator validator;
     
@@ -45,7 +45,7 @@ public class AdminstrativeLayoutManager {
         super();
     }
 
-    public AdminstrativeLayoutManager(DefaultCreateUpdateLayout<CluInfo> layout,
+    public AdminstrativeLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
             Map<String, FieldDescriptor> fields, Validator validator) {
         super();
         this.layout = layout;
@@ -53,7 +53,7 @@ public class AdminstrativeLayoutManager {
         this.validator = validator;
     }
 
-    public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
+    public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
 
         addCredits();
         addActiveDates();
@@ -67,7 +67,7 @@ public class AdminstrativeLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
                 LUConstants.SECTION_CREDITS}, 
-                new SimpleConfigurableSection<CluInfo>()                
+                new SimpleConfigurableSection<CluProposal>()                
                 .setSectionTitle(LUConstants.SECTION_CREDITS)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)   
@@ -78,16 +78,16 @@ public class AdminstrativeLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
                 LUConstants.SECTION_ACTIVE_DATES}, 
-                new SimpleConfigurableSection<CluInfo>()      
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()      
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the originating faculty member
                                 return "Jan 1, 2010";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out startDate
                             }
                         })
@@ -98,15 +98,15 @@ public class AdminstrativeLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("startDAte")))
                         )
                 )                
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the originating faculty member
                                 return "Jan 1, 2010";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out endDate
                             }
                         })
@@ -127,7 +127,7 @@ public class AdminstrativeLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
                 LUConstants.SECTION_FINANCIALS}, 
-                new SimpleConfigurableSection<CluInfo>()                
+                new SimpleConfigurableSection<CluProposal>()                
                 .setSectionTitle(LUConstants.SECTION_FINANCIALS)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)   
@@ -138,7 +138,7 @@ public class AdminstrativeLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE, 
                 LUConstants.SECTION_PROGRAM_REQUIREMENTS}, 
-                new SimpleConfigurableSection<CluInfo>()                
+                new SimpleConfigurableSection<CluProposal>()                
                 .setSectionTitle(LUConstants.SECTION_PROGRAM_REQUIREMENTS)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)   

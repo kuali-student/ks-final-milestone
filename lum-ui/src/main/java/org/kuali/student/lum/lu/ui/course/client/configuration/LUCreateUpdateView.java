@@ -10,6 +10,7 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
@@ -29,7 +30,7 @@ public class LUCreateUpdateView extends Composite implements View {
     
     ApplicationComposite app = new ApplicationComposite();
     private final SimplePanel panel = new SimplePanel();
-    private ConfigurableLayout<CluInfo> layout;
+    private ConfigurableLayout<CluProposal> layout;
 	private final Validator validator;
 	private final String luType;
 	private final String luState;
@@ -41,7 +42,7 @@ public class LUCreateUpdateView extends Composite implements View {
 		app.setContent(panel);
 		super.initWidget(app);
 		
-        luRpcServiceAsync.getObjectStructure("cluInfo", new AsyncCallback<ObjectStructure>(){
+        luRpcServiceAsync.getObjectStructure("proposalInfo", new AsyncCallback<ObjectStructure>(){
             public void onFailure(Throwable caught) {
                 GWT.log("Unable to load object structure", caught);                
             }
@@ -54,10 +55,10 @@ public class LUCreateUpdateView extends Composite implements View {
         }); 
 	}
 
-	private ConfigurableLayout<CluInfo> getLayout(ObjectStructure structure, String type, String state) {	   	
+	private ConfigurableLayout<CluProposal> getLayout(ObjectStructure structure, String type, String state) {	   	
 		LULayoutFactory factory = new LULayoutFactory(structure, validator);
         
-        DefaultCreateUpdateLayout<CluInfo> layout = (DefaultCreateUpdateLayout<CluInfo>)factory.getLayout(type, state);
+        DefaultCreateUpdateLayout<CluProposal> layout = (DefaultCreateUpdateLayout<CluProposal>)factory.getLayout(type, state);
 //        history = new KSHistory(getController(), layout);
         layout.addCancelSectionHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -105,7 +106,7 @@ public class LUCreateUpdateView extends Composite implements View {
 		return this.getClass().getName();
 	}
 	
-	public ConfigurableLayout<CluInfo> getLayout() {
+	public ConfigurableLayout<CluProposal> getLayout() {
 	    return layout;
 	}
 
@@ -118,10 +119,10 @@ public class LUCreateUpdateView extends Composite implements View {
                     return true; //wait for stupid thing to load
                 }
                 history.addLayoutToView(create_course, layout);
-                DefaultCreateUpdateLayout<CluInfo> l = null;
+                DefaultCreateUpdateLayout<CluProposal> l = null;
                 boolean showStart = true;
                 if(layout instanceof DefaultCreateUpdateLayout) {
-                    l = (DefaultCreateUpdateLayout<CluInfo>)layout;
+                    l = (DefaultCreateUpdateLayout<CluProposal>)layout;
                     showStart = l.isShowStartSectionEnabled();
                     l.setShowStartSectionEnabled(false);//TODO this needs to be figured out
                 }

@@ -27,12 +27,13 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -42,7 +43,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.Credi
  */
 public class ProposalInformationLayoutManager {
 
-    private DefaultCreateUpdateLayout<CluInfo> layout;
+    private DefaultCreateUpdateLayout<CluProposal> layout;
     private Map<String, FieldDescriptor> fields;
     private Validator validator;
 
@@ -58,13 +59,13 @@ public class ProposalInformationLayoutManager {
     //Course Format lists
     private ListItems atpList ;
     private ListItems durationList ;
-
+    
     public ProposalInformationLayoutManager() {
         super();
         loadData();
     }
 
-    public ProposalInformationLayoutManager(DefaultCreateUpdateLayout<CluInfo> layout,
+    public ProposalInformationLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
             Map<String, FieldDescriptor> fields, Validator validator) {
         super();
         loadData();
@@ -73,7 +74,7 @@ public class ProposalInformationLayoutManager {
         this.validator = validator;
     }
 
-    public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
+    public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
 
         addAuthorAndCollaboratorsSection();
         addGovernanceSection();
@@ -92,41 +93,42 @@ public class ProposalInformationLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
                 LUConstants.SECTION_AUTHORS_AND_COLLABORATORS}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                // TODO figure out how to get the originating faculty member
-                                return "Bob";
+                            public Object getValue(CluProposal object) {
+                                return object.getProposalInfo().getProposerPersonId();
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                // TODO figure out which field is the originating faculty member
+                            public void setValue(CluProposal object, Object value) {
+                                object.getProposalInfo().setProposerPersonId(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("originatingFacultyMember", "Originating Faculty Member")
                         .setWidget(originatorDropDown)
-                        .setHelpInfo(new HelpInfo("helpid")
+                        .setHelpInfo(new HelpInfo("helpid")  
+                        
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("originatingFacultyMember")))
-                        )
+                        )                        
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the administrative delegate
                                 return "Jim";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out which field is the administrative delegate
                             }
                         })
                         .setFormField(new KSFormField("administrativeDelegate", "Administrative Delegate")
                         .setWidget(delegatorDropDown)
                         .setHelpInfo(new HelpInfo("helpid")
+                        
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("administrativeDelegate")))
                         )
@@ -134,96 +136,84 @@ public class ProposalInformationLayoutManager {
                 .setSectionTitle(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)
-
         );
     }
 
     private void addGovernanceSection() {
 
-        KSCheckBoxList curriculumCheckBox = new KSCheckBoxList();
-        curriculumCheckBox.setMultipleSelect(false);
-        curriculumCheckBox.setListItems(curriculumOversightList);
-
-        KSDropDown locationDropDown = new KSDropDown();
-        locationDropDown.setListItems(campusLocationList);
-
-        //TODO This will probably need to be a search or selectable tree 
-//        KSDropDown organizationDropDown = new KSDropDown();
-//        organizationDropDown.setListItems(organizationList);
-              
-        OrgLocateTree orgTree = new OrgLocateTree();
+        Widget curriculumWidget = buildCurriculumWidget();
+        Widget campusLocationWidget = buildCampusLocationWidget();
+        Widget organizationWidget = buildOrganizationWidget();
 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
                 LUConstants.SECTION_GOVERNANCE}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the curriculum oversight
                                 return "graduate";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out which field is the curriculum oversight
                             }
                         })
                         .setFormField(new KSFormField("curriculumOversight", "Curriculum Oversight")
-                        .setWidget(curriculumCheckBox)
+                        .setWidget(curriculumWidget)
                         .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get values
                                 return "South campus";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out how to set value
                             }
                         })
                         .setFormField(new KSFormField("campusLocation", "Campus Location")
                         // Wireframe shows this as a group of checkboxes
-                        .setWidget(locationDropDown)
+                        .setWidget(campusLocationWidget)
                         .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("curriculumOversight")))
                         )
                 )                
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                // finally, a field with an obvious cluinfo mapping
-                                return object.getAdminOrg();
+                            public Object getValue(CluProposal object) {
+                                return object.getProposalInfo().getProposerOrgId();
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                object.setAdminOrg(value.toString());
+                            public void setValue(CluProposal object, Object value) {
+                                object.getProposalInfo().setProposerOrgId(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
-                        .setWidget(orgTree)
-//                        .setWidget(organizationDropDown)
+                        .setWidget(organizationWidget)
                         .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get values
                                 return new Boolean(false);
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out how to set values
                             }
                         })
@@ -252,16 +242,16 @@ public class ProposalInformationLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
                 LUConstants.SECTION_COURSE_FORMAT}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get values
                                 return "Summer";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out how to set values
                             }
                         })
@@ -271,15 +261,15 @@ public class ProposalInformationLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 // TODO figure out how to get values
                                 return "13 week";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 // TODO figure out how to set values
 //                              object.setStdDuration();
 
@@ -308,5 +298,30 @@ public class ProposalInformationLayoutManager {
         organizationList = CreditCourseDataManager.getOrganizations();
         atpList = CreditCourseDataManager.getAtps();
         durationList = CreditCourseDataManager.getDurations();
+    }
+    
+
+    private Widget buildOrganizationWidget() {
+        //TODO This will probably need to be a search or selectable tree
+        //TODO This should probably be a ConfigurableGroup
+        KSDropDown organizationDropDown = new KSDropDown();
+        organizationDropDown.setListItems(organizationList);
+              
+//        OrgLocateTree orgTree = new OrgLocateTree();
+
+        return organizationDropDown;
+    }
+
+    private Widget buildCampusLocationWidget() {
+        KSDropDown locationDropDown = new KSDropDown();
+        locationDropDown.setListItems(campusLocationList);
+        return locationDropDown;
+    }
+
+    private Widget buildCurriculumWidget() {
+        KSCheckBoxList curriculumCheckBox = new KSCheckBoxList();
+        curriculumCheckBox.setMultipleSelect(false);
+        curriculumCheckBox.setListItems(curriculumOversightList);
+        return curriculumCheckBox;
     }
 }

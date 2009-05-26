@@ -11,8 +11,8 @@ import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseLayoutManager;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 
 public class LULayoutFactory {
     private final ObjectStructure structure; 
@@ -24,7 +24,7 @@ public class LULayoutFactory {
         this.validator = validator;
     }
 
-    public ConfigurableLayout<CluInfo> getLayout(String type, String state) {
+    public ConfigurableLayout<CluProposal> getLayout(String type, String state) {
 
         if (type.equalsIgnoreCase(LUConstants.LU_TYPE_CREDIT_COURSE)) {
             return getCreditCourseLayout(type, state);
@@ -50,7 +50,7 @@ public class LULayoutFactory {
      * @param state
      * @return
      */
-    private ConfigurableLayout<CluInfo> getCreditCourseLayout(String type, String state) {
+    private ConfigurableLayout<CluProposal> getCreditCourseLayout(String type, String state) {
         
         final Map<String, FieldDescriptor> fields = getFields(type, state);
         CreditCourseLayoutManager manager = new CreditCourseLayoutManager(fields, validator);

@@ -19,9 +19,9 @@ import java.util.Map;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -31,7 +31,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurabl
  */
 public class ViewsLayoutManager {
     
-    private DefaultCreateUpdateLayout<CluInfo> layout;
+    private DefaultCreateUpdateLayout<CluProposal> layout;
     private Map<String, FieldDescriptor> fields;
     private Validator validator;
 
@@ -39,7 +39,7 @@ public class ViewsLayoutManager {
         super();
     }
 
-    public ViewsLayoutManager(DefaultCreateUpdateLayout<CluInfo> layout,
+    public ViewsLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
             Map<String, FieldDescriptor> fields, Validator validator) {
         super();
         this.layout = layout;
@@ -47,11 +47,11 @@ public class ViewsLayoutManager {
         this.validator = validator;
     }
 
-    public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
+    public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
 
-        layout.addViewSection("Overview",new SimpleConfigurableSection<CluInfo>());
-        layout.addViewSection("Checklist",new SimpleConfigurableSection<CluInfo>());
-        layout.addViewSection("Proposal Summary", new SimpleConfigurableSection<CluInfo>());
+        layout.addViewSection("Overview",new SimpleConfigurableSection<CluProposal>());
+        layout.addViewSection("Checklist",new SimpleConfigurableSection<CluProposal>());
+        layout.addViewSection("Proposal Summary", new SimpleConfigurableSection<CluProposal>());
 
         return layout;
     }

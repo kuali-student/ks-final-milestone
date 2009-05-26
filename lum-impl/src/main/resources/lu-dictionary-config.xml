@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 	<dict:fieldDescriptor id="parentFieldDescriptor">
 		<dict:name>CLU Identifier</dict:name>
-		<dict:desc>Unique identifier for a Canonical Learning Unit(CLU).</dict:desc>
+		<dict:desc>
+			Unique identifier for a Canonical Learning Unit(CLU).
+		</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:minLength>36</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
@@ -19,6 +22,18 @@
 	<dict:fieldDescriptor id="childFieldDescriptor"
 		parent="parentFieldDescriptor">
 		<dict:name>Child CLU Identifier</dict:name>
+	</dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="baseString">
+		<dict:dataType>string</dict:dataType>
+		<dict:minLength>0</dict:minLength>
+		<dict:maxLength>2000</dict:maxLength>
+		<!-- The space character is important -->
+		<dict:validChars>
+			ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+			-.,
+		</dict:validChars>
+		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
 	<dict:objectStructure key="cluInfo">
@@ -33,31 +48,48 @@
 				<dict:field key="cluId">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
-						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+						<dict:desc>
+							Unique identifier for a Canonical Learning
+							Unit (CLU).
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
 				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
-						<dict:desc>Allows for categorization of CLUs.</dict:desc>
+						<dict:desc>
+							Allows for categorization of CLUs.
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
 						<dict:enum key="lu.cluCategories">
 							<dict:contextDescriptors>
-								<dict:contextDescriptor type="default">
+								<dict:contextDescriptor
+									type="default">
 									<dict:contextValueDescriptor>
-										<dict:desc>Passes back an unfiltered list. Context value should be null or an empty string.</dict:desc>
+										<dict:desc>
+											Passes back an unfiltered
+											list. Context value should
+											be null or an empty string.
+										</dict:desc>
 									</dict:contextValueDescriptor>
 								</dict:contextDescriptor>
 								<dict:contextDescriptor type="org">
 									<dict:contextValueDescriptor>
-										<dict:desc>Passes back a list of clu categories associated with a particular organization. This is a bad example.</dict:desc>
+										<dict:desc>
+											Passes back a list of clu
+											categories associated with a
+											particular organization.
+											This is a bad example.
+										</dict:desc>
 									</dict:contextValueDescriptor>
 								</dict:contextDescriptor>
 							</dict:contextDescriptors>
@@ -71,18 +103,25 @@
 				<dict:field key="cluId" maxOccurs="1" minOccurs="1">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
-						<dict:desc>Unique identifier for a Canonical Learning Unit(CLU).</dict:desc>
+						<dict:desc>
+							Unique identifier for a Canonical Learning
+							Unit(CLU).
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>36</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
 				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
-						<dict:desc>Allows for categorization of CLUs.</dict:desc>
+						<dict:desc>
+							Allows for categorization of CLUs.
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
@@ -96,11 +135,16 @@
 				<dict:field key="cluId">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
-						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+						<dict:desc>
+							Unique identifier for a Canonical Learning
+							Unit (CLU).
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>36</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
 						<dict:invalidChars></dict:invalidChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
@@ -108,7 +152,9 @@
 				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
-						<dict:desc>Allows for categorization of CLUs.</dict:desc>
+						<dict:desc>
+							Allows for categorization of CLUs.
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
@@ -120,24 +166,110 @@
 				<dict:field key="cluId" maxOccurs="1" minOccurs="1">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
-						<dict:desc>Unique identifier for a Canonical Learning Unit
-							(CLU).</dict:desc>
+						<dict:desc>
+							Unique identifier for a Canonical Learning
+							Unit (CLU).
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>36</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
 				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
-						<dict:desc>Allows for categorization of CLUs.</dict:desc>
+						<dict:desc>
+							Allows for categorization of CLUs.
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
+				</dict:field>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+
+	<dict:objectStructure key="proposalInfo">
+		<dict:type key="course">
+			<dict:state key="proposed">
+				<dict:field key="id">
+					<dict:fieldDescriptor>
+						<dict:name>Proposal Identifier</dict:name>
+						<dict:desc>
+							Unique identifier for a Proposal.
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>1</dict:minLength>
+						<dict:maxLength>36</dict:maxLength>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="name">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Proposal Name</dict:name>
+						<dict:desc>Name of this proposal</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="desc">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Description</dict:name>
+						<dict:desc>
+							Description of this proposal
+						</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="proposerPersonId">
+					<dict:fieldDescriptor>
+						<dict:name>Description</dict:name>
+						<dict:desc>
+							Description of this proposal
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>1</dict:minLength>
+						<dict:maxLength>36</dict:maxLength>
+						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="proposerOrgId">
+					<dict:fieldDescriptor>
+						<dict:name>Description</dict:name>
+						<dict:desc>Description of this proposal</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>1</dict:minLength>
+						<dict:maxLength>36</dict:maxLength>
+						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="rationale">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Rationale</dict:name>
+						<dict:desc>
+							Rational for this proposal
+						</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="type">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Type</dict:name>
+						<dict:desc>Type of this proposal</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="state">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>State</dict:name>
+						<dict:desc>State of this proposal</dict:desc>
+					</dict:fieldDescriptor>
 				</dict:field>
 			</dict:state>
 		</dict:type>

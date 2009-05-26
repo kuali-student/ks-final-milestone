@@ -19,10 +19,10 @@ import java.util.Map;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -32,7 +32,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurabl
  */
 public class AttachmentsLayoutManager {
     
-    private DefaultCreateUpdateLayout<CluInfo> layout;
+    private DefaultCreateUpdateLayout<CluProposal> layout;
     private Map<String, FieldDescriptor> fields;
     private Validator validator;
     
@@ -40,7 +40,7 @@ public class AttachmentsLayoutManager {
         super();
     }
 
-    public AttachmentsLayoutManager(DefaultCreateUpdateLayout<CluInfo> layout,
+    public AttachmentsLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
             Map<String, FieldDescriptor> fields, Validator validator) {
         super();
         this.layout = layout;
@@ -48,7 +48,7 @@ public class AttachmentsLayoutManager {
         this.validator = validator;
     }
 
-    public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
+    public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
 
         addSupportingDocs();
 
@@ -60,7 +60,7 @@ public class AttachmentsLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ATTACHMENTS, 
                 LUConstants.SECTION_SUPPORTING_DOCUMENTS}, 
-                new SimpleConfigurableSection<CluInfo>()                
+                new SimpleConfigurableSection<CluProposal>()                
                 .setSectionTitle(LUConstants.SECTION_SUPPORTING_DOCUMENTS)
                 .setInstructions("Instructions here....")
                 .setParentLayout(layout)   

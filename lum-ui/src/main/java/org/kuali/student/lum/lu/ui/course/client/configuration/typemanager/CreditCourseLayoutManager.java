@@ -32,6 +32,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.At
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ProposalInformationLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.StudentEligibilityLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ViewsLayoutManager;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.service.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -56,9 +58,9 @@ public class CreditCourseLayoutManager {
         this.validator = validator;
     }
 
-    public DefaultCreateUpdateLayout<CluInfo> getCreateUpdateLayout(String type, String state) {
+    public DefaultCreateUpdateLayout<CluProposal> getCreateUpdateLayout(String type, String state) {
 
-        DefaultCreateUpdateLayout<CluInfo> layout = new DefaultCreateUpdateLayout<CluInfo>();
+        DefaultCreateUpdateLayout<CluProposal> layout = new DefaultCreateUpdateLayout<CluProposal>();
 
         layout = addStartSection(layout);
         layout = addViewsSection(layout, type, state);
@@ -71,16 +73,16 @@ public class CreditCourseLayoutManager {
         return layout;
     }
 
-    private DefaultCreateUpdateLayout<CluInfo> addStartSection(DefaultCreateUpdateLayout<CluInfo> layout){
-        layout.addStartSection(new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+    private DefaultCreateUpdateLayout<CluProposal> addStartSection(DefaultCreateUpdateLayout<CluProposal> layout){
+        layout.addStartSection(new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return null;
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                             }
                         })
                         .setFormField(new KSFormField("proposedCourseTitle", "Proposed Course Title")
@@ -94,14 +96,14 @@ public class CreditCourseLayoutManager {
         return layout;
     }
     
-    private DefaultCreateUpdateLayout<CluInfo> addViewsSection(DefaultCreateUpdateLayout<CluInfo> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addViewsSection(DefaultCreateUpdateLayout<CluProposal> layout,
         String type, String state) {
             ViewsLayoutManager manager = new ViewsLayoutManager(layout, 
                     fields, validator);
             return manager.addSection( type, state);
     }
 
-    private DefaultCreateUpdateLayout<CluInfo> addAuthorAndCollaboratorsSection(DefaultCreateUpdateLayout<CluInfo> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addAuthorAndCollaboratorsSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
         ProposalInformationLayoutManager manager = new ProposalInformationLayoutManager(layout, 
                 fields, validator);
@@ -109,7 +111,7 @@ public class CreditCourseLayoutManager {
 
     }
 
-    private DefaultCreateUpdateLayout<CluInfo> addAcademicContentSection(DefaultCreateUpdateLayout<CluInfo> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addAcademicContentSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
         AcademicContentLayoutManager manager = new AcademicContentLayoutManager(layout, 
@@ -117,7 +119,7 @@ public class CreditCourseLayoutManager {
         return manager.addSection( type, state);
     }
 
-    private DefaultCreateUpdateLayout<CluInfo> addStudentEligibilitySection(DefaultCreateUpdateLayout<CluInfo> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addStudentEligibilitySection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
         StudentEligibilityLayoutManager manager = new StudentEligibilityLayoutManager(layout, 
@@ -126,7 +128,7 @@ public class CreditCourseLayoutManager {
 
     }
 
-    private DefaultCreateUpdateLayout<CluInfo> addAdministrativeSection(DefaultCreateUpdateLayout<CluInfo> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addAdministrativeSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
         AdminstrativeLayoutManager manager = new AdminstrativeLayoutManager(layout, 
@@ -134,7 +136,7 @@ public class CreditCourseLayoutManager {
         return manager.addSection( type, state);
     }
 
-    private DefaultCreateUpdateLayout<CluInfo> addAttachmentsSection(DefaultCreateUpdateLayout<CluInfo> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addAttachmentsSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
         AttachmentsLayoutManager manager = new AttachmentsLayoutManager(layout, 

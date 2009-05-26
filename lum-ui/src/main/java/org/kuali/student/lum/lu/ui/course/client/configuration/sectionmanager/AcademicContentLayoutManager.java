@@ -30,10 +30,11 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.service.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.FileUpload;
 
@@ -45,7 +46,7 @@ import com.google.gwt.user.client.ui.FileUpload;
  */
 public class AcademicContentLayoutManager {
 
-    private DefaultCreateUpdateLayout<CluInfo> layout;
+    private DefaultCreateUpdateLayout<CluProposal> layout;
     private Map<String, FieldDescriptor> fields;
     private Validator validator;
 
@@ -53,7 +54,7 @@ public class AcademicContentLayoutManager {
         super();
     }
 
-    public AcademicContentLayoutManager(DefaultCreateUpdateLayout<CluInfo> layout,
+    public AcademicContentLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
             Map<String, FieldDescriptor> fields, Validator validator) {
         super();
         this.layout = layout;
@@ -61,7 +62,7 @@ public class AcademicContentLayoutManager {
         this.validator = validator;
     }
 
-    public DefaultCreateUpdateLayout<CluInfo> addSection(String type, String state) {
+    public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
 
         addCourseInformation();
         addLearningObjectives();
@@ -74,16 +75,16 @@ public class AcademicContentLayoutManager {
 
         layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
                 LUConstants.SECTION_COURSE_INFORMATION}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getOfficialIdentifier().getDivision();
+                            public Object getValue(CluProposal object) {
+                                return object.getCluInfo().getOfficialIdentifier().getDivision();
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                object.getOfficialIdentifier().setDivision(value.toString());
+                            public void setValue(CluProposal object, Object value) {
+                                object.getCluInfo().getOfficialIdentifier().setDivision(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("courseSubject", "Course Subject")
@@ -93,17 +94,17 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseSubject")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 //TODO Tech spec says suffixCode - not sure if this is right field
-                                return object.getOfficialIdentifier().getCode(); 
+                                return object.getCluInfo().getOfficialIdentifier().getCode(); 
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO Tech spec says suffixCode - not sure if this is right field
-                                object.getOfficialIdentifier().setCode(value.toString());
+                                object.getCluInfo().getOfficialIdentifier().setCode(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("courseNumber", "Course Number")
@@ -113,15 +114,15 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseNumber")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getOfficialIdentifier().getLongName(); 
+                            public Object getValue(CluProposal object) {
+                                return object.getCluInfo().getOfficialIdentifier().getLongName(); 
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                object.getOfficialIdentifier().setLongName(value.toString());
+                            public void setValue(CluProposal object, Object value) {
+                                object.getCluInfo().getOfficialIdentifier().setLongName(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("proposedCourseTitle", "Proposed Course Title")
@@ -132,15 +133,15 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("proposedCourseTitle")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getOfficialIdentifier().getLongName(); 
+                            public Object getValue(CluProposal object) {
+                                return object.getCluInfo().getOfficialIdentifier().getLongName(); 
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                object.getOfficialIdentifier().setLongName(value.toString());
+                            public void setValue(CluProposal object, Object value) {
+                                object.getCluInfo().getOfficialIdentifier().setLongName(value.toString());
                             }
                         })
                         .setFormField(new KSFormField("hasAlternateCourseNumbers", "Alternate Course Numbers?")
@@ -150,15 +151,15 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("proposedCourseTitle")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getOfficialIdentifier().getShortName(); 
+                            public Object getValue(CluProposal object) {
+                                return object.getCluInfo().getOfficialIdentifier().getShortName(); 
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                object.getOfficialIdentifier().setShortName(value.toString());                                
+                            public void setValue(CluProposal object, Object value) {
+                                object.getCluInfo().getOfficialIdentifier().setShortName(value.toString());                                
                             }
                         })
                         .setFormField(new KSFormField("transcriptTitle", "Transcript Title")
@@ -168,17 +169,17 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("transcriptTitle")))
                         )
                 )      
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getDesc(); 
+                            public Object getValue(CluProposal object) {
+                                return object.getCluInfo().getDesc(); 
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 RichTextInfo info = new RichTextInfo();
                                 info.setPlain(value.toString());
-                                object.setDesc(info);
+                                object.getCluInfo().setDesc(info);
                             }
                         })
                         .setFormField(new KSFormField("description", "Description")
@@ -188,17 +189,17 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("description")))
                         )
                 )                
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getMarketingDesc(); 
+                            public Object getValue(CluProposal object) {
+                                return object.getCluInfo().getMarketingDesc(); 
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 RichTextInfo info = new RichTextInfo();
                                 info.setPlain(value.toString());
-                                object.setMarketingDesc(info);
+                                object.getCluInfo().setMarketingDesc(info);
                             }
                         })
                         .setFormField(new KSFormField("rationale", "Rationale")
@@ -217,16 +218,17 @@ public class AcademicContentLayoutManager {
     private void addLearningObjectives() {
         layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
                 LUConstants.SECTION_LEARNING_OBJECTIVES}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
-                                return object.getOfficialIdentifier().getDivision();
+                            public Object getValue(CluProposal object) {
+                           //TODO not sure where this comes from
+                                return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
-                                object.getOfficialIdentifier().setDivision(value.toString());
+                            public void setValue(CluProposal object, Object value) {
+//TODO not sure where this goes
                             }
                         })
                         .setFormField(new KSFormField("learningObjectives", "Learning Objectives")
@@ -245,15 +247,15 @@ public class AcademicContentLayoutManager {
     private void addSyllabus() {
         layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
                 LUConstants.SECTION_SYLLABUS}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO figure out linkedFileSyllabus()
                             }
                         })
@@ -264,14 +266,14 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseTopics")))
                         )
                 )                
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO figure out courseTopics()
                             }
                         })
@@ -282,14 +284,14 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("courseTopics")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO figure out requiredTexts()
                             }
                         })
@@ -300,14 +302,14 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("requiredTexts")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO figure out assignments()
                             }
                         })
@@ -318,14 +320,14 @@ public class AcademicContentLayoutManager {
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("assignments")))
                         )
                 )
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO figure out evaluation()
                             }
                         })
@@ -345,15 +347,15 @@ public class AcademicContentLayoutManager {
     private void addLearningResults() {
         layout.addSection(new String[] {LUConstants.SECTION_ACADEMIC_CONTENT, 
                 LUConstants.SECTION_LEARNING_RESULTS}, 
-                new SimpleConfigurableSection<CluInfo>()
-                .addField(new ConfigurableField<CluInfo>()
-                        .setBinding(new PropertyBinding<CluInfo>() {
+                new SimpleConfigurableSection<CluProposal>()
+                .addField(new ConfigurableField<CluProposal>()
+                        .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
-                            public Object getValue(CluInfo object) {
+                            public Object getValue(CluProposal object) {
                                 return "Dummy value";
                             }
                             @Override
-                            public void setValue(CluInfo object, Object value) {
+                            public void setValue(CluProposal object, Object value) {
                                 //TODO figure out evaluation()
                             }
                         })
