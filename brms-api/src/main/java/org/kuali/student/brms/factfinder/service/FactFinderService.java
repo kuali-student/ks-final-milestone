@@ -12,7 +12,13 @@ import org.kuali.student.brms.factfinder.dto.FactStructureInfo;
 import org.kuali.student.brms.factfinder.dto.FactTypeInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-
+/**
+ * This service supports the retrieval of Facts used in the Rule Management 
+ * Service.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 @WebService(name = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface FactFinderService {

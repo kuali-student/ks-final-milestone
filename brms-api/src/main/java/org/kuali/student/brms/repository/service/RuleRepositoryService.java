@@ -33,9 +33,12 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**
- * This is the rule engine runtime repository interface.
+ * The Repository Service is the storage service for compiled business rules 
+ * from the Business Rules Management Service (BRMS). The service is 
+ * essentially a wrapper of a "Jackrabbit" repository, which is a storage and 
+ * packaging tool used by Drools (JBoss Rules).
  * 
- * @author Kuali Student Team (len.kuali@googlegroups.com)
+ * @author Kuali Student Team
  *
  */
 @WebService(name = "RuleRepositoryService",

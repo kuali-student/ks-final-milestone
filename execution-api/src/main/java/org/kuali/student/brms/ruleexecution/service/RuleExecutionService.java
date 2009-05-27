@@ -35,9 +35,16 @@ import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 
 /**
- * This is the rule execution runtime service interface.
+ * The Execution Service provides applications with the ability to execute 
+ * rules remotely or locally through a common toolset. Providing an executable 
+ * rule from the Repository Service and the necessary contextual and 
+ * definition facts for execution, the service will run the rule and return a 
+ * result. In the case of validation rules, the result will consist of a tree 
+ * of results for each of the propositions contained in the agenda (see the 
+ * Business Rules Management Service (BRMS) for more information regarding 
+ * propositions and agendas).
  * 
- * @author lcarlsen
+ * @author Kuali Student Team
  *
  */
 @WebService(name = "RuleExecutionService",
