@@ -88,6 +88,16 @@ public interface SimpleExecutor {
     public void setGlobalObjects(Map<String, Object> globalObjectMap);
 
     /**
+     * Adds a global read only object to the rule engine. 
+     * These objects are usually constants, Hibernate sessions, 
+     * JPA session etc.
+     * 
+     * @param id Identifier associated with the object
+     * @param object Object to add to the rule engine
+     */
+    public void addGlobalObject(String id, Object object);
+    
+    /**
      * Executes rules in the default execution cache with a list of 
      * <code>facts</code>.
      * 

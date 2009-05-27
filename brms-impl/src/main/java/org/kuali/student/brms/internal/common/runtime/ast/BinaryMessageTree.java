@@ -2,6 +2,7 @@ package org.kuali.student.brms.internal.common.runtime.ast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -23,8 +24,9 @@ public class BinaryMessageTree {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(BinaryMessageTree.class);
 
-    private static BooleanNode root;
-	private static ArrayList<BooleanNode> nodes;
+    private BooleanNode root;
+	private ArrayList<BooleanNode> nodes;
+	private String language;
 	
 	private Map<String, ? extends BooleanMessage> nodeMessageMap;
 	
@@ -34,12 +36,25 @@ public class BinaryMessageTree {
 		}
 	};
 	
+	/**
+	 * Constructor.
+	 */
 	public BinaryMessageTree() {
+		language = Locale.getDefault().getLanguage();
 		nodes = new ArrayList<BooleanNode>();
 	}
-	
-	public BinaryMessageTree(Map<String, ? extends BooleanMessage> nodeFailureMessageMap) {
-		this.nodeMessageMap = nodeFailureMessageMap;
+
+	/**
+	 * Constructor. 
+	 * Creates a new binary message tree for the in the specified language
+	 * for the boolean message map.
+	 *  
+	 * @param messageLanguage Language for the message 
+	 * @param messageMap map of boolean messages
+	 */
+	public BinaryMessageTree(String messageLanguage, Map<String, ? extends BooleanMessage> messageMap) {
+		language = messageLanguage;
+		nodeMessageMap = messageMap;
 		nodes = new ArrayList<BooleanNode>();
 	}
 	
@@ -50,7 +65,7 @@ public class BinaryMessageTree {
 	 * <p>Example: A AND B OR C AND D evaluates to (A AND B) OR (C AND D).</p>
 	 * 
 	 * @param booleanFunction: Boolean expression 
-	 * @return Boolean node
+	 * @return Root boolean node
 	 */
 	public BooleanNode buildTree(String booleanFunction){
 		if (booleanFunction == null || booleanFunction.trim().isEmpty()) {
@@ -77,53 +92,54 @@ public class BinaryMessageTree {
         return root = (BooleanNode) booleanExpression.getTree();
 	}
 	
+	/** 
+	 * This method walks the tree depth first, while setting node values with 
+	 * setNode(). Setting a nodes parent and adding the node to the ArrayList 
+	 * for later. This method has to be called after buildTree. 
+	 * 
+	 * @param bnode Boolean node
+	 * @param parent Parent boolean node
+	 */
+	public void traverseTreePostOrder(BooleanNode bnode, BooleanNode parent) {
+		for (int i = 0; i < bnode.getChildCount(); i++) {
+			traverseTreePostOrder((BooleanNode) bnode.getChild(i), bnode);
+		}
+		setNode(bnode);
+		if (parent != null) {
+			bnode.setParent(parent);
+		}
+
+		if(logger.isDebugEnabled()) {
+		    logger.debug(bnode.getText());
+		}
+		nodes.add(bnode);
+	}
+
+	/**
+	 * This method walks the tree depth first. Setting a nodes parent and 
+	 * adding the node to the ArrayList for later. 
+	 * This method has to be called after buildTree. 
+	 * 
+	 * @param bnode Boolean node
+	 * @param parent Parent boolean node
+	 */
 	public void traverseTreePostOrderDontSetNode(BooleanNode bnode, BooleanNode parent) {
-		if ( bnode != null ) {
-			for ( int i = 0; i < bnode.getChildCount(); i++ ) {
-				traverseTreePostOrderDontSetNode( (BooleanNode)bnode.getChild(i), bnode );
-				//logger.debug(bnode.getChild(i).toString());
+		if (bnode != null) {
+			for (int i = 0; i < bnode.getChildCount(); i++ ) {
+				traverseTreePostOrderDontSetNode((BooleanNode)bnode.getChild(i), bnode);
 			}
 
-			if ( parent != null ) {
-			    //logger.debug(bnode.getLabel() + "'s parent is " + parent.getLabel());
+			if (parent != null) {
 				bnode.setParent(parent);
 			}
 		    
-			if( logger.isDebugEnabled()) {
+			if(logger.isDebugEnabled()) {
 				logger.debug(bnode.getText());
 			}
 			nodes.add(bnode);
 		}
 	}
-	
-	/** 
-	 * This method walks the tree depth first, while setting node values with 
-	 * setNode(). Setting a nodes parent and adding the node to the ArrayList 
-	 * for later. This method has to be called after buildTree. 
-	 * I guess we could call it from build tree.
-	 * 
-	 * @param bnode
-	 * @param parent
-	 */
-	public void traverseTreePostOrder(BooleanNode bnode, BooleanNode parent) {
-		if ( bnode != null ) {
-			for ( int i = 0; i < bnode.getChildCount(); i++ ) {
-				traverseTreePostOrder( (BooleanNode)bnode.getChild(i), bnode );
-				//logger.debug(bnode.getChild(i).toString());
-			}
-			setNode( bnode );
-			if ( parent != null ) {
-			    //logger.debug(bnode.getLabel() + "'s parent is " + parent.getLabel());
-				bnode.setParent(parent);
-			}
 
-			if( logger.isDebugEnabled()) {
-			    logger.debug(bnode.getText());
-			}
-			nodes.add(bnode);
-		}
-	}
-	
 	/** 
 	 * Here we set the value(true or false) and the failure message for each node. 
 	 * Setting the failure message here does not mean the function failed, the node just holds the message. 
@@ -132,13 +148,13 @@ public class BinaryMessageTree {
 	 * @param bnode Boolean node
 	 */
 	private void setNode(BooleanNode bnode) {
+		bnode.setLanguage(language);
 		
 		if (bnode.getChildCount() == 0) {
 			// If node is a leaf then set value and message
 			BooleanMessage message = nodeMessageMap.get(bnode.getLabel());
 			bnode.setValue(message.isSuccesful());
 			bnode.setNodeMessage(message.getMessage());
-			//logger.debug("Setting node " + bnode.getLabel() );
 		}
 		else {
 			// If node is intermediate, compute value and set it
@@ -146,24 +162,34 @@ public class BinaryMessageTree {
 			BooleanNode child1 = (BooleanNode)bnode.getChild(1);
 			
 			if ( bnode.getLabel().equalsIgnoreCase("+") ) {
+				// OR node
 				Boolean newValue = child0.getValue() || child1.getValue();
 				bnode.setValue(newValue);
 				bnode.setNodeMessage("null");
-				//logger.debug("OR = + ");
 			}
 			else if ( bnode.getLabel().equalsIgnoreCase("*") ) {
+				// AND node
 				Boolean newValue = child0.getValue() && child1.getValue();
 				bnode.setValue(newValue);
 				bnode.setNodeMessage("null");
-				//logger.debug("AND = * ");
 			}
 		}
 	}
 	
+	/**
+	 * Gets all boolean nodes.
+	 * 
+	 * @return All boolean nodes
+	 */
 	public List<BooleanNode> getAllNodes() {
 		return nodes;
 	}
-	
+
+	/**
+	 * Gets the root boolean node.
+	 * 
+	 * @return Root boolean node
+	 */
 	public BooleanNode getRoot() {
 		return root;
 	}

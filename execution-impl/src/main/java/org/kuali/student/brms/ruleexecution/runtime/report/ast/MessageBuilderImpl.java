@@ -31,8 +31,8 @@ public class MessageBuilderImpl extends AbstractMessageBuilder implements Messag
      * @param andOperator String representation of boolean 'and'
      * @param orOperator String representation of boolean 'or'
 	 */
-	public MessageBuilderImpl(final SimpleExecutor executor, final String andOperator, final String orOperator) {
-		super(executor, andOperator, orOperator);
+	public MessageBuilderImpl(final SimpleExecutor executor, final String language, final BooleanOperators booleanOperators) {
+		super(executor, language, booleanOperators);
 	}
 	
     /**

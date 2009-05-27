@@ -18,6 +18,7 @@ package org.kuali.student.brms.ruleexecution.runtime.drools;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -110,6 +111,21 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     	this.globalObjectMap = globalObjectMap;
     }
     
+    /**
+     * Adds a global read only object to the rule engine. 
+     * These objects are usually constants, Hibernate sessions, 
+     * JPA session etc.
+     * 
+     * @param id Identifier associated with the object
+     * @param object Object to add to the rule engine
+     */
+    public void addGlobalObject(String id, Object object) {
+    	if(this.globalObjectMap == null) {
+    		this.globalObjectMap = new HashMap<String, Object>();
+    	}
+    	this.globalObjectMap.put(id, object);
+    }
+
     /**
      * Add a rule set's source code by <code>id</code> to the default 
      * execution cache.

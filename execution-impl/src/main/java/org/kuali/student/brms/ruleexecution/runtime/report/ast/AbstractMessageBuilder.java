@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
@@ -21,7 +22,8 @@ import org.kuali.student.brms.ruleexecution.runtime.report.ast.exceptions.Messag
 /**
  * This <code>AbstractMessageBuilder</code> class builds a summary message 
  * from plain strings or Velocity template messages. Summary message is built 
- * from analyzing the outcome of a boolean expression.
+ * from analyzing the outcome of a boolean expression. 
+ * If no language is specified then the default language locale is used. 
  */
 public abstract class AbstractMessageBuilder {
     private final static String SUCCESS_MESSAGE_LOGGER = "org.kuali.student.brms.runtime.ast.success";
@@ -34,6 +36,9 @@ public abstract class AbstractMessageBuilder {
     private String booleanExpression;
     private Map<String, ? extends BooleanMessage> messageMap;
     private Map<String, Object> messageContextMap;
+    private String language;
+    
+    private final static String BOOLEAN_OPERATOR_ID = ".booleanOperators";
     
     private SimpleExecutor executor;
 
@@ -46,10 +51,10 @@ public abstract class AbstractMessageBuilder {
      */
     public AbstractMessageBuilder(final SimpleExecutor executor) {
         this.executor = executor;
-        Map<String, Object> map = new HashMap<String, Object>();
+        this.language = Locale.getDefault().getLanguage(); 
+        String id = this.language + BOOLEAN_OPERATOR_ID; 
         BooleanOperators bo = new BooleanOperators();
-        map.put("booleanOperators", bo);
-        this.executor.setGlobalObjects(map);
+        this.executor.addGlobalObject(id, bo);
     	setup();
     }
 
@@ -60,12 +65,11 @@ public abstract class AbstractMessageBuilder {
      * @param andOperator String representation of boolean 'and'
      * @param orOperator String representation of boolean 'or'
      */
-    public AbstractMessageBuilder(final SimpleExecutor executor, final String andOperator, final String orOperator) {
+    public AbstractMessageBuilder(final SimpleExecutor executor, final String language, final BooleanOperators booleanOperators) {
         this.executor = executor;
-        Map<String, Object> map = new HashMap<String, Object>();
-        BooleanOperators bo = new BooleanOperators(andOperator, orOperator);
-        map.put("booleanOperators", bo);
-        this.executor.setGlobalObjects(map);
+        this.language = language; 
+        String id = this.language + BOOLEAN_OPERATOR_ID; 
+        this.executor.addGlobalObject(id, booleanOperators);
     	setup();
     }
     
@@ -132,7 +136,7 @@ public abstract class AbstractMessageBuilder {
         	Map<String, BooleanMessage> nodeMessageMap = buildMessageMap();
 
             // go parse function in buildTree
-            astTree = new BinaryMessageTree(nodeMessageMap);
+            astTree = new BinaryMessageTree(this.language, nodeMessageMap);
             BooleanNode root = astTree.buildTree(this.booleanExpression);
             astTree.traverseTreePostOrder(root, null);
 

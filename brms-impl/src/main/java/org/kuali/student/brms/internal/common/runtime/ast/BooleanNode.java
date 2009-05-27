@@ -8,6 +8,7 @@ public class BooleanNode extends CommonTree {
 	private BooleanNode parent;
 	private Boolean value;
 	private String nodeMessage;
+	private String language;
 	
 	public BooleanNode(Token payload) {
 		super(payload);
@@ -36,6 +37,10 @@ public class BooleanNode extends CommonTree {
 	public String getNodeMessage(){
 		 return nodeMessage;
 	}
+
+	public String getLanguage() {
+		return language;
+	}
 	
 	// org.antlr.runtime.tree.CommonTree getParent() is not implemented
 	// you have to set the parent yourself, see BinaryTree.java
@@ -46,9 +51,12 @@ public class BooleanNode extends CommonTree {
 	public void setValue(Boolean value){
 		 this.value = value;
 	}
-	
+
 	public void setNodeMessage(String nodeMessage){
 		this.nodeMessage = nodeMessage;
 	}
 	
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 }

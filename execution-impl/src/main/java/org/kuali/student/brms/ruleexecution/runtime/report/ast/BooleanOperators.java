@@ -19,4 +19,8 @@ public class BooleanOperators {
 	public String getOrOperator() {
 		return this.orOperator;
 	}
+	
+	public String toString() {
+		return "andOperator=" + this.andOperator + ", orOperator=" + this.orOperator;
+	}
 }
