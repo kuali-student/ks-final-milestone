@@ -8,6 +8,7 @@ import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageTranslator;
 
 public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator {
+	private String language;
 	private ReqComponentTranslator reqComponentTranslator;
 	private StatementTranslator statementTranslator;
 	
@@ -16,12 +17,44 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 
 	public void setReqComponentTranslator(ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
+		setLanguage();
 	}
 
 	public void setStatementTranslator(StatementTranslator statementTranslator) {
 		this.statementTranslator = statementTranslator;
+		setLanguage();
 	}
 	
+	/**
+	 * Gets the translation language.
+	 * 
+	 * @return Language translation
+	 */
+	public String getLanguage() {
+		return language;
+	}
+
+	/**
+	 * Sets the language to translate to.
+	 * 
+	 * @param language Language translation
+	 */
+	public void setLanguage(String language) {
+		this.language = language;
+		setLanguage();
+	}
+	
+	private void setLanguage() {
+		if(this.language != null) {
+			if(this.reqComponentTranslator != null) {
+				this.reqComponentTranslator.setLanguage(this.language);
+			}
+			if(this.statementTranslator != null) {
+				this.statementTranslator.setLanguage(this.language);
+			}
+		}
+	}
+
 	/**
 	 * Translates a requirement component for a specific natural language 
 	 * usuage type (context) into natural language.

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
-import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
-import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
-import org.kuali.student.brms.ruleexecution.runtime.report.MessageBuilder;
-import org.kuali.student.brms.ruleexecution.runtime.report.ast.MessageBuilderImpl;
 import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -25,19 +22,41 @@ import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 
 public class StatementTranslator {
+	private String language;
 	private LuDao luDao;
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator;
-	private SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
-    private final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
-    private MessageBuilder messageBuilder;
+	private NaturalLanguageMessageBuilder messageBuilder;
 
-    public StatementTranslator() {
-		this.executor.setEnableStatisticsLogging(true);
-		this.executor.setRuleBaseCache(this.ruleBase);
-		this.messageBuilder = new MessageBuilderImpl(this.executor, "and", "or");
+	public StatementTranslator() {
+		this.language = Locale.getDefault().getLanguage();
     }
 
+	/**
+	 * Sets the translation language.
+	 * 
+	 * @param language Translation language
+	 */
+	public void setLanguage(String language) {
+		this.language = language;
+		setLanguage();
+	}
+
+	/**
+	 * Sets the translation language for the message builder and 
+	 * requirement component translator.
+	 */
+	private void setLanguage() {
+		if(this.language != null) {
+			if(this.messageBuilder != null) {
+				this.messageBuilder.setLanguage(this.language);
+			}
+			if(this.reqComponentTranslator != null) {
+				this.reqComponentTranslator.setLanguage(this.language);
+			}
+		}
+	}
+	
 	public void setLuDao(LuDao luDao) {
 		this.luDao = luDao;
 	}
@@ -45,6 +64,10 @@ public class StatementTranslator {
 	public void setReqComponentTranslator(ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
 	}
+	
+    public void setMessageBuilder(NaturalLanguageMessageBuilder messageBuilder) {
+		this.messageBuilder = messageBuilder;
+    }
 
 	public String translate(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
@@ -96,6 +119,7 @@ public class StatementTranslator {
 			BooleanMessage bm = new BooleanMessageImpl(reqComponent.getBooleanId(), true, translation);
 			messageContainer.addMessage(bm);
 		}
+		
 		String message = this.messageBuilder.buildMessage(booleanExpression, messageContainer);
 		return message;
 	}
@@ -135,11 +159,12 @@ public class StatementTranslator {
 	 */
 	private String getHeaderTemplate(LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException {
 		for(LuStatementTypeHeaderTemplate header : luStatement.getLuStatementType().getHeaders()) {
-			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey)) {
+			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey) && header.getLanguage().equals(this.language)) {
 				return header.getTemplate();
 			}
 		}
-        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "' for statement type header not found");
+        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "'" +
+        		" and language code '" + this.language + "' for statement type header not found");
 	}
 
 	/**

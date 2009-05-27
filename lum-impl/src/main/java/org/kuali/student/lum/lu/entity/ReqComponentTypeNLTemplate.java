@@ -21,6 +21,9 @@ public class ReqComponentTypeNLTemplate extends Attribute<ReqComponentType> {
 	@Column(name="TEMPLATE", length=2000)
 	private String template;
 
+	@Column(name="LANGUAGE", length=2)
+	private String language;
+
 	@Override
 	public ReqComponentType getOwner() {
 		return owner;
@@ -42,7 +45,17 @@ public class ReqComponentTypeNLTemplate extends Attribute<ReqComponentType> {
 	public void setTemplate(String value) {
 		this.template = value;
 	}
+
 	public String getTemplate() {
 		return template;
+	}
+
+	
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String locale) {
+		this.language = locale;
 	}
 }

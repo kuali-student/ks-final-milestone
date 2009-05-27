@@ -21,6 +21,9 @@ public class LuStatementTypeHeaderTemplate extends Attribute<LuStatementType> {
 	@Column(name="TEMPLATE", length=2000)
 	private String template;
 
+	@Column(name="LANGUAGE", length=2)
+	private String language;
+
 	@Override
 	public LuStatementType getOwner() {
 		return owner;
@@ -45,5 +48,13 @@ public class LuStatementTypeHeaderTemplate extends Attribute<LuStatementType> {
 
 	public void setTemplate(String template) {
 		this.template = template;
+	}
+	
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String locale) {
+		this.language = locale;
 	}
 }

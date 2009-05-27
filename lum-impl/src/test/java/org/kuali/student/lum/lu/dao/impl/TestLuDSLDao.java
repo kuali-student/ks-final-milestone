@@ -48,7 +48,7 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
 
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
 
-        assertEquals(templates.size(), 2);
+        assertEquals(templates.size(), 3);
         
         ReqComponentTypeNLTemplate template = null;
         if (templates.get(0).getNlUsageTypeKey().equals("KUALI.CATALOG")) {
@@ -67,7 +67,7 @@ public class TestLuDSLDao extends AbstractTransactionalDaoTest {
         List<LuStatementTypeHeaderTemplate> templates = stmtType.getHeaders();
 
         LuStatementTypeHeaderTemplate header = templates.get(0);
-        assertEquals(templates.size(), 1);
+        assertEquals(templates.size(), 2);
         assertEquals("KUALI.CATALOG", header.getNlUsageTypeKey());
         assertEquals(header.getTemplate(), "Requirement for $clu.getOfficialIdentifier().getLongName(): ");
     }

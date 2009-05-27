@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
@@ -21,8 +22,13 @@ import org.slf4j.LoggerFactory;
 public class ReqComponentTranslator {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(DroolsJackrabbitRepository.class);
+	private String language;
     private LuDao luDao;
     private ContextRegistry contextRegistry;
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
     public void setLuDao(LuDao luDao) {
         this.luDao = luDao;
@@ -30,6 +36,10 @@ public class ReqComponentTranslator {
 
     public void setContextRegistry(ContextRegistry contextRegistry) {
     	this.contextRegistry = contextRegistry;
+    }
+
+    public ReqComponentTranslator() {
+		this.language = Locale.getDefault().getLanguage();
     }
 
     /**
@@ -106,11 +116,12 @@ public class ReqComponentTranslator {
     private ReqComponentTypeNLTemplate getTemplate(ReqComponentType reqComponentType, String nlUsageTypeKey) throws DoesNotExistException {
         List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
         for (ReqComponentTypeNLTemplate template : templateList) {
-            if (nlUsageTypeKey.equals(template.getNlUsageTypeKey())) {
+            if (nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && this.language.equals(template.getLanguage())) {
                 return template;
             }
         }
-        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "' for requirement component type template not found");
+        throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "'" +
+        		" and language code '" + this.language + "' for requirement component type template not found");
     }
 
     /**

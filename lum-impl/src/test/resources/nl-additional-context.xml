@@ -38,21 +38,84 @@
         </constructor-arg>
     </bean>
 
+    <bean id="droolsKnowledgeBase" class="org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase" />
+
+    <bean id="droolsExecutor"
+        class="org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
+        <property name="enableStatisticsLogging" value="false" />
+        <property name="ruleBaseCache" ref="droolsKnowledgeBase" />
+    </bean>
+
+    <bean id="booleanOperatorLanguageMap"
+    	class="org.springframework.beans.factory.config.MapFactoryBean">
+    	<property name="sourceMap">
+    		<map>
+    			<entry key="en">
+    				<bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+    				    <constructor-arg index="0" value="and" />
+                        <constructor-arg index="1" value="or" />
+    				</bean>
+    			</entry>
+                <entry key="dk">
+                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                        <constructor-arg index="0" value="og" />
+                        <constructor-arg index="1" value="eller" />
+                    </bean>
+                </entry>
+                <entry key="de">
+                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                        <constructor-arg index="0" value="und" />
+                        <constructor-arg index="1" value="oder" />
+                    </bean>
+                </entry>
+                <entry key="fr">
+                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                        <constructor-arg index="0" value="et" />
+                        <constructor-arg index="1" value="ou" />
+                    </bean>
+                </entry>
+                <entry key="jp">
+                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                        <constructor-arg index="0" value="および" />
+                        <constructor-arg index="1" value="または" />
+                    </bean>
+                </entry>
+                <entry key="zh">
+                    <bean class="org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators">
+                        <constructor-arg index="0" value="和" />
+                        <constructor-arg index="1" value="或" />
+                    </bean>
+                </entry>
+    		</map>
+    	</property>
+    </bean>
+
+    <bean id="naturalLanguageMessageBuilder"
+        class="org.kuali.student.lum.lu.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        <constructor-arg index="0" ref="droolsExecutor" />
+        <constructor-arg index="1" value="en" />
+        <constructor-arg index="2" ref="booleanOperatorLanguageMap" />
+    </bean>
+
     <bean id="reqComponentTranslator"
         class="org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator">
         <property name="luDao" ref="LuDaoImpl" />
         <property name="contextRegistry" ref="contextRegistry" />
+        <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="statementTranslator"
         class="org.kuali.student.lum.lu.naturallanguage.translators.StatementTranslator">
         <property name="luDao" ref="LuDaoImpl" />
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
+        <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
+        <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="naturalLanguageTranslator"
         class="org.kuali.student.lum.lu.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
+        <property name="language" value="en" />
     </bean>
 </beans>
