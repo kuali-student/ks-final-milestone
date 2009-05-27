@@ -23,7 +23,15 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
-
+/**
+ * This service supports the maintenance, storage and retrieval of agendas and 
+ * business rules. The BRMS also provides natural language expressions of 
+ * rules and execution results. The specific execution of the rules within an 
+ * agenda, executeAgenda, is currently implemented as API.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 @WebService(name = "RuleManagementService", targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface RuleManagementService {
