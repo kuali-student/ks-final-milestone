@@ -73,8 +73,8 @@ public class NaturalLanguageMessageBuilderTest {
     	NaturalLanguageMessageBuilder messageBuilder = new NaturalLanguageMessageBuilder(executor, "fr", booleanLanguageMap);
     	
 		MessageContainer messageContainer = new MessageContainer();
-		String msg1 = "Étudiant a terminé MATH 100";
-		String msg2 = "Étudiant a terminé MATH 200";
+		String msg1 = "Etudiant a termine MATH 100";
+		String msg2 = "Etudiant a termine MATH 200";
 		BooleanMessage bm1 = new BooleanMessageImpl("A", true, msg1);
 		BooleanMessage bm2 = new BooleanMessageImpl("B", true, msg2);
 		messageContainer.addMessage(bm1);

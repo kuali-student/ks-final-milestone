@@ -187,7 +187,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 	@Test
 	public void testTranslateStatement_German() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = germanTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
-		assertEquals("Voraussetzung für die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
+		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
@@ -197,7 +197,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
 		englishTranslator.setLanguage("de");
 		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
-		assertEquals("Voraussetzung für die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
+		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 
 		englishTranslator.setLanguage("en");
 		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
@@ -223,7 +223,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
 		assertEquals("R1 or R2", rootNode.getProperBooleanExpression());
 		assertEquals(2, rootNode.getChildNodes().size());
-		assertEquals("Voraussetzung für die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
+		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 
 	@Test
@@ -239,6 +239,6 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		englishTranslator.setLanguage("de");
 
 		rootNode = englishTranslator.translateToTree("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
-		assertEquals("Voraussetzung für die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
+		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 }

@@ -119,7 +119,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		
 		String translation = germanTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
 
-		Assert.assertEquals("Voraussetzung für die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180", translation);
+		Assert.assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180", translation);
 	}
 
 	@Test
@@ -140,7 +140,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 		englishTranslator.setLanguage("de");
 		translation = englishTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
-		Assert.assertEquals("Voraussetzung für die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180", translation);
+		Assert.assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180", translation);
 
 		englishTranslator.setLanguage("en");
 		translation = englishTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");

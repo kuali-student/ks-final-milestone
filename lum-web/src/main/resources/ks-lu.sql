@@ -466,7 +466,7 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 // STATEMENT HEADER TEMPLATE
 //INSERT INTO KSLU_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', 'Requirement for $clu.getOfficialIdentifier().getLongName(): ', 'kuali.luStatementType.prereqAcademicReadiness')
 INSERT INTO KSLU_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1', 'KUALI.CATALOG', '', 'kuali.luStatementType.prereqAcademicReadiness', 'en')
-INSERT INTO KSLU_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2', 'KUALI.CATALOG', 'Voraussetzung für die $clu.getOfficialIdentifier().getLongName(): ', 'kuali.luStatementType.prereqAcademicReadiness', 'de')
+INSERT INTO KSLU_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2', 'KUALI.CATALOG', 'Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ', 'kuali.luStatementType.prereqAcademicReadiness', 'de')
 INSERT INTO KSLU_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3', 'KUALI.CATALOG', '$clu.getOfficialIdentifier().getLongName() は必須科目: ', 'kuali.luStatementType.prereqAcademicReadiness', 'jp')
 
 // STMT_TYPE <-> REQ_COM_TYPE
