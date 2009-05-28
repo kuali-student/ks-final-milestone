@@ -58,7 +58,95 @@ import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 
-
+/**
+ * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
+ * 
+ * <p>The Learning Unit (LU) Service provides management of Canonical Learning Units (CLUs) and Learning Unit Instances (LUIs). This includes the development and approval of new Learning Units and changes to existing Learning Units. A Learning Unit (LU) is any learning-related activity that needs to be tracked by the institution or the learner. Learning units include the traditional curriculum of courses and degrees, professional and extension programs, as well as non-academic activities such as leadership development and service learning. All credit and non-credit learning activities, whether traditional or non-traditional, are Learning Units.</p>
+ * 
+ * <p>The LU service is broad and covers many aspects of learning either directly or by reference from other services. The LU Service focuses on the creation of the inventory of CLUs that comprise an institution's offering, including:</p>
+ * <ul>
+ * 	<li>associated learning objectives</li>
+ * 	<li>learning results</li>
+ * 	<li>supporting documents</li>
+ * 	<li>evaluations</li>
+ * 
+ * 	<li>statements (structured rules logic specific to LU)</li>
+ * 	<li>resource types</li>
+ * 	<li>academic time periods</li>
+ * </ul>
+ * 
+ * 
+ * <p>The service includes operations for LUIs, although these are expected to evolve with later KS releases for enrollment and scheduling.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Assumptions"></a>Assumptions</h3>
+ * 
+ * <p>The design of this service considers the following assumptions:</p>
+ * 
+ * <p><em>Types and Configuration</em><br>
+ * The following type concepts are part of configuration and not managed through service operations ::</p>
+ * <ul>
+ * 	<li>LuType - overall type of the Learning Unit (for example, course, academic course, exam, program and so forth). Specifics will be determined as part of reference implementation</li>
+ * 	<li>LuLuRelationType - relation type between CLUs and other CLUs and between LUIs and other LUIs (for example, contains, precedes, and so forth)</li>
+ * 	<li>ResultOptionUsageType - expected usage type for the result option (for example, final course grade, program certification)</li>
+ * 
+ * 	<li>LuDocRelationType - relation type between an LU and document (for example, proposal rationale, syllabus, reading list, and so forth). This is distinct from what the document self-identifies as.</li>
+ * 	<li>LuStatementType - type or use of statement (for example, academic readiness)</li>
+ * 	<li>LuReqComponentType - type of component used in statements (for example, countLrd, avgGpaLrd)</li>
+ * </ul>
+ * 
+ * 
+ * <p>Many of these types are constrained by other types. Management of these constraints is also part of configuration and not managed through service operations:</p>
+ * <ul>
+ * 	<li>LuLuRelationType, LrScaleType and LuStatementType are constrained by LuType</li>
+ * 
+ * 	<li>ReqStatementType and ReqComponentType are constrained by LuStatementType</li>
+ * </ul>
+ * 
+ * 
+ * <p><em>Behavior and Interaction</em></p>
+ * <ul>
+ * 	<li>Retrieval operations do not require authorization. This needs to be confirmed with use cases to determine if this is the case.</li>
+ * 	<li>Relationships are unidirectional. For example, one CLU precedes another.</li>
+ * 	<li>Only learning objective identifiers are returned from the relevant LU operations. Information on learning objectives is retrieved from the Learning Objective service.</li>
+ * 
+ * 	<li>Only result component identifiers are referenced within the result options. Information on the result component and associated values are retrieved from the Learning Result Catalog service.</li>
+ * </ul>
+ * 
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-KeyConcepts"></a>Key Concepts</h3>
+ * 
+ * <ul>
+ * 	<li><b>Learning Unit Types (LUTs)</b> provide the basic structure or template for creating the CLU. Depending on the type, there may be different information associated with the CLU. Examples of LUT include Course, Program, Project, and Assessment. The granularity or LuType depends on the implementation.</li>
+ * 	<li><b>Canonical Learning Units (CLUs)</b> are the inventory of LU for an institution, the collection of LU that have been defined. These have generally been reviewed and approved through an approval process. There is a status (for example, active, inactive, retired) associated with the canonical learning unit. Canonical LUs are often approved for a range of Academic Time Periods. There are several ways to compose CLUs into complex structures. LUIs inherit the composition of the CLU.
+ * 	<ul>
+ * 
+ * 		<li>CluClu Relations can be created to connect CLUs. The relation has a LuLuRelationType which is constrained by the LUT. This construct supports composite CLUs. For example, a Chemistry class that is comprised of a lecture and a lab. CluClu Relations are used to define a series of CLUs in which all courses must be completed before credit is awarded.</li>
+ * 		<li>CLU Sets are collections of CLUs. They can be dynamic (based on a query) or simple enumerated lists. CLU sets are unordered sets of CLUs.</li>
+ * 	</ul>
+ * 	</li>
+ * 	<li><b>Learning Unit Instances (LUIs)</b> are the specific offerings (occurrences) of a Canonical LU, typically during a specific Academic Time Period (ATP), although in some instances there may not be associated calendar dates (for example, online courses).</li>
+ * 	<li><b>Learning Objectives (LOs)</b> have a many-to-many relationship with CLUs. A single CLU has multiple learning objectives and the same learning objective may be related to several CLUs. Learning Objectives are the intended outcome(s) for the LU.
+ * 	<ul>
+ * 
+ * 		<li>There is a separate Learning Objective (LO) service that acts as a catalog service to manage the various LOs that may be related to CLU.</li>
+ * 		<li>LOs may also be related directly to a student, which is not part of this service. The current strategy is that Learning Objectives related directly to a student would be part of the Learning Plan (LP) which may be subsumed by the Student Service, which remains to be defined.</li>
+ * 	</ul>
+ * 	</li>
+ * 	<li><b>Result Options</b> are wrappers for the result components defined within the Learning Result Catalog service. Each result option is associated with a specific result option usage type. CLUs and LUIs do not attach directly to result options.</li>
+ * 	<li><b>Result Sets</b> are the collections of one or more result options. The options in a set represent one permutation of results that can be offered by a CLU/LUI and achieved by a student. Each Result Set is associated with an LU Type to constrain to which CLUs they may be attached.</li>
+ * 
+ * 	<li><b>CLU Results</b> are the association of CLUs to defined result sets. The CLU Results represent the possible sets of learning results available for an LUI instance. The CLU Results instantiated for an LUI in turn represent the available results for a Learning Unit Person Relation (LPR). LU Statements can be evaluated during creation of an LPR in order to determine which results sets are valid for a specific person.</li>
+ * 	<li><b>Documents</b> are the associated various supporting materials that accompany the CLU from inception, through approval, catalog listing, offering, evaluation and finally retiring. The LU service manages the connection to documents but not the actual maintenance and storage of the documents themselves. They have been separated from CluInfo in support of different authorization access.</li>
+ * 	<li><b>Requirement Components</b> are basic building blocks for describing rules logic associated with various levels of LU (LUT, CLU and LUI). Each ReqComponent has a type that is the handshake with the Business Rules Management Service (BRMS) which knows how to translate ket/value pairs sent along with the type into the appropriate rules. For example, a type of LrdTime could represent a pre-requisite condition of having "taken CHEM1A within the last 6 months and received a grade of B or better."</li>
+ * 	<li><b>Learning Unit Statements</b> represent reusable, structured rule logic comprised of requirement components and/or other statements with a single logical operator (for example, AND, OR) to combine. Each statement is limited to one logical operator. The combination of nesting statements and/or requirement components supports the parentheses need for more complex logic.</li>
+ * 
+ * </ul>
+ * 
+ * @author Kuali Student Team
+ *
+ */
 @WebService(name = "LuService", targetNamespace = "http://student.kuali.org/lum/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuService extends DictionaryService, EnumerableService, SearchService {
