@@ -32,27 +32,36 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
 /**
-
-<h4>Description</h4>
-
-This service manages organizational units that have a relationship to the institution. The organizations may be internal and include officially recognized organizations (e.g. Departments, Faculties, Schools) or unofficial organizations (e.g. clubs or student groups), or they may be external organizations (e.g. companies, other institutions, government, associations). This service also manages the relationships between people and organizations.
-
-<h4>Assumptions</h4>
-
-<ul>
-<li> Most organizations have "parent" organization(s) within a given context. E.g., The School of Arts and Sciences exists within the institution as a whole. Parent:child::institution:School of Arts and Sciences
-<li> The "parent" organization(s) of an existing organization may shift depending on the context. This leads to the need to capture multiple relationships for a given organization. E.g., A department may report to a particular institution for administrative purposes, but report to another institution for financial purposes.
-<li>Organization to organization relationships can be grouped into hierarchies based upon the type of relationship.
-<li>Organizations may place additional constraints on the types of relationships a person may have with the organization.
-</ul>
-
-<h4>Key Concepts</h4>
-
-<ul>
-<li> Organizations are distinguished from authorization groups in that organizations deal directly with people while groups deal directly with principals. In other words, organizations may be comprised of individuals who have no way to authenticate themselves (and thus have no unique permissions) and AZ groups may have principals which are linked to non-human entities (such as batch jobs, other services, etc.).
-<li> Organizations and groups may be related, in that a member of an organization may have one of their principals associated with an AZ group, but this is not required
-</ul>
-*/
+ * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
+ * 
+ * <p>The Organization service manages organizational units that have some relationship to the institution and manages the relationships between people and those organization. Internal organizations include officially recognized organizations (such as schools and departments) and unofficial organizations (such as clubs or student groups). Organizations may also be external to the institution, such as companies, other institutions, government, associations.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Assumptions"></a>Assumptions</h3>
+ * 
+ * <p>The design of this service considers the following assumptions:</p>
+ * <ul>
+ * 	<li>Most organizations have "parent" organization(s) within a given context. For example, the School of Arts and Sciences exists within the institution, so the School or Arts and Sciences is a child of the institution.</li>
+ * 	<li>There may be multiple relationships that need to be captured for a given organization since the parent organization may be different depending on the context. For example, a department may report to a particular organization for administrative purposes, but report to another organization for financial purposes.</li>
+ * 	<li>Organization-to-organization relationships can be grouped into hierarchies based upon the type of relationship.</li>
+ * 
+ * 	<li>Organizations may place additional constraints on the types of relationships a person may have with the organization.</li>
+ * </ul>
+ * 
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-KeyConcepts"></a>Key Concepts</h3>
+ * 
+ * <ul>
+ * 	<li>Organizations are different from authorization groups in that organizations deal directly with people while authorization groups deal directly with principals. Organizations may contain individuals who have no way to authenticate themselves (and thus have no unique permissions) and authorization groups may have principals which are linked to non-human entities (such as batch jobs, other services, and so forth).</li>
+ * 	<li>Organizations and authorization groups may be related in that a member of an organization may have a principal associated with an authorization group, but this is not required.
+ * <br clear="all">
+ * <br clear="all"></li>
+ * 
+ * </ul>
+ *
+ * @author Kuali Student Team
+ */
 
 @WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
