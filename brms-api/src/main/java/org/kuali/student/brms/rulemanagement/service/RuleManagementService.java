@@ -24,10 +24,69 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.ReadOnlyException;
 /**
- * This service supports the maintenance, storage and retrieval of agendas and 
- * business rules. The BRMS also provides natural language expressions of 
- * rules and execution results. The specific execution of the rules within an 
- * agenda, executeAgenda, is currently implemented as API.
+ * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
+ * 
+ * <p>The Business Rules Management Service (BRMS) supports the maintenance, storage and retrieval of agendas and business rules. The BRMS also provides natural language expressions of rules and execution results. The specific execution of the rules within an agenda, executeAgenda, is currently implemented as an API.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Assumptions"></a>Assumptions</h3>
+ * 
+ * <p>The design of this service considers the following assumptions:</p>
+ * <ul>
+ * 	<li>Authoring of rules will require additional operations TBD</li>
+ * 	<li>Orchestration of rules within an agenda is TBD</li>
+ * 
+ * 	<li>Each business rule relates to a single executable rule.</li>
+ * 	<li>Yield Value Functions (YVF) provide basic computations as part of rules logic.</li>
+ * 	<li>Facts provide specific information including the procesing of data needed to evaluate a particular rule.</li>
+ * 	<li>Business Rule Type has a constraint, represented by the YVF + the Fact that it consumes that ensures valid logic. For example, some values, such as financial aid awarded to date, may be summed while others, such as Visa types, cannot.</li>
+ * </ul>
+ * 
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-ConceptsandTerminology"></a>Concepts and Terminology</h3>
+ * 
+ * <p>Agendas provide the container for specifying various business rules related to a particular process. For example, as part of checking to see if a student can enroll in a course, there may be course prerequisite, program GPA requirements, and fee checks.</p>
+ * <ul>
+ * 	<li>The <b>Agenda Type</b> (for example, StudentEnrollsInCourse) specifies the set of Business Rule Types that apply to a business process requiring a decision</li>
+ * 	<li>The <b>Agenda Determination Structure</b> is the information required to determine the specific agenda, including anchors or other identifiers that can be used to identify the specific business rules that apply in a specific situation</li>
+ * 	<li>An <b>Agenda</b>, which is determined dynamically, is the specific instance of an Agenda Type, based on the Business Rule Types for the Agenda Type and the specific anchors provided</li>
+ * 
+ * </ul>
+ * 
+ * 
+ * <p>Business Rules represent the logic used as part of evaluation various business decisions. There can be multiple business rules associated with each agenda.</p>
+ * <ul>
+ * 	<li>The <b>Business Rule Type</b> is a categorization of specific rules that can be used as part of validating a process (for example, pre-requisites or fee calculations). The same Business Rule Type may apply to multiple agenda types. A Business Rule Type contains one anchor type (for example: course, program, Biology Major, graduate student).</li>
+ * 	<li>A <b>Business Rule</b> is an individual rule of a single type defined in the BRMS (for example, the pre-requisites for Math 301). Rules can have multiple parts with AND-OR logic connectors and parenthesis. A Business Rule contains on anchor (for example, MATH 301).</li>
+ * 
+ * </ul>
+ * 
+ * 
+ * <p>Anchors represent the entity that the business rule is attached to. The specification of the anchor as part of defining the business rule facilitates specific rule identification when a business process is evaluated. Each business rule has one and only one anchor.</p>
+ * <ul>
+ * 	<li>The <b>Anchor Type</b> is the type of entity to which the business rule is attached (course, program, Biology Major, graduate student). There is one anchor type for each business rule type</li>
+ * 	<li>The <b>Anchor</b> for a rule is the entity type instance to which the rule is attached (for example, MATH 301).</li>
+ * 
+ * </ul>
+ * 
+ * 
+ * <p>The Output from the execution of an agenda of business rules includes the result of each rule as well as an explanation of the execution results for the entire agenda.</p>
+ * <ul>
+ * 	<li><b>Output State</b> is the specific result of a rule execution (examples: True, False, 15, orange)</li>
+ * 	<li><b>Output State Set</b> is the set of possible output states, (examples: true/false, number within a range, red/yellow/green) for each Agenda Type and Business Rule Type</li>
+ * 	<li><b>Display Output Structure</b> provides the explanation of agenda processing and execution</li>
+ * 
+ * </ul>
+ * 
+ * 
+ * <p>Facts refer to both the criteria or arguments of the rule and the facts that are compared as part of evaluating the rule. The actual retrieval of facts is managed through the Fact Finding Service.. The information stored in the BRMS is enough to retrieve the facts.</p>
+ * <ul>
+ * 	<li>The <b>Fact Type Key</b> is the type of entity to which the associated ID refers (for example, person, course)</li>
+ * 	<li>The <b>Fact Structure Id</b> is the specific key needed by the Fact Finding Service to retrieve the data.</li>
+ * 
+ * </ul>
+
  * 
  * @author Kuali Student Team
  *

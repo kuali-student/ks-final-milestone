@@ -35,14 +35,11 @@ import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 
 /**
- * The Execution Service provides applications with the ability to execute 
- * rules remotely or locally through a common toolset. Providing an executable 
- * rule from the Repository Service and the necessary contextual and 
- * definition facts for execution, the service will run the rule and return a 
- * result. In the case of validation rules, the result will consist of a tree 
- * of results for each of the propositions contained in the agenda (see the 
- * Business Rules Management Service (BRMS) for more information regarding 
- * propositions and agendas).
+ * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
+ * 
+ * <p>The Execution Service provides applications with the ability to execute rules remotely or locally through a common toolset. Providing an executable rule from the Repository Service and the necessary contextual and definition facts for execution, the service will run the rule and return a result. In the case of validation rules, the result will consist of a tree of results for each of the propositions contained in the agenda (see the Business Rules Management Service (BRMS) for more information regarding propositions and agendas).</p>
  * 
  * @author Kuali Student Team
  *

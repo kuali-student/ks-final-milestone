@@ -13,8 +13,17 @@ import org.kuali.student.brms.factfinder.dto.FactTypeInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 /**
- * This service supports the retrieval of Facts used in the Rule Management 
- * Service.
+ * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
+ * 
+ * <p>This service supports the retrieval of Facts used in the Rule Management Service.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Assumptions"></a>Assumptions</h3>
+ * 
+ * <ul>
+ * 	<li>The creation and maintenance of Fact types/definitions is handled through configuration.</li>
+ * </ul>
  * 
  * @author Kuali Student Team
  *

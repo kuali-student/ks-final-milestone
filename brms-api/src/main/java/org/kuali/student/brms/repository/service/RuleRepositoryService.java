@@ -33,10 +33,20 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**
- * The Repository Service is the storage service for compiled business rules 
- * from the Business Rules Management Service (BRMS). The service is 
- * essentially a wrapper of a "Jackrabbit" repository, which is a storage and 
- * packaging tool used by Drools (JBoss Rules).
+ * <b>IMPORTANT:</b> This service contract is currently under development. If you are planning to implement the Kuali Student System or parts thereof, <b>please do not consider this service to be final!</b> Consult this page for status before making any plans that rely on specific implementations of these services.</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Description"></a>Description</h3>
+ * 
+ * <p>The Repository Service is the storage service for compiled business rules from the Business Rules Management Service (BRMS). The service is essentially a wrapper of a "Jackrabbit" repository, which is a storage and packaging tool used by Drools (JBoss Rules).</p>
+ * 
+ * <h3><a name="KSDOC-ServiceDescriptions-Assumptions"></a>Assumptions</h3>
+ * 
+ * <p>The design of this service considers the following assumptions:</p>
+ * <ul>
+ * 	<li>This system is the system of record for all executable business rules maintained through the BRMS</li>
+ * 	<li>All maintenance of business rules should occur through the BRMS. Directly modifying rules via the repository would produce synchronization errors with BRMS</li>
+ * 
+ * </ul>
  * 
  * @author Kuali Student Team
  *
