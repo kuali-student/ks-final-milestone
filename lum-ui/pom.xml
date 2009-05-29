@@ -1,0 +1,170 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.lum</groupId>
+	<artifactId>ks-lum-ui</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>KS LUM UI</name>
+	<description>KS Learing Unit Management-ui</description>
+
+	<parent>
+		<groupId>org.kuali.student.lum</groupId>
+		<artifactId>ks-lum-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+	<build>
+        <!-- War file name -->
+        <finalName>${artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>com.totsp.gwt</groupId>
+				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>mergewebxml</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<gwtVersion>${gwtVersion}</gwtVersion>
+					<logLevel>INFO</logLevel>
+					<startupUrl>org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.html</startupUrl>
+					<runTarget> 
+						org.kuali.student.lum.lu.ui.main.LUMMain
+					</runTarget>
+					<!-- define which GWT modules get compiled during the build process -->
+					<compileTargets>
+						<param>
+							org.kuali.student.lum.ui.requirements.Requirements
+						</param>
+						<param>
+							org.kuali.student.lum.lu.ui.main.LUMMain
+						</param>
+					</compileTargets>
+					<extraJvmArgs>-Xmx512m</extraJvmArgs>
+				</configuration>
+			</plugin>
+			
+			
+			<!-- Create additional jar file of gwt classes -->	
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-jar-plugin</artifactId>
+		        <executions>
+		          <execution>
+		            <goals>
+		              <goal>jar</goal>
+		            </goals>
+					<configuration>
+              			<classifier>classes</classifier>
+						<includes>
+				            <include>**/org/kuali/student/**/*.class</include>
+						</includes>
+            		</configuration>
+		          </execution>
+		        </executions>
+			</plugin>   
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- KS core & common dependencies -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>			
+		</dependency>		
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- core-impl used to get mock message service impl -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-impl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>	
+
+		<!-- LUM Dependencies -->
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Required dependencies for testing lum-ui -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-cxf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>pom</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>
