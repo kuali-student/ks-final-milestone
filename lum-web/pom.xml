@@ -16,8 +16,6 @@
 	</parent>
 	
 	<build>	
-        <!-- War file name -->
-        <finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.totsp.gwt</groupId>
