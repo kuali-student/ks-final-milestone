@@ -86,7 +86,7 @@ public class ContractReader {
                     builder.append("<contents>");
                 }
             } else {
-                if (line.contains("</a>Capabilities</h3>")) {
+                if (line.contains("</a>Capabilities</h3>")||line.contains("</a>Capabilities </h3>")) {
                     inContract = false;
                 } else {
                     builder.append(line);

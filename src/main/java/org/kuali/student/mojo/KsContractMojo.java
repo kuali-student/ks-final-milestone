@@ -60,6 +60,11 @@ public class KsContractMojo extends AbstractMojo {
 	/**
 	 * @parameter
 	 */
+	private String[] excludeClasses;
+	
+	/**
+	 * @parameter
+	 */
 	private String packageName;
 
 	/**
@@ -182,7 +187,7 @@ public class KsContractMojo extends AbstractMojo {
 					&& !param.endsWith("Key") && !param.endsWith("Type")) {
 				message2Java(contract, param);
 			}
-			// add this url to the already oarsed list
+			// add this url to the already parsed list
 			alreadyParsedUrlSet.add(url);
 
 			// recurse through the node to
@@ -268,6 +273,17 @@ public class KsContractMojo extends AbstractMojo {
 
 	private void message2Java(ContractReader contract, String param) {
 		StreamSource wsdlXslt=null;
+		String className = param.substring(0, 1).toUpperCase() + param.substring(1);
+		
+		if(excludeClasses!=null){
+			for(String excludeClass:excludeClasses){
+				if(excludeClass.equals(className)){
+					System.out.println("Skipping DTO: " + className + ".java");
+					return;
+				}
+			}
+		}
+		
 		if (messageTransformFile == null) {
 			try {
 				wsdlXslt = new StreamSource(new ClassPathResource("messageInterface.xml").getInputStream());
@@ -290,7 +306,7 @@ public class KsContractMojo extends AbstractMojo {
 			Result result = new StreamResult(new File(dtoDirectory, param
 					.substring(0, 1).toUpperCase()
 					+ param.substring(1) + ".java"));
-			System.out.println("Creating DTO: "+param.substring(0, 1).toUpperCase()	+ param.substring(1) + ".java");
+			System.out.println("Creating DTO: " + className + ".java");
 			transformer.transform(contract.getStreamSource(), result);
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -386,6 +402,14 @@ public class KsContractMojo extends AbstractMojo {
 	 */
 	public void setNamespace(String namespace) {
 		this.namespace = namespace;
+	}
+
+	public String[] getExcludeClasses() {
+		return excludeClasses;
+	}
+
+	public void setExcludeClasses(String[] excludeClasses) {
+		this.excludeClasses = excludeClasses;
 	}
 
 }
