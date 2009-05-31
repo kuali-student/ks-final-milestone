@@ -13,70 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.brms.repository.service.impl;
+package org.kuali.student.brms.repository.runtime;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebService;
-
-import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.dto.RuleSetContainerInfo;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.repository.dto.RuleSetVerificationResultInfo;
-import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
-import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
-import org.kuali.student.brms.repository.exceptions.RuleExistsException;
-import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
-import org.kuali.student.brms.repository.rule.Rule;
-import org.kuali.student.brms.repository.rule.RuleSet;
-import org.kuali.student.brms.repository.runtime.RuleRepository;
-import org.kuali.student.brms.repository.service.RuleAdapter;
-import org.kuali.student.brms.repository.service.RuleRepositoryService;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleContainerInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
-import org.kuali.student.brms.translators.RuleSetTranslator;
-import org.kuali.student.brms.translators.RuleSetValidator;
-import org.kuali.student.brms.translators.RuleSetVerificationResult;
-import org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl;
-import org.kuali.student.brms.translators.exceptions.RuleSetTranslatorException;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
+
 /**
- * This is a convenience interface for the rules repository interface.
+ * This is the rule engine runtime repository interface.
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
  */
-@WebService(endpointInterface = "org.kuali.student.brms.repository.service.RuleRepositoryService", 
-			serviceName = "RuleRepositoryService", 
-			portName = "RuleRepositoryService", 
-			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
-public class RuleRepositoryServiceImpl implements RuleRepositoryService {
-    /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
-    
-//	private final static RuleAdapter ruleAdapter = RuleAdapter.getInstance();
-//	
-//	/** Drools rule repository */
-//    private RuleEngineRepository ruleEngineRepository;
-//    
-//    private RuleSetTranslator ruleSetTranslator;
-//
-//    private RuleSetValidator ruleSetValidator;
-    
-    private RuleRepository ruleRepository;
-    
-    public RuleRepositoryServiceImpl() { }
-
-    public void setRuleRepository(RuleRepository ruleRepository) {
-		this.ruleRepository = ruleRepository;
-	}
-
+public interface RuleRepository {
 	/**
      * Creates a new category in the repository.
      * 
@@ -88,10 +45,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws MissingParameterException Thrown if parameters are null or empty
      * @throws IllegalArgumentException If path and/or name is invalid
      */
-    public Boolean createCategory(final String path, final String name, final String description) 
-        throws OperationFailedException, MissingParameterException, InvalidParameterException {
-    	return this.ruleRepository.createCategory(path, name, description);
-    }
+    public Boolean createCategory(String path, String name, String description) 
+        throws OperationFailedException, MissingParameterException, InvalidParameterException;
 
     /**
      * Removes a category.
@@ -101,11 +56,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws MissingParameterException Thrown if parameter is null or empty
      * @throws IllegalArgumentException If path is invalid
      */
-    public void removeCategory(final String path) 
-    	throws OperationFailedException, InvalidParameterException, MissingParameterException {
-    	this.ruleRepository.removeCategory(path);
-    }
-
+    public void removeCategory(String path) 
+    	throws OperationFailedException, InvalidParameterException, MissingParameterException;
+    
     /**
      * Loads child categories from <code>path</code>.
      * 
@@ -115,11 +68,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws MissingParameterException Thrown if parameter is null or empty
      * @throws IllegalArgumentException If path is invalid
      */
-    public List<String> getCategories(final String path) 
-    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
-    	return this.ruleRepository.getCategories(path);
-	}
-	
+    public List<String> getCategories(String path) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
+
     /**
      * Creates, compiles and checks in a rule set into the repository.
      * 
@@ -130,10 +81,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if compiling a rule set fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetInfo createRuleSet(final RuleSetInfo ruleSetDTO) 
-		throws AlreadyExistsException, OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.createRuleSet(ruleSetDTO);
-    }
+    public RuleSetInfo createRuleSet(RuleSetInfo ruleSet) 
+		throws AlreadyExistsException, OperationFailedException, InvalidParameterException;
 
     /**
      * Deletes a rule set by uuid.
@@ -142,10 +91,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if removing rule set fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void removeRuleSet(final String uuid) 
-    	throws OperationFailedException, InvalidParameterException {
-    	this.ruleRepository.removeRuleSet(uuid);
-    }
+    public void removeRuleSet(String uuid)
+    	throws OperationFailedException, InvalidParameterException;
 
     /**
      * Deletes a rule set snapshot. 
@@ -155,11 +102,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if removing snapshot fails or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void removeRuleSetSnapshot(final String ruleSetUUID, final String snapshotName) 
-    	throws OperationFailedException, InvalidParameterException {
-    	this.ruleRepository.removeRuleSetSnapshot(ruleSetUUID, snapshotName);
-    }
-    
+    public void removeRuleSetSnapshot(String ruleSetUUID, String snapshotName)
+    	throws OperationFailedException, InvalidParameterException;
+
     /**
      * Checks in a rule set into the repository.
      * Checkin rule set will create a new version of the rule set.
@@ -171,23 +116,21 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if checkin rule set fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public long checkinRuleSet(final String uuid, final String comment)
-    	throws OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.checkinRuleSet(uuid, comment);
-    }
+    public long checkinRuleSet(String ruleSetUUID, String comment)
+    	throws OperationFailedException, InvalidParameterException;
 
     /**
      * Loads a rule set (including all rules) by UUID from the repository.
+     * Loading a rule set by UUID will always return the latest version of a
+     * rule set snapshot version.
      * 
      * @param uuid Rule set uuid
      * @return A rule set
      * @throws OperationFailedException Thrown if loading rule set fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetInfo getRuleSet(final String ruleSetUUID) 
-    	throws OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.getRuleSet(ruleSetUUID);
-    }
+    public RuleSetInfo getRuleSet(String ruleSetUUID) 
+    	throws OperationFailedException, InvalidParameterException; 
 
     /**
      * Loads a list of rule sets by tag name.
@@ -196,11 +139,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A list of rule sets
      * @throws OperationFailedException Thrown if loading rule set list fails
      */
-    public List<RuleSetInfo> getRuleSetsByCategory(final String category)
-    	throws OperationFailedException {
-    	return this.ruleRepository.getRuleSetsByCategory(category);
-    }
-     
+    public List<RuleSetInfo> getRuleSetsByCategory(String category)
+    	throws OperationFailedException;
+
     /**
      * Creates a new rule set snapshot for deployment and stores it in the repository.
      * 
@@ -210,10 +151,23 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetInfo createRuleSetSnapshot(final String ruleSetUUID, final String snapshotName, final String comment) 
-    	throws OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.createRuleSetSnapshot(ruleSetUUID, snapshotName, comment);
-    }
+    public RuleSetInfo createRuleSetSnapshot(String ruleSetUUID, String snapshotName, String comment)
+    	throws OperationFailedException, InvalidParameterException;
+
+    /**
+     * Replaces an existing rule set snapshot with a new rule set snapshot 
+     * in the repository.
+     * 
+     * @param ruleSetUUID Rule set uuid
+     * @param ruleSetName Rule set name
+     * @param snapshotName Snapshot name
+     * @param comment Comments for creating the snapshot
+     * @return A new rule set which contains a new UUID
+     * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    public RuleSetInfo replaceRuleSetSnapshot(String ruleSetUUID, String snapshotName, String comment)
+    	throws OperationFailedException, InvalidParameterException;
 
     /**
      * Rebuilds (recompiles) an existing rule set snapshot in the repository.
@@ -223,26 +177,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void rebuildRuleSetSnapshot(final String ruleSetUUID, final String snapshotName) 
-    	throws OperationFailedException, InvalidParameterException {
-    	this.ruleRepository.rebuildRuleSetSnapshot(ruleSetUUID, snapshotName);
-    }
-
-    /**
-     * Replaces an existing rule set snapshot with a new rule set snapshot 
-     * in the repository.
-     * 
-     * @param ruleSetUUID Rule set UUID
-     * @param snapshotName Snapshot name
-     * @param comment Comments for creating the snapshot
-     * @return A new rule set which contains a new UUID
-     * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-    public RuleSetInfo replaceRuleSetSnapshot(final String ruleSetUUID, final String snapshotName, final String comment) 
-    	throws OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.replaceRuleSetSnapshot(ruleSetUUID, snapshotName, comment);
-    }
+    public void rebuildRuleSetSnapshot(String ruleSetUUID, String snapshotName) 
+    	throws OperationFailedException, InvalidParameterException;
 
     /**
      * Loads a rule set snapshot.
@@ -253,10 +189,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if loading a snapshots fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetInfo getRuleSetSnapshot(final String ruleSetUUID, final String snapshotName) 
-    	throws OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.getRuleSetSnapshot(ruleSetUUID, snapshotName);
-    }
+    public RuleSetInfo getRuleSetSnapshot(String ruleSetUUID, String snapshotName)
+    	throws OperationFailedException, InvalidParameterException; 
 
     /**
      * Loads a list of rule set snapshots by tag name.
@@ -264,10 +198,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param category Category name
      * @return A list of rule sets
      */
-    public List<RuleSetInfo> getRuleSetSnapshotsByCategory(final String category)
-		throws OperationFailedException {
-    	return this.ruleRepository.getRuleSetSnapshotsByCategory(category);
-    }
+    public List<RuleSetInfo> getRuleSetSnapshotsByCategory(String category)
+		throws OperationFailedException; 
 
     /**
      * Creates a new status if it doesn't already exists.
@@ -277,10 +209,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if creating status fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public String createState(final String name)
-    	throws OperationFailedException, InvalidParameterException {
-    	return this.ruleRepository.createState(name);
-    }
+    public String createState(String name)
+    	throws OperationFailedException, InvalidParameterException;
     
     /**
      * Loads all states.
@@ -288,10 +218,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return List of all states
      * @throws OperationFailedException Thrown if loading states fails
      */
-    public List<String> getStates()
-    	throws OperationFailedException {
-    	return this.ruleRepository.getStates();
-    }
+    public List<String> getStates() 
+    	throws OperationFailedException;
 
     /**
      * Removes a status from the repository.
@@ -300,24 +228,21 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if removing status fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void removeState(final String name)
-    	throws OperationFailedException, InvalidParameterException {
-    	this.ruleRepository.removeState(name);
-    }
-
+    public void removeState(String name)
+    	throws OperationFailedException, InvalidParameterException;
+    
     /**
-     * Changes a rule set status by uuid.
+     * Changes a rule set status by UUID. If changing a rule set snapshot
+     * then only the last snapshot version's state will be changed.
      * 
      * @param uuid Rule set uuid
      * @param newState New rule set status
      * @throws OperationFailedException Thrown if changing rule set status fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void changeRuleSetState(final String ruleSetUUID, final String newState)
-    	throws OperationFailedException, InvalidParameterException {
-    	this.ruleRepository.changeRuleSetState(ruleSetUUID, newState);
-    }
-
+    public void changeRuleSetState(String ruleSetUUID, String newState)
+    	throws OperationFailedException, InvalidParameterException;
+    
     /**
      * Generates and creates or updates a rule set (rule engine specific source code) 
      * from a <code>BusinessRuleContainerInfo</code>.
@@ -328,10 +253,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetInfo generateRuleSetForBusinessRule(final BusinessRuleInfo businessRule) 
-    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
-    	return this.ruleRepository.generateRuleSetForBusinessRule(businessRule);
-    }
+    public RuleSetInfo generateRuleSetForBusinessRule(BusinessRuleInfo businessRule)
+		throws OperationFailedException, MissingParameterException, InvalidParameterException;
 
     /**
      * Generates and creates or updates a rule set (rule engine specific source code) 
@@ -343,25 +266,21 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetContainerInfo generateRuleSetForBusinessRuleContainer(final BusinessRuleContainerInfo businessRuleContainer) 
-    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
-    	return this.ruleRepository.generateRuleSetForBusinessRuleContainer(businessRuleContainer);
-    }
+    public RuleSetContainerInfo generateRuleSetForBusinessRuleContainer(BusinessRuleContainerInfo businessRuleContainer) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 
     /**
      * Validates that a business rule can be translated and compiled into an
      * vendor specific executable rule (E.g. Drools compiled rule).
      * 
-     * @param businessRule A Business Rule
-     * @return A validation response 
+     * @param businessRule A Business rule
+     * @return A rule set verification result 
      * @throws OperationFailedException Thrown if translating/generating rule set fails
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetVerificationResultInfo validateBusinessRule(final BusinessRuleInfo businessRule) 
-    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
-    	return this.ruleRepository.validateBusinessRule(businessRule);
-    }
+    public RuleSetVerificationResultInfo validateBusinessRule(BusinessRuleInfo businessRule) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 
     /**
      * Translates a business rule into a rule set.
@@ -375,8 +294,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetInfo translateBusinessRule(final BusinessRuleInfo businessRule) 
-		throws OperationFailedException, MissingParameterException, InvalidParameterException {
-    	return this.ruleRepository.translateBusinessRule(businessRule);
-    }
+    public RuleSetInfo translateBusinessRule(BusinessRuleInfo businessRule) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 }

@@ -11,6 +11,12 @@
 		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <bean id="ruleRepositoryService" class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
+        <property name="ruleRepository" ref="ruleRepository"/>
+    </bean>
+
+    <bean id="ruleRepository" class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl" autowire="byType" />
+
     <bean id="ruleEngineRepository"
         class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
         <constructor-arg type="org.drools.repository.RulesRepository"

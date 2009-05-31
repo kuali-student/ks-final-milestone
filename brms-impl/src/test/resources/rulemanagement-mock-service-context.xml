@@ -1,19 +1,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:aop="http://www.springframework.org/schema/aop"
-	
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd ">
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd ">
 
+    <bean id="ruleManagementServiceImpl" class="org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceImpl">
+        <property name="ruleManagement" ref="ruleManagement"/>
+    </bean>
 
-	<bean id="repository"
-		class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
-		<property name="ruleEngineRepository"
-			ref="ruleEngineRepository" />
-		<property name="ruleSetTranslator"
-			ref="droolsTranslator"/>
-	</bean>
+    <bean id="ruleManagement" class="org.kuali.student.brms.rulemanagement.runtime.RuleManagementImpl" autowire="byType" />
+
+    <bean id="ruleRepository" class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl">
+        <property name="ruleEngineRepository"
+            ref="ruleEngineRepository" />
+        <property name="ruleSetTranslator"
+            ref="droolsTranslator"/>
+    </bean>
 
     <bean id="ruleEngineRepository"
         class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">

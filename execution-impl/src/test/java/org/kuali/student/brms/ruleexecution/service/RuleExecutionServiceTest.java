@@ -34,11 +34,11 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.brms.factfinder.dto.FactStructureInfo;
 import org.kuali.student.brms.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.brms.ruleexecution.dto.ExecutionResultInfo;
+import org.kuali.student.brms.rulemanagement.RuleManagementServiceAssembler;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 import org.kuali.student.brms.rulemanagement.entity.BusinessRule;
 import org.kuali.student.brms.rulemanagement.entity.FactStructure;
 import org.kuali.student.brms.rulemanagement.service.RuleManagementService;
-import org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceAssembler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -82,7 +82,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 		// Generate the Drools rule source code (DRL) and save it to the rule repository
 		ApplicationContext applicationContext = ContextLoader.getCurrentWebApplicationContext();
 
-		ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
+		ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagementService");
 		ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
 		ruleManagementService.updateBusinessRule(businessRuleId2, businessRuleInfo2);
 		

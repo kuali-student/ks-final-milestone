@@ -1,4 +1,4 @@
-package org.kuali.student.brms.rulemanagement.service.impl;
+package org.kuali.student.brms.rulemanagement;
 
 import java.util.ArrayList;
 import java.util.HashMap;

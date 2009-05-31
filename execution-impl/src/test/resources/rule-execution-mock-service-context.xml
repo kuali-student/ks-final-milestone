@@ -11,27 +11,27 @@
         http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="ruleManagement" autowire="byType"
-        class="org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceImpl">
-        <!--property name="repository"
-            ref="repository" />
-        <property name="ruleManagementDao"
-            ref="ruleManagementDao" /-->
+    <bean id="ruleManagementService" class="org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceImpl">
+        <property name="ruleManagement" ref="ruleManagement"/>
     </bean>
 
-    <!--bean id="ruleManagementDao"
-        class="org.kuali.student.brms.rulemanagement.dao.impl.RuleManagementDAOImpl">
-        <property name="entityManager"
-            ref="entityManagerFactory" />
-    </bean-->
+    <bean id="ruleManagement" class="org.kuali.student.brms.rulemanagement.runtime.RuleManagementImpl" autowire="byType" />
+
+    <bean id="factFinder" class="org.kuali.student.brms.factfinder.runtime.FactFinderImpl" autowire="byType" />
+
+    <bean id="ruleExecutionService"
+        class="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl">
+        <property name="ruleExecution" ref="ruleExecution" />
+    </bean>
 
     <bean id="ruleExecution"
-        class="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl">
+        class="org.kuali.student.brms.ruleexecution.runtime.RuleExecutionImpl">
         <property name="enableRuleSetCaching" value="false" />
         <property name="ruleSetExecutor" ref="ruleSetExecutor" />
         <property name="ruleSetExecutorTest" ref="ruleSetExecutor" />
-        <property name="ruleRespositoryService" ref="repository" />
-        <property name="ruleManagementService" ref="ruleManagement" />
+        <property name="factFinder" ref="factFinder" />
+        <property name="ruleRespository" ref="ruleRepository" />
+        <property name="ruleManagement" ref="ruleManagement" />
         <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
@@ -67,8 +67,8 @@
     </bean-->
 
 
-    <bean id="repository"
-        class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
+    <bean id="ruleRepository"
+        class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl">
         <property name="ruleEngineRepository"
             ref="ruleEngineRepository" />
         <property name="ruleSetTranslator"
@@ -78,7 +78,7 @@
     <bean id="ruleEngineRepository"
         class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
         <constructor-arg type="org.drools.repository.RulesRepository"
-            ref="rulesRepository" />
+            ref="droolsRepository" />
     </bean>
 
     <!-- 
@@ -93,7 +93,7 @@
             value="/drools-repository" />
     </bean>
 
-    <bean id="rulesRepository"
+    <bean id="droolsRepository"
         factory-bean="defaultDroolsRepository"
         factory-method="getRepository" />
 

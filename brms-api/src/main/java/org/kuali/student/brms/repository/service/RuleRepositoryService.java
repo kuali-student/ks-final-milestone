@@ -71,9 +71,9 @@ public interface RuleRepositoryService {
      */
     @WebMethod
     public Boolean createCategory(
-    		final String path, 
-    		final String name, 
-    		final String description) 
+    		@WebParam(name="path")String path, 
+    		@WebParam(name="name")String name, 
+    		@WebParam(name="description")String description) 
         throws OperationFailedException, MissingParameterException, InvalidParameterException;
 
     /**
@@ -85,7 +85,7 @@ public interface RuleRepositoryService {
      * @throws IllegalArgumentException If path is invalid
      */
     @WebMethod
-    public void removeCategory(final String path) 
+    public void removeCategory(@WebParam(name="path")String path) 
     	throws OperationFailedException, InvalidParameterException, MissingParameterException;
     
     /**
@@ -98,7 +98,7 @@ public interface RuleRepositoryService {
      * @throws IllegalArgumentException If path is invalid
      */
     @WebMethod
-    public List<String> getCategories(final String path) 
+    public List<String> getCategories(@WebParam(name="path")String path) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 
     /**
