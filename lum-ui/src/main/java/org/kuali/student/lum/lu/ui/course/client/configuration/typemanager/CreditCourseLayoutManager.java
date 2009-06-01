@@ -23,7 +23,6 @@ import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AcademicContentLayoutManager;
@@ -33,7 +32,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.Pr
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.StudentEligibilityLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ViewsLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
-import org.kuali.student.lum.lu.ui.course.client.service.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.TextBox;
 

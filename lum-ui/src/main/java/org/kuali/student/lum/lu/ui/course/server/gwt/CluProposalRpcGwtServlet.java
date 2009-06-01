@@ -18,7 +18,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.dto.ProposalInfo;
+import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -45,14 +45,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
         try {
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();
             proposalInfo.setId(UUIDHelper.genStringUUID());
-            proposalInfo.setRefTypeKey("clu");
+            proposalInfo.setProposalReferenceType("clu");
             
             ArrayList<String> proposalRefIds = new ArrayList<String>();
             
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
             proposalRefIds.add(parentCluInfo.getId());
-            proposalInfo.setReferences(proposalRefIds);
+            proposalInfo.setProposalReference(proposalRefIds);
 
             List<CluInfo> activities = cluProposal.getActivities();
             for (CluInfo cluInfo : activities) {
@@ -96,7 +96,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
                 CluProposal cluProposal = new CluProposal();
                 cluProposal.setProposalInfo(proposalInfo);
 
-                String parentCluId = proposalInfo.getReferences().get(0);
+                String parentCluId = proposalInfo.getProposalReference().get(0);
                 CluInfo parentClu = service.getClu(parentCluId);
                 List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
                 

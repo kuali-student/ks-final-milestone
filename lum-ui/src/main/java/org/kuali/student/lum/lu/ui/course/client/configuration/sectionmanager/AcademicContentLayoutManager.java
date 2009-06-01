@@ -34,7 +34,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpda
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
-import org.kuali.student.lum.lu.ui.course.client.service.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.FileUpload;
 

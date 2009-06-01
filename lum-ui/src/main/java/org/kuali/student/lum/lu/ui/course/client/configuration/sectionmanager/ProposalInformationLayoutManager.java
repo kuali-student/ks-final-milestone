@@ -98,11 +98,11 @@ public class ProposalInformationLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getProposalInfo().getProposerPersonId();
+                                return object.getProposalInfo().getProposerPerson().get(0);
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
-                                object.getProposalInfo().setProposerPersonId(value.toString());
+                                object.getProposalInfo().getProposerPerson().set(0, value.toString());
                             }
                         })
                         .setFormField(new KSFormField("originatingFacultyMember", "Originating Faculty Member")
@@ -191,11 +191,11 @@ public class ProposalInformationLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getProposalInfo().getProposerOrgId();
+                                return object.getProposalInfo().getProposerOrg().get(0);
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
-                                object.getProposalInfo().setProposerOrgId(value.toString());
+                                object.getProposalInfo().getProposerOrg().set(0, (String)value);
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
