@@ -5,7 +5,7 @@
 	<groupId>org.kuali.student.lum</groupId>
 	<artifactId>ks-lum-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>KS LUM UI</name>
 	<description>KS Learing Unit Management-ui</description>
 
@@ -16,64 +16,80 @@
 	</parent>
 
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.totsp.gwt</groupId>
-				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>mergewebxml</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<gwtVersion>${gwtVersion}</gwtVersion>
-					<logLevel>INFO</logLevel>
-					<startupUrl>org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.html</startupUrl>
-					<runTarget> 
-						org.kuali.student.lum.lu.ui.main.LUMMain
-					</runTarget>
-					<!-- define which GWT modules get compiled during the build process -->
-					<compileTargets>
-						<param>
-							org.kuali.student.lum.ui.requirements.Requirements
-						</param>
-						<param>
-							org.kuali.student.lum.lu.ui.main.LUMMain
-						</param>
-					</compileTargets>
-					<extraJvmArgs>-Xmx512m</extraJvmArgs>
-				</configuration>
-			</plugin>
-			
-			
-			<!-- Create additional jar file of gwt classes -->	
-			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-jar-plugin</artifactId>
-		        <executions>
-		          <execution>
-		            <goals>
-		              <goal>jar</goal>
-		            </goals>
-					<configuration>
-              			<classifier>classes</classifier>
-						<includes>
-				            <include>**/org/kuali/student/**/*.class</include>
-						</includes>
-            		</configuration>
-		          </execution>
-		        </executions>
-			</plugin>   
+	<profiles>
+		<profile>
+			<id>build-gwt</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.0</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>war</goal>
+								</goals>	
+							</execution>							
+						</executions>
+					</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+					<plugin>
+						<groupId>com.totsp.gwt</groupId>
+						<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>gwt-test</id>
+								<phase>test</phase>
+								<goals>
+									<goal>gwt</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<startupUrl>org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.html</startupUrl>
+							<runTarget> 
+								org.kuali.student.lum.lu.ui.main.LUMMain
+							</runTarget>
+							<!-- define which GWT modules get compiled during the build process -->
+							<compileTargets>
+								<param>
+									org.kuali.student.lum.ui.requirements.Requirements
+								</param>
+								<param>
+									org.kuali.student.lum.lu.ui.main.LUMMain
+								</param>
+							</compileTargets>
+							<extraJvmArgs>-Xmx512m</extraJvmArgs>
+						</configuration>
+					</plugin>
+						
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+					</plugin>
+				</plugins>	
+			</build>
+		
+			<!-- Required dependencies for testing core-ui -->
+			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-cxf</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<type>pom</type>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+					<scope>runtime</scope>
+				</dependency>		
+			</dependencies>
+		</profile>
+	</profiles>
+
 
 	<dependencies>
 		<!-- KS core & common dependencies -->
@@ -147,20 +163,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
-		</dependency>
-
-		<!-- Required dependencies for testing lum-ui -->
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-cxf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>pom</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
