@@ -274,6 +274,12 @@
 					<groupId>com.totsp.gwt</groupId>
 					<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
 					<version>${gwt.plugin.version}</version>
+					<configuration>
+						<gwtVersion>${gwtVersion}</gwtVersion>
+						<logLevel>INFO</logLevel>
+						<extraJvmArgs>-Xmx512m</extraJvmArgs>
+						<style>PRETTY</style>						
+					</configuration>
 				</plugin>
 
 				<!-- Codehaus GWT Maven Plugin Configuration-->
