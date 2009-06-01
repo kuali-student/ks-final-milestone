@@ -165,6 +165,10 @@
 					</url>
 				</pluginRepository>
 				<pluginRepository>
+					<id>codehaus</id>
+					<url>http://snapshots.repository.codehaus.org/</url>
+				</pluginRepository>				
+				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
