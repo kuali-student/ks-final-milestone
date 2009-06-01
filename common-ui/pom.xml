@@ -44,6 +44,7 @@
 			<artifactId>gwt-user</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<!-- When fully switched over to use gwt codehaus plugin, the gwt-dev dependency should be removed -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>

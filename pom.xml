@@ -269,13 +269,24 @@
 					</configuration>
 				</plugin>
 	
-				<!-- GWT Dependency Configuration -->
+				<!-- GWT Maven Plugin Configuration -->
 				<plugin>
 					<groupId>com.totsp.gwt</groupId>
 					<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
 					<version>${gwt.plugin.version}</version>
 				</plugin>
 
+				<!-- Codehaus GWT Maven Plugin Configuration-->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>1.1-SNAPSHOT</version>
+					<configuration>
+						<output>${project.build.directory}/${project.build.finalName}</output>
+						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
+						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+					</configuration>
+				</plugin>
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
