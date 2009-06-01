@@ -37,6 +37,18 @@ public abstract class IdableSuggestOracle extends SuggestOracle{
             return replacementString;
         }
         
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public void setDisplayString(String displayString) {
+            this.displayString = displayString;
+        }
+
+        public void setReplacementString(String replacementString) {
+            this.replacementString = replacementString;
+        }
+
         protected void addAttr(String key, String value){
             attrMap.put(key, value);
         }
