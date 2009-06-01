@@ -30,7 +30,7 @@
 						<version>2.0</version>
 						<executions>
 							<execution>
-								<phase>test</phase>
+								<phase>compile</phase>
 								<goals>
 									<goal>war</goal>
 								</goals>	
@@ -106,7 +106,7 @@
 						<version>2.0</version>
 						<executions>
 							<execution>
-								<phase>test</phase>
+								<phase>compile</phase>
 								<goals>
 									<goal>war</goal>
 								</goals>	
