@@ -117,24 +117,29 @@
 	</bean>
 
 	<!-- JTA Configuration -->
-	<bean id="AtomikosTxMgr"
-		class="com.atomikos.icatch.jta.UserTransactionManager"
-		init-method="init" destroy-method="close">
-		<property name="forceShutdown" value="true" />
-		<property name="startupTransactionService" value="true" />
-		<property name="transactionTimeout" value="60" />
-	</bean>
+    <!--  Atomikos Configurations -->
+    <bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
+        init-method="init" destroy-method="shutdownForce">
+        <constructor-arg value="${propertiesPrefix.atomikos.properties}"/>
+    </bean>
 
-	<bean id="AtomikosUsrTx"
-		class="com.atomikos.icatch.jta.UserTransactionImp" />
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
+        depends-on="userTransactionService">
+        <property name="startupTransactionService" value="true" />
+        <property name="forceShutdown" value="true" />
+    </bean>
 
-	<bean id="JtaTxManager"
-		class="org.springframework.transaction.jta.JtaTransactionManager">
-		<property name="transactionManager" ref="AtomikosTxMgr" />
-		<property name="userTransaction" ref="AtomikosUsrTx" />
-		<property name="transactionSynchronizationName"
-			value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
-	</bean>
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp"
+        depends-on="userTransactionService">
+        <property name="transactionTimeout" value="3500" />
+    </bean>
+
+    <bean id="JtaTxManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="atomikosTransactionManager" />
+        <property name="userTransaction" ref="atomikosUserTransaction" />
+        <property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+    </bean>
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
