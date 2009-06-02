@@ -1397,8 +1397,10 @@ public class LuServiceImpl implements LuService {
 	}
 
 	/**
-	 * <p>Translates a statement for a specific usuage type (context) 
-	 * into natural language.</p>
+	 * <p>Translates and retrieves a statement directly attached to a CLU 
+	 * for a specific usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * <p>An <code>LuStatementInfo</code> can either have a list of
 	 * <code>LuStatementInfo</code>s as children or a list of
@@ -1408,6 +1410,7 @@ public class LuServiceImpl implements LuService {
 	 * @param cluId Clu id anchor for statement
 	 * @param luStatementId Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
      * @throws DoesNotExistException Statement not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing luStatementId or nlUsageTypeKey
@@ -1415,7 +1418,7 @@ public class LuServiceImpl implements LuService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
-	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey) 
+	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluId, "cluId");
@@ -1430,14 +1433,23 @@ public class LuServiceImpl implements LuService {
 			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
 		}
 		
-		String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatementId, nlUsageTypeKey);
-
-		return nl;
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatementId, nlUsageTypeKey);
+			return nl;
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
 	}
 	
 	/**
-	 * <p>Translates a statement for a specific usuage type (context) 
-	 * into natural language.</p>
+	 * <p>Translates and retrieves a statement directly attached to a CLU 
+	 * for a specific usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * <p>An <code>LuNlStatementInfo</code> can either have a list of
 	 * <code>LuNlStatementInfo</code>s as children or a list of
@@ -1447,6 +1459,7 @@ public class LuServiceImpl implements LuService {
 	 * @param cluId Clu id anchor for statement
 	 * @param statementInfo Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
      * @throws DoesNotExistException Statement not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing statementInfo or nlUsageTypeKey
@@ -1454,7 +1467,7 @@ public class LuServiceImpl implements LuService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
-	public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo statementInfo, String nlUsageTypeKey) 
+	public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo statementInfo, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 
 		checkForMissingParameter(cluId, "cluId");
@@ -1468,17 +1481,28 @@ public class LuServiceImpl implements LuService {
 		}
 
 		LuStatement luStatement = LuServiceAssembler.toLuStatementRelation(statementInfo, luDao);
-		String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatement, nlUsageTypeKey);
 
-		return nl;
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatement, nlUsageTypeKey);
+			return nl;
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
 	}
 	
 	/**
-	 * Translates a requirement component for a specific usuage type (context) 
-	 * into natural language.
+	 * <p>Translates and retrieves a requirement component for a specific 
+	 * usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * @param reqComponentId Requirement component to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
      * @throws DoesNotExistException ReqComponent not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
@@ -1486,7 +1510,7 @@ public class LuServiceImpl implements LuService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
-	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey) 
+	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		
 		checkForMissingParameter(reqComponentId, "reqComponentId");
@@ -1498,17 +1522,27 @@ public class LuServiceImpl implements LuService {
 			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
 		}
 		
-		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponentId, nlUsageTypeKey);
-
-		return nl;
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponentId, nlUsageTypeKey);
+			return nl;
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
 	}
 
 	/**
-	 * Translates a requirement component for a specific usuage type (context) 
-	 * into natural language.
+	 * <p>Translates and retrieves a requirement component for a specific 
+	 * usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * @param reqComponentId Requirement component to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
      * @throws DoesNotExistException ReqComponent not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
@@ -1516,7 +1550,7 @@ public class LuServiceImpl implements LuService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
-	public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo reqCompInfo, String nlUsageTypeKey) 
+	public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo reqCompInfo, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 
 		checkForMissingParameter(reqCompInfo, "reqCompInfo");
@@ -1527,14 +1561,25 @@ public class LuServiceImpl implements LuService {
 		}
 
 		ReqComponent reqComponent = LuServiceAssembler.toReqComponentRelation(false, reqCompInfo, luDao);
-		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
-		return nl;
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
+			return nl;
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
 	}
 
 	/**
-	 * Translates a statement for a specific natural language 
-	 * usuage type (context) into a natural language tree structure.
+	 * <p>Translates and retrieves a statement for a specific natural language 
+	 * usuage type (context) and language into a natural language 
+	 * tree structure.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * <p>An <code>LuStatementInfo</code> can either have a list of
 	 * <code>LuStatementInfo</code>s as children or a list of
@@ -1544,12 +1589,13 @@ public class LuServiceImpl implements LuService {
 	 * @param cluId Clu anchor
 	 * @param statementId Statement to translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
 	 * @return Natural language root tree node
 	 * @throws DoesNotExistException CLU or statement does not exist
 	 * @throws OperationFailedException Translation fails
 	 */
 	@Override
-	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
+	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(statementId, "statementId");
 		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
@@ -1562,12 +1608,22 @@ public class LuServiceImpl implements LuService {
 			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
 		}
 
-		return this.naturalLanguageTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			return this.naturalLanguageTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
 	}
 
 	/**
-	 * Translates a statement for a specific natural language 
+	 * Translates and retrieves a statement for a specific natural language 
 	 * usuage type (context) into a natural language tree structure.
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * <p>An <code>LuStatementInfo</code> can either have a list of
 	 * <code>LuStatementInfo</code>s as children or a list of
@@ -1585,7 +1641,7 @@ public class LuServiceImpl implements LuService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	@Override
-	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
+	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(statementInfo, "statementInfo");
 		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
@@ -1597,7 +1653,16 @@ public class LuServiceImpl implements LuService {
 		}
 
 		LuStatement statement = LuServiceAssembler.toLuStatementRelation(false, statementInfo, luDao);
-		return this.naturalLanguageTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
+
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			return this.naturalLanguageTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
 	}
 
 	@Override

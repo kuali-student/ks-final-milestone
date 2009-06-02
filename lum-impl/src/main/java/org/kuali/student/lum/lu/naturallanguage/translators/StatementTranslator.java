@@ -21,6 +21,10 @@ import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 
+/**
+ * This class translates a LU (learning unit) statement into a specific 
+ * natural language.
+ */
 public class StatementTranslator {
 	private String language;
 	private LuDao luDao;
@@ -28,6 +32,10 @@ public class StatementTranslator {
 	private ReqComponentTranslator reqComponentTranslator;
 	private NaturalLanguageMessageBuilder messageBuilder;
 
+	/**
+	 * Constructs a new natural language translator in the 
+	 * default language locale.
+	 */
 	public StatementTranslator() {
 		this.language = Locale.getDefault().getLanguage();
     }
@@ -37,7 +45,7 @@ public class StatementTranslator {
 	 * 
 	 * @param language Translation language
 	 */
-	public void setLanguage(String language) {
+	public void setLanguage(final String language) {
 		this.language = language;
 		setLanguage();
 	}
@@ -57,25 +65,62 @@ public class StatementTranslator {
 		}
 	}
 	
-	public void setLuDao(LuDao luDao) {
+	/**
+     * Sets the learning unit data access object.
+     * 
+     * @param luDao LU DAO
+	 */
+	public void setLuDao(final LuDao luDao) {
 		this.luDao = luDao;
 	}
-	
-	public void setReqComponentTranslator(ReqComponentTranslator reqComponentTranslator) {
+
+	/**
+	 * Sets the requirement component translator.
+	 * 
+	 * @param reqComponentTranslator Requirement component translator
+	 */
+	public void setReqComponentTranslator(final ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
 	}
-	
-    public void setMessageBuilder(NaturalLanguageMessageBuilder messageBuilder) {
+
+	/**
+	 * Sets the message builder.
+	 * 
+	 * @param messageBuilder Message builder
+	 */
+    public void setMessageBuilder(final NaturalLanguageMessageBuilder messageBuilder) {
 		this.messageBuilder = messageBuilder;
     }
 
-	public String translate(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+    /**
+	 * Translates a statement directly attached to a CLU (anchor) for a 
+	 * specific natural language usuage type (context) into natural language.
+	 * 
+     * @param cluId CLU anchor
+     * @param statementId Statement identifier
+     * @param nlUsageTypeKey Usuage type key (context)
+     * @return Natural language statement translation
+     * @throws DoesNotExistException CLU or statement id does not exists
+     * @throws OperationFailedException Translation failure
+     */
+	public String translate(final String cluId, final String statementId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
 		String message = translate(cluId, luStatement, nlUsageTypeKey);
 		return message;
 	}
 
-	public String translate(String cluId, LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	/**
+	 * Translates a statement directly attached to a CLU (anchor) for a 
+	 * specific natural language usuage type (context) into natural language.
+	 * 
+	 * @param cluId CLU anchor
+	 * @param luStatement LU Statement
+	 * @param nlUsageTypeKey Usuage type key (context)
+	 * @return Natural language statement translation
+	 * @throws DoesNotExistException CLU or statement id does not exists
+	 * @throws OperationFailedException Translation fails
+	 */
+	public String translate(final String cluId, final LuStatement luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
 			return null;
 		}
@@ -88,12 +133,34 @@ public class StatementTranslator {
 		return header + message;
 	}
 
-	public NLTranslationNodeInfo translateToTree(String cluId, String statementId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	/**
+	 * Translates a statement directly attached to a CLU for a specific natural 
+	 * language usuage type (context) into natural language tree structure.
+	 * 
+	 * @param cluId Clu anchor
+	 * @param statementId Statement to be translated
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @return Natural language root tree node
+	 * @throws DoesNotExistException CLU or statement does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
+	public NLTranslationNodeInfo translateToTree(final String cluId, final String statementId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
 		return translateToTree(cluId, luStatement, nlUsageTypeKey);
 	}
 
-	public NLTranslationNodeInfo translateToTree(String cluId, LuStatement luStatement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+	/**
+	 * Translates a statement directly attached to a CLU for a specific natural 
+	 * language usuage type (context) into natural language tree structure.
+	 * 
+	 * @param cluId Clu anchor
+	 * @param luStatement LU statement
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @return Natural language root tree node
+	 * @throws DoesNotExistException CLU or statement does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
+	public NLTranslationNodeInfo translateToTree(final String cluId, final LuStatement luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
 			return null;
 		}
@@ -112,6 +179,16 @@ public class StatementTranslator {
 		return root;
 	}
 	
+	/**
+	 * Builds the full translated message.
+	 * 
+	 * @param nlUsageTypeKey Usuage type key
+	 * @param booleanExpression Boolean expression
+	 * @param reqComponentList Requirement component list
+	 * @return Translated message
+	 * @throws DoesNotExistException Requirement component does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
 	private String buildMessage(String nlUsageTypeKey, String booleanExpression, List<CustomReqComponent> reqComponentList) throws DoesNotExistException, OperationFailedException {
 		MessageContainer messageContainer = new MessageContainer();
 		for(CustomReqComponent reqComponent : reqComponentList) {
@@ -173,8 +250,8 @@ public class StatementTranslator {
 	 * @param luStatement LU statement
 	 * @param rootNode Root node to translate to
 	 * @param nlUsageTypeKey Natural language usuage type context key
-	 * @throws DoesNotExistException
-	 * @throws OperationFailedException
+	 * @throws DoesNotExistException Requirement component does not exist
+	 * @throws OperationFailedException Translation fails
 	 */
 	private void createStatementTree(LuStatement luStatement, NLTranslationNodeInfo rootNode, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {
@@ -202,6 +279,13 @@ public class StatementTranslator {
 		}
 	}
 	
+	/**
+	 * Gets the node's natural language translation.
+	 * 
+	 * @param children Nodes children
+	 * @param operator Boolean operator
+	 * @return Node's natural language translation
+	 */
 	private String getNLTranslation(List<NLTranslationNodeInfo> children, String operator) {
 		StringBuilder sb = new StringBuilder();
 		for(Iterator<NLTranslationNodeInfo> it = children.iterator(); it.hasNext();) {
@@ -216,6 +300,15 @@ public class StatementTranslator {
 		return sb.toString();
 	}
 
+	/**
+	 * Gets the requirement components as a list of translated nodes.
+	 * 
+	 * @param reqComponentList Requirement component list
+	 * @param nlUsageTypeKey Usuage type key (context)
+	 * @return List of translated nodes
+	 * @throws DoesNotExistException Requirement component does not exist
+	 * @throws OperationFailedException Translation fails
+	 */
 	private List<NLTranslationNodeInfo> getReqComponents(List<ReqComponent> reqComponentList, String nlUsageTypeKey) 
 		throws DoesNotExistException, OperationFailedException {
 		List<NLTranslationNodeInfo> list = new ArrayList<NLTranslationNodeInfo>(reqComponentList.size());

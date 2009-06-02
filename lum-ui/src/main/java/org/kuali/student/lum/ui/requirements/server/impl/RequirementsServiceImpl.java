@@ -50,7 +50,7 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
         String naturalLanguage = "";           
         
         try {             
-            naturalLanguage = service.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey);            
+            naturalLanguage = service.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey, null);            
         } catch (DoesNotExistException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {
@@ -78,7 +78,7 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
         //then get natural language for the statement
         String NLStatement = "";
         try {        
-            NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey);            
+            NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey, ex);

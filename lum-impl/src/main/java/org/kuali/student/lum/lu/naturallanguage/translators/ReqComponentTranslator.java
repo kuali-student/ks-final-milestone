@@ -19,6 +19,10 @@ import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class translates requirement components into a specific 
+ * natural language.
+ */
 public class ReqComponentTranslator {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(DroolsJackrabbitRepository.class);
@@ -26,20 +30,39 @@ public class ReqComponentTranslator {
     private LuDao luDao;
     private ContextRegistry contextRegistry;
 
-	public void setLanguage(String language) {
+    /**
+	 * Constructs a new natural language translator in the 
+	 * default language locale.
+     */
+    public ReqComponentTranslator() {
+		this.language = Locale.getDefault().getLanguage();
+    }
+
+	/**
+	 * Sets requirement component translation language.
+	 * 
+	 * @param language Language translation
+	 */
+    public void setLanguage(final String language) {
 		this.language = language;
 	}
 
-    public void setLuDao(LuDao luDao) {
+    /**
+     * Sets the learning unit data access object.
+     * 
+     * @param luDao LU DAO
+     */
+    public void setLuDao(final LuDao luDao) {
         this.luDao = luDao;
     }
 
-    public void setContextRegistry(ContextRegistry contextRegistry) {
+    /**
+     * Sets the template context registry.
+     * 
+     * @param contextRegistry Template context registry
+     */
+    public void setContextRegistry(final ContextRegistry contextRegistry) {
     	this.contextRegistry = contextRegistry;
-    }
-
-    public ReqComponentTranslator() {
-		this.language = Locale.getDefault().getLanguage();
     }
 
     /**
@@ -56,7 +79,7 @@ public class ReqComponentTranslator {
      * @throws OperationFailedException
      *             Translation fails
      */
-    public String translate(String reqComponentId, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+    public String translate(final String reqComponentId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
         ReqComponent reqComponent = this.luDao.fetch(ReqComponent.class, reqComponentId);
         return translate(reqComponent, nlUsageTypeKey);
     }
@@ -74,7 +97,7 @@ public class ReqComponentTranslator {
      * @throws OperationFailedException
      *             Translation fails
      */
-    public String translate(ReqComponent reqComponent, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+    public String translate(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
         ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
 
         Map<String, Object> velocityContextMap = buildContextMap(reqComponent);

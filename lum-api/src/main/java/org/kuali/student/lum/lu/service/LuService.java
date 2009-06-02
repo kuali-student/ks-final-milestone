@@ -287,95 +287,130 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
     public List<LuStatementTypeInfo> getLuStatementTypesForLuStatementType(@WebParam(name="luStatementTypeKey")String luStatementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * 
-     *  Retrieves the natural language translation for a particular statement directly attached to a CLU in a particular context.
-     * 
-     * @param cluId learning unit statement identifier
-     * @param luStatementId learning unit statement identifier
-     * @param nlUsageTypeKey context for natural language translation
-     * @return natural language translation for a particular statement directly attached to a CLU in a particular context
-     * @throws DoesNotExistException luStatementTypeKey not found
-     * @throws InvalidParameterException invalid luStatementTypeKey
-     * @throws MissingParameterException missing luStatementTypeKey
-     * @throws OperationFailedException unable to complete request
+	 * <p>Translates and retrieves a statement directly attached to a CLU 
+	 * for a specific usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
+	 * 
+	 * <p>An <code>LuStatementInfo</code> can either have a list of
+	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
+	 * 
+	 * @param cluId Clu id anchor for statement
+	 * @param luStatementId Statement to translate
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
+     * @throws DoesNotExistException Statement not found
+     * @throws InvalidParameterException Invalid nlUsageTypeKey 
+     * @throws MissingParameterException Missing luStatementId or nlUsageTypeKey
+     * @throws OperationFailedException Unable to complete request
+     * @throws VersionMismatchException The action was attempted on an out of date version.
      */
-    public String getNaturalLanguageForLuStatement(@WebParam(name="cluId")String cluId, @WebParam(name="luStatementId")String luStatementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public String getNaturalLanguageForLuStatement(@WebParam(name="cluId")String cluId, @WebParam(name="luStatementId")String luStatementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
 	/**
-	 * Translates a statement for a specific usuage type (context) 
-	 * into natural language.
+	 * <p>Translates and retrieves a statement directly attached to a CLU 
+	 * for a specific usuage type (context) into natural language.</p>
 	 * 
-	 * @param cluId Clu anchor for statement
+	 * <p>If <code>language</code> is null default language is used.</p>
+	 * 
+	 * <p>An <code>LuNlStatementInfo</code> can either have a list of
+	 * <code>LuNlStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
+	 * 
+	 * @param cluId Clu id anchor for statement
 	 * @param statementInfo Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
      * @throws DoesNotExistException Statement not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing statementInfo or nlUsageTypeKey
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public String getNaturalLanguageForLuStatementInfo(@WebParam(name="cluId")String cluId, @WebParam(name="statementInfo")LuNlStatementInfo statementInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) 
+	public String getNaturalLanguageForLuStatementInfo(@WebParam(name="cluId")String cluId, @WebParam(name="statementInfo")LuNlStatementInfo statementInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException;
     
     /**
-     * 
-     * Retrieves the natural language translation for a particular requirement component in a particular context.
-     * 
-     * @param reqComponentId Requirement component identifier
-     * @param nlUsageTypeKey context for natural language translation
-     * @return natural language translation for a particular requirement component in a particular context
-     * @throws DoesNotExistException ReqComponent not found
-     * @throws InvalidParameterException Invalid nlUsageTypeKey 
-     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
-     * @throws OperationFailedException Unable to complete request
-     */
-    public String getNaturalLanguageForReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-	/**
-	 * Translates a requirement component for a specific usuage type (context) 
-	 * into natural language.
+	 * <p>Translates and retrieves a requirement component for a specific 
+	 * usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
 	 * @param reqComponentId Requirement component to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
+     * @throws DoesNotExistException ReqComponent not found
+     * @throws InvalidParameterException Invalid nlUsageTypeKey 
+     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
+     * @throws OperationFailedException Unable to complete request
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+     */
+    public String getNaturalLanguageForReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+	/**
+	 * <p>Translates and retrieves a requirement component for a specific 
+	 * usuage type (context) into natural language.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
+	 * 
+	 * @param reqComponentId Requirement component to translate
+	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
      * @throws DoesNotExistException ReqComponent not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public String getNaturalLanguageForReqComponentInfo(@WebParam(name="reqComponent")ReqComponentInfo reqCompInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException;
+	public String getNaturalLanguageForReqComponentInfo(@WebParam(name="reqComponent")ReqComponentInfo reqCompInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException;
     
 	/**
-	 * Translates a statement for a specific natural language 
-	 * usuage type (context) into a natural language tree structure.
+	 * <p>Translates and retrieves a statement for a specific natural language 
+	 * usuage type (context) and language into a natural language 
+	 * tree structure.</p>
+	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
+	 * 
+	 * <p>An <code>LuStatementInfo</code> can either have a list of
+	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
 	 * 
 	 * @param cluId Clu anchor
-	 * @param statementId Statement to translate
+	 * @param statementId Statement to translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
+	 * @param language Translation language
 	 * @return Natural language root tree node
 	 * @throws DoesNotExistException CLU or statement does not exist
-     * @throws InvalidParameterException Invalid cluId, statementId, nlUsageTypeKey 
-     * @throws MissingParameterException Missing cluId, statementId or nlUsageTypeKey
 	 * @throws OperationFailedException Translation fails
 	 */
-	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(@WebParam(name="cluId")String cluId, @WebParam(name="statementId")String statementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException ;
+	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(@WebParam(name="cluId")String cluId, @WebParam(name="statementId")String statementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException ;
 
 	/**
-	 * Translates a statement for a specific natural language 
+	 * Translates and retrieves a statement for a specific natural language 
 	 * usuage type (context) into a natural language tree structure.
 	 * 
+	 * <p>If <code>language</code> is null default language is used.</p>
+	 * 
+	 * <p>An <code>LuStatementInfo</code> can either have a list of
+	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
+	 * nodes must be <code>ReqComponentInfo</code>s.</p>
+	 * 
 	 * @param cluId Clu anchor
-	 * @param statement Statement to translate
+	 * @param statement Statement to translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language root tree node
 	 * @throws DoesNotExistException CLU or statement does not exist
-     * @throws InvalidParameterException Invalid cluId, statementId, nlUsageTypeKey 
-     * @throws MissingParameterException Missing cluId or nlUsageTypeKey
 	 * @throws OperationFailedException Translation fails
+     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
      * @throws InvalidParameterException Invalid LCU id or nlUsageTypeKey 
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException;
+	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(@WebParam(name="cluId")String cluId, @WebParam(name="statementInfo")LuStatementInfo statementInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException;
 
 	/** 
      * Retrieves the list of requirement component types known by this service.

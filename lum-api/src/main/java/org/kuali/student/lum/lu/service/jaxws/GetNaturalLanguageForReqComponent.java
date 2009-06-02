@@ -13,35 +13,25 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getNaturalLanguageForStatementAsTree", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getNaturalLanguageForReqComponent", namespace = "http://student.kuali.org/lum/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getNaturalLanguageForStatementAsTree", namespace = "http://student.kuali.org/lum/lu", propOrder = {"cluId","statementId","nlUsageTypeKey","language"})
+@XmlType(name = "getNaturalLanguageForReqComponent", namespace = "http://student.kuali.org/lum/lu", propOrder = {"reqComponentId","nlUsageTypeKey","language"})
 
-public class GetNaturalLanguageForStatementAsTree {
+public class GetNaturalLanguageForReqComponent {
 
-    @XmlElement(name = "cluId")
-    private java.lang.String cluId;
-    @XmlElement(name = "statementId")
-    private java.lang.String statementId;
+    @XmlElement(name = "reqComponentId")
+    private java.lang.String reqComponentId;
     @XmlElement(name = "nlUsageTypeKey")
     private java.lang.String nlUsageTypeKey;
     @XmlElement(name = "language")
     private java.lang.String language;
 
-    public java.lang.String getCluId() {
-        return this.cluId;
+    public java.lang.String getReqComponentId() {
+        return this.reqComponentId;
     }
 
-    public void setCluId(java.lang.String newCluId)  {
-        this.cluId = newCluId;
-    }
-
-    public java.lang.String getStatementId() {
-        return this.statementId;
-    }
-
-    public void setStatementId(java.lang.String newStatementId)  {
-        this.statementId = newStatementId;
+    public void setReqComponentId(java.lang.String newReqComponentId)  {
+        this.reqComponentId = newReqComponentId;
     }
 
     public java.lang.String getNlUsageTypeKey() {

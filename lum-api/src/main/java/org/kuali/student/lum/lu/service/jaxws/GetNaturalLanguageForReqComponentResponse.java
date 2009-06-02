@@ -13,20 +13,20 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getNaturalLanguageForStatementInfoAsTreeResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getNaturalLanguageForReqComponentResponse", namespace = "http://student.kuali.org/lum/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getNaturalLanguageForStatementInfoAsTreeResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getNaturalLanguageForReqComponentResponse", namespace = "http://student.kuali.org/lum/lu")
 
-public class GetNaturalLanguageForStatementInfoAsTreeResponse {
+public class GetNaturalLanguageForReqComponentResponse {
 
     @XmlElement(name = "return")
-    private org.kuali.student.lum.lu.dto.NLTranslationNodeInfo _return;
+    private java.lang.String _return;
 
-    public org.kuali.student.lum.lu.dto.NLTranslationNodeInfo getReturn() {
+    public java.lang.String getReturn() {
         return this._return;
     }
 
-    public void setReturn(org.kuali.student.lum.lu.dto.NLTranslationNodeInfo new_return)  {
+    public void setReturn(java.lang.String new_return)  {
         this._return = new_return;
     }
 

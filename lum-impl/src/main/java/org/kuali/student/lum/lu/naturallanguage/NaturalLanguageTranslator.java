@@ -7,6 +7,21 @@ import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public interface NaturalLanguageTranslator {
+
+	/**
+	 * Sets the language translation.
+	 * 
+	 * @param language Language translation
+	 */
+	public void setLanguage(String language);
+	
+	/**
+	 * Gets the translation language.
+	 * 
+	 * @return Language translation
+	 */
+	public String getLanguage();
+
 	/**
 	 * Translates a requirement component for a specific natural language 
 	 * usuage type (context) into natural language.

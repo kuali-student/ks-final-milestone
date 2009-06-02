@@ -52,8 +52,11 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
     @Before
     public void setUp() throws Exception {
     	this.englishTranslator = new NaturalLanguageTranslatorImpl();
+    	this.englishTranslator.setLanguage("en");
     	this.germanTranslator = new NaturalLanguageTranslatorImpl();
+    	this.germanTranslator.setLanguage("de");
     	this.japaneseTranslator = new NaturalLanguageTranslatorImpl();
+    	this.japaneseTranslator.setLanguage("jp");
     	
     	ContextRegistry contextRegistry = NaturalLanguageUtil.getContextRegistry(this.luDao);
 

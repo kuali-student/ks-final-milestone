@@ -7,9 +7,8 @@ import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 
 /**
- * This class is a registry of context which the requirement component 
- * translator uses to generate the natural language from the Velocity 
- * templates.
+ * This class is a registry of template contexts which the requirement 
+ * component translator uses to generate the natural language.
  */
 public class ContextRegistry {
 
