@@ -161,7 +161,7 @@
 						</executions>
 						<configuration>
 							<!-- defines which page should be launched when run in hosted mode -->
-							<startupUrl>org.kuali.student.common.ui.CommonUITest/CommonUITest.html</startupUrl>
+							<startupUrl>org.kuali.student.common.ui.CommonUITest/CommonUI.jsp</startupUrl>
 							<runTarget>
 								org.kuali.student.common.ui.CommonUITest
 							</runTarget>
