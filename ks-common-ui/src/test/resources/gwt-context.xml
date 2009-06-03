@@ -27,7 +27,10 @@
 		class="org.kuali.student.common.ui.server.messages.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
-
+	<bean id="messagesServiceRPCPreloader"
+		class="org.kuali.student.common.ui.server.messages.MessageRPCPreloader">
+		<property name="serviceImpl" ref="messageServiceImpl" />
+	</bean>
 	<bean id="messageServiceImpl" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
