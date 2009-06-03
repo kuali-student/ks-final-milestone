@@ -16,21 +16,19 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
-import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.common.ui.client.widgets.menus.impl.KSAccordionMenuImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -47,10 +45,18 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
     SimplePanel contentPanel;
     private KSMenu menuPanel;
     
+    Map<String,HasStateChanges> stateMap = new HashMap<String,HasStateChanges>();
+    
     public OrgMenu(SimplePanel contentPanel){
         this.contentPanel = contentPanel;
         
         menuPanel = new KSBasicMenu();
+        
+        if(menuPanel instanceof KSBasicMenu) { //I know it is, but just in case I switch back to AccordionMenu
+            KSBasicMenu bmenu = (KSBasicMenu)menuPanel;
+            bmenu.setTitle("Organization Menu");
+            bmenu.setDescription("create, modify, and browse orgies");
+        }
         
         List<KSMenuItemData> menuItems = new ArrayList<KSMenuItemData>();
         
@@ -77,7 +83,7 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
         
     }
 
-    private void addSubItem(final KSMenuItemData group, String title, final Widget orgWidget) {
+    private <T extends Widget & HasStateChanges> void addSubItem(final KSMenuItemData group, String title, final T orgWidget) {
 
         KSMenuItemData item = new KSMenuItemData(title);
     
@@ -85,22 +91,55 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
         group.addSubItem(item);
     }
     
-    private ClickHandler getClickHandler(final Widget w, final String state){
+    private <T extends Widget & HasStateChanges> ClickHandler getClickHandler(final T w, final String state){
+        stateMap.put(state, w);
+//        StateHandler handler = new StateHandler() {
+//            @Override
+//            public void onStateChange(StateEvent event) {
+//                System.out.println("stateevent: "+event.getState());
+//                if(event.getState() != null && !event.getState().equals(""))
+//                    History.newItem(state+"%"+event.getState(), false);
+//            }
+//        };
         return new ClickHandler() {
             public void onClick(ClickEvent arg0) {
+//                boolean history = History.getToken().startsWith(state);
                 if (contentPanel.getWidget() != null) {
+//                    String s = ((HasStateChanges)contentPanel.getWidget()).saveState();
+//                    if(s != null && !history)
+//                        History.newItem(History.getToken()+"%"+s, false);
                     contentPanel.remove(contentPanel.getWidget());
                 }
                 contentPanel.setWidget(w);
-                History.newItem(state);
+                if(!history)
+                    History.newItem(state, false);
             }
         };
     }
 
+    boolean history = false;
+    
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
         String value = event.getValue();
+        String[] split = value.split("%", 2);
         System.out.println("Got event #"+value);
-        menuPanel.selectMenuItem(value.split("/")); // don't like the way this is implemented, but oh well
-    }                    
+        history = true;
+        menuPanel.selectMenuItem(split[0].split("/")); // don't like the way this is implemented, but oh well
+        history = false;
+        if(split.length > 1) {
+            HasStateChanges statefulWidget = stateMap.get(split[0]);
+            if(statefulWidget != null)
+                statefulWidget.loadState(split[1]);
+        }
+    }
+
+    public void saveState() {
+        HasStateChanges state = (HasStateChanges)contentPanel.getWidget();
+        if(state != null) {
+            String s = state.saveState();
+            if(s != null)
+                History.newItem(History.getToken()+"%"+s, false);
+        }
+    }
 }

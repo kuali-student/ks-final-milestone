@@ -23,6 +23,7 @@ import org.kuali.student.core.search.dto.Result;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -35,126 +36,126 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class OrgLocateName extends Composite {
+public class OrgLocateName extends Composite implements HasStateChanges {
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
     
     DeckPanel w = new DeckPanel();
     Panel root = new HorizontalPanel();
+    final Grid grid = new Grid(3, 9);
     private KSCheckBoxList orgTypes;
     SimplePanel resultPanel = new SimplePanel();
     KSSelectableTableList resultTable = null;
     KSLabel noResults = new KSLabel("No organizations found.");
+    ToggleButton source = null;
 
     boolean loaded = false;
+    private ClickHandler handler = new ClickHandler() {
+
+
+        @Override
+        public void onClick(ClickEvent event) {
+            KSImage image = new KSImage("images/loading.gif");
+            resultPanel.setWidget(image);
+            
+            if(source != null)
+                source.setDown(false);
+            if(event != null)
+                source = (ToggleButton) event.getSource();
+            source.setDown(true);
+
+            List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+            QueryParamValue qpv1 = new QueryParamValue();
+            qpv1.setKey("org.queryParam.orgShortName");
+            qpv1.setValue(source.getText() + '%');
+            queryParamValues.add(qpv1);
+
+            orgRpcServiceAsync.searchForResults("org.search.orgQuickLongViewByFirstLetter", queryParamValues, new AsyncCallback<List<Result>>() {
+
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                }
+
+                public void onSuccess(List<Result> result) {
+                    if (result == null || result.size() <= 0) {
+                        resultPanel.setWidget(noResults);
+                    } else {
+                        final Map<String, Result> orgInfoMap = new HashMap<String, Result>();
+                        for (Result r : result) {
+                            List<String> selectedItems = orgTypes.getSelectedItems();
+                            if (selectedItems.isEmpty() || selectedItems.contains(r.getResultCells().get(2).getValue()))
+                                orgInfoMap.put(r.getResultCells().get(0).getValue(), r);
+                        }
+                        ListItems items = new ListItems() {
+
+                            public List<String> getAttrKeys() {
+                                return Arrays.asList("Organization Name");
+                            }
+
+                            public String getItemAttribute(String id, String attrkey) {
+                                Result r = orgInfoMap.get(id);
+
+                                if (attrkey.equals("Organization Name")) {
+                                    return r.getResultCells().get(1).getValue();
+                                }
+
+                                return null;
+                            }
+
+                            @Override
+                            public int getItemCount() {
+                                return orgInfoMap.size();
+                            }
+
+                            @Override
+                            public List<String> getItemIds() {
+                                List<String> keys = new ArrayList<String>();
+
+                                for (String s : orgInfoMap.keySet()) {
+                                    keys.add(s);
+                                }
+
+                                return keys;
+                            }
+
+                            @Override
+                            public String getItemText(String id) {
+                                return ((Result) orgInfoMap.get(id)).getResultCells().get(1).getValue();
+                            }
+
+                        };
+                        // OrgInfoList orgInfoList = new OrgInfoList(result);
+                        resultTable = new KSSelectableTableList();
+                        resultTable.setMultipleSelect(false);
+                        resultTable.setListItems(items);
+                        resultPanel.setWidget(resultTable);
+                        resultTable.addSelectionChangeHandler(new SelectionChangeHandler() {
+
+                            @Override
+                            public void onSelectionChange(final KSSelectItemWidgetAbstract selected) {
+                                if(selected.getSelectedItem() != null) {
+                                    final OrganizationWidget orgCreatePanel = new OrganizationWidget(selected.getSelectedItem(), OrganizationWidget.Scope.ORG_MODIFY_ALL);
+                                    orgCreatePanel.addCloseButton("Back", new ClickHandler() {
+                                        @Override
+                                        public void onClick(ClickEvent event) {
+                                            w.remove(w.getWidgetCount() - 1);
+                                            w.showWidget(w.getWidgetCount() - 1);
+                                        }
+                                    });
+                                    w.add(orgCreatePanel);
+                                    w.showWidget(w.getWidgetCount() - 1);
+                                }
+                            }});
+                        // selectButton.setVisible(true);
+                    }
+                }
+            });
+        }
+    };
 
     public OrgLocateName() {
         super.initWidget(w);
         w.add(root);
 
-        final Grid grid = new Grid(3, 9);
-        final ClickHandler handler = new ClickHandler() {
-
-            ToggleButton source = null;
-
-            @Override
-            public void onClick(ClickEvent event) {
-                KSImage image = new KSImage("images/loading.gif");
-                resultPanel.setWidget(image);
-                
-                if(source != null)
-                    source.setDown(false);
-                if(event != null)
-                    source = (ToggleButton) event.getSource();
-                source.setDown(true);
-
-                List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-                QueryParamValue qpv1 = new QueryParamValue();
-                qpv1.setKey("org.queryParam.orgShortName");
-                qpv1.setValue(source.getText() + '%');
-                queryParamValues.add(qpv1);
-
-                orgRpcServiceAsync.searchForResults("org.search.orgQuickLongViewByFirstLetter", queryParamValues, new AsyncCallback<List<Result>>() {
-
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-
-                    public void onSuccess(List<Result> result) {
-                        if (result == null || result.size() <= 0) {
-                            resultPanel.setWidget(noResults);
-                        } else {
-                            final Map<String, Result> orgInfoMap = new HashMap<String, Result>();
-                            for (Result r : result) {
-                                List<String> selectedItems = orgTypes.getSelectedItems();
-                                if (selectedItems.isEmpty() || selectedItems.contains(r.getResultCells().get(2).getValue()))
-                                    orgInfoMap.put(r.getResultCells().get(0).getValue(), r);
-                            }
-                            ListItems items = new ListItems() {
-
-                                public List<String> getAttrKeys() {
-                                    return Arrays.asList("Organization Name");
-                                }
-
-                                public String getItemAttribute(String id, String attrkey) {
-                                    Result r = orgInfoMap.get(id);
-
-                                    if (attrkey.equals("Organization Name")) {
-                                        return r.getResultCells().get(1).getValue();
-                                    }
-
-                                    return null;
-                                }
-
-                                @Override
-                                public int getItemCount() {
-                                    return orgInfoMap.size();
-                                }
-
-                                @Override
-                                public List<String> getItemIds() {
-                                    List<String> keys = new ArrayList<String>();
-
-                                    for (String s : orgInfoMap.keySet()) {
-                                        keys.add(s);
-                                    }
-
-                                    return keys;
-                                }
-
-                                @Override
-                                public String getItemText(String id) {
-                                    return ((Result) orgInfoMap.get(id)).getResultCells().get(1).getValue();
-                                }
-
-                            };
-                            // OrgInfoList orgInfoList = new OrgInfoList(result);
-                            resultTable = new KSSelectableTableList();
-                            resultTable.setMultipleSelect(false);
-                            resultTable.setListItems(items);
-                            resultPanel.setWidget(resultTable);
-                            resultTable.addSelectionChangeHandler(new SelectionChangeHandler() {
-
-                                @Override
-                                public void onSelectionChange(final KSSelectItemWidgetAbstract selected) {
-                                    if(selected.getSelectedItem() != null) {
-                                        final OrganizationWidget orgCreatePanel = new OrganizationWidget(selected.getSelectedItem(), OrganizationWidget.Scope.ORG_MODIFY_ALL);
-                                        orgCreatePanel.addCloseButton("Back", new ClickHandler() {
-                                            @Override
-                                            public void onClick(ClickEvent event) {
-                                                w.remove(w.getWidgetCount() - 1);
-                                                w.showWidget(w.getWidgetCount() - 1);
-                                            }
-                                        });
-                                        w.add(orgCreatePanel);
-                                        w.showWidget(w.getWidgetCount() - 1);
-                                    }
-                                }});
-                            // selectButton.setVisible(true);
-                        }
-                    }
-                });
-            }
-        };
         for (int i = 0; i < grid.getRowCount(); i++)
             for (int j = 0; j < grid.getColumnCount(); j++) {
                 grid.setWidget(i, j, new ToggleButton(i * grid.getColumnCount() + j == 26 ? "#" : Character.toString((char) (65 + i * grid.getColumnCount() + j)), handler));
@@ -230,10 +231,40 @@ public class OrgLocateName extends Composite {
                     orgTypes.setListItems(items);
                 }
             });
+            loaded = true;
         }
         while(w.getWidgetCount() != 1)
             w.remove(w.getWidgetCount() - 1);
         w.showWidget(0);
 
     }
+
+    @Override
+    public void loadState(String state) {
+        if(state == null || state.equals(""))
+            return;
+        String[] split = state.split("&");
+        int x = split[0].toUpperCase().charAt(0)-'A';
+        if(source != null)
+            source.setDown(false);
+        (source = (ToggleButton)grid.getWidget(x/3, x%3)).setDown(true);
+        handler.onClick(null); //TODO hacky
+        orgTypes.getSelectedItems().clear(); //TODO this is bad
+        orgTypes.redraw(); //TODO this is very bad
+        for(int i = 1; i < split.length; i++)
+            orgTypes.selectItem(split[i]);
+    }
+
+    @Override
+    public String saveState() {
+        if(source == null)
+            return null;
+        String checks = "";
+        for(String type : orgTypes.getSelectedItems()) {
+            checks += "&" + type;
+        }
+        System.out.println(source.getText()+checks);
+        return source.getText()+checks;
+    }
+
 }

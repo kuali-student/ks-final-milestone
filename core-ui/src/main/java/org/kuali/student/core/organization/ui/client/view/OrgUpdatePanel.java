@@ -26,6 +26,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -37,7 +38,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  *
  */
-public class OrgUpdatePanel extends Composite{
+public class OrgUpdatePanel extends Composite implements HasStateChanges{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 
     VerticalPanel root = new VerticalPanel();
@@ -88,6 +89,29 @@ public class OrgUpdatePanel extends Composite{
             w.remove(w.getWidgetCount() - 1);
         w.showWidget(0);
     }
-    
-    
+
+    @Override
+    public void loadState(String state) {
+        System.out.println("parsing "+state);
+        if(state != null && !state.trim().equals("")) {
+            String[] split = state.split("&");
+            if(split.length > 1) {
+                OrgSearchWidget search = (OrgSearchWidget)root.getWidget(0);
+                search.orgName.setValue(split[0], false);
+                search.selection = split[1];
+                if(split.length > 2) {
+                    search.resultSelection = split[2];
+                }
+            }
+        }
+    }
+
+    @Override
+    public String saveState() {
+        OrgSearchWidget search = (OrgSearchWidget)root.getWidget(0);
+        if(search.orgName.getValue().equals("") && search.orgHierarchyDropDown.getSelectedItem() == null)
+            return null;
+        return search.orgName.getValue()+"&"+search.orgHierarchyDropDown.getSelectedItem()+(search.resultTable.getSelectedItem() == null? "": "&"+search.resultTable.getSelectedItem());
+    }
+
 }

@@ -30,6 +30,7 @@ import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Sco
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class OrgLocatePanel extends Composite{
+public class OrgLocatePanel extends Composite implements HasStateChanges{
 
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
     
@@ -242,4 +243,17 @@ public class OrgLocatePanel extends Composite{
         }
 
     }
+
+    @Override
+    public void loadState(String state) {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
+    @Override
+    public String saveState() {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 }

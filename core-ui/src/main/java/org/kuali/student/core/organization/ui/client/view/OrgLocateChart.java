@@ -7,18 +7,18 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class OrgLocateChart extends Composite {
+public class OrgLocateChart extends Composite implements HasStateChanges {
 
+    ComplexPanel w = new VerticalPanel();
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-    
-    Panel w = new VerticalPanel();
     
     boolean loaded = false;
         
@@ -51,5 +51,21 @@ public class OrgLocateChart extends Composite {
             
             loaded = true;
         }       
+    }
+
+    @Override
+    public void loadState(String state) {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
+    @Override
+    public String saveState() {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        for(int i = 1; i < w.getWidgetCount(); i+=2) {
+            OrgChartWidget o = (OrgChartWidget)w.getWidget(i);
+            String orgId = o.orgId;
+        }
+        return null;
     }
 }

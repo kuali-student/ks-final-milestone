@@ -77,6 +77,8 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
     SimplePanel resultPanel = new SimplePanel();
     OrgInfoList orgInfoList;
     
+    String selection, resultSelection;
+    
     public OrgSearchWidget(){
         this.initWidget(root);
         
@@ -186,6 +188,13 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
 
                     };
                     orgHierarchyDropDown.setListItems(list);
+                    if(selection != null) {
+                        orgHierarchyDropDown.selectItem(selection);
+                        if(resultSelection != null) {
+                            getSearchResults();
+                        }
+                        selection = null;
+                    }
                 }
         });
     }
@@ -226,6 +235,10 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
                             resultTable.setListItems(orgInfoList);
                             resultPanel.setWidget(resultTable);
                             selectButton.setVisible(true);
+                            if(resultSelection != null) {
+                                resultTable.selectItem(resultSelection);
+                                resultSelection = null;
+                            }
                         }
                     }            
             }

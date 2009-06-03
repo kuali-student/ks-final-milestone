@@ -65,7 +65,9 @@ BODY
 .action,.action a:link, .action a:visited, .action a:hover {
 	font: 12px tahoma, arial, verdana, sans-serif;
 	text-decoration: none;
-	margin-left: 5px;
+	margin: 0;
+	margin-left: 1em;
+	color: blue;
 }
 
 .ks-section {
@@ -124,7 +126,6 @@ BODY
 
 .KS-Close-Panel {
 	/*border-bottom: solid thin blue;*/
-	width: 100%;
 	margin-bottom: 1em;
 }
 

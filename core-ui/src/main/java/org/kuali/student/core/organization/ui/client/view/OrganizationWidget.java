@@ -1,6 +1,7 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
@@ -29,7 +30,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class OrganizationWidget extends Composite implements HasSelectionHandlers<OrgInfo> {
+public class OrganizationWidget extends Composite implements HasSelectionHandlers<OrgInfo>, HasStateChanges {
 
     public static class Scope extends JavaScriptObject {
         public static final Scope ORG = make(1);
@@ -62,7 +63,8 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
         }
     }
 
-    private Scope scope;
+    Scope scope;
+    String orgId;
 
     private Panel w = new VerticalPanel();
     private List<OrgAbstractWidget> widgets;
@@ -76,6 +78,7 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
 
     public OrganizationWidget(String orgId, Scope... scopes) {
         this.scope = Scope.build(scopes);
+        this.orgId = orgId;
         if(orgId != null) {
             this.scope = Scope.build(scope, Scope.MODIFY);
         }
@@ -292,6 +295,15 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
             closeButton = new KSButton(html, handler);
             buttonBar.add(closeButton);
         }
+    }
+
+    @Override
+    public void loadState(String state) {
+    }
+
+    @Override
+    public String saveState() {
+        return null;
     }
 
 }

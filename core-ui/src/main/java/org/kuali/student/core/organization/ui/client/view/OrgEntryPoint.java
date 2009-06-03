@@ -2,11 +2,16 @@ package org.kuali.student.core.organization.ui.client.view;
 
 
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.libideas.client.StyleInjector;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -44,6 +49,13 @@ public class OrgEntryPoint implements EntryPoint{
         mainPanel.add(orgMenu, DockPanel.WEST);
         mainPanel.setCellWidth(orgMenu, "200px");
         mainPanel.add(content, DockPanel.CENTER);
+        
+        mainPanel.add(new KSButton("Logout", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                orgMenu.saveState();
+                Location.assign("http://localhost:18080/cas-server-webapp-3.3.2/login?service="+URL.encodeComponent(Location.getHref()));
+            }}), DockPanel.NORTH);
         
         return mainPanel;
     }
