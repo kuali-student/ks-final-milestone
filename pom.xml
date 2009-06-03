@@ -21,10 +21,10 @@
 	</parent>
 	
 	<modules>
-		<module>lum-api</module>
-		<module>lum-impl</module>
-		<module>lum-ui</module>
-		<module>lum-web</module>
+		<module>ks-lum-api</module>
+		<module>ks-lum-impl</module>
+		<module>ks-lum-ui</module>
+		<module>ks-lum-web</module>
 	</modules>
 	
 	<repositories>
