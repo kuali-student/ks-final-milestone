@@ -16,7 +16,6 @@
 	<description>Web services</description>
 
 	<build>
-        <finalName>${artifactId}-${version}</finalName>
 		<plugins>
 			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
