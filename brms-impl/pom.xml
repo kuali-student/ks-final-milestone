@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-	<parent>
-		<groupId>org.kuali.student.brms</groupId>
-		<artifactId>ks-brms-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-impl</artifactId>
@@ -15,29 +8,48 @@
 	<name>KS BRMS IMPL</name>
 	<description />
 
+    <parent>
+        <groupId>org.kuali.student.brms</groupId>
+        <artifactId>ks-brms-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <profiles>
+        <profile>
+            <id>antlr</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+		            <plugin>
+		                 <groupId>org.antlr</groupId>
+		                    <artifactId>antlr3-maven-plugin</artifactId>
+		                    <version>3.1.1.2</version>
+		                    <configuration>
+		                        <outputDirectory>
+		                            src/main/java/org/kuali/student/brms/internal/common/parsers
+		                        </outputDirectory>
+		                    </configuration>
+		                    <executions>
+		                        <execution>
+		                            <phase>generate-sources</phase>
+		                            <goals>
+		                                <goal>antlr</goal>
+		                            </goals>
+		                        </execution>
+		                    </executions>
+		            </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.0</version>
-			</plugin>
-	        <plugin>
-		         <groupId>org.antlr</groupId>
-					<artifactId>antlr3-maven-plugin</artifactId>
-					<version>3.1.1.2</version>
-					<configuration>
-						<outputDirectory>
-							src/main/java/org/kuali/student/brms/internal/common/parsers
-						</outputDirectory>
-					</configuration>
-					<executions>
-						<execution>
-							<phase>generate-sources</phase>
-							<goals>
-								<goal>antlr</goal>
-							</goals>
-						</execution>
-					</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
