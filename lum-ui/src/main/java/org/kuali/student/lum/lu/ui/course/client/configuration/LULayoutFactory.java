@@ -15,14 +15,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.Credi
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 
 public class LULayoutFactory {
-    private final ObjectStructure structure; 
-    private final Validator validator;
-    private final Map<String, Map<String, FieldDescriptor>> indexedFields = new HashMap<String, Map<String,FieldDescriptor>>();
-
-    public LULayoutFactory(ObjectStructure structure, Validator validator) {
-        this.structure = structure;
-        this.validator = validator;
-    }
 
     public ConfigurableLayout<CluProposal> getLayout(String type, String state) {
 
@@ -38,6 +30,7 @@ public class LULayoutFactory {
 
     }
 
+
     /**
      * This method returns a page layout configured for creation or updating of particular state of 
      * a credit course LU
@@ -51,38 +44,11 @@ public class LULayoutFactory {
      * @return
      */
     private ConfigurableLayout<CluProposal> getCreditCourseLayout(String type, String state) {
-        
-        final Map<String, FieldDescriptor> fields = getFields(type, state);
-        CreditCourseLayoutManager manager = new CreditCourseLayoutManager(fields, validator);
-        
-        // how do we know which view is req'd, i.e. create, update, view, etc.
+
+        CreditCourseLayoutManager manager = new CreditCourseLayoutManager();
+
         return manager.getCreateUpdateLayout(type, state);
     }
-
-    private Map<String, FieldDescriptor> getFields(String type, String state) {
-
-        Map<String, FieldDescriptor> result = indexedFields.get(type.toLowerCase() + ":" + state.toLowerCase());
-
-        if (result == null) {
-            for (Type t : structure.getType()) {
-                if (t.getKey().equalsIgnoreCase(type)) {
-                    for (State s : t.getState()) {
-                        if (s.getKey().equalsIgnoreCase(state)) {
-                            result = new HashMap<String, FieldDescriptor>();
-                            for (Field f : s.getField()) {
-                                result.put(f.getKey(), (FieldDescriptor)f.getFieldDescriptor());
-                            }
-                            indexedFields.put(type.toLowerCase() + ":" + state.toLowerCase(), result);
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        return result;
-    }
-
 
 }
 

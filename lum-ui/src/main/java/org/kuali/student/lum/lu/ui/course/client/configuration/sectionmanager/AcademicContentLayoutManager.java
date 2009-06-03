@@ -46,19 +46,14 @@ import com.google.gwt.user.client.ui.FileUpload;
 public class AcademicContentLayoutManager {
 
     private DefaultCreateUpdateLayout<CluProposal> layout;
-    private Map<String, FieldDescriptor> fields;
-    private Validator validator;
 
     public AcademicContentLayoutManager() {
         super();
     }
 
-    public AcademicContentLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
-            Map<String, FieldDescriptor> fields, Validator validator) {
+    public AcademicContentLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout) {
         super();
         this.layout = layout;
-        this.fields = fields;
-        this.validator = validator;
     }
 
     public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {

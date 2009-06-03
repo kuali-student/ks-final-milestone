@@ -43,18 +43,16 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class CreditCourseLayoutManager {
 
-    private Map<String, FieldDescriptor> fields;
     private Validator validator;
 
-    public CreditCourseLayoutManager() {
-        super();
-    }
-
-    public CreditCourseLayoutManager(Map<String, FieldDescriptor> fields, Validator validator) {
-        super();
-        this.fields = fields;
-        this.validator = validator;
-    }
+//    protected  CreditCourseLayoutManager() {
+//        super();
+//    }
+//
+//    public CreditCourseLayoutManager( Validator validator) {
+//        super();
+//        this.validator = validator;
+//    }
 
     public DefaultCreateUpdateLayout<CluProposal> getCreateUpdateLayout(String type, String state) {
 
@@ -62,7 +60,7 @@ public class CreditCourseLayoutManager {
 
         layout = addStartSection(layout);
         layout = addViewsSection(layout, type, state);
-        layout = addAuthorAndCollaboratorsSection(layout, type, state);
+        layout = addProposalInformationSection(layout, type, state);
         layout = addAcademicContentSection(layout, type, state);
         layout = addStudentEligibilitySection(layout, type, state);
         layout = addAdministrativeSection(layout, type, state);
@@ -96,15 +94,13 @@ public class CreditCourseLayoutManager {
     
     private DefaultCreateUpdateLayout<CluProposal> addViewsSection(DefaultCreateUpdateLayout<CluProposal> layout,
         String type, String state) {
-            ViewsLayoutManager manager = new ViewsLayoutManager(layout, 
-                    fields, validator);
+            ViewsLayoutManager manager = new ViewsLayoutManager(layout);
             return manager.addSection( type, state);
     }
 
-    private DefaultCreateUpdateLayout<CluProposal> addAuthorAndCollaboratorsSection(DefaultCreateUpdateLayout<CluProposal> layout,
+    private DefaultCreateUpdateLayout<CluProposal> addProposalInformationSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
-        ProposalInformationLayoutManager manager = new ProposalInformationLayoutManager(layout, 
-                fields, validator);
+        ProposalInformationLayoutManager manager = new ProposalInformationLayoutManager(layout);
         return manager.addSection( type, state);
 
     }
@@ -112,16 +108,14 @@ public class CreditCourseLayoutManager {
     private DefaultCreateUpdateLayout<CluProposal> addAcademicContentSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
-        AcademicContentLayoutManager manager = new AcademicContentLayoutManager(layout, 
-                fields, validator);
+        AcademicContentLayoutManager manager = new AcademicContentLayoutManager(layout);
         return manager.addSection( type, state);
     }
 
     private DefaultCreateUpdateLayout<CluProposal> addStudentEligibilitySection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
-        StudentEligibilityLayoutManager manager = new StudentEligibilityLayoutManager(layout, 
-                fields, validator);
+        StudentEligibilityLayoutManager manager = new StudentEligibilityLayoutManager(layout);
         return manager.addSection( type, state);
 
     }
@@ -129,16 +123,14 @@ public class CreditCourseLayoutManager {
     private DefaultCreateUpdateLayout<CluProposal> addAdministrativeSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
-        AdminstrativeLayoutManager manager = new AdminstrativeLayoutManager(layout, 
-                fields, validator);
+        AdminstrativeLayoutManager manager = new AdminstrativeLayoutManager(layout);
         return manager.addSection( type, state);
     }
 
     private DefaultCreateUpdateLayout<CluProposal> addAttachmentsSection(DefaultCreateUpdateLayout<CluProposal> layout,
             String type, String state) {
 
-        AttachmentsLayoutManager manager = new AttachmentsLayoutManager(layout, 
-                fields, validator);
+        AttachmentsLayoutManager manager = new AttachmentsLayoutManager(layout);
         return manager.addSection( type, state);
     }
 

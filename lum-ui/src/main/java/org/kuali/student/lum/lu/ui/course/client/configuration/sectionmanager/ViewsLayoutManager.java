@@ -32,19 +32,14 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 public class ViewsLayoutManager {
     
     private DefaultCreateUpdateLayout<CluProposal> layout;
-    private Map<String, FieldDescriptor> fields;
-    private Validator validator;
 
     public ViewsLayoutManager() {
         super();
     }
 
-    public ViewsLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
-            Map<String, FieldDescriptor> fields, Validator validator) {
+    public ViewsLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout) {
         super();
         this.layout = layout;
-        this.fields = fields;
-        this.validator = validator;
     }
 
     public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {

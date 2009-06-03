@@ -20,15 +20,18 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LULayoutFactory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
@@ -44,8 +47,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProposalInformationLayoutManager {
 
     private DefaultCreateUpdateLayout<CluProposal> layout;
-    private Map<String, FieldDescriptor> fields;
-    private Validator validator;
+    private String type;
+    private String state;
 
     //Author and Collaborator lists
     private ListItems originatorList ;
@@ -65,16 +68,16 @@ public class ProposalInformationLayoutManager {
         loadData();
     }
 
-    public ProposalInformationLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
-            Map<String, FieldDescriptor> fields, Validator validator) {
+    public ProposalInformationLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout) {
         super();
         loadData();
         this.layout = layout;
-        this.fields = fields;
-        this.validator = validator;
     }
 
     public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
+        
+        this.type = type;
+        this.state = state;
 
         addAuthorAndCollaboratorsSection();
         addGovernanceSection();
@@ -84,7 +87,7 @@ public class ProposalInformationLayoutManager {
     }
 
     private void addAuthorAndCollaboratorsSection() {
-
+        
         KSDropDown originatorDropDown = new KSDropDown();
         originatorDropDown.setListItems(originatorList);
 
@@ -203,6 +206,10 @@ public class ProposalInformationLayoutManager {
                         .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
+                        .addConstraint(new DictionaryConstraint(
+                                LUDictionaryManager.getInstance().getValidator(), 
+                                LUDictionaryManager.getInstance().getField(LUDictionaryManager.STRUCTURE_PROPOSAL_INFO, 
+                                        type, state, "proposerOrgId")))
                         )
                 )
                 .addField(new ConfigurableField<CluProposal>()

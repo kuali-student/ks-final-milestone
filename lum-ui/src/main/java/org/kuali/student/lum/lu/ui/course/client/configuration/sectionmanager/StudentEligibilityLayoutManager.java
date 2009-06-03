@@ -33,19 +33,14 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 public class StudentEligibilityLayoutManager {
 
     private DefaultCreateUpdateLayout<CluProposal> layout;
-    private Map<String, FieldDescriptor> fields;
-    private Validator validator;
 
     public StudentEligibilityLayoutManager() {
         super();
     }
 
-    public StudentEligibilityLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout,
-            Map<String, FieldDescriptor> fields, Validator validator) {
+    public StudentEligibilityLayoutManager(DefaultCreateUpdateLayout<CluProposal> layout) {
         super();
         this.layout = layout;
-        this.fields = fields;
-        this.validator = validator;
     }
 
     public DefaultCreateUpdateLayout<CluProposal> addSection(String type, String state) {
