@@ -2,12 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>ks-lum-parent</artifactId>
+	<artifactId>ks-lum</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>KS LUM Parent</name>
+    <packaging>pom</packaging>
+    
+	<name>KS LUM</name>
 	<description>KS Learning Unit Management POM</description>
-	<packaging>pom</packaging>
-
+	
 	<url>http://student.kuali.org/site/lum/${project.version}</url>
 	
 	<properties>
@@ -16,7 +17,7 @@
 	
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<artifactId>ks-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
