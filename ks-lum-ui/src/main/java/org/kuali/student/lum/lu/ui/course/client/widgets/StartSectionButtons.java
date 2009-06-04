@@ -38,7 +38,7 @@ public class StartSectionButtons extends Composite{
     
     private final KSButton saveButton = new KSButton("Save Draft", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            fireEvent(new SaveEvent());
+            StartSectionButtons.this.fireEvent(new SaveEvent());
         }        
     });
     

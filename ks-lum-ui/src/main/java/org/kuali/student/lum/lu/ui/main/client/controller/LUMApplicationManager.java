@@ -4,6 +4,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LULayoutFactory;
@@ -60,7 +61,7 @@ public class LUMApplicationManager extends Controller{
                 createCourse.setCourseProposalType(CourseProposalType.NEW_COURSE);                
                 return createCourse;
                  */
-                courseView = new LUCreateUpdateView("course", "proposed");
+                courseView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
 
                 ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE);
                 return courseView;

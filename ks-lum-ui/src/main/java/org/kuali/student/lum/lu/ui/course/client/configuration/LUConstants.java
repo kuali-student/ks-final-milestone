@@ -29,7 +29,8 @@ public class LUConstants {
     //     UI specific
 
     public final static String LU_TYPE_CREDIT_COURSE = "course";
-
+    public final static String LU_TYPE_COURSE = "luType.shell.course";
+    
     // Valid states for Credit Course
     public final static String LU_STATE_PROPOSED = "Proposed"; // Should this be Draft
     public final static String LU_STATE_SUBMITTED = "Submitted";

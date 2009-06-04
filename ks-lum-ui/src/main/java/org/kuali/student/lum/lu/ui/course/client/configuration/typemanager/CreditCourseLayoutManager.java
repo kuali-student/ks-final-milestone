@@ -15,15 +15,17 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.typemanager;
 
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.event.SaveEvent;
+import org.kuali.student.common.ui.client.event.SaveHandler;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AcademicContentLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AdminstrativeLayoutManager;
@@ -32,7 +34,11 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.Pr
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.StudentEligibilityLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ViewsLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -43,6 +49,8 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class CreditCourseLayoutManager {
 
+    LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    
     private Validator validator;
 
 //    protected  CreditCourseLayoutManager() {
@@ -57,7 +65,13 @@ public class CreditCourseLayoutManager {
     public DefaultCreateUpdateLayout<CluProposal> getCreateUpdateLayout(String type, String state) {
 
         DefaultCreateUpdateLayout<CluProposal> layout = new DefaultCreateUpdateLayout<CluProposal>();
-
+        CluProposal cluProposal = new CluProposal();
+        CluInfo cluInfo = new CluInfo();
+        cluInfo.setState(LUConstants.LU_STATE_PROPOSED);
+        
+        cluProposal.setCluInfo(cluInfo);        
+        layout.setObject(cluProposal);
+        
         layout = addStartSection(layout);
         layout = addViewsSection(layout, type, state);
         layout = addProposalInformationSection(layout, type, state);
@@ -70,15 +84,20 @@ public class CreditCourseLayoutManager {
     }
 
     private DefaultCreateUpdateLayout<CluProposal> addStartSection(DefaultCreateUpdateLayout<CluProposal> layout){
-        layout.addStartSection(new SimpleConfigurableSection<CluProposal>()
+        final SimpleConfigurableSection<CluProposal> startCluProposalSection = new SimpleConfigurableSection<CluProposal>();  
+        
+        layout.addStartSection(startCluProposalSection
                 .addField(new ConfigurableField<CluProposal>()
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return null;
+                                return object.getCluInfo().getOfficialIdentifier().getLongName();
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
+                                CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+                                cluIdentifier.setLongName((String)value);
+                                object.getCluInfo().setOfficialIdentifier(cluIdentifier);
                             }
                         })
                         .setFormField(new KSFormField("proposedCourseTitle", "Proposed Course Title")
@@ -88,7 +107,27 @@ public class CreditCourseLayoutManager {
                         )
                         )
                 )
-                .setSectionTitle("Begin Proposal"));
+                .setSectionTitle("Begin Proposal")
+                .setParentLayout(layout)
+        );
+        
+        layout.addSaveStartSectionHandler(new SaveHandler(){
+            public void onSave(SaveEvent saveEvent) {
+                startCluProposalSection.updateObject();
+                CluInfo cluInfo = ((CluProposal)startCluProposalSection.getParentLayout().getObject()).getCluInfo();
+                luRpcServiceAsync.createClu(LUConstants.LU_TYPE_COURSE, cluInfo, new AsyncCallback<CluInfo>(){
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        //TODO: How to display error and prevent continue                        
+                    }
+
+                    @Override
+                    public void onSuccess(CluInfo result) {
+                        ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result);
+                    }                    
+                });
+            }});
         return layout;
     }
     
