@@ -109,6 +109,9 @@ public class KSFormLayoutPanel extends KSFormLayoutPanelAbstract {
      * UNEDITABLE:  Disable all form field input elements.
      * VIEW_ONLY:   Do not display form field input elements, only display it's text value.
      * 
+     * Setting the edit mode will only affect the form in its current state. If you add new form fields they will not reflect the 
+     * edit mode previously set.
+     * 
      * @see org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanelAbstract#setEditMode(org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode)
      */
     public void setEditMode(EditMode mode){
