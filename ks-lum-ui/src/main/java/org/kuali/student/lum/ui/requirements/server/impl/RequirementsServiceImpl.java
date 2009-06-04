@@ -68,6 +68,7 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
                      
         LuNlStatementInfo luNlStatementInfo = new LuNlStatementInfo();
         luNlStatementInfo.setOperator(statementVO.getLuStatementInfo().getOperator());
+        luNlStatementInfo.setStatementTypeId(statementVO.getLuStatementInfo().getType());
         
         //first translate StatementVO to LuNlStatementInfo object
         String error = composeLuNlStatementInfo(statementVO, luNlStatementInfo);
