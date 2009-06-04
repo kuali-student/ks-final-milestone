@@ -4,10 +4,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
-	<artifactId>ks-parent</artifactId>
+	<artifactId>ks-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>KS Parent POM</name>
+	<name>KS Core</name>
 	<description>Kuali Student Parent POM</description>
 
 	<url>http://student.kuali.org/site/core/${project.version}</url>

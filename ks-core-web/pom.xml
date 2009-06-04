@@ -6,12 +6,12 @@
 	<artifactId>ks-core-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>KS Core-Web</name>
+	<name>KS Core Web</name>
 	<description>KS Core Web</description>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<artifactId>ks-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	

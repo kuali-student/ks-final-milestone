@@ -7,12 +7,12 @@
 	<artifactId>ks-core-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>KS Core-API</name>
+	<name>KS Core API</name>
 	<description>KS core-api</description>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<artifactId>ks-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -29,6 +29,7 @@
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-java2ws-plugin</artifactId>
 				<executions>
+                    <!-- removed until needed
 					<execution>
 						<id>role-type-wsdl</id>
 						<phase>process-classes</phase>
@@ -42,6 +43,7 @@
 							<goal>java2ws</goal>
 						</goals>
 					</execution>
+                    -->
 					<execution>
 						<id>organization-wsdl</id>
 						<phase>process-classes</phase>

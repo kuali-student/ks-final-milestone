@@ -12,7 +12,7 @@
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<artifactId>ks-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
