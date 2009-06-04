@@ -3,7 +3,10 @@ package org.kuali.student.common.ui.server.messages;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.dto.MessageGroupKeyList;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.messages.service.MessageService;
@@ -11,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gwt.user.server.rpc.RPC;
+import com.google.gwt.user.server.rpc.impl.StandardSerializationPolicy;
 
 public class MessageRPCPreloader {
     MessageService serviceImpl;
@@ -37,9 +41,18 @@ public class MessageRPCPreloader {
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
             MessageList messageList = serviceImpl.getMessagesByGroups(locale,messageGroupKeyList);
+
+            Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
+            whitelist.put(MessageService.class, true);
+            whitelist.put(MessageList.class, true);
+            whitelist.put(MessageGroupKeyList.class,true);
+            whitelist.put(Message.class,true);
+            whitelist.put(MessageGroupKeyList.class,true);
             
-            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,KSSerializationPolicy.getInstance());
+            KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
             
+            //String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,KSSerializationPolicy.getInstance());
+            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,myPolicy);
             
             
             return escapeForSingleQuotedJavaScriptString(serializedData);
