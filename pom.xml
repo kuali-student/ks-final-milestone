@@ -2,19 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>ks-brms</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>KS BRMS</name>
+	<description>KS Business Rule Management System POM</description>
+
     <parent>
 		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<artifactId>ks-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>ks-brms-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>BRMS</name>
-	<description />
     
     <url>http://student.kuali.org/site/brms/${project.version}</url>
 	
@@ -40,12 +41,12 @@
 	</properties>
 	
 	<modules>
-		<module>brms-api</module>
-		<module>brms-impl</module>
+		<module>ks-brms-api</module>
+		<module>ks-brms-impl</module>
 		<!-- <module>brms-ui</module> -->
-		<module>brms-web</module>
-		<module>execution-api</module>
-		<module>execution-impl</module>
+		<module>ks-brms-web</module>
+		<module>ks-brms-execution-api</module>
+		<module>ks-brms-execution-impl</module>
 	</modules>
 	
 	<build>
@@ -137,6 +138,5 @@
 
             </plugin>
         </plugins>
-    </reporting>
-			
+    </reporting>			
 </project>
