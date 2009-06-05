@@ -18,13 +18,24 @@ package org.kuali.student.common.ui.client.event;
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * A save event with user defined save types. This allows a single widget to handle
+ * different types of save events without having to create new events and handlers. 
  * 
  * @author Kuali Student Team
  *
  */
-public class SaveEvent extends ApplicationEvent<SaveHandler> {
+public class SaveEvent<SaveType extends Enum<?>> extends ApplicationEvent<SaveHandler> {
     public static final Type<SaveHandler> TYPE = new Type<SaveHandler>();
+    
+    private SaveType saveType;
+    
+    public SaveEvent(){
+        
+    }
+    
+    public SaveEvent(SaveType saveType){
+        this.saveType = saveType;
+    }
     
     @Override
     protected void dispatch(SaveHandler handler) {
@@ -34,6 +45,10 @@ public class SaveEvent extends ApplicationEvent<SaveHandler> {
     @Override
     public Type<SaveHandler> getAssociatedType() {
         return TYPE;
+    }
+    
+    public SaveType getSaveType(){
+        return this.saveType;
     }
 
 }
