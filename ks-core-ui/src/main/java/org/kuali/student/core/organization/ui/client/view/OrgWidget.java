@@ -19,7 +19,10 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
+import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcServiceAsync;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
@@ -37,7 +40,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInfo> {
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-
+	private final AuthorizationRpcServiceAsync authzRpcServiceAsync = GWT.create(AuthorizationRpcService.class);
+	
     private String orgVersion;
     private KSFormLayoutPanel orgForm;
 
@@ -53,10 +57,35 @@ class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInf
         super(new KSDisclosureSection("Organization", null, open));
         this.orgId = orgId;
 
-        VerticalPanel panel = new VerticalPanel();
-
         orgForm = new KSFormLayoutPanel();
 
+    	authzRpcServiceAsync.hasPermission("KUALI", "Default", new AsyncCallback<Boolean>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				//Did not get permissions
+				orgForm.setEditMode(EditMode.UNEDITABLE);
+				setupOrgForm();
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if(result){
+					orgForm.setEditMode(EditMode.EDITABLE);
+				}else{
+					orgForm.setEditMode(EditMode.UNEDITABLE);
+				}
+				setupOrgForm();
+			}
+    		
+    	});
+        
+
+    }
+
+    private void setupOrgForm(){
+        VerticalPanel panel = new VerticalPanel();
+        
         addFormField(new KSDropDown(), "Type", "orgType", orgForm);
         addFormField(new KSTextBox(), "Name", "orgName", orgForm);
         addFormField(new KSTextBox(), "Abbreviation", "orgAbbrev", orgForm);
@@ -76,7 +105,7 @@ class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInf
 
         populateOrgTypes();
     }
-
+    
     private void populateOrgTypes() {
         orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>() {
             public void onFailure(Throwable caught) {
@@ -189,6 +218,7 @@ class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInf
             }
 
             public void onSuccess(OrgInfo orgInfo) {
+           	
                 KSDropDown orgTypeDropDown = (KSDropDown) orgForm.getFieldWidget("orgType");
 
                 orgVersion = orgInfo.getMetaInfo().getVersionInd();
@@ -205,10 +235,13 @@ class OrgWidget extends OrgAbstractWidget implements HasSelectionHandlers<OrgInf
                 ((KSDatePicker) orgForm.getFieldWidget("orgEffDate")).setValue(orgInfo.getEffectiveDate());
                 ((KSDatePicker) orgForm.getFieldWidget("orgExpDate")).setValue(orgInfo.getExpirationDate());
                 // System.out.println(orgForm.getFieldValue("orgType"));
+
             }
         });
     }
 
+
+    
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<OrgInfo> handler) {
         return addHandler(handler, SelectionEvent.getType());

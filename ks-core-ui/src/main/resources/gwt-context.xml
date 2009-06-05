@@ -18,6 +18,9 @@
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpcService">
 					<ref bean="personRpcGwtServletController"/>
 				</entry>
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/AuthorizationRpcService">
+					<ref bean="authorizationRpcGwtServletController"/>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -32,6 +35,11 @@
 		<property name="servletName" value="personRpcGwtServlet"/>
 		<property name="servletInstance" ref="personRpcGwtServlet"/>
 	</bean>
+		
+	<bean id="authorizationRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="authorizationRpcGwtServlet"/>
+		<property name="servletInstance" ref="authorizationRpcGwtServlet"/>
+	</bean>
 	
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
@@ -42,7 +50,11 @@
 	
 	</bean>
 	
-
+	<bean id="authorizationRpcGwtServlet"
+		class="org.kuali.student.core.authorization.ui.server.gwt.AuthorizationRpcGwtServlet">
+		<!--<property name="permissionService" ref="permissionClient" />-->
+	</bean>
+	
 	<!-- Service Clients -->	
 	<bean id="orgClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
