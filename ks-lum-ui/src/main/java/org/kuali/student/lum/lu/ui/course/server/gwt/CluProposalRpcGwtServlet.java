@@ -273,4 +273,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
 		return docResponse.getAppDocId();
 	}
 
+	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
+		this.simpleDocService = simpleDocService;
+	}
+
 }

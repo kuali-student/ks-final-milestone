@@ -28,6 +28,9 @@
 				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/OrgRpcService">
 					<ref bean="OrgRpcGwtServletController"/>
 				</entry>								
+				<entry key="/org.kuali.student.lum.lu.ui.course.Course/CluProposalRpcService">
+					<ref bean="CluProposalRpcGwtServletController"/>
+				</entry>	
 			</map>
 		</property>
 	</bean>
@@ -41,6 +44,11 @@
 	<bean id="LuRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="LuRpcGwtServlet"/>
 		<property name="servletInstance" ref="LuRpcGwtServlet"/>
+	</bean>
+
+	<bean id="CluProposalRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CluProposalRpcGwtServlet"/>
+		<property name="servletInstance" ref="CluProposalRpcGwtServlet"/>
 	</bean>
 
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -60,6 +68,11 @@
 	
 	<bean id="LuRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />
+	</bean>
+
+	<bean id="CluProposalRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
+		<property name="service" ref="luClient" />
+		<property name="simpleDocService" ref="simpleDocClient"/>
 	</bean>
 
 	<bean id="messagesServiceGwt"
@@ -107,6 +120,18 @@
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
 	 	<property name="address"
 			value="http://localhost:8181/ks-core-web/Service/OrgService" />
+	</bean>
+	
+	<bean id="simpleDocClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/simpleDocumentActionsService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
+		<property name="serviceQNameString"
+			value="{RICE}simpleDocumentActionsService" />
+	 	<property name="address"
+			value="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService" />
 	</bean>
 
 </beans>
