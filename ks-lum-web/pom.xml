@@ -157,7 +157,6 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<classifier>classes</classifier>
 			<type>jar</type>
 		</dependency>
 		<dependency>		
