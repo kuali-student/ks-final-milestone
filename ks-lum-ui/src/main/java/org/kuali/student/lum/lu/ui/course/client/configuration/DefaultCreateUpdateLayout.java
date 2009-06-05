@@ -42,8 +42,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
 	
 	private boolean showStart = true;
-	
-	
+		
 	public DefaultCreateUpdateLayout() {
 		super.initWidget(panel);
 		panel.add(menuPanel);
@@ -137,6 +136,11 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		
 		//This assumes that sections are added in order
 		sections.add(section);
+		this.addHandler(new SaveHandler(){
+            public void onSave(SaveEvent saveEvent) {
+                section.populate();                
+            }		    
+		}, SaveEvent.TYPE);
 		return this;
 	}
 	String[] initHierarchy;
@@ -160,7 +164,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	
 	public ConfigurableLayout<T> addStartSection(LayoutSection<T> section){
 	    //TODO: Make addSectionButtons part of LayoutSection interface
-	    SimpleConfigurableSection simpleSection = (SimpleConfigurableSection)section;
+	    SimpleConfigurableSection<T> simpleSection = (SimpleConfigurableSection<T>)section;
 	    simpleSection.addSectionButtons(startSectionButtons);
 	    startSectionDialog.setWidget(simpleSection);
 	    return this;
@@ -211,7 +215,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		for (KSMenuItemData menuItem:topLevelMenuItems){
 		    for (KSMenuItemData subItem:menuItem.getSubItems()){
 		        if (sectionIndex > 0){
-    		        SimpleConfigurableSection prevSection = (SimpleConfigurableSection)sections.get(sectionIndex-1);
+    		        SimpleConfigurableSection<T> prevSection = (SimpleConfigurableSection<T>)sections.get(sectionIndex-1);
     		        SectionButtons sectionButtons = (SectionButtons)prevSection.getSectionButtons();
     		        sectionButtons.addNextSectionClickHandler(getNextSectionClickHandler(subItem));
 		        }
@@ -240,7 +244,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 
 	protected void addSectionButtons(final LayoutSection<T> section){
         SectionButtons buttons = new SectionButtons();
-        final SimpleConfigurableSection simpleSection = (SimpleConfigurableSection)section;
+        final SimpleConfigurableSection<T> simpleSection = (SimpleConfigurableSection<T>)section;
 	    buttons.addSaveClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 simpleSection.setEditMode(EditMode.VIEW_ONLY);
@@ -267,4 +271,12 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	    startSectionButtons.addCancelHandler(handler);
 	}
 
+	/**
+	 * This will refresh all form fields with the latest values from the CluInfo object
+	 * FIXME: This is probably now how we want to handle this.
+	 *
+	 */
+	public void fireSaveEvent(){
+	    fireEvent(new SaveEvent());
+	}
 }

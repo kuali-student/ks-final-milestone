@@ -30,9 +30,9 @@ import org.kuali.student.lum.proposal.dto.ProposalInfo;
  */
 public class CluProposal implements Idable, HasTypeState{
 
-    CluInfo cluInfo;
+    CluInfo cluInfo = null;
     List<CluInfo> activities;
-    ProposalInfo proposalInfo;
+    ProposalInfo proposalInfo = null;
     String workflowId;
     /**
      * @see org.kuali.student.core.dto.Idable#getId()

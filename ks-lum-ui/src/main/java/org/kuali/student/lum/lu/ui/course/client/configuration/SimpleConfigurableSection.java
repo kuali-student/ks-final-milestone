@@ -14,8 +14,9 @@ import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.Edit
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
-import org.kuali.student.lum.lu.ui.course.client.widgets.SectionButtons;
 
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -84,7 +85,7 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 	public void populate() {
 		T bound = getParentLayout().getObject();
 		for (ConfigurableField<T> cf : fields) {
-			cf.getFormField().setValue(cf.getBinding().getValue(bound));
+	        cf.getFormField().setValue(cf.getBinding().getValue(bound));
 		}
 	}
 
@@ -92,7 +93,7 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 	public void updateObject() {
 		T bound = getParentLayout().getObject();
 		for (ConfigurableField<T> cf : fields) {
-			cf.getBinding().setValue(bound, cf.getFormField().getValue());
+	        cf.getBinding().setValue(bound, cf.getFormField().getValue());
 		}
 	}
 	

@@ -83,7 +83,7 @@ public class CreditCourseLayoutManager {
         return layout;
     }
 
-    private DefaultCreateUpdateLayout<CluProposal> addStartSection(DefaultCreateUpdateLayout<CluProposal> layout){
+    private DefaultCreateUpdateLayout<CluProposal> addStartSection(final DefaultCreateUpdateLayout<CluProposal> layout){
         final SimpleConfigurableSection<CluProposal> startCluProposalSection = new SimpleConfigurableSection<CluProposal>();  
         
         layout.addStartSection(startCluProposalSection
@@ -125,6 +125,7 @@ public class CreditCourseLayoutManager {
                     @Override
                     public void onSuccess(CluInfo result) {
                         ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result);
+                        layout.fireSaveEvent();
                     }                    
                 });
             }});

@@ -131,11 +131,11 @@ public class AcademicContentLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getCluInfo().getOfficialIdentifier().getLongName(); 
+                                return new Boolean(false); 
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
-                                object.getCluInfo().getOfficialIdentifier().setLongName(value.toString());
+                                
                             }
                         })
                         .setFormField(new KSFormField("hasAlternateCourseNumbers", "Alternate Course Numbers?")
@@ -167,7 +167,12 @@ public class AcademicContentLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getCluInfo().getDesc(); 
+                                RichTextInfo richText = object.getCluInfo().getDesc();
+                                if (richText != null){
+                                    return object.getCluInfo().getDesc().getFormatted();
+                                } else {
+                                    return "";
+                                }
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -187,7 +192,12 @@ public class AcademicContentLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getCluInfo().getMarketingDesc(); 
+                                RichTextInfo richText = object.getCluInfo().getDesc();
+                                if (richText != null){
+                                    return object.getCluInfo().getDesc().getFormatted();
+                                } else {
+                                    return "";
+                                } 
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {

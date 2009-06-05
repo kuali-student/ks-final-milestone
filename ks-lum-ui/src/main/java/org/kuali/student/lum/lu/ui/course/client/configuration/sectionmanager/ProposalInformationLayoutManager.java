@@ -15,7 +15,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
-import java.util.Map;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
@@ -26,15 +26,13 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LULayoutFactory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -101,7 +99,12 @@ public class ProposalInformationLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getProposalInfo().getProposerPerson().get(0);
+                                ProposalInfo info = object.getProposalInfo();
+                                if (info != null && info.getProposalReference().size() > 0){
+                                    return object.getProposalInfo().getProposerPerson().get(0);
+                                } else {
+                                    return "";
+                                }
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -121,7 +124,7 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the administrative delegate
-                                return "Jim";
+                                return "";
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -156,7 +159,7 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the curriculum oversight
-                                return "graduate";
+                                return "";
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -175,7 +178,7 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 // TODO figure out how to get values
-                                return "South campus";
+                                return "";
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -194,7 +197,12 @@ public class ProposalInformationLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getProposalInfo().getProposerOrg().get(0);
+                                ProposalInfo info = object.getProposalInfo();
+                                if (info != null && info.getProposalReference().size() > 0){
+                                    return object.getProposalInfo().getProposerOrg().get(0);
+                                } else {
+                                    return "";
+                                }
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -255,7 +263,7 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 // TODO figure out how to get values
-                                return "Summer";
+                                return "";
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -272,8 +280,8 @@ public class ProposalInformationLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                // TODO figure out how to get values
-                                return "13 week";
+                                // TODO figure out how to get duration values
+                                return "";
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {

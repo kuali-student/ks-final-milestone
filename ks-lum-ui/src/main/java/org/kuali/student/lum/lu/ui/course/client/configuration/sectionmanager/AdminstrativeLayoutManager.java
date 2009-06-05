@@ -15,15 +15,14 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
-import java.util.Map;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
@@ -79,7 +78,7 @@ public class AdminstrativeLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the originating faculty member
-                                return "Jan 1, 2010";
+                                return new Date(2010,1,1);
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -98,7 +97,7 @@ public class AdminstrativeLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 // TODO figure out how to get the originating faculty member
-                                return "Jan 1, 2010";
+                                return new Date(2010,1,1);
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
