@@ -25,13 +25,15 @@
     <param name="plugin.registry.enabled">false</param>
     <param name="notification.quartz.autostartup">false</param>
     <param name="notification.concurrent.jobs">false</param>
+    
+    <param name="simpleDocumentActionsService.security">false</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
-    <param name="datasource.url">jdbc:oracle:thin:@** URL-TO-USE **:1521:KUALI</param>
-    <param name="datasource.username">!! FILL IN !!</param>
-    <param name="datasource.password">!! FILL IN !!</param>
+    <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="datasource.username">RICE094CI</param>
+    <param name="datasource.password">RICE094CI</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
@@ -49,4 +51,6 @@
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
+	<!-- additional config files -->
+	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
 </config>

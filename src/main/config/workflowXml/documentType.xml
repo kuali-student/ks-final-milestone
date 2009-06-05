@@ -5,7 +5,7 @@
       <name>CluDocument</name>
       <description>Sample Clu Document</description>
       <label>Sample Clu Document</label>
-      <docHandler></docHandler>
+      <docHandler>http://localhost:8080/ks-lum-web/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.html</docHandler>
       <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <active>true</active>
       <policies>
