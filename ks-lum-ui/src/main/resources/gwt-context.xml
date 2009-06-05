@@ -72,7 +72,7 @@
 
 	<bean id="CluProposalRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
 		<property name="service" ref="luClient" />
-		<property name="simpleDocService" ref="simpleDocClient"/>
+		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
 	<bean id="messagesServiceGwt"
@@ -122,16 +122,5 @@
 			value="http://localhost:8181/ks-core-web/Service/OrgService" />
 	</bean>
 	
-	<bean id="simpleDocClient"
-		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation"
-			value="classpath:META-INF/wsdl/simpleDocumentActionsService.wsdl" />
-		<property name="serviceEndpointInterface"
-			value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
-		<property name="serviceQNameString"
-			value="{RICE}simpleDocumentActionsService" />
-	 	<property name="address"
-			value="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService" />
-	</bean>
 
 </beans>

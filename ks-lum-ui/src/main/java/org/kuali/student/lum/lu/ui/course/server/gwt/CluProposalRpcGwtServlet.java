@@ -19,6 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
@@ -190,6 +191,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
 
 	@Override
 	public CluProposal createAndRouteProposal(CluProposal cluProposal) {
+		aquireSimpleDocService();
         try {
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();
             proposalInfo.setId(UUIDHelper.genStringUUID());
@@ -260,6 +262,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
 
 	@Override
 	public String getCluIdFromWorkflowId(String docId) {
+		aquireSimpleDocService();
+		
         //get a user name
         Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
@@ -271,6 +275,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
         
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
 		return docResponse.getAppDocId();
+	}
+
+	private void aquireSimpleDocService() {
+		// TODO Auto-generated method stub
+		if(simpleDocService==null){
+			try{
+				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
+				factory.setServiceClass(SimpleDocumentActionsWebService.class);
+				factory.setAddress("http://localhost:9000/Hello");
+				simpleDocService = (SimpleDocumentActionsWebService) factory.create();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {

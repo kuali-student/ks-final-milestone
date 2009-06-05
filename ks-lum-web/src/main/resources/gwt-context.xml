@@ -38,6 +38,9 @@
 				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/OrgRpcService">
 					<ref bean="OrgRpcGwtServletController"/>
 				</entry>								
+				<entry key="/org.kuali.student.lum.lu.ui.course.Course/CluProposalRpcService">
+					<ref bean="CluProposalRpcGwtServletController"/>
+				</entry>	
 			</map>
 		</property>
 	</bean>
@@ -52,7 +55,12 @@
 		<property name="servletName" value="LuRpcGwtServlet"/>
 		<property name="servletInstance" ref="LuRpcGwtServlet"/>
 	</bean>
-		
+
+	<bean id="CluProposalRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CluProposalRpcGwtServlet"/>
+		<property name="servletInstance" ref="CluProposalRpcGwtServlet"/>
+	</bean>
+
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="messagesServiceGwt" />
 		<property name="servletInstance" ref="messagesServiceGwt" />
@@ -70,6 +78,11 @@
 	
 	<bean id="LuRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />
+	</bean>
+
+	<bean id="CluProposalRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
+		<property name="service" ref="luClient" />
+		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
 	<bean id="messagesServiceGwt"
@@ -116,6 +129,7 @@
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
 		<property name="address" value="${ks.core.org.serviceAddress}"/>		
-	</bean>	
+	</bean>
+		
 
 </beans>
