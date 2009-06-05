@@ -7,10 +7,20 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.kuali.rice.kew.webservice.DocumentResponse;
+import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -19,6 +29,11 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.proposal.dto.ProposalInfo;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.userdetails.UserDetails;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -30,7 +45,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
 
     private static final long serialVersionUID = 1L;
     private LuService service;
-
+    private SimpleDocumentActionsWebService simpleDocService; 
+    
     private Map<String, ProposalInfo> getProposalInfoMap() {
         Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
 
@@ -76,6 +92,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
         return cluProposal;
     }
 
+    
+    
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#deleteProposal(java.lang.String)
      */
@@ -169,5 +187,75 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
     public void setService(LuService service) {
         this.service = service;
     }
+
+	@Override
+	public CluProposal createAndRouteProposal(CluProposal cluProposal) {
+        try {
+            ProposalInfo proposalInfo = cluProposal.getProposalInfo();
+            proposalInfo.setId(UUIDHelper.genStringUUID());
+            proposalInfo.setProposalReferenceType("clu");
+            
+            ArrayList<String> proposalRefIds = new ArrayList<String>();
+            
+            CluInfo parentCluInfo = cluProposal.getCluInfo();
+            parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
+            proposalRefIds.add(parentCluInfo.getId());
+            proposalInfo.setProposalReference(proposalRefIds);
+
+            List<CluInfo> activities = cluProposal.getActivities();
+            for (CluInfo cluInfo : activities) {
+
+                cluInfo = service.createClu(cluInfo.getType(), cluInfo);
+                CluCluRelationInfo relInfo = new CluCluRelationInfo();
+                
+                //TODO: Create a proper relation type for activities
+                relInfo.setCluId(parentCluInfo.getId());
+                relInfo.setRelatedCluId(cluInfo.getId());                    
+                relInfo.setType("proposal.actvitiy"); 
+
+                service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
+            }
+
+            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
+            
+            //get a user name
+            Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username;
+            if (obj instanceof UserDetails) {
+            	username = ((UserDetails)obj).getUsername();
+            } else {
+            	username = obj.toString();
+            }
+            //Create and then route the document 
+            String workflowDocTypeId = "";
+            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getShortName());
+            
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+            Document doc = docBuilder.newDocument();
+            Element root = doc.createElement("cluId");
+            doc.appendChild(root);
+            Text text = doc.createTextNode(parentCluInfo.getId());
+            root.appendChild(text);
+            
+            DOMSource domSource = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.transform(domSource, result);
+
+            String createComment = "Created By CluProposalService";
+            
+            simpleDocService.route(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getShortName(), writer.toString(), createComment);
+            
+            cluProposal.setWorkflowId(docResponse.getDocId());
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return cluProposal;
+	}
 
 }

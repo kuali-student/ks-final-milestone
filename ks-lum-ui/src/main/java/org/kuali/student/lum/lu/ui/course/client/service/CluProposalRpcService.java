@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.service.BaseRpcService;
  */
 public interface CluProposalRpcService extends BaseRpcService{
     public CluProposal createProposal(CluProposal cluProposal);   
+    public CluProposal createAndRouteProposal(CluProposal cluProposal);
     public CluProposal saveProposal(CluProposal cluProposal);
     public CluProposal submitProposal(CluProposal cluProposal);
     public CluProposal deleteProposal(String id);

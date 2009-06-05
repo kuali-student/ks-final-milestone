@@ -33,7 +33,7 @@ public class CluProposal implements Idable, HasTypeState{
     CluInfo cluInfo;
     List<CluInfo> activities;
     ProposalInfo proposalInfo;
-    
+    String workflowId;
     /**
      * @see org.kuali.student.core.dto.Idable#getId()
      */
@@ -106,6 +106,14 @@ public class CluProposal implements Idable, HasTypeState{
     public void setType(String type) {
         proposalInfo.setType(type);
     }
+
+	public String getWorkflowId() {
+		return workflowId;
+	}
+
+	public void setWorkflowId(String workflowId) {
+		this.workflowId = workflowId;
+	}
     
     
 }
