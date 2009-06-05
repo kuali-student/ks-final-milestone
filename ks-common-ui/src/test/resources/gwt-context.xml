@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       
+
+	<!-- Spring to GWT servlet mapping -->
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry
+					key="/org.kuali.student.common.ui.CommonUITest/MessageService">
+					<ref bean="messageServiceGwtController" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Controllers -->
+	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="messagesServiceGwt" />
+		<property name="servletInstance" ref="messagesServiceGwt" />
+	</bean>
+	
+	<!-- GWT Message Servlet -->
+	<bean id="messagesServiceGwt"
+		class="org.kuali.student.common.ui.server.messages.MessagesService">
+		<property name="serviceImpl" ref="messageServiceImpl" />
+	</bean>
+	<bean id="messagesServiceRPCPreloader"
+		class="org.kuali.student.common.ui.server.messages.MessageRPCPreloader">
+		<property name="serviceImpl" ref="messageServiceImpl" />
+	</bean>
+	<bean id="messageServiceImpl" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+		<property name="messageFiles">
+			<list>
+				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
