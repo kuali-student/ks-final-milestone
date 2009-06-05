@@ -54,7 +54,7 @@ public class CriterionInfo implements Serializable {
     private String value;
 
     @XmlElement
-    private List<Value> values;
+    private List<String> values;
 
     /**
      * The attribute that the constraint should be applied to.
@@ -92,14 +92,14 @@ public class CriterionInfo implements Serializable {
     /**
      * A list of values to use in the constraint. Use of this field may be constrained by the value of the operator field. Certain combinations may not be syntactically valid. At least one value should be provided in this listing.
      */
-    public List<Value> getValues() {
+    public List<String> getValues() {
         if (values == null) {
-            values = new ArrayList<Value>(0);
+            values = new ArrayList<String>(0);
         }
         return values;
     }
 
-    public void setValues(List<Value> values) {
+    public void setValues(List<String> values) {
         this.values = values;
     }
 }
