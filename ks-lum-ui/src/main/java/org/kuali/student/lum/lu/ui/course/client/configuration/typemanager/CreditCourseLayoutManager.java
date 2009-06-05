@@ -27,6 +27,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
+import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout.SaveTypes;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AcademicContentLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AdminstrativeLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AttachmentsLayoutManager;
@@ -49,7 +50,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class CreditCourseLayoutManager {
 
-    LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);    
     
     private Validator validator;
 
@@ -115,19 +116,23 @@ public class CreditCourseLayoutManager {
             public void onSave(SaveEvent saveEvent) {
                 startCluProposalSection.updateObject();
                 CluInfo cluInfo = ((CluProposal)startCluProposalSection.getParentLayout().getObject()).getCluInfo();
-                luRpcServiceAsync.createClu(LUConstants.LU_TYPE_COURSE, cluInfo, new AsyncCallback<CluInfo>(){
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        //TODO: How to display error and prevent continue                        
-                    }
-
-                    @Override
-                    public void onSuccess(CluInfo result) {
-                        ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result);
-                        layout.fireSaveEvent();
-                    }                    
-                });
+                if (saveEvent.getSaveType() == SaveTypes.CREATE){
+                    luRpcServiceAsync.createClu(LUConstants.LU_TYPE_COURSE, cluInfo, new AsyncCallback<CluInfo>(){
+    
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            //TODO: How to display error and prevent continue                        
+                        }
+    
+                        @Override
+                        public void onSuccess(CluInfo result) {
+                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result);
+                            layout.fireSaveEvent();
+                        }                   
+                    });
+                } else if (saveEvent.getSaveType() == SaveTypes.WF_CREATE){
+                    
+                }
             }});
         return layout;
     }

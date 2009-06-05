@@ -42,6 +42,10 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
 	
 	private boolean showStart = true;
+	
+	public enum SaveTypes{
+	    CREATE, WF_CREATE, SECTION_SAVE
+	}
 		
 	public DefaultCreateUpdateLayout() {
 		super.initWidget(panel);
@@ -56,7 +60,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
             public void onSave(SaveEvent saveEvent) {                
                 //TODO: Update model & show first section in view
                 startSectionDialog.hide();
-            }            
+            }
         });
 	}
 	

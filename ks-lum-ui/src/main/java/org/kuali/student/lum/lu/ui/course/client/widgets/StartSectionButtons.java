@@ -18,11 +18,12 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout.SaveTypes;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -38,16 +39,23 @@ public class StartSectionButtons extends Composite{
     
     private final KSButton saveButton = new KSButton("Save Draft", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            StartSectionButtons.this.fireEvent(new SaveEvent());
+            StartSectionButtons.this.fireEvent(new SaveEvent<SaveTypes>(SaveTypes.CREATE));
         }        
     });
     
+    private final KSButton saveWorkflowButton = new KSButton("Start Workflow Proposal", new ClickHandler(){
+        public void onClick(ClickEvent event) {
+            StartSectionButtons.this.fireEvent(new SaveEvent<SaveTypes>(SaveTypes.WF_CREATE));
+        }        
+    });
+
     private final KSButton cancelButton = new KSButton("Cancel");
     
     public StartSectionButtons(){
         super();
-        VerticalPanel row = new VerticalPanel();
+        HorizontalPanel row = new HorizontalPanel();
         row.add(saveButton);
+        row.add(saveWorkflowButton);
         row.setStyleName("KS-Course-Save-Button");
         panel.add(row); //TODO: enable this button only if required fields filled in
         panel.add(cancelButton);
