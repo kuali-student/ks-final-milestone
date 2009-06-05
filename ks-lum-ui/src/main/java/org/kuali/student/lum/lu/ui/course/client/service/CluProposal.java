@@ -15,6 +15,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.student.core.dto.HasTypeState;
@@ -28,9 +29,11 @@ import org.kuali.student.lum.proposal.dto.ProposalInfo;
  * @author Kuali Student Team
  *
  */
-public class CluProposal implements Idable, HasTypeState{
+public class CluProposal implements Idable, HasTypeState, Serializable{
 
-    CluInfo cluInfo = null;
+	private static final long serialVersionUID = 1L;
+
+	CluInfo cluInfo = null;
     List<CluInfo> activities;
     ProposalInfo proposalInfo = null;
     String workflowId;
