@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>CluDocument</name>
+      <description>Sample Clu Document</description>
+      <label>Sample Clu Document</label>
+      <docHandler></docHandler>
+      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>LOOK_FUTURE</name>
+          <value>true</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <requests name="Department Review" nextNode="College Review" />
+          <requests name="College Review" nextNode="Senate Curriculum Committee Review" />
+          <requests name="Senate Curriculum Committee Review" nextNode="Senate Review" />
+          <requests name="Senate Review" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Department Review">
+          <activationType>S</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>DepartmentReviewRule</ruleName>
+        </requests>
+        <requests name="College Review">
+          <activationType>S</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>CollegeReviewRule</ruleName>
+        </requests>
+        <requests name="Senate Curriculum Committee Review">
+          <activationType>S</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateCurriculumCommitteeReviewRule</ruleName>
+        </requests>
+        <requests name="Senate Review">
+          <activationType>S</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateReviewRule</ruleName>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+
