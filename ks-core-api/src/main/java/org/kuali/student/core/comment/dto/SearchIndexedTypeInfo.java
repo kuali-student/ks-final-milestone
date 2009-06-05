@@ -40,7 +40,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SearchIndexedTypeInfo Structure implements Serializable {
+public class SearchIndexedTypeInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
