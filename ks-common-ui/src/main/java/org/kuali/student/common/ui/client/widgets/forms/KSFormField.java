@@ -197,19 +197,29 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
             result = ((HasValue)fieldWidget).getValue();
         } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
             result = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItem();
+        } else if (fieldWidget instanceof HasText){
+            result = getText();
         }
         return result;
     }
     
     @SuppressWarnings("unchecked")
     public KSFormField setValue(Object value) {
-        if (fieldWidget instanceof HasValue) {
-            ((HasValue)fieldWidget).setValue(value);
-            setDirty(false);
-        } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
-            ((KSSelectItemWidgetAbstract)fieldWidget).selectItem((String)value);
-        } else {
-            throw new UnsupportedOperationException(fieldWidget.getClass().getName() + " does not implement HasValue");
+        try{
+            if (fieldWidget instanceof HasValue) {
+                ((HasValue)fieldWidget).setValue(value);
+                setDirty(false);
+            } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
+                ((KSSelectItemWidgetAbstract)fieldWidget).selectItem((String)value);
+                setDirty(false);
+            } else if (value instanceof String){
+                setText((String)value);
+                setDirty(false);
+            } else {
+                throw new UnsupportedOperationException();
+            }
+        } catch (Exception e) {
+            GWT.log("Form field [" + name + "] widget does not support setting value [" + value + "]", e);
         }
         return this;
     }
@@ -227,7 +237,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
             s = ((HasText)fieldWidget).getText();
         } catch (ClassCastException e){
             try{
-                Object value = ((HasValue)fieldWidget).getValue();
+                Object value = ((HasValue<?>)fieldWidget).getValue();
                 if (value != null){
                     s = value.toString();
                 }
@@ -256,7 +266,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
             HasText text = (HasText)fieldWidget;
             text.setText(s);
         } catch (Exception e){
-            throw new UnsupportedOperationException("Containing field widget doesn't implement HasText");
+            GWT.log("Form field [" + name + "] does not support setText.", e);
         }        
         return this;
     }
@@ -361,7 +371,7 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
     public KSFormField setDirty(boolean isDirty) {
         this.isDirty = isDirty;
         if (fieldWidget instanceof HasValue){
-            initValue = ((HasValue)fieldWidget).getValue();
+            initValue = ((HasValue<?>)fieldWidget).getValue();
         } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
             initValue = ((KSSelectItemWidgetAbstract)fieldWidget).getSelectedItems();
         }
