@@ -35,8 +35,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.Pr
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.StudentEligibilityLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ViewsLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -50,7 +50,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class CreditCourseLayoutManager {
 
-    LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);    
+    CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);    
     
     private Validator validator;
 
@@ -116,8 +116,11 @@ public class CreditCourseLayoutManager {
             public void onSave(SaveEvent saveEvent) {
                 startCluProposalSection.updateObject();
                 CluInfo cluInfo = ((CluProposal)startCluProposalSection.getParentLayout().getObject()).getCluInfo();
+            	CluProposal cluProposal = new CluProposal();
+            	cluProposal.setCluInfo(cluInfo);
+            	cluInfo.setType(LUConstants.LU_TYPE_COURSE);
                 if (saveEvent.getSaveType() == SaveTypes.CREATE){
-                    luRpcServiceAsync.createClu(LUConstants.LU_TYPE_COURSE, cluInfo, new AsyncCallback<CluInfo>(){
+                    cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
     
                         @Override
                         public void onFailure(Throwable caught) {
@@ -125,13 +128,25 @@ public class CreditCourseLayoutManager {
                         }
     
                         @Override
-                        public void onSuccess(CluInfo result) {
-                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result);
+                        public void onSuccess(CluProposal result) {
+                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
                             layout.fireSaveEvent();
                         }                   
                     });
                 } else if (saveEvent.getSaveType() == SaveTypes.WF_CREATE){
-                    
+                    cluProposalRpcServiceAsync.createAndRouteProposal(cluProposal, new AsyncCallback<CluProposal>(){
+                        
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            //TODO: How to display error and prevent continue                        
+                        }
+    
+                        @Override
+                        public void onSuccess(CluProposal result) {
+                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
+                            layout.fireSaveEvent();
+                        }                   
+                    });
                 }
             }});
         return layout;
