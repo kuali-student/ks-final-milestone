@@ -227,7 +227,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
             	username = obj.toString();
             }
             //Create and then route the document 
-            String workflowDocTypeId = "";
+            String workflowDocTypeId = "CluDocument";
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getShortName());
             
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -256,6 +256,21 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
         }
 
         return cluProposal;
+	}
+
+	@Override
+	public String getCluIdFromWorkflowId(String docId) {
+        //get a user name
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (obj instanceof UserDetails) {
+        	username = ((UserDetails)obj).getUsername();
+        } else {
+        	username = obj.toString();
+        }
+        
+        DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
+		return docResponse.getAppDocId();
 	}
 
 }

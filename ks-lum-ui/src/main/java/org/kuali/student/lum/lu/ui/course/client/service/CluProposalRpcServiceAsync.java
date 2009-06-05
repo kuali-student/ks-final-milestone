@@ -32,4 +32,5 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void submitProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void deleteProposal(String id, AsyncCallback<CluProposal> callback);
     public void getProposal(String id, AsyncCallback<CluProposal> callback);
+    public void getCluIdFromWorkflowId(String docId, AsyncCallback<String> callback);
 }
