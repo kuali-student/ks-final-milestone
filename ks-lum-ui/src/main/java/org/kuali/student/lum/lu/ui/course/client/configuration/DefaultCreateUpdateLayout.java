@@ -139,12 +139,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		});
 		
 		//This assumes that sections are added in order
-		sections.add(section);
-		this.addHandler(new SaveHandler(){
-            public void onSave(SaveEvent saveEvent) {
-                section.populate();                
-            }		    
-		}, SaveEvent.TYPE);
+		sections.add(section);		
 		return this;
 	}
 	String[] initHierarchy;
@@ -251,6 +246,8 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
         final SimpleConfigurableSection<T> simpleSection = (SimpleConfigurableSection<T>)section;
 	    buttons.addSaveClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
+                simpleSection.updateObject();
+                DefaultCreateUpdateLayout.this.save();
                 simpleSection.setEditMode(EditMode.VIEW_ONLY);
             }                
         });
@@ -264,7 +261,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	}
 	
 	public void addSaveSectionHandler(SaveHandler handler){
-	    
+	    addHandler(handler, SaveEvent.TYPE);
 	}
 	
 	public void addSaveStartSectionHandler(SaveHandler handler){
@@ -274,13 +271,23 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	public void addCancelSectionHandler(ClickHandler handler){
 	    startSectionButtons.addCancelHandler(handler);
 	}
-
-	/**
-	 * This will refresh all form fields with the latest values from the CluInfo object
-	 * FIXME: This is probably now how we want to handle this.
+	
+	/** 
+	 * This method invokes the save handlers associated with this layout.
 	 *
 	 */
-	public void fireSaveEvent(){
-	    fireEvent(new SaveEvent());
+	public void save(){
+	    this.fireEvent(new SaveEvent());
+	}
+	
+	/**
+	 * This will refresh all form fields with the latest values from the CluInfo object
+	 * FIXME: This is probably not how we want to handle this.
+	 *
+	 */
+	public void refresh(){
+	    for (LayoutSection<T> section:sections){
+	        section.populate();
+	    }
 	}
 }

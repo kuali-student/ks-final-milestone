@@ -107,8 +107,10 @@ public class ProposalInformationLayoutManager {
                                 }
                             }
                             @Override
-                            public void setValue(CluProposal object, Object value) {
-                                object.getProposalInfo().getProposerPerson().set(0, value.toString());
+                            public void setValue(CluProposal cluProposal, Object value) {
+                                if (value != null && cluProposal.getProposalInfo() != null){
+                                    cluProposal.getProposalInfo().getProposerPerson().set(0, value.toString());
+                                }
                             }
                         })
                         .setFormField(new KSFormField("originatingFacultyMember", "Originating Faculty Member")

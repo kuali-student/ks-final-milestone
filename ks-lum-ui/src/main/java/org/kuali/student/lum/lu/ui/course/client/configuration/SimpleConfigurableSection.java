@@ -107,5 +107,5 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 	
 	public void setEditMode(EditMode mode){
 	    this.form.setEditMode(mode);
-	}
+	}	
 }

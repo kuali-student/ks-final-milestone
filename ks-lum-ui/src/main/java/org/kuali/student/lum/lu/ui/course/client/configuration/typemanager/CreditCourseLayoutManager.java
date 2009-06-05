@@ -65,22 +65,43 @@ public class CreditCourseLayoutManager {
 
     public DefaultCreateUpdateLayout<CluProposal> getCreateUpdateLayout(String type, String state) {
 
-        DefaultCreateUpdateLayout<CluProposal> layout = new DefaultCreateUpdateLayout<CluProposal>();
+        final DefaultCreateUpdateLayout<CluProposal> layout = new DefaultCreateUpdateLayout<CluProposal>();
         CluProposal cluProposal = new CluProposal();
         CluInfo cluInfo = new CluInfo();
         cluInfo.setState(LUConstants.LU_STATE_PROPOSED);
+        cluInfo.setType(LUConstants.LU_TYPE_COURSE);
         
         cluProposal.setCluInfo(cluInfo);        
         layout.setObject(cluProposal);
         
-        layout = addStartSection(layout);
-        layout = addViewsSection(layout, type, state);
-        layout = addProposalInformationSection(layout, type, state);
-        layout = addAcademicContentSection(layout, type, state);
-        layout = addStudentEligibilitySection(layout, type, state);
-        layout = addAdministrativeSection(layout, type, state);
-        layout = addAttachmentsSection(layout, type, state);
+        addStartSection(layout);
+        addViewsSection(layout, type, state);
+        addProposalInformationSection(layout, type, state);
+        addAcademicContentSection(layout, type, state);
+        addStudentEligibilitySection(layout, type, state);
+        addAdministrativeSection(layout, type, state);
+        addAttachmentsSection(layout, type, state);
+
+        layout.addSaveSectionHandler(new SaveHandler(){
+            public void onSave(SaveEvent saveEvent) {
+                CluProposal cluProposal = (CluProposal)layout.getObject();
+                cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
+                    
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        //TODO: How to display error and prevent continue                        
+                    }
+
+                    @Override
+                    public void onSuccess(CluProposal result) {
+                        layout.setObject(result);
+                        layout.refresh();
+                    }                   
+                });
                 
+            }            
+        });
+
         return layout;
     }
 
@@ -115,10 +136,7 @@ public class CreditCourseLayoutManager {
         layout.addSaveStartSectionHandler(new SaveHandler(){
             public void onSave(SaveEvent saveEvent) {
                 startCluProposalSection.updateObject();
-                CluInfo cluInfo = ((CluProposal)startCluProposalSection.getParentLayout().getObject()).getCluInfo();
-            	CluProposal cluProposal = new CluProposal();
-            	cluProposal.setCluInfo(cluInfo);
-            	cluInfo.setType(LUConstants.LU_TYPE_COURSE);
+                CluProposal cluProposal = (CluProposal)startCluProposalSection.getParentLayout().getObject();
                 if (saveEvent.getSaveType() == SaveTypes.CREATE){
                     cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
     
@@ -130,7 +148,7 @@ public class CreditCourseLayoutManager {
                         @Override
                         public void onSuccess(CluProposal result) {
                             ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
-                            layout.fireSaveEvent();
+                            layout.refresh();
                         }                   
                     });
                 } else if (saveEvent.getSaveType() == SaveTypes.WF_CREATE){
@@ -144,7 +162,7 @@ public class CreditCourseLayoutManager {
                         @Override
                         public void onSuccess(CluProposal result) {
                             ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
-                            layout.fireSaveEvent();
+                            layout.refresh();
                         }                   
                     });
                 }
