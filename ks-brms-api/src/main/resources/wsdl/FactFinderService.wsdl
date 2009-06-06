@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="FactFinderService" targetNamespace="http://student.kuali.org/wsdl/brms/FactFinder" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/brms/FactFinder" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/exceptions">
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/exceptions" xmlns:tns="http://student.kuali.org/wsdl/brms/FactFinder" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/brms/FactFinder">
+    <xs:element name="getFact" type="tns:getFact"/>
+    <xs:element name="getFactResponse" type="tns:getFactResponse"/>
+    <xs:element name="getFactType" type="tns:getFactType"/>
+    <xs:element name="getFactTypeResponse" type="tns:getFactTypeResponse"/>
+    <xs:element name="getFactTypes" type="tns:getFactTypes"/>
+    <xs:element name="getFactTypesResponse" type="tns:getFactTypesResponse"/>
+    <xs:complexType name="getFactType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="factTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getFactTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:factTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="factResultTypeInfo" type="tns:factResultTypeInfo"/>
+                    <xs:element minOccurs="0" name="factCriteriaTypeInfo" type="tns:factCriteriaTypeInfo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType abstract="true" name="typeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factResultTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="resultColumnsMap" type="tns:factResultColumnInfoList"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="factResultColumnInfoList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:factResultColumnInfoMapEntry"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factResultColumnInfoMapEntry">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="tns:factResultColumnInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factResultColumnInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factCriteriaTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="factParamMap" type="tns:factParamList"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="factParamList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:factParamMapEntry"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factParamMapEntry">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="tns:factParamInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="validCharacters" type="xs:string"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="defTime" type="tns:factParamDefTimeKey"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getFact">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="factTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="factStructure" type="tns:factStructureInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factStructureInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfo"/>
+            <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="resultColumnKeyTranslations" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="staticValueDataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="staticValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="factStructureId" type="xs:string"/>
+        <xs:attribute name="factTypeKey" type="xs:string"/>
+        <xs:attribute name="staticFact" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="getFactResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:factResultInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="factResultTypeInfo" type="tns:factResultTypeInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultList" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getFactTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getFactTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:factTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="factParamDefTimeKey">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="KUALI_FACT_DEFINITION_TIME_KEY"/>
+            <xs:enumeration value="KUALI_FACT_EXECUTION_TIME_KEY"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getFactTypes">
+    <wsdl:part name="parameters" element="tns:getFactTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFactResponse">
+    <wsdl:part name="parameters" element="tns:getFactResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFactTypesResponse">
+    <wsdl:part name="parameters" element="tns:getFactTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFactType">
+    <wsdl:part name="parameters" element="tns:getFactType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFact">
+    <wsdl:part name="parameters" element="tns:getFact">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFactTypeResponse">
+    <wsdl:part name="parameters" element="tns:getFactTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="FactFinderService">
+    <wsdl:operation name="getFactType">
+      <wsdl:input name="getFactType" message="tns:getFactType">
+    </wsdl:input>
+      <wsdl:output name="getFactTypeResponse" message="tns:getFactTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFact">
+      <wsdl:input name="getFact" message="tns:getFact">
+    </wsdl:input>
+      <wsdl:output name="getFactResponse" message="tns:getFactResponse">
+    </wsdl:output>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFactTypes">
+      <wsdl:input name="getFactTypes" message="tns:getFactTypes">
+    </wsdl:input>
+      <wsdl:output name="getFactTypesResponse" message="tns:getFactTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FactFinderServiceServiceSoapBinding" type="tns:FactFinderService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getFactType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFactType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFactTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFact">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFact">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFactResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFactTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFactTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFactTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FactFinderService">
+    <wsdl:port name="FactFinderServicePort" binding="tns:FactFinderServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/FactFinderServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
