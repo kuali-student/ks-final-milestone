@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
@@ -47,6 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/commentService")
 @Transactional(rollbackFor={Throwable.class})
 public class CommentServiceImpl implements CommentService {
+    private CommentDao commentDao;
 
     /**
      * This overridden method ...
@@ -77,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public CommentInfo getComment(String commentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
+        // TODO
         return null;
     }
 
@@ -266,6 +268,20 @@ public class CommentServiceImpl implements CommentService {
     public List<ValidationResultInfo> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO lindholm - THIS METHOD NEEDS JAVADOCS
         return null;
+    }
+
+    /**
+     * @return the commentDao
+     */
+    public CommentDao getCommentDao() {
+        return commentDao;
+    }
+
+    /**
+     * @param commentDao the commentDao to set
+     */
+    public void setCommentDao(CommentDao commentDao) {
+        this.commentDao = commentDao;
     }
 
     /**

@@ -12,7 +12,7 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-	
+
 	<import resource="classpath:ks-spring-security.xml" />
 
 	<bean id="propertyConfigurer"
@@ -26,7 +26,7 @@
 		<property name="order" value="0" />
 	</bean>
 
-	
+
 	<!-- Datasources -->
 	<bean id="orgDataSource"
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
@@ -75,7 +75,7 @@
 		<property name="dataSource" ref="orgDataSource" />
 		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
-	
+
 	<bean id="emEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="EnumerationManagement"/>
@@ -147,7 +147,7 @@
 	<bean id="emDao"
 		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
 	</bean>
-	
+
 	<bean id="emServiceImpl"
 		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="emDao" />
@@ -165,11 +165,11 @@
 		<property name="dictionaryServiceDelegate" ref="dictionaryServiceDelegate"/>
 	</bean>
 
-	<bean id="dictionaryServiceDelegate" 
+	<bean id="dictionaryServiceDelegate"
 		class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:organization-dictionary-config.xml" />
 	</bean>
-	
+
 	<bean id="orgSearchManager"
 		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
 		autowire="byType">
@@ -180,12 +180,22 @@
 	<bean id="messageDao"
 		class="org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl">
 	</bean>
-	
+
 	<bean id="messageServiceImpl"
 		class="org.kuali.student.core.messages.service.impl.MessageServiceImpl">
 		<property name="messageDAO" ref="messageDao" />
 	</bean>
-	
+
+    <!-- Comment Service -->
+    <bean id="commentDao"
+        class="org.kuali.student.core.comment.dao.impl.CommentDaoImpl">
+    </bean>
+
+    <bean id="commentServiceImpl"
+        class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
+        <property name="commentDao" ref="commentDao" />
+    </bean>
+
 	<!-- Preloaded data -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
 		<property name="jtaTxManager" ref="JtaTxManager"/>
@@ -197,7 +207,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
@@ -229,5 +239,5 @@
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
-	
+
 </beans>

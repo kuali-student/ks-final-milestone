@@ -15,6 +15,9 @@
  */
 package org.kuali.student.core.comment.dao.impl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 
@@ -25,5 +28,11 @@ import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
  *
  */
 public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements CommentDao {
+    @PersistenceContext(unitName = "Comment")
+    @Override
+    public void setEm(EntityManager em) {
+        super.setEm(em);
+    }
+
 
 }
