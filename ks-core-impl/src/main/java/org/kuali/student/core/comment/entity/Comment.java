@@ -43,7 +43,7 @@ import org.kuali.student.core.entity.RichText;
  *
  */
 @Entity
-@Table(name = "KSCOMMENT_COMMENT")
+@Table(name = "KSCO_COMMENT")
 public class Comment extends MetaEntity implements AttributeOwner<CommentAttribute> {
     private static final long serialVersionUID = 1L;
 

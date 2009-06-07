@@ -29,7 +29,7 @@ import org.kuali.student.core.entity.Attribute;
  *
  */
 @Entity
-@Table(name = "KSCOMMENT_COMMENT_ATTR")
+@Table(name = "KSCO_COMMENT_ATTR")
 public class CommentAttribute extends Attribute<Comment> {
 
     @ManyToOne

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Type;
 @Entity
-@Table(name = "KSCOMMENT_COMMENT_TYPE")
+@Table(name = "KSCO_COMMENT_TYPE")
 public class CommentType extends Type<CommentTypeAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CommentTypeAttribute> attributes;
