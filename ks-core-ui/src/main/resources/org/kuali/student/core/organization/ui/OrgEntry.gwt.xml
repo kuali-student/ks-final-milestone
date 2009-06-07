@@ -1,0 +1,5 @@
+<module>
+	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
+
+	<entry-point class='org.kuali.student.core.organization.ui.client.view.OrgEntryPoint'/>  
+</module>
