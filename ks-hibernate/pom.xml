@@ -45,7 +45,7 @@
 			</activation>
 			<repositories>
 				<repository>
-					<id>jboss</id>
+					<id>repository.jboss.org</id>
 					<url>http://repository.jboss.org/maven2</url>
 				</repository>
 			</repositories>

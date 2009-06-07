@@ -110,10 +110,6 @@
 			</activation>
 
 			<repositories>
-                <repository>
-		            <id>ibiblio.maven</id>
-		            <url>http://www.ibiblio.org/maven</url>
-                </repository>
 				<repository>
 					<id>maven2-repository.dev.java.net</id>
 					<url>http://download.java.net/maven/2</url>
@@ -128,17 +124,21 @@
 					<url>https://test.kuali.org/maven</url>
 				</repository>
 				<repository>
-					<id>apache.incubating</id>
-					<url>
-						http://people.apache.org/repo/m2-incubating-repository
-					</url>
-				</repository>
-				<repository>
 					<id>ks.public</id>
 					<url>
 						http://archiva.kuali.umd.edu/repository/public/
 					</url>
 				</repository>
+                <repository>
+                    <id>apache.incubating</id>
+                    <url>
+                        http://people.apache.org/repo/m2-incubating-repository
+                    </url>
+                </repository>
+                <repository>
+                    <id>ibiblio.maven</id>
+                    <url>http://www.ibiblio.org/maven</url>
+                </repository>
 				<repository>
 					<id>EclipseLink Repo</id>
 					<url>
@@ -582,6 +582,12 @@
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-core</artifactId>
 				<version>${spring.security.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-support</artifactId>
+                    </exclusion>
+                </exclusions>
 			</dependency>
 			
 			<!-- This jar is only needed if you are using CAS with Spring Security -->
@@ -589,6 +595,12 @@
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-cas-client</artifactId>
 				<version>${spring.security.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-dao</artifactId>
+                    </exclusion>
+                </exclusions>
 			</dependency>
 		
 			<!-- Metro Dependencies -->
@@ -679,6 +691,10 @@
 						<groupId>org.apache.geronimo.specs</groupId>
 						<artifactId>geronimo-annotation_1.0_spec</artifactId>
 					</exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+                    </exclusion>
 					<exclusion>
 						<groupId>javax.xml.bind</groupId>
 						<artifactId>jaxb-api</artifactId>
@@ -697,6 +713,17 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-simple</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jaxws_2.1_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-common-utilities</artifactId>
