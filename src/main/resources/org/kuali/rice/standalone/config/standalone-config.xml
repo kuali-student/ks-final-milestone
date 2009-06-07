@@ -32,8 +32,8 @@
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">RICE094CI</param>
-    <param name="datasource.password">RICE094CI</param>
+    <param name="datasource.username">RICEKS</param>
+    <param name="datasource.password">RICEKS</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
