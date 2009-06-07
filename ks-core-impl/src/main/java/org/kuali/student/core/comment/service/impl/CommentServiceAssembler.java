@@ -15,6 +15,9 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.RichTextInfo;
 import org.kuali.student.core.comment.entity.Comment;
@@ -43,6 +46,13 @@ public class CommentServiceAssembler extends BaseAssembler {
         return dto;
     }
 
+    public static List<CommentInfo> toCommentInfos(List<Comment> entities) {
+        List<CommentInfo> dtos = new ArrayList<CommentInfo>(entities.size());
+        for (Comment entity : entities) {
+            dtos.add(toCommentInfo(entity));
+        }
+        return dtos;
+    }
 
     public static RichTextInfo toRichTextInfo(RichText entity) {
         if(entity==null){
@@ -55,4 +65,6 @@ public class CommentServiceAssembler extends BaseAssembler {
 
         return dto;
     }
+
+
 }
