@@ -43,27 +43,50 @@ public class TagType extends Type<TagTypeAttribute> {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="type")
     private List<Tag> tags;
 
+    /**
+     * 
+     * @return
+     */
     public String getId(){
         return id;
     }
-    
+
+    /**
+     * 
+     * @param id
+     */
     public void setId(String id){
         this.id=id;
     }
     
+    /**
+     * 
+     * @return
+     */
     public String getName(){
         return name;
     }
     
+    /**
+     * 
+     * @param name
+     */
     public void setName(String name){
         this.name=name;
     }
     
-    
+    /**
+     * 
+     * @return
+     */
     public String getDesc(){
         return desc;
     }
     
+    /**
+     * 
+     * @param desc
+     */
     public void setDesc(String desc){
         this.desc=desc;
     }
@@ -96,22 +119,39 @@ public class TagType extends Type<TagTypeAttribute> {
         this.expirationDate = expirationDate;
     }
 
+    /**
+     * 
+     * @return
+     */
     @Override
     public List<TagTypeAttribute> getAttributes() {
         
         return attributes;
     }
 
+    /**
+     * 
+     * @param attributes
+     */
     @Override
     public void setAttributes(List<TagTypeAttribute> attributes) {
         this.attributes=attributes;
         
     }
     
+    /**
+     * 
+     * @return
+     */
     public List<Tag> getTag(){
         return tags;
     }
     
+    
+    /**
+     * 
+     * @param tags
+     */
     public void setTag(List<Tag> tags){
         this.tags=tags;
     }
