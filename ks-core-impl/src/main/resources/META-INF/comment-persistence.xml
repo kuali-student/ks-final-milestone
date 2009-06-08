@@ -15,6 +15,10 @@
         <class>org.kuali.student.core.comment.entity.CommentAttribute</class>
         <class>org.kuali.student.core.comment.entity.CommentType</class>
         <class>org.kuali.student.core.comment.entity.CommentTypeAttribute</class>
+        <class>org.kuali.student.core.comment.entity.Tag</class>
+        <class>org.kuali.student.core.comment.entity.TagAttribute</class>
+        <class>org.kuali.student.core.comment.entity.TagType</class>
+        <class>org.kuali.student.core.comment.entity.TagTypeAttribute</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
     </persistence-unit>
 </persistence>
