@@ -38,7 +38,7 @@
 				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/OrgRpcService">
 					<ref bean="OrgRpcGwtServletController"/>
 				</entry>								
-				<entry key="/org.kuali.student.lum.lu.ui.course.Course/CluProposalRpcService">
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/CluProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController"/>
 				</entry>	
 			</map>
