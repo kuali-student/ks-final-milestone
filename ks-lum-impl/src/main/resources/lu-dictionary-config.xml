@@ -37,7 +37,7 @@
 	</dict:fieldDescriptor>
 
 	<dict:objectStructure key="cluInfo">
-		<dict:type key="course">
+		<dict:type key="luType.shell.course">
 			<dict:state key="proposed">
 				<dict:field key="cluId2">
 					<dict:fieldDescriptor>
@@ -196,7 +196,7 @@
 	</dict:objectStructure>
 
 	<dict:objectStructure key="proposalInfo">
-		<dict:type key="course">
+		<dict:type key="luType.shell.course">
 			<dict:state key="proposed">
 				<dict:field key="id">
 					<dict:fieldDescriptor>

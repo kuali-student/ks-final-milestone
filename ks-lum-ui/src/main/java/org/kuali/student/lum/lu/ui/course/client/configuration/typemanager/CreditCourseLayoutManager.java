@@ -69,8 +69,8 @@ public class CreditCourseLayoutManager {
         final DefaultCreateUpdateLayout<CluProposal> layout = new DefaultCreateUpdateLayout<CluProposal>();
         CluProposal cluProposal = new CluProposal();
         CluInfo cluInfo = new CluInfo();
-        cluInfo.setState(LUConstants.LU_STATE_PROPOSED);
-        cluInfo.setType(LUConstants.LU_TYPE_COURSE);
+        cluInfo.setState(state);
+        cluInfo.setType(type);
         
         cluProposal.setCluInfo(cluInfo);        
         layout.setObject(cluProposal);
@@ -86,7 +86,7 @@ public class CreditCourseLayoutManager {
         layout.addSaveSectionHandler(new SaveHandler(){
             public void onSave(SaveEvent saveEvent) {
                 CluProposal cluProposal = (CluProposal)layout.getObject();
-                cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
+                cluProposalRpcServiceAsync.saveProposal(cluProposal, new AsyncCallback<CluProposal>(){
                     
                     @Override
                     public void onFailure(Throwable caught) {

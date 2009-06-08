@@ -75,6 +75,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                        
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
+            cluProposal.setCluInfo(parentCluInfo);
             
             List<CluInfo> activities = cluProposal.getActivities();
             if (activities != null){
@@ -157,7 +158,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         try {
 
             CluInfo parentCluInfo = cluProposal.getCluInfo();
-            parentCluInfo = service.updateClu(cluProposal.getCluInfo().getType(), parentCluInfo);
+            parentCluInfo = service.updateClu(cluProposal.getCluInfo().getId(), parentCluInfo);
+            cluProposal.setCluInfo(parentCluInfo);
 
             /*FIXME: Restore code to handle proposal service?
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();                       

@@ -62,7 +62,7 @@ public class LUDictionaryManager {
                 for (Field f : s.getField()) {
                     result.put(f.getKey(), f);
                 }
-                indexedFields.put(structure.getObjectTypeKey() + DICT_KEY_SEPARATOR + t.getKey() + DICT_KEY_SEPARATOR +   s.getKey()  , result);
+                indexedFields.put(structure.getObjectTypeKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
             }
         }
     }
@@ -77,11 +77,11 @@ public class LUDictionaryManager {
 
     public Field getField(String objectKey, String type, String state, String fieldName) {
 
-        Map<String, Field> map =  indexedFields.get(objectKey +  DICT_KEY_SEPARATOR +
-                type.toLowerCase() + DICT_KEY_SEPARATOR + 
-                state.toLowerCase());
-
-        return map.get(fieldName);
+        String fieldKey = objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +  type.toLowerCase() + DICT_KEY_SEPARATOR + state.toLowerCase();
+        Map<String, Field> map =  indexedFields.get(fieldKey);
+        Field f = map.get(fieldName);
+        
+        return f;
 
     }
 
