@@ -17,12 +17,15 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
  * 
  * @author Kuali Student Team
  *
  */
+@RemoteServiceRelativePath("CluProposalRpcService")
 public interface CluProposalRpcService extends BaseRpcService{
     public CluProposal createProposal(CluProposal cluProposal);   
     public CluProposal createAndRouteProposal(CluProposal cluProposal);

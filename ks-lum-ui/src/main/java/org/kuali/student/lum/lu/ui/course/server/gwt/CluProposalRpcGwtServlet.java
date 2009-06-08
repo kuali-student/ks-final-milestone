@@ -23,7 +23,6 @@ import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -42,10 +41,9 @@ import org.w3c.dom.Text;
  * @author Kuali Student Team
  */
 // Fixme: Replace Object with ProposalService interface class
-public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> implements CluProposalRpcService {
+public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
     private static final long serialVersionUID = 1L;
-    private LuService service;
     private SimpleDocumentActionsWebService simpleDocService; 
     
     private Map<String, ProposalInfo> getProposalInfoMap() {
@@ -60,32 +58,39 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
     @Override
     public CluProposal createProposal(CluProposal cluProposal) {
         try {
+            //FIXME: Restore code to handle proposal service?
+            
+            /*  
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();
             proposalInfo.setId(UUIDHelper.genStringUUID());
             proposalInfo.setProposalReferenceType("clu");
-            
-            ArrayList<String> proposalRefIds = new ArrayList<String>();
-            
+             */
+                       
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
-            proposalRefIds.add(parentCluInfo.getId());
-            proposalInfo.setProposalReference(proposalRefIds);
-
+            
             List<CluInfo> activities = cluProposal.getActivities();
-            for (CluInfo cluInfo : activities) {
-
-                cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-                CluCluRelationInfo relInfo = new CluCluRelationInfo();
-                
-                //TODO: Create a proper relation type for activities
-                relInfo.setCluId(parentCluInfo.getId());
-                relInfo.setRelatedCluId(cluInfo.getId());                    
-                relInfo.setType("proposal.actvitiy"); 
-
-                service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
+            if (activities != null){
+                for (CluInfo cluInfo : activities) {
+    
+                    cluInfo = service.createClu(cluInfo.getType(), cluInfo);
+                    CluCluRelationInfo relInfo = new CluCluRelationInfo();
+                    
+                    //TODO: Create a proper relation type for activities
+                    relInfo.setCluId(parentCluInfo.getId());
+                    relInfo.setRelatedCluId(cluInfo.getId());                    
+                    relInfo.setType("proposal.actvitiy"); 
+    
+                    service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
+                }
             }
 
+            /*
+            ArrayList<String> proposalRefIds = new ArrayList<String>();
+            proposalRefIds.add(parentCluInfo.getId());
+            proposalInfo.setProposalReference(proposalRefIds);
             getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
+             */
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,6 +114,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
      */
     @Override
     public CluProposal getProposal(String id) {
+        //FIXME: This will need to tie into workflow to work properly?
         ProposalInfo proposalInfo = getProposalInfoMap().get(id);
         if (proposalInfo != null) {
             try {
@@ -142,29 +148,32 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
     @Override
     public CluProposal saveProposal(CluProposal cluProposal) {
         try {
-            ProposalInfo proposalInfo = cluProposal.getProposalInfo();
-                       
-            List<String> proposalReferences = new ArrayList<String>();
 
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.updateClu(cluProposal.getCluInfo().getType(), parentCluInfo);
 
+            /*FIXME: Restore code to handle proposal service?
+            ProposalInfo proposalInfo = cluProposal.getProposalInfo();                       
+            List<String> proposalReferences = new ArrayList<String>();
             proposalReferences.add(parentCluInfo.getId());
+            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
+            */
 
             List<CluInfo> activities = cluProposal.getActivities();
-            for (CluInfo cluInfo : activities) {
-
-                if (cluInfo.getId() == null){
-                    cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-                    CluCluRelationInfo relInfo = new CluCluRelationInfo();
-                    relInfo.setCluId(parentCluInfo.getId());
-                    relInfo.setRelatedCluId(cluInfo.getId());                    
-                    relInfo.setType("proposal.actvitiy");
-                    service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
-                }                
+            if (activities != null){
+                for (CluInfo cluInfo : activities) {
+    
+                    if (cluInfo.getId() == null){
+                        cluInfo = service.createClu(cluInfo.getType(), cluInfo);
+                        CluCluRelationInfo relInfo = new CluCluRelationInfo();
+                        relInfo.setCluId(parentCluInfo.getId());
+                        relInfo.setRelatedCluId(cluInfo.getId());                    
+                        relInfo.setType("proposal.actvitiy");
+                        service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
+                    }                
+                }
             }
 
-            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,44 +190,44 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> 
         return null;
     }
 
-    public LuService getService() {
-        return service;
-    }
-
-    public void setService(LuService service) {
-        this.service = service;
-    }
-
 	@Override
 	public CluProposal createAndRouteProposal(CluProposal cluProposal) {
 		aquireSimpleDocService();
         try {
+            //FIXME: Restore code to handle proposal service?
+            /*
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();
             proposalInfo.setId(UUIDHelper.genStringUUID());
             proposalInfo.setProposalReferenceType("clu");
+            */
             
-            ArrayList<String> proposalRefIds = new ArrayList<String>();
             
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
+
+            /*
+            ArrayList<String> proposalRefIds = new ArrayList<String>();
             proposalRefIds.add(parentCluInfo.getId());
             proposalInfo.setProposalReference(proposalRefIds);
-
+            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
+            */
+            
             List<CluInfo> activities = cluProposal.getActivities();
-            for (CluInfo cluInfo : activities) {
-
-                cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-                CluCluRelationInfo relInfo = new CluCluRelationInfo();
-                
-                //TODO: Create a proper relation type for activities
-                relInfo.setCluId(parentCluInfo.getId());
-                relInfo.setRelatedCluId(cluInfo.getId());                    
-                relInfo.setType("proposal.actvitiy"); 
-
-                service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
+            if (activities != null){
+                for (CluInfo cluInfo : activities) {
+    
+                    cluInfo = service.createClu(cluInfo.getType(), cluInfo);
+                    CluCluRelationInfo relInfo = new CluCluRelationInfo();
+                    
+                    //TODO: Create a proper relation type for activities
+                    relInfo.setCluId(parentCluInfo.getId());
+                    relInfo.setRelatedCluId(cluInfo.getId());                    
+                    relInfo.setType("proposal.actvitiy"); 
+    
+                    service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
+                }
             }
 
-            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
             
             //get a user name
             Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
