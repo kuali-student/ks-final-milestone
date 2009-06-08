@@ -29,6 +29,7 @@ import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.dto.ValidationResultInfo;
 import org.kuali.student.core.comment.entity.Comment;
+import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -147,8 +148,9 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public TagInfo getTag(String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(tagId, "tagId");
+        Tag tag = commentDao.fetch(Tag.class, tagId);
+        return CommentServiceAssembler.toTagInfo(tag);
     }
 
     /**
