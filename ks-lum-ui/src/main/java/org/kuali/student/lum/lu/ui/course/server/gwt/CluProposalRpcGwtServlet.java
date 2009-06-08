@@ -9,9 +9,11 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -19,6 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
@@ -29,6 +32,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.proposal.dto.ProposalInfo;
+import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 import org.w3c.dom.Document;
@@ -48,7 +52,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     
     private Map<String, ProposalInfo> getProposalInfoMap() {
         Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
-
+        if(proposalInfoMap == null){
+        	proposalInfoMap = new HashMap<String, ProposalInfo>();
+        	getThreadLocalRequest().getSession(true).setAttribute("proposal", proposalInfoMap);
+        }
         return proposalInfoMap;
     }
 
@@ -230,16 +237,19 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             
             //get a user name
-            Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String username;
-            if (obj instanceof UserDetails) {
-            	username = ((UserDetails)obj).getUsername();
-            } else {
-            	username = obj.toString();
+            String username="admin";//FIXME this is bad, need to find some kind of mock security context
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+            if(auth!=null){
+            	Object obj = auth.getPrincipal();
+            	if (obj instanceof UserDetails) {
+	            	username = ((UserDetails)obj).getUsername();
+	            } else {
+	            	username = obj.toString();
+	            }
             }
             //Create and then route the document 
             String workflowDocTypeId = "CluDocument";
-            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getShortName());
+            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId().substring(0, 20), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
             
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -258,7 +268,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             String createComment = "Created By CluProposalService";
             
-            simpleDocService.route(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getShortName(), writer.toString(), createComment);
+            simpleDocService.route(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), writer.toString(), createComment);
             
             cluProposal.setWorkflowId(docResponse.getDocId());
             
@@ -292,7 +302,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			try{
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
 				factory.setServiceClass(SimpleDocumentActionsWebService.class);
-				factory.setAddress("http://localhost:9000/Hello");
+				factory.setAddress("http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService");
+				factory.setWsdlLocation("http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService?wsdl");
+				factory.setServiceName(new QName("RICE", "simpleDocumentActionsService"));
+				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
 				simpleDocService = (SimpleDocumentActionsWebService) factory.create();
 			}catch(Exception e){
 				e.printStackTrace();

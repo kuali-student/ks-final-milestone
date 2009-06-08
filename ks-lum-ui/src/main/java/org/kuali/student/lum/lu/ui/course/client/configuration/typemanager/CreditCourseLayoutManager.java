@@ -37,6 +37,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.Vi
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -137,6 +138,7 @@ public class CreditCourseLayoutManager {
             public void onSave(SaveEvent saveEvent) {
                 startCluProposalSection.updateObject();
                 CluProposal cluProposal = (CluProposal)startCluProposalSection.getParentLayout().getObject();
+                cluProposal.setProposalInfo(new ProposalInfo());
                 if (saveEvent.getSaveType() == SaveTypes.CREATE){
                     cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
     
