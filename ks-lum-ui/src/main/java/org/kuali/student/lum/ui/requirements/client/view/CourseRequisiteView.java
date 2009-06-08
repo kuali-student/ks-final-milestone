@@ -36,10 +36,10 @@ public class CourseRequisiteView extends ViewComposite {
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
-    private KSButton AddPrerequisiteRule = new KSButton("Add Pre-Requisite Rule");
-    private KSButton EditPrerequisiteRule = new KSButton("Edit Pre-Requisite Rule");  
-    private KSButton AddCoreqRule = new KSButton("Add Co-Requisite Rule");
-    private KSButton EditCoreqRule = new KSButton("Edit Co-Requisite Rule"); 
+    private KSButton AddPrerequisiteRule = new KSButton("Add Rule");
+    private KSButton EditPrerequisiteRule = new KSButton("Edit Rule");  
+    private KSButton AddCoreqRule = new KSButton("Add Rule");
+    private KSButton EditCoreqRule = new KSButton("Edit Rule"); 
     private ButtonEventHandler handler = new ButtonEventHandler(); 
     private final CoreqManager coreqManager = new CoreqManager();
     

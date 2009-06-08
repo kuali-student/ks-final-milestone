@@ -376,6 +376,7 @@ public class ComplexView extends ViewComposite {
         verticalSpacer.setHeight("30px");
         complexView.add(verticalSpacer);        
         
+        //setup Rules Table
         HorizontalPanel tempPanel2 = new HorizontalPanel();
         HorizontalPanel tableButtonsPanel = new HorizontalPanel();
         VerticalPanel arrowButtonsPanel = new VerticalPanel();
@@ -459,6 +460,9 @@ public class ComplexView extends ViewComposite {
                     ruleViewsPanel.selectTab(0);                    
                 }        
                 
+                KSLabel viewsHeading = new KSLabel("Alternate Views");
+                viewsHeading.setStyleName("KS-ReqMgr-BlockHeading");
+                complexView.add(viewsHeading);                
                 complexView.add(ruleViewsPanel);
                 logicalExpression.setText((prereqInfo.getStatementVO() == null ? "" : prereqInfo.getStatementVO().convertToExpression()));                
                 updateNaturalLanguage();                

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class RulesUtilities {
+    
     public class RowBreak extends Composite{
         private HorizontalPanel row = new HorizontalPanel();
         private HTML hr = new HTML("<HR />");

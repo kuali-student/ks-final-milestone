@@ -1,10 +1,11 @@
-package org.kuali.student.lum.ui.requirements.server.impl;
+package org.kuali.student.lum.ui.requirements.server.gwt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -13,9 +14,9 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -25,13 +26,16 @@ import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 /**
  * @author Zdenek Zraly
  */
-public class RequirementsServiceImpl implements RequirementsRpcService {
+public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> implements RequirementsRpcService {
 
-	LuService service;
-	
+    private static final long serialVersionUID = 822326113643828855L;
+    LuService service;
+    
     public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {       
         String[] templates = new String[3];           
         
@@ -43,8 +47,8 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
         templates[2] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.COMPOSITION");                                   
         
         return templates;
-    }   	
-	
+    }       
+    
     public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         
         String naturalLanguage = "";           
@@ -62,8 +66,8 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
         }                      
         
         return naturalLanguage;
-    }	
-	    
+    }   
+        
     public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception {
                      
         LuNlStatementInfo luNlStatementInfo = new LuNlStatementInfo();
@@ -88,8 +92,8 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
         return NLStatement;
     }
     
-	public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
-	  
+    public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
+      
         CourseRuleInfo courseInfo = new CourseRuleInfo();
         
         //retrieve course info
@@ -100,10 +104,10 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
             ex.printStackTrace();
             throw new Exception("Unable to retrieve cluInfo for clu " + cluId, ex);
         }                
-        courseInfo.setCourseInfo(cluInfo);	  
+        courseInfo.setCourseInfo(cluInfo);    
         courseInfo.setId(cluInfo.getId());
-	    
-	    //retrieve all statements associated with given course (we could retrieve only pre and co-req ?)
+        
+        //retrieve all statements associated with given course (we could retrieve only pre and co-req ?)
         List<LuStatementInfo> luStatementInfoList;
         try {        
             luStatementInfoList = service.getLuStatementsForClu(cluId);            
@@ -111,11 +115,11 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
             ex.printStackTrace();
             throw new Exception("Unable to retrieve LuStatements for clu " + cluId, ex);
         }
-	    courseInfo.setLuStatementInfoList(luStatementInfoList); 
-	    
-	    return courseInfo;
-	}
-	
+        courseInfo.setLuStatementInfoList(luStatementInfoList); 
+        
+        return courseInfo;
+    }
+    
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
                 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
@@ -350,5 +354,5 @@ public class RequirementsServiceImpl implements RequirementsRpcService {
 
     public void setService(LuService service) {
         this.service = service;
-    } 	
+    }   
 }

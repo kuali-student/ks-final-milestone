@@ -6,6 +6,7 @@ package org.kuali.student.lum.ui.requirements.client.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -18,7 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * @author zzraly
  */
-public interface RequirementsRpcServiceAsync {
+public interface RequirementsRpcServiceAsync extends BaseRpcServiceAsync {
     public void getReqComponentTemplates(ReqComponentInfo compInfo, AsyncCallback<String[]> asyncCallback);
     public void getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
     public void getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
