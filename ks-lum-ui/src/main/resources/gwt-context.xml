@@ -71,7 +71,7 @@
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
-		<property name="luService" ref="luClient" />
+		<property name="service" ref="luClient" />
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
