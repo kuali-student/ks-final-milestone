@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
