@@ -251,7 +251,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             }
             //Create and then route the document 
             String workflowDocTypeId = "CluDocument";
-            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId().substring(0, 20), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
+            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
             
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
