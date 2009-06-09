@@ -25,7 +25,7 @@
         <search:desc>List Lu Clus</search:desc>
         <search:resultColumns>
             <ref bean="lu.resultColumn.cluId" />
-            <ref bean="lu.resultColumn.cluOfficialIdentifier" />
+            <ref bean="lu.resultColumn.cluOfficialIdentifier.longName" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -35,9 +35,9 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier">
-        <search:name>Clu Official Identifier</search:name>
-        <search:desc>Official identifier of a Clu</search:desc>
+    <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.longName">
+        <search:name>Clu Long Name</search:name>
+        <search:desc>Official identifier long name of a Clu</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
@@ -54,7 +54,7 @@
 						org.type.id = :org_queryParam_orgType</value>
 				</entry>
                 <entry key="lu.search.clus">
-                    <value>SELECT clu.id, clu.officialIdentifier.id FROM Clu clu</value>
+                    <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu</value>
                 </entry>
             </map>
 		</property>
