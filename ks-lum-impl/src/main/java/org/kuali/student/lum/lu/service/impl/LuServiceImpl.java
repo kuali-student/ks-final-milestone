@@ -324,10 +324,11 @@ public class LuServiceImpl implements LuService {
 			clu.setOfficialIdentifier(officialIdentifier);
 		}
 
+		List<CluIdentifier> alternateIdentifiers = clu.getAlternateIdentifiers();
 		for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
 			CluIdentifier identifier = new CluIdentifier();
 			BeanUtils.copyProperties(cluIdInfo, identifier);
-			clu.getAlternateIdentifiers().add(identifier);
+			alternateIdentifiers.add(identifier);
 		}
 
 		if(cluInfo.getDesc()!=null){
@@ -338,11 +339,12 @@ public class LuServiceImpl implements LuService {
 			clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
 		}
 
+		List<CluOrg> participatingOrgs = clu.getParticipatingOrgs(); 
 		for(String orgId:cluInfo.getParticipatingOrgs()){
 			CluOrg cluOrg = new CluOrg();
 			cluOrg.setOrgId(orgId);
 			cluOrg.setClu(clu);
-			clu.getParticipatingOrgs().add(cluOrg);
+			participatingOrgs.add(cluOrg);
 		}
 
 		if(cluInfo.getPrimaryInstructor()!=null){
@@ -352,23 +354,25 @@ public class LuServiceImpl implements LuService {
 			clu.setPrimaryInstructor(primaryInstructor);
 		}
 
+		List<CluInstructor> instructors = clu.getInstructors();
 		for(CluInstructorInfo instructorInfo: cluInfo.getInstructors()){
 			CluInstructor instructor = new CluInstructor();
 			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
 			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
-			clu.getInstructors().add(instructor);
+			instructors.add(instructor);
 		}
 
 		if(cluInfo.getStdDuration()!=null){
 			clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
 		}
 
+		List<LuCode> luCodes = clu.getLuCodes();
 		for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
 			LuCode luCode = new LuCode();
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
 			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
 			luCode.setClu(clu);
-			clu.getLuCodes().add(luCode);
+			luCodes.add(luCode);
 		}
 
 		if(cluInfo.getCreditInfo()!=null){
@@ -397,11 +401,12 @@ public class LuServiceImpl implements LuService {
 			clu.setPublishing(cluPublishing);
 		}
 
+		List<CluAtpTypeKey> offeredAtpTypes = clu.getOfferedAtpTypes();
 		for(String atpTypeKey : cluInfo.getOfferedAtpTypes()){
 			CluAtpTypeKey cluAtpTypeKey = new CluAtpTypeKey();
 			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
 			cluAtpTypeKey.setClu(clu);
-			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
+			offeredAtpTypes.add(cluAtpTypeKey);
 		}
 
 		if(cluInfo.getFeeInfo()!=null){

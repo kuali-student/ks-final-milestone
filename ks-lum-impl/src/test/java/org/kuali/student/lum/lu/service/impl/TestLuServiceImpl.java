@@ -1799,7 +1799,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("lu.resultColumn.cluId", resultCell.getKey());
 		assertEquals("CLU-1", resultCell.getValue());
 		resultCell = resultCells.get(1);
-		assertEquals("lu.resultColumn.cluOfficialIdentifier", resultCell.getKey());
-		assertEquals("IDENT-1", resultCell.getValue());
+		assertEquals("lu.resultColumn.cluOfficialIdentifier.longName", resultCell.getKey());
+		assertEquals("Long Name", resultCell.getValue());
 	}
 }
