@@ -25,6 +25,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -63,6 +64,27 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         }
         try {
             commentInfo = client.getComment("xxx-1");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+    }
+    
+    
+    @Test
+    public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TagInfo tagInfo = client.getTag("Comment-TAG-1");
+        
+        assertNotNull(tagInfo);
+
+        try {
+            tagInfo = client.getTag(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+        try {
+            tagInfo = client.getTag("xxx-1");
             assertTrue(false);
         } catch (DoesNotExistException e) {
             assertTrue(true);
