@@ -76,5 +76,13 @@ public class CommentServiceAssembler extends BaseAssembler {
         return dto;
         
     }
+    
+    public static List<TagInfo> toTagInfos(List<Tag> entries){
+        List<TagInfo> dtos = new ArrayList<TagInfo>(entries.size());
+        for(Tag entry: entries){
+            dtos.add(toTagInfo(entry));
+        }
+        return dtos;
+    }
 
 }
