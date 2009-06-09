@@ -40,7 +40,8 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
 	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
-	
+		
+	private boolean loaded = false;
 	private boolean showStart = true;
 	
 	public enum SaveTypes{
@@ -197,39 +198,49 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	
 	@Override
 	public void render() {
-		final KSBasicMenu sectionMenu = new KSBasicMenu();
-		sectionMenu.setTitle("Proposal Sections");
-		sectionMenu.setDescription("complete sections to submit");
-		sectionMenu.setItems(topLevelMenuItems);
-		final KSBasicMenu viewMenu = new KSBasicMenu();
-        viewMenu.setTitle("Views...");
-        viewMenu.setItems(viewMenuItems);
-		menuPanel.clear();
-		menuPanel.add(viewMenu);
-		menuPanel.add(sectionMenu);
-		
-		//Add next section button handlers, this code assumes section was added in order
-		//and that they appear in same sequence in the menu.
-		int sectionIndex = 0;
-		for (KSMenuItemData menuItem:topLevelMenuItems){
-		    for (KSMenuItemData subItem:menuItem.getSubItems()){
-		        if (sectionIndex > 0){
-    		        SimpleConfigurableSection<T> prevSection = (SimpleConfigurableSection<T>)sections.get(sectionIndex-1);
-    		        SectionButtons sectionButtons = (SectionButtons)prevSection.getSectionButtons();
-    		        sectionButtons.addNextSectionClickHandler(getNextSectionClickHandler(subItem));
-		        }
-		        sectionIndex++;
-		    }
+	    if (!loaded){
+    		final KSBasicMenu sectionMenu = new KSBasicMenu();
+    		sectionMenu.setTitle("Proposal Sections");
+    		sectionMenu.setDescription("complete sections to submit");
+    		sectionMenu.setItems(topLevelMenuItems);
+    		final KSBasicMenu viewMenu = new KSBasicMenu();
+            viewMenu.setTitle("Views...");
+            viewMenu.setItems(viewMenuItems);
+    		menuPanel.clear();
+    		menuPanel.add(viewMenu);
+    		menuPanel.add(sectionMenu);
+    		
+    		//Add next section button handlers, this code assumes section was added in order
+    		//and that they appear in same sequence in the menu.
+    		int sectionIndex = 0;
+    		for (KSMenuItemData menuItem:topLevelMenuItems){
+    		    for (KSMenuItemData subItem:menuItem.getSubItems()){
+    		        if (sectionIndex > 0){
+        		        SimpleConfigurableSection<T> prevSection = (SimpleConfigurableSection<T>)sections.get(sectionIndex-1);
+        		        SectionButtons sectionButtons = (SectionButtons)prevSection.getSectionButtons();
+        		        sectionButtons.addNextSectionClickHandler(getNextSectionClickHandler(subItem));
+    		        }
+    		        sectionIndex++;
+    		    }
+    		}
+    		
+    		contentPanel.clear();
+    		
+    		if(initHierarchy != null)
+    		    sectionMenu.selectMenuItem(initHierarchy);
+	    
+    		loaded = true;
+	    }
+            
+		if (getObject() != null){
+		    refresh();
 		}
-		
-		contentPanel.clear();
-		
-		if(initHierarchy != null)
-		    sectionMenu.selectMenuItem(initHierarchy);
-        
-		if (showStart){
+		    
+	    if (showStart){
 		    startSectionDialog.show();
 		}
+				
+		
 	}
 	
 	protected ClickHandler getNextSectionClickHandler(final KSMenuItemData menuItem){
@@ -290,4 +301,5 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	        section.populate();
 	    }
 	}
+
 }

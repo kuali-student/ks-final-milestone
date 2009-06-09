@@ -1,16 +1,7 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.LayoutConfigurationException;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.dto.State;
-import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 

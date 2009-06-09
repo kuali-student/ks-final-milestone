@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
@@ -74,7 +75,12 @@ public class AcademicContentLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getCluInfo().getOfficialIdentifier().getDivision();
+                                CluIdentifierInfo cluIdentifier;
+                                cluIdentifier = object.getCluInfo().getOfficialIdentifier();
+                                if (cluIdentifier != null){
+                                    return cluIdentifier.getDivision();
+                                }
+                                return "";
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -93,7 +99,13 @@ public class AcademicContentLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 //TODO Tech spec says suffixCode - not sure if this is right field
-                                return object.getCluInfo().getOfficialIdentifier().getCode(); 
+                                
+                                CluIdentifierInfo cluIdentifier;
+                                cluIdentifier = object.getCluInfo().getOfficialIdentifier();
+                                if (cluIdentifier != null){
+                                    return cluIdentifier.getCode();
+                                }
+                                return ""; 
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -112,7 +124,12 @@ public class AcademicContentLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getCluInfo().getOfficialIdentifier().getLongName(); 
+                                CluIdentifierInfo cluIdentifier;
+                                cluIdentifier = object.getCluInfo().getOfficialIdentifier();
+                                if (cluIdentifier != null){
+                                    return cluIdentifier.getLongName();
+                                }
+                                return "";  
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
@@ -149,7 +166,12 @@ public class AcademicContentLayoutManager {
                         .setBinding(new PropertyBinding<CluProposal>() {
                             @Override
                             public Object getValue(CluProposal object) {
-                                return object.getCluInfo().getOfficialIdentifier().getShortName(); 
+                                CluIdentifierInfo cluIdentifier;
+                                cluIdentifier = object.getCluInfo().getOfficialIdentifier();
+                                if (cluIdentifier != null){
+                                    return cluIdentifier.getShortName();
+                                }
+                                return "";  
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {

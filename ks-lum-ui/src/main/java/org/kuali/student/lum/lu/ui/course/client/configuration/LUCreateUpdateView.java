@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.validator.Validator;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
@@ -26,6 +27,7 @@ public class LUCreateUpdateView extends Composite implements View {
     private ConfigurableLayout<CluProposal> layout;
     private final String luType;
     private final String luState;
+    private String id = null;
 
     public LUCreateUpdateView(String type, String state) {
         this.luType = type;
@@ -66,8 +68,19 @@ public class LUCreateUpdateView extends Composite implements View {
                     return true; //wait for stupid thing to load
                 }
                 panel.setWidget(layout);
+                if (id == null){
+                    CluProposal cluProposal = new CluProposal();
+                    CluInfo cluInfo = new CluInfo();
+                    cluInfo.setState(luState);
+                    cluInfo.setType(luType);
+                    
+                    cluProposal.setCluInfo(cluInfo);        
+                    layout.setObject(cluProposal);                    
+                    layout.render();
+                } else {
+                    //Load an existing clu
+                }
 
-                layout.render();
                 return false;
             }
 
@@ -91,6 +104,11 @@ public class LUCreateUpdateView extends Composite implements View {
         return layout;
     }
 
+    
+    public void setId(String id){
+        this.id = id;
+    }
+    
     public void addLayoutToHistory(final KSHistory history, final LUMViews create_course) {
         IncrementalCommand command = new IncrementalCommand() {
 

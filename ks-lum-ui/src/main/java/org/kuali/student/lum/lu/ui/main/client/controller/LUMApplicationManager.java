@@ -28,7 +28,7 @@ public class LUMApplicationManager extends Controller{
     //private CourseProposalManager createCourse = new CourseProposalManager(this);
     KSHistory history;
 
-    private View courseView ;
+    private LUCreateUpdateView courseView;
 
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
 
@@ -48,7 +48,7 @@ public class LUMApplicationManager extends Controller{
     }
 
     public enum LUMViews {
-        HOME_MENU, CREATE_COURSE
+        HOME_MENU, CREATE_COURSE, MODIFY_COURSE
     }
 
     @Override
@@ -57,14 +57,16 @@ public class LUMApplicationManager extends Controller{
             case HOME_MENU:
                 return homeMenu;
             case CREATE_COURSE:
-                /*
-                createCourse.setCourseProposalType(CourseProposalType.NEW_COURSE);                
-                return createCourse;
-                 */
-                courseView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-
+                if (courseView == null){
+                    courseView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                }
                 ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE);
                 return courseView;
+            case MODIFY_COURSE:
+                if (courseView == null){
+                    courseView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                }
+                ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.MODIFY_COURSE);
             default:
                 return null;
         }

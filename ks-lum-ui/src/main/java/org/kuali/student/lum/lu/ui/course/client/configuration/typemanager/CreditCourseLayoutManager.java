@@ -25,7 +25,6 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout.SaveTypes;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AcademicContentLayoutManager;
@@ -67,13 +66,6 @@ public class CreditCourseLayoutManager {
     public DefaultCreateUpdateLayout<CluProposal> getCreateUpdateLayout(String type, String state) {
 
         final DefaultCreateUpdateLayout<CluProposal> layout = new DefaultCreateUpdateLayout<CluProposal>();
-        CluProposal cluProposal = new CluProposal();
-        CluInfo cluInfo = new CluInfo();
-        cluInfo.setState(state);
-        cluInfo.setType(type);
-        
-        cluProposal.setCluInfo(cluInfo);        
-        layout.setObject(cluProposal);
         
         addStartSection(layout);
         addViewsSection(layout, type, state);
