@@ -282,7 +282,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
 	@Override
-	public String getCluIdFromWorkflowId(String docId) {
+	public CluProposal getCluProposalFromWorkflowId(String docId) {
 		aquireSimpleDocService();
 		
         //get a user name
@@ -295,7 +295,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
         
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
-		return docResponse.getAppDocId();
+		return getProposal(docResponse.getAppDocId());
 	}
 
 	private void aquireSimpleDocService() {
