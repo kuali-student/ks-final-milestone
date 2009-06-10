@@ -21,9 +21,11 @@ import java.util.List;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
+import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Tag;
+import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.service.impl.BaseAssembler;
@@ -85,6 +87,22 @@ public class CommentServiceAssembler extends BaseAssembler {
         for(Tag entry: entries){
             dtos.add(toTagInfo(entry));
         }
+        return dtos;
+    }
+    
+    public static TagTypeInfo toTagTypeInfo(TagType entity){
+        TagTypeInfo dto = new TagTypeInfo();
+        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
+    }
+    
+    public static List<TagTypeInfo> toTagTypeInfos(List<TagType> entries){
+        List<TagTypeInfo> dtos = new ArrayList<TagTypeInfo>(entries.size());
+        for(TagType entity: entries){
+            dtos.add(toTagTypeInfo(entity));
+        }
+        
         return dtos;
     }
 

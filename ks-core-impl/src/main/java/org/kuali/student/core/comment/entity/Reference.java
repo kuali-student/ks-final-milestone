@@ -19,34 +19,22 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-
-import com.sun.xml.bind.v2.model.core.Ref;
-
+import org.kuali.student.core.entity.RichText;
 
 
 @Entity
-@Table(name = "KSCO_TAG")
-public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
+@Table(name = "KSCO_REF")
+public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAttribute>{
 
+    
     @Id
     @Column(name = "ID")
     private String id;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RT_DESCR_ID")
+    private RichText desc;
 
-    @Column(name = "NAME_SPACE")
-    private String nameSpace;
-    
-    @Column(name = "PREDICATE")
-    private String predicate;
-    
-    @Column(name = "VAL")
-    private String value;
-    
-    
-    @ManyToOne
-    @JoinColumn(name = "REF")
-    private Reference ref;
-    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
@@ -54,20 +42,21 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<TagAttribute> attributes;
-
-    @ManyToOne
-    @JoinColumn(name = "TYPE")
-    private TagType type;
-
+    private List<ReferenceAttribute> attributes;
+    
     @Column(name = "STATE")
     private String state;
-
-    /**
-     * AutoGenerate the Id
-     */
+    
+    @ManyToOne
+    @JoinColumn(name = "TYPE")
+    private ReferenceType type;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="ref")
+    private List<Tag> tags;
+    
+    
     @PrePersist
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
@@ -86,43 +75,17 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     public void setId(String id) {
         this.id = id;
     }
-    
 
-    public String getNameSpace(){
-        return nameSpace;
+    public RichText getDesc() {
+        return desc;
     }
-    
-    public void setNameSpace(String nameSpace){
-        this.nameSpace=nameSpace;
-    }
-    
-    public String getPredicate(){
-        return predicate;
-    }
-    
-    public void setPredicate(String predicate){
-        this.predicate=predicate;
-    }
-    
-    public String getValue(){
-        return value;
-    }
-    
-    public void setValue(String value){
-        this.value=value;
-    }
-    
-    
-    public Reference getReferennce(){
-        return ref;
-    }
-    
-    public void setReference(Reference ref){
-        this.ref=ref;
-    }
-    
 
-    
+    /**
+     * @param commentText the commentText to set
+     */
+    public void setDesc(RichText desc) {
+        this.desc = desc;
+    }
     /**
      * @return the effectiveDate
      */
@@ -152,33 +115,6 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     }
 
 
-    @Override
-    public List<TagAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<TagAttribute>(0);
-        }
-        return attributes;
-    }
-
-    @Override
-    public void setAttributes(List<TagAttribute> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * @return the type
-     */
-    public TagType getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(TagType type) {
-        this.type = type;
-    }
-
     /**
      * @return the state
      */
@@ -193,4 +129,26 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
         this.state = state;
     }
     
+    @Override
+    public List<ReferenceAttribute> getAttributes() {
+        if (attributes == null) {
+            attributes = new ArrayList<ReferenceAttribute>(0);
+        }
+        return attributes;
+    }
+
+    @Override
+    public void setAttributes(List<ReferenceAttribute> attributes) {
+        this.attributes = attributes;
+        
+    }
+    
+    public List<Tag> getTags(){
+        return tags;
+    }
+    
+    public void setTags(List<Tag> tags){
+        this.tags=tags;
+    }
+
 }

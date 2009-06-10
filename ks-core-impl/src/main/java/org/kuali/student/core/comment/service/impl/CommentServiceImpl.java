@@ -30,7 +30,10 @@ import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.dto.ValidationResultInfo;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
+import org.kuali.student.core.comment.entity.Reference;
+import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
+import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -161,8 +164,9 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<TagTypeInfo> getTagTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<TagType> tagTypes = commentDao.find(TagType.class);
+        
+        return CommentServiceAssembler.toTagTypeInfos(tagTypes);
     }
 
     /**
@@ -172,7 +176,15 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<TagInfo> getTags(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
+        
+        ReferenceType refType = commentDao.fetch(ReferenceType.class,referenceTypeKey);
+        
+        Reference ref = commentDao.fetch(Reference.class, referenceId);
+        
+        List<Tag> tags = ref.getTags();
+        for(Tag tag: tags){
+            String tagId = tag.getId();
+        }
         return null;
     }
 
