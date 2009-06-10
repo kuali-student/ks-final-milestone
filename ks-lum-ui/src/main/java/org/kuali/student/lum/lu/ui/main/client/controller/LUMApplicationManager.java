@@ -29,9 +29,10 @@ public class LUMApplicationManager extends Controller{
     KSHistory history;
 
     private LUCreateUpdateView courseView;
+    private LUCreateUpdateView modifyView;
 
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
-
+    
     public LUMApplicationManager(){
         super();
         loadDictionary();
@@ -63,10 +64,10 @@ public class LUMApplicationManager extends Controller{
                 ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE);
                 return courseView;
             case MODIFY_COURSE:
-                if (courseView == null){
-                    courseView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                if (modifyView == null){
+                    modifyView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
                 }
-                ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.MODIFY_COURSE);
+                ((LUCreateUpdateView)modifyView).addLayoutToHistory(history, LUMViews.MODIFY_COURSE);
             default:
                 return null;
         }
@@ -127,4 +128,7 @@ public class LUMApplicationManager extends Controller{
 
     }
 
+    public void setCluId(String id){
+        this.courseView.setId(id);
+    }
 }

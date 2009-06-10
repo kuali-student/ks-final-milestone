@@ -9,8 +9,19 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpcWindow;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
+import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -18,7 +29,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FindPanel extends ViewComposite{
-   
+    LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
+    KSAdvancedSearchRpcWindow searchWindow = new KSAdvancedSearchRpcWindow(luServiceAsync, "lu.search.clus");
+
+    
     private VerticalPanel mainPanel = new VerticalPanel();
     
     private FlexTable findLayout = new FlexTable();
@@ -115,14 +129,32 @@ public class FindPanel extends ViewComposite{
         searchTypes.add(new SearchType("1", "Proposals"));
         searchTypes.add(new SearchType("2", "Courses"));
         searchTypes.add(new SearchType("3", "Courses + Proposals"));
+
+        searchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
+
+            public void onSelection(SelectionEvent<List<String>> event) {
+                List<String> selected = event.getSelectedItem();
+                if (selected.size() > 0){
+                    searchWindow.hide();
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_COURSE));
+                }                
+            }
+            
+        });
         searchFor.setListItems(searchItems);
-        findLayout.setCellSpacing(25);
+        searchFor.addSelectionChangeHandler(new SelectionChangeHandler(){
+            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                searchWindow.show();
+            }            
+        });
         
+        findLayout.setCellSpacing(25);        
         findLabel.addStyleName("Home-Category-Label");
         findButton.addStyleName("Home-Blue-Button");
         findLayout.setWidget(0, 0, findLabel);
         findLayout.setWidget(0, 1, searchFor);
         
+        /* FIXME: Is this how search should be displayed
         VerticalPanel searchPanel = new VerticalPanel();
         searchPanel.add(searchText);
         searchText.addStyleName("Home-Search-Textbox");
@@ -131,9 +163,11 @@ public class FindPanel extends ViewComposite{
         findLayout.setWidget(1, 1, searchPanel);
         
         findLayout.setWidget(2, 1, findButton);
+        */
         
         findLayout.setStyleName("Content-Left-Margin");
         mainPanel.add(findLayout);
+
         this.initWidget(mainPanel);
     }
 }
