@@ -88,6 +88,71 @@
 				</dependency>		
 			</dependencies>
 		</profile>
+		
+		<profile>
+			<id>build-codehaus-gwt</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.0</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>war</goal>
+								</goals>	
+							</execution>							
+						</executions>
+						
+					</plugin>
+
+					<plugin>
+				        <groupId>org.codehaus.mojo</groupId>
+				        <artifactId>gwt-maven-plugin</artifactId>
+				        <version>1.1-SNAPSHOT</version>
+				        <configuration>
+							<runTarget>org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</runTarget>
+							<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>					
+				        </configuration>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>				
+		
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+					</plugin>
+				</plugins>				
+			</build>	
+			
+			<!-- Required dependencies for testing core-ui -->
+			<dependencies>
+				<dependency>
+					<!-- 
+						Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
+						which has problems finding exception beans. 
+					-->
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-cxf</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<type>pom</type>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+					<scope>runtime</scope>
+				</dependency>			
+			</dependencies>
+		</profile>		
 	</profiles>
 
 
