@@ -1,13 +1,16 @@
 package org.kuali.student.lum.lu.ui.main.client.controller;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpcWindow;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LULayoutFactory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
@@ -16,6 +19,7 @@ import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -30,6 +34,8 @@ public class LUMApplicationManager extends Controller{
 
     private LUCreateUpdateView courseView;
     private LUCreateUpdateView modifyView;
+    
+    private Model<CluInfo> cluModel = new Model<CluInfo>();
 
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
     
@@ -43,13 +49,21 @@ public class LUMApplicationManager extends Controller{
     protected void onLoad() {
         addApplicationEventHandler(ChangeViewStateEvent.TYPE, new ChangeViewStateHandler() {
             public void onViewStateChange(ChangeViewStateEvent event) {
+                //This is very hacky
+                if (event.getEventSource() != null && event.getEventSource() instanceof SelectionEvent){                    
+                    List<String> selectedIds = (List<String>)((SelectionEvent)event.getEventSource()).getSelectedItem();
+                    if (modifyView == null){
+                        modifyView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                    }
+                    modifyView.setId(selectedIds.get(0));
+                }
                 showView(event.getViewType());  
             }
         });
     }
 
     public enum LUMViews {
-        HOME_MENU, CREATE_COURSE, MODIFY_COURSE
+        HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL
     }
 
     @Override
@@ -61,13 +75,14 @@ public class LUMApplicationManager extends Controller{
                 if (courseView == null){
                     courseView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
                 }
-                ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE);
+                ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
                 return courseView;
-            case MODIFY_COURSE:
+            case EDIT_COURSE_PROPOSAL:
                 if (modifyView == null){
-                    modifyView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                    modifyView = new LUCreateUpdateView(LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
                 }
-                ((LUCreateUpdateView)modifyView).addLayoutToHistory(history, LUMViews.MODIFY_COURSE);
+                ((LUCreateUpdateView)modifyView).addLayoutToHistory(history, LUMViews.EDIT_COURSE_PROPOSAL);
+                return modifyView;
             default:
                 return null;
         }

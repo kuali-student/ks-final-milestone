@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
@@ -23,36 +24,43 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUCreateUpdateView extends Composite implements View {
-	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcServiceAsync.class);
-	
     ApplicationComposite app = new ApplicationComposite();
     private final SimplePanel panel = new SimplePanel();
     private ConfigurableLayout<CluProposal> layout;
-    private final String luType;
-    private final String luState;
+    private String luType;
+    private String luState;
     private String id = null;
 
+    CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+    
     public LUCreateUpdateView(String type, String state) {
-        this.luType = type;
-        this.luState = state;		        
-        app.setContent(panel);
-        super.initWidget(app);
-
-        layout = getLayout(luType, luState);
+        init(type, state, true);
     }
 
-    private ConfigurableLayout<CluProposal> getLayout(String type, String state) {	   	
+    public LUCreateUpdateView(String type, String state, boolean isCreate) {
+
+        init(type, state, isCreate);
+    }
+
+    private void init(String type, String state, boolean isCreate) {	   	
+        this.luType = type;
+        this.luState = state;               
+        app.setContent(panel);
+        initWidget(app);
+
         LULayoutFactory factory = new LULayoutFactory();
 
-        DefaultCreateUpdateLayout<CluProposal> layout = (DefaultCreateUpdateLayout<CluProposal>)factory.getLayout(type, state);
+        DefaultCreateUpdateLayout<CluProposal> defaultLayout = (DefaultCreateUpdateLayout<CluProposal>)factory.getLayout(type, state);
 //      history = new KSHistory(getController(), layout);
-        layout.addCancelSectionHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
+        defaultLayout.addCancelSectionHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {                
                 LUCreateUpdateView.this.getController().showView(LUMViews.HOME_MENU);
             }            
         });     
 
-        return layout;
+        defaultLayout.setShowStartSectionEnabled(isCreate);
+
+        this.layout = defaultLayout;
     }
 
     @Override
@@ -81,6 +89,7 @@ public class LUCreateUpdateView extends Composite implements View {
                     layout.setObject(cluProposal);                    
                     layout.render();
                 } else {
+                    //FIXME: This should get proposal instead of CluInfo
                 	//Load an existing clu
                 	if(id.length()==36){
                 		cluProposalRpcServiceAsync.getProposal(id, new AsyncCallback<CluProposal>(){
