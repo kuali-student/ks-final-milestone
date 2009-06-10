@@ -34,4 +34,5 @@ public interface CluProposalRpcService extends BaseRpcService{
     public CluProposal deleteProposal(String id);
     public CluProposal getProposal(String id);
     public CluProposal getCluProposalFromWorkflowId(String docId);
+    public String getActionsRequested(CluProposal cluProposal);
 }

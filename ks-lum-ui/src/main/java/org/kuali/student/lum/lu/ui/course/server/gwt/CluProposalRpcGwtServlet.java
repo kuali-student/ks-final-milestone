@@ -23,8 +23,10 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -49,6 +51,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
     private static final long serialVersionUID = 1L;
     private SimpleDocumentActionsWebService simpleDocService; 
+    private WorkflowUtility workflowUtilityService;
     
     private Map<String, ProposalInfo> getProposalInfoMap() {
         Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
@@ -297,7 +300,30 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
 		return getProposal(docResponse.getAppDocId());
 	}
-
+	
+	@Override
+	public String getActionsRequested(CluProposal cluProposal) {
+		aquireWorkflowUtilityService();
+		
+        //get a user name
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (obj instanceof UserDetails) {
+        	username = ((UserDetails)obj).getUsername();
+        } else {
+        	username = obj.toString();
+        }
+		//Build up a string of actions requested from the attribute set.  The actions can be F,A,C,K. examples are "A" "AF" "FCK"
+        AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
+        String actionsRequested = "";
+        for(Map.Entry<String,String> entry:results.entrySet()){
+        	if("true".equals(entry.getValue())){
+        		actionsRequested+=entry.getKey();
+        	}
+        }
+		return actionsRequested;
+	}
+	
 	private void aquireSimpleDocService() {
 		// TODO Auto-generated method stub
 		if(simpleDocService==null){
@@ -314,9 +340,30 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			}
 		}
 	}
+	
+	private void aquireWorkflowUtilityService() {
+		// TODO Auto-generated method stub
+		if(workflowUtilityService==null){
+			try{
+				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
+				factory.setServiceClass(WorkflowUtility.class);
+				factory.setAddress("http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP");
+				factory.setWsdlLocation("http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP?wsdl");
+				factory.setServiceName(new QName("RICE", "WorkflowUtilityServiceSOAP"));
+				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
+				workflowUtilityService = (WorkflowUtility) factory.create();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
+	}
+
+	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
+		this.workflowUtilityService = workflowUtilityService;
 	}
 
 }
