@@ -92,8 +92,11 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         }
         
         
-        List<TagInfo> tagInfos = client.getTags("REF-1", "REF-TYPE-0");
-        assertNotNull(tagInfos);        
+        List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
+        assertNotNull(tagInfos1);
+        
+        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
+        assertNotNull(tagInfos2);
        
     }
     

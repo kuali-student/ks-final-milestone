@@ -29,7 +29,8 @@ import com.sun.xml.bind.v2.model.core.Ref;
 @Entity
 @Table(name = "KSCO_TAG")
 @NamedQueries( {
-        @NamedQuery(name = "Tag.getTagByType", query = "SELECT  tag FROM Tag tag JOIN tag.ref r1 WHERE tag.ref.id =:id AND r1.type.id=:typeId")})
+        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.ref r1 WHERE tag.ref.id =:refId AND r1.type.id=:refTypeId"),
+        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.ref r1 WHERE tag.ref.id =:refId AND r1.type.id=:refTypeId AND tag.type.id=:tagTypeId")})
 public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
     @Id

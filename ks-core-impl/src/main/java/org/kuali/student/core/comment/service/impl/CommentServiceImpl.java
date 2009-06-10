@@ -189,8 +189,9 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<TagInfo> getTagsByType(String referenceId, String referenceTypeKey, String tagTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<Tag> tags = commentDao.getTagsByType(referenceId, referenceTypeKey, tagTypeKey);
+        return CommentServiceAssembler.toTagInfos(tags);
     }
 
     /**

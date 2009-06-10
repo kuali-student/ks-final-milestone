@@ -41,10 +41,19 @@ public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements Com
     }
     
     
-    public List<Tag> getTags(String refId, String refType){
-        Query query = em.createNamedQuery("Tag.getTagByType");
-        query.setParameter("id", refId);
-        query.setParameter("typeId", refType);
+    public List<Tag> getTags(String referenceId, String referenceTypeKey){
+        Query query = em.createNamedQuery("Tag.getTags");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceTypeKey);
+        List<Tag> tags = query.getResultList();
+        return tags;
+    }
+    
+    public List<Tag> getTagsByType(String referenceId, String referenceTypeKey, String tagTypeKey ){
+        Query query = em.createNamedQuery("Tag.getTagsByType");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceTypeKey);
+        query.setParameter("tagTypeId", tagTypeKey);
         List<Tag> tags = query.getResultList();
         return tags;
     }
