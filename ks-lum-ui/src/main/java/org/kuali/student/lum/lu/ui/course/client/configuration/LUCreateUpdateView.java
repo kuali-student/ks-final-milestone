@@ -6,22 +6,25 @@ import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.validator.Validator;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.IncrementalCommand;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUCreateUpdateView extends Composite implements View {
-
+	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcServiceAsync.class);
+	
     ApplicationComposite app = new ApplicationComposite();
     private final SimplePanel panel = new SimplePanel();
     private ConfigurableLayout<CluProposal> layout;
@@ -78,7 +81,31 @@ public class LUCreateUpdateView extends Composite implements View {
                     layout.setObject(cluProposal);                    
                     layout.render();
                 } else {
-                    //Load an existing clu
+                	//Load an existing clu
+                	if(id.length()==36){
+                		cluProposalRpcServiceAsync.getProposal(id, new AsyncCallback<CluProposal>(){
+							public void onFailure(Throwable caught) {
+								//TODO Error msg
+							}
+
+							public void onSuccess(CluProposal cluProposal) {
+			                    layout.setObject(cluProposal);                    
+			                    layout.render();
+							}	
+                		});
+                	}else{
+                		//convert from docId to cluid if the id is not 36 chars
+                		cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(id, new AsyncCallback<CluProposal>(){
+							public void onFailure(Throwable caught) {
+								//TODO Error msg
+							}
+
+							public void onSuccess(CluProposal cluProposal) {
+			                    layout.setObject(cluProposal);                    
+			                    layout.render();
+							}	
+                		});
+                	}
                 }
 
                 return false;
