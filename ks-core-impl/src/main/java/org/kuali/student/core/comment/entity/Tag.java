@@ -22,8 +22,6 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
-import com.sun.xml.bind.v2.model.core.Ref;
-
 
 
 @Entity
