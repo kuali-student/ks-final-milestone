@@ -27,7 +27,7 @@
     <param name="notification.concurrent.jobs">false</param>
     
     <param name="simpleDocumentActionsService.security">false</param>
-    <param name="secure.workflowdocument.javaservice.endpoint">false</param>
+    <param name="secure.workflowutility.javaservice.endpoint">false</param> 
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
