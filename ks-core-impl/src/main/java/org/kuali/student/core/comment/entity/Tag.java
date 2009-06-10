@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -26,6 +28,8 @@ import com.sun.xml.bind.v2.model.core.Ref;
 
 @Entity
 @Table(name = "KSCO_TAG")
+@NamedQueries( {
+        @NamedQuery(name = "Tag.getTagByType", query = "SELECT  tag FROM Tag tag JOIN tag.ref r1 WHERE tag.ref.id =:id AND r1.type.id=:typeId")})
 public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
     @Id

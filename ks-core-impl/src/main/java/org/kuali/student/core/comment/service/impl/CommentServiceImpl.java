@@ -177,15 +177,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<TagInfo> getTags(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        ReferenceType refType = commentDao.fetch(ReferenceType.class,referenceTypeKey);
+        List<Tag> tags = commentDao.getTags(referenceId, referenceTypeKey);
         
-        Reference ref = commentDao.fetch(Reference.class, referenceId);
-        
-        List<Tag> tags = ref.getTags();
-        for(Tag tag: tags){
-            String tagId = tag.getId();
-        }
-        return null;
+        return CommentServiceAssembler.toTagInfos(tags);
     }
 
     /**

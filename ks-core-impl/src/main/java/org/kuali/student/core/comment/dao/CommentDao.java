@@ -15,6 +15,9 @@
  */
 package org.kuali.student.core.comment.dao;
 
+import java.util.List;
+
+import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dao.CrudDao;
 
 /**
@@ -24,5 +27,5 @@ import org.kuali.student.core.dao.CrudDao;
  *
  */
 public interface CommentDao extends CrudDao {
-
+    public List<Tag> getTags(String refId, String refType);
 }

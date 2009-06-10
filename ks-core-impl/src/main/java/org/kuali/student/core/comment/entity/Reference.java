@@ -143,6 +143,14 @@ public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAt
         
     }
     
+    public ReferenceType getType(){
+        return type;
+    }
+    
+    public void setType(ReferenceType type){
+        this.type = type;
+    }
+    
     public List<Tag> getTags(){
         return tags;
     }

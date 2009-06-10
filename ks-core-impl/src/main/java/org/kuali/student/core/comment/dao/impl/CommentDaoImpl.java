@@ -15,10 +15,16 @@
  */
 package org.kuali.student.core.comment.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.kuali.student.core.comment.dao.CommentDao;
+import org.kuali.student.core.comment.entity.Reference;
+import org.kuali.student.core.comment.entity.ReferenceType;
+import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 
 /**
@@ -32,6 +38,15 @@ public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements Com
     @Override
     public void setEm(EntityManager em) {
         super.setEm(em);
+    }
+    
+    
+    public List<Tag> getTags(String refId, String refType){
+        Query query = em.createNamedQuery("Tag.getTagByType");
+        query.setParameter("id", refId);
+        query.setParameter("typeId", refType);
+        List<Tag> tags = query.getResultList();
+        return tags;
     }
 
 

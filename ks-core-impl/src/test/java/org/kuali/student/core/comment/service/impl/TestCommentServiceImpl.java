@@ -77,11 +77,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetTag() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TagInfo tagInfo = client.getTag("Comment-TAG-1");
-//        client.getTags("REF-1", "REF-TYPE-0");
         assertNotNull(tagInfo);
-
-        List<TagTypeInfo> tagTypeInfos = client.getTagTypes();
-        assertNotNull(tagTypeInfos);
         try {
             tagInfo = client.getTag(null);
             assertTrue(false);
@@ -94,6 +90,11 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
+        
+        
+        List<TagInfo> tagInfos = client.getTags("REF-1", "REF-TYPE-0");
+        assertNotNull(tagInfos);        
+       
     }
     
     
