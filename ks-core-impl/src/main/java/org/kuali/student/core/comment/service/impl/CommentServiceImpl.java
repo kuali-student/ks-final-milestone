@@ -29,6 +29,7 @@ import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.dto.ValidationResultInfo;
 import org.kuali.student.core.comment.entity.Comment;
+import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dto.StatusInfo;
@@ -93,8 +94,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<CommentTypeInfo> getCommentTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<CommentType> commentTypes = commentDao.find(CommentType.class);
+        return CommentServiceAssembler.toCommentTypeInfos(commentTypes);
     }
 
     /**

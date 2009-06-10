@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.entity.Comment;
+import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
@@ -64,19 +66,20 @@ public class CommentServiceAssembler extends BaseAssembler {
         RichTextInfo dto = new RichTextInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+
         return dto;
     }
-    
-    
+
+
     public static TagInfo toTagInfo(Tag entity) {
         TagInfo dto = new TagInfo();
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
         return dto;
-        
+
     }
-    
+
     public static List<TagInfo> toTagInfos(List<Tag> entries){
         List<TagInfo> dtos = new ArrayList<TagInfo>(entries.size());
         for(Tag entry: entries){
@@ -84,5 +87,19 @@ public class CommentServiceAssembler extends BaseAssembler {
         }
         return dtos;
     }
+
+    public static List<CommentTypeInfo> toCommentTypeInfos(List<CommentType> entities) {
+        List<CommentTypeInfo> dtos = new ArrayList<CommentTypeInfo>(entities.size());
+        for (CommentType entity : entities) {
+            dtos.add(toCommentTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+    private static CommentTypeInfo toCommentTypeInfo(CommentType entity) {
+        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 
 }

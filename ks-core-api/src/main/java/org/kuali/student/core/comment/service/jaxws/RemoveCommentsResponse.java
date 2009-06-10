@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class RemoveCommentsResponse {
 
     @XmlElement(name = "return")
-    private org.kuali.student.core.comment.dto.StatusInfo _return;
+    private org.kuali.student.core.dto.StatusInfo _return;
 
-    public org.kuali.student.core.comment.dto.StatusInfo getReturn() {
+    public org.kuali.student.core.dto.StatusInfo getReturn() {
         return this._return;
     }
 
-    public void setReturn(org.kuali.student.core.comment.dto.StatusInfo new_return)  {
+    public void setReturn(org.kuali.student.core.dto.StatusInfo new_return)  {
         this._return = new_return;
     }
 
