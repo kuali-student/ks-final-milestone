@@ -36,6 +36,86 @@
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
+	<dict:objectStructure key="cluIdentifierInfo" id="cluIdentifierInfo">
+		<dict:type key="course">
+			<dict:state key="proposed">
+				<dict:field key="code" minOccurs="0" maxOccurs="1">
+					<dict:fieldDescriptor>
+						<dict:name>Clu Code</dict:name>
+						<dict:desc>
+							Composite identification code for this clu
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>0</dict:minLength>
+						<dict:maxLength>50</dict:maxLength>
+						<!-- The space character is important -->
+						<dict:validChars>
+							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+							-.,
+						</dict:validChars>
+						<dict:readOnly>false</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="shortName" minOccurs="1"
+					maxOccurs="1">
+					<dict:fieldDescriptor>
+						<dict:name>Short Name</dict:name>
+						<dict:desc>
+							Abbreviated name of the CLU, commonly used
+							on transcripts
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>0</dict:minLength>
+						<dict:maxLength>50</dict:maxLength>
+						<!-- The space character is important -->
+						<dict:validChars>
+							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+							-.,
+						</dict:validChars>
+						<dict:readOnly>false</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="longName" minOccurs="1"
+					maxOccurs="1">
+					<dict:fieldDescriptor>
+						<dict:name>Long Name</dict:name>
+						<dict:desc>
+							Full name of the CLU, commonly used on
+							catalogues
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>0</dict:minLength>
+						<dict:maxLength>2000</dict:maxLength>
+						<!-- The space character is important -->
+						<dict:validChars>
+							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+							-.,
+						</dict:validChars>
+						<dict:readOnly>false</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="level" minOccurs="1" maxOccurs="1">
+					<dict:fieldDescriptor>
+						<dict:name>Level</dict:name>
+						<dict:desc>
+							A code that indicates whether this is
+							introductory, advanced, etc.
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:minLength>0</dict:minLength>
+						<dict:maxLength>2000</dict:maxLength>
+						<!-- The space character is important -->
+						<dict:validChars>
+							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+							-.,
+						</dict:validChars>
+						<dict:readOnly>false</dict:readOnly>
+					</dict:fieldDescriptor>
+				</dict:field>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+
 	<dict:objectStructure key="cluInfo">
 		<dict:type key="luType.shell.course">
 			<dict:state key="proposed">
@@ -61,6 +141,7 @@
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
+
 				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
@@ -100,7 +181,7 @@
 			</dict:state>
 
 			<dict:state key="active">
-				<dict:field key="cluId" maxOccurs="1" minOccurs="1">
+				<dict:field key="cluId" minOccurs="1" maxOccurs="1">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>
@@ -163,7 +244,7 @@
 				</dict:field>
 			</dict:state>
 			<dict:state key="active">
-				<dict:field key="cluId" maxOccurs="1" minOccurs="1">
+				<dict:field key="cluId" minOccurs="1" maxOccurs="1">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>
@@ -236,18 +317,24 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
 				<dict:field key="proposerOrgId">
 					<dict:fieldDescriptor>
 						<dict:name>Description</dict:name>
-						<dict:desc>Description of this proposal</dict:desc>
+						<dict:desc>
+							Description of this proposal
+						</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
+						<dict:validChars>
+							ABCDEF0123456789-
+						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -274,5 +361,7 @@
 			</dict:state>
 		</dict:type>
 	</dict:objectStructure>
+
+
 
 </beans>

@@ -131,6 +131,21 @@ public class LUMApplicationManager extends Controller{
                     @Override
                     public void onSuccess(ObjectStructure result) {
                         LUDictionaryManager.getInstance().loadStructure(result);
+                        
+                        //  If proposal Info structure load OK, load cluInfo structure                      
+                        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_ID_INFO, new AsyncCallback<ObjectStructure>(){
+                            public void onFailure(Throwable caught) {
+                                throw new RuntimeException("Unable to load cluIdentifierInfo object structure", caught);                
+                            }
+
+                            @Override
+                            public void onSuccess(ObjectStructure result) {
+                                LUDictionaryManager.getInstance().loadStructure(result);
+
+                            }
+                        }
+                        );
+
 
                     }
                 }

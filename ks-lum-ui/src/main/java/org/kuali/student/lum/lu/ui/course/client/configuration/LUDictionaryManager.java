@@ -34,10 +34,11 @@ public class LUDictionaryManager {
     
     private static final char DICT_KEY_SEPARATOR = ':';
     public static final String STRUCTURE_CLU_INFO = "cluInfo";
+    public static final String STRUCTURE_CLU_ID_INFO = "cluIdentifierInfo";
     public static final String STRUCTURE_PROPOSAL_INFO = "proposalInfo";
     
     private Validator validator = new Validator();
-    private static final Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
+    private static Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
     
     
     private static LUDictionaryManager manager = new LUDictionaryManager();
@@ -55,16 +56,18 @@ public class LUDictionaryManager {
     
     public void loadStructure(ObjectStructure structure) {
 
-        Map<String, Field> result = new HashMap<String, Field>();
+        Map<String, Field> result = null ;
 
         for (Type t : structure.getType()) {
             for (State s : t.getState()) {
+                result = new HashMap<String, Field>();
                 for (Field f : s.getField()) {
                     result.put(f.getKey(), f);
                 }
                 indexedFields.put(structure.getObjectTypeKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
             }
         }
+
     }
 
     public Map<String, Field> getFields(String objectKey, String type, String state) {
@@ -92,4 +95,8 @@ public class LUDictionaryManager {
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
+
+    public static Map<String, Map<String, Field>> getIndexedFields() {
+        return indexedFields;
+    }    
 }
