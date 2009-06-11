@@ -101,7 +101,9 @@ public class GenericTableModel<RowType> extends MutableTableModel<RowType> {
     }
 
     /**
-     * This overridden method ...
+     * This overridden method handles only errorMode, zeroMode, and local dtos
+     * Production code will need rpc to load server side dto's, that feature can be 
+     * added in a subclass and perhaps here if it can be done generically
      * 
      * @see com.google.gwt.gen2.table.client.TableModel#requestRows(com.google.gwt.gen2.table.client.TableModelHelper.Request, com.google.gwt.gen2.table.client.TableModel.Callback)
      */
@@ -139,7 +141,7 @@ public class GenericTableModel<RowType> extends MutableTableModel<RowType> {
      */
     public void setRows(List<RowType> rows) {
         
-            List<Idable> ids = (List<Idable>)rows;//Throw ClassCast exception if list items aren't Idable         
+            List<Idable> ids = (List<Idable>)rows;//Force ClassCast exception if list items aren't Idable         
             this.rowDTOs = rows;
     }
     /**
@@ -151,5 +153,29 @@ public class GenericTableModel<RowType> extends MutableTableModel<RowType> {
     public int getRowCount() {
         // TODO return dynamic size when loading with RPC
         return rowDTOs.size();
+    }
+    /**
+     * @return the errorMode
+     */
+    public boolean isErrorMode() {
+        return errorMode;
+    }
+    /**
+     * @param errorMode the errorMode to set
+     */
+    public void setErrorMode(boolean errorMode) {
+        this.errorMode = errorMode;
+    }
+    /**
+     * @return the zeroMode
+     */
+    public boolean isZeroMode() {
+        return zeroMode;
+    }
+    /**
+     * @param zeroMode the zeroMode to set
+     */
+    public void setZeroMode(boolean zeroMode) {
+        this.zeroMode = zeroMode;
     }
 }

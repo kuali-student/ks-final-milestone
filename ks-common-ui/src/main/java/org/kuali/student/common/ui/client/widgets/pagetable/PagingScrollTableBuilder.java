@@ -19,9 +19,7 @@ import java.util.List;
 
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.ColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
-import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.user.client.ui.HTML;
 /**
@@ -30,9 +28,8 @@ import com.google.gwt.user.client.ui.HTML;
  * so methods can be chained; these methods can be called in any order.
  * Calling build() at the end of the chain returns the constructed PagingScrollTable
  * {@code
- *   pagingScrollTable = new PagingScrollTableBuilder<Person>().
- *     rowDTOs(new PersonDTOs().getPersons()).tablePixelSize(220, 200).cacheTable(10, 10).
- *     columnDefinitions(createColumnDefinitions()).build();
+ *   pagingScrollTable = new PagingScrollTableBuilder<Person>().tablePixelSize(220, 200).cacheTable(10, 10).
+ *     columnDefinitions(createColumnDefinitions()).build(new PersonDTOs().getPersons());
  * }
  * Parameterized type is the Data Transfer Object type which contains a row's data
  * 
@@ -52,8 +49,6 @@ import com.google.gwt.user.client.ui.HTML;
  */
 public class PagingScrollTableBuilder<RowType> {
     private PagingScrollTable<RowType> pagingScrollTable;
-    private List<RowType> rowDTOs = null;
-    private GenericTableModel<RowType> tableModel;
     private int tablePixelWidth = 0;
     private int tablePixelHeight = 0;
     private boolean isPagable = false;
@@ -71,20 +66,6 @@ public class PagingScrollTableBuilder<RowType> {
         super();
     }
 
-    /**
-     * This method adds a static list of DTOs to the table
-     * Optional, used for client only or previously retrieved or test data
-     * 
-     * @param rowDTOs Data Transfer Objects of the parameterized type, which
-     * must implement
-     * @see org.kuali.student.core.dto.Idable
-     * @see com.google.gwt.user.client.rpc.IsSerializable
-     * @return builder
-     */
-    public PagingScrollTableBuilder<RowType> rowDTOs(List<RowType> rowDTOs) {
-        this.rowDTOs = rowDTOs;
-        return this;
-    }
     
     /**
      * This method defines the table's display size in pixels
@@ -144,12 +125,7 @@ public class PagingScrollTableBuilder<RowType> {
      * @return the built pagingScrollTable
      */
     @SuppressWarnings("unchecked")//columnDef cast
-    public PagingScrollTable<RowType> build() {
-        if(rowDTOs != null) {
-            this.tableModel = new GenericTableModel<RowType>(rowDTOs);
-        }else {
-            this.tableModel = new GenericTableModel<RowType>(); 
-        }
+    public PagingScrollTable<RowType> build(GenericTableModel tableModel) {
         DefaultTableDefinition<RowType> tableDefinition = new DefaultTableDefinition<RowType>();
         for (AbstractColumnDefinition columnDef: columnDefs) {
             columnPixelWidths.add(columnDef.getPreferredColumnWidth());
