@@ -26,7 +26,7 @@ import org.kuali.student.core.entity.RichText;
 @Table(name = "KSCO_REF")
 public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAttribute>{
 
-    
+
     @Id
     @Column(name = "ID")
     private String id;
@@ -42,21 +42,24 @@ public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAt
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ReferenceAttribute> attributes;
-    
+
     @Column(name = "STATE")
     private String state;
-    
+
     @ManyToOne
     @JoinColumn(name = "TYPE")
     private ReferenceType type;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy="ref")
     private List<Tag> tags;
-    
-    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="reference")
+    private List<Comment> comments;
+
+
     @PrePersist
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
@@ -128,7 +131,7 @@ public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAt
     public void setState(String state) {
         this.state = state;
     }
-    
+
     @Override
     public List<ReferenceAttribute> getAttributes() {
         if (attributes == null) {
@@ -140,23 +143,37 @@ public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAt
     @Override
     public void setAttributes(List<ReferenceAttribute> attributes) {
         this.attributes = attributes;
-        
+
     }
-    
+
     public ReferenceType getType(){
         return type;
     }
-    
+
     public void setType(ReferenceType type){
         this.type = type;
     }
-    
+
     public List<Tag> getTags(){
         return tags;
     }
-    
+
     public void setTags(List<Tag> tags){
         this.tags=tags;
     }
+
+	/**
+	 * @param comments the comments to set
+	 */
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	/**
+	 * @return the comments
+	 */
+	public List<Comment> getComments() {
+		return comments;
+	}
 
 }

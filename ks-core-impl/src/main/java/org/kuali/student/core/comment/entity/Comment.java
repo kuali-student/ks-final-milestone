@@ -55,11 +55,9 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
     @JoinColumn(name = "RT_DESCR_ID")
     private RichText commentText;
 
-    // TODO
-    // private ReferenceType referenceType;
-
-    // TODO
-    // private Reference reference;
+    @ManyToOne
+    @JoinColumn(name = "REFERENCE")
+    private Reference reference;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -116,6 +114,20 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
     }
 
     /**
+	 * @param reference the reference to set
+	 */
+	public void setReference(Reference reference) {
+		this.reference = reference;
+	}
+
+	/**
+	 * @return the reference
+	 */
+	public Reference getReference() {
+		return reference;
+	}
+
+	/**
      * @return the effectiveDate
      */
     public Date getEffectiveDate() {
