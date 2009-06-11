@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -27,6 +28,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
@@ -72,8 +74,14 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
-    
-    
+
+    @Test
+    public void testGetCommentTypes() throws OperationFailedException {
+    	List<CommentTypeInfo> commentTypes = client.getCommentTypes();
+    	assertNotNull(commentTypes);
+    	assertEquals(2, commentTypes.size());
+    }
+
     @Test
     public void testGetTag() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TagInfo tagInfo = client.getTag("Comment-TAG-1");
@@ -90,22 +98,22 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
-        
-        
+
+
         List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
         assertNotNull(tagInfos1);
-        
+
         List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
         assertNotNull(tagInfos2);
-       
+
     }
-    
-    
+
+
     @Test
     public void testGetTagType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<TagTypeInfo> tagTypeInfos = client.getTagTypes();
         assertNotNull(tagTypeInfos);
-       
+
     }
 }

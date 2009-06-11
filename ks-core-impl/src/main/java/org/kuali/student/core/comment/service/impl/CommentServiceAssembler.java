@@ -89,20 +89,20 @@ public class CommentServiceAssembler extends BaseAssembler {
         }
         return dtos;
     }
-    
+
     public static TagTypeInfo toTagTypeInfo(TagType entity){
         TagTypeInfo dto = new TagTypeInfo();
         BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
-    
+
     public static List<TagTypeInfo> toTagTypeInfos(List<TagType> entries){
         List<TagTypeInfo> dtos = new ArrayList<TagTypeInfo>(entries.size());
         for(TagType entity: entries){
             dtos.add(toTagTypeInfo(entity));
         }
-        
+
         return dtos;
     }
 
@@ -115,8 +115,12 @@ public class CommentServiceAssembler extends BaseAssembler {
     }
 
     private static CommentTypeInfo toCommentTypeInfo(CommentType entity) {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        CommentTypeInfo dto = new CommentTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
     }
 
 
