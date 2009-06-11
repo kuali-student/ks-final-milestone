@@ -395,6 +395,36 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return new Boolean(true);
 	}
 	
+	@Override
+	public Boolean disapproveProposal(CluProposal cluProposal) {
+		aquireSimpleDocService();
+		
+		try{
+			
+            //get a user name
+            String username="admin";//FIXME this is bad, need to find some kind of mock security context
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+            if(auth!=null){
+            	Object obj = auth.getPrincipal();
+            	if (obj instanceof UserDetails) {
+	            	username = ((UserDetails)obj).getUsername();
+	            } else {
+	            	username = obj.toString();
+	            }
+            }
+            
+	        String disapproveComment = "Disapproved by CluProposalService";
+	        
+	        //String docId, String principalId, String docTitle, String docContent, String annotation
+	        simpleDocService.disapprove(cluProposal.getWorkflowId(), username, disapproveComment);
+	       
+		}catch(Exception e){
+            e.printStackTrace();
+		}
+        return new Boolean(true);
+	}
+	
+	
 	private void aquireSimpleDocService() {
 		// TODO Auto-generated method stub
 		if(simpleDocService==null){
