@@ -104,33 +104,37 @@ public class KSHistory implements ValueChangeHandler<String> {
     
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
-        Map<String, List<String>> params = buildListParamMap(event.getValue());
+        final Map<String, List<String>> params = buildListParamMap(event.getValue());
         if(params.get(CONTROLLER_KEY) != null && !params.get(CONTROLLER_KEY).isEmpty()) {
-            Enum<?> view = null;
-            try {
-                view = valueOf(controller.getViewsEnum(), params.get(CONTROLLER_KEY).get(0)); //only assuming one value, hope this doesn't bite me later
-            } catch(IllegalArgumentException e) {
-                return; // i'm stopping if there isn't a valid view, even if other stuff is valid
-            }
-            if(params.get(IDABLE_KEY) != null && !params.get(IDABLE_KEY).isEmpty()) {
-                String id = params.get(IDABLE_KEY).get(0);
-                View lumView = ((LUMApplicationManager)controller).getControllerView(view);
-                ((LUCreateUpdateView)lumView).setId(id);
-            }
-            if(params.get(DOCIDABLE_KEY) != null && !params.get(DOCIDABLE_KEY).isEmpty()) {
-                String id = params.get(DOCIDABLE_KEY).get(0);
-                View lumView = ((LUMApplicationManager)controller).getControllerView(view);
-                ((LUCreateUpdateView)lumView).setId(id);
-            }
-            if(controller.getCurrentViewEnum() == null || !view.equals(controller.getCurrentViewEnum())) {
-                controller.showView(view);
-            }
-            if(params.get(LAYOUT_KEY) != null && !params.get(LAYOUT_KEY).isEmpty()) {
-                String path = params.get(LAYOUT_KEY).get(0);
-                ConfigurableLayout<?> configurableLayout = layoutMap.get(view);
-                if(configurableLayout instanceof DefaultCreateUpdateLayout)
-                    ((DefaultCreateUpdateLayout<?>)configurableLayout).selectSection(path); //probably should just be moved up to superclass
-            }
+            DeferredCommand.addCommand(new Command() {
+                @Override
+                public void execute() {
+                    Enum<?> view = null;
+                    try {
+                        view = valueOf(controller.getViewsEnum(), params.get(CONTROLLER_KEY).get(0)); //only assuming one value, hope this doesn't bite me later
+                    } catch(IllegalArgumentException e) {
+                        return; // i'm stopping if there isn't a valid view, even if other stuff is valid
+                    }
+                    if(params.get(IDABLE_KEY) != null && !params.get(IDABLE_KEY).isEmpty()) {
+                        String id = params.get(IDABLE_KEY).get(0);
+                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
+                        ((LUCreateUpdateView)lumView).setId(id);
+                    }
+                    if(params.get(DOCIDABLE_KEY) != null && !params.get(DOCIDABLE_KEY).isEmpty()) {
+                        String id = params.get(DOCIDABLE_KEY).get(0);
+                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
+                        ((LUCreateUpdateView)lumView).setId(id);
+                    }
+                    if(controller.getCurrentViewEnum() == null || !view.equals(controller.getCurrentViewEnum())) {
+                        controller.showView(view);
+                    }
+                    if(params.get(LAYOUT_KEY) != null && !params.get(LAYOUT_KEY).isEmpty()) {
+                        String path = params.get(LAYOUT_KEY).get(0);
+                        ConfigurableLayout<?> configurableLayout = layoutMap.get(view);
+                        if(configurableLayout instanceof DefaultCreateUpdateLayout)
+                            ((DefaultCreateUpdateLayout<?>)configurableLayout).selectSection(path); //probably should just be moved up to superclass
+                    }
+                }});
         }
     }
     
