@@ -1,7 +1,5 @@
 .KS-Button-Column-MainPanel{
 	height: 100%;
-	border: 1px solid black;
-	background-color: pink;
 }
 
 .KS-Button-Column-ContentPanel{
@@ -29,8 +27,6 @@
 
 .KS-Button-Row-MainPanel{
 	width: 100%;
-	border: 1px solid black;
-	background-color: pink;
 }
 
 .KS-Button-Row-ContentPanel{
