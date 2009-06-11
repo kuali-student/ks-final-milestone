@@ -317,6 +317,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return proposal;
 	}
 	
+	@Override
 	public String getActionsRequested(CluProposal cluProposal) {
 		aquireWorkflowUtilityService();
 		
@@ -337,6 +338,49 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	}
         }
 		return actionsRequested;
+	}
+	
+
+	@Override
+	public Boolean approveProposal(CluProposal cluProposal) {
+		aquireSimpleDocService();
+		
+		try{
+			
+	        //get a user name
+	        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	        String username;
+	        if (obj instanceof UserDetails) {
+	        	username = ((UserDetails)obj).getUsername();
+	        } else {
+	        	username = obj.toString();
+	        }
+	        CluInfo cluInfo = cluProposal.getCluInfo();
+	        
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+	        Document doc = docBuilder.newDocument();
+	        Element root = doc.createElement("cluId");
+	        doc.appendChild(root);
+	        Text text = doc.createTextNode(cluInfo.getId());
+	        root.appendChild(text);
+	        
+	        DOMSource domSource = new DOMSource(doc);
+	        StringWriter writer = new StringWriter();
+	        StreamResult result = new StreamResult(writer);
+	        TransformerFactory tf = TransformerFactory.newInstance();
+	        Transformer transformer = tf.newTransformer();
+	        transformer.transform(domSource, result);
+	        
+	        String approveComment = "Approved by CluProposalService";
+	        
+	        //String docId, String principalId, String docTitle, String docContent, String annotation
+	        simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), writer.toString(), approveComment);
+	       
+		}catch(Exception e){
+            e.printStackTrace();
+		}
+        return new Boolean(true);
 	}
 	
 	private void aquireSimpleDocService() {
@@ -380,5 +424,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
 		this.workflowUtilityService = workflowUtilityService;
 	}
+
 
 }
