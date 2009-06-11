@@ -106,6 +106,7 @@ public class KSHistory implements ValueChangeHandler<String> {
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
         final Map<String, List<String>> params = buildListParamMap(event.getValue());
+        params.putAll(Window.Location.getParameterMap());
         if(params.get(CONTROLLER_KEY) != null && !params.get(CONTROLLER_KEY).isEmpty()) {
             DeferredCommand.addCommand(new Command() {
                 @Override
@@ -175,7 +176,7 @@ public class KSHistory implements ValueChangeHandler<String> {
         }
         
         //Put in all the query params too
-        out.putAll(Window.Location.getParameterMap());
+        //out.putAll(Window.Location.getParameterMap());
         
         out = Collections.unmodifiableMap(out);
         
