@@ -29,7 +29,8 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSCO_TAG")
 @NamedQueries( {
         @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId"),
-        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId AND tag.type.id=:tagTypeId")})
+        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId AND tag.type.id=:tagTypeId"),
+        @NamedQuery(name = "Tag.getTagsByRefId", query="SELECT tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId=:refId")})
 public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
     @Id
