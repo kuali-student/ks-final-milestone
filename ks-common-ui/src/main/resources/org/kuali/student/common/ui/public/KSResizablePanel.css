@@ -1,0 +1,11 @@
+.KS-ResizablePanel-RightBottomResizableHandler{
+width: 14px;
+height:14px;
+cursor: SE-resize;
+
+z-index: 99;
+
+}
+.KS-ResizablePanel-Mask{
+z-index: 99;
+}
