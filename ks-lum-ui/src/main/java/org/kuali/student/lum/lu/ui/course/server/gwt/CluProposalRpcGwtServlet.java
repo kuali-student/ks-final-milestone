@@ -161,6 +161,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 cluProposal.setCluInfo(cluInfo);
                 return cluProposal;
             } catch (Exception e) {
+            	e.printStackTrace();
             }
             
         }
@@ -303,12 +304,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireSimpleDocService();
 		
         //get a user name
-        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (obj instanceof UserDetails) {
-        	username = ((UserDetails)obj).getUsername();
-        } else {
-        	username = obj.toString();
+        String username="admin";//FIXME this is bad, need to find some kind of mock security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        if(auth!=null){
+        	Object obj = auth.getPrincipal();
+        	if (obj instanceof UserDetails) {
+            	username = ((UserDetails)obj).getUsername();
+            } else {
+            	username = obj.toString();
+            }
         }
         
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
@@ -322,13 +326,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireWorkflowUtilityService();
 		
         //get a user name
-        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (obj instanceof UserDetails) {
-        	username = ((UserDetails)obj).getUsername();
-        } else {
-        	username = obj.toString();
+        String username="admin";//FIXME this is bad, need to find some kind of mock security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        if(auth!=null){
+        	Object obj = auth.getPrincipal();
+        	if (obj instanceof UserDetails) {
+            	username = ((UserDetails)obj).getUsername();
+            } else {
+            	username = obj.toString();
+            }
         }
+        
 		//Build up a string of actions requested from the attribute set.  The actions can be F,A,C,K. examples are "A" "AF" "FCK"
         AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
         String actionsRequested = "";
@@ -347,14 +355,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		
 		try{
 			
-	        //get a user name
-	        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	        String username;
-	        if (obj instanceof UserDetails) {
-	        	username = ((UserDetails)obj).getUsername();
-	        } else {
-	        	username = obj.toString();
-	        }
+            //get a user name
+            String username="admin";//FIXME this is bad, need to find some kind of mock security context
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+            if(auth!=null){
+            	Object obj = auth.getPrincipal();
+            	if (obj instanceof UserDetails) {
+	            	username = ((UserDetails)obj).getUsername();
+	            } else {
+	            	username = obj.toString();
+	            }
+            }
+            
 	        CluInfo cluInfo = cluProposal.getCluInfo();
 	        
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

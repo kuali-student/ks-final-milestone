@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
@@ -82,10 +83,15 @@ public class LUDictionaryManager {
 
         String fieldKey = objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +  type.toLowerCase() + DICT_KEY_SEPARATOR + state.toLowerCase();
         Map<String, Field> map =  indexedFields.get(fieldKey);
-        Field f = map.get(fieldName);
-        
+        if(map!=null){
+        	Field f = map.get(fieldName);
+            return f;
+        }
+        //Fix me default in case something bad happened
+        Field f = new Field();
+        f.setFieldDescriptor(new FieldDescriptor());
+        f.getFieldDescriptor().setName(fieldName);
         return f;
-
     }
 
     public Validator getValidator() {
