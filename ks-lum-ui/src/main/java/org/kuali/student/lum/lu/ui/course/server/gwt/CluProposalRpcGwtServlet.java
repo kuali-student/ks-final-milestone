@@ -145,10 +145,24 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 
                 cluProposal.setCluInfo(parentClu);
                 cluProposal.setActivities(activities);
+                return cluProposal;
             } catch (Exception e) {
                 // TODO: handle exception
             }
 
+        } 
+        
+        //FIXME: This is only temporary code and needs to be removed
+        if (proposalInfo == null){
+            //We will asssume the id passed in is a clu id
+            try {
+                CluInfo cluInfo = service.getClu(id);
+                CluProposal cluProposal = new CluProposal();
+                cluProposal.setCluInfo(cluInfo);
+                return cluProposal;
+            } catch (Exception e) {
+            }
+            
         }
         return null;
     }
@@ -301,7 +315,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return getProposal(docResponse.getAppDocId());
 	}
 	
-	@Override
 	public String getActionsRequested(CluProposal cluProposal) {
 		aquireWorkflowUtilityService();
 		
