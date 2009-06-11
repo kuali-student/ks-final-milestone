@@ -96,11 +96,11 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         }
         
         
-//        List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
-//        assertNotNull(tagInfos1);
-//        
-//        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
-//        assertNotNull(tagInfos2);
+        List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
+        assertNotNull(tagInfos1);
+        
+        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
+        assertNotNull(tagInfos2);
        
     }
     
@@ -113,29 +113,30 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
        
     }
     
-//    @Test
-//    public void testCreateDeleteTag() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-//        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-//        TagInfo tagInfo= new TagInfo();
-//        
-////        tagInfo.setId("Comment-TAG-3");
-//        tagInfo.setNamespace("UnitedStates3");
-//        tagInfo.setPredicate("era3");
-//        tagInfo.setValue("20thCentury");
-//        tagInfo.setEffectiveDate(df.parse("20090101"));
-//        tagInfo.setExpirationDate(df.parse("21001231"));
-//        tagInfo.setReferenceId("");
-//        tagInfo.setType("tagType.default");
-//        
-//        TagInfo createdTagInfo = client.addTag("REF-1", "REF-TYPE-0", tagInfo);
-//        
-//        try {
-//            TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
-//        } catch (DoesNotExistException e) {
-//            e.printStackTrace();
-//        }
-//        
-//        
-//        
-//    }
+    @Test
+    public void testCreateDeleteTag() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        TagInfo tagInfo= new TagInfo();
+        
+//        tagInfo.setId("Comment-TAG-3");
+        tagInfo.setNamespace("UnitedStates3");
+        tagInfo.setPredicate("era3");
+        tagInfo.setValue("20thCentury");
+        tagInfo.setEffectiveDate(df.parse("20090101"));
+        tagInfo.setExpirationDate(df.parse("21001231"));
+        tagInfo.setReferenceId("");
+        tagInfo.setReferenceTypeKey("");
+        tagInfo.setType("tagType.default");
+        
+        TagInfo createdTagInfo = client.addTag("REF-4", "REF-TYPE-0", tagInfo);
+        
+        try {
+            TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+        
+        
+        
+    }
 }

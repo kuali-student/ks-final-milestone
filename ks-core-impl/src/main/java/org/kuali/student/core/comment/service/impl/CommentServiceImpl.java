@@ -75,6 +75,14 @@ public class CommentServiceImpl implements CommentService {
         
         tagInfo.setReferenceTypeKey(referenceTypeKey);
         tagInfo.setReferenceId(referenceId);
+        Reference reference=null; 
+        reference = commentDao.getReference(referenceId, referenceTypeKey);
+        if(reference==null){
+            reference = new Reference();
+            reference.setReferenceId(referenceId);
+            reference.setReferenceType(referenceTypeKey);
+            commentDao.create(reference);
+        }
         
         Tag tag = null;
         

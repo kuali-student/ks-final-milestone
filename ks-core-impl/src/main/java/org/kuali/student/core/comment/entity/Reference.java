@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -15,6 +17,8 @@ import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "KSCO_REF")
+@NamedQueries( {
+        @NamedQuery(name = "Reference.getReference", query = "SELECT  reference FROM Reference reference WHERE reference.referenceId =:refId AND reference.referenceType=:refTypeId")})
 public class Reference  {
 
     

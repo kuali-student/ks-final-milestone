@@ -18,6 +18,7 @@ package org.kuali.student.core.comment.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -55,6 +56,21 @@ public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements Com
         query.setParameter("tagTypeId", tagTypeKey);
         List<Tag> tags = query.getResultList();
         return tags;
+    }
+    
+    public Reference getReference(String referenceId, String referenceType){
+        Query query = em.createNamedQuery("Reference.getReference");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceType);
+        try{
+        Reference reference = (Reference)query.getSingleResult();
+        return reference;
+        }
+        catch(NoResultException e){
+            return null;
+        }
+        
+        
     }
 
 

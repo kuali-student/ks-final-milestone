@@ -80,7 +80,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 
     public static TagInfo toTagInfo(Tag entity) {
         TagInfo dto = new TagInfo();
-        BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type","ref"});
+        BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type","reference"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
         dto.setReferenceId(entity.getReferennce().getReferenceId());
@@ -129,17 +129,15 @@ public class CommentServiceAssembler extends BaseAssembler {
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
         
         Tag entity = new Tag();
-        BeanUtils.copyProperties(dto,entity,new String[]{"ref","type","attributes","metaInfo"});
+        BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes","metaInfo"});
         entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
         
-        Reference ref = dao.fetch(Reference.class,dto.getReferenceId());
-        if (ref == null) {
+        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
+        if (reference == null) {
             throw new InvalidParameterException(
                     "Reference does not exist for id: " + dto.getReferenceId());
         }
-        
-        entity.setReference(ref);
-        
+        entity.setReference(reference);
         TagType type = dao.fetch(TagType.class,dto.getType());
         if (type == null) {
             throw new InvalidParameterException(
