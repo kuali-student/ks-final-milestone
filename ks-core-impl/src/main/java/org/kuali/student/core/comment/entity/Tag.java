@@ -24,11 +24,12 @@ import org.kuali.student.core.entity.MetaEntity;
 
 
 
+
 @Entity
 @Table(name = "KSCO_TAG")
 @NamedQueries( {
-        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.ref r1 WHERE tag.ref.id =:refId AND r1.type.id=:refTypeId"),
-        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.ref r1 WHERE tag.ref.id =:refId AND r1.type.id=:refTypeId AND tag.type.id=:tagTypeId")})
+        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId"),
+        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId AND tag.type.id=:tagTypeId")})
 public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
     @Id
@@ -47,8 +48,8 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     
     
     @ManyToOne
-    @JoinColumn(name = "REF")
-    private Reference ref;
+    @JoinColumn(name = "REFERENCE")
+    private Reference reference;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -117,11 +118,11 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     
     
     public Reference getReferennce(){
-        return ref;
+        return reference;
     }
     
-    public void setReference(Reference ref){
-        this.ref=ref;
+    public void setReference(Reference reference){
+        this.reference=reference;
     }
     
 

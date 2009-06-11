@@ -15,10 +15,11 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.junit.Test;
@@ -28,11 +29,11 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -75,14 +76,8 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
-
-    @Test
-    public void testGetCommentTypes() throws OperationFailedException {
-    	List<CommentTypeInfo> commentTypes = client.getCommentTypes();
-    	assertNotNull(commentTypes);
-    	assertEquals(2, commentTypes.size());
-    }
-
+    
+    
     @Test
     public void testGetTag() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TagInfo tagInfo = client.getTag("Comment-TAG-1");
@@ -99,29 +94,48 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
-
-
-        List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
-        assertNotNull(tagInfos1);
-
-        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
-        assertNotNull(tagInfos2);
-
+        
+        
+//        List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
+//        assertNotNull(tagInfos1);
+//        
+//        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
+//        assertNotNull(tagInfos2);
+       
     }
-
-
+    
+    
     @Test
     public void testGetTagType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<TagTypeInfo> tagTypeInfos = client.getTagTypes();
         assertNotNull(tagTypeInfos);
-
+       
     }
-
-    @Test
-    public void testGetReferenceTypes() throws OperationFailedException {
-    	List<ReferenceTypeInfo> referenceTypeInfos = client.getReferenceTypes();
-    	assertNotNull(referenceTypeInfos);
-    	assertEquals(2, referenceTypeInfos.size());
-    }
+    
+//    @Test
+//    public void testCreateDeleteTag() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+//        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+//        TagInfo tagInfo= new TagInfo();
+//        
+////        tagInfo.setId("Comment-TAG-3");
+//        tagInfo.setNamespace("UnitedStates3");
+//        tagInfo.setPredicate("era3");
+//        tagInfo.setValue("20thCentury");
+//        tagInfo.setEffectiveDate(df.parse("20090101"));
+//        tagInfo.setExpirationDate(df.parse("21001231"));
+//        tagInfo.setReferenceId("");
+//        tagInfo.setType("tagType.default");
+//        
+//        TagInfo createdTagInfo = client.addTag("REF-1", "REF-TYPE-0", tagInfo);
+//        
+//        try {
+//            TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
+//        } catch (DoesNotExistException e) {
+//            e.printStackTrace();
+//        }
+//        
+//        
+//        
+//    }
 }

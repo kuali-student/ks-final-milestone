@@ -23,7 +23,6 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.entity.Reference;
-import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 
