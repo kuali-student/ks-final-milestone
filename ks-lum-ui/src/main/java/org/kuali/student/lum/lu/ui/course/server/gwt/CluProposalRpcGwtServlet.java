@@ -312,7 +312,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
         
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
-		return getProposal(docResponse.getAppDocId());
+		CluProposal proposal = getProposal(docResponse.getAppDocId());
+		proposal.setWorkflowId(docId);
+		return proposal;
 	}
 	
 	public String getActionsRequested(CluProposal cluProposal) {

@@ -5,7 +5,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpcWindow;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -88,6 +87,11 @@ public class LUMApplicationManager extends Controller{
         }
     }
 
+    //Accessor for get view
+    public <V extends Enum<?>> View getControllerView(V viewType){
+    	return this.getView(viewType);
+    }
+    
     @Override
     protected void hideView(View view) {
         viewPanel.clear();
