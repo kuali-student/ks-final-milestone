@@ -20,10 +20,12 @@ import java.util.List;
 
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
+import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -122,6 +124,24 @@ public class CommentServiceAssembler extends BaseAssembler {
 
         return dto;
     }
+
+	public static List<ReferenceTypeInfo> toReferenceTypeInfos(
+			List<ReferenceType> entities) {
+	       List<ReferenceTypeInfo> dtos = new ArrayList<ReferenceTypeInfo>(entities.size());
+	        for (ReferenceType entity : entities) {
+	            dtos.add(toReferenceTypeInfo(entity));
+	        }
+	        return dtos;
+	}
+
+	private static ReferenceTypeInfo toReferenceTypeInfo(ReferenceType entity) {
+		ReferenceTypeInfo dto = new ReferenceTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
+	}
 
 
 }

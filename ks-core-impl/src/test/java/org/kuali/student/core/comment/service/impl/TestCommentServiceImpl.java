@@ -29,6 +29,7 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
@@ -115,5 +116,12 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         List<TagTypeInfo> tagTypeInfos = client.getTagTypes();
         assertNotNull(tagTypeInfos);
 
+    }
+
+    @Test
+    public void testGetReferenceTypes() throws OperationFailedException {
+    	List<ReferenceTypeInfo> referenceTypeInfos = client.getReferenceTypes();
+    	assertNotNull(referenceTypeInfos);
+    	assertEquals(2, referenceTypeInfos.size());
     }
 }
