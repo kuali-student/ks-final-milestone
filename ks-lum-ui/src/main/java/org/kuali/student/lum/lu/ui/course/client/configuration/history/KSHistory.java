@@ -22,6 +22,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 
 public class KSHistory implements ValueChangeHandler<String> {
     
@@ -172,9 +173,12 @@ public class KSHistory implements ValueChangeHandler<String> {
         for (Map.Entry<String, List<String>> entry : out.entrySet()) {
           entry.setValue(Collections.unmodifiableList(entry.getValue()));
         }
-
+        
+        //Put in all the query params too
+        out.putAll(Window.Location.getParameterMap());
+        
         out = Collections.unmodifiableMap(out);
-
+        
         return out;
       }
 
