@@ -16,6 +16,8 @@
 package org.kuali.student.common.ui.client.event;
 
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
+import org.kuali.student.common.ui.client.mvc.EventStateCallback;
+import org.kuali.student.common.ui.client.mvc.HasEventState;
 
 /**
  * A save event with user defined save types. This allows a single widget to handle
@@ -24,10 +26,12 @@ import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
  * @author Kuali Student Team
  *
  */
-public class SaveEvent<SaveType extends Enum<?>> extends ApplicationEvent<SaveHandler> {
+public class SaveEvent<SaveType extends Enum<?>> extends ApplicationEvent<SaveHandler> implements HasEventState{
     public static final Type<SaveHandler> TYPE = new Type<SaveHandler>();
     
     private SaveType saveType;
+    private EventStateCallback callback;
+    private EventState eventState;
     
     public SaveEvent(){
         
@@ -51,4 +55,25 @@ public class SaveEvent<SaveType extends Enum<?>> extends ApplicationEvent<SaveHa
         return this.saveType;
     }
 
+    public EventStateCallback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(EventStateCallback callback) {
+        this.callback = callback;
+    }
+
+    public void setEventState(EventState state){
+        this.eventState = state;
+    }
+    
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.HasEventState#getEventState()
+     */
+    @Override
+    public EventState getEventState() {
+        return this.eventState;
+    }
+
+    
 }

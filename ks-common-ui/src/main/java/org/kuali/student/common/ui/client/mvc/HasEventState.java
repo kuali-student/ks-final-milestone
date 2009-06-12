@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.ui.client.event;
-
-import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
+package org.kuali.student.common.ui.client.mvc;
 
 /**
- * A save handler should be implemented to carry out a save operation in response
- * to a save event.  A SaveEvent will have an EventHandlerCallback, which should
- * be invoked upon save complete action to notify widget that fired the event of
- * a success/failed save action. 
+ * An event that wishes to provide the state of an event should implement
+ * the HasEventState interface.
  * 
  * @author Kuali Student Team
  *
  */
-public interface SaveHandler extends ApplicationEventHandler{
-    public void onSave(SaveEvent saveEvent);
+public interface HasEventState {
+
+    public enum EventState{SUCCESS, FAILURE};
+    
+    public EventState getEventState();
 }
