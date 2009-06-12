@@ -106,7 +106,7 @@ public class KSHistory implements ValueChangeHandler<String> {
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
         final Map<String, List<String>> params = buildListParamMap(event.getValue());
-        params.putAll(Window.Location.getParameterMap());
+        
         if(params.get(CONTROLLER_KEY) != null && !params.get(CONTROLLER_KEY).isEmpty()) {
             DeferredCommand.addCommand(new Command() {
                 @Override
@@ -121,9 +121,17 @@ public class KSHistory implements ValueChangeHandler<String> {
                         String id = params.get(IDABLE_KEY).get(0);
                         View lumView = ((LUMApplicationManager)controller).getControllerView(view);
                         ((LUCreateUpdateView)lumView).setId(id);
+                    }else if(Window.Location.getParameterMap().get(IDABLE_KEY) != null && !Window.Location.getParameterMap().get(IDABLE_KEY).isEmpty()){
+                        String id = Window.Location.getParameterMap().get(IDABLE_KEY).get(0);
+                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
+                        ((LUCreateUpdateView)lumView).setId(id);
                     }
                     if(params.get(DOCIDABLE_KEY) != null && !params.get(DOCIDABLE_KEY).isEmpty()) {
                         String id = params.get(DOCIDABLE_KEY).get(0);
+                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
+                        ((LUCreateUpdateView)lumView).setId(id);
+                    }else if(Window.Location.getParameterMap().get(DOCIDABLE_KEY) != null && !Window.Location.getParameterMap().get(DOCIDABLE_KEY).isEmpty()) {
+                        String id = Window.Location.getParameterMap().get(DOCIDABLE_KEY).get(0);
                         View lumView = ((LUMApplicationManager)controller).getControllerView(view);
                         ((LUCreateUpdateView)lumView).setId(id);
                     }
