@@ -39,7 +39,7 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
 
     @Column(name = "NAME_SPACE")
-    private String nameSpace;
+    private String namespace;
     
     @Column(name = "PREDICATE")
     private String predicate;
@@ -93,12 +93,12 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     }
     
 
-    public String getNameSpace(){
-        return nameSpace;
+    public String getNamespace(){
+        return namespace;
     }
     
-    public void setNameSpace(String nameSpace){
-        this.nameSpace=nameSpace;
+    public void setNamespace(String namespace){
+        this.namespace=namespace;
     }
     
     public String getPredicate(){
