@@ -63,8 +63,30 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        commentInfo.setReferenceTypeKey(referenceTypeKey);
+        commentInfo.setReferenceId(referenceId);
+        Reference reference=null; 
+        reference = commentDao.getReference(referenceId, referenceTypeKey);
+        if(reference==null){
+            reference = new Reference();
+            reference.setReferenceId(referenceId);
+            reference.setReferenceType(referenceTypeKey);
+            commentDao.create(reference);
+        }
+        
+        Comment comment = null;
+        
+        try {
+            comment = CommentServiceAssembler.toComment(false, commentInfo, commentDao);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+        
+        commentDao.create(comment);
+        
+        CommentInfo createdCommentInfo = CommentServiceAssembler.toCommentInfo(comment);
+        
+        return createdCommentInfo;
     }
 
     /**
@@ -141,8 +163,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<CommentInfo> getComments(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<Comment> comments = commentDao.getComments(referenceId, referenceTypeKey);
+        return CommentServiceAssembler.toCommentInfos(comments);
     }
 
     /**
@@ -152,8 +174,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<CommentInfo> getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<Comment> comments = commentDao.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
+        return CommentServiceAssembler.toCommentInfos(comments);
     }
 
     /**
@@ -163,7 +185,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
+        
         return null;
     }
 

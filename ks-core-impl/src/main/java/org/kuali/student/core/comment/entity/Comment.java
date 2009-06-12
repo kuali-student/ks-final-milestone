@@ -25,6 +25,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -44,6 +46,11 @@ import org.kuali.student.core.entity.RichText;
  */
 @Entity
 @Table(name = "KSCO_COMMENT")
+@NamedQueries( {
+        @NamedQuery(name = "Comment.getComments", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType=:refTypeId"),
+        @NamedQuery(name = "Comment.getComment", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId"),
+        @NamedQuery(name = "Comment.getCommentsByType", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType=:refTypeId OR tag.type.id=:tagTypeId"),
+        @NamedQuery(name = "Comment.getCommentsByRefId", query="SELECT comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId=:refId")})
 public class Comment extends MetaEntity implements AttributeOwner<CommentAttribute> {
     private static final long serialVersionUID = 1L;
 

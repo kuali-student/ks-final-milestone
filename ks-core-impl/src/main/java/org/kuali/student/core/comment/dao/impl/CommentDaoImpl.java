@@ -23,6 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.core.comment.dao.CommentDao;
+import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
@@ -40,6 +41,23 @@ public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements Com
         super.setEm(em);
     }
     
+    
+    public List<Comment> getComments(String referenceId, String referenceTypeKey){
+        Query query = em.createNamedQuery("Comment.getComments");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceTypeKey);
+        List<Comment> comments = query.getResultList();
+        return comments;
+    }
+    
+    public List<Comment> getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey ){
+        Query query = em.createNamedQuery("Comment.getCommentsByType");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceTypeKey);
+        query.setParameter("tagTypeId", commentTypeKey);
+        List<Comment> comments = query.getResultList();
+        return comments;
+    }
     public Tag getTag(String referenceId, String referenceTypeKey){
         Query query = em.createNamedQuery("Tag.getTag");
         query.setParameter("refId", referenceId);

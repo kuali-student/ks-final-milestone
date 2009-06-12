@@ -24,6 +24,7 @@ import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
+import org.kuali.student.core.comment.entity.CommentAttribute;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
@@ -126,10 +127,29 @@ public class CommentServiceAssembler extends BaseAssembler {
         return null;
     }
     
+    public static Comment toComment(boolean isUpdate,CommentInfo dto,CommentDao dao) throws InvalidParameterException, DoesNotExistException{
+        
+        Comment entity = new Comment();
+        BeanUtils.copyProperties(dto,entity,new String[]{"reference","commentText", "attributes", "type"});
+        entity.setAttributes(toGenericAttributes(CommentAttribute.class,dto.getAttributes(),entity,dao));
+        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
+        if (reference == null) {
+            throw new InvalidParameterException(
+                    "Reference does not exist for id: " + dto.getReferenceId());
+        }
+        entity.setReference(reference);
+        CommentType type = dao.fetch(CommentType.class,dto.getType());
+        if (type == null) {
+            throw new InvalidParameterException(
+                    "Tag Type does not exist for id: " + dto.getType());
+        }
+        entity.setType(type);
+        return entity;
+    }
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
         
         Tag entity = new Tag();
-        BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes","metaInfo"});
+        BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes"});
         entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
         
         Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
