@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -32,6 +33,7 @@ import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -132,11 +134,26 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         
         try {
             TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
+            assertEquals(tagInfoTest.getId(), createdTagInfo.getId());
         } catch (DoesNotExistException e) {
             e.printStackTrace();
         }
         
+        assertEquals("UnitedStates3",createdTagInfo.getNamespace());
+        assertEquals("tagType.default", createdTagInfo.getType());
+        assertEquals("20thCentury",createdTagInfo.getValue());
+        assertEquals("era3",createdTagInfo.getPredicate());
         
+     // now test remove (and clean up changes made)
+        StatusInfo si;
+        String tagRefId = createdTagInfo.getReferenceId();
+        String tagRefType = createdTagInfo.getReferenceTypeKey();
+        try {
+            si = client.removeTag(null, tagRefId, tagRefType);
+            assertTrue(si.getSuccess());
+        } catch (DoesNotExistException e) {
+            fail("CommentService.removeTag() failed removing just-created Tag");
+        }
         
     }
 }
