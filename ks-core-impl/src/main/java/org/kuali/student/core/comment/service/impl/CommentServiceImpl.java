@@ -18,6 +18,7 @@ package org.kuali.student.core.comment.service.impl;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.persistence.NoResultException;
 
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
@@ -239,21 +240,29 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * This overridden method ...
+     * @throws DoesNotExistException 
      *
      * @see org.kuali.student.core.comment.service.CommentService#removeTag(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public StatusInfo removeTag(String tagId, String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo removeTag(String tagId, String referenceId, String referenceTypeKey) throws  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         try{
             checkForMissingParameter(tagId, "tagId");
             commentDao.delete(Tag.class, tagId);
             return  new StatusInfo();
         }
         catch(MissingParameterException mpe){
-            List<Tag> tags = commentDao.getTags(referenceId, referenceTypeKey);
-            for(Tag tag:tags){
-                commentDao.delete(tag);
+            Tag tag = null;
+            try{
+                tag = commentDao.getTag(referenceId, referenceTypeKey);
+                if(tag==null){
+                    throw new DoesNotExistException();
+                }
             }
+            catch(NoResultException nre){
+                throw new DoesNotExistException();
+            }
+            commentDao.delete(tag);
             return  new StatusInfo();
         }
     }

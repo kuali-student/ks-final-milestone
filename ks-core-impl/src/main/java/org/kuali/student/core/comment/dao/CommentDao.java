@@ -28,6 +28,7 @@ import org.kuali.student.core.dao.CrudDao;
  *
  */
 public interface CommentDao extends CrudDao {
+    public Tag getTag(String referenceId, String referenceTypeKey);
     public List<Tag> getTags(String referenceId, String referenceTypeKey);
     public List<Tag> getTagsByRefId(String referenceId);
     public List<Tag> getTagsByType(String referenceId, String referenceTypeKey, String tagTypeKey );

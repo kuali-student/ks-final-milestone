@@ -40,7 +40,13 @@ public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements Com
         super.setEm(em);
     }
     
-    
+    public Tag getTag(String referenceId, String referenceTypeKey){
+        Query query = em.createNamedQuery("Tag.getTag");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceTypeKey);
+        Tag tag = (Tag)query.getSingleResult();
+        return tag;
+    }
     public List<Tag> getTags(String referenceId, String referenceTypeKey){
         Query query = em.createNamedQuery("Tag.getTags");
         query.setParameter("refId", referenceId);

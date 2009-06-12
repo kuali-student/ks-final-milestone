@@ -131,7 +131,6 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         tagInfo.setType("tagType.default");
         
         TagInfo createdTagInfo = client.addTag("REF-4", "REF-TYPE-0", tagInfo);
-        
         try {
             TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
             assertEquals(tagInfoTest.getId(), createdTagInfo.getId());
@@ -143,6 +142,8 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         assertEquals("tagType.default", createdTagInfo.getType());
         assertEquals("20thCentury",createdTagInfo.getValue());
         assertEquals("era3",createdTagInfo.getPredicate());
+        assertEquals(df.parse("20090101"),createdTagInfo.getEffectiveDate());
+        assertEquals(df.parse("21001231"),createdTagInfo.getExpirationDate());
         
      // now test remove (and clean up changes made)
         StatusInfo si;
@@ -153,6 +154,52 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
             assertTrue(si.getSuccess());
         } catch (DoesNotExistException e) {
             fail("CommentService.removeTag() failed removing just-created Tag");
+        }
+        
+        try {
+            client.removeTag(null, tagRefId, tagRefType);
+            fail("CommentService.removeTag() of a deleted Comment did not throw DoesNotExistException as expected");
+        } catch (DoesNotExistException e) {
+        }
+        
+    }
+    
+    @Test
+    public void testCreateDeleteTags() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        TagInfo tagInfo= new TagInfo();
+        
+//        tagInfo.setId("Comment-TAG-3");
+        tagInfo.setNamespace("UnitedStates3");
+        tagInfo.setPredicate("era3");
+        tagInfo.setValue("20thCentury");
+        tagInfo.setEffectiveDate(df.parse("20090101"));
+        tagInfo.setExpirationDate(df.parse("21001231"));
+        tagInfo.setReferenceId("");
+        tagInfo.setReferenceTypeKey("");
+        tagInfo.setType("tagType.default");
+        
+        client.addTag("REF-1", "REF-TYPE-0", tagInfo);
+        client.addTag("REF-1", "REF-TYPE-0", tagInfo);
+        client.addTag("REF-1", "REF-TYPE-0", tagInfo);
+        
+        
+              
+     // now test remove multiple tags linked to the same reference(and clean up changes made)
+        StatusInfo si;
+        String tagRefId = "REF-1"; 
+        String tagRefType = "REF-TYPE-0";
+        try {
+            si = client.removeTags(tagRefId);
+            assertTrue(si.getSuccess());
+        } catch (DoesNotExistException e) {
+            fail("CommentService.removeTags() failed removing just-created Tags");
+        }
+        
+        try {
+            client.removeTag(null, tagRefId, tagRefType);
+            fail("CommentService.removeTags() of a deleted Comment did not throw DoesNotExistException as expected");
+        } catch (DoesNotExistException e) {
         }
         
     }

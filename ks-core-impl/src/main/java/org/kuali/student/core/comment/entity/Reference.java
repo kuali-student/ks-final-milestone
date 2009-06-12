@@ -11,12 +11,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
 
 
 
 @Entity
-@Table(name = "KSCO_REF")
+@Table(name = "KSCO_REF", 
+        uniqueConstraints= @UniqueConstraint(columnNames={"REFERENCE_ID", "REFERENCE_TYPE"}))
 @NamedQueries( {
         @NamedQuery(name = "Reference.getReference", query = "SELECT  reference FROM Reference reference WHERE reference.referenceId =:refId AND reference.referenceType=:refTypeId")})
 public class Reference  {
