@@ -42,6 +42,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescr
 import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.modaldialogpanel.ModalDialogPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.selectable.PageSelectableExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.selectable.ScrollPickListExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.pagetable.PageTableExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.picklist.PickListDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.progressindicator.ProgressIndicatorExampleDescriptor;
@@ -55,6 +56,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.scrolltable.ScrollTable
 import org.kuali.student.ui.kitchensink.client.kscommons.selectabletable.SelectableTableDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.sidebar.SidebarExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.suggestbox.SuggestBoxExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.suggestboxpicker.ScrollSuggestBoxPickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.suggestboxpicker.SuggestBoxPickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.tabpanel.TabPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
@@ -213,6 +215,7 @@ public class KitchenSinkMain extends Composite {
 
         initExample(ksList, new PageSelectableExampleDescriptor());
         initExample(ksList, new ScrollSelectableExampleDescriptor());
+        initExample(ksList, new ScrollPickListExampleDescriptor());
         initExample(ksList, new SelectableTableDescriptor());
         initExample(ksList, new PickListDescriptor());
         initExample(ksList, new RadioButtonListDescriptor());
@@ -221,6 +224,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksSearch, new SuggestBoxExampleDescriptor());
         initExample(ksSearch, new AdvancedSearchWindowExampleDescriptor());
         initExample(ksSearch, new SuggestBoxPickerExampleDescriptor());
+        initExample(ksSearch, new ScrollSuggestBoxPickerExampleDescriptor());
         
         initExample(ksRule, new RuleTableExampleDescriptor());
         

@@ -22,26 +22,16 @@ import java.util.List;
 
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.pagetable.AbstractTableSelectable;
+import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
+import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.pagetable.TableSelectionToLabelHandler;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.FirstNameColumnDefinition;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.LastNameColumnDefinition;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.Person;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.PersonDTOs;
 
-
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.CachedTableModel;
-import com.google.gwt.gen2.table.client.ColumnDefinition;
-import com.google.gwt.gen2.table.client.DefaultTableDefinition;
-import com.google.gwt.gen2.table.client.FixedWidthGrid;
-import com.google.gwt.gen2.table.client.PagingOptions;
-import com.google.gwt.gen2.table.client.PagingScrollTable;
-import com.google.gwt.gen2.table.client.TableDefinition;
-import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
-import com.google.gwt.gen2.table.override.client.FlexTable;
-import com.google.gwt.gen2.table.override.client.FlexTable.FlexCellFormatter;
-import com.google.gwt.gen2.table.override.client.HTMLTable.ColumnFormatter;
 
 /**
  * An example of a scroll table that extends 
@@ -55,127 +45,33 @@ import com.google.gwt.gen2.table.override.client.HTMLTable.ColumnFormatter;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
-public class ScrollSelectableExample extends Composite {
-    final FlexTable tableAndSelection = new FlexTable();
-    final VerticalPanel main = new VerticalPanel();
-    final HorizontalPanel pagingAndSelection = new HorizontalPanel();
-    
-    PagingScrollTable<Person> pagingScrollTable;
-    
-    final KSLabel label = new KSLabel("Scrollable table with sortable columns" +
-            "\nthat displays multi row selections: ", false);
-    private People tableModel;
-
-    
-    /**
-     * The {@link DefaultTableDefinition}.
-     */
-    private DefaultTableDefinition<Person> tableDefinition = null;
-    private TableSelectionToLabelHandler handler = null;
-    final KSLabel selection = new KSLabel("Selected");
-
+public class ScrollSelectableExample extends AbstractTableSelectable<Person> {
+   
+    protected KSLabel label;
+   
     public ScrollSelectableExample() {
-
-        createTableModel();
-        TableDefinition<Person> tableDef = createTableDefinition();
-        pagingScrollTable = new PagingScrollTable<Person>(tableModel,tableDef);
-        pagingScrollTable.setEmptyTableWidget(new HTML(
-            "There is no data to display"));
-        
-        FixedWidthGrid dataTable = pagingScrollTable.getDataTable();
-        //dataTable.setSelectionPolicy(SelectionPolicy.ONE_ROW);
-        pagingScrollTable.setPageSize(tableModel.getRowCount());
-        handler = new TableSelectionToLabelHandler(dataTable,selection);
-        dataTable.addRowSelectionHandler(handler);
-        int tableWidth = 200;
-        pagingScrollTable.setPixelSize(tableWidth,200);//FIXME workaround for incubator bug
-        //Incubator Issue 266 workaround to set column width
-        int column = 0;
-        for(Integer width :colPxWidths) {
-            pagingScrollTable.setColumnWidth(column, width);
-            column++;
-        }
+        super();
         main.addStyleName(STYLE_EXAMPLE);
-
+        label = new KSLabel("Scrollable table with sortable columns" +
+                "\nthat displays multi row selections: ", false);
+        
         main.add(label);
-        PagingOptions pagingOptions = new PagingOptions(pagingScrollTable); 
-        pagingOptions.setPixelSize(tableWidth, pagingOptions.getOffsetHeight());
-        int row = 0;
-        tableAndSelection.insertRow(row);
-        tableAndSelection.insertCell(row, 1);
-        tableAndSelection.setWidget(row, 1, selection);
-        tableAndSelection.insertCell(row, 0);
-        tableAndSelection.setWidget(row, 0, pagingScrollTable);
-
-        main.add(tableAndSelection);
+        pagingScrollTable = new PagingScrollTableBuilder<Person>().tablePixelSize(220, 200).
+            columnDefinitions(createColumnDefinitions()).
+            build(new GenericTableModel<Person>(new PersonDTOs().getPersons()));
+        pagingScrollTable.getDataTable().addRowSelectionHandler(new TableSelectionToLabelHandler(pagingScrollTable.getDataTable(),selection));
+        
+        main.add(createTableAndSelectionPanel(null));
         super.initWidget(main);
     }
-
-  
-    private void createTableModel() {
-        tableModel = new People();
-
-    }
-    private List<Integer> colPxWidths = new ArrayList<Integer>();
-    private TableDefinition<Person> createTableDefinition() {
-        tableDefinition = new DefaultTableDefinition<Person>();
-        int guessCharWidth = 9;//Guess how many pixels wide a header string is, to set min column width
-        
+    @Override
+    protected List<AbstractColumnDefinition<Person, ?>> createColumnDefinitions() {
+        List<AbstractColumnDefinition<Person, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<Person, ?>>();
         String firstNameHdr = "First Name";
-        PeopleColumnDefinition<String> columnDefFirstName = new PeopleColumnDefinition<String>(firstNameHdr ){
-
-                    @Override
-                    public String getCellValue(Person rowValue) {        
-                        return rowValue.getFirstName();
-                    }
-
-                    @Override
-                    public void setCellValue(Person rowValue, String cellValue) {
-                        rowValue.setFirstName(cellValue);   
-                    }
-        };
-        columnDefFirstName.setMinimumColumnWidth(firstNameHdr.length());
-        columnDefFirstName.setPreferredColumnWidth(firstNameHdr.length() * guessCharWidth);//Incubator Issue 266 no effect
-        colPxWidths.add(firstNameHdr.length() * guessCharWidth);//Incubator Issue 266 workaround to set column width
-        columnDefFirstName.setColumnSortable(true);
-        tableDefinition.addColumnDefinition(columnDefFirstName);
+        columnDefs.add((AbstractColumnDefinition<Person, ?>) new FirstNameColumnDefinition(firstNameHdr));
         
         String lastNameHdr = "Last Name";
-        PeopleColumnDefinition<String> columnDefLastName = new PeopleColumnDefinition<String>(lastNameHdr){
-
-                 @Override
-                 public String getCellValue(Person rowValue) {        
-                     return rowValue.getLastName();
-                 }
-
-                 @Override
-                 public void setCellValue(Person rowValue, String cellValue) {
-                     rowValue.setLastName(cellValue);   
-                 }
-        };
-        columnDefLastName.setMinimumColumnWidth(lastNameHdr.length());
-        columnDefLastName.setPreferredColumnWidth(lastNameHdr.length() * guessCharWidth);//Incubator Issue 266 no effect
-        colPxWidths.add(lastNameHdr.length() * guessCharWidth);//Incubator Issue 266 workaround to set column width
-        columnDefLastName.setColumnSortable(true);
-        tableDefinition.addColumnDefinition(columnDefLastName);
-        return tableDefinition; 
+        columnDefs.add((AbstractColumnDefinition<Person, ?>) new LastNameColumnDefinition(lastNameHdr));
+        return columnDefs; 
     }
-    
-    /**
-     * @return the tableDefinition
-     */
-    public DefaultTableDefinition<Person> getTableDefinition() {
-        return tableDefinition;
-    }
-    /**
-     * @return the tableModel
-     */
-    public People getTableModel() {
-        return tableModel;
-    }
-
-    public void insertDataRow(int beforeRow) {
-        tableModel.insertRow(beforeRow);
-    }
-
 }

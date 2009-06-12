@@ -28,7 +28,7 @@ public class ButtonExample extends Composite {
         buttonPanel.add(title);
         buttonPanel.add(button1);
         
-        imageButton.setImage(KSImages.INSTANCE.okIcon().createImage());
+        imageButton.setImage(KSImages.INSTANCE.okIcon().createImage(), KSButton.ButtonImageAlign.RIGHT);
         buttonPanel.add(imageButton);
         
         buttonPanel.addStyleName(STYLE_EXAMPLE);
