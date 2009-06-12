@@ -5,6 +5,8 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
+import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
@@ -19,6 +21,7 @@ import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -57,6 +60,11 @@ public class LUMApplicationManager extends Controller{
                     modifyView.setId(selectedIds.get(0));
                 }
                 showView(event.getViewType());  
+            }
+        });
+        addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
+            public void onLogout(LogoutEvent event) {
+                Window.Location.assign("/j_spring_security_logout");
             }
         });
     }
@@ -106,7 +114,17 @@ public class LUMApplicationManager extends Controller{
 
     @Override
     public void showDefaultView() {
-        this.showView(LUMViews.HOME_MENU);
+    	String docId=Window.Location.getParameter("docId");
+    	if(docId!=null){
+            if (modifyView == null){
+                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+            }
+            modifyView.setId(docId);
+            this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
+    	}
+    	else{
+    		this.showView(LUMViews.HOME_MENU);
+    	}
     }
 
     public Class<? extends Enum<?>> getViewsEnum() {

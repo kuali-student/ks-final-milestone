@@ -23,7 +23,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
-import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -50,8 +49,10 @@ import org.w3c.dom.Text;
 public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
     private static final long serialVersionUID = 1L;
+    private static final String DEFAULT_USER_ID = "user1";
     private SimpleDocumentActionsWebService simpleDocService; 
-    private WorkflowUtility workflowUtilityService;
+    private SimpleWorkflowUtility workflowUtilityService;
+    
     
     private Map<String, ProposalInfo> getProposalInfoMap() {
         Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
@@ -257,7 +258,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             
             //get a user name
-            String username="admin";//FIXME this is bad, need to find some kind of mock security context
+            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
             Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
             if(auth!=null){
             	Object obj = auth.getPrincipal();
@@ -304,7 +305,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireSimpleDocService();
 		
         //get a user name
-        String username="admin";//FIXME this is bad, need to find some kind of mock security context
+        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
         if(auth!=null){
         	Object obj = auth.getPrincipal();
@@ -326,7 +327,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireWorkflowUtilityService();
 		
         //get a user name
-        String username="admin";//FIXME this is bad, need to find some kind of mock security context
+        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
         if(auth!=null){
         	Object obj = auth.getPrincipal();
@@ -338,6 +339,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
         
 		//Build up a string of actions requested from the attribute set.  The actions can be F,A,C,K. examples are "A" "AF" "FCK"
+        System.out.println("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
         AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
         String actionsRequested = "";
         for(Map.Entry<String,String> entry:results.entrySet()){
@@ -356,7 +358,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		try{
 			
             //get a user name
-            String username="admin";//FIXME this is bad, need to find some kind of mock security context
+            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
             Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
             if(auth!=null){
             	Object obj = auth.getPrincipal();
@@ -402,7 +404,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		try{
 			
             //get a user name
-            String username="admin";//FIXME this is bad, need to find some kind of mock security context
+            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
             Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
             if(auth!=null){
             	Object obj = auth.getPrincipal();
@@ -447,23 +449,28 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		if(workflowUtilityService==null){
 			try{
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
-				factory.setServiceClass(WorkflowUtility.class);
+				factory.setServiceClass(SimpleWorkflowUtility.class);
 				factory.setAddress("http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP");
 				factory.setWsdlLocation("http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP?wsdl");
 				factory.setServiceName(new QName("RICE", "WorkflowUtilityServiceSOAP"));
 				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
-				workflowUtilityService = (WorkflowUtility) factory.create();
+				factory.setEndpointName(new QName("RICE", "WorkflowUtilityPort"));
+				workflowUtilityService = (SimpleWorkflowUtility) factory.create();
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
 	}
 
+	private interface SimpleWorkflowUtility{
+		public AttributeSet getActionsRequested(String username, long docId);
+	}
+	
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}
 
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
+	public void setWorkflowUtilityService(SimpleWorkflowUtility workflowUtilityService) {
 		this.workflowUtilityService = workflowUtilityService;
 	}
 

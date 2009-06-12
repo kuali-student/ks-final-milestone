@@ -127,7 +127,7 @@ public class LUCreateUpdateView extends ViewComposite {
                 		//convert from docId to cluid if the id is not 36 chars
                 		cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(id, new AsyncCallback<CluProposal>(){
 							public void onFailure(Throwable caught) {
-								//TODO Error msg
+								Window.alert("GetCluProposal Failed");
 							}
 
 							public void onSuccess(final CluProposal cluProposal) {
@@ -136,7 +136,7 @@ public class LUCreateUpdateView extends ViewComposite {
 			                    //Load up workflow action buttons here
 			                    cluProposalRpcServiceAsync.getActionsRequested(cluProposal, new AsyncCallback<String>(){
 									public void onFailure(Throwable caught) {
-
+										Window.alert("GetActionResquested Failed");
 									}
 									public void onSuccess(String result) {
 										if(result!=null&&result.contains("A")){
