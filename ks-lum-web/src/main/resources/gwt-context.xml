@@ -82,6 +82,8 @@
 
 	<bean id="CluProposalRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
 		<property name="service" ref="luClient" />
+		<property name="simpleDocServiceAddress" value="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService"/>
+		<property name="workflowUtilityServiceAddress" value="http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP"/>
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
