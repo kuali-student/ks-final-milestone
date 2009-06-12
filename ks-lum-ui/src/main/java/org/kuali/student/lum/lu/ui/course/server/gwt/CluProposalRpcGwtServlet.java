@@ -53,6 +53,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private SimpleDocumentActionsWebService simpleDocService; 
     private SimpleWorkflowUtility workflowUtilityService;
     
+    private String simpleDocServiceAddress="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService";
+    private String workflowUtilityServiceAddress="http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP";
     
     private Map<String, ProposalInfo> getProposalInfoMap() {
         Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
@@ -433,8 +435,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			try{
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
 				factory.setServiceClass(SimpleDocumentActionsWebService.class);
-				factory.setAddress("http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService");
-				factory.setWsdlLocation("http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService?wsdl");
+				factory.setAddress(simpleDocServiceAddress);
+				factory.setWsdlLocation(simpleDocServiceAddress+"?wsdl");
 				factory.setServiceName(new QName("RICE", "simpleDocumentActionsService"));
 				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
 				simpleDocService = (SimpleDocumentActionsWebService) factory.create();
@@ -450,8 +452,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			try{
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
 				factory.setServiceClass(SimpleWorkflowUtility.class);
-				factory.setAddress("http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP");
-				factory.setWsdlLocation("http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP?wsdl");
+				factory.setAddress(workflowUtilityServiceAddress);
+				factory.setWsdlLocation(workflowUtilityServiceAddress+"?wsdl");
 				factory.setServiceName(new QName("RICE", "WorkflowUtilityServiceSOAP"));
 				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
 				factory.setEndpointName(new QName("RICE", "WorkflowUtilityPort"));
@@ -472,6 +474,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	public void setWorkflowUtilityService(SimpleWorkflowUtility workflowUtilityService) {
 		this.workflowUtilityService = workflowUtilityService;
+	}
+
+	public void setSimpleDocServiceAddress(String simpleDocServiceAddress) {
+		this.simpleDocServiceAddress = simpleDocServiceAddress;
+	}
+
+	public void setWorkflowUtilityServiceAddress(
+			String workflowUtilityServiceAddress) {
+		this.workflowUtilityServiceAddress = workflowUtilityServiceAddress;
 	}
 
 
