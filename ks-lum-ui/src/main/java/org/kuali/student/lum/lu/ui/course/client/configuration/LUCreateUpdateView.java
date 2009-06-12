@@ -6,7 +6,6 @@ import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.mvc.HasEventState.EventState;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
@@ -14,9 +13,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.WorkflowActionEvent;
-import org.kuali.student.lum.lu.ui.main.client.events.WorkflowActionHandler;
-import org.kuali.student.lum.lu.ui.main.client.events.WorkflowActionEvent.WorkflowAction;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,11 +32,8 @@ public class LUCreateUpdateView extends ViewComposite {
     private String luState;
     private String id = null;
     private boolean isCreate = false;
-    private KSButton wfApproveButton = new KSButton("APPROVE", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            getController().fireApplicationEvent(new WorkflowActionEvent(WorkflowAction.APPROVE));            
-        }        
-    });
+    private KSButton wfApproveButton;
+    private KSButton wfDisApproveButton;
 
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
@@ -75,20 +68,20 @@ public class LUCreateUpdateView extends ViewComposite {
 
         this.layout = defaultLayout;
         
-        if (isCreate){
-            //Add workflow buttons and workflow event handlers
-            layout.addButton(wfApproveButton);
-            controller.addApplicationEventHandler(WorkflowActionEvent.TYPE, 
-                    new WorkflowActionHandler(){
-
-                        @Override
-                        public void doWorkflowAction(WorkflowActionEvent event) {
-                            Window.alert("Approving workflow");
-                            event.setEventState(EventState.SUCCESS);
-                        }                
-                }
-            );
-        }
+//        if (isCreate){
+//            //Add workflow buttons and workflow event handlers
+//
+//            controller.addApplicationEventHandler(WorkflowActionEvent.TYPE, 
+//                    new WorkflowActionHandler(){
+//
+//                        @Override
+//                        public void doWorkflowAction(WorkflowActionEvent event) {
+//                            Window.alert("Approving workflow");
+//                            event.setEventState(EventState.SUCCESS);
+//                        }                
+//                }
+//            );
+//        }
     }
 
     @Override
@@ -126,7 +119,7 @@ public class LUCreateUpdateView extends ViewComposite {
 							}
 
 							public void onSuccess(CluProposal cluProposal) {
-			                    layout.setObject(cluProposal);                    
+			                    layout.setObject(cluProposal);
 			                    layout.render();
 							}	
                 		});
@@ -137,9 +130,58 @@ public class LUCreateUpdateView extends ViewComposite {
 								//TODO Error msg
 							}
 
-							public void onSuccess(CluProposal cluProposal) {
-			                    layout.setObject(cluProposal);
+							public void onSuccess(final CluProposal cluProposal) {
 			                    
+								layout.setObject(cluProposal);
+			                    //Load up workflow action buttons here
+			                    cluProposalRpcServiceAsync.getActionsRequested(cluProposal, new AsyncCallback<String>(){
+									public void onFailure(Throwable caught) {
+
+									}
+									public void onSuccess(String result) {
+										if(result!=null&&result.contains("A")){
+											wfApproveButton = new KSButton("APPROVE", new ClickHandler(){
+												public void onClick(ClickEvent event) {
+													cluProposalRpcServiceAsync.approveProposal(cluProposal, new AsyncCallback<Boolean>(){
+														public void onFailure(
+																Throwable caught) {
+															Window.alert("Error approving Proposal");
+														}
+														public void onSuccess(
+																Boolean result) {
+															Window.alert("Proposal was approved");
+															layout.removeButton(wfApproveButton);
+															layout.removeButton(wfDisApproveButton);
+														}
+														
+													});
+												}        
+											});
+											layout.addButton(wfApproveButton);
+										}
+										if(result!=null&&result.contains("D")){
+											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
+										        public void onClick(ClickEvent event) {
+													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
+														public void onFailure(
+																Throwable caught) {
+															Window.alert("Error disapproving Proposal");
+														}
+														public void onSuccess(
+																Boolean result) {
+															Window.alert("Proposal was disapproved");
+															layout.removeButton(wfApproveButton);
+															layout.removeButton(wfDisApproveButton);
+														}
+														
+													});
+										        }        
+										    });
+							            
+											layout.addButton(wfDisApproveButton);
+										}
+									}
+			                    });
 			                    layout.render();
 							}	
                 		});

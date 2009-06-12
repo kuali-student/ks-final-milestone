@@ -9,12 +9,9 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -22,15 +19,13 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 
 public class KSHistory implements ValueChangeHandler<String> {
     
     public static final String CONTROLLER_KEY = "view";
     public static final String LAYOUT_KEY = "section";
     public static final String IDABLE_KEY = "id";
-    public static final String DOCIDABLE_KEY = "docId";
-    
+
     private Controller controller;
     private Map<Enum<?>, ConfigurableLayout<?>> layoutMap;
     
@@ -105,46 +100,28 @@ public class KSHistory implements ValueChangeHandler<String> {
     
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
-        final Map<String, List<String>> params = buildListParamMap(event.getValue());
-        
+        Map<String, List<String>> params = buildListParamMap(event.getValue());
         if(params.get(CONTROLLER_KEY) != null && !params.get(CONTROLLER_KEY).isEmpty()) {
-            DeferredCommand.addCommand(new Command() {
-                @Override
-                public void execute() {
-                    Enum<?> view = null;
-                    try {
-                        view = valueOf(controller.getViewsEnum(), params.get(CONTROLLER_KEY).get(0)); //only assuming one value, hope this doesn't bite me later
-                    } catch(IllegalArgumentException e) {
-                        return; // i'm stopping if there isn't a valid view, even if other stuff is valid
-                    }
-                    if(params.get(IDABLE_KEY) != null && !params.get(IDABLE_KEY).isEmpty()) {
-                        String id = params.get(IDABLE_KEY).get(0);
-                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
-                        ((LUCreateUpdateView)lumView).setId(id);
-                    }else if(Window.Location.getParameterMap().get(IDABLE_KEY) != null && !Window.Location.getParameterMap().get(IDABLE_KEY).isEmpty()){
-                        String id = Window.Location.getParameterMap().get(IDABLE_KEY).get(0);
-                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
-                        ((LUCreateUpdateView)lumView).setId(id);
-                    }
-                    if(params.get(DOCIDABLE_KEY) != null && !params.get(DOCIDABLE_KEY).isEmpty()) {
-                        String id = params.get(DOCIDABLE_KEY).get(0);
-                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
-                        ((LUCreateUpdateView)lumView).setId(id);
-                    }else if(Window.Location.getParameterMap().get(DOCIDABLE_KEY) != null && !Window.Location.getParameterMap().get(DOCIDABLE_KEY).isEmpty()) {
-                        String id = Window.Location.getParameterMap().get(DOCIDABLE_KEY).get(0);
-                        View lumView = ((LUMApplicationManager)controller).getControllerView(view);
-                        ((LUCreateUpdateView)lumView).setId(id);
-                    }
-                    if(controller.getCurrentViewEnum() == null || !view.equals(controller.getCurrentViewEnum())) {
-                        controller.showView(view);
-                    }
-                    if(params.get(LAYOUT_KEY) != null && !params.get(LAYOUT_KEY).isEmpty()) {
-                        String path = params.get(LAYOUT_KEY).get(0);
-                        ConfigurableLayout<?> configurableLayout = layoutMap.get(view);
-                        if(configurableLayout instanceof DefaultCreateUpdateLayout)
-                            ((DefaultCreateUpdateLayout<?>)configurableLayout).selectSection(path); //probably should just be moved up to superclass
-                    }
-                }});
+            Enum<?> view = null;
+            try {
+                view = valueOf(controller.getViewsEnum(), params.get(CONTROLLER_KEY).get(0)); //only assuming one value, hope this doesn't bite me later
+            } catch(IllegalArgumentException e) {
+                return; // i'm stopping if there isn't a valid view, even if other stuff is valid
+            }
+            if(controller.getCurrentViewEnum() == null || !view.equals(controller.getCurrentViewEnum())) {
+                controller.showView(view);
+            }
+            if(params.get(IDABLE_KEY) != null && !params.get(IDABLE_KEY).isEmpty()) {
+                String id = params.get(IDABLE_KEY).get(0);
+                //TODO impl this better than setting id
+//                layout.getObject().setId(id); //commenting this line out since it's probably more trouble than good
+            }
+            if(params.get(LAYOUT_KEY) != null && !params.get(LAYOUT_KEY).isEmpty()) {
+                String path = params.get(LAYOUT_KEY).get(0);
+                ConfigurableLayout<?> configurableLayout = layoutMap.get(view);
+                if(configurableLayout instanceof DefaultCreateUpdateLayout)
+                    ((DefaultCreateUpdateLayout<?>)configurableLayout).selectSection(path); //probably should just be moved up to superclass
+            }
         }
     }
     
@@ -182,12 +159,9 @@ public class KSHistory implements ValueChangeHandler<String> {
         for (Map.Entry<String, List<String>> entry : out.entrySet()) {
           entry.setValue(Collections.unmodifiableList(entry.getValue()));
         }
-        
-        //Put in all the query params too
-        //out.putAll(Window.Location.getParameterMap());
-        
+
         out = Collections.unmodifiableMap(out);
-        
+
         return out;
       }
 
