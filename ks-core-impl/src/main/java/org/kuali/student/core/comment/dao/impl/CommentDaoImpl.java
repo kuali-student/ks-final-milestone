@@ -42,10 +42,26 @@ public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements Com
     }
     
     
+    public Comment getComment(String referenceId, String referenceTypeKey){
+        Query query = em.createNamedQuery("Comment.getComment");
+        query.setParameter("refId", referenceId);
+        query.setParameter("refTypeId", referenceTypeKey);
+        Comment comment = (Comment) query.getSingleResult();
+        return comment;
+        
+    }
+        
     public List<Comment> getComments(String referenceId, String referenceTypeKey){
         Query query = em.createNamedQuery("Comment.getComments");
         query.setParameter("refId", referenceId);
         query.setParameter("refTypeId", referenceTypeKey);
+        List<Comment> comments = query.getResultList();
+        return comments;
+    }
+    
+    public List<Comment> getCommentsByRefId(String referenceId){
+        Query query = em.createNamedQuery("Comment.getCommentsByRefId");
+        query.setParameter("refId", referenceId);
         List<Comment> comments = query.getResultList();
         return comments;
     }

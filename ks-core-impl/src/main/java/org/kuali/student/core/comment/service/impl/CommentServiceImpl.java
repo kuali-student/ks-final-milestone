@@ -245,8 +245,26 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        try{
+            checkForMissingParameter(commentId, "commentId");
+            commentDao.delete(Comment.class, commentId);
+            return  new StatusInfo();
+        }
+        catch(MissingParameterException mpe){
+            Comment comment = null;
+            try{
+                comment = commentDao.getComment(referenceId, referenceTypeKey);
+                if(comment==null){
+                    throw new DoesNotExistException();
+                }
+            }
+            catch(NoResultException nre){
+                throw new DoesNotExistException();
+            }
+            commentDao.delete(comment);
+            return  new StatusInfo();
+        }
+        
     }
 
     /**
@@ -256,8 +274,11 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public StatusInfo removeComments(String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<Comment> comments = commentDao.getCommentsByRefId(referenceId);
+        for(Comment comment:comments){
+            commentDao.delete(comment);
+        }   
+        return new StatusInfo();
     }
 
     /**
