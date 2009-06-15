@@ -20,12 +20,6 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
 		</dependency>
 	</dependencies>
 	
