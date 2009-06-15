@@ -1,3 +1,8 @@
+.LUMMain-Content {
+	width: 100%;
+	text-align: center;
+}
+
 .Course-Home-Menu-Item{
 	background-color: #dbdbdd;
 	background: url("images/Home-unselected-button.jpg") repeat-x 0 100%;
@@ -44,7 +49,10 @@
 .Course-Home-Main-Panel{
 	width: 555px;
 	height: 320px;
-	border: 1px solid #808080;
+	border: 1px solid #808080; 
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .Home-Description-Label{

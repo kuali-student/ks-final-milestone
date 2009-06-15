@@ -55,6 +55,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		
 	public DefaultCreateUpdateLayout() {
 		super.initWidget(panel);
+		panel.setWidth("100%");
 		panel.add(menuPanel);
 
 		VerticalPanel vPanel = new VerticalPanel();

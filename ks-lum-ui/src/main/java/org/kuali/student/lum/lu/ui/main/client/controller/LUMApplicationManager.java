@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.main.client.controller;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -30,6 +31,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUMApplicationManager extends Controller{
 
+    ApplicationComposite app = new ApplicationComposite();
+    
     private final SimplePanel viewPanel = new SimplePanel();
 
     private final View homeMenu = new HomeMenuController(this);
@@ -48,7 +51,9 @@ public class LUMApplicationManager extends Controller{
         super();
         loadDictionary();
         history = new KSHistory(this);
-        super.initWidget(viewPanel);
+        super.initWidget(app);
+        app.setContent(viewPanel);
+        viewPanel.addStyleName("LUMMain-Content");
     }
 
     protected void onLoad() {

@@ -2,7 +2,6 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 
 
-import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -25,7 +24,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUCreateUpdateView extends ViewComposite {
-    ApplicationComposite app = new ApplicationComposite();
     private final SimplePanel panel = new SimplePanel();
     private DefaultCreateUpdateLayout<CluProposal> layout;
     private String luType;
@@ -52,8 +50,8 @@ public class LUCreateUpdateView extends ViewComposite {
         this.luType = type;
         this.luState = state;
         this.isCreate = isCreate;
-        app.setContent(panel);
-        initWidget(app);
+        initWidget(panel);
+        panel.setWidth("100%");
 
         LULayoutFactory factory = new LULayoutFactory();
 
