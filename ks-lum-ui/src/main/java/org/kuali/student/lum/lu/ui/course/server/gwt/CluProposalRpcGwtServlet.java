@@ -431,6 +431,36 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return new Boolean(true);
 	}
 	
+
+	@Override
+	public Boolean acknowledgeProposal(CluProposal cluProposal) {
+		aquireSimpleDocService();
+		
+		try{
+			
+            //get a user name
+            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+            if(auth!=null){
+            	Object obj = auth.getPrincipal();
+            	if (obj instanceof UserDetails) {
+	            	username = ((UserDetails)obj).getUsername();
+	            } else {
+	            	username = obj.toString();
+	            }
+            }
+            
+	        String acknowledgeComment = "Acknowledged by CluProposalService";
+	        
+	        //String docId, String principalId, String docTitle, String docContent, String annotation
+	        simpleDocService.acknowledge(cluProposal.getWorkflowId(), username, acknowledgeComment);
+	       
+		}catch(Exception e){
+            e.printStackTrace();
+		}
+        return new Boolean(true);
+	}
+	
 	@Override
 	public Boolean loginBackdoor(String backdoorId) {
 		try{
@@ -509,8 +539,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			String workflowUtilityServiceAddress) {
 		this.workflowUtilityServiceAddress = workflowUtilityServiceAddress;
 	}
-
-
 
 
 }

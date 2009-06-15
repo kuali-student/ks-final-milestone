@@ -37,5 +37,6 @@ public interface CluProposalRpcService extends BaseRpcService{
     public String getActionsRequested(CluProposal cluProposal);
     public Boolean approveProposal(CluProposal cluProposal);
     public Boolean disapproveProposal(CluProposal cluProposal);
+    public Boolean acknowledgeProposal(CluProposal cluProposal);
     public Boolean loginBackdoor(String backdoorId);
 }

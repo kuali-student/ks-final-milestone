@@ -34,7 +34,8 @@ public class LUCreateUpdateView extends ViewComposite {
     private boolean isCreate = false;
     private KSButton wfApproveButton;
     private KSButton wfDisApproveButton;
-
+    private KSButton wfAcknowledgeButton;
+    
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
     public LUCreateUpdateView(Controller controller, String type, String state) {
@@ -177,6 +178,25 @@ public class LUCreateUpdateView extends ViewComposite {
 							            
 											layout.addButton(wfApproveButton);
 											layout.addButton(wfDisApproveButton);
+										}
+										if(result!=null&&result.contains("K")){
+											wfAcknowledgeButton= new KSButton("ACKNOWLEDGE", new ClickHandler(){
+										        public void onClick(ClickEvent event) {
+													cluProposalRpcServiceAsync.acknowledgeProposal(cluProposal, new AsyncCallback<Boolean>(){
+														public void onFailure(
+																Throwable caught) {
+															Window.alert("Error acknowledging Proposal");
+														}
+														public void onSuccess(
+																Boolean result) {
+															Window.alert("Proposal was acknowledged");
+															layout.removeButton(wfAcknowledgeButton);
+														}
+														
+													});
+										        }        
+										    });
+											layout.addButton(wfAcknowledgeButton);
 										}
 									}
 			                    });
