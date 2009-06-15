@@ -157,9 +157,6 @@ public class LUCreateUpdateView extends ViewComposite {
 													});
 												}        
 											});
-											layout.addButton(wfApproveButton);
-										}
-										if(result!=null&&result.contains("D")){
 											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
 										        public void onClick(ClickEvent event) {
 													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
@@ -178,6 +175,7 @@ public class LUCreateUpdateView extends ViewComposite {
 										        }        
 										    });
 							            
+											layout.addButton(wfApproveButton);
 											layout.addButton(wfDisApproveButton);
 										}
 									}
