@@ -72,6 +72,9 @@ public class KSHistory implements ValueChangeHandler<String> {
         if(layout == null) {
             throw new NullPointerException("layout cannot be null");
         }
+        if(layout == layoutMap.get(view)) { //is doing this by reference good? maybe...
+            return; //already added so don't want to get into recursion hell when appevents fired
+        }
         layoutMap.put(view, layout);
         layout.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
             String key = LAYOUT_KEY;
@@ -98,6 +101,8 @@ public class KSHistory implements ValueChangeHandler<String> {
             }});
     }
     
+    Enum<?> switchedView;
+    
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
         Map<String, List<String>> params = buildListParamMap(event.getValue());
@@ -109,7 +114,8 @@ public class KSHistory implements ValueChangeHandler<String> {
                 return; // i'm stopping if there isn't a valid view, even if other stuff is valid
             }
             if(controller.getCurrentViewEnum() == null || !view.equals(controller.getCurrentViewEnum())) {
-                controller.showView(view);
+                if(switchedView == null || switchedView != view)
+                    controller.showView(switchedView = view);
             }
             if(params.get(IDABLE_KEY) != null && !params.get(IDABLE_KEY).isEmpty()) {
                 String id = params.get(IDABLE_KEY).get(0);
