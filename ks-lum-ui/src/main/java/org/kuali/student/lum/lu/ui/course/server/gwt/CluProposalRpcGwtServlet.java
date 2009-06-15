@@ -34,7 +34,10 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.proposal.dto.ProposalInfo;
 import org.springframework.security.Authentication;
+import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -428,6 +431,28 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return new Boolean(true);
 	}
 	
+	@Override
+	public Boolean loginBackdoor(String backdoorId) {
+		try{
+		    Object credentials = SecurityContextHolder.getContext().getAuthentication().getCredentials();
+	
+		    /* Now lets ask for users current roles */
+		    GrantedAuthority[] authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+	
+		    /*Create a new user*/
+		    User u = new User(backdoorId, backdoorId, true, true, true, true, authorities);
+		     
+		    /* Now we gonna construct Authentication object */
+		    Authentication auth = new UsernamePasswordAuthenticationToken(u, credentials, authorities);
+	
+		    /* And attach it to SecurityContext */
+		    SecurityContextHolder.getContext().setAuthentication(auth);
+		}catch(Exception e){
+			e.printStackTrace();
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
 	
 	private void aquireSimpleDocService() {
 		// TODO Auto-generated method stub
@@ -484,6 +509,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			String workflowUtilityServiceAddress) {
 		this.workflowUtilityServiceAddress = workflowUtilityServiceAddress;
 	}
+
+
 
 
 }

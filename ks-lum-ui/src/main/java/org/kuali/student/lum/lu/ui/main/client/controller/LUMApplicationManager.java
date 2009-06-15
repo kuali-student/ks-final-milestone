@@ -13,6 +13,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateVie
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
@@ -40,6 +42,7 @@ public class LUMApplicationManager extends Controller{
     private Model<CluProposal> cluModel = new Model<CluProposal>();
 
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
     public LUMApplicationManager(){
         super();
@@ -114,13 +117,35 @@ public class LUMApplicationManager extends Controller{
 
     @Override
     public void showDefaultView() {
-    	String docId=Window.Location.getParameter("docId");
+    	final String docId=Window.Location.getParameter("docId");
+    	String backdoorId=Window.Location.getParameter("backdoorId");
     	if(docId!=null){
-            if (modifyView == null){
-                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
-            }
-            modifyView.setId(docId);
-            this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
+    		if(backdoorId!=null){
+    			cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+					}
+
+					public void onSuccess(Boolean result) {
+						if(result){
+				            if (modifyView == null){
+				                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+				            }
+				            modifyView.setId(docId);
+				            showView(LUMViews.EDIT_COURSE_PROPOSAL);
+						}else{
+							Window.alert("Error with backdoor login");
+						}
+					}
+    			
+    			});
+    		}else{
+	            if (modifyView == null){
+	                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+	            }
+	            modifyView.setId(docId);
+	            this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
+    		}
     	}
     	else{
     		this.showView(LUMViews.HOME_MENU);
