@@ -2194,12 +2194,15 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 
-		//Credit is required
-		if(clu.getCredit()==null){
-			clu.setCredit(new CluCredit());
+		if(cluInfo.getCreditInfo()!=null){
+			if(clu.getCredit()==null){
+				clu.setCredit(new CluCredit());
+			}
+			LuServiceAssembler.copyCluCredit(cluInfo.getCreditInfo(),clu.getCredit());
+		}else if(clu.getCredit()!=null){
+			luDao.delete(clu.getCredit());
 		}
-		LuServiceAssembler.copyCluCredit(cluInfo.getCreditInfo(),clu.getCredit());
-
+		
 		if(cluInfo.getPublishingInfo()!=null){
 			if(clu.getPublishing()==null){
 				clu.setPublishing(new CluPublishing());
