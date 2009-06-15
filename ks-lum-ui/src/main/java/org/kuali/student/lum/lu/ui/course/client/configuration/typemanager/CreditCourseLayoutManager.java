@@ -148,19 +148,19 @@ public class CreditCourseLayoutManager {
                         }                   
                     });
                 } else if (saveEvent.getSaveType() == SaveTypes.WF_CREATE){
-                    cluProposalRpcServiceAsync.createAndRouteProposal(cluProposal, new AsyncCallback<CluProposal>(){
-                        
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            //TODO: How to display error and prevent continue                        
-                        }
-    
-                        @Override
-                        public void onSuccess(CluProposal result) {
-                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
-                            layout.refresh();
-                        }                   
-                    });
+//                    cluProposalRpcServiceAsync.createAndRouteProposal(cluProposal, new AsyncCallback<CluProposal>(){
+//                        
+//                        @Override
+//                        public void onFailure(Throwable caught) {
+//                            //TODO: How to display error and prevent continue                        
+//                        }
+//    
+//                        @Override
+//                        public void onSuccess(CluProposal result) {
+//                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
+//                            layout.refresh();
+//                        }                   
+//                    });
                 }
             }});
         return layout;

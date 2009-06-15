@@ -33,6 +33,7 @@ public class LUCreateUpdateView extends ViewComposite {
     private KSButton wfApproveButton;
     private KSButton wfDisApproveButton;
     private KSButton wfAcknowledgeButton;
+    private KSButton wfStartWorkflowButton;
     
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
@@ -105,7 +106,27 @@ public class LUCreateUpdateView extends ViewComposite {
                     cluInfo.setState(luState);
                     cluInfo.setType(luType);
                     
-                    cluProposal.setCluInfo(cluInfo);        
+                    cluProposal.setCluInfo(cluInfo); 
+                    
+                	wfStartWorkflowButton = new KSButton("Start Workflow", new ClickHandler(){
+                		public void onClick(ClickEvent event) {
+                			
+                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
+								public void onFailure(
+										Throwable caught) {
+									Window.alert("Error starting Proposal workflow");
+								}
+								public void onSuccess(
+										CluProposal result) {
+									Window.alert("Proposal has been routed to workflow");
+									layout.getObject().setWorkflowId(result.getWorkflowId());
+									layout.removeButton(wfStartWorkflowButton);
+								}
+							});
+                		}
+                	});
+                	layout.addButton(wfStartWorkflowButton);
+                    
                     layout.setObject(cluProposal);                    
                     layout.render();
                 } else {

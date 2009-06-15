@@ -28,6 +28,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void createProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);  
     public void createAndRouteProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
+    public void startProposalWorkflow(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void saveProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void submitProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void deleteProposal(String id, AsyncCallback<CluProposal> callback);

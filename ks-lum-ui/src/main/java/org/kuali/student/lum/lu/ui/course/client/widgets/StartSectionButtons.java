@@ -43,11 +43,11 @@ public class StartSectionButtons extends Composite{
         }        
     });
     
-    private final KSButton saveWorkflowButton = new KSButton("Start Workflow Proposal", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            StartSectionButtons.this.fireEvent(new SaveEvent<SaveTypes>(SaveTypes.WF_CREATE));
-        }        
-    });
+//    private final KSButton saveWorkflowButton = new KSButton("Start Workflow Proposal", new ClickHandler(){
+//        public void onClick(ClickEvent event) {
+//            StartSectionButtons.this.fireEvent(new SaveEvent<SaveTypes>(SaveTypes.WF_CREATE));
+//        }        
+//    });
 
     private final KSButton cancelButton = new KSButton("Cancel");
     
@@ -55,7 +55,7 @@ public class StartSectionButtons extends Composite{
         super();
         HorizontalPanel row = new HorizontalPanel();
         row.add(saveButton);
-        row.add(saveWorkflowButton);
+        //row.add(saveWorkflowButton);
         row.setStyleName("KS-Course-Save-Button");
         panel.add(row); //TODO: enable this button only if required fields filled in
         panel.add(cancelButton);

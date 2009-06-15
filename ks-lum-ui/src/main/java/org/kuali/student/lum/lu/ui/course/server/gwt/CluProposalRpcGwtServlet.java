@@ -228,23 +228,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireSimpleDocService();
         try {
             //FIXME: Restore code to handle proposal service?
-            /*
-            ProposalInfo proposalInfo = cluProposal.getProposalInfo();
-            proposalInfo.setId(UUIDHelper.genStringUUID());
-            proposalInfo.setProposalReferenceType("clu");
-            */
-            
-            
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
             cluProposal.setCluInfo(parentCluInfo);
-            
-            /*
-            ArrayList<String> proposalRefIds = new ArrayList<String>();
-            proposalRefIds.add(parentCluInfo.getId());
-            proposalInfo.setProposalReference(proposalRefIds);
-            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
-            */
             
             List<CluInfo> activities = cluProposal.getActivities();
             if (activities != null){
@@ -263,16 +249,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             }
             
             //get a user name
-            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-            if(auth!=null){
-            	Object obj = auth.getPrincipal();
-            	if (obj instanceof UserDetails) {
-	            	username = ((UserDetails)obj).getUsername();
-	            } else {
-	            	username = obj.toString();
-	            }
-            }
+            String username=getCurrentUser();
+            
             //Create and then route the document 
             String workflowDocTypeId = "CluDocument";
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
@@ -305,21 +283,54 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposal;
 	}
 
+
+	@Override
+	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
+		aquireSimpleDocService();
+        try {
+            CluInfo cluInfo = cluProposal.getCluInfo();
+            
+            //get a user name
+            String username = getCurrentUser();
+
+            //Create and then route the document 
+            String workflowDocTypeId = "CluDocument";
+            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+            
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+            Document doc = docBuilder.newDocument();
+            Element root = doc.createElement("cluId");
+            doc.appendChild(root);
+            Text text = doc.createTextNode(cluInfo.getId());
+            root.appendChild(text);
+            
+            DOMSource domSource = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.transform(domSource, result);
+
+            String createComment = "Created By CluProposalService";
+            
+            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), writer.toString(), createComment);
+            
+            cluProposal.setWorkflowId(docResponse.getDocId());
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return cluProposal;
+	}
+
 	@Override
 	public CluProposal getCluProposalFromWorkflowId(String docId) {
 		aquireSimpleDocService();
 		
         //get a user name
-        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        if(auth!=null){
-        	Object obj = auth.getPrincipal();
-        	if (obj instanceof UserDetails) {
-            	username = ((UserDetails)obj).getUsername();
-            } else {
-            	username = obj.toString();
-            }
-        }
+        String username = getCurrentUser();
         
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
 		CluProposal proposal = getProposal(docResponse.getAppDocId());
@@ -332,16 +343,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireWorkflowUtilityService();
 		
         //get a user name
-        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        if(auth!=null){
-        	Object obj = auth.getPrincipal();
-        	if (obj instanceof UserDetails) {
-            	username = ((UserDetails)obj).getUsername();
-            } else {
-            	username = obj.toString();
-            }
-        }
+        String username = getCurrentUser();
         
 		//Build up a string of actions requested from the attribute set.  The actions can be F,A,C,K. examples are "A" "AF" "FCK"
         System.out.println("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
@@ -361,18 +363,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireSimpleDocService();
 		
 		try{
-			
             //get a user name
-            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-            if(auth!=null){
-            	Object obj = auth.getPrincipal();
-            	if (obj instanceof UserDetails) {
-	            	username = ((UserDetails)obj).getUsername();
-	            } else {
-	            	username = obj.toString();
-	            }
-            }
+            String username = getCurrentUser();
             
 	        CluInfo cluInfo = cluProposal.getCluInfo();
 	        
@@ -407,18 +399,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireSimpleDocService();
 		
 		try{
-			
             //get a user name
-            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-            if(auth!=null){
-            	Object obj = auth.getPrincipal();
-            	if (obj instanceof UserDetails) {
-	            	username = ((UserDetails)obj).getUsername();
-	            } else {
-	            	username = obj.toString();
-	            }
-            }
+            String username = getCurrentUser();
             
 	        String disapproveComment = "Disapproved by CluProposalService";
 	        
@@ -437,18 +419,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		aquireSimpleDocService();
 		
 		try{
-			
-            //get a user name
-            String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-            if(auth!=null){
-            	Object obj = auth.getPrincipal();
-            	if (obj instanceof UserDetails) {
-	            	username = ((UserDetails)obj).getUsername();
-	            } else {
-	            	username = obj.toString();
-	            }
-            }
+			//get a user name
+            String username=getCurrentUser();
             
 	        String acknowledgeComment = "Acknowledged by CluProposalService";
 	        
@@ -464,18 +436,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	@Override
 	public Boolean loginBackdoor(String backdoorId) {
 		try{
+			//Set spring security principal to the new backdoorId
 		    Object credentials = SecurityContextHolder.getContext().getAuthentication().getCredentials();
-	
-		    /* Now lets ask for users current roles */
+
 		    GrantedAuthority[] authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 	
-		    /*Create a new user*/
 		    User u = new User(backdoorId, backdoorId, true, true, true, true, authorities);
 		     
-		    /* Now we gonna construct Authentication object */
 		    Authentication auth = new UsernamePasswordAuthenticationToken(u, credentials, authorities);
-	
-		    /* And attach it to SecurityContext */
+
 		    SecurityContextHolder.getContext().setAuthentication(auth);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -484,8 +453,21 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return Boolean.TRUE;
 	}
 	
+	private String getCurrentUser() {
+        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        if(auth!=null){
+        	Object obj = auth.getPrincipal();
+        	if (obj instanceof UserDetails) {
+            	username = ((UserDetails)obj).getUsername();
+            } else {
+            	username = obj.toString();
+            }
+        }
+		return username;
+	}
+	
 	private void aquireSimpleDocService() {
-		// TODO Auto-generated method stub
 		if(simpleDocService==null){
 			try{
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
@@ -502,7 +484,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 	
 	private void aquireWorkflowUtilityService() {
-		// TODO Auto-generated method stub
 		if(workflowUtilityService==null){
 			try{
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
@@ -539,6 +520,5 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			String workflowUtilityServiceAddress) {
 		this.workflowUtilityServiceAddress = workflowUtilityServiceAddress;
 	}
-
 
 }
