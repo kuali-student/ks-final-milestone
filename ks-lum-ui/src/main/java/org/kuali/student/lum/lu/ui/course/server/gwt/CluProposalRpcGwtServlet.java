@@ -237,7 +237,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
-
+            cluProposal.setCluInfo(parentCluInfo);
+            
             /*
             ArrayList<String> proposalRefIds = new ArrayList<String>();
             proposalRefIds.add(parentCluInfo.getId());
@@ -260,7 +261,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                     service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
                 }
             }
-
             
             //get a user name
             String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
