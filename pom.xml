@@ -310,6 +310,13 @@
 						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
 					</configuration>
 				</plugin>
+				
+				<!--  Tomcat Plugin Configuration -->
+			    <plugin>
+			        <groupId>org.codehaus.mojo</groupId>
+	        		<artifactId>tomcat-maven-plugin</artifactId>
+	        		<version>1.0-beta-1</version>
+			    </plugin>
 	
 				<!-- GWT Maven Plugin Configuration -->
 				<plugin>
