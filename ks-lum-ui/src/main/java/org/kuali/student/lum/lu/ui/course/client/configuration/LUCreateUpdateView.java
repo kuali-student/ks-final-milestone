@@ -51,7 +51,7 @@ public class LUCreateUpdateView extends ViewComposite {
         this.luState = state;
         this.isCreate = isCreate;
         initWidget(panel);
-        panel.setWidth("100%");
+        panel.setStyleName("Course-Layout-Main");
 
         LULayoutFactory factory = new LULayoutFactory();
 
