@@ -1,0 +1,44 @@
+@eval PRIMARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_1;
+@eval PRIMARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_2;
+@eval SECONDARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_1;
+@eval SECONDARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_2;
+.KSAccordion{
+	
+}
+.KS-Accordion-Titlebar{
+
+	width: 200;
+	height: 20;
+		
+	border-left: 1px solid PRIMARYCOLOR1;
+	border-right: 2px solid PRIMARYCOLOR2;
+	border-bottom: 2px solid PRIMARYCOLOR2;
+	border-top: 1px solid PRIMARYCOLOR1;
+	margin: 2px;
+
+	background-color: PRIMARYCOLOR1;	
+}
+
+.KS-Accordion-Titlebar-Hover{
+	background-color: PRIMARYCOLOR1;
+	border-left: 1px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	border-top: 1px solid black;
+
+	cursor:pointer;
+}
+
+.KS-Accordion-Titlebar-Focus{
+	background-color: PRIMARYCOLOR1;
+}
+.KS-Accordion-Titlebar-Open{
+
+	background-color: SECONDARYCOLOR1;
+	border: 2px solid black;
+}
+
+.KS-Accordion-Titlebar-Label{
+	font-weight: bold;
+	font-size: 80%;
+}

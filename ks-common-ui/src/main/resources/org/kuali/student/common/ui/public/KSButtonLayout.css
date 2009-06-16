@@ -1,0 +1,33 @@
+.KS-Button-Column-MainPanel{
+	height: 100%;
+}
+
+.KS-Button-Column-ContentPanel{
+}
+
+.KS-Button-Column-TopPanel{
+	width: 100%;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
+.KS-Button-Column-BottomPanel{
+	width: 100%;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
+.KS-Button-Column-Button{
+	width: 100%;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 1px;
+	margin-top: 1px;
+}
+
+.KS-Button-Row-MainPanel{
+	width: 100%;
+}
+
+.KS-Button-Row-ContentPanel{
+}

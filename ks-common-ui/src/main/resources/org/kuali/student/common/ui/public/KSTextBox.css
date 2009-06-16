@@ -1,0 +1,10 @@
+.KS-Textbox-Hover{
+	background-color: #ECF2FA;
+}
+.KS-Textbox-Focus{
+	background-color: #ECF2FA;
+}
+.KS-Textbox{
+	margin: 2px;
+	border: 1px solid #4583D5;
+}
