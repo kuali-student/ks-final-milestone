@@ -39,7 +39,7 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
@@ -86,7 +86,7 @@ public class ClauseEditorView extends ViewComposite {
     
     //view's data
     private boolean addNewReqComp;
-    private Model<PrereqInfo> modelPrereqInfo;
+    private Model<RuleInfo> modelPrereqInfo;
     private ReqComponentTypeInfo selectedReqType;
     private ReqComponentInfo editedReqComp;
     private String origReqCompType;
@@ -159,8 +159,8 @@ public class ClauseEditorView extends ViewComposite {
             compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
         }
         
-        getController().requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
-            public void onModelReady(Model<PrereqInfo> theModel) {
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
+            public void onModelReady(Model<RuleInfo> theModel) {
                 modelPrereqInfo = theModel;
             }
 
@@ -221,7 +221,7 @@ public class ClauseEditorView extends ViewComposite {
         
         //show requirement component label
         SimplePanel labelPanel = new SimplePanel();       
-        labelPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn");        
+        //labelPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn");        
         KSLabel reqTypeLabel = new KSLabel("Rule");
         reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading"); 
         labelPanel.add(reqTypeLabel);
@@ -450,7 +450,7 @@ public class ClauseEditorView extends ViewComposite {
                 editedReqComp.setType(selectedReqType.getId());                         
 
                 //add new req. component (rule) to the top level of the rule
-                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 // in the case when there is currently no statement...
                 // i.e. the user creates the rules from scratch.
@@ -476,7 +476,7 @@ public class ClauseEditorView extends ViewComposite {
                 }                
                 
                 if (modelPrereqInfo != null) {
-                    PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                    RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
                     StatementVO statementVO = prereqInfo.getStatementVO();
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     statementVO.clearSelections();
@@ -862,7 +862,7 @@ public class ClauseEditorView extends ViewComposite {
             
             public void onSuccess(final String reqCompNaturalLanguage) {                               
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                PrereqInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 getController().showView(PrereqViews.COMPLEX);
             } 

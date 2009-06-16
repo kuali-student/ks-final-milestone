@@ -234,7 +234,12 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<Object>
     
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
         
-        LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);        
+        LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);
+        
+        //true if no rule defined for given statement type
+        if (luStatementInfo == null) {
+            return null;
+        }
         
         StatementVO rootStatementVO = new StatementVO(luStatementInfo);
         if (luStatementInfo != null) {

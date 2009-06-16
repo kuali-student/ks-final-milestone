@@ -8,10 +8,11 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
-public class PrereqInfo implements Idable {
+public class RuleInfo implements Idable {
 
     private String cluId;
     private StatementVO statementVO;
+    private String luStatementTypeKey;
     private String rationale;
     private String naturalLanguage;
     private String expression; // current state of rule expression
@@ -45,14 +46,18 @@ public class PrereqInfo implements Idable {
     }
     public void setNaturalLanguage(String naturalLanguage) {
         this.naturalLanguage = naturalLanguage;
-    }
-    
+    }    
     public StatementVO getStatementVO() {
         return statementVO;
-    }
-    
+    }    
     public void setStatementVO(StatementVO statementVO) {
         this.statementVO = statementVO;
+    }        
+    public String getLuStatementTypeKey() {
+        return luStatementTypeKey;
+    }
+    public void setLuStatementTypeKey(String luStatementTypeKey) {
+        this.luStatementTypeKey = luStatementTypeKey;
     }
     
     public Node getStatementTree() {

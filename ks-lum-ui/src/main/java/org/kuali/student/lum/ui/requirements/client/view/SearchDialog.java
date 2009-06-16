@@ -14,7 +14,7 @@ import org.kuali.student.common.ui.client.widgets.KSListBox;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
@@ -42,7 +42,7 @@ public class SearchDialog extends Composite {
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnAdd = new KSButton("Add");
     KSListBox cluList = new KSListBox();    
-    private Model<PrereqInfo> model;
+    private Model<RuleInfo> model;
     private Controller controller;
     private Map<String, String> listData;
     
@@ -71,8 +71,8 @@ public class SearchDialog extends Composite {
     
     public void show() {
         if (model == null) {
-            controller.requestModel(PrereqInfo.class, new ModelRequestCallback<PrereqInfo>() {
-                public void onModelReady(Model<PrereqInfo> theModel) {
+            controller.requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
+                public void onModelReady(Model<RuleInfo> theModel) {
                     //printModel(theModel);
                     model = theModel;                    
                 }

@@ -11,7 +11,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.ui.requirements.client.model.PrereqInfo;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
@@ -39,13 +39,13 @@ public class PrereqManager extends Controller {
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
-    private final Model<PrereqInfo> prereqInfo;
+    private final Model<RuleInfo> prereqInfo;
     private Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes;  
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
-    public PrereqManager(Model<PrereqInfo> prereqInfo) {
+    public PrereqManager(Model<RuleInfo> prereqInfo) {
         super();
         super.initWidget(viewPanel);
         viewPanel.add(mainPanel);              
@@ -79,7 +79,7 @@ public class PrereqManager extends Controller {
     @Override
     @SuppressWarnings("unchecked")
     public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
-        if (modelType.equals(PrereqInfo.class)) {
+        if (modelType.equals(RuleInfo.class)) {
             callback.onModelReady(prereqInfo);
         } else if (modelType.equals(ReqComponentTypeInfo.class)) {
             if (reqComponentTypes == null) {
