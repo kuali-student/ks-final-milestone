@@ -6,7 +6,7 @@ public class Student implements Idable{
     private String firstName;
     private String lastName;
     private String id;
-    
+    private Department department;
     public String getFirstName() {
         return firstName;
     }
