@@ -63,6 +63,17 @@
 			<ref bean="org.criteria.orgByFirstLetter" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+	
+	<search:searchType id="org.search.orgFullViewById">
+		<search:name>Full view by orginization id key</search:name>
+		<search:desc>Returns a full view of organization information for the id supplied</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgFullView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgById" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 
 	<search:searchResultTypeInfo id="org.result.orgHierarchyIds">
 		<search:name>Organization Quick View</search:name>
@@ -87,6 +98,18 @@
 		<search:desc>Quick view of the Organization</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgLongName" />
+			<ref bean="org.resultColumn.orgType" />
+			<ref bean="org.resultColumn.orgHierarchyName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="org.result.orgFullView">
+		<search:name>Organization Full View</search:name>
+		<search:desc>Full view of the Organization</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgShortName" />
 			<ref bean="org.resultColumn.orgLongName" />
 			<ref bean="org.resultColumn.orgType" />
 			<ref bean="org.resultColumn.orgHierarchyName" />
@@ -204,6 +227,12 @@
 			<dict:name>Org Name</dict:name>
 		</dict:fieldDescriptor>
 	</search:queryParam>
+	
+	<search:queryParam id="org.queryParam.orgId">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Org Id</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds">
 		<search:name>OrgHierarchyIdsCriteria</search:name>
@@ -242,6 +271,14 @@
 			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgById">
+		<search:name>OrgByIdCriteria</search:name>
+		<search:desc>OrgByIdCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -261,6 +298,9 @@
 				</entry>
 				<entry key="org.search.orgByShortName">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE org.shortName like :org_queryParam_orgShortName</value>
+				</entry>
+				<entry key="org.search.orgFullViewById">
+					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
 				</entry>
 			</map>
 		</property>
