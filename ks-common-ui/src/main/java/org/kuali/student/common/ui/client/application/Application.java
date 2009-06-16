@@ -7,7 +7,6 @@ package org.kuali.student.common.ui.client.application;
 public class Application {
 	private static ApplicationContext applicationContext;
 	private static ApplicationComposite applicationComposite;
-	private static EventDispatcher eventDispatcher = new EventDispatcher();
 	
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
@@ -21,8 +20,5 @@ public class Application {
 		}
 		return applicationComposite;
 	}
-    public static EventDispatcher getEventDispatcher() {
-        return eventDispatcher;
-    }
 	
 }
