@@ -326,8 +326,7 @@
 					<configuration>
 						<gwtVersion>${gwtVersion}</gwtVersion>
 						<logLevel>INFO</logLevel>
-						<extraJvmArgs>-Xmx512m</extraJvmArgs>
-						<style>PRETTY</style>						
+						<extraJvmArgs>-Xmx512m</extraJvmArgs>					
 					</configuration>
 				</plugin>
 
