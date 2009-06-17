@@ -193,7 +193,7 @@
 		<!-- core-impl used to get mock message service impl -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-impl</artifactId>
+			<artifactId>ks-common-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
