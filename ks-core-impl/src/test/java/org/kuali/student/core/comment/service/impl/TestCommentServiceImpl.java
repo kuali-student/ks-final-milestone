@@ -15,12 +15,15 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,6 +36,7 @@ import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -41,6 +45,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.validation.dto.ValidationResult;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -61,6 +66,44 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    public void testValidateComment() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	CommentInfo commentInfo = new CommentInfo();
+    	RichTextInfo commentText = new RichTextInfo();
+    	commentText.setFormatted("<p>comment&gt;!@#02h%$</p>");
+    	commentText.setPlain("comment");
+    	commentInfo.setCommentText(commentText);
+    	commentInfo.setReferenceTypeKey("referenceKey");
+    	commentInfo.setReferenceId("referenceId");
+    	commentInfo.setEffectiveDate(new Date());
+    	commentInfo.setExpirationDate(new Date());
+
+    	commentInfo.setType("kuali.org.Comment");
+    	commentInfo.setState("active");
+
+    	List<ValidationResult> validations = client.validateComment("", commentInfo);
+	    for (ValidationResult validationResult : validations) {
+            assertTrue(validationResult.isOk());
+        }
+
+	    commentInfo = new CommentInfo();
+    	commentText.setFormatted("<p>comment&!%$*</p>");
+    	commentText.setPlain("comment&!%$");
+    	commentInfo.setCommentText(commentText);
+    	commentInfo.setReferenceTypeKey("referenceKey&!%$");
+    	commentInfo.setReferenceId("referenceId&!%$");
+    	commentInfo.setType("kuali.org.Comment");
+    	commentInfo.setState("active");
+
+    	validations = client.validateComment("", commentInfo);
+	    for (ValidationResult validationResult : validations) {
+	    	if (!(validationResult.getKey().equals("effectiveDate") ||
+	    			validationResult.getKey().equals("expirationDate"))) {
+	    		assertFalse(validationResult.isOk());
+	    	}
+        }
+    }
+
+    @Test
     public void testGetComment() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         CommentInfo commentInfo = client.getComment("COMMENT-1");
         assertNotNull(commentInfo);
@@ -78,8 +121,8 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
-    
-    
+
+
     @Test
     public void testGetTag() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TagInfo tagInfo = client.getTag("Comment-TAG-1");
@@ -96,30 +139,30 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
-        
-        
+
+
         List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
         assertNotNull(tagInfos1);
-        
+
         List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
         assertNotNull(tagInfos2);
-       
+
     }
-    
-    
+
+
     @Test
     public void testGetTagType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<TagTypeInfo> tagTypeInfos = client.getTagTypes();
         assertNotNull(tagTypeInfos);
-       
+
     }
-    
+
     @Test
     public void testCreateDeleteTag() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         TagInfo tagInfo= new TagInfo();
-        
+
 //        tagInfo.setId("Comment-TAG-3");
         tagInfo.setNamespace("UnitedStates3");
         tagInfo.setPredicate("era3");
@@ -129,7 +172,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         tagInfo.setReferenceId("");
         tagInfo.setReferenceTypeKey("");
         tagInfo.setType("tagType.default");
-        
+
         TagInfo createdTagInfo = client.addTag("REF-4", "REF-TYPE-0", tagInfo);
         try {
             TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
@@ -137,14 +180,14 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             e.printStackTrace();
         }
-        
+
         assertEquals("UnitedStates3",createdTagInfo.getNamespace());
         assertEquals("tagType.default", createdTagInfo.getType());
         assertEquals("20thCentury",createdTagInfo.getValue());
         assertEquals("era3",createdTagInfo.getPredicate());
         assertEquals(df.parse("20090101"),createdTagInfo.getEffectiveDate());
         assertEquals(df.parse("21001231"),createdTagInfo.getExpirationDate());
-        
+
      // now test remove (and clean up changes made)
         StatusInfo si;
         String tagRefId = createdTagInfo.getReferenceId();
@@ -155,20 +198,20 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             fail("CommentService.removeTag() failed removing just-created Tag");
         }
-        
+
         try {
             client.removeTag(null, tagRefId, tagRefType);
             fail("CommentService.removeTag() of a deleted Comment did not throw DoesNotExistException as expected");
         } catch (DoesNotExistException e) {
         }
-        
+
     }
-    
+
     @Test
     public void testCreateDeleteTags() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         TagInfo tagInfo= new TagInfo();
-        
+
 //        tagInfo.setId("Comment-TAG-3");
         tagInfo.setNamespace("UnitedStates3");
         tagInfo.setPredicate("era3");
@@ -178,16 +221,16 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         tagInfo.setReferenceId("");
         tagInfo.setReferenceTypeKey("");
         tagInfo.setType("tagType.default");
-        
+
         client.addTag("REF-1", "REF-TYPE-0", tagInfo);
         client.addTag("REF-1", "REF-TYPE-0", tagInfo);
         client.addTag("REF-1", "REF-TYPE-0", tagInfo);
-        
-        
-              
+
+
+
      // now test remove multiple tags linked to the same reference(and clean up changes made)
         StatusInfo si;
-        String tagRefId = "REF-1"; 
+        String tagRefId = "REF-1";
         String tagRefType = "REF-TYPE-0";
         try {
             si = client.removeTags(tagRefId);
@@ -195,12 +238,12 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             fail("CommentService.removeTags() failed removing just-created Tags");
         }
-        
+
         try {
             client.removeTag(null, tagRefId, tagRefType);
             fail("CommentService.removeTags() of a deleted Comment did not throw DoesNotExistException as expected");
         } catch (DoesNotExistException e) {
         }
-        
+
     }
 }

@@ -97,20 +97,20 @@ public class CommentServiceAssembler extends BaseAssembler {
         }
         return dtos;
     }
-    
+
     public static TagTypeInfo toTagTypeInfo(TagType entity){
         TagTypeInfo dto = new TagTypeInfo();
         BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
-    
+
     public static List<TagTypeInfo> toTagTypeInfos(List<TagType> entries){
         List<TagTypeInfo> dtos = new ArrayList<TagTypeInfo>(entries.size());
         for(TagType entity: entries){
             dtos.add(toTagTypeInfo(entity));
         }
-        
+
         return dtos;
     }
 
@@ -126,9 +126,9 @@ public class CommentServiceAssembler extends BaseAssembler {
         // TODO lindholm - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    
+
     public static Comment toComment(boolean isUpdate,CommentInfo dto,CommentDao dao) throws InvalidParameterException, DoesNotExistException{
-        
+
         Comment entity = new Comment();
         BeanUtils.copyProperties(dto,entity,new String[]{"reference","commentText", "attributes", "type"});
         entity.setAttributes(toGenericAttributes(CommentAttribute.class,dto.getAttributes(),entity,dao));
@@ -147,11 +147,11 @@ public class CommentServiceAssembler extends BaseAssembler {
         return entity;
     }
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
-        
+
         Tag entity = new Tag();
         BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes"});
         entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
-        
+
         Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
         if (reference == null) {
             throw new InvalidParameterException(
@@ -166,6 +166,4 @@ public class CommentServiceAssembler extends BaseAssembler {
         entity.setType(type);
         return entity;
     }
-
-
 }
