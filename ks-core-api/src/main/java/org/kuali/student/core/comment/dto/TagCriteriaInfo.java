@@ -23,6 +23,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.core.search.dto.CriteriaSet;
+import org.kuali.student.core.search.dto.Criterion;
+import org.kuali.student.core.search.dto.SearchIndexedType;
+import org.kuali.student.core.search.dto.SearchRelationship;
+
 /**
  * Specifies a search for tag identifiers.
  *
@@ -38,64 +43,64 @@ public class TagCriteriaInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private List<SearchIndexedTypeInfo> types;
+    private List<SearchIndexedType> types;
 
     @XmlElement
-    private List<SearchRelationshipInfo> relationships;
+    private List<SearchRelationship> relationships;
 
     @XmlElement
-    private CriteriaSetInfo criteria;
+    private CriteriaSet criteria;
 
     @XmlElement
-    private CriterionInfo criterion;
+    private Criterion criterion;
 
     /**
      * The types this search should be executed against. A type of "tagInfo" is automatically included. Types are restricted to those within the service.
      */
-    public List<SearchIndexedTypeInfo> getTypes() {
+    public List<SearchIndexedType> getTypes() {
         if (types == null) {
-            types = new ArrayList<SearchIndexedTypeInfo>(0);
+            types = new ArrayList<SearchIndexedType>(0);
         }
         return types;
     }
 
-    public void setTypes(List<SearchIndexedTypeInfo> types) {
+    public void setTypes(List<SearchIndexedType> types) {
         this.types = types;
     }
 
     /**
      * The page searchRelationshipInfoList Structure does not exist. Not required if the search doesn't extend beyond the included object.
      */
-    public List<SearchRelationshipInfo> getRelationships() {
+    public List<SearchRelationship> getRelationships() {
         if (relationships == null) {
-            relationships = new ArrayList<SearchRelationshipInfo>(0);
+            relationships = new ArrayList<SearchRelationship>(0);
         }
         return relationships;
     }
 
-    public void setRelationships(List<SearchRelationshipInfo> relationships) {
+    public void setRelationships(List<SearchRelationship> relationships) {
         this.relationships = relationships;
     }
 
     /**
      * Contains a set of criterion structures and/or other criteria sets along with the operation to apply to the set.
      */
-    public CriteriaSetInfo getCriteria() {
+    public CriteriaSet getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(CriteriaSetInfo criteria) {
+    public void setCriteria(CriteriaSet criteria) {
         this.criteria = criteria;
     }
 
     /**
      * Contains information about a constraint on a single field in a search.
      */
-    public CriterionInfo getCriterion() {
+    public Criterion getCriterion() {
         return criterion;
     }
 
-    public void setCriterion(CriterionInfo criterion) {
+    public void setCriterion(Criterion criterion) {
         this.criterion = criterion;
     }
 }
