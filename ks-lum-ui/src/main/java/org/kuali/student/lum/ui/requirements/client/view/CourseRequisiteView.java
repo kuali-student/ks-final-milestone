@@ -14,7 +14,6 @@ import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CoreqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.CoreqInfo;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
