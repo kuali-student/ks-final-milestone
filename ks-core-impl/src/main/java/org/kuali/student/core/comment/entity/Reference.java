@@ -1,61 +1,45 @@
 package org.kuali.student.core.comment.entity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
+
 
 
 @Entity
-@Table(name = "KSCO_REF")
-public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAttribute>{
+@Table(name = "KSCO_REF", 
+        uniqueConstraints= @UniqueConstraint(columnNames={"REFERENCE_ID", "REFERENCE_TYPE"}))
+@NamedQueries( {
+        @NamedQuery(name = "Reference.getReference", query = "SELECT  reference FROM Reference reference WHERE reference.referenceId =:refId AND reference.referenceType=:refTypeId")})
+public class Reference  {
 
     
     @Id
     @Column(name = "ID")
     private String id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT")
-    private Date effectiveDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
-    private Date expirationDate;
+    @Column(name="REFERENCE_ID")
+    private String referenceId;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ReferenceAttribute> attributes;
+    @Column(name="REFERENCE_TYPE")
+    private String referenceType;
     
-    @Column(name = "STATE")
-    private String state;
-    
-    @ManyToOne
-    @JoinColumn(name = "TYPE")
-    private ReferenceType type;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="ref")
+        
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="reference")
     private List<Tag> tags;
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="reference")
+    private List<Comment> comments;
     
     @PrePersist
     public void prePersist() {
@@ -76,79 +60,20 @@ public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAt
         this.id = id;
     }
 
-    public RichText getDesc() {
-        return desc;
-    }
-
-    /**
-     * @param commentText the commentText to set
-     */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
-    }
-    /**
-     * @return the effectiveDate
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    /**
-     * @param effectiveDate the effectiveDate to set
-     */
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
-     * @return the expirationDate
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    /**
-     * @param expirationDate the expirationDate to set
-     */
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-
-    /**
-     * @return the state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * @param state the state to set
-     */
-    public void setState(String state) {
-        this.state = state;
+    public String getReferenceId(){
+        return referenceId;
     }
     
-    @Override
-    public List<ReferenceAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ReferenceAttribute>(0);
-        }
-        return attributes;
-    }
-
-    @Override
-    public void setAttributes(List<ReferenceAttribute> attributes) {
-        this.attributes = attributes;
-        
+    public void setReferenceId(String referenceId){
+        this.referenceId=referenceId;
     }
     
-    public ReferenceType getType(){
-        return type;
+    public String getReferenceType(){
+        return referenceType;
     }
     
-    public void setType(ReferenceType type){
-        this.type = type;
+    public void setReferenceType(String referenceType){
+        this.referenceType=referenceType;
     }
     
     public List<Tag> getTags(){
@@ -159,4 +84,11 @@ public class Reference  extends MetaEntity implements AttributeOwner<ReferenceAt
         this.tags=tags;
     }
 
+    public List<Comment> getCommentss(){
+        return comments;
+    }
+    
+    public void setComments(List<Comment> comments){
+        this.comments=comments;
+    }
 }

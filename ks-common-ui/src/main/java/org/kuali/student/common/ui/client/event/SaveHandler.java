@@ -18,7 +18,10 @@ package org.kuali.student.common.ui.client.event;
 import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * A save handler should be implemented to carry out a save operation in response
+ * to a save event.  A SaveEvent will have an EventHandlerCallback, which should
+ * be invoked upon save complete action to notify widget that fired the event of
+ * a success/failed save action. 
  * 
  * @author Kuali Student Team
  *

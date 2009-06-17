@@ -100,6 +100,20 @@
 							<goal>java2ws</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>document-wsdl</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>
+								org.kuali.student.core.document.service.DocumentService
+							</className>
+							<serviceName>DocumentService</serviceName>
+							<targetNameSpace>http://student.kuali.org/core/document</targetNameSpace>			
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

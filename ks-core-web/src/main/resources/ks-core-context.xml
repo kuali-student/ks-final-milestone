@@ -191,9 +191,14 @@
         class="org.kuali.student.core.comment.dao.impl.CommentDaoImpl">
     </bean>
 
+    <bean id="commentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
+    </bean>
+
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
+        <property name="dictionaryServiceDelegate" ref="commentDictionaryServiceDelegate" />
     </bean>
 
 	<!-- Preloaded data -->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="ks-common-util/target/classes" path="ks-common-util/src/main/java"/>
-	<classpathentry kind="src" path="ks-common-util/src/main/resources"/>	
+	<classpathentry kind="src" path="ks-common-util/src/main/resources"/>
 	<classpathentry kind="src" output="ks-common-util/target/test-classes" path="ks-common-util/src/test/java"/>
 	<classpathentry kind="src" output="ks-common-util/target/test-classes" path="ks-common-util/src/test/resources"/>
 	<classpathentry kind="src" output="ks-common-test/target/classes" path="ks-common-test/src/main/java"/>
@@ -21,6 +21,8 @@
 	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/java"/>
 	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/resources"/>
 	<classpathentry kind="src" output="ks-core-web/target/classes" path="ks-core-web/src/main/resources"/>
+	<classpathentry kind="src" path="ks-common-impl/src/main/java"/>
+	<classpathentry kind="src" path="ks-common-impl/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>

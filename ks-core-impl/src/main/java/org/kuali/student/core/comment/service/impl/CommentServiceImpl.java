@@ -18,7 +18,10 @@ package org.kuali.student.core.comment.service.impl;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.persistence.NoResultException;
 
+import org.kuali.student.common.validator.ServerDateParser;
+import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
@@ -27,14 +30,14 @@ import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.comment.dto.ValidationResultInfo;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
-import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -43,6 +46,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -55,6 +59,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
+    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
 
     /**
      * This overridden method ...
@@ -63,19 +68,63 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        commentInfo.setReferenceTypeKey(referenceTypeKey);
+        commentInfo.setReferenceId(referenceId);
+        Reference reference=null;
+        reference = commentDao.getReference(referenceId, referenceTypeKey);
+        if(reference==null){
+            reference = new Reference();
+            reference.setReferenceId(referenceId);
+            reference.setReferenceType(referenceTypeKey);
+            commentDao.create(reference);
+        }
+
+        Comment comment = null;
+
+        try {
+            comment = CommentServiceAssembler.toComment(false, commentInfo, commentDao);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+
+        commentDao.create(comment);
+
+        CommentInfo createdCommentInfo = CommentServiceAssembler.toCommentInfo(comment);
+
+        return createdCommentInfo;
     }
 
     /**
      * This overridden method ...
-     *
      * @see org.kuali.student.core.comment.service.CommentService#addTag(java.lang.String, java.lang.String, org.kuali.student.core.comment.dto.TagInfo)
      */
     @Override
     public TagInfo addTag(String referenceId, String referenceTypeKey, TagInfo tagInfo) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        tagInfo.setReferenceTypeKey(referenceTypeKey);
+        tagInfo.setReferenceId(referenceId);
+        Reference reference=null;
+        reference = commentDao.getReference(referenceId, referenceTypeKey);
+        if(reference==null){
+            reference = new Reference();
+            reference.setReferenceId(referenceId);
+            reference.setReferenceType(referenceTypeKey);
+            commentDao.create(reference);
+        }
+
+        Tag tag = null;
+
+        try {
+            tag = CommentServiceAssembler.toTag(false, tagInfo, commentDao);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+
+        commentDao.create(tag);
+
+        TagInfo createdTagInfo = CommentServiceAssembler.toTagInfo(tag);
+
+        return createdTagInfo;
     }
 
     /**
@@ -119,8 +168,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<CommentInfo> getComments(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<Comment> comments = commentDao.getComments(referenceId, referenceTypeKey);
+        return CommentServiceAssembler.toCommentInfos(comments);
     }
 
     /**
@@ -130,8 +179,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<CommentInfo> getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<Comment> comments = commentDao.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
+        return CommentServiceAssembler.toCommentInfos(comments);
     }
 
     /**
@@ -141,7 +190,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
+
         return null;
     }
 
@@ -165,7 +214,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<TagTypeInfo> getTagTypes() throws OperationFailedException {
         List<TagType> tagTypes = commentDao.find(TagType.class);
-        
+
         return CommentServiceAssembler.toTagTypeInfos(tagTypes);
     }
 
@@ -176,9 +225,9 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<TagInfo> getTags(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         List<Tag> tags = commentDao.getTags(referenceId, referenceTypeKey);
-        
+
         return CommentServiceAssembler.toTagInfos(tags);
     }
 
@@ -189,7 +238,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<TagInfo> getTagsByType(String referenceId, String referenceTypeKey, String tagTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         List<Tag> tags = commentDao.getTagsByType(referenceId, referenceTypeKey, tagTypeKey);
         return CommentServiceAssembler.toTagInfos(tags);
     }
@@ -201,8 +250,26 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        try{
+            checkForMissingParameter(commentId, "commentId");
+            commentDao.delete(Comment.class, commentId);
+            return  new StatusInfo();
+        }
+        catch(MissingParameterException mpe){
+            Comment comment = null;
+            try{
+                comment = commentDao.getComment(referenceId, referenceTypeKey);
+                if(comment==null){
+                    throw new DoesNotExistException();
+                }
+            }
+            catch(NoResultException nre){
+                throw new DoesNotExistException();
+            }
+            commentDao.delete(comment);
+            return  new StatusInfo();
+        }
+        
     }
 
     /**
@@ -212,19 +279,40 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public StatusInfo removeComments(String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<Comment> comments = commentDao.getCommentsByRefId(referenceId);
+        for(Comment comment:comments){
+            commentDao.delete(comment);
+        }   
+        return new StatusInfo();
     }
 
     /**
      * This overridden method ...
+     * @throws DoesNotExistException
      *
      * @see org.kuali.student.core.comment.service.CommentService#removeTag(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public StatusInfo removeTag(String tagId, String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StatusInfo removeTag(String tagId, String referenceId, String referenceTypeKey) throws  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        try{
+            checkForMissingParameter(tagId, "tagId");
+            commentDao.delete(Tag.class, tagId);
+            return  new StatusInfo();
+        }
+        catch(MissingParameterException mpe){
+            Tag tag = null;
+            try{
+                tag = commentDao.getTag(referenceId, referenceTypeKey);
+                if(tag==null){
+                    throw new DoesNotExistException();
+                }
+            }
+            catch(NoResultException nre){
+                throw new DoesNotExistException();
+            }
+            commentDao.delete(tag);
+            return  new StatusInfo();
+        }
     }
 
     /**
@@ -234,8 +322,12 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public StatusInfo removeTags(String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        //tagId sould be referenceId like in removeComments() method
+        List<Tag> tags = commentDao.getTagsByRefId(tagId);
+        for(Tag tag:tags){
+            commentDao.delete(tag);
+        }
+        return new StatusInfo();
     }
 
     /**
@@ -277,9 +369,13 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#validateComment(java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public List<ValidationResultInfo> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<ValidationResult> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		checkForMissingParameter(validationType, "validationType");
+		checkForMissingParameter(commentInfo, "commentInfo");
+
+		List<ValidationResult> validationResults = createValidator().validateTypeStateObject(commentInfo, getObjectStructure("commentInfo"));
+
+		return validationResults;
     }
 
     /**
@@ -321,5 +417,46 @@ public class CommentServiceImpl implements CommentService {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
+
+	/**
+	 * @return the dictionaryServiceDelegate
+	 */
+	public DictionaryService getDictionaryServiceDelegate() {
+		return dictionaryServiceDelegate;
+	}
+
+	/**
+	 * @param dictionaryServiceDelegate the dictionaryServiceDelegate to set
+	 */
+	public void setDictionaryServiceDelegate(
+			DictionaryService dictionaryServiceDelegate) {
+		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+	}
+    private Validator createValidator() {
+        Validator validator = new Validator();
+        validator.setDateParser(new ServerDateParser());
+//      validator.addMessages(null); //TODO this needs to be loaded somehow
+        return validator;
+    }
+	@Override
+	public ObjectStructure getObjectStructure(String objectTypeKey) {
+		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+	}
+	@Override
+	public List<String> getObjectTypes() {
+		return dictionaryServiceDelegate.getObjectTypes();
+	}
+
+	@Override
+	public boolean validateObject(String objectTypeKey, String stateKey,
+			String info) {
+		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
+	}
+
+	@Override
+	public boolean validateStructureData(String objectTypeKey, String stateKey,
+			String info) {
+		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
+	}
 
 }

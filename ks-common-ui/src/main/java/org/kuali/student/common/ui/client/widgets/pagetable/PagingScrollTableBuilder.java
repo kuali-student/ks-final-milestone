@@ -17,6 +17,8 @@ package org.kuali.student.common.ui.client.widgets.pagetable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.dto.Idable;
+
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
@@ -47,7 +49,7 @@ import com.google.gwt.user.client.ui.HTML;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
-public class PagingScrollTableBuilder<RowType> {
+public class PagingScrollTableBuilder<RowType extends Idable> {
     private PagingScrollTable<RowType> pagingScrollTable;
     private int tablePixelWidth = 0;
     private int tablePixelHeight = 0;

@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ValidationResult implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final ValidationResult OK = new ImmutableOkResult();
-    
+
     public enum ErrorLevel {
         OK(0), WARN(1), ERROR(2);
 
@@ -22,7 +26,7 @@ public class ValidationResult implements Serializable {
         public int getLevel() {
             return level;
         }
-        
+
         public static ErrorLevel min(ErrorLevel e1, ErrorLevel e2) {
         	return e1.ordinal() < e2.ordinal() ? e1 : e2;
         }
@@ -31,8 +35,13 @@ public class ValidationResult implements Serializable {
         }
     }
 
+    @XmlElement
     ErrorLevel errorLevel = ErrorLevel.OK;
+
+    @XmlElement
     List<String> messages = new ArrayList<String>();
+
+    @XmlElement
     String key = null;
 
     public ValidationResult() {
@@ -55,7 +64,7 @@ public class ValidationResult implements Serializable {
     /**
      * Adds an message to the result. If the error level is greater than the current error level, then the specified error
      * level becomes the current error level.
-     * 
+     *
      * @param level
      *            the error level associated with the message
      * @param message
@@ -70,7 +79,7 @@ public class ValidationResult implements Serializable {
 
     /**
      * Returns a list of the messages associated with the ValidationResult
-     * 
+     *
      * @return
      */
     public List<String> getMessages() {
@@ -79,7 +88,7 @@ public class ValidationResult implements Serializable {
 
     /**
      * Returns the ValidationResult's error level
-     * 
+     *
      * @return
      */
     public ErrorLevel getErrorLevel() {
@@ -88,7 +97,7 @@ public class ValidationResult implements Serializable {
 
     /**
      * Convenience method. Adds a message with an error level of WARN
-     * 
+     *
      * @param message
      *            the message to add
      */
@@ -98,7 +107,7 @@ public class ValidationResult implements Serializable {
 
     /**
      * Convenience method. Adds a message with an error level of ERROR
-     * 
+     *
      * @param message
      *            the message to add
      */
@@ -108,7 +117,7 @@ public class ValidationResult implements Serializable {
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-     * 
+     *
      * @return true if getErrorLevel() == ErrorLevel.OK
      */
     public boolean isOk() {
@@ -117,7 +126,7 @@ public class ValidationResult implements Serializable {
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-     * 
+     *
      * @return true if getErrorLevel() == ErrorLevel.WARN
      */
     public boolean isWarn() {
@@ -126,13 +135,13 @@ public class ValidationResult implements Serializable {
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-     * 
+     *
      * @return true if getErrorLevel() == ErrorLevel.ERROR
      */
     public boolean isError() {
         return getErrorLevel() == ErrorLevel.ERROR;
     }
-    
+
     private static class ImmutableOkResult extends ValidationResult {
         private final List<String> messages = Collections.unmodifiableList(new ArrayList<String>());
         @Override
@@ -159,7 +168,7 @@ public class ValidationResult implements Serializable {
         public void setKey(String key) {
             throw new UnsupportedOperationException("ValidationResult.OK is immutable");
         }
-        
+
     }
 
 }

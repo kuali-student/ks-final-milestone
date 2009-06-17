@@ -18,21 +18,30 @@ import org.kuali.student.core.entity.Type;
 @Table(name = "KSCO_REF_TYPE")
 public class ReferenceType extends Type<ReferenceTypeAttribute>{
 
+    @Id
+    @Column(name = "ID")
+    private String id;
     
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "type")
-    private List<Reference> references;
+    @Column(name ="REFERENCE_TYPE")
+    private String referenceTypeKey;
+    
+    @Column(name = "NAME")
+    private String name;
+    
+    @Column(name = "DESCRIPTION")
+    private String desc;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EFF_DT")
+    private Date effectiveDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EXPIR_DT")
+    private Date expirationDate;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ReferenceTypeAttribute> attributes;
     
-    
-    public List<Reference> getReferences(){
-        return references;
-    }
-    
-    public void setReferences(List<Reference> references){
-        this.references=references;
-    }
     
     @Override
     public List<ReferenceTypeAttribute> getAttributes() {
