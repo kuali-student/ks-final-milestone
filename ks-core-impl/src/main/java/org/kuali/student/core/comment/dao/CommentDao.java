@@ -18,13 +18,14 @@ package org.kuali.student.core.comment.dao;
 import java.util.List;
 
 import org.kuali.student.core.comment.entity.Comment;
+import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dao.CrudDao;
 
 /**
- * This is a description of what this class does - lindholm don't forget to fill this in. 
- * 
+ * This is a description of what this class does - lindholm don't forget to fill this in.
+ *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
@@ -33,6 +34,7 @@ public interface CommentDao extends CrudDao {
     public List<Comment> getComments(String referenceId, String referenceTypeKey);
     public List<Comment> getCommentsByRefId(String referenceId);
     public List<Comment> getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey );
+    public List<CommentType> getCommentTypesByReferenceTypeId(String referenceTypeId);
     public Tag getTag(String referenceId, String referenceTypeKey);
     public List<Tag> getTags(String referenceId, String referenceTypeKey);
     public List<Tag> getTagsByRefId(String referenceId);

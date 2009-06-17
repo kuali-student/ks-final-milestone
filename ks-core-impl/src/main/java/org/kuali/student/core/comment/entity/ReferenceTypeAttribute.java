@@ -1,6 +1,8 @@
 package org.kuali.student.core.comment.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Attribute;
@@ -8,19 +10,20 @@ import org.kuali.student.core.entity.Attribute;
 
 
 @Entity
-@Table(name = "KSCO_REF_TYPE_ATTR")
+@Table(name = "KSCO_REFERENCE_TYPE_ATTR")
 public class ReferenceTypeAttribute extends Attribute<ReferenceType>{
+    @ManyToOne
+    @JoinColumn(name = "OWNER")
+    private ReferenceType owner;
 
     @Override
     public ReferenceType getOwner() {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	 return owner;
     }
 
     @Override
     public void setOwner(ReferenceType owner) {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        
+    	this.owner = owner;
     }
 
 }

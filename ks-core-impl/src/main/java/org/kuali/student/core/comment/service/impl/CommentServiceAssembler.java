@@ -85,7 +85,7 @@ public class CommentServiceAssembler extends BaseAssembler {
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
         dto.setReferenceId(entity.getReferennce().getReferenceId());
-        dto.setReferenceTypeKey(entity.getReferennce().getReferenceType());
+        dto.setReferenceTypeKey(entity.getReferennce().getReferenceType().getId());
         return dto;
 
     }
@@ -123,8 +123,10 @@ public class CommentServiceAssembler extends BaseAssembler {
     }
 
     private static CommentTypeInfo toCommentTypeInfo(CommentType entity) {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	CommentTypeInfo dto = new CommentTypeInfo();
+        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
     }
 
     public static Comment toComment(boolean isUpdate,CommentInfo dto,CommentDao dao) throws InvalidParameterException, DoesNotExistException{

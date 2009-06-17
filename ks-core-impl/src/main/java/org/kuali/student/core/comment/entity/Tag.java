@@ -28,9 +28,9 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSCO_TAG")
 @NamedQueries( {
-        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType=:refTypeId"),
-        @NamedQuery(name = "Tag.getTag", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId"),
-        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType=:refTypeId OR tag.type.id=:tagTypeId"),
+        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType.id=:refTypeId"),
+        @NamedQuery(name = "Tag.getTag", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id=:refTypeId"),
+        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType.id=:refTypeId OR tag.type.id=:tagTypeId"),
         @NamedQuery(name = "Tag.getTagsByRefId", query="SELECT tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId=:refId")})
 public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
@@ -41,18 +41,18 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
     @Column(name = "NAME_SPACE")
     private String namespace;
-    
+
     @Column(name = "PREDICATE")
     private String predicate;
-    
+
     @Column(name = "VAL")
     private String value;
-    
-    
+
+
     @ManyToOne
     @JoinColumn(name = "REFERENCE")
     private Reference reference;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
@@ -92,43 +92,43 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     public void setId(String id) {
         this.id = id;
     }
-    
+
 
     public String getNamespace(){
         return namespace;
     }
-    
+
     public void setNamespace(String namespace){
         this.namespace=namespace;
     }
-    
+
     public String getPredicate(){
         return predicate;
     }
-    
+
     public void setPredicate(String predicate){
         this.predicate=predicate;
     }
-    
+
     public String getValue(){
         return value;
     }
-    
+
     public void setValue(String value){
         this.value=value;
     }
-    
-    
+
+
     public Reference getReferennce(){
         return reference;
     }
-    
+
     public void setReference(Reference reference){
         this.reference=reference;
     }
-    
 
-    
+
+
     /**
      * @return the effectiveDate
      */
@@ -198,5 +198,5 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
     public void setState(String state) {
         this.state = state;
     }
-    
+
 }

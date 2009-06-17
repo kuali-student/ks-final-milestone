@@ -33,6 +33,7 @@ import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
+import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.comment.service.CommentService;
@@ -75,8 +76,13 @@ public class CommentServiceImpl implements CommentService {
         if(reference==null){
             reference = new Reference();
             reference.setReferenceId(referenceId);
-            reference.setReferenceType(referenceTypeKey);
-            commentDao.create(reference);
+			try {
+				ReferenceType referenceType = commentDao.fetch(ReferenceType.class, referenceTypeKey);
+	            reference.setReferenceType(referenceType);
+	            commentDao.create(reference);
+			} catch (DoesNotExistException e) {
+				throw new InvalidParameterException(e.getMessage());
+			}
         }
 
         Comment comment = null;
@@ -108,8 +114,13 @@ public class CommentServiceImpl implements CommentService {
         if(reference==null){
             reference = new Reference();
             reference.setReferenceId(referenceId);
-            reference.setReferenceType(referenceTypeKey);
-            commentDao.create(reference);
+			try {
+				ReferenceType referenceType = commentDao.fetch(ReferenceType.class, referenceTypeKey);
+	            reference.setReferenceType(referenceType);
+	            commentDao.create(reference);
+			} catch (DoesNotExistException e) {
+				throw new InvalidParameterException(e.getMessage());
+			}
         }
 
         Tag tag = null;
@@ -157,8 +168,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<CommentType> commentTypes = commentDao.getCommentTypesByReferenceTypeId(referenceTypeKey);
+        return CommentServiceAssembler.toCommentTypeInfos(commentTypes);
     }
 
     /**
@@ -269,7 +280,7 @@ public class CommentServiceImpl implements CommentService {
             commentDao.delete(comment);
             return  new StatusInfo();
         }
-        
+
     }
 
     /**
@@ -282,7 +293,7 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentDao.getCommentsByRefId(referenceId);
         for(Comment comment:comments){
             commentDao.delete(comment);
-        }   
+        }
         return new StatusInfo();
     }
 
@@ -403,18 +414,6 @@ public class CommentServiceImpl implements CommentService {
             throws MissingParameterException {
         if (param == null) {
             throw new MissingParameterException(paramName + " can not be null");
-        }
-    }
-
-    /**
-     * @param param
-     * @param paramName
-     * @throws MissingParameterException
-     */
-    private void checkForEmptyList(Object param, String paramName)
-            throws MissingParameterException {
-        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
-            throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
 

@@ -33,6 +33,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
@@ -122,6 +123,11 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         }
     }
 
+    @Test
+    public void testGetCommentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<CommentTypeInfo> commentTypeInfos = client.getCommentTypesForReferenceType("referenceType.type1");
+    	assertEquals(2, commentTypeInfos.size());
+    }
 
     @Test
     public void testGetTag() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -173,7 +179,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         tagInfo.setReferenceTypeKey("");
         tagInfo.setType("tagType.default");
 
-        TagInfo createdTagInfo = client.addTag("REF-4", "REF-TYPE-0", tagInfo);
+        TagInfo createdTagInfo = client.addTag("REF-4", "referenceType.type1", tagInfo);
         try {
             TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
             assertEquals(tagInfoTest.getId(), createdTagInfo.getId());
@@ -222,9 +228,9 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         tagInfo.setReferenceTypeKey("");
         tagInfo.setType("tagType.default");
 
-        client.addTag("REF-1", "REF-TYPE-0", tagInfo);
-        client.addTag("REF-1", "REF-TYPE-0", tagInfo);
-        client.addTag("REF-1", "REF-TYPE-0", tagInfo);
+        client.addTag("REF-1", "referenceType.type1", tagInfo);
+        client.addTag("REF-1", "referenceType.type1", tagInfo);
+        client.addTag("REF-1", "referenceType.type1", tagInfo);
 
 
 
