@@ -10,7 +10,11 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * there are three validator classes, the activly developed one is in common-util.  
+ * When Kamal finishes his changes we should refactor so that only one validator is left. 
+ */
+@Deprecated
 public class Validator {
 	
 	final static Logger logger = LoggerFactory.getLogger(Validator.class);
