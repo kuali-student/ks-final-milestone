@@ -13,7 +13,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -25,13 +24,8 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.testData.Color;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSListItemsSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow.SearchParameter;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -39,8 +33,8 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
@@ -294,17 +288,17 @@ public class ClauseEditorView extends ViewComposite {
         KSSelectableTableList stl = new KSSelectableTableList();
         KSSuggestBox sb = new KSSuggestBox(oracle);
         
-        List<SearchParameter> params = new ArrayList<SearchParameter>();
-        params.add(new SearchParameter("Color", "Color"));
-        params.add(new SearchParameter("Warmth", "Warmth"));
-        List<String> enumeratedValues = new ArrayList<String>();
-        enumeratedValues.add("Primary");
-        enumeratedValues.add("Secondary");
-        enumeratedValues.add("None");
-        params.add(new SearchParameter("Type", "Type", enumeratedValues));        
-        
-        KSSuggestBoxWAdvSearch suggest = new KSSuggestBoxWAdvSearch(sb, new KSAdvancedSearchWindow(params));
-        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);        
+//        List<SearchParameter> params = new ArrayList<SearchParameter>();
+//        params.add(new SearchParameter("Color", "Color"));
+//        params.add(new SearchParameter("Warmth", "Warmth"));
+//        List<String> enumeratedValues = new ArrayList<String>();
+//        enumeratedValues.add("Primary");
+//        enumeratedValues.add("Secondary");
+//        enumeratedValues.add("None");
+//        params.add(new SearchParameter("Type", "Type", enumeratedValues));        
+//        
+//        KSSuggestBoxWAdvSearch suggest = new KSSuggestBoxWAdvSearch(sb, new KSAdvancedSearchWindow(params));
+//        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);        
         
         //addEditRuleView.add(sbp);
         
