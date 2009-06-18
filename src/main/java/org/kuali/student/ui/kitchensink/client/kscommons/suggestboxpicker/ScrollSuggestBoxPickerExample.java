@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Model;
-//import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.ui.client.widgets.list.testData.Color;
 import org.kuali.student.common.ui.client.widgets.pagetable.AbstractTableSelectable;
@@ -14,8 +13,11 @@ import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBui
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSListItemsSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.ColorColumnDefinition;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.ColorDTOs;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.TypeColumnDefinition;
+import org.kuali.student.ui.kitchensink.client.kscommons.dto.WarmthColumnDefinition;
 import org.kuali.student.ui.kitchensink.client.kscommons.suggestboxpicker.KSSuggestBoxPicker;
-//import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow.SearchParameter;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.ui.kitchensink.client.kscommons.suggestboxpicker;
+package org.kuali.student.ui.kitchensink.client.kscommons.dto;
 
 import org.kuali.student.common.ui.client.widgets.list.testData.Color;
 

@@ -24,7 +24,7 @@ public class ScrollSuggestBoxPickerExampleDescriptor extends KitchenSinkExample 
 
     @Override
     public Widget getExampleWidget() {
-        return new SuggestBoxPickerExample();
+        return new ScrollSuggestBoxPickerExample();
     }
 
     @Override
