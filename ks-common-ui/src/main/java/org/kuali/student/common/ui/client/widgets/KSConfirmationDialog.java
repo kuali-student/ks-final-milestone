@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
  * set by using setWidget.
  * 
  * @author Kuali Student Team
- *
+ * @deprecated
  */
 public class KSConfirmationDialog extends KSConfirmationDialogAbstract{ 
 	

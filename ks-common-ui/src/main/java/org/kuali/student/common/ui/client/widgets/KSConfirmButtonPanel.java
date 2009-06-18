@@ -9,7 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
  * A panel with a cancel and a confirm button, which represents a standard combination of buttons.
  * 
  * @author Kuali Student Team
- *
+ * @deprecated
  */
 public class KSConfirmButtonPanel extends KSConfirmButtonPanelAbstract{
 	
