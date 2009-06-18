@@ -3,7 +3,7 @@ package org.kuali.student.common.ui.client.mvc;
 import com.google.gwt.user.client.ui.Composite;
 
 /**
- * Abstract class implementing the View interface
+ * Abstract class implementing the View interface, which has a handle to it's controller.
  * 
  * @author Kuali Student Team
  */
@@ -63,4 +63,12 @@ public abstract class ViewComposite extends Composite implements View {
         return name;
     }
 
+    /**
+     * Used to clear view 
+     * 
+     * @see org.kuali.student.common.ui.client.mvc.View#clear()
+     */
+    public void clear(){
+        //do nothing
+    }
 }
