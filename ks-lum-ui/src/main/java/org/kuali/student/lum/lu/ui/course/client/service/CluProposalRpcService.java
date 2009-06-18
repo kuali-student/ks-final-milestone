@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.util.ArrayList;
+
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -39,5 +41,7 @@ public interface CluProposalRpcService extends BaseRpcService{
     public Boolean approveProposal(CluProposal cluProposal);
     public Boolean disapproveProposal(CluProposal cluProposal);
     public Boolean acknowledgeProposal(CluProposal cluProposal);
+    public Boolean addCollaborator(CluProposal cluProposal, String recipientPrincipalId);
+    public ArrayList<String> getCollaborators(CluProposal cluProposal);
     public Boolean loginBackdoor(String backdoorId);
 }

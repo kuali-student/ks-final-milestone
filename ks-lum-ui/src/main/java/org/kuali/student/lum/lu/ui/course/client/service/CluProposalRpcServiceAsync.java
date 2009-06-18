@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.util.ArrayList;
+
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -38,5 +40,7 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void approveProposal(CluProposal cluProposal, AsyncCallback<Boolean> callback);
     public void acknowledgeProposal(CluProposal cluProposal, AsyncCallback<Boolean> callback);
     public void disapproveProposal(CluProposal cluProposal, AsyncCallback<Boolean> callback);
+    public void addCollaborator(CluProposal cluProposal, String recipientPrincipalId, AsyncCallback<Boolean> callback);
+    public void getCollaborators(CluProposal cluProposal, AsyncCallback<ArrayList<String>> callback);
     public void loginBackdoor(String backdoorId, AsyncCallback<Boolean> callback);
 }

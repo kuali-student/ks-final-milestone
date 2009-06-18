@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +24,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.kuali.rice.kew.dto.ActionItemDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -55,7 +58,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private static final String DEFAULT_USER_ID = "user1";
     private SimpleDocumentActionsWebService simpleDocService; 
     private SimpleWorkflowUtility workflowUtilityService;
-    
+     
     private String simpleDocServiceAddress="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService";
     private String workflowUtilityServiceAddress="http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP";
     
@@ -434,6 +437,43 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 	
 	@Override
+    public Boolean addCollaborator(CluProposal cluProposal, String recipientPrincipalId){
+		aquireSimpleDocService();
+		
+		try{
+			//get a user name
+            String username=getCurrentUser();
+            
+	        String collaborateComment = "Collaborate by CluProposalService";
+	        
+	        //String docId, String principalId, String docTitle, String docContent, String annotation
+	        simpleDocService.requestAdHocFyiToPrincipal(cluProposal.getWorkflowId(), recipientPrincipalId, username, collaborateComment);
+	       
+		}catch(Exception e){
+            e.printStackTrace();
+		}
+        return new Boolean(true);
+    }
+
+	@Override
+    public ArrayList<String> getCollaborators(CluProposal cluProposal){
+		aquireWorkflowUtilityService();
+		
+		ArrayList<String> users = new ArrayList<String>();
+		
+		Long docId = Long.parseLong(cluProposal.getWorkflowId());
+        ActionItemDTO[] items= workflowUtilityService.getActionItems(docId);
+        if(items!=null){
+        	for(ActionItemDTO item:items){
+        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequestCd())){
+	        		users.add(item.getPrincipalId());
+        		}
+        	}
+        }
+		return users;
+    }
+	
+	@Override
 	public Boolean loginBackdoor(String backdoorId) {
 		try{
 			//Set spring security principal to the new backdoorId
@@ -489,10 +529,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
 				factory.setServiceClass(SimpleWorkflowUtility.class);
 				factory.setAddress(workflowUtilityServiceAddress);
-				factory.setWsdlLocation(workflowUtilityServiceAddress+"?wsdl");
+				//factory.setWsdlLocation(workflowUtilityServiceAddress+"?wsdl");
 				factory.setServiceName(new QName("RICE", "WorkflowUtilityServiceSOAP"));
-				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
+				AegisDatabinding binding = new AegisDatabinding();
+				factory.getServiceFactory().setDataBinding(binding);
 				factory.setEndpointName(new QName("RICE", "WorkflowUtilityPort"));
+				
 				workflowUtilityService = (SimpleWorkflowUtility) factory.create();
 			}catch(Exception e){
 				e.printStackTrace();
@@ -500,10 +542,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		}
 	}
 
+	@WebService(targetNamespace="RICE",name="WorkflowUtilityServiceSOAP",serviceName="WorkflowUtilityServiceSOAP",portName="WorkflowUtilityPort")
 	private interface SimpleWorkflowUtility{
 		public AttributeSet getActionsRequested(String username, long docId);
+		public ActionItemDTO[] getActionItems(Long docId);
 	}
 	
+
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}
