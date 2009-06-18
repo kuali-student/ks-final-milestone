@@ -10,6 +10,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.GlassPanel;
 
+/**
+ * @deprecated
+ * */
 public class KSLightBox {
     private final PopupPanel pop = new PopupPanel(false, true);
     private final GlassPanel glass = new GlassPanel(false);

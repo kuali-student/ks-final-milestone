@@ -20,7 +20,7 @@ package org.kuali.student.common.ui.client.widgets;
  * This is a description of what this class does - Gary Struthers don't forget to fill this in. 
  * 
  * @author Kuali Student Team (gstruthers@berkeley.edu)
- *
+ * @deprecated
  */
 public abstract class KSModalDialogPanelAbstract extends KSDialogPanel {
 
