@@ -9,7 +9,10 @@
 	<import resource="classpath:fact-data-beans.xml" />
 	<import resource="classpath:fact-metadata-beans.xml" />
 
-    <bean id="factFinderService" class="org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl" />
+    <bean id="factFinderService" class="org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl">
+        <property name="factFinder">
+		    <bean id="factFinder" class="org.kuali.student.brms.factfinder.runtime.FactFinderImpl" autowire="byType" />
+        </property>
+    </bean>
 
-    <bean id="factFinder" class="org.kuali.student.brms.factfinder.runtime.FactFinderImpl" autowire="byType" />
 </beans>

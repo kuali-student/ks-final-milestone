@@ -56,7 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 			serviceName = "RuleRepositoryService", 
 			portName = "RuleRepositoryService", 
 			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
-public class RuleRepositoryServiceImpl implements RuleRepositoryService {
+public class RuleRepositoryServiceImpl implements RuleRepositoryService, RuleRepository {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
     

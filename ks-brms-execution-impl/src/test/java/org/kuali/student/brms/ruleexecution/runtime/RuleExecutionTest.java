@@ -41,7 +41,6 @@ import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.entity.RuleElementType;
 import org.kuali.student.brms.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.repository.drools.DefaultDroolsRepository;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.ruleexecution.dto.AgendaExecutionResultInfo;
 import org.kuali.student.brms.ruleexecution.dto.ExecutionResultInfo;

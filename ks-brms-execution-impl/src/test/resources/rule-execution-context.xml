@@ -237,13 +237,16 @@
         <constructor-arg type="int" value="2"/>
     </bean>
 
-    <bean id="ruleExecution"
+    <bean id="ruleExecution" autowire="no" name="ruleExecution"
         class="org.kuali.student.brms.ruleexecution.runtime.RuleExecutionImpl">
         <property name="enableRuleSetCaching" value="false"/>
+        <!-- Embedded fact finder -->
         <property name="factFinder" ref="factFinder"/>
-        <property name="reportBuilder" ref="reportBuilder"/>
+        <!-- Embedded rule management service -->
         <property name="ruleManagement" ref="ruleManagement"/>
+        <!-- Embedded rule repository service -->
         <property name="ruleRespository" ref="ruleRepository"/>
+        <property name="reportBuilder" ref="reportBuilder"/>
         <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
         <property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
     </bean>

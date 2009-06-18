@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.brms.rulemanagement.service.RuleManagementService", serviceName = "RuleManagementService", portName = "RuleManagementService", targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @Transactional
-public class RuleManagementServiceImpl implements RuleManagementService {
+public class RuleManagementServiceImpl implements RuleManagementService, RuleManagement {
 
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);

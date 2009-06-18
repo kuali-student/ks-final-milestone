@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @WebService(endpointInterface = "org.kuali.student.brms.factfinder.service.FactFinderService", serviceName = "FactFinderService", portName = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder")
-public class FactFinderServiceImpl implements FactFinderService {
+public class FactFinderServiceImpl implements FactFinderService, FactFinder {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(FactFinderServiceImpl.class);
     		

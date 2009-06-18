@@ -12,10 +12,10 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="ruleRepositoryService" class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
-        <property name="ruleRepository" ref="ruleRepository"/>
+        <property name="ruleRepository">
+		    <bean id="ruleRepository" class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl" autowire="byType" />
+        </property>
     </bean>
-
-    <bean id="ruleRepository" class="org.kuali.student.brms.repository.runtime.RuleRepositoryImpl" autowire="byType" />
 
     <bean id="ruleEngineRepository"
         class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
