@@ -437,7 +437,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 	
 	@Override
-    public Boolean addCollaborator(CluProposal cluProposal, String recipientPrincipalId){
+    public Boolean addCollaborator(String docId, String recipientPrincipalId){
 		aquireSimpleDocService();
 		
 		try{
@@ -447,7 +447,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        String collaborateComment = "Collaborate by CluProposalService";
 	        
 	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.requestAdHocFyiToPrincipal(cluProposal.getWorkflowId(), recipientPrincipalId, username, collaborateComment);
+	        simpleDocService.requestAdHocFyiToPrincipal(docId, recipientPrincipalId, username, collaborateComment);
 	       
 		}catch(Exception e){
             e.printStackTrace();
@@ -456,13 +456,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
 
 	@Override
-    public ArrayList<String> getCollaborators(CluProposal cluProposal){
+    public ArrayList<String> getCollaborators(String docId){
 		aquireWorkflowUtilityService();
 		
 		ArrayList<String> users = new ArrayList<String>();
 		
-		Long docId = Long.parseLong(cluProposal.getWorkflowId());
-        ActionItemDTO[] items= workflowUtilityService.getActionItems(docId);
+        ActionItemDTO[] items= workflowUtilityService.getActionItems(Long.parseLong(docId));
         if(items!=null){
         	for(ActionItemDTO item:items){
         		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequestCd())){
