@@ -1,9 +1,5 @@
 package org.kuali.student.common.ui.client.widgets.suggestbox;
 
-import java.util.List;
-
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow.SearchParameter;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -19,7 +15,7 @@ public class KSSuggestBoxWAdvSearch extends Composite{
     //TODO pass in some way to search for these items? and control params you can search on?
     public KSSuggestBoxWAdvSearch(KSSuggestBox suggest, KSAdvancedSearchWindow searchDialog){
         this.suggest = suggest;
-        
+        this.suggest.setAutoSelectEnabled(false);
         layout.add(suggest);
         layout.add(advSearchLink);
         
@@ -43,10 +39,5 @@ public class KSSuggestBoxWAdvSearch extends Composite{
     
     public KSAdvancedSearchWindow getSearchWindow(){
         return advSearchWindow;
-    }
-    
-    public void setSearchParameters(List<SearchParameter> params){
-        advSearchWindow = new KSAdvancedSearchWindow(params);
-    }
-    
+    } 
 }

@@ -56,6 +56,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     private KSButton selectButton = new KSButton("Select");
     private boolean hasSelectionHandlers = false;
     private SearchResultListItems searchResultList = new SearchResultListItems();
+    private List<KSTextBox> textBoxes = new ArrayList<KSTextBox>();
+    private List<KSSelectItemWidgetAbstract> selectableEnums = new ArrayList<KSSelectItemWidgetAbstract>();
     
     private FlexTable searchParamTable = new FlexTable();
     
@@ -113,7 +115,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                 List<QueryParamInfo> queryParams = criteriaInfo.getQueryParams();
                 for (QueryParamInfo q:queryParams){
                     FieldDescriptor fd = q.getFieldDescriptor();
-                    
+                    //TODO change this to use a message from messages, using the fd.getName() as the token
                     KSLabel paramLabel = new KSLabel(fd.getName());
                     paramLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PARAM_LABELS);
                     searchParamTable.getColumnFormatter().addStyleName(0, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN);
@@ -123,7 +125,6 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                     
                     if (fd.getSearchTypeId() != null || fd.getEnum() != null){                                                
                         KSSelectItemWidgetAbstract dropDown = new KSDropDown();
-                        
                         if (fd.getSearchTypeId() != null){
                             populateSearchEnumeration(dropDown, fd.getSearchTypeId());
                         } else {
@@ -132,15 +133,17 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                         
                         dropDown.setName(q.getKey());
                         searchParamTable.setWidget(row, column, dropDown);
+                        selectableEnums.add(dropDown);
                     } else{
                         KSTextBox tb = new KSTextBox();
                         tb.setName(q.getKey());
                         searchParamTable.setWidget(row, column, tb);
+                        textBoxes.add(tb);
                      }
                      column = 0;
                      row++;
                 }
-                column++;
+                column++;   
                 KSButton searchButton = new KSButton("Search");
                 searchButton.addClickHandler(new ClickHandler(){
                     public void onClick(ClickEvent event) {
@@ -275,5 +278,16 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     
     private void fireSelectEvent(List<String> selectedItems){
         SelectionEvent.fire(this, selectedItems);
+    }
+    
+    public void reset(){
+        for(KSTextBox t: textBoxes){
+            t.setText("");
+        }
+        for(KSSelectItemWidgetAbstract w: selectableEnums){
+            w.redraw();
+        }
+        searchResultList.setResults(new ArrayList<Result>());
+        tabPanel.selectTab(0);
     }
 }

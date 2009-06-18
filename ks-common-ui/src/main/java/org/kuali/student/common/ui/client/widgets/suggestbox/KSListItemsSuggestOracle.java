@@ -9,7 +9,7 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
     
     private ListItems listItems = null;
     private static final String WHITESPACE_STRING = " ";
-    private static final char PERIOD_CHAR = '.';
+    //private static final char PERIOD_CHAR = '.';
     private static final char WHITESPACE_CHAR = ' ';
     private static final String NORMALIZE_TO_SINGLE_WHITE_SPACE = "\\s+";
     
@@ -95,16 +95,6 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
         return false;
     }
     
-    @Override
-    public IdableSuggestion getSuggestion(String id){
-        IdableSuggestion suggestion = null;
-        if(listItems.getItemIds().contains(id)){
-            suggestion = new IdableSuggestion(id, listItems.getItemText(id), listItems.getItemText(id));
-            addAttributesToSuggestion(suggestion);
-        }
-        return suggestion;
-    }
-    
 
     @Override
     public boolean isDisplayStringHTML() {
@@ -119,8 +109,32 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
         this.listItems = listItems;
     }
 
-    @Override
     public List<String> getAttrKeys() {
         return listItems.getAttrKeys();
+    }
+
+    @Override
+    public IdableSuggestion getSuggestionById(String id) {
+        IdableSuggestion suggestion = null;
+        if(listItems.getItemIds().contains(id)){
+            suggestion = new IdableSuggestion(id, listItems.getItemText(id), listItems.getItemText(id));
+            addAttributesToSuggestion(suggestion);
+        }
+        return suggestion;
+    }
+
+    @Override
+    public IdableSuggestion getSuggestionByText(String text) {
+        IdableSuggestion suggestion = null;
+        for(String id: listItems.getItemIds()){
+            text = text.trim();
+            if(text.equalsIgnoreCase(listItems.getItemText(id).trim())){
+                suggestion = new IdableSuggestion(id, listItems.getItemText(id), listItems.getItemText(id));
+                addAttributesToSuggestion(suggestion);
+                break;
+            }
+                
+        }
+        return suggestion;
     }
 }
