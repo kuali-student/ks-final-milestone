@@ -3,7 +3,10 @@ package org.kuali.student.common.ui.client.widgets;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
-
+/**
+ * 
+ * @deprecated
+ * */
 public class KSYesNoDialog{
     KSDialog dialog = new KSDialog();
 

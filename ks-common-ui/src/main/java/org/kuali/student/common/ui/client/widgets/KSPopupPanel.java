@@ -10,7 +10,10 @@ import com.google.gwt.user.client.ui.Widget;
  * KSPopupPanel provides much of the same functionality as gwt PopupPanel.
  * 
  * @author Kuali Student Team
- *
+
+ * @deprecated
+
+
  */
 public class KSPopupPanel extends KSPopupPanelAbstract{ 
 	private final KSPopupPanelAbstract popupPanel = GWT.create(KSPopupPanelImpl.class);
