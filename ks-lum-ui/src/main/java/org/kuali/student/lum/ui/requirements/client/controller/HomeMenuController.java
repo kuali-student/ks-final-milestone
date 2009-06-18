@@ -222,5 +222,14 @@ public class HomeMenuController extends Controller implements View {
 
     public Class<? extends Enum<?>> getViewsEnum() {
         return MenuViews.class;
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.View#clear()
+     */
+    @Override
+    public void clear() {
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        
     }    
 }

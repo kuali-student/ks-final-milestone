@@ -125,7 +125,13 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	                    @Override
 	                    public String getName() {
 	                        return null;
-	                    }}, new View() {
+	                    }
+
+                        @Override
+                        public void clear() {
+                            // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+                            
+                        }}, new View() {
 
 	                        @Override
 	                        public boolean beforeHide() {
@@ -144,7 +150,13 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	                        @Override
 	                        public String getName() {
 	                            return fullPath;
-	                        }}));
+	                        }
+
+                            @Override
+                            public void clear() {
+                                // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+                                
+                            }}));
 				showSection(section);
 			}
 		});

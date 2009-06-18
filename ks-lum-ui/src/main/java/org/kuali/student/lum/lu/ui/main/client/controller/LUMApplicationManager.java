@@ -2,8 +2,8 @@ package org.kuali.student.lum.lu.ui.main.client.controller;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
@@ -30,13 +30,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUMApplicationManager extends Controller{
-
-    ApplicationComposite app = new ApplicationComposite();
-    
+   
     private final SimplePanel viewPanel = new SimplePanel();
 
-    private final View homeMenu = new HomeMenuController(this);
-    //private CourseProposalManager createCourse = new CourseProposalManager(this);
+    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
     KSHistory history;
 
     private LUCreateUpdateView courseView;
@@ -51,8 +48,7 @@ public class LUMApplicationManager extends Controller{
         super();
         loadDictionary();
         history = new KSHistory(this);
-        super.initWidget(app);
-        app.setContent(viewPanel);
+        super.initWidget(viewPanel);
         viewPanel.addStyleName("LUMMain-Content");
     }
 
@@ -85,7 +81,7 @@ public class LUMApplicationManager extends Controller{
     protected <V extends Enum<?>> View getView(V viewType) {
         switch ((LUMViews) viewType) {
             case HOME_MENU:
-                return homeMenu;
+                return homeMenuView;
             case CREATE_COURSE:
                 if (courseView == null){
                     courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);

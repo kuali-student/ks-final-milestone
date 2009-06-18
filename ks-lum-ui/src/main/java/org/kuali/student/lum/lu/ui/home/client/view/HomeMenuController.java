@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -29,7 +27,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HomeMenuController extends Controller implements View{
+public class HomeMenuController extends Controller{
     
     public enum MenuViews {
         DEFAULT_VIEW, CREATE_COURSE_VIEW, FIND_VIEW
@@ -151,8 +149,7 @@ public class HomeMenuController extends Controller implements View{
         
     }
     
-    public HomeMenuController(Controller parentController){
-        this.setParentController(parentController);
+    public HomeMenuController(){
         mainPanel.setStyleName("Course-Home-Main-Panel");
         menuPanel.setStyleName("Course-Home-Menu-Panel");
         contentPanel.setStyleName("Course-Home-Content-Panel");   
@@ -208,26 +205,6 @@ public class HomeMenuController extends Controller implements View{
     public void showDefaultView() {
         showView(MenuViews.DEFAULT_VIEW);
         
-    }
-
-    @Override
-    public boolean beforeHide() {
-        return true;
-    }
-
-    @Override
-    public void beforeShow() {
-        //Not needed
-    }
-
-    @Override
-    public Controller getController() {
-        return this.getParentController();
-    }
-
-    @Override
-    public String getName() {
-        return "LUM Home Menu";
     }
 
     @Override

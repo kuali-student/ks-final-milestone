@@ -1,14 +1,11 @@
 package org.kuali.student.lum.lu.ui.home.client;
 
-import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeResources;
-
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.libideas.client.StyleInjector;
 import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class HomeEntryPoint implements EntryPoint{
 

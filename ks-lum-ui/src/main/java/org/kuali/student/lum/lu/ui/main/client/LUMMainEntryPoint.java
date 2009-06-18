@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.main.client;
 
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.messages.MessagesService;
 import org.kuali.student.core.messages.dto.MessageList;
@@ -15,18 +16,20 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class LUMMainEntryPoint implements EntryPoint{
 
+    ApplicationComposite app = new ApplicationComposite();
     private final LUMApplicationManager manager = new LUMApplicationManager();
 
     @Override
     public void onModuleLoad() {
         final ApplicationContext context = new ApplicationContext();
         Application.setApplicationContext(context);
-
+        
         try {
             MessageList messageList =  getSerializedObject( "i18nMessages");
             context.addMessages(messageList.getMessages());
 
-            RootPanel.get().add(manager);
+            app.setContent(manager);
+            RootPanel.get().add(app);
             if(manager.getCurrentView() == null)
                 manager.showDefaultView();
         } catch (Exception e) {
