@@ -48,33 +48,36 @@ public class Collaborators extends Composite implements HasWorkflowId{
     }
     
     public void refreshCollaboratorList(){
-        cluProposalRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<ArrayList<String>>(){
-			public void onFailure(Throwable caught) {
-			}
-			public void onSuccess(ArrayList<String> result) {
-				userIds.clear();
-				for(String id:result){
-					userIds.add(new KSLabel(id));
+    	if(workflowId!=null){
+	        cluProposalRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<ArrayList<String>>(){
+				public void onFailure(Throwable caught) {
 				}
-			}
-        });
+				public void onSuccess(ArrayList<String> result) {
+					userIds.clear();
+					for(String id:result){
+						userIds.add(new KSLabel(id));
+					}
+				}
+	        });
+    	}
     }
     
     private void addCollaborator(String recipientPrincipalId){
     	if(workflowId==null){
     		Window.alert("Workflow must be started before Collaborators can be added");
+    	}else{
+	    	cluProposalRpcServiceAsync.addCollaborator(workflowId, recipientPrincipalId, new AsyncCallback<Boolean>(){
+				public void onFailure(Throwable caught) {
+					Window.alert("Could not add Collaborator");
+				}
+	
+				public void onSuccess(Boolean result) {
+					userIdField.setValue("");
+					refreshCollaboratorList();
+				}
+	    		
+	    	});
     	}
-    	cluProposalRpcServiceAsync.addCollaborator(workflowId, recipientPrincipalId, new AsyncCallback<Boolean>(){
-			public void onFailure(Throwable caught) {
-				Window.alert("Could not add Collaborator");
-			}
-
-			public void onSuccess(Boolean result) {
-				userIdField.setValue("");
-				refreshCollaboratorList();
-			}
-    		
-    	});
     }
     
 	@Override
