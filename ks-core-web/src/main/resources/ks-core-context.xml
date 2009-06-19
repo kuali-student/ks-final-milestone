@@ -57,6 +57,16 @@
 		<property name="xaProperties" value="${propertiesPrefix.message.jdbc.xaDataSourceProperties}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 	</bean>
+	
+	<bean id="commentDataSource"
+		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+		destroy-method="close">
+		<property name="uniqueResourceName" value="commentDataSource" />
+		<property name="xaDataSourceClassName"
+			value="${jdbc.xaDataSourceClassName}" />
+		<property name="xaProperties" value="${propertiesPrefix.message.jdbc.xaDataSourceProperties}"/>
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+	</bean>
 
 	<!-- JPA EntityManagerFactory -->
 	<bean id="orgEntityManagerFactory"
@@ -107,6 +117,23 @@
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/messages-persistence.xml" />
 		<property name="dataSource" ref="messageDataSource" />
+		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+	</bean>
+	
+	<bean id="commentEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="Comment"/>
+		<property name="jpaVendorAdapter">
+			<bean class="${jpa.vendorAdapter}">
+				<property name="databasePlatform"
+					value="${jpa.databasePlatform}" />
+				<property name="showSql" value="${jpa.showSql}" />
+				<property name="generateDdl" value="${jpa.generateDdl}" />
+			</bean>
+		</property>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/comment-persistence.xml" />
+		<property name="dataSource" ref="commentDataSource" />
 		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
 
