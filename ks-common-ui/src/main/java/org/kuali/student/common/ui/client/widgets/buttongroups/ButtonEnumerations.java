@@ -5,6 +5,18 @@ public class ButtonEnumerations {
         public String getText();
     };
     //TODO use messages service instead of hardcoded strings
+    public static enum OkEnum implements ButtonEnum{Ok;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case Ok:
+                return "Ok";
+        }
+        return null;  
+    }
+    };
+    
     public static enum YesNoEnum implements ButtonEnum{YES, NO;
 
         @Override
