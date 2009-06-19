@@ -171,11 +171,15 @@
 			<xsd:element name="occurs" type="occursConstraint"></xsd:element>
 			<xsd:element name="lookup" type="lookupConstraint"></xsd:element>
 			<xsd:element name="case" type="caseConstraint"></xsd:element>
+			<xsd:element name="typeStateCase"
+				type="typeStateCaseConstraint">
+			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="key" type="xsd:string" use="required"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 		<xsd:attribute name="className" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="serverSide" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="locale" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="searchSelector">
@@ -195,9 +199,11 @@
 		<xsd:attribute name="max" type="xsd:int"></xsd:attribute>
 	</xsd:complexType>
 
-    <xsd:complexType name="requireConstraint"></xsd:complexType>
+	<xsd:complexType name="requireConstraint">
+		<xsd:attribute name="field" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
 
-    <xsd:complexType name="lookupConstraint">
+	<xsd:complexType name="lookupConstraint">
     	<xsd:sequence>
     		<xsd:element name="lookupKey" type="lookupKeyConstraint"></xsd:element>
     	</xsd:sequence>
@@ -225,5 +231,20 @@
     				<xsd:documentation>Not sure if I should just put constraint here or list specific constraints to avoid deep nesting of constraints.</xsd:documentation>
     			</xsd:annotation></xsd:element>
     	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="typeStateCaseConstraint">
+    	<xsd:sequence>
+    		<xsd:element name="typeStateWhen" type="typeStateWhenConstraint"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="typeStateWhenConstraint">
+    	<xsd:sequence>
+    		<xsd:element name="minOccurs" type="xsd:int"></xsd:element>
+    		<xsd:element name="maxOccurs" type="xsd:string"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="type" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="state" type="xsd:string"></xsd:attribute>
     </xsd:complexType>
 </xsd:schema>
