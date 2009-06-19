@@ -62,7 +62,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	}
     }
     
-    private void addCollaborator(String recipientPrincipalId){
+    private void addCollaborator(final String recipientPrincipalId){
     	if(workflowId==null){
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
@@ -73,7 +73,9 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	
 				public void onSuccess(Boolean result) {
 					userIdField.setValue("");
-					refreshCollaboratorList();
+					//Add to the list and no refresh even though we should because rice has a timing issue
+					userIds.add(new KSLabel(recipientPrincipalId));
+					//refreshCollaboratorList();
 				}
 	    		
 	    	});
