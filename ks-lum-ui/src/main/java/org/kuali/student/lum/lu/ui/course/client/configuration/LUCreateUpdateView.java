@@ -121,6 +121,7 @@ public class LUCreateUpdateView extends ViewComposite {
 									Window.alert("Proposal has been routed to workflow");
 									layout.getObject().setWorkflowId(result.getWorkflowId());
 									layout.removeButton(wfStartWorkflowButton);
+									layout.refresh();
 								}
 							});
                 		}

@@ -15,8 +15,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
@@ -26,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CollaborationSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
@@ -91,60 +90,61 @@ public class ProposalInformationLayoutManager {
 
         KSDropDown delegatorDropDown = new KSDropDown();
         delegatorDropDown.setListItems(delegatorList);
-
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
-                LUConstants.SECTION_AUTHORS_AND_COLLABORATORS}, 
-                new SimpleConfigurableSection<CluProposal>()
-                .addField(new ConfigurableField<CluProposal>()
-                        .setBinding(new PropertyBinding<CluProposal>() {
-                            @Override
-                            public Object getValue(CluProposal object) {
-                                ProposalInfo info = object.getProposalInfo();
-                                if (info != null && info.getProposalReference().size() > 0){
-                                    return object.getProposalInfo().getProposerPerson().get(0);
-                                } else {
-                                    return "";
-                                }
-                            }
-                            @Override
-                            public void setValue(CluProposal cluProposal, Object value) {
-                                if (value != null && cluProposal.getProposalInfo() != null){
-                                    cluProposal.getProposalInfo().getProposerPerson().set(0, value.toString());
-                                }
-                            }
-                        })
-                        .setFormField(new KSFormField("originatingFacultyMember", "Originating Faculty Member")
-                        .setWidget(originatorDropDown)
-                        .setHelpInfo(new HelpInfo("helpid")  
-                        
-                        )
-//                      .addConstraint(new DictionaryConstraint(validator, fields.get("originatingFacultyMember")))
-                        )                        
-                )
-                .addField(new ConfigurableField<CluProposal>()
-                        .setBinding(new PropertyBinding<CluProposal>() {
-                            @Override
-                            public Object getValue(CluProposal object) {
-                                // TODO figure out how to get the administrative delegate
-                                return "";
-                            }
-                            @Override
-                            public void setValue(CluProposal object, Object value) {
-                                // TODO figure out which field is the administrative delegate
-                            }
-                        })
-                        .setFormField(new KSFormField("administrativeDelegate", "Administrative Delegate")
-                        .setWidget(delegatorDropDown)
-                        .setHelpInfo(new HelpInfo("helpid")
-                        
-                        )
-//                      .addConstraint(new DictionaryConstraint(validator, fields.get("administrativeDelegate")))
-                        )
-                )
-                .setSectionTitle(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)
-                .setInstructions("Instructions go here...")
-                .setParentLayout(layout)
-        );
+                LUConstants.SECTION_AUTHORS_AND_COLLABORATORS}, new CollaborationSection().setParentLayout(layout));
+//        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
+//                LUConstants.SECTION_AUTHORS_AND_COLLABORATORS}, 
+//                new SimpleConfigurableSection<CluProposal>()
+//                .addField(new ConfigurableField<CluProposal>()
+//                        .setBinding(new PropertyBinding<CluProposal>() {
+//                            @Override
+//                            public Object getValue(CluProposal object) {
+//                                ProposalInfo info = object.getProposalInfo();
+//                                if (info != null && info.getProposalReference().size() > 0){
+//                                    return object.getProposalInfo().getProposerPerson().get(0);
+//                                } else {
+//                                    return "";
+//                                }
+//                            }
+//                            @Override
+//                            public void setValue(CluProposal cluProposal, Object value) {
+//                                if (value != null && cluProposal.getProposalInfo() != null){
+//                                    cluProposal.getProposalInfo().getProposerPerson().set(0, value.toString());
+//                                }
+//                            }
+//                        })
+//                        .setFormField(new KSFormField("originatingFacultyMember", "Originating Faculty Member")
+//                        .setWidget(originatorDropDown)
+//                        .setHelpInfo(new HelpInfo("helpid")  
+//                        
+//                        )
+////                      .addConstraint(new DictionaryConstraint(validator, fields.get("originatingFacultyMember")))
+//                        )                        
+//                )
+//                .addField(new ConfigurableField<CluProposal>()
+//                        .setBinding(new PropertyBinding<CluProposal>() {
+//                            @Override
+//                            public Object getValue(CluProposal object) {
+//                                // TODO figure out how to get the administrative delegate
+//                                return "";
+//                            }
+//                            @Override
+//                            public void setValue(CluProposal object, Object value) {
+//                                // TODO figure out which field is the administrative delegate
+//                            }
+//                        })
+//                        .setFormField(new KSFormField("administrativeDelegate", "Administrative Delegate")
+//                        .setWidget(delegatorDropDown)
+//                        .setHelpInfo(new HelpInfo("helpid")
+//                        
+//                        )
+////                      .addConstraint(new DictionaryConstraint(validator, fields.get("administrativeDelegate")))
+//                        )
+//                )
+//                .setSectionTitle(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)
+//                .setInstructions("Instructions go here...")
+//                .setParentLayout(layout)
+//        );
     }
 
     private void addGovernanceSection() {

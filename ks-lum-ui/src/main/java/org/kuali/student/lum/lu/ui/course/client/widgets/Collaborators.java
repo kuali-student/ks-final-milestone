@@ -41,6 +41,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				addCollaborator(userIdField.getValue());
 			}
         });
+        inputPanel.add(inviteCollabButton);
         collaboratorPanel.add(inputPanel);
         collaboratorPanel.add(new KSLabel("Current Collaborators"));
         collaboratorPanel.add(userIds);
@@ -60,6 +61,9 @@ public class Collaborators extends Composite implements HasWorkflowId{
     }
     
     private void addCollaborator(String recipientPrincipalId){
+    	if(workflowId==null){
+    		Window.alert("Workflow must be started before Collaborators can be added");
+    	}
     	cluProposalRpcServiceAsync.addCollaborator(workflowId, recipientPrincipalId, new AsyncCallback<Boolean>(){
 			public void onFailure(Throwable caught) {
 				Window.alert("Could not add Collaborator");
