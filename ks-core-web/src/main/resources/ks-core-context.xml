@@ -195,10 +195,17 @@
         <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
     </bean>
 
+    <bean id="commentSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+        autowire="byType">
+        <constructor-arg index="0" value="classpath:comment-search-config.xml" />
+    </bean>
+
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
         <property name="dictionaryServiceDelegate" ref="commentDictionaryServiceDelegate" />
+        <property name="searchManager" ref="commentSearchManager" />
     </bean>
 
 	<!-- Preloaded data -->

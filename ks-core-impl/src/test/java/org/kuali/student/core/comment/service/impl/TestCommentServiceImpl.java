@@ -32,6 +32,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
@@ -251,5 +252,13 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
         }
 
+    }
+
+    @Test
+    public void testSearch() throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    	CommentCriteriaInfo commentCriteriaInfo = new CommentCriteriaInfo();
+    	// TODO Set up commentCriteriaInfo
+    	List<String> ids = client.searchForComments(commentCriteriaInfo);
+    	assertEquals(1, ids.size());
     }
 }

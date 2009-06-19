@@ -22,6 +22,7 @@ import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.dao.CrudDao;
+import org.kuali.student.core.dao.SearchableDao;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -29,7 +30,7 @@ import org.kuali.student.core.dao.CrudDao;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public interface CommentDao extends CrudDao {
+public interface CommentDao extends CrudDao, SearchableDao {
     public Comment getComment(String referenceId, String referenceTypeKey);
     public List<Comment> getComments(String referenceId, String referenceTypeKey);
     public List<Comment> getCommentsByRefId(String referenceId);

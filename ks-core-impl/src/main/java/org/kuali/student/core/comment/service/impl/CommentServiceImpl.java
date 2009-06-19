@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -47,6 +48,10 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +66,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private SearchManager searchManager;
 
     /**
      * This overridden method ...
@@ -348,8 +354,31 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<String> searchForComments(CommentCriteriaInfo commentCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+    	// TODO Just show that we are hooked up to search service. Needs to be fixed to use the CommentCriteriaInfo values
+
+    	List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(1);
+    	QueryParamValue queryParamValue = new QueryParamValue();
+    	queryParamValue.setKey("comment_queryParam_commentId");
+    	queryParamValue.setValue("COMMENT-1");
+    	queryParamValues.add(queryParamValue);
+    	List<String> ids = new ArrayList<String>();
+    	try {
+			List<Result> results = searchManager.searchForResults("comment.search.commentTextById", queryParamValues, commentDao);
+			for (Result result : results) {
+				for (ResultCell resultCell : result.getResultCells()) {
+					if (resultCell.getKey().equals("comment.resultColumn.commentId")) {
+						ids.add(resultCell.getValue());
+					}
+				}
+			}
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException(e.getMessage());
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+
+    	return ids;
     }
 
     /**
@@ -431,7 +460,21 @@ public class CommentServiceImpl implements CommentService {
 			DictionaryService dictionaryServiceDelegate) {
 		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
 	}
-    private Validator createValidator() {
+    /**
+	 * @return the searchManager
+	 */
+	public SearchManager getSearchManager() {
+		return searchManager;
+	}
+
+	/**
+	 * @param searchManager the searchManager to set
+	 */
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
+	private Validator createValidator() {
         Validator validator = new Validator();
         validator.setDateParser(new ServerDateParser());
 //      validator.addMessages(null); //TODO this needs to be loaded somehow
