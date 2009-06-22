@@ -416,6 +416,8 @@ INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALU
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.nof', 'Student must take <n> courses from the specified courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'N of required courses')
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradecheck', 'Student needs to have attained a minimum specified GPA', {ts '2000-01-01 00:00:00.0'}, {ts '2001-11-30 00:00:00.0'}, 'Minimum overall GPA')
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student must take <n> credits from the specified courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course completed with minimum specified grade')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.coreq.all', 'Student must be enrolled in all of the following courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'All of required courses')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.coreq.oneof', 'Student must be enrolled in one of the following courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'One of required courses')
 
 // REQUIREMENT FIELD TYPES
 INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, NAME, DESCR, DATA_TYPE, MIN_VALUE, MAX_VALUE, MIN_LENGTH, MAX_LENGTH, VALID_CHARS, INVALID_CHARS, MIN_OCCURS, MAX_OCCURS, READ_ONLY) VALUES ('reqCompFieldType.clu', 'CLU', 'CLU','string',null,null,null,null,null,null,null,null,0)
@@ -436,6 +438,8 @@ INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.gradecheck','reqCompFieldType.gpa')
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.grdCondCourseList','reqCompFieldType.totalCredits')
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.grdCondCourseList','reqCompFieldType.cluSet')
+INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.courseList.coreq.all','reqCompFieldType.cluSet')
+INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.courseList.coreq.oneof','reqCompFieldType.cluSet')
 
 // REQ_COMPONENT_TYPE_NL_TEMPLATE
 // INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsCode() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsCode() #end', 'kuali.reqCompType.courseList.all')
@@ -445,6 +449,8 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('4', 'KUALI.CATALOG', 'Student must have completed $expectedValue of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.nof', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('5', 'KUALI.CATALOG', 'Student needs a minimum GPA of $gpa', 'kuali.reqCompType.gradecheck', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('6', 'KUALI.CATALOG', 'Students must take $totalCredits credits from $cluSet.getCluSetAsCode()', 'kuali.reqCompType.grdCondCourseList', 'en')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('7', 'KUALI.CATALOG', 'Student must be enrolled in all of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.coreq.all', 'en')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('8', 'KUALI.CATALOG', 'Student must be enrolled in one of of $cluSet.getCluSetAsCode()', 'kuali.reqCompType.courseList.coreq.oneof', 'en')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('101', 'KUALI.EXAMPLE', 'Student must have completed none of MATH100, MATH101', 'kuali.reqCompType.courseList.none', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('102', 'KUALI.EXAMPLE', 'Student must have completed all of MATH100, MATH101, MATH102', 'kuali.reqCompType.courseList.all', 'en')
@@ -452,6 +458,8 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('104', 'KUALI.EXAMPLE', 'Student must have completed 2 of MATH100, MATH101, MATH102', 'kuali.reqCompType.courseList.nof', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('105', 'KUALI.EXAMPLE', 'Student needs a minimum GPA of 2.5', 'kuali.reqCompType.gradecheck', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('106', 'KUALI.EXAMPLE', 'Students must take 3 credits from ENGL 100, ENGL 102 or ENGL 104', 'kuali.reqCompType.grdCondCourseList', 'en')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('107', 'KUALI.EXAMPLE', 'Student must be enrolled in all of MATH100, MATH101', 'kuali.reqCompType.courseList.coreq.all', 'en')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('108', 'KUALI.EXAMPLE', 'Student must be enrolled in one of MATH100, MATH101, MATH102', 'kuali.reqCompType.courseList.coreq.oneof', 'en')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('201', 'KUALI.COMPOSITION', '<reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.none', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('202', 'KUALI.COMPOSITION', '<reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.all', 'en')
@@ -459,6 +467,8 @@ INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('204', 'KUALI.COMPOSITION', '<reqCompFieldType.requiredCount> from <reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.nof', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('205', 'KUALI.COMPOSITION', '<reqCompFieldType.gpa>', 'kuali.reqCompType.gradecheck', 'en')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('206', 'KUALI.COMPOSITION', '<reqCompFieldType.totalCredits> from <reqCompFieldType.cluSet>', 'kuali.reqCompType.grdCondCourseList', 'en')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('207', 'KUALI.COMPOSITION', '<reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.coreq.all', 'en')
+INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('208', 'KUALI.COMPOSITION', '<reqCompFieldType.cluSet>', 'kuali.reqCompType.courseList.coreq.oneof', 'en')
 
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('1000', 'KUALI.CATALOG', 'Student muss abgeschlossen $expectedValue von $cluSet.getCluSetAsShortName()', 'kuali.reqCompType.courseList.nof', 'de')
 INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('2000', 'KUALI.CATALOG', '学生は、 $cluSet.getCluSetAsShortName() の中から　$expectedValue を終了しなければならない。', 'kuali.reqCompType.courseList.nof', 'jp')
@@ -475,6 +485,8 @@ INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.lu
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList.1of2')
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.grdCondCourseList')
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.gradecheck')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.coreqAcademicReadiness','kuali.reqCompType.courseList.coreq.all')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.coreqAcademicReadiness','kuali.reqCompType.courseList.coreq.oneof')
 
 // STMT_TYPE <-> STMT_TYPE
 INSERT INTO KSLU_STY_JN_LUSTY (LU_STMT_TYPE_ID, CHLD_LU_STMT_TYPE_ID) values ('kuali.luStatementType.createCourseAcademicReadiness','kuali.luStatementType.prereqAcademicReadiness')
@@ -574,6 +586,7 @@ INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIO
 INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-NL-2', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'Required Component 2','ACTIVE',{ts '2001-01-01 00:00:00.0'},{ts '2002-01-01 00:00:00.0'},'kuali.reqCompType.gradecheck')
 INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-NL-3', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'Required Component 3','ACTIVE',{ts '2001-01-01 00:00:00.0'},{ts '2002-01-01 00:00:00.0'},'kuali.reqCompType.courseList.1of2')
 INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-NL-4', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'Required Component 4','ACTIVE',{ts '2001-01-01 00:00:00.0'},{ts '2002-01-01 00:00:00.0'},'kuali.reqCompType.courseList.nof')
+INSERT INTO KSLU_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, ST, EFF_DT, EXPIR_DT, REQ_COM_TYPE_ID) VALUES ('REQCOMP-NL-5', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'Required Component 4','ACTIVE',{ts '2001-01-01 00:00:00.0'},{ts '2002-01-01 00:00:00.0'},'kuali.reqCompType.courseList.coreq.all')
 
 // NL - KSLU REQ COM FIELD
 INSERT INTO KSLU_REQ_COM_FIELD (ID, REQ_COM_FIELD_KEY, VALUE) VALUES ('FIELD-1', 'reqCompFieldType.requiredCount', '1')
@@ -585,6 +598,7 @@ INSERT INTO KSLU_REQ_COM_FIELD (ID, REQ_COM_FIELD_KEY, VALUE) VALUES ('FIELD-6',
 INSERT INTO KSLU_REQ_COM_FIELD (ID, REQ_COM_FIELD_KEY, VALUE) VALUES ('FIELD-7', 'reqCompFieldType.operator', 'greater_than_or_equal_to')
 INSERT INTO KSLU_REQ_COM_FIELD (ID, REQ_COM_FIELD_KEY, VALUE) VALUES ('FIELD-8', 'reqCompFieldType.requiredCount', '2')
 INSERT INTO KSLU_REQ_COM_FIELD (ID, REQ_COM_FIELD_KEY, VALUE) VALUES ('FIELD-9', 'reqCompFieldType.cluSet', 'CLUSET-NL-2')
+INSERT INTO KSLU_REQ_COM_FIELD (ID, REQ_COM_FIELD_KEY, VALUE) VALUES ('FIELD-10', 'reqCompFieldType.cluSet', 'CLUSET-NL-2')
 
 
 // NL - KSLU_REQ_COM_JN_REQ_COM_FIELD
@@ -597,14 +611,18 @@ INSERT INTO KSLU_REQ_COM_JN_REQ_COM_FIELD (REQ_COM_ID, REQ_COM_FIELD_ID) VALUES 
 INSERT INTO KSLU_REQ_COM_JN_REQ_COM_FIELD (REQ_COM_ID, REQ_COM_FIELD_ID) VALUES ('REQCOMP-NL-4', 'FIELD-7')
 INSERT INTO KSLU_REQ_COM_JN_REQ_COM_FIELD (REQ_COM_ID, REQ_COM_FIELD_ID) VALUES ('REQCOMP-NL-4', 'FIELD-8')
 INSERT INTO KSLU_REQ_COM_JN_REQ_COM_FIELD (REQ_COM_ID, REQ_COM_FIELD_ID) VALUES ('REQCOMP-NL-4', 'FIELD-9')
+INSERT INTO KSLU_REQ_COM_JN_REQ_COM_FIELD (REQ_COM_ID, REQ_COM_FIELD_ID) VALUES ('REQCOMP-NL-5', 'FIELD-10')
 
 INSERT INTO KSLU_STMT (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, NAME, DESCR, ST, OPERATOR, PARENT_LU_STMT_ID,LU_STMT_TYPE_ID) VALUES ('STMT-3', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'STMT 3','Statement 3','ACTIVE','AND',null,'kuali.luStatementType.prereqAcademicReadiness')
 INSERT INTO KSLU_STMT (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, NAME, DESCR, ST, OPERATOR, PARENT_LU_STMT_ID,LU_STMT_TYPE_ID) VALUES ('STMT-4', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'STMT 4','Statement 4','ACTIVE','AND',null,'kuali.luStatementType.prereqAcademicReadiness')
 INSERT INTO KSLU_STMT (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, NAME, DESCR, ST, OPERATOR, PARENT_LU_STMT_ID,LU_STMT_TYPE_ID) VALUES ('STMT-5', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'STMT 5','Statement 5','ACTIVE','OR',null,'kuali.luStatementType.prereqAcademicReadiness')
+INSERT INTO KSLU_STMT (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, NAME, DESCR, ST, OPERATOR, PARENT_LU_STMT_ID,LU_STMT_TYPE_ID) VALUES ('STMT-6', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'},1,'STMT 6','Statement 6','ACTIVE','OR',null,'kuali.luStatementType.coreqAcademicReadiness')
 
 // CLU <-> LU STMT
 INSERT INTO KSLU_CLU_JN_LU_STMT (CLU_ID, LU_STMT_ID) VALUES ('CLU-NL-2','STMT-3')
+INSERT INTO KSLU_CLU_JN_LU_STMT (CLU_ID, LU_STMT_ID) VALUES ('CLU-NL-2','STMT-6')
 INSERT INTO KSLU_CLU_JN_LU_STMT (CLU_ID, LU_STMT_ID) VALUES ('CLU-NL-5','STMT-4')
+INSERT INTO KSLU_CLU_JN_LU_STMT (CLU_ID, LU_STMT_ID) VALUES ('CLU-NL-4','STMT-5')
 INSERT INTO KSLU_CLU_JN_LU_STMT (CLU_ID, LU_STMT_ID) VALUES ('CLU-NL-4','STMT-5')
 
 
@@ -614,4 +632,4 @@ INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-NL-2'
 INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-NL-3','STMT-4')
 INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-NL-1','STMT-5')
 INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-NL-4','STMT-5')
-
+INSERT INTO KSLU_STMT_JN_REQ_COM (REQ_COM_ID, LU_STMT_ID) VALUES ('REQCOMP-NL-5','STMT-6')
