@@ -216,10 +216,6 @@ public class ProposalInformationLayoutManager {
                         .setHelpInfo(new HelpInfo("helpid")
                         )
 //                      .addConstraint(new DictionaryConstraint(validator, fields.get("adminOrg")))
-                        .addConstraint(new DictionaryConstraint(
-                                LUDictionaryManager.getInstance().getValidator(), 
-                                LUDictionaryManager.getInstance().getField(LUDictionaryManager.STRUCTURE_PROPOSAL_INFO, 
-                                        type, state, "proposerOrgId")))
                         )
                 )
                 .addField(new ConfigurableField<CluProposal>()

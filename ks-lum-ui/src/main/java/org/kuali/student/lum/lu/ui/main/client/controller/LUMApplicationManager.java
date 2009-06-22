@@ -8,16 +8,12 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
@@ -41,12 +37,10 @@ public class LUMApplicationManager extends Controller{
     
     private Model<CluProposal> cluModel = new Model<CluProposal>();
 
-    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
     public LUMApplicationManager(){
         super();
-        loadDictionary();
         history = new KSHistory(this);
         super.initWidget(viewPanel);
         viewPanel.addStyleName("LUMMain-Content");
@@ -157,56 +151,4 @@ public class LUMApplicationManager extends Controller{
         return LUMViews.class;
     }        
 
-    private void loadDictionary() {
-        
-        //  If msg load OK, load proposalInfo structure
-        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_PROPOSAL_INFO, new AsyncCallback<ObjectStructure>(){
-            public void onFailure(Throwable caught) {
-                throw new RuntimeException("Unable to load proposalInfo object structure", caught);                
-            }
-
-            @Override
-            public void onSuccess(ObjectStructure result) {
-                
-                LUDictionaryManager.getInstance().loadStructure(result);
-
-                //  If proposal Info structure load OK, load cluInfo structure                      
-                luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_INFO, new AsyncCallback<ObjectStructure>(){
-                    public void onFailure(Throwable caught) {
-                        throw new RuntimeException("Unable to load cluInfo object structure", caught);                
-                    }
-
-                    @Override
-                    public void onSuccess(ObjectStructure result) {
-                        LUDictionaryManager.getInstance().loadStructure(result);
-                        
-                        //  If proposal Info structure load OK, load cluInfo structure                      
-                        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_ID_INFO, new AsyncCallback<ObjectStructure>(){
-                            public void onFailure(Throwable caught) {
-                                throw new RuntimeException("Unable to load cluIdentifierInfo object structure", caught);                
-                            }
-
-                            @Override
-                            public void onSuccess(ObjectStructure result) {
-                                LUDictionaryManager.getInstance().loadStructure(result);
-
-                            }
-                        }
-                        );
-
-
-                    }
-                }
-                );
-
-
-            }
-        }
-        );
-
-    }
-
-    public void setCluId(String id){
-        this.courseView.setId(id);
-    }
 }

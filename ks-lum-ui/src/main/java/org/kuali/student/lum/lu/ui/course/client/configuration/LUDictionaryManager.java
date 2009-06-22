@@ -34,9 +34,6 @@ import org.kuali.student.core.dictionary.dto.Type;
 public class LUDictionaryManager {
     
     private static final char DICT_KEY_SEPARATOR = ':';
-    public static final String STRUCTURE_CLU_INFO = "cluInfo";
-    public static final String STRUCTURE_CLU_ID_INFO = "cluIdentifierInfo";
-    public static final String STRUCTURE_PROPOSAL_INFO = "proposalInfo";
     
     private Validator validator = new Validator();
     private static Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();

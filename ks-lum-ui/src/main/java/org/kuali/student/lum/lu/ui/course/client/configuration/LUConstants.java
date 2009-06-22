@@ -63,4 +63,9 @@ public class LUConstants {
         
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
+    
+    public static final String STRUCTURE_CLU_INFO = "cluInfo";
+    public static final String STRUCTURE_CLU_ID_INFO = "cluIdentifierInfo";
+    public static final String STRUCTURE_PROPOSAL_INFO = "proposalInfo";
+
 }
