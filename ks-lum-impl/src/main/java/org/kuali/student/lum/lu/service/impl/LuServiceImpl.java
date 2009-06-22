@@ -1426,17 +1426,10 @@ public class LuServiceImpl implements LuService {
 	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luStatementId, "luStatementId");
-		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
-		
-		if(cluId.trim().isEmpty()) {
-			throw new InvalidParameterException("cluId cannot be empty");
-		} else if(luStatementId.trim().isEmpty()) {
-			throw new InvalidParameterException("luStatementId cannot be empty");
-		} else if(nlUsageTypeKey.trim().isEmpty()) {
-			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
-		}
+		checkForNullOrEmptyParameter(cluId, "cluId");
+		checkForNullOrEmptyParameter(luStatementId, "luStatementId");
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
 		
 		final String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
@@ -1475,15 +1468,10 @@ public class LuServiceImpl implements LuService {
 	public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo statementInfo, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 
-		checkForMissingParameter(cluId, "cluId");
+		checkForNullOrEmptyParameter(cluId, "cluId");
 		checkForMissingParameter(statementInfo, "statementInfo");
-		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
-		
-		if(cluId.trim().isEmpty()) {
-			throw new InvalidParameterException("cluId cannot be empty");
-		} else if(nlUsageTypeKey.trim().isEmpty()) {
-			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
-		}
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
 
 		LuStatement luStatement = LuServiceAssembler.toLuStatementRelation(statementInfo, luDao);
 
@@ -1518,14 +1506,9 @@ public class LuServiceImpl implements LuService {
 	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		
-		checkForMissingParameter(reqComponentId, "reqComponentId");
-		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
-		
-		if(reqComponentId.trim().isEmpty()) {
-			throw new InvalidParameterException("reqComponentId cannot be empty");
-		} else if(nlUsageTypeKey.trim().isEmpty()) {
-			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
-		}
+		checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
 		
 		final String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
@@ -1559,11 +1542,8 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 
 		checkForMissingParameter(reqCompInfo, "reqCompInfo");
-		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
-		
-		if(nlUsageTypeKey.trim().isEmpty()) {
-			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
-		}
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
 
 		ReqComponent reqComponent = LuServiceAssembler.toReqComponentRelation(false, reqCompInfo, luDao);
 
@@ -1601,17 +1581,10 @@ public class LuServiceImpl implements LuService {
 	 */
 	@Override
 	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
-		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(statementId, "statementId");
-		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
-
-		if(cluId.trim().isEmpty()) {
-			throw new InvalidParameterException("cluId cannot be empty");
-		} else if(statementId.trim().isEmpty()) {
-			throw new InvalidParameterException("statementId cannot be empty");
-		} else if(nlUsageTypeKey.trim().isEmpty()) {
-			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
-		}
+		checkForNullOrEmptyParameter(cluId, "cluId");
+		checkForNullOrEmptyParameter(statementId, "statementId");
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
 
 		final String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
@@ -1647,15 +1620,10 @@ public class LuServiceImpl implements LuService {
 	 */
 	@Override
 	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
-		checkForMissingParameter(cluId, "cluId");
+		checkForNullOrEmptyParameter(cluId, "cluId");
 		checkForMissingParameter(statementInfo, "statementInfo");
-		checkForMissingParameter(nlUsageTypeKey, "nlUsageTypeKey");
-
-		if(cluId.trim().isEmpty()) {
-			throw new InvalidParameterException("cluId cannot be empty");
-		} else if(nlUsageTypeKey.trim().isEmpty()) {
-			throw new InvalidParameterException("nlUsageTypeKey cannot be empty");
-		}
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
 
 		LuStatement statement = LuServiceAssembler.toLuStatementRelation(false, statementInfo, luDao);
 
@@ -2719,6 +2687,37 @@ public class LuServiceImpl implements LuService {
 			throws MissingParameterException {
 		if (param == null) {
 			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
+	/**
+	 * Check for missing or empty parameter and 
+	 * throw localized exception if missing or empty
+	 *
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForNullOrEmptyParameter(String param, String paramName)
+			throws MissingParameterException, InvalidParameterException {
+		if (param == null) {
+			throw new MissingParameterException(paramName + " can not be null");
+		} else if (param.trim().isEmpty()) {
+			throw new InvalidParameterException(paramName + " can not be empty");
+		}
+	}
+
+	/**
+	 * Check for empty parameter and throw localized exception if empty
+	 *
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForEmptyParameter(String param, String paramName)
+			throws MissingParameterException, InvalidParameterException {
+		if (param != null && param.trim().isEmpty()) {
+			throw new InvalidParameterException(paramName + " can not be empty");
 		}
 	}
 

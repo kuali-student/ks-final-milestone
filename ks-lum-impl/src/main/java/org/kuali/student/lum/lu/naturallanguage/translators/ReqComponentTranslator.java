@@ -118,9 +118,7 @@ public class ReqComponentTranslator {
      */
     private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException {
         String reqComponentType = reqComponent.getRequiredComponentType().getId();
-        ReqComponentTypes.ReqCompTypes type = ReqComponentTypes.ReqCompTypes.valueOfKey(reqComponentType);
-        
-    	Context context = this.contextRegistry.get(type.getKey());
+    	Context context = this.contextRegistry.get(reqComponentType);
     	Map<String, Object> velocityContextMap = context.createContextMap(reqComponent);
     	
         return velocityContextMap;

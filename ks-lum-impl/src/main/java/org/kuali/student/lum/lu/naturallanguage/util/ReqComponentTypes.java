@@ -1,5 +1,22 @@
 package org.kuali.student.lum.lu.naturallanguage.util;
 
+/**
+ * <p>Requirement component types are used to map a dot notation field key
+ * (e.g. reqCompFieldType.cluSet) to a key without dot notation (cluSet) since most 
+ * template engines don't allow dot notation for template variables because
+ * dot notations are used to get class properties or methods 
+ * (e.g. clu.getOfficialIdentifier().getShortName()).</p>
+ * <p>
+ * Some Common Template keys
+ * <ul>
+ * <li><code>reqCompFieldType.clu</code> maps to <code>clu</code></li>
+ * <li><code>reqCompFieldType.cluSet</code> maps to <code>cluSet</code></li>
+ * <li><code>reqCompFieldType.requiredCount</code> maps to <code>expectedValue</code></li>
+ * <li><code>reqCompFieldType.operator</code> maps to <code>relationalOperator</code></li>
+ * </ul>
+ * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
+ * </p>
+ */
 public class ReqComponentTypes {
 
 	public enum ReqCompFieldTypes {
@@ -23,55 +40,4 @@ public class ReqComponentTypes {
 			return this.key;
 		}
 	}
-		
-	public enum ReqCompTypes {
-		COURSE_LIST_NONE("kuali.reqCompType.courseList.none"),
-		COURSE_LIST_ALL("kuali.reqCompType.courseList.all"),
-		COURSE_LIST_NOF("kuali.reqCompType.courseList.nof"),
-		COURSE_LIST_1OF2("kuali.reqCompType.courseList.1of2"),
-		GRADE_CONDITION_COURSE_LIST("kuali.reqCompType.grdCondCourseList"),
-		GRADE_CHECK("kuali.reqCompType.gradecheck");
-		
-		
-		private String key;
-		
-		ReqCompTypes(String key) {
-			this.key = key;
-		}
-		
-		public String getKey() {
-			return this.key;
-		}
-		
-		public static ReqCompTypes valueOfKey(String key) {
-	        if (key == null) {
-	            throw new NullPointerException("Key is null");
-	        }
-			for(ReqCompTypes type : values()) {
-				if(type.getKey().equals(key)) {
-					return type;
-				}
-			}
-	        throw new IllegalArgumentException("No enum constant found for key '"+key+"'");
-		}
-	}
-
-//	public enum RelationalOperatorTypes {
-//		EQUAL_TO("equal_to"), 
-//		NOT_EQUAL_TO("not_equal_to"), 
-//		GREATER_THAN("greater_than"), 
-//		LESS_THAN("less_than"), 
-//		GREATER_THAN_OR_EQUAL_TO("greater_than_or_equal_to"), 
-//		LESS_THAN_OR_EQUAL_TO("less_than_or_equal_to");
-//		
-//		private String operator;
-//		
-//		RelationalOperatorTypes(String operator) {
-//			this.operator = operator;
-//		}
-//		
-//		public String getKey() {
-//			return this.operator;
-//		}
-//	}	
 }
