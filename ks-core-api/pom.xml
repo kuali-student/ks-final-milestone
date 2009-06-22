@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-api</artifactId>
-			<version>0.9.4-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>		
 	</dependencies>
 	<build>
