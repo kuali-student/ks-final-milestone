@@ -1,7 +1,9 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-
+/**
+ * @deprecated
+ * */
 public abstract class KSConfirmationDialogAbstract extends KSModalDialogPanel {
 
     public KSConfirmationDialogAbstract() {

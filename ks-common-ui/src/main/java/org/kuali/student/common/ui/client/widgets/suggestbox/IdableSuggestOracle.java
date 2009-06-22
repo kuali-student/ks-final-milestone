@@ -1,8 +1,6 @@
 package org.kuali.student.common.ui.client.widgets.suggestbox;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -13,7 +11,7 @@ public abstract class IdableSuggestOracle extends SuggestOracle{
         private String displayString;
         private String replacementString;
         private Map<String, String> attrMap = new HashMap<String, String>();
-        private List<String> attrKeys = new ArrayList<String>();
+        //private List<String> attrKeys = new ArrayList<String>();
         
         public IdableSuggestion(){}
 
@@ -67,7 +65,6 @@ public abstract class IdableSuggestOracle extends SuggestOracle{
         
         
     }
-    
-    public abstract IdableSuggestion getSuggestion(String id);
-    public abstract List<String> getAttrKeys();
+    public abstract IdableSuggestion getSuggestionById(String id);
+    public abstract IdableSuggestion getSuggestionByText(String text);
 }

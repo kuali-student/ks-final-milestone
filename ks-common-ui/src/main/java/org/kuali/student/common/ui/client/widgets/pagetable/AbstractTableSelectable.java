@@ -10,7 +10,6 @@ import com.google.gwt.gen2.table.client.MutableTableModel;
 import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.override.client.FlexTable;
-import com.google.gwt.gen2.table.override.client.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -61,7 +60,7 @@ public abstract class AbstractTableSelectable<T> extends Composite {
      * Use when displaying paging with paging options 
      * 
      * @param pagingOptions
-     */
+     
     protected FlexTable createTableAndSelectionPanel(PagingOptions pagingOptions) {
         FlexTable tableAndSelection = new FlexTable();
         int row = 0;
@@ -75,16 +74,24 @@ public abstract class AbstractTableSelectable<T> extends Composite {
         tableAndSelection.insertCell(row, 0);
         tableAndSelection.setWidget(row, 0, pagingScrollTable);
         return tableAndSelection;
-    }
+    }*/
 
     /**
      * Use when displaying table and selection without paging options
      * 
      * @return
      */
-    protected HorizontalPanel createTableAndSelectionPanel() {
+    protected HorizontalPanel createTableAndSelectionPanel(PagingOptions pagingOptions) {
+        
         HorizontalPanel tableAndSelection = new HorizontalPanel();
-        tableAndSelection.add(pagingScrollTable);
+        if(pagingOptions != null) {
+            VerticalPanel verticalPanel = new VerticalPanel();
+            verticalPanel.add(pagingOptions);
+            verticalPanel.add(pagingScrollTable);
+            tableAndSelection.add(verticalPanel);
+        }else {
+            tableAndSelection.add(pagingScrollTable);
+        }
         tableAndSelection.add(selection);
         return tableAndSelection;
     }

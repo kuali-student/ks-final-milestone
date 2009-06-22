@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.SuggestOracle.Callback;
-import com.google.gwt.user.client.ui.SuggestOracle.Request;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
-import com.google.gwt.widgetideas.client.RPCSuggestOracle;
 
 public class SearchSuggestOracle extends IdableSuggestOracle{
     
@@ -28,6 +23,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private HasText textWidget;
     private String resultDisplayKey;
     private List<QueryParamValue> additionalParams = new ArrayList<QueryParamValue>();
+    //List of the suggestions appearing in the last query
+    private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     /**
      * @param searchTypeKey the type to be search on
@@ -99,8 +96,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     
                 @Override
                 public void onSuccess(List<Result> results) {
-                    final List<IdableSuggestion> suggestions = createSuggestions(results, request.getLimit());
-                    Response response = new Response(suggestions);
+                    lastSuggestions = createSuggestions(results, request.getLimit());
+                    Response response = new Response(lastSuggestions);
                     callback.onSuggestionsReady(request, response);
                     
                 }
@@ -151,14 +148,27 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     }
 
     @Override
-    public List<String> getAttrKeys() {
-        // TODO Auto-generated method stub
-        return null;
+    public IdableSuggestion getSuggestionById(String id) {
+        IdableSuggestion suggestion = null;
+        for(IdableSuggestion is: lastSuggestions){
+            if(is.getId().equals(id)){
+                suggestion = is;
+                break;
+            }
+        }
+        return suggestion;
     }
-
+    
     @Override
-    public IdableSuggestion getSuggestion(String id) {
-        return null;
+    public IdableSuggestion getSuggestionByText(String text){
+        IdableSuggestion suggestion = null;
+        for(IdableSuggestion is: lastSuggestions){
+            if(is.getReplacementString().trim().equalsIgnoreCase(text.trim())){
+                suggestion = is;
+                break;
+            }
+        }
+        return suggestion;
     }
     
     public void setTextWidget(HasText widget){

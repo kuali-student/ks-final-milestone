@@ -6,7 +6,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
+/**
+ * @deprecated
+ * */
 public class KSDialog{
     public final static int Yes = 1;
     public final static int No = 0;

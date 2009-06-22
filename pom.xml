@@ -43,6 +43,7 @@
         <module>ks-common-util</module>
         <module>ks-common-ui</module>
         <module>ks-common-test</module>
+        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-ui</module>
@@ -310,6 +311,13 @@
 						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
 					</configuration>
 				</plugin>
+				
+				<!--  Tomcat Plugin Configuration -->
+			    <plugin>
+			        <groupId>org.codehaus.mojo</groupId>
+	        		<artifactId>tomcat-maven-plugin</artifactId>
+	        		<version>1.0-beta-1</version>
+			    </plugin>
 	
 				<!-- GWT Maven Plugin Configuration -->
 				<plugin>
@@ -319,8 +327,7 @@
 					<configuration>
 						<gwtVersion>${gwtVersion}</gwtVersion>
 						<logLevel>INFO</logLevel>
-						<extraJvmArgs>-Xmx512m</extraJvmArgs>
-						<style>PRETTY</style>						
+						<extraJvmArgs>-Xmx512m</extraJvmArgs>					
 					</configuration>
 				</plugin>
 
@@ -896,6 +903,12 @@
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.14</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>			
 			</dependency>
 
 			<!-- Velocity (used by cxf & brms) -->

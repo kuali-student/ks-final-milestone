@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * to provide a way to close the window after interaction has finished.
  * 
  * @author Kuali Student Team
- *
+ * @deprecated
  */
 public class KSModalDialogPanel extends KSModalDialogPanelAbstract{ 
 	private KSModalDialogPanelAbstract panel = GWT.create(KSModalDialogPanelImpl.class);

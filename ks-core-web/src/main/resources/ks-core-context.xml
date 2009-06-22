@@ -28,40 +28,32 @@
 
 
 	<!-- Datasources -->
-	<bean id="orgDataSource"
-		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+	<bean id="defaultDataSource" abstract="true" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
 		destroy-method="close">
-		<property name="uniqueResourceName" value="orgDataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties" value="${propertiesPrefix.org.jdbc.xaDataSourceProperties}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 	</bean>
-
-	<bean id="emDataSource"
-		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
-		destroy-method="close">
-		<property name="uniqueResourceName" value="emDataSource" />
-		<property name="xaDataSourceClassName"
-			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties" value="${propertiesPrefix.em.jdbc.xaDataSourceProperties}"/>
-		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+	
+	<bean id="orgDataSource" parent="defaultDataSource">
+		<property name="uniqueResourceName" value="orgDataSource" />
 	</bean>
 
-	<bean id="messageDataSource"
-		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
-		destroy-method="close">
+	<bean id="emDataSource" parent="defaultDataSource">
+		<property name="uniqueResourceName" value="emDataSource" />
+	</bean>
+
+	<bean id="messageDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="messageDataSource" />
-		<property name="xaDataSourceClassName"
-			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties" value="${propertiesPrefix.message.jdbc.xaDataSourceProperties}"/>
-		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+	</bean>
+	
+	<bean id="commentDataSource" parent="defaultDataSource">
+		<property name="uniqueResourceName" value="commentDataSource" />
 	</bean>
 
 	<!-- JPA EntityManagerFactory -->
-	<bean id="orgEntityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="Organization"/>
+	<bean id="defaultEntityManagerFactory" abstract="true" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
 			<bean class="${jpa.vendorAdapter}">
 				<property name="databasePlatform"
@@ -70,44 +62,35 @@
 				<property name="generateDdl" value="${jpa.generateDdl}" />
 			</bean>
 		</property>
+		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+	</bean>
+	
+	<bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Organization"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/organization-persistence.xml" />
 		<property name="dataSource" ref="orgDataSource" />
-		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
 
-	<bean id="emEntityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="emEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="EnumerationManagement"/>
-		<property name="jpaVendorAdapter">
-			<bean class="${jpa.vendorAdapter}">
-				<property name="databasePlatform"
-					value="${jpa.databasePlatform}" />
-				<property name="showSql" value="${jpa.showSql}" />
-				<property name="generateDdl" value="${jpa.generateDdl}" />
-			</bean>
-		</property>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/enumeration-persistence.xml" />
 		<property name="dataSource" ref="emDataSource" />
-		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
 
-	<bean id="messageEntityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="messageEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="MessageManagement"/>
-		<property name="jpaVendorAdapter">
-			<bean class="${jpa.vendorAdapter}">
-				<property name="databasePlatform"
-					value="${jpa.databasePlatform}" />
-				<property name="showSql" value="${jpa.showSql}" />
-				<property name="generateDdl" value="${jpa.generateDdl}" />
-			</bean>
-		</property>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/messages-persistence.xml" />
 		<property name="dataSource" ref="messageDataSource" />
-		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+	</bean>
+	
+	<bean id="commentEntityManagerFactory" parent="defaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Comment"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/comment-persistence.xml" />
+		<property name="dataSource" ref="commentDataSource" />
 	</bean>
 
 	<!-- JTA Configuration -->
@@ -191,9 +174,21 @@
         class="org.kuali.student.core.comment.dao.impl.CommentDaoImpl">
     </bean>
 
+    <bean id="commentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
+    </bean>
+
+    <bean id="commentSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+        autowire="byType">
+        <constructor-arg index="0" value="classpath:comment-search-config.xml" />
+    </bean>
+
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
+        <property name="dictionaryServiceDelegate" ref="commentDictionaryServiceDelegate" />
+        <property name="searchManager" ref="commentSearchManager" />
     </bean>
 
 	<!-- Preloaded data -->

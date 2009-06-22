@@ -1,6 +1,8 @@
 
 package org.kuali.student.core.comment.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,6 +27,9 @@ public class GetCommentTypesForReferenceTypeResponse {
     private java.util.List<CommentTypeInfo> _return;
 
     public java.util.List<CommentTypeInfo> getReturn() {
+    	if (_return == null) {
+    		_return = new ArrayList<CommentTypeInfo>(0);
+    	}
         return this._return;
     }
 

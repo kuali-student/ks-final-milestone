@@ -1,12 +1,18 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.GlassPanel;
 
+/**
+ * 
+ * */
 public class KSLightBox {
     private final PopupPanel pop = new PopupPanel(false, true);
     private final GlassPanel glass = new GlassPanel(false);
@@ -15,6 +21,15 @@ public class KSLightBox {
 
     public KSLightBox() {
         this.parentPanel = RootPanel.get();
+        Window.addResizeHandler(new ResizeHandler(){
+
+            @Override
+            public void onResize(ResizeEvent event) {
+                if(showing){
+                    pop.center();
+                }
+            }
+        });
     }
 
     public void show() {

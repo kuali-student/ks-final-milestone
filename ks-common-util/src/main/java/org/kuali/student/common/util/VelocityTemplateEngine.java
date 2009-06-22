@@ -116,7 +116,7 @@ public class VelocityTemplateEngine {
 	 */
 	public void setLogFile() {
 		if (System.getProperty("catalina.base") != null) {
-			setLogFile(System.getProperty("catalina.base") + "/velocity.log");
+			setLogFile(System.getProperty("catalina.base") + "/logs/velocity.log");
 		} else {
 			setLogFile("target/velocity.log");
 		}

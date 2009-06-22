@@ -18,16 +18,22 @@ package org.kuali.student.core.comment.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
+import org.kuali.student.core.comment.entity.CommentAttribute;
 import org.kuali.student.core.comment.entity.CommentType;
+import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.Tag;
+import org.kuali.student.core.comment.entity.TagAttribute;
 import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -75,9 +81,11 @@ public class CommentServiceAssembler extends BaseAssembler {
 
     public static TagInfo toTagInfo(Tag entity) {
         TagInfo dto = new TagInfo();
-        BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type"});
+        BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type","reference"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
+        dto.setReferenceId(entity.getReferennce().getReferenceId());
+        dto.setReferenceTypeKey(entity.getReferennce().getReferenceType().getId());
         return dto;
 
     }
@@ -89,20 +97,20 @@ public class CommentServiceAssembler extends BaseAssembler {
         }
         return dtos;
     }
-    
+
     public static TagTypeInfo toTagTypeInfo(TagType entity){
         TagTypeInfo dto = new TagTypeInfo();
         BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
-    
+
     public static List<TagTypeInfo> toTagTypeInfos(List<TagType> entries){
         List<TagTypeInfo> dtos = new ArrayList<TagTypeInfo>(entries.size());
         for(TagType entity: entries){
             dtos.add(toTagTypeInfo(entity));
         }
-        
+
         return dtos;
     }
 
@@ -115,9 +123,49 @@ public class CommentServiceAssembler extends BaseAssembler {
     }
 
     private static CommentTypeInfo toCommentTypeInfo(CommentType entity) {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	CommentTypeInfo dto = new CommentTypeInfo();
+        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
     }
 
+    public static Comment toComment(boolean isUpdate,CommentInfo dto,CommentDao dao) throws InvalidParameterException, DoesNotExistException{
 
+        Comment entity = new Comment();
+        BeanUtils.copyProperties(dto,entity,new String[]{"reference","commentText", "attributes", "type"});
+        entity.setAttributes(toGenericAttributes(CommentAttribute.class,dto.getAttributes(),entity,dao));
+        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
+        if (reference == null) {
+            throw new InvalidParameterException(
+                    "Reference does not exist for id: " + dto.getReferenceId());
+        }
+        entity.setReference(reference);
+        CommentType type = dao.fetch(CommentType.class,dto.getType());
+        if (type == null) {
+            throw new InvalidParameterException(
+                    "Tag Type does not exist for id: " + dto.getType());
+        }
+        entity.setType(type);
+        return entity;
+    }
+    public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
+
+        Tag entity = new Tag();
+        BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes"});
+        entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
+
+        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
+        if (reference == null) {
+            throw new InvalidParameterException(
+                    "Reference does not exist for id: " + dto.getReferenceId());
+        }
+        entity.setReference(reference);
+        TagType type = dao.fetch(TagType.class,dto.getType());
+        if (type == null) {
+            throw new InvalidParameterException(
+                    "Tag Type does not exist for id: " + dto.getType());
+        }
+        entity.setType(type);
+        return entity;
+    }
 }

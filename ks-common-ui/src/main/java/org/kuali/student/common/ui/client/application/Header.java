@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.breadcrumb.KSBreadcrumb;
 import org.kuali.student.common.ui.client.widgets.breadcrumb.KSBreadcrumbItem;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -113,7 +114,7 @@ public class Header extends Composite {
 
         // Always have logout and preferences options
         linkItems.add(new HeaderLinkItem("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
-        linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", "Logout not yet implemented"));
+        linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"/*"Logout not yet implemented"*/));
 
         for (HeaderLinkItem i : linkItems) {
             linksContentPanel.add(buildLink(i.getText(), i.getTitle(), i.getActionUrl()));           
@@ -128,7 +129,7 @@ public class Header extends Composite {
         linksPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
     }
 
-    private KSLabel buildLink(final String text, final String title, String actionUrl) {
+    private KSLabel buildLink(final String text, final String title, final String actionUrl) {
         //TODO need to add the action for the link        
 
         //Using KSLabel for now - couldn't change color for Anchor
@@ -154,7 +155,7 @@ public class Header extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 //TODO need to set actionUrl
-                Window.alert(text + " not yet implemented");               
+                Window.Location.assign(actionUrl);               
             }});
 
         return link;

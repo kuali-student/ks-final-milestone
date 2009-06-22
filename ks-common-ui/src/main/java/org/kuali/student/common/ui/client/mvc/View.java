@@ -34,4 +34,9 @@ public interface View {
      */
     public String getName();
 
+    /** 
+     * Can be called to reset a view to a cleared state.
+     *
+     */
+    public void clear();
 }

@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
  * to be resized (through a draggable icon in the botton right hand corner).
  * 
  * @author Kuali Student Team
- *
+ * @deprecated
  */
 public class KSDialogPanel extends KSPopupPanel{ 
     private final KSDialogPanelAbstract dialogPanel = GWT.create(KSDialogPanelImpl.class);

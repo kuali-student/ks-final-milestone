@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.widgets;
 
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,7 +22,9 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineHTML;
 
 /**
  * KSButton wraps gwt Button.  This class provides most of the same functionality, but sets KS css styles
@@ -31,8 +35,12 @@ import com.google.gwt.user.client.ui.Image;
  *
  */
 public class KSButton extends Button{
+    public static enum ButtonImageAlign{LEFT, RIGHT, TOP, BOTTOM};
     private Image image = null;
+    private InlineHTML alignmentHTML;
+    private boolean primary;
     
+
 
     /**
      * This constructs a button with no caption.
@@ -63,6 +71,27 @@ public class KSButton extends Button{
     public KSButton(String html,ClickHandler handler){
         super(html, handler);
         setupDefaultStyle();
+    }
+    
+    /**
+     * This method makes the button a "primary" button.  It does not affect it's behavior,
+     * but instead alters it's style to one that is different/more eye-catching than default buttons.
+     * 
+     * @param primary true if this button is primary, false otherwise.
+     */
+    public void setPrimary(boolean primary){
+        this.primary = primary;
+        if(primary){
+            addStyleName(KSStyles.KS_BUTTON_SPECIAL_STYLE);
+            //addStyleName("gradient");
+        }
+        else{
+            removeStyleName(KSStyles.KS_BUTTON_SPECIAL_STYLE);
+        }
+    }
+    
+    public boolean isPrimary() {
+        return primary;
     }
     
     /**
@@ -154,11 +183,41 @@ public class KSButton extends Button{
      * 
      * @param image the Image object to be used in this button
      */
-    public void setImage(final Image image) {
-        if (this.image == null) {
-            this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
-        } else {
-            this.getElement().replaceChild(image.getElement(), this.getElement().getFirstChild());
+    public void setImage(final Image image, ButtonImageAlign alignment) {
+        if(this.alignmentHTML != null){
+            this.getElement().removeChild(this.alignmentHTML.getElement());
+        }
+       
+        switch(alignment){
+            case LEFT:
+                this.alignmentHTML = new InlineHTML("&nbsp;");
+                this.getElement().insertBefore(alignmentHTML.getElement(), this.getElement().getFirstChild());
+                this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
+                break;
+            case RIGHT:
+                this.alignmentHTML = new InlineHTML("&nbsp;");
+                this.getElement().insertBefore(alignmentHTML.getElement(), null);
+                this.getElement().insertBefore(image.getElement(), null);
+                break;
+            case TOP:
+                this.alignmentHTML = new InlineHTML("<br />");
+                this.getElement().insertBefore(alignmentHTML.getElement(), this.getElement().getFirstChild());
+                this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
+                break;
+            case BOTTOM:
+                this.alignmentHTML = new InlineHTML("<br />");
+                this.getElement().insertBefore(alignmentHTML.getElement(), null);
+                this.getElement().insertBefore(image.getElement(), null);
+                break;
+            default:
+                this.alignmentHTML = new InlineHTML("&nbsp;");
+                this.getElement().insertBefore(alignmentHTML.getElement(), this.getElement().getFirstChild());
+                this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
+                break;
+        }
+        
+        if (this.image != null) {
+            this.getElement().removeChild(this.image.getElement());
         }
         
         this.image = image;

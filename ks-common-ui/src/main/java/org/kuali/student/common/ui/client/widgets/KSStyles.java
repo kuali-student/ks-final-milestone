@@ -23,6 +23,7 @@ public interface KSStyles {
 	public static final String KS_BUTTON_FOCUS_STYLE = "KS-Button-Focus";
 	public static final String KS_BUTTON_HOVER_STYLE = "KS-Button-Hover";
 	public static final String KS_BUTTON_STYLE = "KS-Button";
+	public static final String KS_BUTTON_SPECIAL_STYLE = "KS-Button-Special";
 	
 	public static final String KS_BREADCRUMB = "KS-Breadcrumb";
     public static final String KS_BREADCRUMB_ITEM = "KS-Breadcrumb-Item";
@@ -163,7 +164,13 @@ public interface KSStyles {
     public static final String KS_SUGGEST_PICKER_LAYOUT_TABLE = "KS-Suggest-Picker-Layout-Table";
     public static final String KS_SUGGEST_PICKER_SUGGEST_BOX_ROW = "KS-Suggest-Picker-Suggest-Box-Row";
     public static final String KS_SUGGEST_PICKER_LIST_ROW = "KS-Suggest-Picker-List-Row";
+    public static final String KS_BUTTON_COLUMN_BUTTON = "KS-Button-Column-Button";
+    public static final String KS_BUTTON_COLUMN_CONTENT_PANEL = "KS-Button-Column-ContentPanel";
+    public static final String KS_BUTTON_COLUMN_BOTTOM_PANEL = "KS-Button-Column-BottomPanel";
+    public static final String KS_BUTTON_COLUMN_TOP_PANEL = "KS-Button-Column-TopPanel";
+    public static final String KS_BUTTON_COLUMN_PANEL = "KS-Button-Column-MainPanel";
+    public static final String KS_BUTTON_ROW_CONTENT_PANEL = "KS-Button-Row-ContentPanel";
+    public static final String KS_BUTTON_ROW_MAIN_PANEL = "KS-Button-Row-MainPanel";
 
-	
 	
 }

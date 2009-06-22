@@ -28,7 +28,7 @@ import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.comment.dto.ValidationResultInfo;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -37,6 +37,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.validation.dto.ValidationResult;
 
 /**
  *
@@ -48,29 +49,29 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
  */
 @WebService(name = "CommentService", targetNamespace = "http://student.kuali.org/commentService") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CommentService { 
-    /** 
+public interface CommentService extends DictionaryService {
+    /**
      * Retrieves the list of types which can be tagged or commented.
      * @return the list of types which can be tagged or commented
      * @throws OperationFailedException unable to complete request
 	 */
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException;
 
-    /** 
+    /**
      * Retrieves the list of comment types which can be linked to a referenced object.
      * @return the list of comment types which can be linked to a referenced object
      * @throws OperationFailedException unable to complete request
 	 */
     public List<CommentTypeInfo> getCommentTypes() throws OperationFailedException;
 
-    /** 
+    /**
      * Retrieves the list of tag types which can be linked to a referenced object.
      * @return the list of tag types which can be linked to a referenced object
      * @throws OperationFailedException unable to complete request
 	 */
     public List<TagTypeInfo> getTagTypes() throws OperationFailedException;
 
-    /** 
+    /**
      * Retrieves the list of comment types which can be linked to a particular type of referenced object.
      * @param referenceTypeKey reference type
      * @return the list of comment types which can be linked to a referenced object type
@@ -81,7 +82,7 @@ public interface CommentService {
 	 */
     public List<CommentTypeInfo> getCommentTypesForReferenceType(@WebParam(name="referenceTypeKey")String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /** 
+    /**
      * Validates a comment. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the comment (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the comment can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
      * @param validationType identifier of the extent of validation
      * @param commentInfo comment information to be tested.
@@ -91,9 +92,9 @@ public interface CommentService {
      * @throws MissingParameterException missing validationTypeKey, commentInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateComment(@WebParam(name="validationType")String validationType, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResult> validateComment(@WebParam(name="validationType")String validationType, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /** 
+    /**
      * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized to invoke the getComments operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getComments, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.
      * @param referenceId reference identifier
      * @param referenceTypeKey reference type
@@ -106,7 +107,7 @@ public interface CommentService {
 	 */
     public List<CommentInfo> getComments(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Retrieves tag information for a reference. The expected behavior is that if the caller is not authorized to invoke the getTags operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getTags, only tags that the caller is authorized to view are included in the returned tagInfoList; tags that the caller is unauthorized to view are filtered out of the return parameter.
      * @param referenceId reference identifier
      * @param referenceTypeKey reference type
@@ -119,7 +120,7 @@ public interface CommentService {
 	 */
     public List<TagInfo> getTags(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Retrieves comment information for a reference of a particular type. The expected behavior is that if the caller is not authorized to invoke the getCommentsByType operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getCommentsByType, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.
      * @param referenceId reference identifier
      * @param referenceTypeKey reference type
@@ -133,7 +134,7 @@ public interface CommentService {
 	 */
     public List<CommentInfo> getCommentsByType(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="commentTypeKey")String commentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Retrieves tag information for a reference of a particular type. The expected behavior is that if the caller is not authorized to invoke the getTagsByType operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getTagsByType, only tags that the caller is authorized to view are included in the returned tagInfoList; tags that the caller is unauthorized to view are filtered out of the return parameter.
      * @param referenceId reference identifier
      * @param referenceTypeKey reference type
@@ -147,7 +148,7 @@ public interface CommentService {
 	 */
     public List<TagInfo> getTagsByType(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="tagTypeKey")String tagTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Retrieves information about a comment.
      * @param commentId comment identifier
      * @return information about a comment
@@ -159,7 +160,7 @@ public interface CommentService {
 	 */
     public CommentInfo getComment(@WebParam(name="commentId")String commentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Retrieves information about a tag.
      * @param tagId tag identifier
      * @return information about a tag
@@ -171,7 +172,7 @@ public interface CommentService {
 	 */
     public TagInfo getTag(@WebParam(name="tagId")String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Retrieve ids of existing comments matching the supplied criteria.
      * @param commentCriteriaInfo criteria to be used for retrieval of matching comments
      * @return list of comment identifiers
@@ -181,7 +182,7 @@ public interface CommentService {
 	 */
     public List<String> searchForComments(@WebParam(name="commentCriteriaInfo")CommentCriteriaInfo commentCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /** 
+    /**
      * Retrieve ids of existing tags matching the supplied criteria.
      * @param tagCriteriaInfo criteria to be used for retrieval of matching tags
      * @return list of tag identifiers
@@ -191,7 +192,7 @@ public interface CommentService {
 	 */
     public List<String> searchForTags(@WebParam(name="tagCriteriaInfo")TagCriteriaInfo tagCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /** 
+    /**
      * Adds a comment to a reference.
      * @param referenceId identifier of reference
      * @param referenceTypeKey reference type
@@ -205,7 +206,7 @@ public interface CommentService {
 	 */
     public CommentInfo addComment(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Adds a tag to a reference.
      * @param referenceId identifier of reference
      * @param referenceTypeKey reference type
@@ -220,7 +221,7 @@ public interface CommentService {
 	 */
     public TagInfo addTag(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="tagInfo")TagInfo tagInfo) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Updates a comment for a reference.
      * @param referenceId identifier of reference
      * @param referenceTypeKey reference type
@@ -234,7 +235,7 @@ public interface CommentService {
 	 */
     public CommentInfo updateComment(@WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Removes a comment from a reference.
      * @param commentId identifier of the comment
      * @param referenceId identifier of the reference
@@ -248,7 +249,7 @@ public interface CommentService {
 	 */
     public StatusInfo removeComment(@WebParam(name="commentId")String commentId, @WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Removes a tag from a reference.
      * @param tagId identifier of the tag
      * @param referenceId identifier of the reference
@@ -262,7 +263,7 @@ public interface CommentService {
 	 */
     public StatusInfo removeTag(@WebParam(name="tagId")String tagId, @WebParam(name="referenceId")String referenceId, @WebParam(name="referenceTypeKey")String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Removes all comments associated with a single reference
      * @param referenceId identifier of the reference
      * @return status of the operation (success, failed)
@@ -274,7 +275,7 @@ public interface CommentService {
 	 */
     public StatusInfo removeComments(@WebParam(name="referenceId")String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
      * Removes a tag from all references to which it is linked.
      * @param tagId identifier of the tag
      * @return status of the operation (success, failed)
