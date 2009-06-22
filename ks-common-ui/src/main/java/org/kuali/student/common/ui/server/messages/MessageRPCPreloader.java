@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
+import org.kuali.student.common.ui.server.serialization.SerializationUtils;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.dto.MessageGroupKeyList;
 import org.kuali.student.core.messages.dto.MessageList;
@@ -14,7 +16,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gwt.user.server.rpc.RPC;
-import com.google.gwt.user.server.rpc.impl.StandardSerializationPolicy;
 
 public class MessageRPCPreloader {
     MessageService serviceImpl;
@@ -55,32 +56,12 @@ public class MessageRPCPreloader {
             String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,myPolicy);
             
             
-            return escapeForSingleQuotedJavaScriptString(serializedData);
+            return SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
 
     }
- // Server Side String utils
-    public static String escapeForSingleQuotedJavaScriptString( String s ) 
-    {
-        s = escapeScriptTags( s ); // <script> -> <xxxscript>
-        s = escapeBackslash( s );
-        s = escapeSingleQuotes( s );
-        return s;
-    }
-    public static String escapeScriptTags( String s )
-    {
-        return s
-            .replaceAll("(?si)<\\s*script.*?>", "<xxxscript>")
-            .replaceAll("(?si)</\\s*script\\s*>", "</xxxscript>");
-    }
-    public static String escapeBackslash( String s )
-    {
-        return s.replaceAll("\\\\","\\\\\\\\" );
-    }
-    public static String escapeSingleQuotes( String s ) {
-        return s.replaceAll("'","\\\\'" );
-    }
+    
 }

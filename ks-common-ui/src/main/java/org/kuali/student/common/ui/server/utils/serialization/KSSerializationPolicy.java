@@ -1,4 +1,4 @@
-package org.kuali.student.common.ui.server.messages;
+package org.kuali.student.common.ui.server.serialization;
 
 import java.io.Serializable;
 import java.util.Map;
