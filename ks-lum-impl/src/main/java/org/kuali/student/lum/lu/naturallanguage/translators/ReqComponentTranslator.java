@@ -15,7 +15,6 @@ import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
-import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,8 +116,13 @@ public class ReqComponentTranslator {
      * @throws DoesNotExistException
      */
     private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException {
-        String reqComponentType = reqComponent.getRequiredComponentType().getId();
-    	Context context = this.contextRegistry.get(reqComponentType);
+        String reqComponentTypeKey = reqComponent.getRequiredComponentType().getId();
+        
+        if(!this.contextRegistry.containsKey(reqComponentTypeKey)) {
+        	new DoesNotExistException("Context does not exist in registry for requirement component type key: " + reqComponentTypeKey);
+        }
+        
+        Context context = this.contextRegistry.get(reqComponentTypeKey);
     	Map<String, Object> velocityContextMap = context.createContextMap(reqComponent);
     	
         return velocityContextMap;

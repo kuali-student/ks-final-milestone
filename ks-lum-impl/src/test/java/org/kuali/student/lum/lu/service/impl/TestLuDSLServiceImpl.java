@@ -252,7 +252,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = client.getReqComponentTypes();
 
         assertNotNull(reqCompTypeInfoList);
-        assertEquals(6, reqCompTypeInfoList.size());
+        assertEquals(8, reqCompTypeInfoList.size());
 
         ReqComponentTypeInfo rqt = null;
 

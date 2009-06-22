@@ -12,6 +12,7 @@
         class="org.kuali.student.lum.lu.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
+                <!-- Pre-Req Contexts-->
                 <entry key="kuali.reqCompType.courseList.none">
                     <ref local="courseListContext"/>
                 </entry>
@@ -33,6 +34,13 @@
                     <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContextImpl">
                         <property name="luDao" ref="luDao" />
                     </bean>
+                </entry>
+                <!-- Co-Req Contexts -->
+                <entry key="kuali.reqCompType.courseList.coreq.all">
+                    <ref local="courseListContext"/>
+                </entry>
+                <entry key="kuali.reqCompType.courseList.coreq.oneof">
+                    <ref local="courseListContext"/>
                 </entry>
             </map>
         </constructor-arg>

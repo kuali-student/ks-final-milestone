@@ -416,6 +416,8 @@ INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALU
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.nof', 'Student needs <reqCompFieldType.requiredCount> courses from the following course(s): <reqCompFieldType.cluSet> ', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'N of required courses')
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradecheck', 'Student needs a minimum GPA of <reqCompFieldType.gpa>', {ts '2000-01-01 00:00:00.0'}, {ts '2001-11-30 00:00:00.0'}, 'Minimum overall GPA')
 INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student needs a <reqCompFieldType.totalCredits> credits from the following course(s): <reqCompFieldType.cluSet>', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course completed with minimum specified grade')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.coreq.all', 'Student must be enrolled in all of the following courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'All of required courses')
+INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.coreq.oneof', 'Student must be enrolled in one of the following courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'One of required courses')
 
 // REQUIREMENT FIELD TYPES
 INSERT INTO KSLU_REQ_COM_FIELD_TYPE (ID, NAME, DESCR, DATA_TYPE, MIN_VALUE, MAX_VALUE, MIN_LENGTH, MAX_LENGTH, VALID_CHARS, INVALID_CHARS, MIN_OCCURS, MAX_OCCURS, READ_ONLY) VALUES ('reqCompFieldType.clu', 'CLU', 'CLU','string',null,null,null,null,null,null,null,null,0)
@@ -436,6 +438,8 @@ INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.gradecheck','reqCompFieldType.gpa')
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.grdCondCourseList','reqCompFieldType.totalCredits')
 INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.grdCondCourseList','reqCompFieldType.cluSet')
+INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.courseList.coreq.all','reqCompFieldType.cluSet')
+INSERT INTO KSLU_REQCOMTYP_JN_REQCOMFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqCompType.courseList.coreq.oneof','reqCompFieldType.cluSet')
 
 // REQ_COMPONENT_TYPE_NL_TEMPLATE
 // INSERT INTO KSLU_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('1', 'KUALI.CATALOG', '#if($cluSet.getCluSet().getClus().size() == $mathTool.toNumber($expectedValue))  Student must have completed all of $cluSet.getCluSetAsShortName() #else  Student must have completed $expectedValue of $cluSet.getCluSetAsShortName() #end', 'kuali.reqCompType.courseList.all')
@@ -464,6 +468,8 @@ INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.lu
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.courseList.1of2')
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.grdCondCourseList')
 INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.prereqAcademicReadiness','kuali.reqCompType.gradecheck')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.coreqAcademicReadiness','kuali.reqCompType.courseList.coreq.all')
+INSERT INTO KSLU_STY_JN_RQTY (LU_STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.luStatementType.coreqAcademicReadiness','kuali.reqCompType.courseList.coreq.oneof')
 
 // STMT_TYPE <-> STMT_TYPE
 INSERT INTO KSLU_STY_JN_LUSTY (LU_STMT_TYPE_ID, CHLD_LU_STMT_TYPE_ID) values ('kuali.luStatementType.createCourseAcademicReadiness','kuali.luStatementType.prereqAcademicReadiness')

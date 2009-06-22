@@ -12,6 +12,7 @@ import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
  */
 public class ContextRegistry {
 
+	/** Registry context map */
 	private Map<String, Context> registry = new HashMap<String, Context>();
 
 	/**
@@ -25,7 +26,7 @@ public class ContextRegistry {
 	 * 
 	 * @param registry Context registry
 	 */
-	public ContextRegistry(Map<String, Context> registry) {
+	public ContextRegistry(final Map<String, Context> registry) {
 		this.registry = registry;
 	}
 
@@ -36,7 +37,7 @@ public class ContextRegistry {
 	 * @param key Context key
 	 * @param context Context
 	 */
-	public void add(String key, Context context) {
+	public void add(final String key, final Context context) {
 		this.registry.put(key, context);
 	}
 
@@ -47,8 +48,18 @@ public class ContextRegistry {
 	 * @param key Context key
 	 * @return A context
 	 */
-	public Context get(String key) {
+	public Context get(final String key) {
 		return this.registry.get(key);
+	}
+
+	/**
+	 * Returns true if a context exists for <code>key</code>; otherwise false.
+	 * 
+	 * @param key Context key
+	 * @return True if a context exists otherwise false
+	 */
+	public boolean containsKey(final String key) {
+		return this.registry.containsKey(key);
 	}
 
 	/**
@@ -58,7 +69,7 @@ public class ContextRegistry {
 	 * @param key
 	 * @return
 	 */
-	public Context remove(String key) {
+	public Context remove(final String key) {
 		return this.registry.remove(key);
 	}
 
