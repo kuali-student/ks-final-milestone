@@ -31,11 +31,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * @author Zdenek Zraly
  */
-public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<Object> implements RequirementsRpcService {
+public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements RequirementsRpcService {
 
     private static final long serialVersionUID = 822326113643828855L;
-    LuService service;
-    
+
     public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {       
         String[] templates = new String[3];           
         
