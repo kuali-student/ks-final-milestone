@@ -31,7 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpcWindow;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -197,7 +197,7 @@ class OrgRelationWidget extends OrgMultiWidget {
         panel.add(new KSButton("Find Org", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final KSAdvancedSearchRpcWindow orgSearchPopup = new KSAdvancedSearchRpcWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "Find Organization");
+                final KSAdvancedSearchWindow orgSearchPopup = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "Find Organization");
 
                 orgSearchPopup.addSelectionHandler(new SelectionHandler<List<String>>(){
                     @Override
