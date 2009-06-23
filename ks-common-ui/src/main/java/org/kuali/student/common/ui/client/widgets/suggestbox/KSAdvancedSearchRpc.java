@@ -13,7 +13,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
-import org.kuali.student.common.ui.client.widgets.searchbackedtable.SearchBackedTable;
+import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.core.dictionary.dto.Enum;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;

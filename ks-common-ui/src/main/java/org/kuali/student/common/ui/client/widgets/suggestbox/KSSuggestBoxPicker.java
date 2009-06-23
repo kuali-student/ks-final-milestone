@@ -9,7 +9,7 @@ import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.searchbackedtable.SearchBackedTable;
+import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.core.search.dto.QueryParamValue;
 
