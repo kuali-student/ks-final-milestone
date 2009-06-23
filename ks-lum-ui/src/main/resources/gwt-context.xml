@@ -87,6 +87,7 @@
 	<bean id="CluProposalRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
 		<property name="service" ref="luClient" />
+		<property name="orgService" ref="orgClient" />
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
@@ -135,7 +136,7 @@
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
 		<property name="address"
-			value="http://localhost:8181/ks-core-web/Service/OrgService" />
+			value="http://localhost:8080/ks-lum-web/LuService/OrgService" />
 	</bean>
 
 

@@ -15,10 +15,11 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
-import org.kuali.student.common.ui.client.validator.DictionaryConstraint;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
@@ -27,10 +28,10 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CollaborationSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
+import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -200,7 +201,7 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 ProposalInfo info = object.getProposalInfo();
-                                if (info != null && info.getProposalReference().size() > 0){
+                                if (info != null && info.getProposerOrg().size() > 0){
                                     return object.getProposalInfo().getProposerOrg().get(0);
                                 } else {
                                     return "";
@@ -208,7 +209,12 @@ public class ProposalInformationLayoutManager {
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
-                                object.getProposalInfo().getProposerOrg().set(0, (String)value);
+                            	List<String> orgs = object.getProposalInfo().getProposerOrg();
+                                if(orgs.size()<1){
+                                	orgs.add((String)value);
+                                }else{
+                                	orgs.set(0, (String)value);
+                                }
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
@@ -315,14 +321,17 @@ public class ProposalInformationLayoutManager {
     
 
     private Widget buildOrganizationWidget() {
-        //TODO This will probably need to be a search or selectable tree
+    	OrgPicker orgPicker = new OrgPicker();
+        return orgPicker;
+        
+    	//TODO This will probably need to be a search or selectable tree
         //TODO This should probably be a ConfigurableGroup
-        KSDropDown organizationDropDown = new KSDropDown();
-        organizationDropDown.setListItems(organizationList);
-              
+//        KSDropDown organizationDropDown = new KSDropDown();
+//        organizationDropDown.setListItems(organizationList);
+        
 //        OrgLocateTree orgTree = new OrgLocateTree();
 
-        return organizationDropDown;
+//        return organizationDropDown;
     }
 
     private Widget buildCampusLocationWidget() {

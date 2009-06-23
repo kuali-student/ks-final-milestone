@@ -12,6 +12,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
+import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -110,20 +111,24 @@ public class LUCreateUpdateView extends ViewComposite {
                     
                 	wfStartWorkflowButton = new KSButton("Start Workflow", new ClickHandler(){
                 		public void onClick(ClickEvent event) {
-                			
-                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
-								public void onFailure(
-										Throwable caught) {
-									Window.alert("Error starting Proposal workflow");
-								}
-								public void onSuccess(
-										CluProposal result) {
-									Window.alert("Proposal has been routed to workflow");
-									layout.getObject().setWorkflowId(result.getWorkflowId());
-									layout.removeButton(wfStartWorkflowButton);
-									layout.refresh();
-								}
-							});
+                			ProposalInfo proposalInfo = layout.getObject().getProposalInfo();
+                			if(proposalInfo==null||proposalInfo.getProposerOrg()==null||proposalInfo.getProposerOrg().isEmpty()){
+                				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
+                			}else{
+	                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
+									public void onFailure(
+											Throwable caught) {
+										Window.alert("Error starting Proposal workflow");
+									}
+									public void onSuccess(
+											CluProposal result) {
+										Window.alert("Proposal has been routed to workflow");
+										layout.getObject().setWorkflowId(result.getWorkflowId());
+										layout.removeButton(wfStartWorkflowButton);
+										layout.refresh();
+									}
+								});
+                			}
                 		}
                 	});
                 	layout.addButton(wfStartWorkflowButton);

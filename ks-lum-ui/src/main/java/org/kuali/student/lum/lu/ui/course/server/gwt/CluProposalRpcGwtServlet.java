@@ -30,6 +30,9 @@ import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -58,6 +61,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private static final String DEFAULT_USER_ID = "user1";
     private SimpleDocumentActionsWebService simpleDocService; 
     private SimpleWorkflowUtility workflowUtilityService;
+    private OrganizationService orgService;
      
     private String simpleDocServiceAddress="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService";
     private String workflowUtilityServiceAddress="http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP";
@@ -230,7 +234,27 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public CluProposal createAndRouteProposal(CluProposal cluProposal) {
 		aquireSimpleDocService();
         try {
-            //FIXME: Restore code to handle proposal service?
+            
+        	//Get org info stuff
+        	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
+        	
+        	String departmentName = orgService.getOrganization(orgId).getShortName();
+        	String collegeName = "";
+        	
+        	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
+        	if(relations!=null){
+        		for(OrgOrgRelationInfo relation:relations){
+        			if("kuali.org.Part".equals(relation.getType())){
+        				OrgInfo part = orgService.getOrganization(relation.getId());
+        				if("kuali.org.College".equals(part.getType())){
+        					collegeName = part.getShortName();
+        				}
+        			}
+        			
+        		}
+        	}
+        	
+        	//FIXME: Restore code to handle proposal service?
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
             cluProposal.setCluInfo(parentCluInfo);
@@ -261,10 +285,28 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Element root = doc.createElement("cluId");
+            
+            Element root = doc.createElement("cluProposal");
             doc.appendChild(root);
-            Text text = doc.createTextNode(parentCluInfo.getId());
-            root.appendChild(text);
+            
+            Element cluId = doc.createElement("cluId");
+            root.appendChild(cluId);
+            
+            Text cluIdText = doc.createTextNode(parentCluInfo.getId());
+            cluId.appendChild(cluIdText);
+            
+            Element department = doc.createElement("department");
+            root.appendChild(department);
+            
+            Text departmentText = doc.createTextNode(departmentName);
+            department.appendChild(departmentText);
+            
+            Element college = doc.createElement("college");
+            root.appendChild(college);
+            
+            Text collegeText = doc.createTextNode(collegeName);
+            college.appendChild(collegeText);
+           
             
             DOMSource domSource = new DOMSource(doc);
             StringWriter writer = new StringWriter();
@@ -291,6 +333,26 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
 		aquireSimpleDocService();
         try {
+        	
+        	//Get org info stuff
+        	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
+        	
+        	String departmentName = orgService.getOrganization(orgId).getShortName();
+        	String collegeName = "";
+        	
+        	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
+        	if(relations!=null){
+        		for(OrgOrgRelationInfo relation:relations){
+        			if("kuali.org.Part".equals(relation.getType())){
+        				OrgInfo part = orgService.getOrganization(relation.getId());
+        				if("kuali.org.College".equals(part.getType())){
+        					collegeName = part.getShortName();
+        				}
+        			}
+        			
+        		}
+        	}
+        	
             CluInfo cluInfo = cluProposal.getCluInfo();
             
             //get a user name
@@ -303,10 +365,27 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Element root = doc.createElement("cluId");
+            
+            Element root = doc.createElement("cluProposal");
             doc.appendChild(root);
-            Text text = doc.createTextNode(cluInfo.getId());
-            root.appendChild(text);
+            
+            Element cluId = doc.createElement("cluId");
+            root.appendChild(cluId);
+            
+            Text cluIdText = doc.createTextNode(cluInfo.getId());
+            cluId.appendChild(cluIdText);
+            
+            Element department = doc.createElement("department");
+            root.appendChild(department);
+            
+            Text departmentText = doc.createTextNode(departmentName);
+            department.appendChild(departmentText);
+            
+            Element college = doc.createElement("college");
+            root.appendChild(college);
+            
+            Text collegeText = doc.createTextNode(collegeName);
+            college.appendChild(collegeText);
             
             DOMSource domSource = new DOMSource(doc);
             StringWriter writer = new StringWriter();
@@ -563,6 +642,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public void setWorkflowUtilityServiceAddress(
 			String workflowUtilityServiceAddress) {
 		this.workflowUtilityServiceAddress = workflowUtilityServiceAddress;
+	}
+
+	public OrganizationService getOrgService() {
+		return orgService;
+	}
+
+	public void setOrgService(OrganizationService orgService) {
+		this.orgService = orgService;
 	}
 
 }
