@@ -11,7 +11,6 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonLayout;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,6 +25,12 @@ public abstract class ButtonGroup<T extends ButtonEnum> extends Composite{
 
     public List<Callback<T>> getCallbacks() {
         return callbacks;
+    }
+    
+    protected void sendCallbacks(T type){
+        for(Callback<T> c: getCallbacks()){
+            c.exec(type);
+        }
     }
     
     public void setButtonText(T key, String text){

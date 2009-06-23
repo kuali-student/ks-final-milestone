@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.widgets.buttongroups;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
 import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonRow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,9 +25,7 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                for(Callback<ConfirmCancelEnum> c: getCallbacks()){
-                    c.exec(type);
-                }
+                sendCallbacks(type);
             }
         });
         layout.addButton(button);
@@ -40,9 +37,7 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                for(Callback<ConfirmCancelEnum> c: getCallbacks()){
-                    c.exec(type);
-                }
+                sendCallbacks(type);
             }
         });
         ((ButtonRow)layout).addButtonToSecondaryGroup(button);

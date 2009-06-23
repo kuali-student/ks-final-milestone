@@ -25,9 +25,7 @@ public class YesNoGroup extends ButtonGroup<YesNoEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                for(Callback<YesNoEnum> c: getCallbacks()){
-                    c.exec(type);
-                }
+                sendCallbacks(type);
             }
         });
         layout.addButton(button);
@@ -39,9 +37,7 @@ public class YesNoGroup extends ButtonGroup<YesNoEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                for(Callback<YesNoEnum> c: getCallbacks()){
-                    c.exec(type);
-                }
+                sendCallbacks(type);
             }
         });
         ((ButtonRow)layout).addButtonToSecondaryGroup(button);
