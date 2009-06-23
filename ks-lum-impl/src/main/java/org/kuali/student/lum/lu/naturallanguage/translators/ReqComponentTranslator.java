@@ -117,9 +117,9 @@ public class ReqComponentTranslator {
      */
     private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException {
         String reqComponentTypeKey = reqComponent.getRequiredComponentType().getId();
-        
+
         if(!this.contextRegistry.containsKey(reqComponentTypeKey)) {
-        	new DoesNotExistException("Context does not exist in registry for requirement component type key: " + reqComponentTypeKey);
+        	throw new DoesNotExistException("Context does not exist in registry for requirement component type key: " + reqComponentTypeKey);
         }
         
         Context context = this.contextRegistry.get(reqComponentTypeKey);

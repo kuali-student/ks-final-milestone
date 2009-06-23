@@ -171,6 +171,22 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
     }
 
 	@Test
+	public void testInvalidReqComponentType() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.CATALOG";
+    	ReqComponent reqComponent = new ReqComponent();
+		ReqComponentType reqCompType = new ReqComponentType();
+		reqCompType.setId("xxx.xxx.xxx");
+		reqComponent.setRequiredComponentType(reqCompType);
+
+		try {
+			this.englishTranslator.translate(reqComponent, nlUsageTypeKey);
+			Assert.fail("Translate method should have thrown a DoesNotExistException for requirement component type id xxx.xxx.xxx");
+		} catch(DoesNotExistException e) {
+			Assert.assertEquals("Context does not exist in registry for requirement component type key: xxx.xxx.xxx", e.getMessage());
+		}
+	}
+
+	@Test
 	public void testTranslate_OneOf_English() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
     	createReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
