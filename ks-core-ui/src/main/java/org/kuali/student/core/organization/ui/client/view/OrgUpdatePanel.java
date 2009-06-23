@@ -15,11 +15,21 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
+import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.search.dto.QueryParamValue;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -59,10 +69,12 @@ public class OrgUpdatePanel extends Composite implements HasStateChanges{
     public void onLoad(){
         if (!loaded){
             if (orgId == null){
+                
 
-                final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName");
+                
+                final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
 
-                orgSearchWidget.setMultipleSelect(false);
+                //orgSearchWidget.setMultipleSelect(false);
                 orgSearchWidget.addSelectionHandler(new SelectionHandler<List<String>>(){
                     public void onSelection(SelectionEvent<List<String>> event) {                    
                         OrganizationWidget orgCreatePanel = new OrganizationWidget(event.getSelectedItem().get(0), OrganizationWidget.Scope.ORG_MODIFY_ALL);
