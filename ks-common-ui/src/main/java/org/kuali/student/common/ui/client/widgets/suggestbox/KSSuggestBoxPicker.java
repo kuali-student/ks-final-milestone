@@ -9,26 +9,17 @@ import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.searchbackedtable.SearchBackedTable;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.core.search.dto.ResultColumnInfo;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -39,127 +30,26 @@ public class KSSuggestBoxPicker extends Composite{
     private FlexTable layout = new FlexTable();
     private KSButton remove = new KSButton(context.getMessage("remove"));
     private KSButton add = new KSButton(context.getMessage("add"));
-    private KSSelectItemWidgetAbstract listWidget;
+    private SearchBackedTable listWidget;
     private KSSuggestBoxWAdvSearch suggest;
-    //private List<AttrDescriptor> attrDescriptors;
     private List<String> resultColumnKeys;
-    private BaseRpcServiceAsync searchService;
-    private String searchOnIdName;
-    private String displayableResultKey;
+/*    private BaseRpcServiceAsync searchService;
+    private String searchOnIdName;*/
     
-    private List<ListDataItem> listData = new ArrayList<ListDataItem>();
     private HashMap<String, String> resultKeyColumnMap = new HashMap<String, String>();
     
-    private class ListDataItem{
-        private String id;
-        private String displayText;
-        private HashMap<String, String> attrValueMap = new HashMap<String, String>();
-        public String getId() {
-            return id;
-        }
-        public void setId(String id) {
-            this.id = id;
-        }
-        public String getDisplayText() {
-            return displayText;
-        }
-        public void setDisplayText(String displayText) {
-            this.displayText = displayText;
-        }
-        public HashMap<String, String> getAttrValueMap() {
-            return attrValueMap;
-        }
-        public void setAttrValueMap(HashMap<String, String> attrValueMap) {
-            this.attrValueMap = attrValueMap;
-        }
-        
-        
-    }
-    
-    private ListItems selectedItems = new ListItems(){
-
-        @Override
-        public List<String> getAttrKeys() {
-            List<String> attrs = new ArrayList<String>();
-            for(String k: resultColumnKeys){
-                attrs.add(resultKeyColumnMap.get(k));
-            }
-            return attrs;
-        }
-
-        @Override
-        public String getItemAttribute(String id, String attrkey) {
-            String attribute = "";
-            for(ListDataItem i: listData){
-                if(i.getId().equals(id)){
-                    attribute = i.getAttrValueMap().get(attrkey);
-                    break;
-                }
-            }
-            return attribute;
-        }
-
-        @Override
-        public int getItemCount() {
-            return listData.size();
-        }
-
-        @Override
-        public List<String> getItemIds() {
-            List<String> ids = new ArrayList<String>();
-            for(ListDataItem i: listData){
-                ids.add(i.getId());
-            }
-            return ids;
-        }
-
-        @Override
-        public String getItemText(String id) {
-            String text = "";
-            for(ListDataItem i: listData){
-                if(i.getId().equals(id)){
-                    text = i.getDisplayText();
-                    break;
-                }
-            }
-            return text;
-        }
-    };
     private String searchIdKey;
     
-    
-    public KSSuggestBoxPicker(KSSuggestBoxWAdvSearch suggestWidget, KSSelectItemWidgetAbstract widget, BaseRpcServiceAsync searchService, String searchOnIdName, String searchIdKey, 
-            List<String> resultColumnKeys, String displayableResultKey){
-        //this.attrDescriptors = attrDescriptors;
+    public KSSuggestBoxPicker(KSSuggestBoxWAdvSearch suggestWidget, BaseRpcServiceAsync searchService, String searchOnIdName, String searchIdKey, 
+            List<String> resultColumnKeys, String resultIdKey){
         this.resultColumnKeys = resultColumnKeys;
-        this.searchService = searchService;
-        this.searchOnIdName = searchOnIdName;
+/*        this.searchService = searchService;
+        this.searchOnIdName = searchOnIdName;*/
         this.searchIdKey = searchIdKey;
-        this.displayableResultKey = displayableResultKey;
-        
-        searchService.getSearchType(searchOnIdName, new AsyncCallback<SearchTypeInfo>(){
 
-            public void onFailure(Throwable caught) {
-                //TODO: How to handle this?
-            }
-
-            public void onSuccess(SearchTypeInfo searchTypeInfo) {
-                SearchResultTypeInfo resultInfo = searchTypeInfo.getSearchResultTypeInfo();
-                List<ResultColumnInfo> resultColumns = resultInfo.getResultColumns();
-                for (ResultColumnInfo r: resultColumns){
-                    //TODO use column name as a token to get a message from the message service instead
-                    if(KSSuggestBoxPicker.this.resultColumnKeys.contains(r.getKey())){
-                        KSSuggestBoxPicker.this.resultKeyColumnMap.put(r.getKey(), r.getName());
-                    }
-                   
-                }
-                listWidget.setListItems(selectedItems);
-                listWidget.redraw();
-            }
-        });
+        listWidget = new SearchBackedTable(searchService, searchOnIdName, resultIdKey);
         
         suggest = suggestWidget;
-        listWidget = widget;
         layout.setWidget(0, 0, suggest);
         layout.setWidget(0, 1, add);
         layout.setWidget(1, 0, listWidget);
@@ -178,45 +68,7 @@ public class KSSuggestBoxPicker extends Composite{
         qv.setKey(searchIdKey);
         qv.setValue(id);
         queryParamValues.add(qv);
-        searchService.searchForResults(searchOnIdName, queryParamValues, new AsyncCallback<List<Result>>(){
-            
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void onSuccess(List<Result> results) {
-                //final List<IdableSuggestion> suggestions = createSuggestions(results, request.getLimit());
-                //Response response = new Response(suggestions);
-                if(results != null){
-                    String itemDisplayText = "";
-                    Result theResult = results.get(0);
-                    HashMap<String,String> columnNameValueMap = new HashMap<String,String>();
-                    if(theResult != null){
-                        for(ResultCell c: theResult.getResultCells()){
-                            if(resultKeyColumnMap.containsKey(c.getKey())){
-                                columnNameValueMap.put(resultKeyColumnMap.get(c.getKey()), c.getValue());
-                            }
-                            
-                            
-                            if(c.getKey().equals(displayableResultKey)){
-                                itemDisplayText = c.getValue();
-                            }
-                        }
-                    }
-                    
-                    ListDataItem item = new ListDataItem();
-                    item.setAttrValueMap(columnNameValueMap);
-                    item.setId(id);
-                    item.setDisplayText(itemDisplayText);
-                    
-                    listData.add(item);
-                }
-                listWidget.redraw();
-            }
-        });
+        listWidget.performSearch(queryParamValues);
     }
     
     private void setupHandlers(){
@@ -250,22 +102,7 @@ public class KSSuggestBoxPicker extends Composite{
         remove.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
-                List<String> selectedIds = listWidget.getSelectedItems();
-                List<ListDataItem> deletedItems = new ArrayList<ListDataItem>();
-                if(!selectedIds.isEmpty()){
-                    for(String id: selectedIds){
-                        for(ListDataItem i: listData){
-                            if(id.equals(i.getId())){
-                                deletedItems.add(i);
-                            }
-                        }
-                    }
-                }
-                listData.removeAll(deletedItems);
-                for(String id: listWidget.getSelectedItems()){
-                    listWidget.deSelectItem(id);
-                }
-                listWidget.redraw();
+                listWidget.removeSelected();
             }
         });
         
@@ -304,6 +141,17 @@ public class KSSuggestBoxPicker extends Composite{
                 suggest.getSuggestBox().getTextBox().selectAll();
                 
             }
+        }
+    }
+    
+    public void getListIds(){
+        listWidget.getAllIds();
+    }
+    
+    public void setListIds(List<String> ids){
+        listWidget.clearTable();
+        for(String id: ids){
+            searchAndAddItem(id);
         }
     }
     

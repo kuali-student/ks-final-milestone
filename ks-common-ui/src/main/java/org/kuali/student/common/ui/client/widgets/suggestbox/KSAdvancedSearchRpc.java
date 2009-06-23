@@ -13,6 +13,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
+import org.kuali.student.common.ui.client.widgets.searchbackedtable.SearchBackedTable;
 import org.kuali.student.core.dictionary.dto.Enum;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
@@ -51,11 +52,12 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     private KSTabPanel tabPanel = new KSTabPanel();
     private VerticalPanel searchLayout = new VerticalPanel();
     private VerticalPanel resultLayout = new VerticalPanel();
-    private KSSelectableTableList searchResults = new KSSelectableTableList();
+    //private KSSelectableTableList searchResults = new KSSelectableTableList();
+    private SearchBackedTable searchResultsTable;
     private KSLabel resultLabel = new KSLabel("No Search Results");
     private KSButton selectButton = new KSButton("Select");
     private boolean hasSelectionHandlers = false;
-    private SearchResultListItems searchResultList = new SearchResultListItems();
+    //private SearchResultListItems searchResultList = new SearchResultListItems();
     private List<KSTextBox> textBoxes = new ArrayList<KSTextBox>();
     private List<KSSelectItemWidgetAbstract> selectableEnums = new ArrayList<KSSelectItemWidgetAbstract>();
     
@@ -70,18 +72,19 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
      * @param searchService - instance of rpc service implementing the base search/dictionary service methods
      * @param searchTypeKey - the predefined search to use. The search results must return an id as first column.
      */
-    public KSAdvancedSearchRpc(BaseRpcServiceAsync searchService, String searchTypeKey){
+    public KSAdvancedSearchRpc(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
         this.searchService = searchService;
         this.searchTypeKey = searchTypeKey;
         
+        searchResultsTable = new SearchBackedTable(searchService, searchTypeKey, resultIdKey);
         generateSearchLayout();
                         
         tabPanel.addTab(searchLayout, "Search");
         tabPanel.addTab(resultLayout, "Results");
         tabPanel.selectTab(0);
         
-        searchResults.setPageSize(10);
-        searchResults.setListItems(searchResultList);
+      /*  searchResults.setPageSize(10);
+        searchResults.setListItems(searchResultList);*/
         
         resultLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_PANEL);
         searchLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PANEL);
@@ -90,7 +93,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         
         selectButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                List<String> selectedItems = searchResults.getSelectedItems();
+                List<String> selectedItems = searchResultsTable.getSelectedIds();
                 if (selectedItems != null && selectedItems.size() > 0){
                     fireSelectEvent(selectedItems);
                 }                
@@ -143,7 +146,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                      column = 0;
                      row++;
                 }
-                column++;   
+                column++;
+                //TODO: Messages
                 KSButton searchButton = new KSButton("Search");
                 searchButton.addClickHandler(new ClickHandler(){
                     public void onClick(ClickEvent event) {
@@ -154,13 +158,13 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                 searchLayout.add(searchParamTable);     
                 
                 //Initialze Results Layout
-                SearchResultTypeInfo resultTypeInfo = searchTypeInfo.getSearchResultTypeInfo();
+/*                SearchResultTypeInfo resultTypeInfo = searchTypeInfo.getSearchResultTypeInfo();
                 searchResultList.setResultColumns(resultTypeInfo.getResultColumns());
-
+*/
                 FlexTable resultTable = new FlexTable();
                 resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
                 resultTable.setWidget(0, 0, resultLabel);
-                resultTable.setWidget(1, 0, searchResults);
+                resultTable.setWidget(1, 0, searchResultsTable);
                 resultLayout.add(resultTable);
 
                 //Add select button, this will only be visible if a select handler is directly added
@@ -171,23 +175,23 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         });       
     }
     
-    /** 
+/*    *//** 
      * Use this to allow multiple select of items from search results
      *
-     */
+     *//*
     public void setMultipleSelect(boolean enable){
        searchResults.setMultipleSelect(enable); 
     }
     
-    /**
+    *//**
      * Id of selected item.  If multiple items are selected, this will return the
      * first selected item.
      * 
      * @return
-     */
+     *//*
     public String getSelectedId(){
         return searchResults.getSelectedItem();
-    }
+    }*/
     
     /** 
      * Use to get a list of items selected from the results of search displayed to the user.
@@ -195,7 +199,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
      * @return
      */
     public List<String> getSelectedIds(){
-        return searchResults.getSelectedItems();
+        return searchResultsTable.getSelectedIds();
     }
            
     private void executeSearch(){
@@ -208,6 +212,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             queryParamValue.setKey(((HasName)w).getName());
             if (w instanceof KSSelectItemWidgetAbstract){
                 queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
             } else {
                 String value = ((HasText)w).getText();
                 value = value.replace('*','%');
@@ -215,9 +220,12 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             }
             queryParamValues.add(queryParamValue);                
         }
+        searchResultsTable.clearTable();
+        searchResultsTable.performSearch(queryParamValues);
+        tabPanel.selectTab(1);
        
         //Call the search service
-        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+       /* searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -239,7 +247,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                 }
                 tabPanel.selectTab(1);
             }               
-        });
+        });*/
     }
 
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
@@ -287,7 +295,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         for(KSSelectItemWidgetAbstract w: selectableEnums){
             w.redraw();
         }
-        searchResultList.setResults(new ArrayList<Result>());
+        searchResultsTable.clearTable();
         tabPanel.selectTab(0);
     }
 }

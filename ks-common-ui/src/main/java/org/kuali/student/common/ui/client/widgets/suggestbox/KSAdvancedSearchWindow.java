@@ -26,7 +26,6 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
     private VerticalPanel mainPanel = new VerticalPanel();
     private KSAdvancedSearchRpc advancedSearch;
     private HandlerManager handlers = new HandlerManager(this);
-    private boolean resetOnClose = true;
     private ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
         @Override
@@ -37,9 +36,6 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
                     if (selectedItems != null && selectedItems.size() > 0){
                         fireSelectEvent(selectedItems);
                     }
-                    if(resetOnClose){
-                        //advancedSearch.reset();
-                    }
                     dialog.hide();
                     break;
                 case CANCEL:
@@ -49,17 +45,17 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
         }
     });
     
-    public KSAdvancedSearchWindow(BaseRpcServiceAsync searchService, String searchTypeKey){
-        init(searchService, searchTypeKey);       
+    public KSAdvancedSearchWindow(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
+        init(searchService, searchTypeKey, resultIdKey);       
     }
 
-    public KSAdvancedSearchWindow(BaseRpcServiceAsync searchService, String searchTypeKey, String title){
-        init(searchService, searchTypeKey);
+    public KSAdvancedSearchWindow(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, String title){
+        init(searchService, searchTypeKey, resultIdKey);
         titleBar.setTitle(title);
     }
     
-    private void init(BaseRpcServiceAsync searchService, String searchTypeKey){
-        advancedSearch = new KSAdvancedSearchRpc(searchService, searchTypeKey);
+    private void init(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
+        advancedSearch = new KSAdvancedSearchRpc(searchService, searchTypeKey, resultIdKey);
         mainPanel.add(titleBar);
         mainPanel.add(advancedSearch);
         mainPanel.add(buttonPanel);
@@ -75,17 +71,10 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
         dialog.hide();
     }
     
-    public void setMultipleSelect(boolean enable){
+    //TODO re-enable this
+/*    public void setMultipleSelect(boolean enable){
         advancedSearch.setMultipleSelect(enable);
-    }
-    
-    public void setResetOnClose(boolean enable){
-        resetOnClose = enable;
-    }
-    
-    public boolean isResetOnClose(){
-        return resetOnClose;
-    }
+    }*/
     
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<List<String>> handler) {
