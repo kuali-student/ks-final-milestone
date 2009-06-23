@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.buttongroups;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.AddModifyRemoveEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
 import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonColumn;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,7 +13,7 @@ public class AddModifyRemoveGroup extends ButtonGroup<AddModifyRemoveEnum>{
     
     public AddModifyRemoveGroup(Callback<AddModifyRemoveEnum> callback){
         layout = new ButtonColumn();
-        this.setCallback(callback);
+        this.addCallback(callback);
         
         addButton(AddModifyRemoveEnum.ADD);
         addButton(AddModifyRemoveEnum.MODIFY);
@@ -26,7 +27,9 @@ public class AddModifyRemoveGroup extends ButtonGroup<AddModifyRemoveEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                getCallback().exec(type);
+                for(Callback<AddModifyRemoveEnum> c: getCallbacks()){
+                    c.exec(type);
+                }
             }
         });
         layout.addButton(button);

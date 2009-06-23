@@ -1,7 +1,9 @@
 package org.kuali.student.common.ui.client.widgets.buttongroups;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -14,16 +16,16 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class ButtonGroup<T extends ButtonEnum> extends Composite{
-    private Callback<T> callback;
+    private List<Callback<T>> callbacks = new ArrayList<Callback<T>>();
     protected Map<T, KSButton> buttonMap = new HashMap<T, KSButton>();
     protected ButtonLayout layout;
 
-    public void setCallback(Callback<T> callback) {
-        this.callback = callback;
+    public void addCallback(Callback<T> callback) {
+        callbacks.add(callback);
     }
 
-    public Callback<T> getCallback() {
-        return callback;
+    public List<Callback<T>> getCallbacks() {
+        return callbacks;
     }
     
     public void setButtonText(T key, String text){

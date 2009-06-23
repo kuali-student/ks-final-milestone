@@ -13,7 +13,7 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
     
     public ConfirmCancelGroup(Callback<ConfirmCancelEnum> callback){
         layout = new ButtonRow();
-        this.setCallback(callback);
+        this.addCallback(callback);
         
         addButton(ConfirmCancelEnum.CANCEL);
         addButtonToSecondaryGroup(ConfirmCancelEnum.CONFIRM);
@@ -26,7 +26,9 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                getCallback().exec(type);
+                for(Callback<ConfirmCancelEnum> c: getCallbacks()){
+                    c.exec(type);
+                }
             }
         });
         layout.addButton(button);
@@ -38,7 +40,9 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                getCallback().exec(type);
+                for(Callback<ConfirmCancelEnum> c: getCallbacks()){
+                    c.exec(type);
+                }
             }
         });
         ((ButtonRow)layout).addButtonToSecondaryGroup(button);
