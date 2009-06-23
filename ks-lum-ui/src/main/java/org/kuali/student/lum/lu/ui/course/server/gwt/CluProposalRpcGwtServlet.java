@@ -344,7 +344,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	if(relations!=null){
         		for(OrgOrgRelationInfo relation:relations){
         			if("kuali.org.Part".equals(relation.getType())){
-        				OrgInfo part = orgService.getOrganization(relation.getId());
+        				OrgInfo part = orgService.getOrganization(relation.getOrgId());
         				if("kuali.org.College".equals(part.getType())){
         					collegeName = part.getShortName();
         				}
