@@ -84,6 +84,7 @@
 		<property name="service" ref="luClient" />
 		<property name="simpleDocServiceAddress" value="${ks.rice.simpleDocActions.serviceAddress}"/>
 		<property name="workflowUtilityServiceAddress" value="${ks.rice.workflowUtility.serviceAddress}"/>
+		<property name="orgService" ref="orgClient" />
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
