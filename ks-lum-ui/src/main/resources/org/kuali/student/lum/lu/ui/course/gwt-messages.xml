@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+	<bean id="enCourse" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="course" />
+	</bean>
+
+   	<bean parent="enCourse" p:id="beginTitle"		p:value="Begin Proposal"/>
+   	<bean parent="enCourse" p:id="beginDirections" >
+   		<property name="value">
+   			<value>
+   				By saving this information, you will create a saved draft that you can continue working on at a later time. You can access the draft upon logging into KS by checking your task list.
+   				To add collaborators or alternative delegates, save your draft and edit the Author + Collaborator section.
+   			</value>   			
+   		</property>   		
+   	</bean>
+
+</beans>
