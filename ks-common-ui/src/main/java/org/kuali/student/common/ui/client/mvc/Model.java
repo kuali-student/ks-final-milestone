@@ -19,18 +19,29 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @param <T>
  *            the type of model object to be contained within the model
  */
-public class Model<T extends Idable> {
+public class Model<T> {
     private Map<String, T> data = new HashMap<String, T>();
     private HandlerManager handlers = new HandlerManager(this);
 
+    private T singleDataObject = null;
     /**
      * Adds an object to the model, and fires a ModelChangeEvent
      * 
      * @param object
      */
     public void add(T object) {
-        data.put(object.getId(), object);
-        handlers.fireEvent(new ModelChangeEvent<T>(Action.ADD, object));
+        if (object instanceof Idable){
+            data.put(((Idable)object).getId(), object);
+            handlers.fireEvent(new ModelChangeEvent<T>(Action.ADD, object));
+        }
+    }
+
+    public void put(T object) {
+        singleDataObject = object;
+    }
+    
+    public T get(){
+        return singleDataObject;
     }
 
     /**
@@ -64,7 +75,11 @@ public class Model<T extends Idable> {
      * @return the object that was removed, or null if not found
      */
     public T remove(T object) {
-        return remove(object.getId());
+        if (object instanceof Idable){
+            return remove(((Idable)object).getId());
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -74,11 +89,13 @@ public class Model<T extends Idable> {
      * @param object
      */
     public void update(T object) {
-        T existing = data.put(object.getId(), object);
-        if (existing == null) {
-            handlers.fireEvent(new ModelChangeEvent<T>(Action.ADD, object));
-        } else {
-            handlers.fireEvent(new ModelChangeEvent<T>(Action.UPDATE, object));
+        if (object instanceof Idable){
+            T existing = data.put(((Idable)object).getId(), object);
+            if (existing == null) {
+                handlers.fireEvent(new ModelChangeEvent<T>(Action.ADD, object));
+            } else {
+                handlers.fireEvent(new ModelChangeEvent<T>(Action.UPDATE, object));
+            }
         }
     }
 

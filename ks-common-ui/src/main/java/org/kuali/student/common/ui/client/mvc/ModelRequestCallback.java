@@ -10,7 +10,7 @@ import org.kuali.student.core.dto.Idable;
  * @param <T>
  *            the type of model being requested
  */
-public interface ModelRequestCallback<T extends Idable> {
+public interface ModelRequestCallback<T> {
     /**
      * Called when the model is available
      * 

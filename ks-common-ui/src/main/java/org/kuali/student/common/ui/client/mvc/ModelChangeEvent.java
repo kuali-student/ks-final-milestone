@@ -10,7 +10,7 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Kuali Student Team
  * @param <T>
  */
-public class ModelChangeEvent<T extends Idable> extends GwtEvent<ModelChangeHandler<T>> {
+public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
     public static final Type<ModelChangeHandler<?>> TYPE = new Type<ModelChangeHandler<?>>();
 
     /**

@@ -10,7 +10,7 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Kuali Student Team
  * @param <T>
  */
-public interface ModelChangeHandler<T extends Idable> extends EventHandler {
+public interface ModelChangeHandler<T> extends EventHandler {
     /**
      * Invoked when a ModelChangeEvent is dispatched to this handler.
      * 
