@@ -27,17 +27,25 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.*;
+import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
 
 
 public class SearchDialog extends Composite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     private final SimplePanel mainPanel = new SimplePanel();
-    private final KSModalDialogPanel popupPanel = 
-        new KSModalDialogPanel();
+    //private final KSModalDialogPanel popupPanel = new KSModalDialogPanel();
+    KSLightBox popupPanel = new KSLightBox();
+    
     private KSLabel linkAddCourses = new KSLabel("Advanced search");
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnAdd = new KSButton("Add");
@@ -58,11 +66,18 @@ public class SearchDialog extends Composite {
         pnlButtons.add(btnCancel);
         btnCancel.setStyleName("KS-Rules-Standard-Button");        
         searchView.add(pnlButtons);
-        popupPanel.setWidget(searchView);
-        popupPanel.addStyleName("KS-Rules-SearchPanel");  
-        popupPanel.setHeader("Courses");
-        popupPanel.setModal(true);
-       // popupPanel.center();
+        
+        
+        VerticalPanel popupPanelContent = new VerticalPanel();
+        popupPanelContent.add(new Label("Courses"));
+        popupPanelContent.add(searchView);
+        popupPanelContent.addStyleName("KS-Rules-SearchPanel");
+        popupPanel.setWidget(popupPanelContent);
+        
+        //popupPanel.setModal(true);
+       
+        
+        // popupPanel.center();
         linkAddCourses.setStyleName("KS-Rules-Search-Link");
         mainPanel.setWidget(linkAddCourses);
         setupHandlers();
