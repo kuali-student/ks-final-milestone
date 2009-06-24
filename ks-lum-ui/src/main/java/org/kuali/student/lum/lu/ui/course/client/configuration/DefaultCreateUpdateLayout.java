@@ -26,9 +26,18 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
+import org.kuali.student.common.ui.client.mvc.Callback;
+
 
 public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLayout<T> {
-    private final KSModalDialogPanel startSectionDialog = new KSModalDialogPanel();
+    //private final KSModalDialogPanel startSectionDialog = new KSModalDialogPanel();
+    KSLightBox startSectionDialog = new KSLightBox();
     StartSectionButtons startSectionButtons = new StartSectionButtons();   
     
     private final HorizontalPanel panel = new HorizontalPanel();
@@ -52,7 +61,18 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	public enum SaveTypes{
 	    CREATE, WF_CREATE, SECTION_SAVE
 	}
-		
+    YesNoGroup yesNoGroup = new YesNoGroup(new Callback<YesNoEnum>(){
+        @Override
+        public void exec(YesNoEnum result) {
+          if(result == YesNoEnum.YES){
+              //TODO: Update model & show first section in view
+              startSectionDialog.hide();
+    
+          }else if(result == YesNoEnum.NO){
+              startSectionDialog.hide();
+          }
+        }
+    });
 	public DefaultCreateUpdateLayout() {
 		super.initWidget(panel);
 		panel.add(menuPanel);
@@ -62,17 +82,18 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		vPanel.add(customButtonPanel);
 		panel.add(vPanel);
 		
-		startSectionButtons.addCancelHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                startSectionDialog.hide();
-            }		    
-		});
-		startSectionButtons.addSaveHandler(new SaveHandler(){
-            public void onSave(SaveEvent saveEvent) {                
+        
+//      startSectionButtons.addCancelHandler(new ClickHandler(){
+  //          public void onClick(ClickEvent event) {
+    //            startSectionDialog.hide();
+      //      }         
+//      });
+    //  startSectionButtons.addSaveHandler(new SaveHandler(){
+      //      public void onSave(SaveEvent saveEvent) {                
                 //TODO: Update model & show first section in view
-                startSectionDialog.hide();
-            }
-        });
+        //        startSectionDialog.hide();
+          //  }
+//        });
 	}
 	
 
