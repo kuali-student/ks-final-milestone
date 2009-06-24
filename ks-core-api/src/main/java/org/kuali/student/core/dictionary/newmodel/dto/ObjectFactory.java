@@ -51,23 +51,7 @@ public class ObjectFactory {
     public Context createContext() {
         return new Context();
     }
-
-    /**
-     * Create an instance of {@link ContextDescriptor }
-     * 
-     */
-    public ContextDescriptor createContextDescriptor() {
-        return new ContextDescriptor();
-    }
-    
-    /**
-     * Create an instance of {@link ContextValueDescriptor }
-     * 
-     */
-    public ContextValueDescriptor createContextValueDescriptor() {
-        return new ContextValueDescriptor();
-    }
-    
+   
     /**
      * Create an instance of {@link Dictionary }
      * 
@@ -82,14 +66,6 @@ public class ObjectFactory {
      */
     public Type createType() {
         return new Type();
-    }
-
-    /**
-     * Create an instance of {@link Enum }
-     * 
-     */
-    public Enum createEnum() {
-        return new Enum();
     }
 
     /**
