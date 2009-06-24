@@ -13,9 +13,11 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.brms.factfinder.service.FactFinderService", serviceName = "FactFinderService", portName = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder")
-public class FactFinderServiceImpl implements FactFinderService, FactFinder {
+@Transactional
+public class FactFinderServiceImpl implements FactFinderService {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(FactFinderServiceImpl.class);
     		

@@ -15,31 +15,20 @@
  */
 package org.kuali.student.brms.repository.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.dto.RuleSetContainerInfo;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.repository.dto.RuleSetVerificationResultInfo;
-import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
-import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.exceptions.RuleExistsException;
 import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
-import org.kuali.student.brms.repository.rule.Rule;
-import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.runtime.RuleRepository;
-import org.kuali.student.brms.repository.service.RuleAdapter;
 import org.kuali.student.brms.repository.service.RuleRepositoryService;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleContainerInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
-import org.kuali.student.brms.translators.RuleSetTranslator;
-import org.kuali.student.brms.translators.RuleSetValidator;
-import org.kuali.student.brms.translators.RuleSetVerificationResult;
 import org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl;
-import org.kuali.student.brms.translators.exceptions.RuleSetTranslatorException;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -56,18 +45,10 @@ import org.springframework.transaction.annotation.Transactional;
 			serviceName = "RuleRepositoryService", 
 			portName = "RuleRepositoryService", 
 			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
-public class RuleRepositoryServiceImpl implements RuleRepositoryService, RuleRepository {
+@Transactional
+public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
-    
-//	private final static RuleAdapter ruleAdapter = RuleAdapter.getInstance();
-//	
-//	/** Drools rule repository */
-//    private RuleEngineRepository ruleEngineRepository;
-//    
-//    private RuleSetTranslator ruleSetTranslator;
-//
-//    private RuleSetValidator ruleSetValidator;
     
     private RuleRepository ruleRepository;
     

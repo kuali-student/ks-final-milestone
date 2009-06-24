@@ -25,6 +25,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.brms.repository.dto.RuleSetContainerInfo;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.repository.dto.RuleSetVerificationResultInfo;
+import org.kuali.student.brms.repository.runtime.RuleRepository;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleContainerInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -56,7 +57,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, 
 			 use = SOAPBinding.Use.LITERAL, 
 			 parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface RuleRepositoryService {
+public interface RuleRepositoryService extends RuleRepository {
 
 	/**
      * Creates a new category in the repository.

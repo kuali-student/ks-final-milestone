@@ -17,6 +17,16 @@
     <import resource="classpath:fact-data-beans.xml" />
     <import resource="classpath:fact-metadata-beans.xml" />
 
+    <bean id="simpleExceptionAdvisor" class="org.kuali.student.common.util.SimpleExceptionLoggingAdvice" />
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="simpleExceptionAdvisor">
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.brms.*.*(..))"
+                method="afterThrowing" throwing="t" />
+        </aop:aspect>
+    </aop:config>
+
     <bean id="preloadBeans" 
         class="org.kuali.student.common.util.jpa.LoadJpaBeanListener">
         <property name="loadJpaBean">

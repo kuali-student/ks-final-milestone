@@ -10,6 +10,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.brms.factfinder.dto.FactResultInfo;
 import org.kuali.student.brms.factfinder.dto.FactStructureInfo;
 import org.kuali.student.brms.factfinder.dto.FactTypeInfo;
+import org.kuali.student.brms.factfinder.runtime.FactFinder;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 /**
@@ -30,7 +31,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
  */
 @WebService(name = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface FactFinderService {
+public interface FactFinderService extends FactFinder {
 
     /* Setup */
     /**

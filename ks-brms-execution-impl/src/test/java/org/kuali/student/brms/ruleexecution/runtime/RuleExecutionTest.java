@@ -23,11 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,9 +49,9 @@ import org.kuali.student.brms.rulemanagement.dto.RightHandSideInfo;
 import org.kuali.student.brms.rulemanagement.dto.RuleElementInfo;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
 import org.kuali.student.brms.rulemanagement.dto.YieldValueFunctionInfo;
-import org.kuali.student.brms.factfinder.runtime.FactFinderImpl;
-import org.kuali.student.brms.repository.runtime.RuleRepositoryImpl;
-import org.kuali.student.brms.rulemanagement.runtime.RuleManagementImpl;
+import org.kuali.student.brms.factfinder.runtime.FactFinder;
+import org.kuali.student.brms.repository.runtime.RuleRepository;
+import org.kuali.student.brms.rulemanagement.runtime.RuleManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -70,29 +66,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class RuleExecutionTest extends AbstractJUnit4SpringContextTests  {
 
     @Autowired
-    private RuleManagementImpl ruleManagement;
+    private RuleManagement ruleManagement;
     @Autowired
-    private RuleRepositoryImpl ruleRepository;
+    private RuleRepository ruleRepository;
     @Autowired
-    private RuleExecutionImpl ruleExecution;
+    private RuleExecution ruleExecution;
     @Autowired
-    private FactFinderImpl factFinder;
-
-    @BeforeClass
-	public static void setUpOnce() throws Exception {
-    }
-	
-	@AfterClass
-	public static void tearDownOnce() throws Exception {
-	}
-
-    @Before
-    public void setUp() throws Exception {
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-    }
+    private FactFinder factFinder;
 
     private boolean containsResult(List<Map<String,String>> set, String column, String value) {
     	for(Map<String,String> map : set) {

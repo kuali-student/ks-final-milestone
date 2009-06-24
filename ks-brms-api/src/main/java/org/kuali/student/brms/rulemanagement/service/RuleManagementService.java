@@ -13,6 +13,7 @@ import org.kuali.student.brms.rulemanagement.dto.AgendaInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleTypeInfo;
+import org.kuali.student.brms.rulemanagement.runtime.RuleManagement;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -93,7 +94,7 @@ import org.kuali.student.core.exceptions.ReadOnlyException;
  */
 @WebService(name = "RuleManagementService", targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface RuleManagementService {
+public interface RuleManagementService extends RuleManagement {
 
     /* Setup */
     /**
