@@ -1,8 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page	import="org.kuali.student.common.ui.server.messages.MessageRPCPreloader"%>
 <%@page	import="org.kuali.student.common.ui.server.dictionary.DictionaryRPCPreloader"%>
-<%@page import="org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants"%>
-	
+<%@page	import="org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+
+
 <html>
 <head>
 <title>LUM Application</title>
@@ -15,14 +18,30 @@
     try {
         MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
         String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common"});
-        
-        //TODO need to load all dictionary structures
-        DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("luClient");
-        String dictionaryData = preloader.getObjectStructuresEncodedString(LUConstants.STRUCTURE_CLU_INFO);
 
+        DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("luClient");
+        Map structures = new HashMap();
+
+        //TODO: Nice to be able to read this from dictionary config instead of a constant
+        
+        for(int i=0; i<LUConstants.DICTIONARY_OBJECT_KEYS.length; i++) {
+            String key = LUConstants.DICTIONARY_OBJECT_KEYS[i];
+            String s = preloader.getObjectStructureEncodedString(key);
+            structures.put(key, s);
+        }
 %>
-<script type="text/javascript"> var i18nMessages = '<%=messageData%>';</script>
-<script type="text/javascript"> var dictionaryData = '<%=dictionaryData%>';</script>
+	<script type="text/javascript"> 
+	 var i18nMessages = '<%=messageData%>';
+	 
+	 <%
+     for(int j=0; j<LUConstants.DICTIONARY_OBJECT_KEYS.length; j++) {
+         String key = LUConstants.DICTIONARY_OBJECT_KEYS[j];        
+     %>
+         var <%=key%> = '<%=structures.get(key)%>';
+     <% 
+       } 
+     %>
+	</script>
 <%
     } catch (Exception e) {
 

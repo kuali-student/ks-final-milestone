@@ -15,6 +15,10 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
  * 
@@ -29,7 +33,7 @@ public class LUConstants {
     //     UI specific
 
     public final static String LU_TYPE_CREDIT_COURSE = "luType.shell.course";
-    
+
     // Valid states for Credit Course
     public final static String LU_STATE_PROPOSED = "Proposed"; // Should this be Draft
     public final static String LU_STATE_SUBMITTED = "Submitted";
@@ -60,12 +64,18 @@ public class LUConstants {
     public static final String SECTION_ACTIVE_DATES = "Active Dates";
     public static final String SECTION_FINANCIALS = "Financials";
     public static final String SECTION_PROGRAM_REQUIREMENTS = "Program Requirements";
-        
+
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
-    
+
+    // Dictionary definitions
     public static final String STRUCTURE_CLU_INFO = "cluInfo";
     public static final String STRUCTURE_CLU_ID_INFO = "cluIdentifierInfo";
     public static final String STRUCTURE_PROPOSAL_INFO = "proposalInfo";
+    public static final String[] DICTIONARY_OBJECT_KEYS = new String[] {
+        STRUCTURE_CLU_INFO,STRUCTURE_CLU_ID_INFO, STRUCTURE_PROPOSAL_INFO};
 
+//    public static final List<String> DICTIONARY_OBJECT_KEYS = 
+//        new ArrayList<String>(Arrays.asList(new String[] {STRUCTURE_CLU_INFO,STRUCTURE_CLU_ID_INFO, STRUCTURE_PROPOSAL_INFO}));
 }
+
