@@ -26,10 +26,11 @@ public interface LoDao extends CrudDao, SearchableDao  {
 	public List<Lo> getLoByIdList(List<String> loIds);
 	public List<LoCategory> getLoCategoriesForLo(String loId);
 	public List<Lo> getLosByLoCategory(String loCategoryId);
+	public List<LoCategory> getLoCategories(String loHierarchyKey);
 	public List<Lo> getLoChildren(String loId);
 	public List<String> getAllDescendantLoIds(String loId);
 	public List<Lo> getLoParents(String loId);
-	public boolean isDescendant(String loId);
+	public boolean isDescendant(String loId, String descendantLoId);
 	public List<String> getAncestors(String loId);
 	public List<Lo> getEquivalentLos(String loId);
 	public List<Lo> getLoEquivalents(String loId);

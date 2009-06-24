@@ -138,15 +138,6 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#isDescendant(java.lang.String)
-	 */
-	@Override
-	public boolean isDescendant(String loId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.dao.LoDao#isEquivalent(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -182,4 +173,21 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#getLoCategories(java.lang.String)
+	 */
+	@Override
+	public List<LoCategory> getLoCategories(String loHierarchyKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#isDescendant(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean isDescendant(String loId, String descendantLoId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
