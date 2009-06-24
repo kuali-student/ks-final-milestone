@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -80,7 +81,7 @@ public class KSSuggestBoxPicker extends Composite{
                 if(suggest.getSuggestBox().getSelectedSuggestion() != null){
                     String id = suggest.getSuggestBox().getSelectedId();
                     KSSuggestBoxPicker.this.searchAndAddItem(id);
-                    suggest.getSuggestBox().setText("");
+                    suggest.getSuggestBox().reset();
                 } 
             }
         });
@@ -95,7 +96,7 @@ public class KSSuggestBoxPicker extends Composite{
                     KSSuggestBoxPicker.this.searchAndAddItem(id);
                 }
                 suggest.getSearchWindow().hide();
-                suggest.getSuggestBox().getTextBox().setText("");            
+                suggest.getSuggestBox().reset();      
             }
         });
         
@@ -111,7 +112,7 @@ public class KSSuggestBoxPicker extends Composite{
             @Override
             public void onKeyDown(KeyDownEvent event) {
                 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-                    KSSuggestBoxPicker.this.addButtonAction();
+                    KSSuggestBoxPicker.this.enterAction();
                 }
                 
             }
@@ -128,19 +129,31 @@ public class KSSuggestBoxPicker extends Composite{
         
     }
     
-    private void addButtonAction(){
+    private void enterAction(){
         String currentText = suggest.getSuggestBox().getText();
         if(currentText != null && currentText != ""){
             IdableSuggestion suggestion = suggest.getSuggestBox().getOracle().getSuggestionByText(currentText);
             if(suggestion != null){
                 KSSuggestBoxPicker.this.searchAndAddItem(suggestion.getId());
-                suggest.getSuggestBox().getTextBox().setText("");
+                suggest.getSuggestBox().reset();
             }
             else{
                 suggest.getSuggestBox().getTextBox().setFocus(true);
                 suggest.getSuggestBox().getTextBox().selectAll();
                 
             }
+        }
+    }
+    
+    private void addButtonAction(){
+        IdableSuggestion currentSuggestion = suggest.getSuggestBox().getSelectedSuggestion();
+        if(currentSuggestion != null){
+            KSSuggestBoxPicker.this.searchAndAddItem(currentSuggestion.getId());
+            suggest.getSuggestBox().reset();
+        }
+        else{
+            suggest.getSuggestBox().getTextBox().setFocus(true);
+            suggest.getSuggestBox().getTextBox().selectAll();
         }
     }
     

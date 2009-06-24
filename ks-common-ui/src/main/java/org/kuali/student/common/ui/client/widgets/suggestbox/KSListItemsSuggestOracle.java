@@ -113,15 +113,15 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
         return listItems.getAttrKeys();
     }
 
-    @Override
-    public IdableSuggestion getSuggestionById(String id) {
+    //@Override
+/*    public IdableSuggestion getSuggestionByIdSearch(String id) {
         IdableSuggestion suggestion = null;
         if(listItems.getItemIds().contains(id)){
             suggestion = new IdableSuggestion(id, listItems.getItemText(id), listItems.getItemText(id));
             addAttributesToSuggestion(suggestion);
         }
         return suggestion;
-    }
+    }*/
 
     @Override
     public IdableSuggestion getSuggestionByText(String text) {
@@ -136,5 +136,16 @@ public class KSListItemsSuggestOracle extends IdableSuggestOracle{
                 
         }
         return suggestion;
+    }
+
+    @Override
+    public void getSuggestionByIdSearch(String id, org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
+        IdableSuggestion suggestion = null;
+        if(listItems.getItemIds().contains(id)){
+            suggestion = new IdableSuggestion(id, listItems.getItemText(id), listItems.getItemText(id));
+            addAttributesToSuggestion(suggestion);
+        }
+        callback.exec(suggestion);
+        
     }
 }

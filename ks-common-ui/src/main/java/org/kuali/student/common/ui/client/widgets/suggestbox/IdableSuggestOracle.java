@@ -65,6 +65,7 @@ public abstract class IdableSuggestOracle extends SuggestOracle{
         
         
     }
-    public abstract IdableSuggestion getSuggestionById(String id);
+    //public abstract IdableSuggestion getSuggestionById(String id);
     public abstract IdableSuggestion getSuggestionByText(String text);
+    public abstract void getSuggestionByIdSearch(String id, org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback);
 }
