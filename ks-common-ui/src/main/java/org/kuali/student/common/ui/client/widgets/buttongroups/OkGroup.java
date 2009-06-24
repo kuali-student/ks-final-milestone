@@ -13,7 +13,7 @@ public class OkGroup extends ButtonGroup<OkEnum>{
     
     public OkGroup(Callback<OkEnum> callback){
         layout = new ButtonRow();
-        this.setCallback(callback);
+        this.addCallback(callback);
         
         addButton(OkEnum.Ok);
         
@@ -25,7 +25,7 @@ public class OkGroup extends ButtonGroup<OkEnum>{
             
             @Override
             public void onClick(ClickEvent event) {
-                getCallback().exec(type);
+                sendCallbacks(type);
             }
         });
         layout.addButton(button);
