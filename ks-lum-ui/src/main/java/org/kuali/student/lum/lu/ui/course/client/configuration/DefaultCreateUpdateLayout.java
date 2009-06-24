@@ -323,7 +323,7 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	 */
 	public void save(){
 	    this.fireEvent(new SaveEvent());
-	}
+	} 
 	
 	/**
 	 * This will refresh all form fields with the latest values from the CluInfo object
