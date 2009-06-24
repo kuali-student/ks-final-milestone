@@ -197,7 +197,7 @@ class OrgRelationWidget extends OrgMultiWidget {
         panel.add(new KSButton("Find Org", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final KSAdvancedSearchWindow orgSearchPopup = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "Find Organization");
+                final KSAdvancedSearchWindow orgSearchPopup = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId", "Find Organization");
 
                 orgSearchPopup.addSelectionHandler(new SelectionHandler<List<String>>(){
                     @Override
