@@ -71,4 +71,15 @@ public abstract class ViewComposite extends Composite implements View {
     public void clear(){
         //do nothing
     }
+    
+    
+    /**
+     * Update the model that is associated with this view. This will normally be
+     * called by the controller.
+     *  
+     * @see org.kuali.student.common.ui.client.mvc.View#updateModel()
+     */
+    public void updateModel(){        
+    }
+    
 }

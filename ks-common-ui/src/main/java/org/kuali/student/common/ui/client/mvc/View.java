@@ -39,4 +39,7 @@ public interface View {
      *
      */
     public void clear();
+    
+    public void updateModel();
+    
 }

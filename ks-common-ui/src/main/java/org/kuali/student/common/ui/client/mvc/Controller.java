@@ -151,7 +151,16 @@ public abstract class Controller extends Composite {
             callback.onRequestFail(new ModelNotFoundException("The requested model was not found", modelType));
         }
     }
-
+    
+    @SuppressWarnings("unchecked")
+    public void requestModelDTO(ModelRequestCallback callback){
+        if (getParentController() != null) {
+            parentController.requestModelDTO(callback);
+        } else {
+            callback.onRequestFail(new ModelNotFoundException("The requested model was not found", null));
+        }
+    }
+    
     /**
      * Registers an application eventhandler. The controller will try to propagate "unchecked" handlers to the parent
      * controller if a parent controller exists. This method can be overridden to handle unchecked locally if they are fired

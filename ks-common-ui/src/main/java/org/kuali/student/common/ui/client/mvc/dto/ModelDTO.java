@@ -35,6 +35,7 @@ public class ModelDTO implements Serializable {
 	private ModelDTO() {
 		
 	}
+	
 	/**
 	 * Construct a new instance representing the specified class name
 	 * @param className
