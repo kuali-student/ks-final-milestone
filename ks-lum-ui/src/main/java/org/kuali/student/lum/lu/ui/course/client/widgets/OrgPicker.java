@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class OrgPicker extends Composite implements HasValue<String>{
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-	final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName");
+	final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName","org.resultColumn.orgId");
     private KSTextBox textBox = new KSTextBox();
     
     VerticalPanel root = new VerticalPanel();
@@ -29,7 +29,7 @@ public class OrgPicker extends Composite implements HasValue<String>{
 		super();
 		initWidget(root);
 		root.add(textBox);
-		orgSearchWidget.setMultipleSelect(false);
+		//orgSearchWidget.setMultipleSelect(false); this disappeared
 		orgSearchWidget.addSelectionHandler(new SelectionHandler<List<String>>(){
 			public void onSelection(SelectionEvent<List<String>> event) {
 				if(event.getSelectedItem()!=null&&event.getSelectedItem().size()>0){
