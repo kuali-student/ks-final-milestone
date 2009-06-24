@@ -20,9 +20,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>>{
-    final static ApplicationContext context = Application.getApplicationContext();
     private KSLightBox dialog = new KSLightBox();
-    private KSThinTitleBar titleBar = new KSThinTitleBar(context.getMessage("advSearch"));
+    private KSThinTitleBar titleBar = null;
     private VerticalPanel mainPanel = new VerticalPanel();
     private KSAdvancedSearchRpc advancedSearch;
     private HandlerManager handlers = new HandlerManager(this);
@@ -56,6 +55,7 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
     
     private void init(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
         advancedSearch = new KSAdvancedSearchRpc(searchService, searchTypeKey, resultIdKey);
+        titleBar = new KSThinTitleBar(Application.getApplicationContext().getMessage("advSearch"));
         mainPanel.add(titleBar);
         mainPanel.add(advancedSearch);
         mainPanel.add(buttonPanel);
