@@ -2,7 +2,9 @@ package org.kuali.student.common.ui.server.dictionary;
 
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
@@ -20,6 +22,8 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,6 +34,9 @@ public class DictionaryRPCPreloader {
 
     DictionaryService dictService ;
     String serviceName;
+    Map<Class<?>, Boolean> whitelist;
+    KSSerializationPolicy myPolicy;
+
 
     /**
      * This class calls dictionary methods and returns the results as a serialized String. This String may then be stored
@@ -40,6 +47,9 @@ public class DictionaryRPCPreloader {
      * for the service that has implemented the dictionary methods in this 'domain'.
      * 
      * This class may be called from the main entry jsp for the domain, e.g. LUMMain.jsp
+     * 
+     * Note: Cannot currently use Java 5 constructs e.g. generics, as this class is called from a jsp.
+     * Hosted mode runs Java 1.4 jsp compiler so does not handle generics.
      *  
      */
     public DictionaryRPCPreloader(String serviceName) {
@@ -47,45 +57,29 @@ public class DictionaryRPCPreloader {
         // always just looks up dictionaryImpl. Service name wouldnh't have to be passed around then.
         super();
         this.serviceName = serviceName;
+        buildWhitelist();
+        myPolicy = new KSSerializationPolicy(whitelist);
+
     }
 
     /**
      * 
-     * This method passes the supplied parameter to the dictionary implementation in this domain 
+     * This method passes the supplied object key to the dictionary implementation in this domain 
+     * and returns the result as a serialized string 
      * 
      * @param objectKey name of dictionary ObjectStructure
      * @return
-     */public String getObjectStructuresEncodedString(String objectKey){
+     */public String getObjectStructureEncodedString(String objectKey){
+       
 
          String result = null;
          ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
          try {             
              dictService = (DictionaryService)context.getBean(serviceName);
-
              Method serviceMethod = DictionaryService.class.getMethod("getObjectStructure", String.class);
-
              ObjectStructure structure = dictService.getObjectStructure(objectKey);
 
-             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
-             whitelist.put(DictionaryService.class, true);
-             whitelist.put(Context.class, true);
-             whitelist.put(ContextDescriptor.class, true);
-             whitelist.put(ContextValueDescriptor.class, true);
-             whitelist.put(Dictionary.class, true);
-             whitelist.put(Enum.class, true);
-             whitelist.put(Field.class, true);
-             whitelist.put(FieldDescriptor.class, true);
-             whitelist.put(FieldItem.class, true);
-             whitelist.put(ObjectFactory.class, true);
-             whitelist.put(ObjectStructure.class, true);
-             whitelist.put(State.class, true);
-             whitelist.put(Type.class, true);
-
-             KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
-
-             String serializedData = RPC.encodeResponseForSuccess(serviceMethod, structure, myPolicy);
-
-             result =  SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);               
+             result = serializeData(serviceMethod, structure);               
 
          } catch (SecurityException e) {
              e.printStackTrace();
@@ -97,6 +91,68 @@ public class DictionaryRPCPreloader {
          }
 
          return result;
+     }
+
+//     /**
+//      * Note: This method not yet ready for use!
+//      * 
+//      * This method passes the supplied object keys to the dictionary implementation in this domain 
+//      * and returns an array of serialized strings 
+//      * 
+//      * @param objectKey name of dictionary ObjectStructure
+//      * @return
+//      */public String[] getObjectStructuresEncodedString(String[] objectKeys){
+//
+//          String[] result = null;
+//          ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
+//          try {             
+//              dictService = (DictionaryService)context.getBean(serviceName);
+//              Method serviceMethod = DictionaryService.class.getMethod("getObjectStructure", String.class);
+//              
+//              List structures = new ArrayList();
+//              
+//              for (String key: objectKeys) {
+//                  ObjectStructure structure = dictService.getObjectStructure(key);
+//                  String s = serializeData(serviceMethod, structure); 
+//                  structures.add(s);
+//              
+//              }
+//              result = (String[])structures.toArray();
+//
+//
+//          } catch (SecurityException e) {
+//              e.printStackTrace();
+//          } catch (NoSuchMethodException e) {
+//              e.printStackTrace();
+//          } catch (SerializationException e) {
+//              System.out.println(e.getMessage());
+//              e.printStackTrace();
+//          }
+//
+//          return result;
+//      }
+      
+    private String serializeData(Method serviceMethod, ObjectStructure structure) throws SerializationException {
+        String serializedData = RPC.encodeResponseForSuccess(serviceMethod, structure, myPolicy);
+        return  SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);
+    }
+
+     private void buildWhitelist() {
+         whitelist = new HashMap<Class<?>, Boolean>();
+         whitelist.put(DictionaryService.class, true);
+         whitelist.put(Context.class, true);
+         whitelist.put(ContextDescriptor.class, true);
+         whitelist.put(ContextValueDescriptor.class, true);
+         whitelist.put(Dictionary.class, true);
+         whitelist.put(Enum.class, true);
+         whitelist.put(Field.class, true);
+         whitelist.put(FieldDescriptor.class, true);
+         whitelist.put(FieldItem.class, true);
+         whitelist.put(ObjectFactory.class, true);
+         whitelist.put(ObjectStructure.class, true);
+         whitelist.put(State.class, true);
+         whitelist.put(Type.class, true);
+
      }
 
 
