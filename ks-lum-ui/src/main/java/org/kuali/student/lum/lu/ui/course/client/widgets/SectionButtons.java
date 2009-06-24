@@ -16,14 +16,23 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 //TODO: Move this to common-ui
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
 
 /**
  * This is a button panel to display a set of buttons for layout sections. 
@@ -32,10 +41,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public class SectionButtons extends Composite{
-    private final KSConfirmationDialog confirmSaveDialog = new KSConfirmationDialog();
-    
+   // private final KSConfirmationDialog confirmSaveDialog = new KSConfirmationDialog();
+    KSLightBox confirmSaveDialog = new KSLightBox();
     private VerticalPanel vPanel = new VerticalPanel();
-        
+    YesNoGroup yesNoGroup;
     private ClickHandler saveClickHandler = new ClickHandler(){
         public void onClick(ClickEvent event) {
             saveButton.setVisible(false);
@@ -62,9 +71,27 @@ public class SectionButtons extends Composite{
      */
     public SectionButtons() {
         super.initWidget(vPanel);
-        confirmSaveDialog.setWidget(new KSLabel("Section data not saved. Do you wish to save?"));
-        confirmSaveDialog.addConfirmHandler(saveClickHandler);        
+        
+        //confirmSaveDialog.addConfirmHandler(saveClickHandler);
+        yesNoGroup = new YesNoGroup(new Callback<YesNoEnum>(){
+            @Override
+            public void exec(YesNoEnum result) {
+              if(result == YesNoEnum.YES){
+                  saveButton.setVisible(false);
+                  editButton.setVisible(true);
+                  nextButton.setVisible(true);
+                  confirmSaveDialog.hide();
+              }else if(result == YesNoEnum.NO){
+                  
+              }
+            }
+        });
 
+        VerticalPanel panel = new VerticalPanel();
+        panel.add(new KSLabel("Section data not saved. Do you wish to save?"));
+        panel.add(yesNoGroup);
+        confirmSaveDialog.setWidget(panel);
+        
         saveButton.setVisible(true);
         editButton.setVisible(false);
         nextButton.setVisible(false);
@@ -86,11 +113,19 @@ public class SectionButtons extends Composite{
         this.nextButton.addClickHandler(handler);
     }
 
-    public void addSaveClickHandler(ClickHandler handler){
+    public void addSaveClickHandler(final ClickHandler handler){
         this.saveButton.addClickHandler(handler);
-        this.confirmSaveDialog.addConfirmHandler(handler);
-    }
 
+        yesNoGroup.addCallback(new Callback<YesNoEnum>(){
+            @Override
+            public void exec(YesNoEnum result) {
+              if(result == YesNoEnum.YES){
+                  handler.onClick(null);
+              }
+            }
+        });
+        //this.confirmSaveDialog.addConfirmHandler(handler);
+    }
     public void addEditClickHandler(ClickHandler handler){
         this.editButton.addClickHandler(handler);
     }
