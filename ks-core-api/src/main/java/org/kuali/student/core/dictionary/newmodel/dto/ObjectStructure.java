@@ -65,7 +65,6 @@ public class ObjectStructure implements Serializable{
     @XmlElement 
     protected String desc;
     
-    @
     /**
      * Gets the value of the type property.
      * 
