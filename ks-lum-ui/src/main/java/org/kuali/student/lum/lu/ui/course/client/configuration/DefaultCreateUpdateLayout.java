@@ -131,6 +131,12 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
                         public void clear() {
                             // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
                             
+                        }
+
+                        @Override
+                        public void updateModel() {
+                            // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+                            
                         }}, new View() {
 
 	                        @Override
@@ -154,6 +160,12 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 
                             @Override
                             public void clear() {
+                                // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+                                
+                            }
+
+                            @Override
+                            public void updateModel() {
                                 // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
                                 
                             }}));

@@ -231,5 +231,16 @@ public class HomeMenuController extends Controller implements View {
     public void clear() {
         // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
         
+    }
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.common.ui.client.mvc.View#updateModel()
+     */
+    @Override
+    public void updateModel() {
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        
     }    
 }

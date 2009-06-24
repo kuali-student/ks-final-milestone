@@ -148,15 +148,18 @@ public class HomeMenuController extends Controller{
         }
         
     }
-    
+        
     public HomeMenuController(){
+        SimplePanel simple = new SimplePanel();
         mainPanel.setStyleName("Course-Home-Main-Panel");
         menuPanel.setStyleName("Course-Home-Menu-Panel");
         contentPanel.setStyleName("Course-Home-Content-Panel");   
         setupMenuItems();
         mainPanel.add(menuPanel);
         mainPanel.add(contentPanel);
-        this.initWidget(mainPanel);
+        simple.setWidget(mainPanel);
+        simple.addStyleName("Course-Home-Menu-Container");
+        this.initWidget(simple);
     }
     
     private void setupMenuItems(){

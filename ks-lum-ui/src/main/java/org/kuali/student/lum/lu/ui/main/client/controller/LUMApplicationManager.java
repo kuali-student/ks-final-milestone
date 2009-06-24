@@ -6,14 +6,20 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
@@ -32,18 +38,19 @@ public class LUMApplicationManager extends Controller{
     private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
     KSHistory history;
 
-    private LUCreateUpdateView courseView;
+    private View courseView;
     private LUCreateUpdateView modifyView;
     
     private Model<CluProposal> cluModel = new Model<CluProposal>();
 
+    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
     public LUMApplicationManager(){
         super();
+        loadDictionary();
         history = new KSHistory(this);
         super.initWidget(viewPanel);
-        viewPanel.addStyleName("LUMMain-Content");
     }
 
     protected void onLoad() {
@@ -79,8 +86,9 @@ public class LUMApplicationManager extends Controller{
             case CREATE_COURSE:
                 if (courseView == null){
                     courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                    //courseView = new DelegatingViewComposite(this, new CluProposalController());
                 }
-                ((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
+                //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
                 return courseView;
             case EDIT_COURSE_PROPOSAL:
                 if (modifyView == null){
@@ -95,7 +103,7 @@ public class LUMApplicationManager extends Controller{
 
     //Accessor for get view
     public <V extends Enum<?>> View getControllerView(V viewType){
-    	return this.getView(viewType);
+        return this.getView(viewType);
     }
     
     @Override
@@ -112,43 +120,95 @@ public class LUMApplicationManager extends Controller{
 
     @Override
     public void showDefaultView() {
-    	final String docId=Window.Location.getParameter("docId");
-    	String backdoorId=Window.Location.getParameter("backdoorId");
-    	if(docId!=null){
-    		if(backdoorId!=null){
-    			cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
-					}
+        final String docId=Window.Location.getParameter("docId");
+        String backdoorId=Window.Location.getParameter("backdoorId");
+        if(docId!=null){
+            if(backdoorId!=null){
+                cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
 
-					public void onSuccess(Boolean result) {
-						if(result){
-				            if (modifyView == null){
-				                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
-				            }
-				            modifyView.setId(docId);
-				            showView(LUMViews.EDIT_COURSE_PROPOSAL);
-						}else{
-							Window.alert("Error with backdoor login");
-						}
-					}
-    			
-    			});
-    		}else{
-	            if (modifyView == null){
-	                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
-	            }
-	            modifyView.setId(docId);
-	            this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
-    		}
-    	}
-    	else{
-    		this.showView(LUMViews.HOME_MENU);
-    	}
+                    public void onSuccess(Boolean result) {
+                        if(result){
+                            if (modifyView == null){
+                                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                            }
+                            modifyView.setId(docId);
+                            showView(LUMViews.EDIT_COURSE_PROPOSAL);
+                        }else{
+                            Window.alert("Error with backdoor login");
+                        }
+                    }
+                
+                });
+            }else{
+                if (modifyView == null){
+                    modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                }
+                modifyView.setId(docId);
+                this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
+            }
+        }
+        else{
+            this.showView(LUMViews.HOME_MENU);
+        }
     }
 
     public Class<? extends Enum<?>> getViewsEnum() {
         return LUMViews.class;
     }        
 
+    private void loadDictionary() {
+        /*
+        //  If msg load OK, load proposalInfo structure
+        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_PROPOSAL_INFO, new AsyncCallback<ObjectStructure>(){
+            public void onFailure(Throwable caught) {
+                throw new RuntimeException("Unable to load proposalInfo object structure", caught);                
+            }
+
+            @Override
+            public void onSuccess(ObjectStructure result) {
+                
+                LUDictionaryManager.getInstance().loadStructure(result);
+
+                //  If proposal Info structure load OK, load cluInfo structure                      
+                luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_INFO, new AsyncCallback<ObjectStructure>(){
+                    public void onFailure(Throwable caught) {
+                        throw new RuntimeException("Unable to load cluInfo object structure", caught);                
+                    }
+
+                    @Override
+                    public void onSuccess(ObjectStructure result) {
+                        LUDictionaryManager.getInstance().loadStructure(result);
+                        
+                        //  If proposal Info structure load OK, load cluInfo structure                      
+                        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_ID_INFO, new AsyncCallback<ObjectStructure>(){
+                            public void onFailure(Throwable caught) {
+                                throw new RuntimeException("Unable to load cluIdentifierInfo object structure", caught);                
+                            }
+
+                            @Override
+                            public void onSuccess(ObjectStructure result) {
+                                LUDictionaryManager.getInstance().loadStructure(result);
+
+                            }
+                        }
+                        );
+
+
+                    }
+                }
+                );
+
+
+            }
+        }
+        );
+         */
+    }
+
+    public void setCluId(String id){
+       // this.courseView.setId(id);
+    }
 }
