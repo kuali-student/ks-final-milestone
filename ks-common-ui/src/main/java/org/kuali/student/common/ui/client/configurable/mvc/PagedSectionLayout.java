@@ -32,9 +32,9 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	private final HorizontalPanel buttonPanel = new HorizontalPanel();
 
 	//FIXME: Better way to manage hierarchy, ordering, and handle to views
-	private final Map<String, KSMenuItemData> sectionMap = new HashMap<String, KSMenuItemData>();
+	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
 	private final HashMap<String, LayoutSectionView> sectionViewMap = new HashMap<String, LayoutSectionView>();	
-	private final ArrayList<String> orderedSections = new ArrayList<String>();
+	private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
 	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
@@ -42,13 +42,12 @@ public abstract class PagedSectionLayout extends Controller implements Configura
     private KSLightBox startSectionWindow = new KSLightBox();
     
 	private boolean loaded = false;
+	private int currMenuItemIdx = 0;
 	
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            //FIXME: This is bad code
-            String currentView = getCurrentViewEnum().name();
-            int nextViewIndex = orderedSections.indexOf(currentView) + 1;
-            sectionMap.get(sectionViewMap.get(orderedSections.get(nextViewIndex)).getName()).setSelected(true);            
+            currMenuItemIdx++;
+            sectionMenuItems.get(currMenuItemIdx).setSelected(true);
         }	    
     }
 	);
@@ -83,7 +82,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		KSMenuItemData current = null;
 		for (int i=0; i<hierarchy.length; i++) {
 			path = path + "/" + hierarchy[i];
-			KSMenuItemData item = sectionMap.get(path);
+			KSMenuItemData item = menuHierarchyMap.get(path);
 			if (item == null) {
 				item = new KSMenuItemData(hierarchy[i]);
 				if (current == null) {
@@ -93,7 +92,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 					current.addSubItem(item);
 					current = item;
 				}
-				sectionMap.put(path, item);
+				menuHierarchyMap.put(path, item);
 			} else {
 				current = item;
 			}
@@ -101,16 +100,16 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		
 		final KSMenuItemData sectionItem = new KSMenuItemData(section.getName());
 		current.addSubItem(sectionItem);
-		sectionMap.put(section.getName(), sectionItem);
+		sectionMenuItems.add(sectionItem);
 		
 		sectionItem.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				showView(section.getViewEnum());
+                currMenuItemIdx = sectionMenuItems.indexOf(sectionItem);
+			    showView(section.getViewEnum());
 			}
 		});
 		
 		sectionViewMap.put(section.getViewEnum().name(), section);
-		orderedSections.add(section.getViewEnum().name());
 	}
 	
 	public void addStartSection(final LayoutSectionView section){
@@ -149,7 +148,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	 */
 	@Override
 	public void renderView(View view) {
-	    if (orderedSections.indexOf(view.getName()) == (orderedSections.size() - 1)){
+	    if (currMenuItemIdx == sectionMenuItems.size() - 1){
 	        nextButton.setVisible(false);
 	    } else {
 	        nextButton.setVisible(true);
@@ -189,7 +188,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
                 loaded = true;
             }
                             
-            showView(sectionViewMap.get(orderedSections.get(0)).getViewEnum());
+            sectionMenuItems.get(0).setSelected(true);
             
             ModelDTO modelDTO = model.get();
             if (modelDTO == null){                
