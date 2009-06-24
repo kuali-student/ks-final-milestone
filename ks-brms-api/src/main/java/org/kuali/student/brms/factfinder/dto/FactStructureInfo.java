@@ -185,5 +185,11 @@ public class FactStructureInfo implements Serializable {
      */
     public void setResultColumnKeyTranslations(Map<String, String> resultColumnKeyTranslation) {
         this.resultColumnKeyTranslations = resultColumnKeyTranslation;
-    }    	
+    }
+    
+    public String toString() {
+    	return 
+    		"(factStructureId=" + this.factStructureId +
+    		"factTypeKey=" + this.factTypeKey + ")";
+    }
 }

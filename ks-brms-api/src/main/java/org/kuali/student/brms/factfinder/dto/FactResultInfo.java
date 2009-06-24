@@ -64,7 +64,7 @@ public class FactResultInfo implements Serializable{
      * Returns fact result type key and the result list.
      */
     public String toString() {
-    	return "factResultTypeKey=" + this.factResultTypeInfo.getId() +
-    		", resultList={" + this.resultList + "}";
+    	return "(factResultTypeKey=" + this.factResultTypeInfo.getId() +
+    		", resultList={" + this.resultList + "})";
     }
 }

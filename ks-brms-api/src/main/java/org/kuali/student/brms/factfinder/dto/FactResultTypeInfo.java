@@ -52,4 +52,9 @@ public class FactResultTypeInfo extends TypeInfo {
     public void setResultColumnsMap(Map<String, FactResultColumnInfo> resultColumnsMap) {
         this.resultColumnsMap = resultColumnsMap;
     }
+
+    public String toString() {
+    	return 
+    		"(resultColumnsMap=" + this.resultColumnsMap + ")";
+   }
 }

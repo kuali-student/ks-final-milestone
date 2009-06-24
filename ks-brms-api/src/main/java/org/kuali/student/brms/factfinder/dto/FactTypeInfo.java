@@ -67,5 +67,11 @@ public class FactTypeInfo extends TypeInfo {
      */
     public void setFactCriteriaTypeInfo(FactCriteriaTypeInfo factCriteriaTypeInfo) {
         this.factCriteriaTypeInfo = factCriteriaTypeInfo;
-    }    
+    }
+    
+    public String toString() {
+    	return 
+    		"(factCriteriaTypeInfo.id=" + this.factCriteriaTypeInfo.getId() +
+    		", factResultTypeInfo.id=" + this.factResultTypeInfo.getId() + ")";
+    }
 }

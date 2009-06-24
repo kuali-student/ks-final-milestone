@@ -102,6 +102,6 @@ public class FactResultColumnInfo implements Serializable {
     }
     
     public String toString() {
-    	return "[key="+this.key+", name="+this.name+", dataType="+this.dataType+"]";
+    	return "(key="+this.key+", name="+this.name+", dataType="+this.dataType+")";
     }
 }
