@@ -63,6 +63,8 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     private Date expirationDate;
 
     @XmlElement
+    // TODO - change to this when it's been added to Rice
+    // @XmlJavaTypeAdapter(StringToStringMapAdapter.class)
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
