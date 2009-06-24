@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.core.document.service.impl;
+package org.kuali.student.core.comment.entity;
 
-import org.kuali.student.core.service.impl.BaseAssembler;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.kuali.student.core.entity.Attribute;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -23,7 +28,22 @@ import org.kuali.student.core.service.impl.BaseAssembler;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class DocumentServiceAssembler extends BaseAssembler {
+@Entity
+@Table(name = "KSCO_COMMENT_ATTR")
+public class CommentAttribute extends Attribute<Comment> {
 
-   
+    @ManyToOne
+    @JoinColumn(name = "OWNER")
+    private Comment owner;
+
+    @Override
+    public Comment getOwner() {
+        return owner;
+    }
+
+    @Override
+    public void setOwner(Comment owner) {
+        this.owner = owner;
+    }
+
 }
