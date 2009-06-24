@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -14,8 +12,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpcWindow;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
@@ -31,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class FindPanel extends ViewComposite{
     LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
-    KSAdvancedSearchRpcWindow searchWindow = new KSAdvancedSearchRpcWindow(luServiceAsync, "lu.search.clus");
+    KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(luServiceAsync, "lu.search.clus","lu.resultColumn.cluId");
     
     private VerticalPanel mainPanel = new VerticalPanel();
     
