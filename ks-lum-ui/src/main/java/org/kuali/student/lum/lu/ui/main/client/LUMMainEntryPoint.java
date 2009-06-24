@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class LUMMainEntryPoint implements EntryPoint{
 
     ApplicationComposite app = new ApplicationComposite();
-    private final LUMApplicationManager manager = new LUMApplicationManager();
+    private LUMApplicationManager manager = null;
 
     @Override
     public void onModuleLoad() {
@@ -30,7 +30,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         try {
             loadMessages(context);            
             loadDictionary();
-
+            manager = new LUMApplicationManager();
             app.setContent(manager);
             RootPanel.get().add(app);
             if(manager.getCurrentView() == null)
