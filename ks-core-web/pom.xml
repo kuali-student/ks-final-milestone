@@ -40,6 +40,7 @@
 						</param>
 						<!-- add any other GWT modules in your project that are required -->
 					</compileTargets>
+					<extraJvmArgs>-Xss128m -Xmx512m</extraJvmArgs>
 				</configuration>
 			</plugin>
 		    <plugin>
