@@ -171,14 +171,28 @@ public abstract class AbstractMessageBuilder {
     	Map<String, BooleanMessage> nodeMessageMap = new HashMap<String, BooleanMessage>();
 
         if (this.booleanExpression == null || this.booleanExpression.isEmpty()) {
-        	throw new MessageBuilderException("Boolean expression is null.");
+        	throw new MessageBuilderException("Boolean expression is null");
         }
         
         BooleanFunction func = new BooleanFunction(this.booleanExpression);
         List<String> funcVars = func.getVariables();
 
+    	if(funcVars == null || funcVars.isEmpty()) {
+    		throw new MessageBuilderException("Boolean function variables are null or empty. Boolean expression: " + this.booleanExpression);
+    	} 
+        
         for (String id : funcVars) {
-        	BooleanMessage booleanMessage = buildMessage(this.messageMap.get(id));
+        	if(id == null) {
+        		throw new MessageBuilderException("Boolean variable id is null or empty. Boolean variable ids: " + funcVars);
+        	} 
+
+        	BooleanMessage message = this.messageMap.get(id);
+        	
+        	if (message == null) {
+        		throw new MessageBuilderException("Boolean message is null for id='" + id + "'");
+        	}
+        	
+        	BooleanMessage booleanMessage = buildMessage(message);
             nodeMessageMap.put(id, booleanMessage);
         }
         
