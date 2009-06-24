@@ -13,6 +13,7 @@
    	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
    	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
    	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
+   	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
 
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
