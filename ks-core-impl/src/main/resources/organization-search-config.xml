@@ -261,6 +261,7 @@
 		<search:desc>OrgByShortNameCriteria Description</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgShortName" />
+			<ref bean="org.queryParam.orgId" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -297,7 +298,7 @@
 					<value>SELECT org.id, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.shortName like :org_queryParam_orgShortName or org.longName like :org_queryParam_orgShortName</value>
 				</entry>
 				<entry key="org.search.orgByShortName">
-					<value>SELECT org.id, org.shortName FROM Org org WHERE org.shortName like :org_queryParam_orgShortName</value>
+					<value>SELECT org.id, org.shortName FROM Org org WHERE org.shortName like :org_queryParam_orgShortName or org.id = :org_queryParam_orgId</value>
 				</entry>
 				<entry key="org.search.orgFullViewById">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
