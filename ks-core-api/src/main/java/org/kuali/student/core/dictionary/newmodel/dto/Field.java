@@ -144,17 +144,4 @@ public class Field implements Serializable{
 		this.constraintDescriptor = constraintDescriptor;
 	}
 
-	/**
-	 * @return the dynamic
-	 */
-	public boolean isDynamic() {
-		return dynamic;
-	}
-
-	/**
-	 * @param dynamic the dynamic to set
-	 */
-	public void setDynamic(boolean dynamic) {
-		this.dynamic = dynamic;
-	}
 }
