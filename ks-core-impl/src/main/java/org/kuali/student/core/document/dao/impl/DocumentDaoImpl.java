@@ -28,7 +28,7 @@ import org.kuali.student.core.document.dao.DocumentDao;
  *
  */
 public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements DocumentDao {
-    @PersistenceContext(unitName = "Comment")
+    @PersistenceContext(unitName = "Document")
     @Override
     public void setEm(EntityManager em) {
         super.setEm(em);
