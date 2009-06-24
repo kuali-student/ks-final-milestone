@@ -24,7 +24,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class PrereqManager extends Controller {
+public class CourseReqManager extends Controller {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     public enum PrereqViews {
@@ -39,17 +39,18 @@ public class PrereqManager extends Controller {
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
-    private final Model<RuleInfo> prereqInfo;
+    private final Model<RuleInfo> ruleInfo;
     private Model<ReqComponentVO>  selectedReqCompVO;    
-    private Model<ReqComponentTypeInfo> reqComponentTypes;  
+    private Model<ReqComponentTypeInfo> reqComponentTypes; 
+    private String luStatementType = "unknown";
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
-    public PrereqManager(Model<RuleInfo> prereqInfo) {
+    public CourseReqManager(Model<RuleInfo> ruleInfo) {
         super();
         super.initWidget(viewPanel);
         viewPanel.add(mainPanel);              
-        this.prereqInfo = prereqInfo;
+        this.ruleInfo = ruleInfo;
         resetReqCompVOModel();
         loadData();
     }
@@ -80,7 +81,11 @@ public class PrereqManager extends Controller {
     @SuppressWarnings("unchecked")
     public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
         if (modelType.equals(RuleInfo.class)) {
-            callback.onModelReady(prereqInfo);
+            
+            //pass back only rule corresponding to the user selected rule type
+            Model<RuleInfo> ruleInfoGivenType = new Model<RuleInfo>();
+            ruleInfoGivenType.add(getRuleInfo(luStatementType));                        
+            callback.onModelReady(ruleInfoGivenType);
         } else if (modelType.equals(ReqComponentTypeInfo.class)) {
             if (reqComponentTypes == null) {
                 retrieveModelData(ReqComponentTypeInfo.class, callback);
@@ -95,6 +100,17 @@ public class PrereqManager extends Controller {
             super.requestModel(modelType, callback);
         }
     }
+    
+    private RuleInfo getRuleInfo(String luStatementTypeKey) {
+        if (ruleInfo.getValues() != null && !ruleInfo.getValues().isEmpty()) {
+            for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
+                if (oneRuleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {
+                    return oneRuleInfo;
+                }                
+            }
+        } 
+        return null;
+    }    
 
     @Override
     public void showDefaultView() {
@@ -117,10 +133,15 @@ public class PrereqManager extends Controller {
         }
     }
 
+    //TODO: should we retrieve requirement comp. types for all applicable lu statement types?
     public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback<ReqComponentTypeInfo> callback) {
         
+        if (luStatementType == null) {
+            throw new IllegalArgumentException();
+        }
+        
         if (modelType.equals(ReqComponentTypeInfo.class)) {        
-            requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType("kuali.luStatementType.prereqAcademicReadiness", new AsyncCallback<List<ReqComponentTypeInfo>>() {
+            requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(luStatementType, new AsyncCallback<List<ReqComponentTypeInfo>>() {
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
@@ -174,4 +195,12 @@ public class PrereqManager extends Controller {
     public void resetReqCompVOModel () {
         this.selectedReqCompVO = new Model<ReqComponentVO>();
     }
+    
+    public String getLuStatementType() {
+        return luStatementType;
+    }
+
+    public void setLuStatementType(String luStatementType) {
+        this.luStatementType = luStatementType;
+    }    
 }

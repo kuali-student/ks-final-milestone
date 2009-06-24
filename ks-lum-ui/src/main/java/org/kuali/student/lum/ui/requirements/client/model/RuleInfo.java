@@ -10,6 +10,7 @@ import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class RuleInfo implements Idable {
 
+    private String id;
     private String cluId;
     private StatementVO statementVO;
     private String luStatementTypeKey;
@@ -23,11 +24,11 @@ public class RuleInfo implements Idable {
     
     @Override
     public String getId() {
-        return cluId;
+        return id;
     }
     @Override
     public void setId(String id) {
-        this.cluId = id;
+        this.id = id;
     }
     public String getCluId() {
         return cluId;

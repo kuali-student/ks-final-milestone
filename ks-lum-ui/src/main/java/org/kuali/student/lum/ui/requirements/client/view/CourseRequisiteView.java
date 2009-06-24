@@ -1,7 +1,5 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -9,11 +7,9 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
-import org.kuali.student.lum.ui.requirements.client.controller.CoreqManager;
-import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager;
-import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -26,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -49,10 +44,10 @@ public class CourseRequisiteView extends ViewComposite {
     
     //view's data
     private String selectedCourseId = null;
+    private static int course_id = 0;
     private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
     private final Model<RuleInfo> courseRules = new Model<RuleInfo>();
-    private final PrereqManager prereqManager = new PrereqManager(courseRules);
-    private final CoreqManager coreqManager = new CoreqManager();
+    private final CourseReqManager courseReqManager = new CourseReqManager(courseRules);
     
     public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
@@ -109,7 +104,8 @@ public class CourseRequisiteView extends ViewComposite {
                 }
                 
                 final RuleInfo ruleInfo = new RuleInfo();
-                ruleInfo.setId(courseData.get(getCourseId()).getId());
+                ruleInfo.setId(Integer.toString(course_id++));
+                ruleInfo.setCluId(courseData.get(getCourseId()).getId());
                 ruleInfo.setRationale("This is a test rationalle.");
                 ruleInfo.setStatementVO(statementVO);
                 ruleInfo.setLuStatementTypeKey(luStatementTypeKey);
@@ -145,34 +141,37 @@ public class CourseRequisiteView extends ViewComposite {
             RuleInfo rule = getRuleInfo(sender.getTitle());
             
             if (sender.getTitle().contains("prereq")) {
+                courseReqManager.setLuStatementType("kuali.luStatementType.prereqAcademicReadiness");
+            } else if (sender.getTitle().contains("coreq")) {
+                courseReqManager.setLuStatementType("kuali.luStatementType.coreqAcademicReadiness");
+            }
             
-                if(rule == null) {
-                    RulesUtilities.clearModel(courseData);
-                    CourseRuleInfo newCourse = new CourseRuleInfo();
-                    newCourse.setId("CLU-NL-5"); //Integer.toString(tempCounterID++));
-                    CluInfo newCourseInfo = new CluInfo();
-                    newCourseInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID+1000));
-                    newCourse.setCourseInfo(newCourseInfo);
-                    courseData.add(newCourse);
-                    
-                    RulesUtilities.clearModel(courseRules);
-                    RuleInfo newPrereqInfo = new RuleInfo();
-                    newPrereqInfo.setCluId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
-                    newPrereqInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
-                    newPrereqInfo.setStatementVO(null);
-                    newPrereqInfo.setEditHistory(new EditHistory());
-                    courseRules.add(newPrereqInfo);               
-                    
-                    prereqManager.resetReqCompVOModel();
-                    
-                    mainPanel.clear();
-                    mainPanel.add(prereqManager.getMainPanel());
-                    prereqManager.showView(PrereqViews.CLAUSE_EDITOR);
-                } else {
-                    mainPanel.clear();
-                    mainPanel.add(prereqManager.getMainPanel());
-                    prereqManager.showDefaultView();
-                }
+            if(rule == null) {
+                RulesUtilities.clearModel(courseData);
+                CourseRuleInfo newCourse = new CourseRuleInfo();
+                newCourse.setId("CLU-NL-5"); //Integer.toString(tempCounterID++));
+                CluInfo newCourseInfo = new CluInfo();
+                newCourseInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID+1000));
+                newCourse.setCourseInfo(newCourseInfo);
+                courseData.add(newCourse);
+                
+                RulesUtilities.clearModel(courseRules);
+                RuleInfo newPrereqInfo = new RuleInfo();
+                newPrereqInfo.setCluId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
+                newPrereqInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
+                newPrereqInfo.setStatementVO(null);
+                newPrereqInfo.setEditHistory(new EditHistory());
+                courseRules.add(newPrereqInfo);               
+                
+                courseReqManager.resetReqCompVOModel();
+                
+                mainPanel.clear();
+                mainPanel.add(courseReqManager.getMainPanel());
+                courseReqManager.showView(PrereqViews.CLAUSE_EDITOR);
+            } else {
+                mainPanel.clear();
+                mainPanel.add(courseReqManager.getMainPanel());
+                courseReqManager.showDefaultView();
             }
         }       
     }    
@@ -220,7 +219,7 @@ public class CourseRequisiteView extends ViewComposite {
     
     private void layoutOneRuleTypeSection(String luStatementTypeKey) {
         
-        RuleInfo rule = getRuleInfo(luStatementTypeKey);
+        RuleInfo rule = getRuleInfo(luStatementTypeKey);     
         String ruleName = getRuleTypeName(luStatementTypeKey);
         
         VerticalPanel rulesInfoPanel = new VerticalPanel();

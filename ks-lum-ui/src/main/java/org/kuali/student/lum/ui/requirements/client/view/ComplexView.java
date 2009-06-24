@@ -14,7 +14,7 @@ import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
-import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -65,6 +65,7 @@ public class ComplexView extends ViewComposite {
     
     //view's data
     private Model<RuleInfo> model;
+    private String luStatementType = "unknown";    
     private boolean isInitialized = false;
 
     public ComplexView(Controller controller) {
@@ -508,5 +509,13 @@ public class ComplexView extends ViewComposite {
                 complexRuleNL.setText(naturalLanguage);
             } 
         }); 
-    }           
+    }
+
+    public String getLuStatementType() {
+        return luStatementType;
+    }
+
+    public void setLuStatementType(String luStatementType) {
+        this.luStatementType = luStatementType;
+    }    
 }

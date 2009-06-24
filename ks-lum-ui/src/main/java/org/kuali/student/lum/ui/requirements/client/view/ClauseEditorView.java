@@ -32,7 +32,7 @@ import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
-import org.kuali.student.lum.ui.requirements.client.controller.PrereqManager.PrereqViews;
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -80,14 +80,14 @@ public class ClauseEditorView extends ViewComposite {
     
     //view's data
     private boolean addNewReqComp;
-    private Model<RuleInfo> modelPrereqInfo;
+    private Model<RuleInfo> modelRuleInfo;
     private ReqComponentTypeInfo selectedReqType;
     private ReqComponentInfo editedReqComp;
     private String origReqCompType;
     private ReqComponentVO editedReqCompVO;     
     private List<ReqComponentTypeInfo> reqCompTypeList;     //list of all Requirement Component Types
     private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
-    private List<ReqComponentTypeInfo> advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();     //list of advanced Requirement Component Types    
+    private List<ReqComponentTypeInfo> advReqCompTypeList;     //list of advanced Requirement Component Types    
     private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>();
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>();
@@ -144,61 +144,10 @@ public class ClauseEditorView extends ViewComposite {
         super(controller, "Clause Editor View");
         super.initWidget(mainPanel);
         setupHandlers();
-        setReqComponentList();
     }
     
-    public void beforeShow() {
-                     
-        if (compReqTypesList.getSelectedItem() != null) {
-            compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
-        }
-        
-        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
-            public void onModelReady(Model<RuleInfo> theModel) {
-                modelPrereqInfo = theModel;
-            }
-
-            public void onRequestFail(Throwable cause) {
-                throw new RuntimeException("Unable to connect to model", cause);
-            }
-        });                 
-
-        
-        getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
-            public void onModelReady(Model<ReqComponentVO> theModel) {
-                
-                if (theModel != null) {
-                    List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
-                    selectedReqComp.addAll(theModel.getValues());
-                   
-                    //true if we are editing existing rule
-                    origReqCompType = null;
-                    if (selectedReqComp.size() > 0) {
-                        addNewReqComp = false;
-                        editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());                       
-                        editedReqComp = editedReqCompVO.getReqComponentInfo();
-                        origReqCompType = editedReqComp.getType();
-                        for (int i = 0; i < reqCompTypeList.size(); i++) {
-                            if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
-                                selectedReqType = reqCompTypeList.get(i); 
-                                break;
-                            }                              
-                        }                          
-                        
-                    } else {
-                        //create a basic structure for a new rule
-                        addNewReqComp = true;
-                        setupNewEditedReqComp(null);    
-                        selectedReqType = null;
-                    }                    
-                }
-                redraw();
-            }
-
-            public void onRequestFail(Throwable cause) {
-                throw new RuntimeException("Unable to connect to model", cause);
-            }
-        });                  
+    public void beforeShow() {        
+        setReqComponentListAndReqComp();                                     
     }
     
     public void redraw() {   
@@ -214,13 +163,11 @@ public class ClauseEditorView extends ViewComposite {
         HorizontalPanel ruleTypesPanel = new HorizontalPanel();        
         
         //show requirement component label
-        SimplePanel labelPanel = new SimplePanel();       
-        //labelPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn");        
+        SimplePanel labelPanel = new SimplePanel();           
         KSLabel reqTypeLabel = new KSLabel("Rule");
         reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading"); 
         labelPanel.add(reqTypeLabel);
         ruleTypesPanel.add(labelPanel);               
-
 
         addEditRuleView.clear();
         addEditRuleView.setStyleName("KS-Rules-FullWidth");       
@@ -317,7 +264,7 @@ public class ClauseEditorView extends ViewComposite {
     //show basic and advanced requirement types
     private void displayReqComponentTypes(Panel container) {
         
-        //TODO list of basic and advanced types based on configuration somewhere
+        //TODO list of basic and advanced types based on some configuration data
         
         //show radio button for each basic Requirement Component Type
         VerticalPanel rbPanel = new VerticalPanel();
@@ -380,14 +327,10 @@ public class ClauseEditorView extends ViewComposite {
     
     private void displayReqComponentDetailsCont(String[] templates) {                
         
-        //SimplePanel emptyPanel = new SimplePanel();       
-        //emptyPanel.setStyleName("KS-ReqCompEditor-EditFirstColumn"); 
-        //ruleDetailsPanel.add(emptyPanel);
-        
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel(); 
-        KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDesc());
-        reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading"); //"KS-Rules-BoldText");
+        KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDesc() + ":");
+        reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading");
         reqCompDetailsExampleContainerPanel.add(reqCompTypeName);
 
         //show details
@@ -444,7 +387,7 @@ public class ClauseEditorView extends ViewComposite {
                 editedReqComp.setType(selectedReqType.getId());                         
 
                 //add new req. component (rule) to the top level of the rule
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelRuleInfo);
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 // in the case when there is currently no statement...
                 // i.e. the user creates the rules from scratch.
@@ -469,8 +412,8 @@ public class ClauseEditorView extends ViewComposite {
                     return;
                 }                
                 
-                if (modelPrereqInfo != null) {
-                    RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                if (modelRuleInfo != null) {
+                    RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelRuleInfo);
                     StatementVO statementVO = prereqInfo.getStatementVO();
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     statementVO.clearSelections();
@@ -786,13 +729,14 @@ public class ClauseEditorView extends ViewComposite {
         return newFieldValue.toString();
     }    
 
-    public void setReqComponentList() {        
+    private void setReqComponentListAndReqComp() {        
         
         getController().requestModel(ReqComponentTypeInfo.class, new ModelRequestCallback<ReqComponentTypeInfo>() {
             public void onModelReady(Model<ReqComponentTypeInfo> theModel) {
                 reqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
                 reqCompTypeList.addAll(theModel.getValues());
                 
+                advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
                 for(int i = NOF_BASIC_RULE_TYPES; i < reqCompTypeList.size(); i++){
                     advReqCompTypeList.add(reqCompTypeList.get(i));
                 }                
@@ -838,13 +782,69 @@ public class ClauseEditorView extends ViewComposite {
                     }
                 };  
                 
-                compReqTypesList.setListItems(listItemReqCompTypes);               
+                compReqTypesList.setListItems(listItemReqCompTypes); 
+                
+                setupReqComponent();
             }
 
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
         });                                               
+    }
+    
+    private void setupReqComponent() {
+        
+        if (compReqTypesList.getSelectedItem() != null) {
+            compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
+        }
+        
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
+            public void onModelReady(Model<RuleInfo> theModel) {
+                modelRuleInfo = theModel;
+                
+                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
+                    public void onModelReady(Model<ReqComponentVO> theModel) {
+                        
+                        if (theModel != null) {
+                            List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
+                            selectedReqComp.addAll(theModel.getValues());
+                           
+                            //true if we are editing existing rule
+                            origReqCompType = null;
+                            if (selectedReqComp.size() > 0) {
+                                addNewReqComp = false;
+                                editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());                       
+                                editedReqComp = editedReqCompVO.getReqComponentInfo();
+                                origReqCompType = editedReqComp.getType();
+                                for (int i = 0; i < reqCompTypeList.size(); i++) {
+                                    if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
+                                        selectedReqType = reqCompTypeList.get(i); 
+                                        break;
+                                    }                              
+                                }                          
+                                
+                            } else {
+                                //create a basic structure for a new rule
+                                addNewReqComp = true;
+                                setupNewEditedReqComp(null);    
+                                selectedReqType = null;
+                            }                    
+                        }
+                        redraw();
+                    }
+
+                    public void onRequestFail(Throwable cause) {
+                        throw new RuntimeException("Unable to connect to model", cause);
+                    }
+                });                  
+                
+            }
+
+            public void onRequestFail(Throwable cause) {
+                throw new RuntimeException("Unable to connect to model", cause);
+            }
+        });                                
     }
 
     private void updateNLAndExit() {
@@ -856,7 +856,7 @@ public class ClauseEditorView extends ViewComposite {
             
             public void onSuccess(final String reqCompNaturalLanguage) {                               
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelPrereqInfo);
+                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelRuleInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 getController().showView(PrereqViews.COMPLEX);
             } 
