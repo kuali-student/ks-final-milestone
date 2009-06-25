@@ -20,7 +20,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 /**
  * Loads all search info for a service into memory
- * 
+ *
  */
 public class SearchManagerImpl implements SearchManager{
 
@@ -52,6 +52,9 @@ public class SearchManagerImpl implements SearchManager{
 			PermissionDeniedException {
 		String queryString = queryMap.get(searchTypeKey);
 		SearchTypeInfo searchTypeInfo = searchInfoTypeMap.get(searchTypeKey);
+		if (searchTypeInfo == null) {
+			throw new InvalidParameterException("No such searchTypeKey found: " + searchTypeKey);
+		}
 		return dao.searchForResults(queryString, searchTypeInfo, queryParamValues);
 	}
 

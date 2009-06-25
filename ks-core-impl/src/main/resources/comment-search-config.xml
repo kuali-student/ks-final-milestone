@@ -10,7 +10,7 @@
     <import resource="comment-dictionary-config.xml" />
 
     <search:searchType id="comment.search.commentTextById">
-        <search:name>Full view by orginization id key</search:name>
+        <search:name>Full view by comment id key</search:name>
         <search:desc>Returns a full view of comment information for the id supplied</search:desc>
         <search:searchResultTypeInfo>
             <ref bean="comment.result.commentFullView" />
@@ -55,6 +55,52 @@
         </dict:fieldDescriptor>
     </search:queryParam>
 
+    <search:searchType id="tag.search.tagNamespaceById">
+        <search:name>Full view by tag id key</search:name>
+        <search:desc>Returns a full view of tag information for the id supplied</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="tag.result.tagFullView" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="tag.criteria.tagById" />
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="tag.result.tagFullView">
+        <search:name>Tag Text View</search:name>
+        <search:desc>Tag Text</search:desc>
+        <search:resultColumns>
+            <ref bean="tag.resultColumn.tagId" />
+            <ref bean="tag.resultColumn.tagNamespace" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:resultColumn id="tag.resultColumn.tagId">
+        <search:name>Tag Identifier</search:name>
+        <search:desc>Identifier for the tag</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="tag.resultColumn.tagNamespace">
+        <search:name>Tag Namespace</search:name>
+        <search:desc>Namespace for the tag</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="tag.criteria.tagById">
+        <search:name>TagByIdCriteria</search:name>
+        <search:desc>TagByIdCriteria Description</search:desc>
+        <search:queryParams>
+            <ref bean="tag.queryParam.tagId" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:queryParam id="tag.queryParam.tagId">
+        <dict:fieldDescriptor parent="parentFieldDescriptor">
+            <dict:name>Tag Id</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
     <dict:fieldDescriptor id="parentFieldDescriptor">
         <dict:name>Comment Identifier</dict:name>
         <dict:desc>Unique identifier for a Comment.</dict:desc>
@@ -66,12 +112,14 @@
         <dict:readOnly>true</dict:readOnly>
     </dict:fieldDescriptor>
 
-
     <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
         <property name="sourceMap">
             <map>
                  <entry key="comment.search.commentTextById">
                     <value>SELECT comment.id, commentText.plain FROM Comment comment JOIN comment.commentText commentText WHERE comment.id = :comment_queryParam_commentId</value>
+                </entry>
+                 <entry key="tag.search.tagNamespaceById">
+                    <value>SELECT tag.id, tag.namespace FROM Tag tag WHERE tag.id = :tag_queryParam_tagId</value>
                 </entry>
             </map>
         </property>

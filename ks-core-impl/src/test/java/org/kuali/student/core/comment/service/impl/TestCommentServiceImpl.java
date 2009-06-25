@@ -35,6 +35,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
@@ -305,6 +306,11 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     	CommentCriteriaInfo commentCriteriaInfo = new CommentCriteriaInfo();
     	// TODO Set up commentCriteriaInfo
     	List<String> ids = client.searchForComments(commentCriteriaInfo);
+    	assertEquals(1, ids.size());
+
+    	TagCriteriaInfo tagCriteriaInfo = new TagCriteriaInfo();
+    	// TODO set up tagCriteriaInfo
+    	ids = client.searchForTags(tagCriteriaInfo);
     	assertEquals(1, ids.size());
     }
 }

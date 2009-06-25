@@ -389,8 +389,31 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<String> searchForTags(TagCriteriaInfo tagCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+       	// TODO Just show that we are hooked up to search service. Needs to be fixed to use the tagCriteriaInfo values
+
+    	List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(1);
+    	QueryParamValue queryParamValue = new QueryParamValue();
+    	queryParamValue.setKey("tag_queryParam_tagId");
+    	queryParamValue.setValue("Comment-TAG-2");
+    	queryParamValues.add(queryParamValue);
+    	List<String> ids = new ArrayList<String>();
+    	try {
+			List<Result> results = searchManager.searchForResults("tag.search.tagNamespaceById", queryParamValues, commentDao);
+			for (Result result : results) {
+				for (ResultCell resultCell : result.getResultCells()) {
+					if (resultCell.getKey().equals("tag.resultColumn.tagId")) {
+						ids.add(resultCell.getValue());
+					}
+				}
+			}
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException(e.getMessage());
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException(e.getMessage());
+		}
+
+    	return ids;
+
     }
 
     /**
