@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
@@ -218,4 +219,22 @@ public class CommentServiceAssembler extends BaseAssembler {
 
 		return entity;
     }
+
+	public static List<ReferenceTypeInfo> toReferenceTypeInfos(
+			List<ReferenceType> entities) {
+		List<ReferenceTypeInfo> dtos = new ArrayList<ReferenceTypeInfo>(entities.size());
+		for (ReferenceType entity : entities) {
+			dtos.add(toReferenceType(entity));
+		}
+		return dtos;
+
+	}
+
+	private static ReferenceTypeInfo toReferenceType(ReferenceType entity) {
+		ReferenceTypeInfo dto = new ReferenceTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
+	}
 }

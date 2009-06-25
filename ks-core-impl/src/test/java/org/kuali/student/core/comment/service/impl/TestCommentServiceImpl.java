@@ -35,6 +35,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
@@ -150,6 +151,48 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
 	    		assertFalse(validationResult.isOk());
 	    	}
         }
+    }
+
+    @Test
+    public void testCommentsRemove() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	CommentInfo commentInfo = new CommentInfo();
+    	RichTextInfo commentText = new RichTextInfo();
+    	commentText.setPlain("created Comment text");
+    	commentText.setFormatted("<p>created Comment html</p>");
+    	commentInfo.setCommentText(commentText);
+    	commentInfo.setType("commentType.type2");
+
+    	CommentInfo ci1 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
+    	CommentInfo ci2 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
+    	CommentInfo ci3 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
+
+    	try {
+			StatusInfo si = client.removeComments("REF-COMMENT-99");
+			assertTrue(si.getSuccess());
+		} catch (DoesNotExistException e) {
+			assertTrue(false);
+		}
+		try {
+			client.getComment(ci1.getId());
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
+		try {
+			client.getComment(ci2.getId());
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
+		try {
+			client.getComment(ci3.getId());
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
     }
 
     @Test
@@ -312,5 +355,11 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     	// TODO set up tagCriteriaInfo
     	ids = client.searchForTags(tagCriteriaInfo);
     	assertEquals(1, ids.size());
+    }
+
+    @Test
+    public void testGetReferenceTypes() throws OperationFailedException {
+    	List<ReferenceTypeInfo> referenceTypes = client.getReferenceTypes();
+    	assertEquals(1, referenceTypes.size());
     }
 }

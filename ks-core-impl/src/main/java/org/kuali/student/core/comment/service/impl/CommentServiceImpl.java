@@ -57,7 +57,7 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This is a description of what this class does - lindholm don't forget to fill this in.
+ * Implementation of the Comment Search Service
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
@@ -208,8 +208,8 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
-
-        return null;
+    	List<ReferenceType> referenceTypes = commentDao.find(ReferenceType.class);
+        return CommentServiceAssembler.toReferenceTypeInfos(referenceTypes);
     }
 
     /**
