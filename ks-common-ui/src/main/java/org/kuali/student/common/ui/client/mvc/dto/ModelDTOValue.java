@@ -264,7 +264,7 @@ public interface ModelDTOValue extends Serializable {
 		
 		@Override
 		public Type getType() {
-			return Type.STRING;
+			return Type.LIST;
 		}
 		
 		public List<ModelDTOValue> get() {
