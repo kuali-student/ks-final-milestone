@@ -10,7 +10,7 @@ import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 /**
  * This class creates the template context for grade condition type.
  */
-public class GradeConditionCourseListContextImpl extends AbstractContext {
+public class GradeConditionCourseListContextImpl extends AbstractContext<ReqComponent> {
 	/** Total credits template token */ 
 	private final static String TOTAL_CREDITS_TOKEN = "totalCredits";
 

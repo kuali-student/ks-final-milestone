@@ -27,7 +27,8 @@ public class ReqComponentTranslator {
     final static Logger logger = LoggerFactory.getLogger(DroolsJackrabbitRepository.class);
 	private String language;
     private LuDao luDao;
-    private ContextRegistry contextRegistry;
+    private ContextRegistry<Context<ReqComponent>> contextRegistry;
+    private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
     /**
 	 * Constructs a new natural language translator in the 
@@ -60,7 +61,7 @@ public class ReqComponentTranslator {
      * 
      * @param contextRegistry Template context registry
      */
-    public void setContextRegistry(final ContextRegistry contextRegistry) {
+    public void setContextRegistry(final ContextRegistry<Context<ReqComponent>> contextRegistry) {
     	this.contextRegistry = contextRegistry;
     }
 
@@ -122,7 +123,7 @@ public class ReqComponentTranslator {
         	throw new DoesNotExistException("Context does not exist in registry for requirement component type key: " + reqComponentTypeKey);
         }
         
-        Context context = this.contextRegistry.get(reqComponentTypeKey);
+        Context<ReqComponent> context = this.contextRegistry.get(reqComponentTypeKey);
     	Map<String, Object> velocityContextMap = context.createContextMap(reqComponent);
     	
         return velocityContextMap;
@@ -160,10 +161,9 @@ public class ReqComponentTranslator {
      * @throws OperationFailedException
      */
     private String translate(Map<String, Object> contextMap, String template) throws OperationFailedException {
-        VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
         String naturalLanguage;
         try {
-            naturalLanguage = templateEngine.evaluate(contextMap, template);
+            naturalLanguage = this.templateEngine.evaluate(contextMap, template);
         } catch (VelocityException e) {
 			logger.error("template: "+template);
 			logger.error("contextMap: "+contextMap);

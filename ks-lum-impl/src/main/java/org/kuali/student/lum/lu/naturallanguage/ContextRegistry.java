@@ -3,17 +3,16 @@ package org.kuali.student.lum.lu.naturallanguage;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 
 /**
  * This class is a registry of template contexts which the requirement 
  * component translator uses to generate the natural language.
  */
-public class ContextRegistry {
+public class ContextRegistry<T extends Context<?>>  {
 
 	/** Registry context map */
-	private Map<String, Context> registry = new HashMap<String, Context>();
+	private Map<String, T> registry = new HashMap<String, T>();
 
 	/**
 	 * Constructor.
@@ -26,7 +25,7 @@ public class ContextRegistry {
 	 * 
 	 * @param registry Context registry
 	 */
-	public ContextRegistry(final Map<String, Context> registry) {
+	public ContextRegistry(final Map<String, T> registry) {
 		this.registry = registry;
 	}
 
@@ -37,7 +36,7 @@ public class ContextRegistry {
 	 * @param key Context key
 	 * @param context Context
 	 */
-	public void add(final String key, final Context context) {
+	public void add(final String key, final T context) {
 		this.registry.put(key, context);
 	}
 
@@ -48,7 +47,7 @@ public class ContextRegistry {
 	 * @param key Context key
 	 * @return A context
 	 */
-	public Context get(final String key) {
+	public T get(final String key) {
 		return this.registry.get(key);
 	}
 
@@ -69,7 +68,7 @@ public class ContextRegistry {
 	 * @param key
 	 * @return
 	 */
-	public Context remove(final String key) {
+	public T remove(final String key) {
 		return this.registry.remove(key);
 	}
 

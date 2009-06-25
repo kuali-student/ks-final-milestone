@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.naturallanguage.translators;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -15,11 +14,13 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
-import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
+import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
+import org.kuali.student.lum.lu.naturallanguage.util.LuStatementAnchor;
 
 /**
  * This class translates a LU (learning unit) statement into a specific 
@@ -31,6 +32,8 @@ public class StatementTranslator {
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator;
 	private NaturalLanguageMessageBuilder messageBuilder;
+    private ContextRegistry<Context<LuStatementAnchor>> contextRegistry;
+    private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
 	/**
 	 * Constructs a new natural language translator in the 
@@ -73,6 +76,15 @@ public class StatementTranslator {
 	public void setLuDao(final LuDao luDao) {
 		this.luDao = luDao;
 	}
+
+    /**
+     * Sets the template context registry.
+     * 
+     * @param contextRegistry Template context registry
+     */
+    public void setContextRegistry(final ContextRegistry<Context<LuStatementAnchor>> contextRegistry) {
+    	this.contextRegistry = contextRegistry;
+    }
 
 	/**
 	 * Sets the requirement component translator.
@@ -215,17 +227,22 @@ public class StatementTranslator {
         	return "";
         }
         
-		Clu clu = this.luDao.fetch(Clu.class, cluId);
         String templateHeader = getHeaderTemplate(luStatement, nlUsageTypeKey);
 		
-        VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put("clu", clu);
-        String s = templateEngine.evaluate(contextMap, templateHeader);
+        Map<String, Object> contextMap = buildContextMap(luStatement, cluId);
+        String s = this.templateEngine.evaluate(contextMap, templateHeader);
         
         return s;
 	}
-	
+
+	private Map<String, Object> buildContextMap(LuStatement luStatement, String cluId) throws DoesNotExistException {
+		LuStatementAnchor lua = new LuStatementAnchor(luStatement, cluId);
+		Context<LuStatementAnchor> context = this.contextRegistry.get(luStatement.getLuStatementType().getId());
+    	Map<String, Object> velocityContextMap = context.createContextMap(lua);
+    	
+        return velocityContextMap;
+	}
+
 	/**
 	 * Gets header template for root <code>luStatement</code>.
 	 * 

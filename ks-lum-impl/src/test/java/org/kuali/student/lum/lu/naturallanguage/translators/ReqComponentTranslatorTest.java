@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -23,6 +21,7 @@ import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 import org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -37,18 +36,18 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 	private String cluId2;
 	private ReqComponent reqComponent;
 
-    @BeforeClass
-    public static void setUpOnce() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownOnce() throws Exception {
-    }
-
     @Before
     public void setUp() throws Exception {
-    	ContextRegistry contextRegistry = NaturalLanguageUtil.getContextRegistry(this.luDao);
+    	createTranslator();
     	createCluSet();
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+    }
+    
+    private void createTranslator() {
+    	ContextRegistry<Context<ReqComponent>> contextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry(this.luDao);
 		this.englishTranslator = new ReqComponentTranslator();
 		this.englishTranslator.setLuDao(this.luDao);
 		this.englishTranslator.setContextRegistry(contextRegistry);
@@ -59,11 +58,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 		this.germanTranslator.setContextRegistry(contextRegistry);
 		this.germanTranslator.setLanguage("de");
     }
-    
-    @After
-    public void tearDown() throws Exception {
-    }
-    
+
     private void createCluSet() {
     	Clu clu1 = new Clu();
     	CluIdentifier cluId1 = new CluIdentifier();

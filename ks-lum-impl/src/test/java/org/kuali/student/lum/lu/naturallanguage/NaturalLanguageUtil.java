@@ -9,9 +9,12 @@ import org.kuali.student.lum.lu.entity.CluIdentifier;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
+import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 import org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContextImpl;
 import org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContextImpl;
 import org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContextImpl;
+import org.kuali.student.lum.lu.naturallanguage.contexts.HeaderContextImpl;
+import org.kuali.student.lum.lu.naturallanguage.util.LuStatementAnchor;
 
 public class NaturalLanguageUtil {
 	public static String createCluSet(LuDao luDao) {
@@ -77,11 +80,12 @@ public class NaturalLanguageUtil {
 		reqComponent = luDao.update(reqComponent);
     }
 
+    public static ContextRegistry<Context<ReqComponent>> getReqComponentContextRegistry(LuDao luDao) {
+    	ContextRegistry<Context<ReqComponent>> contextRegistry = new ContextRegistry<Context<ReqComponent>>();
 
-    public static ContextRegistry getContextRegistry(LuDao luDao) {
-    	ContextRegistry contextRegistry = new ContextRegistry();
     	CourseListContextImpl courseListContext = new CourseListContextImpl();
     	courseListContext.setLuDao(luDao);
+    	
     	contextRegistry.add("kuali.reqCompType.courseList.none", courseListContext);
     	contextRegistry.add("kuali.reqCompType.courseList.all", courseListContext);
     	contextRegistry.add("kuali.reqCompType.courseList.nof", courseListContext);
@@ -95,6 +99,17 @@ public class NaturalLanguageUtil {
     	gradeConditionCourseListContext.setLuDao(luDao);
     	contextRegistry.add("kuali.reqCompType.gradecheck", gradeCheckContext);
     	
+    	return contextRegistry;
+    }
+
+    public static ContextRegistry<Context<LuStatementAnchor>> getStatementContextRegistry(LuDao luDao) {
+    	ContextRegistry<Context<LuStatementAnchor>> contextRegistry = new ContextRegistry<Context<LuStatementAnchor>>();
+
+    	HeaderContextImpl headerContext = new HeaderContextImpl();
+    	headerContext.setLuDao(luDao);
+
+    	contextRegistry.add("kuali.luStatementType.prereqAcademicReadiness", headerContext);
+
     	return contextRegistry;
     }
 }

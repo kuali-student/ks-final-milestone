@@ -10,7 +10,7 @@ import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 /**
  * This class creates the template context for grade check type.
  */
-public class GradeCheckContextImpl extends AbstractContext {
+public class GradeCheckContextImpl extends AbstractContext<ReqComponent> {
 	/** GPA template token */ 
 	private final static String GPA_TOKEN = "gpa";
 	

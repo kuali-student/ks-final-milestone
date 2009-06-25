@@ -3,14 +3,13 @@ package org.kuali.student.lum.lu.naturallanguage.contexts;
 import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.lum.lu.entity.ReqComponent;
 
-public interface Context {
+public interface Context<T> {
     /**
-     * Creates the Velocity context map (template data) for the requirement component.
+     * Creates the Velocity context map (template data) for a specific context.
      * 
-     * @param reqComponent Requirement component
-     * @throws DoesNotExistException
+     * @param context Context to create the map from
+     * @throws DoesNotExistException If object/data does not exists
      */
-	public Map<String, Object> createContextMap(ReqComponent reqComponent) throws DoesNotExistException;
+	public Map<String, Object> createContextMap(T context) throws DoesNotExistException;
 }

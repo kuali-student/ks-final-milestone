@@ -10,7 +10,7 @@ import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 /**
  * This class creates the template context for course list types.
  */
-public class CourseListContextImpl extends AbstractContext {
+public class CourseListContextImpl extends AbstractContext<ReqComponent> {
     /**
      * Creates the context map (template data) for the requirement component.
      * 

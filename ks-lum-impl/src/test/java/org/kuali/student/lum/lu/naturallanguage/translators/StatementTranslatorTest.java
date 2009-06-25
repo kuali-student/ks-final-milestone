@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
@@ -23,8 +21,10 @@ import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 import org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.lum.lu.naturallanguage.translators.StatementTranslator;
+import org.kuali.student.lum.lu.naturallanguage.util.LuStatementAnchor;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -35,20 +35,21 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 	private StatementTranslator germanTranslator;
 	private static StatementTestUtil statementTestUtil;
 	
-    @BeforeClass
-    public static void setUpOnce() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownOnce() throws Exception {
-    }
-
     @Before
     public void setUp() throws Exception {
     	statementTestUtil = new StatementTestUtil();
     	statementTestUtil.setLuDao(luDao);
+    	createTranslator();
 
-    	ContextRegistry contextRegistry = NaturalLanguageUtil.getContextRegistry(this.luDao);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+    }
+    
+    private void createTranslator() {
+    	ContextRegistry<Context<ReqComponent>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry(this.luDao);
+    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(this.luDao);
 
     	SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
     	final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
@@ -59,12 +60,13 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
     	englishReqComponentTranslator.setLuDao(this.luDao);
-    	englishReqComponentTranslator.setContextRegistry(contextRegistry);
+    	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	englishReqComponentTranslator.setLanguage("en");
 
     	this.englishTranslator = new StatementTranslator();
     	this.englishTranslator.setReqComponentTranslator(englishReqComponentTranslator);
 		this.englishTranslator.setLuDao(this.luDao);
+		this.englishTranslator.setContextRegistry(statementContextRegistry);
 		this.englishTranslator.setMessageBuilder(englishMessageBuilder);
 		this.englishTranslator.setLanguage("en");
 
@@ -72,20 +74,17 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
     	ReqComponentTranslator germanReqComponentTranslator = new ReqComponentTranslator();
     	germanReqComponentTranslator.setLuDao(this.luDao);
-    	germanReqComponentTranslator.setContextRegistry(contextRegistry);
+    	germanReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	germanReqComponentTranslator.setLanguage("de");
 
     	this.germanTranslator = new StatementTranslator();
     	this.germanTranslator.setReqComponentTranslator(germanReqComponentTranslator);
 		this.germanTranslator.setLuDao(this.luDao);
+		this.germanTranslator.setContextRegistry(statementContextRegistry);
 		this.germanTranslator.setMessageBuilder(germanMessageBuilder);
 		this.germanTranslator.setLanguage("de");
     }
-    
-    @After
-    public void tearDown() throws Exception {
-    }
-    
+
 	@Test
 	public void testTranslateStatement1_English() throws Exception {
 		// Rule = R1

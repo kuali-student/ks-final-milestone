@@ -7,7 +7,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementType;
-import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentType;

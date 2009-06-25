@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
@@ -26,9 +24,11 @@ import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.lu.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 import org.kuali.student.lum.lu.naturallanguage.translators.NaturalLanguageTranslatorImpl;
 import org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.lum.lu.naturallanguage.translators.StatementTranslator;
+import org.kuali.student.lum.lu.naturallanguage.util.LuStatementAnchor;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest {
@@ -41,16 +41,17 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 	private String cluSetId1 = "CLUSET-NL-1";
 	private ReqComponent reqComponent;
 
-    @BeforeClass
-    public static void setUpOnce() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownOnce() throws Exception {
-    }
-
     @Before
     public void setUp() throws Exception {
+    	createTranslator();
+    	this.reqComponent = luDao.fetch(ReqComponent.class, "REQCOMP-NL-1");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+    
+    private void createTranslator() {
     	this.englishTranslator = new NaturalLanguageTranslatorImpl();
     	this.englishTranslator.setLanguage("en");
     	this.germanTranslator = new NaturalLanguageTranslatorImpl();
@@ -58,7 +59,8 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
     	this.japaneseTranslator = new NaturalLanguageTranslatorImpl();
     	this.japaneseTranslator.setLanguage("jp");
     	
-    	ContextRegistry contextRegistry = NaturalLanguageUtil.getContextRegistry(this.luDao);
+    	ContextRegistry<Context<ReqComponent>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry(this.luDao);
+    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(this.luDao);
 
     	SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
     	final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
@@ -76,11 +78,12 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
     	englishReqComponentTranslator.setLuDao(this.luDao);
-    	englishReqComponentTranslator.setContextRegistry(contextRegistry);
+    	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	englishReqComponentTranslator.setLanguage("en");
 
     	StatementTranslator englishStatementTranslator = new StatementTranslator();
     	englishStatementTranslator.setLuDao(this.luDao);
+    	englishStatementTranslator.setContextRegistry(statementContextRegistry);
     	englishStatementTranslator.setReqComponentTranslator(englishReqComponentTranslator);
     	englishStatementTranslator.setMessageBuilder(englishMessageBuilder);
     	englishStatementTranslator.setLanguage("en");
@@ -92,11 +95,12 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
     	ReqComponentTranslator germanReqComponentTranslator = new ReqComponentTranslator();
     	germanReqComponentTranslator.setLuDao(this.luDao);
-    	germanReqComponentTranslator.setContextRegistry(contextRegistry);
+    	germanReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	germanReqComponentTranslator.setLanguage("de");
 
     	StatementTranslator germanStatementTranslator = new StatementTranslator();
     	germanStatementTranslator.setLuDao(this.luDao);
+    	germanStatementTranslator.setContextRegistry(statementContextRegistry);
     	germanStatementTranslator.setReqComponentTranslator(germanReqComponentTranslator);
     	germanStatementTranslator.setMessageBuilder(germanMessageBuilder);
     	germanStatementTranslator.setLanguage("de");
@@ -108,25 +112,20 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
     	ReqComponentTranslator japaneseReqComponentTranslator = new ReqComponentTranslator();
     	japaneseReqComponentTranslator.setLuDao(this.luDao);
-    	japaneseReqComponentTranslator.setContextRegistry(contextRegistry);
+    	japaneseReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	japaneseReqComponentTranslator.setLanguage("jp");
 
     	StatementTranslator japaneseStatementTranslator = new StatementTranslator();
     	japaneseStatementTranslator.setLuDao(this.luDao);
+    	japaneseStatementTranslator.setContextRegistry(statementContextRegistry);
     	japaneseStatementTranslator.setReqComponentTranslator(japaneseReqComponentTranslator);
     	japaneseStatementTranslator.setMessageBuilder(japaneseMessageBuilder);
     	japaneseStatementTranslator.setLanguage("jp");
 
     	this.japaneseTranslator.setReqComponentTranslator(japaneseReqComponentTranslator);
     	this.japaneseTranslator.setStatementTranslator(japaneseStatementTranslator);
+    }
 
-    	this.reqComponent = luDao.fetch(ReqComponent.class, "REQCOMP-NL-1");
-    }
-    
-    @After
-    public void tearDown() throws Exception {
-    }
-    
 	@Test
 	public void testTranslateReqComponent_English() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";

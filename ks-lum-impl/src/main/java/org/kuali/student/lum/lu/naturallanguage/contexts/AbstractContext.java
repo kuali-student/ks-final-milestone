@@ -14,7 +14,7 @@ import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomCluSet;
 import org.kuali.student.lum.lu.naturallanguage.util.ReqComponentTypes;
 
-public abstract class AbstractContext implements Context {
+public abstract class AbstractContext<T> implements Context<T> {
     private LuDao luDao;
 
 	/**
@@ -45,6 +45,18 @@ public abstract class AbstractContext implements Context {
      */
     public void setLuDao(LuDao luDao) {
         this.luDao = luDao;
+    }
+
+    /**
+     * Gets a CLU.
+     * 
+     * @param cluId CLU id
+     * @return CLU
+     * @throws DoesNotExistException If CLU does not exist
+     */
+    public Clu getClu(String cluId) throws DoesNotExistException {
+        Clu clu = this.luDao.fetch(Clu.class, cluId);
+        return clu;
     }
 
     /**
@@ -128,10 +140,10 @@ public abstract class AbstractContext implements Context {
     }
 
     /**
-     * Creates the context map (template data) for the requirement component.
+     * Creates the Velocity context map (template data) for a specific context.
      * 
-     * @param reqComponent Requirement component
+     * @param context Context to create the map from
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-	public abstract Map<String, Object> createContextMap(ReqComponent reqComponent) throws DoesNotExistException;
+	public abstract Map<String, Object> createContextMap(T context) throws DoesNotExistException;
 }
