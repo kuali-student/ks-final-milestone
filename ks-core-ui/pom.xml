@@ -51,7 +51,7 @@
 						</executions>
 						<configuration>
 							<!-- defines which page should be launched when run in hosted mode -->
-							<startupUrl>org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</startupUrl>
+							<startupUrl>org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</startupUrl>
 							<runTarget>
 								org.kuali.student.core.organization.ui.OrgEntry
 							</runTarget>

@@ -1,10 +1,15 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.messages.MessagesService;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.core.messages.dto.MessageList;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
@@ -12,6 +17,8 @@ import com.google.gwt.libideas.client.StyleInjector;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.rpc.SerializationException;
+import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -29,6 +36,17 @@ public class OrgEntryPoint implements EntryPoint{
 
         app.setContent(getContent());
         RootPanel.get().add(app);
+        
+        final ApplicationContext context = new ApplicationContext();
+        Application.setApplicationContext(context);
+
+        try {
+            MessageList messageList =  getSerializedObject( "i18nMessages");
+            context.addMessages(messageList.getMessages());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
         
         StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
         
@@ -59,6 +77,17 @@ public class OrgEntryPoint implements EntryPoint{
         
         return mainPanel;
     }
+    
+    @SuppressWarnings("unchecked")
+    public  <T> T getSerializedObject( String name ) throws SerializationException
+    {
+        String serialized = getString( name );
+        SerializationStreamFactory ssf = GWT.create( MessagesService.class); // magic
+        return (T)ssf.createStreamReader( serialized ).readObject();
+    }
+    public  native String getString(String name) /*-{
+        return eval("$wnd."+name);
+    }-*/;
 
 
 }
