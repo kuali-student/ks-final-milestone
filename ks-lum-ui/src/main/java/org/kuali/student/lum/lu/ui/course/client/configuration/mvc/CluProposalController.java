@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
@@ -31,7 +32,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
  *
  */
 public class CluProposalController extends PagedSectionLayout{
-    private Model<ModelDTO> cluProposalModel = new Model<ModelDTO>();
+    private Model<ModelDTO> cluProposalModel;
        
     private KSButton createButton = new KSButton("Begin", new ClickHandler(){
         public void onClick(ClickEvent event) {
@@ -43,13 +44,17 @@ public class CluProposalController extends PagedSectionLayout{
     private KSButton saveButton = new KSButton("Save", new ClickHandler(){
         public void onClick(ClickEvent event) {
             getCurrentView().updateModel();
-            //Call RPC to save the model
+            
+            //This should call RPC.
+            GWT.log(cluProposalModel.get().toString(), null);
         }       
     });
 
     public CluProposalController(){
         super();
         LuConfigurer.configureCluProposal(this);
+        addButton(saveButton);
+        cluProposalModel = null;
     }
     
         
@@ -65,9 +70,14 @@ public class CluProposalController extends PagedSectionLayout{
     @SuppressWarnings("unchecked")
     @Override
     public void requestModelDTO(ModelRequestCallback callback) {
-        callback.onModelReady(cluProposalModel);
+        if (cluProposalModel == null){
+            cluProposalModel = new Model<ModelDTO>();
+            cluProposalModel.put(new ModelDTO("cluProposal"));
+            callback.onModelReady(cluProposalModel);
+        } else {
+            callback.onModelReady(cluProposalModel); 
+        }        
     }
 
-    
     
 }

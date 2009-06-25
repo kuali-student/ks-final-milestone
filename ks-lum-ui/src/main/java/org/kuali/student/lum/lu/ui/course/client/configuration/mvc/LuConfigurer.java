@@ -16,9 +16,10 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleConfigurableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayoutSection.FieldType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 
@@ -44,7 +45,7 @@ public class LuConfigurer {
     
     public static void addCluStartSection(ConfigurableLayout layout){
         SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.CLU_BEGIN, "Start");
-        section.addField("courseTitle", "Proposed Course Title", FieldType.TEXTBOX);
+        section.addField(new FieldDescriptor("courseTitle", "Proposed Course Title", Type.STRING));
         ((PagedSectionLayout)layout).addStartSection(section);
     }
 
@@ -58,8 +59,8 @@ public class LuConfigurer {
         SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE);        
         
         //FIXME: Label should come from messaging, field type should come from dictionary?
-        section.addField("curriculumOversight", "Curriculum Oversight", FieldType.TEXTBOX);        
-        section.addField("campusLocation", "Campus Location", FieldType.TEXTBOX);
+        section.addField(new FieldDescriptor("curriculumOversight", "Curriculum Oversight", Type.STRING));        
+        section.addField(new FieldDescriptor("campusLocation", "Campus Location", Type.STRING));
                 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
     }
@@ -68,8 +69,8 @@ public class LuConfigurer {
         SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION);        
         
         //FIXME: Label should be key to messaging, field type should come from dictionary?
-        section.addField("courseNumber", "Course Number", FieldType.TEXTBOX);        
-        section.addField("courseTitle", "Proposed Course Title", FieldType.TEXTBOX);
+        section.addField(new FieldDescriptor("courseNumber", "Course Number", Type.STRING));        
+        section.addField(new FieldDescriptor("courseTitle", "Proposed Course Title", Type.STRING));
 
         layout.addSection(new String[] {LUConstants.SECTION_COURSE_INFORMATION}, section);        
        
