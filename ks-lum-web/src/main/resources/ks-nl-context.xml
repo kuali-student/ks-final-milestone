@@ -12,6 +12,12 @@
         class="org.kuali.student.lum.lu.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
+                <!-- Header Contexts-->
+                <entry key="kuali.luStatementType.prereqAcademicReadiness">
+                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.HeaderContextImpl">
+                        <property name="luDao" ref="LuDaoImpl" />
+                    </bean>
+                </entry>
                 <!-- Pre-Req Contexts-->
                 <entry key="kuali.reqCompType.courseList.none">
                     <ref local="courseListContext"/>
