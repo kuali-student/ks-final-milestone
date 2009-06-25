@@ -64,8 +64,7 @@ public class ComplexView extends ViewComposite {
     private HandlerRegistration textClickHandler = null;
     
     //view's data
-    private Model<RuleInfo> model;
-    private String luStatementType = "unknown";    
+    private Model<RuleInfo> model;   
     private boolean isInitialized = false;
 
     public ComplexView(Controller controller) {
@@ -458,7 +457,8 @@ public class ComplexView extends ViewComposite {
                     //NLPanel.setStyleName("KS-Rules-Rule-Views");
                     ruleViewsPanel.addTab(NLPanel, "Natural Language");
                     ruleViewsPanel.setStyleName("KS-Rules-Rule-Views");
-                    ruleViewsPanel.selectTab(0);                    
+                    ruleViewsPanel.selectTab(0);   
+                    ruleViewsPanel.setHeight("80px");
                 }        
                 
                 KSLabel viewsHeading = new KSLabel("Alternate Views");
@@ -503,19 +503,11 @@ public class ComplexView extends ViewComposite {
                 caught.printStackTrace();
            }
             
-            public void onSuccess(final String statementNaturalLanguage) {               
+            public void onSuccess(final String statementNaturalLanguage) { 
                 naturalLanguage = statementNaturalLanguage;
                 simpleRuleNL.setText(naturalLanguage);                
                 complexRuleNL.setText(naturalLanguage);
             } 
         }); 
     }
-
-    public String getLuStatementType() {
-        return luStatementType;
-    }
-
-    public void setLuStatementType(String luStatementType) {
-        this.luStatementType = luStatementType;
-    }    
 }

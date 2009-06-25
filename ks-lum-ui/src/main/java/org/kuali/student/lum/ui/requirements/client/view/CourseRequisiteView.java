@@ -48,6 +48,7 @@ public class CourseRequisiteView extends ViewComposite {
     private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
     private final Model<RuleInfo> courseRules = new Model<RuleInfo>();
     private final CourseReqManager courseReqManager = new CourseReqManager(courseRules);
+    private boolean dataInitialized = false;
     
     public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
@@ -63,7 +64,7 @@ public class CourseRequisiteView extends ViewComposite {
         this.selectedCourseId = courseId; 
 
         layoutMainPanel(viewPanel);
-        if (courseId == null) {
+        if ((courseId == null) || (dataInitialized)) {
             return;
         }        
         
@@ -83,6 +84,7 @@ public class CourseRequisiteView extends ViewComposite {
                 retrieveRuleTypeData("kuali.luStatementType.coreqAcademicReadiness");                           
                 retrieveRuleTypeData("kuali.luStatementType.antireqAcademicReadiness");
                 retrieveRuleTypeData("kuali.luStatementType.enrollAcademicReadiness");
+                dataInitialized = true;
             }
             
         });                                  
@@ -147,6 +149,7 @@ public class CourseRequisiteView extends ViewComposite {
             }
             
             if(rule == null) {
+                System.out.println("Clearing model");
                 RulesUtilities.clearModel(courseData);
                 CourseRuleInfo newCourse = new CourseRuleInfo();
                 newCourse.setId("CLU-NL-5"); //Integer.toString(tempCounterID++));

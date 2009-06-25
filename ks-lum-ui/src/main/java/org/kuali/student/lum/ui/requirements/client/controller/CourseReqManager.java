@@ -140,6 +140,8 @@ public class CourseReqManager extends Controller {
             throw new IllegalArgumentException();
         }
         
+        System.out.println("Retrieving req. comp. types: " + luStatementType);
+        
         if (modelType.equals(ReqComponentTypeInfo.class)) {        
             requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(luStatementType, new AsyncCallback<List<ReqComponentTypeInfo>>() {
                 public void onFailure(Throwable caught) {

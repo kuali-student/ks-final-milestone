@@ -268,7 +268,8 @@ public class ClauseEditorView extends ViewComposite {
         
         //show radio button for each basic Requirement Component Type
         VerticalPanel rbPanel = new VerticalPanel();
-        for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
+        int nofBasicRuleTypes = (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES ? NOF_BASIC_RULE_TYPES : reqCompTypeList.size());
+        for (int i = 0; i < nofBasicRuleTypes; i++) {
             KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, reqCompTypeList.get(i).getDesc());
             rbRuleType.add(newButton);
             newButton.addFocusHandler(ruleTypeSelectionHandler);
@@ -295,9 +296,13 @@ public class ClauseEditorView extends ViewComposite {
                 }
             }
         }
+        hodler.add(compReqTypesList);  
 
-        hodler.add(compReqTypesList);        
-        rbPanel.add(hodler);                
+        //don't advanced req. component types list if we don't have any
+        if (advReqCompTypeList.size() > 0) {
+            rbPanel.add(hodler);                  
+        }
+                
         container.add(rbPanel);    
     }
     
@@ -772,9 +777,12 @@ public class ClauseEditorView extends ViewComposite {
                 reqCompTypeList.addAll(theModel.getValues());
                 
                 advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
-                for(int i = NOF_BASIC_RULE_TYPES; i < reqCompTypeList.size(); i++){
-                    advReqCompTypeList.add(reqCompTypeList.get(i));
-                }                
+                
+                if (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES) {                    
+                    for(int i = NOF_BASIC_RULE_TYPES; i < reqCompTypeList.size(); i++){
+                        advReqCompTypeList.add(reqCompTypeList.get(i));
+                    }                
+                }
 
                 listItemReqCompTypes = new ListItems() {                    
                     @Override
