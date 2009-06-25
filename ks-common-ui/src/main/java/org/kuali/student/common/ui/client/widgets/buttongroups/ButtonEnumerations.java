@@ -1,10 +1,16 @@
 package org.kuali.student.common.ui.client.widgets.buttongroups;
 
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
+
+
 public class ButtonEnumerations {
     public interface ButtonEnum{
         public String getText();
     };
-    //TODO use messages service instead of hardcoded strings
+    
+    final static ApplicationContext context = Application.getApplicationContext();
+    
     public static enum OkEnum implements ButtonEnum{Ok;
 
     @Override
@@ -17,15 +23,16 @@ public class ButtonEnumerations {
     }
     };
     
+    
     public static enum YesNoEnum implements ButtonEnum{YES, NO;
 
         @Override
         public String getText() {
             switch(this){
                 case YES:
-                    return "Yes";
+                    return context.getMessage("yes");
                 case NO:
-                    return "No";
+                    return context.getMessage("no");
             }
             return null;  
         }
@@ -37,9 +44,9 @@ public class ButtonEnumerations {
         public String getText() {
             switch(this){
                 case CONFIRM:
-                    return "Confirm";
+                    return context.getMessage("confirm");
                 case CANCEL:
-                    return "Cancel";
+                    return context.getMessage("cancel");
             }
             return null;  
         }
@@ -51,11 +58,11 @@ public class ButtonEnumerations {
         public String getText() {
             switch(this){
                 case YES:
-                    return "Yes";
+                    return context.getMessage("yes");
                 case NO:
-                    return "No";
+                    return context.getMessage("no");
                 case CANCEL:
-                    return "Cancel";
+                    return context.getMessage("cancel");
             }
             return null;  
         }
@@ -67,11 +74,11 @@ public class ButtonEnumerations {
         public String getText() {
             switch(this){
                 case ADD:
-                    return "Add";
+                    return context.getMessage("add");
                 case MODIFY:
-                    return "Modify";
+                    return context.getMessage("modify");
                 case REMOVE:
-                    return "Remove";
+                    return context.getMessage("remove");
             }
             return null;  
         }
