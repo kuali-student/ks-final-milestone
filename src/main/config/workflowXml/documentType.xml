@@ -2,22 +2,19 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
+      <name>KualiStudentDocument</name>
+      <parent>KualiDocument</parent>
+      <description>Kuali Student Parent Document</description>
+      <label>Kuali Student Parent Document</label>
+    </documentType>
+    <documentType>
       <name>CluDocument</name>
+      <parent>KualiStudentDocument</parent>
       <description>Sample Clu Document</description>
       <label>Sample Clu Document</label>
       <docHandler>http://localhost:8080/ks-lum-web/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
       <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
       <active>true</active>
-      <policies>
-        <policy>
-          <name>DEFAULT_APPROVE</name>
-          <value>true</value>
-        </policy>
-        <policy>
-          <name>LOOK_FUTURE</name>
-          <value>true</value>
-        </policy>
-      </policies>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
@@ -33,16 +30,14 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </start>
-        <requests name="Department Review">
+        <role name="Department Review">
           <activationType>S</activationType>
-          <ruleSelector>Named</ruleSelector>
-          <ruleName>DepartmentReviewRule</ruleName>
-        </requests>
-        <requests name="College Review">
+          <qualifierResolver>CluDocument-DepartmentReviewQualifierResolver</qualifierResolver>
+        </role>
+        <role name="College Review">
           <activationType>S</activationType>
-          <ruleSelector>Named</ruleSelector>
-          <ruleName>CollegeReviewRule</ruleName>
-        </requests>
+          <qualifierResolver>CluDocument-CollegeReviewQualifierResolver</qualifierResolver>
+        </role>
         <requests name="Senate Curriculum Committee Review">
           <activationType>S</activationType>
           <ruleSelector>Named</ruleSelector>
