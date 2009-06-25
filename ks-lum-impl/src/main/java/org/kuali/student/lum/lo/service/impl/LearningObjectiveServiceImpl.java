@@ -18,6 +18,8 @@ package org.kuali.student.lum.lo.service.impl;
 
 import java.util.List;
 
+import javax.jws.WebService;
+
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -31,19 +33,36 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoHierarchyInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.lum.lo.entity.Lo;
+import org.kuali.student.lum.lo.entity.LoCategory;
+import org.kuali.student.lum.lo.entity.LoHierarchy;
+import org.kuali.student.lum.lo.entity.LoType;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Kuali Student team
  *
  */
+@WebService(endpointInterface = "org.kuali.student.lum.lrc.service.LoService", serviceName = "LoService", portName = "LoService", targetNamespace = "http://student.kuali.org/lum/lo")
+@Transactional(rollbackFor={Throwable.class})
 public class LearningObjectiveServiceImpl implements LearningObjectiveService {
+    private LoDao dao;
 
-	/* (non-Javadoc)
+	public LoDao getDao() {
+        return dao;
+    }
+
+    public void setDao(LoDao dao) {
+        this.dao = dao;
+    }
+
+    /* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#addChildLoToLo(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -52,8 +71,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(parentLoId, "parentLoId");
+	    StatusInfo statusInfo = new StatusInfo();
+	    statusInfo.setSuccess(dao.addChildLoToLo(loId, parentLoId));
+		return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -64,8 +86,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(equivalentLoId, "equivalentLoId");
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(dao.addEquivalentLoToLo(loId, equivalentLoId));
+        return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -77,8 +102,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loCategoryId, "loCategoryId");
+	    checkForMissingParameter(loId, "loId");
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(dao.addLoCategoryToLo(loCategoryId, loId));
+        return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -89,8 +117,20 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(parentLoId, "parentLoId");
+	    checkForMissingParameter(loType, "loType");
+	    checkForMissingParameter(loInfo, "loInfo");
+	    
+	    LoType type = dao.fetch(LoType.class, loType);
+	    Lo parent = dao.fetch(Lo.class, parentLoId); // Leaving this in so we can fail before create
+	    
+	    Lo lo = LearningObjectiveServiceAssembler.toLo(loInfo, dao);
+	    lo.setLoType(type);
+	    dao.create(lo);
+	    
+	    dao.addChildLoToLo(lo.getId(), parent.getId());
+	    
+		return LearningObjectiveServiceAssembler.toLoInfo(lo);
 	}
 
 	/* (non-Javadoc)
@@ -102,8 +142,16 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loHierarchyKey, "loHierarchyKey");
+	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
+	    
+	    LoHierarchy hierarchy = dao.fetch(LoHierarchy.class, loHierarchyKey);
+	    
+	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, dao);
+	    category.setLoHierarchy(hierarchy);
+	    dao.create(category);
+	    
+		return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
 	}
 
 	/* (non-Javadoc)
@@ -114,8 +162,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    
+	    dao.delete(Lo.class, loId);
+	    
+		return new StatusInfo();
 	}
 
 	/* (non-Javadoc)
@@ -126,8 +177,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loCategoryId, "loCategoryId");
+	    
+	    dao.delete(LoCategory.class, loCategoryId);
+	    
+		return new StatusInfo();
 	}
 
 	/* (non-Javadoc)
@@ -137,8 +191,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<String> getAllDescendants(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+		List<String> allDescendantLoIds = dao.getAllDescendantLoIds(loId);
+		if(allDescendantLoIds == null || allDescendantLoIds.isEmpty())
+		    throw new DoesNotExistException(loId);
+        return allDescendantLoIds;
 	}
 
 	/* (non-Javadoc)
@@ -148,8 +205,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<String> getAncestors(String loId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    List<String> ancestors = dao.getAncestors(loId);
+	    if(ancestors == null || ancestors.isEmpty())
+	        throw new DoesNotExistException(loId);
+		return ancestors;
 	}
 
 	/* (non-Javadoc)
@@ -159,8 +219,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoInfo> getEquivalentLos(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    
+	    List<Lo> equivalentLos = dao.getEquivalentLos(loId);
+	    if(equivalentLos == null || equivalentLos.isEmpty())
+	        throw new DoesNotExistException(loId);
+	    
+		return LearningObjectiveServiceAssembler.toLoInfos(equivalentLos);
 	}
 
 	/* (non-Javadoc)
@@ -170,19 +235,22 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public LoInfo getLo(String loId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    
+		return LearningObjectiveServiceAssembler.toLoInfo(dao.fetch(Lo.class, loId));
 	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoByIdList(java.util.List)
 	 */
 	@Override
-	public List<LoInfo> getLoByIdList(List<String> loId)
+	public List<LoInfo> getLoByIdList(List<String> loIds)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loIds, "loId");
+	    checkForEmptyList(loIds, "loId");
+	    List<Lo> los = dao.getLoByIdList(loIds);
+		return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
 	/* (non-Javadoc)
@@ -192,8 +260,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoCategoryInfo> getLoCategories(String loHierarchyKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loHierarchyKey, "loHierarchyKey");
+	    List<LoCategory> categories = dao.getLoCategories(loHierarchyKey);
+        return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	/* (non-Javadoc)
@@ -203,8 +272,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoCategoryInfo> getLoCategoriesForLo(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    List<LoCategory> categories = dao.getLoCategoriesForLo(loId);
+		return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	/* (non-Javadoc)
@@ -214,8 +284,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public LoCategoryInfo getLoCategory(String loCategoryId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loCategoryId, "loCategoryId");
+	    
+		return LearningObjectiveServiceAssembler.toLoCategoryInfo(dao.fetch(LoCategory.class, loCategoryId));
 	}
 
 	/* (non-Javadoc)
@@ -225,8 +296,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoInfo> getLoChildren(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    List<Lo> loChildren = dao.getLoChildren(loId);
+		return LearningObjectiveServiceAssembler.toLoInfos(loChildren);
 	}
 
 	/* (non-Javadoc)
@@ -236,8 +308,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoInfo> getLoEquivalents(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    List<Lo> loEquivalents = dao.getLoEquivalents(loId);
+		return LearningObjectiveServiceAssembler.toLoInfos(loEquivalents);
 	}
 
 	/* (non-Javadoc)
@@ -246,8 +319,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public List<LoHierarchyInfo> getLoHierarchies()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    List<LoHierarchy> hierarchies = dao.find(LoHierarchy.class);
+		return LearningObjectiveServiceAssembler.toLoHierarchyInfos(hierarchies);
 	}
 
 	/* (non-Javadoc)
@@ -257,8 +330,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public LoHierarchyInfo getLoHierarchy(String loHierarchyKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loHierarchyKey, "loHierarchyKey");
+	    LoHierarchy fetch = dao.fetch(LoHierarchy.class, loHierarchyKey);
+		return LearningObjectiveServiceAssembler.toLoHierarchyInfo(fetch);
 	}
 
 	/* (non-Javadoc)
@@ -268,8 +342,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoInfo> getLoParents(String loId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    List<Lo> loParents = dao.getLoParents(loId);
+		return LearningObjectiveServiceAssembler.toLoInfos(loParents);
 	}
 
 	/* (non-Javadoc)
@@ -279,8 +354,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public LoTypeInfo getLoType(String loTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loTypeKey, "loTypeKey");
+	    LoType fetch = dao.fetch(LoType.class, loTypeKey);
+		return LearningObjectiveServiceAssembler.toLoTypeInfo(fetch);
 	}
 
 	/* (non-Javadoc)
@@ -288,8 +364,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 */
 	@Override
 	public List<LoTypeInfo> getLoTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    List<LoType> find = dao.find(LoType.class);
+		return LearningObjectiveServiceAssembler.toLoTypeInfos(find);
 	}
 
 	/* (non-Javadoc)
@@ -299,8 +375,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoInfo> getLosByLoCategory(String loCategoryId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loCategoryId, "loCategoryId");
+	    List<Lo> los = dao.getLosByLoCategory(loCategoryId);
+		return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
 	/* (non-Javadoc)
@@ -310,8 +387,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public Boolean isDescendant(String loId, String descendantLoId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(descendantLoId, "descendantLoId");
+		return dao.isDescendant(loId, descendantLoId);
 	}
 
 	/* (non-Javadoc)
@@ -321,8 +399,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public Boolean isEquivalent(String loId, String equivalentLoId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(equivalentLoId, "equivalentLoId");
+		return dao.isEquivalent(loId, equivalentLoId);
 	}
 
 	/* (non-Javadoc)
@@ -333,8 +412,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(parentLoId, "parentLoId");
+	    
+	    StatusInfo statusInfo = new StatusInfo();
+	    statusInfo.setSuccess(dao.removeChildLoFromLo(loId, parentLoId));
+		return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -345,8 +428,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			String equivalentLoId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(equivalentLoId, "equivalentLoId");
+	    
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(dao.removeEquivalentLoFromLo(loId, equivalentLoId));
+        return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -357,8 +444,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loCategoryId, "loCategoryId");
+	    checkForMissingParameter(loId, "loId");
+	    
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(dao.removeLoCategoryFromLo(loCategoryId, loId));
+        return statusInfo;
 	}
 
 	/* (non-Javadoc)
@@ -370,8 +461,18 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loId, "loId");
+	    checkForMissingParameter(loInfo, "loInfo");
+
+	    Lo lo = dao.fetch(Lo.class, loId);
+        
+        if (!String.valueOf(lo.getVersionInd()).equals(loInfo.getMetaInfo().getVersionInd())){
+            throw new VersionMismatchException("LO to be updated is not the current version");
+        }
+        
+        lo = LearningObjectiveServiceAssembler.toLo(lo, loInfo, dao);
+        dao.update(lo);
+        return LearningObjectiveServiceAssembler.toLoInfo(lo);
 	}
 
 	/* (non-Javadoc)
@@ -383,8 +484,18 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loCategoryId, "loCategoryId");
+	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
+	    
+	    LoCategory loCategory = dao.fetch(LoCategory.class, loCategoryId);
+        
+        if (!String.valueOf(loCategory.getVersionInd()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
+            throw new VersionMismatchException("LO to be updated is not the current version");
+        }
+        
+        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, dao);
+        dao.update(loCategory);
+        return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 	}
 
 	/* (non-Javadoc)
@@ -395,6 +506,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			LoInfo loInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
+	    checkForMissingParameter(validationType, "validationType");
+	    checkForMissingParameter(loInfo, "loInfo");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -407,8 +520,35 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			LoCategoryInfo loCategoryInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
+	    checkForMissingParameter(validationType, "validationType");
+	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param parameter name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    /**
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForEmptyList(Object param, String paramName)
+            throws MissingParameterException {
+        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+            throw new MissingParameterException(paramName + " can not be an empty list");
+        }
+    }
 }
