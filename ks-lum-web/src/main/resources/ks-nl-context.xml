@@ -15,7 +15,7 @@
                 <!-- Header Contexts-->
                 <entry key="kuali.luStatementType.prereqAcademicReadiness">
                     <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.HeaderContextImpl">
-                        <property name="luDao" ref="LuDaoImpl" />
+                        <property name="luDao" ref="luDao" />
                     </bean>
                 </entry>
                 <!-- Pre-Req Contexts-->
