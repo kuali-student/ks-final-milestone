@@ -276,5 +276,5 @@
 		<xsd:attribute name="state" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
-	<xsd:element name="constraintSelector" type="constraintSelector"></xsd:element>
+	<xsd:element name="constraint" type="constraintSelector"></xsd:element>
 </xsd:schema>
