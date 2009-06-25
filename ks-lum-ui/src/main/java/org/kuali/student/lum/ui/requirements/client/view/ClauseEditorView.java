@@ -553,7 +553,7 @@ public class ClauseEditorView extends ViewComposite {
         // resets the list of reqCompWidgets to make sure it is created fresh.
         reqCompWidgets.clear();
         parentWidget.clear();
-        FlowPanel innerReqComponentTextPanel = new FlowPanel();       
+        VerticalPanel innerReqComponentTextPanel = new VerticalPanel();       
         innerReqComponentTextPanel.setStyleName("KS-Rules-FullWidth");
         final String[] tokens = reqInfoDesc.split("[<>]");
         boolean isValueWidget = true;
@@ -563,15 +563,26 @@ public class ClauseEditorView extends ViewComposite {
             isValueWidget = !isValueWidget;
             //this token is a text only
             if (isValueWidget == false) {
-                KSLabel text = new KSLabel(tokens[i]);
-                text.addStyleName("KS-Rules-FlexPanelFix");  
-                innerReqComponentTextPanel.add(text);
+                // skip. just show the fields
                 continue;
             }
             
             //TODO use ENUMs and Switch()
-            String tag = tokens[i].replaceFirst("reqCompFieldType.", "");
-            tag = tag.replaceFirst("reqCompFiledType.", "");
+            final String[] fieldTokens = tokens[i].split(";");
+            final Map<String, String> fieldProperties =
+                new HashMap<String, String>();
+            if (fieldTokens != null) {
+                for (String fieldToken : fieldTokens) {
+                    if (fieldToken == null) continue;
+                    String[] keyValuePair = fieldToken.split("=");
+                    if (keyValuePair != null && keyValuePair.length == 2) {
+                        fieldProperties.put(keyValuePair[0], keyValuePair[1]);
+                    }
+                }
+            }
+            
+            String tag = fieldProperties.get("reqCompFieldType");
+            String fieldLabel = fieldProperties.get("reqCompFieldLabel");
 
             if ((tag.equals("requiredCount")) || (tag.equals("gpa")) || (tag.equals("totalCredits"))) {
                 final KSTextBox valueWidget = new KSTextBox();
@@ -582,7 +593,15 @@ public class ClauseEditorView extends ViewComposite {
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 SimplePanel tempPanel = new SimplePanel();
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
-                tempPanel.add(valueWidget); 
+                tempPanel.add(valueWidget);
+                if (i > 1) {
+                    SimplePanel verticalSpacer = new SimplePanel();
+                    verticalSpacer.setHeight("30px");
+                    innerReqComponentTextPanel.add(verticalSpacer);
+                }
+                if (fieldLabel != null && fieldLabel.trim().length() > 0 && tokens.length > 2) {
+                    innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
+                }
                 innerReqComponentTextPanel.add(tempPanel);                
                 continue;                                
             }
@@ -619,6 +638,14 @@ public class ClauseEditorView extends ViewComposite {
                     }
                 });
                 tempPanel.add(searchDialog);
+                if (i > 1) {
+                    SimplePanel verticalSpacer = new SimplePanel();
+                    verticalSpacer.setHeight("30px");
+                    innerReqComponentTextPanel.add(verticalSpacer);
+                }
+                if (fieldLabel != null && fieldLabel.trim().length() > 0 && tokens.length > 2) {
+                    innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
+                }
                 innerReqComponentTextPanel.add(tempPanel);
                 
                 continue;                                
@@ -657,6 +684,14 @@ public class ClauseEditorView extends ViewComposite {
                     }
                 });
                 tempPanel.add(searchDialog);
+                if (i > 1) {
+                    SimplePanel verticalSpacer = new SimplePanel();
+                    verticalSpacer.setHeight("30px");
+                    innerReqComponentTextPanel.add(verticalSpacer);
+                }
+                if (fieldLabel != null && fieldLabel.trim().length() > 0 && tokens.length > 2) {
+                    innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
+                }
                 innerReqComponentTextPanel.add(tempPanel);
                 continue;                                
             }       
