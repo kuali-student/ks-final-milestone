@@ -76,12 +76,16 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     	commentText.setPlain("created Comment text");
     	commentText.setFormatted("<p>created Comment html</p>");
     	commentInfo.setCommentText(commentText);
+    	commentInfo.setEffectiveDate(new Date());
+    	commentInfo.setExpirationDate(new Date());
     	commentInfo.setType("commentType.type2");
     	CommentInfo commentInfo2 = client.addComment("REF-4", "referenceType.type1", commentInfo);
 
     	assertEquals(commentInfo.getCommentText().getPlain(), commentInfo2.getCommentText().getPlain());
        	assertEquals(commentInfo.getCommentText().getFormatted(), commentInfo2.getCommentText().getFormatted());
        	assertEquals(commentInfo.getType(), commentInfo2.getType());
+       	assertEquals(commentInfo.getEffectiveDate(), commentInfo2.getEffectiveDate());
+       	assertEquals(commentInfo.getExpirationDate(), commentInfo2.getExpirationDate());
 
     	RichTextInfo commentText2 = new RichTextInfo();
     	commentText2.setPlain("created Comment text2");
