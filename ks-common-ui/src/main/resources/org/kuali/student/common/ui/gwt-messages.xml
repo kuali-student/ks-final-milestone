@@ -12,9 +12,14 @@
    	<bean parent="enCommon" p:id="confirm"		p:value="Confirm"/>
    	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
    	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
-   	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
+   	<bean parent="enCommon" p:id="yes"			p:value="Yes"/>
+  	<bean parent="enCommon" p:id="no"			p:value="No"/>
+  	<bean parent="enCommon" p:id="add"			p:value="Add"/>  	
+  	<bean parent="enCommon" p:id="remove"		p:value="Remove"/>
+  	<bean parent="enCommon" p:id="modify"		p:value="Modify"/>
+  	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
    	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
-
+  	
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
         <property name="groupName"      value="common" />
