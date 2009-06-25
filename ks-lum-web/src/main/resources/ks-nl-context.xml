@@ -18,6 +18,11 @@
                         <property name="luDao" ref="luDao" />
                     </bean>
                 </entry>
+                <entry key="kuali.luStatementType.coreqAcademicReadiness">
+                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.HeaderContextImpl">
+                        <property name="luDao" ref="luDao" />
+                    </bean>
+                </entry>
                 <!-- Pre-Req Contexts-->
                 <entry key="kuali.reqCompType.courseList.none">
                     <ref local="courseListContext"/>
@@ -121,6 +126,7 @@
     <bean id="statementTranslator"
         class="org.kuali.student.lum.lu.naturallanguage.translators.StatementTranslator">
         <property name="luDao" ref="luDao" />
+        <property name="contextRegistry" ref="contextRegistry" />
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
         <!--property name="language" value="en" /-->
