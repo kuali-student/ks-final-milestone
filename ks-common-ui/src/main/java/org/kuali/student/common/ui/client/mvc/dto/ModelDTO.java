@@ -84,4 +84,8 @@ public class ModelDTO implements Serializable {
 	public int size() {
 		return map.size();
 	}
+	
+	public String toString(){
+	    return map.toString();
+	}
 }

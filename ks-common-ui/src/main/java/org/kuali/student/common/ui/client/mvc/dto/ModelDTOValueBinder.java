@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.HasValue;
  * @author Kuali Student Team
  */
 public class ModelDTOValueBinder {
-    public static void copyValue(Object v, ModelDTOValue m) {
+    public static void copyValueToModelDTO(Object v, ModelDTOValue m) {
         if (v != null) {
             switch (m.getType()) {
                 case STRING:
@@ -70,7 +70,7 @@ public class ModelDTOValueBinder {
     }
 
     @SuppressWarnings("unchecked")
-    public static void copyValue(ModelDTOValue m, HasValue v) {
+    public static void copyValueFromModelDTO(ModelDTOValue m, HasValue v) {
         if (m != null) {
             switch (m.getType()) {
                 case STRING:
@@ -106,6 +106,51 @@ public class ModelDTOValueBinder {
                     break;
             }
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static ModelDTOValue createModelDTOInstance(Object value, ModelDTOValue.Type modelDTOType){
+        ModelDTOValue m = null;
+        if (modelDTOType != null) {
+            switch (modelDTOType) {
+                case STRING:
+                    m = new ModelDTOValue.StringType();
+                    break;
+
+                case CHARACTER:
+                    m = new ModelDTOValue.CharacterType();
+                    break;
+
+                case INTEGER:
+                    m = new ModelDTOValue.IntegerType();
+                    break;
+
+                case LONG:
+                    m = new ModelDTOValue.LongType();
+                    break;
+
+                case FLOAT:
+                    m = new ModelDTOValue.FloatType();
+                    break;
+
+                case DOUBLE:
+                    m = new ModelDTOValue.DoubleType();
+                    break;
+
+                case BYTE:
+                    m = new ModelDTOValue.ByteType();
+                    break;
+
+                case BOOLEAN:
+                    m = new ModelDTOValue.BooleanType();
+                    break;
+            }
+        }
+        
+        copyValueToModelDTO(value, m);
+        
+        return m;
+        
     }
 
 }

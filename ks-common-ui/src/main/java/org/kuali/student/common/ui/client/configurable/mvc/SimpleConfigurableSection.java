@@ -3,19 +3,18 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
-import org.kuali.student.common.ui.client.widgets.KSRichEditor;
-import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
@@ -28,35 +27,8 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	private final Label instructionsLabel = new Label();
 	private KSFormLayoutPanel form = null;
 	private boolean loaded = false;
-	private ArrayList<FieldEntry> fields = new ArrayList<FieldEntry>();	
-	
-	//FIXME: Could use KSFormField, but it's a bit clunky for config time, although
-	// making use of another entry object that overlaps KSFormField isn't ideal either.
-	private class FieldEntry{
-        private String fieldKey;
-	    private String fieldLabel;
-	    private FieldType fieldType;
-
-       public FieldEntry(String fieldKey, String fieldLabel, FieldType fieldType) {
-            super();
-            this.fieldKey = fieldKey;
-            this.fieldLabel = fieldLabel;
-            this.fieldType = fieldType;
-        }
-
-        public String getFieldKey() {
-            return fieldKey;
-        }
-    
-        public String getFieldLabel() {
-            return fieldLabel;
-        }
-    
-        public FieldType getFieldType() {
-            return fieldType;
-        }
-	}
-	
+	private ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();	
+		
 	public SimpleConfigurableSection(Enum<?> viewEnum, String name) {	    
 		super(viewEnum, name);
 	    super.initWidget(panel);
@@ -75,14 +47,9 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	}
 
 	@Override
-	public void addField(String fieldKey, String fieldLabel) {
-	    fields.add(new FieldEntry(fieldKey, fieldLabel, FieldType.TEXTBOX));
+	public void addField(FieldDescriptor fieldDescriptor) {
+	    fields.add(fieldDescriptor);
 	}
-
-	@Override
-    public void addField(String fieldKey, String fieldLabel, FieldType fieldType) {
-        fields.add(new FieldEntry(fieldKey, fieldLabel, fieldType));
-    }
 
 	
     /**
@@ -107,13 +74,9 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	        form = new KSFormLayoutPanel();
 	        panel.add(form);
 	        for (int i=0; i < fields.size(); i++){
-	            FieldEntry field = fields.get(i);
+	            FieldDescriptor field = fields.get(i);
 	            KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-	            switch (field.getFieldType()) {
-                    case TEXTBOX: formField.setWidget(new KSTextBox()); break;
-                    case TEXTAREA: formField.setWidget(new KSTextArea()); break;
-                    case RICHTEXT: formField.setWidget(new KSRichEditor()); break;
-                }
+	            formField.setWidget(field.getFieldWidget());
 	            form.addFormField(formField);
 	        }
 	        loaded = true;
@@ -125,17 +88,24 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	}
 	
 	public void updateModel(){
-	    getController().requestModelDTO(modelUpdateCallback);
+	    Controller.findController(this).requestModelDTO(modelUpdateCallback);
 	}
 	
 	private ModelRequestCallback<ModelDTO> modelUpdateCallback = new ModelRequestCallback<ModelDTO>(){
         public void onModelReady(Model<ModelDTO> model) {
             ModelDTO modelDTO = model.get();
             for (int i=0; i < fields.size(); i++){
-                String key = ((FieldEntry)fields.get(i)).getFieldKey();
-                ModelDTOValue modelDTOValue = modelDTO.get(key);
-                ModelDTOValueBinder.copyValue(form.getFieldValue(key), modelDTOValue);
-            }        
+                FieldDescriptor field = (FieldDescriptor)fields.get(i);
+                String fieldKey = field.getFieldKey();
+                ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
+                if (modelDTOValue  != null){
+                    ModelDTOValueBinder.copyValueToModelDTO(form.getFieldValue(fieldKey), modelDTOValue);
+                } else {
+                    modelDTOValue = ModelDTOValueBinder.createModelDTOInstance(form.getFieldValue(fieldKey), field.getFieldType());
+                    modelDTO.put(fieldKey, modelDTOValue);
+                }
+            } 
+            GWT.log(modelDTO.toString(), null);
         }
 
         public void onRequestFail(Throwable cause) {
@@ -153,7 +123,7 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
             for (int i=0; i < form.getRowCount(); i++){
                 KSFormField formField = form.getFormRow(i);
                 ModelDTOValue modelDTOValue = modelDTO.get(formField.getName());
-                ModelDTOValueBinder.copyValue(modelDTOValue, (HasValue)formField.getWidget());
+                ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, (HasValue)formField.getWidget());
             }                   
         }
 
