@@ -208,6 +208,9 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="validCharsConstraint">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+		</xsd:sequence>
 		<xsd:attribute name="fields" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="separator" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
