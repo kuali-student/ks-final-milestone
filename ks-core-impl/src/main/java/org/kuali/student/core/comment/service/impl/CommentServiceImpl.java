@@ -48,6 +48,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
@@ -96,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             comment = CommentServiceAssembler.toComment(false, commentInfo, commentDao);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+            throw new InvalidParameterException(e.getMessage());
         }
 
         commentDao.create(comment);
@@ -399,8 +400,21 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        try {
+			Comment entity = commentDao.fetch(Comment.class, commentInfo.getId());
+			if (!String.valueOf(entity.getVersionInd()).equals(commentInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("ResultComponent to be updated is not the current version");
+			}
+
+			CommentServiceAssembler.toComment(entity, referenceId, referenceTypeKey, commentInfo, commentDao);
+	    	commentDao.update(entity);
+
+	        return CommentServiceAssembler.toCommentInfo(entity);
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException(e.getMessage());
+		} catch (VersionMismatchException e) {
+			throw new DataValidationErrorException(e.getMessage());
+		}
     }
 
     /**

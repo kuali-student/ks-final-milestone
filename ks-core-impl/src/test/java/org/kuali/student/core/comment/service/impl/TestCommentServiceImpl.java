@@ -68,6 +68,52 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    public void testCommentCrud() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    	CommentInfo commentInfo = new CommentInfo();
+    	RichTextInfo commentText = new RichTextInfo();
+    	commentText.setPlain("created Comment text");
+    	commentText.setFormatted("<p>created Comment html</p>");
+    	commentInfo.setCommentText(commentText);
+    	commentInfo.setType("commentType.type2");
+    	CommentInfo commentInfo2 = client.addComment("REF-4", "referenceType.type1", commentInfo);
+
+    	assertEquals(commentInfo.getCommentText().getPlain(), commentInfo2.getCommentText().getPlain());
+       	assertEquals(commentInfo.getCommentText().getFormatted(), commentInfo2.getCommentText().getFormatted());
+       	assertEquals(commentInfo.getType(), commentInfo2.getType());
+
+    	RichTextInfo commentText2 = new RichTextInfo();
+    	commentText2.setPlain("created Comment text2");
+    	commentText2.setFormatted("<p>created Comment Html2</p>");
+    	commentInfo2.setCommentText(commentText2);
+    	CommentInfo commentInfo3 = client.updateComment("REF-99", "referenceType.type1", commentInfo2);
+    	assertEquals(commentInfo2.getCommentText().getPlain(), commentInfo3.getCommentText().getPlain());
+       	assertEquals(commentInfo2.getCommentText().getFormatted(), commentInfo3.getCommentText().getFormatted());
+       	assertEquals(commentInfo2.getType(), commentInfo3.getType());
+
+       	CommentInfo commentInfo4 = client.getComment(commentInfo3.getId());
+    	assertEquals(commentInfo4.getCommentText().getPlain(), commentInfo3.getCommentText().getPlain());
+       	assertEquals(commentInfo4.getCommentText().getFormatted(), commentInfo3.getCommentText().getFormatted());
+       	assertEquals(commentInfo4.getType(), commentInfo3.getType());
+
+       	StatusInfo statusInfo = client.removeComment(commentInfo4.getId(), commentInfo.getReferenceId(), commentInfo4.getReferenceTypeKey());
+       	assertTrue(statusInfo.getSuccess());
+
+       	try {
+			statusInfo = client.removeComment(commentInfo4.getId(), commentInfo.getReferenceId(), commentInfo4.getReferenceTypeKey());
+			assertTrue(false);
+       	} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
+       	try {
+			client.getComment(commentInfo3.getId());
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+    }
+
+    @Test
     public void testValidateComment() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	CommentInfo commentInfo = new CommentInfo();
     	RichTextInfo commentText = new RichTextInfo();
