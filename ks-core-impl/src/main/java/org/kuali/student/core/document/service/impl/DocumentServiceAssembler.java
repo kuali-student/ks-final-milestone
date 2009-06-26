@@ -15,7 +15,23 @@
  */
 package org.kuali.student.core.document.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.student.core.document.dao.DocumentDao;
+import org.kuali.student.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.core.document.dto.DocumentCategoryInfo;
+import org.kuali.student.core.document.dto.DocumentInfo;
+import org.kuali.student.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.core.document.entity.Document;
+import org.kuali.student.core.document.entity.DocumentAttribute;
+import org.kuali.student.core.document.entity.DocumentCategory;
+import org.kuali.student.core.document.entity.DocumentType;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.springframework.beans.BeanUtils;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -24,6 +40,92 @@ import org.kuali.student.core.service.impl.BaseAssembler;
  *
  */
 public class DocumentServiceAssembler extends BaseAssembler {
+
+    public static RichTextInfo toRichTextInfo(RichText entity) {
+        if(entity==null){
+            return null;
+        }
+
+        RichTextInfo dto = new RichTextInfo();
+
+        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+
+        return dto;
+
+    }
+
+    public static DocumentInfo toDocumentInfo(Document entity) {
+        DocumentInfo dto = new DocumentInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "desc", "attributes", "type", "categoryList", "document" });
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setType(entity.getType().getId());
+        dto.setDocumentBinaryInfo(new DocumentBinaryInfo());
+        dto.getDocumentBinaryInfo().setBinary(entity.getDocument());
+        return dto;
+    }
+    
+    public static List<DocumentInfo> toDocumentInfos(List<Document> documents) {
+        List<DocumentInfo> list = new ArrayList<DocumentInfo>();
+        for (Document document : documents) {
+            list.add(toDocumentInfo(document));
+        }
+        return list;
+    }
+
+    public static Document toDocument(DocumentInfo dto, DocumentDao dao) throws InvalidParameterException {
+        return toDocument(new Document(), dto, dao);
+    }
+    public static Document toDocument(Document entity, DocumentInfo dto, DocumentDao dao) throws InvalidParameterException {
+        if(entity == null)
+            entity = new Document();
+        BeanUtils.copyProperties(dto, entity,
+                new String[] { "desc", "attributes", "metaInfo", "type", "id", "documentBinaryInfo" });
+        entity.setDesc(toRichText(dto.getDesc()));
+        entity.setDocument(dto.getDocumentBinaryInfo().getBinary());
+        entity.setAttributes(toGenericAttributes(DocumentAttribute.class, dto.getAttributes(), entity, dao));
+        return entity;
+    }
+
+    public static DocumentCategoryInfo toDocumentCategoryInfo(DocumentCategory entity) {
+        DocumentCategoryInfo dto = new DocumentCategoryInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "desc", "attributes", "type", "documents" });
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+//        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
+    }
+
+    public static List<DocumentCategoryInfo> toDocumentCategoryInfos(List<DocumentCategory> categories) {
+        List<DocumentCategoryInfo> list = new ArrayList<DocumentCategoryInfo>();
+        for (DocumentCategory documentCategory : categories) {
+            list.add(toDocumentCategoryInfo(documentCategory));
+        }
+        return list;
+    }
+
+    public static DocumentTypeInfo toDocumentTypeInfo(DocumentType entity) {
+        DocumentTypeInfo dto = new DocumentTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes", "document" });
+//        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
+    }
+    
+    public static List<DocumentTypeInfo> toDocumentTypeInfos(List<DocumentType> types) {
+        List<DocumentTypeInfo> list = new ArrayList<DocumentTypeInfo>();
+        for (DocumentType documentType : types) {
+            list.add(toDocumentTypeInfo(documentType));
+        }
+        return list;
+    }
 
     
 }
