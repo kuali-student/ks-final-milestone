@@ -3,11 +3,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
+    <!--<parent>
         <groupId>org.kuali.rice</groupId>
         <artifactId>rice</artifactId>
         <version>1.0.0-KS-SNAPSHOT</version>
-    </parent>
+    </parent>-->
 
     <groupId>org.kuali.student</groupId>
     <artifactId>ks-rice-standalone</artifactId>
@@ -92,6 +92,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
