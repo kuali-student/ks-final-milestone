@@ -89,14 +89,14 @@ public class DocumentCategory implements AttributeOwner<DocumentCategoryAttribut
     /**
      * @return the commentText
      */
-    public RichText getCommentText() {
+    public RichText getDesc() {
         return desc;
     }
 
     /**
      * @param commentText the commentText to set
      */
-    public void setCommentText(RichText desc) {
+    public void setDesc(RichText desc) {
         this.desc = desc;
     }
     
