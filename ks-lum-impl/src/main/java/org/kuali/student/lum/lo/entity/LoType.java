@@ -8,8 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,11 +15,10 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_LO_TYPE")
-public class LoType  extends MetaEntity implements AttributeOwner<LoTypeAttribute> {
+public class LoType extends MetaEntity implements AttributeOwner<LoTypeAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -29,9 +26,11 @@ public class LoType  extends MetaEntity implements AttributeOwner<LoTypeAttribut
 	@Column(name = "NAME")
 	private String name;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	// @ManyToOne(cascade = CascadeType.ALL)
+	// @JoinColumn(name = "RT_DESCR_ID")
+	// private RichText desc;
+	@Column(name = "DESCR")
+	private String description;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -73,18 +72,32 @@ public class LoType  extends MetaEntity implements AttributeOwner<LoTypeAttribut
 	}
 
 	/**
-	 * @param desc the desc to set
+	 * @param description the description to set
 	 */
-	public void setDesc(RichText desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
-	 * @return the desc
+	 * @return the description
 	 */
-	public RichText getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
+
+//	/**
+//	 * @param desc the desc to set
+//	 */
+//	public void setDesc(RichText desc) {
+//		this.desc = desc;
+//	}
+//
+//	/**
+//	 * @return the desc
+//	 */
+//	public RichText getDesc() {
+//		return desc;
+//	}
 
 	/**
 	 * @param effectiveDate the effectiveDate to set

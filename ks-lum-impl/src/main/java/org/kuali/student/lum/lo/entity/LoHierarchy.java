@@ -47,7 +47,7 @@ public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarch
 	private String id;
 
 	@Column(name = "NAME")
-	String name;
+	private String name;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
@@ -64,6 +64,9 @@ public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarch
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "loHierarchy")
+	private List<LoCategory> categories;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LoHierarchyAttribute> attributes;
@@ -124,6 +127,20 @@ public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarch
 		return expirationDate;
 	}
 
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(List<LoCategory> categories) {
+		this.categories = categories;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public List<LoCategory> getCategories() {
+		return categories;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
 	 */
@@ -155,5 +172,19 @@ public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarch
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 }

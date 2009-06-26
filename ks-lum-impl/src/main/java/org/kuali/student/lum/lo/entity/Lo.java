@@ -25,6 +25,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,7 +46,9 @@ import org.kuali.student.core.entity.RichText;
 @Entity
 @Table(name = "KSLU_LO")
 @NamedQueries( {
-	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT c FROM Lo c WHERE c.id IN (:idList)")
+	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)"),
+	@NamedQuery(name = "Lo.getLoCategoriesForLo", query = "SELECT c FROM LoCategory c, Lo l WHERE c.loHierarchy = l.loHierarchy AND l.id = :loId"),
+	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT l FROM Lo l, LoCategory c WHERE c.loHierarchy = l.loHierarchy AND c.id = :loCategoryId")
 })
 public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@Id
@@ -52,6 +56,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	private String id;
 
 	@Column(name = "NAME")
+	private
 	String name;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -61,6 +66,12 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@ManyToOne
 	@JoinColumn(name = "LOHIRCHY_ID")
 	private LoHierarchy loHierarchy;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "KSLU_LO_LO_HIRCHY_RELTN",
+				joinColumns = { @JoinColumn(name = "PARENT_LO_ID")},
+				inverseJoinColumns = { @JoinColumn(name = "CHILD_LO_ID")})
+	private List<Lo> childLos;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -93,6 +104,20 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 		this.id = id;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
 	public RichText getDesc() {
 		return desc;
 	}
@@ -113,6 +138,20 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	public LoHierarchy getLoHierarchy() {
 		return loHierarchy;
+	}
+
+	/**
+	 * @param childLos the childLos to set
+	 */
+	public void setChildLos(List<Lo> childLos) {
+		this.childLos = childLos;
+	}
+
+	/**
+	 * @return the childLos
+	 */
+	public List<Lo> getChildLos() {
+		return childLos;
 	}
 
 	public Date getEffectiveDate() {

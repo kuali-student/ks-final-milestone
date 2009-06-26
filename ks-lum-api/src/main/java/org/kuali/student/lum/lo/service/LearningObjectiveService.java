@@ -21,7 +21,9 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.enumerable.service.EnumerableService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -33,6 +35,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -50,7 +53,7 @@ import org.kuali.student.lum.lo.dto.LoTypeInfo;
  */
 @WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/lum/lo") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LearningObjectiveService { 
+public interface LearningObjectiveService extends DictionaryService, EnumerableService, SearchService { 
     /** 
      * Retrieves the list of learning objective hierarchies known by this service, including the root node for each hierarchy.
      * @return list of learning objective hierarchy information

@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -49,7 +48,8 @@ public class LoTypeInfo implements Serializable, Idable, HasAttributes {
     private String name;
 
     @XmlElement
-    private RichTextInfo desc;
+    // private RichTextInfo desc;
+    private String desc;
 
     @XmlElement
     private Date effectiveDate;
@@ -78,11 +78,11 @@ public class LoTypeInfo implements Serializable, Idable, HasAttributes {
     /**
      * Narrative description of the learning objective type
      */
-    public RichTextInfo getDesc() {
+    public /* RichTextInfo */ String getDesc() {
         return desc;
     }
 
-    public void setDesc(RichTextInfo desc) {
+    public void setDesc(/* RichTextInfo */ String desc) {
         this.desc = desc;
     }
 

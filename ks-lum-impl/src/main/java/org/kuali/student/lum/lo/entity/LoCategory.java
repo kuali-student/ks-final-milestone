@@ -47,6 +47,7 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	private String id;
 
 	@Column(name = "NAME")
+	private
 	String name;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -79,6 +80,20 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
 	public RichText getDesc() {

@@ -18,6 +18,7 @@ import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao{
+	
 	@PersistenceContext(unitName = "Lu")
 	@Override
 	public void setEm(EntityManager em) {

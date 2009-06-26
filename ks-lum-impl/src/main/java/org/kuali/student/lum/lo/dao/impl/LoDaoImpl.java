@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.student.lum.lu.dao.impl;
+package org.kuali.student.lum.lo.dao.impl;
 
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.lum.lo.dao.LoDao;
@@ -28,6 +32,11 @@ import org.kuali.student.lum.lo.entity.LoCategory;
  *
  */
 public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
+	@PersistenceContext(unitName = "Lo")
+	@Override
+	public void setEm(EntityManager em) {
+		super.setEm(em);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.dao.LoDao#addChildLoToLo(java.lang.String, java.lang.String)
@@ -88,8 +97,11 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 */
 	@Override
 	public List<Lo> getLoByIdList(List<String> loIds) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createNamedQuery("Lo.findLosByIdList");
+		query.setParameter("idList", loIds);
+		@SuppressWarnings("unchecked")
+		List<Lo> resultList = query.getResultList();
+		return resultList;
 	}
 
 	/* (non-Javadoc)
@@ -97,8 +109,11 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 */
 	@Override
 	public List<LoCategory> getLoCategoriesForLo(String loId) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createNamedQuery("Lo.getLoCategoriesForLo");
+		query.setParameter("loId", loId);
+		@SuppressWarnings("unchecked")
+		List<LoCategory> resultList = query.getResultList();
+		return resultList;
 	}
 
 	/* (non-Javadoc)
@@ -133,8 +148,11 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 */
 	@Override
 	public List<Lo> getLosByLoCategory(String loCategoryId) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createNamedQuery("Lo.getLosByLoCategory");
+		query.setParameter("loCategoryId", loCategoryId);
+		@SuppressWarnings("unchecked")
+		List<Lo> resultList = query.getResultList();
+		return resultList;
 	}
 
 	/* (non-Javadoc)

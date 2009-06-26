@@ -16,11 +16,15 @@
 
 package org.kuali.student.lum.lo.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -32,6 +36,12 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -53,6 +63,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     private LoDao dao;
+    private SearchManager searchManager;
+    private DictionaryService dictionaryServiceDelegate;
 
 	public LoDao getDao() {
         return dao;
@@ -60,6 +72,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
     public void setDao(LoDao dao) {
         this.dao = dao;
+    }
+
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
     /* (non-Javadoc)
@@ -498,6 +518,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 	}
 
+	//
+	// TODO - copy/adapt these from LuServiceImpl
+	//
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#validateLo(java.lang.String, org.kuali.student.lum.lo.dto.LoInfo)
 	 */
@@ -551,4 +575,153 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
+	 */
+	@Override
+	public ObjectStructure getObjectStructure(String objectTypeKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
+	 */
+	@Override
+	public List<String> getObjectTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean validateObject(String objectTypeKey, String stateKey,
+			String info) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean validateStructureData(String objectTypeKey, String stateKey,
+			String info) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.enumerable.service.EnumerableService#getEnumeration(java.lang.String, java.lang.String, java.lang.String, java.util.Date)
+	 */
+	@Override
+	public List<EnumeratedValue> getEnumeration(String enumerationKey,
+			String enumContextKey, String contextValue, Date contextDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+	 */
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+	 */
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+	 */
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+	 */
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes()
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+	 */
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+	 */
+	@Override
+	public List<SearchTypeInfo> getSearchTypes()
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+	 */
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+	 */
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
+	 */
+	@Override
+	public List<Result> searchForResults(String searchTypeKey,
+			List<QueryParamValue> queryParamValues)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
