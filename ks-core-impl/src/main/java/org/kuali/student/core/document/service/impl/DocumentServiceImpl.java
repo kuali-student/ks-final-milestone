@@ -15,16 +15,20 @@
  */
 package org.kuali.student.core.document.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentCriteriaInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.core.document.entity.Document;
+import org.kuali.student.core.document.entity.DocumentCategory;
+import org.kuali.student.core.document.entity.DocumentType;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -47,80 +51,142 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/documentService")
 @Transactional(rollbackFor={Throwable.class})
 public class DocumentServiceImpl implements DocumentService {
-    private CommentDao commentDao;
+    private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
     private SearchManager searchManager;
     @Override
     public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentId, "documentId");
+        checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(dao.addDocumentCategoryToDocument(documentId, documentCategoryKey));
+        
+        return statusInfo;
     }
     @Override
-    public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        checkForMissingParameter(documentTypeKey, "documentTypeKey");
+        checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
+        checkForMissingParameter(documentInfo, "documentInfo");
+        
+        DocumentCategory category = dao.fetch(DocumentCategory.class, documentCategoryKey);
+        DocumentType type = dao.fetch(DocumentType.class, documentTypeKey);
+        
+        Document doc = DocumentServiceAssembler.toDocument(documentInfo, dao);
+        doc.setType(type);
+        doc.setCategoryList(Arrays.asList(category));
+        dao.create(doc);
+        
+        return DocumentServiceAssembler.toDocumentInfo(doc);
     }
     @Override
     public StatusInfo deleteDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentId, "documentId");
+        dao.delete(Document.class, documentId);
+        return new StatusInfo();
     }
     @Override
     public List<DocumentCategoryInfo> getCategoriesByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentId, "documentId");
+        List<DocumentCategory> categories = dao.getCategoriesByDocument(documentId);
+        return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
     @Override
     public DocumentInfo getDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentId, "documentId");
+        return DocumentServiceAssembler.toDocumentInfo(dao.fetch(Document.class, documentId));
     }
     @Override
     public List<DocumentCategoryInfo> getDocumentCategories() throws OperationFailedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<DocumentCategory> categories = dao.find(DocumentCategory.class);
+        return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
     @Override
     public DocumentCategoryInfo getDocumentCategory(String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
+        return DocumentServiceAssembler.toDocumentCategoryInfo(dao.fetch(DocumentCategory.class, documentCategoryKey));
     }
     @Override
     public DocumentTypeInfo getDocumentType(String documentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentTypeKey, "documentTypeKey");
+        return DocumentServiceAssembler.toDocumentTypeInfo(dao.fetch(DocumentType.class, documentTypeKey));
     }
     @Override
     public List<DocumentTypeInfo> getDocumentTypes() throws OperationFailedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return DocumentServiceAssembler.toDocumentTypeInfos(dao.find(DocumentType.class));
     }
     @Override
     public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentIdList, "documentIdList");
+        checkForEmptyList(documentIdList, "documentIdList");
+        List<Document> documents = dao.getDocumentsByIdList(documentIdList);
+        return DocumentServiceAssembler.toDocumentInfos(documents);
     }
     @Override
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentId, "documentId");
+        checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(dao.removeDocumentCategoryFromDocument(documentId, documentCategoryKey));
+        
+        return statusInfo;
     }
     @Override
     public List<String> searchForDocuments(DocumentCriteriaInfo documentCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(documentCriteria, "documentCriteria");
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(documentId, "documentId");
+        checkForMissingParameter(documentInfo, "documentInfo");
+        
+        Document document = dao.fetch(Document.class, documentId);
+        
+        if (!String.valueOf(document.getVersionInd()).equals(documentInfo.getMetaInfo().getVersionInd())){
+            throw new VersionMismatchException("Document to be updated is not the current version");
+        }
+        
+        document = DocumentServiceAssembler.toDocument(document, documentInfo, dao);
+        dao.update(document);
+        
+        return DocumentServiceAssembler.toDocumentInfo(document);
     }
     @Override
     public List<ValidationResult> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(documentInfo, "documentInfo");
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
    
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param parameter name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
 
+    /**
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForEmptyList(Object param, String paramName)
+            throws MissingParameterException {
+        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+            throw new MissingParameterException(paramName + " can not be an empty list");
+        }
+    }
 }
