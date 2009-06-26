@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-newmodel-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/dictionary-newmodel-extension https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-newmodel-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	<dict:objectStructure key="sdfsdf" id="asdasd">
+		<dict:desc></dict:desc>
+		<dict:type key="sd">
+			<dict:state key="dfdf">
+				<dict:field key="sdfsd">
+					<dict:fieldDescriptor>
+						<dict:name>asdf</dict:name>
+						<dict:desc>asdfasdf</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:selector>true</dict:selector>
+					<dict:constraintDescriptor key="sdfsfd">
+						<dict:constraint key="asd">
+							<dict:case>
+								<dict:when>
+									<dict:constraint key="sasd">
+										<dict:require field="foo" />
+									</dict:constraint>
+								</dict:when>
+							</dict:case>
+						</dict:constraint>
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+</beans>
