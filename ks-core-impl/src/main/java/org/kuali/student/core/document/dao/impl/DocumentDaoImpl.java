@@ -15,11 +15,15 @@
  */
 package org.kuali.student.core.document.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.document.dao.DocumentDao;
+import org.kuali.student.core.document.entity.Document;
+import org.kuali.student.core.document.entity.DocumentCategory;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -32,6 +36,30 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
     @Override
     public void setEm(EntityManager em) {
         super.setEm(em);
+    }
+
+    @Override
+    public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey) {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<DocumentCategory> getCategoriesByDocument(String documentId) {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<Document> getDocumentsByIdList(List<String> documentIdList) {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) {
+        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 
 
