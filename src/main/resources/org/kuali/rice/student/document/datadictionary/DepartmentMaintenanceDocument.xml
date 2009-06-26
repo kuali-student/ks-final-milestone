@@ -36,6 +36,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="departmentDescription" p:required="true"/>
       </list>
     </property>
+    <property name="allowsNewOrCopy" value="true"/>
   </bean>
   
   <!-- workflow attributes -->

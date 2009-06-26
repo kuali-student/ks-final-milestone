@@ -40,6 +40,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="title" p:required="true"/>
       </list>
     </property>
+    <property name="allowsNewOrCopy" value="true"/>
   </bean>
 <!--
   <bean id="LearningUnitMaintenanceDocument-Departments" parent="LearningUnitMaintenanceDocument-Departments-parentBean"/>
