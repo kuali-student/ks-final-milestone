@@ -97,19 +97,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
 
     @Override
     protected void doParse(Element element, ParserContext pc, BeanDefinitionBuilder builder) {
-    	if("constraint".equals(element.getLocalName())){
-    		int i=0;
-    		i++;
-    	}
-    	if("when".equals(element.getLocalName())){
-    		int i=0;
-    		i++;
-    	}
-    	if("case".equals(element.getLocalName())){
-    		int i=0;
-    		i++;
-    	}
-    	
+  	
     	
     	if(element.hasAttribute("key")&&!"objectStructure".equals(element.getLocalName())){
             builder.addPropertyValue("key", element.getAttribute("key"));
