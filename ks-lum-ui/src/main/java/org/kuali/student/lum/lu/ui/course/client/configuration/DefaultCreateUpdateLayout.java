@@ -61,6 +61,8 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 	public enum SaveTypes{
 	    CREATE, WF_CREATE, SECTION_SAVE
 	}
+	
+	/*
     YesNoGroup yesNoGroup = new YesNoGroup(new Callback<YesNoEnum>(){
         @Override
         public void exec(YesNoEnum result) {
@@ -73,6 +75,8 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
           }
         }
     });
+    */
+	
 	public DefaultCreateUpdateLayout() {
 		super.initWidget(panel);
 		panel.add(menuPanel);
@@ -83,17 +87,17 @@ public class DefaultCreateUpdateLayout<T extends Idable> extends ConfigurableLay
 		panel.add(vPanel);
 		
         
-//      startSectionButtons.addCancelHandler(new ClickHandler(){
-  //          public void onClick(ClickEvent event) {
-    //            startSectionDialog.hide();
-      //      }         
-//      });
-    //  startSectionButtons.addSaveHandler(new SaveHandler(){
-      //      public void onSave(SaveEvent saveEvent) {                
+		startSectionButtons.addCancelHandler(new ClickHandler(){
+		    public void onClick(ClickEvent event) {
+		        startSectionDialog.hide();
+		    }         
+		});
+		startSectionButtons.addSaveHandler(new SaveHandler(){
+		    public void onSave(SaveEvent saveEvent) {                
                 //TODO: Update model & show first section in view
-        //        startSectionDialog.hide();
-          //  }
-//        });
+		        startSectionDialog.hide();
+		    }
+		});
 	}
 	
 
