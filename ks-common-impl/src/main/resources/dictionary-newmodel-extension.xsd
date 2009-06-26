@@ -5,7 +5,8 @@
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"
-		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" />
+		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" 
+		/>
 
 	<xsd:complexType name="fieldSelector">
 		<xsd:choice minOccurs="1" maxOccurs="1">
@@ -17,12 +18,12 @@
 					maxOccurs="1" minOccurs="0">
 				</xsd:element>
                 <xsd:element name="dynamic" type="xsd:boolean" minOccurs="0" maxOccurs="1"></xsd:element>
-                <xsd:element name="objectStructure"
-					type="objectStructure" minOccurs="0" maxOccurs="1">
-				</xsd:element>
-				<xsd:element name="constraintDescriptor"
+                <xsd:element name="constraintDescriptor"
 					type="constraintDescriptor" minOccurs="0" maxOccurs="1">
 				</xsd:element>
+                <xsd:element name="objectStructure"
+					type="objectStructure" minOccurs="0" maxOccurs="1">
+				</xsd:element>				
 			</xsd:sequence>
 			<xsd:element ref="beans:ref" />
 		</xsd:choice>
