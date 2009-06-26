@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.server.mvc.dto;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class DefaultBeanMapper implements BeanMapper {
             try {
                 result = Class.forName(value.getClassName()).newInstance();
                 
-                BeanInfo info = Introspector.getBeanInfo(value.getClass());
+                BeanInfo info = Introspector.getBeanInfo(result.getClass());
                 PropertyDescriptor[] properties = info.getPropertyDescriptors();
                 
                 for (PropertyDescriptor pd : properties) {
@@ -124,8 +125,9 @@ public class DefaultBeanMapper implements BeanMapper {
                     if (value.keySet().contains(propKey)) {
                         PropertyMapping pm = getPropertyMapping(propKey, defaultPropertyMappingInstance);
                         Object propValue = pm.fromModelDTOValue(value.get(propKey), context);
-                        pd.getWriteMethod().invoke(result, new Object[] {propValue});
-                        
+                        if(pd.getWriteMethod() != null){
+                            pd.getWriteMethod().invoke(result, new Object[] {propValue});    
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -200,13 +202,16 @@ public class DefaultBeanMapper implements BeanMapper {
                         break;
 
                     case MAP:
+                        System.out.println("here");
+                        System.out.println((((MapType)value).get()));
                         result = convertMapFromDTO(((MapType)value).get(), context);
+                        System.out.println(result);
+                        
                         break;
 
                     case MODELDTO:
                         result = context.fromModelDTO(((ModelDTOType)value).get());
                         break;
-                        
                 }
             }
             
@@ -220,6 +225,10 @@ public class DefaultBeanMapper implements BeanMapper {
         @Override
         public ModelDTOValue toModelDTOValue(Object source, MapContext context) throws BeanMappingException {
             ModelDTOValue result = null;
+            
+           // System.out.println("source is:"+ source.getClass());
+            
+            
             if (source != null) {
                 if (source instanceof String) {
                     result = new StringType();
@@ -250,10 +259,22 @@ public class DefaultBeanMapper implements BeanMapper {
                     ((DateType)result).set((Date) source);
                 } else if  (source instanceof List) {
                     result = convertDTOFromList(source, context);
-                } else if  (source instanceof Map) {
+                } else if  (source instanceof HashMap) {
+                    System.out.println(source);
                     result = convertDTOFromMap(source, context);
-                } else if  (source instanceof ModelDTO) {
+                    System.out.println("toModelDTOValue:" +result);
+                    System.out.println("toModelDTOValue:" +((MapType)result).get());
+                    
+                    
+                }else if(source.getClass().isArray()){
+                    //System.out.println("skipping array");
+                }else if(source.getClass().isAnnotation()){
+                    //System.out.println("skipping anno");
+                }else if(source instanceof Class){
+                    //System.out.println("skipping anno");
+                } else {
                     result = new ModelDTOType();
+                    
                     ((ModelDTOType)result).set(context.fromBean(source));
                 }
             }
@@ -308,7 +329,7 @@ public class DefaultBeanMapper implements BeanMapper {
         @SuppressWarnings("unchecked")
         private MapType convertDTOFromMap(Object value, MapContext context) throws BeanMappingException {
             MapType result = null;
-            
+          
             if (value != null) {
                 Map inputMap = (Map) value;
                 result = new MapType();
@@ -316,8 +337,9 @@ public class DefaultBeanMapper implements BeanMapper {
                 for (Object key : inputMap.keySet()) {
                     map.put((String) key, toModelDTOValue(inputMap.get(key), context));
                 }
+                result.set(map);
             }
-            
+          
             return result;
         }
 
