@@ -15,8 +15,12 @@
  */
 package org.kuali.student.core.document.dao;
 
+import java.util.List;
+
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.core.document.entity.Document;
+import org.kuali.student.core.document.entity.DocumentCategory;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -25,5 +29,13 @@ import org.kuali.student.core.dao.SearchableDao;
  *
  */
 public interface DocumentDao extends CrudDao, SearchableDao {
+
+    public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey);
+
+    public List<DocumentCategory> getCategoriesByDocument(String documentId);
+
+    public List<Document> getDocumentsByIdList(List<String> documentIdList);
+
+    public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey);
 
 }
