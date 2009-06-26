@@ -60,9 +60,15 @@ public class DocumentServiceImpl implements DocumentService {
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(dao.addDocumentCategoryToDocument(documentId, documentCategoryKey));
+        DocumentCategory category = dao.fetch(DocumentCategory.class, documentCategoryKey);
+        Document doc = dao.fetch(Document.class, documentId);
+        List<DocumentCategory> categoryList = doc.getCategoryList();
+        categoryList.add(category);
+        doc.setCategoryList(categoryList);
+        dao.update(doc);
+//        statusInfo.setSuccess(dao.addDocumentCategoryToDocument(documentId, documentCategoryKey));
         
-        return statusInfo;
+        return new StatusInfo();
     }
     @Override
     public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {

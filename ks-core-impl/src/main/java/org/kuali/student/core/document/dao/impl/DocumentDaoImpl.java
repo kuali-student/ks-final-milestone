@@ -40,7 +40,8 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
 
     @Override
     public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey) {
-        // TODO ddean - THIS METHOD NEEDS JAVADOCS
+       
+        
         return null;
     }
 
