@@ -73,7 +73,10 @@ public class Field implements Serializable{
     @XmlElement
     protected boolean selector;
     
-
+    @XmlElement
+    protected boolean dyncamic;
+    
+    
     /**
      * Gets the value of the fieldDescriptor property.
      * 
@@ -142,6 +145,48 @@ public class Field implements Serializable{
 	 */
 	public void setConstraintDescriptor(ConstraintDescriptor constraintDescriptor) {
 		this.constraintDescriptor = constraintDescriptor;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the objectStructure
+	 */
+	public ObjectStructure getObjectStructure() {
+		return objectStructure;
+	}
+
+	/**
+	 * @param objectStructure the objectStructure to set
+	 */
+	public void setObjectStructure(ObjectStructure objectStructure) {
+		this.objectStructure = objectStructure;
+	}
+
+	/**
+	 * @return the dyncamic
+	 */
+	public boolean isDyncamic() {
+		return dyncamic;
+	}
+
+	/**
+	 * @param dyncamic the dyncamic to set
+	 */
+	public void setDyncamic(boolean dyncamic) {
+		this.dyncamic = dyncamic;
 	}
 
 }
