@@ -87,7 +87,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
 		if (element.getLocalName().equals("when")) {
 			return WhenConstraint.class;
 		}
-		if (element.getLocalName().equals("validCharsConstraint")) {
+		if (element.getLocalName().equals("validChars")) {
 			return ValidCharsConstraint.class;
 		}
     	
@@ -98,6 +98,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
     @Override
     protected void doParse(Element element, ParserContext pc, BeanDefinitionBuilder builder) {
   	
+
     	
     	if(element.hasAttribute("key")&&!"objectStructure".equals(element.getLocalName())){
             builder.addPropertyValue("key", element.getAttribute("key"));
@@ -107,7 +108,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
 			 builder.addPropertyValue("type", element.getAttribute("type"));
 		}
 
-        if("state".equals(element.getLocalName())){
+		if("state".equals(element.getLocalName())){
             List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
             if(refList!=null&&!refList.isEmpty()){
             	builder.addPropertyValue("field",refList);
@@ -239,6 +240,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
         	   "typeStateCase".equals(localName)||
         	   "typeStateWhen".equals(localName)||
         	   "lookup".equals(localName)||
+        	   "lookupKey".equals(localName)||
         	   "occurs".equals(localName)||
         	   "require".equals(localName);
     }
