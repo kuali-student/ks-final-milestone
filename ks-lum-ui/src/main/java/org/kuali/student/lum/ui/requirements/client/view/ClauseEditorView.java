@@ -589,11 +589,11 @@ public class ClauseEditorView extends ViewComposite {
             String tag = fieldProperties.get("reqCompFieldType");
             String fieldLabel = fieldProperties.get("reqCompFieldLabel");
 
-            if ((tag.equals("requiredCount")) || (tag.equals("gpa")) || (tag.equals("totalCredits"))) {
+            if ((tag.equals("reqCompFieldType.requiredCount")) || (tag.equals("reqCompFieldType.gpa")) || (tag.equals("reqCompFieldType.totalCredits"))) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
-                valueWidget.setName(tokens[i]);
-                valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
+                valueWidget.setName(tag);
+                valueWidget.setText(getSpecificFieldValue(fields, tag));
                 valueWidget.setWidth("50px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 SimplePanel tempPanel = new SimplePanel();
@@ -611,11 +611,11 @@ public class ClauseEditorView extends ViewComposite {
                 continue;                                
             }
             
-            if (tag.equals("clu")) {
+            if (tag.equals("reqCompFieldType.clu")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
-                valueWidget.setName(tokens[i]);
-                valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));
+                valueWidget.setName(tag);
+                valueWidget.setText(getSpecificFieldValue(fields, tag));
                 valueWidget.setWidth("100px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 VerticalPanel tempPanel = new VerticalPanel();
@@ -656,12 +656,12 @@ public class ClauseEditorView extends ViewComposite {
                 continue;                                
             }            
             
-            if (tag.equals("cluSet")) {
+            if (tag.equals("reqCompFieldType.cluSet")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
-                valueWidget.setName(tokens[i]);
-                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tokens[i]);
-                valueWidget.setText(getSpecificFieldValue(fields, tokens[i]));             
+                valueWidget.setName(tag);
+                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tag);
+                valueWidget.setText(getSpecificFieldValue(fields, tag));             
                 valueWidget.setWidth("250px");                           
                 valueWidget.setStyleName("KS-Textbox-Fix"); 
                 valueWidget.addStyleName("KS-Rules-FlexPanelFix");
