@@ -150,8 +150,9 @@ public interface DocumentService {
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DoesNotExistException documentCategory or documentType don't exist
 	 */
-    public DocumentInfo createDocument(@WebParam(name="documentTypeKey")String documentTypeKey, @WebParam(name="documentCategoryKey")String documentCategoryKey, @WebParam(name="documentInfo")DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public DocumentInfo createDocument(@WebParam(name="documentTypeKey")String documentTypeKey, @WebParam(name="documentCategoryKey")String documentCategoryKey, @WebParam(name="documentInfo")DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /** 
      * Updates an existing document.
