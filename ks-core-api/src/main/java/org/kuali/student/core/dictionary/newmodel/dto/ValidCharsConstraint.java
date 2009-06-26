@@ -13,6 +13,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 
 
@@ -27,6 +28,9 @@ public class ValidCharsConstraint implements Serializable{
     @XmlAttribute
     protected String separator;
 
+    @XmlElement
+    protected String value;
+    
 	/**
 	 * @return the fields
 	 */
@@ -53,5 +57,19 @@ public class ValidCharsConstraint implements Serializable{
 	 */
 	public void setSeparator(String separator) {
 		this.separator = separator;
-	}    
+	}
+
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}    	
 }

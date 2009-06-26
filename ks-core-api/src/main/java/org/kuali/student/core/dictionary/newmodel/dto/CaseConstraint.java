@@ -1,6 +1,7 @@
 package org.kuali.student.core.dictionary.newmodel.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +15,7 @@ public class CaseConstraint implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "when")
-    protected TypeStateWhenConstraint whenConstraint;
+    protected List<WhenConstraint> whenConstraint;
 
     @XmlAttribute
     protected String field;
@@ -22,17 +23,46 @@ public class CaseConstraint implements Serializable {
     @XmlAttribute
     protected String operator;
     
+
 	/**
 	 * @return the whenConstraint
 	 */
-	public TypeStateWhenConstraint getWhenConstraint() {
+	public List<WhenConstraint> getWhenConstraint() {
 		return whenConstraint;
 	}
 
 	/**
 	 * @param whenConstraint the whenConstraint to set
 	 */
-	public void setWhenConstraint(TypeStateWhenConstraint whenConstraint) {
+	public void setWhenConstraint(List<WhenConstraint> whenConstraint) {
 		this.whenConstraint = whenConstraint;
 	}
+
+	/**
+	 * @return the field
+	 */
+	public String getField() {
+		return field;
+	}
+
+	/**
+	 * @param field the field to set
+	 */
+	public void setField(String field) {
+		this.field = field;
+	}
+
+	/**
+	 * @return the operator
+	 */
+	public String getOperator() {
+		return operator;
+	}
+
+	/**
+	 * @param operator the operator to set
+	 */
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}	
 }

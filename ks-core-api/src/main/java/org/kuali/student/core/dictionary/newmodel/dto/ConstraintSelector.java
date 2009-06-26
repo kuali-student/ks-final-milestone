@@ -40,7 +40,7 @@ public class ConstraintSelector implements Serializable {
     protected Integer minLength;
     
     @XmlElement
-    protected Integer maxLength;
+    protected String maxLength;
     
     @XmlElement(name="validChars")
     protected ValidCharsConstraint validChars;
@@ -111,14 +111,14 @@ public class ConstraintSelector implements Serializable {
 	/**
 	 * @return the maxLength
 	 */
-	public Integer getMaxLength() {
+	public String getMaxLength() {
 		return maxLength;
 	}
 
 	/**
 	 * @param maxLength the maxLength to set
 	 */
-	public void setMaxLength(Integer maxLength) {
+	public void setMaxLength(String maxLength) {
 		this.maxLength = maxLength;
 	}
 
