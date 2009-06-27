@@ -1797,9 +1797,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		ResultCell resultCell = resultCells.get(0);
 		assertEquals("lu.resultColumn.cluId", resultCell.getKey());
-		assertEquals("CLU-1", resultCell.getValue());
+		assertEquals("7bd82886-a389-4fd0-b349-1e649c20fd08", resultCell.getValue());
 		resultCell = resultCells.get(1);
 		assertEquals("lu.resultColumn.cluOfficialIdentifier.longName", resultCell.getKey());
-		assertEquals("Long Name", resultCell.getValue());
+		assertEquals("Advanced Applied Linear Algebra", resultCell.getValue());
 	}
 }
