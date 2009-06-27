@@ -63,8 +63,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private SimpleWorkflowUtility workflowUtilityService;
     private OrganizationService orgService;
      
-    private String simpleDocServiceAddress="http://localhost:8081/kr-dev/remoting/simpleDocumentActionsService";
-    private String workflowUtilityServiceAddress="http://localhost:8081/kr-dev/remoting/WorkflowUtilityServiceSOAP";
+    private String simpleDocServiceAddress="http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService";
+    private String workflowUtilityServiceAddress="http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP";
     
     private Map<String, ProposalInfo> getProposalInfoMap() {
         Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");

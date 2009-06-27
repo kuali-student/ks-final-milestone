@@ -54,7 +54,8 @@
 						org.type.id = :org_queryParam_orgType</value>
 				</entry>
                 <entry key="lu.search.clus">
-                    <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu</value>
+                    <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu
+                        ORDER BY clu.officialIdentifier.longName</value>
                 </entry>
             </map>
 		</property>

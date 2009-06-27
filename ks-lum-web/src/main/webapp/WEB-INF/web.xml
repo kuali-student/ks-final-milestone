@@ -18,7 +18,7 @@
 
 	<servlet-mapping>
 		<servlet-name>CXF</servlet-name>
-		<url-pattern>/LuService/*</url-pattern>
+		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

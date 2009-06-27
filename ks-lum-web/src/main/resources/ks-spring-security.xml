@@ -12,8 +12,7 @@
 	<http entry-point-ref="casProcessingFilterEntryPoint"> -->
     <http auto-config="true">
     	<intercept-url pattern="/logout.html*" filters="none"/>
-    	<intercept-url pattern="/Service/*" filters="none"/>
-    	<intercept-url pattern="/LuService/*" filters="none"/>
+    	<intercept-url pattern="/services/*" filters="none"/>
         <intercept-url pattern="/**" access="ROLE_KS_USER"/>
         <logout/>
     </http>
