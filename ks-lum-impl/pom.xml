@@ -56,12 +56,6 @@
 			<artifactId>ks-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-api</artifactId>
-			<version>0.9.4-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
 
 
 		<dependency>
