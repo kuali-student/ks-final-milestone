@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.kuali.rice</groupId>
         <artifactId>rice</artifactId>
-        <version>1.0.0-KS-SNAPSHOT</version>
+        <version>1.0.0-KS-0625</version>
     </parent>
 
     <groupId>org.kuali.student</groupId>
@@ -32,7 +32,7 @@
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.0-beta-1</version>
                 <configuration>
-                    <path>/kr-dev</path>
+                    <path>/ks-rice-dev</path>
                     <port>8081</port>
                 </configuration>
             </plugin>
@@ -48,6 +48,13 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>kuali.snapshot</id>
+            <url>http://archiva.kuali.umd.edu/repository/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>kuali.snapshot</id>
             <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
@@ -66,14 +73,14 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-web</artifactId>
-            <version>1.0.0-KS-SNAPSHOT</version>
+            <version>1.0.0-KS-0625</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <version>1.0.0-KS-SNAPSHOT</version>
+            <version>1.0.0-KS-0625</version>
             <exclusions>
                 <exclusion>
                     <groupId>htmlunit</groupId>
@@ -137,7 +144,7 @@
                 <dependency>
                     <groupId>org.kuali.rice</groupId>
                     <artifactId>rice-impl</artifactId>
-                    <version>1.0.0-KS-SNAPSHOT</version>
+                    <version>1.0.0-KS-0625</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.springframework</groupId>
