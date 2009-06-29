@@ -3,12 +3,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.kuali.rice</groupId>
-        <artifactId>rice</artifactId>
-        <version>1.0.0-KS-0625</version>
-    </parent>
-
     <groupId>org.kuali.student</groupId>
     <artifactId>ks-rice-standalone</artifactId>
     <version>0.0.1-SNAPSHOT</version>
