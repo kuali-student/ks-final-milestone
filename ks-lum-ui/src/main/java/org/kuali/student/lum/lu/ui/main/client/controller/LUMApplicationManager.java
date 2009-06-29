@@ -48,7 +48,6 @@ public class LUMApplicationManager extends Controller{
     
     public LUMApplicationManager(){
         super();
-        loadDictionary();
         history = new KSHistory(this);
         super.initWidget(viewPanel);
     }
@@ -158,55 +157,6 @@ public class LUMApplicationManager extends Controller{
     public Class<? extends Enum<?>> getViewsEnum() {
         return LUMViews.class;
     }        
-
-    private void loadDictionary() {
-        /*
-        //  If msg load OK, load proposalInfo structure
-        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_PROPOSAL_INFO, new AsyncCallback<ObjectStructure>(){
-            public void onFailure(Throwable caught) {
-                throw new RuntimeException("Unable to load proposalInfo object structure", caught);                
-            }
-
-            @Override
-            public void onSuccess(ObjectStructure result) {
-                
-                LUDictionaryManager.getInstance().loadStructure(result);
-
-                //  If proposal Info structure load OK, load cluInfo structure                      
-                luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_INFO, new AsyncCallback<ObjectStructure>(){
-                    public void onFailure(Throwable caught) {
-                        throw new RuntimeException("Unable to load cluInfo object structure", caught);                
-                    }
-
-                    @Override
-                    public void onSuccess(ObjectStructure result) {
-                        LUDictionaryManager.getInstance().loadStructure(result);
-                        
-                        //  If proposal Info structure load OK, load cluInfo structure                      
-                        luRpcServiceAsync.getObjectStructure(LUDictionaryManager.STRUCTURE_CLU_ID_INFO, new AsyncCallback<ObjectStructure>(){
-                            public void onFailure(Throwable caught) {
-                                throw new RuntimeException("Unable to load cluIdentifierInfo object structure", caught);                
-                            }
-
-                            @Override
-                            public void onSuccess(ObjectStructure result) {
-                                LUDictionaryManager.getInstance().loadStructure(result);
-
-                            }
-                        }
-                        );
-
-
-                    }
-                }
-                );
-
-
-            }
-        }
-        );
-         */
-    }
 
     public void setCluId(String id){
        // this.courseView.setId(id);
