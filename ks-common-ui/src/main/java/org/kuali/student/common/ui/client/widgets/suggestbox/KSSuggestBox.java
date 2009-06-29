@@ -53,7 +53,7 @@ public class KSSuggestBox extends SuggestBox{
     public String getSelectedId() {
         String id = null;
         if(currentSuggestion != null){
-            currentSuggestion.getId();
+            id = currentSuggestion.getId();
         }
         return id;
     }
