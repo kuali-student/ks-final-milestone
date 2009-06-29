@@ -156,7 +156,7 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
         return document;
     }
     
-    public void setDocument(String Document){
+    public void setDocument(String document){
         this.document=document;
     }
 

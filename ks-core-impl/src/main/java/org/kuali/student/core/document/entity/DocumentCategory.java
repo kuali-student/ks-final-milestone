@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -25,7 +27,8 @@ import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.Type;
 @Entity
 @Table(name = "KSDO_DOCUMENT_CATEGORY")
-
+@NamedQueries( {
+        @NamedQuery(name = "DocumentCategory.getCategories", query = "SELECT  category FROM DocumentCategory category JOIN category.documents doc WHERE doc.id=:documentId")})
 public class DocumentCategory implements AttributeOwner<DocumentCategoryAttribute> {
     
     @Id

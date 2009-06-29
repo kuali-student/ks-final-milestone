@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +55,16 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
     private SearchManager searchManager;
+    
+    public DocumentDao getDocumentDao(){
+        return dao;
+    }
+    
+    public void setDocumentDao(DocumentDao dao){
+        this.dao=dao;
+    }
+    
+    
     @Override
     public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");
@@ -76,8 +87,8 @@ public class DocumentServiceImpl implements DocumentService {
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         checkForMissingParameter(documentInfo, "documentInfo");
         
-        DocumentCategory category = dao.fetch(DocumentCategory.class, documentCategoryKey);
         DocumentType type = dao.fetch(DocumentType.class, documentTypeKey);
+        DocumentCategory category = dao.fetch(DocumentCategory.class, documentCategoryKey);
         
         Document doc = DocumentServiceAssembler.toDocument(documentInfo, dao);
         doc.setType(type);
@@ -95,7 +106,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<DocumentCategoryInfo> getCategoriesByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
-        List<DocumentCategory> categories = dao.getCategoriesByDocument(documentId);
+        Document doc=dao.fetch(Document.class, documentId);
+        List<DocumentCategory> categories = doc.getCategoryList();
         return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
     @Override
@@ -126,17 +138,34 @@ public class DocumentServiceImpl implements DocumentService {
     public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentIdList, "documentIdList");
         checkForEmptyList(documentIdList, "documentIdList");
-        List<Document> documents = dao.getDocumentsByIdList(documentIdList);
+        List<Document> documents = new ArrayList<Document>();
+        for(String documentId: documentIdList){
+            Document document = new Document();
+            document = dao.fetch(Document.class,documentId);
+            documents.add(document);
+        }
+        
+//        List<Document> documents = dao.getDocumentsByIdList(documentIdList);
         return DocumentServiceAssembler.toDocumentInfos(documents);
     }
     @Override
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
+        Document document = dao.fetch(Document.class,documentId);
+        List<DocumentCategory> categories = document.getCategoryList();
+        for(DocumentCategory category:categories){
+            if(category.getId().equals(documentCategoryKey)){
+                categories.remove(category);
+            }
+        }
+        document.setCategoryList(categories);
+        dao.update(document);
+        
         
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(dao.removeDocumentCategoryFromDocument(documentId, documentCategoryKey));
-        
+//        statusInfo.setSuccess(dao.removeDocumentCategoryFromDocument(documentId, documentCategoryKey));
+        statusInfo.setSuccess(true);
         return statusInfo;
     }
     @Override

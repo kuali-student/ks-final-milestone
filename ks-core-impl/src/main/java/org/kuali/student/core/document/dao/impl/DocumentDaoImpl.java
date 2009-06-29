@@ -19,11 +19,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -47,8 +49,16 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
 
     @Override
     public List<DocumentCategory> getCategoriesByDocument(String documentId) {
-        // TODO ddean - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        Document doc=null;
+        try {
+            doc = fetch(Document.class, documentId);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+        List<DocumentCategory> categories = doc.getCategoryList();
+        
+        return categories;
     }
 
     @Override
