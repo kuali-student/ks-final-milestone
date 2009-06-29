@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.document.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -41,10 +42,15 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
     }
 
     @Override
-    public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey) {
+    public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DoesNotExistException {
        
-        
-        return null;
+        DocumentCategory category = fetch(DocumentCategory.class, documentCategoryKey);
+        Document doc = fetch(Document.class, documentId);
+        List<DocumentCategory> categoryList = doc.getCategoryList();
+        categoryList.add(category);
+        doc.setCategoryList(categoryList);
+        update(doc);
+        return true;
     }
 
     @Override
@@ -62,15 +68,28 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
     }
 
     @Override
-    public List<Document> getDocumentsByIdList(List<String> documentIdList) {
-        // TODO ddean - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<Document> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException {
+        List<Document> documents = new ArrayList<Document>();
+        for(String documentId: documentIdList){
+            Document document = new Document();
+            document = fetch(Document.class,documentId);
+            documents.add(document);
+        }
+        return documents;
     }
 
     @Override
-    public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) {
-        // TODO ddean - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException {
+        Document document = fetch(Document.class,documentId);
+        List<DocumentCategory> categories = document.getCategoryList();
+        for(DocumentCategory category:categories){
+            if(category.getId().equals(documentCategoryKey)){
+                categories.remove(category);
+            }
+        }
+        document.setCategoryList(categories);
+        update(document);
+        return true;
     }
 
 

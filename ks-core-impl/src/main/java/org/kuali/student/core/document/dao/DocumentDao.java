@@ -21,6 +21,7 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -30,12 +31,12 @@ import org.kuali.student.core.document.entity.DocumentCategory;
  */
 public interface DocumentDao extends CrudDao, SearchableDao {
 
-    public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey);
+    public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DoesNotExistException;
 
     public List<DocumentCategory> getCategoriesByDocument(String documentId);
 
-    public List<Document> getDocumentsByIdList(List<String> documentIdList);
+    public List<Document> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException;
 
-    public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey);
+    public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException;
 
 }
