@@ -48,7 +48,7 @@ public class DocumentTypeInfo implements Serializable, Idable, HasAttributes {
     private String name;
 
     @XmlElement
-    private RichTextInfo desc;
+    private String desc;
 
     @XmlElement
     private Date effectiveDate;
@@ -77,11 +77,11 @@ public class DocumentTypeInfo implements Serializable, Idable, HasAttributes {
     /**
      * Narrative description of the document type.
      */
-    public RichTextInfo getDesc() {
+    public String getDesc() {
         return desc;
     }
 
-    public void setDesc(RichTextInfo desc) {
+    public void setDesc(String desc) {
         this.desc = desc;
     }
 
