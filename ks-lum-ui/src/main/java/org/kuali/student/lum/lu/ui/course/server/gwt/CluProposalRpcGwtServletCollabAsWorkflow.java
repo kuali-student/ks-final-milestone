@@ -55,7 +55,7 @@ import org.w3c.dom.Text;
  * @author Kuali Student Team
  */
 // Fixme: Replace Object with ProposalService interface class
-public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
+public class CluProposalRpcGwtServletCollabAsWorkflow extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_USER_ID = "user1";
@@ -282,42 +282,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String workflowDocTypeId = "CluDocument";
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
             
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            
-            Element root = doc.createElement("cluProposal");
-            doc.appendChild(root);
-            
-            Element cluId = doc.createElement("cluId");
-            root.appendChild(cluId);
-            
-            Text cluIdText = doc.createTextNode(parentCluInfo.getId());
-            cluId.appendChild(cluIdText);
-            
-            Element department = doc.createElement("department");
-            root.appendChild(department);
-            
-            Text departmentText = doc.createTextNode(departmentName);
-            department.appendChild(departmentText);
-            
-            Element college = doc.createElement("college");
-            root.appendChild(college);
-            
-            Text collegeText = doc.createTextNode(collegeName);
-            college.appendChild(collegeText);
-           
-            
-            DOMSource domSource = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.transform(domSource, result);
-
+            //Get the document xml
+            String docContent = createDocumentString(parentCluInfo.getId(), departmentName, collegeName);
+			
             String createComment = "Created By CluProposalService";
             
-            simpleDocService.route(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), writer.toString(), createComment);
+            simpleDocService.route(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), docContent, createComment);
             
             cluProposal.setWorkflowId(docResponse.getDocId());
             
@@ -328,7 +298,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposal;
 	}
 
-
 	@Override
 	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
 		aquireSimpleDocService();
@@ -338,7 +307,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
         	
         	String departmentName = orgService.getOrganization(orgId).getShortName();
-        	List<String> collegeNames = new ArrayList<String>();
+        	String collegeName = "";
         	
         	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
         	if(relations!=null){
@@ -346,7 +315,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         			if("kuali.org.Part".equals(relation.getType())){
         				OrgInfo part = orgService.getOrganization(relation.getOrgId());
         				if("kuali.org.College".equals(part.getType())){
-        					collegeNames.add(part.getShortName());
+        					collegeName = part.getShortName();
         				}
         			}
         			
@@ -361,44 +330,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Create and then route the document 
             String workflowDocTypeId = "CluDocument";
             DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
-            
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            
-            Element root = doc.createElement("cluProposal");
-            doc.appendChild(root);
-            
-            Element cluId = doc.createElement("cluId");
-            root.appendChild(cluId);
-            
-            Text cluIdText = doc.createTextNode(cluInfo.getId());
-            cluId.appendChild(cluIdText);
-            
-            Element department = doc.createElement("department");
-            root.appendChild(department);
-            
-            Text departmentText = doc.createTextNode(departmentName);
-            department.appendChild(departmentText);
-            
-            for(String collegeName:collegeNames){
-	            Element college = doc.createElement("college");
-	            root.appendChild(college);
-	            
-	            Text collegeText = doc.createTextNode(collegeName);
-	            college.appendChild(collegeText);
-            }
-            
-            DOMSource domSource = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.transform(domSource, result);
 
+            String docContent=createDocumentString(cluInfo.getId(), departmentName, collegeName);
+            
             String createComment = "Created By CluProposalService";
             
-            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), writer.toString(), createComment);
+            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContent, createComment);
             
             cluProposal.setWorkflowId(docResponse.getDocId());
             
@@ -452,25 +389,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
 	        CluInfo cluInfo = cluProposal.getCluInfo();
 	        
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-	        Document doc = docBuilder.newDocument();
-	        Element root = doc.createElement("cluId");
-	        doc.appendChild(root);
-	        Text text = doc.createTextNode(cluInfo.getId());
-	        root.appendChild(text);
-	        
-	        DOMSource domSource = new DOMSource(doc);
-	        StringWriter writer = new StringWriter();
-	        StreamResult result = new StreamResult(writer);
-	        TransformerFactory tf = TransformerFactory.newInstance();
-	        Transformer transformer = tf.newTransformer();
-	        transformer.transform(domSource, result);
+	        DocumentResponse response = simpleDocService.getDocument(cluProposal.getWorkflowId(),username);
 	        
 	        String approveComment = "Approved by CluProposalService";
 	        
 	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), writer.toString(), approveComment);
+	        simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), response.getDocContent(), approveComment);
 	       
 		}catch(Exception e){
             e.printStackTrace();
@@ -527,8 +451,61 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
 	        String collaborateComment = "Collaborate by CluProposalService";
 	        
+	        //create and route a Collaborate workflow
+	        //Get the document app Id
+	        CluProposal cluProposal = getCluProposalFromWorkflowId(docId);
+	        CluInfo cluInfo = cluProposal.getCluInfo();
+            String workflowDocTypeId = "CluCollaboratorDocument";//TODO make sure this name is correct
+            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+           
+            //Get the document xml
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+	        Document doc = docBuilder.newDocument();
+	        
+	        Element root = doc.createElement("cluCollaborator");
+	        doc.appendChild(root);
+	        
+	        Element cluIdElement = doc.createElement("cluId");
+	        root.appendChild(cluIdElement);
+	        
+	        Text cluIdText = doc.createTextNode(cluInfo.getId());
+	        cluIdElement.appendChild(cluIdText);
+	        
+	        Element recipientPrincipalIdElement = doc.createElement("recipientPrincipalId");
+	        root.appendChild(recipientPrincipalIdElement);
+	        
+	        Text recipientPrincipalIdText = doc.createTextNode(recipientPrincipalId);
+	        recipientPrincipalIdElement.appendChild(recipientPrincipalIdText);
+
+	        Element principalIdElement = doc.createElement("principalId");
+	        root.appendChild(principalIdElement);
+	        
+	        Text principalIdText = doc.createTextNode(username);
+	        principalIdElement.appendChild(principalIdText);
+	        
+	        Element docIdElement = doc.createElement("docId");
+	        root.appendChild(docIdElement);
+	        
+	        Text docIdText = doc.createTextNode(docId);
+	        docIdElement.appendChild(docIdText);
+	        
+	        DOMSource domSource = new DOMSource(doc);
+	        StringWriter writer = new StringWriter();
+	        StreamResult result = new StreamResult(writer);
+	        TransformerFactory tf = TransformerFactory.newInstance();
+	        Transformer transformer = tf.newTransformer();
+	        transformer.transform(domSource, result);
+            
+            String docContent = writer.toString();
+
+            //Do the routing
+            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContent, collaborateComment);
+            
+            
 	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.requestAdHocFyiToPrincipal(docId, recipientPrincipalId, username, collaborateComment);
+	        //this will be called as a post processor
+            //simpleDocService.requestAdHocFyiToPrincipal(docId, recipientPrincipalId, username, collaborateComment);
 	       
 		}catch(Exception e){
             e.printStackTrace();
@@ -626,6 +603,51 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	private interface SimpleWorkflowUtility{
 		public AttributeSet getActionsRequested(String username, long docId);
 		public ActionItemDTO[] getActionItems(Long docId);
+	}
+
+
+	private String createDocumentString(String cluId, String departmentName,
+			String collegeName) {
+		try{
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+	        Document doc = docBuilder.newDocument();
+	        
+	        Element root = doc.createElement("cluProposal");
+	        doc.appendChild(root);
+	        
+	        Element cluIdElement = doc.createElement("cluId");
+	        root.appendChild(cluIdElement);
+	        
+	        Text cluIdText = doc.createTextNode(cluId);
+	        cluIdElement.appendChild(cluIdText);
+	        
+	        Element departmentElement = doc.createElement("department");
+	        root.appendChild(departmentElement);
+	        
+	        Text departmentText = doc.createTextNode(departmentName);
+	        departmentElement.appendChild(departmentText);
+	        
+	        Element collegeElement = doc.createElement("college");
+	        root.appendChild(collegeElement);
+	        
+	        Text collegeText = doc.createTextNode(collegeName);
+	        collegeElement.appendChild(collegeText);
+	       
+	        
+	        DOMSource domSource = new DOMSource(doc);
+	        StringWriter writer = new StringWriter();
+	        StreamResult result = new StreamResult(writer);
+	        TransformerFactory tf = TransformerFactory.newInstance();
+	        Transformer transformer = tf.newTransformer();
+	        transformer.transform(domSource, result);
+	        
+			return writer.toString();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 
