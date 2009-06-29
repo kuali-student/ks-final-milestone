@@ -18,7 +18,33 @@
             </bean>
         </property>
     </bean>
+   
+   <!-- Expose Org Service on Bus  --> 
+   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker" />
+        <property name="serviceDefinition">
+            <bean id="OrgWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="orgClient" />
+                <property name="serviceNameSpaceURI" value="http://org.kuali.student/core/organization" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+                <property name="jaxWsService" value="true" />
+                <property name="busSecurity" value="false" />
+            </bean>
+        </property>
+    </bean>
     
+    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass"
+            value="org.kuali.student.core.organization.service.OrganizationService" />
+        <property name="address"
+            value="${lum.application.url}/services/OrgService" />
+    </bean>
+
+    <bean id="orgClient" class="org.kuali.student.core.organization.service.OrganizationService"
+        factory-bean="orgClientFactory" factory-method="create" />
+    
+    <!-- Expose LU Service on Bus -->
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker" />
         <property name="serviceDefinition">
@@ -32,8 +58,8 @@
             </bean>
         </property>
     </bean>
-    
-    <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+ 
+    <bean id="luClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
         <property name="serviceClass"
             value="org.kuali.student.lum.lu.service.LuService" />
         <property name="address"
@@ -41,7 +67,7 @@
     </bean>
 
     <bean id="luClient" class="org.kuali.student.lum.lu.service.LuService"
-        factory-bean="clientFactory" factory-method="create" />
+        factory-bean="luClientFactory" factory-method="create" />
   
   
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
