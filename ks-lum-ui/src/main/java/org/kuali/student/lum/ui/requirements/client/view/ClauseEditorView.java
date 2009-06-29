@@ -13,6 +13,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -24,8 +25,12 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.testData.Color;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSListItemsSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -228,12 +233,12 @@ public class ClauseEditorView extends ViewComposite {
             }
         });
         
-        KSListItemsSuggestOracle oracle = new KSListItemsSuggestOracle();
-        oracle.setListItems(tableItems);        
+  //      KSListItemsSuggestOracle oracle = new KSListItemsSuggestOracle();
+   //     oracle.setListItems(tableItems);        
         
-       
-        KSSelectableTableList stl = new KSSelectableTableList();
-        KSSuggestBox sb = new KSSuggestBox(oracle);
+   //    
+  //      KSSelectableTableList stl = new KSSelectableTableList();
+  //      KSSuggestBox sb = new KSSuggestBox(oracle);
         
 //        List<SearchParameter> params = new ArrayList<SearchParameter>();
 //        params.add(new SearchParameter("Color", "Color"));
@@ -248,6 +253,24 @@ public class ClauseEditorView extends ViewComposite {
 //        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);        
         
         //addEditRuleView.add(sbp);
+        
+      /*  
+        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)requirementsRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
+        KSSuggestBox sb = new KSSuggestBox(oracle);
+        oracle.setTextWidget(sb.getTextBox());
+        
+        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(requirementsRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
+        
+        KSSuggestBoxWAdvSearch advSearchSuggest = new KSSuggestBoxWAdvSearch(sb, searchWindow);
+        List<String> resultKeys = new ArrayList<String>();
+        resultKeys.add("org.resultColumn.orgShortName");
+        resultKeys.add("org.resultColumn.orgLongName");
+        resultKeys.add("org.resultColumn.orgType");
+        resultKeys.add("org.resultColumn.orgHierarchyName");
+        KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, requirementsRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
+        addEditRuleView.add(picker);
+        */                
+        
         
         HorizontalPanel bodyPanel = new HorizontalPanel(); 
         bodyPanel.add(ruleTypesPanel);
