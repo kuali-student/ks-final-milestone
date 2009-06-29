@@ -32,7 +32,6 @@
 			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="stateSelector">
@@ -54,7 +53,6 @@
 			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="typeSelector">
@@ -66,7 +64,6 @@
 				maxOccurs="unbounded"></xsd:element>
 		</xsd:choice>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="objectStructure">
@@ -87,7 +84,6 @@
 			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="fieldDescriptor">
@@ -114,7 +110,7 @@
 				</xsd:element>
 			</xsd:choice>
 		</xsd:sequence>
-		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="key" use="optional" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
 
@@ -190,7 +186,6 @@
 				minOccurs="0" maxOccurs="unbounded"></xsd:element>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="constraintSelector">
@@ -221,7 +216,6 @@
 			</xsd:element>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" use="required"></xsd:attribute>
-		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 		<xsd:attribute name="className" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="serverSide" type="xsd:boolean"></xsd:attribute>
 		<xsd:attribute name="locale" type="xsd:string"></xsd:attribute>
