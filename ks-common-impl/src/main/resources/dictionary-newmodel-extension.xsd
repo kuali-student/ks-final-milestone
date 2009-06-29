@@ -9,48 +9,58 @@
 		/>
 
 	<xsd:complexType name="fieldSelector">
-		<xsd:choice minOccurs="1" maxOccurs="1">
 			<xsd:sequence>
-				<xsd:element name="fieldDescriptor"
-					type="fieldDescriptor" maxOccurs="1" minOccurs="1">
+				<xsd:choice minOccurs="1" maxOccurs="1">
+					<xsd:element name="fieldDescriptor"
+						type="fieldDescriptor" maxOccurs="1" minOccurs="0">
+					</xsd:element>
+					<xsd:element name="fieldDescriptorRef"
+						type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+				</xsd:choice>
+				<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="constraintDescriptor"
+						type="constraintDescriptor" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="constraintDescriptorRef" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+				</xsd:choice>
+            <xsd:element name="selector" type="xsd:boolean" maxOccurs="1" minOccurs="0">
 				</xsd:element>
-				<xsd:element name="selector" type="xsd:boolean"
-					maxOccurs="1" minOccurs="0">
+            <xsd:element name="dynamic" type="xsd:boolean" minOccurs="0" maxOccurs="1">
 				</xsd:element>
-                <xsd:element name="dynamic" type="xsd:boolean" minOccurs="0" maxOccurs="1"></xsd:element>
-                <xsd:element name="constraintDescriptor"
-					type="constraintDescriptor" minOccurs="0" maxOccurs="1">
-				</xsd:element>
-                <xsd:element name="objectStructure"
-					type="objectStructure" minOccurs="0" maxOccurs="1">
-				</xsd:element>				
-			</xsd:sequence>
-			<xsd:element ref="beans:ref" />
-		</xsd:choice>
-		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
+        </xsd:sequence>
+			<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="stateSelector">
 		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-			<xsd:choice>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
 				<xsd:element name="field" type="fieldSelector"
-					minOccurs="1" maxOccurs="unbounded"></xsd:element>
-				<xsd:element ref="beans:ref" />
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
+				<xsd:element name="fieldRef" type="xsd:string"
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
 			</xsd:choice>
-			<xsd:element name="constraintDescriptor" type="constraintDescriptor"
-				minOccurs="0" maxOccurs="1"></xsd:element>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+				<xsd:element name="constraintDescriptor"
+					type="constraintDescriptor" minOccurs="0" maxOccurs="1">
+				</xsd:element>
+				<xsd:element name="constraintDescriptorRef" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="typeSelector">
-		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-			<xsd:choice>
+		<xsd:sequence>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
 				<xsd:element name="state" type="stateSelector"
-					minOccurs="1" maxOccurs="unbounded"></xsd:element>
-				<xsd:element ref="beans:ref" />
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
+				<xsd:element name="stateRef" type="xsd:string" minOccurs="0" maxOccurs="unbounded"></xsd:element>
 			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
@@ -58,25 +68,27 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="objectStructure">
-		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-			<xsd:choice>
 				<xsd:sequence>
-					<xsd:element name="name" type="xsd:string" minOccurs="0"
-						maxOccurs="1"></xsd:element>
-					<xsd:element name="desc" type="xsd:string" minOccurs="0"
-						maxOccurs="1"></xsd:element>
-					<xsd:element name="type" type="typeSelector" minOccurs="1"
-						maxOccurs="unbounded"></xsd:element>
+					<xsd:element name="name" type="xsd:string"
+						minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="desc" type="xsd:string"
+						minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:choice minOccurs="1" maxOccurs="unbounded">
+						<xsd:element name="type" type="typeSelector"
+							minOccurs="0" maxOccurs="unbounded">
+						</xsd:element>
+						<xsd:element name="typeRef"
+							type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+						</xsd:element>
+					</xsd:choice>
 				</xsd:sequence>
-				<xsd:element ref="beans:ref" />
-			</xsd:choice>
-		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="fieldDescriptor">
-		<xsd:choice>
 			<xsd:sequence>
 				<xsd:element name="name" type="xsd:string" minOccurs="0"
 					maxOccurs="1">
@@ -92,11 +104,12 @@
 				<xsd:element name="search" type="searchSelector"
 					minOccurs="0" maxOccurs="1">
 				</xsd:element>
+				<xsd:choice minOccurs="0" maxOccurs="1">
+					<xsd:element name="objectStructure" type="objectStructure" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="objectStructureRef" type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+            </xsd:choice>
 			</xsd:sequence>
-			<xsd:element ref="beans:ref" maxOccurs="1" minOccurs="1" />
-			<xsd:element name="objectStructureRef" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
-		</xsd:choice>
-
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
@@ -163,8 +176,12 @@
 
 	<xsd:complexType name="constraintDescriptor">
 		<xsd:sequence>
-			<xsd:element name="constraint" type="constraintSelector"
-				minOccurs="1" maxOccurs="unbounded"></xsd:element>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="constraint" type="constraintSelector"
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
+				<xsd:element name="constraintRef" type="xsd:string" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="key" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
