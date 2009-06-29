@@ -202,34 +202,43 @@
 	<xsd:complexType name="constraintSelector">
 		<xsd:choice minOccurs="1" maxOccurs="1">
 			<xsd:sequence>
-				<xsd:element name="minOccurs" type="xsd:int" minOccurs="0"
-					maxOccurs="1"></xsd:element>
-				<xsd:element name="maxOccurs" type="xsd:string"
-					minOccurs="0" maxOccurs="1"></xsd:element>
-				<xsd:element name="minLength" type="xsd:int" minOccurs="0"
-					maxOccurs="1"></xsd:element>
-				<xsd:element name="maxLength" type="xsd:string"
-					minOccurs="0" maxOccurs="1"></xsd:element>
-				<xsd:element name="validChars" type="validCharsConstraint"
+				<xsd:element name="minOccurs" type="xsd:int"
 					minOccurs="0" maxOccurs="1">
 				</xsd:element>
+				<xsd:element name="maxOccurs" type="xsd:string"
+					minOccurs="0" maxOccurs="1">
+				</xsd:element>
+				<xsd:element name="minLength" type="xsd:int"
+					minOccurs="0" maxOccurs="1">
+				</xsd:element>
+				<xsd:element name="maxLength" type="xsd:string"
+					minOccurs="0" maxOccurs="1">
+				</xsd:element>
+				<xsd:element name="validChars"
+					type="validCharsConstraint" minOccurs="0" maxOccurs="1">
+				</xsd:element>
 				<xsd:element name="require" type="requireConstraint"
-					minOccurs="0" maxOccurs="unbounded"></xsd:element>
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
 				<xsd:element name="occurs" type="occursConstraint"
-					minOccurs="0" maxOccurs="unbounded"></xsd:element>
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
 				<xsd:element name="lookup" type="lookupConstraint"
-					minOccurs="0" maxOccurs="unbounded"></xsd:element>
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
 				<xsd:element name="case" type="caseConstraint"
-					minOccurs="0" maxOccurs="unbounded"></xsd:element>
+					minOccurs="0" maxOccurs="unbounded">
+				</xsd:element>
 			</xsd:sequence>
-			<xsd:element name="typeStateCase" type="typeStateCaseConstraint"
-				minOccurs="1" maxOccurs="1">
+			<xsd:element name="typeStateCase"
+				type="typeStateCaseConstraint" minOccurs="1" maxOccurs="1">
 			</xsd:element>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" use="required"></xsd:attribute>
 		<xsd:attribute name="className" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="serverSide" type="xsd:boolean"></xsd:attribute>
 		<xsd:attribute name="locale" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="searchSelector">
