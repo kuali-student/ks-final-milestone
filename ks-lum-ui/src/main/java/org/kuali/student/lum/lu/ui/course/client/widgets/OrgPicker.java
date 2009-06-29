@@ -1,15 +1,12 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
-import java.util.List;
-
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -20,40 +17,41 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class OrgPicker extends Composite implements HasValue<String>{
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-	final KSAdvancedSearchRpc orgSearchWidget = new KSAdvancedSearchRpc(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName","org.resultColumn.orgId");
-    private KSTextBox textBox = new KSTextBox();
+	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
+	        "org.search.orgByShortName", 
+	        "org.queryParam.orgShortName",
+	        "org.queryParam.orgId", 
+	        "org.resultColumn.orgId", 
+	        "org.resultColumn.orgShortName");
+    final KSSuggestBox suggestBox = new KSSuggestBox(orgSearchOracle);
+	
+	final KSAdvancedSearchWindow orgSearchWidget = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName","org.resultColumn.orgId");   
     
     VerticalPanel root = new VerticalPanel();
     
 	public OrgPicker() {
 		super();
+
 		initWidget(root);
-		root.add(textBox);
-		//orgSearchWidget.setMultipleSelect(false); this disappeared
-		orgSearchWidget.addSelectionHandler(new SelectionHandler<List<String>>(){
-			public void onSelection(SelectionEvent<List<String>> event) {
-				if(event.getSelectedItem()!=null&&event.getSelectedItem().size()>0){
-					textBox.setValue(event.getSelectedItem().get(0));
-				}
-			}
-		});
-		root.add(orgSearchWidget);
+		orgSearchOracle.setTextWidget(suggestBox.getTextBox());
+		root.add(suggestBox);
+
 	}
 
 	@Override
 	public String getValue() {
-		return textBox.getValue();
+		return suggestBox.getSelectedId();
 	}
 
 	@Override
 	public void setValue(String value) {
-		textBox.setValue(value);
+	    suggestBox.setValue(value);
 	}
 
 	@Override
 	public void setValue(String value, boolean fireEvents) {
 		// TODO Auto-generated method stub
-		textBox.setValue(value);		
+		setValue(value);		
 	}
 
 	@Override
