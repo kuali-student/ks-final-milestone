@@ -1,3 +1,15 @@
+-- update kew app doc id until we get the change in the master db
+ALTER TABLE KREW_DOC_HDR_T MODIFY (APP_DOC_ID VARCHAR2(255));
+
+-- clean up ksb registry table
+DELETE FROM KRSB_SVC_DEF_T;
+
+-- create namespaces for lookups
+insert into KRNS_NMSPC_T (NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
+values ('KS-ORG', 'ks-org-namespace-obj-id', '1', 'Kuali Student Organization', 'Y', null);
+insert into KRNS_NMSPC_T (NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_NMSPC_CD)
+values ('KS-SYS', 'ks-sys-namespace-obj-id', '1', 'Kuali Student System', 'Y', null);
+
 -- insert kim responsibility for 'Resolve Exception' responsibility template
 INSERT INTO KRIM_RSP_T (RSP_ID,NMSPC_CD,NM,ACTV_IND,RSP_TMPL_ID,VER_NBR,DESC_TXT,OBJ_ID) 
   VALUES ('1','KS-SYS','Resolve Exception','Y','2',0,'Responsibility for Kuali Student Exception Routing','5ADFE1V2441D6320E04AAAA189D85169');
