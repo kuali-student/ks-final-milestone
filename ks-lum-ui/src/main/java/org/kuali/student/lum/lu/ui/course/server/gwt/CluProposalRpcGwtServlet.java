@@ -238,8 +238,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	//Get org info stuff
         	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
         	
-        	String departmentName = orgService.getOrganization(orgId).getShortName();
-        	String collegeName = "";
+        	String departmentName = orgService.getOrganization(orgId).getId();
+        	List<String> collegeNames = new ArrayList<String>();
         	
         	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
         	if(relations!=null){
@@ -247,7 +247,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         			if("kuali.org.Part".equals(relation.getType())){
         				OrgInfo part = orgService.getOrganization(relation.getOrgId());
         				if("kuali.org.College".equals(part.getType())){
-        					collegeName = part.getShortName();
+        					collegeNames.add(part.getId());
         				}
         			}
         			
@@ -301,11 +301,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             Text departmentText = doc.createTextNode(departmentName);
             department.appendChild(departmentText);
             
-            Element college = doc.createElement("college");
-            root.appendChild(college);
-            
-            Text collegeText = doc.createTextNode(collegeName);
-            college.appendChild(collegeText);
+            for(String collegeName:collegeNames){
+	            Element college = doc.createElement("college");
+	            root.appendChild(college);
+	            
+	            Text collegeText = doc.createTextNode(collegeName);
+	            college.appendChild(collegeText);
+            }
            
             
             DOMSource domSource = new DOMSource(doc);
@@ -337,8 +339,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	//Get org info stuff
         	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
         	
-        	String departmentName = orgService.getOrganization(orgId).getShortName();
-        	List<String> collegeNames = new ArrayList<String>();
+        	//String departmentName = orgService.getOrganization(orgId).getShortName();
+        	String departmentId = orgService.getOrganization(orgId).getId();
+        	List<String> collegeIds = new ArrayList<String>();
         	
         	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
         	if(relations!=null){
@@ -346,7 +349,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         			if("kuali.org.Part".equals(relation.getType())){
         				OrgInfo part = orgService.getOrganization(relation.getOrgId());
         				if("kuali.org.College".equals(part.getType())){
-        					collegeNames.add(part.getShortName());
+        					//collegeNames.add(part.getShortName());
+        					collegeIds.add(part.getId());
         				}
         			}
         			
@@ -378,14 +382,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             Element department = doc.createElement("department");
             root.appendChild(department);
             
-            Text departmentText = doc.createTextNode(departmentName);
+            Text departmentText = doc.createTextNode(departmentId);
             department.appendChild(departmentText);
             
-            for(String collegeName:collegeNames){
+            for(String collegeId:collegeIds){
 	            Element college = doc.createElement("college");
 	            root.appendChild(college);
 	            
-	            Text collegeText = doc.createTextNode(collegeName);
+	            Text collegeText = doc.createTextNode(collegeId);
 	            college.appendChild(collegeText);
             }
             
