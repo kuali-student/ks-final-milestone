@@ -75,7 +75,7 @@ public class CluPostProcessor implements PostProcessor{
 	}
 	
     private void updateCluStatus(DocumentContentDTO document) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, org.kuali.student.core.exceptions.InvalidParameterException, VersionMismatchException{
-    	LuService luService = (LuService) GlobalResourceLoader.getService(new QName("http://edu.umd.ks/poc/lum/lu","LuService"));
+    	LuService luService = (LuService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/lum/lu","LuService"));
     	
     	Pattern pattern = Pattern.compile("<cluId>\\s*([^<\\s]+)");
 		Matcher matcher = pattern.matcher(document.getApplicationContent());
