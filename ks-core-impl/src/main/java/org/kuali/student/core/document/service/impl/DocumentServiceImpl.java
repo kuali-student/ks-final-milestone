@@ -87,7 +87,6 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setType(type);
         doc.setCategoryList(Arrays.asList(category));
         dao.create(doc);
-        
         return DocumentServiceAssembler.toDocumentInfo(doc);
     }
     @Override
@@ -130,8 +129,6 @@ public class DocumentServiceImpl implements DocumentService {
     public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentIdList, "documentIdList");
         checkForEmptyList(documentIdList, "documentIdList");
-       
-        
         List<Document> documents = dao.getDocumentsByIdList(documentIdList);
         return DocumentServiceAssembler.toDocumentInfos(documents);
     }

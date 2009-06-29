@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.document.service.impl;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -66,7 +67,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         assertNotNull(client);
     }
     
-    @Ignore
+
     @Test
     public void testDocTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<DocumentTypeInfo> types = client.getDocumentTypes();
@@ -78,7 +79,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         assertEquals(types.get(0).getName(), type.getName());
     }
     
-    @Ignore
+
     @Test
     public void testDocCategories() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         List<DocumentCategoryInfo> categories = client.getDocumentCategories();
@@ -90,7 +91,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         assertEquals(categories.get(0).getName(), category.getName());
     }
     
-    @Ignore
+
     @Test
     public void testDocument() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         DocumentInfo doc = new DocumentInfo();
@@ -113,7 +114,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         doc.setAttributes(attributes);
         
-        DocumentInfo created = client.createDocument("DOCTYPE-1", "DOCCAT-1", doc);
+        DocumentInfo created = client.createDocument("documentType.type1", "CAT_1", doc);
         assertNotNull(created);
         String id = created.getId();
         assertNotNull(id);
@@ -129,7 +130,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         Map<String, String> newAttributes = created.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
-        assertEquals("DOCTYPE-1", created.getType());
+        assertEquals("documentType.type1", created.getType());
         
         doc = client.getDocument(id);
         assertNotNull(doc);
@@ -137,36 +138,40 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         List<DocumentCategoryInfo> categories = client.getCategoriesByDocument(id);
         assertNotNull(categories);
         assertEquals(1, categories.size());
-        assertEquals("DOCCAT-1", categories.get(0).getId());
+        assertEquals("CAT_1", categories.get(0).getId());
         
         List<DocumentInfo> documents = client.getDocumentsByIdList(Arrays.asList(id));
         assertNotNull(documents);
         assertEquals(1, documents.size());
         assertEquals(id, documents.get(0).getId());
-        
-        StatusInfo status = client.addDocumentCategoryToDocument(id, "DOCCAT-2");
+        doc = client.getDocument(id);
+        StatusInfo status = client.addDocumentCategoryToDocument(id, "CAT_2");
         assertTrue(status.getSuccess());
-        
+        doc = client.getDocument(id);
         categories = client.getCategoriesByDocument(id);
         assertNotNull(categories);
         assertEquals(2, categories.size());
         boolean foundCat = false;
         for (DocumentCategoryInfo documentCategoryInfo : categories) {
-            if("DOCCAT-2".equals(documentCategoryInfo.getId())) {
+            if("CAT_2".equals(documentCategoryInfo.getId())) {
                 foundCat = true;
                 break;
             }
         }
         assertTrue(foundCat);
         
-        status = client.removeDocumentCategoryFromDocument(id, "DOCCAT-2");
+        status = client.removeDocumentCategoryFromDocument(id, "CAT_2");
         assertTrue(status.getSuccess());
         
-        try {
-            status = client.removeDocumentCategoryFromDocument(id, "DOCCAT-1");
-            fail("Expected some sort of exception since you can't have a doc with no categories"); // as stated at https://test.kuali.org/confluence/display/KULSTU/Document+Service+Description+and+Assumptions+v1.0-rc1
-        } catch(Exception e) {} //what exception is this going to be? OperationFailed? or should status just be false?
+   
+        status = client.removeDocumentCategoryFromDocument(id, "CAT_1");
+        assertFalse(status.getSuccess());
         
+        doc = client.getDocument(id);
+        categories = client.getCategoriesByDocument(id);
+        assertNotNull(categories);
+        
+        doc = client.getDocument(id);
         doc.setName("TPS");
         DocumentInfo updated = client.updateDocument(id, doc);
         assertNotNull(updated);
@@ -182,5 +187,51 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         assertTrue(status.getSuccess());
     }
 
-   
+
+    @Test
+    public void testDocumentCrud() throws DataValidationErrorException, InvalidParameterException , OperationFailedException, PermissionDeniedException, DoesNotExistException, MissingParameterException, VersionMismatchException {
+        DocumentInfo documentInfo = new DocumentInfo();
+        DocumentBinaryInfo binaryInfo = new DocumentBinaryInfo();
+        binaryInfo.setBinary("Test document");
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setFormatted("<p>created document</p>");
+        richTextInfo.setPlain("created document");
+        documentInfo.setDesc(richTextInfo);
+        documentInfo.setDocumentBinaryInfo(binaryInfo);
+        documentInfo.setEffectiveDate(new Date());
+        documentInfo.setExpirationDate(new Date());
+        documentInfo.setFileName("Sample");
+        documentInfo.setType("documentType.type1");
+        
+        DocumentInfo documentInfoP = client.createDocument("documentType.type1", "CAT_1", documentInfo);
+        assertEquals(documentInfo.getDesc().getPlain(),documentInfoP.getDesc().getPlain());
+        assertEquals(documentInfo.getDocumentBinaryInfo().getBinary(),documentInfoP.getDocumentBinaryInfo().getBinary());
+        assertEquals(documentInfo.getEffectiveDate(), documentInfoP.getEffectiveDate());
+        assertEquals(documentInfo.getExpirationDate(), documentInfoP.getExpirationDate());
+        assertEquals(documentInfo.getFileName(), documentInfoP.getFileName());
+        
+        
+
+        StatusInfo statusInfo = client.addDocumentCategoryToDocument(documentInfoP.getId(), "CAT_2");
+        assertTrue(statusInfo.getSuccess());
+        
+        
+        List<DocumentCategoryInfo> categoriesInfos = client.getCategoriesByDocument(documentInfoP.getId());
+        assertEquals(categoriesInfos.size(), 2);
+        
+        statusInfo = client.addDocumentCategoryToDocument(documentInfoP.getId(), "CAT_3");
+        assertTrue(statusInfo.getSuccess());
+        
+        categoriesInfos = client.getCategoriesByDocument(documentInfoP.getId());
+        assertEquals(categoriesInfos.size(), 3);
+        
+        statusInfo = client.removeDocumentCategoryFromDocument(documentInfoP.getId(), "CAT_2");
+        assertTrue(statusInfo.getSuccess());
+        categoriesInfos = client.getCategoriesByDocument(documentInfoP.getId());
+        assertEquals(categoriesInfos.size(), 2);
+        
+        
+        
+        
+    }
 }
