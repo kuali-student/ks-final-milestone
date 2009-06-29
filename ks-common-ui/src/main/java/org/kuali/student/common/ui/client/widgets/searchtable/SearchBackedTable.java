@@ -51,7 +51,7 @@ public class SearchBackedTable extends Composite{
         this.resultIdKey = resultIdKey;
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(400, 300);
-        builder.cacheTable(10, 10);
+        //builder.cacheTable(10, 10);
         searchService.getSearchType(searchTypeKey, new AsyncCallback<SearchTypeInfo>(){
 
             public void onFailure(Throwable caught) {
