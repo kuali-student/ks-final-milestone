@@ -53,6 +53,17 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
+	<search:searchType id="org.search.orgByShortNameAndType">
+		<search:name>ShortName and Type match</search:name>
+		<search:desc>Search on shortName and Type.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgByShortNameAndType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
 	<search:searchType id="org.search.orgQuickLongViewByFirstLetter">
 		<search:name>Organization Quick View by First Letter of Short Name or Long Name</search:name>
 		<search:desc>Returns a quick view of organization information for orgs whose short or long name start with a particular letter</search:desc>
@@ -265,6 +276,16 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortNameAndType">
+		<search:name>OrgByShortNameAndTypeCriteria</search:name>
+		<search:desc>OrgByShortNameAndTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgShortName" />
+			<ref bean="org.queryParam.orgId" />
+			<ref bean="org.queryParam.orgType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByFirstLetter">
 		<search:name>OrgByFirstLetterCriteria</search:name>
 		<search:desc>OrgByFirstLetterCriteria Description</search:desc>
@@ -299,6 +320,9 @@
 				</entry>
 				<entry key="org.search.orgByShortName">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE org.shortName like :org_queryParam_orgShortName or org.id = :org_queryParam_orgId</value>
+				</entry>
+				<entry key="org.search.orgByShortNameAndType">
+					<value>SELECT org.id, org.shortName FROM Org org WHERE org.type.id = :org_queryParam_orgType AND (org.shortName like :org_queryParam_orgShortName or org.id = :org_queryParam_orgId)</value>
 				</entry>
 				<entry key="org.search.orgFullViewById">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
