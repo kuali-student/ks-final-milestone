@@ -18,6 +18,7 @@ public class ModPropertyPlaceholderConfigurer extends
 		PropertyPlaceholderConfigurer implements InitializingBean  {
 	
 	private String customConfigSystemProperty;
+	private String customConfigFileLocation;
 	private Resource[] locations;	
 	
 	private String beanName;
@@ -60,6 +61,24 @@ public class ModPropertyPlaceholderConfigurer extends
 			
 			}catch(Exception e){
 				logger.info("Could not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation);
+			}
+		}
+		if(customConfigFileLocation!=null){
+			try{
+				Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigFileLocation);
+		
+				Resource[] finalLocations = new Resource[locations.length+1];
+				int i=0;
+				for(Resource resource:locations){
+					finalLocations[i]=resource;
+					i++;
+				}
+				finalLocations[i]=customConfigResource;
+				
+				super.setLocations(finalLocations);
+			
+			}catch(Exception e){
+				logger.info("Could not load custom properties from file:"+customConfigFileLocation);
 			}
 		}
 	}
@@ -140,5 +159,13 @@ public class ModPropertyPlaceholderConfigurer extends
 			return prefixedProps;
 		}
 		
+	}
+
+	public String getCustomConfigFileLocation() {
+		return customConfigFileLocation;
+	}
+
+	public void setCustomConfigFileLocation(String customConfigFileLocation) {
+		this.customConfigFileLocation = customConfigFileLocation;
 	}
 }
