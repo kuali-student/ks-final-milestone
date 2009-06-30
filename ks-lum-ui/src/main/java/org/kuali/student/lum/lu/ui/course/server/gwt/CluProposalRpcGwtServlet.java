@@ -455,26 +455,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String username = getCurrentUser();
             
 	        CluInfo cluInfo = cluProposal.getCluInfo();
-	        
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-	        Document doc = docBuilder.newDocument();
-	        Element root = doc.createElement("cluId");
-	        doc.appendChild(root);
-	        Text text = doc.createTextNode(cluInfo.getId());
-	        root.appendChild(text);
-	        
-	        DOMSource domSource = new DOMSource(doc);
-	        StringWriter writer = new StringWriter();
-	        StreamResult result = new StreamResult(writer);
-	        TransformerFactory tf = TransformerFactory.newInstance();
-	        Transformer transformer = tf.newTransformer();
-	        transformer.transform(domSource, result);
+	        DocumentResponse document = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
 	        
 	        String approveComment = "Approved by CluProposalService";
 	        
 	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), writer.toString(), approveComment);
+	        simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), document.getDocContent(), approveComment);
 	       
 		}catch(Exception e){
             e.printStackTrace();
