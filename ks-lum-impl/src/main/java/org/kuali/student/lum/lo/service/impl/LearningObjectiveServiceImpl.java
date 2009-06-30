@@ -62,16 +62,16 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.lum.lo.service.LearningObjectiveService", serviceName = "LearningObjectiveService", portName = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/lum/lo")
 @Transactional(rollbackFor={Throwable.class})
 public class LearningObjectiveServiceImpl implements LearningObjectiveService {
-    private LoDao dao;
+    private LoDao loDao;
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
 
-	public LoDao getDao() {
-        return dao;
+	public LoDao getLoDao() {
+        return loDao;
     }
 
-    public void setDao(LoDao dao) {
-        this.dao = dao;
+    public void setLoDao(LoDao dao) {
+        this.loDao = dao;
     }
 
 	public void setSearchManager(SearchManager searchManager) {
@@ -94,7 +94,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(parentLoId, "parentLoId");
 	    StatusInfo statusInfo = new StatusInfo();
-	    statusInfo.setSuccess(dao.addChildLoToLo(loId, parentLoId));
+	    statusInfo.setSuccess(loDao.addChildLoToLo(loId, parentLoId));
 		return statusInfo;
 	}
 
@@ -109,7 +109,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(equivalentLoId, "equivalentLoId");
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(dao.addEquivalentLoToLo(loId, equivalentLoId));
+        statusInfo.setSuccess(loDao.addEquivalentLoToLo(loId, equivalentLoId));
         return statusInfo;
 	}
 
@@ -125,7 +125,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    checkForMissingParameter(loId, "loId");
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(dao.addLoCategoryToLo(loCategoryId, loId));
+        statusInfo.setSuccess(loDao.addLoCategoryToLo(loCategoryId, loId));
         return statusInfo;
 	}
 
@@ -137,19 +137,27 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	    checkForMissingParameter(parentLoId, "parentLoId");
+	    // checkForMissingParameter(parentLoId, "parentLoId");
 	    checkForMissingParameter(loType, "loType");
 	    checkForMissingParameter(loInfo, "loInfo");
 	    
-	    LoType type = dao.fetch(LoType.class, loType);
-	    Lo parent = dao.fetch(Lo.class, parentLoId); // Leaving this in so we can fail before create
+	    LoType type = loDao.fetch(LoType.class, loType);
+	    Lo parent = null;
+	    if (null != parentLoId) {
+		    parent = loDao.fetch(Lo.class, parentLoId); // Leaving this in so we can fail before create
+	    }
 	    
-	    Lo lo = LearningObjectiveServiceAssembler.toLo(loInfo, dao);
+	    Lo lo = LearningObjectiveServiceAssembler.toLo(loInfo, loDao);
 	    lo.setLoType(type);
-	    dao.create(lo);
+	    loDao.create(lo);
 	    
-	    dao.addChildLoToLo(lo.getId(), parent.getId());
-	    
+	    if (null != parent) {
+	    	try {
+			    loDao.addChildLoToLo(lo.getId(), parent.getId());
+	    	} catch (AlreadyExistsException aee) {
+	    		throw new OperationFailedException("createLo() failed.", aee);
+	    	}
+	    }
 		return LearningObjectiveServiceAssembler.toLoInfo(lo);
 	}
 
@@ -165,11 +173,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loHierarchyKey, "loHierarchyKey");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
 	    
-	    LoHierarchy hierarchy = dao.fetch(LoHierarchy.class, loHierarchyKey);
+	    LoHierarchy hierarchy = loDao.fetch(LoHierarchy.class, loHierarchyKey);
 	    
-	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, dao);
+	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
 	    category.setLoHierarchy(hierarchy);
-	    dao.create(category);
+	    loDao.create(category);
 	    
 		return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
 	}
@@ -184,7 +192,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loId, "loId");
 	    
-	    dao.delete(Lo.class, loId);
+	    loDao.delete(Lo.class, loId);
 	    
 		return new StatusInfo();
 	}
@@ -199,7 +207,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    
-	    dao.delete(LoCategory.class, loCategoryId);
+	    loDao.delete(LoCategory.class, loCategoryId);
 	    
 		return new StatusInfo();
 	}
@@ -212,7 +220,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-		List<String> allDescendantLoIds = dao.getAllDescendantLoIds(loId);
+		List<String> allDescendantLoIds = loDao.getAllDescendantLoIds(loId);
 		if(allDescendantLoIds == null || allDescendantLoIds.isEmpty())
 		    throw new DoesNotExistException(loId);
         return allDescendantLoIds;
@@ -226,7 +234,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    List<String> ancestors = dao.getAncestors(loId);
+	    List<String> ancestors = loDao.getAncestors(loId);
 	    if(ancestors == null || ancestors.isEmpty())
 	        throw new DoesNotExistException(loId);
 		return ancestors;
@@ -241,7 +249,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    
-	    List<Lo> equivalentLos = dao.getEquivalentLos(loId);
+	    List<Lo> equivalentLos = loDao.getEquivalentLos(loId);
 	    if(equivalentLos == null || equivalentLos.isEmpty())
 	        throw new DoesNotExistException(loId);
 	    
@@ -257,7 +265,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    
-		return LearningObjectiveServiceAssembler.toLoInfo(dao.fetch(Lo.class, loId));
+		return LearningObjectiveServiceAssembler.toLoInfo(loDao.fetch(Lo.class, loId));
 	}
 
 	/* (non-Javadoc)
@@ -269,7 +277,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(loIds, "loId");
 	    checkForEmptyList(loIds, "loId");
-	    List<Lo> los = dao.getLoByIdList(loIds);
+	    List<Lo> los = loDao.getLoByIdList(loIds);
 		return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
@@ -281,7 +289,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loHierarchyKey, "loHierarchyKey");
-	    List<LoCategory> categories = dao.getLoCategories(loHierarchyKey);
+	    List<LoCategory> categories = loDao.getLoCategories(loHierarchyKey);
         return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
@@ -293,7 +301,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    List<LoCategory> categories = dao.getLoCategoriesForLo(loId);
+	    List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
 		return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
@@ -306,7 +314,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    
-		return LearningObjectiveServiceAssembler.toLoCategoryInfo(dao.fetch(LoCategory.class, loCategoryId));
+		return LearningObjectiveServiceAssembler.toLoCategoryInfo(loDao.fetch(LoCategory.class, loCategoryId));
 	}
 
 	/* (non-Javadoc)
@@ -317,7 +325,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    List<Lo> loChildren = dao.getLoChildren(loId);
+	    List<Lo> loChildren = loDao.getLoChildren(loId);
 		return LearningObjectiveServiceAssembler.toLoInfos(loChildren);
 	}
 
@@ -329,7 +337,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    List<Lo> loEquivalents = dao.getLoEquivalents(loId);
+	    List<Lo> loEquivalents = loDao.getLoEquivalents(loId);
 		return LearningObjectiveServiceAssembler.toLoInfos(loEquivalents);
 	}
 
@@ -339,7 +347,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public List<LoHierarchyInfo> getLoHierarchies()
 			throws OperationFailedException {
-	    List<LoHierarchy> hierarchies = dao.find(LoHierarchy.class);
+	    List<LoHierarchy> hierarchies = loDao.find(LoHierarchy.class);
 		return LearningObjectiveServiceAssembler.toLoHierarchyInfos(hierarchies);
 	}
 
@@ -351,7 +359,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loHierarchyKey, "loHierarchyKey");
-	    LoHierarchy fetch = dao.fetch(LoHierarchy.class, loHierarchyKey);
+	    LoHierarchy fetch = loDao.fetch(LoHierarchy.class, loHierarchyKey);
 		return LearningObjectiveServiceAssembler.toLoHierarchyInfo(fetch);
 	}
 
@@ -363,7 +371,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    List<Lo> loParents = dao.getLoParents(loId);
+	    List<Lo> loParents = loDao.getLoParents(loId);
 		return LearningObjectiveServiceAssembler.toLoInfos(loParents);
 	}
 
@@ -375,7 +383,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(loTypeKey, "loTypeKey");
-	    LoType fetch = dao.fetch(LoType.class, loTypeKey);
+	    LoType fetch = loDao.fetch(LoType.class, loTypeKey);
 		return LearningObjectiveServiceAssembler.toLoTypeInfo(fetch);
 	}
 
@@ -384,7 +392,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 */
 	@Override
 	public List<LoTypeInfo> getLoTypes() throws OperationFailedException {
-	    List<LoType> find = dao.find(LoType.class);
+	    List<LoType> find = loDao.find(LoType.class);
 		return LearningObjectiveServiceAssembler.toLoTypeInfos(find);
 	}
 
@@ -396,7 +404,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
-	    List<Lo> los = dao.getLosByLoCategory(loCategoryId);
+	    List<Lo> los = loDao.getLosByLoCategory(loCategoryId);
 		return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
@@ -409,7 +417,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(descendantLoId, "descendantLoId");
-		return dao.isDescendant(loId, descendantLoId);
+		return loDao.isDescendant(loId, descendantLoId);
 	}
 
 	/* (non-Javadoc)
@@ -421,7 +429,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(equivalentLoId, "equivalentLoId");
-		return dao.isEquivalent(loId, equivalentLoId);
+		return loDao.isEquivalent(loId, equivalentLoId);
 	}
 
 	/* (non-Javadoc)
@@ -436,7 +444,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(parentLoId, "parentLoId");
 	    
 	    StatusInfo statusInfo = new StatusInfo();
-	    statusInfo.setSuccess(dao.removeChildLoFromLo(loId, parentLoId));
+	    statusInfo.setSuccess(loDao.removeChildLoFromLo(loId, parentLoId));
 		return statusInfo;
 	}
 
@@ -452,7 +460,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(equivalentLoId, "equivalentLoId");
 	    
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(dao.removeEquivalentLoFromLo(loId, equivalentLoId));
+        statusInfo.setSuccess(loDao.removeEquivalentLoFromLo(loId, equivalentLoId));
         return statusInfo;
 	}
 
@@ -468,7 +476,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(dao.removeLoCategoryFromLo(loCategoryId, loId));
+        statusInfo.setSuccess(loDao.removeLoCategoryFromLo(loCategoryId, loId));
         return statusInfo;
 	}
 
@@ -484,14 +492,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(loInfo, "loInfo");
 
-	    Lo lo = dao.fetch(Lo.class, loId);
+	    Lo lo = loDao.fetch(Lo.class, loId);
         
         if (!String.valueOf(lo.getVersionInd()).equals(loInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
-        lo = LearningObjectiveServiceAssembler.toLo(lo, loInfo, dao);
-        dao.update(lo);
+        lo = LearningObjectiveServiceAssembler.toLo(lo, loInfo, loDao);
+        loDao.update(lo);
         return LearningObjectiveServiceAssembler.toLoInfo(lo);
 	}
 
@@ -507,14 +515,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    checkForMissingParameter(loCategoryInfo, "loCategoryInfo");
 	    
-	    LoCategory loCategory = dao.fetch(LoCategory.class, loCategoryId);
+	    LoCategory loCategory = loDao.fetch(LoCategory.class, loCategoryId);
         
         if (!String.valueOf(loCategory.getVersionInd()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
-        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, dao);
-        dao.update(loCategory);
+        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
+        loDao.update(loCategory);
         return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 	}
 

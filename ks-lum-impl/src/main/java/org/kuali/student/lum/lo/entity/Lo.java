@@ -48,7 +48,15 @@ import org.kuali.student.core.entity.RichText;
 @NamedQueries( {
 	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)"),
 	@NamedQuery(name = "Lo.getLoCategoriesForLo", query = "SELECT c FROM LoCategory c, Lo l WHERE c.loHierarchy = l.loHierarchy AND l.id = :loId"),
-	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT l FROM Lo l, LoCategory c WHERE c.loHierarchy = l.loHierarchy AND c.id = :loCategoryId")
+	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT l FROM Lo l, LoCategory c WHERE c.loHierarchy = l.loHierarchy AND c.id = :loCategoryId"),
+	@NamedQuery(name = "Lo.getLoCategories", query = "SELECT c FROM LoCategory c WHERE c.loHierarchy.id = :hierarchyId"),
+	@NamedQuery(name = "Lo.getLoChildren", query = "SELECT child FROM Lo lo, IN (lo.childLos) child WHERE lo.id = :parentId"),
+	@NamedQuery(name = "Lo.getLoParents", query = "SELECT parent FROM Lo parent, IN (parent.childLos) child WHERE child.id = :loChildId"),
+	@NamedQuery(name = "Lo.getLoChildrenIds", query = "SELECT child.id FROM Lo lo, IN (lo.childLos) child WHERE lo.id = :parentId"),
+	@NamedQuery(name = "Lo.getAncestors", query = "SELECT pl.id FROM Lo pl, IN (pl.childLos) child WHERE child.id = :childId"),
+	@NamedQuery(name = "Lo.isEquivalent", query = "SELECT pl.id FROM Lo cl, Lo pl WHERE cl.id = :childId AND cl IN (pl.childLos)"),
+	@NamedQuery(name = "Lo.getEquivalentLosIds", query = "SELECT equivLo.id FROM Lo lo, Lo equivLo WHERE lo.id = :loId and equivLo in (lo.equivalentLos)"),
+	@NamedQuery(name = "Lo.getLoEquivalents", query = "SELECT lo FROM Lo lo, IN (lo.equivalentLos) equivs where equivs.id = :loId")
 })
 public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@Id
@@ -72,6 +80,12 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 				joinColumns = { @JoinColumn(name = "PARENT_LO_ID")},
 				inverseJoinColumns = { @JoinColumn(name = "CHILD_LO_ID")})
 	private List<Lo> childLos;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "KSLU_LO_LO_EQUIV_RELTN",
+				joinColumns = { @JoinColumn(name = "LO_ID")},
+				inverseJoinColumns = { @JoinColumn(name = "EQUIV_LO_ID")})
+	private List<Lo> equivalentLos;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -152,6 +166,20 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	public List<Lo> getChildLos() {
 		return childLos;
+	}
+
+	/**
+	 * @param equivalentLos the equivalentLos to set
+	 */
+	public void setEquivalentLos(List<Lo> equivalentLos) {
+		this.equivalentLos = equivalentLos;
+	}
+
+	/**
+	 * @return the equivalentLos
+	 */
+	public List<Lo> getEquivalentLos() {
+		return equivalentLos;
 	}
 
 	public Date getEffectiveDate() {
