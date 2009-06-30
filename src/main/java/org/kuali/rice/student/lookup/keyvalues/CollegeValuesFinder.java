@@ -47,7 +47,8 @@ public class CollegeValuesFinder extends KeyValuesBase {
 						orgShortName=resultCell.getValue();
 					}
 				}
-				colleges.add(new KeyLabelPair(orgId, orgShortName));
+				//colleges.add(new KeyLabelPair(orgId, orgShortName));
+				colleges.add(new KeyLabelPair(orgShortName, orgShortName));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

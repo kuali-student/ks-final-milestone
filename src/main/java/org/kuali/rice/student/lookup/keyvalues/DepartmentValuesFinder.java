@@ -47,7 +47,8 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 						orgShortName=resultCell.getValue();
 					}
 				}
-				departments.add(new KeyLabelPair(orgId, orgShortName));
+				//departments.add(new KeyLabelPair(orgId, orgShortName));
+				departments.add(new KeyLabelPair(orgShortName, orgShortName));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

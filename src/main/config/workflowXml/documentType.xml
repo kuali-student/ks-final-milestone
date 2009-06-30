@@ -35,7 +35,7 @@
           <qualifierResolver>CluDocument-DepartmentReviewQualifierResolver</qualifierResolver>
         </role>
         <role name="College Review">
-          <activationType>S</activationType>
+          <activationType>P</activationType>
           <qualifierResolver>CluDocument-CollegeReviewQualifierResolver</qualifierResolver>
         </role>
         <requests name="Senate Curriculum Committee Review">
