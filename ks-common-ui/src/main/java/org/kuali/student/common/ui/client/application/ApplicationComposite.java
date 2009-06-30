@@ -23,7 +23,9 @@ public class ApplicationComposite  extends Composite {
 	public void setContent(Widget w) {
 		content.setWidget(w);
 	}
+	
 	public Widget getContent() {
 		return content.getWidget();
 	}
+	 
 }

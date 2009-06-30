@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class Header extends Composite {
     private final VerticalPanel main = new VerticalPanel();
@@ -39,6 +40,8 @@ public class Header extends Composite {
     private final KSImage logo = new KSImage("images/KS_logo_on_grey.jpg");
     private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
+    
+    private final KSLabel userId = new KSLabel();
 
     /**
      * 
@@ -87,6 +90,7 @@ public class Header extends Composite {
             buildBreadcrumb();
             main.add(breadcrumb);
         }
+
         main.addStyleName("KS-Header");
     }
 
@@ -112,6 +116,8 @@ public class Header extends Composite {
             linkItems = new ArrayList<HeaderLinkItem>();
         }
 
+        linksContentPanel.add(buildUserIdPanel());
+        
         // Always have logout and preferences options
         linkItems.add(new HeaderLinkItem("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
         linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"/*"Logout not yet implemented"*/));
@@ -123,7 +129,9 @@ public class Header extends Composite {
         linksContentPanel.addStyleName("KS-Header-Link-Panel");
 
         //linksPanel is a spacer panel for right alignment of links
-        linksPanel.add(linksContentPanel ,DockPanel.EAST);
+        
+                
+        linksPanel.add(linksContentPanel ,DockPanel.EAST);        
         linksPanel.addStyleName("KS-Header-Link-Spacer");
         linksPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
         linksPanel.setVerticalAlignment(DockPanel.ALIGN_BOTTOM);
@@ -169,6 +177,21 @@ public class Header extends Composite {
         breadcrumb.setUnLinkedBreadcrumbList(breadcrumbItems);
         breadcrumb.addStyleName("KS-Header-Breadcrumb");
 
-    }   
+    }
+    
+    private Widget buildUserIdPanel(){
+        HorizontalPanel userIdPanel = new HorizontalPanel();
+        KSLabel userLabel = new KSLabel("User:");
+        
+        userLabel.addStyleName("KS-Header-Link");        
+        userId.addStyleName("KS-Header-Link");
+        
+        userId.setText(Application.getApplicationContext().getUserId());
+        
+        userIdPanel.add(userLabel);        
+        userIdPanel.add(userId);
+        
+        return userIdPanel;
+    }
 
 }
