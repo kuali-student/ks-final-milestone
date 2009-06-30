@@ -238,7 +238,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	//Get org info stuff
         	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
         	
-        	String departmentName = orgService.getOrganization(orgId).getId();
+        	String departmentName = orgService.getOrganization(orgId).getShortName();
         	List<String> collegeNames = new ArrayList<String>();
         	
         	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
@@ -247,7 +247,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         			if("kuali.org.Part".equals(relation.getType())){
         				OrgInfo part = orgService.getOrganization(relation.getOrgId());
         				if("kuali.org.College".equals(part.getType())){
-        					collegeNames.add(part.getId());
+        					collegeNames.add(part.getShortName());
         				}
         			}
         			
@@ -339,8 +339,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	//Get org info stuff
         	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
         	
-        	//String departmentName = orgService.getOrganization(orgId).getShortName();
-        	String departmentId = orgService.getOrganization(orgId).getId();
+        	String departmentId = orgService.getOrganization(orgId).getShortName();
+        	//String departmentId = orgService.getOrganization(orgId).getId();
         	List<String> collegeIds = new ArrayList<String>();
         	
         	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
@@ -349,8 +349,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         			if("kuali.org.Part".equals(relation.getType())){
         				OrgInfo part = orgService.getOrganization(relation.getOrgId());
         				if("kuali.org.College".equals(part.getType())){
-        					//collegeNames.add(part.getShortName());
-        					collegeIds.add(part.getId());
+        					collegeIds.add(part.getShortName());
+        					//collegeIds.add(part.getId());
         				}
         			}
         			
