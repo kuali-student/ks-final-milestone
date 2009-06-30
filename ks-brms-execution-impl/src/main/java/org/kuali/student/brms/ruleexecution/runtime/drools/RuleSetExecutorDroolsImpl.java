@@ -180,9 +180,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     		logger.warn("Compiling RuleSet: ruleSet UUID="+ruleSet.getUUID());
     		try {
 				pkg = droolsUtil.buildKnowledgePackage(new StringReader(ruleSet.getContent()));
-            } catch(Exception e) {
+            } catch(RuntimeException e) {
                 throw new RuleSetExecutionException("Building Drools Package failed",e);
-            }            
+            }
     	}
     	
     	if (!pkg.getName().equals(ruleSet.getName())){

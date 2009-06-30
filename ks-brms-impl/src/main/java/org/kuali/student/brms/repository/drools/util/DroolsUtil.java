@@ -33,6 +33,7 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 
+import org.drools.ProviderInitializationException;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderConfiguration;
 import org.drools.builder.KnowledgeBuilderError;
@@ -559,12 +560,20 @@ public class DroolsUtil {
      * @return A Drools Package
      * @throws Exception
      */
-    public KnowledgePackage buildKnowledgePackage(Reader source) throws Exception {
-    	KnowledgeBuilder builder = createKnowledgeBuilder();
-    	Resource resource = ResourceFactory.newReaderResource(source);
-    	builder.add(resource, ResourceType.DRL);
-        Collection<KnowledgePackage> pkgs = builder.getKnowledgePackages();
-        return pkgs.iterator().next();
+    public KnowledgePackage buildKnowledgePackage(Reader source) {
+    	try {
+	    	KnowledgeBuilder builder = createKnowledgeBuilder();
+	    	Resource resource = ResourceFactory.newReaderResource(source);
+	    	builder.add(resource, ResourceType.DRL);
+	    	if(builder.hasErrors()) {
+	    		String msg = buildCompilerErrorMessage(builder.getErrors());
+	    		throw new RuntimeException("Compiling DRL failed:\n" + msg);
+	    	}
+	        Collection<KnowledgePackage> pkgs = builder.getKnowledgePackages();
+	        return pkgs.iterator().next();
+    	} catch(ProviderInitializationException e) {
+    		throw new RuntimeException(e);
+    	}
     }
     
     /**

@@ -137,7 +137,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     	KnowledgePackage pkg = null;
 		try {
 			pkg = droolsUtil.buildKnowledgePackage(source);
-        } catch(Exception e) {
+        } catch(RuntimeException e) {
             throw new RuleSetExecutionException("Building Drools Package failed",e);
         }            
         
