@@ -1,0 +1,46 @@
+<html>
+	<head>
+	
+		<!--                                           -->
+		<!-- Any title is fine                         -->
+		<!--                                           -->
+		<title>Wrapper HTML for devgui</title>
+
+		<!--                                           -->
+		<!-- The module reference below is the link    -->
+		<!-- between html and your Web Toolkit module  -->		
+		<!--                                           -->
+		<meta name='gwt:module' content='org.kuali.student.rules.devgui.DevelopersGui'/>
+
+		<!--                                           -->
+		<!-- Link CSS file                             -->
+		<!--                                           -->
+		<link type="text/css" rel='stylesheet' href='DevelopersGui.css'/>
+
+		<script type="text/javascript">
+			var kualiStudentSettings = {
+				locale: "en"
+			};
+		</script>		
+
+	</head>
+
+	<!--                                           -->
+	<!-- The body can have arbitrary html, or      -->
+	<!-- we leave the body empty because we want   -->
+	<!-- to create a completely dynamic ui         -->
+	<!--                                           -->
+	<body>
+
+		<!--                                            -->
+		<!-- This script is required bootstrap stuff.   -->
+		<!-- You can put it in the HEAD, but startup    -->
+		<!-- is slightly faster if you include it here. -->
+		<!--                                            -->
+		<script language="javascript" src="org.kuali.student.rules.devgui.DevelopersGui.nocache.js"></script>
+
+		<!-- OPTIONAL: include this if you want history support -->
+		<iframe id="__gwt_historyFrame" style="width:0;height:0;border:0"></iframe>
+
+	</body>
+</html>
