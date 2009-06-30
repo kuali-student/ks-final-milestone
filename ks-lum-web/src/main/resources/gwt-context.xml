@@ -41,6 +41,10 @@
 				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/CluProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController"/>
 				</entry>	
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/SecurityRpcService">
+					<ref bean="SecurityRpcGwtServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -69,6 +73,12 @@
 	<bean id="OrgRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="orgRpcGwtServlet"/>
 		<property name="servletInstance" ref="orgRpcGwtServlet"/>
+	</bean>
+	
+	<bean id="SecurityRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="SecurityGwtServlet" />
+		<property name="servletInstance" ref="SecurityGwtServlet" />
 	</bean>
 	
 	<!-- GWT Servlets -->
@@ -104,6 +114,10 @@
 				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="SecurityGwtServlet"
+		class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
 	</bean>
 
 	<!-- Service Clients -->

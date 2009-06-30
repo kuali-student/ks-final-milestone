@@ -5,6 +5,8 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.messages.MessagesService;
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -14,13 +16,14 @@ import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class LUMMainEntryPoint implements EntryPoint{
 
-    ApplicationComposite app = new ApplicationComposite();
+    ApplicationComposite app;
     private LUMApplicationManager manager = null;
 
 
@@ -32,16 +35,20 @@ public class LUMMainEntryPoint implements EntryPoint{
         try {
             loadMessages(context);            
             loadDictionary();
-            manager = new LUMApplicationManager();
-            app.setContent(manager);
-            RootPanel.get().add(app);
-            if(manager.getCurrentView() == null)
-                manager.showDefaultView();
+            loadApp(context);
         } catch (Exception e) {
             e.printStackTrace();
         } 
     }
 
+    private void initScreen(){
+        app = new ApplicationComposite();
+        manager = new LUMApplicationManager();
+        app.setContent(manager);
+        RootPanel.get().add(app);
+        if(manager.getCurrentView() == null)
+            manager.showDefaultView();        
+    }
     private void loadMessages(final ApplicationContext context) throws SerializationException {
         MessageList messageList =  getMsgSerializedObject( );
         context.addMessages(messageList.getMessages());
@@ -77,8 +84,25 @@ public class LUMMainEntryPoint implements EntryPoint{
         String serialized = getString( key );
         return (T)ssf.createStreamReader( serialized ).readObject();
     }
+    
     public  native String getString(String name) /*-{
         return eval("$wnd."+name);
     }-*/;
+    
+    public void loadApp(final ApplicationContext context){
+        SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
+        
+        securityRpc.getPrincipalUsername(new AsyncCallback<String>(){
+            public void onFailure(Throwable caught) {
+                context.setUserId("Unknown");
+            }
+
+            @Override
+            public void onSuccess(String principalId) {
+                context.setUserId(principalId);
+                initScreen();
+            }            
+        });
+    }
 
 }
