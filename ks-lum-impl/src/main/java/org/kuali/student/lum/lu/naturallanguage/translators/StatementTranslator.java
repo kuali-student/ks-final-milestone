@@ -9,7 +9,6 @@ import java.util.Map;
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
-import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
@@ -21,20 +20,26 @@ import org.kuali.student.lum.lu.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.lu.naturallanguage.contexts.Context;
 import org.kuali.student.lum.lu.naturallanguage.util.CustomReqComponent;
 import org.kuali.student.lum.lu.naturallanguage.util.LuStatementAnchor;
+import org.kuali.student.lum.lu.naturallanguage.util.TemplateTranslator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class translates a LU (learning unit) statement into a specific 
  * natural language.
  */
 public class StatementTranslator {
-	private String language;
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(StatementTranslator.class);
+
+    private String language;
 	private LuDao luDao;
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator;
 	private NaturalLanguageMessageBuilder messageBuilder;
     private ContextRegistry<Context<LuStatementAnchor>> contextRegistry;
-    private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
-
+    private TemplateTranslator templateTranslator = new TemplateTranslator();
+    
 	/**
 	 * Constructs a new natural language translator in the 
 	 * default language locale.
@@ -222,25 +227,37 @@ public class StatementTranslator {
 	 * @return Statement header
 	 * @throws DoesNotExistException CLU or header template does not exist
 	 */
-	private String getHeader(LuStatement luStatement, String nlUsageTypeKey, String cluId) throws DoesNotExistException {
+	private String getHeader(LuStatement luStatement, String nlUsageTypeKey, String cluId) throws OperationFailedException, DoesNotExistException {
         if(cluId == null) {
         	return "";
         }
         
-        String templateHeader = getHeaderTemplate(luStatement, nlUsageTypeKey);
+        String template = getHeaderTemplate(luStatement, nlUsageTypeKey);
 		
         Map<String, Object> contextMap = buildContextMap(luStatement, cluId);
-        String s = this.templateEngine.evaluate(contextMap, templateHeader);
+        String header = this.templateTranslator.translate(contextMap, template);
         
-        return s;
+        return header;
 	}
 
+    /**
+     * Builds a statement type context map.
+     * 
+	 * @param luStatement Lu statement
+	 * @param cluId Lu statement's anchor CLU id
+	 * @return Context map 
+	 * @throws DoesNotExistException
+	 */
 	private Map<String, Object> buildContextMap(LuStatement luStatement, String cluId) throws DoesNotExistException {
 		LuStatementAnchor lua = new LuStatementAnchor(luStatement, cluId);
-		Context<LuStatementAnchor> context = this.contextRegistry.get(luStatement.getLuStatementType().getId());
-    	Map<String, Object> velocityContextMap = context.createContextMap(lua);
+		String statementTypeKey = luStatement.getLuStatementType().getId();
+		Context<LuStatementAnchor> context = this.contextRegistry.get(statementTypeKey);
+    	if(context == null) {
+        	throw new DoesNotExistException("Header context not found in registry for statement type key: " + statementTypeKey);
+    	}
+		Map<String, Object> contextMap = context.createContextMap(lua);
     	
-        return velocityContextMap;
+        return contextMap;
 	}
 
 	/**

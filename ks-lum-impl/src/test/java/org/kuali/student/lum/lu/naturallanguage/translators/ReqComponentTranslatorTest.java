@@ -177,7 +177,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 			this.englishTranslator.translate(reqComponent, nlUsageTypeKey);
 			Assert.fail("Translate method should have thrown a DoesNotExistException for requirement component type id xxx.xxx.xxx");
 		} catch(DoesNotExistException e) {
-			Assert.assertEquals("Context does not exist in registry for requirement component type key: xxx.xxx.xxx", e.getMessage());
+			Assert.assertEquals("Requirement component context not found in registry for requirement component type key: xxx.xxx.xxx", e.getMessage());
 		}
 	}
 
