@@ -17,10 +17,14 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleConfigurableSection;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -61,6 +65,7 @@ public class LuConfigurer {
         //FIXME: Label should come from messaging, field type should come from dictionary?
         section.addField(new FieldDescriptor("curriculumOversight", "Curriculum Oversight", Type.STRING));        
         section.addField(new FieldDescriptor("campusLocation", "Campus Location", Type.STRING));
+        section.addField(new FieldDescriptor("courseFormats", "Course Formats", Type.LIST, new CourseFormatList()));
                 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
     }
@@ -74,6 +79,26 @@ public class LuConfigurer {
 
         layout.addSection(new String[] {LUConstants.SECTION_COURSE_INFORMATION}, section);        
        
+    }
+    
+    public static class CourseFormatList extends MultiplicityComposite{
+        public Widget createListItemWidget() {
+            return new CourseActivityList();
+        }        
+    }
+    
+    // This will probably a custom clu activity widget that uses a CluInfo model dto.
+    public static class CourseActivityList extends MultiplicityComposite{
+        public Widget createListItemWidget() {
+            MultiplicityItem item = new MultiplicityItem("cluInfo");
+            
+            item.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING));
+            item.addField(new FieldDescriptor("clu.hours", "Contact Hours", Type.STRING));
+            item.addField(new FieldDescriptor("clu.method", "Delivery Method", Type.STRING));
+            item.addField(new FieldDescriptor("clu.size", "Class Size", Type.STRING));
+            
+            return item;
+        }       
     }
 
     
