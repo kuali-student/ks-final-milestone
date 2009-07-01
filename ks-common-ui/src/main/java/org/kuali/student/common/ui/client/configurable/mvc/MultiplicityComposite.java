@@ -29,14 +29,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * A multiplicity composite allows a users to add/remove/display a list of 
+ * multiplicity items. 
  * 
  * @author Kuali Student Team
  *
  */
 public abstract class MultiplicityComposite extends Composite implements HasModelDTOValue{
         
-    private DockPanel dockPanel;
+    private DockPanel mainPanel;
     private VerticalPanel itemsPanel;
     private ModelDTOValue.ListType modelDTOList;     
 
@@ -47,24 +48,26 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      *
      */
     private class ListItemWidgetDecorator extends Composite{
-        VerticalPanel vPanel = new VerticalPanel();
+        DockPanel dockPanel;
         Widget listItem;
         
         KSButton removeButton = new KSButton("-", new ClickHandler(){
             public void onClick(ClickEvent event) {
                 ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getModelDTOValue(); 
                 modelDTOList.get().remove(listItemValue);
-                dockPanel.remove(ListItemWidgetDecorator.this);
+                itemsPanel.remove(ListItemWidgetDecorator.this);
             }            
         });        
         
         private ListItemWidgetDecorator(Widget listItem){
+            dockPanel = new DockPanel();
             this.listItem = listItem;
-            initWidget(vPanel);
+            initWidget(dockPanel);
             if (listItem instanceof MultiplicityComposite){
                 ((MultiplicityComposite)listItem).init();
             }
-            vPanel.add(listItem);
+            dockPanel.add(removeButton, DockPanel.EAST);            
+            dockPanel.add(listItem, DockPanel.EAST);
         }
     }
     
@@ -105,23 +108,23 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             modelDTOList.set(new ArrayList<ModelDTOValue>());
         }
         
-        Widget newItemWidget = createListItemWidget();
+        Widget newItemWidget = createItem();
         ListItemWidgetDecorator listItem = new ListItemWidgetDecorator(newItemWidget);
         modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getModelDTOValue());
         itemsPanel.add(listItem);
     }    
     
     private void addItem(ModelDTOValue modelDTOValue){
-        Widget newItemWidget = createListItemWidget();
+        Widget newItemWidget = createItem();
         ListItemWidgetDecorator listItem = new ListItemWidgetDecorator(newItemWidget);
         ((HasModelDTOValue)newItemWidget).setModelDTOValue(modelDTOValue);
         itemsPanel.add(listItem);        
     }
     
     public void init(){
-        dockPanel = new DockPanel();
+        mainPanel = new DockPanel();
         itemsPanel = new VerticalPanel();
-        initWidget(dockPanel);
+        initWidget(mainPanel);
         
         KSButton addItemButton = new KSButton("Add Item", new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -129,8 +132,8 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             }            
         });                
 
-        dockPanel.add(addItemButton, DockPanel.NORTH);
-        dockPanel.add(itemsPanel, DockPanel.SOUTH);
+        mainPanel.add(addItemButton, DockPanel.NORTH);
+        mainPanel.add(itemsPanel, DockPanel.SOUTH);
         
     }
 
@@ -148,7 +151,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      * 
      * @return
      */
-    public abstract Widget createListItemWidget();
+    public abstract Widget createItem();
     
     
 }
