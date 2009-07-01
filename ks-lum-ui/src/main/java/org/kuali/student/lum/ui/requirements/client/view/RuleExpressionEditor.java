@@ -82,14 +82,14 @@ public class RuleExpressionEditor extends ViewComposite {
                         return;
                 }
                 String expression = taExpression.getText();
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.setExpression(expression);
             }
         });
         btnPreview.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 String expression = null;
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 expression = prereqInfo.getExpression();
                 prereqInfo.setPreviewedExpression(expression);
                 redraw();
@@ -98,7 +98,7 @@ public class RuleExpressionEditor extends ViewComposite {
         
         btnDone.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 List<String> errorMessages = new ArrayList<String>();
                 List<ReqComponentVO> rcs = 
                     (prereqInfo.getStatementVO() == null ||
@@ -127,7 +127,7 @@ public class RuleExpressionEditor extends ViewComposite {
         
         btnCancel.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.setPreviewedExpression(null);
                 getController().showView(PrereqViews.COMPLEX);
             }
@@ -205,7 +205,7 @@ public class RuleExpressionEditor extends ViewComposite {
         buttonsPanel.add(btnCancel);                
         flexTable.setWidget(rowNum, 0, buttonsPanel);
         
-        RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
         if (prereqInfo != null) {
             taExpression.setText("");
             if (prereqInfo.getExpression() != null) {

@@ -415,7 +415,7 @@ public class ClauseEditorView extends ViewComposite {
                 editedReqComp.setType(selectedReqType.getId());                         
 
                 //add new req. component (rule) to the top level of the rule
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelRuleInfo);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 // in the case when there is currently no statement...
                 // i.e. the user creates the rules from scratch.
@@ -441,7 +441,7 @@ public class ClauseEditorView extends ViewComposite {
                 }                
                 
                 if (modelRuleInfo != null) {
-                    RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelRuleInfo);
+                    RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                     StatementVO statementVO = prereqInfo.getStatementVO();
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     statementVO.clearSelections();
@@ -922,7 +922,7 @@ public class ClauseEditorView extends ViewComposite {
             
             public void onSuccess(final String reqCompNaturalLanguage) {                               
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(modelRuleInfo);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 getController().showView(PrereqViews.COMPLEX);
             } 

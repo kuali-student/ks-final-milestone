@@ -46,7 +46,7 @@ public class RulesUtilities {
     }    
     
     //returns first model object
-    public static RuleInfo getPrereqInfoModelObject(Model<RuleInfo> model) {
+    public static RuleInfo getReqInfoModelObject(Model<RuleInfo> model) {
         for (Object data : model.getValues().toArray()) {
             if (data != null) {
                 return (RuleInfo)data;

@@ -146,6 +146,10 @@ public class CourseRequisiteView extends ViewComposite {
                 courseReqManager.setLuStatementType("kuali.luStatementType.prereqAcademicReadiness");
             } else if (sender.getTitle().contains("coreq")) {
                 courseReqManager.setLuStatementType("kuali.luStatementType.coreqAcademicReadiness");
+            } else if (sender.getTitle().contains("enroll")) {
+                courseReqManager.setLuStatementType("kuali.luStatementType.enrollAcademicReadiness");
+            } else if (sender.getTitle().contains("anti")) {
+                courseReqManager.setLuStatementType("kuali.luStatementType.antiAcademicReadiness");
             }
             
             if(rule == null) {
@@ -241,7 +245,7 @@ public class CourseRequisiteView extends ViewComposite {
         heading.setStyleName("KS-ReqMgr-SubHeading");
         rulesInfoPanel.add(heading);
         
-        //BODY: prerequisite rules RATIONALE
+        //BODY: rules RATIONALE
         HorizontalPanel rationalePanel = new HorizontalPanel();
         SimplePanel tempHolder = new SimplePanel();
         KSLabel rationale = new KSLabel("Rationale");
@@ -258,7 +262,7 @@ public class CourseRequisiteView extends ViewComposite {
         rationalePanel.add(tempHolder4);
         rulesInfoPanel.add(rationalePanel);               
         
-        //BODY: prerequisite rules RULES        
+        //BODY: rules        
         HorizontalPanel rationalePanel2 = new HorizontalPanel();
         SimplePanel tempHolder2 = new SimplePanel();
         KSLabel rules = new KSLabel("Rules");

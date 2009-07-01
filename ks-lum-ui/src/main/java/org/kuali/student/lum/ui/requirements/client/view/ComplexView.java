@@ -128,7 +128,7 @@ public class ComplexView extends ViewComposite {
                         }
                         statementVO.getLuStatementInfo().setOperator(newOp);
                         RuleInfo prereqInfo = 
-                            RulesUtilities.getPrereqInfoModelObject(model);
+                            RulesUtilities.getReqInfoModelObject(model);
                         prereqInfo.getStatementVO().simplify();
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                     }
@@ -214,7 +214,7 @@ public class ComplexView extends ViewComposite {
         
         btnMoveRuleDown.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 if (statementVO != null) {
                     List<ReqComponentVO> selectedRCs =
@@ -241,7 +241,7 @@ public class ComplexView extends ViewComposite {
 
         btnMoveRuleUp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 StatementVO statementVO = prereqInfo.getStatementVO();
                 if (statementVO != null) {
                     List<ReqComponentVO> selectedRCs =
@@ -268,7 +268,7 @@ public class ComplexView extends ViewComposite {
         
         btnAddOR.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.insertOR();
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
@@ -277,7 +277,7 @@ public class ComplexView extends ViewComposite {
         
         btnAddAND.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.insertAND();
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
@@ -286,7 +286,7 @@ public class ComplexView extends ViewComposite {
         
         btnDelete.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.deleteItem();
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
@@ -295,7 +295,7 @@ public class ComplexView extends ViewComposite {
         
         btnAddToGroup.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.addToGroup();
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 redraw();
@@ -304,7 +304,7 @@ public class ComplexView extends ViewComposite {
         
         editManually.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.populateExpression();
                 prereqInfo.setPreviewedExpression(prereqInfo.getExpression());
                 getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR);
@@ -313,7 +313,7 @@ public class ComplexView extends ViewComposite {
         
         btnUndo.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 StatementVO previousState = prereqInfo.getEditHistory().undo();
                 if (previousState != null) {
                     prereqInfo.setStatementVO(previousState);
@@ -324,7 +324,7 @@ public class ComplexView extends ViewComposite {
         
         btnRedo.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 StatementVO nextState = prereqInfo.getEditHistory().redo();
                 if (nextState != null) {
                     prereqInfo.setStatementVO(nextState);
@@ -415,7 +415,7 @@ public class ComplexView extends ViewComposite {
     
     private void updateRulesTable() {
         
-        RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
         simpleRuleNL.setText("");                
         complexRuleNL.setText("");
         updateTable(); 
@@ -473,7 +473,7 @@ public class ComplexView extends ViewComposite {
     }        
     
     private void updateTable() {        
-        RuleInfo prereqInfo = RulesUtilities.getPrereqInfoModelObject(model);
+        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
         btnAddAND.setEnabled(prereqInfo.statementVOIsGroupAble());
         btnAddOR.setEnabled(prereqInfo.statementVOIsGroupAble());  
         btnAddToGroup.setEnabled(prereqInfo.isAddToGroupOK());  
@@ -496,8 +496,8 @@ public class ComplexView extends ViewComposite {
     
     private void updateNaturalLanguage() {                 
         
-        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(RulesUtilities.getPrereqInfoModelObject(model).getCluId(),
-                                RulesUtilities.getPrereqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
+        requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(RulesUtilities.getReqInfoModelObject(model).getCluId(),
+                                RulesUtilities.getReqInfoModelObject(model).getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
