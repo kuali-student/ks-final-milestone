@@ -1,8 +1,10 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -20,15 +22,18 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class SimpleConfigurableSection extends LayoutSectionView implements ConfigurableLayoutSection {
+public class SimpleConfigurableSection extends Section {
     
     protected final VerticalPanel panel = new VerticalPanel();
 	private final Label sectionTitleLabel = new Label();
 	private final Label instructionsLabel = new Label();
 	private KSFormLayoutPanel form = null;
 	private boolean loaded = false;
-	private ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();	
+	private ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
+	private Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
+
 		
 	public SimpleConfigurableSection(Enum<?> viewEnum, String name) {	    
 		super(viewEnum, name);
@@ -39,31 +44,21 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	
 	@Override
 	public void setInstructions(String instructions) {
+	    super.setInstructions(instructions);
 		instructionsLabel.setText(instructions);
 	}
 
 	@Override
 	public void setSectionTitle(String sectionTitle) {
+	    super.setSectionTitle(sectionTitle);
 		sectionTitleLabel.setText(sectionTitle);
 	}
 
 	@Override
-	public void addField(FieldDescriptor fieldDescriptor) {
-	    fields.add(fieldDescriptor);
-	}
-
-	
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayoutSection#addSection(java.lang.String)
-     */
-    @Override
-    public void addSection(String fieldKey, ConfigurableLayoutSection section) {
-        
-    }
-
-	@Override
 	public void validate(final Callback<ErrorLevel> callback) {
 	    //TODO: Implement this
+	    //For every field on this section do validation
+	    //For every section call validate
 	}
 	
 	public void setEditMode(EditMode mode){
@@ -74,20 +69,26 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	    if (!loaded){
 	        form = new KSFormLayoutPanel();
 	        panel.add(form);
-	        for (int i=0; i < fields.size(); i++){
-	            FieldDescriptor field = fields.get(i);
-	            
-	            if (field.getFieldWidget() instanceof MultiplicityComposite){
-	                MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
-	                listField.init();
-	                panel.add(listField);	                
-	            } else {
-    	            KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-    	            formField.setWidget(field.getFieldWidget());
-    	            
-    	            //Need for some way to obtain the help info key
-    	            formField.setHelpInfo(new HelpInfo(field.getFieldKey()));
-    	            form.addFormField(formField);
+/*	        for (int i=0; i < orderedWidgetList.size(); i++){
+	            //FieldDescriptor field = fields.get(i);
+	            Widget widget 
+	            if()
+	            KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
+	            formField.setWidget(field.getFieldWidget());
+	            form.addFormField(formField);
+	        }*/
+	        for(Object o: orderedLayoutList){
+	            if(o instanceof NestedSection){
+	                NestedSection ns = ((NestedSection) o);
+	                ns.redraw();
+	                panel.add(ns);
+	                
+	            }
+	            else if(o instanceof FieldDescriptor){
+	                FieldDescriptor field = (FieldDescriptor)o;
+	                KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
+	                formField.setWidget(field.getFieldWidget());
+	                form.addFormField(formField);
 	            }
 	        }
 	        loaded = true;
@@ -107,7 +108,6 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
             ModelDTO modelDTO = model.get();
             for (int i=0; i < fields.size(); i++){
                 FieldDescriptor field = (FieldDescriptor)fields.get(i);
-                
                 if (!(field.getFieldWidget() instanceof MultiplicityComposite)){
                     String fieldKey = field.getFieldKey();
                     ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
@@ -119,6 +119,9 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
                     }
                 }
             } 
+            for(NestedSection s: sections.values()){
+                s.updateModel(model);
+            }
             GWT.log(modelDTO.toString(), null);
         }
 
@@ -148,4 +151,9 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
         }
 	};
 
+    @Override
+    public List<FieldDescriptor> getFields() {
+        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 }
