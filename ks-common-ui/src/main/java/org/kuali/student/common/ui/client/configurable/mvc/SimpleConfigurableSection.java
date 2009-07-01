@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
 
+import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -75,9 +76,19 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 	        panel.add(form);
 	        for (int i=0; i < fields.size(); i++){
 	            FieldDescriptor field = fields.get(i);
-	            KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-	            formField.setWidget(field.getFieldWidget());
-	            form.addFormField(formField);
+	            
+	            if (field.getFieldWidget() instanceof MultiplicityComposite){
+	                MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
+	                listField.init();
+	                panel.add(listField);	                
+	            } else {
+    	            KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
+    	            formField.setWidget(field.getFieldWidget());
+    	            
+    	            //Need for some way to obtain the help info key
+    	            formField.setHelpInfo(new HelpInfo(field.getFieldKey()));
+    	            form.addFormField(formField);
+	            }
 	        }
 	        loaded = true;
 	    }
@@ -96,13 +107,16 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
             ModelDTO modelDTO = model.get();
             for (int i=0; i < fields.size(); i++){
                 FieldDescriptor field = (FieldDescriptor)fields.get(i);
-                String fieldKey = field.getFieldKey();
-                ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
-                if (modelDTOValue  != null){
-                    ModelDTOValueBinder.copyValueToModelDTO(form.getFieldValue(fieldKey), modelDTOValue);
-                } else {
-                    modelDTOValue = ModelDTOValueBinder.createModelDTOInstance(form.getFieldValue(fieldKey), field.getFieldType());
-                    modelDTO.put(fieldKey, modelDTOValue);
+                
+                if (!(field.getFieldWidget() instanceof MultiplicityComposite)){
+                    String fieldKey = field.getFieldKey();
+                    ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
+                    if (modelDTOValue  != null){
+                        ModelDTOValueBinder.copyValueToModelDTO(form.getFieldValue(fieldKey), modelDTOValue);
+                    } else {
+                        modelDTOValue = ModelDTOValueBinder.createModelDTOInstance(form.getFieldValue(fieldKey), field.getFieldType());
+                        modelDTO.put(fieldKey, modelDTOValue);
+                    }
                 }
             } 
             GWT.log(modelDTO.toString(), null);
@@ -120,11 +134,11 @@ public class SimpleConfigurableSection extends LayoutSectionView implements Conf
 
         public void onModelReady(Model<ModelDTO> model) {
             ModelDTO modelDTO = model.get();
-            for (int i=0; i < form.getRowCount(); i++){
-                KSFormField formField = form.getFormRow(i);
-                ModelDTOValue modelDTOValue = modelDTO.get(formField.getName());
-                ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, (HasValue)formField.getWidget());
-            }                   
+            for (int i=0; i < fields.size(); i++){
+                FieldDescriptor field = fields.get(i);
+                ModelDTOValue modelDTOValue = modelDTO.get(field.getFieldKey());
+                ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
+            }                                   
         }
 
         @Override

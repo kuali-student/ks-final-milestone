@@ -9,6 +9,7 @@ package org.kuali.student.common.ui.client.mvc.dto;
 
 import java.util.Date;
 
+import org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ByteType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.CharacterType;
@@ -20,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This can be used to copy values between the ModelDTOValue widget and screen UI
@@ -70,40 +72,47 @@ public class ModelDTOValueBinder {
     }
 
     @SuppressWarnings("unchecked")
-    public static void copyValueFromModelDTO(ModelDTOValue m, HasValue v) {
+    public static void copyValueFromModelDTO(ModelDTOValue m, Widget w) {
         if (m != null) {
             switch (m.getType()) {
                 case STRING:
-                    v.setValue(((StringType) m).get());
+                    ((HasValue)w).setValue(((StringType) m).get());
                     break;
 
                 case CHARACTER:
-                    v.setValue(((CharacterType) m).get());
+                    ((HasValue)w).setValue(((CharacterType) m).get());
                     break;
 
                 case INTEGER:
-                    v.setValue(((IntegerType) m).get());
+                    ((HasValue)w).setValue(((IntegerType) m).get());
                     break;
 
                 case LONG:
-                    v.setValue(((LongType) m).get());
+                    ((HasValue)w).setValue(((LongType) m).get());
                     break;
 
                 case FLOAT:
-                    v.setValue(((FloatType) m).get());
+                    ((HasValue)w).setValue(((FloatType) m).get());
                     break;
 
                 case DOUBLE:
-                    v.setValue(((DoubleType) m).get());
+                    ((HasValue)w).setValue(((DoubleType) m).get());
                     break;
 
                 case BYTE:
-                    v.setValue(((ByteType) m).get());
+                    ((HasValue)w).setValue(((ByteType) m).get());
                     break;
 
                 case BOOLEAN:
-                    v.setValue(((BooleanType) m).get());
+                    ((HasValue)w).setValue(((BooleanType) m).get());
                     break;
+                    
+                case DATE:
+                    ((HasValue)w).setValue(((DateType) m).get());
+                    break;
+                    
+                default:
+                    ((HasModelDTOValue)w).setModelDTOValue(m);
             }
         }
     }
