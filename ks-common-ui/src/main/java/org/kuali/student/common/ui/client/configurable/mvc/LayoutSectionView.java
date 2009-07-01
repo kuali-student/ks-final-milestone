@@ -10,9 +10,9 @@ import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 import com.google.gwt.user.client.ui.Composite;
 
 public abstract class LayoutSectionView extends Composite implements View{
-    private Controller controller;
     private String sectionTitle = null;
     private String instructions = null;
+    private Controller controller;
     private ArrayList<LayoutSectionView> layoutSectionList = new ArrayList<LayoutSectionView>();    
     private Enum<?> viewEnum;
     private String viewName;
@@ -36,10 +36,9 @@ public abstract class LayoutSectionView extends Composite implements View{
         this.viewEnum = viewEnum;
         this.viewName = viewName;
     }
+    
+    
 
-    public ArrayList<LayoutSectionView> getLayoutSectionList(){ 
-      return layoutSectionList;
-    }
     public String getSectionTitle() {
         return sectionTitle;
     }
@@ -54,6 +53,10 @@ public abstract class LayoutSectionView extends Composite implements View{
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public ArrayList<LayoutSectionView> getLayoutSectionList(){ 
+      return layoutSectionList;
     }
 
     public void addChildSection(ConfigurableLayoutSection section) {
