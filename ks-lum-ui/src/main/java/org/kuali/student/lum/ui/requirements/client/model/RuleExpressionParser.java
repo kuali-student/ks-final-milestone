@@ -238,10 +238,10 @@ public class RuleExpressionParser {
         return validToken;
     }
     
-    public Node parseExpressionIntoTree(String expression, List<ReqComponentVO> rcs) {
+    public Node parseExpressionIntoTree(String expression, StatementVO statementVO) {
         Node tree = null;
         if (expression != null && expression.trim().length() > 0) {
-            StatementVO parsedS = parseExpressionIntoStatementVO(expression, rcs);
+            StatementVO parsedS = parseExpressionIntoStatementVO(expression, statementVO);
             if (parsedS != null) {
                 tree = parsedS.getTree();
             }
@@ -250,15 +250,16 @@ public class RuleExpressionParser {
     }
     
     public StatementVO parseExpressionIntoStatementVO(String expression,
-            List<ReqComponentVO> rcs) {
+            StatementVO statementVO) {
         StatementVO parsedS = null;
+        List<ReqComponentVO> rcs = statementVO.getAllReqComponentVOs();
         try {
             List<String> tokenValueList = getTokenValue(expression);
             List<Token> tokenList = getTokenList(tokenValueList);
             if (!doValidateExpression(new ArrayList<String>(), tokenList, rcs)) return null;
             List<Node<Token>> nodeList = toNodeList(tokenList);
             List<Node<Token>> rpnList = getRPN(nodeList);
-            parsedS = statementVOFromRPN(rpnList, rcs);
+            parsedS = statementVOFromRPN(rpnList, rcs, statementVO.getLuStatementInfo().getType());
 
             if (parsedS != null) {
                 parsedS.simplify();
@@ -285,8 +286,9 @@ public class RuleExpressionParser {
     
     /** Build the binary tree from list of tokens*/
     private StatementVO statementVOFromRPN(List<Node<Token>> rpnList,
-            List<ReqComponentVO> rcs) {
+            List<ReqComponentVO> rcs, String statementType) {
         StatementVO statementVO = null;
+        
         
         Stack<Node<? extends Token>> conditionStack = new Stack<Node<? extends Token>>();
         for (Node<Token> node : rpnList) {
@@ -327,12 +329,12 @@ public class RuleExpressionParser {
                     subS.addReqComponentVOs(nodeRcs);
                 } else {
                     if (left instanceof ReqComponentVO) {
-                        subS.addStatementVO(wrapReqComponent(op, (ReqComponentVO)left));
+                        subS.addStatementVO(wrapReqComponent(op, (ReqComponentVO)left, statementType));
                     } else {
                         subS.addStatementVO((StatementVO)left);
                     }
                     if (right instanceof ReqComponentVO) {
-                        subS.addStatementVO(wrapReqComponent(op, (ReqComponentVO)right));
+                        subS.addStatementVO(wrapReqComponent(op, (ReqComponentVO)right, statementType));
                     } else {
                         subS.addStatementVO((StatementVO)right);
                     }
@@ -346,15 +348,16 @@ public class RuleExpressionParser {
         
         if (conditionStack.peek().getUserObject() instanceof ReqComponentVO) {
             statementVO = wrapReqComponent(StatementOperatorTypeKey.AND,
-                    (ReqComponentVO)conditionStack.pop().getUserObject());
+                    (ReqComponentVO)conditionStack.pop().getUserObject(), statementType);
         } else {
             statementVO = (StatementVO)conditionStack.pop().getUserObject();
         }
+        statementVO.getLuStatementInfo().setType(statementType);
 
         return statementVO;
     }
     
-    private StatementVO wrapReqComponent(StatementOperatorTypeKey op, ReqComponentVO rc) {
+    private StatementVO wrapReqComponent(StatementOperatorTypeKey op, ReqComponentVO rc, String statementType) {
         StatementVO wrapS = new StatementVO();
         LuStatementInfo wrapLuStatementInfo = new LuStatementInfo();
         wrapLuStatementInfo.setOperator(op);

@@ -10,11 +10,13 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
+import org.kuali.student.lum.ui.requirements.client.model.ObjectClonerUtil;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -25,6 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -57,6 +60,8 @@ public class ComplexView extends ViewComposite {
     private KSLabel editManually = new KSLabel("Edit manually");    
     private String naturalLanguage;
     private RuleTable ruleTable = new RuleTable();
+    private SimplePanel twiddlerPanel = new SimplePanel();
+    private KSProgressIndicator twiddler = new KSProgressIndicator();
 
     private ClickHandler ruleTableSelectionHandler = null;
     private ClickHandler ruleTableToggleClickHandler = null;
@@ -66,6 +71,7 @@ public class ComplexView extends ViewComposite {
     //view's data
     private Model<RuleInfo> model;   
     private boolean isInitialized = false;
+    private transient StatementVO simplifiedStatementVO; 
 
     public ComplexView(Controller controller) {
         super(controller, "Complex View");
@@ -129,8 +135,12 @@ public class ComplexView extends ViewComposite {
                         statementVO.getLuStatementInfo().setOperator(newOp);
                         RuleInfo prereqInfo = 
                             RulesUtilities.getReqInfoModelObject(model);
-                        prereqInfo.getStatementVO().simplify();
+                        StatementVO unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
+                        boolean structureChanged = prereqInfo.getStatementVO().simplify();
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                        if (structureChanged) {
+                            showUnSimpTemporarily(unsimplified);
+                        }
                     }
                     redraw();
                 }
@@ -269,36 +279,84 @@ public class ComplexView extends ViewComposite {
         btnAddOR.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                StatementVO unsimplified = null;
+                boolean structureChanged = false;
                 prereqInfo.insertOR();
+                // clone a copy of the unsimplified form for showing intermediate step on the UI
+                unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
+                structureChanged = prereqInfo.getStatementVO().simplify();
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                redraw();
+                // sets the statementVO to be the version that hasn't been simplified yet
+                // temporarily
+                if (structureChanged) {
+                    showUnSimpTemporarily(unsimplified);
+                } else {
+                    redraw();
+                }
             }
         });
         
         btnAddAND.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                StatementVO unsimplified = null;
+                boolean structureChanged = false;
                 prereqInfo.insertAND();
+                // clone a copy of the unsimplified form for showing intermediate step on the UI
+                unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
+                structureChanged = prereqInfo.getStatementVO().simplify();
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                redraw();
+                // sets the statementVO to be the version that hasn't been simplified yet
+                // temporarily
+                if (structureChanged) {
+                    showUnSimpTemporarily(unsimplified);
+                } else {
+                    redraw();
+                }
             }
         });
         
         btnDelete.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                StatementVO unsimplified = null;
+                boolean structureChanged = false;
                 prereqInfo.deleteItem();
+                // clone a copy of the unsimplified form for showing intermediate step on the UI
+                unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
+                if (prereqInfo.getStatementVO() != null) {
+                    structureChanged = prereqInfo.getStatementVO().simplify();
+                }
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                redraw();
+                // sets the statementVO to be the version that hasn't been simplified yet
+                // temporarily
+                if (structureChanged) {
+                    showUnSimpTemporarily(unsimplified);
+                } else {
+                    redraw();
+                }
             }
         });
         
         btnAddToGroup.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+                StatementVO unsimplified = null;
+                boolean structureChanged = false;
                 prereqInfo.addToGroup();
+                // clone a copy of the unsimplified form for showing intermediate step on the UI
+                unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
+                if (prereqInfo.getStatementVO() != null) {
+                    structureChanged = prereqInfo.getStatementVO().simplify();
+                }
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                redraw();
+                // sets the statementVO to be the version that hasn't been simplified yet
+                // temporarily
+                if (structureChanged) {
+                    showUnSimpTemporarily(unsimplified);
+                } else {
+                    redraw();
+                }
             }
         });
         
@@ -333,7 +391,26 @@ public class ComplexView extends ViewComposite {
             }
         });
     }
-       
+    
+    public void showUnSimpTemporarily(StatementVO unsimplified) {
+        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
+        prereqInfo.setStatementVO(unsimplified);
+        prereqInfo.setSimplifying(true);
+        redraw();
+        // sleep for a while to show the user how the rule looks like before 
+        // simplification
+        Timer simplifyingTimer = new Timer() {
+            public void run() {
+                RuleInfo prereqInfo = 
+                    RulesUtilities.getReqInfoModelObject(model);
+                prereqInfo.setSimplifying(false);
+                prereqInfo.setStatementVO(prereqInfo.getEditHistory().getCurrentState());
+                redraw();
+            }
+        };
+        simplifyingTimer.schedule(1000);
+    }
+    
     private void redraw() {
         complexView.clear();
         complexView.setStyleName("Content-Margin");
@@ -372,9 +449,12 @@ public class ComplexView extends ViewComposite {
         topButtonsPanel.add(btnDelete);        
         complexView.add(topButtonsPanel);        
         
-        SimplePanel verticalSpacer = new SimplePanel();
-        verticalSpacer.setHeight("30px");
-        complexView.add(verticalSpacer);        
+        twiddler = new KSProgressIndicator();
+        twiddler.setVisible(false);
+        
+        twiddlerPanel.setHeight("30px");
+        twiddlerPanel.setWidget(twiddler);
+        complexView.add(twiddlerPanel);        
         
         //setup Rules Table
         HorizontalPanel tempPanel2 = new HorizontalPanel();
@@ -486,6 +566,13 @@ public class ComplexView extends ViewComposite {
         ruleTable.clear();
         Node tree = prereqInfo.getStatementTree();            
         if (tree != null) {
+            if (prereqInfo.isSimplifying()) {
+                twiddler.setText("Simplifying...");
+                twiddler.setVisible(true);
+            } else {
+                twiddler.setText("");
+                twiddler.setVisible(false);
+            }
             ruleTable.buildTable(tree);
             textClickHandler.removeHandler();
             ruleTable.addTextClickHandler(ruleTableSelectionHandler);

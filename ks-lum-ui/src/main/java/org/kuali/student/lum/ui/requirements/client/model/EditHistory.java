@@ -31,6 +31,12 @@ public class EditHistory {
         }
     }
     
+    public StatementVO getCurrentState() {
+        StatementVO history = null;
+        history = ObjectClonerUtil.clone(histories.get(currHistoryIndex));
+        return history;
+    }
+    
     public StatementVO undo() {
         StatementVO history = null;
         if (isUndoable()) {

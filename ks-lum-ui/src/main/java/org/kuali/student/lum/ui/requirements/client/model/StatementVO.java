@@ -625,13 +625,20 @@ public class StatementVO extends Token implements Serializable {
         }
     }
     
-    public void simplify() {
-        doSimplify(this, null);
-        cleanupStatementVO();
-        unwrapRCs();
+    /**
+     * simplifies statement
+     * @return true if statement has been changed as a result of the call
+     */
+    public boolean simplify() {
+        boolean structureChanged = false;
+        structureChanged = structureChanged || doSimplify(this, null);
+        structureChanged = structureChanged || cleanupStatementVO();
+        structureChanged = structureChanged || unwrapRCs();
+        return structureChanged;
     } 
     
-    private void doSimplify(StatementVO statementVO, StatementVO parent) {
+    private boolean doSimplify(StatementVO statementVO, StatementVO parent) {
+        boolean structureChanged = false;
         StatementOperatorTypeKey op =
             (statementVO == null || statementVO.getLuStatementInfo() == null)? null :
                 statementVO.getLuStatementInfo().getOperator();
@@ -639,6 +646,7 @@ public class StatementVO extends Token implements Serializable {
         parentOp = (parent == null || parent.getLuStatementInfo() == null)? null :
             parent.getLuStatementInfo().getOperator();
         if (parentOp == op && !statementVO.isWrapperStatementVO()) {
+            structureChanged = true;
             if (statementVO.getReqComponentVOCount() > 0) {
                 parent.removeStatementVO(statementVO);
                 for (ReqComponentVO rc : statementVO.getReqComponentVOs()) {
@@ -656,26 +664,30 @@ public class StatementVO extends Token implements Serializable {
         } else if (statementVO.getStatementVOCount() > 0) {
             List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
             for (StatementVO subS : subSs) {
-                doSimplify(subS, statementVO);
+                structureChanged = structureChanged || doSimplify(subS, statementVO);
             }
         }
+        return structureChanged;
     }
     
     /**
      * looks for statements where all sub statements are wrapped statements and
      * unwrap them
      */
-    private void unwrapRCs() {
-        doUnwrapRCs(this, 0);
+    private boolean unwrapRCs() {
+        boolean structureChanged = false;
+        structureChanged = doUnwrapRCs(this, 0);
+        return structureChanged;
     }
     
-    private void doUnwrapRCs(StatementVO statementVO, int level) {
+    private boolean doUnwrapRCs(StatementVO statementVO, int level) {
+        boolean structureChanged = false;
         List<ReqComponentVO> wrappedRCs = new ArrayList<ReqComponentVO>();
         if (statementVO.getStatementVOCount() > 0) {
             List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
             for (StatementVO subS : subSs) {
                 if (!subS.isWrapperStatementVO()) {
-                    doUnwrapRCs(subS, level + 1);
+                    structureChanged = structureChanged || doUnwrapRCs(subS, level + 1);
                 }
             }
             
@@ -686,6 +698,7 @@ public class StatementVO extends Token implements Serializable {
             }
             if (wrappedRCs != null && 
                     wrappedRCs.size() == statementVO.getChildCount()) {
+                structureChanged = true;
                 for (StatementVO subS : subSs) {
                     statementVO.removeStatementVO(subS);
                 }
@@ -694,26 +707,32 @@ public class StatementVO extends Token implements Serializable {
                 }
             }
         }
+        return structureChanged;
     }
     
     /**
      * goes through the tree recursively to delete statements with no child.
      */
-    private void cleanupStatementVO() {
-        doCleanupStatementVO(this, null);
+    private boolean cleanupStatementVO() {
+        boolean structureChanged = false;
+        structureChanged = doCleanupStatementVO(this, null);
+        return structureChanged;
     }
     
-    private void doCleanupStatementVO(StatementVO statementVO, StatementVO parent) {
+    private boolean doCleanupStatementVO(StatementVO statementVO, StatementVO parent) {
+        boolean structureChanged = false;
         if (statementVO.getStatementVOCount() == 0 &&
                 statementVO.getReqComponentVOCount() == 0) {
             if (parent != null) {
                 parent.removeStatementVO(statementVO);
+                structureChanged = true;
             }
         } else if (statementVO.getStatementVOCount() > 0) {
             for (StatementVO subS : statementVO.getStatementVOs()) {
-                doCleanupStatementVO(subS, statementVO);
+                structureChanged = structureChanged || doCleanupStatementVO(subS, statementVO);
             }
         }
+        return structureChanged;
     }
 
     public String getPrintableStatement() {

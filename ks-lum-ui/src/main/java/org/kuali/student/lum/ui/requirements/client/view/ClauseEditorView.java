@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -60,48 +61,48 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ClauseEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    
+
     public enum reqCompFieldDefinitions { TODO }
-    
+
     //view's widgets
-    private static final int NOF_BASIC_RULE_TYPES = 3;   
-    private static final int CATALOG_TEMLATE = 0; 
-    private static final int EXAMPLE_TEMLATE = 1; 
-    private static final int COMPOSITION_TEMLATE = 2; 
+    private static final int NOF_BASIC_RULE_TYPES = 3;
+    private static final int CATALOG_TEMLATE = 0;
+    private static final int EXAMPLE_TEMLATE = 1;
+    private static final int COMPOSITION_TEMLATE = 2;
     private static final String SIMPLE_RULE_RB_GROUP = "RuleTypesGroup";
     private static final String RULE_TYPES_OTHER = "Other:";
     private List<KSRadioButton> rbRuleType = new ArrayList<KSRadioButton>();
-    private FocusHandler ruleTypeSelectionHandler = null;    
-    
+    private FocusHandler ruleTypeSelectionHandler = null;
+
     private VerticalPanel mainPanel = new VerticalPanel();
     private VerticalPanel addEditRuleView = new VerticalPanel();
-    private HorizontalPanel ruleDetailsPanel = new HorizontalPanel(); 
+    private HorizontalPanel ruleDetailsPanel = new HorizontalPanel();
     private KSButton btnCancelView = new KSButton("Cancel");
     private KSButton addReqComp = new KSButton("Add Rule");
     private KSButton updateReqComp = new KSButton("Update Rule");
     private KSDropDown compReqTypesList = new KSDropDown();
-    private SimplePanel reqCompDesc = new SimplePanel();  
-    private KSLabel exampleText = new KSLabel();    
-    
+    private SimplePanel reqCompDesc = new SimplePanel();
+    private KSLabel exampleText = new KSLabel();
+
     //view's data
     private boolean addNewReqComp;
     private Model<RuleInfo> modelRuleInfo;
     private ReqComponentTypeInfo selectedReqType;
     private ReqComponentInfo editedReqComp;
     private String origReqCompType;
-    private ReqComponentVO editedReqCompVO;     
+    private ReqComponentVO editedReqCompVO;
     private List<ReqComponentTypeInfo> reqCompTypeList;     //list of all Requirement Component Types
     private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
-    private List<ReqComponentTypeInfo> advReqCompTypeList;     //list of advanced Requirement Component Types    
+    private List<ReqComponentTypeInfo> advReqCompTypeList;     //list of advanced Requirement Component Types
     private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>();
-    private Map<String, String> clusData = new HashMap<String, String>(); 
+    private Map<String, String> clusData = new HashMap<String, String>();
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private static int tempCounterID = 2000;
 
-    
+
     //private List<Color> colors = new ArrayList<Color>();
     private Model<Color> colors = new Model<Color>();
-    
+
     private ModelListItems<Color> tableItems = new ModelListItems<Color>(){
         @Override
         public List<String> getAttrKeys() {
@@ -143,58 +144,58 @@ public class ClauseEditorView extends ViewComposite {
             }
             return value;
         }
-    };    
-    
+    };
+
     public ClauseEditorView(Controller controller) {
         super(controller, "Clause Editor View");
         super.initWidget(mainPanel);
         setupHandlers();
     }
-    
-    public void beforeShow() {        
-        setReqComponentListAndReqComp();                                     
+
+    public void beforeShow() {
+        setReqComponentListAndReqComp();
     }
-    
-    public void redraw() {   
-        
+
+    public void redraw() {
+
         //1. show view HEADING
         SimplePanel headingPanel = new SimplePanel();
         KSLabel heading = new KSLabel((addNewReqComp ? "Add" : "Edit") + " Prerequisite Rule");
-        heading.setStyleName("KS-Rules-FullWidth"); 
+        heading.setStyleName("KS-Rules-FullWidth");
         heading.setStyleName("KS-ReqMgr-Heading");
         headingPanel.add(heading);
-        
+
         //2. show RULE TYPES
-        HorizontalPanel ruleTypesPanel = new HorizontalPanel();        
-        
+        HorizontalPanel ruleTypesPanel = new HorizontalPanel();
+
         //show requirement component label
-        SimplePanel labelPanel = new SimplePanel();           
+        SimplePanel labelPanel = new SimplePanel();
         KSLabel reqTypeLabel = new KSLabel("Rule");
-        reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading"); 
+        reqTypeLabel.setStyleName("KS-RuleEditor-SubHeading");
         labelPanel.add(reqTypeLabel);
-        ruleTypesPanel.add(labelPanel);               
+        ruleTypesPanel.add(labelPanel);
 
         addEditRuleView.clear();
-        addEditRuleView.setStyleName("KS-Rules-FullWidth");       
-        
+        addEditRuleView.setStyleName("KS-Rules-FullWidth");
+
         //show list of rule types
-        displayReqComponentTypes(addEditRuleView); 
-                
+        displayReqComponentTypes(addEditRuleView);
+
         SimplePanel verticalSpacer2 = new SimplePanel();
         verticalSpacer2.setHeight("30px");
-        addEditRuleView.add(verticalSpacer2);        
-        
-        //3. show SELECTED RULE TYPE DETAILS         
-        displayReqComponentDetails();              
-        addEditRuleView.add(ruleDetailsPanel); 
-                       
-        //buttons at the bottom       
+        addEditRuleView.add(verticalSpacer2);
+
+        //3. show SELECTED RULE TYPE DETAILS
+        displayReqComponentDetails();
+        addEditRuleView.add(ruleDetailsPanel);
+
+        //buttons at the bottom
         SimplePanel horizSpacer = new SimplePanel();
-        horizSpacer.setWidth("30px");           
-        HorizontalPanel tempPanelButtons = new HorizontalPanel();    
+        horizSpacer.setWidth("30px");
+        HorizontalPanel tempPanelButtons = new HorizontalPanel();
         tempPanelButtons.setSpacing(0);
-        tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");        
-        btnCancelView.setStyleName("KS-Rules-Tight-Button");   
+        tempPanelButtons.setStyleName("KS-ReqCompEditor-BottomButtons");
+        btnCancelView.setStyleName("KS-Rules-Tight-Button");
         if (addNewReqComp) {
             tempPanelButtons.add(addReqComp);
             addReqComp.setStyleName("KS-Rules-Tight-Button");
@@ -206,17 +207,17 @@ public class ClauseEditorView extends ViewComposite {
             updateReqComp.setStyleName("KS-Rules-Tight-Button");
             if (selectedReqType == null) {
                 updateReqComp.setEnabled(false);
-            }            
-        }                           
-        tempPanelButtons.add(horizSpacer);        
+            }
+        }
+        tempPanelButtons.add(horizSpacer);
         tempPanelButtons.add(btnCancelView);
         addEditRuleView.add(tempPanelButtons);
-        
+
     //    final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync) requirementsRpcServiceAsync, "org.search.orgByShortName",
     //                                                    "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName");
-        //oracle.setTextWidget(sb.getTextBox()); 
-        
-        
+        //oracle.setTextWidget(sb.getTextBox());
+
+
         colors.add(new Color("1", "Blue", "Cool", "Primary"));
         colors.add(new Color("2", "Red", "Warm", "Primary"));
         colors.add(new Color("3", "Orange", "Warm", "Secondary"));
@@ -232,7 +233,7 @@ public class ClauseEditorView extends ViewComposite {
                 return c1.getColor().compareToIgnoreCase(c2.getColor());
             }
         });
-        
+
   //      KSListItemsSuggestOracle oracle = new KSListItemsSuggestOracle();
    //     oracle.setListItems(tableItems);        
         
@@ -240,6 +241,7 @@ public class ClauseEditorView extends ViewComposite {
   //      KSSelectableTableList stl = new KSSelectableTableList();
   //      KSSuggestBox sb = new KSSuggestBox(oracle);
         
+
 //        List<SearchParameter> params = new ArrayList<SearchParameter>();
 //        params.add(new SearchParameter("Color", "Color"));
 //        params.add(new SearchParameter("Warmth", "Warmth"));
@@ -247,11 +249,11 @@ public class ClauseEditorView extends ViewComposite {
 //        enumeratedValues.add("Primary");
 //        enumeratedValues.add("Secondary");
 //        enumeratedValues.add("None");
-//        params.add(new SearchParameter("Type", "Type", enumeratedValues));        
-//        
+//        params.add(new SearchParameter("Type", "Type", enumeratedValues));
+//
 //        KSSuggestBoxWAdvSearch suggest = new KSSuggestBoxWAdvSearch(sb, new KSAdvancedSearchWindow(params));
-//        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);        
-        
+//        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);
+
         //addEditRuleView.add(sbp);
         
       /*  
@@ -275,20 +277,20 @@ public class ClauseEditorView extends ViewComposite {
         HorizontalPanel bodyPanel = new HorizontalPanel(); 
         bodyPanel.add(ruleTypesPanel);
         bodyPanel.add(addEditRuleView);
-                
+
         mainPanel.clear();
         mainPanel.setStyleName("Content-Margin");
         mainPanel.add(headingPanel);
         mainPanel.add(bodyPanel);
-        
+
         //updateExampleContext(); TODO - download all necessary contexts?
     }
-    
+
     //show basic and advanced requirement types
     private void displayReqComponentTypes(Panel container) {
-        
+
         //TODO list of basic and advanced types based on some configuration data
-        
+
         //show radio button for each basic Requirement Component Type
         VerticalPanel rbPanel = new VerticalPanel();
         int nofBasicRuleTypes = (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES ? NOF_BASIC_RULE_TYPES : reqCompTypeList.size());
@@ -299,64 +301,64 @@ public class ClauseEditorView extends ViewComposite {
             if ((selectedReqType != null) && reqCompTypeList.get(i).getId().equals(selectedReqType.getId())) {
                 newButton.setValue(true);
             }
-            rbPanel.add(newButton);            
+            rbPanel.add(newButton);
         }
-        
+
         //now add a drop down for advanced Requirement Component Types
         HorizontalPanel hodler = new HorizontalPanel();
         KSRadioButton newButton = new KSRadioButton(SIMPLE_RULE_RB_GROUP, RULE_TYPES_OTHER);
         rbRuleType.add(newButton);
-        hodler.add(newButton); 
+        hodler.add(newButton);
         compReqTypesList.setStyleName("KS-Radio-Dropdown");
-       
-        if (selectedReqType != null) { 
+
+        if (selectedReqType != null) {
             ListItems advancedTypes = compReqTypesList.getListItems();
             List<String> ids = advancedTypes.getItemIds();
-            for (int i = 0; i < advancedTypes.getItemCount(); i++) {            
+            for (int i = 0; i < advancedTypes.getItemCount(); i++) {
                 if (advancedTypes.getItemText(ids.get(i)).equals(selectedReqType.getName())) {
                     compReqTypesList.selectItem(ids.get(i));
                     break;
                 }
             }
         }
-        hodler.add(compReqTypesList);  
+        hodler.add(compReqTypesList);
 
         //don't advanced req. component types list if we don't have any
         if (advReqCompTypeList.size() > 0) {
-            rbPanel.add(hodler);                  
+            rbPanel.add(hodler);
         }
-                
-        container.add(rbPanel);    
+
+        container.add(rbPanel);
     }
-    
-    
+
+
     private void displayReqComponentDetails() {
-        
+
         //TODO generic function that will retrieve all data required to display details of this req. componenet type...
-        
+
         //true if no Requirement Component Type selected
         ruleDetailsPanel.clear();
         if (selectedReqType == null) {
             return;
-        }       
-        
+        }
+
         requirementsRpcServiceAsync.getReqComponentTemplates(editedReqComp, new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 System.out.println(caught.getMessage());
                 caught.printStackTrace();
             }
-            
+
             public void onSuccess(final String[] templates) {
                 displayReqComponentDetailsCont(templates);
-            } 
-        });  
+            }
+        });
     }
-    
-    private void displayReqComponentDetailsCont(String[] templates) {                
-        
+
+    private void displayReqComponentDetailsCont(String[] templates) {
+
         //show heading
-        VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel(); 
+        VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel();
         KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDesc() + ":");
         reqCompTypeName.setStyleName("KS-ReqMgr-SubHeading");
         reqCompDetailsExampleContainerPanel.add(reqCompTypeName);
@@ -365,15 +367,15 @@ public class ClauseEditorView extends ViewComposite {
         HorizontalPanel reqCompDetailsExamplePanel = new HorizontalPanel();
         SimplePanel reqCompDetailsPanel = new SimplePanel();
         reqCompDetailsPanel.setStyleName("KS-Rules-ReqCompEdit-Width");
-                
+
         displayReqComponentText(templates[COMPOSITION_TEMLATE], reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompField()));
         reqCompDetailsPanel.add(reqCompDesc);
-        
+
         reqCompDetailsExamplePanel.add(reqCompDetailsPanel);
-        
+
         //show example
-        VerticalPanel examplePanel = new VerticalPanel();        
-        examplePanel.setSpacing(0);   
+        VerticalPanel examplePanel = new VerticalPanel();
+        examplePanel.setSpacing(0);
         KSLabel exampleText1 = new KSLabel("Example:");
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);
@@ -381,20 +383,20 @@ public class ClauseEditorView extends ViewComposite {
         exampleText.setStyleName("KS-RuleEditor-ExampleText2");
         examplePanel.add(exampleText);
         reqCompDetailsExamplePanel.add(examplePanel);
-        
+
         reqCompDetailsExampleContainerPanel.add(reqCompDetailsExamplePanel);
-        
+
         SimplePanel verticalSpacer2 = new SimplePanel();
         verticalSpacer2.setHeight("30px");
-        reqCompDetailsExampleContainerPanel.add(verticalSpacer2); 
-        
-        reqCompDetailsExampleContainerPanel.add(new KSLabel(templates[CATALOG_TEMLATE]));        
-        
+        reqCompDetailsExampleContainerPanel.add(verticalSpacer2);
+
+        reqCompDetailsExampleContainerPanel.add(new KSLabel(templates[CATALOG_TEMLATE]));
+
         ruleDetailsPanel.add(reqCompDetailsExampleContainerPanel);
-    }   
+    }
 
     private void setupHandlers() {
-         
+
         btnCancelView.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 if (origReqCompType != null) {
@@ -403,16 +405,16 @@ public class ClauseEditorView extends ViewComposite {
                 getController().showView(PrereqViews.COMPLEX);
             }
         });
-        
+
         addReqComp.addClickHandler(new ClickHandler() {
-            
-            public void onClick(ClickEvent event) { 
-                
+
+            public void onClick(ClickEvent event) {
+
                 if (updateFields() == false) {
                     return;
                 }
-                
-                editedReqComp.setType(selectedReqType.getId());                         
+
+                editedReqComp.setType(selectedReqType.getId());
 
                 //add new req. component (rule) to the top level of the rule
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
@@ -426,20 +428,20 @@ public class ClauseEditorView extends ViewComposite {
                     statementVO.setLuStatementInfo(newLuStatementInfo);
                     prereqInfo.setStatementVO(statementVO);
                 }
-                statementVO.addReqComponentVO(editedReqCompVO);                                                                                              
+                statementVO.addReqComponentVO(editedReqCompVO);
                 statementVO.clearSelections();
                 editedReqCompVO.setCheckBoxOn(true);
                 updateNLAndExit();
             }
-        });   
-        
+        });
+
         updateReqComp.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {                
+            public void onClick(ClickEvent event) {
 
                 if (updateFields() == false) {
                     return;
-                }                
-                
+                }
+
                 if (modelRuleInfo != null) {
                     RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                     StatementVO statementVO = prereqInfo.getStatementVO();
@@ -447,26 +449,26 @@ public class ClauseEditorView extends ViewComposite {
                     statementVO.clearSelections();
                     editedReqCompVO.setCheckBoxOn(true);
                 }
-                updateNLAndExit();                
+                updateNLAndExit();
             }
-        });        
-        
+        });
+
         ruleTypeSelectionHandler = new FocusHandler() {
             public void onFocus(FocusEvent event) {
-                
+
                 addReqComp.setEnabled(true);
                 updateReqComp.setEnabled(true);
-                
+
                 KSRadioButton btn = ((KSRadioButton) event.getSource());
-                
+
                 //de-select a list of advanced requirement comp. types
                 if (compReqTypesList.getSelectedItem() != null) {
                     compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
-                }                
-                
+                }
+
                 for (int i = 0; i < NOF_BASIC_RULE_TYPES; i++) {
                     if (btn.getText().trim().equals(reqCompTypeList.get(i).getDesc().trim())) {
-                        selectedReqType = reqCompTypeList.get(i); 
+                        selectedReqType = reqCompTypeList.get(i);
                         if (addNewReqComp) {
                             setupNewEditedReqComp(selectedReqType.getId());
                         } else {
@@ -474,31 +476,31 @@ public class ClauseEditorView extends ViewComposite {
                         }
                         displayReqComponentDetails();
                         return;
-                    }                              
-                }                                                                                
+                    }
+                }
             }
-        };               
-        
-        compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {  
+        };
+
+        compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
              public void onSelectionChange(KSSelectItemWidgetAbstract w) {
                  addReqComp.setEnabled(true);
                  updateReqComp.setEnabled(true);
                  for (KSRadioButton button : rbRuleType) {
-                     button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);                     
+                     button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
                  }
-                 
+
                  List<String> ids = w.getSelectedItems();
                  selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
                  if (addNewReqComp) {
-                     setupNewEditedReqComp(selectedReqType.getId());                 
+                     setupNewEditedReqComp(selectedReqType.getId());
                  } else {
                      editedReqComp.setType(selectedReqType.getId());
                  }
-                 displayReqComponentDetails();             
+                 displayReqComponentDetails();
          }});
-        
+
     }
-    
+
     /**
      * reads and check what are in the widgets and update the fields in editedReqComp
      */
@@ -518,7 +520,7 @@ public class ClauseEditorView extends ViewComposite {
                 }
 
                 if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
-                    cluIds.append((cluIds.length() > 0 ? ", " : "") + fieldInfo.getValue()); 
+                    cluIds.append((cluIds.length() > 0 ? ", " : "") + fieldInfo.getValue());
                 } else {
                     fields.add(fieldInfo);
                 }
@@ -533,18 +535,18 @@ public class ClauseEditorView extends ViewComposite {
         editedReqComp.setReqCompField(fields);
         return true;
     }
-    
+
     private boolean checkField(ReqCompFieldInfo fieldInfo) {
 
         if (fieldInfo != null) {
-            String fieldId = fieldInfo.getId().replaceFirst("reqCompFieldType.", "");            
+            String fieldId = fieldInfo.getId().replaceFirst("reqCompFieldType.", "");
             String fieldValue = fieldInfo.getValue();
-            
+
             if (fieldValue.trim().isEmpty()) {
                 Window.alert("Please enter all fields");
                 return false;
-            }            
-                      
+            }
+
             if (fieldId.equals("clu")) {
                 String cluId = clusData.get(fieldValue);
                 if (cluId != null) {
@@ -552,49 +554,63 @@ public class ClauseEditorView extends ViewComposite {
                     return true;
                 }
                 if (fieldValue.contains(",")) {
-                    Window.alert("Please enter only one course");                  
-                } else {                
+                    Window.alert("Please enter only one course");
+                } else {
                     Window.alert("Cannot find course '" + fieldValue + "'");
                 }
                 return false;
             }
-           
+
             if (fieldId.equals("cluSet")) {
-                String cluSetId = cluSetsData.get(fieldValue);              
+                String cluSetId = cluSetsData.get(fieldValue);
                 if (cluSetId != null) {
                     fieldInfo.setValue(cluSetId);
                     return true;
-                }                                
+                }
                 if (fieldValue.contains(",")) {
-                    Window.alert("Please enter only one course set");                  
+                    Window.alert("Please enter only one course set");
                 } else {
                     Window.alert("Cannot find course set '" + fieldValue + "'");
                 }
                 return false;
-            }            
+            }
         }
         return true;
     }
-    
-    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) { 
-       
+
+    private String lookupCluCode(String cluId) {
+        Set<String> clusCodes = clusData.keySet();
+        if (clusCodes != null) {
+            for (String cluCode : clusCodes) {
+                String currCluId = clusData.get(cluCode);
+                if (currCluId != null && currCluId.equals(cluId)) {
+                    return cluCode;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) {
+
         // resets the list of reqCompWidgets to make sure it is created fresh.
         reqCompWidgets.clear();
         parentWidget.clear();
-        VerticalPanel innerReqComponentTextPanel = new VerticalPanel();       
+        VerticalPanel innerReqComponentTextPanel = new VerticalPanel();
         innerReqComponentTextPanel.setStyleName("KS-Rules-FullWidth");
         final String[] tokens = reqInfoDesc.split("[<>]");
         boolean isValueWidget = true;
-        
+        Map<String, Integer> tagCounts = new HashMap<String, Integer>();
+
         for (int i = 0; i < tokens.length; i++) {
-            
+
             isValueWidget = !isValueWidget;
             //this token is a text only
             if (isValueWidget == false) {
                 // skip. just show the fields
                 continue;
             }
-            
+
             //TODO use ENUMs and Switch()
             final String[] fieldTokens = tokens[i].split(";");
             final Map<String, String> fieldProperties =
@@ -608,9 +624,17 @@ public class ClauseEditorView extends ViewComposite {
                     }
                 }
             }
-            
+
             String tag = fieldProperties.get("reqCompFieldType");
             String fieldLabel = fieldProperties.get("reqCompFieldLabel");
+            int tagCount = 0;
+            if (!tagCounts.containsKey(tag)) {
+                tagCount = 0;
+            } else {
+                tagCount = tagCounts.get(tag).intValue();
+                tagCount++;
+            }
+            tagCounts.put(tag, new Integer(tagCount));
 
             if ((tag.equals("reqCompFieldType.requiredCount")) || (tag.equals("reqCompFieldType.gpa")) || (tag.equals("reqCompFieldType.totalCredits"))) {
                 final KSTextBox valueWidget = new KSTextBox();
@@ -630,20 +654,27 @@ public class ClauseEditorView extends ViewComposite {
                 if (fieldLabel != null && fieldLabel.trim().length() > 0 && tokens.length > 2) {
                     innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
                 }
-                innerReqComponentTextPanel.add(tempPanel);                
-                continue;                                
+                innerReqComponentTextPanel.add(tempPanel);
+                continue;
             }
-            
+
             if (tag.equals("reqCompFieldType.clu")) {
                 final KSTextBox valueWidget = new KSTextBox();
+                String cluIdsInClause = getSpecificFieldValue(fields, tag);
+                String[] cluIds =
+                    (cluIdsInClause == null)? null : cluIdsInClause.split("(, *)");
+                String cluCode = null;
+                if (cluIds != null && tagCount < cluIds.length) {
+                    cluCode = lookupCluCode(cluIds[tagCount]);
+                }
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
-                valueWidget.setText(getSpecificFieldValue(fields, tag));
+                valueWidget.setText(cluCode);
                 valueWidget.setWidth("100px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 VerticalPanel tempPanel = new VerticalPanel();
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
-                tempPanel.add(valueWidget);                
+                tempPanel.add(valueWidget);
 
                 final SearchDialog searchDialog = new SearchDialog(getController(), clusData);
                 searchDialog.addCourseAddHandler(new ClickHandler() {
@@ -675,22 +706,22 @@ public class ClauseEditorView extends ViewComposite {
                     innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
                 }
                 innerReqComponentTextPanel.add(tempPanel);
-                
-                continue;                                
-            }            
-            
+
+                continue;
+            }
+
             if (tag.equals("reqCompFieldType.cluSet")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
                 final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tag);
-                valueWidget.setText(getSpecificFieldValue(fields, tag));             
-                valueWidget.setWidth("250px");                           
-                valueWidget.setStyleName("KS-Textbox-Fix"); 
+                valueWidget.setText(getSpecificFieldValue(fields, tag));
+                valueWidget.setWidth("250px");
+                valueWidget.setStyleName("KS-Textbox-Fix");
                 valueWidget.addStyleName("KS-Rules-FlexPanelFix");
                 VerticalPanel tempPanel = new VerticalPanel();
                 tempPanel.setStyleName("KS-Rules-FlexPanelFix");
-                tempPanel.add(valueWidget);                     
+                tempPanel.add(valueWidget);
                 final SearchDialog searchDialog = new SearchDialog(getController(), cluSetsData);
                 searchDialog.addCourseAddHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
@@ -721,16 +752,16 @@ public class ClauseEditorView extends ViewComposite {
                     innerReqComponentTextPanel.add(new KSLabel(fieldLabel + ":"));
                 }
                 innerReqComponentTextPanel.add(tempPanel);
-                continue;                                
-            }       
+                continue;
+            }
         }
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
-    
+
     private Widget assembleSearchCourseWidget() {
         return null;
     }
-       
+
     private ReqCompFieldInfo getReqCompFieldInfo(List<ReqCompFieldInfo> fields, String key) {
         ReqCompFieldInfo result = null;
         if (fields == null) {
@@ -743,30 +774,30 @@ public class ClauseEditorView extends ViewComposite {
         }
         return result;
     }
-        
+
     private String getSpecificFieldValue(List<ReqCompFieldInfo> fields, String key) {
         ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, key);
         String result = null;
-        
+
         //if we are showing new req. comp. type then show empty fields
         if (reqCompFieldInfo == null) {
             return "";
         }
-        
+
         result = reqCompFieldInfo.getValue();
-        result = (result == null)? "" : result;    
+        result = (result == null)? "" : result;
         return result;
-    }            
-    
-    private void setupNewEditedReqComp(String reqCompID) {            
+    }
+
+    private void setupNewEditedReqComp(String reqCompID) {
         editedReqComp = new ReqComponentInfo();
         editedReqComp.setDesc("");      //will be set after user is finished with all changes
-        editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO       
+        editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
         editedReqComp.setReqCompField(null); //fieldList);
         if (reqCompID != null) editedReqComp.setType(reqCompID);
-        editedReqCompVO = new ReqComponentVO(editedReqComp);             
+        editedReqCompVO = new ReqComponentVO(editedReqComp);
     }
-    
+
     /**
      * returns a comma delimited string that represents the union of the originalValue and selectedValues
      * @param originalValue
@@ -775,14 +806,14 @@ public class ClauseEditorView extends ViewComposite {
      */
     private String combineValues(String originalValue, List<String> selectedValues) {
         int fieldValueCount = 0;
-        String tempOriginalValue = 
+        String tempOriginalValue =
             (originalValue == null)? "" : originalValue;
         StringBuilder newFieldValue = new StringBuilder("");
         SortedSet<String> newValues = new TreeSet<String>();
         newValues.addAll(Arrays.asList(tempOriginalValue.split(", +")));
         newValues.addAll(selectedValues);
         for (String newValue : newValues) {
-            if (fieldValueCount > 0 && 
+            if (fieldValueCount > 0 &&
                     newFieldValue.toString().trim().length() > 0) {
                 newFieldValue.append(", ");
             }
@@ -790,24 +821,24 @@ public class ClauseEditorView extends ViewComposite {
             fieldValueCount++;
         }
         return newFieldValue.toString();
-    }    
+    }
 
-    private void setReqComponentListAndReqComp() {        
-        
+    private void setReqComponentListAndReqComp() {
+
         getController().requestModel(ReqComponentTypeInfo.class, new ModelRequestCallback<ReqComponentTypeInfo>() {
             public void onModelReady(Model<ReqComponentTypeInfo> theModel) {
                 reqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
                 reqCompTypeList.addAll(theModel.getValues());
-                
+
                 advReqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
-                
-                if (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES) {                    
+
+                if (reqCompTypeList.size() > NOF_BASIC_RULE_TYPES) {
                     for(int i = NOF_BASIC_RULE_TYPES; i < reqCompTypeList.size(); i++){
                         advReqCompTypeList.add(reqCompTypeList.get(i));
-                    }                
+                    }
                 }
 
-                listItemReqCompTypes = new ListItems() {                    
+                listItemReqCompTypes = new ListItems() {
                     @Override
                     public List<String> getAttrKeys() {
                         List<String> attributes = new ArrayList<String>();
@@ -826,10 +857,10 @@ public class ClauseEditorView extends ViewComposite {
                         }
 
                         return value;
-                    }                    
-                    
+                    }
+
                     @Override
-                    public int getItemCount() {    
+                    public int getItemCount() {
                         return advReqCompTypeList.size();
                     }
 
@@ -846,56 +877,56 @@ public class ClauseEditorView extends ViewComposite {
                     public String getItemText(String id) {
                         return getItemAttribute(id, "?");
                     }
-                };  
-                
-                compReqTypesList.setListItems(listItemReqCompTypes); 
-                
+                };
+
+                compReqTypesList.setListItems(listItemReqCompTypes);
+
                 setupReqComponent();
             }
 
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        });                                               
+        });
     }
-    
+
     private void setupReqComponent() {
-        
+
         if (compReqTypesList.getSelectedItem() != null) {
             compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
         }
-        
+
         getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
             public void onModelReady(Model<RuleInfo> theModel) {
                 modelRuleInfo = theModel;
-                
+
                 getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
                     public void onModelReady(Model<ReqComponentVO> theModel) {
-                        
+
                         if (theModel != null) {
                             List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
                             selectedReqComp.addAll(theModel.getValues());
-                           
+
                             //true if we are editing existing rule
                             origReqCompType = null;
                             if (selectedReqComp.size() > 0) {
                                 addNewReqComp = false;
-                                editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());                       
+                                editedReqCompVO = theModel.get(selectedReqComp.get(0).getId());
                                 editedReqComp = editedReqCompVO.getReqComponentInfo();
                                 origReqCompType = editedReqComp.getType();
                                 for (int i = 0; i < reqCompTypeList.size(); i++) {
                                     if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
-                                        selectedReqType = reqCompTypeList.get(i); 
+                                        selectedReqType = reqCompTypeList.get(i);
                                         break;
-                                    }                              
-                                }                          
-                                
+                                    }
+                                }
+
                             } else {
                                 //create a basic structure for a new rule
                                 addNewReqComp = true;
-                                setupNewEditedReqComp(null);    
+                                setupNewEditedReqComp(null);
                                 selectedReqType = null;
-                            }                    
+                            }
                         }
                         redraw();
                     }
@@ -903,14 +934,14 @@ public class ClauseEditorView extends ViewComposite {
                     public void onRequestFail(Throwable cause) {
                         throw new RuntimeException("Unable to connect to model", cause);
                     }
-                });                  
-                
+                });
+
             }
 
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        });                                
+        });
     }
 
     private void updateNLAndExit() {
@@ -919,14 +950,14 @@ public class ClauseEditorView extends ViewComposite {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
             }
-            
-            public void onSuccess(final String reqCompNaturalLanguage) {                               
+
+            public void onSuccess(final String reqCompNaturalLanguage) {
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 getController().showView(PrereqViews.COMPLEX);
-            } 
-        });        
+            }
+        });
     }
 
     private Map<String, String> getClusData() {
@@ -943,8 +974,8 @@ public class ClauseEditorView extends ViewComposite {
 
     public void setCluSetsData(Map<String, String> cluSetsData) {
         this.cluSetsData = cluSetsData;
-    }    
-    
+    }
+
     /**
      * TODO test method remove when real clu codes are retrieved.
      * @return
@@ -955,5 +986,5 @@ public class ClauseEditorView extends ViewComposite {
         cluCodes.put("123444", "CLUSET-NL-1");
         return cluCodes;
     }
-    
+
 }

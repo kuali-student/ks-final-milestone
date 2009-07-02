@@ -19,6 +19,7 @@ public class RuleInfo implements Idable {
     private String expression; // current state of rule expression
     private String previewedExpression; // the state of the expression when it was previewed
     private EditHistory editHistory;
+    private boolean simplifying;
 //    private NodeConverter nodeConverter = new NodeConverter();
 
     
@@ -170,7 +171,6 @@ public class RuleInfo implements Idable {
             newStatementVO.addStatementVO(selectedStatementVO);
         }
         enclosingStatementVO.addStatementVO(newStatementVO);
-        statementVO.simplify();
     }
     
     public void insertAND() {
@@ -198,7 +198,6 @@ public class RuleInfo implements Idable {
             newStatementVO.addStatementVO(selectedStatementVO);
         }
         enclosingStatementVO.addStatementVO(newStatementVO);
-        statementVO.simplify();
     }
     
     public boolean statementVOIsDegroupAble() {
@@ -313,9 +312,6 @@ public class RuleInfo implements Idable {
         if (statementVO.getChildCount() == 0) {
             statementVO = null;
         }
-        if (statementVO != null) {
-            statementVO.simplify();
-        }
     }
     
     public boolean isAddToGroupOK() {
@@ -396,5 +392,11 @@ public class RuleInfo implements Idable {
     public void setPreviewedExpression(String previewedExpression) {
         this.previewedExpression = previewedExpression;
     }
-
+    public boolean isSimplifying() {
+        return simplifying;
+    }
+    public void setSimplifying(boolean simplifying) {
+        this.simplifying = simplifying;
+    }
+    
 }

@@ -70,8 +70,6 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception {
                      
         LuNlStatementInfo luNlStatementInfo = new LuNlStatementInfo();
-        luNlStatementInfo.setOperator(statementVO.getLuStatementInfo().getOperator());
-        luNlStatementInfo.setStatementTypeId(statementVO.getLuStatementInfo().getType());
         
         //first translate StatementVO to LuNlStatementInfo object
         String error = composeLuNlStatementInfo(statementVO, luNlStatementInfo);
@@ -308,6 +306,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         List<StatementVO> statementVOs = statementVO.getStatementVOs();       
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
+        luNlStatementInfo.setOperator(statementVO.getLuStatementInfo().getOperator());
+        luNlStatementInfo.setStatementTypeId(statementVO.getLuStatementInfo().getType());
         if ((statementVOs != null) && (reqComponentVOs != null) && (statementVOs.size() > 0) && (reqComponentVOs.size() > 0))
         {
             return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
@@ -319,7 +319,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
             for (StatementVO statement : statementVOs) {  
                 System.out.println("got STATEMENT witho operator: " + statement.getLuStatementInfo().getOperator());
                 LuNlStatementInfo tempLuNlStmtInfo = new LuNlStatementInfo(); 
-                tempLuNlStmtInfo.setOperator(statement.getLuStatementInfo().getOperator());                
+                tempLuNlStmtInfo.setOperator(statement.getLuStatementInfo().getOperator());
+                tempLuNlStmtInfo.setStatementTypeId(statement.getLuStatementInfo().getType());
                 composeLuNlStatementInfo(statement, tempLuNlStmtInfo);  //inside set the children of this LuNlStatementInfo
                 stmtInfoList.add(tempLuNlStmtInfo);
             }   
