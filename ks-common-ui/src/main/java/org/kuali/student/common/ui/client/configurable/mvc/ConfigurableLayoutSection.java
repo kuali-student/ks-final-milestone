@@ -17,7 +17,7 @@ public interface ConfigurableLayoutSection {
      * 
      * @param fieldKey
      */
-    public void addSection(Enum<?> subSectionName, NestedSection section);
+    public void addSection(NestedSection section);
     
     public List<FieldDescriptor> getFields();
     

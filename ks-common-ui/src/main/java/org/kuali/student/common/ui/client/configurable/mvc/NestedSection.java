@@ -24,12 +24,12 @@ public abstract class NestedSection extends Composite implements ConfigurableLay
     protected final Label instructionsLabel = new Label();
     
     protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
-    protected Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
+    protected ArrayList<NestedSection> sections = new ArrayList<NestedSection>();
     protected List<Object> orderedLayoutList = new ArrayList<Object>();
    
     @Override
-    public void addSection(Enum<?> subSectionName, NestedSection section) {
-        sections.put(subSectionName, section);
+    public void addSection(NestedSection section) {
+        sections.add(section);
         orderedLayoutList.add(section);
     }
     
@@ -64,7 +64,7 @@ public abstract class NestedSection extends Composite implements ConfigurableLay
     public List<FieldDescriptor> getFields() {
         List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
         allFields.addAll(fields);
-        for(NestedSection ns: sections.values()){
+        for(NestedSection ns: sections){
             allFields.addAll(ns.getFields());
         }
         return allFields;

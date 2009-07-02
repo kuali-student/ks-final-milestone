@@ -24,9 +24,6 @@ public class VerticalNestedSection extends NestedSection{
     
     protected final VerticalPanel panel = new VerticalPanel();
     private KSFormLayoutPanel form = null;
-    private ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
-    private Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
-    private List<Object> orderedLayoutList = new ArrayList<Object>();
     
     public VerticalNestedSection(){
         super.initWidget(panel);
@@ -51,21 +48,8 @@ public class VerticalNestedSection extends NestedSection{
     }
 
     @Override
-    public void addField(FieldDescriptor fieldDescriptor) {
-        fields.add(fieldDescriptor);
-        orderedLayoutList.add(fieldDescriptor);
-    }
-
-    @Override
     public void validate(Callback<ErrorLevel> callback) {
 
-    }
-
-    @Override
-    public void addSection(Enum<?> subSectionName, NestedSection section) {
-        sections.put(subSectionName, section);
-        orderedLayoutList.add(section);
-        
     }
 
     @Override

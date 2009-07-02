@@ -11,7 +11,7 @@ public abstract class Section extends LayoutSectionView implements ConfigurableL
     
 
     protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
-    protected Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
+    protected ArrayList<NestedSection> sections = new ArrayList<NestedSection>();
     protected List<Object> orderedLayoutList = new ArrayList<Object>();
 
     public Section(Controller controller, Enum<?> viewEnum, String viewName) {
@@ -23,8 +23,8 @@ public abstract class Section extends LayoutSectionView implements ConfigurableL
     }
 
     @Override
-    public void addSection(Enum<?> subSectionName, NestedSection section) {
-        sections.put(subSectionName, section);
+    public void addSection(NestedSection section) {
+        sections.add(section);
         orderedLayoutList.add(section);
     }
     
