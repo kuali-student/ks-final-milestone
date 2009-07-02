@@ -16,13 +16,16 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
+import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -73,14 +76,6 @@ public class MultiplicityItem extends Composite implements ConfigurableLayoutSec
             form.addFormField(formField);
         }
         
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayoutSection#addSection(java.lang.String, org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayoutSection)
-     */
-    @Override
-    public void addSection(String fieldKey, ConfigurableLayoutSection section) {
-        // TODO Ability to add grouping of fields        
     }
 
     /**
@@ -140,4 +135,46 @@ public class MultiplicityItem extends Composite implements ConfigurableLayoutSec
             ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
         }                                   
     }
+
+	@Override
+	public void addSection(Enum<?> subSectionName, NestedSection section) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<FieldDescriptor> getFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getInstructions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getSectionTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInstructions(String instructions) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSectionTitle(String sectionTitle) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void validate(Callback<ErrorLevel> callback) {
+		// TODO Auto-generated method stub
+		
+	}
 }
