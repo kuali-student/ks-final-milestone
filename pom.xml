@@ -95,7 +95,7 @@
         <site>
             <id>ks.site</id>
             <url>
-                dav:https://www.kuali.org:8443/student/site/brms/${project.version}
+                scp://wsa135.uits.indiana.edu/opt/www/student/site/brms/${project.version}
             </url>
         </site>
     </distributionManagement>
