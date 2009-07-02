@@ -148,8 +148,8 @@ public class CourseRequisiteView extends ViewComposite {
                 courseReqManager.setLuStatementType("kuali.luStatementType.coreqAcademicReadiness");
             } else if (sender.getTitle().contains("enroll")) {
                 courseReqManager.setLuStatementType("kuali.luStatementType.enrollAcademicReadiness");
-            } else if (sender.getTitle().contains("anti")) {
-                courseReqManager.setLuStatementType("kuali.luStatementType.antiAcademicReadiness");
+            } else if (sender.getTitle().contains("antireq")) {
+                courseReqManager.setLuStatementType("kuali.luStatementType.antireqAcademicReadiness");
             }
             
             if(rule == null) {
