@@ -23,6 +23,7 @@
         <drools.version>5.0.1</drools.version>
         <velocity.version>1.5</velocity.version>
         <velocity.tools.version>1.4</velocity.tools.version>
+<!--
         <jpa.properties.in>../src/test/resources/META-INF/jpa.properties</jpa.properties.in>
         <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
         <jdbc.derby.in>../src/test/resources/META-INF/jdbc_derby.properties</jdbc.derby.in>
@@ -36,6 +37,7 @@
         <application.context.test.in>../src/test/resources/META-INF/default-dao-context-test.xml</application.context.test.in>
         <application.context.test.out>${project.build.testOutputDirectory}/META-INF/default-dao-context-test.xml</application.context.test.out>
         <application.context.rulerepository>application-rulerepository-context.xml</application.context.rulerepository>
+-->
         <mvel.dep.version>2.0.10</mvel.dep.version>
         <ks.core.version>0.0.1-SNAPSHOT</ks.core.version>
 	</properties>

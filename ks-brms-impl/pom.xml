@@ -43,29 +43,58 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ks-hibernate</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-hibernate</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ks-eclipselink</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-eclipselink</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ks-cxf</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-cxf</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ks-metro</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-metro</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.0</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<!--
-				Setting forkMode to always. Multiple dao tests using Spring
-				junit class runner doesn't play nice with each other
-				-->
-				<configuration>
-					<forkMode>always</forkMode>
-					<argLine>-Xms256m -Xmx512m</argLine>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	
   	<dependencies>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
@@ -291,7 +320,6 @@
 			<type>pom</type>
 			<scope>test</scope>
   		</dependency>
-        
     </dependencies>
 
 </project>
