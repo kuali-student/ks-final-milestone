@@ -418,7 +418,7 @@
 		<site>
 			<id>ks.site</id>
 			<url> 
-				scpexe://wsa135.uits.indiana.edu/opt/www/student/site/core/${project.version}
+				scp://wsa135.uits.indiana.edu/opt/www/student/site/core/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
