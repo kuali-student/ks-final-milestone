@@ -26,10 +26,6 @@ public abstract class NestedSection extends Composite implements ConfigurableLay
     protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
     protected Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
     protected List<Object> orderedLayoutList = new ArrayList<Object>();
-    
-    public NestedSection(Enum<?> subsectionEnum, String name){
-        
-    }
    
     @Override
     public void addSection(Enum<?> subSectionName, NestedSection section) {

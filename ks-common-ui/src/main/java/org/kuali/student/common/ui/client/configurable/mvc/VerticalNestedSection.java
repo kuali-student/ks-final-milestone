@@ -28,8 +28,7 @@ public class VerticalNestedSection extends NestedSection{
     private Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
     private List<Object> orderedLayoutList = new ArrayList<Object>();
     
-    public VerticalNestedSection(Enum<?> subsectionEnum, String name){
-        super(subsectionEnum, name);
+    public VerticalNestedSection(){
         super.initWidget(panel);
     }
     
