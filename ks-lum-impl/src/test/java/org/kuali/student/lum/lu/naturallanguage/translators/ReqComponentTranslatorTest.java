@@ -90,7 +90,7 @@ public class ReqComponentTranslatorTest extends AbstractTransactionalDaoTest {
 
     	
     	CluSet cluSet = new CluSet();
-    	cluSet.setName("Math 158,221 CLU Set");
+    	cluSet.setName("Math 152,221 CLU Set");
     	cluSet.setClus(cluList);
     	
     	cluSet = this.luDao.create(cluSet);
