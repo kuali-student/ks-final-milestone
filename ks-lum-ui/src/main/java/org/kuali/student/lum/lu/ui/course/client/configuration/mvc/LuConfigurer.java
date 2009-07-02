@@ -85,12 +85,6 @@ public class LuConfigurer {
         public Widget createItem() {
             return new CourseActivityList();
         }
-
-		@Override
-		public Widget createItem() {
-			// TODO Auto-generated method stub
-			return null;
-		}        
     }
     
     // This will probably a custom clu activity widget that uses a CluInfo model dto.
@@ -106,11 +100,6 @@ public class LuConfigurer {
             return item;
         }
 
-		@Override
-		public Widget createItem() {
-			// TODO Auto-generated method stub
-			return null;
-		}       
     }
 
     
