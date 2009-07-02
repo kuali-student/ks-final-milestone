@@ -62,13 +62,6 @@ public class VerticalNestedSection extends NestedSection{
 
     }
 
-
-    @Override
-    public List<FieldDescriptor> getFields() {
-        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
     @Override
     public void addSection(Enum<?> subSectionName, NestedSection section) {
         sections.put(subSectionName, section);

@@ -153,7 +153,11 @@ public class SimpleConfigurableSection extends Section {
 
     @Override
     public List<FieldDescriptor> getFields() {
-        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
+        allFields.addAll(fields);
+        for(NestedSection ns: sections.values()){
+            allFields.addAll(ns.getFields());
+        }
+        return allFields;
     }
 }

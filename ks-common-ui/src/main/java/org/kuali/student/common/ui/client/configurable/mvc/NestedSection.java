@@ -62,5 +62,16 @@ public abstract class NestedSection extends Composite implements ConfigurableLay
     public void setSectionTitle(String sectionTitle) {
         sectionTitleLabel.setText(sectionTitle);
     }
+    
+
+    @Override
+    public List<FieldDescriptor> getFields() {
+        List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
+        allFields.addAll(fields);
+        for(NestedSection ns: sections.values()){
+            allFields.addAll(ns.getFields());
+        }
+        return allFields;
+    }
 
 }
