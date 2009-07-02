@@ -84,7 +84,13 @@ public class LuConfigurer {
     public static class CourseFormatList extends MultiplicityComposite{
         public Widget createListItemWidget() {
             return new CourseActivityList();
-        }        
+        }
+
+		@Override
+		public Widget createItem() {
+			// TODO Auto-generated method stub
+			return null;
+		}        
     }
     
     // This will probably a custom clu activity widget that uses a CluInfo model dto.
@@ -98,7 +104,13 @@ public class LuConfigurer {
             item.addField(new FieldDescriptor("clu.size", "Class Size", Type.STRING));
             
             return item;
-        }       
+        }
+
+		@Override
+		public Widget createItem() {
+			// TODO Auto-generated method stub
+			return null;
+		}       
     }
 
     
