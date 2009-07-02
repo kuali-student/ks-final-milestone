@@ -82,7 +82,7 @@ public class LuConfigurer {
     }
     
     public static class CourseFormatList extends MultiplicityComposite{
-        public Widget createListItemWidget() {
+        public Widget createItem() {
             return new CourseActivityList();
         }
 
@@ -95,7 +95,7 @@ public class LuConfigurer {
     
     // This will probably a custom clu activity widget that uses a CluInfo model dto.
     public static class CourseActivityList extends MultiplicityComposite{
-        public Widget createListItemWidget() {
+        public Widget createItem() {
             MultiplicityItem item = new MultiplicityItem("cluInfo");
             
             item.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING));
