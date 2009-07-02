@@ -27,12 +27,14 @@ import org.kuali.student.core.dictionary.newmodel.dto.WhenConstraint;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDefinitionParser{
 
+	//Resolves the tag name to an actual class
     @Override
     protected Class<?> getBeanClass(Element element) {
 
@@ -98,85 +100,73 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
     @Override
     protected void doParse(Element element, ParserContext pc, BeanDefinitionBuilder builder) {
   	
-
-    	
-    	if(element.hasAttribute("key")&&!"objectStructure".equals(element.getLocalName())){
-            builder.addPropertyValue("key", element.getAttribute("key"));
-		}
-		
-		if("contextDescriptor".equals(element.getLocalName())){
-			 builder.addPropertyValue("type", element.getAttribute("type"));
-		}
-
-		if("state".equals(element.getLocalName())){
-            List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
-            if(refList!=null&&!refList.isEmpty()){
-            	builder.addPropertyValue("field",refList);
-            }
-        }else if("type".equals(element.getLocalName())){
-            List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
-            if(refList!=null&&!refList.isEmpty()){
-            	builder.addPropertyValue("state",refList);
-            }
-        }else if("objectStructure".equals(element.getLocalName())){
-    		if(element.hasAttribute("key")){
-                builder.addPropertyValue("key", element.getAttribute("key"));
+    	//Copy Attributes
+    	if(element.hasAttributes()){
+    		for(int i = 0;i<element.getAttributes().getLength();i++){
+        		Attr attr = (Attr) element.getAttributes().item(i);
+        		if(!"id".equals(attr.getName())){
+        			builder.addPropertyValue(attr.getName(), attr.getValue());
+        		}
     		}
-	        for(int i = 0;i<element.getChildNodes().getLength();i++){
-	            Node node = element.getChildNodes().item(i);
-	            if(Node.ELEMENT_NODE == node.getNodeType()&&"desc".equals(node.getLocalName())){
-	            	builder.addPropertyValue(node.getLocalName(), node.getTextContent());
-	            	element.removeChild(node);
-	            }
-	        }
-        	List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
-        	if(refList!=null&&!refList.isEmpty()){
-        		builder.addPropertyValue("type",refList);
-        	}
+    	}
+    	
+	    //Parse the children
+    	HashSet<String> visitedNodes = new HashSet<String>();
+        for(int i = 0;i<element.getChildNodes().getLength();i++){
+            Node node = element.getChildNodes().item(i);
         	
-        }else{
-	        //Parse the children
-        	HashSet<String> visitedNodes = new HashSet<String>();
-	        for(int i = 0;i<element.getChildNodes().getLength();i++){
-	            Node node = element.getChildNodes().item(i);
-	            if(Node.ELEMENT_NODE == node.getNodeType() && !visitedNodes.contains(node.getLocalName())){
-	                if(isList(node.getLocalName())){
-	                	Element childList=getChildList(element,node.getLocalName());
-	                	visitedNodes.add(node.getLocalName());
-	                    List<?> refList = pc.getDelegate().parseListElement(childList, pc.getContainingBeanDefinition());
-	                    if(refList!=null&&!refList.isEmpty()){
-	                    	String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
-	                    	builder.addPropertyValue(fieldName,refList);
-	                    }
-	                }else{
-	                    Element childElement = getFirstChildElement(node);
-	                    if(childElement!=null){
-	                        if("ref".equals(childElement.getLocalName())){
-//	                            Object childBean = pc.getDelegate().parsePropertySubElement(childElement, pc.getContainingBeanDefinition());
-	                            builder.addPropertyReference(node.getLocalName(), childElement.getAttribute("bean"));
-	                        }else{
-	                            Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
-	                            String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
-	                            builder.addPropertyValue(fieldName, childBean);
-	                        }
-	                    }else{
-	                    	if("field".equals(element.getLocalName())&&"ref".equals(node.getLocalName())){
-	                    		//Object refBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
-	                    		builder.addPropertyReference("fieldDescriptor", ((Element)node).getAttribute("bean"));
-	                    	}else{
-	                    		String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
-	                    		builder.addPropertyValue(fieldName, node.getTextContent());
-	                    	}
-	                    }
-	                }
-	            }
-	        }
+            //We are only interested in child elements that have not been visited
+            if(Node.ELEMENT_NODE == node.getNodeType() && !visitedNodes.contains(node.getLocalName())){	              
+	            
+            	//Get the local name minus the "Ref"
+            	String localName=node.getLocalName();
+            	if(localName.endsWith("Ref")){
+            		localName=localName.substring(0, localName.length()-"Ref".length());
+            	}
+             	
+            	//Check if the child element belongs in a list
+            	if(isList(localName)){
+            		Element childList=getChildList(element,localName);
+                	visitedNodes.add(localName);
+                    List<?> refList = pc.getDelegate().parseListElement(childList, pc.getContainingBeanDefinition());
+                    if(refList!=null&&!refList.isEmpty()){
+                    	String fieldName=resolveFieldName(element.getLocalName(),localName);
+                    	builder.addPropertyValue(fieldName,refList);
+                    }
+                    
+                //Check if the child element is a Ref
+                }else if(node.getLocalName().endsWith("Ref")){
+                	if("objectStructureRef".equals(node.getLocalName())){
+                		builder.addPropertyValue("objectStructureRef", ((Element)node).getAttribute("bean"));
+                	}else{
+                		builder.addPropertyReference(localName, ((Element)node).getAttribute("bean"));
+                	}
+               }else{
+            	    //Get the child of the child to see if we need to parse the nested node, or just set the text value
+                    Element childElement = getFirstChildElement(node);
+                    if(childElement!=null){
+                    	
+                    	//Parse the nested Node
+                        Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
+                        String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
+                        builder.addPropertyValue(fieldName, childBean);
+                    }else{
+                    	
+                    	//Set the text value
+                		String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
+                		builder.addPropertyValue(fieldName, node.getTextContent());
+                    }
+                }
+            }
         }
     }
 
 
+    //This builds up a list of the child nodes so that the spring parseListElement can be used
+    //it also translates <fooRef> elements into straight spring <ref> elements
     private Element getChildList(Element element, String localName) {
     	try{
+    		//Create a new document to contain our list of elements
 	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    	DocumentBuilder builder = dbf.newDocumentBuilder();
 	    	Document doc = builder.newDocument();
@@ -186,8 +176,17 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
 	        for(int i = 0;i<element.getChildNodes().getLength();i++){
 	            Node node = element.getChildNodes().item(i);
 	            if(Node.ELEMENT_NODE == node.getNodeType() && localName.equals(node.getLocalName())){
+	            	
+	            	//Copy the node from the spring config to our list
 	            	Node copied = doc.importNode(node, true);
 	            	root.appendChild(copied);
+	            }
+	            if(Node.ELEMENT_NODE == node.getNodeType() && (localName+"Ref").equals(node.getLocalName())){
+	            	
+	            	//Create a new spring ref element and copy the bean attribute
+	            	Element ref = doc.createElement("ref");
+	            	ref.setAttribute("bean", ((Element)node).getAttribute("bean"));
+	            	root.appendChild(ref);
 	            }
 	        }
 	        
@@ -198,6 +197,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
     	return null;
 	}
 
+    //This is called to resolve tag names to field names based on the element and parent element local names
 	private String resolveFieldName(String parentName, String nodeName) {
 		if("constraint".equals(parentName)&&"case".equals(nodeName)){
 			return "caseConstraint";
@@ -221,30 +221,36 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
 		return nodeName;
 	}
 
+	//Gets the first child element
 	private Element getFirstChildElement(Node node) {
-        // TODO Auto-generated method stub
         for(int i = 0;i<node.getChildNodes().getLength();i++){
             Node childNode = node.getChildNodes().item(i);
             if(Node.ELEMENT_NODE == childNode.getNodeType()){
                 return (Element) childNode;
             }
         }
-
         return null;
     }
 
+	//Returns true if the element should be part of a list
     private boolean isList(String localName) {
 
-        return "case".equals(localName)||
+        return "field".equals(localName)||
+        	   "fieldRef".equals(localName)||
+        	   "case".equals(localName)||
         	   "when".equals(localName)||
         	   "typeStateCase".equals(localName)||
         	   "typeStateWhen".equals(localName)||
         	   "lookup".equals(localName)||
         	   "lookupKey".equals(localName)||
         	   "occurs".equals(localName)||
+        	   "constraint".equals(localName)||
+        	   "type".equals(localName)||
+        	   "state".equals(localName)||
         	   "require".equals(localName);
     }
 
+    //This makes use of the spring parent="" functionality 
 	@Override
 	protected String getParentName(Element element) {
 		if(element.hasAttribute("parent")){
@@ -253,6 +259,7 @@ public class DictionaryNewModelBeanDefinitionParser extends AbstractSingleBeanDe
 		return super.getParentName(element);
 	}
 
+	//This means any bean without an id attribute gets one auto generated for it
 	@Override
 	protected boolean shouldGenerateIdAsFallback() {
 		return true;

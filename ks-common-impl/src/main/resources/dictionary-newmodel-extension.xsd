@@ -10,19 +10,19 @@
 	<xsd:complexType name="fieldSelector">
 		<xsd:sequence>
 			<xsd:choice minOccurs="1" maxOccurs="1">
-				<xsd:element name="fieldDescriptor"
-					type="fieldDescriptor" maxOccurs="1" minOccurs="0">
+				<xsd:element name="fieldDescriptor" type="fieldDescriptor"
+					maxOccurs="1" minOccurs="0">
 				</xsd:element>
-				<xsd:element name="fieldDescriptorRef" type="xsd:string"
+				<xsd:element name="fieldDescriptorRef" type="refSelector"
 					minOccurs="0" maxOccurs="1">
 				</xsd:element>
 			</xsd:choice>
 			<xsd:choice minOccurs="0" maxOccurs="1">
-				<xsd:element name="constraintDescriptor"
-					type="constraintDescriptor" minOccurs="0" maxOccurs="1">
+				<xsd:element name="constraintDescriptor" type="constraintDescriptor"
+					minOccurs="0" maxOccurs="1">
 				</xsd:element>
-				<xsd:element name="constraintDescriptorRef"
-					type="xsd:string" minOccurs="0" maxOccurs="1">
+				<xsd:element name="constraintDescriptorRef" type="refSelector"
+					minOccurs="0" maxOccurs="1">
 				</xsd:element>
 			</xsd:choice>
 			<xsd:element name="selector" type="xsd:boolean"
@@ -42,16 +42,16 @@
 				<xsd:element name="field" type="fieldSelector"
 					minOccurs="0" maxOccurs="unbounded">
 				</xsd:element>
-				<xsd:element name="fieldRef" type="xsd:string"
+				<xsd:element name="fieldRef" type="refSelector"
 					minOccurs="0" maxOccurs="unbounded">
 				</xsd:element>
 			</xsd:choice>
 			<xsd:choice minOccurs="0" maxOccurs="1">
-				<xsd:element name="constraintDescriptor"
-					type="constraintDescriptor" minOccurs="0" maxOccurs="1">
+				<xsd:element name="constraintDescriptor" type="constraintDescriptor"
+					minOccurs="0" maxOccurs="1">
 				</xsd:element>
-				<xsd:element name="constraintDescriptorRef"
-					type="xsd:string" minOccurs="0" maxOccurs="1">
+				<xsd:element name="constraintDescriptorRef" type="refSelector"
+					minOccurs="0" maxOccurs="1">
 				</xsd:element>
 			</xsd:choice>
 		</xsd:sequence>
@@ -59,12 +59,22 @@
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
+
+
+	<xsd:complexType name="refSelector">
+		<xsd:complexContent>
+			<xsd:restriction base="xsd:anyType">
+				<xsd:attribute name="bean" type="xsd:string" />
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+
 	<xsd:complexType name="typeSelector">
 		<xsd:choice minOccurs="1" maxOccurs="unbounded">
 			<xsd:element name="state" type="stateSelector" minOccurs="0"
 				maxOccurs="unbounded">
 			</xsd:element>
-			<xsd:element name="stateRef" type="xsd:string" minOccurs="0"
+			<xsd:element name="stateRef" type="refSelector" minOccurs="0"
 				maxOccurs="unbounded">
 			</xsd:element>
 		</xsd:choice>
@@ -81,11 +91,11 @@
 				maxOccurs="1">
 			</xsd:element>
 			<xsd:choice minOccurs="1" maxOccurs="unbounded">
-				<xsd:element name="type" type="typeSelector"
-					minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="type" type="typeSelector" minOccurs="0"
+					maxOccurs="unbounded">
 				</xsd:element>
-				<xsd:element name="typeRef" type="xsd:string"
-					minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="typeRef" type="refSelector" minOccurs="0"
+					maxOccurs="unbounded">
 				</xsd:element>
 			</xsd:choice>
 		</xsd:sequence>
@@ -104,19 +114,19 @@
 			<xsd:element name="dataType" type="xsd:string" minOccurs="0"
 				maxOccurs="1">
 			</xsd:element>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+				<xsd:element name="objectStructure" type="objectStructure"
+					minOccurs="0" maxOccurs="1">
+				</xsd:element>
+				<xsd:element name="objectStructureRef" type="refSelector"
+					minOccurs="0" maxOccurs="1">
+				</xsd:element>
+			</xsd:choice>
 			<xsd:element name="readOnly" type="xsd:boolean"
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="search" type="searchSelector"
 				minOccurs="0" maxOccurs="1">
 			</xsd:element>
-			<xsd:choice minOccurs="0" maxOccurs="1">
-				<xsd:element name="objectStructure"
-					type="objectStructure" minOccurs="0" maxOccurs="1">
-				</xsd:element>
-				<xsd:element name="objectStructureRef" type="xsd:string"
-					minOccurs="0" maxOccurs="1">
-				</xsd:element>
-			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="key" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
@@ -191,7 +201,7 @@
 			<xsd:element name="constraint" type="constraintSelector"
 				minOccurs="0" maxOccurs="unbounded">
 			</xsd:element>
-			<xsd:element name="constraintRef" type="xsd:string"
+			<xsd:element name="constraintRef" type="refSelector"
 				minOccurs="0" maxOccurs="unbounded">
 			</xsd:element>
 		</xsd:choice>
@@ -202,20 +212,20 @@
 	<xsd:complexType name="constraintSelector">
 		<xsd:choice minOccurs="1" maxOccurs="1">
 			<xsd:sequence>
-				<xsd:element name="minOccurs" type="xsd:int"
-					minOccurs="0" maxOccurs="1">
+				<xsd:element name="minOccurs" type="xsd:int" minOccurs="0"
+					maxOccurs="1">
 				</xsd:element>
 				<xsd:element name="maxOccurs" type="xsd:string"
 					minOccurs="0" maxOccurs="1">
 				</xsd:element>
-				<xsd:element name="minLength" type="xsd:int"
-					minOccurs="0" maxOccurs="1">
+				<xsd:element name="minLength" type="xsd:int" minOccurs="0"
+					maxOccurs="1">
 				</xsd:element>
 				<xsd:element name="maxLength" type="xsd:string"
 					minOccurs="0" maxOccurs="1">
 				</xsd:element>
-				<xsd:element name="validChars"
-					type="validCharsConstraint" minOccurs="0" maxOccurs="1">
+				<xsd:element name="validChars" type="validCharsConstraint"
+					minOccurs="0" maxOccurs="1">
 				</xsd:element>
 				<xsd:element name="require" type="requireConstraint"
 					minOccurs="0" maxOccurs="unbounded">
@@ -230,8 +240,8 @@
 					minOccurs="0" maxOccurs="unbounded">
 				</xsd:element>
 			</xsd:sequence>
-			<xsd:element name="typeStateCase"
-				type="typeStateCaseConstraint" minOccurs="1" maxOccurs="1">
+			<xsd:element name="typeStateCase" type="typeStateCaseConstraint"
+				minOccurs="1" maxOccurs="1">
 			</xsd:element>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" use="required"></xsd:attribute>
