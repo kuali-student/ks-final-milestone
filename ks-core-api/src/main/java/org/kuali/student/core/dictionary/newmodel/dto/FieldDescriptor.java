@@ -81,6 +81,12 @@ public class FieldDescriptor implements Serializable {
     @XmlElement
     protected SearchSelector search;
     
+    @XmlElement
+    protected ObjectStructure objectStructure;
+    
+    @XmlElement
+    protected String objectStructureRef;
+    
     
     /**
      * Gets the value of the dataType property.
@@ -154,12 +160,54 @@ public class FieldDescriptor implements Serializable {
 	public SearchSelector getSearch() {
 		return search;
 	}
-
+	
 	/**
 	 * @param search the search to set
 	 */
 	public void setSearch(SearchSelector search) {
 		this.search = search;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the objectStructure
+	 */
+	public ObjectStructure getObjectStructure() {
+		return objectStructure;
+	}
+
+	/**
+	 * @param objectStructure the objectStructure to set
+	 */
+	public void setObjectStructure(ObjectStructure objectStructure) {
+		this.objectStructure = objectStructure;
+	}
+	
+	/**
+	 * @return the objectStructureRef
+	 */
+	public String getObjectStructureRef() {
+		return objectStructureRef;
+	}
+
+	/**
+	 * @param objectStructureRef the objectStructureRef to set
+	 */
+	public void setObjectStructureRef(String objectStructureRef) {
+		this.objectStructureRef = objectStructureRef;
 	}
 
 	public Map<String, Object> toMap(){
@@ -167,4 +215,6 @@ public class FieldDescriptor implements Serializable {
     	fieldDescMap.put("dataType", dataType);
     	return fieldDescMap;
     }
+	
+	
 }

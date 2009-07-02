@@ -17,6 +17,9 @@ public class OccursConstraint implements Serializable {
     @XmlElement
     private List<RequireConstraint> require;
 
+    @XmlElement
+    private List<OccursConstraint> occurs;
+    
     @XmlAttribute
     private Integer min;
     
@@ -63,5 +66,19 @@ public class OccursConstraint implements Serializable {
 	 */
 	public void setMax(Integer max) {
 		this.max = max;
-	}	
+	}
+
+	/**
+	 * @return the occurs
+	 */
+	public List<OccursConstraint> getOccurs() {
+		return occurs;
+	}
+
+	/**
+	 * @param occurs the occurs to set
+	 */
+	public void setOccurs(List<OccursConstraint> occurs) {
+		this.occurs = occurs;
+	}		
 }

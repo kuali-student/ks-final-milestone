@@ -62,9 +62,6 @@ public class Field implements Serializable{
     @XmlElement //TODO there is no required here but there should be
     protected FieldDescriptor fieldDescriptor;
     
-    @XmlElement 
-    protected ObjectStructure objectStructure;
-    
     @XmlElement
     protected ConstraintDescriptor constraintDescriptor;
     
@@ -157,20 +154,6 @@ public class Field implements Serializable{
 	 */
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the objectStructure
-	 */
-	public ObjectStructure getObjectStructure() {
-		return objectStructure;
-	}
-
-	/**
-	 * @param objectStructure the objectStructure to set
-	 */
-	public void setObjectStructure(ObjectStructure objectStructure) {
-		this.objectStructure = objectStructure;
 	}
 
 	/**
