@@ -137,7 +137,7 @@ public class MultiplicityItem extends Composite implements ConfigurableLayoutSec
     }
 
 	@Override
-	public void addSection(Enum<?> subSectionName, NestedSection section) {
+	public void addSection(NestedSection section) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -177,4 +177,5 @@ public class MultiplicityItem extends Composite implements ConfigurableLayoutSec
 		// TODO Auto-generated method stub
 		
 	}
+
 }
