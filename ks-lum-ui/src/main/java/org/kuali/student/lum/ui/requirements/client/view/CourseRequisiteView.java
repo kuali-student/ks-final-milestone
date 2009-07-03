@@ -38,8 +38,12 @@ public class CourseRequisiteView extends ViewComposite {
     private VerticalPanel prereqRulePanel = new VerticalPanel();
     private VerticalPanel coreqRulePanel = new VerticalPanel();
     private VerticalPanel antireqRulePanel = new VerticalPanel();
-    private VerticalPanel enrollRulePanel = new VerticalPanel();    
-
+    private VerticalPanel enrollRulePanel = new VerticalPanel();  
+    private SimplePanel prereqRuleTextPanel = new SimplePanel();
+    private SimplePanel coreqRuleTextPanel = new SimplePanel();
+    private SimplePanel antireqRuleTextPanel = new SimplePanel();
+    private SimplePanel enrollRuleTextPanel = new SimplePanel();  
+    
     private ButtonEventHandler handler = new ButtonEventHandler(); 
     
     //view's data
@@ -92,6 +96,8 @@ public class CourseRequisiteView extends ViewComposite {
     
     private void retrieveRuleTypeData(final String luStatementTypeKey) {
         
+        layoutBasicRuleSection(luStatementTypeKey);
+        
         requirementsRpcServiceAsync.getStatementVO(courseData.get(getCourseId()).getId(), luStatementTypeKey, new AsyncCallback<StatementVO>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -101,7 +107,12 @@ public class CourseRequisiteView extends ViewComposite {
             public void onSuccess(final StatementVO statementVO) {
                
                 if (statementVO == null) {
-                    layoutOneRuleTypeSection(luStatementTypeKey);
+                    loadRuleInfo(luStatementTypeKey);
+                    KSLabel preReqText = new KSLabel("No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules has been added.");
+                    preReqText.setStyleName("KS-ReqMgr-NoRuleText");
+                    SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
+                    rulesText.clear();
+                    rulesText.add(preReqText);                    
                     return;
                 }
                 
@@ -125,8 +136,11 @@ public class CourseRequisiteView extends ViewComposite {
                     }
                     
                     public void onSuccess(final String statementNaturalLanguage) {                               
-                        ruleInfo.setNaturalLanguage(statementNaturalLanguage);
-                        layoutOneRuleTypeSection(luStatementTypeKey);                               
+                        ruleInfo.setNaturalLanguage(statementNaturalLanguage);   
+                        loadRuleInfo(luStatementTypeKey);
+                        SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
+                        rulesText.clear();
+                        rulesText.add(new KSLabel(statementNaturalLanguage));                   
                     } 
                 });                                               
             } 
@@ -224,18 +238,12 @@ public class CourseRequisiteView extends ViewComposite {
         parentPanel.setStyleName("Content-Margin");
     }
     
-    private void layoutOneRuleTypeSection(String luStatementTypeKey) {
-        
-        RuleInfo rule = getRuleInfo(luStatementTypeKey);     
+    private void layoutBasicRuleSection(String luStatementTypeKey) {
+         
         String ruleName = getRuleTypeName(luStatementTypeKey);
         
-        VerticalPanel rulesInfoPanel = new VerticalPanel();
-          
-        if (luStatementTypeKey.contains("enroll")) rulesInfoPanel = enrollRulePanel;
-        if (luStatementTypeKey.contains("prereq")) rulesInfoPanel = prereqRulePanel;
-        if (luStatementTypeKey.contains("coreq")) rulesInfoPanel = coreqRulePanel;
-        if (luStatementTypeKey.contains("antireq")) rulesInfoPanel = antireqRulePanel;        
-        rulesInfoPanel.clear();
+        VerticalPanel rulesInfoPanel = getRulesInfoPanel(luStatementTypeKey);                 
+        rulesInfoPanel.clear();              
         
         //HEADING: prerequisite rules   
         RulesUtilities ruleUtil = new RulesUtilities();
@@ -260,8 +268,8 @@ public class CourseRequisiteView extends ViewComposite {
         note.setStyleName("KS-ReqMgr-Note");         
         tempHolder4.add(note);      
         rationalePanel.add(tempHolder4);
-        rulesInfoPanel.add(rationalePanel);               
-        
+        rulesInfoPanel.add(rationalePanel);                      
+               
         //BODY: rules        
         HorizontalPanel rationalePanel2 = new HorizontalPanel();
         SimplePanel tempHolder2 = new SimplePanel();
@@ -269,8 +277,22 @@ public class CourseRequisiteView extends ViewComposite {
         rules.setStyleName("KS-ReqMgr-Field-Labels");
        // tempHolder2.setWidth("100px");
         tempHolder2.add(rules);           
-        rationalePanel2.add(tempHolder2);   
-        rulesInfoPanel.add(rationalePanel2);        
+        rationalePanel2.add(tempHolder2);    
+        rulesInfoPanel.add(rationalePanel2);  
+        
+        SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
+        rulesText.setWidth("400px");
+        rulesText.clear();
+        rulesText.add(new KSLabel("Rule is being loaded......"));
+        rationalePanel2.add(rulesText);        
+        
+        return;
+    }
+        
+  private void loadRuleInfo(String luStatementTypeKey) {
+        
+        RuleInfo rule = getRuleInfo(luStatementTypeKey);   
+        VerticalPanel rulesInfoPanel = getRulesInfoPanel(luStatementTypeKey);                     
         
         //BUTTONS
         HorizontalPanel rationalePanel3 = new HorizontalPanel();
@@ -278,30 +300,30 @@ public class CourseRequisiteView extends ViewComposite {
         rationale3.setStyleName("KS-ReqMgr-Field-Labels"); 
         rationalePanel3.add(rationale3);        
         rulesInfoPanel.add(rationalePanel3);           
-        
-        SimplePanel rulesText = new SimplePanel();
-        rulesText.setWidth("400px");
-        rationalePanel2.add(rulesText);
-        
-        if ((selectedCourseId == null) || (selectedCourseId.isEmpty()) || (rule == null)) {
-            KSLabel preReqText = new KSLabel("No " + ruleName.toLowerCase() + " rules has been added.");
-            preReqText.setStyleName("KS-ReqMgr-NoRuleText");
-            rulesText.add(preReqText);
-            rationalePanel2.add(rulesText);
-            KSButton AddRule = new KSButton("Add Rule");
-            AddRule.setTitle(luStatementTypeKey);
-            rationalePanel3.add(AddRule);
-            AddRule.setStyleName("KS-Rules-Tight-Button");
-            AddRule.addClickHandler(handler);
-        } else {
-            rulesText.add(new KSLabel(rule.getNaturalLanguage()));
-            KSButton ManageRules = new KSButton("Manage rules");
-            ManageRules.setTitle(luStatementTypeKey);            
-            rationalePanel3.add(ManageRules);
-            ManageRules.setStyleName("KS-Rules-Tight-Button");           
-            ManageRules.addClickHandler(handler);
-        }         
+                                   
+        //add add or manage rules button
+        KSButton submit = new KSButton((rule == null ? "Add Rule" : "Manage rules"));
+        submit.setTitle(luStatementTypeKey);
+        submit.setStyleName("KS-Rules-Tight-Button");
+        submit.addClickHandler(handler);        
+        rationalePanel3.add(submit);
     }
+    
+    private VerticalPanel getRulesInfoPanel(String luStatementTypeKey) {
+        if (luStatementTypeKey.contains("enroll")) return enrollRulePanel;
+        if (luStatementTypeKey.contains("prereq")) return prereqRulePanel;
+        if (luStatementTypeKey.contains("coreq")) return coreqRulePanel;
+        if (luStatementTypeKey.contains("antireq")) return antireqRulePanel;   
+        return new VerticalPanel();
+    }
+    
+    private SimplePanel getRulesTextPanel(String luStatementTypeKey) {
+        if (luStatementTypeKey.contains("enroll")) return enrollRuleTextPanel;
+        if (luStatementTypeKey.contains("prereq")) return prereqRuleTextPanel;
+        if (luStatementTypeKey.contains("coreq")) return coreqRuleTextPanel;
+        if (luStatementTypeKey.contains("antireq")) return antireqRuleTextPanel;   
+        return new SimplePanel();
+    }    
     
     private String getRuleTypeName(String luStatementTypeKey) {
         if (luStatementTypeKey.contains("enroll")) return "Enrollment Restrictions";
