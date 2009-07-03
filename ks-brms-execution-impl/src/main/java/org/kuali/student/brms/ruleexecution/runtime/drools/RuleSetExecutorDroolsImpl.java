@@ -38,11 +38,11 @@ import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
-import org.kuali.student.brms.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
 import org.kuali.student.brms.util.CurrentDateTime;
 import org.kuali.student.brms.util.FactContainer;
+import org.kuali.student.brms.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -38,7 +38,7 @@ import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
-import org.kuali.student.brms.ruleexecution.util.LoggingStringBuilder;
+import org.kuali.student.brms.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,7 +137,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     	KnowledgePackage pkg = null;
 		try {
 			pkg = droolsUtil.buildKnowledgePackage(source);
-        } catch(RuntimeException e) {
+        } catch(Exception e) {
             throw new RuleSetExecutionException("Building Drools Package failed",e);
         }            
         

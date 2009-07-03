@@ -16,7 +16,7 @@ import org.drools.event.ObjectInsertedEvent;
 import org.drools.event.ObjectRetractedEvent;
 import org.drools.event.ObjectUpdatedEvent;
 import org.drools.spi.Activation;
-import org.kuali.student.brms.ruleexecution.util.LoggingStringBuilder;
+import org.kuali.student.brms.util.LoggingStringBuilder;
 
 public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 
@@ -39,7 +39,7 @@ public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 
     public StringBuilder getLog() {
     	this.stringBuilder.trimToSize();
-    	return this.stringBuilder.getStringBuffer();
+    	return this.stringBuilder.getStringBuilder();
     }
 
     @Override

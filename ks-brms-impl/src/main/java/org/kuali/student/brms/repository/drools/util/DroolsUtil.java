@@ -15,6 +15,7 @@
  */
 package org.kuali.student.brms.repository.drools.util;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -62,6 +63,7 @@ import org.kuali.student.brms.repository.rule.CompilerResult;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.brms.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -356,7 +358,7 @@ public class DroolsUtil {
      * @param ruleSet Rule set to add <code>header</code> to
      * @param header Header to add to <code>ruleSet</code>
      */
-    public void addRuleSetHeader(RuleSet ruleSet, String header ) {
+    public void addRuleSetHeader(final RuleSet ruleSet, final String header ) {
         if (header == null) {
         	return;
         }
@@ -396,7 +398,7 @@ public class DroolsUtil {
      * @param errors Knowledge builder errors
      * @return Compiler error message
      */
-    public String buildCompilerErrorMessage(KnowledgeBuilderErrors errors) {
+    public String buildCompilerErrorMessage(final KnowledgeBuilderErrors errors) {
         StringBuilder sb = new StringBuilder(); 
 		for(KnowledgeBuilderError error : errors) {
         	sb.append(error.getMessage());
@@ -560,20 +562,39 @@ public class DroolsUtil {
      * @return A Drools Package
      * @throws Exception
      */
-    public KnowledgePackage buildKnowledgePackage(Reader source) {
+    public KnowledgePackage buildKnowledgePackage(final Reader source) {
+    	final BufferedReader reader = new BufferedReader(source);
+    	
     	try {
-	    	KnowledgeBuilder builder = createKnowledgeBuilder();
-	    	Resource resource = ResourceFactory.newReaderResource(source);
+        	final StringBuilder drl = getDrlSource(reader);
+
+        	KnowledgeBuilder builder = createKnowledgeBuilder();
+	    	Resource resource = ResourceFactory.newReaderResource(reader);
 	    	builder.add(resource, ResourceType.DRL);
 	    	if(builder.hasErrors()) {
 	    		String msg = buildCompilerErrorMessage(builder.getErrors());
+	    		logger.error("Compiling DRL failed: " + msg + "\n" + drl);
 	    		throw new RuntimeException("Compiling DRL failed:\n" + msg);
 	    	}
 	        Collection<KnowledgePackage> pkgs = builder.getKnowledgePackages();
 	        return pkgs.iterator().next();
     	} catch(ProviderInitializationException e) {
     		throw new RuntimeException(e);
-    	}
+		} catch(IOException e) {
+			throw new RuntimeException("Reading DRL failed: " + e.getMessage(), e);
+		}
+    }
+    
+    private StringBuilder getDrlSource(BufferedReader reader) throws IOException {
+		final int READ_AHEAD_LIMIT = 1000000;
+    	LoggingStringBuilder drl = new LoggingStringBuilder();
+		String str = "";
+		reader.mark(READ_AHEAD_LIMIT);
+		while ((str = reader.readLine()) != null) {
+			drl.append(str);
+        }
+		reader.reset();
+		return drl.getStringBuilder();
     }
     
     /**

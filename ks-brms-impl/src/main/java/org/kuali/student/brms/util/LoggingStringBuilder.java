@@ -1,4 +1,4 @@
-package org.kuali.student.brms.ruleexecution.util;
+package org.kuali.student.brms.util;
 
 public class LoggingStringBuilder {
 	private int counter = 0;
@@ -23,7 +23,7 @@ public class LoggingStringBuilder {
 		this.stringBuilder.trimToSize();
 	}
 
-	public StringBuilder getStringBuffer() {
+	public StringBuilder getStringBuilder() {
 		return this.stringBuilder;
 	}
 	
