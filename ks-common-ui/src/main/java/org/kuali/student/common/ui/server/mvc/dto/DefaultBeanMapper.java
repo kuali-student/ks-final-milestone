@@ -202,11 +202,7 @@ public class DefaultBeanMapper implements BeanMapper {
                         break;
 
                     case MAP:
-                        System.out.println("here");
-                        System.out.println((((MapType)value).get()));
                         result = convertMapFromDTO(((MapType)value).get(), context);
-                        System.out.println(result);
-                        
                         break;
 
                     case MODELDTO:
@@ -225,10 +221,6 @@ public class DefaultBeanMapper implements BeanMapper {
         @Override
         public ModelDTOValue toModelDTOValue(Object source, MapContext context) throws BeanMappingException {
             ModelDTOValue result = null;
-            
-           // System.out.println("source is:"+ source.getClass());
-            
-            
             if (source != null) {
                 if (source instanceof String) {
                     result = new StringType();
@@ -260,21 +252,12 @@ public class DefaultBeanMapper implements BeanMapper {
                 } else if  (source instanceof List) {
                     result = convertDTOFromList(source, context);
                 } else if  (source instanceof HashMap) {
-                    System.out.println(source);
                     result = convertDTOFromMap(source, context);
-                    System.out.println("toModelDTOValue:" +result);
-                    System.out.println("toModelDTOValue:" +((MapType)result).get());
-                    
-                    
                 }else if(source.getClass().isArray()){
-                    //System.out.println("skipping array");
                 }else if(source.getClass().isAnnotation()){
-                    //System.out.println("skipping anno");
                 }else if(source instanceof Class){
-                    //System.out.println("skipping anno");
                 } else {
                     result = new ModelDTOType();
-                    
                     ((ModelDTOType)result).set(context.fromBean(source));
                 }
             }
@@ -299,14 +282,12 @@ public class DefaultBeanMapper implements BeanMapper {
         @SuppressWarnings("unchecked")
         private Map convertMapFromDTO(Map<String, ModelDTOValue> map, MapContext context) throws BeanMappingException {
             Map result = null;
-            
             if (map != null) {
                 result = new HashMap();
                 for (String key : map.keySet()) {
                     result.put(key, fromModelDTOValue(map.get(key), context));
                 }
             }
-            
             return result;
         }
         
@@ -322,14 +303,12 @@ public class DefaultBeanMapper implements BeanMapper {
                 }
                 result.set(list);
             }
-            
             return result;
         }
 
         @SuppressWarnings("unchecked")
         private MapType convertDTOFromMap(Object value, MapContext context) throws BeanMappingException {
             MapType result = null;
-          
             if (value != null) {
                 Map inputMap = (Map) value;
                 result = new MapType();
@@ -339,9 +318,7 @@ public class DefaultBeanMapper implements BeanMapper {
                 }
                 result.set(map);
             }
-          
             return result;
         }
-
     }
 }
