@@ -1496,7 +1496,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("Source cannot be null");
         }
         
-        try {
+        /*try {
         	KnowledgeBuilder builder = droolsUtil.createKnowledgeBuilder();
         	Resource resource = ResourceFactory.newReaderResource(source);
         	builder.add(resource, ResourceType.DRL);
@@ -1508,6 +1508,11 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             return pkgs.iterator().next();
         } catch (RuntimeException e) {
             throw new RuleEngineRepositoryException("Compiling DRL failed: " + e.getMessage(), e);
+        }*/
+        try {
+	        return droolsUtil.buildKnowledgePackage(source);
+        } catch (Exception e) {
+            throw new RuleEngineRepositoryException(e);
         }
     }
 
