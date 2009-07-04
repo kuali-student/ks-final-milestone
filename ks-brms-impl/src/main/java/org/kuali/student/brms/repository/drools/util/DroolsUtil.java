@@ -585,6 +585,13 @@ public class DroolsUtil {
 		}
     }
     
+    /**
+     * Gets the Drools source code as a <code>java.lang.StringBuilder</code>.
+     * 
+     * @param reader Drools source
+     * @return Drools source
+     * @throws IOException Reading source fails
+     */
     private StringBuilder getDrlSource(BufferedReader reader) throws IOException {
 		final int READ_AHEAD_LIMIT = 1000000;
     	LoggingStringBuilder drl = new LoggingStringBuilder();
