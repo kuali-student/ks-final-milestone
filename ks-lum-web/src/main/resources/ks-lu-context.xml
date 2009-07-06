@@ -26,30 +26,27 @@
 		<property name="customConfigSystemProperty" value="ks.config.location"/>
 	</bean>
 	
-	<bean id="luDataSource"
-		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+	
+	<!-- Datasources -->
+	<bean id="defaultDataSource" abstract="true" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
 		destroy-method="close">
-		<property name="uniqueResourceName" value="luDataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+		<property name="testQuery" value="${jdbc.validationQuery}"/>
+		<property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+	</bean>
+	
+	<bean id="luDataSource" parent="defaultDataSource">
+		<property name="uniqueResourceName" value="luDataSource" />
 	</bean>
 
-	<bean id="orgDataSource"
-		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
-		destroy-method="close">
+	<bean id="orgDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="orgDataSource" />
-		<property name="xaDataSourceClassName"
-			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
-		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 	</bean>
 
 	<!-- JPA EntityManagerFactory -->
-	<bean id="luEntityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="Lu"/>
+	<bean id="defaultEntityManagerFactory" abstract="true" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
 			<bean class="${jpa.vendorAdapter}">
 				<property name="databasePlatform"
@@ -58,30 +55,28 @@
 				<property name="generateDdl" value="${jpa.generateDdl}" />
 			</bean>
 		</property>
+		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+	</bean>
+	
+	<bean id="luEntityManagerFactory" parent="defaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Lu"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/lu-persistence.xml" />
 		<property name="dataSource" ref="luDataSource" />
-		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
 	
-	<bean id="orgEntityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Organization"/>
-		<property name="jpaVendorAdapter">
-			<bean class="${jpa.vendorAdapter}">
-				<property name="databasePlatform"
-					value="${jpa.databasePlatform}" />
-				<property name="showSql" value="${jpa.showSql}" />
-				<property name="generateDdl" value="${jpa.generateDdl}" />
-			</bean>
-		</property>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/organization-persistence.xml" />
 		<property name="dataSource" ref="orgDataSource" />
-		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
+
+	<!-- JPA annotation processor (injects entity managers using @PersistenceUnit) -->
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 	
-	<!--  Atomikos Configurations -->
+	<!--  Atomikos Transaction Configurations -->
 	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
 		init-method="init" destroy-method="shutdownForce">
 		<constructor-arg value="${propertiesPrefix.atomikos.properties}"/>
@@ -110,9 +105,8 @@
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
-	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-
+	<!-- Service Definitions  -->
+	
 	<!-- LU service Config -->
 	<bean id="luDao"
 		class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
@@ -174,6 +168,7 @@
 		</property>
 	</bean>
 
+	<!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
