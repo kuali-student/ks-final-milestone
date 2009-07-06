@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityItem;
+import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleConfigurableSection;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
@@ -90,7 +90,7 @@ public class LuConfigurer {
     // This will probably a custom clu activity widget that uses a CluInfo model dto.
     public static class CourseActivityList extends MultiplicityComposite{
         public Widget createItem() {
-            MultiplicityItem item = new MultiplicityItem("cluInfo");
+            MultiplicitySection item = new MultiplicitySection("cluInfo");
             
             item.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING));
             item.addField(new FieldDescriptor("clu.hours", "Contact Hours", Type.STRING));
