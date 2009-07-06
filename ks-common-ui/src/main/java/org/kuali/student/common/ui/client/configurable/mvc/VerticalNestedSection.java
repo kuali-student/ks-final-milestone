@@ -1,12 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
@@ -15,10 +9,7 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class VerticalNestedSection extends NestedSection{
     

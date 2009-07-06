@@ -128,17 +128,6 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	    startSectionWindow.setWidget(panel);
 	}
 	
-	public void addViewSection(String viewName,
-            final LayoutSectionView section) {
-	    KSMenuItemData item = new KSMenuItemData(viewName);
-	    viewMenuItems.add(item);
-	    item.setClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                showView(section.getViewEnum());
-            }
-        });	    
-	}
-
 	public void addButton(KSButton button){
 	    buttonPanel.add(button);	    
 	}

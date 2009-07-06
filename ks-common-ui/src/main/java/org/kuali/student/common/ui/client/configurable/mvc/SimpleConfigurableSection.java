@@ -19,10 +19,8 @@ import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class SimpleConfigurableSection extends Section {
     

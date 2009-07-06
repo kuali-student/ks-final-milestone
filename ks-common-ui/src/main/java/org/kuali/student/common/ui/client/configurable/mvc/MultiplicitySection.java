@@ -35,9 +35,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * with a ModelDTO 
  * 
  * @author Kuali Student Team
- *
+ * 
+ *  TODO: Refactor this class to be MultiplicitySection
  */
-public class MultiplicityItem extends Composite implements ConfigurableLayoutSection, HasModelDTOValue{
+public class MultiplicitySection extends Composite implements ConfigurableLayoutSection, HasModelDTOValue{
 
     private ModelDTOValue modelDTOValue; 
     protected final VerticalPanel panel;
@@ -45,7 +46,7 @@ public class MultiplicityItem extends Composite implements ConfigurableLayoutSec
     private ArrayList<FieldDescriptor> fields;
     private String modelDtoClassName;
 
-    public MultiplicityItem(String modelDtoClassName){
+    public MultiplicitySection(String modelDtoClassName){
         fields = new ArrayList<FieldDescriptor>();
         panel = new VerticalPanel();
         this.modelDtoClassName = modelDtoClassName;
@@ -149,33 +150,32 @@ public class MultiplicityItem extends Composite implements ConfigurableLayoutSec
 	}
 
 	@Override
-	public String getInstructions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSectionTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setInstructions(String instructions) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSectionTitle(String sectionTitle) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void validate(Callback<ErrorLevel> callback) {
 		// TODO Auto-generated method stub
 		
 	}
 
+    @Override
+    public String getInstructions() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getSectionTitle() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setInstructions(String instructions) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setSectionTitle(String sectionTitle) {
+        // TODO Auto-generated method stub
+        
+    }	
 }

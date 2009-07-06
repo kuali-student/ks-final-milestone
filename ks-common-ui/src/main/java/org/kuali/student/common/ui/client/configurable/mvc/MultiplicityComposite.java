@@ -30,7 +30,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A multiplicity composite allows a users to add/remove/display a list of 
- * multiplicity items. 
+ * item widgets. The item widget to be used must be provided by the createItem()
+ * method, which can be a MultiplicitySection or any widget that supports the
+ * HasModelDTOValue interface.  
  * 
  * @author Kuali Student Team
  *
