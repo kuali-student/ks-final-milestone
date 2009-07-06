@@ -45,8 +45,9 @@ public class ModPropertyPlaceholderConfigurer extends
 	public void afterPropertiesSet() throws Exception {
 		if(customConfigSystemProperty!=null){
 			String customConfigLocation = System.getProperty(customConfigSystemProperty);
-			customConfigLocation = this.parseStringValue(customConfigLocation, System.getProperties(), new HashSet<String>());
 			try{
+				customConfigLocation = this.parseStringValue(customConfigLocation, System.getProperties(), new HashSet<String>());
+
 				Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigLocation);
 		
 				Resource[] finalLocations = new Resource[locations.length+1];
