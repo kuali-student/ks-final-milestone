@@ -27,7 +27,6 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -38,7 +37,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  *  TODO: Refactor this class to be MultiplicitySection
  */
-public class MultiplicitySection extends Composite implements ConfigurableLayoutSection, HasModelDTOValue{
+public class MultiplicitySection extends Section implements HasModelDTOValue{
 
     private ModelDTOValue modelDTOValue; 
     protected final VerticalPanel panel;
@@ -154,28 +153,4 @@ public class MultiplicitySection extends Composite implements ConfigurableLayout
 		// TODO Auto-generated method stub
 		
 	}
-
-    @Override
-    public String getInstructions() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getSectionTitle() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setInstructions(String instructions) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setSectionTitle(String sectionTitle) {
-        // TODO Auto-generated method stub
-        
-    }	
 }
