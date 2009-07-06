@@ -45,7 +45,7 @@ public class ModPropertyPlaceholderConfigurer extends
 	public void afterPropertiesSet() throws Exception {
 		if(customConfigSystemProperty!=null){
 			String customConfigLocation = System.getProperty(customConfigSystemProperty);
-			
+			customConfigLocation = this.parseStringValue(customConfigLocation, System.getProperties(), new HashSet<String>());
 			try{
 				Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigLocation);
 		
@@ -64,8 +64,9 @@ public class ModPropertyPlaceholderConfigurer extends
 			}
 		}
 		if(customConfigFileLocation!=null){
+			String location = this.parseStringValue(customConfigFileLocation, System.getProperties(), new HashSet<String>());
 			try{
-				Resource customConfigResource = new DefaultResourceLoader().getResource(customConfigFileLocation);
+				Resource customConfigResource = new DefaultResourceLoader().getResource(location);
 		
 				Resource[] finalLocations = new Resource[locations.length+1];
 				int i=0;
@@ -78,7 +79,7 @@ public class ModPropertyPlaceholderConfigurer extends
 				super.setLocations(finalLocations);
 			
 			}catch(Exception e){
-				logger.info("Could not load custom properties from file:"+customConfigFileLocation);
+				logger.info("Could not load custom properties from file:"+location);
 			}
 		}
 	}
