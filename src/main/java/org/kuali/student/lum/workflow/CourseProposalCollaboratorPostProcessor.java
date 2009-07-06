@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.resource.spi.work.WorkListener;
+
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
@@ -50,8 +52,8 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent)
 			throws Exception {
-		if (statusChangeEvent.getNewRouteStatus().equals(KEWConstants.ROUTE_HEADER_APPROVED_CD)) {			
-			LOG.info("CourseProposalCollaboratorPostProcessor: Status change to APPROVED");
+		if (statusChangeEvent.getNewRouteStatus().equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)) {			
+			LOG.info("CourseProposalCollaboratorPostProcessor: Status change to PROCESSED");
 			WorkflowInfo workflowInfo = new WorkflowInfo();
 			DocumentContentDTO document = workflowInfo.getDocumentContent(statusChangeEvent.getRouteHeaderId());
 			addAdhocFYI(document);						
@@ -61,7 +63,6 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 
 	public List<Long> getDocumentIdsToLock(DocumentLockingEvent arg0)
 			throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -84,8 +85,12 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 		String annotation = "Collaborator Approved";
 	    
        	try {
-			WorkflowDocument workflowDocument = new WorkflowDocument(docId, recipientPrincipalId);
-			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, annotation, principalId, "Request to Collaborate", true);
+			WorkflowDocument workflowDocument = new WorkflowDocument(docId, principalId);
+			if (workflowDocument.getNodeNames().length == 0) {
+				throw new RuntimeException("No active nodes found on document");
+			}
+			String collaborateAtNodeName = workflowDocument.getNodeNames()[0];
+			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, collaborateAtNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, "Collaborate");
 		} catch (WorkflowException e) {
 			e.printStackTrace();
 		}
