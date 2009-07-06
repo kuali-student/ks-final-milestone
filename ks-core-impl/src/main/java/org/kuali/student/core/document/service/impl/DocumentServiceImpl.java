@@ -21,6 +21,9 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.ServerDateParser;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
@@ -143,7 +146,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<String> searchForDocuments(DocumentCriteriaInfo documentCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentCriteria, "documentCriteria");
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+       
         return null;
     }
     @Override
@@ -162,12 +165,23 @@ public class DocumentServiceImpl implements DocumentService {
         
         return DocumentServiceAssembler.toDocumentInfo(document);
     }
+    
+    private Validator createValidator() {
+        Validator validator = new Validator();
+        validator.setDateParser(new ServerDateParser());
+//      validator.addMessages(null); //TODO this needs to be loaded somehow
+        return validator;
+    }
+    
     @Override
     public List<ValidationResult> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(documentInfo, "documentInfo");
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<ValidationResult> validationResults = createValidator().validateTypeStateObject(documentInfo, getObjectStructure("documentInfo"));
+
+        return validationResults;
+        
     }
 
    
@@ -195,5 +209,18 @@ public class DocumentServiceImpl implements DocumentService {
         if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
+    }
+    
+    public ObjectStructure getObjectStructure(String objectTypeKey) {
+        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
+    
+    public DictionaryService getDictionaryServiceDelegate() {
+        return dictionaryServiceDelegate;
+    }
+
+    public void setDictionaryServiceDelegate(
+            DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 }

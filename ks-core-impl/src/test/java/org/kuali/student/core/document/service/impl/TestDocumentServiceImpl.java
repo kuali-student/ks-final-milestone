@@ -48,6 +48,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.validation.dto.ValidationResult;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -58,7 +59,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 @Daos( { @Dao(value = "org.kuali.student.core.document.dao.impl.DocumentDaoImpl",testSqlFile="classpath:ks-document.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/document-persistence.xml")
 public class TestDocumentServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.document.service.impl.DocumentServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.core.document.service.impl.DocumentServiceImpl", port = "8181", additionalContextFile="classpath:document-additional-context.xml")
     public DocumentService client;
 
 
@@ -232,6 +233,24 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         
         
         
+    }
+    
+    @Test
+    public void testValidateMethods() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        DocumentInfo documentInfo = new DocumentInfo();
+        RichTextInfo desc = new RichTextInfo();
+        desc.setFormatted("<p>document&gt;!%/#;&amp;@$</p>");
+        desc.setPlain("document");
+        documentInfo.setDesc(desc);
+        documentInfo.setFileName("sample.pdf");
+        documentInfo.setEffectiveDate(new Date());
+        documentInfo.setExpirationDate(new Date());
+        documentInfo.setType("kuali.org.Document");
+        documentInfo.setState("active");
         
+        List<ValidationResult> validations = client.validateDocument("", documentInfo);
+        for (ValidationResult validationResult : validations) {
+            assertTrue(validationResult.isOk());
+        }
     }
 }
