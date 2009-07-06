@@ -13,6 +13,9 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 
 
 public class DTOSerializationTest {
+    @Test public void dtoTest(){
+        
+    }
     @Test public void basicDataTypeTest() {
        try {
             Person p = new Person();
@@ -52,8 +55,7 @@ public class DTOSerializationTest {
         }
     }
 }
-//TODO add set (necessary)
-//TODO 
+
 class Department{
     String name;
 
@@ -80,7 +82,7 @@ class Person{
     private Date date;
     private char ch;
     
-
+    
     public Date getDate() {
         return date;
     }
