@@ -44,12 +44,12 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     private ModelDTOValue.ListType modelDTOList;     
 
     /**
-     * This simply decorates a list item widget to add styling and 
+     * This simply decorates a list item widget to add styling and a remove button 
      *   
      * @author Kuali Student Team
      *
      */
-    private class ListItemWidgetDecorator extends Composite{
+    private class MultiplicityItemWidgetDecorator extends Composite{
         DockPanel dockPanel;
         Widget listItem;
         
@@ -57,11 +57,11 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             public void onClick(ClickEvent event) {
                 ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getModelDTOValue(); 
                 modelDTOList.get().remove(listItemValue);
-                itemsPanel.remove(ListItemWidgetDecorator.this);
+                itemsPanel.remove(MultiplicityItemWidgetDecorator.this);
             }            
         });        
         
-        private ListItemWidgetDecorator(Widget listItem){
+        private MultiplicityItemWidgetDecorator(Widget listItem){
             dockPanel = new DockPanel();
             this.listItem = listItem;
             initWidget(dockPanel);
@@ -111,20 +111,25 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         }
         
         Widget newItemWidget = createItem();
-        ListItemWidgetDecorator listItem = new ListItemWidgetDecorator(newItemWidget);
+        MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
         modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getModelDTOValue());
         itemsPanel.add(listItem);
     }    
     
     private void addItem(ModelDTOValue modelDTOValue){
         Widget newItemWidget = createItem();
-        ListItemWidgetDecorator listItem = new ListItemWidgetDecorator(newItemWidget);
+        MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
         ((HasModelDTOValue)newItemWidget).setModelDTOValue(modelDTOValue);
         itemsPanel.add(listItem);        
     }
     
+    /** 
+     * Init method to support lazy initialization of multiplicity composite
+     *
+     */
     public void init(){
         mainPanel = new DockPanel();
+        mainPanel.addStyleName("KS-Multiplicity-Composite");
         itemsPanel = new VerticalPanel();
         initWidget(mainPanel);
         

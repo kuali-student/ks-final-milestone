@@ -63,10 +63,17 @@ public class VerticalNestedSection extends NestedSection{
                 panel.add(ns);
             }
             else if(o instanceof FieldDescriptor){
+
                 FieldDescriptor field = (FieldDescriptor)o;
-                KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-                formField.setWidget(field.getFieldWidget());
-                form.addFormField(formField);
+                if (field.getFieldWidget() instanceof MultiplicityComposite){
+                    MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
+                    listField.init();
+                    panel.add(listField);                   
+                } else {
+                    KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
+                    formField.setWidget(field.getFieldWidget());
+                    form.addFormField(formField);
+                }
             }
         }
     }

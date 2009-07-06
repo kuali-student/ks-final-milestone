@@ -1,10 +1,5 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -153,14 +148,4 @@ public class SimpleConfigurableSection extends LayoutSectionView {
             
         }
 	};
-
-    @Override
-    public List<FieldDescriptor> getFields() {
-        List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
-        allFields.addAll(fields);
-        for(NestedSection ns: sections){
-            allFields.addAll(ns.getFields());
-        }
-        return allFields;
-    }
 }

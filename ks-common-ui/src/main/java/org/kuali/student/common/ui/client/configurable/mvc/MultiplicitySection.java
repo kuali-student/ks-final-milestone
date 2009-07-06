@@ -42,7 +42,6 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     private ModelDTOValue modelDTOValue; 
     protected final VerticalPanel panel;
     private KSFormLayoutPanel form = null;
-    private ArrayList<FieldDescriptor> fields;
     private String modelDtoClassName;
 
     public MultiplicitySection(String modelDtoClassName){
@@ -57,7 +56,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
      */
     @Override
     public void addField(FieldDescriptor fieldDescriptor) {
-        fields.add(fieldDescriptor);
+        super.addField(fieldDescriptor);
+        
         if (form == null){            
             form = new KSFormLayoutPanel();
         }
@@ -77,6 +77,14 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         }
         
     }
+    
+    @Override
+    public void addSection(NestedSection section) {
+        super.addSection(section);
+        section.redraw();
+        panel.add(section);
+    }
+    
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#getModelDTOValue()
@@ -135,18 +143,6 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
             ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
         }                                   
     }
-
-	@Override
-	public void addSection(NestedSection section) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<FieldDescriptor> getFields() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void validate(Callback<ErrorLevel> callback) {

@@ -44,5 +44,15 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         this.instructions = instructions;
     }
         
+    @Override
+    public List<FieldDescriptor> getFields() {
+        List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
+        allFields.addAll(fields);
+        for(NestedSection ns: sections){
+            allFields.addAll(ns.getFields());
+        }
+        return allFields;
+    }
+
     public abstract void validate(Callback<ErrorLevel> callback);
 }
