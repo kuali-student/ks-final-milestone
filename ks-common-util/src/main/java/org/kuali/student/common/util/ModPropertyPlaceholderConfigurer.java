@@ -60,10 +60,10 @@ public class ModPropertyPlaceholderConfigurer extends
 					
 					super.setLocations(finalLocations);
 				}else{
-					logger.info("File does not exist:"+customConfigLocation);
+					logger.warn("File does not exist:"+customConfigLocation);
 				}
 			}catch(Exception e){
-				logger.info("Could not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation);
+				logger.warn("Could not load custom properties from property:"+customConfigSystemProperty+" location:"+customConfigLocation);
 			}
 		}
 		if(customConfigFileLocation!=null){
@@ -82,10 +82,10 @@ public class ModPropertyPlaceholderConfigurer extends
 					
 					super.setLocations(finalLocations);
 				}else{
-					logger.info("File does not exist:"+location);
+					logger.warn("File does not exist:"+location);
 				}
 			}catch(Exception e){
-				logger.info("Could not load custom properties from file:"+location);
+				logger.warn("Could not load custom properties from file:"+location);
 			}
 		}
 	}
