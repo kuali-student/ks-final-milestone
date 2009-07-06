@@ -34,6 +34,7 @@
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties" value="${propertiesPrefix.org.jdbc.xaDataSourceProperties}"/>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+		<property name="testQuery" value="${jdbc.validationQuery}"/>
 	</bean>
 	
 	<bean id="orgDataSource" parent="defaultDataSource">
@@ -42,10 +43,12 @@
 
 	<bean id="emDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="emDataSource" />
+		<property name="xaProperties" value="${propertiesPrefix.em.jdbc.xaDataSourceProperties}"/>
 	</bean>
 
 	<bean id="messageDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="messageDataSource" />
+		<property name="xaProperties" value="${propertiesPrefix.message.jdbc.xaDataSourceProperties}"/>
 	</bean>
 	
 	<bean id="commentDataSource" parent="defaultDataSource">
