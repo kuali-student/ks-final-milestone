@@ -6,6 +6,13 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Frame;
 
+/**
+ * Use this to communicate between frames and the parent window.
+ * This class uses JSNI to create a global function sendParams which fires a selection event that the 
+ * principal has been selected.  It is used in conjunction with an html page that calls the sendParams 
+ * function
+ *
+ */
 public class KRUserSearchIFrame extends Frame implements HasSelectionHandlers<String>{
 	
 	public KRUserSearchIFrame(String string) {
