@@ -1,26 +1,20 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
-public abstract class Section extends LayoutSectionView implements ConfigurableLayoutSection{
-    
+import com.google.gwt.user.client.ui.Composite;
 
+public abstract class Section extends Composite implements ConfigurableLayoutSection{
+    private String sectionTitle = null;
+    private String instructions = null;
+   
     protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
     protected ArrayList<NestedSection> sections = new ArrayList<NestedSection>();
     protected List<Object> orderedLayoutList = new ArrayList<Object>();
-
-    public Section(Controller controller, Enum<?> viewEnum, String viewName) {
-        super(controller, viewEnum, viewName);
-    }
-
-    public Section(Enum<?> viewEnum, String viewName) {
-        super(viewEnum, viewName);
-    }
 
     @Override
     public void addSection(NestedSection section) {
@@ -34,4 +28,21 @@ public abstract class Section extends LayoutSectionView implements ConfigurableL
         orderedLayoutList.add(fieldDescriptor);
     }
     
+    public String getSectionTitle() {
+        return sectionTitle;
+    }
+
+    public void setSectionTitle(String sectionTitle) {
+        this.sectionTitle = sectionTitle;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+        
+    public abstract void validate(Callback<ErrorLevel> callback);
 }

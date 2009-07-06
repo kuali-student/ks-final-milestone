@@ -22,15 +22,13 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SimpleConfigurableSection extends Section {
+public class SimpleConfigurableSection extends LayoutSectionView {
     
     protected final VerticalPanel panel = new VerticalPanel();
 	private final Label sectionTitleLabel = new Label();
 	private final Label instructionsLabel = new Label();
 	private KSFormLayoutPanel form = null;
 	private boolean loaded = false;
-	private ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
-	private Map<Enum<?>, NestedSection> sections = new HashMap<Enum<?>, NestedSection>();
 
 		
 	public SimpleConfigurableSection(Enum<?> viewEnum, String name) {	    
@@ -83,10 +81,17 @@ public class SimpleConfigurableSection extends Section {
 	                
 	            }
 	            else if(o instanceof FieldDescriptor){
-	                FieldDescriptor field = (FieldDescriptor)o;
-	                KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-	                formField.setWidget(field.getFieldWidget());
-	                form.addFormField(formField);
+                    FieldDescriptor field = (FieldDescriptor)o;
+                    
+	                if (field.getFieldWidget() instanceof MultiplicityComposite){
+	                    MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
+	                    listField.init();
+	                    panel.add(listField);                   
+	                } else {
+    	                KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
+    	                formField.setWidget(field.getFieldWidget());
+    	                form.addFormField(formField);
+	                }
 	            }
 	        }
 	        loaded = true;
@@ -117,7 +122,7 @@ public class SimpleConfigurableSection extends Section {
                     }
                 }
             } 
-            for(NestedSection s: sections.values()){
+            for(NestedSection s: sections){
                 s.updateModel(model);
             }
             GWT.log(modelDTO.toString(), null);
@@ -153,7 +158,7 @@ public class SimpleConfigurableSection extends Section {
     public List<FieldDescriptor> getFields() {
         List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
         allFields.addAll(fields);
-        for(NestedSection ns: sections.values()){
+        for(NestedSection ns: sections){
             allFields.addAll(ns.getFields());
         }
         return allFields;

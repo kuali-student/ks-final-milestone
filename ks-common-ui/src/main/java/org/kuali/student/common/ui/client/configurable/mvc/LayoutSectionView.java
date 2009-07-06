@@ -1,19 +1,10 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.ArrayList;
-
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 
-import com.google.gwt.user.client.ui.Composite;
-
-public abstract class LayoutSectionView extends Composite implements View{
-    private String sectionTitle = null;
-    private String instructions = null;
-    private Controller controller;
-    private ArrayList<LayoutSectionView> layoutSectionList = new ArrayList<LayoutSectionView>();    
+public abstract class LayoutSectionView extends Section implements View{
+    private Controller controller;   
     private Enum<?> viewEnum;
     private String viewName;
 
@@ -36,39 +27,7 @@ public abstract class LayoutSectionView extends Composite implements View{
         this.viewEnum = viewEnum;
         this.viewName = viewName;
     }
-    
-    
-
-    public String getSectionTitle() {
-        return sectionTitle;
-    }
-
-    public void setSectionTitle(String sectionTitle) {
-        this.sectionTitle = sectionTitle;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public ArrayList<LayoutSectionView> getLayoutSectionList(){ 
-      return layoutSectionList;
-    }
-
-    public void addChildSection(ConfigurableLayoutSection section) {
-        //layoutSectionList.add(section);
-    }
-    
-    public void validateChildSection(Callback<ErrorLevel> callback) {
-        for (LayoutSectionView layoutSection : layoutSectionList) {
-            layoutSection.validate(callback);
-        }
-    }
-
+        
     /** 
      * This method gets view name enumeration
      * 
@@ -124,10 +83,7 @@ public abstract class LayoutSectionView extends Composite implements View{
      */
     public void clear(){
         //do nothing
-    }
-    
-    
-    public abstract void validate(Callback<ErrorLevel> callback);
+    }        
     
     public void setController(Controller controller) {
         this.controller = controller;
