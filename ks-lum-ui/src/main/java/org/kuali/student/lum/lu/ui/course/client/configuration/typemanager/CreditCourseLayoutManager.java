@@ -144,6 +144,7 @@ public class CreditCourseLayoutManager {
                         @Override
                         public void onSuccess(CluProposal result) {
                             ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
+                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setWorkflowId(result.getWorkflowId());
                             layout.refresh();
                         }                   
                     });

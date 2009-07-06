@@ -80,6 +80,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposal createProposal(CluProposal cluProposal) {
+        aquireSimpleDocService();
         try {
             //FIXME: Restore code to handle proposal service?
             
@@ -115,6 +116,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             proposalInfo.setProposalReference(proposalRefIds);
             getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
              */
+            /*-------------------------------------------------------------------------------------------------------------------------------*/
+            
+            
+            //get a user name
+            String username=getCurrentUser();
+            
+            //Create and then route the document 
+            String workflowDocTypeId = "CluDocument";
+            
+            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
+            cluProposal.setWorkflowId(docResponse.getDocId());
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -364,7 +377,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             //Create and then route the document 
             String workflowDocTypeId = "CluDocument";
-            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+//            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+            
+            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
             
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();

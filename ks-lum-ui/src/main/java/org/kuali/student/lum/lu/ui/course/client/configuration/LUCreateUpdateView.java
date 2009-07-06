@@ -108,7 +108,7 @@ public class LUCreateUpdateView extends ViewComposite {
                     
                     cluProposal.setCluInfo(cluInfo); 
                     
-                	wfStartWorkflowButton = new KSButton("Start Workflow", new ClickHandler(){
+                	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
                 		public void onClick(ClickEvent event) {
                 			ProposalInfo proposalInfo = layout.getObject().getProposalInfo();
                 			if(proposalInfo==null||proposalInfo.getProposerOrg()==null||proposalInfo.getProposerOrg().isEmpty()){
