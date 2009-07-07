@@ -1,6 +1,7 @@
 package org.kuali.student.common.validator;
 
 import java.util.Date;
+import java.util.List;
 
 public class ConstraintMockPerson {
 
@@ -20,7 +21,7 @@ public class ConstraintMockPerson {
 	
 	protected Date dob;
 	
-	protected ConstraintMockAddress address;
+	protected List<ConstraintMockAddress> address;
 
 	/**
 	 * @return the firstName
@@ -109,14 +110,14 @@ public class ConstraintMockPerson {
 	/**
 	 * @return the address
 	 */
-	public ConstraintMockAddress getAddress() {
+	public List<ConstraintMockAddress> getAddress() {
 		return address;
 	}
 
 	/**
 	 * @param address the address to set
 	 */
-	public void setAddress(ConstraintMockAddress address) {
+	public void setAddress(List<ConstraintMockAddress> address) {
 		this.address = address;
 	}
 

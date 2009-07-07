@@ -14,6 +14,8 @@ public class ConstraintMockAddress {
 	
 	protected String country;
 	
+	protected String stateCode;
+	
 	protected List<String> phoneNumbers;
 	
 	protected String type;
@@ -147,5 +149,18 @@ public class ConstraintMockAddress {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-		
+
+	/**
+	 * @return the stateCode
+	 */
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	/**
+	 * @param stateCode the stateCode to set
+	 */
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}		
 }

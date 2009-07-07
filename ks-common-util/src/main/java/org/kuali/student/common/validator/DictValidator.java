@@ -83,6 +83,13 @@ public class DictValidator {
 		}
 	}
 
+	/**
+	 * Validate Object and all its nested child objects for given type and state
+	 * 
+	 * @param data
+	 * @param objStructure
+	 * @return
+	 */
 	public List<DictValidationResultContainer> validateTypeStateObject(
 			Object data, ObjectStructure objStructure) {
 		List<DictValidationResultContainer> results = new ArrayList<DictValidationResultContainer>();
@@ -154,10 +161,12 @@ public class DictValidator {
 
 			if (value instanceof Collection) {
 				for (Object o : (Collection<?>) value) {
-					processNestedObjectStructure(results, o, nestedObjStruct, field);
+					processNestedObjectStructure(results, o, nestedObjStruct,
+							field);
 				}
 			} else {
-				processNestedObjectStructure(results, value, nestedObjStruct, field);
+				processNestedObjectStructure(results, value, nestedObjStruct,
+						field);
 			}
 		} else { // If non complex data type
 			ConstraintDescriptor cd = field.getConstraintDescriptor();
@@ -181,8 +190,8 @@ public class DictValidator {
 							processConstraint(valResults, constraint, field,
 									type, state, objStruct, o, dataProvider,
 									bcb);
-							processBaseConstraints(valResults, bcb, field, o);
 						}
+						processBaseConstraints(valResults, bcb, field, o);
 
 						if (bcb.minOccurs > ((Collection<?>) value).size()) {
 							valResults.addError(messages
@@ -216,9 +225,10 @@ public class DictValidator {
 		return results;
 	}
 
-	private void processNestedObjectStructure(List<DictValidationResultContainer> results, Object value, ObjectStructure nestedObjStruct, Field field) {
-		ConstraintDataProvider cdp = setupFactory.getDataProvider(value);
-		results.addAll(validateTypeStateObject(cdp, nestedObjStruct));
+	private void processNestedObjectStructure(
+			List<DictValidationResultContainer> results, Object value,
+			ObjectStructure nestedObjStruct, Field field) {
+		results.addAll(validateTypeStateObject(value, nestedObjStruct));
 
 		// CD should have only one type state case constraint
 		ConstraintDescriptor cd = field.getConstraintDescriptor();
@@ -237,11 +247,11 @@ public class DictValidator {
 			ConstraintDataProvider dataProvider, BaseConstraintBean bcb) {
 
 		// If constraint is only to be processed on server side
-		if(StringUtils.hasText(constraint.getClassName()) || constraint.isServerSide() && !serverSide ) {
+		if (StringUtils.hasText(constraint.getClassName())
+				|| constraint.isServerSide() && !serverSide) {
 			return;
 		}
-		
-		
+
 		if (null != constraint.getMinLength()) {
 			bcb.minLength = (bcb.minLength > constraint.getMinLength()) ? bcb.minLength
 					: constraint.getMinLength();
@@ -298,12 +308,14 @@ public class DictValidator {
 					dataProvider, value);
 		}
 
-		// Process Require Constraints
-		if (null != constraint.getRequireConstraint()
-				&& constraint.getRequireConstraint().size() > 0) {
-			for (RequireConstraint rc : constraint.getRequireConstraint()) {
-				processRequireConstraint(valResults, rc, objStructure,
-						dataProvider);
+		// Process Require Constraints (only if this field has value)
+		if (value != null && !"".equals(value.toString().trim())) {
+			if (null != constraint.getRequireConstraint()
+					&& constraint.getRequireConstraint().size() > 0) {
+				for (RequireConstraint rc : constraint.getRequireConstraint()) {
+					processRequireConstraint(valResults, rc, field, objStructure,
+							dataProvider);
+				}
 			}
 		}
 
@@ -317,6 +329,7 @@ public class DictValidator {
 		}
 
 		// Process lookup Constraint
+		// TODO: Implement lookup constraint
 		if (null != constraint.getLookupConstraint()
 				&& constraint.getLookupConstraint().size() > 0) {
 			for (LookupConstraint lc : constraint.getLookupConstraint()) {
@@ -336,7 +349,7 @@ public class DictValidator {
 
 	private boolean processRequireConstraint(
 			DictValidationResultContainer valResults,
-			RequireConstraint constraint, ObjectStructure objStructure,
+			RequireConstraint constraint, Field field, ObjectStructure objStructure,
 			ConstraintDataProvider dataProvider) {
 
 		boolean result = false;
@@ -353,7 +366,11 @@ public class DictValidator {
 		}
 
 		if (!result) {
-			valResults.addError(messages.get("validation.required"));
+			Map<String, Object> rMap = new HashMap<String, Object>();
+			rMap.put("field1", field.getKey());
+			rMap.put("field2", fieldName);
+			valResults.addError(MessageUtils.interpolate(messages
+					.get("validation.requiresField"), rMap));
 		}
 
 		return result;
@@ -468,7 +485,7 @@ public class DictValidator {
 				null);
 
 		for (RequireConstraint rc : constraint.getRequire()) {
-			trueCount += (processRequireConstraint(tempC, rc, objStructure,
+			trueCount += (processRequireConstraint(tempC, rc, field, objStructure,
 					dataProvider)) ? 1 : 0;
 		}
 

@@ -11,6 +11,7 @@ import org.kuali.student.core.dictionary.newmodel.dto.ConstraintSelector;
 import org.kuali.student.core.dictionary.newmodel.dto.Field;
 import org.kuali.student.core.dictionary.newmodel.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.newmodel.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.newmodel.dto.RequireConstraint;
 import org.kuali.student.core.dictionary.newmodel.dto.State;
 import org.kuali.student.core.dictionary.newmodel.dto.Type;
 import org.kuali.student.core.dictionary.newmodel.dto.ValidCharsConstraint;
@@ -182,6 +183,29 @@ public class DictValidatorTest {
     	assertEquals(results.get(2).getValidationResults().get(0).getMessage(), "validation.outOfRange");
     }
     
+    @Test
+    public void testNestedStructures() {
+    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
+    	
+    	DictValidator val = new DictValidator(bc, true);
+    	val.setDateParser(new ServerDateParser());
+    	val.addMessages(buildMessageStore());
+    	
+    	ConstraintMockPerson p = buildTestPerson3();
+
+    	ObjectStructure o = buildObjectStructure2();
+    	
+    	List<DictValidationResultContainer> results = val.validateTypeStateObject( p, o);    
+    	assertEquals(results.size(), 5);
+
+    	assertEquals(results.get(3).getErrorLevel(), DictValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(3).getValidationResults().get(0).getMessage(), "validation.required");
+
+    	assertEquals(results.get(4).getErrorLevel(), DictValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(4).getValidationResults().get(0).getMessage(), "validation.requiresField");
+    	assertEquals(results.get(4).getValidationResults().get(1).getMessage(), "validation.validCharsFailed");    	
+    }
+    
     
     public ConstraintMockPerson buildTestPerson1() {
     	ConstraintMockPerson person = new ConstraintMockPerson();
@@ -215,7 +239,7 @@ public class DictValidatorTest {
     }
 
     
-    public ConstraintMockPerson buildTestPersone3() {
+    public ConstraintMockPerson buildTestPerson3() {
     	ConstraintMockPerson person = new ConstraintMockPerson();
     	
     	person.setFirstName("first");
@@ -232,15 +256,125 @@ public class DictValidatorTest {
     	address.setType("MAILING");
     	address.setId("A1");
     	address.setCity("TLH");
-    	address.setState("FL");
+    	address.setStateCode("FL");
     	address.setCountry("US");
-    	address.setLine1("Line1");
+    	address.setLine1("");
+    	address.setLine2("line2value");
     	address.setPostalCode("32306");
+    	    	
+    	List<ConstraintMockAddress> addressL = new ArrayList<ConstraintMockAddress>();
+    	addressL.add(address);
     	
-    	person.setAddress(address);
+    	person.setAddress(addressL);
+
     	return person;
     }
     
+    public ObjectStructure buildObjectStructure2() {
+    	
+    	ObjectStructure addrStruct = new ObjectStructure();
+    	addrStruct.setKey("addressInfo");
+    	
+    	List<Field> fields = new ArrayList<Field>();
+    	    	
+    	// Line 1 Field
+    	Field f1 = new Field();
+    	f1.setKey("line1");
+
+    	FieldDescriptor fd1 = new FieldDescriptor();
+    	fd1.setDataType("string");
+
+    	ConstraintDescriptor cd1 = new ConstraintDescriptor();
+    	ConstraintSelector cs1 = new ConstraintSelector();
+    	cs1.setMaxLength("20");
+    	cs1.setMinLength(2);
+    	cs1.setMinOccurs(1);
+    	
+    	ValidCharsConstraint vcs1 = new ValidCharsConstraint();
+    	vcs1.setValue("regex:[a-z]*");
+
+    	ConstraintSelector cs12 = new ConstraintSelector();
+    	cs12.setValidChars(vcs1);
+    	
+    	List<ConstraintSelector> csList1 = new ArrayList<ConstraintSelector>();
+    	csList1.add(cs1);
+    	csList1.add(cs12);
+    	cd1.setConstraint(csList1);
+    	
+    	f1.setFieldDescriptor(fd1);
+    	f1.setConstraintDescriptor(cd1);
+    	
+    	fields.add(f1);
+    	
+
+    	// Line 2 Field
+    	Field f2 = new Field();
+    	f2.setKey("line2");
+
+    	FieldDescriptor fd2 = new FieldDescriptor();
+    	fd2.setDataType("string");
+
+    	ConstraintDescriptor cd2 = new ConstraintDescriptor();
+    	ConstraintSelector cs2 = new ConstraintSelector();
+    	cs2.setMaxLength("20");
+    	cs2.setMinLength(2);
+    	cs2.setMinOccurs(0);
+    	
+    	RequireConstraint rc2 = new RequireConstraint();
+    	rc2.setField("line1");
+    	List<RequireConstraint> rcList2 = new ArrayList<RequireConstraint>();
+    	rcList2.add(rc2);
+    	cs2.setRequireConstraint(rcList2);
+    	
+    	ValidCharsConstraint vcs2 = new ValidCharsConstraint();
+    	vcs2.setValue("regex:[a-z]*");
+
+    	ConstraintSelector cs22 = new ConstraintSelector();
+    	cs22.setValidChars(vcs1);
+    	
+    	List<ConstraintSelector> csList2 = new ArrayList<ConstraintSelector>();
+    	csList2.add(cs2);
+    	csList2.add(cs22);
+    	cd2.setConstraint(csList2);
+    	
+    	f2.setFieldDescriptor(fd2);
+    	f2.setConstraintDescriptor(cd2);
+    	
+    	fields.add(f2);
+    	
+    	List<State> states = new ArrayList<State>();
+    	State s = new State();
+    	s.setKey("ACTIVE");
+    	s.setField(fields);
+    	
+    	states.add(s);
+    	
+    	List<Type> types = new ArrayList<Type>();
+    	Type t = new Type();    	
+    	t.setKey("MAILING");
+    	t.setState(states);
+    	types.add(t);    	    	    	    	
+    	addrStruct.setType(types);
+    	
+    	
+    	ObjectStructure objStruct = buildObjectStructure1();
+    	
+    	// Complex nested obj struct
+    	Field f3 = new Field();
+    	f3.setKey("address");
+    	
+    	FieldDescriptor fd3 = new FieldDescriptor();
+    	fd3.setDataType("complex");
+    	fd3.setObjectStructure(addrStruct);
+    	f3.setFieldDescriptor(fd3);
+    	
+    	List<Field> fieldList = objStruct.getType().get(0).getState().get(0).getField();
+    	fieldList.add(f3);
+    	objStruct.getType().get(0).getState().get(0).setField(fieldList);
+    	
+    	
+    	return objStruct;
+    }
 
     public ObjectStructure buildObjectStructure1() {    
     	ObjectStructure objStruct = new ObjectStructure();
@@ -379,6 +513,11 @@ public class DictValidatorTest {
     	m8.setId("validation.outOfRange");
     	m8.setValue("validation.outOfRange");    	
     	result.add(m8);
+
+    	Message m9 = new Message();
+    	m9.setId("validation.requiresField");
+    	m9.setValue("validation.requiresField");    	
+    	result.add(m9);
     	
     	return result;
     }
