@@ -23,13 +23,13 @@ import org.kuali.student.common.ui.client.event.SaveHandler;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurableSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout.SaveTypes;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AcademicContentLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AdminstrativeLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.AttachmentsLayoutManager;
+import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.KewLinksLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ProposalInformationLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.StudentEligibilityLayoutManager;
 import org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager.ViewsLayoutManager;
@@ -74,6 +74,7 @@ public class CreditCourseLayoutManager {
         addStudentEligibilitySection(layout, type, state);
         addAdministrativeSection(layout, type, state);
         addAttachmentsSection(layout, type, state);
+        addKewLinksSection(layout, type, state);
 
         //FIXME: Handlers should probably be added in controller rather than configuration
         layout.addSaveSectionHandler(new SaveHandler(){
@@ -99,7 +100,7 @@ public class CreditCourseLayoutManager {
         return layout;
     }
 
-    private DefaultCreateUpdateLayout<CluProposal> addStartSection(final DefaultCreateUpdateLayout<CluProposal> layout){
+	private DefaultCreateUpdateLayout<CluProposal> addStartSection(final DefaultCreateUpdateLayout<CluProposal> layout){
         final SimpleConfigurableSection<CluProposal> startCluProposalSection = new SimpleConfigurableSection<CluProposal>();  
         
         layout.addStartSection(startCluProposalSection
@@ -209,4 +210,9 @@ public class CreditCourseLayoutManager {
         return manager.addSection( type, state);
     }
 
+    private DefaultCreateUpdateLayout<CluProposal> addKewLinksSection(
+			DefaultCreateUpdateLayout<CluProposal> layout,  String type, String state) {
+        KewLinksLayoutManager manager = new KewLinksLayoutManager(layout);
+        return manager.addSection( type, state);
+	}
 }
