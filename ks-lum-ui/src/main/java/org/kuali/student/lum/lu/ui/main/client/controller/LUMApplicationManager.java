@@ -84,8 +84,8 @@ public class LUMApplicationManager extends Controller{
                 return homeMenuView;
             case CREATE_COURSE:
                 if (courseView == null){
-                    //courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-                    courseView = new DelegatingViewComposite(this, new CluProposalController());
+                    courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                    //courseView = new DelegatingViewComposite(this, new CluProposalController());
                 }
                 //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
                 return courseView;
