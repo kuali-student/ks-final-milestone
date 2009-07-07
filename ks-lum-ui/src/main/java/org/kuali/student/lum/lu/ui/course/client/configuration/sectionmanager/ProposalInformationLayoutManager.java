@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CollaborationSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -201,9 +202,12 @@ public class ProposalInformationLayoutManager {
                             @Override
                             public Object getValue(CluProposal object) {
                                 ProposalInfo info = object.getProposalInfo();
+                                CluInfo cluInfo = object.getCluInfo();
                                 if (info != null && info.getProposerOrg().size() > 0){
                                     return object.getProposalInfo().getProposerOrg().get(0);
-                                } else {
+                                } else if (cluInfo != null){
+                                    return cluInfo.getAdminOrg();
+                                } else{
                                     return "";
                                 }
                             }
@@ -215,6 +219,9 @@ public class ProposalInformationLayoutManager {
                                 }else{
                                 	orgs.set(0, (String)value);
                                 }
+                                
+                                CluInfo cluInfo = object.getCluInfo();
+                                cluInfo.setAdminOrg((String)value);
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
