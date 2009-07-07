@@ -12,10 +12,14 @@ import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.home.client.view.HomeResources;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.libideas.client.StyleInjector;
+import com.google.gwt.libideas.resources.client.CssResource;
+import com.google.gwt.libideas.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
@@ -31,6 +35,9 @@ public class LUMMainEntryPoint implements EntryPoint{
     public void onModuleLoad() {
         final ApplicationContext context = new ApplicationContext();
         Application.setApplicationContext(context);
+
+        final String injectString = this.getCssString();
+        StyleInjector.injectStylesheet(injectString);   
 
         try {
             loadMessages(context);            
@@ -105,4 +112,16 @@ public class LUMMainEntryPoint implements EntryPoint{
         });
     }
 
+    public String getCssString(){
+        String injectString = "";
+         for(ResourcePrototype r: LumResources.INSTANCE.getResources()){
+             if(r instanceof CssResource){
+                 if(((CssResource)r).getText() != null){
+                     injectString = injectString + "\n" + (((CssResource)r).getText());
+                 }
+             }
+         }
+         return injectString;
+    }
+    
 }
