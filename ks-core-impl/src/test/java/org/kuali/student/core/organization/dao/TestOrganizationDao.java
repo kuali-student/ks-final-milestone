@@ -48,12 +48,26 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
 		QueryParamValue qpv1 = new QueryParamValue();
+		QueryParamValue qpv2 = new QueryParamValue();
 		qpv1.setKey("org.queryParam.orgType");
 		qpv1.setValue("kuali.org.College");
 		queryParamValues.add(qpv1);
 		List<Result> results = sm.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues, dao);
 		assertEquals(6,results.size());
 		assertEquals(2,results.get(0).getResultCells().size());
+		
+		qpv1.setKey("org.queryParam.orgShortName");
+		qpv1.setValue("CompSci");
+		results = sm.searchForResults("org.search.hierarchiesOrgIsInByShortName", queryParamValues, dao);
+		assertEquals(1, results.size());
+		assertEquals("kuali.org.hierarchy.Main", results.get(0).getResultCells().get(0).getValue());
+		
+		qpv2.setKey("org.queryParam.orgId");
+		qpv2.setValue("");
+		queryParamValues.add(qpv2);
+		results = sm.searchForResults("org.search.orgByShortName", queryParamValues, dao);
+		assertEquals(1, results.size());
+		assertEquals("64", results.get(0).getResultCells().get(0).getValue());
 	}
 	
 	@Test

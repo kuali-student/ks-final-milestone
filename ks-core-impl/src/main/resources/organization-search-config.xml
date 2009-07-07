@@ -20,6 +20,17 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
+	<search:searchType id="org.search.hierarchiesOrgIsInByShortName">
+		<search:name>All org Hierarchies</search:name>
+		<search:desc>Returns all org hierarchy ids.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.hierarchiesOrgIsInByShortName" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.hierarchiesOrgIsInByShortName" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
 	<search:searchType id="org.search.orgQuickViewByOrgType">
 		<search:name>Organization Quick View By Org Type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
@@ -92,6 +103,14 @@
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgHierarchyId" />
 			<ref bean="org.resultColumn.orgHierarchyName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsInByShortName">
+		<search:name>Hierarchies Containing an Org</search:name>
+		<search:desc>IDs of hierarchies that a specified org is a member of</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgHierarchyId" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -250,6 +269,11 @@
 		<search:desc>OrgHierarchyIdsCriteria Description</search:desc>
 	</search:searchCriteriaTypeInfo>
 
+	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsInByShortName">
+		<search:name>HierarchiesOrgIsInCriteria</search:name>
+		<search:desc>Org ID on which to search for containing hierarchies</search:desc>
+	</search:searchCriteriaTypeInfo>
+
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
 		<search:name>OrgByOrgTypeCriteria</search:name>
 		<search:desc>OrgByOrgTypeCriteria Description</search:desc>
@@ -308,12 +332,15 @@
 				<entry key="org.search.orgHierarchyIds">
 					<value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
 				</entry>
+				<entry key="org.search.hierarchiesOrgIsInByShortName">
+					<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.shortName = :org_queryParam_orgShortName</value>
+				</entry>
 				<entry key="org.search.orgQuickViewByOrgType">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE
 						org.type.id = :org_queryParam_orgType</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByHierarchyShortName">
-					<value>SELECT org.id, org.shortName FROM Org org, in(org.type.orgHierarchies) hierarcy WHERE org.shortName like :org_queryParam_orgShortName and  hierarcy.id = :org_queryParam_orgHierarchyId</value>
+					<value>SELECT org.id, org.shortName FROM Org org, in(org.type.orgHierarchies) hierarcy WHERE org.shortName like :org_queryParam_orgShortName and hierarcy.id = :org_queryParam_orgHierarchyId</value>
 				</entry>
 				<entry key="org.search.orgQuickLongViewByFirstLetter">
 					<value>SELECT org.id, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.shortName like :org_queryParam_orgShortName or org.longName like :org_queryParam_orgShortName</value>
