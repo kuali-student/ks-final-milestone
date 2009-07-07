@@ -1,6 +1,7 @@
 package org.kuali.student.common.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -58,7 +59,7 @@ public class VelocityTemplateEngine {
 	 * 
 	 * @param config Velocity tools configurations
 	 */
-	public VelocityTemplateEngine(Map<String,Object> config) {
+	public VelocityTemplateEngine(final Map<String,Object> config) {
 		this.configMap = config;
 		init();
 	}
@@ -127,7 +128,7 @@ public class VelocityTemplateEngine {
 	 *   
 	 * @param logFile the path and filename for velocity logging 
 	 */
-	public void setLogFile(String logfile) {
+	public void setLogFile(final String logfile) {
 		velocityEngine.setProperty(VelocityEngine.RUNTIME_LOG, logfile);
 	}
 	
@@ -139,9 +140,21 @@ public class VelocityTemplateEngine {
 	 * @param template Velocity Template
 	 * @return Evaluated template
 	 */
-	public String evaluate(Map<String, Object> contextMap, String template) throws VelocityException {
-		Reader readerOut = ((Reader) (new BufferedReader(new StringReader(template))));
-		return evaluate(contextMap, readerOut);
+	public String evaluate(final Map<String, Object> contextMap, final String template) throws VelocityException {
+		Reader readerOut = null;
+		try {
+			readerOut = new BufferedReader(new StringReader(template));
+			return evaluate(contextMap, readerOut);
+		} finally {
+			if(readerOut != null) {
+				try {
+					readerOut.close();
+				} catch (IOException e) {
+					throw new VelocityException(e);
+				}
+					
+			}
+		}
 	}
 
 	/**
@@ -151,7 +164,7 @@ public class VelocityTemplateEngine {
 	 * @param template Velocity Template
 	 * @return Evaluated template
 	 */
-	public String evaluate(Map<String, Object> mapContext, Reader template) throws VelocityException {
+	public String evaluate(final Map<String, Object> mapContext, final Reader template) throws VelocityException {
 		VelocityContext context = new VelocityContext(mapContext, defaultContext);
 		
 		StringWriter writerOut = new StringWriter();
