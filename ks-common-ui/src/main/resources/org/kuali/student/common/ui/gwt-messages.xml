@@ -28,4 +28,21 @@
    	<bean parent="esCommon" p:id="confirm"		p:value="Confirmar"/>
    	<bean parent="esCommon" p:id="cancel"		p:value="Cancelar"/>
 
+
+	<!--  Default Validation Messages -->
+	<bean id="enValidation" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="validation" />
+	</bean>
+
+   	<bean parent="enValidation" p:id="validation.required"		p:value="Required"/>
+   	<bean parent="enValidation" p:id="validation.requiresField"		p:value="${field1} requires ${field2}"/>
+   	<bean parent="enValidation" p:id="validation.validCharsFailed"		p:value="Invalid Characters"/>
+   	<bean parent="enValidation" p:id="validation.lengthOutOfRange"		p:value="Length out of range. Minimum Characters: ${minLength} Maximum Characters: ${maxLength} "/>
+   	<bean parent="enValidation" p:id="validation.maxLengthFailed"		p:value="Maximum Characters ${maxLength} allowed"/>
+   	<bean parent="enValidation" p:id="validation.minLengthFailed"		p:value="Minimum Characters ${minLength} required"/>
+   	<bean parent="enValidation" p:id="validation.outOfRange"		p:value="Value out of range. Minimum: ${minValue} Maximum ${maxValue}"/>
+   	<bean parent="enValidation" p:id="validation.maxValueFailed"		p:value="Value cannot be more than ${maxValue}"/>
+   	<bean parent="enValidation" p:id="validation.minValueFailed"		p:value="Value cannot be less than ${minValue}"/>
+
 </beans>
