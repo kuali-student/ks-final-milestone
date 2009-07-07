@@ -24,6 +24,7 @@
 			</list>
 		</property>
 		<property name="customConfigSystemProperty" value="ks.config.location"/>
+        <property name="customConfigFileLocation" value="file:${user.home}/kuali/main/dev/ks-lum-web.properties" />
 	</bean>
 	
 	
