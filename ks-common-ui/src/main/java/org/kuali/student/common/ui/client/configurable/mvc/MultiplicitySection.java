@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -30,12 +29,15 @@ import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * This is a list item to be used for ListField. A list item must be associated
- * with a ModelDTO 
+ * This is a section that can be added to a MultiplictyComposite. It is a configurable
+ * section which allows the section to be defined by adding fields and nested sections.
+ * 
+ * Although this implements the HasModelDTOValue interface, it only supports
+ * the ModelDTOValue type of MODELDTO.
+ * 
  * 
  * @author Kuali Student Team
  * 
- *  TODO: Refactor this class to be MultiplicitySection
  */
 public class MultiplicitySection extends Section implements HasModelDTOValue{
 
@@ -65,7 +67,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         panel.add(form);           
         if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
             MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
-            listField.init();
+            listField.redraw();
             panel.add(listField);                   
         } else {
             KSFormField formField = new KSFormField(fieldDescriptor.getFieldKey(), fieldDescriptor.getFieldLabel());
@@ -101,13 +103,15 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#setModelDTOValue(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
+     * 
+     * Set the ModelDTOValue for the multiplicity section. The ModelDTOValue must be of type MODELDTO.
      */
     @Override
     public void setModelDTOValue(ModelDTOValue modelDTOValue) {
         assert(modelDTOValue instanceof ModelDTOValue.ModelDTOType);
         this.modelDTOValue = modelDTOValue;
 
-        refresh();
+        redraw();
     }
 
     /**
@@ -134,14 +138,25 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         }   
     }
 
-    private void refresh(){
-        ModelDTO modelDTO = ((ModelDTOValue.ModelDTOType)modelDTOValue).get();
-        
-        for (int i=0; i < fields.size(); i++){
-            FieldDescriptor field = fields.get(i);
-            ModelDTOValue modelDTOValue = modelDTO.get(field.getFieldKey());
-            ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
-        }                                   
+    public void clear(){
+        //TODO: How should a section be cleared, reset contained widgets or remove all widgets?
+    }
+    
+    /**
+     * 
+     * This method redraws the widget
+     *
+     */
+    public void redraw(){
+        if (modelDTOValue != null){
+            ModelDTO modelDTO = ((ModelDTOValue.ModelDTOType)modelDTOValue).get();
+            
+            for (int i=0; i < fields.size(); i++){
+                FieldDescriptor field = fields.get(i);
+                ModelDTOValue modelDTOValue = modelDTO.get(field.getFieldKey());
+                ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
+            }
+        }
     }
 
 	@Override

@@ -80,7 +80,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
                     
 	                if (field.getFieldWidget() instanceof MultiplicityComposite){
 	                    MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
-	                    listField.init();
+	                    listField.redraw();
 	                    panel.add(listField);                   
 	                } else {
     	                KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());

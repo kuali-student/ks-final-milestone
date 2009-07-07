@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * A multiplicity composite allows a users to add/remove/display a list of 
  * item widgets. The item widget to be used must be provided by the createItem()
- * method, which can be a MultiplicitySection or any widget that supports the
- * HasModelDTOValue interface.  
+ * method, which can be a MultiplicitySection, another MultiplicityComposite, 
+ * or any widget that supports the HasModelDTOValue interface.  
  * 
  * @author Kuali Student Team
  *
@@ -41,7 +41,9 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         
     private DockPanel mainPanel;
     private VerticalPanel itemsPanel;
-    private ModelDTOValue.ListType modelDTOList;     
+    private ModelDTOValue.ListType modelDTOList;
+    private List<HasModelDTOValue> modelDTOValueWidgets;
+    private boolean loaded = false;
 
     /**
      * This simply decorates a list item widget to add styling and a remove button 
@@ -66,7 +68,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             this.listItem = listItem;
             initWidget(dockPanel);
             if (listItem instanceof MultiplicityComposite){
-                ((MultiplicityComposite)listItem).init();
+                ((MultiplicityComposite)listItem).redraw();
             }
             dockPanel.add(removeButton, DockPanel.EAST);            
             dockPanel.add(listItem, DockPanel.EAST);
@@ -81,20 +83,23 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     @Override
     public void setModelDTOValue(ModelDTOValue modelDTOValue) {
         assert(modelDTOValue instanceof ModelDTOValue.ListType);
-        this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;
+        this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;        
         
-        refresh();
+        redraw();
     }
 
 
     /** 
-     * 
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#updateModelDTO(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
      */
     @Override
     public void updateModelDTOValue() {
-        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
-        
+        for (int i=0; i < itemsPanel.getWidgetCount(); i++){
+            Widget w = itemsPanel.getWidget(i); 
+            if (w instanceof HasModelDTOValue){
+                ((HasModelDTOValue)w).updateModelDTOValue();
+            }
+        }
     }
     
     /**
@@ -104,6 +109,10 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         return modelDTOList;
     }
     
+    /**
+     * This method creates a new empty item.
+     *
+     */
     private void addItem(){
         if (modelDTOList == null){
             modelDTOList = new ModelDTOValue.ListType();
@@ -114,47 +123,75 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
         modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getModelDTOValue());
         itemsPanel.add(listItem);
+        modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }    
     
+    /**
+     * 
+     * This method creates a new item, populated using values from the modelDTOValue object
+     * 
+     * @param modelDTOValue
+     */
     private void addItem(ModelDTOValue modelDTOValue){
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
         ((HasModelDTOValue)newItemWidget).setModelDTOValue(modelDTOValue);
-        itemsPanel.add(listItem);        
+        itemsPanel.add(listItem);
+        modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }
     
     /** 
      * Init method to support lazy initialization of multiplicity composite
      *
      */
-    public void init(){
-        mainPanel = new DockPanel();
-        mainPanel.addStyleName("KS-Multiplicity-Composite");
-        itemsPanel = new VerticalPanel();
-        initWidget(mainPanel);
+    public void redraw(){        
+        //Setup if not already loaded
+        if (!loaded){
+            modelDTOValueWidgets = new ArrayList<HasModelDTOValue>();
+            
+            mainPanel = new DockPanel();
+            mainPanel.addStyleName("KS-Multiplicity-Composite");
+            itemsPanel = new VerticalPanel();
+            initWidget(mainPanel);
+            
+            KSButton addItemButton = new KSButton("Add Item", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    addItem();
+                }            
+            });                
+    
+            mainPanel.add(addItemButton, DockPanel.NORTH);
+            mainPanel.add(itemsPanel, DockPanel.SOUTH);
+            loaded = true;
+        } else {        
+            clear();
+        }
         
-        KSButton addItemButton = new KSButton("Add Item", new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                addItem();
-            }            
-        });                
-
-        mainPanel.add(addItemButton, DockPanel.NORTH);
-        mainPanel.add(itemsPanel, DockPanel.SOUTH);
-        
-    }
-
-    private void refresh(){
-
-        List<ModelDTOValue> modelDTOValueList = modelDTOList.get();
-        
-        for (int i=0; i < modelDTOValueList.size(); i++){
-            addItem(modelDTOValueList.get(i));
-        }                                   
+        //Update the composite with values from ModelDTO
+        if (modelDTOList != null){
+            List<ModelDTOValue> modelDTOValueList = modelDTOList.get();
+            
+            for (int i=0; i < modelDTOValueList.size(); i++){
+                addItem(modelDTOValueList.get(i));
+            }                                               
+        }
     }
     
     /**
-     * The model returned must return a widget that implements the HasModelDTOValue interface.
+     *
+     *  This method will remove all data associated with this mode
+     *
+     */
+    public void clear(){
+        if (itemsPanel != null){itemsPanel.clear();}
+        //TODO: Should this do iterate over each widget and call their clear()
+        if (modelDTOValueWidgets != null){modelDTOValueWidgets.clear();}        
+        if (modelDTOList != null){modelDTOList.get().clear();}
+    }
+    
+    /**
+     * This must return a widget that implements the HasModelDTOValue interface. This method
+     * will be used when user clicks the "Add" button to add a new item to the list of items.
      * 
      * @return
      */
