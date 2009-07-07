@@ -32,13 +32,7 @@
         </start>
         <role name="Department Review">
           <activationType>S</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolveolequalifierResolverClass>
-		  <resolverConfig>
-			  <baseXPathExpression>/documentContent/applicationContent/cluProposal</baseXPathExpression>
-			  <qualifier name="department">
-				  <xPathExpression>./department</xPathExpression>
-			  </qualifier>
-		  </resolverConfig>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
         </role>
         <role name="College Review">
           <activationType>P</activationType>
