@@ -267,7 +267,9 @@
 	<xsd:complexType name="occursConstraint">
 		<xsd:sequence>
 			<xsd:element name="require" type="requireConstraint"
-				minOccurs="1" maxOccurs="unbounded"></xsd:element>
+				minOccurs="1" maxOccurs="unbounded">
+			</xsd:element>
+			<xsd:element name="occurs" type="occursConstraint" minOccurs="0" maxOccurs="unbounded"></xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="min" type="xsd:int"></xsd:attribute>
 		<xsd:attribute name="max" type="xsd:int"></xsd:attribute>
