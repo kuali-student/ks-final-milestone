@@ -51,6 +51,14 @@
 		        <configuration>
 		        	<server>ks-lum-web</server>
 		        </configuration>
+                
+                <dependencies> 
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                        <version>10.2.0.3.0</version>
+                    </dependency>
+                </dependencies>
 		    </plugin>
 		</plugins>
 	</build>
@@ -80,14 +88,7 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-		
-  		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.3.0</version>
-		</dependency>
-				 		
-
+	
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
