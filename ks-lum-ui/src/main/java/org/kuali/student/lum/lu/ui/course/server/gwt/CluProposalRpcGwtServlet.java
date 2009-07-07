@@ -93,7 +93,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
             cluProposal.setCluInfo(parentCluInfo);
-            
+            String saveComment = "Saved By CluProposalService";
             List<CluInfo> activities = cluProposal.getActivities();
             if (activities != null){
                 for (CluInfo cluInfo : activities) {
@@ -126,6 +126,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String workflowDocTypeId = "CluDocument";
             
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
+            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), saveComment);
             cluProposal.setWorkflowId(docResponse.getDocId());
             
         } catch (Exception e) {
@@ -204,6 +205,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.updateClu(cluProposal.getCluInfo().getId(), parentCluInfo);
             cluProposal.setCluInfo(parentCluInfo);
+            //get a user name
+            String username = getCurrentUser();
+            String saveComment = "Saved By CluProposalService";
+            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
 
             /*FIXME: Restore code to handle proposal service?
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();                       
@@ -226,6 +231,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                     }                
                 }
             }
+            
+            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), saveComment);
+           
 
         } catch (Exception e) {
             e.printStackTrace();
