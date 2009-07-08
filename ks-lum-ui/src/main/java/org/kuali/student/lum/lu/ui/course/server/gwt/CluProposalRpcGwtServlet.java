@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kew.dto.ActionItemDTO;
@@ -126,6 +127,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String workflowDocTypeId = "CluDocument";
             
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
+            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+            }
             simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), saveComment);
             cluProposal.setWorkflowId(docResponse.getDocId());
             
@@ -456,13 +460,29 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         //get a user name
         String username = getCurrentUser();
         
-		//Build up a string of actions requested from the attribute set.  The actions can be F,A,C,K. examples are "A" "AF" "FCK"
+		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
         System.out.println("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
         AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
+        String documentStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(cluProposal.getWorkflowId()));
         String actionsRequested = "";
         for(Map.Entry<String,String> entry:results.entrySet()){
-        	if("true".equals(entry.getValue())){
-        		actionsRequested+=entry.getKey();
+        	// if saved or initiated status... must show only 'complete' button
+        	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(documentStatus) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(documentStatus)) {
+        		// show only complete button if complete or approve code in this doc status
+        		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
+        			actionsRequested+="S";
+        		}
+        		// if not Complete or Approve code then show the standard buttons
+        		else {
+	            	if("true".equals(entry.getValue())){
+	            		actionsRequested+=entry.getKey();
+	            	}
+        		}
+        	}
+        	else {
+            	if("true".equals(entry.getValue())){
+            		actionsRequested+=entry.getKey();
+            	}
         	}
         }
 		return actionsRequested;
@@ -637,6 +657,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	@WebService(targetNamespace="RICE",name="WorkflowUtilityServiceSOAP",serviceName="WorkflowUtilityServiceSOAP",portName="WorkflowUtilityPort")
 	private interface SimpleWorkflowUtility{
+		public String getDocumentStatus(Long docId);
 		public AttributeSet getActionsRequested(String username, long docId);
 		public ActionItemDTO[] getActionItems(Long docId);
 	}

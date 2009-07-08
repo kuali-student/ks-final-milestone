@@ -31,6 +31,7 @@ public class LUCreateUpdateView extends ViewComposite {
     private String luState;
     private String id = null;
     private boolean isCreate = false;
+//    private KSButton wfCompleteButton;
     private KSButton wfApproveButton;
     private KSButton wfDisApproveButton;
     private KSButton wfAcknowledgeButton;
@@ -164,7 +165,76 @@ public class LUCreateUpdateView extends ViewComposite {
 										Window.alert("GetActionResquested Failed");
 									}
 									public void onSuccess(String result) {
-										if(result!=null&&result.contains("A")){
+										// check for custom KS "S" code for is submit required
+										if(result!=null&&result.contains("S")){
+						                	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
+						                		public void onClick(ClickEvent event) {
+						                			ProposalInfo proposalInfo = layout.getObject().getProposalInfo();
+						                			if(proposalInfo==null||proposalInfo.getProposerOrg()==null||proposalInfo.getProposerOrg().isEmpty()){
+						                				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
+						                			}else{
+							                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
+															public void onFailure(
+																	Throwable caught) {
+																Window.alert("Error starting Proposal workflow");
+															}
+															public void onSuccess(
+																	CluProposal result) {
+																Window.alert("Proposal has been routed to workflow");
+																layout.getObject().setWorkflowId(result.getWorkflowId());
+																layout.removeButton(wfStartWorkflowButton);
+																layout.refresh();
+															}
+														});
+						                			}
+						                		}
+						                	});
+						                	layout.addButton(wfStartWorkflowButton);
+										}
+										// if 'completion' is request code use
+//										else if(result!=null&&result.contains("C")){
+//											wfCompleteButton = new KSButton("COMPLETE", new ClickHandler(){
+//												public void onClick(ClickEvent event) {
+//													cluProposalRpcServiceAsync.completeProposal(cluProposal, new AsyncCallback<Boolean>(){
+//														public void onFailure(
+//																Throwable caught) {
+//															Window.alert("Error completing Proposal");
+//														}
+//														public void onSuccess(
+//																Boolean result) {
+//															Window.alert("Proposal was completed");
+//															layout.removeButton(wfCompleteButton);
+//															layout.removeButton(wfDisApproveButton);
+//														}
+//														
+//													});
+//												}        
+//											});
+//											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
+//										        public void onClick(ClickEvent event) {
+//													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
+//														public void onFailure(
+//																Throwable caught) {
+//															Window.alert("Error disapproving Proposal");
+//														}
+//														public void onSuccess(
+//																Boolean result) {
+//															Window.alert("Proposal was disapproved");
+//															layout.removeButton(wfCompleteButton);
+//															layout.removeButton(wfDisApproveButton);
+//														}
+//														
+//													});
+//										        }        
+//										    });
+//							            
+//											layout.addButton(wfCompleteButton);
+//											layout.addButton(wfDisApproveButton);
+//										}
+										// if complete is requested then approve will be by default
+										// ignore approve at this point
+//										else if(result!=null&&result.contains("A")){
+										else if(result!=null&&(result.contains("A")||result.contains("C"))){
 											wfApproveButton = new KSButton("APPROVE", new ClickHandler(){
 												public void onClick(ClickEvent event) {
 													cluProposalRpcServiceAsync.approveProposal(cluProposal, new AsyncCallback<Boolean>(){
