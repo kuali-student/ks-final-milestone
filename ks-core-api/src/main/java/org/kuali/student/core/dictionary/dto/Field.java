@@ -14,8 +14,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -40,27 +38,29 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "fieldDescriptor",
-    "selector",
-    "dynamic",
-    "maxOccurs",
-    "minOccurs"
-})
-@XmlRootElement(name = "field")
 public class Field implements Serializable{
 
     private static final long serialVersionUID = 1L;
-    
-    @XmlElement //TODO there is no required here but there should be
-    protected FieldItem fieldDescriptor;
-    protected boolean selector;
-    protected boolean dynamic;
-    protected Integer minOccurs;
-    protected String maxOccurs;
+
     @XmlAttribute(required = true)
     protected String key;
 
+    @XmlAttribute 
+    protected String id;
+    
+    @XmlElement //TODO there is no required here but there should be
+    protected FieldDescriptor fieldDescriptor;
+    
+    @XmlElement
+    protected ConstraintDescriptor constraintDescriptor;
+    
+    @XmlElement
+    protected boolean selector;
+    
+    @XmlElement
+    protected boolean dynamic;
+    
+    
     /**
      * Gets the value of the fieldDescriptor property.
      * 
@@ -69,7 +69,7 @@ public class Field implements Serializable{
      *     {@link FieldDescriptor }
      *     
      */
-    public FieldItem getFieldDescriptor() {
+    public FieldDescriptor getFieldDescriptor() {
         return fieldDescriptor;
     }
 
@@ -81,7 +81,7 @@ public class Field implements Serializable{
      *     {@link FieldDescriptor }
      *     
      */
-    public void setFieldDescriptor(FieldItem value) {
+    public void setFieldDescriptor(FieldDescriptor value) {
         this.fieldDescriptor = value;
     }
 
@@ -117,60 +117,46 @@ public class Field implements Serializable{
         this.key = value;
     }
 
+	/**
+	 * @return the constraintDescriptor
+	 */
+	public ConstraintDescriptor getConstraintDescriptor() {
+		return constraintDescriptor;
+	}
+
+	/**
+	 * @param constraintDescriptor the constraintDescriptor to set
+	 */
+	public void setConstraintDescriptor(ConstraintDescriptor constraintDescriptor) {
+		this.constraintDescriptor = constraintDescriptor;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the dynamic
+	 */
 	public boolean isDynamic() {
 		return dynamic;
 	}
 
+	/**
+	 * @param dyncamic the dynamic to set
+	 */
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
 	}
-	
-    /**
-     * Gets the value of the minOccurs property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getMinOccurs() {
-        return minOccurs;
-    }
 
-    /**
-     * Sets the value of the minOccurs property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setMinOccurs(Integer value) {
-        this.minOccurs = value;
-    }
-
-    /**
-     * Gets the value of the maxOccurs property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMaxOccurs() {
-        return maxOccurs;
-    }
-
-    /**
-     * Sets the value of the maxOccurs property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     Values are String represented positive integers or "unbounded"
-     *     
-     */
-    public void setMaxOccurs(String value) {
-        this.maxOccurs = value;
-    }
 }

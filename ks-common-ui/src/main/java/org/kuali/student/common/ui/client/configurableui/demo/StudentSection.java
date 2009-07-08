@@ -9,7 +9,7 @@ import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -70,7 +70,7 @@ public class StudentSection <T extends Idable> extends ConfigurableLayoutSection
     }
 
     @Override
-    public void validate(Callback<ErrorLevel> callback) {
+    public void validate(Callback<ValidationResultInfo.ErrorLevel> callback) {
       super.validateChildSection(callback);
         
     }

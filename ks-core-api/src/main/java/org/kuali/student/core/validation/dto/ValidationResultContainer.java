@@ -8,13 +8,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.validation.dto.DictValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DictValidationResultContainer implements Serializable {
+public class ValidationResultContainer implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    List<DictValidationResultInfo> validationResults = new ArrayList<DictValidationResultInfo>();
+    @XmlElement
+    List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
     
     @XmlElement
     protected ErrorLevel errorLevel = ErrorLevel.OK;
@@ -37,7 +38,11 @@ public class DictValidationResultContainer implements Serializable {
     @XmlElement
     protected String dataType = null;
     
-    public DictValidationResultContainer(String element) {
+    public ValidationResultContainer(){
+    	super();
+    }
+    
+    public ValidationResultContainer(String element) {
         super();        
         this.element = element;
     }
@@ -53,7 +58,7 @@ public class DictValidationResultContainer implements Serializable {
      *            the message to add
      */
     public void addMessage(ErrorLevel level, String message) {
-    	DictValidationResultInfo val = new DictValidationResultInfo();
+    	ValidationResultInfo val = new ValidationResultInfo();
     	val.setLevel(level);
     	val.setMessage(message);    	
     	
@@ -124,7 +129,7 @@ public class DictValidationResultContainer implements Serializable {
 	/**
 	 * @return the validationResults
 	 */
-	public List<DictValidationResultInfo> getValidationResults() {
+	public List<ValidationResultInfo> getValidationResults() {
 		return validationResults;
 	}
 
@@ -133,7 +138,7 @@ public class DictValidationResultContainer implements Serializable {
 	 * @param validationResults the validationResults to set
 	 */
 	public void setValidationResults(
-			List<DictValidationResultInfo> validationResults) {
+			List<ValidationResultInfo> validationResults) {
 		this.validationResults = validationResults;
 	}
 

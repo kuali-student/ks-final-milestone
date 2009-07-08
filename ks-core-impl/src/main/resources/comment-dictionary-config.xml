@@ -2,33 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 
 	<dict:fieldDescriptor id="baseString">
 		<dict:dataType>string</dict:dataType>
-		<dict:minLength>0</dict:minLength>
-		<dict:maxLength>2000</dict:maxLength>
-		<!-- The space character is important -->
-		<dict:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -.,</dict:validChars>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
     <dict:fieldDescriptor id="htmlString">
         <dict:dataType>string</dict:dataType>
-        <dict:minLength>0</dict:minLength>
-        <dict:maxLength>2000</dict:maxLength>
-        <!-- The space character is important -->
-        <dict:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -.,&lt;&gt;!%/#;&amp;@$</dict:validChars>
         <dict:readOnly>false</dict:readOnly>
     </dict:fieldDescriptor>
 
 	<dict:fieldDescriptor id="baseDate">
 		<dict:dataType>date</dict:dataType>
-		<dict:minLength>8</dict:minLength>
-		<dict:maxLength>8</dict:maxLength>
-		<dict:validChars>0123456789</dict:validChars>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
@@ -36,7 +25,10 @@
 		<dict:type key="kuali.org.Comment">
 			<dict:state id="kuali.org.commentInfo.Comment.active" key="active">
 				<dict:field key="commentText">
-					<ref bean="richTextInfo"/>
+					<dict:fieldDescriptor>
+						<dict:dataType>complex</dict:dataType>
+						<dict:objectStructureRef bean="richTextInfo"/>
+					</dict:fieldDescriptor>
 				</dict:field>
                 <dict:field key="referenceTypeKey">
                     <dict:fieldDescriptor parent="baseString">

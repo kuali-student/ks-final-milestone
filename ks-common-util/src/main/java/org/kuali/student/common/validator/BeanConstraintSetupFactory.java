@@ -1,6 +1,6 @@
 package org.kuali.student.common.validator;
 
-import org.kuali.student.core.dictionary.newmodel.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 
 public class BeanConstraintSetupFactory implements ConstraintSetupFactory {
 

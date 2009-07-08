@@ -21,7 +21,6 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
-import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
@@ -53,7 +52,7 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -68,6 +67,7 @@ public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
     private SearchManager searchManager;
+    private Validator validator;
 
     /**
      * This overridden method ...
@@ -446,11 +446,11 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#validateComment(java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public List<ValidationResult> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultContainer> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(commentInfo, "commentInfo");
 
-		List<ValidationResult> validationResults = createValidator().validateTypeStateObject(commentInfo, getObjectStructure("commentInfo"));
+		List<ValidationResultContainer> validationResults = validator.validateTypeStateObject(commentInfo, getObjectStructure("commentInfo"));
 
 		return validationResults;
     }
@@ -511,12 +511,6 @@ public class CommentServiceImpl implements CommentService {
 		this.searchManager = searchManager;
 	}
 
-	private Validator createValidator() {
-        Validator validator = new Validator();
-        validator.setDateParser(new ServerDateParser());
-//      validator.addMessages(null); //TODO this needs to be loaded somehow
-        return validator;
-    }
 	@Override
 	public ObjectStructure getObjectStructure(String objectTypeKey) {
 		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -536,6 +530,14 @@ public class CommentServiceImpl implements CommentService {
 	public boolean validateStructureData(String objectTypeKey, String stateKey,
 			String info) {
 		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
+	}
+
+	public Validator getValidator() {
+		return validator;
+	}
+
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 
 }

@@ -17,14 +17,12 @@ package org.kuali.student.common.ui.client.widgets.forms;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.event.DirtyStateChangeEvent;
 import org.kuali.student.common.ui.client.event.DirtyStateChangeHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Holder;
 import org.kuali.student.common.ui.client.validator.CharFilter;
 import org.kuali.student.common.ui.client.validator.Constraint;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
@@ -32,7 +30,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -427,46 +425,46 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
         return this;
     }
     
-    public KSFormField validate(final Callback<ValidationResult> callback) {
-        final Holder<ValidationResult> holder = new Holder<ValidationResult>();
-        
-        final Object value = getValue();
-        final Iterator<Constraint> itr = constraints.iterator();
-        
-        if (itr.hasNext()) {
-            itr.next().validate(value, new Callback<ValidationResult>() {
-                public void exec(ValidationResult vr) {
-                    if (!vr.isOk()) {
-                        holder.set(vr);
-                    }
-                    if (!vr.isError() && itr.hasNext()) {
-                        itr.next().validate(value, this);
-                    } else {
-                        // this is the end of the line
-                        if (holder.get() == null) {
-                            holder.set(ValidationResult.OK);
-                        }
-    
-                        if (hasHadFocus()) {
-                            // update helpinfo status
-                            switch (holder.get().getErrorLevel()) {
-                            case ERROR:
-                                getHelpLink().setStateError(flattenMessages(holder.get()));
-                                break;
-                            case WARN:
-                                getHelpLink().setStateError(flattenMessages(holder.get()));
-                                break;
-                            case OK:
-                                getHelpLink().setStateOK(flattenMessages(holder.get()));
-                            }
-                        }
-                        callback.exec(holder.get());
-                    }
-                }
-            });
-        } else {
-            callback.exec(ValidationResult.OK);
-        }
+    public KSFormField validate(final Callback<ValidationResultContainer> callback) {
+//        final Holder<DictValidationResultContainer> holder = new Holder<DictValidationResultContainer>();
+//        
+//        final Object value = getValue();
+//        final Iterator<Constraint> itr = constraints.iterator();
+//        
+//        if (itr.hasNext()) {
+//            itr.next().validate(value, new Callback<DictValidationResultContainer>() {
+//                public void exec(DictValidationResultContainer vr) {
+//                    if (!vr.isOk()) {
+//                        holder.set(vr);
+//                    }
+//                    if (!vr.isError() && itr.hasNext()) {
+//                        itr.next().validate(value, this);
+//                    } else {
+//                        // this is the end of the line
+//                        if (holder.get() == null) {
+//                            holder.set(DictValidationResultContainer.OK);
+//                        }
+//    
+//                        if (hasHadFocus()) {
+//                            // update helpinfo status
+//                            switch (holder.get().getErrorLevel()) {
+//                            case ERROR:
+//                                getHelpLink().setStateError(flattenMessages(holder.get()));
+//                                break;
+//                            case WARN:
+//                                getHelpLink().setStateError(flattenMessages(holder.get()));
+//                                break;
+//                            case OK:
+//                                getHelpLink().setStateOK(flattenMessages(holder.get()));
+//                            }
+//                        }
+//                        callback.exec(holder.get());
+//                    }
+//                }
+//            });
+//        } else {
+//            callback.exec(DictValidationResultContainer.OK);
+//        }
         return this;
     }
     
@@ -475,13 +473,13 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
         hasHadFocus = false;
     }
 
-    private String flattenMessages(ValidationResult vr) {
-        StringBuilder sb = new StringBuilder();
-        for (String s : vr.getMessages()) {
-            sb.append(s);
-            sb.append("\n");
-        }
-        return sb.toString();
-        
+    private String flattenMessages(ValidationResultContainer vr) {
+//        StringBuilder sb = new StringBuilder();
+//        for (String s : vr.getMessages()) {
+//            sb.append(s);
+//            sb.append("\n");
+//        }
+//        return sb.toString();
+        return vr.toString();
     }
 }

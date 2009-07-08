@@ -15,13 +15,11 @@
  */
 package org.kuali.student.core.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -43,7 +41,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,6 +56,7 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
     private SearchManager searchManager;
+    private Validator validator;
     
     public DocumentDao getDocumentDao(){
         return dao;
@@ -166,19 +165,13 @@ public class DocumentServiceImpl implements DocumentService {
         return DocumentServiceAssembler.toDocumentInfo(document);
     }
     
-    private Validator createValidator() {
-        Validator validator = new Validator();
-        validator.setDateParser(new ServerDateParser());
-//      validator.addMessages(null); //TODO this needs to be loaded somehow
-        return validator;
-    }
-    
+
     @Override
-    public List<ValidationResult> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultContainer> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(documentInfo, "documentInfo");
 
-        List<ValidationResult> validationResults = createValidator().validateTypeStateObject(documentInfo, getObjectStructure("documentInfo"));
+        List<ValidationResultContainer> validationResults = validator.validateTypeStateObject(documentInfo, getObjectStructure("documentInfo"));
 
         return validationResults;
         
@@ -223,4 +216,28 @@ public class DocumentServiceImpl implements DocumentService {
             DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
+
+	public DocumentDao getDao() {
+		return dao;
+	}
+
+	public void setDao(DocumentDao dao) {
+		this.dao = dao;
+	}
+
+	public SearchManager getSearchManager() {
+		return searchManager;
+	}
+
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
+	}
+
+	public Validator getValidator() {
+		return validator;
+	}
+
+	public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
 }

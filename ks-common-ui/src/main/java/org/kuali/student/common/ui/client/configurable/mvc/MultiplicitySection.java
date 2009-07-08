@@ -24,7 +24,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -160,7 +160,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     }
 
 	@Override
-	public void validate(Callback<ErrorLevel> callback) {
+	public void validate(Callback<ValidationResultInfo.ErrorLevel> callback) {
 		// TODO Auto-generated method stub
 		
 	}

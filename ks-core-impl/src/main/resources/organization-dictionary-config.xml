@@ -2,24 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 
 	<dict:fieldDescriptor id="baseString">
 		<dict:dataType>string</dict:dataType>
-		<dict:minLength>0</dict:minLength>
-		<dict:maxLength>2000</dict:maxLength>
-		<!-- The space character is important -->
-		<dict:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -.,</dict:validChars>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
 	<dict:fieldDescriptor id="baseDate">
 		<dict:dataType>date</dict:dataType>
-		<dict:minLength>8</dict:minLength>
-		<dict:maxLength>8</dict:maxLength>
-		<dict:validChars>0123456789</dict:validChars>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
@@ -71,7 +64,10 @@
 				</dict:field>
 
 				<dict:field key="orgCodes">
-				 	<ref bean="orgCodeInfo"/>
+					<dict:fieldDescriptor>
+						<dict:dataType>complex</dict:dataType>
+						<dict:objectStructureRef bean="orgCodeInfo"/>
+					</dict:fieldDescriptor>
 				</dict:field>
 				
 				<!-- Dynamic Attribute -->

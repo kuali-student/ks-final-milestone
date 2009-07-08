@@ -12,4 +12,12 @@
     <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
     </bean>
+    
+    <bean id="beanConstraintSetupFactory" class="org.kuali.student.common.validator.BeanConstraintSetupFactory">
+    </bean>
+    
+    <bean id="validator" class="org.kuali.student.common.validator.Validator">
+	    <constructor-arg ref="beanConstraintSetupFactory"/>
+	    <constructor-arg value="true"/>
+    </bean>
 </beans>

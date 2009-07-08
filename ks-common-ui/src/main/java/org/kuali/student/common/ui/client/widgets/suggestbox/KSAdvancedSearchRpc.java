@@ -11,16 +11,13 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
-import org.kuali.student.core.dictionary.dto.Enum;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -126,13 +123,9 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                     searchParamTable.setWidget(row, column, paramLabel);
                     column++;
                     
-                    if (fd.getSearchTypeId() != null || fd.getEnum() != null){                                                
+                    if (fd.getSearch().getKey() != null ){                                                
                         KSSelectItemWidgetAbstract dropDown = new KSDropDown();
-                        if (fd.getSearchTypeId() != null){
-                            populateSearchEnumeration(dropDown, fd.getSearchTypeId());
-                        } else {
-                            populateSearchEnumeration(dropDown, fd.getEnum());
-                        }
+                        populateSearchEnumeration(dropDown, fd.getSearch().getKey());
                         
                         dropDown.setName(q.getKey());
                         searchParamTable.setWidget(row, column, dropDown);

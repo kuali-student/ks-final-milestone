@@ -10,7 +10,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -46,7 +46,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	}
 
 	@Override
-	public void validate(final Callback<ErrorLevel> callback) {
+	public void validate(final Callback<ValidationResultInfo.ErrorLevel> callback) {
 	    //TODO: Implement this
 	    //For every field on this section do validation
 	    //For every section call validate

@@ -2,16 +2,13 @@ package org.kuali.student.common.validator;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.dictionary.newmodel.dto.Field;
-import org.kuali.student.core.dictionary.newmodel.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.newmodel.dto.State;
-import org.kuali.student.core.dictionary.newmodel.dto.Type;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.core.dictionary.dto.Type;
 
-public class DictValidatorUtils {
+public class ValidatorUtils {
 
 	public static boolean compareValues(Object value1, Object value2,
 			String dataType, String operator, DateParser dateParser) {

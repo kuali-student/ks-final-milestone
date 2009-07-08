@@ -2,28 +2,31 @@ package org.kuali.student.common.ui.server.dictionary;
 
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
+import org.kuali.student.core.dictionary.dto.CaseConstraint;
+import org.kuali.student.core.dictionary.dto.ConstraintDescriptor;
+import org.kuali.student.core.dictionary.dto.ConstraintSelector;
 import org.kuali.student.core.dictionary.dto.Context;
-import org.kuali.student.core.dictionary.dto.ContextDescriptor;
-import org.kuali.student.core.dictionary.dto.ContextValueDescriptor;
 import org.kuali.student.core.dictionary.dto.Dictionary;
-import org.kuali.student.core.dictionary.dto.Enum;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.dictionary.dto.FieldItem;
-import org.kuali.student.core.dictionary.dto.ObjectFactory;
+import org.kuali.student.core.dictionary.dto.LookupConstraint;
+import org.kuali.student.core.dictionary.dto.LookupKeyConstraint;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.OccursConstraint;
+import org.kuali.student.core.dictionary.dto.RequireConstraint;
+import org.kuali.student.core.dictionary.dto.SearchSelector;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dictionary.dto.TypeStateCaseConstraint;
+import org.kuali.student.core.dictionary.dto.TypeStateWhenConstraint;
+import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
+import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -139,19 +142,25 @@ public class DictionaryRPCPreloader {
 
      private void buildWhitelist() {
          whitelist = new HashMap<Class<?>, Boolean>();
-         whitelist.put(DictionaryService.class, true);
-         whitelist.put(Context.class, true);
-         whitelist.put(ContextDescriptor.class, true);
-         whitelist.put(ContextValueDescriptor.class, true);
-         whitelist.put(Dictionary.class, true);
-         whitelist.put(Enum.class, true);
-         whitelist.put(Field.class, true);
-         whitelist.put(FieldDescriptor.class, true);
-         whitelist.put(FieldItem.class, true);
-         whitelist.put(ObjectFactory.class, true);
-         whitelist.put(ObjectStructure.class, true);
-         whitelist.put(State.class, true);
-         whitelist.put(Type.class, true);
+        whitelist.put(CaseConstraint.class, true);
+		whitelist.put(ConstraintDescriptor.class, true);
+		whitelist.put(ConstraintSelector.class, true);
+		whitelist.put(Context.class, true);
+		whitelist.put(Dictionary.class, true);
+		whitelist.put(Field.class, true);
+		whitelist.put(FieldDescriptor.class, true);
+		whitelist.put(LookupConstraint.class, true);
+		whitelist.put(LookupKeyConstraint.class, true);
+		whitelist.put(ObjectStructure.class, true);
+		whitelist.put(OccursConstraint.class, true);
+		whitelist.put(RequireConstraint.class, true);
+		whitelist.put(SearchSelector.class, true);
+		whitelist.put(State.class, true);
+		whitelist.put(Type.class, true);
+		whitelist.put(TypeStateCaseConstraint.class, true);
+		whitelist.put(TypeStateWhenConstraint.class, true);
+		whitelist.put(ValidCharsConstraint.class, true);
+		whitelist.put(WhenConstraint.class, true);
 
      }
 

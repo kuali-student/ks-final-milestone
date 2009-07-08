@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-newmodel-extension"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-newmodel-extension http://terpconnect.umd.edu/~depstei2/dictionary-newmodel-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 	<!-- Added these constrains because they were referenced by other beans but did not exist-->
@@ -561,6 +561,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 								</dict:state>
 							</dict:type>
 						</dict:objectStructure>
+											<dict:search key="lalala"/>
 					</dict:fieldDescriptor>
 					<dict:constraintDescriptor>
 						<dict:constraintRef bean="required"/>
@@ -652,6 +653,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 											<dict:constraintRef bean="code"/>
 											<dict:constraintRef bean="not.used"/>
 										</dict:constraintDescriptor>
+										<dict:dynamic>true</dict:dynamic>
 									</dict:field>
 
 									<dict:field id="course.cross-listed.subjectArea"

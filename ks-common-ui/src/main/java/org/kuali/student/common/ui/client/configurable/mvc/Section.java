@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Composite;
 
@@ -54,5 +54,5 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         return allFields;
     }
 
-    public abstract void validate(Callback<ErrorLevel> callback);
+    public abstract void validate(Callback<ValidationResultInfo.ErrorLevel> callback);
 }

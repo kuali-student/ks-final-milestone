@@ -23,8 +23,8 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.validation.Validator;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,35 +50,36 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 
 
     
-    private ValidationResult validateEnumeratedValue(EnumerationMetaInfo meta, EnumeratedValueInfo value){
-    	
-    	ValidationResult result = new ValidationResult();
-    	List<EnumeratedValueFieldInfo> fields = meta.getEnumeratedValueFields();
-        for(EnumeratedValueFieldInfo field: fields){
-        	if(field.getId().equalsIgnoreCase("code")){
-        		result = Validator.validate(value.getCode(), field.getFieldDescriptor().toMap());
-        	}
-        	else if(field.getId().equalsIgnoreCase("abbrevValue")){
-        		result = Validator.validate(value.getAbbrevValue(), field.getFieldDescriptor().toMap());
-        	}
-        	else if(field.getId().equalsIgnoreCase("value")){
-        		result = Validator.validate(value.getValue(), field.getFieldDescriptor().toMap());
-        	}
-        	else if(field.getId().equalsIgnoreCase("effectiveDate")){
-        		result = Validator.validate(value.getEffectiveDate(), field.getFieldDescriptor().toMap());
-        	}
-        	else if(field.getId().equalsIgnoreCase("expirationDate")){
-        		result = Validator.validate(value.getExpirationDate(), field.getFieldDescriptor().toMap());
-        	}
-        	else if(field.getId().equalsIgnoreCase("sortKey")){
-        		result = Validator.validate(value.getSortKey(), field.getFieldDescriptor().toMap());
-        	}
-        	
-        	if(result.getErrorLevel() == ValidationResult.ErrorLevel.ERROR){
-        		break;
-        	}
-        }
-        return result;
+    private ValidationResultContainer validateEnumeratedValue(EnumerationMetaInfo meta, EnumeratedValueInfo value){
+//    	
+//    	DictValidationResultContainer result = new DictValidationResultContainer(meta.g);
+//    	List<EnumeratedValueFieldInfo> fields = meta.getEnumeratedValueFields();
+//        for(EnumeratedValueFieldInfo field: fields){
+//        	if(field.getId().equalsIgnoreCase("code")){
+//        		result = DictValidationResultContainer.validate(value.getCode(), field.getFieldDescriptor().toMap());
+//        	}
+//        	else if(field.getId().equalsIgnoreCase("abbrevValue")){
+//        		result = DictValidationResultContainer.validate(value.getAbbrevValue(), field.getFieldDescriptor().toMap());
+//        	}
+//        	else if(field.getId().equalsIgnoreCase("value")){
+//        		result = DictValidationResultContainer.validate(value.getValue(), field.getFieldDescriptor().toMap());
+//        	}
+//        	else if(field.getId().equalsIgnoreCase("effectiveDate")){
+//        		result = DictValidationResultContainer.validate(value.getEffectiveDate(), field.getFieldDescriptor().toMap());
+//        	}
+//        	else if(field.getId().equalsIgnoreCase("expirationDate")){
+//        		result = DictValidationResultContainer.validate(value.getExpirationDate(), field.getFieldDescriptor().toMap());
+//        	}
+//        	else if(field.getId().equalsIgnoreCase("sortKey")){
+//        		result = DictValidationResultContainer.validate(value.getSortKey(), field.getFieldDescriptor().toMap());
+//        	}
+//        	
+//        	if(result.getErrorLevel() == DictValidationResultInfo.ErrorLevel.ERROR){
+//        		break;
+//        	}
+//        }
+//        return result;
+    	return null; //FIXME need real validation
     }
      
 	@Override
@@ -110,7 +111,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			EnumeratedValueInfo enumeratedValue) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		ValidationResult result = new ValidationResult();
+		ValidationResultContainer result = new ValidationResultContainer(enumerationKey);
     	EnumerationMetaInfo meta;
 		try {
 			meta = this.getEnumerationMeta(enumerationKey);
@@ -122,13 +123,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	        result = this.validateEnumeratedValue(meta, enumeratedValue);
     	}
     	
-    	if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
+    	if(result !=null && result.getErrorLevel() != ValidationResultInfo.ErrorLevel.ERROR){
     		EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
     		EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, valueEntity);
         	enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
     	}
     	else{
-    		throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.getMessages());
+    		throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to get messages here
     	}
 
         return enumeratedValue;
@@ -166,20 +167,20 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
         
-		ValidationResult result = new ValidationResult();
+		ValidationResultContainer result = new ValidationResultContainer(enumerationKey);
     	EnumerationMetaInfo meta = this.getEnumerationMeta(enumerationKey);
     	if(meta != null){
 	        result = this.validateEnumeratedValue(meta, enumeratedValue);
     	}
 
-    	if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
+    	if(result.getErrorLevel() != ValidationResultInfo.ErrorLevel.ERROR){
 		    EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();    
 		    EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, enumeratedValueEntity);
 		    enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
 		    EnumerationAssembler.toEnumeratedValueInfo(enumeratedValueEntity, enumeratedValue);
     	}
     	else{
-    		throw new EnumerationException("updateEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.getMessages());
+    		throw new EnumerationException("updateEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to output messages here
     	}
         
         return enumeratedValue;

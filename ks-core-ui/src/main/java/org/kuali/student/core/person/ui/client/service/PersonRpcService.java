@@ -8,8 +8,9 @@ import org.kuali.student.core.search.dto.Result;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-
+@RemoteServiceRelativePath("PersonRpcService")
 public interface PersonRpcService extends RemoteService {
 	
 	public static final String SERVICE_URI = "PersonRpcService";

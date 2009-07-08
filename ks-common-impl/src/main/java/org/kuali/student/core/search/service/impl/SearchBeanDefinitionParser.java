@@ -51,7 +51,7 @@ public class SearchBeanDefinitionParser extends
 		if("fieldDescriptor".equals(element.getLocalName())&&element.hasAttribute("parent")){
 			builder.setParentName(element.getAttributes().getNamedItem("parent").getTextContent());
 		}
-		
+	
 		//Parse the children
 		for(int i = 0;i<element.getChildNodes().getLength();i++){
 			Node node = element.getChildNodes().item(i);
@@ -70,7 +70,12 @@ public class SearchBeanDefinitionParser extends
 							builder.addPropertyValue(node.getLocalName(), childBean);
 						}
 					}else{
-						builder.addPropertyValue(node.getLocalName(), node.getTextContent());
+						if("ref".equals(node.getLocalName())&&"queryParam".equals(element.getLocalName())){
+							Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
+							builder.addPropertyValue("fieldDescriptor", childBean);
+						}else{
+							builder.addPropertyValue(node.getLocalName(), node.getTextContent());
+						}
 					}
 				}
 			}

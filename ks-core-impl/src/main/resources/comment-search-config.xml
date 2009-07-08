@@ -3,8 +3,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
     xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
     xsi:schemaLocation="
-    http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
-    http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+    http://student.kuali.org/xsd/search-extension http://terpconnect.umd.edu/~depstei2/search-extension.xsd
+    http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <import resource="comment-dictionary-config.xml" />
@@ -105,10 +105,6 @@
         <dict:name>Comment Identifier</dict:name>
         <dict:desc>Unique identifier for a Comment.</dict:desc>
         <dict:dataType>string</dict:dataType>
-        <dict:minLength>36</dict:minLength>
-        <dict:maxLength>36</dict:maxLength>
-        <dict:validChars>ABCDEF0123456789-</dict:validChars>
-        <dict:invalidChars></dict:invalidChars>
         <dict:readOnly>true</dict:readOnly>
     </dict:fieldDescriptor>
 

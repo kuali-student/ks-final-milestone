@@ -39,22 +39,25 @@ import javax.xml.bind.annotation.XmlElement;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlType(name = "", propOrder = {
-//    "type",
-//    "name",
-//    "desc",
-//    "readOnly"
-//})
-//@XmlRootElement(name = "objectStructure")
-public class ObjectStructure extends FieldItem implements Serializable{
+public class ObjectStructure implements Serializable{
 
     private static final long serialVersionUID = 1L;
-    
+
+    @XmlAttribute(required = true)
+    protected String key;
+
+    @XmlAttribute
+    protected String id;
+
     @XmlElement(required = true)
     protected List<Type> type;
-    @XmlAttribute(required = true)
-    protected String objectTypeKey;
 
+    @XmlElement
+    protected String name;
+    
+    @XmlElement 
+    protected String desc;
+    
     /**
      * Gets the value of the type property.
      * 
@@ -85,31 +88,54 @@ public class ObjectStructure extends FieldItem implements Serializable{
     }
 
     /**
-     * Gets the value of the objectTypeKey property.
+     * Gets the value of the key property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getObjectTypeKey() {
-        return objectTypeKey;
+    public String getKey() {
+        return key;
     }
 
     /**
-     * Sets the value of the objectTypeKey property.
+     * Sets the value of the key property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setObjectTypeKey(String value) {
-        this.objectTypeKey = value;
+    public void setKey(String value) {
+        this.key = value;
     }
 
 	public void setType(List<Type> type) {
 		this.type = type;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 }

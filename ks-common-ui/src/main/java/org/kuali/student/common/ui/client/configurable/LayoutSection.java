@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Composite;
 
@@ -54,13 +54,13 @@ public abstract class LayoutSection<T extends Idable> extends Composite {
         }
         
     }
-    public void validateChildSection(Callback<ErrorLevel> callback) {
+    public void validateChildSection(Callback<ValidationResultInfo.ErrorLevel> callback) {
         for (LayoutSection layoutSection : layoutSectionList) {
             layoutSection.validate(callback);
         }
     }
 
-    public abstract void validate(Callback<ErrorLevel> callback);
+    public abstract void validate(Callback<ValidationResultInfo.ErrorLevel> callback);
 
     public abstract void populate();
 

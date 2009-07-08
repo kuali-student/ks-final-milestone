@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 	<dict:fieldDescriptor id="parentFieldDescriptor">
@@ -10,10 +10,6 @@
 		<dict:desc>Unique identifier for a Canonical Learning Unit
 			(CLU).</dict:desc>
 		<dict:dataType>string</dict:dataType>
-		<dict:minLength>36</dict:minLength>
-		<dict:maxLength>36</dict:maxLength>
-		<dict:validChars>ABCDEF0123456789-</dict:validChars>
-		<dict:invalidChars></dict:invalidChars>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
@@ -26,20 +22,14 @@
 		<dict:type key="course">
 			<dict:state key="proposed">
 				<dict:field key="cluId2">
-					<dict:fieldDescriptor>
-						<ref bean="childFieldDescriptor" />
-					</dict:fieldDescriptor>
+					<dict:fieldDescriptorRef bean="childFieldDescriptor"/>
 					<dict:selector>false</dict:selector>
 				</dict:field>
-				<dict:field key="cluId" maxOccurs="1">
+				<dict:field key="cluId">
 					<dict:fieldDescriptor id="cluIdFieldDescriptor">
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
-						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
 				<dict:field key="cluCategory">
@@ -47,22 +37,6 @@
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
-						<dict:enum key="lu.cluCategories">
-							<dict:contextDescriptors>
-								<dict:contextDescriptor type="default">
-									<dict:contextValueDescriptor>
-										<dict:desc>Passes back an unfiltered list. Context value should be null or an empty string.</dict:desc>
-									</dict:contextValueDescriptor>
-								</dict:contextDescriptor>
-								<dict:contextDescriptor type="org">
-									<dict:contextValueDescriptor>
-										<dict:desc>Passes back a list of clu categories associated with a particular organization. This is a bad example.</dict:desc>
-									</dict:contextValueDescriptor>
-								</dict:contextDescriptor>
-							</dict:contextDescriptors>
-						</dict:enum>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
@@ -74,9 +48,6 @@
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit(CLU).</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>36</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -85,8 +56,6 @@
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
 						<!--
 							<dict:enum id="lu.cluCategories"> <dict:contextDescriptors>
 							<dict:contextDescriptor type="default">
@@ -120,10 +89,6 @@
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>36</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
-						<dict:invalidChars></dict:invalidChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -132,8 +97,6 @@
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
 						<!--
 							<dict:enum id="lu.cluCategories"> <dict:contextDescriptors>
 							<dict:contextDescriptor type="default">
@@ -165,10 +128,6 @@
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit
 							(CLU).</dict:desc>
-						<dict:dataType>string</dict:dataType>
-						<dict:minLength>36</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>ABCDEF0123456789-</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -177,8 +136,6 @@
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
 						<!--
 							<dict:enum id="lu.cluCategories"> <dict:contextDescriptors>
 							<dict:contextDescriptor type="default">

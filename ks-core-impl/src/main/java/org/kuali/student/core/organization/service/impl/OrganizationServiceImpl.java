@@ -7,7 +7,6 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
-import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -49,7 +48,7 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
@@ -59,6 +58,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	private OrganizationDao organizationDao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
     private SearchManager searchManager;
+    private Validator validator;
 
 	@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
@@ -185,14 +185,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 		orgInfo.setType(orgTypeKey);
 		
 		try {
-            List<ValidationResult> validations = validateOrg("", orgInfo);
-            DataValidationErrorException dataValidationErrorException = null;
-            for (ValidationResult validationResult : validations) {
+            List<ValidationResultContainer> validations = validateOrg("", orgInfo);
+            for (ValidationResultContainer validationResult : validations) {
                 if(validationResult.isError())
-                    dataValidationErrorException = (dataValidationErrorException == null? new DataValidationErrorException(validationResult.getMessages().toString()): new DataValidationErrorException(validationResult.getMessages().toString(),dataValidationErrorException)); 
+                	throw new DataValidationErrorException(validationResult.toString());
             }
-            if(dataValidationErrorException != null)
-                throw dataValidationErrorException;
         } catch (DoesNotExistException e1) {
             e1.printStackTrace();
         }
@@ -762,15 +759,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return updatedOrgPositionRestrictionInfo;
 	}
 
-    private Validator createValidator() {
-        Validator validator = new Validator();
-        validator.setDateParser(new ServerDateParser());
-//      validator.addMessages(null); //TODO this needs to be loaded somehow
-        return validator;
-    }
-
 	@Override
-	public List<ValidationResult> validateOrg(String validationType,
+	public List<ValidationResultContainer> validateOrg(String validationType,
 			OrgInfo orgInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -778,11 +768,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgInfo, "orgInfo");
 		
-		return createValidator().validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
+		//FIXME redo validation here and for all calls to create/update
+		//return validator.validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
+		
+		return new ArrayList<ValidationResultContainer>(0);
 	}
 
 	@Override
-	public List<ValidationResult> validateOrgOrgRelation(String validationType,
+	public List<ValidationResultContainer> validateOrgOrgRelation(String validationType,
 			OrgOrgRelationInfo orgOrgRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -790,22 +783,22 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
 
-        return createValidator().validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo"));
+        return validator.validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo"));
 	}
 
 	@Override
-	public List<ValidationResult> validateOrgPersonRelation(
+	public List<ValidationResultContainer> validateOrgPersonRelation(
 			String validationType, OrgPersonRelationInfo orgPersonRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 
-        return createValidator().validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo"));
+        return validator.validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo"));
 	}
 
 	@Override
-	public List<ValidationResult> validateOrgPositionRestriction(
+	public List<ValidationResultContainer> validateOrgPositionRestriction(
 			String validationType,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -972,6 +965,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public void setDictionaryServiceDelegate(
 			DictionaryService dictionaryServiceDelegate) {
 		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+	}
+
+	public Validator getValidator() {
+		return validator;
+	}
+
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 
 

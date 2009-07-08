@@ -3,9 +3,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 
 public interface ConfigurableLayoutSection {
@@ -21,7 +19,7 @@ public interface ConfigurableLayoutSection {
     
     public List<FieldDescriptor> getFields();
     
-    public void validate(Callback<ErrorLevel> callback);
+    public void validate(Callback<ValidationResultInfo.ErrorLevel> callback);
     
     public String getSectionTitle();
 

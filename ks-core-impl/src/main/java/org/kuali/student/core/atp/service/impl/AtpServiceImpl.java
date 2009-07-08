@@ -32,7 +32,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/core/atp")
@@ -470,7 +470,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<ValidationResult> validateAtp(String validationType,
+	public List<ValidationResultContainer> validateAtp(String validationType,
 			AtpInfo atpInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -479,7 +479,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<ValidationResult> validateDateRange(String validationType,
+	public List<ValidationResultContainer> validateDateRange(String validationType,
 			DateRangeInfo dateRangeInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -488,7 +488,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<ValidationResult> validateMilestone(String validationType,
+	public List<ValidationResultContainer> validateMilestone(String validationType,
 			MilestoneInfo milestoneInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {

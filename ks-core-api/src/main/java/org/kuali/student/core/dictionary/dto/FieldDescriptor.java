@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -58,39 +59,35 @@ import javax.xml.bind.annotation.XmlElement;
 //    "_enum"
 //})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FieldDescriptor extends FieldItem implements Serializable {
+public class FieldDescriptor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    @XmlAttribute
+    protected String id;
+    
+    @XmlElement(required = true)
+    protected String name;
+    
+    @XmlElement(required = true)
+    protected String desc;
+    
+    @XmlElement
+    protected boolean readOnly;
+    
     @XmlElement(required = true)
     protected String dataType;
-    protected String minValue;
-    protected String maxValue;
-    protected Integer minLength;
-    protected Integer maxLength;
-    protected String validChars;
-    protected String invalidChars;
-    @XmlElement(name = "enum")
-    protected Enum _enum;
-    protected String searchTypeId;
+
+    @XmlElement
+    protected SearchSelector search;
     
-	public String getMinValue() {
-		return minValue;
-	}
-
-	public void setMinValue(String minValue) {
-		this.minValue = minValue;
-	}
-
-	public String getMaxValue() {
-		return maxValue;
-	}
-
-	public void setMaxValue(String maxValue) {
-		this.maxValue = maxValue;
-	}
-
-  
+    @XmlElement
+    protected ObjectStructure objectStructure;
+    
+    @XmlElement
+    protected String objectStructureRef;
+    
+    
     /**
      * Gets the value of the dataType property.
      * 
@@ -114,145 +111,110 @@ public class FieldDescriptor extends FieldItem implements Serializable {
     public void setDataType(String value) {
         this.dataType = value;
     }
-
+       
     /**
-     * Gets the value of the minLength property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getMinLength() {
-        return minLength;
-    }
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Sets the value of the minLength property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setMinLength(Integer value) {
-        this.minLength = value;
-    }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * Gets the value of the maxLength property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getMaxLength() {
-        return maxLength;
-    }
+	/**
+	 * @return the desc
+	 */
+	public String getDesc() {
+		return desc;
+	}
 
-    /**
-     * Sets the value of the maxLength property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setMaxLength(Integer value) {
-        this.maxLength = value;
-    }
+	/**
+	 * @param desc the desc to set
+	 */
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    /**
-     * Gets the value of the validChars property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValidChars() {
-        return validChars;
-    }
+	/**
+	 * @return the readOnly
+	 */
+	public boolean isReadOnly() {
+		return readOnly;
+	}
 
-    /**
-     * Sets the value of the validChars property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValidChars(String value) {
-        this.validChars = value;
-    }
+	/**
+	 * @param readOnly the readOnly to set
+	 */
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
+	}
 
-    /**
-     * Gets the value of the invalidChars property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getInvalidChars() {
-        return invalidChars;
-    }
+	/**
+	 * @return the search
+	 */
+	public SearchSelector getSearch() {
+		return search;
+	}
+	
+	/**
+	 * @param search the search to set
+	 */
+	public void setSearch(SearchSelector search) {
+		this.search = search;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * Sets the value of the invalidChars property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setInvalidChars(String value) {
-        this.invalidChars = value;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    /**
-     * Gets the value of the enum property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Enum }
-     *     
-     */
-    public Enum getEnum() {
-        return _enum;
-    }
+	/**
+	 * @return the objectStructure
+	 */
+	public ObjectStructure getObjectStructure() {
+		return objectStructure;
+	}
 
-    /**
-     * Sets the value of the enum property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Enum }
-     *     
-     */
-    public void setEnum(Enum value) {
-        this._enum = value;
-    }
-    
-    public Map<String, Object> toMap(){
+	/**
+	 * @param objectStructure the objectStructure to set
+	 */
+	public void setObjectStructure(ObjectStructure objectStructure) {
+		this.objectStructure = objectStructure;
+	}
+	
+	/**
+	 * @return the objectStructureRef
+	 */
+	public String getObjectStructureRef() {
+		return objectStructureRef;
+	}
+
+	/**
+	 * @param objectStructureRef the objectStructureRef to set
+	 */
+	public void setObjectStructureRef(String objectStructureRef) {
+		this.objectStructureRef = objectStructureRef;
+	}
+
+	public Map<String, Object> toMap(){
     	Map<String, Object> fieldDescMap = new HashMap<String, Object>();
-    	fieldDescMap.put("maxValue", maxValue);
-    	fieldDescMap.put("maxLength", maxLength);
-    	fieldDescMap.put("minValue", minValue);
-    	fieldDescMap.put("minLength", minLength);
-    	fieldDescMap.put("validChars", validChars);
-    	fieldDescMap.put("invalidChars", invalidChars);
     	fieldDescMap.put("dataType", dataType);
     	return fieldDescMap;
     }
-
-	public String getSearchTypeId() {
-		return searchTypeId;
-	}
-
-	public void setSearchTypeId(String searchTypeId) {
-		this.searchTypeId = searchTypeId;
-	}
-
+	
+	
 }

@@ -9,50 +9,34 @@
 package org.kuali.student.core.dictionary.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-
-@XmlRootElement(name = "enum")
-public class Enum implements Serializable{
+public class SearchSelector implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
-	@XmlElement(required = true, name="context")
-    @XmlElementWrapper(name="contexts")
-    protected List<ContextDescriptor> contextDescriptors;
     
     @XmlAttribute(required = true)
     protected String key;
 
+    /**
+     * Get search key
+     * @return search Key
+     */
     public String getKey() {
 		return key;
 	}
 
+    /**
+     * Set search key
+     * @param key
+     */
 	public void setKey(String key) {
 		this.key = key;
 	}
-
-	public List<ContextDescriptor> getContextDescriptors() {
-        if (contextDescriptors == null) {
-        	contextDescriptors = new ArrayList<ContextDescriptor>();
-        }
-		return contextDescriptors;
-	}
-
-	public void setContextDescriptors(List<ContextDescriptor> contextDescriptors) {
-		this.contextDescriptors = contextDescriptors;
-	}
-
-
 }

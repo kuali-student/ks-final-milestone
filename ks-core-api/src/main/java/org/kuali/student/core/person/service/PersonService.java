@@ -46,7 +46,7 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
  
 public interface PersonService {
     /** 
@@ -250,7 +250,7 @@ public interface PersonService {
      * @throws MissingParameterException missing validationTypeKey, personInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validatePerson(@WebParam(name="validationType")String validationType, @WebParam(name="personInfo")PersonInfo personInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validatePerson(@WebParam(name="validationType")String validationType, @WebParam(name="personInfo")PersonInfo personInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a personPersonRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective category (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective category can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -262,7 +262,7 @@ public interface PersonService {
      * @throws MissingParameterException missing validationTypeKey, personRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validatePersonPersonRelation(@WebParam(name="validationType")String validationType, @WebParam(name="personRelationInfo")PersonRelationInfo personRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validatePersonPersonRelation(@WebParam(name="validationType")String validationType, @WebParam(name="personRelationInfo")PersonRelationInfo personRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves all available information about a person
@@ -357,7 +357,7 @@ public interface PersonService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public ValidationResult validatePersonInfoByPersonType(@WebParam(name="personId")String personId, @WebParam(name="personTypeKey")String personTypeKey) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ValidationResultContainer validatePersonInfoByPersonType(@WebParam(name="personId")String personId, @WebParam(name="personTypeKey")String personTypeKey) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the replacement identifier for a person using the old person identifier specified.
