@@ -1035,7 +1035,7 @@
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-api</artifactId>
-                <version>1.0.0-KS-0625</version>
+                <version>1.0.0-KS-0708</version>
             </dependency>
             
             <dependency>
