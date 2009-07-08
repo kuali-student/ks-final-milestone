@@ -12,11 +12,9 @@ import org.kuali.student.common.ui.client.mvc.Holder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.validation.dto.ValidationResult;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -59,15 +57,15 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 	}
 
 	@Override
-	public void validate(final Callback<ErrorLevel> callback) {
+	public void validate(final Callback<ValidationResultInfo.ErrorLevel> callback) {
 		final Iterator<ConfigurableField<T>> itr = fields.iterator();
 		if (itr.hasNext()) {
-			final Holder<ErrorLevel> holder = new Holder<ErrorLevel>(ErrorLevel.OK);
+			final Holder<ValidationResultInfo.ErrorLevel> holder = new Holder<ValidationResultInfo.ErrorLevel>(ValidationResultInfo.ErrorLevel.OK);
 			while (itr.hasNext()) {
-				itr.next().getFormField().validate(new Callback<ValidationResult>() {
+				itr.next().getFormField().validate(new Callback<ValidationResultContainer>() {
 					@Override
-					public void exec(ValidationResult result) {
-						holder.set(ErrorLevel.max(holder.get(), result.getErrorLevel()));
+					public void exec(ValidationResultContainer result) {
+						holder.set(ValidationResultInfo.ErrorLevel.max(holder.get(), result.getErrorLevel()));
 						if (itr.hasNext()) {
 							itr.next().getFormField().validate(this);
 						} else {
@@ -77,7 +75,7 @@ public class SimpleConfigurableSection<T extends Idable> extends ConfigurableLay
 				});
 			}
 		} else {
-			callback.equals(ValidationResult.OK);
+			callback.equals(ValidationResultInfo.ErrorLevel.OK);
 		}
 	}
 

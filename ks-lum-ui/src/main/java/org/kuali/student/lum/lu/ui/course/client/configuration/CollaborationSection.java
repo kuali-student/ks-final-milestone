@@ -3,7 +3,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.ConfigurableLayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
@@ -41,7 +41,7 @@ public class CollaborationSection extends SimpleConfigurableSection<CluProposal>
 	}
 
 	@Override
-	public void validate(Callback<ErrorLevel> callback) {
+	public void validate(Callback<ValidationResultInfo.ErrorLevel> callback) {
 		// TODO Auto-generated method stub
 
 	}

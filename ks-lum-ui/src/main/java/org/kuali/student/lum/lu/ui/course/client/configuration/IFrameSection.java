@@ -5,7 +5,7 @@ import org.kuali.student.common.ui.client.configurable.ConfigurableLayoutSection
 import org.kuali.student.common.ui.client.configurable.LayoutSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.validation.dto.ValidationResult.ErrorLevel;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Frame;
 
@@ -45,7 +45,7 @@ public class IFrameSection<T extends Idable> extends SimpleConfigurableSection<T
 	}
 
 	@Override
-	public void validate(Callback<ErrorLevel> callback) {
+	public void validate(Callback<ValidationResultInfo.ErrorLevel> callback) {
 		// TODO Auto-generated method stub
 		
 	}

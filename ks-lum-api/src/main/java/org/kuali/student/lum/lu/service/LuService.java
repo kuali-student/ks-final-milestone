@@ -36,7 +36,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
@@ -451,7 +451,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateClu(@WebParam(name="validationType")String validationType, @WebParam(name="cluInfo")CluInfo cluInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateClu(@WebParam(name="validationType")String validationType, @WebParam(name="cluInfo")CluInfo cluInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a cluCluRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the organization (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the organization can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -463,7 +463,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing validationTypeKey, cluCluRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateCluCluRelation(@WebParam(name="validationType")String validationType, @WebParam(name="cluCluRelationInfo")CluCluRelationInfo cluCluRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateCluCluRelation(@WebParam(name="validationType")String validationType, @WebParam(name="cluCluRelationInfo")CluCluRelationInfo cluCluRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a luDocRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the organization (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the organization can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -475,7 +475,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing validationTypeKey, luDocRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateLuDocRelation(@WebParam(name="validationType")String validationType, @WebParam(name="luDocRelationInfo")LuDocRelationInfo luDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateLuDocRelation(@WebParam(name="validationType")String validationType, @WebParam(name="luDocRelationInfo")LuDocRelationInfo luDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a ReqComponent. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the organization (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the organization can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -487,7 +487,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing validationTypeKey, reqComponentInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateReqComponent(@WebParam(name="validationType")String validationType, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateReqComponent(@WebParam(name="validationType")String validationType, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a LuStatement. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the organization (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the organization can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -499,7 +499,7 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws MissingParameterException missing validationTypeKey, luStatementInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateLuStatement(@WebParam(name="validationType")String validationType, @WebParam(name="luStatementInfo")LuStatementInfo luStatementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateLuStatement(@WebParam(name="validationType")String validationType, @WebParam(name="luStatementInfo")LuStatementInfo luStatementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves information about a CLU

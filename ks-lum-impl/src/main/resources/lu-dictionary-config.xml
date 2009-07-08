@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 	<dict:fieldDescriptor id="parentFieldDescriptor">
@@ -12,10 +12,6 @@
 			Unique identifier for a Canonical Learning Unit(CLU).
 		</dict:desc>
 		<dict:dataType>string</dict:dataType>
-		<dict:minLength>36</dict:minLength>
-		<dict:maxLength>36</dict:maxLength>
-		<dict:validChars>ABCDEF0123456789-</dict:validChars>
-		<dict:invalidChars></dict:invalidChars>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
@@ -26,38 +22,23 @@
 
 	<dict:fieldDescriptor id="baseString">
 		<dict:dataType>string</dict:dataType>
-		<dict:minLength>0</dict:minLength>
-		<dict:maxLength>2000</dict:maxLength>
-		<!-- The space character is important -->
-		<dict:validChars>
-			ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-			-.,
-		</dict:validChars>
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
 	<dict:objectStructure key="cluIdentifierInfo" id="cluIdentifierInfo">
 		<dict:type key="course">
 			<dict:state key="proposed">
-				<dict:field key="code" minOccurs="0" maxOccurs="1">
+				<dict:field key="code">
 					<dict:fieldDescriptor>
 						<dict:name>Clu Code</dict:name>
 						<dict:desc>
 							Composite identification code for this clu
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>0</dict:minLength>
-						<dict:maxLength>50</dict:maxLength>
-						<!-- The space character is important -->
-						<dict:validChars>
-							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-							-.,
-						</dict:validChars>
 						<dict:readOnly>false</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field key="shortName" minOccurs="1"
-					maxOccurs="1">
+				<dict:field key="shortName" >
 					<dict:fieldDescriptor>
 						<dict:name>Short Name</dict:name>
 						<dict:desc>
@@ -65,18 +46,10 @@
 							on transcripts
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>0</dict:minLength>
-						<dict:maxLength>50</dict:maxLength>
-						<!-- The space character is important -->
-						<dict:validChars>
-							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-							-.,
-						</dict:validChars>
 						<dict:readOnly>false</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field key="longName" minOccurs="1"
-					maxOccurs="1">
+				<dict:field key="longName" >
 					<dict:fieldDescriptor>
 						<dict:name>Long Name</dict:name>
 						<dict:desc>
@@ -84,17 +57,10 @@
 							catalogues
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>0</dict:minLength>
-						<dict:maxLength>2000</dict:maxLength>
-						<!-- The space character is important -->
-						<dict:validChars>
-							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-							-.,
-						</dict:validChars>
 						<dict:readOnly>false</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field key="level" minOccurs="1" maxOccurs="1">
+				<dict:field key="level">
 					<dict:fieldDescriptor>
 						<dict:name>Level</dict:name>
 						<dict:desc>
@@ -102,13 +68,6 @@
 							introductory, advanced, etc.
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>0</dict:minLength>
-						<dict:maxLength>2000</dict:maxLength>
-						<!-- The space character is important -->
-						<dict:validChars>
-							ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-							-.,
-						</dict:validChars>
 						<dict:readOnly>false</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -120,9 +79,7 @@
 		<dict:type key="luType.shell.course">
 			<dict:state key="proposed">
 				<dict:field key="cluId2">
-					<dict:fieldDescriptor>
-						<ref bean="childFieldDescriptor" />
-					</dict:fieldDescriptor>
+					<dict:fieldDescriptorRef bean="childFieldDescriptor" />
 					<dict:selector>false</dict:selector>
 				</dict:field>
 				<dict:field key="cluId">
@@ -133,12 +90,6 @@
 							Unit (CLU).
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
-						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
 
@@ -149,39 +100,13 @@
 							Allows for categorization of CLUs.
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
-						<dict:enum key="lu.cluCategories">
-							<dict:contextDescriptors>
-								<dict:contextDescriptor
-									type="default">
-									<dict:contextValueDescriptor>
-										<dict:desc>
-											Passes back an unfiltered
-											list. Context value should
-											be null or an empty string.
-										</dict:desc>
-									</dict:contextValueDescriptor>
-								</dict:contextDescriptor>
-								<dict:contextDescriptor type="org">
-									<dict:contextValueDescriptor>
-										<dict:desc>
-											Passes back a list of clu
-											categories associated with a
-											particular organization.
-											This is a bad example.
-										</dict:desc>
-									</dict:contextValueDescriptor>
-								</dict:contextDescriptor>
-							</dict:contextDescriptors>
-						</dict:enum>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 
 			<dict:state key="active">
-				<dict:field key="cluId" minOccurs="1" maxOccurs="1">
+				<dict:field key="cluId" >
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>
@@ -189,11 +114,6 @@
 							Unit(CLU).
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>36</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -204,8 +124,6 @@
 							Allows for categorization of CLUs.
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
@@ -221,12 +139,6 @@
 							Unit (CLU).
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>36</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
-						<dict:invalidChars></dict:invalidChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -237,14 +149,12 @@
 							Allows for categorization of CLUs.
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 			<dict:state key="active">
-				<dict:field key="cluId" minOccurs="1" maxOccurs="1">
+				<dict:field key="cluId" >
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>
@@ -252,11 +162,6 @@
 							Unit (CLU).
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>36</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -267,8 +172,6 @@
 							Allows for categorization of CLUs.
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>1</dict:maxLength>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>
@@ -286,11 +189,6 @@
 							Unique identifier for a Proposal.
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -315,11 +213,6 @@
 							Description of this proposal
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
@@ -330,11 +223,6 @@
 							Description of this proposal
 						</dict:desc>
 						<dict:dataType>string</dict:dataType>
-						<dict:minLength>1</dict:minLength>
-						<dict:maxLength>36</dict:maxLength>
-						<dict:validChars>
-							ABCDEF0123456789-
-						</dict:validChars>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>

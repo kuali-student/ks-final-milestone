@@ -37,7 +37,7 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -2512,14 +2512,15 @@ public class LuServiceImpl implements LuService {
 	}
 
     private Validator createValidator() {
-        Validator validator = new Validator();
-        validator.setDateParser(new ServerDateParser());
-//      validator.addMessages(null); //TODO this needs to be loaded somehow
-        return validator;
+//        Validator validator = new Validator();
+//        validator.setDateParser(new ServerDateParser());
+////      validator.addMessages(null); //TODO this needs to be loaded somehow
+//        return validator;
+    	return null;
     }
 
 	@Override
-	public List<ValidationResult> validateClu(String validationType,
+	public List<ValidationResultContainer> validateClu(String validationType,
 			CluInfo cluInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -2531,7 +2532,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<ValidationResult> validateCluCluRelation(String validationType,
+	public List<ValidationResultContainer> validateCluCluRelation(String validationType,
 			CluCluRelationInfo cluCluRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -2543,7 +2544,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<ValidationResult> validateLuDocRelation(String validationType,
+	public List<ValidationResultContainer> validateLuDocRelation(String validationType,
 			LuDocRelationInfo luDocRelationInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -2555,7 +2556,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<ValidationResult> validateLuStatement(String validationType,
+	public List<ValidationResultContainer> validateLuStatement(String validationType,
 			LuStatementInfo luStatementInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -2567,7 +2568,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<ValidationResult> validateReqComponent(String validationType,
+	public List<ValidationResultContainer> validateReqComponent(String validationType,
 			ReqComponentInfo reqComponentInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {

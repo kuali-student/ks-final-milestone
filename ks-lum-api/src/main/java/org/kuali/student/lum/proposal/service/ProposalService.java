@@ -31,7 +31,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.lum.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.lum.proposal.dto.ProposalInfo;
@@ -124,7 +124,7 @@ public interface ProposalService {
      * @throws MissingParameterException missing validationTypeKey, proposalInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateProposal(@WebParam(name="validationType")String validationType, @WebParam(name="proposalInfo")ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateProposal(@WebParam(name="validationType")String validationType, @WebParam(name="proposalInfo")ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a proposalDocRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the object (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the object can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -136,7 +136,7 @@ public interface ProposalService {
      * @throws MissingParameterException missing validationTypeKey, proposalDocRelationInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateProposalDocRelation(@WebParam(name="validationType")String validationType, @WebParam(name="proposalDocRelationInfo")ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateProposalDocRelation(@WebParam(name="validationType")String validationType, @WebParam(name="proposalDocRelationInfo")ProposalDocRelationInfo proposalDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Proposal by proposalId

@@ -42,7 +42,7 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoHierarchyInfo;
@@ -534,7 +534,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#validateLo(java.lang.String, org.kuali.student.lum.lo.dto.LoInfo)
 	 */
 	@Override
-	public List<ValidationResult> validateLo(String validationType,
+	public List<ValidationResultContainer> validateLo(String validationType,
 			LoInfo loInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -548,7 +548,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#validateLoCategory(java.lang.String, org.kuali.student.lum.lo.dto.LoCategoryInfo)
 	 */
 	@Override
-	public List<ValidationResult> validateLoCategory(String validationType,
+	public List<ValidationResultContainer> validateLoCategory(String validationType,
 			LoCategoryInfo loCategoryInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {

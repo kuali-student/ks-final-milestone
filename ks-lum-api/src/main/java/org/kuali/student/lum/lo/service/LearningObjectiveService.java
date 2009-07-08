@@ -36,8 +36,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.validation.dto.ValidationResult;
-
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoHierarchyInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -100,7 +99,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws MissingParameterException missing validationTypeKey, loCategoryInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateLoCategory(@WebParam(name="validationType")String validationType, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateLoCategory(@WebParam(name="validationType")String validationType, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a learning objective. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
@@ -112,7 +111,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws MissingParameterException missing validationTypeKey, loInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResult> validateLo(@WebParam(name="validationType")String validationType, @WebParam(name="loInfo")LoInfo loInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateLo(@WebParam(name="validationType")String validationType, @WebParam(name="loInfo")LoInfo loInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves information about all the learning objective categories in a given learning objective hierarchy.

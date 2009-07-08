@@ -35,7 +35,7 @@ public class LUDictionaryManager {
     
     private static final char DICT_KEY_SEPARATOR = ':';
     
-    private Validator validator = new Validator();
+    private Validator validator = null;//FIXME! inject this somehow new Validator(); 
     private static Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
     
     
@@ -62,7 +62,7 @@ public class LUDictionaryManager {
                 for (Field f : s.getField()) {
                     result.put(f.getKey(), f);
                 }
-                indexedFields.put(structure.getObjectTypeKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
+                indexedFields.put(structure.getKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
             }
         }
 
