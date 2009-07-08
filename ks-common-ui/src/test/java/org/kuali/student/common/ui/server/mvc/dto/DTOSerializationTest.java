@@ -38,6 +38,7 @@ public class DTOSerializationTest {
             
             MapContext ctx = new MapContext();
             ModelDTO dto = ctx.fromBean(p);
+            
             Person p2 = (Person)ctx.fromModelDTO(dto);
             Assert.assertEquals(p.getName(),p2.getName());
             Assert.assertEquals(p.getArrayList(),p2.getArrayList());
