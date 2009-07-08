@@ -142,7 +142,6 @@
 
   <bean id="LearningUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Learning Unit Lookup" />
-    <property name="instructions" value="Lookup a Learning Unit" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

@@ -92,7 +92,6 @@
 
   <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Department Lookup" />
-    <property name="instructions" value="Lookup a Department" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
