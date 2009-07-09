@@ -1,28 +1,14 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
-import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
-import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 public class VerticalNestedSection extends NestedSection{
     
-    protected final VerticalPanel panel = new VerticalPanel();
-    private KSFormLayoutPanel form = null;
+    protected final FlowPanel panel = new FlowPanel();
     
     public VerticalNestedSection(){
         super.initWidget(panel);
@@ -34,15 +20,8 @@ public class VerticalNestedSection extends NestedSection{
         ModelDTO modelDTO = model.get();
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            String fieldKey = field.getFieldKey();
-            ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
-            if (modelDTOValue  != null){
-                ModelDTOValueBinder.copyValueToModelDTO(form.getFieldValue(fieldKey), modelDTOValue);
-            } else {
-                modelDTOValue = ModelDTOValueBinder.createModelDTOInstance(form.getFieldValue(fieldKey), field.getFieldType());
-                modelDTO.put(fieldKey, modelDTOValue);
-            }
-        } 
+            field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
+        }
         for(NestedSection s: sections){
             s.updateModel(model);
         }
@@ -53,13 +32,36 @@ public class VerticalNestedSection extends NestedSection{
         // TODO bsmith - THIS METHOD NEEDS JAVADOCS
         
     }
+    
+    @Override
+    public void addField(FieldDescriptor fieldDescriptor) {
+        super.addField(fieldDescriptor);
+        RowDescriptor row = new RowDescriptor();
+        row.addField(fieldDescriptor);
+        rows.add(row);
+        
+    }
+
+    @Override
+    public void addSection(NestedSection section) {
+        super.addSection(section);
+        RowDescriptor row = new RowDescriptor();
+        row.addSection(section);
+        rows.add(row);
+    }
 
     @Override
     public void redraw() {
         panel.clear();
         panel.add(sectionTitleLabel);
         panel.add(instructionsLabel);
-        form = new KSFormLayoutPanel();
+        for(NestedSection ns: sections){
+            ns.redraw();
+        }
+        for(RowDescriptor r: rows){
+            panel.add(r);
+        }
+        /*form = new KSFormLayoutPanel();
         panel.add(form);
         for(Object o: orderedLayoutList){
             if(o instanceof NestedSection){
@@ -79,14 +81,20 @@ public class VerticalNestedSection extends NestedSection{
                     form.addFormField(formField);
                 }
             }
-        }
+        }*/
     }
 
 
     @Override
     public void updateView(Model<ModelDTO> model) {
-        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-        
+        ModelDTO modelDTO = model.get();
+        for (int i=0; i < fields.size(); i++){
+            FieldDescriptor field = (FieldDescriptor)fields.get(i);
+            field.getWidgetBinding().setValue(field.getFieldWidget(), field.getPropertyBinding().getValue(modelDTO));
+        }
+        for(NestedSection s: sections){
+            s.updateView(model);
+        }
     }
 
 

@@ -11,21 +11,23 @@ import com.google.gwt.user.client.ui.Composite;
 public abstract class Section extends Composite implements ConfigurableLayoutSection{
     private String sectionTitle = null;
     private String instructions = null;
+    
+    public enum FieldLabelType{LABEL_TOP, LABEL_LEFT}
+    public enum SectionTitleType{DECORATED_TITLE_BAR, TITLE_TOP, TITLE_LEFT, NONE}
    
     protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
     protected ArrayList<NestedSection> sections = new ArrayList<NestedSection>();
-    protected List<Object> orderedLayoutList = new ArrayList<Object>();
+    
+    protected List<RowDescriptor> rows = new ArrayList<RowDescriptor>();
 
     @Override
     public void addSection(NestedSection section) {
         sections.add(section);
-        orderedLayoutList.add(section);
     }
     
     @Override
     public void addField(FieldDescriptor fieldDescriptor) {
         fields.add(fieldDescriptor);
-        orderedLayoutList.add(fieldDescriptor);
     }
     
     public String getSectionTitle() {

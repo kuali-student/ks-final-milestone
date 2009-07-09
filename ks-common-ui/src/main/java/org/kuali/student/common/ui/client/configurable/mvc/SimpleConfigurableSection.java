@@ -29,9 +29,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 		
 	public SimpleConfigurableSection(Enum<?> viewEnum, String name) {	    
 		super(viewEnum, name);
-	    super.initWidget(panel);
-		panel.add(sectionTitleLabel);
-		panel.add(instructionsLabel);			
+	    super.initWidget(panel);			
 	}
 	
 	@Override
@@ -46,43 +44,33 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 		sectionTitleLabel.setText(sectionTitle);
 	}
 	
-	public void setEditMode(EditMode mode){
-	    this.form.setEditMode(mode);
-	}
+    @Override
+    public void addField(FieldDescriptor fieldDescriptor) {
+        super.addField(fieldDescriptor);
+        RowDescriptor row = new RowDescriptor();
+        row.addField(fieldDescriptor);
+        rows.add(row);
+        
+    }
+
+    @Override
+    public void addSection(NestedSection section) {
+        super.addSection(section);
+        RowDescriptor row = new RowDescriptor();
+        row.addSection(section);
+        rows.add(row);
+    }
 
 	public void beforeShow(){
 	    
 	    if (!loaded){
-	        form = new KSFormLayoutPanel();
-	        panel.add(form);
-/*	        for (int i=0; i < orderedWidgetList.size(); i++){
-	            //FieldDescriptor field = fields.get(i);
-	            Widget widget 
-	            if()
-	            KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-	            formField.setWidget(field.getFieldWidget());
-	            form.addFormField(formField);
-	        }*/
-	        for(Object o: orderedLayoutList){
-	            if(o instanceof NestedSection){
-	                NestedSection ns = ((NestedSection) o);
-	                ns.redraw();
-	                panel.add(ns);
-	                
-	            }
-	            else if(o instanceof FieldDescriptor){
-                    FieldDescriptor field = (FieldDescriptor)o;
-                    
-	                if (field.getFieldWidget() instanceof MultiplicityComposite){
-	                    MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
-	                    listField.redraw();
-	                    panel.add(listField);                   
-	                } else {
-    	                KSFormField formField = new KSFormField(field.getFieldKey(), field.getFieldLabel());
-    	                formField.setWidget(field.getFieldWidget());
-    	                form.addFormField(formField);
-	                }
-	            }
+	        panel.add(sectionTitleLabel);
+	        panel.add(instructionsLabel);
+	        for(NestedSection ns: sections){
+	            ns.redraw();
+	        }
+	        for(RowDescriptor r: rows){
+	            panel.add(r);
 	        }
 	        loaded = true;
 	    }
@@ -150,16 +138,6 @@ public class SimpleConfigurableSection extends LayoutSectionView {
             
         }
 	};
-
-    @Override
-    public List<FieldDescriptor> getFields() {
-        List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
-        allFields.addAll(fields);
-        for(NestedSection ns: sections){
-            allFields.addAll(ns.getFields());
-        }
-        return allFields;
-    }
 
     @Override
     public void validate(Callback<org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel> callback) {

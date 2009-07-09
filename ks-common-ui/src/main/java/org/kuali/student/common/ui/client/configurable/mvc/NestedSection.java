@@ -1,17 +1,13 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.configurable.mvc.Section.SectionTitleType;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 public abstract class NestedSection extends Composite implements ConfigurableLayoutSection{
     
@@ -21,23 +17,24 @@ public abstract class NestedSection extends Composite implements ConfigurableLay
     public abstract void clear();
     public abstract void redraw();
     
+    protected List<RowDescriptor> rows = new ArrayList<RowDescriptor>();
+    
     protected final Label sectionTitleLabel = new Label();
     protected final Label instructionsLabel = new Label();
+
+    protected SectionTitleType sectionLabelType = SectionTitleType.TITLE_TOP;
     
     protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
     protected ArrayList<NestedSection> sections = new ArrayList<NestedSection>();
-    protected List<Object> orderedLayoutList = new ArrayList<Object>();
-   
+    
     @Override
     public void addSection(NestedSection section) {
         sections.add(section);
-        orderedLayoutList.add(section);
     }
     
     @Override
     public void addField(FieldDescriptor fieldDescriptor) {
         fields.add(fieldDescriptor);
-        orderedLayoutList.add(fieldDescriptor);
     }
     
     @Override
