@@ -27,5 +27,16 @@
 				</qualifier>
  			</resolverConfig>
 		</ruleAttribute>
+		<ruleAttribute>
+			<name>RequestedCollaboratorRoleAttribute</name>
+			<className>org.kuali.rice.kew.rule.PrincipalIdRoleAttribute</className>
+			<label>Requested Collaborator Role Attribute</label>
+			<description>Role to identify the user who is being requested as a collaborator</description>
+			<type>RuleXmlAttribute</type>
+			<configuration>
+				<xmlElementLabel>recipientPrincipalId</xmlElementLabel>
+				<roleNameLabel>Requested Collaborator</roleNameLabel>
+			</configuration>
+		</ruleAttribute>
 	</ruleAttributes>
 </data>

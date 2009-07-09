@@ -6,6 +6,47 @@
       <parent>KualiDocument</parent>
       <description>Kuali Student Parent Document</description>
       <label>Kuali Student Parent Document</label>
+      <active>true</active>
+    </documentType>
+    <documentType>
+      <name>CollaboratorRequestDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Document used to request to add a collaborator on a Kuali Student Document</description>
+      <label>Request Collaborator Document</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CourseProposalCollaboratorPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>ALLOW_UNREQUESTED_ACTION</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Accept Collaboration" />
+          <requests name="Accept Collaboration"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Accept Collaboration">
+          <activationType>S</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>AcceptCollaborationRule</ruleName>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CluCollaboratorDocument</name>
+      <parent>CollaboratorRequestDocument</parent>
+      <description>Sample Clu Collaborator Request Document</description>
+      <label>Sample Clu Collaborator Request Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <active>true</active>
     </documentType>
     <documentType>
       <name>CluDocument</name>
@@ -33,10 +74,16 @@
         <role name="Department Review">
           <activationType>S</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
+<!--
+          <qualifierResolver>CluDocument-DepartmentReviewQualifierResolver</qualifierResolver>
+-->
         </role>
         <role name="College Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.CollegeQualifierResolver</qualifierResolverClass>
+<!--
+          <qualifierResolver>CluDocument-CollegeReviewQualifierResolver</qualifierResolver>
+-->
         </role>
         <requests name="Senate Curriculum Committee Review">
           <activationType>S</activationType>
