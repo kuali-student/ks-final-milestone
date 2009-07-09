@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.validator.ModelDTOConstraintDataProvider;
 import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
 import org.kuali.student.common.validator.ConstraintSetupFactory;
 import org.kuali.student.common.validator.ServerDateParser;
@@ -43,7 +41,45 @@ public class ModelDTOTest {
         assertEquals(results.get(1).getValidationResults().get(0).getMessage(), "validation.required");
 
     }
+    @Test     
+    public void testLengthRange() {
+        
+        ConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+        
+        Validator val = new Validator(bc, true);
+        val.setDateParser(new ServerDateParser());
+        val.addMessages(buildMessageStore());
+        
+        ConstraintMockPerson p = buildTestPerson1();
+        p.setFirstName("thisisaveryveryverylo");
+        
+        List<ValidationResultContainer> results = val.validateTypeStateObject( p, buildObjectStructure1());    
+        assertEquals(results.size(), 3);
 
+        assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+        assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.lengthOutOfRange");
+    }
+    @Test     
+    public void testMinLength() {
+        
+        ConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+        
+        Validator val = new Validator(bc, true);
+        val.setDateParser(new ServerDateParser());
+        val.addMessages(buildMessageStore());
+        
+        ConstraintMockPerson p = buildTestPerson1();
+        p.setFirstName("t");
+
+        ObjectStructure o1 = buildObjectStructure1();
+        o1.getType().get(0).getState().get(0).getField().get(0).getConstraintDescriptor().getConstraint().get(0).setMaxLength(null);
+        
+        List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
+        assertEquals(results.size(), 3);
+
+        assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+        assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.minLengthFailed");
+    }
     public ConstraintMockPerson buildTestPerson1() {
         ConstraintMockPerson person = new ConstraintMockPerson();
 
