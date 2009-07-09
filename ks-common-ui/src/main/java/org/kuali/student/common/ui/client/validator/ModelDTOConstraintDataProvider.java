@@ -1,4 +1,4 @@
-package org.kuali.student.common.validator;
+package org.kuali.student.common.ui.client.validator;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.MapType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.validator.ConstraintDataProvider;
 
 public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
     ModelDTO modelDTO = null;    
