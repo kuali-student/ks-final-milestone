@@ -83,14 +83,11 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
 
 	@Override
 	public void initialize(Object o) {
-
 	    MapContext ctx = new MapContext();
 	    try {
             modelDTO = ctx.fromBean(o);
         } catch (Exception e) {
             e.printStackTrace();
         }
-		
 	}
-
 }
