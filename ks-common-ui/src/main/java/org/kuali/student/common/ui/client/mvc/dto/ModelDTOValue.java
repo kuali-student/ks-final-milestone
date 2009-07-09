@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.validator.ClientDateParser;
+
 /**
  * This interface is used to constrain the types allowed within a ModelDTO.
  * 
@@ -54,9 +56,14 @@ public interface ModelDTOValue extends Serializable {
 	 * @return the ModelDTOValue.Type associated with this value
 	 */
 	public Type getType();
+	
+	public interface StringSupportedValue extends ModelDTOValue{
+	    public String getString();
+	    public void setString(String value);
+	}
 
 
-	public static class StringType implements ModelDTOValue {
+	public static class StringType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private String value = null;
 		
@@ -75,9 +82,21 @@ public interface ModelDTOValue extends Serializable {
 		public void set(String value) {
 			this.value = value;
 		}
+
+        @Override
+        public String getString() {
+            return this.value;
+        }
+
+        @Override
+        public void setString(String value) {
+            this.value = value;
+        }
+		
+		
 	}
 	
-	public static class CharacterType implements ModelDTOValue {
+	public static class CharacterType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Character value = null;
 	    
@@ -97,9 +116,25 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Character value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() {
+            return this.value.toString();
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            if(value.length() == 1){
+                this.value = value.charAt(0);
+            }
+            else{
+                throw new UnsupportedOperationException("Characters can only be set with Strings containing 1 character");
+            }
+        }
 	}
 
-	public static class IntegerType implements ModelDTOValue {
+	public static class IntegerType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Integer value = null;
 	    
@@ -119,9 +154,20 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Integer value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() {
+            return this.value.toString();
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            this.value = Integer.parseInt(value);
+        }
 	}
 
-	public static class LongType implements ModelDTOValue {
+	public static class LongType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Long value = null;
 	    
@@ -141,9 +187,20 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Long value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() {
+            return this.value.toString();
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            this.value = Long.parseLong(value);
+        }
 	}
 
-	public static class FloatType implements ModelDTOValue {
+	public static class FloatType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Float value = null;
 	    
@@ -163,9 +220,20 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Float value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() { 
+            return this.value.toString();
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            this.value = Float.parseFloat(value);
+        }
 	}
 
-	public static class DoubleType implements ModelDTOValue {
+	public static class DoubleType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Double value = null;
 	    
@@ -185,9 +253,20 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Double value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() {
+            return this.value.toString();
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            this.value = Double.parseDouble(value);
+        }
 	}
 
-	public static class ByteType implements ModelDTOValue {
+	public static class ByteType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Byte value = null;
 	    
@@ -207,9 +286,20 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Byte value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() {
+            return this.value.toString();
+        }
+
+        @Override
+        public void setString(String value) {
+           value = value.trim();
+           this.value = Byte.parseByte(value); 
+        }
 	}
 
-	public static class BooleanType implements ModelDTOValue {
+	public static class BooleanType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Boolean value = null;
 	    
@@ -229,11 +319,30 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Boolean value) {
 	        this.value = value;
 	    }
+
+        @Override
+        public String getString() {
+            String s = this.value.toString();
+            s = s.substring(0, 1).toUpperCase() + s.substring(1);
+            return s;
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
+                this.value = Boolean.parseBoolean(value);
+            }
+            else{
+                throw new UnsupportedOperationException("Booleans can only be set with true or false");
+            }
+        }
 	}
 
-	public static class DateType implements ModelDTOValue {
+	public static class DateType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Date value = null;
+		private ClientDateParser dateParser = new ClientDateParser();
 	    
 		public DateType() {
 			
@@ -251,6 +360,22 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Date value) {
 	        this.value = value;
 	    }
+
+        /**
+         * This overridden method returns date in this string format: yyyy-MM-ddTHH:mm:ss,SSS
+         * 
+         * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringSupportedValue#getString()
+         */
+        @Override
+        public String getString() {
+            return dateParser.toString(this.value);
+        }
+
+        @Override
+        public void setString(String value) {
+            value = value.trim();
+            this.value = dateParser.parseDate(value);
+        }
 	}
 
 
