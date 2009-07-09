@@ -1,15 +1,23 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class VerticalNestedSection extends NestedSection{
     
@@ -35,12 +43,9 @@ public class VerticalNestedSection extends NestedSection{
                 modelDTO.put(fieldKey, modelDTOValue);
             }
         } 
-        
-    }
-
-    @Override
-    public void validate(Callback<ValidationResultInfo.ErrorLevel> callback) {
-
+        for(NestedSection s: sections){
+            s.updateModel(model);
+        }
     }
 
     @Override
@@ -63,7 +68,6 @@ public class VerticalNestedSection extends NestedSection{
                 panel.add(ns);
             }
             else if(o instanceof FieldDescriptor){
-
                 FieldDescriptor field = (FieldDescriptor)o;
                 if (field.getFieldWidget() instanceof MultiplicityComposite){
                     MultiplicityComposite listField = (MultiplicityComposite)field.getFieldWidget(); 
@@ -76,6 +80,20 @@ public class VerticalNestedSection extends NestedSection{
                 }
             }
         }
+    }
+
+
+    @Override
+    public void updateView(Model<ModelDTO> model) {
+        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+        
+    }
+
+
+    @Override
+    public void validate(Callback<org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel> callback) {
+        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+        
     }
 
 }

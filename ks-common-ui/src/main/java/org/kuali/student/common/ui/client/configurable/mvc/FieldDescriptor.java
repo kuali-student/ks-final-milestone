@@ -15,9 +15,23 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import java.util.Date;
 
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ByteType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.CharacterType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DateType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DoubleType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.FloatType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.IntegerType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -33,6 +47,8 @@ public class FieldDescriptor {
     private String fieldLabel;
     private ModelDTOValue.Type fieldType;
     private Widget fieldWidget;
+    private PropertyBinding propertyBinding;
+    private PropertyBinding widgetBinding;
     
     /**
      * @param fieldKey
@@ -76,5 +92,33 @@ public class FieldDescriptor {
         return fieldWidget;
     }
     
+    public void setPropertyBinding(PropertyBinding binding){
+        propertyBinding = binding;
+    }
+    
+    public PropertyBinding getPropertyBinding(){   
+        if(propertyBinding == null){
+            propertyBinding = new ModelDTOBinding(fieldKey);         
+        }
+        return propertyBinding;
+    }
+
+    public PropertyBinding getWidgetBinding() {
+        if(widgetBinding == null){
+            if (fieldWidget instanceof HasText) {
+                widgetBinding = new HasTextBinding(fieldType);
+            } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
+                widgetBinding = SelectItemWidgetBinding.INSTANCE;
+            } else if (fieldWidget instanceof HasValue){
+                widgetBinding = HasValueBinding.INSTANCE;
+            }
+        }
+        return widgetBinding;
+    }
+
+    public void setWidgetBinding(PropertyBinding widgetBinding) {
+        
+        this.widgetBinding = widgetBinding;
+    }
         
 }

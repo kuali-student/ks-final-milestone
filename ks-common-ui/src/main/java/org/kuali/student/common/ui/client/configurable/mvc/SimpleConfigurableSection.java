@@ -1,5 +1,8 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -10,7 +13,6 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -24,7 +26,6 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	private final Label instructionsLabel = new Label();
 	private KSFormLayoutPanel form = null;
 	private boolean loaded = false;
-
 		
 	public SimpleConfigurableSection(Enum<?> viewEnum, String name) {	    
 		super(viewEnum, name);
@@ -44,19 +45,13 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	    super.setSectionTitle(sectionTitle);
 		sectionTitleLabel.setText(sectionTitle);
 	}
-
-	@Override
-	public void validate(final Callback<ValidationResultInfo.ErrorLevel> callback) {
-	    //TODO: Implement this
-	    //For every field on this section do validation
-	    //For every section call validate
-	}
 	
 	public void setEditMode(EditMode mode){
 	    this.form.setEditMode(mode);
 	}
 
 	public void beforeShow(){
+	    
 	    if (!loaded){
 	        form = new KSFormLayoutPanel();
 	        panel.add(form);
@@ -91,6 +86,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	        }
 	        loaded = true;
 	    }
+	    updateView();
 	}
 	
 	public void clear(){
@@ -129,6 +125,9 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	};
 	
 	public void updateView(){
+	    if(Controller.findController(this) != null){
+	        Controller.findController(this).requestModelDTO(viewUpdateCallback);
+	    }
 	}
 	
 	private ModelRequestCallback<ModelDTO> viewUpdateCallback = new ModelRequestCallback<ModelDTO>(){
@@ -139,7 +138,10 @@ public class SimpleConfigurableSection extends LayoutSectionView {
                 FieldDescriptor field = fields.get(i);
                 ModelDTOValue modelDTOValue = modelDTO.get(field.getFieldKey());
                 ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
-            }                                   
+            }
+            for(NestedSection s: sections){
+                s.updateView(model);
+            }
         }
 
         @Override
@@ -148,4 +150,20 @@ public class SimpleConfigurableSection extends LayoutSectionView {
             
         }
 	};
+
+    @Override
+    public List<FieldDescriptor> getFields() {
+        List<FieldDescriptor> allFields = new ArrayList<FieldDescriptor>();
+        allFields.addAll(fields);
+        for(NestedSection ns: sections){
+            allFields.addAll(ns.getFields());
+        }
+        return allFields;
+    }
+
+    @Override
+    public void validate(Callback<org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel> callback) {
+        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+        
+    }
 }
