@@ -17,7 +17,7 @@ public class DTOSerializationTest {
     @Test public void dtoTest(){
         
     }
-    @Ignore
+    
     @Test public void basicDataTypeTest() {
        try {
             Person p = new Person();
