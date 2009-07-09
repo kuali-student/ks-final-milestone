@@ -53,6 +53,12 @@ public class CluIdentifierInfo implements Serializable, Idable {
     @XmlElement
     private String variation;
 
+    @XmlElement
+    private String suffixCode;
+
+    @XmlElement
+    private String orgId;
+
     @XmlAttribute
     private String type;
 
@@ -124,7 +130,18 @@ public class CluIdentifierInfo implements Serializable, Idable {
     public void setDivision(String division) {
         this.division = division;
     }
+    
+    /*
+     * The "extra" portion of the code, which usually corresponds with the most detailed part of the number. 
+     */    
+    public String getSuffixCode() {
+        return suffixCode;
+    }
 
+    public void setSuffixCode(String suffixCode) {
+        this.suffixCode = suffixCode;
+    }
+    
     /**
      * A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier
      */
@@ -134,6 +151,17 @@ public class CluIdentifierInfo implements Serializable, Idable {
 
     public void setVariation(String variation) {
         this.variation = variation;
+    }
+
+    /*
+     * The identifier of the organization associated with this cluIdentifier.
+     */
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 
     /**

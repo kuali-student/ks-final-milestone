@@ -51,6 +51,9 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private List<CluIdentifierInfo> alternateIdentifiers;
 
     @XmlElement
+    private List<String> academicSubjectOrgs;
+
+    @XmlElement
     private String studySubjectArea;
 
     @XmlElement
@@ -60,7 +63,13 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private RichTextInfo marketingDesc;
 
     @XmlElement
+    private List<String> campusLocationList;
+
+    @XmlElement
     private String accreditingOrg;
+
+    @XmlElement
+    private List<AccreditationInfo> accreditationList;
 
     @XmlElement
     private String adminOrg;
@@ -79,6 +88,9 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private Date expirationDate;
+
+    @XmlElement
+    private TimeAmountInfo intensity;
 
     @XmlElement
     private TimeAmountInfo stdDuration;
@@ -166,6 +178,20 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.alternateIdentifiers = alternateIdentifiers;
     }
 
+    /*
+     * The organizations that represents the Subject area of the Clu, if different from the PrimaryAdminOrg
+     */
+    public List<String> getAcademicSubjectOrgs() {
+        if (academicSubjectOrgs == null) {
+            academicSubjectOrgs = new ArrayList<String>();
+        }
+        return academicSubjectOrgs;
+    }
+
+    public void setAcademicSubjectOrgs(List<String> academicSubjectOrgs) {
+        this.academicSubjectOrgs = academicSubjectOrgs;
+    }
+
     /**
      * The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.
      */
@@ -210,19 +236,50 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.accreditingOrg = accreditingOrg;
     }
 
+    /*
+     * Information around the accreditation of the clu.
+     */
+    public List<AccreditationInfo> getAccreditationList() {
+        return accreditationList;
+    }
+
+    public void setAccreditationList(List<AccreditationInfo> accreditation) {
+        this.accreditationList = accreditation;
+    }
+
+    /*
+     * Places where this clu might be offered
+     */
+    public List<String> getCampusLocationList() {
+        if (campusLocationList == null) {
+            campusLocationList = new ArrayList<String>();
+        }
+        return campusLocationList;
+    }
+
+    public void setCampusLocationList(List<String> campusLocationList) {
+        this.campusLocationList = campusLocationList;
+    }
+
     /**
      * The primary organization (typically, an academic department) with administrative oversight over the CLU.
+     * 
+     * @deprecated
      */
     public String getAdminOrg() {
         return adminOrg;
     }
 
+    /**
+     * @deprecated
+     */
     public void setAdminOrg(String adminOrg) {
         this.adminOrg = adminOrg;
     }
 
     /**
      * For cross-listed CLUs, contains participating organizations (typically, academic departments).
+     * @deprecated
      */
     public List<String> getParticipatingOrgs() {
         if (participatingOrgs == null) {
@@ -231,9 +288,14 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         return participatingOrgs;
     }
 
+    /**
+     * For cross-listed CLUs, contains participating organizations (typically, academic departments).
+     * @deprecated
+     */
     public void setParticipatingOrgs(List<String> participatingOrgs) {
         this.participatingOrgs = participatingOrgs;
     }
+
 
     /**
      * Primary potential instructor for the clu. This is primarily for use in advertising the clu and may not be the actual instructor.
@@ -280,6 +342,17 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    /*
+     * The expected level of time commitment between the student and the CLU meetings.
+     */
+    public TimeAmountInfo getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(TimeAmountInfo intensity) {
+        this.intensity = intensity;
     }
 
     /**

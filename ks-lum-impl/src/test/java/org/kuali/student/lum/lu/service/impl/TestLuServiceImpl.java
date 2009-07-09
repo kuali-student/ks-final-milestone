@@ -436,7 +436,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		officialIdentifier.setState("offId_state");
 		officialIdentifier.setType("offId_type");
 		officialIdentifier.setVariation("offId_variation");
-		clu.setOfficialIdentifier(officialIdentifier);
+        officialIdentifier.setSuffixCode("offId_suffixcode");
+        officialIdentifier.setOrgId("offId_orgid");
+        clu.setOfficialIdentifier(officialIdentifier);
 
 		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
 		cluId1.setCode("cluId1_code");
@@ -447,6 +449,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluId1.setState("cluId1_state");
 		cluId1.setType("cluId1_type");
 		cluId1.setVariation("cluId1_variation");
+        cluId1.setSuffixCode("cluId1_suffixcode");
+        cluId1.setOrgId("cluId1_orgid");
 		clu.getAlternateIdentifiers().add(cluId1);
 
 		CluIdentifierInfo cluId2 = new CluIdentifierInfo();
@@ -458,6 +462,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluId2.setState("cluId2_state");
 		cluId2.setType("cluId2_type");
 		cluId2.setVariation("cluId2_variation");
+        cluId2.setSuffixCode("cluId2_suffixcode");
+        cluId2.setOrgId("cluId2_orgid");
 		clu.getAlternateIdentifiers().add(cluId2);
 
 		clu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
@@ -573,8 +579,19 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.getParticipatingOrgs().add("EXT_Participating_ORG_ID1");
 		clu.getParticipatingOrgs().add("EXT_Participating_ORG_ID2");
 
+        clu.getAcademicSubjectOrgs().add("EXT_Academic_Subject_ORG_ID1");
+        clu.getAcademicSubjectOrgs().add("EXT_Academic_Subject_ORG_ID2");
 
-		CluPublishingInfo publishingInfo = new CluPublishingInfo();
+        clu.getCampusLocationList().add("EXT_Campus_Location_1");
+        clu.getCampusLocationList().add("EXT_Campus_Location_2");
+        
+        TimeAmountInfo intensity = new TimeAmountInfo();
+        intensity.setAtpDurationTypeKey("EXT_intensity_Id1");
+        intensity.setTimeQuantity(new Integer(123));
+        clu.setIntensity(intensity);
+
+
+        CluPublishingInfo publishingInfo = new CluPublishingInfo();
 		publishingInfo.setEndCycle("endCycle");
 		publishingInfo.setStartCycle("startCycle");
 		publishingInfo.setState("state");
@@ -635,6 +652,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("offId_state",createdClu.getOfficialIdentifier().getState());
 		assertEquals("offId_type",createdClu.getOfficialIdentifier().getType());
 		assertEquals("offId_variation",createdClu.getOfficialIdentifier().getVariation());
+		assertEquals("offId_suffixcode",createdClu.getOfficialIdentifier().getSuffixCode());
+		assertEquals("offId_orgid",createdClu.getOfficialIdentifier().getOrgId());
 
 		assertEquals("cluId1_code",createdClu.getAlternateIdentifiers().get(0).getCode());
 		assertEquals("cluId1_division",createdClu.getAlternateIdentifiers().get(0).getDivision());
@@ -644,6 +663,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId1_state",createdClu.getAlternateIdentifiers().get(0).getState());
 		assertEquals("cluId1_type",createdClu.getAlternateIdentifiers().get(0).getType());
 		assertEquals("cluId1_variation",createdClu.getAlternateIdentifiers().get(0).getVariation());
+        assertEquals("cluId1_suffixcode",createdClu.getAlternateIdentifiers().get(0).getSuffixCode());
+        assertEquals("cluId1_orgid",createdClu.getAlternateIdentifiers().get(0).getOrgId());
 
 		assertEquals("cluId2_code",createdClu.getAlternateIdentifiers().get(1).getCode());
 		assertEquals("cluId2_division",createdClu.getAlternateIdentifiers().get(1).getDivision());
@@ -653,6 +674,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId2_state",createdClu.getAlternateIdentifiers().get(1).getState());
 		assertEquals("cluId2_type",createdClu.getAlternateIdentifiers().get(1).getType());
 		assertEquals("cluId2_variation",createdClu.getAlternateIdentifiers().get(1).getVariation());
+        assertEquals("cluId2_suffixcode",createdClu.getAlternateIdentifiers().get(1).getSuffixCode());
+        assertEquals("cluId2_orgid",createdClu.getAlternateIdentifiers().get(1).getOrgId());
 
 		assertEquals("cluAttrValue1",createdClu.getAttributes().get("cluAttrKey1"));
 		assertEquals("cluAttrValue2",createdClu.getAttributes().get("cluAttrKey2"));
@@ -736,7 +759,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("EXT_Participating_ORG_ID1",createdClu.getParticipatingOrgs().get(0));
 		assertEquals("EXT_Participating_ORG_ID2",createdClu.getParticipatingOrgs().get(1));
 
-		assertEquals("endCycle",createdClu.getPublishingInfo().getEndCycle());
+        assertEquals("endCycle",createdClu.getPublishingInfo().getEndCycle());
 		assertEquals("startCycle",createdClu.getPublishingInfo().getStartCycle());
 		assertEquals("state",createdClu.getPublishingInfo().getState());
 		assertEquals("type",createdClu.getPublishingInfo().getType());
@@ -766,7 +789,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("EXT_stdDuration_Id1",createdClu.getStdDuration().getAtpDurationTypeKey());
 		assertEquals(Integer.valueOf(7867),createdClu.getStdDuration().getTimeQuantity());
 
-		assertEquals("luType.shell.course",createdClu.getType());
+
+        assertEquals("luType.shell.course",createdClu.getType());
 
 		assertNotNull(createdClu.getMetaInfo());
 		assertNotNull(createdClu.getMetaInfo().getVersionInd());
@@ -774,7 +798,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertNotNull(createdClu.getId());
 
-		//Now Update the Clu!
+        assertEquals("EXT_Academic_Subject_ORG_ID1",createdClu.getAcademicSubjectOrgs().get(0));
+        assertEquals("EXT_Academic_Subject_ORG_ID2",createdClu.getAcademicSubjectOrgs().get(1));
+
+        assertEquals("EXT_Campus_Location_1",createdClu.getCampusLocationList().get(0));
+        assertEquals("EXT_Campus_Location_2",createdClu.getCampusLocationList().get(1));
+
+        assertEquals("EXT_intensity_Id1",createdClu.getIntensity().getAtpDurationTypeKey());
+        assertEquals(Integer.valueOf(123),createdClu.getIntensity().getTimeQuantity());
+
+        //Now Update the Clu!
 		createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey1", "AccountingAttrValue1");
 		createdClu.getAccountingInfo().getAttributes().remove("AccountingAttrKey2");
 		createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey3", "AccountingAttrValue3");

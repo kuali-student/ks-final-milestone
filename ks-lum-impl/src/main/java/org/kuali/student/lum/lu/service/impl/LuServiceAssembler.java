@@ -15,6 +15,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCreditInfo;
@@ -40,8 +41,11 @@ import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg;
 import org.kuali.student.lum.lu.entity.CluAccounting;
+import org.kuali.student.lum.lu.entity.CluAccreditation;
 import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
+import org.kuali.student.lum.lu.entity.CluCampusLocation;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluCredit;
 import org.kuali.student.lum.lu.entity.CluFee;
@@ -70,311 +74,326 @@ import org.springframework.beans.BeanUtils;
 
 public class LuServiceAssembler extends BaseAssembler {
 
-	public static List<CluCluRelationInfo> toCluCluRelationInfos(
-			List<CluCluRelation> entities) {
-		List<CluCluRelationInfo> dtos = new ArrayList<CluCluRelationInfo>(
-				entities.size());
-		for (CluCluRelation entity : entities) {
-			dtos.add(toCluCluRelationInfo(entity));
-		}
-		return dtos;
+    public static List<CluCluRelationInfo> toCluCluRelationInfos(
+            List<CluCluRelation> entities) {
+        List<CluCluRelationInfo> dtos = new ArrayList<CluCluRelationInfo>(
+                entities.size());
+        for (CluCluRelation entity : entities) {
+            dtos.add(toCluCluRelationInfo(entity));
+        }
+        return dtos;
 
-	}
+    }
 
-	public static CluCluRelationInfo toCluCluRelationInfo(CluCluRelation entity) {
-		if(entity==null){
-			return null;
-		}
-		CluCluRelationInfo dto = new CluCluRelationInfo();
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "cluId", "relatedCluId", "cluRelationRequired",
-						"attributes", "metaInfo" });
+    public static CluCluRelationInfo toCluCluRelationInfo(CluCluRelation entity) {
+        if(entity==null){
+            return null;
+        }
+        CluCluRelationInfo dto = new CluCluRelationInfo();
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "cluId", "relatedCluId", "cluRelationRequired",
+                "attributes", "metaInfo" });
 
-		dto.setIsCluRelationRequired(entity.isCluRelationRequired());
-		dto.setCluId(entity.getClu().getId());
-		dto.setRelatedCluId(entity.getRelatedClu().getId());
-		dto.setType(entity.getLuLuRelationType().getId());
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setIsCluRelationRequired(entity.isCluRelationRequired());
+        dto.setCluId(entity.getClu().getId());
+        dto.setRelatedCluId(entity.getRelatedClu().getId());
+        dto.setType(entity.getLuLuRelationType().getId());
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-		return dto;
+        return dto;
 
-	}
+    }
 
-	public static List<CluInfo> toCluInfos(List<Clu> entities) {
-		List<CluInfo> dtos = new ArrayList<CluInfo>(entities.size());
-		for (Clu entity : entities) {
-			dtos.add(toCluInfo(entity));
-		}
-		return dtos;
+    public static List<CluInfo> toCluInfos(List<Clu> entities) {
+        List<CluInfo> dtos = new ArrayList<CluInfo>(entities.size());
+        for (Clu entity : entities) {
+            dtos.add(toCluInfo(entity));
+        }
+        return dtos;
 
-	}
+    }
 
-	public static CluInfo toCluInfo(Clu entity) {
-		if(entity==null){
-			return null;
-		}
-		CluInfo dto = new CluInfo();
+    public static CluInfo toCluInfo(Clu entity) {
+        if(entity==null){
+            return null;
+        }
+        CluInfo dto = new CluInfo();
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "officialIdentifier", "alternateIdentifiers",
-						"desc", "marketingDesc", "participatingOrgs", "primaryInstructor",
-						"instructors", "stdDuration", "luCodes", "credit", "publishing",
-						"offeredAtpTypes", "fee", "accounting",
-						"attributes", "metaInfo" });
-		dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
-		dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
-		dto.setDesc(toRichTextInfo(entity.getDesc()));
-		dto.setMarketingDesc(toRichTextInfo(entity.getMarketingDesc()));
-		dto.setAccreditingOrg(entity.getAccreditingOrg());
-		dto.setAdminOrg(entity.getAdminOrg());
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "officialIdentifier", "alternateIdentifiers",
+                "desc", "marketingDesc", "participatingOrgs", "primaryInstructor",
+                "instructors", "stdDuration", "luCodes", "credit", "publishing",
+                "offeredAtpTypes", "fee", "accounting",
+                "intensity", "academicSubjectOrgs","campusLocationList", "accreditationList",
+                "attributes", "metaInfo" });
+        dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
+        dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setMarketingDesc(toRichTextInfo(entity.getMarketingDesc()));
+        dto.setAccreditingOrg(entity.getAccreditingOrg());
+        dto.setAdminOrg(entity.getAdminOrg());
 
-		List<String> participatingOrgs = new ArrayList<String>(entity.getParticipatingOrgs().size());
-		for (CluOrg cluOrg : entity.getParticipatingOrgs()) {
-			participatingOrgs.add(cluOrg.getOrgId());
-		}
-		dto.setParticipatingOrgs(participatingOrgs);
-		dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
-		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
-		dto.setStdDuration(toTimeAmountInfo(entity.getStdDuration()));
-		dto.setLuCodes(toLuCodeInfos(entity.getLuCodes()));
-		dto.setCreditInfo(toCluCreditInfos(entity.getCredit()));
-		dto.setPublishingInfo(toCluPublishingInfo(entity.getPublishing()));
+        List<String> participatingOrgs = new ArrayList<String>(entity.getParticipatingOrgs().size());
+        for (CluOrg cluOrg : entity.getParticipatingOrgs()) {
+            participatingOrgs.add(cluOrg.getOrgId());
+        }
+        dto.setParticipatingOrgs(participatingOrgs);
+        dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
+        dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
+        dto.setStdDuration(toTimeAmountInfo(entity.getStdDuration()));
+        dto.setLuCodes(toLuCodeInfos(entity.getLuCodes()));
+        dto.setCreditInfo(toCluCreditInfos(entity.getCredit()));
+        dto.setPublishingInfo(toCluPublishingInfo(entity.getPublishing()));
 
-		List<String> offeredAtpTypes = new ArrayList<String>(entity.getOfferedAtpTypes().size());
-		for (CluAtpTypeKey key : entity.getOfferedAtpTypes()) {
-			offeredAtpTypes.add(key.getAtpTypeKey());
-		}
-		dto.setOfferedAtpTypes(offeredAtpTypes);
-		dto.setFeeInfo(toCluFeeInfo(entity.getFee()));
-		dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
+        List<String> offeredAtpTypes = new ArrayList<String>(entity.getOfferedAtpTypes().size());
+        for (CluAtpTypeKey key : entity.getOfferedAtpTypes()) {
+            offeredAtpTypes.add(key.getAtpTypeKey());
+        }
+        dto.setOfferedAtpTypes(offeredAtpTypes);
+        dto.setFeeInfo(toCluFeeInfo(entity.getFee()));
+        dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-		dto.setType(entity.getLuType().getId());
+        dto.setType(entity.getLuType().getId());
 
-		return dto;
+        List<String> academicSubjectOrgs = new ArrayList<String>(entity.getAcademicSubjectOrgs().size());
+        for (CluAcademicSubjectOrg cluOrg : entity.getAcademicSubjectOrgs()) {
+            academicSubjectOrgs.add(cluOrg.getOrgId());
+        }
+        dto.setAcademicSubjectOrgs(academicSubjectOrgs);
 
-	}
+        List<String> campusLocations = new ArrayList<String>(entity.getCampusLocationList().size());
+        for (CluCampusLocation cluCamp : entity.getCampusLocationList()) {
+            campusLocations.add(cluCamp.getCampusLocation());
+        }
+        dto.setCampusLocationList(campusLocations);
 
-	public static List<CluSetInfo> toCluSetInfos(List<CluSet> entities) {
-		List<CluSetInfo> dtos = new ArrayList<CluSetInfo>(entities.size());
-		for (CluSet entity : entities) {
-			dtos.add(toCluSetInfo(entity));
-		}
-		return dtos;
+        dto.setIntensity(toTimeAmountInfo(entity.getIntensity()));
 
-	}
+        return dto;
 
-	public static CluSetInfo toCluSetInfo(CluSet entity) {
-		if(entity==null){
-			return null;
-		}
-		CluSetInfo dto = new CluSetInfo();
+    }
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
-				"cluCriteria", "cluSets", "clus", "attributes", "metaInfo" });
+    public static List<CluSetInfo> toCluSetInfos(List<CluSet> entities) {
+        List<CluSetInfo> dtos = new ArrayList<CluSetInfo>(entities.size());
+        for (CluSet entity : entities) {
+            dtos.add(toCluSetInfo(entity));
+        }
+        return dtos;
 
-		dto.setDesc(toRichTextInfo(entity.getDesc()));
-		// TODO dto.setCluCriteria()
-		List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
-				.size());
-		for (CluSet id : entity.getCluSets()) {
-			cluSetIds.add(id.getId());
-		}
-		dto.setCluSetIds(cluSetIds);
+    }
 
-		List<String> cluIds = new ArrayList<String>(entity.getClus().size());
-		for (Clu id : entity.getClus()) {
-			cluIds.add(id.getId());
-		}
-		dto.setCluIds(cluIds);
+    public static CluSetInfo toCluSetInfo(CluSet entity) {
+        if(entity==null){
+            return null;
+        }
+        CluSetInfo dto = new CluSetInfo();
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        BeanUtils.copyProperties(entity, dto, new String[] { "desc",
+                "cluCriteria", "cluSets", "clus", "attributes", "metaInfo" });
 
-		return dto;
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        // TODO dto.setCluCriteria()
+        List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
+                .size());
+        for (CluSet id : entity.getCluSets()) {
+            cluSetIds.add(id.getId());
+        }
+        dto.setCluSetIds(cluSetIds);
 
-	}
+        List<String> cluIds = new ArrayList<String>(entity.getClus().size());
+        for (Clu id : entity.getClus()) {
+            cluIds.add(id.getId());
+        }
+        dto.setCluIds(cluIds);
 
-	public static List<LrTypeInfo> toLrTypeInfos(List<LrType> entities) {
-		List<LrTypeInfo> dtos = new ArrayList<LrTypeInfo>(entities.size());
-		for (LrType entity : entities) {
-			dtos.add(toLrTypeInfo(entity));
-		}
-		return dtos;
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-	}
+        return dto;
 
-	public static LrTypeInfo toLrTypeInfo(LrType entity) {
-		if(entity==null){
-			return null;
-		}
-		LrTypeInfo dto = new LrTypeInfo();
+    }
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] {"attributes" });
+    public static List<LrTypeInfo> toLrTypeInfos(List<LrType> entities) {
+        List<LrTypeInfo> dtos = new ArrayList<LrTypeInfo>(entities.size());
+        for (LrType entity : entities) {
+            dtos.add(toLrTypeInfo(entity));
+        }
+        return dtos;
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+    }
 
-		return dto;
+    public static LrTypeInfo toLrTypeInfo(LrType entity) {
+        if(entity==null){
+            return null;
+        }
+        LrTypeInfo dto = new LrTypeInfo();
 
-	}
+        BeanUtils.copyProperties(entity, dto,
+                new String[] {"attributes" });
 
-	public static List<LuDocRelationTypeInfo> toLuDocRelationType(
-			List<LuDocumentRelationType> entities) {
-		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
-				entities.size());
-		for (LuDocumentRelationType entity : entities) {
-			dtos.add(toLuDocRelationTypeInfo(entity));
-		}
-		return dtos;
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-	}
+        return dto;
 
-	public static LuDocRelationInfo toLuDocRelationInfo(
-			LuDocumentRelation entity) {
-		if(entity==null){
-			return null;
-		}
-		LuDocRelationInfo dto = new LuDocRelationInfo();
+    }
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
-				"luDocumentRelationType", "attributes", "metInfo" });
+    public static List<LuDocRelationTypeInfo> toLuDocRelationType(
+            List<LuDocumentRelationType> entities) {
+        List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
+                entities.size());
+        for (LuDocumentRelationType entity : entities) {
+            dtos.add(toLuDocRelationTypeInfo(entity));
+        }
+        return dtos;
 
-		dto.setCluId(entity.getClu().getId());
-		dto.setDesc(toRichTextInfo(entity.getDesc()));
-		dto.setType(entity.getLuDocumentRelationType().getId());
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+    }
 
-		return dto;
-	}
+    public static LuDocRelationInfo toLuDocRelationInfo(
+            LuDocumentRelation entity) {
+        if(entity==null){
+            return null;
+        }
+        LuDocRelationInfo dto = new LuDocRelationInfo();
 
-	public static List<LuDocRelationInfo> toLuDocRelationInfos(
-			List<LuDocumentRelation> entities) {
-		List<LuDocRelationInfo> dtos = new ArrayList<LuDocRelationInfo>(
-				entities.size());
-		for (LuDocumentRelation entity : entities) {
-			dtos.add(toLuDocRelationInfo(entity));
-		}
-		return dtos;
-	}
+        BeanUtils.copyProperties(entity, dto, new String[] { "desc",
+                "luDocumentRelationType", "attributes", "metInfo" });
 
-	public static List<LuDocRelationTypeInfo> toLuDocRelationTypeInfos(
-			List<LuDocumentRelationType> entities) {
-		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
-				entities.size());
-		for (LuDocumentRelationType entity : entities) {
-			dtos.add(toLuDocRelationTypeInfo(entity));
-		}
-		return dtos;
+        dto.setCluId(entity.getClu().getId());
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setType(entity.getLuDocumentRelationType().getId());
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-	}
+        return dto;
+    }
 
-	public static List<LuDocRelationTypeInfo> toLuDocumentRelationTypes(
-			List<LuDocumentRelationType> entities) {
-		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
-				entities.size());
-		for (LuDocumentRelationType entity : entities) {
-			dtos.add(toLuDocRelationTypeInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<LuDocRelationInfo> toLuDocRelationInfos(
+            List<LuDocumentRelation> entities) {
+        List<LuDocRelationInfo> dtos = new ArrayList<LuDocRelationInfo>(
+                entities.size());
+        for (LuDocumentRelation entity : entities) {
+            dtos.add(toLuDocRelationInfo(entity));
+        }
+        return dtos;
+    }
 
-	public static LuDocRelationTypeInfo toLuDocRelationTypeInfo(
-			LuDocumentRelationType entity) {
-		if(entity==null){
-			return null;
-		}
-		LuDocRelationTypeInfo dto = new LuDocRelationTypeInfo();
+    public static List<LuDocRelationTypeInfo> toLuDocRelationTypeInfos(
+            List<LuDocumentRelationType> entities) {
+        List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
+                entities.size());
+        for (LuDocumentRelationType entity : entities) {
+            dtos.add(toLuDocRelationTypeInfo(entity));
+        }
+        return dtos;
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "attributes" });
+    }
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+    public static List<LuDocRelationTypeInfo> toLuDocumentRelationTypes(
+            List<LuDocumentRelationType> entities) {
+        List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
+                entities.size());
+        for (LuDocumentRelationType entity : entities) {
+            dtos.add(toLuDocRelationTypeInfo(entity));
+        }
+        return dtos;
+    }
 
-		return dto;
-	}
+    public static LuDocRelationTypeInfo toLuDocRelationTypeInfo(
+            LuDocumentRelationType entity) {
+        if(entity==null){
+            return null;
+        }
+        LuDocRelationTypeInfo dto = new LuDocRelationTypeInfo();
 
-	public static List<LuLuRelationTypeInfo> toLuLuRelationTypeInfos(
-			List<LuLuRelationType> entities) {
-		List<LuLuRelationTypeInfo> dtos = new ArrayList<LuLuRelationTypeInfo>(
-				entities.size());
-		for (LuLuRelationType entity : entities) {
-			dtos.add(toLuLuRelationTypeInfo(entity));
-		}
-		return dtos;
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
 
-	}
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-	public static LuLuRelationTypeInfo toLuLuRelationTypeInfo(
-			LuLuRelationType entity) {
-		if(entity==null){
-			return null;
-		}
-		LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
+        return dto;
+    }
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "attributes" });
+    public static List<LuLuRelationTypeInfo> toLuLuRelationTypeInfos(
+            List<LuLuRelationType> entities) {
+        List<LuLuRelationTypeInfo> dtos = new ArrayList<LuLuRelationTypeInfo>(
+                entities.size());
+        for (LuLuRelationType entity : entities) {
+            dtos.add(toLuLuRelationTypeInfo(entity));
+        }
+        return dtos;
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+    }
 
-		return dto;
-	}
+    public static LuLuRelationTypeInfo toLuLuRelationTypeInfo(
+            LuLuRelationType entity) {
+        if(entity==null){
+            return null;
+        }
+        LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
 
-	public static List<LuStatementInfo> toLuStatementInfos(
-			List<LuStatement> entities) {
-		List<LuStatementInfo> dtos = new ArrayList<LuStatementInfo>(entities
-				.size());
-		for (LuStatement entity : entities) {
-			dtos.add(toLuStatementInfo(entity));
-		}
-		return dtos;
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
 
-	}
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-	public static LuStatementInfo toLuStatementInfo(LuStatement entity) {
-		if(entity==null){
-			return null;
-		}
-		LuStatementInfo dto = new LuStatementInfo();
+        return dto;
+    }
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "children",
-				"requiredComponents", "luStatementType", "attributes",
-				"metaInfo" });
+    public static List<LuStatementInfo> toLuStatementInfos(
+            List<LuStatement> entities) {
+        List<LuStatementInfo> dtos = new ArrayList<LuStatementInfo>(entities
+                .size());
+        for (LuStatement entity : entities) {
+            dtos.add(toLuStatementInfo(entity));
+        }
+        return dtos;
 
-		List<String> statementIds = new ArrayList<String>(entity.getChildren()
-				.size());
-		for (LuStatement statement : entity.getChildren()) {
-			statementIds.add(statement.getId());
-		}
-		dto.setLuStatementIds(statementIds);
+    }
 
-		List<String> componentIds = new ArrayList<String>(entity
-				.getRequiredComponents().size());
-		for (ReqComponent reqComponent : entity.getRequiredComponents()) {
-			componentIds.add(reqComponent.getId());
-		}
-		dto.setReqComponentIds(componentIds);
-		dto.setType(entity.getLuStatementType().getId());
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+    public static LuStatementInfo toLuStatementInfo(LuStatement entity) {
+        if(entity==null){
+            return null;
+        }
+        LuStatementInfo dto = new LuStatementInfo();
 
-		return dto;
-	}
+        BeanUtils.copyProperties(entity, dto, new String[] { "children",
+                "requiredComponents", "luStatementType", "attributes",
+        "metaInfo" });
 
-	public static List<LuStatementTypeInfo> toLuStatementTypeInfos(
-			List<LuStatementType> entities) {
-		List<LuStatementTypeInfo> dtos = new ArrayList<LuStatementTypeInfo>(
-				entities.size());
-		for (LuStatementType entity : entities) {
-			dtos.add(toLuStatementTypeInfo(entity));
-		}
-		return dtos;
+        List<String> statementIds = new ArrayList<String>(entity.getChildren()
+                .size());
+        for (LuStatement statement : entity.getChildren()) {
+            statementIds.add(statement.getId());
+        }
+        dto.setLuStatementIds(statementIds);
 
-	}
+        List<String> componentIds = new ArrayList<String>(entity
+                .getRequiredComponents().size());
+        for (ReqComponent reqComponent : entity.getRequiredComponents()) {
+            componentIds.add(reqComponent.getId());
+        }
+        dto.setReqComponentIds(componentIds);
+        dto.setType(entity.getLuStatementType().getId());
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+
+        return dto;
+    }
+
+    public static List<LuStatementTypeInfo> toLuStatementTypeInfos(
+            List<LuStatementType> entities) {
+        List<LuStatementTypeInfo> dtos = new ArrayList<LuStatementTypeInfo>(
+                entities.size());
+        for (LuStatementType entity : entities) {
+            dtos.add(toLuStatementTypeInfo(entity));
+        }
+        return dtos;
+
+    }
 
     public static LuStatement toLuStatementRelation(boolean isUpdate, LuStatementInfo stmtInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException, OperationFailedException {
         LuStatement stmt;
@@ -436,61 +455,61 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static LuStatement toLuStatementRelation(LuNlStatementInfo stmtInfo, LuDao luDao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException, OperationFailedException {
-    	LuStatement stmt = new LuStatement();
-    	stmt.setName(stmtInfo.getName());
-    	stmt.setOperator(stmtInfo.getOperator());
-    	
+        LuStatement stmt = new LuStatement();
+        stmt.setName(stmtInfo.getName());
+        stmt.setOperator(stmtInfo.getOperator());
+
         LuStatementType stmtType = luDao.fetch(LuStatementType.class, stmtInfo.getStatementTypeId());
         stmt.setLuStatementType(stmtType);
-    	
-    	if(stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
-        	List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
-    		for(ReqComponentInfo rc : stmtInfo.getRequiredComponents()) {
-    	    	ReqComponent reqComp = toReqComponentRelation(false, rc, luDao);
-    	    	reqCompList.add(reqComp);
-    		}
-        	stmt.setRequiredComponents(reqCompList);
-    	} else {
-    		createStatement(stmtInfo, stmt, luDao);
-    	}
 
-    	return stmt;
+        if(stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
+            List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
+            for(ReqComponentInfo rc : stmtInfo.getRequiredComponents()) {
+                ReqComponent reqComp = toReqComponentRelation(false, rc, luDao);
+                reqCompList.add(reqComp);
+            }
+            stmt.setRequiredComponents(reqCompList);
+        } else {
+            createStatement(stmtInfo, stmt, luDao);
+        }
+
+        return stmt;
     }
 
     private static void createStatement(LuNlStatementInfo stmtInfo, LuStatement rootLuStatement, LuDao luDao)
-    	throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
-		if (stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
-			rootLuStatement.setRequiredComponents(rootLuStatement.getRequiredComponents());
-			return;
-		}
+    throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+        if (stmtInfo.getChildren() == null || stmtInfo.getChildren().isEmpty()) {
+            rootLuStatement.setRequiredComponents(rootLuStatement.getRequiredComponents());
+            return;
+        }
 
-		for(Iterator<LuNlStatementInfo> it = stmtInfo.getChildren().iterator(); it.hasNext();) {
-			LuNlStatementInfo luNlStmt = it.next();
-			LuStatement stmt = new LuStatement();
-			stmt.setName(luNlStmt.getName());
-			stmt.setParent(rootLuStatement);
-			stmt.setOperator(luNlStmt.getOperator());
-			rootLuStatement.getChildren().add(stmt);
-			if (luNlStmt.getChildren() == null || luNlStmt.getChildren().isEmpty()) {
-				List<ReqComponent> children = getReqComponents(luNlStmt.getRequiredComponents(), luDao);
-				stmt.setRequiredComponents(children);
-			} else {
-				createStatement(luNlStmt, stmt, luDao);
-			}
-		}
+        for(Iterator<LuNlStatementInfo> it = stmtInfo.getChildren().iterator(); it.hasNext();) {
+            LuNlStatementInfo luNlStmt = it.next();
+            LuStatement stmt = new LuStatement();
+            stmt.setName(luNlStmt.getName());
+            stmt.setParent(rootLuStatement);
+            stmt.setOperator(luNlStmt.getOperator());
+            rootLuStatement.getChildren().add(stmt);
+            if (luNlStmt.getChildren() == null || luNlStmt.getChildren().isEmpty()) {
+                List<ReqComponent> children = getReqComponents(luNlStmt.getRequiredComponents(), luDao);
+                stmt.setRequiredComponents(children);
+            } else {
+                createStatement(luNlStmt, stmt, luDao);
+            }
+        }
     }
 
     private static List<ReqComponent> getReqComponents(List<ReqComponentInfo> reqComponentInfoList, LuDao luDao)
-    	throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
-    	List<ReqComponent> list = new ArrayList<ReqComponent>();
-    	for(ReqComponentInfo reqCompInfo : reqComponentInfoList) {
-	    	ReqComponent reqComp = toReqComponentRelation(false, reqCompInfo, luDao);
-	    	list.add(reqComp);
-    	}
-    	return list;
+    throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+        List<ReqComponent> list = new ArrayList<ReqComponent>();
+        for(ReqComponentInfo reqCompInfo : reqComponentInfoList) {
+            ReqComponent reqComp = toReqComponentRelation(false, reqCompInfo, luDao);
+            list.add(reqComp);
+        }
+        return list;
     }
 
-	public static LuStatementTypeInfo toLuStatementTypeInfo(LuStatementType entity) {
+    public static LuStatementTypeInfo toLuStatementTypeInfo(LuStatementType entity) {
         LuStatementTypeInfo stmtTypeInfo = toGenericTypeInfo(LuStatementTypeInfo.class, entity);
 
         // Copy allowed RequiredComponent Types
@@ -512,137 +531,137 @@ public class LuServiceAssembler extends BaseAssembler {
         return stmtTypeInfo;
     }
 
-	public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
-		List<LuTypeInfo> dtos = new ArrayList<LuTypeInfo>(entities.size());
-		for (LuType entity : entities) {
-			dtos.add(toLuTypeInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
+        List<LuTypeInfo> dtos = new ArrayList<LuTypeInfo>(entities.size());
+        for (LuType entity : entities) {
+            dtos.add(toLuTypeInfo(entity));
+        }
+        return dtos;
+    }
 
-	public static LuTypeInfo toLuTypeInfo(LuType entity) {
-		if(entity==null){
-			return null;
-		}
-		LuTypeInfo dto = new LuTypeInfo();
+    public static LuTypeInfo toLuTypeInfo(LuType entity) {
+        if(entity==null){
+            return null;
+        }
+        LuTypeInfo dto = new LuTypeInfo();
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "attributes" });
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
-		List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
-		for (Lui entity : entities) {
-			dtos.add(toLuiInfo(entity));
-		}
-		return dtos;
+    public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
+        List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
+        for (Lui entity : entities) {
+            dtos.add(toLuiInfo(entity));
+        }
+        return dtos;
 
-	}
+    }
 
-	public static LuiInfo toLuiInfo(Lui entity) {
-		if(entity==null){
-			return null;
-		}
-		LuiInfo luiInfo = new LuiInfo();
+    public static LuiInfo toLuiInfo(Lui entity) {
+        if(entity==null){
+            return null;
+        }
+        LuiInfo luiInfo = new LuiInfo();
 
-		BeanUtils.copyProperties(entity, luiInfo, new String[] { "clu", "metaInfo", "attributes" });
+        BeanUtils.copyProperties(entity, luiInfo, new String[] { "clu", "metaInfo", "attributes" });
 
-		luiInfo.setCluId(entity.getClu().getId());
+        luiInfo.setCluId(entity.getClu().getId());
 
-		luiInfo.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        luiInfo.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-		luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
+        luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
 
-		return luiInfo;
-	}
+        return luiInfo;
+    }
 
     public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
-		if(luiInfo==null){
-			return null;
-		}
-    	Lui lui;
+        if(luiInfo==null){
+            return null;
+        }
+        Lui lui;
 
-	    if (isUpdate) {
-	        lui = (Lui) dao.fetch(Lui.class, luiInfo.getId());
-	        if(null == lui) {
-	            throw new DoesNotExistException((new StringBuilder()).append("Lui does not exist for id: ").append(luiInfo.getId()).toString());
-	        }
-	        if(!String.valueOf(lui.getVersionInd()).equals(luiInfo.getMetaInfo().getVersionInd())) {
-	            throw new VersionMismatchException("Lui to be updated is not the current version");
+        if (isUpdate) {
+            lui = (Lui) dao.fetch(Lui.class, luiInfo.getId());
+            if(null == lui) {
+                throw new DoesNotExistException((new StringBuilder()).append("Lui does not exist for id: ").append(luiInfo.getId()).toString());
             }
-	    } else
-	    {
-	        lui = new Lui();
-	    }
+            if(!String.valueOf(lui.getVersionInd()).equals(luiInfo.getMetaInfo().getVersionInd())) {
+                throw new VersionMismatchException("Lui to be updated is not the current version");
+            }
+        } else
+        {
+            lui = new Lui();
+        }
 
-	    BeanUtils.copyProperties(luiInfo, lui, new String[] { "cluId", "attributes", "metaInfo" });
+        BeanUtils.copyProperties(luiInfo, lui, new String[] { "cluId", "attributes", "metaInfo" });
 
-	    lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, dao));
+        lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, dao));
 
-	    Clu clu = (Clu) dao.fetch(Clu.class, luiInfo.getCluId());
-	    if(null == clu) {
-	        throw new InvalidParameterException((new StringBuilder()).append("Clu does not exist for id: ").append(luiInfo.getCluId()).toString());
-	    }
+        Clu clu = (Clu) dao.fetch(Clu.class, luiInfo.getCluId());
+        if(null == clu) {
+            throw new InvalidParameterException((new StringBuilder()).append("Clu does not exist for id: ").append(luiInfo.getCluId()).toString());
+        }
         lui.setClu(clu);
         return lui;
-	}
+    }
 
 
-	public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
-			List<LuiLuiRelation> entities) {
-		List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
-				entities.size());
-		for (LuiLuiRelation entity : entities) {
-			dtos.add(toLuiLuiRelationInfo(entity));
-		}
-		return dtos;
+    public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
+            List<LuiLuiRelation> entities) {
+        List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
+                entities.size());
+        for (LuiLuiRelation entity : entities) {
+            dtos.add(toLuiLuiRelationInfo(entity));
+        }
+        return dtos;
 
-	}
+    }
 
-	public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
-		if(entity==null){
-			return null;
-		}
-		LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
+    public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
+        if(entity==null){
+            return null;
+        }
+        LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "lui",
-				"relatedLui", "attributes" });
+        BeanUtils.copyProperties(entity, dto, new String[] { "lui",
+                "relatedLui", "attributes" });
 
-		dto.setLuiId(entity.getLui().getId());
-		dto.setRelatedLuiId(entity.getRelatedLui().getId());
-		dto.setType(entity.getLuLuRelationType().getId());
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-		return dto;
-	}
+        dto.setLuiId(entity.getLui().getId());
+        dto.setRelatedLuiId(entity.getRelatedLui().getId());
+        dto.setType(entity.getLuLuRelationType().getId());
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        return dto;
+    }
 
-	public static List<ReqComponentInfo> toReqComponentInfos(
-			List<ReqComponent> entities) {
-		List<ReqComponentInfo> dtos = new ArrayList<ReqComponentInfo>(
-				entities.size());
-		for (ReqComponent entity : entities) {
-			dtos.add(toReqComponentInfo(entity));
-		}
-		return dtos;
+    public static List<ReqComponentInfo> toReqComponentInfos(
+            List<ReqComponent> entities) {
+        List<ReqComponentInfo> dtos = new ArrayList<ReqComponentInfo>(
+                entities.size());
+        for (ReqComponent entity : entities) {
+            dtos.add(toReqComponentInfo(entity));
+        }
+        return dtos;
 
-	}
+    }
 
-	public static ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
-		ReqComponentInfo dto = new ReqComponentInfo();
+    public static ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
+        ReqComponentInfo dto = new ReqComponentInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] {
-				"requiredComponentType", "reqCompField", "meteInfo" });
+        BeanUtils.copyProperties(entity, dto, new String[] {
+                "requiredComponentType", "reqCompField", "meteInfo" });
 
-		dto.setType(entity.getRequiredComponentType().getId());
-		dto.setReqCompField(toReqCompFieldInfos(entity.getReqCompField()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setType(entity.getRequiredComponentType().getId());
+        dto.setReqCompField(toReqCompFieldInfos(entity.getReqCompField()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-		return dto;
-	}
+        return dto;
+    }
 
     public static ReqComponent toReqComponentRelation(boolean isUpdate,
             ReqComponentInfo reqCompInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
@@ -700,28 +719,28 @@ public class LuServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-	public static RichTextInfo toRichTextInfo(RichText entity) {
-		if(entity==null){
-			return null;
-		}
+    public static RichTextInfo toRichTextInfo(RichText entity) {
+        if(entity==null){
+            return null;
+        }
 
-		RichTextInfo dto = new RichTextInfo();
+        RichTextInfo dto = new RichTextInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
 
-		return dto;
+        return dto;
 
-	}
+    }
 
-	public static List<ReqCompFieldInfo> toReqCompFieldInfos(
-			List<ReqComponentField> entities) {
-		List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(
-				entities.size());
-		for (ReqComponentField entity : entities) {
-			dtos.add(toReqCompFieldInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<ReqCompFieldInfo> toReqCompFieldInfos(
+            List<ReqComponentField> entities) {
+        List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(
+                entities.size());
+        for (ReqComponentField entity : entities) {
+            dtos.add(toReqCompFieldInfo(entity));
+        }
+        return dtos;
+    }
 
     public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
         if (null == entity) {
@@ -734,211 +753,211 @@ public class LuServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
-			List<ReqComponentFieldType> entities) {
-		List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
-				entities.size());
-		for (ReqComponentFieldType entity : entities) {
-			dtos.add(toReqCompFieldTypeInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
+            List<ReqComponentFieldType> entities) {
+        List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
+                entities.size());
+        for (ReqComponentFieldType entity : entities) {
+            dtos.add(toReqCompFieldTypeInfo(entity));
+        }
+        return dtos;
+    }
 
 
     public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(
-			ReqComponentFieldType entity) {
-		ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
+            ReqComponentFieldType entity) {
+        ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "fieldDescriptor" });
+        BeanUtils.copyProperties(entity, dto, new String[] { "fieldDescriptor" });
 
-		FieldDescriptor fDTO = new FieldDescriptor();
-		BeanUtils.copyProperties(entity.getFieldDescriptor(), fDTO);
+        FieldDescriptor fDTO = new FieldDescriptor();
+        BeanUtils.copyProperties(entity.getFieldDescriptor(), fDTO);
 
-		dto.setFieldDescriptor(fDTO);
+        dto.setFieldDescriptor(fDTO);
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static List<CluIdentifierInfo> toCluIdentifierInfos(List<CluIdentifier> entities) {
-		List<CluIdentifierInfo> dtos = new ArrayList<CluIdentifierInfo>(entities.size());
-		for (CluIdentifier entity : entities) {
-			dtos.add(toCluIdentifierInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<CluIdentifierInfo> toCluIdentifierInfos(List<CluIdentifier> entities) {
+        List<CluIdentifierInfo> dtos = new ArrayList<CluIdentifierInfo>(entities.size());
+        for (CluIdentifier entity : entities) {
+            dtos.add(toCluIdentifierInfo(entity));
+        }
+        return dtos;
+    }
 
-	public static CluIdentifierInfo toCluIdentifierInfo(CluIdentifier entity) {
-		if(entity==null){
-			return null;
-		}
+    public static CluIdentifierInfo toCluIdentifierInfo(CluIdentifier entity) {
+        if(entity==null){
+            return null;
+        }
 
-		CluIdentifierInfo dto = new CluIdentifierInfo();
+        CluIdentifierInfo dto = new CluIdentifierInfo();
 
-		BeanUtils.copyProperties(entity, dto);
+        BeanUtils.copyProperties(entity, dto);
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static List<CluInstructorInfo> toCluInstructorInfos(List<CluInstructor> entities) {
-		List<CluInstructorInfo> dtos = new ArrayList<CluInstructorInfo>(entities.size());
-		for (CluInstructor entity : entities) {
-			dtos.add(toCluInstructorInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<CluInstructorInfo> toCluInstructorInfos(List<CluInstructor> entities) {
+        List<CluInstructorInfo> dtos = new ArrayList<CluInstructorInfo>(entities.size());
+        for (CluInstructor entity : entities) {
+            dtos.add(toCluInstructorInfo(entity));
+        }
+        return dtos;
+    }
 
-	public static CluInstructorInfo toCluInstructorInfo(CluInstructor entity) {
-		if(entity==null){
-			return null;
-		}
-		CluInstructorInfo dto = new CluInstructorInfo();
+    public static CluInstructorInfo toCluInstructorInfo(CluInstructor entity) {
+        if(entity==null){
+            return null;
+        }
+        CluInstructorInfo dto = new CluInstructorInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id", "attributes" });
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        BeanUtils.copyProperties(entity, dto, new String[] { "id", "attributes" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static TimeAmountInfo toTimeAmountInfo(TimeAmount entity) {
-		if(entity==null){
-			return null;
-		}
-		TimeAmountInfo dto = new TimeAmountInfo();
+    public static TimeAmountInfo toTimeAmountInfo(TimeAmount entity) {
+        if(entity==null){
+            return null;
+        }
+        TimeAmountInfo dto = new TimeAmountInfo();
 
-		BeanUtils.copyProperties(entity, dto);
+        BeanUtils.copyProperties(entity, dto);
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static List<LuCodeInfo> toLuCodeInfos(List<LuCode> entities) {
-		List<LuCodeInfo> dtos = new ArrayList<LuCodeInfo>(entities.size());
-		for (LuCode entity : entities) {
-			dtos.add(toLuCodeInfo(entity));
-		}
-		return dtos;
-	}
+    public static List<LuCodeInfo> toLuCodeInfos(List<LuCode> entities) {
+        List<LuCodeInfo> dtos = new ArrayList<LuCodeInfo>(entities.size());
+        for (LuCode entity : entities) {
+            dtos.add(toLuCodeInfo(entity));
+        }
+        return dtos;
+    }
 
-	public static LuCodeInfo toLuCodeInfo(LuCode entity) {
-		if(entity==null){
-			return null;
-		}
-		LuCodeInfo dto = new LuCodeInfo();
+    public static LuCodeInfo toLuCodeInfo(LuCode entity) {
+        if(entity==null){
+            return null;
+        }
+        LuCodeInfo dto = new LuCodeInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "attributes", "metInfo" });
+        BeanUtils.copyProperties(entity, dto, new String[] { "attributes", "metInfo" });
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
-		if(entity==null){
-			return null;
-		}
-		CluCreditInfo dto = new CluCreditInfo();
+    public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
+        if(entity==null){
+            return null;
+        }
+        CluCreditInfo dto = new CluCreditInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" , "minTimeToComplete", "maxTimeToComplete", "maxAllowableInactivity", "maxTimeResultsRecognized"});
-		dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
-		dto.setMinTimeToComplete(toTimeAmountInfo(entity.getMinTimeToComplete()));
-		dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getMaxTimeToComplete()));
-		dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getMaxAllowableInactivity()));
-		dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getMaxTimeResultsRecognized()));
+        BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" , "minTimeToComplete", "maxTimeToComplete", "maxAllowableInactivity", "maxTimeResultsRecognized"});
+        dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
+        dto.setMinTimeToComplete(toTimeAmountInfo(entity.getMinTimeToComplete()));
+        dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getMaxTimeToComplete()));
+        dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getMaxAllowableInactivity()));
+        dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getMaxTimeResultsRecognized()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static CluPublishingInfo toCluPublishingInfo(CluPublishing entity) {
-		if(entity==null){
-			return null;
-		}
-		CluPublishingInfo dto = new CluPublishingInfo();
+    public static CluPublishingInfo toCluPublishingInfo(CluPublishing entity) {
+        if(entity==null){
+            return null;
+        }
+        CluPublishingInfo dto = new CluPublishingInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "primaryInstructor", "instructors",
-				"attributes" });
-		dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
-		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        BeanUtils.copyProperties(entity, dto, new String[] { "primaryInstructor", "instructors",
+        "attributes" });
+        dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
+        dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static CluFeeInfo toCluFeeInfo(CluFee entity) {
-		if(entity==null){
-			return null;
-		}
-		CluFeeInfo dto = new CluFeeInfo();
+    public static CluFeeInfo toCluFeeInfo(CluFee entity) {
+        if(entity==null){
+            return null;
+        }
+        CluFeeInfo dto = new CluFeeInfo();
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static CluAccountingInfo toCluAccountingInfo(CluAccounting entity) {
-		if(entity==null){
-			return null;
-		}
-		CluAccountingInfo dto = new CluAccountingInfo();
+    public static CluAccountingInfo toCluAccountingInfo(CluAccounting entity) {
+        if(entity==null){
+            return null;
+        }
+        CluAccountingInfo dto = new CluAccountingInfo();
 
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-		return dto;
-	}
+        return dto;
+    }
 
-	public static TimeAmount toTimeAmount(TimeAmountInfo timeAmountInfo) {
-		if(timeAmountInfo==null){
-			return null;
-		}
-		TimeAmount timeAmount = new TimeAmount();
-		BeanUtils.copyProperties(timeAmountInfo, timeAmount);
-		return timeAmount;
-	}
+    public static TimeAmount toTimeAmount(TimeAmountInfo timeAmountInfo) {
+        if(timeAmountInfo==null){
+            return null;
+        }
+        TimeAmount timeAmount = new TimeAmount();
+        BeanUtils.copyProperties(timeAmountInfo, timeAmount);
+        return timeAmount;
+    }
 
-	public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
-		if(cluCreditInfo==null){
-			return null;
-		}
-		CluCredit cluCredit = new CluCredit();
+    public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
+        if(cluCreditInfo==null){
+            return null;
+        }
+        CluCredit cluCredit = new CluCredit();
 
-		cluCredit.setMaxAllowableInactivity(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));
-		cluCredit.setMaxTimeResultsRecognized(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeResultsRecognized()));
-		cluCredit.setMaxTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
-		cluCredit.setMinTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
-		cluCredit.setRepeatTime(LuServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
+        cluCredit.setMaxAllowableInactivity(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));
+        cluCredit.setMaxTimeResultsRecognized(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeResultsRecognized()));
+        cluCredit.setMaxTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
+        cluCredit.setMinTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
+        cluCredit.setRepeatTime(LuServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
 
-		BeanUtils.copyProperties(cluCreditInfo,cluCredit,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
+        BeanUtils.copyProperties(cluCreditInfo,cluCredit,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
 
-		return cluCredit;
-	}
+        return cluCredit;
+    }
 
-	public static void copyCluCredit(CluCreditInfo cluCreditInfo, CluCredit entity) {
-		if(entity.getMaxAllowableInactivity()==null){
-			entity.setMaxAllowableInactivity(new TimeAmount());
-		}
-		BeanUtils.copyProperties(cluCreditInfo.getMaxAllowableInactivity(),entity.getMaxAllowableInactivity());
+    public static void copyCluCredit(CluCreditInfo cluCreditInfo, CluCredit entity) {
+        if(entity.getMaxAllowableInactivity()==null){
+            entity.setMaxAllowableInactivity(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMaxAllowableInactivity(),entity.getMaxAllowableInactivity());
 
-		if(entity.getMaxTimeResultsRecognized()==null){
-			entity.setMaxTimeResultsRecognized(new TimeAmount());
-		}
-		BeanUtils.copyProperties(cluCreditInfo.getMaxTimeResultsRecognized(),entity.getMaxTimeResultsRecognized());
+        if(entity.getMaxTimeResultsRecognized()==null){
+            entity.setMaxTimeResultsRecognized(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMaxTimeResultsRecognized(),entity.getMaxTimeResultsRecognized());
 
-		if(entity.getMaxTimeToComplete()==null){
-			entity.setMaxTimeToComplete(new TimeAmount());
-		}
-		BeanUtils.copyProperties(cluCreditInfo.getMaxTimeToComplete(),entity.getMaxTimeToComplete());
+        if(entity.getMaxTimeToComplete()==null){
+            entity.setMaxTimeToComplete(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMaxTimeToComplete(),entity.getMaxTimeToComplete());
 
-		if(entity.getMinTimeToComplete()==null){
-			entity.setMinTimeToComplete(new TimeAmount());
-		}
-		BeanUtils.copyProperties(cluCreditInfo.getMinTimeToComplete(),entity.getMinTimeToComplete());
+        if(entity.getMinTimeToComplete()==null){
+            entity.setMinTimeToComplete(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getMinTimeToComplete(),entity.getMinTimeToComplete());
 
-		if(entity.getRepeatTime()==null){
-			entity.setRepeatTime(new TimeAmount());
-		}
-		BeanUtils.copyProperties(cluCreditInfo.getRepeatTime(),entity.getRepeatTime());
+        if(entity.getRepeatTime()==null){
+            entity.setRepeatTime(new TimeAmount());
+        }
+        BeanUtils.copyProperties(cluCreditInfo.getRepeatTime(),entity.getRepeatTime());
 
-		BeanUtils.copyProperties(cluCreditInfo,entity,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
+        BeanUtils.copyProperties(cluCreditInfo,entity,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
 
-	}
+    }
 
 }

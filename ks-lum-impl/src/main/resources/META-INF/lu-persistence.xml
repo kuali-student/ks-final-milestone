@@ -12,10 +12,12 @@
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 
 		<class>org.kuali.student.lum.lu.entity.Clu</class>
+		<class>org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccounting</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccountingAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluAtpTypeKey</class>
 		<class>org.kuali.student.lum.lu.entity.CluAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluCampusLocation</class>
 		<class>org.kuali.student.lum.lu.entity.CluCluRelation</class>
 		<class>org.kuali.student.lum.lu.entity.CluCluRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluCredit</class>

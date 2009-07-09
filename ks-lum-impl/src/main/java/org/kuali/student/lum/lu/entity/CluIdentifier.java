@@ -45,6 +45,12 @@ public class CluIdentifier {
     @Column(name = "VARTN")
     private String variation;
 
+    @Column(name = "SUFX_CD")
+    private String suffixCode;
+
+    @Column(name = "ORG_ID")
+    private String orgId;
+
     @Column(name = "TYPE")
     private String type;
 
@@ -130,5 +136,21 @@ public class CluIdentifier {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSuffixCode() {
+        return suffixCode;
+    }
+
+    public void setSuffixCode(String suffixCode) {
+        this.suffixCode = suffixCode;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 }
