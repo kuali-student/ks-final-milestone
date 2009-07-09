@@ -11,6 +11,7 @@ public class ModelDTOConstraintSetupFactory implements ConstraintSetupFactory {
 
 		ModelDTOConstraintDataProvider mdp = new ModelDTOConstraintDataProvider();
 		mdp.initialize(obj);
+
 		return mdp;
 	}
 

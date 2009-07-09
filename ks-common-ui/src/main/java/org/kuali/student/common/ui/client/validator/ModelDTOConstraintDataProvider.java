@@ -23,6 +23,7 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
     
 	@Override
 	public String getObjectId() {
+	   
 	    if(modelDTO == null){
 	        return null;
 	    }
@@ -83,11 +84,9 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
 
 	@Override
 	public void initialize(Object o) {
-	    MapContext ctx = new MapContext();
-	    try {
-            modelDTO = ctx.fromBean(o);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	    if(o instanceof ModelDTO){
+	        System.out.println(o);
+	        modelDTO = (ModelDTO)o;
+	    }
 	}
 }
