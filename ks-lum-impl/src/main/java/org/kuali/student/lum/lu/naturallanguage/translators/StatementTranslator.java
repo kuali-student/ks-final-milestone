@@ -98,6 +98,7 @@ public class StatementTranslator {
 	 */
 	public void setReqComponentTranslator(final ReqComponentTranslator reqComponentTranslator) {
 		this.reqComponentTranslator = reqComponentTranslator;
+		setLanguage();
 	}
 
 	/**
@@ -107,6 +108,7 @@ public class StatementTranslator {
 	 */
     public void setMessageBuilder(final NaturalLanguageMessageBuilder messageBuilder) {
 		this.messageBuilder = messageBuilder;
+		setLanguage();
     }
 
     /**

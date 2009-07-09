@@ -1,5 +1,6 @@
 package org.kuali.student.lum.lu.naturallanguage.translators;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class NaturalLanguageMessageBuilder {
     private String language;
     private BooleanOperators booleanOperators;
     private Map<String, BooleanOperators> booleanOperatorsLanguageMap;
+    private final Map<String, MessageBuilder> messageBuilderMap = new HashMap<String, MessageBuilder>();
 
     /**
      * Constructs a new natural language message builder in the default
@@ -29,7 +31,7 @@ public class NaturalLanguageMessageBuilder {
 		this.language = Locale.getDefault().getLanguage();
 		this.executor = executor;
 		this.booleanOperators = new BooleanOperators("and", "or");
-		createMessageBuilder();
+		setup();
 	}
 
 	/**
@@ -43,7 +45,7 @@ public class NaturalLanguageMessageBuilder {
 		this.language = language;
 		this.executor = executor;
 		this.booleanOperators = booleanOperators;
-		createMessageBuilder();
+		setup();
 	}
 
 	/**
@@ -58,7 +60,7 @@ public class NaturalLanguageMessageBuilder {
 		this.executor = executor;
 		this.language = language;
 		this.booleanOperatorsLanguageMap = booleanOperatorsLanguageMap;
-		createMessageBuilder();
+		setup();
 	}
 
 	/**
@@ -77,7 +79,7 @@ public class NaturalLanguageMessageBuilder {
 	 */
 	public void setLanguage(final String language) {
 		this.language = language;
-		createMessageBuilder();
+		setup();
 	}
 
 	/**
@@ -92,11 +94,23 @@ public class NaturalLanguageMessageBuilder {
 	}
 
 	/**
-	 * Creates the message builder.
+	 * Setup message builder.
 	 */
-	private void createMessageBuilder() {
+	private void setup() {
+		if(this.messageBuilderMap.containsKey(this.language)) {
+			this.messageBuilder = this.messageBuilderMap.get(this.language);
+		} else {
+			this.messageBuilder = createMessageBuilder();
+			this.messageBuilderMap.put(this.language, this.messageBuilder);
+		}
+	}
+
+	/**
+	 * Creates message builder.
+	 */
+	private MessageBuilder createMessageBuilder() {
 		if(this.booleanOperators != null) {
-			this.messageBuilder = new MessageBuilderImpl(this.executor, this.language, this.booleanOperators);
+			return new MessageBuilderImpl(this.executor, this.language, this.booleanOperators);
 		} else {
 			if(this.booleanOperatorsLanguageMap == null) {
 				throw new RuntimeException("Boolean operators language map not found. Language key: " + this.language);
@@ -105,7 +119,7 @@ public class NaturalLanguageMessageBuilder {
 			if(booleanOperators == null) {
 				throw new RuntimeException("Boolean operators not found for language key: " + this.language);
 			}
-			this.messageBuilder = new MessageBuilderImpl(this.executor, this.language, booleanOperators);
+			return new MessageBuilderImpl(this.executor, this.language, booleanOperators);
 		}
 	}
 }

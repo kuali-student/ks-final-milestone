@@ -565,6 +565,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals(updReq.getDesc(), "Req Comp 3");
         assertEquals(updReq.getReqCompField().size(), 0);
     }
+
     @Test
     public void testUpdateReqComponentField() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
 
@@ -602,7 +603,6 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals("reqCompFieldType.clu", newrcfInfo.getId());       
     }
     
-    
     @Test
     public void testDeleteReqComponent() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
         StatusInfo si;
@@ -626,7 +626,7 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         String nl = client.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.CATALOG", "en");
         assertEquals("Student needs a minimum GPA of 3.5", nl);
     }
-	
+
 	@Test
 	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = client.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
@@ -1010,4 +1010,5 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
 		rootNode = client.getNaturalLanguageForStatementInfoAsTree("CLU-NL-1", statementInfo, "KUALI.CATALOG", "en");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
+
 }

@@ -53,4 +53,11 @@ public class CustomCluSet {
 	private String getString(StringBuilder sb) {
 		return (sb.length() == 0 ? "No Clus available in CluSet" : sb.toString().substring(0, sb.toString().length() - 2));
 	}
+	
+	public String toString() {
+		if(this.cluSet == null) {
+			return "Null CluSet";
+		}
+		return "id=" + this.cluSet.getId();
+	}
 }
