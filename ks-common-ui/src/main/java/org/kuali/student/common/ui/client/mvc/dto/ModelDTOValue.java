@@ -20,7 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.validator.ClientDateParser;
+import org.kuali.student.common.ui.client.validator.DateParserFactory;
+import org.kuali.student.common.validator.DateParser;
 
 /**
  * This interface is used to constrain the types allowed within a ModelDTO.
@@ -342,10 +343,10 @@ public interface ModelDTOValue extends Serializable {
 	public static class DateType implements StringSupportedValue {
 		private static final long serialVersionUID = 1L;
 		private Date value = null;
-		private ClientDateParser dateParser = new ClientDateParser();
+		private DateParser dateParser;
 	    
 		public DateType() {
-			
+			dateParser = DateParserFactory.getDateParser();
 		}
 		
 	    @Override
@@ -375,7 +376,7 @@ public interface ModelDTOValue extends Serializable {
         public void setString(String value) {
             value = value.trim();
             this.value = dateParser.parseDate(value);
-        }
+        }        
 	}
 
 

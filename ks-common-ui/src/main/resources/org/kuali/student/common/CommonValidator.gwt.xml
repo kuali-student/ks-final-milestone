@@ -7,6 +7,7 @@
 		<include name="ConstraintSetupFactory.java"/>
 		<include name="DateParseException.java"/>
 		<include name="DateParser.java"/>
+		<include name="ServerDateParser.java"/>
 		<include name="ModelDTOConstraintDataProvider.java"/>
 		<include name="ModelDTOConstraintSetupFactory.java"/>
 		<include name="Validator.java"/>
