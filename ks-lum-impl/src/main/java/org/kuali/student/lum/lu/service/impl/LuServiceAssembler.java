@@ -172,6 +172,7 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setCampusLocationList(campusLocations);
 
         dto.setIntensity(toTimeAmountInfo(entity.getIntensity()));
+        dto.setAccreditationList(toAccreditationInfos(entity.getAccreditationList()));
 
         return dto;
 
@@ -957,6 +958,30 @@ public class LuServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(cluCreditInfo.getRepeatTime(),entity.getRepeatTime());
 
         BeanUtils.copyProperties(cluCreditInfo,entity,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
+
+    }
+    
+    public static List<AccreditationInfo> toAccreditationInfos(List<CluAccreditation> entities) {
+        List<AccreditationInfo> dtos = new ArrayList<AccreditationInfo>(entities.size());
+        for (CluAccreditation entity : entities) {
+            dtos.add(toAccreditationInfo(entity));
+        }
+        return dtos;
+
+    }
+
+    public static AccreditationInfo toAccreditationInfo(CluAccreditation entity) {
+        if(entity==null){
+            return null;
+        }
+        AccreditationInfo dto = new AccreditationInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] {"attributes" });
+
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
 
     }
 

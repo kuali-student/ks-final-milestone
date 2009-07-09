@@ -168,6 +168,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     )})
     private TimeAmount intensity;
 
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinTable(name = "KSLU_CLU_JN_CLU_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ACCRED_ORG_ID"))
+    private List<CluAccreditation> accreditationList;
 
     @Override
     protected void onPrePersist() {
@@ -497,6 +500,15 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         this.intensity = intensity;
     }
 
+    public List<CluAccreditation> getAccreditationList() {
+        if (accreditationList == null) {
+            accreditationList = new ArrayList<CluAccreditation>();
+        }
+        return accreditationList;
+    }
 
+    public void setAccreditationList(List<CluAccreditation> accreditationList) {
+        this.accreditationList = accreditationList;
+    }
 
 }

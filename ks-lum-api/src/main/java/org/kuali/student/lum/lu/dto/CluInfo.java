@@ -227,11 +227,21 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     /**
      * The organization responsible for accrediting the program.
+     * 
+     * Replaced by accreditationList
+     * 
+     * @deprecated
      */
     public String getAccreditingOrg() {
         return accreditingOrg;
     }
 
+    /**
+     *
+     * Replaced by accreditationList
+     * 
+     * @deprecated
+     */
     public void setAccreditingOrg(String accreditingOrg) {
         this.accreditingOrg = accreditingOrg;
     }
@@ -240,6 +250,9 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
      * Information around the accreditation of the clu.
      */
     public List<AccreditationInfo> getAccreditationList() {
+        if (accreditationList == null) {
+            accreditationList = new ArrayList<AccreditationInfo>();
+        }
         return accreditationList;
     }
 

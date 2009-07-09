@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -39,6 +38,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
@@ -66,6 +66,8 @@ import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
+import org.kuali.student.lum.lu.entity.CluAccreditation;
+import org.kuali.student.lum.lu.entity.CluAccreditationAttribute;
 import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
 import org.kuali.student.lum.lu.entity.CluAttribute;
 import org.kuali.student.lum.lu.entity.CluCampusLocation;
@@ -445,6 +447,14 @@ public class LuServiceImpl implements LuService {
             locations.add(location);
         }
 
+        List<CluAccreditation> accreditations = clu.getAccreditationList();
+        for(AccreditationInfo accreditationInfo: cluInfo.getAccreditationList()){
+            CluAccreditation accreditation = new CluAccreditation();
+            BeanUtils.copyProperties(accreditationInfo,accreditation,new String[]{"attributes"});
+            accreditation.setAttributes(LuServiceAssembler.toGenericAttributes(CluAccreditationAttribute.class, accreditationInfo.getAttributes(), accreditation, luDao));
+            accreditations.add(accreditation);
+        }
+        
         //Now copy all not standard properties
         BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
                 "primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo",
@@ -2298,16 +2308,16 @@ public class LuServiceImpl implements LuService {
         
         //Update the list of academicSubjectOrgs
         //Get a map of Id->object of all the currently persisted objects in the list
-        Map<String, CluAcademicSubjectOrg> oldSubjOrgMap = new HashMap<String, CluAcademicSubjectOrg>();
+        Map<String, CluAcademicSubjectOrg> oldOrgMap = new HashMap<String, CluAcademicSubjectOrg>();
         for(CluAcademicSubjectOrg subjOrg : clu.getAcademicSubjectOrgs()){
-            oldSubjOrgMap.put(subjOrg.getOrgId(),subjOrg);
+            oldOrgMap.put(subjOrg.getOrgId(),subjOrg);
         }
         clu.getAcademicSubjectOrgs().clear();
 
         //Loop through the new list, if the item exists already update and remove from the list
         //otherwise create a new entry
         for(String orgId : cluInfo.getAcademicSubjectOrgs()){
-            CluAcademicSubjectOrg subjOrg = oldSubjOrgMap.remove(orgId);
+            CluAcademicSubjectOrg subjOrg = oldOrgMap.remove(orgId);
             if(subjOrg == null){
                 subjOrg = new CluAcademicSubjectOrg();
             }
@@ -2317,23 +2327,23 @@ public class LuServiceImpl implements LuService {
         }
 
         //Now delete anything left over
-        for(Entry<String, CluAcademicSubjectOrg> entry:oldSubjOrgMap.entrySet()){
+        for(Entry<String, CluAcademicSubjectOrg> entry:oldOrgMap.entrySet()){
             luDao.delete(entry.getValue());
         }
         
         
         //Update the list of campusLocations
         //Get a map of Id->object of all the currently persisted objects in the list
-        Map<String, CluCampusLocation> oldLocations = new HashMap<String, CluCampusLocation>();
+        Map<String, CluCampusLocation> oldLocationsMap = new HashMap<String, CluCampusLocation>();
         for(CluCampusLocation campus : clu.getCampusLocationList()){
-            oldLocations.put(campus.getCampusLocation(),campus);
+            oldLocationsMap.put(campus.getCampusLocation(),campus);
         }
         clu.getCampusLocationList().clear();
 
         //Loop through the new list, if the item exists already update and remove from the list
         //otherwise create a new entry
         for(String locationName : cluInfo.getCampusLocationList()){
-            CluCampusLocation location = oldLocations.remove(locationName);
+            CluCampusLocation location = oldLocationsMap.remove(locationName);
             if(location == null){
                 location = new CluCampusLocation();
             }
@@ -2343,10 +2353,35 @@ public class LuServiceImpl implements LuService {
         }
 
         //Now delete anything left over
-        for(Entry<String, CluCampusLocation> entry:oldLocations.entrySet()){
+        for(Entry<String, CluCampusLocation> entry:oldLocationsMap.entrySet()){
             luDao.delete(entry.getValue());
         }
 
+        //Update the List of accreditations
+        //Get a map of Id->object of all the currently persisted objects in the list
+        Map<String, CluAccreditation> oldAccreditationMap = new HashMap<String, CluAccreditation>();
+        for(CluAccreditation cluAccreditation : clu.getAccreditationList()){
+            oldAccreditationMap.put(cluAccreditation.getOrgId(),cluAccreditation);
+        }
+        clu.getAccreditationList().clear();
+
+        //Loop through the new list, if the item exists already update and remove from the list
+        //otherwise create a new entry
+        for(AccreditationInfo accreditationInfo : cluInfo.getAccreditationList()){
+            CluAccreditation cluAccreditation = oldAccreditationMap.remove(accreditationInfo.getOrgId());
+            if(cluAccreditation == null){
+                cluAccreditation = new CluAccreditation();
+            }
+            //Do Copy
+            BeanUtils.copyProperties(accreditationInfo,cluAccreditation,new String[]{"attributes"});
+            cluAccreditation.setAttributes(LuServiceAssembler.toGenericAttributes(CluAccreditationAttribute.class, accreditationInfo.getAttributes(), cluAccreditation, luDao));
+            clu.getAccreditationList().add(cluAccreditation);
+        }
+
+        //Now delete anything left over
+        for(Entry<String, CluAccreditation> entry:oldAccreditationMap.entrySet()){
+            luDao.delete(entry.getValue());
+        }
         
         //Now copy all not standard properties
         BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
