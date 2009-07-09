@@ -442,7 +442,7 @@ public class CluProposalRpcGwtServletCollabAsWorkflow extends BaseRpcGwtServletA
 	}
 	
 	@Override
-    public Boolean addCollaborator(String docId, String recipientPrincipalId){
+    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy){
 		aquireSimpleDocService();
 		
 		try{
@@ -514,7 +514,7 @@ public class CluProposalRpcGwtServletCollabAsWorkflow extends BaseRpcGwtServletA
     }
 
 	@Override
-    public ArrayList<String> getCollaborators(String docId){
+    public HashMap<String, ArrayList<String>> getCollaborators(String docId){
 		aquireWorkflowUtilityService();
 		
 		ArrayList<String> users = new ArrayList<String>();
@@ -527,7 +527,7 @@ public class CluProposalRpcGwtServletCollabAsWorkflow extends BaseRpcGwtServletA
         		}
         	}
         }
-		return users;
+		return null;
     }
 	
 	@Override

@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.client.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 
@@ -41,7 +42,7 @@ public interface CluProposalRpcService extends BaseRpcService{
     public Boolean approveProposal(CluProposal cluProposal);
     public Boolean disapproveProposal(CluProposal cluProposal);
     public Boolean acknowledgeProposal(CluProposal cluProposal);
-    public Boolean addCollaborator(String docId, String recipientPrincipalId);
-    public ArrayList<String> getCollaborators(String docId);
+    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy);
+    public HashMap<String, ArrayList<String>> getCollaborators(String docId);
     public Boolean loginBackdoor(String backdoorId);
 }

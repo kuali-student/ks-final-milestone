@@ -551,7 +551,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 	
 	@Override
-    public Boolean addCollaborator(String docId, String recipientPrincipalId){
+    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy){
 		aquireSimpleDocService();
 		
 		try{
@@ -570,8 +570,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
 
 	@Override
-    public ArrayList<String> getCollaborators(String docId){
+    public HashMap<String, ArrayList<String>> getCollaborators(String docId){
+		//FIXME put in matching for 4 collaborator types
 		aquireWorkflowUtilityService();
+		
+		HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
 		
 		ArrayList<String> users = new ArrayList<String>();
 		
@@ -583,7 +586,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         		}
         	}
         }
-		return users;
+        
+        results.put("Co-Authors", users);
+		return results;
     }
 	
 	@Override
