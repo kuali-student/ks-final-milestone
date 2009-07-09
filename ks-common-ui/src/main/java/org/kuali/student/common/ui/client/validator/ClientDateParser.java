@@ -2,6 +2,8 @@ package org.kuali.student.common.ui.client.validator;
 
 import java.util.Date;
 
+import javax.swing.text.DateFormatter;
+
 import org.kuali.student.common.validator.DateParseException;
 import org.kuali.student.common.validator.DateParser;
 
@@ -30,5 +32,14 @@ public class ClientDateParser implements DateParser {
         }
         
         return result;
+    }
+    
+    public String toString(Date date){
+        String result = null;
+        DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-ddTHH:mm:ss,SSS");
+        result = format.format(date);
+        
+        return result;
+        
     }
 }
