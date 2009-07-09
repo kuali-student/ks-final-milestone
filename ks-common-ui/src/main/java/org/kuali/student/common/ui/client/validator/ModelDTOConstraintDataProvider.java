@@ -14,6 +14,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.MapType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
+import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.common.validator.ConstraintDataProvider;
 
 public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
@@ -33,10 +35,15 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
 
 	@Override
 	public Object getValue(String fieldKey) {
+	
 		if(modelDTO == null){
 		    return null;    
 		}
+	
 		ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
+		if(modelDTOValue == null){
+		    return null;
+		}
 		switch(modelDTOValue.getType()){
             case STRING:
                 return ((StringType)modelDTOValue).get();
@@ -76,10 +83,13 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
 
 	@Override
 	public void initialize(Object o) {
-		if(o instanceof ModelDTO == false){
-		    return;
-		}
-		modelDTO = (ModelDTO) o;
+
+	    MapContext ctx = new MapContext();
+	    try {
+            modelDTO = ctx.fromBean(o);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		
 	}
 

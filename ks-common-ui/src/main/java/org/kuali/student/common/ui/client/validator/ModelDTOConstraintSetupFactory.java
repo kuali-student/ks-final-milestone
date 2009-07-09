@@ -8,6 +8,7 @@ public class ModelDTOConstraintSetupFactory implements ConstraintSetupFactory {
 
 	@Override
 	public ConstraintDataProvider getDataProvider(Object obj) {
+
 		ModelDTOConstraintDataProvider mdp = new ModelDTOConstraintDataProvider();
 		mdp.initialize(obj);
 		return mdp;
