@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.validator;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
@@ -14,8 +16,6 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.MapType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
-import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
-import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.common.validator.ConstraintDataProvider;
 
 public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
@@ -65,10 +65,11 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
             case DATE:
                 return ((DateType) modelDTOValue).get();
             case LIST:
-                return ((ListType) modelDTOValue).get();
+                return ((ListType) modelDTOValue). getBaseTypeList();
             case MAP:
                 return ((MapType) modelDTOValue).get();
             case MODELDTO:
+               
                 return ((ModelDTOType) modelDTOValue).get();
         }
         return null;
@@ -84,10 +85,11 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
 
     @Override
     public void initialize(Object o) {
+        
         if (o instanceof ModelDTO) {
             modelDTO = (ModelDTO) o;
         } else {
-            throw new IllegalArgumentException("The object must be an instance of ModelDTO");
+            throw new IllegalArgumentException("The object must be an instance of ModelDTO.");
         }
     }
 }

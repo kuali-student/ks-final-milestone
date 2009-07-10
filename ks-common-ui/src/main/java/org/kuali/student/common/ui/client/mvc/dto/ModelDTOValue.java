@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.mvc.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -430,6 +431,42 @@ public interface ModelDTOValue extends Serializable {
 		public List<ModelDTOValue> get() {
 			return this.value;
 		}
+        public List getBaseTypeList() {
+            List list = new ArrayList();
+            for (ModelDTOValue modelDTOValue : value) {
+
+                switch (modelDTOValue.getType()) {
+                    case STRING:
+                        list.add(((StringType) modelDTOValue).get());
+                    case CHARACTER:
+                        list.add(((CharacterType) modelDTOValue).get());
+                    case INTEGER:
+                        list.add(((IntegerType) modelDTOValue).get());
+                    case LONG:
+                        list.add(((LongType) modelDTOValue).get());
+                    case FLOAT:
+                        list.add(((FloatType) modelDTOValue).get());
+                    case DOUBLE:
+                        list.add(((DoubleType) modelDTOValue).get());
+                    case BYTE:
+                        list.add(((ByteType) modelDTOValue).get());
+                    case BOOLEAN:
+                        list.add(((BooleanType) modelDTOValue).get());
+                    case DATE:
+                        list.add(((DateType) modelDTOValue).get());
+                        // case LIST:
+                        // return ((ListType) modelDTOValue).get();
+                        // case MAP:
+                        // return ((MapType) modelDTOValue).get();
+                    case MODELDTO:
+
+                        list.add(((ModelDTOType) modelDTOValue).get());
+                }
+
+            }
+
+            return list;
+        }
 		public void set(List<ModelDTOValue> value) {
 			this.value = value;
 		}
