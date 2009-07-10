@@ -18,5 +18,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 	<jaxws:endpoint id="orgService"
 		implementorClass="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl"
 		implementor="#orgServiceImpl" address="/OrgService" />
+    <jaxws:endpoint id="translationService"
+        implementorClass="org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl"
+        implementor="#translationServiceImpl" address="/TranslationService" />
 
 </beans>

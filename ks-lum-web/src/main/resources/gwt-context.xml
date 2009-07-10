@@ -84,6 +84,7 @@
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet" class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
 		<property name="service" ref="luClient"/>
+        <property name="translationService" ref="translationClient"/>
 	</bean>
 	
 	<bean id="LuRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
@@ -120,7 +121,7 @@
 		class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
 	</bean>
 
-	<!-- Service Clients -->
+	<!-- Lu Service Client -->
 	<bean id="luClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation"
@@ -133,6 +134,19 @@
 			value="${ks.lum.serviceAddress}"/>
 	</bean>
 	
+    <!-- Translation Service Client -->
+    <bean id="translationClient"
+        class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+        <property name="wsdlLocation"
+            value="classpath:META-INF/wsdl/TranslationService.wsdl" />
+        <property name="serviceEndpointInterface"
+            value="org.kuali.student.lum.nlt.service.TranslationService" />
+        <property name="serviceQNameString"
+            value="{http://student.kuali.org/lum/nlt}TranslationService" />
+        <property name="address"
+            value="${ks.lum.nlt.serviceAddress}" />
+    </bean>
+
 	<bean id="orgClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation"
@@ -141,7 +155,8 @@
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
-		<property name="address" value="${ks.core.org.serviceAddress}"/>		
+		<property name="address" 
+            value="${ks.core.org.serviceAddress}"/>		
 	</bean>
 		
 

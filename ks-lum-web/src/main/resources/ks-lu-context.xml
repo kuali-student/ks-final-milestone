@@ -121,6 +121,12 @@
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 	</bean>
 
+    <bean id="translationServiceImpl"
+        class="org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl">
+        <property name="luDao" ref="luDao" />
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+    </bean>
+
 	<bean id="luSearchManager"
 		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
 		autowire="byType">

@@ -173,32 +173,32 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				}
 				public void onSuccess(HashMap<String,ArrayList<String>> result) {
 					coAuthorUserIds.clear();
-					if(result.containsKey("Co-Authors")){
-						for(String id:result.get("Co-Authors")){
+					if(result.containsKey("Co-Author")){
+						for(String id:result.get("Co-Author")){
 							coAuthorUserIds.add(new KSLabel(id));
 						}
 						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
 					}
 					
 					commentorUserIds.clear();
-					if(result.containsKey("Commentors")){
-						for(String id:result.get("Commentors")){
+					if(result.containsKey("Commentor")){
+						for(String id:result.get("Commentor")){
 							commentorUserIds.add(new KSLabel(id));
 						}
 						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
 					}
 					
 					viewersUserIds.clear();
-					if(result.containsKey("Viewers")){
-						for(String id:result.get("Viewers")){
+					if(result.containsKey("Viewer")){
+						for(String id:result.get("Viewer")){
 							viewersUserIds.add(new KSLabel(id));
 						}
 						viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
 					}
 					
 					delegatesUserIds.clear();
-					if(result.containsKey("Delegates")){
-						for(String id:result.get("Delegates")){
+					if(result.containsKey("Delegate")){
+						for(String id:result.get("Delegate")){
 							delegatesUserIds.add(new KSLabel(id));
 						}
 						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
@@ -220,16 +220,16 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				public void onSuccess(Boolean result) {
 					userIdField.setValue("");
 					//Add to the list and no refresh even though we should because rice has a timing issue
-					if("Co-Authors".equals(collabType)){
+					if("Co-Author".equals(collabType)){
 						coAuthorUserIds.add(new KSLabel(recipientPrincipalId));
 						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");						
-					}else if("Commentors".equals(collabType)){
+					}else if("Commentor".equals(collabType)){
 						commentorUserIds.add(new KSLabel(recipientPrincipalId));
 						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
-					}else if("Viewers".equals(collabType)){
+					}else if("Viewer".equals(collabType)){
 						viewersUserIds.add(new KSLabel(recipientPrincipalId));
 						viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
-					}else if("Delegates".equals(collabType)){
+					}else if("Delegate".equals(collabType)){
 						delegatesUserIds.add(new KSLabel(recipientPrincipalId));
 						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
 					}

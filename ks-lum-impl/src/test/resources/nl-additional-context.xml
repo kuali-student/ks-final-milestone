@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
-    <bean id="courseListContext" class="org.kuali.student.lum.lu.naturallanguage.contexts.CourseListContextImpl">
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="mapExceptionAdvisor"
+        class="org.kuali.student.common.util.ExceptionMappingAdvice">
+        <property name="defaultException"
+            value="org.kuali.student.core.exceptions.OperationFailedException" />
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                <entry
+                    key="org.hibernate.exception.ConstraintViolationException"
+                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="mapExceptionAdvisor">
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.lum.nlt.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="courseListContext" class="org.kuali.student.lum.nlt.naturallanguage.context.CourseListContextImpl">
         <property name="luDao" ref="LuDaoImpl" />
     </bean>
     
     <bean id="contextRegistry"
-        class="org.kuali.student.lum.lu.naturallanguage.ContextRegistry">
+        class="org.kuali.student.lum.nlt.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
 	            <!-- Header Contexts-->
                 <entry key="kuali.luStatementType.prereqAcademicReadiness">
-                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.HeaderContextImpl">
+                    <bean class="org.kuali.student.lum.nlt.naturallanguage.context.HeaderContextImpl">
                         <property name="luDao" ref="LuDaoImpl" />
                     </bean>
                 </entry>
@@ -32,12 +59,12 @@
                     <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.grdCondCourseList">
-                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeConditionCourseListContextImpl">
+                    <bean class="org.kuali.student.lum.nlt.naturallanguage.context.GradeConditionCourseListContextImpl">
                         <property name="luDao" ref="LuDaoImpl" />
                     </bean>
                 </entry>
                 <entry key="kuali.reqCompType.gradecheck">
-                    <bean class="org.kuali.student.lum.lu.naturallanguage.contexts.GradeCheckContextImpl">
+                    <bean class="org.kuali.student.lum.nlt.naturallanguage.context.GradeCheckContextImpl">
                         <property name="luDao" ref="LuDaoImpl" />
                     </bean>
                 </entry>
@@ -105,21 +132,21 @@
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.lum.lu.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        class="org.kuali.student.lum.nlt.naturallanguage.translators.NaturalLanguageMessageBuilder">
         <constructor-arg index="0" ref="droolsExecutor" />
         <constructor-arg index="1" value="en" />
         <constructor-arg index="2" ref="booleanOperatorLanguageMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
-        class="org.kuali.student.lum.lu.naturallanguage.translators.ReqComponentTranslator">
+        class="org.kuali.student.lum.nlt.naturallanguage.translators.ReqComponentTranslator">
         <property name="luDao" ref="LuDaoImpl" />
         <property name="contextRegistry" ref="contextRegistry" />
         <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="statementTranslator"
-        class="org.kuali.student.lum.lu.naturallanguage.translators.StatementTranslator">
+        class="org.kuali.student.lum.nlt.naturallanguage.translators.StatementTranslator">
         <property name="luDao" ref="LuDaoImpl" />
         <property name="contextRegistry" ref="contextRegistry" />
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
@@ -128,7 +155,7 @@
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.lum.lu.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.lum.nlt.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
         <property name="language" value="en" />

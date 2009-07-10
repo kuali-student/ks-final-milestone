@@ -87,6 +87,7 @@
 	<bean id="requirementsRpcGwtServlet"
 		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
 		<property name="service" ref="luClient" />
+		<property name="translationService" ref="translationClient"/>
 	</bean>
 
 	<bean id="LuRpcGwtServlet"
@@ -128,7 +129,7 @@
 		</property>
 	</bean>
 
-	<!-- Service Clients -->
+	<!-- Lu Service Client -->
 	<bean id="luClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation"
@@ -140,6 +141,19 @@
 		<property name="address"
 			value="http://localhost:8080/ks-lum-web/services/LuService" />
 	</bean>
+
+    <!-- Translation Service Client -->
+    <bean id="translationClient"
+        class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+        <property name="wsdlLocation"
+            value="classpath:META-INF/wsdl/TranslationService.wsdl" />
+        <property name="serviceEndpointInterface"
+            value="org.kuali.student.lum.nlt.service.TranslationService" />
+        <property name="serviceQNameString"
+            value="{http://student.kuali.org/lum/nlt}TranslationService" />
+        <property name="address"
+            value="http://localhost:8080/ks-lum-web/services/TranslationService" />
+    </bean>
 
 	<bean id="orgClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">

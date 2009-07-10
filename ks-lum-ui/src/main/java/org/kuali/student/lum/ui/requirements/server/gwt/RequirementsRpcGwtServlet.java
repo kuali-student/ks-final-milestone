@@ -21,18 +21,19 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * @author Zdenek Zraly
  */
 public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements RequirementsRpcService {
 
+    private TranslationService translationService;
+    
     private static final long serialVersionUID = 822326113643828855L;
 
     public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {       
@@ -53,7 +54,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         String naturalLanguage = "";           
         
         try {             
-            naturalLanguage = service.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey, null);            
+            naturalLanguage = translationService.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey, null);            
         } catch (DoesNotExistException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {
@@ -80,7 +81,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         //then get natural language for the statement
         String NLStatement = "";
         try {        
-            NLStatement = service.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
+            NLStatement = translationService.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey, ex);
@@ -352,12 +353,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
      *                                                     GETTERS & SETTERS 
      *
      *******************************************************************************************************************/         
-        
-    public LuService getService() {
-        return service;
-    }
 
-    public void setService(LuService service) {
-        this.service = service;
+    public void setTranslationService(TranslationService translationService) {
+        this.translationService = translationService;
     }   
 }
