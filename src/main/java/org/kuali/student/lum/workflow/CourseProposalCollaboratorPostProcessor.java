@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.resource.spi.work.WorkListener;
-
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
@@ -82,15 +80,20 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 		matcher.find();
 		String principalId = matcher.group(1);
 		
+	   	pattern = Pattern.compile("<collaboratorType>\\s*([^<\\s]+)");
+		matcher = pattern.matcher(document.getApplicationContent());
+		matcher.find();
+		String collaboratorType = matcher.group(1);
+		
 		String annotation = "Collaborator Approved";
 	    
        	try {
-			WorkflowDocument workflowDocument = new WorkflowDocument(docId, principalId);
+			WorkflowDocument workflowDocument = new WorkflowDocument(principalId, new Long(docId));
 			if (workflowDocument.getNodeNames().length == 0) {
 				throw new RuntimeException("No active nodes found on document");
 			}
 			String collaborateAtNodeName = workflowDocument.getNodeNames()[0];
-			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, collaborateAtNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, "Collaborate");
+			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, collaborateAtNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, collaboratorType);
 		} catch (WorkflowException e) {
 			e.printStackTrace();
 		}
