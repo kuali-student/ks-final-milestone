@@ -20,14 +20,16 @@ public class HorizontalNestedSection extends NestedSection{
     
     
     @Override
-    public void updateModel(Model<ModelDTO> model) {
-        ModelDTO modelDTO = model.get();
+    public void updateModel(ModelDTO modelDTO) {
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
+            if (field.getFieldWidget() instanceof MultiplicityComposite){
+                ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
+            }           
             field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
         }
         for(NestedSection s: sections){
-            s.updateModel(model);
+            s.updateModel(modelDTO);
         }
     }
 
@@ -65,14 +67,13 @@ public class HorizontalNestedSection extends NestedSection{
 
 
     @Override
-    public void updateView(Model<ModelDTO> model) {
-        ModelDTO modelDTO = model.get();
+    public void updateView(ModelDTO modelDTO) {
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
             field.getWidgetBinding().setValue(field.getFieldWidget(), field.getPropertyBinding().getValue(modelDTO));
         }
         for(NestedSection s: sections){
-            s.updateView(model);
+            s.updateView(modelDTO);
         }
     }
 

@@ -5,7 +5,6 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -95,7 +94,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
             field.getWidgetBinding().setValue(field.getFieldWidget(), field.getPropertyBinding().getValue(modelDTO));
         }
         for(NestedSection s: sections){
-            s.updateView(model);
+            s.updateView(model.get());
         }
 	}
 			
@@ -123,7 +122,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
             field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
         }
         for(NestedSection s: sections){
-            s.updateModel(model);
+            s.updateModel(model.get());
         }            
     }
 }

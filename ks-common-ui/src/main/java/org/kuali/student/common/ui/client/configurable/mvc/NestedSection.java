@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section.SectionTitleType;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
 public abstract class NestedSection extends Composite implements ConfigurableLayoutSection{
     
     
-    public abstract void updateModel(Model<ModelDTO> model);
-    public abstract void updateView(Model<ModelDTO> model);
+    public abstract void updateModel(ModelDTO modelDTO);
+    public abstract void updateView(ModelDTO modelDTO);
     public abstract void clear();
     public abstract void redraw();
     

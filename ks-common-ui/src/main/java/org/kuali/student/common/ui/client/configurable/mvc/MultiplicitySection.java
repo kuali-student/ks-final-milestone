@@ -121,14 +121,10 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
             
             field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
         }
-
-        //TODO: Support nested sections in multiplicity section
-        /*
-        for(NestedSection s: sections){
-            s.updateModel(model);
-        }
-        */
         
+        for(NestedSection s: sections){
+            s.updateModel(modelDTO);
+        }        
     }
 
     public void clear(){
