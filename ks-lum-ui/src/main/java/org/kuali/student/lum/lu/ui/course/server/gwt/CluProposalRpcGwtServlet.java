@@ -563,7 +563,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         if(items!=null){
         	for(ActionRequestDTO item:items){
         		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
-        			if(item.getRequestLabel().startsWith("Co-Authors")){
+        			if(item.getRequestLabel().startsWith("Co-Author")){
 	        			coAuthors.add(item.getPrincipalId());
 	        		}
 	        		else if(item.getRequestLabel().startsWith("Commentor")){
