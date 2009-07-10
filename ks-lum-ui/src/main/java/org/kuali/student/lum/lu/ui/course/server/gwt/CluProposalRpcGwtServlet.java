@@ -269,7 +269,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	    	List<String> collegeIds = new ArrayList<String>();
 	    	
 	    	if(orgId!=null){
-	    		orgService.getOrganization(orgId).getShortName();
+	    		departmentId = orgService.getOrganization(orgId).getShortName();
 		    	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
 		    	if(relations!=null){
 		    		for(OrgOrgRelationInfo relation:relations){
