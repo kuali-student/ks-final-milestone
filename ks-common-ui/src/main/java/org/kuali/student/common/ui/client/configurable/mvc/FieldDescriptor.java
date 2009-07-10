@@ -15,18 +15,7 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.Date;
-
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ByteType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.CharacterType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DateType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DoubleType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.FloatType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.IntegerType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 

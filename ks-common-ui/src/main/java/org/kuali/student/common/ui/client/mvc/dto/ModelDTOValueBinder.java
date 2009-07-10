@@ -112,7 +112,7 @@ public class ModelDTOValueBinder {
                     break;
                     
                 default:
-                    ((HasModelDTOValue)w).setModelDTOValue(m);
+                    ((HasModelDTOValue)w).setValue(m);
             }
         }
     }

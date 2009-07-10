@@ -23,9 +23,10 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -37,10 +38,16 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+/**
+ * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public abstract class MultiplicityComposite extends Composite implements HasModelDTOValue{
         
-    private DockPanel mainPanel;
-    private VerticalPanel itemsPanel;
+    private FlowPanel mainPanel = new FlowPanel();
+    private FlowPanel itemsPanel = new FlowPanel();
     private ModelDTOValue.ListType modelDTOList;
     private List<HasModelDTOValue> modelDTOValueWidgets;
     private boolean loaded = false;
@@ -52,36 +59,36 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      *
      */
     private class MultiplicityItemWidgetDecorator extends Composite{
-        DockPanel dockPanel;
+        FlowPanel itemPanel;
         Widget listItem;
         
         KSButton removeButton = new KSButton("-", new ClickHandler(){
             public void onClick(ClickEvent event) {
-                ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getModelDTOValue(); 
+                ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getValue(); 
                 modelDTOList.get().remove(listItemValue);
                 itemsPanel.remove(MultiplicityItemWidgetDecorator.this);
+                modelDTOValueWidgets.remove(listItem);
             }            
         });        
         
         private MultiplicityItemWidgetDecorator(Widget listItem){
-            dockPanel = new DockPanel();
+            itemPanel = new FlowPanel();
             this.listItem = listItem;
-            initWidget(dockPanel);
+            initWidget(itemPanel);
             if (listItem instanceof MultiplicityComposite){
                 ((MultiplicityComposite)listItem).redraw();
             }
-            dockPanel.add(removeButton, DockPanel.EAST);            
-            dockPanel.add(listItem, DockPanel.EAST);
+            itemPanel.add(removeButton);            
+            itemPanel.add(listItem);
         }
+        
     }
     
     /**
-     * Set the model dto list this list field maps to.
-     * 
-     * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#setModelDTO()
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
      */
     @Override
-    public void setModelDTOValue(ModelDTOValue modelDTOValue) {
+    public void setValue(ModelDTOValue modelDTOValue) {
         assert(modelDTOValue instanceof ModelDTOValue.ListType);
         this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;        
         
@@ -89,25 +96,33 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     }
 
 
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+     */
+    @Override
+    public void setValue(ModelDTOValue value, boolean fireEvents) {
+        setValue(value);
+    }
+    
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#getValue()
+     */
+    @Override
+    public ModelDTOValue getValue(){
+        return modelDTOList;
+    }
+
     /** 
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#updateModelDTO(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
      */
     @Override
     public void updateModelDTOValue() {
-        for (int i=0; i < itemsPanel.getWidgetCount(); i++){
-            Widget w = itemsPanel.getWidget(i); 
-            if (w instanceof HasModelDTOValue){
-                ((HasModelDTOValue)w).updateModelDTOValue();
-            }
+        for (int i=0; i < modelDTOValueWidgets.size(); i++){
+            modelDTOValueWidgets.get(i).updateModelDTOValue();
         }
     }
     
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#getModelDTOValue()
-     */
-    public ModelDTOValue getModelDTOValue(){
-        return modelDTOList;
-    }
     
     /**
      * This method creates a new empty item.
@@ -117,12 +132,16 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         if (modelDTOList == null){
             modelDTOList = new ModelDTOValue.ListType();
             modelDTOList.set(new ArrayList<ModelDTOValue>());
-        }
-        
+        }    
+            
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
-        modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getModelDTOValue());
+        modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());        
         itemsPanel.add(listItem);
+        if (newItemWidget instanceof MultiplicityComposite){
+            ((MultiplicityComposite)newItemWidget).redraw();
+        }
+
         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }    
     
@@ -135,7 +154,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     private void addItem(ModelDTOValue modelDTOValue){
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
-        ((HasModelDTOValue)newItemWidget).setModelDTOValue(modelDTOValue);
+        ((HasModelDTOValue)newItemWidget).setValue(modelDTOValue);
         itemsPanel.add(listItem);
         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }
@@ -149,10 +168,11 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         if (!loaded){
             modelDTOValueWidgets = new ArrayList<HasModelDTOValue>();
             
-            mainPanel = new DockPanel();
-            mainPanel.addStyleName("KS-Multiplicity-Composite");
-            itemsPanel = new VerticalPanel();
             initWidget(mainPanel);
+            
+            mainPanel.addStyleName("KS-Multiplicity-Composite");
+            //itemsPanel = new VerticalPanel();
+
             
             KSButton addItemButton = new KSButton("Add Item", new ClickHandler(){
                 public void onClick(ClickEvent event) {
@@ -160,8 +180,9 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
                 }            
             });                
     
-            mainPanel.add(addItemButton, DockPanel.NORTH);
-            mainPanel.add(itemsPanel, DockPanel.SOUTH);
+            itemsPanel.add(addItemButton);
+            mainPanel.add(itemsPanel);
+            mainPanel.add(addItemButton);
             loaded = true;
         } else {        
             clear();
@@ -189,6 +210,16 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         if (modelDTOList != null){modelDTOList.get().clear();}
     }
     
+    
+    /**
+     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+     */
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {        
+        // TODO: Add value change handlers
+        return null;
+    }
+ 
     /**
      * This must return a widget that implements the HasModelDTOValue interface. This method
      * will be used when user clicks the "Add" button to add a new item to the list of items.

@@ -61,6 +61,8 @@ public class HasValueBinding implements PropertyBinding<HasValue>{
             else if(value instanceof Date){
                 modelValue = new DateType();
                 ((DateType) modelValue).set((Date) value);
+            } else if (value instanceof ModelDTOValue){
+                modelValue = (ModelDTOValue)value;
             }
         }
         

@@ -110,6 +110,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		});
 		
 		sectionViewMap.put(section.getViewEnum().name(), section);
+		section.setController(this);
 	}
 	
 	public void addStartSection(final LayoutSectionView section){
@@ -124,7 +125,8 @@ public abstract class PagedSectionLayout extends Controller implements Configura
             }	        
 	    }));
 
-	    section.beforeShow();	    
+        section.setController(this);
+	    section.beforeShow();
 	    startSectionWindow.setWidget(panel);
 	}
 	

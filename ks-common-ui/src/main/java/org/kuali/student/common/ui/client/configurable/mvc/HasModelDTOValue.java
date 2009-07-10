@@ -17,17 +17,18 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 
+import com.google.gwt.user.client.ui.HasValue;
+
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This extends the HasValue to add an updateModelDTOValue method, which can be called
+ * on a widget implementing this interface to update the ModelDTOValue object with values
+ * contained within the implementing widget.
  * 
  * @author Kuali Student Team
  *
  */
-public interface HasModelDTOValue {
-    
-    public void setModelDTOValue(ModelDTOValue modelDTOValue);
-    
+public interface HasModelDTOValue extends HasValue<ModelDTOValue>{
+       
     public void updateModelDTOValue();
     
-    public ModelDTOValue getModelDTOValue();
 }

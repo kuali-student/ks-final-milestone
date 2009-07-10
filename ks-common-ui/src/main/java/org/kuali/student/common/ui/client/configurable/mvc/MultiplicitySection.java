@@ -26,7 +26,9 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * This is a section that can be added to a MultiplictyComposite. It is a configurable
@@ -42,13 +44,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MultiplicitySection extends Section implements HasModelDTOValue{
 
     private ModelDTOValue modelDTOValue; 
-    protected final VerticalPanel panel;
-    private KSFormLayoutPanel form = null;
+    protected final FlowPanel panel;
     private String modelDtoClassName;
 
     public MultiplicitySection(String modelDtoClassName){
         fields = new ArrayList<FieldDescriptor>();
-        panel = new VerticalPanel();
+        panel = new FlowPanel();
         this.modelDtoClassName = modelDtoClassName;
         initWidget(panel);
     }
@@ -60,24 +61,15 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public void addField(FieldDescriptor fieldDescriptor) {
         super.addField(fieldDescriptor);
         
-        if (form == null){            
-            form = new KSFormLayoutPanel();
-        }
-        
-        panel.add(form);           
+        RowDescriptor row = new RowDescriptor();
+        row.addField(fieldDescriptor);
+        rows.add(row);                          
+
         if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
             MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
-            listField.redraw();
-            panel.add(listField);                   
-        } else {
-            KSFormField formField = new KSFormField(fieldDescriptor.getFieldKey(), fieldDescriptor.getFieldLabel());
-            formField.setWidget(fieldDescriptor.getFieldWidget());
-            
-            //Need for some way to obtain the help info key
-            formField.setHelpInfo(new HelpInfo(fieldDescriptor.getFieldKey()));
-            form.addFormField(formField);
+            listField.redraw();                  
         }
-        
+        panel.add(row);
     }
     
     @Override
@@ -92,7 +84,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#getModelDTOValue()
      */
     @Override
-    public ModelDTOValue getModelDTOValue() {
+    public ModelDTOValue getValue() {
         if (modelDTOValue == null){
             modelDTOValue = new ModelDTOValue.ModelDTOType();
             ((ModelDTOValue.ModelDTOType)modelDTOValue).set(new ModelDTO(modelDtoClassName));
@@ -107,7 +99,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
      * Set the ModelDTOValue for the multiplicity section. The ModelDTOValue must be of type MODELDTO.
      */
     @Override
-    public void setModelDTOValue(ModelDTOValue modelDTOValue) {
+    public void setValue(ModelDTOValue modelDTOValue) {
         assert(modelDTOValue instanceof ModelDTOValue.ModelDTOType);
         this.modelDTOValue = modelDTOValue;
 
@@ -120,22 +112,23 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     @Override
     public void updateModelDTOValue() {        
         ModelDTO modelDTO = ((ModelDTOValue.ModelDTOType)modelDTOValue).get();
+        
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            
             if (field.getFieldWidget() instanceof MultiplicityComposite){
-                ((HasModelDTOValue)field.getFieldWidget()).updateModelDTOValue();
-            } else {
-                String fieldKey = field.getFieldKey();
-                ModelDTOValue modelDTOValue = modelDTO.get(fieldKey);
-                if (modelDTOValue  != null){
-                    ModelDTOValueBinder.copyValueToModelDTO(form.getFieldValue(fieldKey), modelDTOValue);
-                } else {
-                    modelDTOValue = ModelDTOValueBinder.createModelDTOInstance(form.getFieldValue(fieldKey), field.getFieldType());
-                    modelDTO.put(fieldKey, modelDTOValue);
-                }
+                ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
             }
-        }   
+            
+            field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
+        }
+
+        //TODO: Support nested sections in multiplicity section
+        /*
+        for(NestedSection s: sections){
+            s.updateModel(model);
+        }
+        */
+        
     }
 
     public void clear(){
@@ -164,4 +157,21 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
 		// TODO Auto-generated method stub
 		
 	}
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object, boolean)
+     */
+    @Override
+    public void setValue(ModelDTOValue value, boolean fireEvents) {
+        setValue(value);
+    }
+
+    /**
+     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+     */
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {        
+        // TODO: Add value change handlers
+        return null;
+    }
 }
