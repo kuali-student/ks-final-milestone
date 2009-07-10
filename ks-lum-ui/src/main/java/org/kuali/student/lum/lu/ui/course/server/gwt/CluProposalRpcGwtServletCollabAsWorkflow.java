@@ -472,8 +472,10 @@ public class CluProposalRpcGwtServletCollabAsWorkflow extends BaseRpcGwtServletA
 	        Text cluIdText = doc.createTextNode(cluInfo.getId());
 	        cluIdElement.appendChild(cluIdText);
 	        
+	        Element principalIdRoleAttributeElement = doc.createElement("PrincipalIdRoleAttribute");
 	        Element recipientPrincipalIdElement = doc.createElement("recipientPrincipalId");
-	        root.appendChild(recipientPrincipalIdElement);
+	        root.appendChild(principalIdRoleAttributeElement);
+	        principalIdRoleAttributeElement.appendChild(recipientPrincipalIdElement);
 	        
 	        Text recipientPrincipalIdText = doc.createTextNode(recipientPrincipalId);
 	        recipientPrincipalIdElement.appendChild(recipientPrincipalIdText);

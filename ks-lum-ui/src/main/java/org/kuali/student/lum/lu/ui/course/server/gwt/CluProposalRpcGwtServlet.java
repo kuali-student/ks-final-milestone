@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kew.dto.ActionItemDTO;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
@@ -205,7 +206,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     @Override
     public CluProposal saveProposal(CluProposal cluProposal) {
         try {
-
+        	aquireSimpleDocService();
+        	
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.updateClu(cluProposal.getCluInfo().getId(), parentCluInfo);
             cluProposal.setCluInfo(parentCluInfo);
@@ -560,9 +562,75 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
 	        String collaborateComment = "Collaborate by CluProposalService";
 	        
-	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.requestAdHocFyiToPrincipal(docId, recipientPrincipalId, username, collaborateComment);
-	       
+	        //create and route a Collaborate workflow
+	        //Get the document app Id
+	        CluProposal cluProposal = getCluProposalFromWorkflowId(docId);
+	        CluInfo cluInfo = cluProposal.getCluInfo();
+            String workflowDocTypeId = "CluCollaboratorDocument";//TODO make sure this name is correct
+            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+           
+            //Get the document xml
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+	        Document doc = docBuilder.newDocument();
+	        
+	        Element root = doc.createElement("cluCollaborator");
+	        doc.appendChild(root);
+	        
+	        Element cluIdElement = doc.createElement("cluId");
+	        root.appendChild(cluIdElement);
+	        
+	        Text cluIdText = doc.createTextNode(cluInfo.getId());
+	        cluIdElement.appendChild(cluIdText);
+	        
+	        Element recipientPrincipalIdElement = doc.createElement("recipientPrincipalId");
+	        root.appendChild(recipientPrincipalIdElement);
+	        
+	        Text recipientPrincipalIdText = doc.createTextNode(recipientPrincipalId);
+	        recipientPrincipalIdElement.appendChild(recipientPrincipalIdText);
+
+	        Element principalIdElement = doc.createElement("principalId");
+	        root.appendChild(principalIdElement);
+	        
+	        Text principalIdText = doc.createTextNode(username);
+	        principalIdElement.appendChild(principalIdText);
+	        
+	        Element docIdElement = doc.createElement("docId");
+	        root.appendChild(docIdElement);
+	        
+	        Text docIdText = doc.createTextNode(docId);
+	        docIdElement.appendChild(docIdText);
+	        
+	        Element collaboratorTypeElement = doc.createElement("collaboratorType");
+	        root.appendChild(collaboratorTypeElement);
+	        
+	        Text collaboratorTypeText = doc.createTextNode(collabType);
+	        collaboratorTypeElement.appendChild(collaboratorTypeText);
+
+	        Element participationRequiredElement = doc.createElement("participationRequired");
+	        root.appendChild(participationRequiredElement);
+	        
+	        Text participationRequiredText = doc.createTextNode(Boolean.toString(participationRequired));
+	        participationRequiredElement.appendChild(participationRequiredText);
+	        
+	        Element respondByElement = doc.createElement("respondBy");
+	        root.appendChild(respondByElement);
+	        
+	        Text respondByText = doc.createTextNode(respondBy);
+	        respondByElement.appendChild(respondByText);
+	        
+	        DOMSource domSource = new DOMSource(doc);
+	        StringWriter writer = new StringWriter();
+	        StreamResult result = new StreamResult(writer);
+	        TransformerFactory tf = TransformerFactory.newInstance();
+	        Transformer transformer = tf.newTransformer();
+	        transformer.transform(domSource, result);
+            
+            String docContent = writer.toString();
+
+            //Do the routing
+            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContent, collaborateComment);
+   
 		}catch(Exception e){
             e.printStackTrace();
 		}
@@ -573,22 +641,40 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public HashMap<String, ArrayList<String>> getCollaborators(String docId){
 		//FIXME put in matching for 4 collaborator types
 		aquireWorkflowUtilityService();
-		
+
 		HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
 		
-		ArrayList<String> users = new ArrayList<String>();
+		ArrayList<String> coAuthors = new ArrayList<String>();
+		ArrayList<String> commentors= new ArrayList<String>();
+		ArrayList<String> viewers = new ArrayList<String>();
+		ArrayList<String> delegates = new ArrayList<String>();
 		
-        ActionItemDTO[] items= workflowUtilityService.getActionItems(Long.parseLong(docId));
+        ActionRequestDTO[] items= workflowUtilityService.getActionRequests(Long.parseLong(docId));
         if(items!=null){
-        	for(ActionItemDTO item:items){
-        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequestCd())){
-	        		users.add(item.getPrincipalId());
+        	for(ActionRequestDTO item:items){
+        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
+        			if(item.getRequestLabel().startsWith("Co-Authors")){
+	        			coAuthors.add(item.getPrincipalId());
+	        		}
+	        		else if(item.getRequestLabel().startsWith("Commentor")){
+	        			commentors.add(item.getPrincipalId());
+	        		}
+	        		else if(item.getRequestLabel().startsWith("Viewer")){
+	        			viewers.add(item.getPrincipalId());
+	        		}
+	        		else if(item.getRequestLabel().startsWith("Delegate")){
+	        			delegates.add(item.getPrincipalId());
+	        		}
+
         		}
         	}
         }
         
-        results.put("Co-Authors", users);
-		return results;
+        results.put("Co-Authors", coAuthors);
+        results.put("Commentor", commentors);
+        results.put("Viewer", viewers);
+        results.put("Delegate", delegates);
+        return results;
     }
 	
 	@Override
@@ -631,7 +717,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
 				factory.setServiceClass(SimpleDocumentActionsWebService.class);
 				factory.setAddress(simpleDocServiceAddress);
-				factory.setWsdlLocation(simpleDocServiceAddress+"?wsdl");
+				//factory.setWsdlLocation(simpleDocServiceAddress+"?wsdl");
 				factory.setServiceName(new QName("RICE", "simpleDocumentActionsService"));
 				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
 				simpleDocService = (SimpleDocumentActionsWebService) factory.create();
@@ -650,6 +736,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 				//factory.setWsdlLocation(workflowUtilityServiceAddress+"?wsdl");
 				factory.setServiceName(new QName("RICE", "WorkflowUtilityServiceSOAP"));
 				AegisDatabinding binding = new AegisDatabinding();
+				
 				factory.getServiceFactory().setDataBinding(binding);
 				factory.setEndpointName(new QName("RICE", "WorkflowUtilityPort"));
 				
@@ -665,6 +752,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		public String getDocumentStatus(Long docId);
 		public AttributeSet getActionsRequested(String username, long docId);
 		public ActionItemDTO[] getActionItems(Long docId);
+	    public ActionRequestDTO[] getActionRequests(Long documentId);
+	    public ActionRequestDTO[] getActionRequests1(Long routeHeaderId, String nodeName, String principalId);
 	}
 	
 

@@ -116,7 +116,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
         KSButton inviteCollabButton = new KSButton("Invite Collaborators");
         inviteCollabButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				addCollaborator(userIdField.getValue());
+				addCollaborator(userIdField.getValue(), roleField.getSelectedItem(), "Required".equals(participationField.getSelectedItem()), respondByField.getValue());
 			}
         });
         
@@ -167,7 +167,6 @@ public class Collaborators extends Composite implements HasWorkflowId{
     
     
     public void refreshCollaboratorList(){
-    	//TODO findout the different collaborator types here
     	if(workflowId!=null){
 	        cluProposalRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<HashMap<String,ArrayList<String>>>(){
 				public void onFailure(Throwable caught) {
@@ -209,11 +208,11 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	}
     }
     
-    private void addCollaborator(final String recipientPrincipalId){
+    private void addCollaborator(final String recipientPrincipalId, final String collabType, boolean participationRequired, String respondBy){
     	if(workflowId==null){
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
-	    	cluProposalRpcServiceAsync.addCollaborator(workflowId, recipientPrincipalId,"",false,"", new AsyncCallback<Boolean>(){
+	    	cluProposalRpcServiceAsync.addCollaborator(workflowId, recipientPrincipalId,collabType,participationRequired, respondBy, new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 				}
@@ -221,8 +220,19 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				public void onSuccess(Boolean result) {
 					userIdField.setValue("");
 					//Add to the list and no refresh even though we should because rice has a timing issue
-					coAuthorUserIds.add(new KSLabel(recipientPrincipalId));
-					coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
+					if("Co-Authors".equals(collabType)){
+						coAuthorUserIds.add(new KSLabel(recipientPrincipalId));
+						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");						
+					}else if("Commentors".equals(collabType)){
+						commentorUserIds.add(new KSLabel(recipientPrincipalId));
+						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
+					}else if("Viewers".equals(collabType)){
+						viewersUserIds.add(new KSLabel(recipientPrincipalId));
+						viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
+					}else if("Delegates".equals(collabType)){
+						delegatesUserIds.add(new KSLabel(recipientPrincipalId));
+						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
+					}
 					//refreshCollaboratorList();
 				}
 	    		
