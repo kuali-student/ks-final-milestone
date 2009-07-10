@@ -12,7 +12,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -111,8 +110,8 @@ public class LUCreateUpdateView extends ViewComposite {
                     
                 	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
                 		public void onClick(ClickEvent event) {
-                			ProposalInfo proposalInfo = layout.getObject().getProposalInfo();
-                			if(proposalInfo==null||proposalInfo.getProposerOrg()==null||proposalInfo.getProposerOrg().isEmpty()){
+                			CluInfo cluInfo = layout.getObject().getCluInfo();
+                			if(cluInfo==null||cluInfo.getAdminOrg()==null){
                 				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
                 			}else{
 	                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
@@ -169,8 +168,8 @@ public class LUCreateUpdateView extends ViewComposite {
 										if(result!=null&&result.contains("S")){
 						                	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
 						                		public void onClick(ClickEvent event) {
-						                			ProposalInfo proposalInfo = layout.getObject().getProposalInfo();
-						                			if(proposalInfo==null||proposalInfo.getProposerOrg()==null||proposalInfo.getProposerOrg().isEmpty()){
+						                			CluInfo cluInfo = layout.getObject().getCluInfo();
+						                			if(cluInfo==null||cluInfo.getAdminOrg()==null){
 						                				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
 						                			}else{
 							                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){

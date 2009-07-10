@@ -131,7 +131,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
-            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),"docContent", saveComment);
+            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), saveComment);
             cluProposal.setWorkflowId(docResponse.getDocId());
             
         } catch (Exception e) {
@@ -213,7 +213,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             cluProposal.setCluInfo(parentCluInfo);
             //get a user name
             String username = getCurrentUser();
-            String saveComment = "Saved By CluProposalService";
+
             DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
 
             /*FIXME: Restore code to handle proposal service?
@@ -238,8 +238,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 }
             }
             
-            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),"docContent", saveComment);
-           
+            simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal));
+          
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,58 +257,34 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return null;
     }
 
-	@Override
-	public CluProposal createAndRouteProposal(CluProposal cluProposal) {
-		aquireSimpleDocService();
-        try {
-            
-        	//Get org info stuff
-        	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
-        	
-        	String departmentName = orgService.getOrganization(orgId).getShortName();
-        	List<String> collegeNames = new ArrayList<String>();
-        	
-        	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
-        	if(relations!=null){
-        		for(OrgOrgRelationInfo relation:relations){
-        			if("kuali.org.Part".equals(relation.getType())){
-        				OrgInfo part = orgService.getOrganization(relation.getOrgId());
-        				if("kuali.org.College".equals(part.getType())){
-        					collegeNames.add(part.getShortName());
-        				}
-        			}
-        			
-        		}
-        	}
-        	
-        	//FIXME: Restore code to handle proposal service?
-            CluInfo parentCluInfo = cluProposal.getCluInfo();
-            parentCluInfo = service.createClu(cluProposal.getCluInfo().getType(), parentCluInfo);
-            cluProposal.setCluInfo(parentCluInfo);
-            
-            List<CluInfo> activities = cluProposal.getActivities();
-            if (activities != null){
-                for (CluInfo cluInfo : activities) {
-    
-                    cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-                    CluCluRelationInfo relInfo = new CluCluRelationInfo();
-                    
-                    //TODO: Create a proper relation type for activities
-                    relInfo.setCluId(parentCluInfo.getId());
-                    relInfo.setRelatedCluId(cluInfo.getId());                    
-                    relInfo.setType("proposal.actvitiy"); 
-    
-                    service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
-                }
-            }
-            
-            //get a user name
-            String username=getCurrentUser();
-            
-            //Create and then route the document 
-            String workflowDocTypeId = "CluDocument";
-            DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
-            
+
+	private String getCluProposalDocContent(CluProposal cluProposal){
+    	try{
+			//Get org info stuff
+	    	String orgId = cluProposal.getCluInfo().getAdminOrg();
+	    	
+	    	String departmentId = "";
+	    	
+	    	//String departmentId = orgService.getOrganization(orgId).getId();
+	    	List<String> collegeIds = new ArrayList<String>();
+	    	
+	    	if(orgId!=null){
+	    		orgService.getOrganization(orgId).getShortName();
+		    	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
+		    	if(relations!=null){
+		    		for(OrgOrgRelationInfo relation:relations){
+		    			if("kuali.org.Part".equals(relation.getType())){
+		    				OrgInfo part = orgService.getOrganization(relation.getOrgId());
+		    				if("kuali.org.College".equals(part.getType())){
+		    					collegeIds.add(part.getShortName());
+		    					//collegeIds.add(part.getId());
+		    				}
+		    			}
+		    			
+		    		}
+		    	}
+	    	}
+	    	
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
@@ -319,93 +295,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             Element cluId = doc.createElement("cluId");
             root.appendChild(cluId);
             
-            Text cluIdText = doc.createTextNode(parentCluInfo.getId());
-            cluId.appendChild(cluIdText);
-            
-            Element department = doc.createElement("department");
-            root.appendChild(department);
-            
-            Text departmentText = doc.createTextNode(departmentName);
-            department.appendChild(departmentText);
-            
-            for(String collegeName:collegeNames){
-	            Element college = doc.createElement("college");
-	            root.appendChild(college);
-	            
-	            Text collegeText = doc.createTextNode(collegeName);
-	            college.appendChild(collegeText);
-            }
-           
-            
-            DOMSource domSource = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.transform(domSource, result);
-
-            String createComment = "Created By CluProposalService";
-            
-            simpleDocService.route(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), writer.toString(), createComment);
-            
-            cluProposal.setWorkflowId(docResponse.getDocId());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return cluProposal;
-	}
-
-
-	@Override
-	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
-		aquireSimpleDocService();
-        try {
-        	
-        	//Get org info stuff
-        	String orgId = cluProposal.getProposalInfo().getProposerOrg().get(0);
-        	
-        	String departmentId = orgService.getOrganization(orgId).getShortName();
-        	//String departmentId = orgService.getOrganization(orgId).getId();
-        	List<String> collegeIds = new ArrayList<String>();
-        	
-        	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
-        	if(relations!=null){
-        		for(OrgOrgRelationInfo relation:relations){
-        			if("kuali.org.Part".equals(relation.getType())){
-        				OrgInfo part = orgService.getOrganization(relation.getOrgId());
-        				if("kuali.org.College".equals(part.getType())){
-        					collegeIds.add(part.getShortName());
-        					//collegeIds.add(part.getId());
-        				}
-        			}
-        			
-        		}
-        	}
-        	
-            CluInfo cluInfo = cluProposal.getCluInfo();
-            
-            //get a user name
-            String username = getCurrentUser();
-
-            //Create and then route the document 
-            String workflowDocTypeId = "CluDocument";
-//            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
-            
-            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
-            
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            
-            Element root = doc.createElement("cluProposal");
-            doc.appendChild(root);
-            
-            Element cluId = doc.createElement("cluId");
-            root.appendChild(cluId);
-            
-            Text cluIdText = doc.createTextNode(cluInfo.getId());
+            Text cluIdText = doc.createTextNode(cluProposal.getCluInfo().getId());
             cluId.appendChild(cluIdText);
             
             Element department = doc.createElement("department");
@@ -428,10 +318,30 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer();
             transformer.transform(domSource, result);
-
-            String createComment = "Created By CluProposalService";
+	    	
+            return writer.toString();
             
-            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), writer.toString(), createComment);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return "";
+	}
+	
+	@Override
+	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
+		aquireSimpleDocService();
+        try {
+            CluInfo cluInfo = cluProposal.getCluInfo();
+            
+            //get a user name
+            String username = getCurrentUser();
+
+            //Create and then route the document 
+            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
+            
+            String routeComment = "Routed By CluProposalService";
+            
+            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal), routeComment);
             
             cluProposal.setWorkflowId(docResponse.getDocId());
             

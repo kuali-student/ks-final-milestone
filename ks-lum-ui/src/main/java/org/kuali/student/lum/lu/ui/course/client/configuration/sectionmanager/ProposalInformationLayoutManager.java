@@ -15,8 +15,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
@@ -203,9 +201,10 @@ public class ProposalInformationLayoutManager {
                             public Object getValue(CluProposal object) {
                                 ProposalInfo info = object.getProposalInfo();
                                 CluInfo cluInfo = object.getCluInfo();
-                                if (info != null && info.getProposerOrg().size() > 0){
-                                    return object.getProposalInfo().getProposerOrg().get(0);
-                                } else if (cluInfo != null){
+//                                if (info != null && info.getProposerOrg().size() > 0){
+//                                    return object.getProposalInfo().getProposerOrg().get(0);
+//                                } else 
+                                if (cluInfo != null){
                                     return cluInfo.getAdminOrg();
                                 } else{
                                     return "";
@@ -213,12 +212,12 @@ public class ProposalInformationLayoutManager {
                             }
                             @Override
                             public void setValue(CluProposal object, Object value) {
-                            	List<String> orgs = object.getProposalInfo().getProposerOrg();
-                                if(orgs.size()<1){
-                                	orgs.add((String)value);
-                                }else{
-                                	orgs.set(0, (String)value);
-                                }
+//                            	List<String> orgs = object.getProposalInfo().getProposerOrg();
+//                                if(orgs.size()<1){
+//                                	orgs.add((String)value);
+//                                }else{
+//                                	orgs.set(0, (String)value);
+//                                }
                                 
                                 CluInfo cluInfo = object.getCluInfo();
                                 cluInfo.setAdminOrg((String)value);
