@@ -92,7 +92,6 @@
 		<property name="dataDictionaryPackages">
 			<list>
 			    <value>classpath:org/kuali/rice/student/bo/datadictionary</value>
-			    <value>classpath:org/kuali/rice/student/document/datadictionary</value>
             </list>
 		</property>
         <property name="packagePrefixes">
