@@ -131,7 +131,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
-            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), saveComment);
+            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),"docContent", saveComment);
             cluProposal.setWorkflowId(docResponse.getDocId());
             
         } catch (Exception e) {
@@ -238,7 +238,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 }
             }
             
-            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), saveComment);
+            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),"docContent", saveComment);
            
 
         } catch (Exception e) {
