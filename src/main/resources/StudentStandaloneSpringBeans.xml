@@ -87,7 +87,7 @@
   </bean>
 
   <bean id="studentRiceModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
-		<property name="namespaceCode" value="KR-STU" />
+		<property name="namespaceCode" value="KS-SYS" />
         <property name="initializeDataDictionary" value="true"/>
 		<property name="dataDictionaryPackages">
 			<list>
@@ -95,18 +95,11 @@
 			    <value>classpath:org/kuali/rice/student/document/datadictionary</value>
             </list>
 		</property>
-        <property name="databaseRepositoryFilePaths">
-            <list>
-                <value>OJB-repository-studentrice.xml</value>
-            </list>
-        </property>
-<!--
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.rice.student.</value>
             </list>
         </property>
--->
 	</bean>
 
 </beans>
