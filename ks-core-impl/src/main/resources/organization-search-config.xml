@@ -20,14 +20,14 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
-	<search:searchType id="org.search.hierarchiesOrgIsInByShortName">
+	<search:searchType id="org.search.hierarchiesOrgIsIn">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids.</search:desc>
 		<search:searchResultTypeInfo>
-			<ref bean="org.result.hierarchiesOrgIsInByShortName" />
+			<ref bean="org.result.hierarchiesOrgIsIn" />
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
-			<ref bean="org.criteria.hierarchiesOrgIsInByShortName" />
+			<ref bean="org.criteria.hierarchiesOrgIsIn" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
@@ -87,7 +87,7 @@
 	</search:searchType>
 	
 	<search:searchType id="org.search.orgFullViewById">
-		<search:name>Full view by orginization id key</search:name>
+		<search:name>Full view by organization id key</search:name>
 		<search:desc>Returns a full view of organization information for the id supplied</search:desc>
 		<search:searchResultTypeInfo>
 			<ref bean="org.result.orgFullView" />
@@ -106,7 +106,7 @@
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
-	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsInByShortName">
+	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn">
 		<search:name>Hierarchies Containing an Org</search:name>
 		<search:desc>IDs of hierarchies that a specified org is a member of</search:desc>
 		<search:resultColumns>
@@ -260,9 +260,12 @@
 		<search:desc>OrgHierarchyIdsCriteria Description</search:desc>
 	</search:searchCriteriaTypeInfo>
 
-	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsInByShortName">
+	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsIn">
 		<search:name>HierarchiesOrgIsInCriteria</search:name>
 		<search:desc>Org ID on which to search for containing hierarchies</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgId" />
+		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
@@ -322,8 +325,8 @@
 				<entry key="org.search.orgHierarchyIds">
 					<value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
 				</entry>
-				<entry key="org.search.hierarchiesOrgIsInByShortName">
-					<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.shortName = :org_queryParam_orgShortName</value>
+				<entry key="org.search.hierarchiesOrgIsIn">
+					<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByOrgType">
 					<value>SELECT org.id, org.shortName FROM Org org WHERE

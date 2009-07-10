@@ -41,8 +41,8 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -670,6 +670,23 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
+	}
+	
+	@Test
+	public void testHierarchiesOrgIsIn() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+		QueryParamValue qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.orgId");
+		qpv1.setValue("31");
+		queryParamValues.add(qpv1);
+		queryParamValues.add(qpv1);
+		List<Result> results = client.searchForResults("org.search.hierarchiesOrgIsIn", queryParamValues);
+		assertEquals(1,results.size());
+		List<ResultCell> cells = results.get(0).getResultCells();
+		assertEquals(1,cells.size());
+		ResultCell cell = cells.get(0);
+		assertEquals("org.resultColumn.orgHierarchyId", cell.getKey());
+		assertEquals("kuali.org.hierarchy.Main", cell.getValue());
 	}
 	
 	@Test
