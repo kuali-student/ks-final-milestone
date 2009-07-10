@@ -93,8 +93,10 @@ public interface ModelDTOValue extends Serializable {
         public void setString(String value) {
             this.value = value;
         }
-		
-		
+        
+        public String toString(){
+            return getString();
+        }
 	}
 	
 	public static class CharacterType implements StringSupportedValue {
@@ -133,6 +135,10 @@ public interface ModelDTOValue extends Serializable {
                 throw new UnsupportedOperationException("Characters can only be set with Strings containing 1 character");
             }
         }
+        
+        public String toString(){
+            return getString();
+        }
 	}
 
 	public static class IntegerType implements StringSupportedValue {
@@ -166,6 +172,10 @@ public interface ModelDTOValue extends Serializable {
             value = value.trim();
             this.value = Integer.parseInt(value);
         }
+        
+        public String toString(){
+            return getString();
+        }        
 	}
 
 	public static class LongType implements StringSupportedValue {
@@ -199,6 +209,10 @@ public interface ModelDTOValue extends Serializable {
             value = value.trim();
             this.value = Long.parseLong(value);
         }
+        
+        public String toString(){
+            return getString();
+        }        
 	}
 
 	public static class FloatType implements StringSupportedValue {
@@ -232,6 +246,10 @@ public interface ModelDTOValue extends Serializable {
             value = value.trim();
             this.value = Float.parseFloat(value);
         }
+        
+        public String toString(){
+            return getString();
+        }        
 	}
 
 	public static class DoubleType implements StringSupportedValue {
@@ -265,6 +283,10 @@ public interface ModelDTOValue extends Serializable {
             value = value.trim();
             this.value = Double.parseDouble(value);
         }
+        
+        public String toString(){
+            return getString();
+        }        
 	}
 
 	public static class ByteType implements StringSupportedValue {
@@ -298,6 +320,10 @@ public interface ModelDTOValue extends Serializable {
            value = value.trim();
            this.value = Byte.parseByte(value); 
         }
+        
+        public String toString(){
+            return getString();
+        }        
 	}
 
 	public static class BooleanType implements StringSupportedValue {
@@ -338,6 +364,10 @@ public interface ModelDTOValue extends Serializable {
                 throw new UnsupportedOperationException("Booleans can only be set with true or false");
             }
         }
+        
+        public String toString(){
+            return getString();
+        }        
 	}
 
 	public static class DateType implements StringSupportedValue {
@@ -376,6 +406,10 @@ public interface ModelDTOValue extends Serializable {
         public void setString(String value) {
             value = value.trim();
             this.value = dateParser.parseDate(value);
+        }
+        
+        public String toString(){
+            return getString();
         }        
 	}
 
@@ -399,6 +433,10 @@ public interface ModelDTOValue extends Serializable {
 		public void set(List<ModelDTOValue> value) {
 			this.value = value;
 		}
+		
+		public String toString(){
+		    return value.toString();
+		}
 	}
 	
 	public static class MapType implements ModelDTOValue {
@@ -421,6 +459,10 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Map<String, ModelDTOValue> value) {
 	        this.value = value;
 	    }
+	    
+	    public String toString(){
+	        return value.toString();
+	    }
 	}
 
 	public static class ModelDTOType implements ModelDTOValue {
@@ -442,6 +484,10 @@ public interface ModelDTOValue extends Serializable {
 	    
 	    public void set(ModelDTO value) {
 	        this.value = value;
+	    }
+	    
+	    public String toString(){
+	        return value.toString();
 	    }
 	}
 
