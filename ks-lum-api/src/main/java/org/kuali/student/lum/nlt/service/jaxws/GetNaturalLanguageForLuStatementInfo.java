@@ -22,7 +22,7 @@ public class GetNaturalLanguageForLuStatementInfo {
     @XmlElement(name = "cluId")
     private java.lang.String cluId;
     @XmlElement(name = "statementInfo")
-    private org.kuali.student.lum.lu.dto.LuNlStatementInfo statementInfo;
+    private org.kuali.student.lum.nlt.dto.LuNlStatementInfo statementInfo;
     @XmlElement(name = "nlUsageTypeKey")
     private java.lang.String nlUsageTypeKey;
     @XmlElement(name = "language")
@@ -36,11 +36,11 @@ public class GetNaturalLanguageForLuStatementInfo {
         this.cluId = newCluId;
     }
 
-    public org.kuali.student.lum.lu.dto.LuNlStatementInfo getStatementInfo() {
+    public org.kuali.student.lum.nlt.dto.LuNlStatementInfo getStatementInfo() {
         return this.statementInfo;
     }
 
-    public void setStatementInfo(org.kuali.student.lum.lu.dto.LuNlStatementInfo newStatementInfo)  {
+    public void setStatementInfo(org.kuali.student.lum.nlt.dto.LuNlStatementInfo newStatementInfo)  {
         this.statementInfo = newStatementInfo;
     }
 

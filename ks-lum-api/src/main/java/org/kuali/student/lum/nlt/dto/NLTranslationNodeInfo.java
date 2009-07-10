@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.dto;
+package org.kuali.student.lum.nlt.dto;
 
 import java.util.ArrayList;
 import java.util.List;

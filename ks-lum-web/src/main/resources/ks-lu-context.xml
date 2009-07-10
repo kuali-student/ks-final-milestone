@@ -118,7 +118,6 @@
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
         <property name="dictionaryServiceDelegate" ref="luDictionary" />
-        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 	</bean>
 
     <bean id="translationServiceImpl"

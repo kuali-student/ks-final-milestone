@@ -51,7 +51,6 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -59,7 +58,6 @@ import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
@@ -102,7 +100,6 @@ import org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.nlt.naturallanguage.NaturalLanguageTranslator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,7 +110,6 @@ public class LuServiceImpl implements LuService {
     private LuDao luDao;
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
-    private NaturalLanguageTranslator naturalLanguageTranslator;
 
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
@@ -121,10 +117,6 @@ public class LuServiceImpl implements LuService {
 
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
-    }
-
-    public void setNaturalLanguageTranslator(NaturalLanguageTranslator translator) {
-        this.naturalLanguageTranslator = translator;
     }
 
     @Override
@@ -2572,37 +2564,6 @@ public class LuServiceImpl implements LuService {
     throws MissingParameterException {
         if (param == null) {
             throw new MissingParameterException(paramName + " can not be null");
-        }
-    }
-
-    /**
-     * Check for missing or empty parameter and 
-     * throw localized exception if missing or empty
-     *
-     * @param param
-     * @param parameter name
-     * @throws MissingParameterException
-     */
-    private void checkForNullOrEmptyParameter(String param, String paramName)
-    throws MissingParameterException, InvalidParameterException {
-        if (param == null) {
-            throw new MissingParameterException(paramName + " can not be null");
-        } else if (param.trim().isEmpty()) {
-            throw new InvalidParameterException(paramName + " can not be empty");
-        }
-    }
-
-    /**
-     * Check for empty parameter and throw localized exception if empty
-     *
-     * @param param
-     * @param parameter name
-     * @throws MissingParameterException
-     */
-    private void checkForEmptyParameter(String param, String paramName)
-    throws MissingParameterException, InvalidParameterException {
-        if (param != null && param.trim().isEmpty()) {
-            throw new InvalidParameterException(paramName + " can not be empty");
         }
     }
 

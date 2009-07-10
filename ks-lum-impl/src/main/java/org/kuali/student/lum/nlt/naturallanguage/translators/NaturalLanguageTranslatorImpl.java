@@ -4,9 +4,9 @@ import java.util.Locale;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.nlt.naturallanguage.NaturalLanguageTranslator;
 
 /**

@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class GetNaturalLanguageForStatementAsTreeResponse {
 
     @XmlElement(name = "return")
-    private org.kuali.student.lum.lu.dto.NLTranslationNodeInfo _return;
+    private org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo _return;
 
-    public org.kuali.student.lum.lu.dto.NLTranslationNodeInfo getReturn() {
+    public org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo getReturn() {
         return this._return;
     }
 
-    public void setReturn(org.kuali.student.lum.lu.dto.NLTranslationNodeInfo new_return)  {
+    public void setReturn(org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo new_return)  {
         this._return = new_return;
     }
 

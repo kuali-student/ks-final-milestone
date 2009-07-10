@@ -8,8 +8,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("TranslationService")
 public interface TranslationRpcService extends BaseRpcService {
-
-    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception;
 	public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception;
     public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception;  
 }

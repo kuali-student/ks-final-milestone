@@ -30,7 +30,6 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -70,6 +69,7 @@ import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentField;
 import org.kuali.student.lum.lu.entity.ReqComponentFieldType;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
+import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 import org.springframework.beans.BeanUtils;
 
 public class LuServiceAssembler extends BaseAssembler {

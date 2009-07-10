@@ -17,13 +17,13 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
+import org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.nlt.service.TranslationService;
 @Daos({@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-nl.sql")})
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")

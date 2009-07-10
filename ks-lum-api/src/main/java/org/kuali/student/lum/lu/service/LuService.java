@@ -46,7 +46,6 @@ import org.kuali.student.lum.lu.dto.LrTypeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuNlStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -54,7 +53,6 @@ import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.lu.dto;
+package org.kuali.student.lum.nlt.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 /**
