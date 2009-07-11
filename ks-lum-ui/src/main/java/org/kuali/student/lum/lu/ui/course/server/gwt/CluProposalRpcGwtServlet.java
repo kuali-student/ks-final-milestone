@@ -32,8 +32,6 @@ import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -260,31 +258,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	private String getCluProposalDocContent(CluProposal cluProposal){
     	try{
-			//Get org info stuff
-	    	String orgId = cluProposal.getCluInfo().getAdminOrg();
-	    	
-	    	String departmentId = "";
-	    	
-	    	//String departmentId = orgService.getOrganization(orgId).getId();
-	    	List<String> collegeIds = new ArrayList<String>();
-	    	
-	    	if(orgId!=null){
-	    		departmentId = orgService.getOrganization(orgId).getShortName();
-		    	List<OrgOrgRelationInfo> relations = orgService.getOrgOrgRelationsByRelatedOrg(orgId);
-		    	if(relations!=null){
-		    		for(OrgOrgRelationInfo relation:relations){
-		    			if("kuali.org.Part".equals(relation.getType())){
-		    				OrgInfo part = orgService.getOrganization(relation.getOrgId());
-		    				if("kuali.org.College".equals(part.getType())){
-		    					collegeIds.add(part.getShortName());
-		    					//collegeIds.add(part.getId());
-		    				}
-		    			}
-		    			
-		    		}
-		    	}
-	    	}
-	    	
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
@@ -298,19 +271,19 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             Text cluIdText = doc.createTextNode(cluProposal.getCluInfo().getId());
             cluId.appendChild(cluIdText);
             
-            Element department = doc.createElement("department");
-            root.appendChild(department);
+            Element orgId = doc.createElement("orgId");
+            root.appendChild(orgId);
             
-            Text departmentText = doc.createTextNode(departmentId);
-            department.appendChild(departmentText);
-            
-            for(String collegeId:collegeIds){
-	            Element college = doc.createElement("college");
-	            root.appendChild(college);
-	            
-	            Text collegeText = doc.createTextNode(collegeId);
-	            college.appendChild(collegeText);
+            // TODO - CluInfo.getAdminOrg() is deprecated; supposed to use
+            //            AccreditationInfo now instead
+            // question: if > 1 AccreditationInfo in CluInfo.accreditationList,
+            // that may mean more than one orgID. What should be used then?
+            Text orgIdText = doc.createTextNode(cluProposal.getCluInfo().getAdminOrg());
+            // orgId might not be set yet
+            if (null == orgIdText.getData()) {
+            	orgIdText = doc.createTextNode("");
             }
+            orgId.appendChild(orgIdText);
             
             DOMSource domSource = new DOMSource(doc);
             StringWriter writer = new StringWriter();
