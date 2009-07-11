@@ -19,13 +19,9 @@ package org.kuali.student.lum.workflow.qualifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
@@ -35,21 +31,12 @@ import org.kuali.student.core.search.dto.ResultCell;
  * @author Kuali Student Team
  *
  */
-public class CollegeQualifierResolver extends DeptQualifierResolver {
+public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 	
-	// package protected so test can set it
-   	private OrganizationService orgService;
-   	private QueryParamValue orgShortNameQPV = new QueryParamValue();
-   	private QueryParamValue orgIdQPV = new QueryParamValue();
    	private QueryParamValue orgHierarchyQPV = new QueryParamValue();
-   	private List<QueryParamValue> orgShortNameQPVs = new ArrayList<QueryParamValue>();
    	private List<QueryParamValue> orgHierarchyQPVs = new ArrayList<QueryParamValue>();
    	
 	public CollegeQualifierResolver() {
-	   	orgShortNameQPV.setKey("org_queryParam_orgShortName");
-	   	orgIdQPV.setKey("org_queryParam_orgId");
-	   	orgShortNameQPVs.add(orgShortNameQPV);
-	   	orgShortNameQPVs.add(orgIdQPV);
 	   	orgHierarchyQPV.setKey("org_queryParam_orgId");
 	   	orgHierarchyQPVs.add(orgHierarchyQPV);
 	}
@@ -61,62 +48,55 @@ public class CollegeQualifierResolver extends DeptQualifierResolver {
 	public List<AttributeSet> resolve(RouteContext context) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
 		AttributeSet returnSet = new AttributeSet();
+		List<Result> searchResults = null;
 		
-	   	// see if we find a college
-	   	// TODO - is it an error if we find college right off the bat?
-		List<AttributeSet> attributeSets = super.resolve(context);
-		if (attributeSets.size() != 0) {
-			String college = getAttribute(attributeSets, COLLEGE);
-			if (null == college) {
-				String department = getAttribute(attributeSets, DEPARTMENT);
-				if (null != department) {
-				   	orgShortNameQPV.setValue(department);
-					List<Result> searchResults = null;
-					try {
-						// find the org id based on short name
-						searchResults = getOrganizationService().searchForResults("org.search.orgByShortName", orgShortNameQPVs);
-						
-						if (null == searchResults) { return returnAttrSetList; }
-						
-						// should be only one 
-						assert(searchResults.size() == 1 && searchResults.get(0).getResultCells().size() == 2);
-						ResultCell orgIdCell = searchResults.get(0).getResultCells().get(0);
-						assert(orgIdCell.getKey().equals("org.resultColumn.orgId"));
-						
-						// get its orgId
-						String orgId = orgIdCell.getValue();
-						
-						// get the hierarchy(s) this org is in
-						orgHierarchyQPV.setValue(orgId);
-						searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsInByShortName", orgHierarchyQPVs);
-						
-						if (null == searchResults) { return returnAttrSetList; }
-						// find ancestors in each hierarchy, looking for colleges
-						String hierarchyId;
-						for (Result result : searchResults) {
-							for (ResultCell cell : result.getResultCells()) {
-								// get the ancestors of the org in this hierarchy
-								hierarchyId = cell.getValue();
-								List<String> ancestorIds = getOrganizationService().getAncestors(orgId, hierarchyId);
-								if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
-									List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
-									for (OrgInfo orgInfo : ancestors) {
-										if (orgInfo.getType().equals("kuali.org.College")) {
-											// if a college, stash in attributeSets
-											returnSet.put(COLLEGE, orgInfo.getId());
+		List<AttributeSet> attributeSets;
+		try {
+			attributeSets = super.resolve(context);
+			if (attributeSets.size() > 0 && attributeSets.get(0).size() > 0) {
+				String orgId = getAttribute(attributeSets, ORG_ID);
+				if (null != orgId) {
+					OrgInfo orgInfo;
+					orgInfo = getOrganizationService().getOrganization(orgId);
+					if (null != orgInfo) {
+						// found a college right away
+						if (isCollege(orgInfo)) {
+							returnSet.put(COLLEGE, orgInfo.getShortName());
+						}
+						else {
+							// get the hierarchy(s) this org is in
+							orgHierarchyQPV.setValue(orgId);
+							searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
+							
+							if (null == searchResults) { return returnAttrSetList; }
+							// find ancestors in each hierarchy, looking for colleges
+							String hierarchyId;
+							for (Result result : searchResults) {
+								for (ResultCell cell : result.getResultCells()) {
+									// get the ancestors of the org in this hierarchy
+									hierarchyId = cell.getValue();
+									List<String> ancestorIds = getOrganizationService().getAncestors(orgId, hierarchyId);
+									if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
+										// look for colleges
+										List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
+										for (OrgInfo org : ancestors) {
+											if (isCollege(org)) {
+												// found one
+												returnSet.put(COLLEGE, org.getShortName());
+											}
 										}
 									}
 								}
 							}
 						}
-						if (returnSet.size() > 0) { // found some college ancestors
-							returnAttrSetList.add(returnSet);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
 				}
+				if (returnSet.size() > 0) { // found at least one college
+					returnAttrSetList.add(returnSet);
+				}
 			}
+		} catch (Exception e) {
+				e.printStackTrace();
 		}
 		return returnAttrSetList;
 	}
@@ -137,16 +117,4 @@ public class CollegeQualifierResolver extends DeptQualifierResolver {
 		}
 		return null;
 	}
-	
-	private OrganizationService getOrganizationService() {
-		if (null == orgService) {
-		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://org.kuali.student/core/organization","OrganizationService"));
-		}
-		return orgService;
-	}
-	
-	// package-private so test code can set it
-	void setOrganizationService(OrganizationService orgSvc) {
-		orgService = orgSvc;
-	}	
 }

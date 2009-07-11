@@ -43,20 +43,35 @@ import org.kuali.student.core.search.dto.ResultCell;
  */
 public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 	
-	private static final String SIMPLE_CLU_DOC_NO_DEPT_XML =
-								"<applicationContent>" +
-									"<cluProposal>" +
-										"<cluId>Doc Type 1</cluId>" +
-									"</cluProposal>" +
-								"</applicationContent>";
+	private static final String SIMPLE_CLU_DOC_NO_ORG_XML =
+								"<documentContent>" +
+									"<applicationContent>" +
+										"<cluProposal>" +
+											"<cluId>Doc Type 1</cluId>" +
+										"</cluProposal>" +
+									"</applicationContent>" +
+								"</documentContent>";
 	
-	private static final String SIMPLE_CLU_DOC_XML =
-								"<applicationContent>" +
-									"<cluProposal>" +
-										"<cluId>Doc Type 1</cluId>" +
-										"<department>Chemistry</department>" +
-									"</cluProposal>" +
-								"</applicationContent>";
+	private static final String SIMPLE_CLU_DOC_COLLEGE_XML =
+								"<documentContent>" +
+									"<applicationContent>" +
+										"<cluProposal>" +
+											"<cluId>Doc Type 1</cluId>" +
+											"<orgId>31</orgId>" +
+										"</cluProposal>" +
+									"</applicationContent>" +
+								"</documentContent>";
+	
+	private static final String SIMPLE_CLU_DOC_DEPT_XML =
+								"<documentContent>" +
+									"<applicationContent>" +
+										"<cluProposal>" +
+											"<cluId>Doc Type 1</cluId>" +
+											"<orgId>64</orgId>" +
+										"</cluProposal>" +
+									"</applicationContent>" +
+								"</documentContent>";
+	
 	OrganizationService mockOrgSvc = EasyMock.createMock(OrganizationService.class);
 	
 	
@@ -66,7 +81,7 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		resolver.setOrganizationService(getMockOrgService());
 		
 		RouteContext context = new RouteContext();
-		DocumentContent docContent = new StandardDocumentContent(SIMPLE_CLU_DOC_NO_DEPT_XML);
+		DocumentContent docContent = new StandardDocumentContent(SIMPLE_CLU_DOC_NO_ORG_XML);
 		context.setDocumentContent(docContent);
 		
 		// shouldn't find a department, since there is none
@@ -75,17 +90,28 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		
 		// however, should succeed with this
 		context = new RouteContext();
-		docContent = new StandardDocumentContent(SIMPLE_CLU_DOC_XML);
+		docContent = new StandardDocumentContent(SIMPLE_CLU_DOC_COLLEGE_XML);
 		context.setDocumentContent(docContent);
 		
 		attributeSets = resolver.resolve(context);
 		assertEquals(1, attributeSets.size());
 		assertEquals(1, attributeSets.get(0).size());
-		assertEquals("30", attributeSets.get(0).get("college"));
+		assertEquals("Engineering", attributeSets.get(0).get("college"));
+		
+		// and this
+		context = new RouteContext();
+		docContent = new StandardDocumentContent(SIMPLE_CLU_DOC_DEPT_XML);
+		context.setDocumentContent(docContent);
+		
+		attributeSets = resolver.resolve(context);
+		assertEquals(1, attributeSets.size());
+		assertEquals(1, attributeSets.get(0).size());
+		assertEquals("Engineering", attributeSets.get(0).get("college"));
 	}
 
 	/**
-	 * @return
+	 * @return EasyMock-based mock OrganizationService
+	 * 
 	 * @throws PermissionDeniedException 
 	 * @throws OperationFailedException 
 	 * @throws MissingParameterException 
@@ -95,38 +121,38 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 	@SuppressWarnings("unchecked")
 	private OrganizationService getMockOrgService() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		EasyMock.reset(mockOrgSvc);
-		ResultCell cell = new ResultCell();
-		ResultCell cell2 = new ResultCell();
-		ResultCell cell3 = new ResultCell();
-		cell.setKey("org.resultColumn.orgId");
-		cell.setValue("23");
-		cell2.setValue("TestOrgShortName");
-		cell3.setValue("kuali.org.hierarchy.Main");
+		
+		OrgInfo mockCollege = new OrgInfo();
+		mockCollege.setId("31");
+		mockCollege.setType("kuali.org.College");
+		mockCollege.setShortName("Engineering");
+		EasyMock.expect(mockOrgSvc.getOrganization("31")).andReturn(mockCollege);
+		
+		OrgInfo mockDepartment = new OrgInfo();
+		mockDepartment.setId("64");
+		mockDepartment.setType("kuali.org.Department");
+		mockDepartment.setShortName("CompSci");
+		EasyMock.expect(mockOrgSvc.getOrganization("64")).andReturn(mockDepartment);
+		
 		Result queryResult = new Result();
-		Result queryResult2 = new Result();
-		queryResult.setResultCells(Arrays.asList(cell, cell2));
-		queryResult2.setResultCells(Arrays.asList(cell3));
+		ResultCell cell = new ResultCell();
+		cell.setValue("kuali.org.hierarchy.Main");
+		queryResult.setResultCells(Arrays.asList(cell));
+		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.hierarchiesOrgIsIn"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult));
 		
-		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.orgByShortName"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult));
-		OrgInfo mockOrgInfo = new OrgInfo();
-		mockOrgInfo.setId("23");
-		EasyMock.expect(mockOrgSvc.getOrganization("23")).andReturn(mockOrgInfo);
-		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.hierarchiesOrgIsInByShortName"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult2));
-		EasyMock.expect(mockOrgSvc.getAncestors("23", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("30", "137"));
-		
+		EasyMock.expect(mockOrgSvc.getAncestors("64", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("5", "31", "137"));
 		
 		OrgInfo mockBoard = new OrgInfo();
-		OrgInfo mockCollege = new OrgInfo();
 		OrgInfo mockCommittee = new OrgInfo();
 		mockBoard.setId("5");
-		mockCollege.setType("kuali.org.Board");
-		mockCollege.setId("30");
-		mockCollege.setType("kuali.org.College");
+		mockBoard.setType("kuali.org.Board");
 		mockCommittee.setId("137");
 		mockCommittee.setType("kuali.org.Committee");
-		EasyMock.expect(mockOrgSvc.getOrganizationsByIdList(Arrays.asList("30", "137"))).andReturn(Arrays.asList(mockCollege, mockCommittee));
+		EasyMock.expect(mockOrgSvc.getOrganizationsByIdList(Arrays.asList("5", "31", "137"))).andReturn(Arrays.asList(mockCollege, mockCommittee));
+		
+		EasyMock.expect(mockOrgSvc.getOrganization("31")).andReturn(mockCollege);
+		
 		EasyMock.replay(mockOrgSvc);
 		return mockOrgSvc;
 	}
-
 }

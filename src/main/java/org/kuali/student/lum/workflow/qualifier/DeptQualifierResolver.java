@@ -16,35 +16,37 @@
 
 package org.kuali.student.lum.workflow.qualifier;
 
-import org.kuali.rice.kew.role.XPathQualifierResolver;
-import org.kuali.rice.kew.rule.bo.RuleAttribute;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.core.organization.dto.OrgInfo;
 
 /**
  * @author Kuali Student Team
  *
  */
-public class DeptQualifierResolver extends XPathQualifierResolver {
+public class DeptQualifierResolver extends AbstractOrgQualifierResolver {
 	
-	
-	protected static final String DEPARTMENT = "department";
-	protected static final String COLLEGE = "college";
-	private static final String DEPT_RESOLVER_CONFIG =
-								"<resolverConfig>" +
-									"<baseXPathExpression>/applicationContent/cluProposal</baseXPathExpression>" +
-									"<qualifier name=\"" + DEPARTMENT +  "\">" +
-										"<xPathExpression>./department</xPathExpression>" + 
-									"</qualifier>" +
-									"<qualifier name=\"" + COLLEGE + "\">" +
-										"<xPathExpression>./college</xPathExpression>" + 
-									"</qualifier>" +
-								"</resolverConfig>";
-	
-	private static 	RuleAttribute ruleAttribute = new RuleAttribute();
-	static {
-		ruleAttribute.setXmlConfigData(DEPT_RESOLVER_CONFIG);
-	}
-
-	public DeptQualifierResolver() {
-		setRuleAttribute(ruleAttribute);
-	}
+	@Override
+	public List<AttributeSet> resolve(RouteContext context) {
+		List<AttributeSet> foundSet = super.resolve(context);
+		List<AttributeSet> returnSet = new ArrayList<AttributeSet>();
+		if (null != foundSet && foundSet.size() > 0) {
+			String orgId = foundSet.get(0).get(ORG_ID);
+			OrgInfo orgInfo = null;
+			try {
+				orgInfo = orgService.getOrganization(orgId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (isDepartment(orgInfo)) {
+				AttributeSet aSet = new AttributeSet();
+				aSet.put(DEPARTMENT, orgInfo.getShortName());
+				returnSet.add(aSet);
+			}
+		}
+		return returnSet;
+	}	
 }
