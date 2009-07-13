@@ -236,4 +236,8 @@ public class ValidationResultContainer implements Serializable {
 	public void setErrorLevel(ErrorLevel errorLevel) {
 		this.errorLevel = errorLevel;
 	}
+
+	public void setElement(String element) {
+		this.element = element;
+	}
 }
