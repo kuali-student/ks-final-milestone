@@ -37,7 +37,7 @@ public class DeptQualifierResolver extends AbstractOrgQualifierResolver {
 			String orgId = foundSet.get(0).get(ORG_ID);
 			OrgInfo orgInfo = null;
 			try {
-				orgInfo = orgService.getOrganization(orgId);
+				orgInfo = getOrganizationService().getOrganization(orgId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
