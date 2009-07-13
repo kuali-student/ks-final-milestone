@@ -26,19 +26,20 @@ import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
+ * This singleton class is a repository for dictionary defs for LUM.   
+ * This class holds a cache of dictionary defs loaded by an external process
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
 public class LUDictionaryManager {
-    
+
     private static final char DICT_KEY_SEPARATOR = ':';
-    
+
     private Validator validator = null;//FIXME! inject this somehow new Validator(); 
     private static Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
-    
-    
+
+
     private static LUDictionaryManager manager = new LUDictionaryManager();
     /**
      * This constructs a ...
@@ -51,7 +52,17 @@ public class LUDictionaryManager {
     public static LUDictionaryManager getInstance() {
         return manager;        
     }
-    
+
+    /**
+     * This method will load the field definitions from a dictionary ObjectStructure into a HashMap
+     * keyed by ObjectStructure name e.g. cluInfo, proposalInfo, type, e.g. Credit Course, Program, etc. and state, e.g. Draft, Inactive.
+     * 
+     *  Map may then be accessed later to retrieve field definitions for any object of a particular type
+     *  in a particular state, e.g. cluIdentifierInfo for a Proposed Non-Credit Course  
+     *  
+     *  @param  structure  The ObjectStructure to be loaded into the cache
+     * 
+     */
     public void loadStructure(ObjectStructure structure) {
 
         Map<String, Field> result = null ;
@@ -68,6 +79,17 @@ public class LUDictionaryManager {
 
     }
 
+    /**
+     *  Returns Map of all Field definitions for a particular object of a particular type in a 
+     *  particular state, e.g.  fields for cluInfo for a Proposed Non-Credit Course, keyed by
+     *  field name
+     *  
+     *  @param  objectKey  The name of the ObjectStructure defs to be returned
+     *  @param  type       The object type that further qualifies the defs to be returned
+     *  @param  state      The state that further qualifies the defs to be returned
+     *  @return            A map of the field defs for this object/type/state combo 
+     *    
+     */
     public Map<String, Field> getFields(String objectKey, String type, String state) {
 
         return indexedFields.get(objectKey +  DICT_KEY_SEPARATOR +
@@ -76,35 +98,40 @@ public class LUDictionaryManager {
 
     }
 
-    public Field getField(String objectKey, String type, String state, String fieldName) {
+    /**
+     *  Returns Field definition for one field in an object of a particular type in a 
+     *  particular state, e.g.  def for longName for cluInfo for a Proposed Non-Credit Course. 
+     *  
+     *  @param  objectKey  The name of the ObjectStructure defs to be returned
+     *  @param  type       The object type that further qualifies the defs to be returned
+     *  @param  state      The state that further qualifies the defs to be returned
+     *  @param  fieldName  The specific field def to be returned
+     *  @return            A map of the field defs for this object/type/state combo 
+     *    
+     */     
+     public Field getField(String objectKey, String type, String state, String fieldName) {
 
-        String fieldKey = objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +  type.toLowerCase() + DICT_KEY_SEPARATOR + state.toLowerCase();
-        Map<String, Field> map =  indexedFields.get(fieldKey);
-        if(map!=null){
-        	Field f = map.get(fieldName);
-            return f;
-        }
-        //Fix me default in case something bad happened
-        Field f = new Field();
-        f.setFieldDescriptor(new FieldDescriptor());
-        f.getFieldDescriptor().setName(fieldName);
-        return f;
-    }
+         String fieldKey = objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +  type.toLowerCase() + DICT_KEY_SEPARATOR + state.toLowerCase();
+         Map<String, Field> map =  indexedFields.get(fieldKey);
+         if(map!=null){
+             Field f = map.get(fieldName);
+             return f;
+         }
+         
+         //TODO what should be returned if this field def exists but not for this type/state combo?
+         
+         //Fix me default in case something bad happened
+         Field f = new Field();
+         f.setFieldDescriptor(new FieldDescriptor());
+         f.getFieldDescriptor().setName(fieldName);
+         return f;
+     }
 
-    public Validator getValidator() {
-        return validator;
-    }
+     public Validator getValidator() {
+         return validator;
+     }
 
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-    
-    public String[] getTypes () {
-        String[] result = new String[indexedFields.size()];
-        
-        indexedFields.keySet().toArray(result);
-        
-        return result;
-    }
-    
+     public void setValidator(Validator validator) {
+         this.validator = validator;
+     }
 }
