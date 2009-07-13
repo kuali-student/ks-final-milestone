@@ -37,14 +37,21 @@ public class RowDescriptor extends Composite{
             KSLabel label = new KSLabel(fieldDescriptor.getFieldLabel());
             //label.addStyleName(KSStyles.KS_FORMLAYOUT_LABEL);
             if(currentFieldLabelType == FieldLabelType.LABEL_LEFT){
-                rowPanel.add(label);
+                if(!(label.getText().equals("")) && label.getText() != null){
+                    rowPanel.add(label);
+                }
                 rowPanel.add(fieldDescriptor.getFieldWidget());
             }
             else if(currentFieldLabelType == FieldLabelType.LABEL_TOP){
-                FlowPanel vp = new FlowPanel();
-                vp.add(label);
-                vp.add(fieldDescriptor.getFieldWidget());
-                rowPanel.add(vp);
+                if(!(label.getText().equals("")) && label.getText() != null){
+                    FlowPanel vp = new FlowPanel();
+                    vp.add(label);
+                    vp.add(fieldDescriptor.getFieldWidget());
+                    rowPanel.add(vp);
+                }
+                else{
+                    rowPanel.add(fieldDescriptor.getFieldWidget());
+                }
             }
         }
     }
