@@ -68,21 +68,22 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 							orgHierarchyQPV.setValue(orgId);
 							searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
 							
-							if (null == searchResults) { return returnAttrSetList; }
-							// find ancestors in each hierarchy, looking for colleges
-							String hierarchyId;
-							for (Result result : searchResults) {
-								for (ResultCell cell : result.getResultCells()) {
-									// get the ancestors of the org in this hierarchy
-									hierarchyId = cell.getValue();
-									List<String> ancestorIds = getOrganizationService().getAncestors(orgId, hierarchyId);
-									if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
-										// look for colleges
-										List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
-										for (OrgInfo org : ancestors) {
-											if (isCollege(org)) {
-												// found one
-												returnSet.put(COLLEGE, org.getShortName());
+							if (null != searchResults) {
+								// find ancestors in each hierarchy, looking for colleges
+								String hierarchyId;
+								for (Result result : searchResults) {
+									for (ResultCell cell : result.getResultCells()) {
+										// get the ancestors of the org in this hierarchy
+										hierarchyId = cell.getValue();
+										List<String> ancestorIds = getOrganizationService().getAncestors(orgId, hierarchyId);
+										if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
+											// look for colleges
+											List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
+											for (OrgInfo org : ancestors) {
+												if (isCollege(org)) {
+													// found one
+													returnSet.put(COLLEGE, org.getShortName());
+												}
 											}
 										}
 									}
