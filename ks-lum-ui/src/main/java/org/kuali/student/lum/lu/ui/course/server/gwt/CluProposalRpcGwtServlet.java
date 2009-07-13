@@ -236,8 +236,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 }
             }
             
-            simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal));
-          
+            if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docResponse.getDocStatus())) || 
+            	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docResponse.getDocStatus())) ) {
+                simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), "");
+            }
+            else {
+                simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -466,8 +471,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        Text cluIdText = doc.createTextNode(cluInfo.getId());
 	        cluIdElement.appendChild(cluIdText);
 	        
+	        Element routingPrincipalIdRoleAttribute = doc.createElement("PrincipalIdRoleAttribute");
+	        root.appendChild(routingPrincipalIdRoleAttribute);
+	        
 	        Element recipientPrincipalIdElement = doc.createElement("recipientPrincipalId");
-	        root.appendChild(recipientPrincipalIdElement);
+	        routingPrincipalIdRoleAttribute.appendChild(recipientPrincipalIdElement);
 	        
 	        Text recipientPrincipalIdText = doc.createTextNode(recipientPrincipalId);
 	        recipientPrincipalIdElement.appendChild(recipientPrincipalIdText);
@@ -535,20 +543,21 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         ActionRequestDTO[] items= workflowUtilityService.getActionRequests(Long.parseLong(docId));
         if(items!=null){
         	for(ActionRequestDTO item:items){
-        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
-        			if(item.getRequestLabel().startsWith("Co-Author")){
-	        			coAuthors.add(item.getPrincipalId());
+        		if (item.isActivated() && (!item.isDone())) {
+	        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
+	        			if(item.getRequestLabel().startsWith("Co-Author")){
+		        			coAuthors.add(item.getPrincipalId());
+		        		}
+		        		else if(item.getRequestLabel().startsWith("Commentor")){
+		        			commentors.add(item.getPrincipalId());
+		        		}
+		        		else if(item.getRequestLabel().startsWith("Viewer")){
+		        			viewers.add(item.getPrincipalId());
+		        		}
+		        		else if(item.getRequestLabel().startsWith("Delegate")){
+		        			delegates.add(item.getPrincipalId());
+		        		}
 	        		}
-	        		else if(item.getRequestLabel().startsWith("Commentor")){
-	        			commentors.add(item.getPrincipalId());
-	        		}
-	        		else if(item.getRequestLabel().startsWith("Viewer")){
-	        			viewers.add(item.getPrincipalId());
-	        		}
-	        		else if(item.getRequestLabel().startsWith("Delegate")){
-	        			delegates.add(item.getPrincipalId());
-	        		}
-
         		}
         	}
         }
