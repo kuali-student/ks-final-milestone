@@ -72,10 +72,5 @@ public class LUConstants {
     public static final String STRUCTURE_CLU_INFO = "cluInfo";
     public static final String STRUCTURE_CLU_ID_INFO = "cluIdentifierInfo";
     public static final String STRUCTURE_PROPOSAL_INFO = "proposalInfo";
-    public static final String[] DICTIONARY_OBJECT_KEYS = new String[] {
-        STRUCTURE_CLU_INFO,STRUCTURE_CLU_ID_INFO, STRUCTURE_PROPOSAL_INFO};
-
-//    public static final List<String> DICTIONARY_OBJECT_KEYS = 
-//        new ArrayList<String>(Arrays.asList(new String[] {STRUCTURE_CLU_INFO,STRUCTURE_CLU_ID_INFO, STRUCTURE_PROPOSAL_INFO}));
-}
+ }
 

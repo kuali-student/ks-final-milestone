@@ -98,8 +98,13 @@ public class LUDictionaryManager {
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
-
-    public static Map<String, Map<String, Field>> getIndexedFields() {
-        return indexedFields;
-    }    
+    
+    public String[] getTypes () {
+        String[] result = new String[indexedFields.size()];
+        
+        indexedFields.keySet().toArray(result);
+        
+        return result;
+    }
+    
 }

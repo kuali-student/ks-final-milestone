@@ -1,6 +1,8 @@
 package org.kuali.student.lum.lu.ui.main.client;
 
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
@@ -9,10 +11,8 @@ import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.MessageList;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.home.client.view.HomeResources;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -72,7 +72,10 @@ public class LUMMainEntryPoint implements EntryPoint{
     private void loadDictionary() {
 
         try {
-            for (String key: LUConstants.DICTIONARY_OBJECT_KEYS) {
+            GWT.log("Dictionary load starts", null);
+            List<String> types = getDictSerializedObject("objectTypes");
+            for (String key: types) {
+                GWT.log("Loading object structure for " + key, null);
                 ObjectStructure structure =  getDictSerializedObject( key);
                 LUDictionaryManager.getInstance().loadStructure(structure);
             }

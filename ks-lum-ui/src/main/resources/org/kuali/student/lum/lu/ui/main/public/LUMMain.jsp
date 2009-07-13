@@ -22,20 +22,24 @@
         DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("luClient");
         Map structures = new HashMap();
 
-        //TODO: Nice to be able to read this from dictionary config instead of a constant
+        String objectTypes = preloader.getObjectTypesEncodedString();
         
-        for(int i=0; i<LUConstants.DICTIONARY_OBJECT_KEYS.length; i++) {
-            String key = LUConstants.DICTIONARY_OBJECT_KEYS[i];
+        String[] keys = preloader.getObjectTypes();
+      
+        for(int i=0; i<keys.length; i++) {
+            String key = keys[i];
             String s = preloader.getObjectStructureEncodedString(key);
             structures.put(key, s);
+
         }
 %>
 	<script type="text/javascript"> 
 	 var i18nMessages = '<%=messageData%>';
+	 var objectTypes = '<%=objectTypes%>';
 	 
 	 <%
-     for(int j=0; j<LUConstants.DICTIONARY_OBJECT_KEYS.length; j++) {
-         String key = LUConstants.DICTIONARY_OBJECT_KEYS[j];        
+     for(int j=0; j<keys.length; j++) {
+         String key = keys[j];        
      %>
          var <%=key%> = '<%=structures.get(key)%>';
      <% 
