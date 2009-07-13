@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.server.dictionary;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
@@ -73,7 +74,7 @@ public class DictionaryRPCPreloader {
      * @param objectKey name of dictionary ObjectStructure
      * @return
      */public String getObjectStructureEncodedString(String objectKey){
-       
+
 
          String result = null;
          ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
@@ -96,71 +97,125 @@ public class DictionaryRPCPreloader {
          return result;
      }
 
-//     /**
-//      * Note: This method not yet ready for use!
-//      * 
-//      * This method passes the supplied object keys to the dictionary implementation in this domain 
-//      * and returns an array of serialized strings 
-//      * 
-//      * @param objectKey name of dictionary ObjectStructure
-//      * @return
-//      */public String[] getObjectStructuresEncodedString(String[] objectKeys){
-//
-//          String[] result = null;
-//          ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
-//          try {             
-//              dictService = (DictionaryService)context.getBean(serviceName);
-//              Method serviceMethod = DictionaryService.class.getMethod("getObjectStructure", String.class);
-//              
-//              List structures = new ArrayList();
-//              
-//              for (String key: objectKeys) {
-//                  ObjectStructure structure = dictService.getObjectStructure(key);
-//                  String s = serializeData(serviceMethod, structure); 
-//                  structures.add(s);
-//              
-//              }
-//              result = (String[])structures.toArray();
-//
-//
-//          } catch (SecurityException e) {
-//              e.printStackTrace();
-//          } catch (NoSuchMethodException e) {
-//              e.printStackTrace();
-//          } catch (SerializationException e) {
-//              System.out.println(e.getMessage());
-//              e.printStackTrace();
-//          }
-//
-//          return result;
-//      }
-      
-    private String serializeData(Method serviceMethod, ObjectStructure structure) throws SerializationException {
-        String serializedData = RPC.encodeResponseForSuccess(serviceMethod, structure, myPolicy);
-        return  SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);
-    }
+     /**
+      * 
+      * This method returns a list of ObjectStructure types defined in this domain
+      * as a serialized string 
+      * 
+      * @return
+      */public String getObjectTypesEncodedString(){
 
+
+          String result = null;
+          ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
+          try {             
+              dictService = (DictionaryService)context.getBean(serviceName);
+              Method serviceMethod = DictionaryService.class.getMethod("getObjectTypes");
+              List<String> types = dictService.getObjectTypes();
+
+              result = serializeData(serviceMethod, types);               
+
+          } catch (SecurityException e) {
+              e.printStackTrace();
+          } catch (NoSuchMethodException e) {
+              e.printStackTrace();
+          } catch (SerializationException e) {
+              System.out.println(e.getMessage());
+              e.printStackTrace();
+          }
+
+          return result;
+      }
+      
+     /**
+      * 
+      * This method returns a list of ObjectStructure types defined in this domain
+      * 
+      * @return
+      */
+     public String[] getObjectTypes(){
+
+         String[] strResult = null;  
+         ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
+         try {             
+             List<String> result = null;
+             dictService = (DictionaryService)context.getBean(serviceName);
+             result = dictService.getObjectTypes();
+             strResult=new String[result.size()];  
+             result.toArray(strResult);
+
+         } catch (SecurityException e) {
+             e.printStackTrace();
+         }
+         return  strResult;
+
+     }
+
+//   /**
+//   * Note: This method not yet ready for use!
+//   * 
+//   * This method passes the supplied object keys to the dictionary implementation in this domain 
+//   * and returns an array of serialized strings 
+//   * 
+//   * @param objectKey name of dictionary ObjectStructure
+//   * @return
+//   */public String[] getObjectStructuresEncodedString(String[] objectKeys){
+
+//   String[] result = null;
+//   ApplicationContext context = new ClassPathXmlApplicationContext("gwt-context.xml");
+//   try {             
+//   dictService = (DictionaryService)context.getBean(serviceName);
+//   Method serviceMethod = DictionaryService.class.getMethod("getObjectStructure", String.class);
+
+//   List structures = new ArrayList();
+
+//   for (String key: objectKeys) {
+//   ObjectStructure structure = dictService.getObjectStructure(key);
+//   String s = serializeData(serviceMethod, structure); 
+//   structures.add(s);
+
+//   }
+//   result = (String[])structures.toArray();
+
+
+//   } catch (SecurityException e) {
+//   e.printStackTrace();
+//   } catch (NoSuchMethodException e) {
+//   e.printStackTrace();
+//   } catch (SerializationException e) {
+//   System.out.println(e.getMessage());
+//   e.printStackTrace();
+//   }
+
+//   return result;
+//   }
+
+     private String serializeData(Method serviceMethod, Object object) throws SerializationException {
+         String serializedData = RPC.encodeResponseForSuccess(serviceMethod, object, myPolicy);
+         return  SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);
+     }
+     
      private void buildWhitelist() {
          whitelist = new HashMap<Class<?>, Boolean>();
-        whitelist.put(CaseConstraint.class, true);
-		whitelist.put(ConstraintDescriptor.class, true);
-		whitelist.put(ConstraintSelector.class, true);
-		whitelist.put(Context.class, true);
-		whitelist.put(Dictionary.class, true);
-		whitelist.put(Field.class, true);
-		whitelist.put(FieldDescriptor.class, true);
-		whitelist.put(LookupConstraint.class, true);
-		whitelist.put(LookupKeyConstraint.class, true);
-		whitelist.put(ObjectStructure.class, true);
-		whitelist.put(OccursConstraint.class, true);
-		whitelist.put(RequireConstraint.class, true);
-		whitelist.put(SearchSelector.class, true);
-		whitelist.put(State.class, true);
-		whitelist.put(Type.class, true);
-		whitelist.put(TypeStateCaseConstraint.class, true);
-		whitelist.put(TypeStateWhenConstraint.class, true);
-		whitelist.put(ValidCharsConstraint.class, true);
-		whitelist.put(WhenConstraint.class, true);
+         whitelist.put(CaseConstraint.class, true);
+         whitelist.put(ConstraintDescriptor.class, true);
+         whitelist.put(ConstraintSelector.class, true);
+         whitelist.put(Context.class, true);
+         whitelist.put(Dictionary.class, true);
+         whitelist.put(Field.class, true);
+         whitelist.put(FieldDescriptor.class, true);
+         whitelist.put(LookupConstraint.class, true);
+         whitelist.put(LookupKeyConstraint.class, true);
+         whitelist.put(ObjectStructure.class, true);
+         whitelist.put(OccursConstraint.class, true);
+         whitelist.put(RequireConstraint.class, true);
+         whitelist.put(SearchSelector.class, true);
+         whitelist.put(State.class, true);
+         whitelist.put(Type.class, true);
+         whitelist.put(TypeStateCaseConstraint.class, true);
+         whitelist.put(TypeStateWhenConstraint.class, true);
+         whitelist.put(ValidCharsConstraint.class, true);
+         whitelist.put(WhenConstraint.class, true);
 
      }
 
