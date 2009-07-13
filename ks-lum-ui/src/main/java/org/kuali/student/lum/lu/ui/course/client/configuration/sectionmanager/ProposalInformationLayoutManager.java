@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.ConfigurableField;
 import org.kuali.student.common.ui.client.configurable.PropertyBinding;
 import org.kuali.student.common.ui.client.dto.HelpInfo;
@@ -266,7 +268,7 @@ public class ProposalInformationLayoutManager {
 
 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION, 
-                LUConstants.SECTION_COURSE_FORMAT}, 
+                LUConstants.SECTION_COURSE_LOGISTICS}, 
                 new SimpleConfigurableSection<CluProposal>()
                 .addField(new ConfigurableField<CluProposal>()
                         .setBinding(new PropertyBinding<CluProposal>() {
@@ -308,7 +310,7 @@ public class ProposalInformationLayoutManager {
                         )
                 )
 
-                .setSectionTitle(LUConstants.SECTION_COURSE_FORMAT)
+                .setSectionTitle(LUConstants.SECTION_COURSE_LOGISTICS)
                 .setInstructions("Instructions go here...")
                 .setParentLayout(layout)  
         );
