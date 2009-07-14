@@ -54,7 +54,7 @@ public class AddressManager extends Controller {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (modelType.equals(Address.class)) {
             callback.onModelReady(addresses);
         } else {

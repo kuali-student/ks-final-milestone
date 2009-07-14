@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.core.dto.Idable;
 
 /**
  * Passed in as an argument to Controller.requestModel Because a model may need to be initialized via an asynchronous call,

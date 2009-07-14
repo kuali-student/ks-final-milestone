@@ -144,7 +144,7 @@ public abstract class Controller extends Composite {
      * @param callback
      */
     @SuppressWarnings("unchecked")
-    public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (getParentController() != null) {
             parentController.requestModel(modelType, callback);
         } else {
@@ -152,14 +152,6 @@ public abstract class Controller extends Composite {
         }
     }
     
-    @SuppressWarnings("unchecked")
-    public void requestModelDTO(ModelRequestCallback callback){
-        if (getParentController() != null) {
-            parentController.requestModelDTO(callback);
-        } else {
-            callback.onRequestFail(new ModelNotFoundException("The requested model was not found", null));
-        }
-    }
     
     /**
      * Registers an application eventhandler. The controller will try to propagate "unchecked" handlers to the parent

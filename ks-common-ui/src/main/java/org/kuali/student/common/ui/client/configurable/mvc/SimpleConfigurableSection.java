@@ -67,7 +67,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	    }
 
         //Request model and redraw view if model changed
-	    getController().requestModelDTO(new ModelRequestCallback<ModelDTO>(){
+	    getController().requestModel(ModelDTO.class, new ModelRequestCallback<ModelDTO>(){
             public void onModelReady(Model<ModelDTO> m) {
                 if (model != m){
                     model = m;

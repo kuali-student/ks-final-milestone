@@ -104,8 +104,11 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		
 		sectionItem.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-                currMenuItemIdx = sectionMenuItems.indexOf(sectionItem);
-			    showView(section.getViewEnum());
+			    int newMenuItemIdx = sectionMenuItems.indexOf(sectionItem);
+			    if (currMenuItemIdx != newMenuItemIdx){
+                    currMenuItemIdx = newMenuItemIdx;
+    			    showView(section.getViewEnum());
+			    }
 			}
 		});
 		
@@ -168,7 +171,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
      */
     @Override
     public void showDefaultView() {
-        requestModelDTO(defaultViewCallback);
+        requestModel(ModelDTO.class, defaultViewCallback);
     }
     
     private ModelRequestCallback<ModelDTO> defaultViewCallback = new ModelRequestCallback<ModelDTO>(){

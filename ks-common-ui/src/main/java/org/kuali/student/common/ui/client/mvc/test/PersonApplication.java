@@ -99,7 +99,7 @@ public class PersonApplication extends Controller {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (modelType.equals(Person.class)) {
             if (people == null) {
                 people = new Model<Person>();
