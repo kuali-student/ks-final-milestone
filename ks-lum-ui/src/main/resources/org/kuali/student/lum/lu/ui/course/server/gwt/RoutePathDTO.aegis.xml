@@ -1,0 +1,6 @@
+<mappings>
+	<mapping>
+		<property name="primaryProcess" ignore="true" />
+		<property name="routeNode" ignore="true" />
+	</mapping>
+</mappings>

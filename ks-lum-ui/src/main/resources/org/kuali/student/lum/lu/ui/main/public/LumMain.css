@@ -4,3 +4,17 @@
 	width: 100%;
 	padding: 10px;
 }
+
+.FlexTable {
+  border-top: thin solid #444444;
+  border-left: thin solid #444444;
+  border-right: thin solid #111111;
+  border-bottom: thin solid #111111;
+  border-collapse:separate;
+  empty-cells:hide;
+}
+
+.FlexTableColumn {
+
+	background-color:  #F0F0F0;
+}
