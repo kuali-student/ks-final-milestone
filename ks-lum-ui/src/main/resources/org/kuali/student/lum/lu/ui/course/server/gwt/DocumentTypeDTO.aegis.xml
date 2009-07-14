@@ -1,6 +1,0 @@
-<mappings>
-	<mapping>
-		<property name="defaultApprovePolicy" ignore="true" />
-		<property name="docTypeName" ignore="true" />
-	</mapping>
-</mappings>
