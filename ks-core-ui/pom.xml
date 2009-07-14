@@ -62,6 +62,7 @@
 								</param>
 								<!-- add any other GWT modules in your project that are required -->
 							</compileTargets>
+							<localWorkers>2</localWorkers>
 						</configuration>
 					</plugin>
 		
@@ -118,6 +119,7 @@
 				        <configuration>
 				          <module>org.kuali.student.core.organization.ui.OrgEntry</module>
 				          <runTarget>org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</runTarget>
+						  <localWorkers>2</localWorkers>
 				        </configuration>
 						<executions>
 							<execution>
