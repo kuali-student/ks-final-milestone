@@ -22,7 +22,7 @@ public class ParameterMapInfo implements java.io.Serializable {
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
-	Map<String,String> paramMap = new HashMap<String, String>();
+	private Map<String,String> paramMap = new HashMap<String, String>();
 	
     public ParameterMapInfo() {
     }
