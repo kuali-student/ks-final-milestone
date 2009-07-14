@@ -61,6 +61,7 @@
 								</param>
 							</compileTargets>
 							<extraJvmArgs>-Xmx512m</extraJvmArgs>
+							<localWorkers>2</localWorkers>
 						</configuration>
 					</plugin>
 						
@@ -114,6 +115,7 @@
 				        <configuration>
 							<runTarget>org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</runTarget>
 							<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>					
+							<localWorkers>2</localWorkers>
 				        </configuration>
 						<executions>
 							<execution>
