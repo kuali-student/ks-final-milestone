@@ -79,7 +79,7 @@ public class CourseReqManager extends Controller {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void requestModel(Class<? extends Idable> modelType, ModelRequestCallback callback) {
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (modelType.equals(RuleInfo.class)) {
             
             //pass back only rule corresponding to the user selected rule type

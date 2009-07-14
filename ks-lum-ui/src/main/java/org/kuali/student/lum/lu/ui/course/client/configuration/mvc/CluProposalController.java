@@ -69,14 +69,18 @@ public class CluProposalController extends PagedSectionLayout{
 
     @SuppressWarnings("unchecked")
     @Override
-    public void requestModelDTO(ModelRequestCallback callback) {
-        if (cluProposalModel == null){
-            cluProposalModel = new Model<ModelDTO>();
-            cluProposalModel.put(new ModelDTO("cluProposal"));
-            callback.onModelReady(cluProposalModel);
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
+        if (modelType == ModelDTO.class){
+            if (cluProposalModel == null){
+                cluProposalModel = new Model<ModelDTO>();
+                cluProposalModel.put(new ModelDTO("CluProposal"));
+                callback.onModelReady(cluProposalModel);
+            } else {
+                callback.onModelReady(cluProposalModel); 
+            }
         } else {
-            callback.onModelReady(cluProposalModel); 
-        }        
+            super.requestModel(modelType, callback);
+        }
     }
 
     
