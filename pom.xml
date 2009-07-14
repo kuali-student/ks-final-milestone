@@ -2,25 +2,53 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <artifactId>ks-service-api-pom</artifactId>
-        <groupId>org.kuali.student.poc.common</groupId>
-        <version>0.1.0-SNAPSHOT</version>
-    </parent>
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>brms-parent-pom</artifactId>
+	<artifactId>ks-brms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>BRMS API</name>
-	<description />
+	<name>KS BRMS</name>
+	<description>KS Business Rule Management System POM</description>
+
+    <parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+    
+    <url>http://student.kuali.org/site/brms/${project.version}</url>
+	
+	<properties>
+        <drools.version>5.0.1</drools.version>
+        <velocity.version>1.5</velocity.version>
+        <velocity.tools.version>1.4</velocity.tools.version>
+<!--
+        <jpa.properties.in>../src/test/resources/META-INF/jpa.properties</jpa.properties.in>
+        <jpa.properties.out>${project.build.testOutputDirectory}/META-INF/jpa.properties</jpa.properties.out>
+        <jdbc.derby.in>../src/test/resources/META-INF/jdbc_derby.properties</jdbc.derby.in>
+        <jdbc.oracle.in>../src/test/resources/META-INF/jdbc_oracle.properties</jdbc.oracle.in>
+        <jdbc.properties.out>${project.build.testOutputDirectory}/META-INF/jdbc.properties</jdbc.properties.out>
+        <drools.repository.directory>${project.build.testOutputDirectory}/drools-repository</drools.repository.directory>
+        <drools.repository.default.out>${project.build.testOutputDirectory}/drools-repository/repository.xml</drools.repository.default.out>
+        <drools.repository.derby.in>../src/test/resources/drools-repository/repository_derby.xml</drools.repository.derby.in>
+        <drools.repository.oracle.in>../src/test/resources/drools-repository/repository_oracle.xml</drools.repository.oracle.in>
+        <application.properties.oracle.in>../src/test/resources/application-oracle.properties</application.properties.oracle.in>
+        <application.context.test.in>../src/test/resources/META-INF/default-dao-context-test.xml</application.context.test.in>
+        <application.context.test.out>${project.build.testOutputDirectory}/META-INF/default-dao-context-test.xml</application.context.test.out>
+        <application.context.rulerepository>application-rulerepository-context.xml</application.context.rulerepository>
+-->
+        <mvel.dep.version>2.0.10</mvel.dep.version>
+        <ks.core.version>0.0.1-SNAPSHOT</ks.core.version>
+	</properties>
 	
 	<modules>
-		<module>fact-finder-api</module>
-		<module>rule-execution-api</module>
-		<module>rule-management-api</module>
-		<module>rule-repository-api</module>
+		<module>ks-brms-api</module>
+		<module>ks-brms-impl</module>
+		<!-- <module>brms-ui</module> -->
+		<module>ks-brms-web</module>
+		<module>ks-brms-execution-api</module>
+		<module>ks-brms-execution-impl</module>
 	</modules>
 	
 	<repositories>
@@ -38,13 +66,70 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+        <repository>
+            <id>maven2</id>
+            <url>http://repository.jboss.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
 	</repositories>
-	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-ws</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-			
+	
+	<scm>
+		<connection>
+			scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev
+		</connection>
+		<developerConnection>
+			scm:svn:https://test.kuali.org/svn/student/brms/branches/brms-dev
+		</developerConnection>
+	</scm>
+    
+    <distributionManagement>
+        <site>
+            <id>ks.site</id>
+            <url>
+                scp://wsa135.uits.indiana.edu/opt/www/student/site/brms/${project.version}
+            </url>
+        </site>
+    </distributionManagement>
+    
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.plugin.version}</version>
+                
+                <configuration>
+                    <maxmemory>256m</maxmemory>
+                    <aggregate>true</aggregate>
+                    <show>private</show>
+                    <source>1.6</source>
+                    <links>
+                        <link>http://cxf.apache.org/javadoc/2.2/</link>
+                        <link>
+                            http://java.sun.com/javase/6/docs/api/
+                        </link>
+                        <link>
+                            http://java.sun.com/javaee/5/docs/api/
+                        </link>
+                        <link>
+                            http://static.springframework.org/spring/docs/2.5.x/api/
+                        </link>
+                        <link>
+                            http://student.kuali.org/site/core/${ks.core.version}/apidocs/
+                        </link>
+                    </links>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+
+            </plugin>
+        </plugins>
+    </reporting>			
 </project>
