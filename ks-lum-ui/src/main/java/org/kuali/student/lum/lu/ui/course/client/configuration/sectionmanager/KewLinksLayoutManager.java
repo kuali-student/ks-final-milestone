@@ -1,10 +1,10 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
+import org.kuali.student.common.ui.client.service.ServerProperties;
+import org.kuali.student.common.ui.client.service.ServerPropertiesAsync;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.IFrameSection;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
-import org.kuali.student.lum.lu.ui.course.client.service.ServerProperties;
-import org.kuali.student.lum.lu.ui.course.client.service.ServerPropertiesAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -111,7 +111,7 @@
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.ServerPropertiesServlet">
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesServlet">
 		<property name="properties">
 			<map>
 				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>

@@ -113,7 +113,7 @@
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.ServerPropertiesServlet">
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesServlet">
 	</bean>
 	
 	<bean id="messagesServiceGwt"
