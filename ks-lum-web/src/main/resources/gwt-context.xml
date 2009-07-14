@@ -45,6 +45,10 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/SecurityRpcService">
 					<ref bean="SecurityRpcGwtServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties">
+					<ref bean="ServerPropertiesServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -65,6 +69,12 @@
 		<property name="servletInstance" ref="CluProposalRpcGwtServlet"/>
 	</bean>
 
+	<bean id="ServerPropertiesServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="ServerPropertiesServlet" />
+		<property name="servletInstance" ref="ServerPropertiesServlet" />
+	</bean>
+	
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="messagesServiceGwt" />
 		<property name="servletInstance" ref="messagesServiceGwt" />
@@ -99,6 +109,16 @@
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
+	<bean id="ServerPropertiesServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.ServerPropertiesServlet">
+		<property name="properties">
+			<map>
+				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>
+				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}"/>
+			</map>
+		</property>
+	</bean>
+	
 	<bean id="messagesServiceGwt"
 		class="org.kuali.student.common.ui.server.messages.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />

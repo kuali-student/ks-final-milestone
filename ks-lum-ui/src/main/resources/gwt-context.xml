@@ -41,6 +41,10 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/SecurityRpcService">
 					<ref bean="SecurityRpcGwtServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties">
+					<ref bean="ServerPropertiesServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -63,6 +67,12 @@
 		class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="CluProposalRpcGwtServlet" />
 		<property name="servletInstance" ref="CluProposalRpcGwtServlet" />
+	</bean>
+
+	<bean id="ServerPropertiesServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="ServerPropertiesServlet" />
+		<property name="servletInstance" ref="ServerPropertiesServlet" />
 	</bean>
 
 	<bean id="messageServiceGwtController"
@@ -102,6 +112,10 @@
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
+	<bean id="ServerPropertiesServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.ServerPropertiesServlet">
+	</bean>
+	
 	<bean id="messagesServiceGwt"
 		class="org.kuali.student.common.ui.server.messages.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />

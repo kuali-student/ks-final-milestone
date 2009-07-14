@@ -12,6 +12,8 @@ import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.ServerProperties;
+import org.kuali.student.lum.lu.ui.course.client.service.ServerPropertiesAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,8 +31,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Collaborators extends Composite implements HasWorkflowId{
 	
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+    ServerPropertiesAsync serverProperties = GWT.create(ServerProperties.class);
 	
-    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
+//    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
+    private static final String urlParams = "?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
+    private String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do" + urlParams;
     
 	private String workflowId;
 	
@@ -55,10 +60,23 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
 	
 	public Collaborators(){
-        init();
+	    init();
     }
     private void init(){
-    	
+        serverProperties.get("ks.rice.personLookup.serviceAddress", new AsyncCallback<String>() {
+
+            @Override
+            public void onFailure(Throwable caught) { //ignoring, we'll use the default
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                GWT.log("ServerProperties fetched for ks.rice.personLookup.serviceAddress: "+result, null);
+                if(result != null)
+                    ricePersonLookupUrl = result + urlParams;
+            }
+            
+        });
         super.initWidget(collaboratorPanel);
         
         //Setup the collaborator type dropdown
@@ -210,6 +228,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
     
     private void addCollaborator(final String recipientPrincipalId, final String collabType, boolean participationRequired, String respondBy){
     	if(workflowId==null){
+            GWT.log("Collaborators called with "+ricePersonLookupUrl, null);
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
 	    	cluProposalRpcServiceAsync.addCollaborator(workflowId, recipientPrincipalId,collabType,participationRequired, respondBy, new AsyncCallback<Boolean>(){
