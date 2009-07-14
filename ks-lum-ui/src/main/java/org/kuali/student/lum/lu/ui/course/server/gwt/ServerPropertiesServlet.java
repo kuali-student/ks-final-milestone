@@ -1,6 +1,8 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.lum.lu.ui.course.client.service.ServerProperties;
@@ -23,6 +25,15 @@ public class ServerPropertiesServlet extends RemoteServiceServlet implements Ser
     @Override
     public String get(String property) {
         return properties.get(property);
+    }
+
+    @Override
+    public Map<String, String> get(List<String> properties) {
+        Map<String,String> map = new LinkedHashMap<String,String>();
+        for (String property : properties) {
+            map.put(property, get(property));
+        }
+        return map;
     }
 
 }

@@ -9,6 +9,9 @@ import org.kuali.student.lum.lu.ui.course.client.service.ServerPropertiesAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import java.util.Arrays;
+import java.util.Map;
+
 public class KewLinksLayoutManager {
     private static final String personLookupUrlParams = "?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl";
     private String personLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do" + personLookupUrlParams;
@@ -19,30 +22,21 @@ public class KewLinksLayoutManager {
 
     public KewLinksLayoutManager() {
         super();
-        serverProperties.get("ks.rice.personLookup.serviceAddress", new AsyncCallback<String>() {
+        serverProperties.get(Arrays.asList("ks.rice.personLookup.serviceAddress","ks.rice.actionList.serviceAddress"), new AsyncCallback<Map<String,String>>() {
             
             @Override
-            public void onSuccess(String result) {
-                if(result != null)
-                    personLookupUrl = result + personLookupUrlParams;
+            public void onSuccess(Map<String,String> result) {
+                if(result != null) {
+                    if(result.get("ks.rice.personLookup.serviceAddress") != null)
+                        personLookupUrl = result.get("ks.rice.personLookup.serviceAddress") + personLookupUrlParams;
+                    if(result.get("ks.rice.actionList.serviceAddress") != null)
+                        actionListUrl = result.get("ks.rice.actionList.serviceAddress");
+                }
             }
             
             @Override
-            public void onFailure(Throwable caught) {
+            public void onFailure(Throwable caught) { //ignored, we'll just use defaults
             }
-        });
-        serverProperties.get("ks.rice.actionList.serviceAddress", new AsyncCallback<String>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-
-            @Override
-            public void onSuccess(String result) {
-                if(result != null)
-                    actionListUrl = result;
-            }
-            
         });
     }
 
