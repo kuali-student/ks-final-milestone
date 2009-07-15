@@ -2,7 +2,10 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract.Strings;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -22,6 +25,8 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
@@ -39,8 +44,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 //TODO: Implement using i18n messages
 public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{ 
-
-
 
 	  /**
 	   * We use an inner EventHandler class to avoid exposing event methods on the
@@ -205,9 +208,9 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	  private RichTextArea.ExtendedFormatter extended;
 	  
 	  private FocusPanel wrapper = new FocusPanel();
-	  private VerticalPanel outer = new VerticalPanel();
-	  private HorizontalPanel topPanel = new HorizontalPanel();
-	  private HorizontalPanel bottomPanel = new HorizontalPanel();
+	  private VerticalFlowPanel outer = new VerticalFlowPanel();
+	  private HorizontalBlockFlowPanel topPanel = new HorizontalBlockFlowPanel();
+	  private HorizontalBlockFlowPanel bottomPanel = new HorizontalBlockFlowPanel();
 	  private ToggleButton bold;
 	  private ToggleButton italic;
 	  private ToggleButton underline;
@@ -254,24 +257,17 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    this.extended = richText.getExtendedFormatter();
 	    initWidget(wrapper);
 	    outer.add(topPanel);
-	    outer.add(bottomPanel);
-	    outer.setWidth("100%");
-	    //System.out.println(richText.getOffsetWidth());
-	    //outer.setWidth("100%");
-	    //wrapper.setWidth("100%");
-	    topPanel.setWidth("100%");
-	    bottomPanel.setWidth("100%");
+	    //outer.add(bottomPanel);
 	    wrapper.add(outer);
 	    
 	    wrapper.addMouseDownHandler(handler);
 	    wrapper.addMouseUpHandler(handler);
 
-	    
 	    setStyleName("gwt-RichTextToolbar");
-	    //richText.addStyleName("hasRichTextToolbar");
+	    richText.addStyleName("hasRichTextToolbar");
 
 	    if (basic != null) {
-	      topPanel.add(bold = createToggleButton(images.bold(), strings.bold()));
+	      topPanel.add(bold = createToggleButton(images.bold(), strings.bold()));          
 	      topPanel.add(italic = createToggleButton(images.italic(),
 	          strings.italic()));
 	      topPanel.add(underline = createToggleButton(images.underline(),
@@ -282,6 +278,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	          strings.superscript()));
 	      topPanel.add(justifyLeft = createPushButton(images.justifyLeft(),
 	          strings.justifyLeft()));
+	      //justifyLeft.getElement().getStyle().setProperty("display", "block");
 	      topPanel.add(justifyCenter = createPushButton(images.justifyCenter(),
 	          strings.justifyCenter()));
 	      topPanel.add(justifyRight = createPushButton(images.justifyRight(),
@@ -306,12 +303,17 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	      topPanel.add(removeFormat = createPushButton(images.removeFormat(),
 	          strings.removeFormat()));
 	    }
+	    
+	    for(int i = 0; i < topPanel.getWidgetCount(); i++){
+	        
+	        //topPanel.setCellWidth(topPanel.getWidget(i), 10 + "px");
+	    }
 
 	    if (basic != null) {
-	      bottomPanel.add(backColors = createColorList("Background"));
-	      bottomPanel.add(foreColors = createColorList("Foreground"));
-	      bottomPanel.add(fonts = createFontList());
-	      bottomPanel.add(fontSizes = createFontSizes());
+	        topPanel.add(backColors = createColorList("Background"));
+	        topPanel.add(foreColors = createColorList("Foreground"));
+	        topPanel.add(fonts = createFontList());
+	        topPanel.add(fontSizes = createFontSizes());
 
 	      // We only use these handlers for updating status, so don't hook them up
 	      // unless at least basic editing is supported.
@@ -379,6 +381,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    pb.addMouseDownHandler(handler);
 	    pb.addMouseUpHandler(handler);
 	    pb.setTitle(tip);
+	    
 	    return pb;
 	  }
 
@@ -388,6 +391,8 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    tb.addMouseDownHandler(handler);
 	    tb.addMouseUpHandler(handler);
 	    tb.setTitle(tip);
+	    tb.setPixelSize(20, 20);
+	    
 	    return tb;
 	  }
 

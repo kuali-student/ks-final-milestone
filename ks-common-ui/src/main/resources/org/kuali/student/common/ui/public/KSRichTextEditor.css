@@ -1,23 +1,37 @@
 .KS-RichText-Large{
-	width: 600px;
+	width: 100%;
 	height: 500px;
+	border: 1px solid #cccccc;
+}
+
+.KS-RichText-Large-Toolbar{
+	width: auto !important;
+}
+
+.KS-RichText-Large-Content-Panel{
+	width: 650px;
+	margin-bottom: 2px;
 }
 
 .KS-RichText-Normal{
-	width: 500px;
+	width: 100%;
 	height: 250px;
+	border: 1px solid #cccccc;
+}
+
+.KS-RichText-Normal-Toolbar{
+	width: auto !important;
+}
+
+.KS-RichText-Normal-Content-Panel{
+	height: auto !important;
+	width: 500px;
+	margin-bottom: 2px;
 }
 
 .KS-RichText-Popout-Image-Panel{
 	border: none;
-}
-
-.KS-RichText-Popout-Glass{
-	width:100%;
-	height:100%;
-	border: none;
-	opacity:0.2;
- 	background:black;
+	margin: -3px;
 }
 
 .KS-RichText-Popout-Image{

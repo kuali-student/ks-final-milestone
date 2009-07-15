@@ -3,11 +3,14 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 
 import org.kuali.student.common.ui.client.images.KSImages;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSInfoDialogPanel;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbar;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -22,20 +25,9 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /** 
  * KS default rich text editor
@@ -43,16 +35,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * TODO implement with a clean toolbar and i18n
  */
 public class KSRichEditorImpl extends KSRichEditorAbstract {
-	private final FlowPanel textPanel = new FlowPanel();
-	private final FlowPanel content = new FlowPanel();
+	private final VerticalFlowPanel content = new VerticalFlowPanel();
 	
 	private final RichTextArea textArea = new RichTextArea();
 	private final KSRichTextToolbar toolbar;
 	
 	private final PopupPanel popoutImagePanel = new PopupPanel();
-	private PopupPanel glass = new PopupPanel();
 	
-	private final KSInfoDialogPanel popoutWindow = new KSInfoDialogPanel();
+	private final KSLightBox popoutWindow = new KSLightBox();
 	private KSRichEditorImpl popoutEditor = null;
 	
 	private boolean focused = false;
@@ -98,8 +88,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	public KSRichEditorImpl(){
 	    toolbar = new KSRichTextToolbar(textArea);
 	    content.add(toolbar);
-	    textPanel.add(textArea);
-	    content.add(textPanel);
+	    content.add(textArea);
         super.initWidget(content);
 	}
 	
@@ -107,55 +96,61 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     protected void init(boolean isUsedInPopup) {
 	    this.isUsedInPopup = isUsedInPopup;		
 		setupDefaultStyle();
-				
 		if(isUsedInPopup){
 	        toolbar.setVisible(true);
-	        content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
-	        textArea.setWidth("100%");
-	        textArea.setHeight("100%");
+            content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE_CONTENT);
+            textArea.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
+            toolbar.addStyleName(KSStyles.KS_RICH_TEXT_LARGE_TOOLBAR);
 		}
 		else
 		{
 			textArea.addFocusHandler(focusHandler);
 			textArea.addBlurHandler(blurHandler);
-			textArea.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
-			content.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
-			
+            content.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL_CONTENT);
+            textArea.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
+            toolbar.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL_TOOLBAR);
 			toolbar.setVisible(false);
 			
 			popoutEditor = new KSRichEditorImpl();
-			popoutEditor.init(true);
-			popoutWindow.setAutoHide(true);
-			popoutWindow.setHeader("TextEditor");
-			//windowPanel.add(popoutEditor);
+			popoutEditor.init(true);	
 			
-			
-			HorizontalPanel buttonPanel = new HorizontalPanel();
-			KSButton okButton = new KSButton("OK");
-			okButton.addClickHandler(new ClickHandler(){
+			ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
-				@Override
-				public void onClick(ClickEvent event) {
-					popoutWindow.hide();
-					glass.hide();
-				}
-			});
-			buttonPanel.add(okButton);
-			buttonPanel.setWidth("100%");
-			//windowPanel.add(buttonPanel);
-			
+                @Override
+                public void exec(ConfirmCancelEnum result) {
+                    switch(result){
+                        case CONFIRM:
+                            textArea.setHTML(popoutEditor.getHTML());
+                            popoutEditor.setHTML("");
+                            textArea.setEnabled(true);
+                            textArea.setFocus(true);
+                            popoutWindow.hide();
+                            popoutImagePanel.show();
+                            popoutActive = false;
+                            break;
+                        case CANCEL:
+                            popoutEditor.setHTML("");
+                            textArea.setEnabled(true);
+                            textArea.setFocus(true);
+                            popoutWindow.hide();
+                            popoutImagePanel.show();
+                            popoutActive = false;
+                            break;
+                    }
+                    
+                }
+            });		
 			
 			popoutImage.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
-					focused = true;
+				    popoutWindow.show();
+				    focused = true;
 					textArea.setEnabled(false);
 					popoutEditor.setHTML(textArea.getHTML());
-					glass.show();	
-					popoutWindow.show();
 					popoutImagePanel.hide();
-					popoutEditor.textArea.setFocus(true);
+					popoutEditor.getRichTextArea().setFocus(true);
 				}
 			});
 			
@@ -166,25 +161,9 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 					popoutActive = true;
 				}
 			});
-
 			popoutImagePanel.add(popoutImage);
-			
-			
-			popoutWindow.addCloseHandler(new CloseHandler(){
-
-				@Override
-				public void onClose(CloseEvent event) {
-					textArea.setHTML(popoutEditor.getHTML());
-					textArea.setEnabled(true);
-					textArea.setFocus(true);
-					popoutWindow.hide();
-					glass.hide();
-					popoutImagePanel.show();
-					popoutActive = false;
-				}
-			});
-
-			popoutWindow.setWidget(popoutEditor);
+			buttonPanel.setContent(popoutEditor);
+			popoutWindow.setWidget(buttonPanel);
 		}
 	}
 	
@@ -232,8 +211,6 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	
 	private void setupDefaultStyle(){
 		popoutImagePanel.addStyleName(KSStyles.KS_POPOUT_IMAGE_PANEL);
-		glass.addStyleName(KSStyles.KS_RICH_TEXT_POPOUT_GLASS);
-		popoutWindow.addStyleName(KSStyles.KS_POPOUT_WINDOW);
 		popoutImage.addStyleName(KSStyles.KS_POPOUT_IMAGE);
 		popoutImage.addMouseOverHandler(new MouseOverHandler(){
 

@@ -3,6 +3,8 @@ package org.kuali.student.common.ui.client.widgets.counting;
 
 
 
+import org.kuali.student.common.ui.client.widgets.RichTextEditor;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RichTextArea;
 
@@ -11,7 +13,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
  * 
  * TODO implement with a clean toolbar and i18n
  */
-public abstract class KSRichEditorAbstract extends Composite {
+public abstract class KSRichEditorAbstract extends RichTextEditor {
 	
 	public abstract RichTextArea getRichTextArea();
 	
