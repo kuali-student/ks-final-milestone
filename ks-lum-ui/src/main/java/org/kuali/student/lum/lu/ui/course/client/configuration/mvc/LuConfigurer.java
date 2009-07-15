@@ -18,15 +18,13 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.HorizontalNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.SimpleConfigurableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalNestedSection;
+import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
-import org.kuali.student.common.ui.client.widgets.counting.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.counting.KSTextArea;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
@@ -45,7 +43,7 @@ public class LuConfigurer {
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
         COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS
     }
-    
+        
     public static void configureCluProposal(ConfigurableLayout layout){
         addCluStartSection(layout);
         addAuthorSection(layout);
@@ -55,19 +53,19 @@ public class LuConfigurer {
     }
     
     public static void addCluStartSection(ConfigurableLayout layout){
-        SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.CLU_BEGIN, "Start");
+        VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start");
         section.addField(new FieldDescriptor("courseTitle", "Proposed Course Title", Type.STRING));
         ((PagedSectionLayout)layout).addStartSection(section);
     }
 
     public static void addAuthorSection(ConfigurableLayout layout){
-        SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);        
+        VerticalSectionView section = new VerticalSectionView(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);        
 
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
     }
     
     public static void addGoverenceSection(ConfigurableLayout layout){
-        SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE);        
+        VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE);        
         
         //FIXME: Label should come from messaging, field type should come from dictionary?
         section.addField(new FieldDescriptor("curriculumOversight", "Curriculum Oversight", Type.STRING));        
@@ -78,7 +76,7 @@ public class LuConfigurer {
     }
     
     public static void addCourseInfoSection(ConfigurableLayout layout){
-        SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION);        
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION);        
         
         //FIXME: Label should be key to messaging, field type should come from dictionary?
         
@@ -92,19 +90,19 @@ public class LuConfigurer {
         courseNumber.nextRow();
         
             //CROSS LISTED
-            VerticalNestedSection crossListed = new VerticalNestedSection();
+            VerticalSection crossListed = new VerticalSection();
             crossListed.setSectionTitle("Cross Listed (offered under alternate course numbers)");
             crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-            crossListed.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
+            crossListed.addField(new FieldDescriptor("crossListedClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
             
             //OFFERED JOINTLY
-            VerticalNestedSection offeredJointly = new VerticalNestedSection();
+            VerticalSection offeredJointly = new VerticalSection();
             offeredJointly.setSectionTitle("Offered Jointly (co-located with another course)");
             offeredJointly.setInstructions("Enter an existing course or proposal.");
-            offeredJointly.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
+            offeredJointly.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
             
             //Version Codes
-            VerticalNestedSection versionCodes = new VerticalNestedSection();
+            VerticalSection versionCodes = new VerticalSection();
             versionCodes.setSectionTitle("Version Codes");
             versionCodes.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong
             
@@ -115,22 +113,22 @@ public class LuConfigurer {
         courseNumber.addSection(versionCodes);
         section.addSection(courseNumber);
         
-        VerticalNestedSection proposedCourseTitle = new VerticalNestedSection();
+        VerticalSection proposedCourseTitle = new VerticalSection();
         proposedCourseTitle.setSectionTitle("Proposed Course Title");
         proposedCourseTitle.addField(new FieldDescriptor("longName", null, Type.STRING));
         section.addSection(proposedCourseTitle);
         
-        VerticalNestedSection transcriptTitle = new VerticalNestedSection();
+        VerticalSection transcriptTitle = new VerticalSection();
         transcriptTitle.setSectionTitle("Transcript Title");
         transcriptTitle.addField(new FieldDescriptor("shortName", null, Type.STRING));
         section.addSection(transcriptTitle);
         
-        VerticalNestedSection description = new VerticalNestedSection();
+        VerticalSection description = new VerticalSection();
         description.setSectionTitle("Description");
         description.addField(new FieldDescriptor("desc", null, Type.STRING, new KSTextArea()));
         section.addSection(description);
         
-        VerticalNestedSection rationale = new VerticalNestedSection();
+        VerticalSection rationale = new VerticalSection();
         rationale.setSectionTitle("Rationale");
         rationale.addField(new FieldDescriptor("marketingDesc", null, Type.STRING, new KSTextArea()));
         section.addSection(rationale);
@@ -143,7 +141,7 @@ public class LuConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("luLuRelationType.alias");//TODO Probably totally wrong
+            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -193,21 +191,21 @@ public class LuConfigurer {
     }
     
     public static void addCourseLogistics(ConfigurableLayout layout){
-        SimpleConfigurableSection section = new SimpleConfigurableSection(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS); 
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS); 
         
         //CREDITS
-        VerticalNestedSection credits = new VerticalNestedSection();
+        VerticalSection credits = new VerticalSection();
         credits.setSectionTitle("Credits");
         credits.addField(new FieldDescriptor("creditType", "Credit Type", Type.STRING));//TODO CREDIT TYPE ENUMERATION
         credits.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
         credits.addField(new FieldDescriptor("maxCredits", "Maximum Credits", Type.STRING));
         
         //LEARNING RESULTS
-        VerticalNestedSection learningResults = new VerticalNestedSection();
+        VerticalSection learningResults = new VerticalSection();
         learningResults.setSectionTitle("Learning Results");
         learningResults.addField(new FieldDescriptor("evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
         
-        VerticalNestedSection scheduling = new VerticalNestedSection();
+        VerticalSection scheduling = new VerticalSection();
         scheduling.setSectionTitle("Scheduling");
         scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING)); //TODO TERM ENUMERATION
         scheduling.addField(new FieldDescriptor("stdDuration", "Duration", Type.STRING)); //TODO DURATION ENUMERATION
