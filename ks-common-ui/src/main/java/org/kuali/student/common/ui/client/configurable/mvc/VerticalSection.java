@@ -7,11 +7,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class VerticalNestedSection extends NestedSection{
+public class VerticalSection extends NestedSection{
     
     protected final FlowPanel panel = new FlowPanel();
     
-    public VerticalNestedSection(){
+    public VerticalSection(){
         super.initWidget(panel);
     }
     

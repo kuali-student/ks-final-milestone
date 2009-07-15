@@ -9,7 +9,15 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SimpleConfigurableSection extends LayoutSectionView {
+/**
+ * 
+ * An vertical layout implementation of SectionView. Fields to this section view
+ * will be added in a vertical layout. 
+ * 
+ * @author Kuali Student Team
+ *
+ */
+public class VerticalSectionView extends SectionView {
     
     protected final VerticalPanel panel = new VerticalPanel();
 	private final Label sectionTitleLabel = new Label();
@@ -18,7 +26,7 @@ public class SimpleConfigurableSection extends LayoutSectionView {
 	
 	private Model<ModelDTO> model = null;
 		
-	public SimpleConfigurableSection(Enum<?> viewEnum, String name) {	    
+	public VerticalSectionView(Enum<?> viewEnum, String name) {	    
 		super(viewEnum, name);
 	    super.initWidget(panel);			
 	}

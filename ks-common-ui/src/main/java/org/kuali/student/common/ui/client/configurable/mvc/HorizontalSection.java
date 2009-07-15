@@ -7,12 +7,12 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class HorizontalNestedSection extends NestedSection{
+public class HorizontalSection extends NestedSection{
     
     protected final FlowPanel panel = new FlowPanel();
     protected RowDescriptor row = new RowDescriptor();
     
-    public HorizontalNestedSection(){
+    public HorizontalSection(){
         super.initWidget(row);
         row.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         rows.add(row);

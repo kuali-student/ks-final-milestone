@@ -3,7 +3,16 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 
-public abstract class LayoutSectionView extends Section implements View{
+/**
+ * 
+ * An abstract class that extends a section to implement the view interface. Extend 
+ * this class if you wish to create view that implements all functionality of
+ * a section layout. 
+ * 
+ * @author Kuali Student Team
+ *
+ */
+public abstract class SectionView extends Section implements View{
     private Controller controller;   
     private Enum<?> viewEnum;
     private String viewName;
@@ -16,13 +25,13 @@ public abstract class LayoutSectionView extends Section implements View{
      * @param name
      *            the view name
      */
-    public LayoutSectionView(Controller controller, Enum<?> viewEnum, String viewName) {
+    public SectionView(Controller controller, Enum<?> viewEnum, String viewName) {
         this.controller = controller;
         this.viewEnum = viewEnum;
         this.viewName = viewName;
     }
 
-    public LayoutSectionView(Enum<?> viewEnum, String viewName) {
+    public SectionView(Enum<?> viewEnum, String viewName) {
         this.controller = null;
         this.viewEnum = viewEnum;
         this.viewName = viewName;

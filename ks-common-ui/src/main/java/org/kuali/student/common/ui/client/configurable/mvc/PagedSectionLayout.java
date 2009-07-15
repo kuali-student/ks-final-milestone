@@ -33,7 +33,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 
 	//FIXME: Better way to manage hierarchy, ordering, and handle to views
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
-	private final HashMap<String, LayoutSectionView> sectionViewMap = new HashMap<String, LayoutSectionView>();	
+	private final HashMap<String, SectionView> sectionViewMap = new HashMap<String, SectionView>();	
 	private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
@@ -75,7 +75,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	}
 	
 	@Override
-	public void addSection(final String[] hierarchy, final LayoutSectionView section) {
+	public void addSection(final String[] hierarchy, final SectionView section) {
 		    
 	    String path = "";
 			
@@ -116,7 +116,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		section.setController(this);
 	}
 	
-	public void addStartSection(final LayoutSectionView section){
+	public void addStartSection(final SectionView section){
 	    VerticalPanel panel = new VerticalPanel();
         
 	    panel.add(section);
