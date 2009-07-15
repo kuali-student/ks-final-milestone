@@ -39,12 +39,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-/**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
- * 
- * @author Kuali Student Team
- *
- */
 public abstract class MultiplicityComposite extends Composite implements HasModelDTOValue{
         
     private FlowPanel mainPanel = new FlowPanel();
@@ -169,19 +163,15 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         //Setup if not already loaded
         if (!loaded){
             modelDTOValueWidgets = new ArrayList<HasModelDTOValue>();
-            
-            initWidget(mainPanel);
-            
-            mainPanel.addStyleName("KS-Multiplicity-Composite");
-            //itemsPanel = new VerticalPanel();
-
-            
+                       
             KSButton addItemButton = new KSButton("Add Item", new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     addItem();
                 }            
             });                
     
+            initWidget(mainPanel);           
+            mainPanel.addStyleName("KS-Multiplicity-Composite");
             itemsPanel.add(addItemButton);
             mainPanel.add(itemsPanel);
             mainPanel.add(addItemButton);
