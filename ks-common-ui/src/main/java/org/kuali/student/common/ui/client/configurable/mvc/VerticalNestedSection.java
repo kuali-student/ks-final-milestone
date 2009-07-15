@@ -1,10 +1,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class VerticalNestedSection extends NestedSection{
     
@@ -22,7 +23,15 @@ public class VerticalNestedSection extends NestedSection{
             if (field.getFieldWidget() instanceof MultiplicityComposite){
                 ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
             }
-            field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
+
+            PropertyBinding pBinding = field.getPropertyBinding();
+            PropertyBinding wBinding = field.getWidgetBinding();
+            if (wBinding != null){
+                Widget w = field.getFieldWidget();            
+                pBinding.setValue(modelDTO, wBinding.getValue(w));
+            } else {
+                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+            }
         }
         for(NestedSection s: sections){
             s.updateModel(modelDTO);
@@ -91,7 +100,14 @@ public class VerticalNestedSection extends NestedSection{
     public void updateView(ModelDTO modelDTO) {
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            field.getWidgetBinding().setValue(field.getFieldWidget(), field.getPropertyBinding().getValue(modelDTO));
+            PropertyBinding pBinding = field.getPropertyBinding();
+            PropertyBinding wBinding = field.getWidgetBinding();
+            if (wBinding != null){
+                Widget w = field.getFieldWidget();            
+                wBinding.setValue(w, pBinding.getValue(modelDTO));
+            } else {
+                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+            }
         }
         for(NestedSection s: sections){
             s.updateView(modelDTO);
