@@ -49,10 +49,15 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         
     private FlowPanel mainPanel = new FlowPanel();
     private FlowPanel itemsPanel = new FlowPanel();
-    private ModelDTOValue.ListType modelDTOList;
+    private ModelDTOValue.ListType modelDTOList =  new ModelDTOValue.ListType();
     private List<HasModelDTOValue> modelDTOValueWidgets;
     private boolean loaded = false;
 
+    //Initialization block
+    {
+        modelDTOList.set(new ArrayList<ModelDTOValue>());
+    };
+    
     /**
      * This simply decorates a list item widget to add styling and a remove button 
      *   
@@ -84,7 +89,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         }
         
     }
-    
+        
     /**
      * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
      */
@@ -129,20 +134,16 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      * This method creates a new empty item.
      *
      */
-    private void addItem(){
-        if (modelDTOList == null){
-            modelDTOList = new ModelDTOValue.ListType();
-            modelDTOList.set(new ArrayList<ModelDTOValue>());
-        }    
-            
+    private void addItem(){            
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
-        modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());        
+       
         itemsPanel.add(listItem);
         if (newItemWidget instanceof MultiplicityComposite){
             ((MultiplicityComposite)newItemWidget).redraw();
         }
-
+        
+        modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());
         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }    
     
