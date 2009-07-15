@@ -91,4 +91,7 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     public CssResource suggestBoxPickerCss();
     @Resource("org/kuali/student/common/ui/public/KSButtonLayout.css")
     public CssResource buttonLayoutCss();
+    
+    @Resource("org/kuali/student/common/ui/public/KSCustomFlowPanel.css")
+    public CssResource flowPanelCss();
 }
