@@ -58,7 +58,7 @@ public class DictionaryRPCPreloader {
      */
     public DictionaryRPCPreloader(String serviceName) {
         //TODO Make it more flexible by defining a dictionaryImpl in each domain so that this class 
-        // always just looks up dictionaryImpl. Service name wouldnh't have to be passed around then.
+        // always just looks up dictionaryImpl. Service name wouldn't have to be passed around then.
         super();
         this.serviceName = serviceName;
         buildWhitelist();
@@ -71,8 +71,9 @@ public class DictionaryRPCPreloader {
      * This method passes the supplied object key to the dictionary implementation in this domain 
      * and returns the result as a serialized string 
      * 
-     * @param objectKey name of dictionary ObjectStructure
-     * @return
+     * @param    objectKey   Name of dictionary ObjectStructure
+     * @return               Serialized string of the dictionary def for this structure
+     *  
      */public String getObjectStructureEncodedString(String objectKey){
 
 
@@ -102,7 +103,8 @@ public class DictionaryRPCPreloader {
       * This method returns a list of ObjectStructure types defined in this domain
       * as a serialized string 
       * 
-      * @return
+      * @return       Serialized string of the ObjectStructure names defined in this domain
+      * 
       */public String getObjectTypesEncodedString(){
 
 
@@ -129,9 +131,9 @@ public class DictionaryRPCPreloader {
       
      /**
       * 
-      * This method returns a list of ObjectStructure types defined in this domain
+      * This method returns an array of ObjectStructure types defined in this domain
       * 
-      * @return
+      * @return    String[] of the ObjectStructure names defined in this domain
       */
      public String[] getObjectTypes(){
 
