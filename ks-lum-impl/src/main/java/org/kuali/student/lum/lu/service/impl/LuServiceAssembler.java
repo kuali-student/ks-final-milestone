@@ -16,6 +16,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCreditInfo;
@@ -43,6 +44,7 @@ import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccreditation;
+import org.kuali.student.lum.lu.entity.CluAdminOrg;
 import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
 import org.kuali.student.lum.lu.entity.CluCampusLocation;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
@@ -126,23 +128,32 @@ public class LuServiceAssembler extends BaseAssembler {
                 "instructors", "stdDuration", "luCodes", "credit", "publishing",
                 "offeredAtpTypes", "fee", "accounting",
                 "intensity", "academicSubjectOrgs","campusLocationList", "accreditationList",
+                "primaryAdminOrg", "alternateAdminOrgs", 
                 "attributes", "metaInfo" });
         dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
         dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
         dto.setDesc(toRichTextInfo(entity.getDesc()));
         dto.setMarketingDesc(toRichTextInfo(entity.getMarketingDesc()));
+        // accreditingOrg Deprecated in v  1.0-rc2 Replaced by Primary and Alternate admin orgs
         dto.setAccreditingOrg(entity.getAccreditingOrg());
-        dto.setAdminOrg(entity.getAdminOrg());
+        dto.setAccreditationList(toAccreditationInfos(entity.getAccreditationList()));
 
+        // adminOrg & participatingOrgs deprecated in v  1.0-rc2 Replaced by Primary and Alternate admin orgs
+        dto.setAdminOrg(entity.getAdminOrg());
         List<String> participatingOrgs = new ArrayList<String>(entity.getParticipatingOrgs().size());
         for (CluOrg cluOrg : entity.getParticipatingOrgs()) {
             participatingOrgs.add(cluOrg.getOrgId());
         }
-        dto.setParticipatingOrgs(participatingOrgs);
+        dto.setParticipatingOrgs(participatingOrgs);              
+        
+        dto.setPrimaryAdminOrg(toAdminOrgInfo(entity.getPrimaryAdminOrg()));
+        dto.setAlternateAdminOrgs(toCluAdminOrgInfos(entity.getAlternateAdminOrgs()));
+        
         dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
         dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
         dto.setStdDuration(toTimeAmountInfo(entity.getStdDuration()));
         dto.setLuCodes(toLuCodeInfos(entity.getLuCodes()));
+        
         dto.setCreditInfo(toCluCreditInfos(entity.getCredit()));
         dto.setPublishingInfo(toCluPublishingInfo(entity.getPublishing()));
 
@@ -172,7 +183,6 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setCampusLocationList(campusLocations);
 
         dto.setIntensity(toTimeAmountInfo(entity.getIntensity()));
-        dto.setAccreditationList(toAccreditationInfos(entity.getAccreditationList()));
 
         return dto;
 
@@ -976,13 +986,31 @@ public class LuServiceAssembler extends BaseAssembler {
         }
         AccreditationInfo dto = new AccreditationInfo();
 
-        BeanUtils.copyProperties(entity, dto,
-                new String[] {"attributes" });
+        BeanUtils.copyProperties(entity, dto,  new String[] {"attributes" });
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
         return dto;
 
+    }
+    
+    public static List<AdminOrgInfo> toCluAdminOrgInfos(List<CluAdminOrg> entities) {
+        List<AdminOrgInfo> dtos = new ArrayList<AdminOrgInfo>(entities.size());
+        for (CluAdminOrg entity : entities) {
+            dtos.add(toAdminOrgInfo(entity));
+        }
+        return dtos;
+    }
+
+    public static AdminOrgInfo toAdminOrgInfo(CluAdminOrg entity) {
+        if(entity==null){
+            return null;
+        }
+        AdminOrgInfo dto = new AdminOrgInfo();
+        BeanUtils.copyProperties(entity, dto,  new String[] {"attributes" });
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
     }
 
 }

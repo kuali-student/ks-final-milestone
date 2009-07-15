@@ -62,21 +62,30 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     @XmlElement
     private RichTextInfo marketingDesc;
 
-    @XmlElement
-    private List<String> campusLocationList;
-
+    // Deprecated in v  1.0-rc2
     @XmlElement
     private String accreditingOrg;
 
     @XmlElement
     private List<AccreditationInfo> accreditationList;
 
+    // Deprecated in v  1.0-rc2
     @XmlElement
     private String adminOrg;
 
+    // Deprecated in v  1.0-rc2
     @XmlElement
     private List<String> participatingOrgs;
 
+    @XmlElement
+    private List<String> campusLocationList;
+    
+    @XmlElement
+    private AdminOrgInfo primaryAdminOrg;
+
+    @XmlElement
+    private List<AdminOrgInfo> alternateAdminOrgs;
+    
     @XmlElement
     private CluInstructorInfo primaryInstructor;
 
@@ -104,6 +113,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     @XmlElement
     private List<LuCodeInfo> luCodes;
 
+    // Deprecated in v  1.0-rc2
     @XmlElement
     private CluCreditInfo creditInfo;
 
@@ -274,6 +284,26 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.campusLocationList = campusLocationList;
     }
 
+    
+    public AdminOrgInfo getPrimaryAdminOrg() {
+        return primaryAdminOrg;
+    }
+
+    public void setPrimaryAdminOrg(AdminOrgInfo primaryAdminOrg) {
+        this.primaryAdminOrg = primaryAdminOrg;
+    }
+
+    public List<AdminOrgInfo> getAlternateAdminOrgs() {
+        if (alternateAdminOrgs == null) {
+            alternateAdminOrgs = new ArrayList<AdminOrgInfo>();
+        }
+        return alternateAdminOrgs;
+    }
+
+    public void setAlternateAdminOrgs(List<AdminOrgInfo> alternateAdminOrgs) {
+        this.alternateAdminOrgs = alternateAdminOrgs;
+    }
+
     /**
      * The primary organization (typically, an academic department) with administrative oversight over the CLU.
      * 
@@ -417,12 +447,20 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     /**
      * Information about credit
+     * 
+     * @deprecated
      */
     public CluCreditInfo getCreditInfo() {
         return creditInfo;
     }
 
-    public void setCreditInfo(CluCreditInfo creditInfo) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @deprecated creditInfo
+     * 
+     */public void setCreditInfo(CluCreditInfo creditInfo) {
         this.creditInfo = creditInfo;
     }
 

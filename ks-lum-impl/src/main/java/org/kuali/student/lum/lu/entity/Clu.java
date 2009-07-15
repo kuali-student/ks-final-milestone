@@ -28,6 +28,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 @Entity
 @Table(name = "KSLU_CLU")
@@ -77,14 +78,25 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinColumn(name = "RT_MKTG_DESCR_ID")
     private RichText marketingDesc;
 
+    // Deprecated in v  1.0-rc2
     @Column(name = "ACCRED_ORG_ID")
     private String accreditingOrg;
 
+    // Deprecated in v  1.0-rc2 Replaced by primaryAdminOrg
     @Column(name = "ADMIN_ORG_ID")
     private String adminOrg;
 
+    // Deprecated in v  1.0-rc2 Replaced by alternateAdminOrgs
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
     private List<CluOrg> participatingOrgs;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="PRI_ADMIN_ORG_ID")
+    private CluAdminOrg primaryAdminOrg;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "KSLU_CLU_JN_ALT_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_ORG_ID"))
+    private List<CluAdminOrg> alternateAdminOrgs;
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="PRI_INSTR_ID")
@@ -160,13 +172,13 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
     private List<CluCampusLocation> campusLocationList;
-    
+
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="CLU_INTSTY_TYPE")),
         @AttributeOverride(name="timeQuantity", column=@Column(name="CLU_INTSTY_QTY")
-    )})
-    private TimeAmount intensity;
+        )})
+        private TimeAmount intensity;
 
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "KSLU_CLU_JN_CLU_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ACCRED_ORG_ID"))
@@ -327,188 +339,253 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         this.luCodes = luCodes;
     }
 
+    /**
+     * 
+     * @deprecated
+     * 
+     * @return
+     */
     public CluCredit getCredit() {
         return credit;
     }
 
+    /**
+     * 
+     * @deprecated
+     * @param credit
+     */   
     public void setCredit(CluCredit credit) {
-        this.credit = credit;
-    }
+         this.credit = credit;
+     }
 
-    public CluPublishing getPublishing() {
-        return publishing;
-    }
+     public CluPublishing getPublishing() {
+         return publishing;
+     }
 
-    public void setPublishing(CluPublishing publishing) {
-        this.publishing = publishing;
-    }
+     public void setPublishing(CluPublishing publishing) {
+         this.publishing = publishing;
+     }
 
-    public String getNextReviewPeriod() {
-        return nextReviewPeriod;
-    }
+     public String getNextReviewPeriod() {
+         return nextReviewPeriod;
+     }
 
-    public void setNextReviewPeriod(String nextReviewPeriod) {
-        this.nextReviewPeriod = nextReviewPeriod;
-    }
+     public void setNextReviewPeriod(String nextReviewPeriod) {
+         this.nextReviewPeriod = nextReviewPeriod;
+     }
 
-    public boolean isEnrollable() {
-        return isEnrollable;
-    }
+     public boolean isEnrollable() {
+         return isEnrollable;
+     }
 
-    public void setEnrollable(boolean isEnrollable) {
-        this.isEnrollable = isEnrollable;
-    }
+     public void setEnrollable(boolean isEnrollable) {
+         this.isEnrollable = isEnrollable;
+     }
 
-    public List<CluAtpTypeKey> getOfferedAtpTypes() {
-        if (offeredAtpTypes == null) {
-            offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
-        }
-        return offeredAtpTypes;
-    }
+     public List<CluAtpTypeKey> getOfferedAtpTypes() {
+         if (offeredAtpTypes == null) {
+             offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
+         }
+         return offeredAtpTypes;
+     }
 
-    public void setOfferedAtpTypes(List<CluAtpTypeKey> offeredAtpTypes) {
-        this.offeredAtpTypes = offeredAtpTypes;
-    }
+     public void setOfferedAtpTypes(List<CluAtpTypeKey> offeredAtpTypes) {
+         this.offeredAtpTypes = offeredAtpTypes;
+     }
 
-    public boolean isHasEarlyDropDeadline() {
-        return hasEarlyDropDeadline;
-    }
+     public boolean isHasEarlyDropDeadline() {
+         return hasEarlyDropDeadline;
+     }
 
-    public void setHasEarlyDropDeadline(boolean hasEarlyDropDeadline) {
-        this.hasEarlyDropDeadline = hasEarlyDropDeadline;
-    }
+     public void setHasEarlyDropDeadline(boolean hasEarlyDropDeadline) {
+         this.hasEarlyDropDeadline = hasEarlyDropDeadline;
+     }
 
-    public int getDefaultEnrollmentEstimate() {
-        return defaultEnrollmentEstimate;
-    }
+     public int getDefaultEnrollmentEstimate() {
+         return defaultEnrollmentEstimate;
+     }
 
-    public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
-        this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
-    }
+     public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
+         this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
+     }
 
-    public int getDefaultMaximumEnrollment() {
-        return defaultMaximumEnrollment;
-    }
+     public int getDefaultMaximumEnrollment() {
+         return defaultMaximumEnrollment;
+     }
 
-    public void setDefaultMaximumEnrollment(int defaultMaximumEnrollment) {
-        this.defaultMaximumEnrollment = defaultMaximumEnrollment;
-    }
+     public void setDefaultMaximumEnrollment(int defaultMaximumEnrollment) {
+         this.defaultMaximumEnrollment = defaultMaximumEnrollment;
+     }
 
-    public boolean isHazardousForDisabledStudents() {
-        return isHazardousForDisabledStudents;
-    }
+     public boolean isHazardousForDisabledStudents() {
+         return isHazardousForDisabledStudents;
+     }
 
-    public void setHazardousForDisabledStudents(
-            boolean isHazardousForDisabledStudents) {
-        this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
-    }
+     public void setHazardousForDisabledStudents(
+             boolean isHazardousForDisabledStudents) {
+         this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
+     }
 
-    public CluFee getFee() {
-        return fee;
-    }
+     public CluFee getFee() {
+         return fee;
+     }
 
-    public void setFee(CluFee fee) {
-        this.fee = fee;
-    }
+     public void setFee(CluFee fee) {
+         this.fee = fee;
+     }
 
-    public CluAccounting getAccounting() {
-        return accounting;
-    }
+     public CluAccounting getAccounting() {
+         return accounting;
+     }
 
-    public void setAccounting(CluAccounting accounting) {
-        this.accounting = accounting;
-    }
+     public void setAccounting(CluAccounting accounting) {
+         this.accounting = accounting;
+     }
 
-    public String getState() {
-        return state;
-    }
+     public String getState() {
+         return state;
+     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+     public void setState(String state) {
+         this.state = state;
+     }
 
-    public String getAccreditingOrg() {
-        return accreditingOrg;
-    }
+     /**
+      * 
+      * @deprecated  Replaced by getAccreditationList
+      * 
+      *  @return
+      */
+     public String getAccreditingOrg() {
+         return accreditingOrg;
+     }
 
-    public void setAccreditingOrg(String accreditingOrg) {
-        this.accreditingOrg = accreditingOrg;
-    }
+     /**
+      * 
+      * @deprecated  Replaced by setAccreditationList
+      * 
+      *  @return
+      */
+     public void setAccreditingOrg(String accreditingOrg) {
+         this.accreditingOrg = accreditingOrg;
+     }
 
-    public String getAdminOrg() {
-        return adminOrg;
-    }
+     /**
+      * 
+      * @deprecated  Replaced by getPrimaryAdminOrg
+      * 
+      *  @return
+      */
+     public String getAdminOrg() {
+         return adminOrg;
+     }
 
-    public void setAdminOrg(String adminOrg) {
-        this.adminOrg = adminOrg;
-    }
+     /**
+      * 
+      * @deprecated   Replaced by setPrimaryAdminOrg
+      * 
+      *  @return
+      */
+     public void setAdminOrg(String adminOrg) {
+         this.adminOrg = adminOrg;
+     }
 
-    public List<CluOrg> getParticipatingOrgs() {
-        if (participatingOrgs == null) {
-            participatingOrgs = new ArrayList<CluOrg>();
-        }
-        return participatingOrgs;
-    }
+     /**
+      * 
+      * @deprecated   Replaced by getAlternateAdminOrgs
+      * 
+      * @return
+      */public List<CluOrg> getParticipatingOrgs() {
+          if (participatingOrgs == null) {
+              participatingOrgs = new ArrayList<CluOrg>();
+          }
+          return participatingOrgs;
+      }
 
-    public void setParticipatingOrgs(List<CluOrg> participatingOrgs) {
-        this.participatingOrgs = participatingOrgs;
-    }
+      /**
+       * 
+       * @deprecated   Replaced by setAlternateAdminOrgs
+       * @param participatingOrgs
+       */
+      public void setParticipatingOrgs(List<CluOrg> participatingOrgs) {
+          this.participatingOrgs = participatingOrgs;
+      }
 
-    public List<CluSet> getCluSets() {
-        return cluSets;
-    }
+      public List<CluSet> getCluSets() {
+          return cluSets;
+      }
 
-    public void setCluSets(List<CluSet> cluSets) {
-        this.cluSets = cluSets;
-    }
+      public void setCluSets(List<CluSet> cluSets) {
+          this.cluSets = cluSets;
+      }
 
-    public CluInstructor getPrimaryInstructor() {
-        return primaryInstructor;
-    }
+      public CluInstructor getPrimaryInstructor() {
+          return primaryInstructor;
+      }
 
-    public void setPrimaryInstructor(CluInstructor primaryInstructor) {
-        this.primaryInstructor = primaryInstructor;
-    }
+      public void setPrimaryInstructor(CluInstructor primaryInstructor) {
+          this.primaryInstructor = primaryInstructor;
+      }
 
-    public List<CluAcademicSubjectOrg> getAcademicSubjectOrgs() {
-        if (academicSubjectOrgs == null) {
-            academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
-        }
-        return academicSubjectOrgs;
-    }
+      public List<CluAcademicSubjectOrg> getAcademicSubjectOrgs() {
+          if (academicSubjectOrgs == null) {
+              academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
+          }
+          return academicSubjectOrgs;
+      }
 
-    public void setAcademicSubjectOrgs(List<CluAcademicSubjectOrg> academicSubjectOrgs) {
-        this.academicSubjectOrgs = academicSubjectOrgs;
-    }
+      public void setAcademicSubjectOrgs(List<CluAcademicSubjectOrg> academicSubjectOrgs) {
+          this.academicSubjectOrgs = academicSubjectOrgs;
+      }
 
-    public List<CluCampusLocation> getCampusLocationList() {
-        if (campusLocationList == null) {
-            campusLocationList = new ArrayList<CluCampusLocation>();
-        }
-        return campusLocationList;
-    }
+      public List<CluCampusLocation> getCampusLocationList() {
+          if (campusLocationList == null) {
+              campusLocationList = new ArrayList<CluCampusLocation>();
+          }
+          return campusLocationList;
+      }
 
-    public void setCampusLocationList(List<CluCampusLocation> campusLocationList) {
-        this.campusLocationList = campusLocationList;
-    }
+      public void setCampusLocationList(List<CluCampusLocation> campusLocationList) {
+          this.campusLocationList = campusLocationList;
+      }
 
-    public TimeAmount getIntensity() {
-        return intensity;
-    }
+      public TimeAmount getIntensity() {
+          return intensity;
+      }
 
-    public void setIntensity(TimeAmount intensity) {
-        this.intensity = intensity;
-    }
+      public void setIntensity(TimeAmount intensity) {
+          this.intensity = intensity;
+      }
 
-    public List<CluAccreditation> getAccreditationList() {
-        if (accreditationList == null) {
-            accreditationList = new ArrayList<CluAccreditation>();
-        }
-        return accreditationList;
-    }
+      public List<CluAccreditation> getAccreditationList() {
+          if (accreditationList == null) {
+              accreditationList = new ArrayList<CluAccreditation>();
+          }
+          return accreditationList;
+      }
 
-    public void setAccreditationList(List<CluAccreditation> accreditationList) {
-        this.accreditationList = accreditationList;
-    }
+      public void setAccreditationList(List<CluAccreditation> accreditationList) {
+          this.accreditationList = accreditationList;
+      }
+
+      public CluAdminOrg getPrimaryAdminOrg() {
+          return primaryAdminOrg;
+      }
+
+      public void setPrimaryAdminOrg(CluAdminOrg primaryAdminOrg) {
+          this.primaryAdminOrg = primaryAdminOrg;
+      }
+
+      public List<CluAdminOrg> getAlternateAdminOrgs() {
+          if (alternateAdminOrgs == null) {
+              alternateAdminOrgs = new ArrayList<CluAdminOrg>();
+          }
+          return alternateAdminOrgs;
+      }
+
+      public void setAlternateAdminOrgs(List<CluAdminOrg> alternateAdminOrgs) {
+          this.alternateAdminOrgs = alternateAdminOrgs;
+      }
+
 
 }

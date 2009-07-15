@@ -38,6 +38,7 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCreditInfo;
@@ -424,10 +425,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         accountingInfo.getAttributes().put("AccountingAttrKey2", "AccountingAttrValue2");
         clu.setAccountingInfo(accountingInfo);
 
-        clu.setAccreditingOrg("EXT_ACCREDITING_ORG_ID");
-
-        clu.setAdminOrg("EXT_ADMIN_ORG_ID");
-
         CluIdentifierInfo officialIdentifier = new CluIdentifierInfo();
         officialIdentifier.setCode("offId_code");
         officialIdentifier.setDivision("offId_division");
@@ -506,8 +503,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         creditInfo.setRepeatCount("unbounded");//RepeatCount is integer or unbounded
         creditInfo.setRepeatUnits("4");
 
-        clu.setCreditInfo(creditInfo);
-
         clu.setDefaultEnrollmentEstimate(545);
         clu.setDefaultMaximumEnrollment(999);
 
@@ -576,9 +571,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
         clu.getOfferedAtpTypes().add("offeredAtpType1");
         clu.getOfferedAtpTypes().add("offeredAtpType2");
-
-        clu.getParticipatingOrgs().add("EXT_Participating_ORG_ID1");
-        clu.getParticipatingOrgs().add("EXT_Participating_ORG_ID2");
 
         CluPublishingInfo publishingInfo = new CluPublishingInfo();
         publishingInfo.setEndCycle("endCycle");
@@ -649,6 +641,25 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         accreditationOrg2.getAttributes().put("Accred2AttrKey2", "Accred2AttrValue2");
         clu.getAccreditationList().add(accreditationOrg2);
 
+        AdminOrgInfo primaryAdminOrg = new AdminOrgInfo();
+        primaryAdminOrg.setOrgId("PRIMARY_ADMIN_ORG_ID");
+        primaryAdminOrg.getAttributes().put("PrimaryAdminOrgAttrKey1", "PrimaryAdminOrgAttrValue1");
+        primaryAdminOrg.getAttributes().put("PrimaryAdminOrgAttrKey2", "PrimaryAdminOrgAttrValue2");
+        clu.setPrimaryAdminOrg(primaryAdminOrg);
+        
+        AdminOrgInfo altAdminOrg1 = new AdminOrgInfo();
+        altAdminOrg1.setOrgId("ALT_ADMIN_ORG_ID1");
+        altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey1", "AltAdminOrg1AttrValue1");
+        altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey2", "AltAdminOrg1AttrValue2");
+        altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey3", "AltAdminOrg1AttrValue3");
+        
+        AdminOrgInfo altAdminOrg2 = new AdminOrgInfo();
+        altAdminOrg2.setOrgId("ALT_ADMIN_ORG_ID2");
+        altAdminOrg2.getAttributes().put("AltAdminOrg2AttrKey1", "AltAdminOrg2AttrValue1");
+        altAdminOrg2.getAttributes().put("AltAdminOrg2AttrKey2", "AltAdminOrg2AttrValue2");
+        clu.getAlternateAdminOrgs().add(altAdminOrg1);
+        clu.getAlternateAdminOrgs().add(altAdminOrg2);
+
         //Do the actual create call
         CluInfo createdClu = client.createClu("luType.shell.course", clu);
         createdClu = client.getClu(createdClu.getId());
@@ -657,8 +668,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
         assertEquals("AccountingAttrValue1", createdClu.getAccountingInfo().getAttributes().get("AccountingAttrKey1"));
         assertEquals("AccountingAttrValue2", createdClu.getAccountingInfo().getAttributes().get("AccountingAttrKey2"));
-        assertEquals("EXT_ACCREDITING_ORG_ID", createdClu.getAccreditingOrg());
-        assertEquals("EXT_ADMIN_ORG_ID", createdClu.getAdminOrg());
 
         assertEquals("offId_code",createdClu.getOfficialIdentifier().getCode());
         assertEquals("offId_division",createdClu.getOfficialIdentifier().getDivision());
@@ -697,22 +706,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("cluAttrValue2",createdClu.getAttributes().get("cluAttrKey2"));
 
         assertTrue(createdClu.isCanCreateLui());
-
-        assertEquals("EXT_MXAI_ID",createdClu.getCreditInfo().getMaxAllowableInactivity().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(1111),createdClu.getCreditInfo().getMaxAllowableInactivity().getTimeQuantity());
-        assertEquals("EXT_MXTRR_ID",createdClu.getCreditInfo().getMaxTimeResultsRecognized().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(2222),createdClu.getCreditInfo().getMaxTimeResultsRecognized().getTimeQuantity());
-        assertEquals("EXT_MXTTC_ID",createdClu.getCreditInfo().getMaxTimeToComplete().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(3333),createdClu.getCreditInfo().getMaxTimeToComplete().getTimeQuantity());
-        assertEquals("EXT_MNTTC_ID",createdClu.getCreditInfo().getMinTimeToComplete().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(4444),createdClu.getCreditInfo().getMinTimeToComplete().getTimeQuantity());
-        assertEquals("EXT_RT_ID",createdClu.getCreditInfo().getRepeatTime().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(5555),createdClu.getCreditInfo().getRepeatTime().getTimeQuantity());
-        assertEquals(Integer.valueOf(54321), createdClu.getCreditInfo().getInstructorUnits());
-        assertEquals(Integer.valueOf(20202), createdClu.getCreditInfo().getMaxTotalUnits());
-        assertEquals(Integer.valueOf(3131), createdClu.getCreditInfo().getMinTotalUnits());
-        assertEquals("unbounded",createdClu.getCreditInfo().getRepeatCount());
-        assertEquals("4",createdClu.getCreditInfo().getRepeatUnits());
 
         assertEquals(545,createdClu.getDefaultEnrollmentEstimate());
         assertEquals(999,createdClu.getDefaultMaximumEnrollment());
@@ -771,9 +764,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
         assertEquals("offeredAtpType1",createdClu.getOfferedAtpTypes().get(0));
         assertEquals("offeredAtpType2",createdClu.getOfferedAtpTypes().get(1));
-
-        assertEquals("EXT_Participating_ORG_ID1",createdClu.getParticipatingOrgs().get(0));
-        assertEquals("EXT_Participating_ORG_ID2",createdClu.getParticipatingOrgs().get(1));
 
         assertEquals("endCycle",createdClu.getPublishingInfo().getEndCycle());
         assertEquals("startCycle",createdClu.getPublishingInfo().getStartCycle());
@@ -834,15 +824,27 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals(df.parse("21011231"),createdClu.getAccreditationList().get(1).getExpirationDate());
         assertEquals("Accred2AttrValue1",createdClu.getAccreditationList().get(1).getAttributes().get("Accred2AttrKey1"));
         assertEquals("Accred2AttrValue2",createdClu.getAccreditationList().get(1).getAttributes().get("Accred2AttrKey2"));
+               
+        assertEquals("PRIMARY_ADMIN_ORG_ID",createdClu.getPrimaryAdminOrg().getOrgId());
+        assertEquals(2, createdClu.getPrimaryAdminOrg().getAttributes().size());
+        assertEquals("PrimaryAdminOrgAttrValue1",createdClu.getPrimaryAdminOrg().getAttributes().get("PrimaryAdminOrgAttrKey1"));
+        assertEquals("PrimaryAdminOrgAttrValue2",createdClu.getPrimaryAdminOrg().getAttributes().get("PrimaryAdminOrgAttrKey2"));
+       
+        assertEquals("ALT_ADMIN_ORG_ID1",createdClu.getAlternateAdminOrgs().get(0).getOrgId());
+        assertEquals(3, createdClu.getAlternateAdminOrgs().get(0).getAttributes().size());
+        assertEquals("AltAdminOrg1AttrValue1",createdClu.getAlternateAdminOrgs().get(0).getAttributes().get("AltAdminOrg1AttrKey1"));
+        assertEquals("AltAdminOrg1AttrValue2",createdClu.getAlternateAdminOrgs().get(0).getAttributes().get("AltAdminOrg1AttrKey2"));
+        assertEquals("AltAdminOrg1AttrValue3",createdClu.getAlternateAdminOrgs().get(0).getAttributes().get("AltAdminOrg1AttrKey3"));
+
+        assertEquals("ALT_ADMIN_ORG_ID2",createdClu.getAlternateAdminOrgs().get(1).getOrgId());
+        assertEquals(2, createdClu.getAlternateAdminOrgs().get(1).getAttributes().size());
+        assertEquals("AltAdminOrg2AttrValue1",createdClu.getAlternateAdminOrgs().get(1).getAttributes().get("AltAdminOrg2AttrKey1"));
+        assertEquals("AltAdminOrg2AttrValue2",createdClu.getAlternateAdminOrgs().get(1).getAttributes().get("AltAdminOrg2AttrKey2"));
 
         //Now Update the Clu!
         createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey1", "AccountingAttrValue1");
         createdClu.getAccountingInfo().getAttributes().remove("AccountingAttrKey2");
         createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey3", "AccountingAttrValue3");
-
-        createdClu.setAccreditingOrg("UPEXT_ACCREDITING_ORG_ID");
-
-        createdClu.setAdminOrg("UPEXT_ADMIN_ORG_ID");
 
         createdClu.getOfficialIdentifier().setCode("UPoffId_code");
         createdClu.getOfficialIdentifier().setDivision("UPoffId_division");
@@ -880,28 +882,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         createdClu.getAttributes().put("cluAttrKey3", "cluAttrValue3");
 
         createdClu.setCanCreateLui(false);
-
-        //CreditInfo
-        createdClu.getCreditInfo().getMaxAllowableInactivity().setAtpDurationTypeKey("UPEXT_MXAI_ID");
-        createdClu.getCreditInfo().getMaxAllowableInactivity().setTimeQuantity(new Integer(91111));
-
-        createdClu.getCreditInfo().getMaxTimeResultsRecognized().setAtpDurationTypeKey("UPEXT_MXTRR_ID");
-        createdClu.getCreditInfo().getMaxTimeResultsRecognized().setTimeQuantity(new Integer(92222));
-
-        createdClu.getCreditInfo().getMaxTimeToComplete().setAtpDurationTypeKey("UPEXT_MXTTC_ID");
-        createdClu.getCreditInfo().getMaxTimeToComplete().setTimeQuantity(new Integer(93333));
-
-        createdClu.getCreditInfo().getMinTimeToComplete().setAtpDurationTypeKey("UPEXT_MNTTC_ID");
-        createdClu.getCreditInfo().getMinTimeToComplete().setTimeQuantity(new Integer(94444));
-
-        createdClu.getCreditInfo().getRepeatTime().setAtpDurationTypeKey("UPEXT_RT_ID");
-        createdClu.getCreditInfo().getRepeatTime().setTimeQuantity(new Integer(95555));
-
-        createdClu.getCreditInfo().setInstructorUnits(new Integer(954321));
-        createdClu.getCreditInfo().setMaxTotalUnits(new Integer(920202));
-        createdClu.getCreditInfo().setMinTotalUnits(new Integer(93131));
-        createdClu.getCreditInfo().setRepeatCount("4");//RepeatCount is integer or unbounded
-        createdClu.getCreditInfo().setRepeatUnits("unbounded");
 
         createdClu.setDefaultEnrollmentEstimate(9545);
         createdClu.setDefaultMaximumEnrollment(9999);
@@ -965,10 +945,21 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         createdClu.setNextReviewPeriod("UPnextReviewPeriod");
 
         createdClu.getOfferedAtpTypes().remove(1);
-        createdClu.getOfferedAtpTypes().add("offeredAtpType3");
+        createdClu.getOfferedAtpTypes().add("offeredAtpType3");        
 
-        createdClu.getParticipatingOrgs().remove(1);
-        createdClu.getParticipatingOrgs().add("EXT_Participating_ORG_ID3");
+        createdClu.getPrimaryAdminOrg().setOrgId("UPD_PRIMARY_ADMIN_ORG_ID");
+        createdClu.getPrimaryAdminOrg().getAttributes().put("PrimaryAdminOrgAttrKey3", "PrimaryAdminOrgAttrValue3");
+        createdClu.getPrimaryAdminOrg().getAttributes().remove("PrimaryAdminOrgAttrKey2");
+        createdClu.getPrimaryAdminOrg().getAttributes().put("PrimaryAdminOrgAttrKey4", "PrimaryAdminOrgAttrValue4");
+    
+        AdminOrgInfo altAdminOrg3 = new AdminOrgInfo();
+        altAdminOrg3.setOrgId("ALT_ADMIN_ORG_ID3");
+        altAdminOrg3.getAttributes().put("AltAdminOrg3AttrKey1", "AltAdminOrg3AttrValue1");
+        altAdminOrg3.getAttributes().put("AltAdminOrg3AttrKey2", "AltAdminOrg3AttrValue2");
+
+        createdClu.getAlternateAdminOrgs().get(1).getAttributes().put("AltAdminOrg1AttrKey4", "AltAdminOrg1AttrKey4");
+        createdClu.getAlternateAdminOrgs().remove(1);      
+        createdClu.getAlternateAdminOrgs().add(altAdminOrg3);        
 
         createdClu.getPublishingInfo().setEndCycle("UPendCycle");
         createdClu.getPublishingInfo().setStartCycle("UPstartCycle");
@@ -1017,10 +1008,22 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("AccountingAttrValue1", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey1"));
         assertEquals("AccountingAttrValue3", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey3"));
         assertEquals(2,updatedClu.getAccountingInfo().getAttributes().size());
-
-        assertEquals("UPEXT_ACCREDITING_ORG_ID", updatedClu.getAccreditingOrg());
-        assertEquals("UPEXT_ADMIN_ORG_ID", updatedClu.getAdminOrg());
-
+      
+        assertEquals("UPD_PRIMARY_ADMIN_ORG_ID", updatedClu.getPrimaryAdminOrg().getOrgId());
+        assertEquals(3, updatedClu.getPrimaryAdminOrg().getAttributes().size());
+        assertEquals("PrimaryAdminOrgAttrValue4", updatedClu.getPrimaryAdminOrg().getAttributes().get("PrimaryAdminOrgAttrKey4"));
+        assertNull(updatedClu.getPrimaryAdminOrg().getAttributes().get("PrimaryAdminOrgAttrKey2"));       
+        assertEquals(2, updatedClu.getAlternateAdminOrgs().size());
+        assertEquals("ALT_ADMIN_ORG_ID1", updatedClu.getAlternateAdminOrgs().get(0).getOrgId());
+        assertEquals(3, updatedClu.getAlternateAdminOrgs().get(0).getAttributes().size());
+        assertEquals("AltAdminOrg1AttrValue1", updatedClu.getAlternateAdminOrgs().get(0).getAttributes().get("AltAdminOrg1AttrKey1"));
+        assertEquals("AltAdminOrg1AttrValue2", updatedClu.getAlternateAdminOrgs().get(0).getAttributes().get("AltAdminOrg1AttrKey2"));
+        assertEquals("AltAdminOrg1AttrValue3", updatedClu.getAlternateAdminOrgs().get(0).getAttributes().get("AltAdminOrg1AttrKey3"));
+        assertEquals("ALT_ADMIN_ORG_ID3", updatedClu.getAlternateAdminOrgs().get(1).getOrgId());
+        assertEquals(2, updatedClu.getAlternateAdminOrgs().get(1).getAttributes().size());
+        assertEquals("AltAdminOrg3AttrValue2", updatedClu.getAlternateAdminOrgs().get(1).getAttributes().get("AltAdminOrg3AttrKey2"));
+        assertEquals("AltAdminOrg3AttrValue1", updatedClu.getAlternateAdminOrgs().get(1).getAttributes().get("AltAdminOrg3AttrKey1"));
+        
         assertEquals("UPoffId_code",updatedClu.getOfficialIdentifier().getCode());
         assertEquals("UPoffId_division",updatedClu.getOfficialIdentifier().getDivision());
         assertEquals("UPoffId_level",updatedClu.getOfficialIdentifier().getLevel());
@@ -1055,22 +1058,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals(2,updatedClu.getAttributes().size());
 
         assertFalse(updatedClu.isCanCreateLui());
-
-        assertEquals("UPEXT_MXAI_ID",updatedClu.getCreditInfo().getMaxAllowableInactivity().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(91111),updatedClu.getCreditInfo().getMaxAllowableInactivity().getTimeQuantity());
-        assertEquals("UPEXT_MXTRR_ID",updatedClu.getCreditInfo().getMaxTimeResultsRecognized().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(92222),updatedClu.getCreditInfo().getMaxTimeResultsRecognized().getTimeQuantity());
-        assertEquals("UPEXT_MXTTC_ID",updatedClu.getCreditInfo().getMaxTimeToComplete().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(93333),updatedClu.getCreditInfo().getMaxTimeToComplete().getTimeQuantity());
-        assertEquals("UPEXT_MNTTC_ID",updatedClu.getCreditInfo().getMinTimeToComplete().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(94444),updatedClu.getCreditInfo().getMinTimeToComplete().getTimeQuantity());
-        assertEquals("UPEXT_RT_ID",updatedClu.getCreditInfo().getRepeatTime().getAtpDurationTypeKey());
-        assertEquals(Integer.valueOf(95555),updatedClu.getCreditInfo().getRepeatTime().getTimeQuantity());
-        assertEquals(Integer.valueOf(954321), updatedClu.getCreditInfo().getInstructorUnits());
-        assertEquals(Integer.valueOf(920202), updatedClu.getCreditInfo().getMaxTotalUnits());
-        assertEquals(Integer.valueOf(93131), updatedClu.getCreditInfo().getMinTotalUnits());
-        assertEquals("4",updatedClu.getCreditInfo().getRepeatCount());
-        assertEquals("unbounded",updatedClu.getCreditInfo().getRepeatUnits());
 
         assertEquals(9545,updatedClu.getDefaultEnrollmentEstimate());
         assertEquals(9999,updatedClu.getDefaultMaximumEnrollment());
@@ -1141,10 +1128,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("offeredAtpType1",updatedClu.getOfferedAtpTypes().get(0));
         assertEquals("offeredAtpType3",updatedClu.getOfferedAtpTypes().get(1));
         assertEquals(2,updatedClu.getOfferedAtpTypes().size());
-
-        assertEquals("EXT_Participating_ORG_ID1",updatedClu.getParticipatingOrgs().get(0));
-        assertEquals("EXT_Participating_ORG_ID3",updatedClu.getParticipatingOrgs().get(1));
-        assertEquals(2,updatedClu.getParticipatingOrgs().size());
 
         assertEquals("UPendCycle",updatedClu.getPublishingInfo().getEndCycle());
         assertEquals("UPstartCycle",updatedClu.getPublishingInfo().getStartCycle());

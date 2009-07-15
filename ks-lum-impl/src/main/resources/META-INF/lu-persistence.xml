@@ -17,6 +17,8 @@
 		<class>org.kuali.student.lum.lu.entity.CluAccountingAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccreditation</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccreditationAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluAdminOrg</class>
+		<class>org.kuali.student.lum.lu.entity.CluAdminOrgAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluAtpTypeKey</class>
 		<class>org.kuali.student.lum.lu.entity.CluAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluCampusLocation</class>
