@@ -20,8 +20,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class VerticalSectionView extends SectionView {
     
     protected final VerticalPanel panel = new VerticalPanel();
-	private final Label sectionTitleLabel = new Label();
-	private final Label instructionsLabel = new Label();
 	private boolean loaded = false;
 	
 	private Model<ModelDTO> model = null;
@@ -30,41 +28,13 @@ public class VerticalSectionView extends SectionView {
 		super(viewEnum, name);
 	    super.initWidget(panel);			
 	}
-	
-	@Override
-	public void setInstructions(String instructions) {
-	    super.setInstructions(instructions);
-		instructionsLabel.setText(instructions);
-	}
-
-	@Override
-	public void setSectionTitle(String sectionTitle) {
-	    super.setSectionTitle(sectionTitle);
-		sectionTitleLabel.setText(sectionTitle);
-	}
-	
-    @Override
-    public void addField(FieldDescriptor fieldDescriptor) {
-        super.addField(fieldDescriptor);
-        RowDescriptor row = new RowDescriptor();
-        row.addField(fieldDescriptor);
-        rows.add(row);        
-    }
-
-    @Override
-    public void addSection(NestedSection section) {
-        super.addSection(section);
-        RowDescriptor row = new RowDescriptor();
-        row.addSection(section);
-        rows.add(row);
-    }
-
+		
 	public void beforeShow(){
 	    
 	    if (!loaded){
 	        panel.add(sectionTitleLabel);
 	        panel.add(instructionsLabel);
-	        for(NestedSection ns: sections){
+	        for(Section ns: sections){
 	            ns.redraw();
 	        }
 	        for(RowDescriptor r: rows){
@@ -101,7 +71,7 @@ public class VerticalSectionView extends SectionView {
             FieldDescriptor field = fields.get(i);
             field.getWidgetBinding().setValue(field.getFieldWidget(), field.getPropertyBinding().getValue(modelDTO));
         }
-        for(NestedSection s: sections){
+        for(Section s: sections){
             s.updateView(model.get());
         }
 	}
@@ -121,16 +91,15 @@ public class VerticalSectionView extends SectionView {
     @SuppressWarnings("unchecked")
     public void updateModel() {
         ModelDTO modelDTO = model.get();
-        for (int i=0; i < fields.size(); i++){
-            FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof MultiplicityComposite){
-                ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
-            }
-            
-            field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
-        }
-        for(NestedSection s: sections){
-            s.updateModel(model.get());
-        }            
+        super.updateModel(modelDTO);
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.configurable.mvc.Section#updateView(org.kuali.student.common.ui.client.mvc.dto.ModelDTO)
+     */
+    @Override
+    public void updateView(ModelDTO modelDTO) {
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        
     }
 }

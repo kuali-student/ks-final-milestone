@@ -59,9 +59,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public void addField(FieldDescriptor fieldDescriptor) {
         super.addField(fieldDescriptor);
         
-        RowDescriptor row = new RowDescriptor();
-        row.addField(fieldDescriptor);
-        rows.add(row);                          
+        RowDescriptor row = rows.get(rows.size()-1);
 
         if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
             MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
@@ -71,7 +69,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     }
     
     @Override
-    public void addSection(NestedSection section) {
+    public void addSection(Section section) {
         super.addSection(section);
         section.redraw();
         panel.add(section);
@@ -110,19 +108,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     @Override
     public void updateModelDTOValue() {        
         ModelDTO modelDTO = ((ModelDTOValue.ModelDTOType)modelDTOValue).get();
-        
-        for (int i=0; i < fields.size(); i++){
-            FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof MultiplicityComposite){
-                ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
-            }
-            
-            field.getPropertyBinding().setValue(modelDTO, field.getWidgetBinding().getValue(field.getFieldWidget()));
-        }
-        
-        for(NestedSection s: sections){
-            s.updateModel(modelDTO);
-        }        
+        super.updateModel(modelDTO);
     }
 
     public void clear(){
@@ -167,5 +153,13 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {        
         // TODO: Add value change handlers
         return null;
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.configurable.mvc.Section#updateView(org.kuali.student.common.ui.client.mvc.dto.ModelDTO)
+     */
+    @Override
+    public void updateView(ModelDTO modelDTO) {
+        //Overriding super method for now, since this operation may not be applicable for multiplicity         
     }
 }

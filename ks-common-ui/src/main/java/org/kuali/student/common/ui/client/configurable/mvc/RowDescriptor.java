@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public class RowDescriptor extends Composite{
     private HorizontalPanel rowPanel = new HorizontalPanel();
     private List<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
-    private List<NestedSection> sections = new ArrayList<NestedSection>();
+    private List<Section> sections = new ArrayList<Section>();
     
     protected FieldLabelType currentFieldLabelType = FieldLabelType.LABEL_LEFT;
     
@@ -21,7 +21,7 @@ public class RowDescriptor extends Composite{
         this.initWidget(rowPanel);
     }
     
-    public void addSection(NestedSection section){
+    public void addSection(Section section){
         sections.add(section);
         rowPanel.add(section);
     }
@@ -60,7 +60,7 @@ public class RowDescriptor extends Composite{
         return fields;
     }
 
-    public List<NestedSection> getSections() {
+    public List<Section> getSections() {
         return sections;
     }
 
