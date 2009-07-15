@@ -96,6 +96,7 @@
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
         <gwt.plugin.version>2.0.1-ks26</gwt.plugin.version>
+        <war.plugin.version>2.1-beta-1</war.plugin.version>
     </properties>
 
     <profiles>
@@ -310,6 +311,13 @@
                     <version>${site.plugin.version}</version>
                 </plugin>
             
+                <!--  war plguin, so one version is used regardless of build env :-) -->
+                <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version>
+                </plugin>
+
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
