@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -59,7 +60,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      *
      */
     private class MultiplicityItemWidgetDecorator extends Composite{
-        FlowPanel itemPanel;
+        HorizontalBlockFlowPanel itemPanel;
         Widget listItem;
         
         KSButton removeButton = new KSButton("-", new ClickHandler(){
@@ -72,14 +73,14 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         });        
         
         private MultiplicityItemWidgetDecorator(Widget listItem){
-            itemPanel = new FlowPanel();
+            itemPanel = new HorizontalBlockFlowPanel();
             this.listItem = listItem;
             initWidget(itemPanel);
             if (listItem instanceof MultiplicityComposite){
                 ((MultiplicityComposite)listItem).redraw();
             }
-            itemPanel.add(removeButton);            
             itemPanel.add(listItem);
+            itemPanel.add(removeButton);
         }
         
     }

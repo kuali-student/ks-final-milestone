@@ -17,13 +17,10 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
 
-import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
-import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
-import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -33,6 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 /**
  * This is a section that can be added to a MultiplictyComposite. It is a configurable
  * section which allows the section to be defined by adding fields and nested sections.
+ * 
  * 
  * Although this implements the HasModelDTOValue interface, it only supports
  * the ModelDTOValue type of MODELDTO.
