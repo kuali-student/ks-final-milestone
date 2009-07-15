@@ -3,12 +3,15 @@ package org.kuali.student.common.ui.client.widgets.counting.impl;
 
 
 import org.kuali.student.common.ui.client.images.KSImages;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSInfoDialogPanel;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.counting.KSRichEditorAbstract;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbar;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.counting.KSRichEditorAbstract;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -25,20 +28,9 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /** 
  * KS default rich text editor
@@ -46,20 +38,22 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * TODO implement with a clean toolbar and i18n
  */
 public class KSRichEditorImpl extends KSRichEditorAbstract {
-    private final FlowPanel content = new FlowPanel();
+private final VerticalFlowPanel content = new VerticalFlowPanel();
     
     private final RichTextArea textArea = new RichTextArea();
     private final KSRichTextToolbar toolbar;
     
     private final PopupPanel popoutImagePanel = new PopupPanel();
-    private PopupPanel glass = new PopupPanel();
     
-    private final KSInfoDialogPanel popoutWindow = new KSInfoDialogPanel();
+    private final KSLightBox popoutWindow = new KSLightBox();
     private KSRichEditorImpl popoutEditor = null;
     
     private boolean focused = false;
     private boolean toolbarShowing = false;
     private boolean popoutActive = false;
+    
+
+
     
     private boolean isUsedInPopup = false;
     private int toolbarHeight;
@@ -71,9 +65,41 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     private int width;
     private boolean dimensionsObtained = false;
     
+    private KSLabel label = new KSLabel();
+    private static final String REMAINING = " Characters remaining | "; //TODO get from resource
+    private static final String MAXIMUM = " Character Maximum"; //TODO get from resource
+    private int maxTextLength = 256;    
+    private final KeyUpHandler keyUpHandler = new KeyUpHandler(){
+        @Override
+        public void onKeyUp(KeyUpEvent event) {
+            int remaining = maxTextLength - getHTML().length();
+            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM); 
+        }
+    };  
+    
+    /**
+     * Maximum number of characters application allows for this field.
+     * @return the maxTextLength
+     */
+    @Override
+    public int getMaxTextLength() {
+        return maxTextLength;
+    }
+
+    /**
+     * Maximum character length application allows in this field.
+     * Should be called in the wrapper class constructor
+     * @param maxTextLength the maxTextLength to set
+     */
+    protected void setMaxTextLength(int maxTextLength) {
+        this.maxTextLength = maxTextLength;
+    }
+    
     private final FocusHandler focusHandler = new FocusHandler() {
         @Override
         public void onFocus(FocusEvent event) {
+            int remaining = maxTextLength - getHTML().length();
+            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM);
             if(!popoutActive){
                 focused = true;
                 if(!toolbar.inUse()){
@@ -86,7 +112,9 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     private final BlurHandler blurHandler = new BlurHandler() {
 
         @Override
-        public void onBlur(BlurEvent event) {           
+        public void onBlur(BlurEvent event) {
+            int remaining = maxTextLength - getHTML().length();
+            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM);
             if(!popoutActive){
                 focused = false;
                 if(!toolbar.inUse()){
@@ -95,83 +123,82 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
             }
         }
     };
-    private final VerticalPanel textPanel = new VerticalPanel();
-    private KSLabel label = new KSLabel();
-    private static final String REMAINING = " Characters remaining | "; //TODO get from resource
-    private static final String MAXIMUM = " Character Maximum"; //TODO get from resource
-    private int maxTextLength = 256;    
-    private final KeyUpHandler keyUpHandler = new KeyUpHandler(){
-        @Override
-        public void onKeyUp(KeyUpEvent event) {
-            int remaining = maxTextLength - getHTML().length();
-            label.setText(remaining + REMAINING + maxTextLength + MAXIMUM); 
-        }
-    };    
+    
+    
     public KSRichEditorImpl(){
-        textArea.addKeyUpHandler(keyUpHandler);
         toolbar = new KSRichTextToolbar(textArea);
         content.add(toolbar);
-        textPanel.add(textArea);
-        textPanel.add(label);
-        content.add(textPanel);
+        content.add(textArea);
+        content.add(label);
         super.initWidget(content);
     }
     
     @Override
-    protected void init(boolean isUsedInPopup,int maxTextLength) {
-        this.isUsedInPopup = isUsedInPopup;  
-        this.maxTextLength = maxTextLength;
-        label.setText(maxTextLength + REMAINING + maxTextLength + MAXIMUM);
+    protected void init(boolean isUsedInPopup, int maxTextLength) {
+        this.isUsedInPopup = isUsedInPopup;     
         setupDefaultStyle();
-                
+        this.maxTextLength = maxTextLength;
+        textArea.addKeyUpHandler(keyUpHandler);
+        label.setText(maxTextLength + REMAINING + maxTextLength + MAXIMUM);
         if(isUsedInPopup){
             toolbar.setVisible(true);
-            content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
-            textArea.setWidth("100%");
-            textArea.setHeight("100%");
+            
+            content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE_CONTENT);
+            textArea.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
+            toolbar.addStyleName(KSStyles.KS_RICH_TEXT_LARGE_TOOLBAR);
+            textArea.addFocusHandler(focusHandler);
         }
         else
         {
+
             textArea.addFocusHandler(focusHandler);
             textArea.addBlurHandler(blurHandler);
+            content.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL_CONTENT);
             textArea.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
-            content.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
-            
+            toolbar.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL_TOOLBAR);
             toolbar.setVisible(false);
             
             popoutEditor = new KSRichEditorImpl();
-            popoutEditor.init(true,maxTextLength);
-            popoutWindow.setAutoHide(true);
-            popoutWindow.setHeader("TextEditor");
-            //windowPanel.add(popoutEditor);
+            popoutEditor.init(true, maxTextLength);    
             
-            
-            HorizontalPanel buttonPanel = new HorizontalPanel();
-            KSButton okButton = new KSButton("OK");
-            okButton.addClickHandler(new ClickHandler(){
+            ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
 
                 @Override
-                public void onClick(ClickEvent event) {
-                    popoutWindow.hide();
-                    glass.hide();
+                public void exec(ConfirmCancelEnum result) {
+                    switch(result){
+                        case CONFIRM:
+                            textArea.setHTML(popoutEditor.getHTML());
+                            popoutEditor.setHTML("");
+                            textArea.setEnabled(true);
+                            textArea.setFocus(true);
+                            popoutWindow.hide();
+                            popoutImagePanel.show();
+                            popoutActive = false;
+                            break;
+                        case CANCEL:
+                            popoutEditor.setHTML("");
+                            textArea.setEnabled(true);
+                            textArea.setFocus(true);
+                            popoutWindow.hide();
+                            popoutImagePanel.show();
+                            popoutActive = false;
+                            break;
+                    }
+                    
                 }
-            });
-            buttonPanel.add(okButton);
-            buttonPanel.setWidth("100%");
-            //windowPanel.add(buttonPanel);
-            
+            });     
             
             popoutImage.addClickHandler(new ClickHandler(){
 
                 @Override
                 public void onClick(ClickEvent event) {
+                    popoutWindow.show();
                     focused = true;
                     textArea.setEnabled(false);
                     popoutEditor.setHTML(textArea.getHTML());
-                    glass.show();   
-                    popoutWindow.show();
                     popoutImagePanel.hide();
-                    popoutEditor.textArea.setFocus(true);
+                    popoutEditor.getRichTextArea().setFocus(true);
+
                 }
             });
             
@@ -182,25 +209,9 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
                     popoutActive = true;
                 }
             });
-
             popoutImagePanel.add(popoutImage);
-            
-            
-            popoutWindow.addCloseHandler(new CloseHandler(){
-
-                @Override
-                public void onClose(CloseEvent event) {
-                    textArea.setHTML(popoutEditor.getHTML());
-                    textArea.setEnabled(true);
-                    textArea.setFocus(true);
-                    popoutWindow.hide();
-                    glass.hide();
-                    popoutImagePanel.show();
-                    popoutActive = false;
-                }
-            });
-
-            popoutWindow.setWidget(popoutEditor);
+            buttonPanel.setContent(popoutEditor);
+            popoutWindow.setWidget(buttonPanel);
         }
     }
     
@@ -248,8 +259,6 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     
     private void setupDefaultStyle(){
         popoutImagePanel.addStyleName(KSStyles.KS_POPOUT_IMAGE_PANEL);
-        glass.addStyleName(KSStyles.KS_RICH_TEXT_POPOUT_GLASS);
-        popoutWindow.addStyleName(KSStyles.KS_POPOUT_WINDOW);
         popoutImage.addStyleName(KSStyles.KS_POPOUT_IMAGE);
         popoutImage.addMouseOverHandler(new MouseOverHandler(){
 
@@ -299,21 +308,4 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
         return textArea;
     }
 
-    /**
-     * Maximum number of characters application allows for this field.
-     * @return the maxTextLength
-     */
-    @Override
-    public int getMaxTextLength() {
-        return maxTextLength;
-    }
-
-    /**
-     * Maximum character length application allows in this field.
-     * Should be called in the wrapper class constructor
-     * @param maxTextLength the maxTextLength to set
-     */
-    protected void setMaxTextLength(int maxTextLength) {
-        this.maxTextLength = maxTextLength;
-    }
 }

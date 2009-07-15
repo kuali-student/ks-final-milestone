@@ -175,5 +175,10 @@ public interface KSStyles {
     public static final String KS_HORIZONTAL_BLOCK_FLOW = "KS-Horizontal-Block-Flow";
     public static final String KS_HORIZONTAL_INLINE_FLOW = "KS-Horizontal-Inline-Flow";
     public static final String KS_VERTICAL_FLOW = "KS-Vertical-Flow";
+    public static final String KS_RICH_TEXT_CONTENT = "KS-RichText-Content-Panel";
+    public static final String KS_RICH_TEXT_NORMAL_TOOLBAR = "KS-RichText-Normal-Toolbar";
+    public static final String KS_RICH_TEXT_LARGE_TOOLBAR = "KS-RichText-Large-Toolbar";
+    public static final String KS_RICH_TEXT_LARGE_CONTENT = "KS-RichText-Large-Content-Panel";
+    public static final String KS_RICH_TEXT_NORMAL_CONTENT = "KS-RichText-Normal-Content-Panel";
 	
 }

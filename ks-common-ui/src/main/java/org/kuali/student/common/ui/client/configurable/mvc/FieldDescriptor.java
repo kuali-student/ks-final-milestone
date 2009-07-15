@@ -17,8 +17,10 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,6 +52,9 @@ public class FieldDescriptor {
         this.fieldLabel = fieldLabel;
         this.fieldType = fieldType;
         this.fieldWidget = fieldWidget;
+        if(fieldWidget instanceof RichTextEditor){
+            this.setWidgetBinding(RichTextBinding.INSTANCE);
+        }
     }
 
     public FieldDescriptor(String fieldKey, String fieldLabel, ModelDTOValue.Type fieldType) {
