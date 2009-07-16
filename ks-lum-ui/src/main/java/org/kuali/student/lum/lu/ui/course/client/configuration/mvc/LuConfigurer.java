@@ -42,7 +42,7 @@ public class LuConfigurer {
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
         COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS
-    }
+    } 
         
     public static void configureCluProposal(ConfigurableLayout layout){
         addCluStartSection(layout);
