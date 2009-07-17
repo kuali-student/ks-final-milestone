@@ -22,11 +22,14 @@ public class VerticalSectionView extends SectionView {
     protected final VerticalPanel panel = new VerticalPanel();
 	private boolean loaded = false;
 	
+	private Class<? extends ModelDTO> modelDTOType;
+	
 	private Model<ModelDTO> model = null;
 		
-	public VerticalSectionView(Enum<?> viewEnum, String name) {	    
+	public VerticalSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
 		super(viewEnum, name);
-	    super.initWidget(panel);			
+	    super.initWidget(panel);
+	    this.modelDTOType = modelDTOType; 
 	}
 		
 	public void beforeShow(){
@@ -45,7 +48,7 @@ public class VerticalSectionView extends SectionView {
 	    }
 
         //Request model and redraw view if model changed
-	    getController().requestModel(ModelDTO.class, new ModelRequestCallback<ModelDTO>(){
+	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
             public void onModelReady(Model<ModelDTO> m) {
                 if (model != m){
                     model = m;
@@ -97,7 +100,7 @@ public class VerticalSectionView extends SectionView {
     }
     
     public void updateView(){
-	    getController().requestModel(ModelDTO.class, new ModelRequestCallback<ModelDTO>(){
+	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
             public void onModelReady(Model<ModelDTO> m) {
                     updateView(m.get());
             }

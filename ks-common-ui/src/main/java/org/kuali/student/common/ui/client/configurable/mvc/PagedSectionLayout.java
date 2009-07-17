@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class PagedSectionLayout extends Controller implements ConfigurableLayout {
-  
+      
     private final DockPanel panel = new DockPanel();
     
 	private final VerticalPanel menuPanel = new VerticalPanel();
@@ -43,6 +43,8 @@ public abstract class PagedSectionLayout extends Controller implements Configura
     
 	private boolean loaded = false;
 	private int currMenuItemIdx = 0;
+	
+	private Class<? extends ModelDTO> modelDTOType;
 	
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
@@ -171,7 +173,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
      */
     @Override
     public void showDefaultView() {
-        requestModel(ModelDTO.class, defaultViewCallback);
+        requestModel(modelDTOType, defaultViewCallback);
     }
     
     private ModelRequestCallback<ModelDTO> defaultViewCallback = new ModelRequestCallback<ModelDTO>(){
@@ -185,7 +187,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
             sectionMenuItems.get(0).setSelected(true);
             
             ModelDTO modelDTO = model.get();
-            if (modelDTO == null){                
+            if (modelDTO.get("id") == null){                
                 startSectionWindow.show();
             } 
         }
@@ -196,5 +198,13 @@ public abstract class PagedSectionLayout extends Controller implements Configura
         }
         
     };
+
+    public Class<? extends ModelDTO> getModelDTOType() {
+        return modelDTOType;
+    }
+
+    public void setModelDTOType(Class<? extends ModelDTO> modelDTOType) {
+        this.modelDTOType = modelDTOType;
+    }
 
 }

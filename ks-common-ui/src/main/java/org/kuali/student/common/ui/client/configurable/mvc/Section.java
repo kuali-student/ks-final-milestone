@@ -41,6 +41,13 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         rows.add(row);
     }
     
+    @Override    
+    public void addWidget(Widget widget) {
+        RowDescriptor row = new RowDescriptor();
+        row.addWidget(widget);
+        rows.add(row);
+    }
+
     @Override
     public String getSectionTitle() {
         return sectionTitleLabel.getText();

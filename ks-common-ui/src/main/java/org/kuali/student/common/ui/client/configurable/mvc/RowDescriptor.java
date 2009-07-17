@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class RowDescriptor extends Composite{
     private HorizontalPanel rowPanel = new HorizontalPanel();
@@ -56,6 +57,9 @@ public class RowDescriptor extends Composite{
         }
     }
 
+    public void addWidget(Widget widget){
+        rowPanel.add(widget);
+    }
     public List<FieldDescriptor> getFields() {
         return fields;
     }
