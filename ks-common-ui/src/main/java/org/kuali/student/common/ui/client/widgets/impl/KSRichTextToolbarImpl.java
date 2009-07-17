@@ -336,6 +336,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    lb.addItem(strings.green(), "green");
 	    lb.addItem(strings.yellow(), "yellow");
 	    lb.addItem(strings.blue(), "blue");
+	    lb.setWidth("125px");
 	    return lb;
 	  }
 
@@ -354,6 +355,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    lb.addItem("Georgia", "Georgia");
 	    lb.addItem("Trebuchet", "Trebuchet");
 	    lb.addItem("Verdana", "Verdana");
+	    lb.setWidth("125px");
 	    return lb;
 	  }
 
@@ -372,6 +374,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    lb.addItem(strings.large());
 	    lb.addItem(strings.xlarge());
 	    lb.addItem(strings.xxlarge());
+	    lb.setWidth("100px");
 	    return lb;
 	  }
 
