@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -89,10 +90,11 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      */
     @Override
     public void setValue(ModelDTOValue modelDTOValue) {
-        assert(modelDTOValue instanceof ModelDTOValue.ListType);
-        this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;        
-        
-        redraw();
+    	if(modelDTOValue != null){
+	        assert(modelDTOValue instanceof ModelDTOValue.ListType);
+	        this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;
+	        redraw();
+    	}
     }
 
 
@@ -151,6 +153,8 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
         ((HasModelDTOValue)newItemWidget).setValue(modelDTOValue);
+        GWT.log("ModelDTOValueActual = " + modelDTOValue.toString(), null);
+        GWT.log("ModelDTOValue in Section = " + ((HasModelDTOValue)newItemWidget).getValue().toString(), null);
         itemsPanel.add(listItem);
         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }
@@ -176,14 +180,15 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             mainPanel.add(itemsPanel);
             mainPanel.add(addItemButton);
             loaded = true;
-        } else {        
+        } else {
             clear();
         }
         
         //Update the composite with values from ModelDTO
         if (modelDTOList != null){
             List<ModelDTOValue> modelDTOValueList = modelDTOList.get();
-            
+            GWT.log("ModelDTOList = " + modelDTOList.toString(), null);
+            GWT.log("ModelDTOValueList length = " + modelDTOValueList.size(), null);
             for (int i=0; i < modelDTOValueList.size(); i++){
                 addItem(modelDTOValueList.get(i));
             }                                               
@@ -199,7 +204,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         if (itemsPanel != null){itemsPanel.clear();}
         //TODO: Should this do iterate over each widget and call their clear()
         if (modelDTOValueWidgets != null){modelDTOValueWidgets.clear();}        
-        if (modelDTOList != null){modelDTOList.get().clear();}
+        //if (modelDTOList != null){modelDTOList.get().clear();}
     }
     
     

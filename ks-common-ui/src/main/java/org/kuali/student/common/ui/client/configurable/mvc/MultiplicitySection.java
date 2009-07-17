@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValueBinder;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -122,13 +123,7 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
      */
     public void redraw(){
         if (modelDTOValue != null){
-            ModelDTO modelDTO = ((ModelDTOValue.ModelDTOType)modelDTOValue).get();
-            
-            for (int i=0; i < fields.size(); i++){
-                FieldDescriptor field = fields.get(i);
-                ModelDTOValue modelDTOValue = modelDTO.get(field.getFieldKey());
-                ModelDTOValueBinder.copyValueFromModelDTO(modelDTOValue, field.getFieldWidget());
-            }
+        	super.updateView(((ModelDTOType) modelDTOValue).get());
         }
     }
 
@@ -153,13 +148,5 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {        
         // TODO: Add value change handlers
         return null;
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.Section#updateView(org.kuali.student.common.ui.client.mvc.dto.ModelDTO)
-     */
-    @Override
-    public void updateView(ModelDTO modelDTO) {
-        //Overriding super method for now, since this operation may not be applicable for multiplicity         
     }
 }

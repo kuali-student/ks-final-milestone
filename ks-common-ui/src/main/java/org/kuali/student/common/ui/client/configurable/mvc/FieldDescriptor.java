@@ -99,7 +99,9 @@ public class FieldDescriptor {
 
     public PropertyBinding getWidgetBinding() {
         if(widgetBinding == null){
-            if (fieldWidget instanceof HasText) {
+        	if(fieldWidget instanceof HasModelDTOValue){
+        		widgetBinding = HasModelDTOValueBinding.INSTANCE;
+        	}else if (fieldWidget instanceof HasText) {
                 widgetBinding = new HasTextBinding(fieldType);
             } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
                 widgetBinding = SelectItemWidgetBinding.INSTANCE;

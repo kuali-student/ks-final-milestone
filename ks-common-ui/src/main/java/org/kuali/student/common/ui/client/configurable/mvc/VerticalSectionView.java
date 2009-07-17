@@ -64,16 +64,18 @@ public class VerticalSectionView extends SectionView {
 	public void clear(){
 	    //TODO: Reset the form...form will require clear/reset method();
 	}
-		
+
+    @Override	
 	public void redraw(){
-        ModelDTO modelDTO = model.get();
+		super.updateView(model.get());
+/*        ModelDTO modelDTO = model.get();
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = fields.get(i);
             field.getWidgetBinding().setValue(field.getFieldWidget(), field.getPropertyBinding().getValue(modelDTO));
         }
         for(Section s: sections){
             s.updateView(model.get());
-        }
+        }*/
 	}
 			
     @Override
@@ -93,13 +95,18 @@ public class VerticalSectionView extends SectionView {
         ModelDTO modelDTO = model.get();
         super.updateModel(modelDTO);
     }
+    
+    public void updateView(){
+	    getController().requestModel(ModelDTO.class, new ModelRequestCallback<ModelDTO>(){
+            public void onModelReady(Model<ModelDTO> m) {
+                    updateView(m.get());
+            }
 
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.Section#updateView(org.kuali.student.common.ui.client.mvc.dto.ModelDTO)
-     */
-    @Override
-    public void updateView(ModelDTO modelDTO) {
-        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
-        
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert("Failed to get model");
+            }
+            
+        });
     }
 }
