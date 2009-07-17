@@ -21,12 +21,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.counting.KSTextArea;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -42,7 +44,7 @@ public class LuConfigurer {
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
         COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS
-    } 
+    }
         
     public static void configureCluProposal(ConfigurableLayout layout){
         addCluStartSection(layout);
@@ -53,19 +55,20 @@ public class LuConfigurer {
     }
     
     public static void addCluStartSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start");
+        VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start", CluProposalModelDTO.class);
         section.addField(new FieldDescriptor("courseTitle", "Proposed Course Title", Type.STRING));
         ((PagedSectionLayout)layout).addStartSection(section);
     }
 
     public static void addAuthorSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);        
+        VerticalSectionView section = new VerticalSectionView(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, CluProposalModelDTO.class);        
 
+        section.addWidget(new Collaborators());
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
     }
     
     public static void addGoverenceSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE);        
+        VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE, CluProposalModelDTO.class);        
         
         //FIXME: Label should come from messaging, field type should come from dictionary?
         section.addField(new FieldDescriptor("curriculumOversight", "Curriculum Oversight", Type.STRING));        
@@ -76,7 +79,7 @@ public class LuConfigurer {
     }
     
     public static void addCourseInfoSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION);        
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION, CluProposalModelDTO.class);        
         
         //FIXME: Label should be key to messaging, field type should come from dictionary?
         
@@ -93,7 +96,7 @@ public class LuConfigurer {
             VerticalSection crossListed = new VerticalSection();
             crossListed.setSectionTitle("Cross Listed (offered under alternate course numbers)");
             crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-            crossListed.addField(new FieldDescriptor("crossListedClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
+            crossListed.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
             
             //OFFERED JOINTLY
             VerticalSection offeredJointly = new VerticalSection();
@@ -161,7 +164,7 @@ public class LuConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("luLuRelationType.alias");//TODO Probably totally wrong
+            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -177,7 +180,7 @@ public class LuConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("luLuRelationType.alias");//TODO Probably totally wrong
+            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -191,7 +194,7 @@ public class LuConfigurer {
     }
     
     public static void addCourseLogistics(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS); 
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS, CluProposalModelDTO.class); 
         
         //CREDITS
         VerticalSection credits = new VerticalSection();
@@ -256,6 +259,5 @@ public class LuConfigurer {
         }
 
     }
-
-    
+            
 }

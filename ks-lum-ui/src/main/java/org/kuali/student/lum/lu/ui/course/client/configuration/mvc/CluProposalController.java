@@ -18,12 +18,15 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -32,7 +35,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
  *
  */
 public class CluProposalController extends PagedSectionLayout{
-    private Model<ModelDTO> cluProposalModel;
+    private Model<CluProposalModelDTO> cluProposalModel;
+    
+    CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
        
     private KSButton createButton = new KSButton("Begin", new ClickHandler(){
         public void onClick(ClickEvent event) {
@@ -55,6 +60,7 @@ public class CluProposalController extends PagedSectionLayout{
         LuConfigurer.configureCluProposal(this);
         addButton(saveButton);
         cluProposalModel = null;
+        this.setModelDTOType(CluProposalModelDTO.class);
     }
     
         
@@ -70,10 +76,10 @@ public class CluProposalController extends PagedSectionLayout{
     @SuppressWarnings("unchecked")
     @Override
     public void requestModel(Class modelType, ModelRequestCallback callback) {
-        if (modelType == ModelDTO.class){
+        if (modelType == CluProposalModelDTO.class){
             if (cluProposalModel == null){
-                cluProposalModel = new Model<ModelDTO>();
-                cluProposalModel.put(new ModelDTO("CluProposal"));
+                cluProposalModel = new Model<CluProposalModelDTO>();
+                cluProposalModel.put(new CluProposalModelDTO());
                 callback.onModelReady(cluProposalModel);
             } else {
                 callback.onModelReady(cluProposalModel); 
