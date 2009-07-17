@@ -111,7 +111,7 @@ public class LUCreateUpdateView extends ViewComposite {
                 	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
                 		public void onClick(ClickEvent event) {
                 			CluInfo cluInfo = layout.getObject().getCluInfo();
-                			if(cluInfo==null||cluInfo.getAdminOrg()==null){
+                			if(cluInfo==null||cluInfo.getPrimaryAdminOrg()==null||cluInfo.getPrimaryAdminOrg().getOrgId()==null){
                 				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
                 			}else{
 	                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
@@ -169,7 +169,7 @@ public class LUCreateUpdateView extends ViewComposite {
 						                	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
 						                		public void onClick(ClickEvent event) {
 						                			CluInfo cluInfo = layout.getObject().getCluInfo();
-						                			if(cluInfo==null||cluInfo.getAdminOrg()==null){
+						                			if(cluInfo==null||cluInfo.getPrimaryAdminOrg()==null||cluInfo.getPrimaryAdminOrg().getOrgId()==null){
 						                				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
 						                			}else{
 							                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){

@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CollaborationSection;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
@@ -206,8 +207,8 @@ public class ProposalInformationLayoutManager {
 //                                if (info != null && info.getProposerOrg().size() > 0){
 //                                    return object.getProposalInfo().getProposerOrg().get(0);
 //                                } else 
-                                if (cluInfo != null){
-                                    return cluInfo.getAdminOrg();
+                                if (cluInfo != null && cluInfo.getPrimaryAdminOrg() != null){
+                                    return cluInfo.getPrimaryAdminOrg().getOrgId();
                                 } else{
                                     return "";
                                 }
@@ -222,7 +223,9 @@ public class ProposalInformationLayoutManager {
 //                                }
                                 
                                 CluInfo cluInfo = object.getCluInfo();
-                                cluInfo.setAdminOrg((String)value);
+                                AdminOrgInfo adminOrgInfo = new AdminOrgInfo();
+                                adminOrgInfo.setOrgId((String)value);
+                                cluInfo.setPrimaryAdminOrg(adminOrgInfo);
                             }
                         })
                         .setFormField(new KSFormField("adminOrg", "Administering Organization")
