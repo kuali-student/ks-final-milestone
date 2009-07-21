@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -44,4 +45,8 @@ public interface CluProposalRpcService extends BaseRpcService{
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy);
     public HashMap<String, ArrayList<String>> getCollaborators(String docId);
     public Boolean loginBackdoor(String backdoorId);
+    
+    
+    public String createProposal(CluProposalModelDTO cluProposalDTO);
+    public Boolean saveProposal(CluProposalModelDTO cluProposalDTO);
 }

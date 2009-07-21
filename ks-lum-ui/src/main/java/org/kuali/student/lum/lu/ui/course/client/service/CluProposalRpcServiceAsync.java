@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -43,4 +44,8 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy, AsyncCallback<Boolean> callback);
     public void getCollaborators(String docId, AsyncCallback<HashMap<String, ArrayList<String>>> callback);
     public void loginBackdoor(String backdoorId, AsyncCallback<Boolean> callback);
+    
+    public void createProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<String> callback);
+    public void saveProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<Boolean> callback);
+
 }

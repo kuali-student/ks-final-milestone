@@ -36,6 +36,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.proposal.dto.ProposalInfo;
@@ -673,5 +674,25 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public void setOrgService(OrganizationService orgService) {
 		this.orgService = orgService;
 	}
+
+    /**
+     * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
+     */
+    @Override
+    public String createProposal(CluProposalModelDTO cluProposalDTO) {
+        CluInfo cluInfo;
+        
+        return "Testing";
+    }
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
+     */
+    @Override
+    public Boolean saveProposal(CluProposalModelDTO cluProposalDTO) {
+        return true;
+    }
 
 }
