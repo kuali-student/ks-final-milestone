@@ -20,6 +20,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:core-web.properties</value>
+				<value>classpath:ks-spring-security.properties</value>
 			</list>
 		</property>
 		<property name="customConfigSystemProperty" value="ks.config.location"/>
