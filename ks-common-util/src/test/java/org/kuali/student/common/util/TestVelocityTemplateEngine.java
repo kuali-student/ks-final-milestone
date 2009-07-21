@@ -97,10 +97,10 @@ public class TestVelocityTemplateEngine {
 		map.put("expectedValue", "100");
 		map.put("resultValue", "60");
 
-		String s = "Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')";
+		String s = "Date created $dateTool.get('yyyy-MM-dd HH:mm z')";
 		String eval = templateEngine.evaluate(map, s);
 		
-		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm:ss z"), eval);
+		Assert.assertEquals("Date created " + new DateTool().get("yyyy-MM-dd HH:mm z"), eval);
 	}
 
 	@Test
