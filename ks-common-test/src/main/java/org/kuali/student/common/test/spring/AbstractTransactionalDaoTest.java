@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +166,8 @@ public abstract class AbstractTransactionalDaoTest {
 						try {
 						
 							while((ln=in.readLine())!=null){
-								if(!ln.startsWith("/")&&!ln.isEmpty()){
+								if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+									ln=ln.replaceFirst("[;/]\\s*$","");
 									em.createNativeQuery(ln).executeUpdate();
 								}
 							}

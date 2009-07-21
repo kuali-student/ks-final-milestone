@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -71,7 +72,8 @@ public class LoadDataBean implements ApplicationContextAware{
 					String ln;
 
 					while((ln=in.readLine())!=null){
-						if(!ln.startsWith("/")&&!ln.isEmpty()){
+						if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+							ln=ln.replaceFirst("[;/]\\s*$","");
 							em.createNativeQuery(ln).executeUpdate();
 						}
 					}

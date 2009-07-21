@@ -9,6 +9,9 @@ import java.util.Map.Entry;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -26,6 +29,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 public class LoadSqlListener implements ApplicationListener,
 		ApplicationContextAware {
 
+	final static Logger logger = LoggerFactory.getLogger(LoadSqlListener.class);
+	
 	private ApplicationContext applicationContext;
 	
 	private boolean loaded = false;
@@ -65,13 +70,14 @@ public class LoadSqlListener implements ApplicationListener,
 
 				try {
 					while((ln=in.readLine())!=null){
-						if(!ln.startsWith("/")&&!ln.isEmpty()){
+						if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+							ln=ln.replaceFirst("[;/]\\s*$","");
 							em.createNativeQuery(ln).executeUpdate();
 						}
 					}
 					jtaTxManager.commit(txStatus);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error("Error loading sql file "+sqlFileName+".",e);
 					jtaTxManager.rollback(txStatus);
 				}
 			}
