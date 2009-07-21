@@ -118,7 +118,7 @@ public class LUDictionaryManager {
      */
     public Map<String, Field> getFields(String objectKey, String type, String state) {
 
-        return indexedFields.get(objectKey +  DICT_KEY_SEPARATOR +
+        return indexedFields.get(objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +
                 type.toLowerCase() + DICT_KEY_SEPARATOR + 
                 state.toLowerCase());
 
