@@ -140,7 +140,7 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		queryResult.setResultCells(Arrays.asList(cell));
 		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.hierarchiesOrgIsIn"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult));
 		
-		EasyMock.expect(mockOrgSvc.getAncestors("64", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("5", "31", "137"));
+		EasyMock.expect(mockOrgSvc.getAllAncestors("64", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("5", "31", "137"));
 		
 		OrgInfo mockBoard = new OrgInfo();
 		OrgInfo mockCommittee = new OrgInfo();

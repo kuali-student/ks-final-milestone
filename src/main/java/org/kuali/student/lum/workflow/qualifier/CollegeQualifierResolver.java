@@ -75,7 +75,7 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 									for (ResultCell cell : result.getResultCells()) {
 										// get the ancestors of the org in this hierarchy
 										hierarchyId = cell.getValue();
-										List<String> ancestorIds = getOrganizationService().getAncestors(orgId, hierarchyId);
+										List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, hierarchyId);
 										if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
 											// look for colleges
 											List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
