@@ -268,13 +268,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<String> getAncestors(String orgId, String orgHierarchy)
+	public List<String> getAllAncestors(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(orgId, "orgId");
 		checkForMissingParameter(orgHierarchy, "orgHierarchy");
 
-		List<String> ancestors = this.organizationDao.getAncestors(orgId, orgHierarchy);
+		List<String> ancestors = this.organizationDao.getAllAncestors(orgId, orgHierarchy);
 		return ancestors;
 	}
 
@@ -547,7 +547,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(orgHierarchy, "orgHierarchy");
 		
 		// get ancestors of the descendant, as it will be more efficient in most cases
-		List<String> ancestors = organizationDao.getAncestors(descendantOrgId, orgHierarchy);
+		List<String> ancestors = organizationDao.getAllAncestors(descendantOrgId, orgHierarchy);
 		boolean result = ancestors.contains(orgId);
 		return new Boolean(result);
 	}

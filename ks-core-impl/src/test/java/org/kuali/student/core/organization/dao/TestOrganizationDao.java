@@ -300,7 +300,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void getAncestors() {
-		List<String> ancestors = dao.getAncestors("139", "kuali.org.hierarchy.Main");
+		List<String> ancestors = dao.getAllAncestors("139", "kuali.org.hierarchy.Main");
 		assertEquals(5, ancestors.size());
 		Set<String> ancestorSet = new TreeSet<String>(ancestors);
 		List<String> testAncestors = Arrays.asList("1","6","138"); // top, middle, bottom

@@ -20,7 +20,7 @@ public interface OrganizationDao extends CrudDao, SearchableDao{
 	public List<Org> getOrganizationsByIdList(List<String> orgIdList);
 	public List<OrgOrgRelation> getOrgOrgRelationsByOrg(String orgId);
 	public List<OrgPositionRestriction> getPositionRestrictionsByOrg(String orgId);
-	public List<String> getAncestors(String orgId, String orgHierarchy);
+	public List<String> getAllAncestors(String orgId, String orgHierarchy);
 	public List<String> getAllDescendants(String orgId, String orgHierarchy);
 	public List<OrgOrgRelationType> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyKey);
 	public boolean validatePositionRestriction(String orgId, String orgPersonRelationTypeKey);

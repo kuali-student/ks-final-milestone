@@ -92,7 +92,7 @@ public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implement
 	}
 
 	@Override
-	public List<String> getAncestors(String orgId, String orgHierarchy) {
+	public List<String> getAllAncestors(String orgId, String orgHierarchy) {
 		Query query = em.createNamedQuery("OrgOrgRelation.getAncestors");
 		query.setParameter("orgHierarchy", orgHierarchy);
 		return getAllLevels(query, "orgId", orgId);

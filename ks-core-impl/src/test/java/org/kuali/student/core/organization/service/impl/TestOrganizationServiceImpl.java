@@ -376,17 +376,17 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void getAncestors() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<String> ancestors = client.getAncestors("26", "kuali.org.hierarchy.Main");
+		List<String> ancestors = client.getAllAncestors("26", "kuali.org.hierarchy.Main");
 		assertEquals(4,ancestors.size());
 		assertTrue(ancestors.containsAll(Arrays.asList("1", "4", "15", "19")));
 
-		ancestors = client.getAncestors("2", "Star.Trek");
+		ancestors = client.getAllAncestors("2", "Star.Trek");
 		assertTrue(ancestors == null || ancestors.size() == 0);
 
-		ancestors = client.getAncestors("-1", "kuali.org.hierarchy.Main");
+		ancestors = client.getAllAncestors("-1", "kuali.org.hierarchy.Main");
 		assertTrue(ancestors == null || ancestors.size() == 0);
 
-		ancestors = client.getAncestors("-1", "-1");
+		ancestors = client.getAllAncestors("-1", "-1");
 		assertTrue(ancestors == null || ancestors.size() == 0);
 	}
 
