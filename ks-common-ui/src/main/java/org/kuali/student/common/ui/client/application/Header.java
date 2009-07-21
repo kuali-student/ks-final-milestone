@@ -3,8 +3,10 @@ package org.kuali.student.common.ui.client.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.breadcrumb.KSBreadcrumb;
 import org.kuali.student.common.ui.client.widgets.breadcrumb.KSBreadcrumbItem;
 
@@ -18,7 +20,9 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +34,7 @@ public class Header extends Composite {
     private final DockPanel logoPanel = new DockPanel();
 
     private final HorizontalPanel linksContentPanel = new HorizontalPanel();
+    private final HorizontalPanel actionlistPanel = new HorizontalPanel();
     private final DockPanel linksPanel = new DockPanel();
 
     private List<KSBreadcrumbItem> breadcrumbItems;
@@ -40,6 +45,7 @@ public class Header extends Composite {
     private final KSImage logo = new KSImage("images/KS_logo_on_grey.jpg");
     private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
+    private  String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
     
     private final KSLabel userId = new KSLabel();
 
@@ -117,7 +123,7 @@ public class Header extends Composite {
         }
 
         linksContentPanel.add(buildUserIdPanel());
-        
+        actionlistPanel.add(buildActionListPanel()); // Open Action List Panel from rice
         // Always have logout and preferences options
         linkItems.add(new HeaderLinkItem("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
         linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"/*"Logout not yet implemented"*/));
@@ -126,11 +132,12 @@ public class Header extends Composite {
             linksContentPanel.add(buildLink(i.getText(), i.getTitle(), i.getActionUrl()));           
         }
 
+        
         linksContentPanel.addStyleName("KS-Header-Link-Panel");
 
         //linksPanel is a spacer panel for right alignment of links
         
-                
+        linksPanel.add(actionlistPanel,DockPanel.WEST);        
         linksPanel.add(linksContentPanel ,DockPanel.EAST);        
         linksPanel.addStyleName("KS-Header-Link-Spacer");
         linksPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
@@ -192,6 +199,42 @@ public class Header extends Composite {
         userIdPanel.add(userId);
         
         return userIdPanel;
+    }
+    
+    //Method to build the light box for the action list
+    private Widget buildActionListPanel(){
+        final KSLightBox actionListDialog = new KSLightBox();
+        final Frame actionList = new Frame(actionListUrl);
+
+        actionList.setSize("700px", "500px");
+        
+        VerticalPanel actionListPanel = new VerticalPanel();
+        
+        actionListPanel.add(actionList);
+        
+        KSButton closeActionButton = new KSButton("Close");
+        closeActionButton.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                actionListDialog.hide();
+            }
+        });
+        
+        actionListPanel.add(closeActionButton);
+        
+        actionListDialog.setWidget(actionListPanel);
+        
+        //Create the button that opens the search dialog
+        Hyperlink actionListLink = new Hyperlink("Action List","Actionlist");
+        actionListLink.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                actionList.setUrl(actionListUrl);
+                actionListDialog.show();
+            }
+        });
+        actionListLink.setStyleName("KS-Header-Hyperlink");
+        
+        return actionListLink;
+        
     }
 
 }
