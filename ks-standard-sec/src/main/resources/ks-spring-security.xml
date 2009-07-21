@@ -36,7 +36,7 @@
 <!-- uncomment to enable CAS ... set the loginUrl and ticketValidator url appropriately -->
 	<beans:bean id="proxyTicketRetrieverFilter" class="org.kuali.student.security.filter.ProxyTicketRetrieverFilter">
     	<custom-filter before="AUTHENTICATION_PROCESSING_FILTER"/>
-    	<beans:property name="proxyTargetService" value="${ks.core.security.saml.proxyTicket.serviceAddress}"/>
+    	<beans:property name="proxyTargetService" value="${ks.default.security.saml.proxyTicket.serviceAddress}"/>
     	<beans:property name="samlIssuerService" ref="proxyTicketValidationClient"/>
   	</beans:bean>
   	
