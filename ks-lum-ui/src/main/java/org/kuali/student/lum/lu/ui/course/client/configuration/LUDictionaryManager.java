@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
@@ -24,6 +25,8 @@ import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
+
+import com.google.gwt.core.client.GWT;
 
 /**
  * This singleton class is a repository for dictionary defs for LUM.   
@@ -71,12 +74,35 @@ public class LUDictionaryManager {
             for (State s : t.getState()) {
                 result = new HashMap<String, Field>();
                 for (Field f : s.getField()) {
-                    result.put(f.getKey(), f);
+                    if (f.getFieldDescriptor().getObjectStructure() != null) {
+                        loadSubStructure(result, f);
+                    }
+                    else {
+                        result.put(f.getKey(), f);
+                    }
                 }
                 indexedFields.put(structure.getKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
             }
         }
 
+    }
+
+    public void loadSubStructure(Map<String, Field> result, Field field) {
+
+        for (Type t : field.getFieldDescriptor().getObjectStructure().getType()) {
+            for (State s : t.getState()) {
+                if (!s.getField().isEmpty()) {
+                    if (s.getKey().equals("active")) { // temp while we work out how to handle diff states of cluIdentifierInfo
+                        for (Field f : s.getField()) {
+                            result.put(field.getKey() + '.' + f.getKey(), f);                  
+                        }
+                    }
+                }
+                else {
+                    result.put(field.getKey(), field);                    
+                }
+            }
+        }
     }
 
     /**
@@ -109,29 +135,33 @@ public class LUDictionaryManager {
      *  @return            A map of the field defs for this object/type/state combo 
      *    
      */     
-     public Field getField(String objectKey, String type, String state, String fieldName) {
+    public Field getField(String objectKey, String type, String state, String fieldName) {
 
-         String fieldKey = objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +  type.toLowerCase() + DICT_KEY_SEPARATOR + state.toLowerCase();
-         Map<String, Field> map =  indexedFields.get(fieldKey);
-         if(map!=null){
-             Field f = map.get(fieldName);
-             return f;
-         }
-         
-         //TODO what should be returned if this field def exists but not for this type/state combo?
-         
-         //Fix me default in case something bad happened
-         Field f = new Field();
-         f.setFieldDescriptor(new FieldDescriptor());
-         f.getFieldDescriptor().setName(fieldName);
-         return f;
-     }
+        String fieldKey = objectKey.toLowerCase() +  DICT_KEY_SEPARATOR +  type.toLowerCase() + DICT_KEY_SEPARATOR + state.toLowerCase();
+        Map<String, Field> map =  indexedFields.get(fieldKey);
+        if(map!=null){
+            Field f = map.get(fieldName);
+            return f;
+        }
 
-     public Validator getValidator() {
-         return validator;
-     }
+        //TODO what should be returned if this field def exists but not for this type/state combo?
 
-     public void setValidator(Validator validator) {
-         this.validator = validator;
-     }
+        //Fix me default in case something bad happened
+        Field f = new Field();
+        f.setFieldDescriptor(new FieldDescriptor());
+        f.getFieldDescriptor().setName(fieldName);
+        return f;
+    }
+
+    public Set<String> getTypes() {
+        return indexedFields.keySet();
+    }
+    
+    public Validator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }
 }

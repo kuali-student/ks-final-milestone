@@ -75,17 +75,16 @@ public class LUMMainEntryPoint implements EntryPoint{
             GWT.log("Dictionary load starts", null);
             List<String> types = getDictSerializedObject("objectTypes");
             for (String key: types) {
-                GWT.log("Loading object structure for " + key, null);
                 ObjectStructure structure =  getDictSerializedObject( key);
                 LUDictionaryManager.getInstance().loadStructure(structure);
             }
+            logDictionaryLoad();
             GWT.log("Dictionary load ends", null);
         } catch (SerializationException e) {
             GWT.log("loadDictionary failed " ,  e);
             e.printStackTrace();
         }
     }
-
 
     @SuppressWarnings("unchecked")
     public  <T> T getDictSerializedObject(String key  ) throws SerializationException
@@ -127,4 +126,17 @@ public class LUMMainEntryPoint implements EntryPoint{
          return injectString;
     }
     
+    private void logDictionaryLoad() {
+        for (String s : LUDictionaryManager.getInstance().getTypes()) {
+            GWT.log("Loaded OBJECT TYPE: " + s, null);
+//            String objectKey = s.substring(0, s.indexOf(":"));
+//            String type = s.substring(s.indexOf(":")+1, s.lastIndexOf(":"));
+//            String state = s.substring(s.lastIndexOf(":")+1);
+//            Map<String, Field> fields = LUDictionaryManager.getInstance().getFields(objectKey, type, state);
+//            for (String f : fields.keySet()) {
+//                GWT.log("Contains field: " + f, null);
+//                
+//            }
+        }
+    }
 }
