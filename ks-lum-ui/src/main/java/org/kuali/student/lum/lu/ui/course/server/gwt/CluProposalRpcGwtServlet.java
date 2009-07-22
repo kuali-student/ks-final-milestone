@@ -9,7 +9,6 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +30,8 @@ import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
+import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DateType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
@@ -71,8 +70,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private String simpleDocServiceAddress="http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService";
     private String workflowUtilityServiceAddress="http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP";
     
-    private Map<String, ProposalInfo> getProposalInfoMap() {
-        Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
+	private Map<String, ProposalInfo> getProposalInfoMap() {
+	    @SuppressWarnings("unchecked")
+	    Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
         if(proposalInfoMap == null){
         	proposalInfoMap = new HashMap<String, ProposalInfo>();
         	getThreadLocalRequest().getSession(true).setAttribute("proposal", proposalInfoMap);
@@ -134,7 +134,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
-            simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), saveComment);
+            StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), saveComment);
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+            	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
+            }
+            
             cluProposal.setWorkflowId(docResponse.getDocId());
             
         } catch (Exception e) {
@@ -218,7 +222,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String username = getCurrentUser();
 
             DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
-
+            
+            //Check that the call was successful
+            if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
+            	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+            }
+            
             /*FIXME: Restore code to handle proposal service?
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();                       
             List<String> proposalReferences = new ArrayList<String>();
@@ -243,10 +252,16 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docResponse.getDocStatus())) || 
             	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docResponse.getDocStatus())) ) {
-                simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), "");
+                StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), "");
+                if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
+                }
             }
             else {
-                simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal));
+            	StandardResponse stdResp = simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal));
+            	if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+            		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
+            	}
             }
 
         } catch (Exception e) {
@@ -322,10 +337,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Create and then route the document 
             DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
             
+            if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
+            	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+            }
+            
             String routeComment = "Routed By CluProposalService";
             
-            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal), routeComment);
-            
+            StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal), routeComment);
+        	
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
+        	}
+        	
             cluProposal.setWorkflowId(docResponse.getDocId());
             
         } catch (Exception e) {
@@ -343,6 +366,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         String username = getCurrentUser();
         
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
+        if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
+        	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+        }
+        
 		CluProposal proposal = getProposal(docResponse.getAppDocId());
 		proposal.setWorkflowId(docId);
 		return proposal;
@@ -393,13 +420,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String username = getCurrentUser();
             
 	        CluInfo cluInfo = cluProposal.getCluInfo();
-	        DocumentResponse document = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
-	        
+	        DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
+	        if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
+	        	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+	        }
 	        String approveComment = "Approved by CluProposalService";
 	        
-	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), document.getDocContent(), approveComment);
-	       
+	        StandardResponse stdResp = simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), docResponse.getDocContent(), approveComment);
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new RuntimeException("Error found approving document: " + stdResp.getErrorMessage());
+        	}
+	        
 		}catch(Exception e){
             e.printStackTrace();
 		}
@@ -417,8 +448,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        String disapproveComment = "Disapproved by CluProposalService";
 	        
 	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.disapprove(cluProposal.getWorkflowId(), username, disapproveComment);
-	       
+	        StandardResponse stdResp = simpleDocService.disapprove(cluProposal.getWorkflowId(), username, disapproveComment);
+            
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new RuntimeException("Error found disapproving document: " + stdResp.getErrorMessage());
+        	}
+            
 		}catch(Exception e){
             e.printStackTrace();
 		}
@@ -437,8 +472,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        String acknowledgeComment = "Acknowledged by CluProposalService";
 	        
 	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        simpleDocService.acknowledge(cluProposal.getWorkflowId(), username, acknowledgeComment);
-	       
+	        StandardResponse stdResp = simpleDocService.acknowledge(cluProposal.getWorkflowId(), username, acknowledgeComment);
+	        
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new RuntimeException("Error found acknowledging document: " + stdResp.getErrorMessage());
+        	}
+	        
 		}catch(Exception e){
             e.printStackTrace();
 		}
@@ -461,7 +500,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        CluInfo cluInfo = cluProposal.getCluInfo();
             String workflowDocTypeId = "CluCollaboratorDocument";//TODO make sure this name is correct
             DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
-           
+            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+            }
+            
             //Get the document xml
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -525,8 +567,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String docContent = writer.toString();
 
             //Do the routing
-            simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContent, collaborateComment);
-   
+            StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContent, collaborateComment);
+            
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
+        	}
+            
 		}catch(Exception e){
             e.printStackTrace();
 		}
