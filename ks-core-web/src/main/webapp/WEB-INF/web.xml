@@ -43,6 +43,11 @@
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
 		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/AuthorizationRpcService</url-pattern>
 	</servlet-mapping>
   	

@@ -11,10 +11,11 @@
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:core-web.properties</value>
+				<value>classpath:core-web.properties
+				</value>
 			</list>
 		</property>
-		<property name="customConfigSystemProperty" value="ks.config.location"/>
+		<property name="customConfigSystemProperty" value="ks.config.location" />
 		<property name="order" value="0" />
 	</bean>
 
@@ -27,11 +28,13 @@
 					key="/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController" />
 				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpcService">
-					<ref bean="personRpcGwtServletController"/>
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpcService">
+					<ref bean="personRpcGwtServletController" />
 				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/AuthorizationRpcService">
-					<ref bean="authorizationRpcGwtServletController"/>
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/AuthorizationRpcService">
+					<ref bean="authorizationRpcGwtServletController" />
 				</entry>
 			</map>
 		</property>
@@ -42,27 +45,38 @@
 		<property name="servletName" value="orgRpcGwtServlet" />
 		<property name="servletInstance" ref="orgRpcGwtServlet" />
 	</bean>
-	
+
 	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="personRpcGwtServlet"/>
-		<property name="servletInstance" ref="personRpcGwtServlet"/>
+		<property name="servletName" value="personRpcGwtServlet" />
+		<property name="servletInstance" ref="personRpcGwtServlet" />
 	</bean>
-	
+
 	<bean id="authorizationRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="authorizationRpcGwtServlet"/>
-		<property name="servletInstance" ref="authorizationRpcGwtServlet"/>
+		<property name="servletName" value="authorizationRpcGwtServlet" />
+		<property name="servletInstance" ref="authorizationRpcGwtServlet" />
 	</bean>
-	
+
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet"
 		class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient" />
 	</bean>
 
-	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-		
+	<bean id="personRpcGwtServlet"
+		class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
+
 	</bean>
-	
+
+	<bean id="ServerPropertiesServlet"
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesServlet">
+		<property name="properties">
+			<map>
+				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}" />
+				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}" />
+			</map>
+		</property>
+	</bean>
+
 	<bean id="authorizationRpcGwtServlet"
 		class="org.kuali.student.core.authorization.ui.server.gwt.AuthorizationRpcGwtServlet">
 		<!--<property name="permissionService" ref="permissionClient" />-->
@@ -77,8 +91,8 @@
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
-		<property name="address" value="${ks.core.org.serviceAddress}"/>
-		
+		<property name="address" value="${ks.core.org.serviceAddress}" />
+
 	</bean>
 
 </beans>
