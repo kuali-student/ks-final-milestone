@@ -3,6 +3,8 @@ package org.kuali.student.common.ui.client.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.service.ServerProperties;
+import org.kuali.student.common.ui.client.service.ServerPropertiesAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -18,6 +20,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Frame;
@@ -45,7 +48,9 @@ public class Header extends Composite {
     private final KSImage logo = new KSImage("images/KS_logo_on_grey.jpg");
     private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
-    private  String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
+//    private  String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
+    private  String actionListUrl;
+    ServerPropertiesAsync serverProperties = GWT.create(ServerProperties.class);
     
     private final KSLabel userId = new KSLabel();
 
@@ -97,6 +102,21 @@ public class Header extends Composite {
             main.add(breadcrumb);
         }
 
+        // getting the rice action list url from server properties
+        serverProperties.get("ks.rice.actionList.serviceAddress", new AsyncCallback<String>() {
+
+            @Override
+            public void onFailure(Throwable caught) { //ignoring, we'll use the default
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                GWT.log("ServerProperties fetched for ks.rice.personLookup.serviceAddress: "+result, null);
+                if(result != null)
+                    actionListUrl = result;
+            }
+            
+        });
         main.addStyleName("KS-Header");
     }
 
