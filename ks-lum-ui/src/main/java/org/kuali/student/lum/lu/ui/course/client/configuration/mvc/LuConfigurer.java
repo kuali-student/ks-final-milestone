@@ -29,14 +29,12 @@ import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -102,9 +100,10 @@ public class LuConfigurer {
         for (String key : result.keySet()) {
             System.out.println("<bean parent=\"enCourse\" " + "p:id=\"lutype.shell.course:" + "proposed:" + key + "\"" + "\tp:value=\"\"/>");
         }*/
-        addDemoSection(layout);
+        
         addCluStartSection(layout);
         addAuthorSection(layout);
+        addDemoSection(layout);
         addGoverenceSection(layout);
         addCourseLogistics(layout);
         addCourseInfoSection(layout);
