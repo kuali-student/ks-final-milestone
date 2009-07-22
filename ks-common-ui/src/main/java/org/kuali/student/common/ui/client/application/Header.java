@@ -154,7 +154,7 @@ public class Header extends Composite {
 
         
         linksContentPanel.addStyleName("KS-Header-Link-Panel");
-
+        actionlistPanel.addStyleName("KS-Header-ActionListLink-Panel");
         //linksPanel is a spacer panel for right alignment of links
         
         linksPanel.add(actionlistPanel,DockPanel.WEST);        

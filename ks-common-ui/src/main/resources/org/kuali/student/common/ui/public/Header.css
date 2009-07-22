@@ -25,6 +25,13 @@ width: 100%;
 	float: right;
 }
 
+.KS-Header-ActionListLink-Panel {
+	padding-top: 5px;
+	padding-left: 5px;
+	width: 20%;
+	float: left;
+}
+
 .KS-Header-Link-Spacer {
 	width: 100%;
 	background: #A80000 url("images/Kuali_links_bar.jpg") no-repeat;
