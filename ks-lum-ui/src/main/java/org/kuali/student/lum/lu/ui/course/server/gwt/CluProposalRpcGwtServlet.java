@@ -9,6 +9,7 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,10 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DateType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -679,10 +683,24 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
-    public String createProposal(CluProposalModelDTO cluProposalDTO) {
-        CluInfo cluInfo;
+    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
+        //TODO: Actually return the whole structure.... maybe?
+        MapContext ctx = new MapContext();
+        CluProposalModelDTO result = new CluProposalModelDTO();
+        try{
+            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
+            cluInfo = service.createClu(cluInfo.getType(), cluInfo);
+            //CluProposalModelDTO result = (ModelDTO)ctx.fromBean(cluInfo);
+            System.out.println(cluInfo.getId());
+            StringType id = new StringType();
+            id.set(cluInfo.getId());
+            cluProposalDTO.put("id", id);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         
-        return "Testing";
+        return cluProposalDTO;
     }
 
     /**
@@ -691,8 +709,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
-    public Boolean saveProposal(CluProposalModelDTO cluProposalDTO) {
-        return true;
+    public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
+        return null;
     }
 
 }

@@ -9,6 +9,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.lum.lu.dto.CluInfo;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -27,7 +28,8 @@ public class CluProposalModelDTO extends ModelDTO {
      * @param className
      */
     public CluProposalModelDTO() {
-        super("CluInfo");
+        //super("CluInfo");
+        super(CluInfo.class.getName());
     }
 
     /**
@@ -44,6 +46,8 @@ public class CluProposalModelDTO extends ModelDTO {
             crossListClus = (ModelDTOValue.ListType)value;
         } else if ("jointClus".equals(key)){
             jointClus = (ModelDTOValue.ListType)value;
+        } else if (key.startsWith("cluIdentifier")){
+            
         } else {
             super.put(key, value);            
         }

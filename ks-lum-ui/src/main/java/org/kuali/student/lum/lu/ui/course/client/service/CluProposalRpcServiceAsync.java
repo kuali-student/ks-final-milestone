@@ -45,7 +45,7 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void getCollaborators(String docId, AsyncCallback<HashMap<String, ArrayList<String>>> callback);
     public void loginBackdoor(String backdoorId, AsyncCallback<Boolean> callback);
     
-    public void createProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<String> callback);
-    public void saveProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<Boolean> callback);
+    public void createProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
+    public void saveProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
 
 }

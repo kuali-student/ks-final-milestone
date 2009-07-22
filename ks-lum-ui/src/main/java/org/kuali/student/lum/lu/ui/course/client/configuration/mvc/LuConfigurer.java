@@ -15,6 +15,11 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -26,8 +31,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
-import org.kuali.student.common.ui.client.widgets.counting.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -41,18 +52,145 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class LuConfigurer {
     
+    final static ApplicationContext context = Application.getApplicationContext();
+    
+    private String type;
+    private String state;
+    
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
-        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS
+        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, DEMO_SECTION
+    }
+    
+    private Map<String, Field> indexFields(String type, String state, ObjectStructure structure) {
+        LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", state);
+        
+        for (org.kuali.student.core.dictionary.dto.Type t : structure.getType()) {
+            if (t.getKey().equals(type)) {
+                for (State s : t.getState()) {
+                    if (s.getKey().equals(state)) {
+                        Map<String, Field> result = new HashMap<String, Field>();
+                        for (Field f : s.getField()) {
+                            result.put(f.getKey(), f);
+                        }
+                        return result;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    private String getLabel(String type, String state, String fieldId) {
+        String labelKey = type + ":" + state + ":" + fieldId;
+        System.out.println(labelKey);
+        return context.getMessage(labelKey);
     }
         
     public static void configureCluProposal(ConfigurableLayout layout){
+/*        Map<String, Field> result = LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", "draft");
+        
+        for (String key : result.keySet()) {
+            System.out.println("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.CreditCourse:" + "draft:" + key + "\"" + "\tp:value=\"\"/>");
+        }
+        result = LUDictionaryManager.getInstance().getFields("cluIdentifierInfo", "kuali.lu.type.creditcourse.identifier.official", "active");
+        System.out.println(result.size());
+        for (String key : result.keySet()) {
+            System.out.println("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.creditcourse.identifier.official:" + "active:" + key + "\"" + "\tp:value=\"\"/>");
+        }
+        result = LUDictionaryManager.getInstance().getFields("proposalInfo", "lutype.shell.course", "proposed");
+        for (String key : result.keySet()) {
+            System.out.println("<bean parent=\"enCourse\" " + "p:id=\"lutype.shell.course:" + "proposed:" + key + "\"" + "\tp:value=\"\"/>");
+        }*/
+        addDemoSection(layout);
         addCluStartSection(layout);
         addAuthorSection(layout);
         addGoverenceSection(layout);
         addCourseLogistics(layout);
         addCourseInfoSection(layout);
+        addActiveDatesSection(layout);
+        addFinancialsSection(layout);
+        addProgramRequirements(layout);
     }
+    
+    private static void addDemoSection(ConfigurableLayout layout) {
+        VerticalSectionView section = new VerticalSectionView(LuSections.DEMO_SECTION, "Demo Section", CluProposalModelDTO.class);
+        
+/*        CluInfo info = null;
+        info.getNextReviewPeriod();
+        info.getStudySubjectArea();
+        info.getReferenceURL();*/
+        
+        section.addField(new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING));
+        section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING));
+        section.addField(new FieldDescriptor("nextReviewPeriod", "Next Review Period", Type.STRING));
+        
+/*        
+        VerticalSection description = new VerticalSection();
+        description.setSectionTitle("Description");
+        description.addField(new FieldDescriptor("desc", null, Type.STRING, new KSTextArea()));
+        section.addSection(description);
+        
+        VerticalSection rationale = new VerticalSection();
+        rationale.setSectionTitle("Rationale");
+        rationale.addField(new FieldDescriptor("marketingDesc", null, Type.STRING, new KSTextArea()));
+        section.addSection(rationale);*/
+        
+        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
+    }
+
+    private static void addActiveDatesSection(ConfigurableLayout layout) {
+        VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, LUConstants.SECTION_ACTIVE_DATES, CluProposalModelDTO.class);
+        VerticalSection startDate = new VerticalSection();
+        startDate.setSectionTitle("Start Date");
+        startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
+        
+        VerticalSection endDate = new VerticalSection();
+        endDate.setSectionTitle("End Date");
+        endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
+        
+        section.addSection(startDate);
+        section.addSection(endDate);
+        
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section); 
+    }
+    
+    private static void addFinancialsSection(ConfigurableLayout layout) {
+        VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS, LUConstants.SECTION_FINANCIALS, CluProposalModelDTO.class);
+        //TODO ALL KEYS in this section are place holders until we know actual keys
+        VerticalSection feeType = new VerticalSection();
+        feeType.setSectionTitle("Fee Type");
+        feeType.addField(new FieldDescriptor("feeType", null, Type.STRING));
+        
+        VerticalSection feeAmount = new VerticalSection();
+        feeAmount.setSectionTitle("Fee Amount");
+        feeAmount.addField(new FieldDescriptor("feeAmount", "$", Type.STRING));
+        feeAmount.addField(new FieldDescriptor("taxable", "Taxable", Type.STRING));//TODO checkboxes go here instead
+        feeAmount.addField(new FieldDescriptor("feeDesc", "Description", Type.STRING, new KSTextArea()));
+        feeAmount.addField(new FieldDescriptor("internalNotation", "Internal Fee Notation", Type.STRING, new KSTextArea()));
+        
+        section.addSection(feeType);
+        section.addSection(feeAmount);
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section);
+    }
+    
+    private static void addProgramRequirements(ConfigurableLayout layout) {
+        VerticalSectionView section = new VerticalSectionView(LuSections.PGM_REQUIREMENTS, LUConstants.SECTION_PROGRAM_REQUIREMENTS, CluProposalModelDTO.class);
+        
+        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section);
+        
+    }
+/*
+    public void configureCluProposal(ConfigurableLayout layout, String type, String state){
+        this.type = type;
+        this.state = state;
+        
+        addCluStartSection(layout);
+        addAuthorSection(layout);
+        addGoverenceSection(layout);
+        addCourseLogistics(layout);
+        addCourseInfoSection(layout);
+    }*/
     
     public static void addCluStartSection(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start", CluProposalModelDTO.class);
@@ -221,7 +359,7 @@ public class LuConfigurer {
     }
     
     public static class CourseFormatList extends MultiplicityComposite{
-        public static int activityNumber = 1;
+        public int formatNumber = 1;
         public Widget createItem() {
             return new CourseActivityList();
         }
@@ -229,7 +367,7 @@ public class LuConfigurer {
     
     // This will probably a custom clu activity widget that uses a CluInfo model dto.
     public static class CourseActivityList extends MultiplicityComposite{
-        public static int activityNumber = 1;
+        public int activityNumber = 1;
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection("cluInfo");
             CustomNestedSection activity = new CustomNestedSection();

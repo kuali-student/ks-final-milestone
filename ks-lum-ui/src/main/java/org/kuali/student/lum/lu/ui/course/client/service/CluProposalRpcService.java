@@ -47,6 +47,6 @@ public interface CluProposalRpcService extends BaseRpcService{
     public Boolean loginBackdoor(String backdoorId);
     
     
-    public String createProposal(CluProposalModelDTO cluProposalDTO);
-    public Boolean saveProposal(CluProposalModelDTO cluProposalDTO);
+    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO);
+    public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO);
 }

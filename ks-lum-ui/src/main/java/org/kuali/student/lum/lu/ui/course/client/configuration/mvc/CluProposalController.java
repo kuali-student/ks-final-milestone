@@ -16,11 +16,16 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -50,8 +55,71 @@ public class CluProposalController extends PagedSectionLayout{
         public void onClick(ClickEvent event) {
             getCurrentView().updateModel();
             
-            //This should call RPC.
-            GWT.log(cluProposalModel.get().toString(), null);
+            StringType type = new StringType();
+            type.set("kuali.lu.type.CreditCourse");
+            cluProposalModel.get().put("type", type);
+            
+            StringType state = new StringType();
+            state.set("draft");
+            cluProposalModel.get().put("state", state);
+            
+            cluProposalRpcServiceAsync.createProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
+                @Override
+                public void onFailure(Throwable caught) {
+                    caught.printStackTrace();
+                    
+                }
+
+                @Override
+                public void onSuccess(CluProposalModelDTO result) {
+                    System.out.println("It worked maybe");
+                    cluProposalModel.put(result);
+                }
+            }); 
+        }
+    });
+    
+    private KSButton clear = new KSButton("Clear", new ClickHandler(){
+        public void onClick(ClickEvent event) {
+            
+        }       
+    });
+    
+    private KSButton testButton = new KSButton("Get Proposal Info", new ClickHandler(){
+        public void onClick(ClickEvent event) {
+/*            if(cluProposalModel != null){
+                for(String k : cluProposalModel.get().keySet()){
+                    ModelDTOValue v = cluProposalModel.get().get(k);
+                    if(v instanceof StringType){
+                        ((StringType) v).set(((StringType) v).get().toUpperCase());
+                    }
+                }
+            }*/
+            //((VerticalSectionView) getCurrentView()).updateView();
+            cluProposalRpcServiceAsync.getProposal(((StringType) cluProposalModel.get().get("id")).get(), 
+                    new AsyncCallback<CluProposal>(){
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+                    
+                }
+
+                @Override
+                public void onSuccess(CluProposal result) {
+                    CluInfo info = result.getCluInfo();
+                    Window.alert(
+                       "Id: " + info.getId() + "\n" +
+                       "Type: " + info.getType() + "\n" +
+                       "State: " + info.getState() + "\n" +
+                       "Next Review Period: " + info.getNextReviewPeriod() + "\n" +
+                       "Study Subject Area: " + info.getStudySubjectArea() + "\n" +
+                       "Reference URL: " + info.getReferenceURL());
+                    
+                    
+                }
+                
+            });
         }       
     });
 
@@ -59,6 +127,7 @@ public class CluProposalController extends PagedSectionLayout{
         super();
         LuConfigurer.configureCluProposal(this);
         addButton(saveButton);
+        addButton(testButton);
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
     }
