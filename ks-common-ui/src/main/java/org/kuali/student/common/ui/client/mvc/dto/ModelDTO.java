@@ -30,10 +30,18 @@ public class ModelDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String className;
-	private Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
+	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
 	
 	private ModelDTO() {
 		
+	}
+	
+	/**
+	 * This cop
+	 * @param newModelDTO
+	 */
+	public void copyFrom(ModelDTO newModelDTO){
+		map.putAll(newModelDTO.map);
 	}
 	
 	/**
