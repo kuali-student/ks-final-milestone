@@ -21,9 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.validator.DateParserFactory;
-import org.kuali.student.common.validator.DateParser;
-
 /**
  * This interface is used to constrain the types allowed within a ModelDTO.
  * 
