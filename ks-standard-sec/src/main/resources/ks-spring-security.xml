@@ -23,7 +23,7 @@
 	<!--  <security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" > -->
 	<security:http auto-config="true">
     	<security:intercept-url pattern="/logout.html*" filters="none"/>
-    	<security:intercept-url pattern="/Service/*" filters="none"/>
+    	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
         <security:logout logout-success-url="/logout.html"/>
     </security:http>
