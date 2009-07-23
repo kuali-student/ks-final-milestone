@@ -46,8 +46,8 @@ public class CluProposalModelDTO extends ModelDTO {
             crossListClus = (ModelDTOValue.ListType)value;
         } else if ("jointClus".equals(key)){
             jointClus = (ModelDTOValue.ListType)value;
-        } else if (key.startsWith("cluIdentifier")){
-            
+        } else if (key.contains("/")){
+            ModelDTOAdapter.set(this, key, value);
         } else {
             super.put(key, value);            
         }
@@ -65,6 +65,8 @@ public class CluProposalModelDTO extends ModelDTO {
             return crossListClus;
         } else if ("jointClus".equals(key)){
             return jointClus;
+        } else if (key.contains("/")){
+            return ModelDTOAdapter.get(this, key);
         } else {
             return super.get(key);            
         }

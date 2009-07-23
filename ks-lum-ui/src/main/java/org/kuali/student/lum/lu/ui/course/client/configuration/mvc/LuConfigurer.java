@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
@@ -120,20 +121,38 @@ public class LuConfigurer {
         info.getStudySubjectArea();
         info.getReferenceURL();*/
         
+        VerticalSection proposedCourseTitle = new VerticalSection();
+        proposedCourseTitle.setSectionTitle("Proposed Course Title");
+        proposedCourseTitle.addField(new FieldDescriptor("/officialIdentifier/longName", null, Type.STRING));
+        section.addSection(proposedCourseTitle);
+        
+        section.addField(new FieldDescriptor("/publishingInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
+        
         section.addField(new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING));
         section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING));
         section.addField(new FieldDescriptor("nextReviewPeriod", "Next Review Period", Type.STRING));
         
-/*        
+        
         VerticalSection description = new VerticalSection();
         description.setSectionTitle("Description");
-        description.addField(new FieldDescriptor("desc", null, Type.STRING, new KSTextArea()));
+        description.addField(new FieldDescriptor("desc", null, Type.MODELDTO, new KSRichEditor()));
         section.addSection(description);
         
         VerticalSection rationale = new VerticalSection();
         rationale.setSectionTitle("Rationale");
-        rationale.addField(new FieldDescriptor("marketingDesc", null, Type.STRING, new KSTextArea()));
-        section.addSection(rationale);*/
+        rationale.addField(new FieldDescriptor("marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
+        section.addSection(rationale);
+        
+        VerticalSection startDate = new VerticalSection();
+        startDate.setSectionTitle("Start Date");
+        startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
+        
+        VerticalSection endDate = new VerticalSection();
+        endDate.setSectionTitle("End Date");
+        endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
+        
+        section.addSection(startDate);
+        section.addSection(endDate);
         
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
     }

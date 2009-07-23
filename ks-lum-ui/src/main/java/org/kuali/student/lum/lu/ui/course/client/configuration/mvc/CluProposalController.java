@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -60,6 +61,10 @@ public class CluProposalController extends PagedSectionLayout{
             StringType state = new StringType();
             state.set("draft");
             cluProposalModel.get().put("state", state);
+            
+            String s = ((StringType) ((ModelDTOType) cluProposalModel.get().get("officialIdentifier")).get().get("longName")).get();
+            
+            Window.alert("Sending long name with: " + s);
             
             cluProposalRpcServiceAsync.createProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
                 @Override
@@ -112,8 +117,12 @@ public class CluProposalController extends PagedSectionLayout{
                        "State: " + info.getState() + "\n" +
                        "Next Review Period: " + info.getNextReviewPeriod() + "\n" +
                        "Study Subject Area: " + info.getStudySubjectArea() + "\n" +
-                       "Reference URL: " + info.getReferenceURL());
-                    
+                       "Reference URL: " + info.getReferenceURL() + "\n" +
+                       "Desc: " + info.getDesc().getPlain() + "\n" +
+                       "Rationale: " + info.getMarketingDesc().getFormatted() + "\n" +
+                       "longName: " + info.getOfficialIdentifier().getLongName() + "\n" +
+                       "IDENTIFIER ID: " + info.getOfficialIdentifier().getId() + "  IDENTIFIER CLUID: " + info.getOfficialIdentifier().getCluId() + "\n" +
+                       "instructor id: " + info.getPublishingInfo().getPrimaryInstructor().getPersonId());
                     
                 }
                 
