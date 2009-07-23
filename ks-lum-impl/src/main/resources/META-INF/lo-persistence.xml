@@ -18,9 +18,5 @@
 		<class>org.kuali.student.lum.lo.entity.LoTypeAttribute</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-
-		<properties> <!-- don't drop tables -->
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
-		</properties>
 	</persistence-unit>
 </persistence>
