@@ -102,19 +102,6 @@ public class DeptQualifierResolverTest extends BaseRiceTestCase {
 	@SuppressWarnings("unchecked")
 	private OrganizationService getMockOrgService() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		EasyMock.reset(mockOrgSvc);
-		/*
-		ResultCell cell = new ResultCell();
-		ResultCell cell2 = new ResultCell();
-		ResultCell cell3 = new ResultCell();
-		cell.setKey("org.resultColumn.orgId");
-		cell.setValue("23");
-		cell2.setValue("TestOrgShortName");
-		cell3.setValue("kuali.org.hierarchy.Main");
-		Result queryResult = new Result();
-		Result queryResult2 = new Result();
-		queryResult.setResultCells(Arrays.asList(cell, cell2));
-		queryResult2.setResultCells(Arrays.asList(cell3));
-		*/
 		
 		OrgInfo mockOrgInfo = new OrgInfo();
 		mockOrgInfo.setId("64");
@@ -122,24 +109,6 @@ public class DeptQualifierResolverTest extends BaseRiceTestCase {
 		mockOrgInfo.setShortName("Chemistry");
 		EasyMock.expect(mockOrgSvc.getOrganization("64")).andReturn(mockOrgInfo);
 		
-		/*
-		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.orgByShortName"), EasyMock.isA(List.class))).andStubReturn(Arrays.asList(queryResult));
-		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.hierarchiesOrgIsInByShortName"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult2));
-		EasyMock.expect(mockOrgSvc.getAncestors("23", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("30", "137"));
-		
-		
-		OrgInfo mockBoard = new OrgInfo();
-		OrgInfo mockCollege = new OrgInfo();
-		OrgInfo mockCommittee = new OrgInfo();
-		mockBoard.setId("5");
-		mockCollege.setType("kuali.org.Board");
-		mockCollege.setId("30");
-		mockCollege.setType("kuali.org.College");
-		mockCommittee.setId("137");
-		mockCommittee.setType("kuali.org.Committee");
-		EasyMock.expect(mockOrgSvc.getOrganizationsByIdList(Arrays.asList("30", "137"))).andReturn(Arrays.asList(mockCollege, mockCommittee));
-		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.hierarchiesOrgIsInByShortName"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult2));
-		*/
 		EasyMock.replay(mockOrgSvc);
 		return mockOrgSvc;
 	}

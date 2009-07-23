@@ -71,10 +71,18 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	}
 
 	protected boolean isDepartment(OrgInfo orgInfo) {
-		return orgInfo.getType().equals(KUALI_ORG_DEPARTMENT);
+		return isOrgType(orgInfo, KUALI_ORG_DEPARTMENT);
 	}
 	
 	protected boolean isCollege(OrgInfo orgInfo) {
-		return orgInfo.getType().equals(KUALI_ORG_COLLEGE);
+		return isOrgType(orgInfo, KUALI_ORG_COLLEGE);
+	}
+	
+	private boolean isOrgType(OrgInfo orgInfo, String orgType) {
+		String actualType;
+		if ((null != orgInfo) && (null != (actualType = orgInfo.getType()))) {
+			return actualType.equals(orgType);
+		}
+		return false;
 	}
 }
