@@ -371,13 +371,13 @@ public interface ModelDTOValue extends Serializable {
         }        
 	}
 
-	public static class DateType implements StringSupportedValue {
+	public static class DateType implements ModelDTOValue {
 		private static final long serialVersionUID = 1L;
 		private Date value = null;
-		private DateParser dateParser;
+		//private DateParser dateParser;
 	    
 		public DateType() {
-			dateParser = DateParserFactory.getDateParser();
+			//dateParser = DateParserFactory.getDateParser();
 		}
 		
 	    @Override
@@ -392,25 +392,9 @@ public interface ModelDTOValue extends Serializable {
 	    public void set(Date value) {
 	        this.value = value;
 	    }
-
-        /**
-         * This overridden method returns date in this string format: yyyy-MM-ddTHH:mm:ss,SSS
-         * 
-         * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringSupportedValue#getString()
-         */
-        @Override
-        public String getString() {
-            return dateParser.toString(this.value);
-        }
-
-        @Override
-        public void setString(String value) {
-            value = value.trim();
-            this.value = dateParser.parseDate(value);
-        }
         
         public String toString(){
-            return getString();
+            return "";//getString();
         }        
 	}
 
