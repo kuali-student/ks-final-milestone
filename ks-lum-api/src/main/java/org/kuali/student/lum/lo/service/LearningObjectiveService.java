@@ -410,7 +410,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public StatusInfo removeChildLoFromLo(@WebParam(name="loId")String loId, @WebParam(name="parentLoId")String parentLoId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeChildLoFromLo(@WebParam(name="loId")String loId, @WebParam(name="parentLoId") String parentLoId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Set a learning objective as equivalent to another learning objective. The equivalency is unidirectional.
