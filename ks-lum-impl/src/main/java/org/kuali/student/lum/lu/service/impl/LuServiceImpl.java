@@ -338,16 +338,6 @@ public class LuServiceImpl implements LuService {
             clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
         }
 
-        // Replaced by alternateAdminOrgs
-        List<CluOrg> participatingOrgs = clu.getParticipatingOrgs(); 
-        for(String orgId:cluInfo.getParticipatingOrgs()){
-            CluOrg cluOrg = new CluOrg();
-            cluOrg.setOrgId(orgId);
-            cluOrg.setClu(clu);
-            participatingOrgs.add(cluOrg);
-        }
-
-
         if(cluInfo.getPrimaryAdminOrg()!=null){
             CluAdminOrg primaryAdminOrg = new CluAdminOrg();
             BeanUtils.copyProperties(cluInfo.getPrimaryAdminOrg(),primaryAdminOrg,new String[]{"attributes"});
@@ -1871,31 +1861,6 @@ public class LuServiceImpl implements LuService {
             luDao.delete(clu.getMarketingDesc());
         }
 
-        //Update the list of participating orgs
-        //Get a map of Id->object of all the currently persisted objects in the list
-        Map<String, CluOrg> oldPrtcOrgMap = new HashMap<String, CluOrg>();
-        for(CluOrg cluOrg : clu.getParticipatingOrgs()){
-            oldPrtcOrgMap.put(cluOrg.getOrgId(),cluOrg);
-        }
-        clu.getParticipatingOrgs().clear();
-
-        //Loop through the new list, if the item exists already update and remove from the list
-        //otherwise create a new entry
-        for(String orgId : cluInfo.getParticipatingOrgs()){
-            CluOrg cluOrg = oldPrtcOrgMap.remove(orgId);
-            if(cluOrg == null){
-                cluOrg = new CluOrg();
-            }
-            //Do Copy
-            cluOrg.setOrgId(orgId);
-            clu.getParticipatingOrgs().add(cluOrg);
-        }
-
-        //Now delete anything left over
-        for(Entry<String, CluOrg> entry:oldPrtcOrgMap.entrySet()){
-            luDao.delete(entry.getValue());
-        }
-
         if(cluInfo.getPrimaryInstructor()!=null){
             if(clu.getPrimaryInstructor() == null){
                 clu.setPrimaryInstructor(new CluInstructor());
@@ -2635,7 +2600,7 @@ public class LuServiceImpl implements LuService {
      */
     private void checkForEmptyList(Object param, String paramName)
     throws MissingParameterException {
-        if (param != null && param instanceof List && ((List<?>)param).size() == 0) {
+        if (param != null && param instanceof List<?> && ((List<?>)param).size() == 0) {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
