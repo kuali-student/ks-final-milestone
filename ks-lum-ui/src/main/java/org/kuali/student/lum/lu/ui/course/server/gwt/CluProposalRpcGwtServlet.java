@@ -303,9 +303,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //            AccreditationInfo now instead
             // question: if > 1 AccreditationInfo in CluInfo.accreditationList,
             // that may mean more than one orgID. What should be used then?
-            Text orgIdText = doc.createTextNode(cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId());
+            
+            Text orgIdText;
+            if(cluProposal.getCluInfo()!=null && cluProposal.getCluInfo().getPrimaryAdminOrg()!=null && cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId()!=null){
+            	orgIdText = doc.createTextNode(cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId());
+            }
             // orgId might not be set yet
-            if (null == orgIdText.getData()) {
+            else{
             	orgIdText = doc.createTextNode("");
             }
             orgId.appendChild(orgIdText);
@@ -732,7 +736,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
         //TODO: Actually return the whole structure.... maybe?
         MapContext ctx = new MapContext();
-        CluProposalModelDTO result = new CluProposalModelDTO();
+        //CluProposalModelDTO result = new CluProposalModelDTO();
         try{
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
