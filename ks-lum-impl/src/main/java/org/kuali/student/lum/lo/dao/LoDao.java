@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
@@ -40,7 +41,9 @@ public interface LoDao extends CrudDao, SearchableDao  {
     public boolean addLoCategoryToLo(String loCategoryId, String loId);
     public boolean removeLoCategoryFromLo(String loCategoryId, String loId);
     public boolean addChildLoToLo(String loId, String parentLoId) throws DoesNotExistException, AlreadyExistsException;
-    public boolean removeChildLoFromLo(String loId, String parentLoId);
-    public boolean addEquivalentLoToLo(String loId, String equivalentLoId);
+    public boolean removeChildLoFromLo(String loId, String parentLoId) throws DoesNotExistException, DependentObjectsExistException;
+    public boolean addEquivalentLoToLo(String loId, String equivalentLoId) throws DoesNotExistException, AlreadyExistsException;
     public boolean removeEquivalentLoFromLo(String loId, String equivalentLoId);
+    public boolean deleteLoCategory(String loCategoryId) throws DoesNotExistException, DependentObjectsExistException;
+    public boolean deleteLo(String loId) throws DoesNotExistException, DependentObjectsExistException;
 }

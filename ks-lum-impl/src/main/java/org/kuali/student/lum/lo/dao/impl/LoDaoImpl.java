@@ -27,6 +27,7 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
@@ -74,15 +75,14 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 * @see org.kuali.student.lum.lo.dao.LoDao#addEquivalentLoToLo(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean addEquivalentLoToLo(String loId, String equivalentLoId) {
+	public boolean addEquivalentLoToLo(String loId, String equivalentLoId) throws AlreadyExistsException, DoesNotExistException {
 		Lo lo;
 		Lo equivLo;
 		
-		try {
-			lo = fetch(Lo.class, loId);
-			equivLo = fetch(Lo.class, equivalentLoId);
-		} catch (DoesNotExistException e) {
-			return false;
+		lo = fetch(Lo.class, loId);
+		equivLo = fetch(Lo.class, equivalentLoId);
+		if (lo.getEquivalentLos().contains(equivLo)) {
+			throw new AlreadyExistsException("Lo(" + equivalentLoId + ") is already equivalent to Lo(" + loId + ")");
 		}
 		lo.getEquivalentLos().add(equivLo);
 		return true;
@@ -138,6 +138,25 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		@SuppressWarnings("unchecked")
 		List<Lo> resultList = query.getResultList();
 		return resultList;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#deleteLo(java.lang.String)
+	 */
+	@Override
+	public boolean deleteLo(String loId) throws DoesNotExistException, DependentObjectsExistException {
+		Lo child = fetch(Lo.class, loId);
+		if ( ! getLoChildren(loId).isEmpty() ) {
+			throw new DependentObjectsExistException("Lo(" +
+													 loId+
+													 ") cannot be deleted without orphaning child Lo(s).");
+		}
+		List<Lo> parents = getLoParents(loId);
+		for (Lo parent : parents) {
+			parent.getChildLos().remove(child);
+		}
+		delete(Lo.class, loId);
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -225,44 +244,23 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 */
 	@Override
 	public List<Lo> getEquivalentLos(String loId) {
-		// TODO - fix query
-		/*
 		Query query = em.createNamedQuery("Lo.getEquivalentLos");
-		query.setParameter("parentId", loId);
+		query.setParameter("loId", loId);
 		@SuppressWarnings("unchecked")
 		List<Lo> los = query.getResultList();
 		return los;
-		*/
-		Lo lo = null;
-		try {
-			lo = fetch(Lo.class, loId);
-		} catch (DoesNotExistException e) {
-			return null;
-		}
-		return lo.getEquivalentLos();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.dao.LoDao#isEquivalent(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean isEquivalent(String loId, String equivalentLoId) {
-		/*
+	public boolean isEquivalent(String equivLoId, String loId) {
 		Query query = em.createNamedQuery("Lo.getEquivalentLosIds");
 		query.setParameter("loId", loId);
 		@SuppressWarnings("unchecked")
 		List<String> losIds = query.getResultList();
-		return losIds.contains(equivalentLoId);
-		*/
-		Lo lo = null;
-		Lo equivLo = null;
-		try {
-			lo = fetch(Lo.class, loId);
-			equivLo = fetch(Lo.class, equivalentLoId);
-		} catch (DoesNotExistException e) {
-			return false;
-		}
-		return lo.getEquivalentLos().contains(equivLo);
+		return losIds.contains(equivLoId);
 	}
 
 	/* (non-Javadoc)
@@ -293,9 +291,12 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 * @see org.kuali.student.lum.lo.dao.LoDao#removeChildLoFromLo(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean removeChildLoFromLo(String loId, String parentLoId) {
+	public boolean removeChildLoFromLo(String loId, String parentLoId) throws DependentObjectsExistException, DoesNotExistException {
 		Lo parentLo = null;
 		Lo lo = null;
+		if (getLoParents(loId).size() <= 1) {
+			throw new DependentObjectsExistException();
+		}
 		try {
 			parentLo = fetch(Lo.class, parentLoId);
 			lo = fetch(Lo.class, loId);
@@ -304,6 +305,9 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		}
 		List<Lo> children = parentLo.getChildLos();
 		int index = children.indexOf(lo);
+		if (-1 == index) {
+			throw new DoesNotExistException("Lo(" + loId + ") is not a child of Lo(" + parentLoId + ").");
+		}
 		children.remove(index);
 		// TODO - null out hierarchy 
 		return true;
@@ -353,5 +357,18 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 			return false;
 		}
 		return los.contains(child);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#deleteLoCategory(java.lang.String)
+	 */
+	@Override
+	public boolean deleteLoCategory(String loCategoryId) throws DoesNotExistException, DependentObjectsExistException {
+		List<Lo> los = getLosByLoCategory(loCategoryId);
+		if (null != los & ! los.isEmpty()) {
+			throw new DependentObjectsExistException("LoCategory(" + loCategoryId + ") still has " + los.size() + " Learning Objective(s) associated with it.");
+		}
+		delete(LoCategory.class, loCategoryId);
+		return true;
 	}
 }

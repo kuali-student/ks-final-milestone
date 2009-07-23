@@ -1,16 +1,19 @@
 package org.kuali.student.lum.lo.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -60,8 +63,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 
         LoInfo created = client.createLo(null, "loType.default", loInfo); 
         assertNotNull(created);
-        String id = created.getId();
-        assertNotNull(id);
+        String loId = created.getId();
+        assertNotNull(loId);
 
         RichTextInfo desc = created.getDesc();
         assertNotNull(desc);
@@ -75,12 +78,12 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals("loType.default", created.getType()); 
         assertEquals("Active", created.getState());
 
-        loInfo = client.getLo(id);
+        loInfo = client.getLo(loId);
         loInfo.setName("Lo in the mid-30s");
 
-        LoInfo updated = client.updateLo(id, loInfo);
+        LoInfo updated = client.updateLo(loId, loInfo);
         assertNotNull(updated);
-        assertEquals(id, updated.getId());
+        assertEquals(loId, updated.getId());
         desc = updated.getDesc();
         assertNotNull(desc);
         assertEquals("<p>New ResultComponent</p>", desc.getFormatted());
@@ -94,12 +97,9 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals("Active", updated.getState());
 
         try {
-            client.updateLo(id, loInfo);
+            client.updateLo(loId, loInfo);
             fail("VersionMismatchException expected");
         } catch (VersionMismatchException e) {}
-
-        StatusInfo statusInfo = client.deleteLo(id);
-        assertTrue(statusInfo.getSuccess());
 
         // Detecting expected errors
         loInfo = new LoInfo();
@@ -121,6 +121,19 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             client.createLo("parentloid", "anytype", null);
             fail("MissingParameterException expected for loInfo");
         } catch (MissingParameterException e) {}
+        
+        loInfo = client.createLo(loId, "loType.default", loInfo);
+        String childLoId = loInfo.getId();
+        try {
+	        client.deleteLo(loId);
+	        fail("deleteLo() of Lo with child should have thrown DependentObjectsExistException");
+        } catch (DependentObjectsExistException doee) {}
+        
+        StatusInfo statusInfo = client.deleteLo(childLoId);
+        assertTrue(statusInfo.getSuccess());
+        statusInfo = client.deleteLo(loId);
+        assertTrue(statusInfo.getSuccess());
+
     }
     
     @Test
@@ -146,8 +159,6 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         assertTrue(client.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
         
-    	/* TODO - Maybe Derek can look to see if the problem(s) are in the
-    	 * Assember, or in its input from the dao
         List<LoInfo> children = client.getLoChildren("ABD8AE21-34E9-4858-A714-B04134F55D68");
         boolean foundLo = false;
         for (LoInfo loInfo : children) {
@@ -167,8 +178,18 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             }
         }
         assertTrue(foundLo);
-        */
         
+        try { // this would result in "7B..." being orphaned
+	        result = client.removeChildLoFromLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
+	        fail("LearningObjectiveService.removeChildLoFromLo should have thrown DependentObjectsExistException");
+        } catch (DependentObjectsExistException doee) {}
+        
+        // add it as a child to another parent
+        result = client.addChildLoToLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+        assertNotNull(result);
+        assertTrue(result.getSuccess());
+        
+        // and now remove it from "AB..."'s children
         result = client.removeChildLoFromLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "ABD8AE21-34E9-4858-A714-B04134F55D68");
         assertNotNull(result);
         assertTrue(result.getSuccess());
@@ -176,53 +197,62 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertTrue(!client.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
     }
     
-    @Ignore
     @Test
     public void testLoEquivalency() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, PermissionDeniedException {
-        List<LoInfo> equivalents = client.getEquivalentLos("LOID-1"); //TODO replace ids
-        assertTrue(equivalents.isEmpty()); //this will probably fail. ha ha.
+        List<LoInfo> equivalents = client.getEquivalentLos("Bogus_LO_ID");
+        assertTrue(null == equivalents || equivalents.isEmpty());
+    	
+        // no LO's equivalent to 81ABEA67-3BCC-4088-8348-E265F3670145 currently
+        equivalents = client.getEquivalentLos("81ABEA67-3BCC-4088-8348-E265F3670145");
+        assertTrue(null == equivalents || equivalents.isEmpty()); 
         
-        StatusInfo result = client.addEquivalentLoToLo("LOID-1", "LOID-3"); //TODO replace ids
+        // now add one
+        StatusInfo result = client.addEquivalentLoToLo("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
         assertNotNull(result);
         assertTrue(result.getSuccess());
         
-        equivalents = client.getEquivalentLos("LOID-1"); //TODO replace ids
+        // make sure it was persisted
+        equivalents = client.getEquivalentLos("81ABEA67-3BCC-4088-8348-E265F3670145");
         assertEquals(1, equivalents.size());
-        assertEquals("LOID-3", equivalents.get(0).getId()); //TODO replace ids
+        assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", equivalents.get(0).getId());
         
-        assertTrue(client.isEquivalent("LOID-1", "LOID-3")); //TODO replace ids
-        assertTrue(!client.isEquivalent("LOID-3", "LOID-1")); //TODO replace ids
+        // test uni-directionality
+        assertTrue(client.isEquivalent("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", "81ABEA67-3BCC-4088-8348-E265F3670145"));
+        assertFalse(client.isEquivalent("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
         
-        equivalents = client.getLoEquivalents("LOID-3"); //TODO replace ids
-        assertEquals(1, equivalents.size());
-        assertEquals("LOID-1", equivalents.get(0).getId()); //TODO replace ids
+        equivalents = client.getLoEquivalents("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+        // there was one already from initial sql datafile load
+        assertEquals(2, equivalents.size());
+        Set<String> equivIds = new TreeSet<String>(Arrays.asList( equivalents.get(0).getId(), equivalents.get(1).getId() ));
+        // test that equiv from initial data load is there
+        assertTrue(equivIds.contains("ABD8AE21-34E9-4858-A714-B04134F55D68"));
+        // plus one we just added
+        assertTrue(equivIds.contains("81ABEA67-3BCC-4088-8348-E265F3670145"));
         
         try {
-            result = client.addEquivalentLoToLo("LOID-1", "LOID-3"); //TODO replace ids
-            fail("relationship should already exists and thus throw AlreadyExistsException");
+            result = client.addEquivalentLoToLo("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+            fail("relationship should already exist and thus throw AlreadyExistsException");
         } catch (AlreadyExistsException e) {
         }
         
-        result = client.removeEquivalentLoFromLo("LOID-1", "LOID-3"); //TODO replace ids
+        result = client.removeEquivalentLoFromLo("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
         assertNotNull(result);
         assertTrue(result.getSuccess());
         
-        assertTrue(!client.isEquivalent("LOID-1", "LOID-3")); //TODO replace ids
-        assertTrue(!client.isEquivalent("LOID-3", "LOID-1")); //TODO replace ids
+        assertFalse(client.isEquivalent("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", "81ABEA67-3BCC-4088-8348-E265F3670145"));
+        assertFalse(client.isEquivalent("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
     }
     
-	/* TODO - Maybe Derek can look to see if the problem(s) are in the
-	 * Assember, or in its input from the dao */
-    @Ignore
     @Test
     public void testLoCategory() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, UnsupportedActionException {
         StatusInfo statusInfo = null;
         List<LoHierarchyInfo> hierarchies = client.getLoHierarchies();
         assertNotNull(hierarchies);
-        assertTrue(!hierarchies.isEmpty());
+        assertFalse(hierarchies.isEmpty());
+        assertEquals(6, hierarchies.size());
         
-        List<LoCategoryInfo> categories = client.getLoCategories(hierarchies.get(0).getId());
-        int size = categories.size();
+        List<LoCategoryInfo> categories = client.getLoCategories("loHierarchy.empty.test");
+        assertTrue(null == categories || categories.isEmpty());
         
         LoCategoryInfo category = new LoCategoryInfo();
         RichTextInfo richText = new RichTextInfo();
@@ -237,41 +267,42 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         category.setAttributes(attributes);
         
-        LoCategoryInfo created = client.createLoCategory(hierarchies.get(0).getId(), category);
+        LoHierarchyInfo loHierarchy = client.getLoHierarchy("loHierarchy.empty.test");
+        
+        LoCategoryInfo created = client.createLoCategory(loHierarchy.getId(), category);
         assertNotNull(created);
-        String id = created.getId();
-        assertNotNull(id);
+        String categoryId = created.getId();
+        assertNotNull(categoryId);
         
-        categories = client.getLoCategories(hierarchies.get(0).getId());
-        assertEquals(size + 1, categories.size());
+        categories = client.getLoCategories(loHierarchy.getId());
+        assertEquals(1, categories.size());
         
-        category = client.getLoCategory(id);
+        category = client.getLoCategory(categoryId);
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
         
-        LoCategoryInfo updated = client.updateLoCategory(id, category);
+        LoCategoryInfo updated = client.updateLoCategory(categoryId, category);
         assertNotNull(updated);
         assertNotNull(updated.getId());
         
         try {
-            client.updateLoCategory(id, category);
+            client.updateLoCategory(categoryId, category);
             fail("VersionMismatchException expected");
         } catch (VersionMismatchException e) {}
         
-        List<LoInfo> los = client.getLosByLoCategory(id);
-        assertNotNull(los);
-        assertEquals(0, los.size());
+        List<LoInfo> los = client.getLosByLoCategory(categoryId);
+        assertTrue(null == los || los.isEmpty());
         
-        statusInfo = client.addLoCategoryToLo(id, "LOID-1"); //TODO replace ids
+        statusInfo = client.addLoCategoryToLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
         assertTrue(statusInfo.getSuccess());
         
-        los = client.getLosByLoCategory(id);
+        los = client.getLosByLoCategory(categoryId);
         assertEquals(1, los.size());
-        assertEquals("LOID-1", los.get(0).getId()); //TODO replace ids
+        assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", los.get(0).getId()); 
         
-        categories = client.getLoCategoriesForLo("LOID-1"); //TODO replace ids
+        categories = client.getLoCategoriesForLo("91A91860-D796-4A17-976B-A6165B1A0B05");
         boolean foundCat = false;
         for (LoCategoryInfo loCategoryInfo : categories) {
-            if(loCategoryInfo.getId().equals(id)) {
+            if(loCategoryInfo.getId().equals(categoryId)) {
                 foundCat = true;
                 break;
             }
@@ -279,14 +310,14 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertTrue(foundCat);
         
         try {
-            statusInfo = client.deleteLoCategory(id);
-            fail("DependentObjectsExistException expected"); //but is statusInfo false? Who knows?
+            statusInfo = client.deleteLoCategory(categoryId);
+            fail("DependentObjectsExistException expected"); 
         } catch(DependentObjectsExistException e) {}
         
-        statusInfo = client.removeLoCategoryFromLo(id, "LOID-1"); //TODO replace ids
+        statusInfo = client.removeLoCategoryFromLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
         assertTrue(statusInfo.getSuccess());
         
-        statusInfo = client.deleteLoCategory(id);
+        statusInfo = client.deleteLoCategory(categoryId);
         assertTrue(statusInfo.getSuccess());
     }
     
@@ -300,9 +331,6 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals(loTypes.get(0).getName(), loType.getName());
     }
     
-	/* TODO - Maybe Derek can look to see if the problem(s) are in the
-	 * Assember, or in its input from the dao */
-    @Ignore
     @Test
     public void testLoHierarchy() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         List<LoHierarchyInfo> loHierarchies = client.getLoHierarchies();

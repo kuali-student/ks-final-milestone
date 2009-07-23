@@ -18,6 +18,7 @@ import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
@@ -159,7 +160,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	
 	@Test
     public void testIsEquivalent() {
-		assertTrue(dao.isEquivalent("ABD8AE21-34E9-4858-A714-B04134F55D68", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+		assertTrue(dao.isEquivalent("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", "ABD8AE21-34E9-4858-A714-B04134F55D68"));
 	}
 	
 	@Test
@@ -186,15 +187,11 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	}
 	
 	@Test
-    public void testRemoveLoCategoryFromLo() {
+    public void testRemoveLoCategoryFromLo() throws DoesNotExistException {
 		String loId = "E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF";
 		String loCatId = "054CAA88-C21D-4496-8287-36A311A11D68";
 		LoCategory loCategory = null;
-		try {
-			loCategory = dao.fetch(LoCategory.class, loCatId);
-		} catch (DoesNotExistException e) {
-			fail("DoesNotExistException when retrieving Lo w/ ID == " + loId);
-		}
+		loCategory = dao.fetch(LoCategory.class, loCatId);
 		assertTrue(dao.getLoCategoriesForLo(loId).contains(loCategory));
 		assertEquals("loHierarchy.fsu", loCategory.getLoHierarchy().getId());
 		assertTrue(dao.removeLoCategoryFromLo(loCatId, loId));
@@ -206,6 +203,20 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		}
 		assertFalse(dao.getLoCategoriesForLo(loId).contains(loCategory));
 		assertNull(loCategory.getLoHierarchy());
+	}
+	
+	@Test
+    public void testDeleteLoCategory() throws DoesNotExistException, DependentObjectsExistException {
+		String nonEmptyCategoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
+		String emptyCategoryId = "F2F02922-4E77-4144-AA07-8C2C956370DC";
+		
+		assertFalse(dao.getLosByLoCategory(nonEmptyCategoryId).isEmpty());
+		try {
+			dao.deleteLoCategory(nonEmptyCategoryId);
+			fail("Deleting LoCategory with associated Learning Objective(s) should have thrown DependentObjectsExistException");
+		} catch (DependentObjectsExistException doee) {}
+		// now delete one that has no associated Lo's
+		assertTrue(dao.deleteLoCategory(emptyCategoryId));
 	}
 	
 	@Test
@@ -243,10 +254,29 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	}
 	
 	@Test
-    public void testRemoveChildLoFromLo() {
-		assertEquals(2, dao.getLoChildren("81ABEA67-3BCC-4088-8348-E265F3670145").size());
-		assertTrue(dao.removeChildLoFromLo("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", "81ABEA67-3BCC-4088-8348-E265F3670145"));
-		assertEquals(1, dao.getLoChildren("81ABEA67-3BCC-4088-8348-E265F3670145").size());
+    public void testRemoveChildLoFromLo() throws DoesNotExistException, DependentObjectsExistException {
+		try {
+			dao.removeChildLoFromLo("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", "81ABEA67-3BCC-4088-8348-E265F3670145");
+			fail("LoDao.removeChildLoFromLo() should have thrown DependentObjectsExistException");
+		} catch (DependentObjectsExistException doee) {}
+		assertEquals(1, dao.getLoChildren("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF").size());
+		assertTrue(dao.removeChildLoFromLo("ABD8AE21-34E9-4858-A714-B04134F55D68", "E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"));
+		assertEquals(0, dao.getLoChildren("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF").size());
+	}
+	
+	@Test
+    public void testDeleteLo() throws DoesNotExistException, DependentObjectsExistException {
+		assertEquals(1, dao.getLoChildren("91A91860-D796-4A17-976B-A6165B1A0B05").size());
+		try {
+			dao.deleteLo("91A91860-D796-4A17-976B-A6165B1A0B05");
+			fail("LoDao.deleteLo() should have thrown DependentObjectsExistException");
+		} catch (DependentObjectsExistException doee) {}
+		dao.deleteLo("FDE6421E-64B4-41AF-BAC5-269005101C2A");
+		try {
+			assertTrue(dao.deleteLo("91A91860-D796-4A17-976B-A6165B1A0B05"));
+		} catch (DependentObjectsExistException doee) {
+			fail("DependentObjectsExistException was thrown when deleting Lo with no children");
+		}
 	}
 	
 	@Test
@@ -254,8 +284,12 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		String loId = "E0619A90-66D6-4AF4-B357-E73AE44F7E88";
 		String equivLoId = "7BCD7C0E-3E6B-4527-AC55-254C58CECC22";
 		assertFalse(dao.isEquivalent(loId, equivLoId));
-		dao.addEquivalentLoToLo(loId, equivLoId);
-		assertTrue(dao.isEquivalent(loId,equivLoId)); 
+		try {
+			dao.addEquivalentLoToLo(loId, equivLoId);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		assertTrue(dao.isEquivalent(equivLoId, loId)); 
 	}
 	
 	@Test

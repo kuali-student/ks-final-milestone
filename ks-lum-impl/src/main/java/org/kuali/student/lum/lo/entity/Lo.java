@@ -55,7 +55,8 @@ import org.kuali.student.core.entity.RichText;
 	@NamedQuery(name = "Lo.getLoChildrenIds", query = "SELECT child.id FROM Lo lo, IN (lo.childLos) child WHERE lo.id = :parentId"),
 	@NamedQuery(name = "Lo.getAncestors", query = "SELECT pl.id FROM Lo pl, IN (pl.childLos) child WHERE child.id = :childId"),
 	@NamedQuery(name = "Lo.isEquivalent", query = "SELECT pl.id FROM Lo cl, Lo pl WHERE cl.id = :childId AND cl IN (pl.childLos)"),
-	@NamedQuery(name = "Lo.getEquivalentLosIds", query = "SELECT equivLo.id FROM Lo lo, Lo equivLo WHERE lo.id = :loId and equivLo in (lo.equivalentLos)"),
+	@NamedQuery(name = "Lo.getEquivalentLos", query = "SELECT equivLo FROM Lo lo, IN (lo.equivalentLos) equivLo WHERE lo.id = :loId"),
+	@NamedQuery(name = "Lo.getEquivalentLosIds", query = "SELECT equivLo.id FROM Lo lo, IN (lo.equivalentLos) equivLo WHERE lo.id = :loId"),
 	@NamedQuery(name = "Lo.getLoEquivalents", query = "SELECT lo FROM Lo lo, IN (lo.equivalentLos) equivs where equivs.id = :loId")
 })
 public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
@@ -67,7 +68,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	private
 	String name;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL) // { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } ) // CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
 	
@@ -165,6 +166,9 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 * @return the childLos
 	 */
 	public List<Lo> getChildLos() {
+		if (null == childLos) {
+			childLos = new ArrayList<Lo>(0);
+		}
 		return childLos;
 	}
 
@@ -179,6 +183,9 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 * @return the equivalentLos
 	 */
 	public List<Lo> getEquivalentLos() {
+		if (null == equivalentLos) {
+			equivalentLos = new ArrayList<Lo>(0);
+		}
 		return equivalentLos;
 	}
 
