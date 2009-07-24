@@ -109,6 +109,8 @@
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
 		<property name="service" ref="luClient" />
 		<property name="orgService" ref="orgClient" />
+		<property name="simpleDocService" ref="simpleDocActionsClient" />
+		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
@@ -180,6 +182,29 @@
 		<property name="address"
 			value="http://localhost:8080/ks-lum-web/services/OrgService" />
 	</bean>
-
+	
+	<bean id="workflowUtilityClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/WorkflowUtilityServiceSOAP.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.rice.kew.service.WorkflowUtility" />
+		<property name="serviceQNameString"
+			value="{http://rice.kuali.org/wsdl/kew}WorkflowUtilityServiceSOAP" />
+		<property name="address" 
+            value="http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP"/>		
+	</bean>
+	
+	<bean id="simpleDocActionsClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/simpleDocumentActionsService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
+		<property name="serviceQNameString"
+			value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService" />
+		<property name="address" 
+            value="http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService"/>		
+	</bean>
 
 </beans>
