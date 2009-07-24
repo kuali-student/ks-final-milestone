@@ -745,12 +745,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo cluInfo = service.getClu(id);
             //List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
             
-            /*            List<CluInfo> activities = new ArrayList<CluInfo>();
-                       for (CluCluRelationInfo relInfo:cluRelations){
-                           if (relInfo.getType().equals("proposal.activity")){
-                               activities.add(service.getClu(relInfo.getRelatedCluId()));
-                           }
-                       }*/
+            /*
+            List<CluInfo> activities = new ArrayList<CluInfo>();
+            for (CluCluRelationInfo relInfo:cluRelations){
+                if (relInfo.getType().equals("proposal.activity")){
+                    activities.add(service.getClu(relInfo.getRelatedCluId()));
+                }
+            }
+            */
+
             //cluProposal.setCluInfo(parentClu);
             //cluProposal.setActivities(activities);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
