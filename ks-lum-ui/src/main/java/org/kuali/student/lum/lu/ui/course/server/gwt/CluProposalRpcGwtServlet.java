@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebService;
-import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -23,10 +21,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.aegis.databinding.AegisDatabinding;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
-import org.kuali.rice.kew.dto.ActionItemDTO;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
@@ -64,12 +60,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_USER_ID = "user1";
     private SimpleDocumentActionsWebService simpleDocService; 
-    private SimpleWorkflowUtility workflowUtilityService;
+    private WorkflowUtility workflowUtilityService;
     private OrganizationService orgService;
      
-    private String simpleDocServiceAddress="http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService";
-    private String workflowUtilityServiceAddress="http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP";
-    
+
 	private Map<String, ProposalInfo> getProposalInfoMap() {
 	    @SuppressWarnings("unchecked")
 	    Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
@@ -85,8 +79,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposal createProposal(CluProposal cluProposal) {
-        aquireSimpleDocService();
         try {
+
             //FIXME: Restore code to handle proposal service?
             
             /*  
@@ -129,7 +123,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             //Create and then route the document 
             String workflowDocTypeId = "CluDocument";
-            
+            if(simpleDocService==null){
+            	throw new RuntimeException("Workflow Service is unavailable");
+            }
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
@@ -213,7 +209,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     @Override
     public CluProposal saveProposal(CluProposal cluProposal) {
         try {
-        	aquireSimpleDocService();
         	
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.updateClu(cluProposal.getCluInfo().getId(), parentCluInfo);
@@ -221,13 +216,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //get a user name
             String username = getCurrentUser();
 
-            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
-            
-            //Check that the call was successful
-            if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
-            	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
-            }
-            
             /*FIXME: Restore code to handle proposal service?
             ProposalInfo proposalInfo = cluProposal.getProposalInfo();                       
             List<String> proposalReferences = new ArrayList<String>();
@@ -248,6 +236,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                         service.createCluCluRelation(parentCluInfo.getId(), cluInfo.getId(), "proposal.actvitiy", relInfo);
                     }                
                 }
+            }
+            
+            if(simpleDocService==null){
+            	throw new RuntimeException("Workflow Service is unavailable");
+            }
+            
+            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
+            
+            //Check that the call was successful
+            if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
+            	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
             }
             
             if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docResponse.getDocStatus())) || 
@@ -331,8 +330,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	@Override
 	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
-		aquireSimpleDocService();
-        try {
+		try {
+            if(simpleDocService==null){
+            	throw new RuntimeException("Workflow Service is unavailable");
+            }
+            
             CluInfo cluInfo = cluProposal.getCluInfo();
             
             //get a user name
@@ -364,7 +366,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	@Override
 	public CluProposal getCluProposalFromWorkflowId(String docId) {
-		aquireSimpleDocService();
+        if(simpleDocService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 		
         //get a user name
         String username = getCurrentUser();
@@ -381,7 +385,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	@Override
 	public String getActionsRequested(CluProposal cluProposal) {
-		aquireWorkflowUtilityService();
+        try{
+		if(workflowUtilityService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 		
         //get a user name
         String username = getCurrentUser();
@@ -411,13 +418,19 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             	}
         	}
         }
-		return actionsRequested;
+        	return actionsRequested;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error getting actions Requested",e);
+        }
 	}
 	
 
 	@Override
 	public Boolean approveProposal(CluProposal cluProposal) {
-		aquireSimpleDocService();
+        if(simpleDocService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 		
 		try{
             //get a user name
@@ -443,7 +456,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	@Override
 	public Boolean disapproveProposal(CluProposal cluProposal) {
-		aquireSimpleDocService();
+        if(simpleDocService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 		
 		try{
             //get a user name
@@ -467,7 +482,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	@Override
 	public Boolean acknowledgeProposal(CluProposal cluProposal) {
-		aquireSimpleDocService();
+        if(simpleDocService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 		
 		try{
 			//get a user name
@@ -490,7 +507,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	@Override
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy){
-		aquireSimpleDocService();
+        if(simpleDocService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 		
 		try{
 			//get a user name
@@ -586,7 +605,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	@Override
     public HashMap<String, ArrayList<String>> getCollaborators(String docId){
 		//FIXME put in matching for 4 collaborator types
-		aquireWorkflowUtilityService();
+		try{
+        if(workflowUtilityService==null){
+        	throw new RuntimeException("Workflow Service is unavailable");
+        }
 
 		HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
 		
@@ -595,7 +617,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		ArrayList<String> viewers = new ArrayList<String>();
 		ArrayList<String> delegates = new ArrayList<String>();
 		
-        ActionRequestDTO[] items= workflowUtilityService.getActionRequests(Long.parseLong(docId));
+        ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
         if(items!=null){
         	for(ActionRequestDTO item:items){
         		if (item.isActivated() && (!item.isDone())) {
@@ -622,6 +644,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         results.put("Viewer", viewers);
         results.put("Delegate", delegates);
         return results;
+		}catch(Exception e){
+            throw new RuntimeException("Error getting actions Requested",e);
+		}
     }
 	
 	@Override
@@ -657,68 +682,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 		return username;
 	}
-	
-	private void aquireSimpleDocService() {
-		if(simpleDocService==null){
-			try{
-				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
-				factory.setServiceClass(SimpleDocumentActionsWebService.class);
-				factory.setAddress(simpleDocServiceAddress);
-				//factory.setWsdlLocation(simpleDocServiceAddress+"?wsdl");
-				factory.setServiceName(new QName("RICE", "simpleDocumentActionsService"));
-				factory.getServiceFactory().setDataBinding(new AegisDatabinding());
-				simpleDocService = (SimpleDocumentActionsWebService) factory.create();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	private void aquireWorkflowUtilityService() {
-		if(workflowUtilityService==null){
-			try{
-				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
-				factory.setServiceClass(SimpleWorkflowUtility.class);
-				factory.setAddress(workflowUtilityServiceAddress);
-				//factory.setWsdlLocation(workflowUtilityServiceAddress+"?wsdl");
-				factory.setServiceName(new QName("RICE", "WorkflowUtilityServiceSOAP"));
-				AegisDatabinding binding = new AegisDatabinding();
-				
-				factory.getServiceFactory().setDataBinding(binding);
-				factory.setEndpointName(new QName("RICE", "WorkflowUtilityPort"));
-				
-				workflowUtilityService = (SimpleWorkflowUtility) factory.create();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@WebService(targetNamespace="RICE",name="WorkflowUtilityServiceSOAP",serviceName="WorkflowUtilityServiceSOAP",portName="WorkflowUtilityPort")
-	private interface SimpleWorkflowUtility{
-		public String getDocumentStatus(Long docId);
-		public AttributeSet getActionsRequested(String username, long docId);
-		public ActionItemDTO[] getActionItems(Long docId);
-	    public ActionRequestDTO[] getActionRequests(Long documentId);
-	    public ActionRequestDTO[] getActionRequests1(Long routeHeaderId, String nodeName, String principalId);
-	}
-	
 
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}
 
-	public void setWorkflowUtilityService(SimpleWorkflowUtility workflowUtilityService) {
+	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
 		this.workflowUtilityService = workflowUtilityService;
-	}
-
-	public void setSimpleDocServiceAddress(String simpleDocServiceAddress) {
-		this.simpleDocServiceAddress = simpleDocServiceAddress;
-	}
-
-	public void setWorkflowUtilityServiceAddress(
-			String workflowUtilityServiceAddress) {
-		this.workflowUtilityServiceAddress = workflowUtilityServiceAddress;
 	}
 
 	public OrganizationService getOrgService() {

@@ -156,18 +156,7 @@
 
 
 	<dependencies>
-		<!-- Cxf and aegis for simple client, access to rice, need to replace with rice bus -->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-simple</artifactId>
-			<version>2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-databinding-aegis</artifactId>
-			<version>2.2</version>
-		</dependency>
-		
+	
 		<!-- KS core & common dependencies -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
