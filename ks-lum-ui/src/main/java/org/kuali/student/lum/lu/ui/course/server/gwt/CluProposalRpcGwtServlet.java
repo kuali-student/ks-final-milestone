@@ -21,7 +21,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -618,7 +617,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		ArrayList<String> viewers = new ArrayList<String>();
 		ArrayList<String> delegates = new ArrayList<String>();
 		
-        ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
+/*        ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
         if(items!=null){
         	for(ActionRequestDTO item:items){
         		if (item.isActivated() && (!item.isDone())) {
@@ -638,7 +637,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        		}
         		}
         	}
-        }
+        }*/
         
         results.put("Co-Authors", coAuthors);
         results.put("Commentor", commentors);
@@ -707,17 +706,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
         //TODO: Actually return the whole structure.... maybe?
         MapContext ctx = new MapContext();
-        CluProposalModelDTO result = new CluProposalModelDTO();
+        //CluProposalModelDTO result = new CluProposalModelDTO();
         try{
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
             //CluProposalModelDTO result = (ModelDTO)ctx.fromBean(cluInfo);
-            /*StringType id = new StringType();
+            System.out.println(cluInfo.getId());
+            StringType id = new StringType();
             id.set(cluInfo.getId());
-            cluProposalDTO.put("id", id);*/
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluProposalDTO = new CluProposalModelDTO();
-            cluProposalDTO.copyFrom(cluModelDTO);
+            cluProposalDTO.put("id", id);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -733,54 +730,37 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
-        MapContext ctx = new MapContext();
-        //CluProposalModelDTO result = new CluProposalModelDTO();
-        try{
-            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
-            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
-            //CluProposalModelDTO result = (ModelDTO)ctx.fromBean(cluInfo);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluProposalDTO = new CluProposalModelDTO();
-            cluProposalDTO.copyFrom(cluModelDTO);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        
-        return cluProposalDTO;
+        return null;
     }
     
     @Override
-    public CluProposalModelDTO getProposalModelDTO(String id) {
-    	MapContext ctx = new MapContext();
+    public CluProposalModelDTO getProposalModelDTO(String id){
+        MapContext ctx = new MapContext();
         CluProposalModelDTO result = null;
-    	try {
+        try {
             //CluProposal cluProposal = new CluProposal();
             //cluProposal.setProposalInfo(proposalInfo);
-
+            
             //String parentCluId = proposalInfo.getProposalReference().get(0);
             CluInfo cluInfo = service.getClu(id);
             //List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
             
-/*            List<CluInfo> activities = new ArrayList<CluInfo>();
-            for (CluCluRelationInfo relInfo:cluRelations){
-                if (relInfo.getType().equals("proposal.activity")){
-                    activities.add(service.getClu(relInfo.getRelatedCluId()));
-                }
-            }*/
-            
+            /*            List<CluInfo> activities = new ArrayList<CluInfo>();
+                       for (CluCluRelationInfo relInfo:cluRelations){
+                           if (relInfo.getType().equals("proposal.activity")){
+                               activities.add(service.getClu(relInfo.getRelatedCluId()));
+                           }
+                       }*/
             //cluProposal.setCluInfo(parentClu);
             //cluProposal.setActivities(activities);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
             result = new CluProposalModelDTO();
             result.copyFrom(cluModelDTO);
-            
-            
+
         } catch (Exception e) {
-        	e.printStackTrace();
-        }
-    	return result;
-    	
+            e.printStackTrace();
+            }
+        return result;
     }
 
 }
