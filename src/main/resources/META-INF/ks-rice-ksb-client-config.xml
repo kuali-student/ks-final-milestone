@@ -8,6 +8,9 @@
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+    
+    <!-- this is dev only parameter, currently can't create quartz tables with jpa -->
+    <param name="useQuartzDatabase">false</param>
 
     <!-- Datasource Configuration -->
 

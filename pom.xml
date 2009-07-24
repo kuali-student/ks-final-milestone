@@ -43,6 +43,13 @@
       <url>http://repository.jboss.org/maven2</url>
     </repository>
     <repository>
+      <id>kuali.release</id>
+      <url>http://archiva.kuali.umd.edu/repository/release</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <id>kuali.snapshot</id>
       <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
       <releases>
@@ -61,7 +68,7 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
-      <version>0.9.4-KS-2-SNAPSHOT</version>
+      <version>1.0.0-KS-0723</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>

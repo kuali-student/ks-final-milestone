@@ -274,7 +274,27 @@ import org.kuali.rice.core.util.RiceUtilities;
 	        return getProperty(BASE_WEB_SERVICE_WSDL_PATH);
 	    }
 
-	    public String getClientWSDLFullPathAndFileName() {
+        public String getKENBaseURL() {
+            return getProperty(KEN_URL);
+        }
+
+        public String getKEWBaseURL() {
+            return getProperty(KEW_URL);
+        }
+
+        public String getKIMBaseURL() {
+            return getProperty(KIM_URL);
+        }
+
+        public String getKRBaseURL() {
+            return getProperty(KR_URL);
+        }
+
+        public String getPortalShowSampleApp() {
+            return getProperty(PORTAL_SHOW_SAMPLE_APP);
+        }
+
+        public String getClientWSDLFullPathAndFileName() {
 	        return getProperty(WSDL_LOCATION_WORKFLOW_CLIENT_FILE);
 	    }
 
@@ -296,10 +316,6 @@ import org.kuali.rice.core.util.RiceUtilities;
 
 	    public String getEmailConfigurationPath() {
 	        return getProperty(EMAIL_SECURITY_PATH);
-	    }
-
-	    public String getBaseUrl() {
-	        return getProperty(BASE_URL);
 	    }
 
 	    public String getEnvironment() {
