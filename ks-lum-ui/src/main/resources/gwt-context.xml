@@ -153,7 +153,7 @@
 		<property name="serviceQNameString"
 			value="{http://student.kuali.org/lum/lu}LuService" />
 		<property name="address"
-			value="http://localhost:8080/ks-lum-web/Service/LuService" />
+			value="http://localhost:8080/ks-lum-web/services/LuService" />
 	</bean>
 
     <!-- Translation Service Client -->
@@ -166,7 +166,7 @@
         <property name="serviceQNameString"
             value="{http://student.kuali.org/lum/nlt}TranslationService" />
         <property name="address"
-            value="http://localhost:8080/ks-lum-web/Service/TranslationService" />
+            value="http://localhost:8080/ks-lum-web/services/TranslationService" />
     </bean>
 
 	<bean id="orgClient"
@@ -178,7 +178,7 @@
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
 		<property name="address"
-			value="http://localhost:8080/ks-lum-web/Service/OrgService" />
+			value="http://localhost:8080/ks-lum-web/services/OrgService" />
 	</bean>
 
 
