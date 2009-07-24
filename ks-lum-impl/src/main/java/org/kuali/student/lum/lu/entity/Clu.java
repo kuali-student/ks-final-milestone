@@ -1,6 +1,5 @@
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 @Entity
 @Table(name = "KSLU_CLU")
@@ -223,9 +221,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     @Override
     public List<CluAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluAttribute>();
-        }
+//        if (attributes == null) {
+//            attributes = new ArrayList<CluAttribute>();
+//        }
         return attributes;
     }
 
@@ -243,9 +241,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluIdentifier> getAlternateIdentifiers() {
-        if (alternateIdentifiers == null) {
-            alternateIdentifiers = new ArrayList<CluIdentifier>();
-        }
+//        if (alternateIdentifiers == null) {
+//            alternateIdentifiers = new ArrayList<CluIdentifier>();
+//        }
         return alternateIdentifiers;
     }
 
@@ -278,9 +276,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluInstructor> getInstructors() {
-        if (instructors == null) {
-            instructors = new ArrayList<CluInstructor>();
-        }
+//        if (instructors == null) {
+//            instructors = new ArrayList<CluInstructor>();
+//        }
         return instructors;
     }
 
@@ -329,9 +327,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<LuCode> getLuCodes() {
-        if (luCodes == null) {
-            luCodes = new ArrayList<LuCode>();
-        }
+//        if (luCodes == null) {
+//            luCodes = new ArrayList<LuCode>();
+//        }
         return luCodes;
     }
 
@@ -383,9 +381,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
      }
 
      public List<CluAtpTypeKey> getOfferedAtpTypes() {
-         if (offeredAtpTypes == null) {
-             offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
-         }
+//         if (offeredAtpTypes == null) {
+//             offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
+//         }
          return offeredAtpTypes;
      }
 
@@ -496,9 +494,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       * 
       * @return
       */public List<CluOrg> getParticipatingOrgs() {
-          if (participatingOrgs == null) {
-              participatingOrgs = new ArrayList<CluOrg>();
-          }
+//          if (participatingOrgs == null) {
+//              participatingOrgs = new ArrayList<CluOrg>();
+//          }
           return participatingOrgs;
       }
 
@@ -528,9 +526,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluAcademicSubjectOrg> getAcademicSubjectOrgs() {
-          if (academicSubjectOrgs == null) {
-              academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
-          }
+//          if (academicSubjectOrgs == null) {
+//              academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
+//          }
           return academicSubjectOrgs;
       }
 
@@ -539,9 +537,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluCampusLocation> getCampusLocationList() {
-          if (campusLocationList == null) {
-              campusLocationList = new ArrayList<CluCampusLocation>();
-          }
+//          if (campusLocationList == null) {
+//              campusLocationList = new ArrayList<CluCampusLocation>();
+//          }
           return campusLocationList;
       }
 
@@ -558,9 +556,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluAccreditation> getAccreditationList() {
-          if (accreditationList == null) {
-              accreditationList = new ArrayList<CluAccreditation>();
-          }
+//          if (accreditationList == null) {
+//              accreditationList = new ArrayList<CluAccreditation>();
+//          }
           return accreditationList;
       }
 
@@ -577,9 +575,9 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluAdminOrg> getAlternateAdminOrgs() {
-          if (alternateAdminOrgs == null) {
-              alternateAdminOrgs = new ArrayList<CluAdminOrg>();
-          }
+//          if (alternateAdminOrgs == null) {
+//              alternateAdminOrgs = new ArrayList<CluAdminOrg>();
+//          }
           return alternateAdminOrgs;
       }
 

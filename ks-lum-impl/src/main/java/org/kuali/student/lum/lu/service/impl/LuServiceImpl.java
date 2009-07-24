@@ -80,7 +80,6 @@ import org.kuali.student.lum.lu.entity.CluFeeAttribute;
 import org.kuali.student.lum.lu.entity.CluIdentifier;
 import org.kuali.student.lum.lu.entity.CluInstructor;
 import org.kuali.student.lum.lu.entity.CluInstructorAttribute;
-import org.kuali.student.lum.lu.entity.CluOrg;
 import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -323,7 +322,11 @@ public class LuServiceImpl implements LuService {
             clu.setOfficialIdentifier(officialIdentifier);
         }
 
+        if(clu.getAlternateIdentifiers()==null){
+        	clu.setAlternateIdentifiers(new ArrayList<CluIdentifier>());
+        }
         List<CluIdentifier> alternateIdentifiers = clu.getAlternateIdentifiers();
+
         for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
             CluIdentifier identifier = new CluIdentifier();
             BeanUtils.copyProperties(cluIdInfo, identifier);
@@ -346,6 +349,9 @@ public class LuServiceImpl implements LuService {
             clu.setPrimaryAdminOrg(primaryAdminOrg);
         }
 
+        if(clu.getAlternateAdminOrgs()==null){
+        	clu.setAlternateAdminOrgs(new ArrayList<CluAdminOrg>());
+        }
         List<CluAdminOrg> alternateOrgs = clu.getAlternateAdminOrgs();
         for(AdminOrgInfo orgInfo: cluInfo.getAlternateAdminOrgs()){
             CluAdminOrg instructor = new CluAdminOrg();
@@ -361,7 +367,10 @@ public class LuServiceImpl implements LuService {
             primaryInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), primaryInstructor, luDao));
             clu.setPrimaryInstructor(primaryInstructor);
         }
-
+        
+        if(clu.getInstructors()==null){
+        	clu.setInstructors(new ArrayList<CluInstructor>());
+        }
         List<CluInstructor> instructors = clu.getInstructors();
         for(CluInstructorInfo instructorInfo: cluInfo.getInstructors()){
             CluInstructor instructor = new CluInstructor();
@@ -374,6 +383,9 @@ public class LuServiceImpl implements LuService {
             clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
         }
 
+        if(clu.getLuCodes()==null){
+        	clu.setLuCodes(new ArrayList<LuCode>());
+        }
         List<LuCode> luCodes = clu.getLuCodes();
         for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
             LuCode luCode = new LuCode();
@@ -399,6 +411,9 @@ public class LuServiceImpl implements LuService {
                 cluPublishing.setPrimaryInstructor(primaryPubInstructor);
             }
 
+            if(cluPublishing.getInstructors()==null){
+            	cluPublishing.setInstructors(new ArrayList<CluInstructor>());
+            }
             for(CluInstructorInfo instructorInfo: cluInfo.getPublishingInfo().getInstructors()){
                 CluInstructor instructor = new CluInstructor();
                 BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
@@ -409,6 +424,9 @@ public class LuServiceImpl implements LuService {
             clu.setPublishing(cluPublishing);
         }
 
+        if(clu.getOfferedAtpTypes()==null){
+        	clu.setOfferedAtpTypes(new ArrayList<CluAtpTypeKey>());
+        }
         List<CluAtpTypeKey> offeredAtpTypes = clu.getOfferedAtpTypes();
         for(String atpTypeKey : cluInfo.getOfferedAtpTypes()){
             CluAtpTypeKey cluAtpTypeKey = new CluAtpTypeKey();
@@ -431,6 +449,9 @@ public class LuServiceImpl implements LuService {
 
         clu.setAttributes(LuServiceAssembler.toGenericAttributes(CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 
+        if(clu.getAcademicSubjectOrgs()==null){
+        	clu.setAcademicSubjectOrgs(new ArrayList<CluAcademicSubjectOrg>());
+        }
         List<CluAcademicSubjectOrg> subjectOrgs = clu.getAcademicSubjectOrgs(); 
         for(String orgId:cluInfo.getAcademicSubjectOrgs()){
             CluAcademicSubjectOrg subjOrg = new CluAcademicSubjectOrg();
@@ -443,6 +464,9 @@ public class LuServiceImpl implements LuService {
             clu.setIntensity(LuServiceAssembler.toTimeAmount(cluInfo.getIntensity()));
         }
 
+        if(clu.getCampusLocationList()==null){
+        	clu.setCampusLocationList(new ArrayList<CluCampusLocation>());
+        }
         List<CluCampusLocation> locations = clu.getCampusLocationList(); 
         for(String locationName:cluInfo.getCampusLocationList()){
             CluCampusLocation location = new CluCampusLocation();
@@ -450,7 +474,10 @@ public class LuServiceImpl implements LuService {
             location.setClu(clu);
             locations.add(location);
         }
-
+        
+        if(clu.getAccreditationList()==null){
+        	clu.setAccreditationList(new ArrayList<CluAccreditation>());
+        }
         List<CluAccreditation> accreditations = clu.getAccreditationList();
         for(AccreditationInfo accreditationInfo: cluInfo.getAccreditationList()){
             CluAccreditation accreditation = new CluAccreditation();

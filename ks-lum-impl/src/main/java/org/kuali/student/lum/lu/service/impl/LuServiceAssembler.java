@@ -78,6 +78,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
     public static List<CluCluRelationInfo> toCluCluRelationInfos(
             List<CluCluRelation> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<CluCluRelationInfo> dtos = new ArrayList<CluCluRelationInfo>(
                 entities.size());
         for (CluCluRelation entity : entities) {
@@ -108,6 +111,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static List<CluInfo> toCluInfos(List<Clu> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<CluInfo> dtos = new ArrayList<CluInfo>(entities.size());
         for (Clu entity : entities) {
             dtos.add(toCluInfo(entity));
@@ -140,11 +146,13 @@ public class LuServiceAssembler extends BaseAssembler {
 
         // adminOrg & participatingOrgs deprecated in v  1.0-rc2 Replaced by Primary and Alternate admin orgs
         dto.setAdminOrg(entity.getAdminOrg());
-        List<String> participatingOrgs = new ArrayList<String>(entity.getParticipatingOrgs().size());
-        for (CluOrg cluOrg : entity.getParticipatingOrgs()) {
-            participatingOrgs.add(cluOrg.getOrgId());
+        if(entity.getParticipatingOrgs()!=null){
+	        List<String> participatingOrgs = new ArrayList<String>(entity.getParticipatingOrgs().size());
+	        for (CluOrg cluOrg : entity.getParticipatingOrgs()) {
+	            participatingOrgs.add(cluOrg.getOrgId());
+	        }
+	        dto.setParticipatingOrgs(participatingOrgs);              
         }
-        dto.setParticipatingOrgs(participatingOrgs);              
         
         dto.setPrimaryAdminOrg(toAdminOrgInfo(entity.getPrimaryAdminOrg()));
         dto.setAlternateAdminOrgs(toCluAdminOrgInfos(entity.getAlternateAdminOrgs()));
@@ -157,11 +165,14 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setCreditInfo(toCluCreditInfos(entity.getCredit()));
         dto.setPublishingInfo(toCluPublishingInfo(entity.getPublishing()));
 
-        List<String> offeredAtpTypes = new ArrayList<String>(entity.getOfferedAtpTypes().size());
-        for (CluAtpTypeKey key : entity.getOfferedAtpTypes()) {
-            offeredAtpTypes.add(key.getAtpTypeKey());
+        if(entity.getOfferedAtpTypes()!=null){
+	        List<String> offeredAtpTypes = new ArrayList<String>(entity.getOfferedAtpTypes().size());
+	        for (CluAtpTypeKey key : entity.getOfferedAtpTypes()) {
+	            offeredAtpTypes.add(key.getAtpTypeKey());
+	        }
+	        dto.setOfferedAtpTypes(offeredAtpTypes);
         }
-        dto.setOfferedAtpTypes(offeredAtpTypes);
+        
         dto.setFeeInfo(toCluFeeInfo(entity.getFee()));
         dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
 
@@ -170,18 +181,22 @@ public class LuServiceAssembler extends BaseAssembler {
 
         dto.setType(entity.getLuType().getId());
 
-        List<String> academicSubjectOrgs = new ArrayList<String>(entity.getAcademicSubjectOrgs().size());
-        for (CluAcademicSubjectOrg cluOrg : entity.getAcademicSubjectOrgs()) {
-            academicSubjectOrgs.add(cluOrg.getOrgId());
+        if(entity.getAcademicSubjectOrgs()!=null){
+	        List<String> academicSubjectOrgs = new ArrayList<String>(entity.getAcademicSubjectOrgs().size());
+	        for (CluAcademicSubjectOrg cluOrg : entity.getAcademicSubjectOrgs()) {
+	            academicSubjectOrgs.add(cluOrg.getOrgId());
+	        }
+	        dto.setAcademicSubjectOrgs(academicSubjectOrgs);
         }
-        dto.setAcademicSubjectOrgs(academicSubjectOrgs);
-
-        List<String> campusLocations = new ArrayList<String>(entity.getCampusLocationList().size());
-        for (CluCampusLocation cluCamp : entity.getCampusLocationList()) {
-            campusLocations.add(cluCamp.getCampusLocation());
+        
+        if(entity.getCampusLocationList()!=null){
+	        List<String> campusLocations = new ArrayList<String>(entity.getCampusLocationList().size());
+	        for (CluCampusLocation cluCamp : entity.getCampusLocationList()) {
+	            campusLocations.add(cluCamp.getCampusLocation());
+	        }
+	        dto.setCampusLocationList(campusLocations);
         }
-        dto.setCampusLocationList(campusLocations);
-
+        
         dto.setIntensity(toTimeAmountInfo(entity.getIntensity()));
 
         return dto;
@@ -189,6 +204,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static List<CluSetInfo> toCluSetInfos(List<CluSet> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<CluSetInfo> dtos = new ArrayList<CluSetInfo>(entities.size());
         for (CluSet entity : entities) {
             dtos.add(toCluSetInfo(entity));
@@ -229,6 +247,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static List<LrTypeInfo> toLrTypeInfos(List<LrType> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LrTypeInfo> dtos = new ArrayList<LrTypeInfo>(entities.size());
         for (LrType entity : entities) {
             dtos.add(toLrTypeInfo(entity));
@@ -254,6 +275,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
     public static List<LuDocRelationTypeInfo> toLuDocRelationType(
             List<LuDocumentRelationType> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
                 entities.size());
         for (LuDocumentRelationType entity : entities) {
@@ -284,6 +308,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
     public static List<LuDocRelationInfo> toLuDocRelationInfos(
             List<LuDocumentRelation> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuDocRelationInfo> dtos = new ArrayList<LuDocRelationInfo>(
                 entities.size());
         for (LuDocumentRelation entity : entities) {
@@ -294,6 +321,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
     public static List<LuDocRelationTypeInfo> toLuDocRelationTypeInfos(
             List<LuDocumentRelationType> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
                 entities.size());
         for (LuDocumentRelationType entity : entities) {
@@ -305,6 +335,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
     public static List<LuDocRelationTypeInfo> toLuDocumentRelationTypes(
             List<LuDocumentRelationType> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
                 entities.size());
         for (LuDocumentRelationType entity : entities) {
@@ -521,6 +554,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static LuStatementTypeInfo toLuStatementTypeInfo(LuStatementType entity) {
+    	if(entity==null){
+    		return null;
+    	}
         LuStatementTypeInfo stmtTypeInfo = toGenericTypeInfo(LuStatementTypeInfo.class, entity);
 
         // Copy allowed RequiredComponent Types
@@ -543,6 +579,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuTypeInfo> dtos = new ArrayList<LuTypeInfo>(entities.size());
         for (LuType entity : entities) {
             dtos.add(toLuTypeInfo(entity));
@@ -565,6 +604,9 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
         for (Lui entity : entities) {
             dtos.add(toLuiInfo(entity));
@@ -624,6 +666,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
     public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
             List<LuiLuiRelation> entities) {
+    	if(entities==null){
+    		return null;
+    	}
         List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
                 entities.size());
         for (LuiLuiRelation entity : entities) {
@@ -942,7 +987,10 @@ public class LuServiceAssembler extends BaseAssembler {
     }
 
     public static void copyCluCredit(CluCreditInfo cluCreditInfo, CluCredit entity) {
-        if(entity.getMaxAllowableInactivity()==null){
+    	if(entity==null){
+    		return;
+    	}
+    	if(entity.getMaxAllowableInactivity()==null){
             entity.setMaxAllowableInactivity(new TimeAmount());
         }
         BeanUtils.copyProperties(cluCreditInfo.getMaxAllowableInactivity(),entity.getMaxAllowableInactivity());
@@ -972,7 +1020,10 @@ public class LuServiceAssembler extends BaseAssembler {
     }
     
     public static List<AccreditationInfo> toAccreditationInfos(List<CluAccreditation> entities) {
-        List<AccreditationInfo> dtos = new ArrayList<AccreditationInfo>(entities.size());
+        if(entities==null){
+        	return null;
+        }
+    	List<AccreditationInfo> dtos = new ArrayList<AccreditationInfo>(entities.size());
         for (CluAccreditation entity : entities) {
             dtos.add(toAccreditationInfo(entity));
         }
@@ -995,7 +1046,10 @@ public class LuServiceAssembler extends BaseAssembler {
     }
     
     public static List<AdminOrgInfo> toCluAdminOrgInfos(List<CluAdminOrg> entities) {
-        List<AdminOrgInfo> dtos = new ArrayList<AdminOrgInfo>(entities.size());
+        if(entities==null){
+        	return null;
+        }
+    	List<AdminOrgInfo> dtos = new ArrayList<AdminOrgInfo>(entities.size());
         for (CluAdminOrg entity : entities) {
             dtos.add(toAdminOrgInfo(entity));
         }
