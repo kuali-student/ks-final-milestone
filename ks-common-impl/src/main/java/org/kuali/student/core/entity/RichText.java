@@ -3,12 +3,15 @@ package org.kuali.student.core.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "KS_RICH_TEXT_T")
 public class RichText {
 	@Id

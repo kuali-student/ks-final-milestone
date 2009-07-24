@@ -27,6 +27,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 
 @Daos( { @Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
@@ -176,10 +178,12 @@ public class TestAtpService extends AbstractServiceTest {
 		//now try to update again with the same version
 		try {
 			client.updateAtp(atp_fall2008Semester, createdAtp);
-			fail();
+			fail("AtpService.updateAtp() should have thrown VersionMismatchException");
+		} catch (VersionMismatchException vme) {
+			// what we expect
 		} catch (Exception e) {
-			//This exception should be thrown
 			e.printStackTrace();
+			fail();
 		}
 		
 		//Update Date Range
@@ -197,9 +201,12 @@ public class TestAtpService extends AbstractServiceTest {
 		//Updating with the old version again should fail
 		try {
 			client.updateDateRange(dateRange_finalsFall2008, createdDateRange);
-			fail();
+			fail("AtpService.updateDateRange() should have thrown VersionMismatchException");
+		} catch (VersionMismatchException vme) {
+			// what we expect
 		} catch (Exception e) {
 			e.printStackTrace();
+			fail();
 		}
 		
 		//Update Milestone
@@ -216,9 +223,12 @@ public class TestAtpService extends AbstractServiceTest {
 		//Try to update again should fail
 		try {
 			client.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
-			fail();
+			fail("AtpService.updateDateRange() should have thrown VersionMismatchException");
+		} catch (VersionMismatchException vme) {
+			// what we expect
 		} catch (Exception e) {
 			e.printStackTrace();
+			fail();
 		}
 		
 		//Do some deletes that should cascade
