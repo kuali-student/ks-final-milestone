@@ -49,4 +49,5 @@ public interface CluProposalRpcService extends BaseRpcService{
     
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO);
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO);
+    public CluProposalModelDTO getProposalModelDTO(String id);
 }

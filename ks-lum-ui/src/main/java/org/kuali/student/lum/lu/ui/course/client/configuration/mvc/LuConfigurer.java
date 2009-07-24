@@ -87,7 +87,7 @@ public class LuConfigurer {
     }
         
     public static void configureCluProposal(ConfigurableLayout layout){
-/*        Map<String, Field> result = LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", "draft");
+        /* Map<String, Field> result = LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", "draft");
         
         for (String key : result.keySet()) {
             System.out.println("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.CreditCourse:" + "draft:" + key + "\"" + "\tp:value=\"\"/>");

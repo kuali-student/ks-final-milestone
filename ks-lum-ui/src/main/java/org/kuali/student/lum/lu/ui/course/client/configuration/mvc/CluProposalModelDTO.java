@@ -9,6 +9,8 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ListType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 /**
@@ -47,7 +49,7 @@ public class CluProposalModelDTO extends ModelDTO {
         } else if ("jointClus".equals(key)){
             jointClus = (ModelDTOValue.ListType)value;
         } else if (key.contains("/")){
-            ModelDTOAdapter.set(this, key, value);
+            ModelDTOAdapter.set(this, key, value, CluInfo.class.getName(), ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get() );
         } else {
             super.put(key, value);            
         }
