@@ -28,6 +28,7 @@ import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
@@ -706,15 +707,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
         //TODO: Actually return the whole structure.... maybe?
         MapContext ctx = new MapContext();
-        //CluProposalModelDTO result = new CluProposalModelDTO();
+        CluProposalModelDTO result = new CluProposalModelDTO();
         try{
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
             //CluProposalModelDTO result = (ModelDTO)ctx.fromBean(cluInfo);
-            System.out.println(cluInfo.getId());
-            StringType id = new StringType();
+            /*StringType id = new StringType();
             id.set(cluInfo.getId());
-            cluProposalDTO.put("id", id);
+            cluProposalDTO.put("id", id);*/
+            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
+            cluProposalDTO = new CluProposalModelDTO();
+            cluProposalDTO.copyFrom(cluModelDTO);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -730,7 +733,54 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
-        return null;
+        MapContext ctx = new MapContext();
+        //CluProposalModelDTO result = new CluProposalModelDTO();
+        try{
+            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
+            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
+            //CluProposalModelDTO result = (ModelDTO)ctx.fromBean(cluInfo);
+            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
+            cluProposalDTO = new CluProposalModelDTO();
+            cluProposalDTO.copyFrom(cluModelDTO);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return cluProposalDTO;
+    }
+    
+    @Override
+    public CluProposalModelDTO getProposalModelDTO(String id) {
+    	MapContext ctx = new MapContext();
+        CluProposalModelDTO result = null;
+    	try {
+            //CluProposal cluProposal = new CluProposal();
+            //cluProposal.setProposalInfo(proposalInfo);
+
+            //String parentCluId = proposalInfo.getProposalReference().get(0);
+            CluInfo cluInfo = service.getClu(id);
+            //List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
+            
+/*            List<CluInfo> activities = new ArrayList<CluInfo>();
+            for (CluCluRelationInfo relInfo:cluRelations){
+                if (relInfo.getType().equals("proposal.activity")){
+                    activities.add(service.getClu(relInfo.getRelatedCluId()));
+                }
+            }*/
+            
+            //cluProposal.setCluInfo(parentClu);
+            //cluProposal.setActivities(activities);
+            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
+            result = new CluProposalModelDTO();
+            result.copyFrom(cluModelDTO);
+            
+            
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+    	return result;
+    	
     }
 
 }
