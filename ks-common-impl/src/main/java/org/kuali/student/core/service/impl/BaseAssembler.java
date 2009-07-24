@@ -36,6 +36,10 @@ public class BaseAssembler {
 			CrudDao dao) throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();
 
+		if(owner.getAttributes()==null){
+			owner.setAttributes(new ArrayList<A>());
+		}
+		
 		// Delete all the old attributes(if the owner is not null)
 		for (A attribute : owner.getAttributes()) {
 			dao.delete(attribute);
