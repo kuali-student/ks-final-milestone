@@ -202,6 +202,16 @@
                         <enabled>false</enabled>
                     </snapshots>
                 </pluginRepository>
+                <pluginRepository>
+                    <id>kuali.release</id>
+                    <url>http://archiva.kuali.umd.edu/repository/release</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
 				<pluginRepository>
 					<id>ks.snapshot.plugin</id>
 					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
