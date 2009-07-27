@@ -27,19 +27,18 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class OrgEntryPoint implements EntryPoint{
 
-    ApplicationComposite app = new ApplicationComposite();
+    ApplicationComposite app;
     private OrgMenu orgMenu;
     
     public void onModuleLoad() {
-        if(DOM.getElementById("loadingSpinner") != null)
-            DOM.removeChild(RootPanel.getBodyElement(), DOM.getElementById("loadingSpinner"));
-
-        app.setContent(getContent());
-        RootPanel.get().add(app);
-        
         final ApplicationContext context = new ApplicationContext();
         Application.setApplicationContext(context);
 
+        app = new ApplicationComposite();
+        
+        app.setContent(getContent());
+        RootPanel.get().add(app);
+        
         try {
             MessageList messageList =  getSerializedObject( "i18nMessages");
             context.addMessages(messageList.getMessages());
@@ -52,6 +51,9 @@ public class OrgEntryPoint implements EntryPoint{
         
         History.addValueChangeHandler(orgMenu);
         History.fireCurrentHistoryState();
+
+        if(DOM.getElementById("loadingSpinner") != null)
+            DOM.removeChild(RootPanel.getBodyElement(), DOM.getElementById("loadingSpinner"));        
     }
     
     public Widget getContent(){
