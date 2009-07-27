@@ -64,8 +64,8 @@
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/core/organization}OrganizationService" />
-	 	<property name="address"
-			value="http://localhost:8181/ks-core-web/Service/OrgService" />
+	 	<property name="address"s
+			value="http://localhost:8181/ks-core-web/services/OrgService" />
 	</bean>
 	
 		
