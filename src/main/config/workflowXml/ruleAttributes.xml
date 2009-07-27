@@ -38,5 +38,12 @@
 				<roleNameLabel>Requested Collaborator</roleNameLabel>
 			</configuration>
 		</ruleAttribute>
+		<ruleAttribute>
+        	<name>CollaboratorRequestCustomActionListAttribute</name>
+        	<className>org.kuali.student.lum.workflow.CollaboratorRequestCustomActionListAttribute</className>
+        	<label>Collaborator Request Action List Attribute</label>
+        	<description>Collaborator Request Action List Attribute</description>
+        	<type>ActionListAttribute</type>
+		</ruleAttribute>
 	</ruleAttributes>
 </data>

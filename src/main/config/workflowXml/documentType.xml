@@ -46,6 +46,11 @@
       <label>Sample Clu Collaborator Request Document</label>
       <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
       <active>true</active>
+      <attributes>
+        <attribute>
+          <name>CollaboratorRequestCustomActionListAttribute</name>
+        </attribute>
+      </attributes>
     </documentType>
     <documentType>
       <name>CluDocument</name>
