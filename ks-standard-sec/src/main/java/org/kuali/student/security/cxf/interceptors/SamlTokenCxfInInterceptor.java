@@ -34,12 +34,8 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
     }
 
     @Override
-    protected void doResults(SoapMessage arg0, String arg1, SOAPMessage arg2, Vector arg3) throws SOAPException, XMLStreamException {
-        super.doResults(arg0, arg1, arg2, arg3);
-    }
-
-    @Override
-    public void handleMessage(SoapMessage msg) throws Fault {
+    protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException {
+        super.doResults(msg, actor, doc, wsResult);
         
         QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
         if(msg.hasHeader(wsseQN)){
@@ -97,7 +93,11 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
         }
         
         System.out.println("LAST PRINT IN HANDLE MESSAGE, the phase : " + this.getPhase() );
-        //super.handleMessage(msg);
+    }
+
+    @Override
+    public void handleMessage(SoapMessage msg) throws Fault {
+        super.handleMessage(msg);
     }
 
     @Override
