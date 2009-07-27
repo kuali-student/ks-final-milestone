@@ -50,10 +50,10 @@ public class VerticalSectionView extends SectionView {
         //Request model and redraw view if model changed
 	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
             public void onModelReady(Model<ModelDTO> m) {
-                if (model != m){
+                //if (model != m){
                     model = m;
                     redraw();
-                }                    
+                //}                    
             }
 
             @Override

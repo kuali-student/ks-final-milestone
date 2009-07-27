@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -12,7 +13,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class RowDescriptor extends Composite{
-    private HorizontalPanel rowPanel = new HorizontalPanel();
+    private HorizontalBlockFlowPanel rowPanel = new HorizontalBlockFlowPanel();
     private List<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
     private List<Section> sections = new ArrayList<Section>();
     
