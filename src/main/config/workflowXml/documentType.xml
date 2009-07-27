@@ -73,16 +73,10 @@
         <role name="Department Review">
           <activationType>S</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
-<!--
-          <qualifierResolver>CluDocument-DepartmentReviewQualifierResolver</qualifierResolver>
--->
         </role>
         <role name="College Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.CollegeQualifierResolver</qualifierResolverClass>
-<!--
-          <qualifierResolver>CluDocument-CollegeReviewQualifierResolver</qualifierResolver>
--->
         </role>
         <requests name="Senate Curriculum Committee Review">
           <activationType>S</activationType>
