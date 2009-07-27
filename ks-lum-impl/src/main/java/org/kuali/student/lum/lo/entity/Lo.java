@@ -38,7 +38,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /**
  * @author Kuali Student Team
@@ -70,7 +69,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	
 	@ManyToOne(cascade = CascadeType.ALL) // { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } ) // CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private LoRichText desc;
 	
 	@ManyToOne
 	@JoinColumn(name = "LOHIRCHY_ID")
@@ -133,11 +132,11 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 		return name;
 	}
 
-	public RichText getDesc() {
+	public LoRichText getDesc() {
 		return desc;
 	}
 
-	public void setDesc(RichText desc) {
+	public void setDesc(LoRichText desc) {
 		this.desc = desc;
 	}
 

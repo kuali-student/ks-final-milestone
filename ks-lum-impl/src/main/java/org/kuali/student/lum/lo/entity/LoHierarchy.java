@@ -34,7 +34,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /**
  * @author Kuali Student Team
@@ -51,7 +50,7 @@ public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarch
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private LoRichText desc;
 	
 	@OneToOne
 	@JoinColumn(name = "LO_ROOT_ID")
@@ -74,14 +73,14 @@ public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarch
 	/**
 	 * @param desc the desc to set
 	 */
-	public void setDesc(RichText desc) {
+	public void setDesc(LoRichText desc) {
 		this.desc = desc;
 	}
 
 	/**
 	 * @return the desc
 	 */
-	public RichText getDesc() {
+	public LoRichText getDesc() {
 		return desc;
 	}
 

@@ -6,7 +6,7 @@
 	<persistence-unit name="Lo" transaction-type="JTA">
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
-		<class>org.kuali.student.core.entity.RichText</class>
+		<class>org.kuali.student.lum.lo.entity.LoRichText</class>
 
 		<class>org.kuali.student.lum.lo.entity.Lo</class>
 		<class>org.kuali.student.lum.lo.entity.LoAttribute</class>

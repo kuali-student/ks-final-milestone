@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lo.dao.LoDao;
@@ -18,12 +17,22 @@ import org.kuali.student.lum.lo.entity.LoAttribute;
 import org.kuali.student.lum.lo.entity.LoCategory;
 import org.kuali.student.lum.lo.entity.LoCategoryAttribute;
 import org.kuali.student.lum.lo.entity.LoHierarchy;
+import org.kuali.student.lum.lo.entity.LoRichText;
 import org.kuali.student.lum.lo.entity.LoType;
 import org.springframework.beans.BeanUtils;
 
 public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
-    public static RichTextInfo toRichTextInfo(RichText entity) {
+	public static LoRichText toLoRichText(RichTextInfo richTextInfo) {
+		if(richTextInfo == null){
+			return null;
+		}
+		LoRichText richText = new LoRichText();
+		BeanUtils.copyProperties(richTextInfo, richText);
+		return richText;
+	}
+
+    public static RichTextInfo toRichTextInfo(LoRichText entity) {
         if(entity==null){
             return null;
         }
@@ -44,7 +53,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             entity = new Lo();
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "type", "id" });
-        entity.setDesc(toRichText(dto.getDesc()));
+        entity.setDesc(toLoRichText(dto.getDesc()));
         entity.setAttributes(toGenericAttributes(LoAttribute.class, dto.getAttributes(), entity, dao));
         return entity;
     }
@@ -70,7 +79,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             entity = new LoCategory();
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "loHierarchy", "id" });
-        entity.setDesc(toRichText(dto.getDesc()));
+        entity.setDesc(toLoRichText(dto.getDesc()));
         entity.setAttributes(toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
         return entity;
     }
