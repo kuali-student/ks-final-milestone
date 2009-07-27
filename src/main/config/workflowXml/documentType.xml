@@ -60,6 +60,11 @@
       <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
       <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
       <active>true</active>
+      <attributes>
+        <attribute>
+            <name>CluDocument.ProposalOrgSearchAttribute</name>
+        </attribute>
+        </attributes>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
