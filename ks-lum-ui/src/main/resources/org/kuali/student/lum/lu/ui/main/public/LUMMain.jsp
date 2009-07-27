@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page	import="org.kuali.student.common.ui.server.messages.MessageRPCPreloader"%>
 <%@page	import="org.kuali.student.common.ui.server.dictionary.DictionaryRPCPreloader"%>
-<%@page	import="org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants"%>
+<%@page	import="org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryHelper"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 
@@ -23,27 +23,30 @@
         Map structures = new HashMap();
 
         String objectTypes = preloader.getObjectTypesEncodedString();
-        
+
         String[] keys = preloader.getObjectTypes();
-      
-        for(int i=0; i<keys.length; i++) {
+
+        for (int i = 0; i < keys.length; i++) {
             String key = keys[i];
             String s = preloader.getObjectStructureEncodedString(key);
             structures.put(key, s);
 
         }
 %>
-	<script type="text/javascript"> 
-	 var i18nMessages = '<%=messageData%>';
-	 var objectTypes = '<%=objectTypes%>';
+<script type="text/javascript"> 
+	    var i18nMessages = '<%=messageData%>';
+	    var objectTypes = '<%=objectTypes%>';
 	 
-	 <%
-     for(int j=0; j<keys.length; j++) {
-         String key = keys[j];        
+	    <%
+        for(int j=0; j<keys.length; j++) {           
+            
+            String newKey = LUDictionaryHelper.buildJavaScriptKey(keys[j]);
+              
      %>
-         var <%=key%> = '<%=structures.get(key)%>';
+            var <%=newKey.toString()%> = '<%=structures.get(keys[j])%>';
      <% 
        } 
+        
      %>
 	</script>
 <%

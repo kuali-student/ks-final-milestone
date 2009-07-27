@@ -69,8 +69,8 @@ public class LUConstants {
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
 
     // Dictionary definitions
-    public static final String STRUCTURE_CLU_INFO = "cluInfo";
-    public static final String STRUCTURE_CLU_ID_INFO = "cluIdentifierInfo";
-    public static final String STRUCTURE_PROPOSAL_INFO = "proposalInfo";
+    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
+    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
+    public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
  }
 

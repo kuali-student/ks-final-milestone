@@ -327,7 +327,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		</dict:lookup>
 	</dict:constraint>
 
-	<dict:objectStructure key="cluInfo">
+	<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInfo">
 		<!-- Detailed information about a single CLU. -->
 		<dict:type key="kuali.lu.type.CreditCourse">
 			<!-- A course offered for academic credit -->
@@ -348,7 +348,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>course no</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="cluIdentifierInfo">
+						<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo">
 							<!--
 								Detailed information about the human readable form of a CLU
 								Identifier
@@ -574,7 +574,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>course alternate ids</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="cluIdentifierInfo">
+						<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo">
 							<!--
 								Detailed information about the human readable form of a CLU
 								Identifier
@@ -985,7 +985,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>dscription</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="richTextInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo">
 							<!--
 								Complex type supporting both a plain text and formatted version
 								of a string.
@@ -1013,7 +1013,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>rationale</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="richTextInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo">
 							<!--
 								Complex type supporting both a plain text and formatted version
 								of a string.
@@ -1096,7 +1096,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>contact hours</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="amountInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
 							<!--
 								Detailed information about an amount including both the type of
 								units and the quantity.
@@ -1120,7 +1120,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>duration</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="timeAmountInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
 							<!--
 								Detailed information about an amount of time including both the
 								type of units and the quantity.
@@ -1189,7 +1189,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>audit trail info</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="metaInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo">
 							<!--
 								Create and last update info for the structure. This is optional
 								and treated as read only since the data is set by the internals
@@ -1279,7 +1279,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>course no</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="cluIdentifierInfo">
+						<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo">
 							<!--
 								Detailed information about the human readable form of a CLU
 								Identifier
@@ -1366,7 +1366,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>course alternate ids</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="cluIdentifierInfo">
+						<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo">
 							<!--
 								Detailed information about the human readable form of a CLU
 								Identifier
@@ -1494,7 +1494,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>dscription</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="richTextInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo">
 							<!--
 								Complex type supporting both a plain text and formatted version
 								of a string.
@@ -1521,7 +1521,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>rationale</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="richTextInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo">
 							<!--
 								Complex type supporting both a plain text and formatted version
 								of a string.
@@ -1604,7 +1604,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>contact hours</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="amountInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
 							<!--
 								Detailed information about an amount including both the type of
 								units and the quantity.
@@ -1628,7 +1628,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>duration</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="timeAmountInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
 							<!--
 								Detailed information about an amount of time including both the
 								type of units and the quantity.
@@ -1697,7 +1697,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>audit trail info</dict:desc>
 						<dict:dataType>complex</dict:dataType>
 
-						<dict:objectStructure key="metaInfo">
+						<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo">
 							<!--
 								Create and last update info for the structure. This is optional
 								and treated as read only since the data is set by the internals
@@ -1891,7 +1891,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
-	<dict:objectStructure key="proposalInfo">
+	<dict:objectStructure key="org.kuali.student.lum.proposal.dto.ProposalInfo">
 		<dict:type key="luType.shell.course">
 			<dict:state key="proposed">
 				<dict:field key="id">

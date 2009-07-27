@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
@@ -75,7 +76,7 @@ public class LUMMainEntryPoint implements EntryPoint{
             GWT.log("Dictionary load starts", null);
             List<String> types = getDictSerializedObject("objectTypes");
             for (String key: types) {
-                ObjectStructure structure =  getDictSerializedObject( key);
+                ObjectStructure structure =  getDictSerializedObject( LUDictionaryHelper.buildJavaScriptKey(key));
                 LUDictionaryManager.getInstance().loadStructure(structure);
             }
             logDictionaryLoad();
@@ -139,4 +140,6 @@ public class LUMMainEntryPoint implements EntryPoint{
 //            }
         }
     }
+    
+
 }
