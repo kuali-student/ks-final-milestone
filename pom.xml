@@ -383,7 +383,7 @@
 					<artifactId>gwt-maven-plugin</artifactId>
 					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
-						<output>${project.build.directory}/${project.build.finalName}</output>
+						<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
 						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
 						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
