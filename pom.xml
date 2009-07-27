@@ -96,6 +96,7 @@
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
         <gwt.plugin.version>2.0.1-ks26</gwt.plugin.version>
+		<gwt.codehaus.plugin.version>1.2-KS-0724</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
     </properties>
 
@@ -380,11 +381,12 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>gwt-maven-plugin</artifactId>
-					<version>1.1-SNAPSHOT</version>
+					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
 						<output>${project.build.directory}/${project.build.finalName}</output>
 						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
 						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
 					</configuration>
 				</plugin>
 
