@@ -21,7 +21,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>1.2-KS-0724</version>
 				<executions>
 					<execution>
 						<goals>
