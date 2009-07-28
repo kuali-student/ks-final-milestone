@@ -42,43 +42,43 @@ public class CluProposalController extends PagedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
     
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-       
-    private KSButton createButton = new KSButton("Begin", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
-            
-        }        
-    });
+    private boolean savedOnce=false;
     
     private KSButton saveButton = new KSButton("Save", new ClickHandler(){
         public void onClick(ClickEvent event) {
+            
             getCurrentView().updateModel();
             
-            StringType type = new StringType();
-            type.set("kuali.lu.type.CreditCourse");
-            cluProposalModel.get().put("type", type);
-            
-            StringType state = new StringType();
-            state.set("draft");
-            cluProposalModel.get().put("state", state);
-            
-            String s = ((StringType) ((ModelDTOType) cluProposalModel.get().get("officialIdentifier")).get().get("longName")).get();
-            
-            Window.alert("Sending long name with: " + s);
-            
-            cluProposalRpcServiceAsync.createProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
-                @Override
-                public void onFailure(Throwable caught) {
-                    caught.printStackTrace();
-                    
-                }
-
-                @Override
-                public void onSuccess(CluProposalModelDTO result) {
-                    System.out.println("It worked maybe");
-                    cluProposalModel.put(result);
-                }
-            }); 
+            if(!savedOnce){
+                cluProposalRpcServiceAsync.createProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        caught.printStackTrace();
+                        
+                    }
+    
+                    @Override
+                    public void onSuccess(CluProposalModelDTO result) {
+                        cluProposalModel.put(result);
+                    }
+                });
+                savedOnce = true;
+            }
+            else{
+                
+                cluProposalRpcServiceAsync.saveProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        caught.printStackTrace();
+                        
+                    }
+    
+                    @Override
+                    public void onSuccess(CluProposalModelDTO result) {
+                        cluProposalModel.put(result);
+                    }
+                });
+            }
         }
     });
     
@@ -90,17 +90,8 @@ public class CluProposalController extends PagedSectionLayout{
     
     private KSButton testButton = new KSButton("Get Proposal Info", new ClickHandler(){
         public void onClick(ClickEvent event) {
-/*            if(cluProposalModel != null){
-                for(String k : cluProposalModel.get().keySet()){
-                    ModelDTOValue v = cluProposalModel.get().get(k);
-                    if(v instanceof StringType){
-                        ((StringType) v).set(((StringType) v).get().toUpperCase());
-                    }
-                }
-            }*/
-            //((VerticalSectionView) getCurrentView()).updateView();
-            cluProposalRpcServiceAsync.getProposal(((StringType) cluProposalModel.get().get("id")).get(), 
-                    new AsyncCallback<CluProposal>(){
+            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
+                    new AsyncCallback<CluProposalModelDTO>(){
 
                 @Override
                 public void onFailure(Throwable caught) {
@@ -109,21 +100,30 @@ public class CluProposalController extends PagedSectionLayout{
                 }
 
                 @Override
-                public void onSuccess(CluProposal result) {
-                    CluInfo info = result.getCluInfo();
-                    Window.alert(
-                       "Id: " + info.getId() + "\n" +
-                       "Type: " + info.getType() + "\n" +
-                       "State: " + info.getState() + "\n" +
-                       "Next Review Period: " + info.getNextReviewPeriod() + "\n" +
-                       "Study Subject Area: " + info.getStudySubjectArea() + "\n" +
-                       "Reference URL: " + info.getReferenceURL() + "\n" +
-                       "Desc: " + info.getDesc().getPlain() + "\n" +
-                       "Rationale: " + info.getMarketingDesc().getFormatted() + "\n" +
-                       "longName: " + info.getOfficialIdentifier().getLongName() + "\n" +
-                       "IDENTIFIER ID: " + info.getOfficialIdentifier().getId() + "  IDENTIFIER CLUID: " + info.getOfficialIdentifier().getCluId() + "\n" +
-                       "instructor id: " + info.getPublishingInfo().getPrimaryInstructor().getPersonId());
+                public void onSuccess(CluProposalModelDTO result) {
                     
+                    Window.alert(result.toString());
+                }
+                
+            });
+        }       
+    });
+    
+    private KSButton testButton2 = new KSButton("Get & Set", new ClickHandler(){
+        public void onClick(ClickEvent event) {
+            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
+                    new AsyncCallback<CluProposalModelDTO>(){
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+                    
+                }
+
+                @Override
+                public void onSuccess(CluProposalModelDTO result) {
+                    cluProposalModel.put(result);
+                    getCurrentView().beforeShow();
                 }
                 
             });
@@ -135,6 +135,7 @@ public class CluProposalController extends PagedSectionLayout{
         LuConfigurer.configureCluProposal(this);
         addButton(saveButton);
         addButton(testButton);
+        addButton(testButton2);
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
     }
@@ -156,6 +157,13 @@ public class CluProposalController extends PagedSectionLayout{
             if (cluProposalModel == null){
                 cluProposalModel = new Model<CluProposalModelDTO>();
                 cluProposalModel.put(new CluProposalModelDTO());
+                StringType type = new StringType();
+                type.set("kuali.lu.type.CreditCourse");
+                cluProposalModel.get().put("type", type);
+                
+                StringType state = new StringType();
+                state.set("draft");
+                cluProposalModel.get().put("state", state);
                 callback.onModelReady(cluProposalModel);
             } else {
                 callback.onModelReady(cluProposalModel); 

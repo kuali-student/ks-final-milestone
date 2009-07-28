@@ -65,9 +65,10 @@ public class ModelDTOAdapter {
         String[] pathArr = path.split("/", 2);
         String key = pathArr[0];
         if(pathArr.length > 1){
-            
             if(key.contains("[")){
-                String[] keyArr = pathArr[0].split("[");
+                
+                //throw new UnsupportedActionException("Keys with [key=value] are currently unsupported");
+/*                String[] keyArr = pathArr[0].split("[");
                 key = keyArr[0];
                 String[] attributeArr = keyArr[1].replace("]", "").split("=");
                 if(attributeArr[0].equals("id")){
@@ -77,7 +78,7 @@ public class ModelDTOAdapter {
                 else if(attributeArr[0].equalsIgnoreCase("value")){
                     String itemValue = attributeArr[1];
                     //TODO: not handled yet
-                }
+                }*/
             }
             else{
                 ModelDTOValue modelDTOValue = base.get(key);
@@ -101,12 +102,18 @@ public class ModelDTOAdapter {
     
     private static String getClassName(String key, String objectKey, String type, String state){
     	LUDictionaryManager dictionary = LUDictionaryManager.getInstance();
+    	String name = null;
     	
-    	Field field = dictionary.getField(objectKey, type, state, key);
+    	Field field = dictionary.getField("cluInfo", type, state, key);
+    	if(field == null){
+    	    System.out.println("Field is null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
+    	}
+    	else{
+    	    System.out.println("Field is not null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
+    	    System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
+    	    name = field.getFieldDescriptor().getObjectStructure().getKey();
+    	}
     	
-    	String name = field.getFieldDescriptor().getObjectStructure().getKey();
-    	System.out.println(name);
-/*    	String name = null;
         if(key.equalsIgnoreCase("officialIdentifier")){
             name = CluIdentifierInfo.class.getName();
         }
@@ -115,7 +122,7 @@ public class ModelDTOAdapter {
         }
         else if(key.equalsIgnoreCase("publishingInfo")){
             name = CluPublishingInfo.class.getName();
-        }*/
+        }
         return name;
     }
 }

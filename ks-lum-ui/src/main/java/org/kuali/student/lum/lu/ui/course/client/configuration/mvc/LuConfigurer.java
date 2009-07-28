@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -116,17 +117,17 @@ public class LuConfigurer {
     private static void addDemoSection(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.DEMO_SECTION, "Demo Section", CluProposalModelDTO.class);
         
-/*        CluInfo info = null;
-        info.getNextReviewPeriod();
-        info.getStudySubjectArea();
-        info.getReferenceURL();*/
-        
         VerticalSection proposedCourseTitle = new VerticalSection();
         proposedCourseTitle.setSectionTitle("Proposed Course Title");
         proposedCourseTitle.addField(new FieldDescriptor("/officialIdentifier/longName", null, Type.STRING));
         section.addSection(proposedCourseTitle);
         
         section.addField(new FieldDescriptor("/publishingInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
+        
+        VerticalSection alternate = new VerticalSection();
+        alternate.setSectionTitle("Alternate Identifiers");
+        alternate.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
+        section.addSection(alternate);
         
         section.addField(new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING));
         section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING));
@@ -155,6 +156,27 @@ public class LuConfigurer {
         section.addSection(endDate);
         
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
+    }
+    
+    public static class AlternateIdentifierList extends MultiplicityComposite{
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection(CluIdentifierInfo.class.getName());
+            
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("shortName", "Short Name", Type.STRING));
+            ns.addField(new FieldDescriptor("longName", "Long Name", Type.STRING));
+            ns.nextRow();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("code", "Subject Code", Type.STRING));
+            ns.addField(new FieldDescriptor("suffixCode", "Course Number", Type.STRING));
+            multi.addSection(ns);
+            
+            return multi;
+        }
+        
     }
 
     private static void addActiveDatesSection(ConfigurableLayout layout) {

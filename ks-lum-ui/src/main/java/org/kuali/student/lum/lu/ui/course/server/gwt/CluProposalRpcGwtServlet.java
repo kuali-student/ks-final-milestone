@@ -617,7 +617,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		ArrayList<String> viewers = new ArrayList<String>();
 		ArrayList<String> delegates = new ArrayList<String>();
 		
-/*        ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
+        ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
         if(items!=null){
         	for(ActionRequestDTO item:items){
         		if (item.isActivated() && (!item.isDone())) {
@@ -637,7 +637,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        		}
         		}
         	}
-        }*/
+        }
         
         results.put("Co-Authors", coAuthors);
         results.put("Commentor", commentors);
@@ -704,17 +704,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
-        //TODO: Actually return the whole structure.... maybe?
         MapContext ctx = new MapContext();
-        //CluProposalModelDTO result = new CluProposalModelDTO();
+        CluProposalModelDTO result = new CluProposalModelDTO();
         try{
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-            //CluProposalModelDTO result = (ModelDTO)ctx.fromBean(cluInfo);
-            System.out.println(cluInfo.getId());
-            StringType id = new StringType();
-            id.set(cluInfo.getId());
-            cluProposalDTO.put("id", id);
+            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
+            //May not need to make a new one here
+            cluProposalDTO = new CluProposalModelDTO();
+            cluProposalDTO.copyFrom(cluModelDTO);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -730,7 +728,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
-        return null;
+        MapContext ctx = new MapContext();
+        try{
+            System.out.println("DOING AN UPDATE");
+            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
+            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
+            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
+            cluProposalDTO = new CluProposalModelDTO();
+            cluProposalDTO.copyFrom(cluModelDTO);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return cluProposalDTO;
     }
     
     @Override
