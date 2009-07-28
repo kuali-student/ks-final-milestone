@@ -8,6 +8,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Composite;
 
+@Deprecated
 public abstract class LayoutSection<T extends Idable> extends Composite {
     private String sectionTitle = null;
     private String instructions = null;

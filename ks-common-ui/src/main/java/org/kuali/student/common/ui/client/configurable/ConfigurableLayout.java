@@ -7,6 +7,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Composite;
 
+@Deprecated
 public abstract class ConfigurableLayout<T extends Idable> extends Composite {
 	private T object = null;
 

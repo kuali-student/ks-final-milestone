@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.configurable;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.core.dto.Idable;
 
+@Deprecated
 public class ConfigurableField<T extends Idable> {
 	private PropertyBinding<T> binding = null;
 	private KSFormField formField = null;

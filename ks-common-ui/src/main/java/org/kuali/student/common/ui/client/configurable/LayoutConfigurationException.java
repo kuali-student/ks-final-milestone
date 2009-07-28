@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.configurable;
 
+@Deprecated
 public class LayoutConfigurationException extends RuntimeException {
 
 	/**
