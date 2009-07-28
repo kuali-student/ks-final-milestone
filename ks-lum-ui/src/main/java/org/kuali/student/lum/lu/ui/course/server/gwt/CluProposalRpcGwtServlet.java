@@ -617,7 +617,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		ArrayList<String> viewers = new ArrayList<String>();
 		ArrayList<String> delegates = new ArrayList<String>();
 		
-        ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
+       /* ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
         if(items!=null){
         	for(ActionRequestDTO item:items){
         		if (item.isActivated() && (!item.isDone())) {
@@ -637,7 +637,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        		}
         		}
         	}
-        }
+        }*/
         
         results.put("Co-Authors", coAuthors);
         results.put("Commentor", commentors);
