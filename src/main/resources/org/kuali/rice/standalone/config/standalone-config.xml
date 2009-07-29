@@ -31,7 +31,10 @@
     <param name="notification.concurrent.jobs">false</param>
     
     <param name="simpleDocumentActionsService.security">false</param>
-    <param name="secure.workflowutility.soapservice.endpoint">false</param> 
+    <param name="secure.workflowutility.soapservice.endpoint">false</param>
+
+    <!-- KIM -->
+    <param name="kim.soapExposedService.jaxws.security">false</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
