@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
@@ -79,7 +80,6 @@ public class LuConfigurer {
         }*/
         
         addCluStartSection(layout);
-        addAuthorSection(layout);
         addDemoSection(layout);
         addGovernanceSection(layout);
         addCourseLogistics(layout);
@@ -87,6 +87,8 @@ public class LuConfigurer {
         addActiveDatesSection(layout);
         addFinancialsSection(layout);
         addProgramRequirements(layout);
+        
+        layout.addTool(new CollaboratorTool());
     }
     
     private static void addDemoSection(ConfigurableLayout layout) {
@@ -193,14 +195,6 @@ public class LuConfigurer {
 
         section.addField(new FieldDescriptor("courseTitle", "Proposed Course Title", Type.STRING));
         ((PagedSectionLayout)layout).addStartSection(section);
-    }
-
-    public static void addAuthorSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, CluProposalModelDTO.class);        
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS));
-
-        section.addWidget(new Collaborators());
-        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
     }
     
     public static void addGovernanceSection(ConfigurableLayout layout){
@@ -448,5 +442,16 @@ public class LuConfigurer {
         }
         return null;
     }
-            
+
+    public static class CollaboratorTool extends ToolView{
+        public CollaboratorTool(){
+            super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);            
+        }
+        
+        @Override
+        protected Widget createWidget() {
+            return new Collaborators();
+        }
+        
+    }    
 }
