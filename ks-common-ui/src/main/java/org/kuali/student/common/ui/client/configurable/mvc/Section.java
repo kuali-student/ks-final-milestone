@@ -13,7 +13,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class Section extends Composite implements ConfigurableLayoutSection{
-    protected final Label sectionTitleLabel = new Label();
+    
+    protected SectionTitle sectionTitle = SectionTitle.generateEmptyTitle();
     protected final Label instructionsLabel = new Label();
     
     public enum FieldLabelType{LABEL_TOP, LABEL_LEFT}
@@ -49,10 +50,15 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     }
 
     @Override
-    public String getSectionTitle() {
-        return sectionTitleLabel.getText();
+    public SectionTitle getSectionTitle() {
+        return sectionTitle;
     }
     
+    @Override
+    public void setSectionTitle(SectionTitle sectionTitle) {
+        this.sectionTitle = sectionTitle;
+    }   
+     
     @Override
     public String getInstructions() {
         return instructionsLabel.getText();
@@ -61,11 +67,6 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     @Override
     public void setInstructions(String instructions) {
         instructionsLabel.setText(instructions);
-    }
-
-    @Override
-    public void setSectionTitle(String sectionTitle) {
-        sectionTitleLabel.setText(sectionTitle);
     }
             
     @Override

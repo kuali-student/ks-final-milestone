@@ -29,6 +29,7 @@ public abstract class SectionView extends Section implements View{
         this.controller = controller;
         this.viewEnum = viewEnum;
         this.viewName = viewName;
+        sectionTitle = SectionTitle.generateH1Title(getName());
     }
 
     public SectionView(Enum<?> viewEnum, String viewName) {

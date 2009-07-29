@@ -25,7 +25,7 @@ public class HorizontalSection extends Section{
     @Override
     public void redraw() {
         panel.clear();
-        panel.add(sectionTitleLabel);
+        panel.add(sectionTitle);
         panel.add(instructionsLabel);
         for(Section ns: sections){
             ns.redraw();

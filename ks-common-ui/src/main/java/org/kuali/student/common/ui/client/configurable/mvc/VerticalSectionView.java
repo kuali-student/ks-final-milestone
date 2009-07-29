@@ -35,7 +35,7 @@ public class VerticalSectionView extends SectionView {
 	public void beforeShow(){
 	    
 	    if (!loaded){
-	        panel.add(sectionTitleLabel);
+	        panel.add(sectionTitle);
 	        panel.add(instructionsLabel);
 	        for(Section ns: sections){
 	            ns.redraw();

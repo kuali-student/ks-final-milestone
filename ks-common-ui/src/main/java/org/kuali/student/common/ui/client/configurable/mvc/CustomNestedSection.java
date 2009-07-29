@@ -50,7 +50,7 @@ public class CustomNestedSection extends Section{
         //Add a "REAL" redraw/recreate capability here?  Not needed at the current time
         panel.clear();
         //TODO add title type check here
-        panel.add(sectionTitleLabel);
+        panel.add(sectionTitle);
         panel.add(instructionsLabel);
         for(Section ns: sections){
             ns.redraw();

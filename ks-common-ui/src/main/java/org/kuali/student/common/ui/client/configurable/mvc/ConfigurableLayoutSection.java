@@ -43,9 +43,9 @@ public interface ConfigurableLayoutSection {
     
     public void validate(Callback<ValidationResultInfo.ErrorLevel> callback);
     
-    public String getSectionTitle();
+    public SectionTitle getSectionTitle();
 
-    public void setSectionTitle(String sectionTitle);
+    public void setSectionTitle(SectionTitle sectionTitle);
 
     public String getInstructions();
     
