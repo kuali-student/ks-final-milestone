@@ -15,6 +15,12 @@
  */
 package org.kuali.student.security.spring;
 
+import javax.xml.namespace.QName;
+
+import org.apache.cxf.aegis.databinding.AegisDatabinding;
+import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.service.IdentityService;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
@@ -28,7 +34,7 @@ import org.springframework.security.util.AuthorityUtils;
  * @author Kuali Student Team
  *
  */
-public class KSDefaultUserDetailsService implements UserDetailsService{
+public class KSRiceDefaultUserDetailsService implements UserDetailsService{
 
     private User ksuser = null;
     private String password = "";
@@ -36,6 +42,8 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     private boolean enabled = true;
     private boolean nonlocked = true;
     
+    private IdentityService identityService = null;
+    private String identityServiceAddress;
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
     private GrantedAuthority[] authorities = 
@@ -48,6 +56,14 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
         }
         password = username;
         
+        aquireIdentityService();
+        KimPrincipalInfo kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+        if(kimPrincipalInfo!=null){
+            username = kimPrincipalInfo.getPrincipalId();
+        } else {
+            throw new UsernameNotFoundException("Kim Identity Service could not find a principal, KimPrincipalInfo is null"); 
+        }
+        
         ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
         
         return ksuser;
@@ -55,5 +71,24 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     
     public void setAuthorities(String[] roles) {
         this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
+    }
+    
+    private void aquireIdentityService() {
+        if(identityService==null){
+            ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
+            factory.setServiceClass(IdentityService.class);
+            factory.setAddress(identityServiceAddress);
+            factory.setServiceName(new QName("KIM", "kimIdentityServiceSOAPunsecure"));
+            factory.getServiceFactory().setDataBinding(new AegisDatabinding());
+            identityService = (IdentityService) factory.create();
+        }
+     }
+
+    public String getIdentityServiceAddress() {
+        return identityServiceAddress;
+    }
+
+    public void setIdentityServiceAddress(String identityServiceAddress) {
+        this.identityServiceAddress = identityServiceAddress;
     }
 }

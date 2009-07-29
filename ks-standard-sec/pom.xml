@@ -60,6 +60,17 @@
 			<artifactId>ks-cxf</artifactId>
 			<type>pom</type>
         </dependency>
+        
+         <dependency>
+   			<groupId>org.apache.cxf</groupId>
+   			<artifactId>cxf-rt-databinding-aegis</artifactId>
+   			<version>2.2</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.kuali.rice</groupId>
+  			<artifactId>rice-api</artifactId>
+  			<version>1.0.0-KS-0724</version>
+  		</dependency>
 
 	</dependencies>
 

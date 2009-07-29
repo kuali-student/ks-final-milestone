@@ -16,23 +16,23 @@
     
 <!--  CURRENTLY COPYING EVERYTHING FROM KS-CORE POM UNTIL WE FIGURE IF THERE IS A CIRCULAR DEPENDENCY -->
 
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://archiva.kuali.umd.edu/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	
+    <repositories>
+        <repository>
+            <id>kuali.release</id>
+            <url>http://archiva.kuali.umd.edu/repository/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>kuali.snapshot</id>
+            <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
     <properties>
         <atomikos.version>3.4.1</atomikos.version>
         <cxf.version>2.2</cxf.version>
@@ -53,6 +53,8 @@
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
         <gwt.plugin.version>2.0.1-ks26</gwt.plugin.version>
+		<gwt.codehaus.plugin.version>1.2-KS-0724</gwt.codehaus.plugin.version>
+        <war.plugin.version>2.1-beta-1</war.plugin.version>
     </properties>
 
     <profiles>
@@ -151,6 +153,16 @@
                 <pluginRepository>
                     <id>central</id>
                     <url>http://repo1.maven.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>kuali.release</id>
+                    <url>http://archiva.kuali.umd.edu/repository/release</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -271,6 +283,13 @@
                     <version>${site.plugin.version}</version>
                 </plugin>
             
+                <!--  war plguin, so one version is used regardless of build env :-) -->
+                <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version>
+                </plugin>
+
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
@@ -319,11 +338,12 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>gwt-maven-plugin</artifactId>
-					<version>1.1-SNAPSHOT</version>
+					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
-						<output>${project.build.directory}/${project.build.finalName}</output>
+						<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
 						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
 					</configuration>
 				</plugin>
 
@@ -850,6 +870,7 @@
             	<version>1.4.2</version>
         	</dependency>
 
+
 			<!--  Atomikos -->
 			<dependency>
 				<groupId>com.atomikos</groupId>
@@ -1012,7 +1033,7 @@
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-api</artifactId>
-                <version>1.0.0-KS-0708</version>
+                <version>1.0.0-KS-0724</version>
             </dependency>
             
             <dependency>
