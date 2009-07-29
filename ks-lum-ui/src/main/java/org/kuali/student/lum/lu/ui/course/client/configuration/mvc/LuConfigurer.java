@@ -26,6 +26,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
@@ -36,7 +37,6 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -61,32 +61,7 @@ public class LuConfigurer {
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
         COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, DEMO_SECTION
     }
-    
-    private Map<String, Field> indexFields(String type, String state, ObjectStructure structure) {
-        LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", state);
-        
-        for (org.kuali.student.core.dictionary.dto.Type t : structure.getType()) {
-            if (t.getKey().equals(type)) {
-                for (State s : t.getState()) {
-                    if (s.getKey().equals(state)) {
-                        Map<String, Field> result = new HashMap<String, Field>();
-                        for (Field f : s.getField()) {
-                            result.put(f.getKey(), f);
-                        }
-                        return result;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    
-    private String getLabel(String type, String state, String fieldId) {
-        String labelKey = type + ":" + state + ":" + fieldId;
-        System.out.println(labelKey);
-        return context.getMessage(labelKey);
-    }
-        
+               
     public static void configureCluProposal(ConfigurableLayout layout){
         /* Map<String, Field> result = LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", "draft");
         
@@ -106,7 +81,7 @@ public class LuConfigurer {
         addCluStartSection(layout);
         addAuthorSection(layout);
         addDemoSection(layout);
-        addGoverenceSection(layout);
+        addGovernanceSection(layout);
         addCourseLogistics(layout);
         addCourseInfoSection(layout);
         addActiveDatesSection(layout);
@@ -116,18 +91,14 @@ public class LuConfigurer {
     
     private static void addDemoSection(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.DEMO_SECTION, "Demo Section", CluProposalModelDTO.class);
+                 
         
         VerticalSection proposedCourseTitle = new VerticalSection();
-        proposedCourseTitle.setSectionTitle("Proposed Course Title");
+        proposedCourseTitle.setSectionTitle(SectionTitle.generateH1Title("Proposed Course Title"));
         proposedCourseTitle.addField(new FieldDescriptor("/officialIdentifier/longName", null, Type.STRING));
         section.addSection(proposedCourseTitle);
         
         section.addField(new FieldDescriptor("/publishingInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
-        
-        VerticalSection alternate = new VerticalSection();
-        alternate.setSectionTitle("Alternate Identifiers");
-        alternate.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
-        section.addSection(alternate);
         
         section.addField(new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING));
         section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING));
@@ -135,21 +106,21 @@ public class LuConfigurer {
         
         
         VerticalSection description = new VerticalSection();
-        description.setSectionTitle("Description");
+        description.setSectionTitle(SectionTitle.generateH2Title("Description"));
         description.addField(new FieldDescriptor("desc", null, Type.MODELDTO, new KSRichEditor()));
         section.addSection(description);
         
         VerticalSection rationale = new VerticalSection();
-        rationale.setSectionTitle("Rationale");
+        rationale.setSectionTitle(SectionTitle.generateH2Title("Rationale"));
         rationale.addField(new FieldDescriptor("marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
         section.addSection(rationale);
         
         VerticalSection startDate = new VerticalSection();
-        startDate.setSectionTitle("Start Date");
+        startDate.setSectionTitle(SectionTitle.generateH2Title("Start Date"));
         startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
         
         VerticalSection endDate = new VerticalSection();
-        endDate.setSectionTitle("End Date");
+        endDate.setSectionTitle(SectionTitle.generateH2Title("End Date"));
         endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
         
         section.addSection(startDate);
@@ -157,36 +128,17 @@ public class LuConfigurer {
         
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
     }
-    
-    public static class AlternateIdentifierList extends MultiplicityComposite{
-
-        @Override
-        public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection(CluIdentifierInfo.class.getName());
-            
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("shortName", "Short Name", Type.STRING));
-            ns.addField(new FieldDescriptor("longName", "Long Name", Type.STRING));
-            ns.nextRow();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("code", "Subject Code", Type.STRING));
-            ns.addField(new FieldDescriptor("suffixCode", "Course Number", Type.STRING));
-            multi.addSection(ns);
-            
-            return multi;
-        }
-        
-    }
 
     private static void addActiveDatesSection(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, LUConstants.SECTION_ACTIVE_DATES, CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_ACTIVE_DATES));
+
         VerticalSection startDate = new VerticalSection();
-        startDate.setSectionTitle("Start Date");
+        startDate.setSectionTitle(SectionTitle.generateH2Title("Start Date"));
         startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
         
         VerticalSection endDate = new VerticalSection();
-        endDate.setSectionTitle("End Date");
+        endDate.setSectionTitle(SectionTitle.generateH2Title("End Date"));
         endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
         
         section.addSection(startDate);
@@ -197,13 +149,15 @@ public class LuConfigurer {
     
     private static void addFinancialsSection(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS, LUConstants.SECTION_FINANCIALS, CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_FINANCIALS));
+
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = new VerticalSection();
-        feeType.setSectionTitle("Fee Type");
+        feeType.setSectionTitle(SectionTitle.generateH2Title("Fee Type"));
         feeType.addField(new FieldDescriptor("feeType", null, Type.STRING));
         
         VerticalSection feeAmount = new VerticalSection();
-        feeAmount.setSectionTitle("Fee Amount");
+        feeAmount.setSectionTitle(SectionTitle.generateH2Title("Fee Amount"));
         feeAmount.addField(new FieldDescriptor("feeAmount", "$", Type.STRING));
         feeAmount.addField(new FieldDescriptor("taxable", "Taxable", Type.STRING));//TODO checkboxes go here instead
         feeAmount.addField(new FieldDescriptor("feeDesc", "Description", Type.STRING, new KSTextArea()));
@@ -216,6 +170,7 @@ public class LuConfigurer {
     
     private static void addProgramRequirements(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.PGM_REQUIREMENTS, LUConstants.SECTION_PROGRAM_REQUIREMENTS, CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_PROGRAM_REQUIREMENTS));
         
         layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section);
         
@@ -234,21 +189,27 @@ public class LuConfigurer {
     
     public static void addCluStartSection(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start", CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title("Start"));
+
         section.addField(new FieldDescriptor("courseTitle", "Proposed Course Title", Type.STRING));
         ((PagedSectionLayout)layout).addStartSection(section);
     }
 
     public static void addAuthorSection(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, CluProposalModelDTO.class);        
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS));
 
         section.addWidget(new Collaborators());
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
     }
     
-    public static void addGoverenceSection(ConfigurableLayout layout){
+    public static void addGovernanceSection(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE, CluProposalModelDTO.class);        
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_GOVERNANCE));
         
         //FIXME: Label should come from messaging, field type should come from dictionary?
+//      section.addField(createMVCFieldDescriptor("campusLocationInfo", LUConstants.STRUCTURE_CLU_INFO, CLU_TYPE, CLU_STATE));
+
         section.addField(new FieldDescriptor("curriculumOversight", "Curriculum Oversight", Type.STRING));        
         section.addField(new FieldDescriptor("campusLocation", "Campus Location", Type.STRING));
         
@@ -258,13 +219,14 @@ public class LuConfigurer {
     
     public static void addCourseInfoSection(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION, CluProposalModelDTO.class);        
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_COURSE_INFORMATION));
         
         //FIXME: Label should be key to messaging, field type should come from dictionary?
         
         
         //COURSE NUMBER
         CustomNestedSection courseNumber = new CustomNestedSection();
-        courseNumber.setSectionTitle("Course Number"); //Section title constants?
+        courseNumber.setSectionTitle(SectionTitle.generateH2Title("Course Number")); //Section title constants)
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         courseNumber.addField(new FieldDescriptor("division", null, Type.STRING));//TODO OrgSearch goes here?
         courseNumber.addField(new FieldDescriptor("suffixCode", null, Type.STRING));
@@ -272,19 +234,19 @@ public class LuConfigurer {
         
             //CROSS LISTED
             VerticalSection crossListed = new VerticalSection();
-            crossListed.setSectionTitle("Cross Listed (offered under alternate course numbers)");
+            crossListed.setSectionTitle(SectionTitle.generateH2Title("Cross Listed (offered under alternate course numbers)"));
             crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
             crossListed.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
             
             //OFFERED JOINTLY
             VerticalSection offeredJointly = new VerticalSection();
-            offeredJointly.setSectionTitle("Offered Jointly (co-located with another course)");
+            offeredJointly.setSectionTitle(SectionTitle.generateH2Title("Offered Jointly (co-located with another course)"));
             offeredJointly.setInstructions("Enter an existing course or proposal.");
             offeredJointly.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
             
             //Version Codes
             VerticalSection versionCodes = new VerticalSection();
-            versionCodes.setSectionTitle("Version Codes");
+            versionCodes.setSectionTitle(SectionTitle.generateH2Title("Version Codes"));
             versionCodes.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong
             
         courseNumber.addSection(crossListed);
@@ -295,22 +257,22 @@ public class LuConfigurer {
         section.addSection(courseNumber);
         
         VerticalSection proposedCourseTitle = new VerticalSection();
-        proposedCourseTitle.setSectionTitle("Proposed Course Title");
+        proposedCourseTitle.setSectionTitle(SectionTitle.generateH2Title("Proposed Course Title"));
         proposedCourseTitle.addField(new FieldDescriptor("longName", null, Type.STRING));
         section.addSection(proposedCourseTitle);
         
         VerticalSection transcriptTitle = new VerticalSection();
-        transcriptTitle.setSectionTitle("Transcript Title");
+        transcriptTitle.setSectionTitle(SectionTitle.generateH2Title("Transcript Title"));
         transcriptTitle.addField(new FieldDescriptor("shortName", null, Type.STRING));
         section.addSection(transcriptTitle);
         
         VerticalSection description = new VerticalSection();
-        description.setSectionTitle("Description");
+        description.setSectionTitle(SectionTitle.generateH2Title("Description"));
         description.addField(new FieldDescriptor("desc", null, Type.STRING, new KSTextArea()));
         section.addSection(description);
         
         VerticalSection rationale = new VerticalSection();
-        rationale.setSectionTitle("Rationale");
+        rationale.setSectionTitle(SectionTitle.generateH2Title("Rationale"));
         rationale.addField(new FieldDescriptor("marketingDesc", null, Type.STRING, new KSTextArea()));
         section.addSection(rationale);
 
@@ -372,22 +334,23 @@ public class LuConfigurer {
     }
     
     public static void addCourseLogistics(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS, CluProposalModelDTO.class); 
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS, CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_COURSE_LOGISTICS));
         
         //CREDITS
         VerticalSection credits = new VerticalSection();
-        credits.setSectionTitle("Credits");
+        credits.setSectionTitle(SectionTitle.generateH2Title("Credits"));
         credits.addField(new FieldDescriptor("creditType", "Credit Type", Type.STRING));//TODO CREDIT TYPE ENUMERATION
         credits.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
         credits.addField(new FieldDescriptor("maxCredits", "Maximum Credits", Type.STRING));
         
         //LEARNING RESULTS
         VerticalSection learningResults = new VerticalSection();
-        learningResults.setSectionTitle("Learning Results");
+        learningResults.setSectionTitle(SectionTitle.generateH2Title("Learning Results"));
         learningResults.addField(new FieldDescriptor("evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
         
         VerticalSection scheduling = new VerticalSection();
-        scheduling.setSectionTitle("Scheduling");
+        scheduling.setSectionTitle(SectionTitle.generateH2Title("Scheduling"));
         scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING)); //TODO TERM ENUMERATION
         scheduling.addField(new FieldDescriptor("stdDuration", "Duration", Type.STRING)); //TODO DURATION ENUMERATION
         
@@ -411,7 +374,7 @@ public class LuConfigurer {
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection("cluInfo");
             CustomNestedSection activity = new CustomNestedSection();
-            activity.setSectionTitle("Activity " + activityNumber);
+            activity.setSectionTitle(SectionTitle.generateH2Title("Activity " + activityNumber));
             activity.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING));
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -436,6 +399,54 @@ public class LuConfigurer {
             return item;
         }
 
+    }
+    
+    // TODO look up field label and type from dictionary & messages
+ 
+//    private static Type translateDictType(String dictType) {
+//        if (dictType.equalsIgnoreCase("String"))
+//            return Type.STRING;
+//        else
+//            return null;
+//    }
+//  
+//    private static FieldDescriptor createMVCFieldDescriptor(String fieldName, 
+//            String objectKey, String type, String state  ) {
+//
+//        Field f = LUDictionaryManager.getInstance().getField(objectKey, type, state, fieldName);
+//
+//        FieldDescriptor fd = 
+//            new FieldDescriptor(f.getKey(), 
+//                    getLabel(type, state, f.getKey() ),   
+//                    translateDictType(f.getFieldDescriptor().getDataType())               
+//            );
+//        return fd;
+//    }
+//
+//
+//    private static String getLabel(String type, String state, String fieldId) {
+//        String labelKey = type + ":" + state + ":" + fieldId;
+//        System.out.println(labelKey);
+//        return context.getMessage(labelKey);
+//    }
+//
+    private Map<String, Field> indexFields(String type, String state, ObjectStructure structure) {
+        LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", state);
+
+        for (org.kuali.student.core.dictionary.dto.Type t : structure.getType()) {
+            if (t.getKey().equals(type)) {
+                for (State s : t.getState()) {
+                    if (s.getKey().equals(state)) {
+                        Map<String, Field> result = new HashMap<String, Field>();
+                        for (Field f : s.getField()) {
+                            result.put(f.getKey(), f);
+                        }
+                        return result;
+                    }
+                }
+            }
+        }
+        return null;
     }
             
 }
