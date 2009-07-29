@@ -5,4 +5,5 @@ public interface ConfigurableLayout {
 	
     public void addSection(String[] hierarchy, SectionView section);
 
+    public void addTool(ToolView tool);
 }

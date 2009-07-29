@@ -17,11 +17,11 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public abstract class PagedSectionLayout extends Controller implements ConfigurableLayout {
       
@@ -33,23 +33,30 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 
 	//FIXME: Better way to manage hierarchy, ordering, and handle to views
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
-	private final HashMap<String, SectionView> sectionViewMap = new HashMap<String, SectionView>();	
+	private final HashMap<String, View> sectionViewMap = new HashMap<String, View>();	
 	private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
-	private final List<KSMenuItemData> viewMenuItems = new ArrayList<KSMenuItemData>();
+	private final List<KSMenuItemData> toolMenuItems = new ArrayList<KSMenuItemData>();
+	private KSBasicMenu toolMenu;
+	private KSBasicMenu sectionMenu;
 	
     private KSLightBox startSectionWindow = new KSLightBox();
     
 	private boolean loaded = false;
-	private int currMenuItemIdx = 0;
+	private int currSectionIdx = 0;
+	
+	View defaultView = null;
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
+	private String sectionMenuTitle;
+	private String toolMenuTitle;
+	
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            currMenuItemIdx++;
-            sectionMenuItems.get(currMenuItemIdx).setSelected(true);
+            currSectionIdx++;
+            sectionMenuItems.get(currSectionIdx).setSelected(true);
         }	    
     }
 	);
@@ -62,15 +69,16 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	}
 	
 	private void init(){
-        final KSBasicMenu sectionMenu = new KSBasicMenu();
-        sectionMenu.setTitle("Proposal Sections");
+        sectionMenu = new KSBasicMenu();
+        sectionMenu.setTitle(sectionMenuTitle);
         sectionMenu.setDescription("complete sections to submit");
         sectionMenu.setItems(topLevelMenuItems);
-        final KSBasicMenu viewMenu = new KSBasicMenu();
-        viewMenu.setTitle("Tools");
-        viewMenu.setItems(viewMenuItems);
+        
+        toolMenu = new KSBasicMenu();
+        toolMenu.setTitle(toolMenuTitle);
+        toolMenu.setItems(toolMenuItems);
         menuPanel.clear();
-        menuPanel.add(viewMenu);
+        menuPanel.add(toolMenu);
         menuPanel.add(sectionMenu);
 
         buttonPanel.add(nextButton);         
@@ -79,7 +87,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	@Override
 	public void addSection(final String[] hierarchy, final SectionView section) {
 		    
-	    String path = "";
+	    String path = "";	    
 			
 		KSMenuItemData current = null;
 		for (int i=0; i<hierarchy.length; i++) {
@@ -107,8 +115,9 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		sectionItem.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 			    int newMenuItemIdx = sectionMenuItems.indexOf(sectionItem);
-			    if (currMenuItemIdx != newMenuItemIdx){
-                    currMenuItemIdx = newMenuItemIdx;
+			    if (currSectionIdx != newMenuItemIdx){
+                    currSectionIdx = newMenuItemIdx;
+                    toolMenu.clearSelected();
     			    showView(section.getViewEnum());
 			    }
 			}
@@ -116,7 +125,35 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		
 		sectionViewMap.put(section.getViewEnum().name(), section);
 		section.setController(this);
+		
+		if (defaultView == null){
+		    defaultView = section;
+		}
 	}
+	
+    @Override
+    public void addTool(final ToolView tool) {
+        KSMenuItemData item = new KSMenuItemData(tool.getName());
+        toolMenuItems.add(item);
+        item.setClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                currSectionIdx = -1;
+                sectionMenu.clearSelected();
+                showView(tool.getViewEnum());
+            }
+        }); 
+        
+        sectionViewMap.put(tool.getViewEnum().name(), tool);
+        tool.setController(this);
+    }
+    
+    public void setSectionMenuTitle(String title){
+        this.sectionMenuTitle = title;
+    }
+    
+    public void setToolMenuTitle(String title){
+        this.toolMenuTitle = title;
+    }    
 	
 	public void addStartSection(final SectionView section){
 	    VerticalPanel panel = new VerticalPanel();
@@ -127,6 +164,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
                 //Fire create event, and close on successful event, or expose
                 //a way to close the window.
                 startSectionWindow.hide();
+                defaultView.beforeShow();
             }	        
 	    }));
 
@@ -144,12 +182,12 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	 */
 	@Override
 	public void renderView(View view) {
-	    if (currMenuItemIdx == sectionMenuItems.size() - 1){
+	    if (currSectionIdx == sectionMenuItems.size() - 1){
 	        nextButton.setVisible(false);
 	    } else {
 	        nextButton.setVisible(true);
 	    }
-	    contentPanel.setWidget((Composite)view); 
+	    contentPanel.setWidget((Widget)view); 
 	}	
 	
     /**
@@ -183,13 +221,16 @@ public abstract class PagedSectionLayout extends Controller implements Configura
                 init();
                 loaded = true;
             }
-                            
+            
+            buttonPanel.setVisible(false);
             sectionMenuItems.get(0).setSelected(true);
             
             ModelDTO modelDTO = model.get();
             if (modelDTO.get("id") == null){                
                 startSectionWindow.show();
-            } 
+            } else {
+                defaultView.beforeShow();
+            }
         }
 
         public void onRequestFail(Throwable cause) {
