@@ -34,7 +34,7 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver;
+import org.kuali.student.lum.workflow.qualifier.DeptCommitteeQualifierResolver;
 
 /**
  * Tests the XPathQualifierResolver.
@@ -67,7 +67,7 @@ public class DeptQualifierResolverTest extends BaseRiceTestCase {
 
 	@Test
 	public void testResolveBasic() throws Exception {
-		AbstractOrgQualifierResolver resolver = new DeptQualifierResolver();
+		AbstractOrgQualifierResolver resolver = new DeptCommitteeQualifierResolver();
 		resolver.setOrganizationService(getMockOrgService());
 		
 		RouteContext context = new RouteContext();

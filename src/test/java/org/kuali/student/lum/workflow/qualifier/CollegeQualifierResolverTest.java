@@ -77,7 +77,7 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 	
 	@Test
 	public void testResolveBasic() throws Exception {
-		CollegeQualifierResolver resolver = new CollegeQualifierResolver();
+		CollegeCommitteeQualifierResolver resolver = new CollegeCommitteeQualifierResolver();
 		resolver.setOrganizationService(getMockOrgService());
 		
 		RouteContext context = new RouteContext();
