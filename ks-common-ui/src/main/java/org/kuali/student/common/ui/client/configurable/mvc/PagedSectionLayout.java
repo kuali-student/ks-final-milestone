@@ -50,8 +50,8 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
-	private String sectionMenuTitle;
-	private String toolMenuTitle;
+	private String sectionMenuTitle = "Proposal";
+	private String toolMenuTitle = "Tools";
 	
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
