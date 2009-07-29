@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-//import org.apache.cxf.databinding.DataBinding;
-//import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.service.IdentityService;
@@ -63,54 +59,61 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 			}
 			return results;
 		}
-
-		Result result = new Result();
-		ResultCell cell = new ResultCell();
-		cell.setKey("Person Id");
-		cell.setValue("KIM-1");
-		result.getResultCells().add(cell);
-		cell = new ResultCell();
-		cell.setKey("Person Name");
-		cell.setValue("Bob Roberts");
-		result.getResultCells().add(cell);
-		results.add(result);
-
-		result = new Result();
-		cell = new ResultCell();
-		cell.setKey("Person Id");
-		cell.setValue("KIM-2");
-		result.getResultCells().add(cell);
-		cell = new ResultCell();
-		cell.setKey("Person Name");
-		cell.setValue("Joe Plumber");
-		result.getResultCells().add(cell);
-		results.add(result);
-
-		result = new Result();
-		cell = new ResultCell();
-		cell.setKey("Person Id");
-		cell.setValue("KIM-3");
-		result.getResultCells().add(cell);
-		cell = new ResultCell();
-		cell.setKey("Person Name");
-		cell.setValue("John Adams");
-		result.getResultCells().add(cell);
-		results.add(result);
+		String[] kimPrincipalIds= new String[]{
+				"1",
+				"admin",
+				"admin1",
+				"admin2",
+				"dev1",
+				"dev2",
+				"director",
+				"doug",
+				"earl",
+				"edna",
+				"employee",
+				"eric",
+				"erin",
+				"fran",
+				"frank",
+				"fred",
+				"idm1",
+				"idm2",
+				"idm3",
+				"kuluser",
+				"newaccountuser",
+				"notsys",
+				"notsysadm",
+				"quickstart",
+				"supervisor",
+				"test1",
+				"test2",
+				"testadmin1",
+				"testadmin2",
+				"testuser1",
+				"testuser2",
+				"testuser3",
+				"testuser4",
+				"testuser5",
+				"testuser6",
+				"user1",
+				"user2",
+				"user3",
+				"user4"};
+		for(int i = 0;i<kimPrincipalIds.length;i++){
+			
+			Result result = new Result();
+			ResultCell cell = new ResultCell();
+			cell.setKey("Person Id");
+			cell.setValue(kimPrincipalIds[i]);
+			result.getResultCells().add(cell);
+			cell = new ResultCell();
+			cell.setKey("Person Name");
+			cell.setValue(kimPrincipalIds[i]);
+			result.getResultCells().add(cell);
+			results.add(result);
+		}
 
 		return results;
-		// service.searchForResults(searchTypeKey, queryParamValues);
-		// } catch (DoesNotExistException e) {
-		// e.printStackTrace();
-		// } catch (InvalidParameterException e) {
-		// e.printStackTrace();
-		// } catch (MissingParameterException e) {
-		// e.printStackTrace();
-		// } catch (OperationFailedException e) {
-		// e.printStackTrace();
-		// } catch (PermissionDeniedException e) {
-		// e.printStackTrace();
-		// }
-		// return null;
 	}
 
 	private void aquireIdentityService() {
@@ -143,17 +146,7 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 		PersonInfo person = new PersonInfo();
 		person.setId(personId);
 		PersonNameInfo nameInfo = new PersonNameInfo();
-
-		String givenName = "";
-		if ("KIM-1".equals(personId)) {
-			givenName = "Bob Roberts";
-		} else if ("KIM-2".equals(personId)) {
-			givenName = "Joe Plumber";
-		} else if ("KIM-3".equals(personId)) {
-			givenName = "John Adams";
-		}
-
-		nameInfo.setGivenName(givenName);
+		nameInfo.setGivenName(personId);
 		person.getPersonNameInfoList().add(nameInfo);
 		return person;
 	}
