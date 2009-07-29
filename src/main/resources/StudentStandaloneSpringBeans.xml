@@ -111,4 +111,7 @@
         </property>
 	</bean>
 
+	<!-- OrgAdmin Derived role -->
+	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgAdminDerivedRoleTypeServiceImpl"/>
+	
 </beans>
