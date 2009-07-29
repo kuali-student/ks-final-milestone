@@ -21,6 +21,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -28,7 +29,6 @@ import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -522,7 +522,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        CluProposal cluProposal = getCluProposalFromWorkflowId(docId);
 	        CluInfo cluInfo = cluProposal.getCluInfo();
             String workflowDocTypeId = "CluCollaboratorDocument";//TODO make sure this name is correct
-            DocumentResponse docResponse = simpleDocService.create(username, cluInfo.getId(), workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+            DocumentResponse docResponse = simpleDocService.create(username, docId, workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
@@ -604,7 +604,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	@Override
     public HashMap<String, ArrayList<String>> getCollaborators(String docId){
-		//FIXME put in matching for 4 collaborator types
 		try{
         if(workflowUtilityService==null){
         	throw new RuntimeException("Workflow Service is unavailable");
@@ -617,7 +616,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		ArrayList<String> viewers = new ArrayList<String>();
 		ArrayList<String> delegates = new ArrayList<String>();
 		
-       /* ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
+		ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
         if(items!=null){
         	for(ActionRequestDTO item:items){
         		if (item.isActivated() && (!item.isDone())) {
@@ -637,7 +636,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        		}
         		}
         	}
-        }*/
+        }
         
         results.put("Co-Authors", coAuthors);
         results.put("Commentor", commentors);
