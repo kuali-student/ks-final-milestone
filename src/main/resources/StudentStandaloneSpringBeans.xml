@@ -18,6 +18,16 @@
             </bean>
         </property>
     </bean>
+    
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker" />
+        <property name="serviceDefinition">
+            <bean parent="kimSoapService" p:service-ref="kimIdentityService"
+                p:localServiceName="kimIdentityServiceSOAPUnsecure">
+                <property name="busSecurity" value="false" />
+            </bean>
+        </property>
+    </bean>
    
    <!-- Expose Org Service on Bus  --> 
    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
