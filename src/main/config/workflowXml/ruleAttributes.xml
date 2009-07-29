@@ -2,32 +2,6 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute RuleAttribute">
 		<ruleAttribute>
-			<name>CluDocument-DepartmentReviewQualifierResolver</name>
-			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
-			<label>CluDocument Department Review Qualifier Resolver</label>
-			<description>A qualifier resolver to be used for the CluDocument Department Review route node</description>
-			<type>QualifierResolver</type>
-			<resolverConfig>
-				<baseXPathExpression>/documentContent/applicationContent/cluProposal</baseXPathExpression>
-				<qualifier name="department">
-					<xPathExpression>./department</xPathExpression>
-				</qualifier>
- 			</resolverConfig>
-		</ruleAttribute>
-		<ruleAttribute>
-			<name>CluDocument-CollegeReviewQualifierResolver</name>
-			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
-			<label>CluDocument College Review Qualifier Resolver</label>
-			<description>A qualifier resolver to be used for the CluDocument College Review route node</description>
-			<type>QualifierResolver</type>
-			<resolverConfig>
-				<baseXPathExpression>/documentContent/applicationContent/cluProposal</baseXPathExpression>
-				<qualifier name="college">
-					<xPathExpression>./college</xPathExpression>
-				</qualifier>
- 			</resolverConfig>
-		</ruleAttribute>
-		<ruleAttribute>
 			<name>RequestedCollaboratorRoleAttribute</name>
 			<className>org.kuali.rice.kew.rule.PrincipalIdRoleAttribute</className>
 			<label>Requested Collaborator Role Attribute</label>
