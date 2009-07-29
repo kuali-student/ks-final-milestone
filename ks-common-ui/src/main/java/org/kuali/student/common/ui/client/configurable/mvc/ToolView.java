@@ -33,7 +33,23 @@ public abstract class ToolView extends LazyPanel implements View{
     private Controller controller;    
     private Enum<?> viewEnum;
     private String viewName;    //View name is being used as menu item label   
-        
+
+    private HasReferenceId reference;
+    
+    private ModelRequestCallback<ReferenceModel> modelRequestCallback = 
+        new ModelRequestCallback<ReferenceModel>(){
+            public void onModelReady(Model<ReferenceModel> model) {
+                reference.setReferenceId(model.get().getReferenceId());
+                reference.setReferenceKey(model.get().getReferenceKey());
+                ToolView.this.setVisible(true);                
+            }
+    
+            public void onRequestFail(Throwable cause) {
+                Window.alert(cause.toString());
+            }
+    };
+    
+    
     /**
      * @param controller
      * @param name
@@ -53,17 +69,11 @@ public abstract class ToolView extends LazyPanel implements View{
    
     public void beforeShow(){
         if (getWidget() instanceof HasReferenceId){
-            controller.requestModel(ReferenceModel.class, new ModelRequestCallback<ReferenceModel>(){
-                public void onModelReady(Model<ReferenceModel> model) {
-                    HasReferenceId reference = (HasReferenceId)getWidget();
-                    reference.setReferenceId(model.get().getReferenceId());
-                    reference.setReferenceKey(model.get().getReferenceKey());
-                }
-
-                public void onRequestFail(Throwable cause) {
-                    Window.alert(cause.toString());
-                }
-            });
+            reference = (HasReferenceId)getWidget();
+            controller.requestModel(ReferenceModel.class, modelRequestCallback);
+        } else if (this instanceof HasReferenceId){
+            reference = (HasReferenceId)this;
+            controller.requestModel(ReferenceModel.class, modelRequestCallback);            
         } else {
             this.setVisible(true);
         }
@@ -110,4 +120,5 @@ public abstract class ToolView extends LazyPanel implements View{
     public void setController(Controller controller){
         this.controller = controller;
     }
+    
 }
