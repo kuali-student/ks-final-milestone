@@ -74,4 +74,8 @@ public class KSBasicMenu extends KSBasicMenuAbstract{
         return basicMenu.selectMenuItem(hierarchy);
     }
     
+    public void clearSelected(){
+        basicMenu.clearSelected();
+    }
+    
 }

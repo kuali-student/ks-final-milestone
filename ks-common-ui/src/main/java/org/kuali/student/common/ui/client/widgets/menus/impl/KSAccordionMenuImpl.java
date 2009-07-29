@@ -225,5 +225,13 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
 
         return selected;
     }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.menus.KSMenu#clearSelected()
+     */
+    @Override
+    public void clearSelected() {
+        //TODO: Clear current selected item        
+    }
 	
 }

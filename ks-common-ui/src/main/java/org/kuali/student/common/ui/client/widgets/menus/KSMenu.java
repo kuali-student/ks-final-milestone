@@ -36,4 +36,11 @@ public abstract class KSMenu extends Composite {
 	protected abstract void populateMenu();
 	
 	public abstract boolean selectMenuItem(String[] hierarchy);
+	
+	/**
+	 * Deselects the current selected menu item
+	 *  
+	 * @return
+	 */
+	public abstract void clearSelected();
 }

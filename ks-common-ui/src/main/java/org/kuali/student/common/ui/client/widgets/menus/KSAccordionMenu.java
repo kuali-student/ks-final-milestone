@@ -96,5 +96,13 @@ public class KSAccordionMenu extends KSAccordionMenuAbstract{
     public boolean selectMenuItem(String[] hierarchy) {
         return accordionMenu.selectMenuItem(hierarchy);
     }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.menus.KSMenu#clearSelected()
+     */
+    @Override
+    public void clearSelected() {
+        accordionMenu.clearSelected();
+    }
 	
 }

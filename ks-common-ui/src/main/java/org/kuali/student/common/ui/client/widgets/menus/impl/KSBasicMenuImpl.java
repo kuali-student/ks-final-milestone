@@ -165,11 +165,7 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
     private void selectMenuItemPanel(MenuItemPanel toBeSelected) {
         if(toBeSelected.isSelectable()){
             
-            //deselect menu items
-            for(MenuItemPanel m : menuItems){
-                m.deSelect();
-                m.getItem().unhandledSetSelected(false);
-            }
+            clearSelected();
             
             toBeSelected.select();
             toBeSelected.getItem().unhandledSetSelected(true);
@@ -318,6 +314,17 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         }
         
         return false;
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.menus.KSMenu#clearSelected()
+     */
+    @Override
+    public void clearSelected() {
+        for(MenuItemPanel m : menuItems){
+            m.deSelect();
+            m.getItem().unhandledSetSelected(false);
+        }
     }
     
 }
