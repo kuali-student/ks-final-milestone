@@ -14,5 +14,17 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/org.kuali.student.common.ui.CommonUITest/MessageService</url-pattern>
 	</servlet-mapping>
+	
+<servlet>
+  <servlet-name>logRpcGwtServlet</servlet-name>
+  <servlet-class>org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>logRpcGwtServlet</servlet-name>
+  <url-pattern>/org.kuali.student.common.ui.CommonUITest/LogService</url-pattern>
+</servlet-mapping>
+
+
+
 
 </web-app>
