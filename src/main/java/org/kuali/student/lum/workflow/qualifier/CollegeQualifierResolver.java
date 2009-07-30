@@ -17,10 +17,16 @@
 package org.kuali.student.lum.workflow.qualifier;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -47,59 +53,85 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 	 */
 	public List<AttributeSet> resolve(RouteContext context) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
-		AttributeSet returnSet = new AttributeSet();
-		List<Result> searchResults = null;
 		
 		List<AttributeSet> attributeSets;
 		try {
 			attributeSets = super.resolve(context);
-			if (attributeSets.size() > 0 && attributeSets.get(0).size() > 0) {
-				String orgId = getAttribute(attributeSets, ORG_ID);
-				if (null != orgId) {
-					OrgInfo orgInfo;
-					orgInfo = getOrganizationService().getOrganization(orgId);
-					if (null != orgInfo) {
-						// found a college right away
-						if (isCollege(orgInfo)) {
-							returnSet.put(COLLEGE, orgInfo.getShortName());
-						}
-						else {
-							// get the hierarchy(s) this org is in
-							orgHierarchyQPV.setValue(orgId);
-							searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
-							
-							if (null != searchResults) {
-								// find ancestors in each hierarchy, looking for colleges
-								String hierarchyId;
-								for (Result result : searchResults) {
-									for (ResultCell cell : result.getResultCells()) {
-										// get the ancestors of the org in this hierarchy
-										hierarchyId = cell.getValue();
-										List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, hierarchyId);
-										if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
-											// look for colleges
-											List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
-											for (OrgInfo org : ancestors) {
-												if (isCollege(org)) {
-													// found one
-													returnSet.put(COLLEGE, org.getShortName());
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
+			OrgInfo orgInfo = getOrgInfo(attributeSets);
+			if (null != orgInfo) {
+				if (isCollege(orgInfo)) {
+					// found a college right away
+					returnAttrSetList.add(new AttributeSet(COLLEGE, orgInfo.getShortName()));
 				}
-				if (returnSet.size() > 0) { // found at least one college
-					returnAttrSetList.add(returnSet);
+				else {
+					returnAttrSetList.addAll(getCollegesOrgIsIn(orgInfo.getId()));
 				}
 			}
 		} catch (Exception e) {
 				e.printStackTrace();
 		}
 		return returnAttrSetList;
+	}
+
+	/**
+	 * @param id
+	 * @param returnSet
+	 * @return
+	 * @throws PermissionDeniedException 
+	 * @throws OperationFailedException 
+	 * @throws MissingParameterException 
+	 * @throws InvalidParameterException 
+	 * @throws DoesNotExistException 
+	 */
+	private Collection<? extends AttributeSet> getCollegesOrgIsIn(String id) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		
+		List<AttributeSet> attrSets = new ArrayList<AttributeSet>();
+		// get the hierarchy(s) this org is in
+		orgHierarchyQPV.setValue(id);
+		List<Result> searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
+		
+		if (null != searchResults) {
+			// find ancestors in each hierarchy, looking for colleges
+			String hierarchyId;
+			for (Result result : searchResults) {
+				for (ResultCell cell : result.getResultCells()) {
+					// get the ancestors of the org in this hierarchy
+					hierarchyId = cell.getValue();
+					List<String> ancestorIds = getOrganizationService().getAllAncestors(id, hierarchyId);
+					if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
+						// look for colleges
+						List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
+						for (OrgInfo org : ancestors) {
+							if (isCollege(org)) {
+								// found one
+								attrSets.add(new AttributeSet(COLLEGE, org.getShortName()));
+							}
+						}
+					}
+				}
+			}
+		}
+		return attrSets;
+	}
+
+	/**
+	 * @param attributeSets
+	 * @return
+	 * @throws PermissionDeniedException 
+	 * @throws OperationFailedException 
+	 * @throws MissingParameterException 
+	 * @throws InvalidParameterException 
+	 * @throws DoesNotExistException 
+	 */
+	private OrgInfo getOrgInfo(List<AttributeSet> attrSets) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		OrgInfo returnInfo = null;
+		if (attrSets.size() > 0 && attrSets.get(0).size() > 0) {
+			String orgId = getAttribute(attrSets, ORG_ID);
+			if (null != orgId) {
+				returnInfo = getOrganizationService().getOrganization(orgId);
+			}
+		}
+		return returnInfo;
 	}
 
 	/**

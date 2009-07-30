@@ -77,7 +77,7 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 	
 	@Test
 	public void testResolveBasic() throws Exception {
-		CollegeCommitteeQualifierResolver resolver = new CollegeCommitteeQualifierResolver();
+		CollegeQualifierResolver resolver = new CollegeQualifierResolver();
 		resolver.setOrganizationService(getMockOrgService());
 		
 		RouteContext context = new RouteContext();
@@ -104,9 +104,17 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		context.setDocumentContent(docContent);
 		
 		attributeSets = resolver.resolve(context);
-		assertEquals(1, attributeSets.size());
-		assertEquals(1, attributeSets.get(0).size());
-		assertEquals("Engineering", attributeSets.get(0).get("college"));
+		assertEquals(2, attributeSets.size());
+		AttributeSet set1 = attributeSets.get(0);
+		AttributeSet set2 = attributeSets.get(1);
+		
+		assertEquals(1, set1.size());
+		assertEquals(1, set2.size());
+		
+		String college1 = set1.get(AbstractOrgQualifierResolver.COLLEGE);
+		String college2 = set2.get(AbstractOrgQualifierResolver.COLLEGE);
+		assertTrue(college1.equals("Engineering") ^ college2.equals("Engineering"));
+		assertTrue(college1.equals("Liberal Arts") ^ college2.equals("Liberal Arts"));
 	}
 
 	/**
@@ -128,6 +136,12 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		mockCollege.setShortName("Engineering");
 		EasyMock.expect(mockOrgSvc.getOrganization("31")).andReturn(mockCollege);
 		
+		OrgInfo mockCollege2 = new OrgInfo();
+		mockCollege2.setId("43");
+		mockCollege2.setType("kuali.org.College");
+		mockCollege2.setShortName("Liberal Arts");
+		EasyMock.expect(mockOrgSvc.getOrganization("43")).andReturn(mockCollege2);
+		
 		OrgInfo mockDepartment = new OrgInfo();
 		mockDepartment.setId("64");
 		mockDepartment.setType("kuali.org.Department");
@@ -140,7 +154,7 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		queryResult.setResultCells(Arrays.asList(cell));
 		EasyMock.expect(mockOrgSvc.searchForResults(EasyMock.matches("org.search.hierarchiesOrgIsIn"), EasyMock.isA(List.class))).andReturn(Arrays.asList(queryResult));
 		
-		EasyMock.expect(mockOrgSvc.getAllAncestors("64", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("5", "31", "137"));
+		EasyMock.expect(mockOrgSvc.getAllAncestors("64", "kuali.org.hierarchy.Main")).andReturn(Arrays.asList("5", "31", "137", "43"));
 		
 		OrgInfo mockBoard = new OrgInfo();
 		OrgInfo mockCommittee = new OrgInfo();
@@ -148,9 +162,12 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		mockBoard.setType("kuali.org.Board");
 		mockCommittee.setId("137");
 		mockCommittee.setType("kuali.org.Committee");
-		EasyMock.expect(mockOrgSvc.getOrganizationsByIdList(Arrays.asList("5", "31", "137"))).andReturn(Arrays.asList(mockCollege, mockCommittee));
+		EasyMock.expect(mockOrgSvc.getOrganizationsByIdList(Arrays.asList("5", "31", "137", "43"))).andReturn(Arrays.asList(mockBoard, mockCollege, mockCommittee, mockCollege2));
 		
+		/*
 		EasyMock.expect(mockOrgSvc.getOrganization("31")).andReturn(mockCollege);
+		EasyMock.expect(mockOrgSvc.getOrganization("43")).andReturn(mockCollege2);
+		*/
 		
 		EasyMock.replay(mockOrgSvc);
 		return mockOrgSvc;
