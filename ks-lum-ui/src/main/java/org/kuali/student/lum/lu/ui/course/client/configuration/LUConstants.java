@@ -67,10 +67,15 @@ public class LUConstants {
 
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
+    
+    //Tool names
+    public static final String TOOL_COMMENTS = "Proposal Comments";
 
     // Dictionary definitions
     public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
     public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
     public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
+    
+    
  }
 

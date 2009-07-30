@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
@@ -31,10 +32,15 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
@@ -60,7 +66,8 @@ public class LuConfigurer {
     
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
-        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, DEMO_SECTION
+        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS,
+        DEMO_SECTION
     }
                
     public static void configureCluProposal(ConfigurableLayout layout){
@@ -442,6 +449,56 @@ public class LuConfigurer {
         }
         return null;
     }
+    
+    public static class CommentTool extends ToolView implements HasReferenceId{
+        
+        private String referenceId;
+        private String referenceKey;
+        private CommentPanel thePanel;
+        
+        public CommentTool(){
+            super(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS);
+        }
+        
+        @Override
+        protected Widget createWidget() {
+            thePanel = new CommentPanel();
+            return thePanel;
+        }
+        
+        
+        
+        @Override
+        public void setVisible(boolean visible) {
+            super.setVisible(visible);
+            thePanel.refreshComments();
+        }
+
+        @Override
+        public String getReferenceId() {
+            
+            return referenceId;
+        }
+
+        @Override
+        public String getReferenceKey() {
+            return referenceKey;
+        }
+
+        @Override
+        public void setReferenceId(String id) {
+            referenceId = id;
+            if(referenceId != null && referenceKey != null){
+                
+            }
+        }
+
+        @Override
+        public void setReferenceKey(String key) {
+            referenceKey = key;
+        }
+        
+    }  
 
     public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
