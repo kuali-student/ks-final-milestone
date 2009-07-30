@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +55,8 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl",testSqlFile="classpath:ks-lu.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -1281,6 +1284,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertTrue(luiInfos == null || luiInfos.size() == 0);
 
         luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-4"));
+		Collections.sort(luiInfos, new Comparator<LuiInfo>() {
+			public int compare(LuiInfo o1, LuiInfo o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
         assertEquals("CLU-1", luiInfos.get(0).getCluId());
         assertEquals("CLU-2", luiInfos.get(1).getCluId());
     }
@@ -1388,8 +1395,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
         }
         luiIds = client.getLuiIdsByCluId("CLU-1");
+        
+		Collections.sort(luiIds);
+        
         assertTrue(null != luiIds);
         assertEquals(3, luiIds.size());
+        
         assertEquals("LUI-1", luiIds.get(0));
         assertEquals("LUI-3", luiIds.get(2));
         luiIds = client.getLuiIdsByCluId("CLU-2");
@@ -1414,6 +1425,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
         }
         luiIds = client.getLuiIdsInAtpByCluId("CLU-1", "ATP-2");
+		Collections.sort(luiIds);
         assertTrue(null != luiIds);
         assertEquals(2, luiIds.size());
         assertEquals("LUI-2", luiIds.get(0));
@@ -1457,6 +1469,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
     {
         List<LuLuRelationTypeInfo> luLuRelTypeInfos;
         luLuRelTypeInfos = client.getLuLuRelationTypeInfos();
+		Collections.sort(luLuRelTypeInfos, new Comparator<LuLuRelationTypeInfo>() {
+			public int compare(LuLuRelationTypeInfo o1, LuLuRelationTypeInfo o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
         assertEquals(3, luLuRelTypeInfos.size());
         assertEquals("luLuType.type1", luLuRelTypeInfos.get(0).getId());
         assertEquals("manolin", luLuRelTypeInfos.get(2).getName());
@@ -1509,6 +1525,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         List<LuiInfo> luis = client.getLuisByRelation("LUI-1", "luLuType.type1");
         assertTrue(luis == null || luis.size() == 0);
         luis = client.getLuisByRelation("LUI-2", "luLuType.type1");
+		Collections.sort(luis, new Comparator<LuiInfo>() {
+			public int compare(LuiInfo o1, LuiInfo o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
         assertEquals(1, luis.size());
         assertEquals("LUI-1", luis.get(0).getId());
     }
@@ -1519,6 +1539,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         List<String> luis = client.getLuiIdsByRelation("LUI-1", "luLuType.type1");
         assertTrue(luis == null || luis.size() == 0);
         luis = client.getLuiIdsByRelation("LUI-2", "luLuType.type1");
+		Collections.sort(luis);
         assertEquals(1, luis.size());
         assertEquals("LUI-1", luis.get(0));
     }
@@ -1629,11 +1650,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertTrue(status.getSuccess());
 
         List<String> ids = client.getLoIdsByClu("CLU-1");
+		Collections.sort(ids);
         assertEquals(1, ids.size());
         assertEquals("LO-1", ids.get(0));
 
         ids = client.getCluIdsByLoId("LO-1");
-        assertEquals(1, ids.size());
+		Collections.sort(ids);
+		assertEquals(1, ids.size());
         assertEquals("CLU-1", ids.get(0));
 
         status = client.addOutcomeLoToClu("LO-3", "CLU-1");
@@ -1717,6 +1740,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
     public void  testSearchForResults() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, VersionMismatchException{
         List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(0);
         List<Result> clus = client.searchForResults("lu.search.clus", queryParamValues);
+		Collections.sort(clus, new Comparator<Result>() {
+			public int compare(Result o1, Result o2) {
+				return o1.getResultCells().get(0).getValue().compareTo(o2.getResultCells().get(0).getValue());
+			}});
         assertNotNull(clus);
         assertEquals(108, clus.size());
         Result result = clus.get(0);
@@ -1728,7 +1755,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
         ResultCell resultCell = resultCells.get(0);
         assertEquals("lu.resultColumn.cluId", resultCell.getKey());
-        assertEquals("7bd82886-a389-4fd0-b349-1e649c20fd08", resultCell.getValue());
+        assertEquals("00000000-a389-4fd0-b349-1e649c20fd08", resultCell.getValue());
         resultCell = resultCells.get(1);
         assertEquals("lu.resultColumn.cluOfficialIdentifier.longName", resultCell.getKey());
         assertEquals("Advanced Applied Linear Algebra", resultCell.getValue());

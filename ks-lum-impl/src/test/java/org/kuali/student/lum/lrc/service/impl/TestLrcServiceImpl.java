@@ -95,6 +95,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertEquals("<p>New ResultComponent</p>", rti.getFormatted());
             assertEquals("New ResultComponent", rti.getPlain());
             List<String> ids = newRci.getResultValueIds();
+            java.util.Collections.sort(ids);
             assertNotNull(ids);
             assertEquals(1, ids.size());
             assertEquals("LRC-RESULT_VALUE-GRADE-1", ids.get(0));
@@ -119,6 +120,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
                 assertEquals("<p>New ResultComponent</p>", rti.getFormatted());
                 assertEquals("New ResultComponent", rti.getPlain());
                 ids = newRci.getResultValueIds();
+                java.util.Collections.sort(ids);
                 assertNotNull(ids);
                 assertEquals(2, ids.size());
                 assertEquals("LRC-RESULT_VALUE-GRADE-1", ids.get(0));

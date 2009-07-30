@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,6 +34,8 @@ import org.kuali.student.lum.lrc.entity.Credit;
 import org.kuali.student.lum.lrc.entity.Grade;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl", testSqlFile = "classpath:ks-lrc.sql")
@@ -44,6 +47,10 @@ public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {
         ids.add("LRC-RESULT_VALUE-CREDENTIAL-1");
         ids.add("LRC-RESULT_VALUE-CREDENTIAL-2");
         List<Credential> credentials = dao.getCredentialsByIdList(ids);
+		Collections.sort(credentials, new Comparator<Credential>() {
+			public int compare(Credential o1, Credential o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
         assertEquals("LRC-RESULT_VALUE-CREDENTIAL-1", credentials.get(0).getId());
 
         ids.clear();
