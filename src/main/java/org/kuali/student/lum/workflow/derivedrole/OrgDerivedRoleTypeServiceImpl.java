@@ -9,14 +9,16 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.student.core.organization.service.OrganizationService;
 
-public class OrgAdminDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-	.getLogger(OrgAdminDerivedRoleTypeServiceImpl.class);
+	.getLogger(OrgDerivedRoleTypeServiceImpl.class);
 	
 	private OrganizationService orgService;
+	private String orgPersonRelationType;
+	
 	/**
 	 * This method should grab the orgId from the qualification 
-	 * use the org service to find Admin person-org relations (getPersonIdsForOrgByRelationType) 'kuali.org.PersonRelation.AdministrativeOfficer'
+	 * use the org service to find person-org relations (getPersonIdsForOrgByRelationType)
 	 * return the members.
 	 * 
 	 * See KimDerivedRoleTypeServiceBase
@@ -32,13 +34,13 @@ public class OrgAdminDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
 		
 		String orgId = qualification.get("orgId");
 		try {
-			List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, "kuali.org.PersonRelation.AdministrativeOfficer");
+			List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
 			for(String principalId:principalIds){
 				RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
 				members.add(member);
 			}
 		} catch (Exception e) {
-			LOG.warn("Error getting Administrators from Org Service for Org:"+orgId+". "+e.getMessage());
+			LOG.warn("Error getting "+orgPersonRelationType+" relations from Org Service for Org:"+orgId+". "+e.getMessage());
 		} 
 	
 		return members;
@@ -50,6 +52,14 @@ public class OrgAdminDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
 
 	public void setOrgService(OrganizationService orgService) {
 		this.orgService = orgService;
+	}
+
+	public String getOrgPersonRelationType() {
+		return orgPersonRelationType;
+	}
+
+	public void setOrgPersonRelationType(String orgPersonRelationType) {
+		this.orgPersonRelationType = orgPersonRelationType;
 	}
 
 }
