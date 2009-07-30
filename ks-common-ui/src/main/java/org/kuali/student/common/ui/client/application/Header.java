@@ -3,8 +3,8 @@ package org.kuali.student.common.ui.client.application;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.service.ServerProperties;
-import org.kuali.student.common.ui.client.service.ServerPropertiesAsync;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -50,7 +50,7 @@ public class Header extends Composite {
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
 //    private  String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
     private  String actionListUrl;
-    ServerPropertiesAsync serverProperties = GWT.create(ServerProperties.class);
+    ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     
     private final KSLabel userId = new KSLabel();
 

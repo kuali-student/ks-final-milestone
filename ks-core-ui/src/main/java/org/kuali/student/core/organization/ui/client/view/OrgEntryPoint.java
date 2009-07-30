@@ -4,7 +4,7 @@ package org.kuali.student.core.organization.ui.client.view;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.messages.MessagesService;
+import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.messages.dto.MessageList;
 
@@ -84,7 +84,7 @@ public class OrgEntryPoint implements EntryPoint{
     public  <T> T getSerializedObject( String name ) throws SerializationException
     {
         String serialized = getString( name );
-        SerializationStreamFactory ssf = GWT.create( MessagesService.class); // magic
+        SerializationStreamFactory ssf = GWT.create( MessagesRpcService.class); // magic
         return (T)ssf.createStreamReader( serialized ).readObject();
     }
     public  native String getString(String name) /*-{

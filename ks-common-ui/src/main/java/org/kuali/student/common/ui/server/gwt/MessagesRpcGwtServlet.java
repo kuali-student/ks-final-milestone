@@ -1,4 +1,4 @@
-package org.kuali.student.common.ui.server.messages;
+package org.kuali.student.common.ui.server.gwt;
 
 import org.kuali.student.core.messages.dto.LocaleKeyList;
 import org.kuali.student.core.messages.dto.Message;
@@ -8,7 +8,7 @@ import org.kuali.student.core.messages.service.MessageService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class MessagesService extends RemoteServiceServlet implements org.kuali.student.common.ui.client.messages.MessagesService {
+public class MessagesRpcGwtServlet extends RemoteServiceServlet implements org.kuali.student.common.ui.client.service.MessagesRpcService {
 
     private static final long serialVersionUID = 1L;
 

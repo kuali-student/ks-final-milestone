@@ -1,4 +1,4 @@
-package org.kuali.student.common.ui.client.messages;
+package org.kuali.student.common.ui.client.service;
 
 import org.kuali.student.core.messages.dto.LocaleKeyList;
 import org.kuali.student.core.messages.dto.Message;
@@ -7,7 +7,7 @@ import org.kuali.student.core.messages.dto.MessageList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface MessagesServiceAsync {
+public interface MessagesRpcServiceAsync {
     public void getLocales(AsyncCallback<LocaleKeyList> callback);
 
     public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);

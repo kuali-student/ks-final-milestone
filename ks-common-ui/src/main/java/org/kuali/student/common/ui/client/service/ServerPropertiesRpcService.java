@@ -7,7 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("ServerProperties")
-public interface ServerProperties extends RemoteService {
+public interface ServerPropertiesRpcService extends RemoteService {
     /**
      * Gets the property from the server for use on the client side.
      * 

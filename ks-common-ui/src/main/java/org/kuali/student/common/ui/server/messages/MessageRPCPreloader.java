@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
 import org.kuali.student.core.messages.dto.Message;
@@ -36,7 +37,7 @@ public class MessageRPCPreloader {
         serviceImpl = (MessageService)context.getBean("messageServiceImpl");
         Method serviceMethod;
         try {
-            serviceMethod = MessagesService.class.getMethod("getMessagesByGroups", String.class,MessageGroupKeyList.class);
+            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class,MessageGroupKeyList.class);
             
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));

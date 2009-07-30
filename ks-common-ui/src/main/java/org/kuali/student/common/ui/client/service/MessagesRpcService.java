@@ -1,4 +1,4 @@
-package org.kuali.student.common.ui.client.messages;
+package org.kuali.student.common.ui.client.service;
 
 
 import org.kuali.student.core.messages.dto.LocaleKeyList;
@@ -11,11 +11,11 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 
-public interface MessagesService extends RemoteService {
+public interface MessagesRpcService extends RemoteService {
     public static class Util {
 
-        public static MessagesServiceAsync getInstance(String uri) {
-            MessagesServiceAsync result = GWT.create(MessagesService.class);
+        public static MessagesRpcServiceAsync getInstance(String uri) {
+            MessagesRpcServiceAsync result = GWT.create(MessagesRpcService.class);
             ((ServiceDefTarget)result).setServiceEntryPoint(GWT.getModuleBaseURL() + uri);
             return result;
         }
