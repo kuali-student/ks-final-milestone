@@ -12,7 +12,7 @@
 
 	<servlet>
 		<servlet-name>messageServiceGwt</servlet-name>
-		<servlet-class>org.kuali.student.common.ui.server.messages.MessagesService</servlet-class>
+		<servlet-class>org.kuali.student.common.ui.server.gwt.MessagesService</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 

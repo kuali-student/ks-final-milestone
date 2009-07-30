@@ -68,7 +68,7 @@
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
-		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesServlet">
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 		<property name="properties">
 			<map>
 				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}" />

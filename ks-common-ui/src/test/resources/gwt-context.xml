@@ -24,7 +24,7 @@
 	
 	<!-- GWT Message Servlet -->
 	<bean id="messagesServiceGwt"
-		class="org.kuali.student.common.ui.server.messages.MessagesService">
+		class="org.kuali.student.common.ui.server.gwt.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 	<bean id="messagesServiceRPCPreloader"
