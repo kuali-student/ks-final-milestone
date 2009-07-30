@@ -3,8 +3,8 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.kuali.student.common.ui.client.service.ServerProperties;
-import org.kuali.student.common.ui.client.service.ServerPropertiesAsync;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Collaborators extends Composite implements HasWorkflowId{
 	
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-    ServerPropertiesAsync serverProperties = GWT.create(ServerProperties.class);
+    ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
 	
 //    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
     private static final String urlParams = "?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";

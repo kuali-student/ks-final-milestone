@@ -6,7 +6,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.messages.MessagesService;
+import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
@@ -66,7 +66,7 @@ public class LUMMainEntryPoint implements EntryPoint{
     public  <T> T getMsgSerializedObject( ) throws SerializationException
     {
         String serialized = getString( "i18nMessages" );
-        SerializationStreamFactory ssf = GWT.create( MessagesService.class); // magic
+        SerializationStreamFactory ssf = GWT.create( MessagesRpcService.class); // magic
         return (T)ssf.createStreamReader( serialized ).readObject();
     } 
 

@@ -1,7 +1,7 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.sectionmanager;
 
-import org.kuali.student.common.ui.client.service.ServerProperties;
-import org.kuali.student.common.ui.client.service.ServerPropertiesAsync;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 import org.kuali.student.lum.lu.ui.course.client.configuration.IFrameSection;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
@@ -17,7 +17,7 @@ public class KewLinksLayoutManager {
     private String personLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do" + personLookupUrlParams;
     private String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
     private DefaultCreateUpdateLayout<CluProposal> layout;
-    ServerPropertiesAsync serverProperties = GWT.create(ServerProperties.class);
+    ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
 
 
     public KewLinksLayoutManager() {
