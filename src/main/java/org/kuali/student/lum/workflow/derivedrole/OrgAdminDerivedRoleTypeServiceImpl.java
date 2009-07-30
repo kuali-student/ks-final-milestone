@@ -16,7 +16,7 @@ public class OrgAdminDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
 	private OrganizationService orgService;
 	/**
 	 * This method should grab the orgId from the qualification 
-	 * use the org service to find Admin person-org relations (getPersonIdsForOrgByRelationType) 'kuali.org.PersonRelation.AdminMember'
+	 * use the org service to find Admin person-org relations (getPersonIdsForOrgByRelationType) 'kuali.org.PersonRelation.AdministrativeOfficer'
 	 * return the members.
 	 * 
 	 * See KimDerivedRoleTypeServiceBase
