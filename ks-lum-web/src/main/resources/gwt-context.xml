@@ -120,7 +120,7 @@
 	</bean>
 	
 	<bean id="messagesServiceGwt"
-		class="org.kuali.student.common.ui.server.gwt.MessagesService">
+		class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 
