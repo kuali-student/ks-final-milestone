@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -37,6 +38,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
@@ -45,7 +48,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	@Test
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
-		
+
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
 		QueryParamValue qpv1 = new QueryParamValue();
 		qpv1.setKey("org.queryParam.orgType");
@@ -54,14 +57,14 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		List<Result> results = sm.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues, dao);
 		assertEquals(6,results.size());
 		assertEquals(2,results.get(0).getResultCells().size());
-		
+
 		qpv1.setKey("org.queryParam.orgId");
 		qpv1.setValue("31");
 		results = sm.searchForResults("org.search.hierarchiesOrgIsIn", queryParamValues, dao);
 		assertEquals(1, results.size());
 		assertEquals("kuali.org.hierarchy.Main", results.get(0).getResultCells().get(0).getValue());
 	}
-	
+
 	@Test
 	public void testGetOrgTreeInfo(){
 		List<OrgTreeInfo> orgTreeInfos = dao.getOrgTreeInfo("4", "kuali.org.hierarchy.Main");
@@ -250,6 +253,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		orgIdList.add("4");
 		List<Org> orgs = dao.getOrganizationsByIdList(orgIdList);
 		assertEquals(3, orgs.size());
+		Collections.sort(orgIdList);
 		assertEquals("BORG", orgs.get(0).getShortName());
 		assertEquals("ChancellorsOffice", orgs.get(1).getShortName());
 		assertEquals("KU", orgs.get(2).getShortName());
@@ -297,7 +301,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Treasurer of the Board of Regents",
 				orgPositionRestrictions.get(1).getTitle());
 	}
-	
+
 	@Test
 	public void getAncestors() {
 		List<String> ancestors = dao.getAllAncestors("139", "kuali.org.hierarchy.Main");
@@ -328,7 +332,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("kuali.org.CurriculumChild", relationTypes.get(0).getId());
 
 	}
-	
+
 	@Test
 	public void validatePositionRestriction() {
 		assertTrue(dao.validatePositionRestriction("3", "kuali.org.PersonRelation.ViceChancellor"));
@@ -338,7 +342,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertFalse(dao.validatePositionRestriction("49", "kuali.org.PersonRelation.Chair"));
 		assertTrue(dao.validatePositionRestriction("50", "kuali.org.PersonRelation.Chair"));
 	}
-	
+
 	@Test
 	public void getOrgPersonRelationTypesForOrgType() {
 		List<OrgPersonRelationType> personRelationTypes = dao.getOrgPersonRelationTypesForOrgType("kuali.org.School");
@@ -346,20 +350,32 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Head", personRelationTypes.get(0).getName());
 		assertEquals("Professor", personRelationTypes.get(1).getName());
 	}
-	
+
 	@Test
 	public void getOrgOrgRelationsByIdList() {
 		List<OrgOrgRelation> orgOrgRelations = dao.getOrgOrgRelationsByIdList(Arrays.asList("1", "3", "6"));
 		assertEquals(3, orgOrgRelations.size());
+		Collections.sort(orgOrgRelations, new Comparator<OrgOrgRelation>() {
+
+			@Override
+			public int compare(OrgOrgRelation o1, OrgOrgRelation o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
 		assertEquals("Board", orgOrgRelations.get(0).getType().getName());
 		assertEquals("Board", orgOrgRelations.get(1).getType().getName());
 		assertEquals("Advisory", orgOrgRelations.get(2).getType().getName());
 	}
-	
+
 	@Test
 	public void getOrgPersonRelationsByIdList() {
 		List<OrgPersonRelation> orgPersonRelations = dao.getOrgPersonRelationsByIdList(Arrays.asList("1", "3", "6"));
 		assertEquals(3, orgPersonRelations.size());
+		Collections.sort(orgPersonRelations, new Comparator<OrgPersonRelation>() {
+
+			@Override
+			public int compare(OrgPersonRelation o1, OrgPersonRelation o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
 		assertEquals("68", orgPersonRelations.get(0).getOrg().getId());
 		assertEquals("Head", orgPersonRelations.get(0).getType().getDesc());
 		assertEquals("KIM-1", orgPersonRelations.get(0).getPersonId());
@@ -368,7 +384,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Professor", orgPersonRelations.get(2).getType().getDesc());
 		assertEquals("KIM-1", orgPersonRelations.get(2).getPersonId());
 	}
-	
+
 	@Test
 	public void getOrgPersonRelationsByPerson() {
 		List<OrgPersonRelation> orgPersonRelations = dao.getOrgPersonRelationsByPerson("KIM-1", "68");
@@ -376,7 +392,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Head", orgPersonRelations.get(0).getType().getDesc());
 		assertEquals("Professor", orgPersonRelations.get(1).getType().getDesc());
 	}
-	
+
 	@Test
 	public void getOrgOrgRelationTypesForOrgType() {
 		List<OrgOrgRelationType> orgOrgRelationTypes = dao.getOrgOrgRelationTypesForOrgType("kuali.org.Program");
@@ -384,7 +400,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Chartered", orgOrgRelationTypes.get(1).getName());
 		assertEquals("Part", orgOrgRelationTypes.get(4).getName());
 	}
-	
+
 	@Test
 	public void getOrgOrgRelationsByRelatedOrg() {
 		List<OrgOrgRelation> orgOrgRelations = dao.getOrgOrgRelationsByRelatedOrg("25");
