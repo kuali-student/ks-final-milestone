@@ -12,6 +12,10 @@
 					key="/org.kuali.student.common.ui.CommonUITest/MessageService">
 					<ref bean="messageServiceGwtController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.common.ui.CommonUITest/LogService">
+					<ref bean="logServiceGwtController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -22,6 +26,11 @@
 		<property name="servletInstance" ref="messagesServiceGwt" />
 	</bean>
 	
+	<bean id="logServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="logServiceGwt" />
+		<property name="servletInstance" ref="logServiceGwt" />
+	</bean>
+
 	<!-- GWT Message Servlet -->
 	<bean id="messagesServiceGwt"
 		class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
@@ -39,5 +48,8 @@
 		</property>
 	</bean>
 
-
+	<bean id="logServiceGwt"
+		class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet">
+	</bean>
+	
 </beans>
