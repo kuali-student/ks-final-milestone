@@ -96,7 +96,7 @@
         </role>
         <role name="Senate Admin Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.SenateCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
         </role>
         <requests name="Senate Committee Review">
           <activationType>P</activationType>
