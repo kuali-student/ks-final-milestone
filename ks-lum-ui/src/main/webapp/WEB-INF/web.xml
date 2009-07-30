@@ -51,12 +51,6 @@
 		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/SecurityRpcService</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>messageServiceGwt</servlet-name>
-		<servlet-class>org.kuali.student.common.ui.server.messages.MessagesService</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/MessageService</url-pattern>

@@ -110,7 +110,7 @@
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
-		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesServlet">
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 		<property name="properties">
 			<map>
 				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>
@@ -120,7 +120,7 @@
 	</bean>
 	
 	<bean id="messagesServiceGwt"
-		class="org.kuali.student.common.ui.server.messages.MessagesService">
+		class="org.kuali.student.common.ui.server.gwt.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 

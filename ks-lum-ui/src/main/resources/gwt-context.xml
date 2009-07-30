@@ -115,11 +115,11 @@
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
-		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesServlet">
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 	</bean>
 	
 	<bean id="messagesServiceGwt"
-		class="org.kuali.student.common.ui.server.messages.MessagesService">
+		class="org.kuali.student.common.ui.server.gwt.MessagesService">
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 
