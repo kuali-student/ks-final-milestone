@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+	<bean id="enCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="common" />
+	</bean>
+
+   	<bean parent="enCommon" p:id="confirm"		p:value="Confirm"/>
+   	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
+   	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
+   	<bean parent="enCommon" p:id="yes"			p:value="Yes"/>
+  	<bean parent="enCommon" p:id="no"			p:value="No"/>
+  	<bean parent="enCommon" p:id="add"			p:value="Add"/>  	
+  	<bean parent="enCommon" p:id="remove"		p:value="Remove"/>
+  	<bean parent="enCommon" p:id="modify"		p:value="Modify"/>
+  	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
+   	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
+  	
+	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="es" />
+        <property name="groupName"      value="common" />
+	</bean>
+
+   	<bean parent="esCommon" p:id="confirm"		p:value="Confirmar"/>
+   	<bean parent="esCommon" p:id="cancel"		p:value="Cancelar"/>
+
+
+	<!--  Default Validation Messages -->
+	<bean id="enValidation" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="validation" />
+	</bean>
+
+   	<bean parent="enValidation" p:id="validation.required"		p:value="Required"/>
+   	<bean parent="enValidation" p:id="validation.requiresField"		p:value="${field1} requires ${field2}"/>
+   	<bean parent="enValidation" p:id="validation.validCharsFailed"		p:value="Invalid Characters"/>
+   	<bean parent="enValidation" p:id="validation.lengthOutOfRange"		p:value="Length out of range. Minimum Characters: ${minLength} Maximum Characters: ${maxLength} "/>
+   	<bean parent="enValidation" p:id="validation.maxLengthFailed"		p:value="Maximum Characters ${maxLength} allowed"/>
+   	<bean parent="enValidation" p:id="validation.minLengthFailed"		p:value="Minimum Characters ${minLength} required"/>
+   	<bean parent="enValidation" p:id="validation.outOfRange"		p:value="Value out of range. Minimum: ${minValue} Maximum ${maxValue}"/>
+   	<bean parent="enValidation" p:id="validation.maxValueFailed"		p:value="Value cannot be more than ${maxValue}"/>
+   	<bean parent="enValidation" p:id="validation.minValueFailed"		p:value="Value cannot be less than ${minValue}"/>
+
+</beans>
