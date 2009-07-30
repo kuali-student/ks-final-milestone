@@ -84,7 +84,7 @@ public class NLTranslationNodeInfo {
 		return this.parentNode;
 	}
 
-	public void setParent(NLTranslationNodeInfo parentNode) {
+	public void setParentNode(NLTranslationNodeInfo parentNode) {
 		this.parentNode = parentNode;
 	}
 

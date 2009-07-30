@@ -303,7 +303,7 @@ public class StatementTranslator {
 			String operator = (stmt.getOperator() == null ? null : stmt.getOperator().toString());
 			String booleanId = statementParser.getIdMap().get(stmt.getId());
 			NLTranslationNodeInfo node = new NLTranslationNodeInfo(stmt.getId(), booleanId, operator);
-			node.setParent(rootNode);
+			node.setParentNode(rootNode);
 			rootNode.addChildNode(node);
 			if (stmt.getChildren() == null || stmt.getChildren().isEmpty()) {
 				List<NLTranslationNodeInfo> children = getReqComponents(stmt.getRequiredComponents(), nlUsageTypeKey);
