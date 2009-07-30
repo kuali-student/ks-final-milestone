@@ -3,9 +3,12 @@ package org.kuali.student.lum.nlt.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class NLTranslationNodeInfo {
     @XmlAttribute
 	private String id;
@@ -17,7 +20,7 @@ public class NLTranslationNodeInfo {
     private String operator;
 
 	@XmlElement
-	private String booleanExpr;
+	private String booleanExpression;
 
     @XmlElement
 	private String nlTranslation;
@@ -42,15 +45,15 @@ public class NLTranslationNodeInfo {
 	}
 
 	public String getProperBooleanExpression() {
-		return (this.booleanExpr == null ? null : this.booleanExpr.replaceAll("\\*", "and").replaceAll("\\+", "or"));
+		return (this.booleanExpression == null ? null : this.booleanExpression.replaceAll("\\*", "and").replaceAll("\\+", "or"));
 	}
 
 	public String getBooleanExpression() {
-		return this.booleanExpr;
+		return this.booleanExpression;
 	}
 
 	public void setBooleanExpression(String booleanExpression) {
-		this.booleanExpr = booleanExpression;
+		this.booleanExpression = booleanExpression;
 	}
 	
 	public String getOperator() {
@@ -77,12 +80,12 @@ public class NLTranslationNodeInfo {
 		this.childNodeList = children;
 	}
 
-	public NLTranslationNodeInfo getParent() {
+	public NLTranslationNodeInfo getParentNode() {
 		return this.parentNode;
 	}
 
-	public void setParent(NLTranslationNodeInfo parent) {
-		this.parentNode = parent;
+	public void setParent(NLTranslationNodeInfo parentNode) {
+		this.parentNode = parentNode;
 	}
 
 	public String getReferenceId() {
@@ -90,6 +93,6 @@ public class NLTranslationNodeInfo {
 	}
 	
 	public String toString() {
-		return "id="+this.id+", referenceId="+this.referenceId+", translation="+this.nlTranslation;
+		return "[id="+this.id+", referenceId="+this.referenceId+", translation="+this.nlTranslation+"]";
 	}
 }
