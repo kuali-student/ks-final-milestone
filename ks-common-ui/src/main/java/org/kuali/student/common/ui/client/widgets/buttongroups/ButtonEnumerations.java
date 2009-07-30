@@ -83,4 +83,18 @@ public class ButtonEnumerations {
             return null;  
         }
     };
+    
+    public static enum SendCancelEnum implements ButtonEnum{SEND, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case SEND:
+                return context.getMessage("send");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+};
 }

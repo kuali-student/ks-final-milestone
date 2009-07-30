@@ -19,6 +19,12 @@
   	<bean parent="enCommon" p:id="modify"		p:value="Modify"/>
   	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
    	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
+   	<bean parent="enCommon" p:id="send"     	p:value="Send"/>
+   	
+   	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Submit an Error Report"/>
+   	<bean parent="enCommon" p:id="errorDescription"     	p:value="This page will send us a report on this error to assist us in fixing the error."/>
+   	<bean parent="enCommon" p:id="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
+   	 	
   	
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
@@ -27,7 +33,19 @@
 
    	<bean parent="esCommon" p:id="confirm"		p:value="Confirmar"/>
    	<bean parent="esCommon" p:id="cancel"		p:value="Cancelar"/>
+   	<bean parent="esCommon" p:id="wait"			p:value="Espere por favor..."/>
+   	<bean parent="esCommon" p:id="yes"			p:value="Sí"/>
+  	<bean parent="esCommon" p:id="no"			p:value="No"/>
+  	<bean parent="esCommon" p:id="add"			p:value="Agregue"/>  	
+  	<bean parent="esCommon" p:id="remove"		p:value="Quite"/>
+  	<bean parent="esCommon" p:id="modify"		p:value="Modifiqúese"/>
+  	<bean parent="esCommon" p:id="processing"	p:value="Proceso..."/>
+   	<bean parent="esCommon" p:id="advSearch"	p:value="Búsqueda avanzada"/>
+   	<bean parent="esCommon" p:id="send"     	p:value="Envie"/>
 
+   	<bean parent="esCommon" p:id="errorDialogTitle"     	p:value="Someta un Informe del Error"/>
+   	<bean parent="esCommon" p:id="errorDescription"     	p:value="Esta página nos enviará un informe del error."/>
+   	<bean parent="esCommon" p:id="describeAction"     	p:value="Incorpore una breve descripción de lo que usted hacía."/>
 
 	<!--  Default Validation Messages -->
 	<bean id="enValidation" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
