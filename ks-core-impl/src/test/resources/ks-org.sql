@@ -772,7 +772,7 @@ insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, 
 /
 insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('151', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Administrative Officer of Civil Engineering Dept', '100', 1, '1', 1, 'Administrative Officer of Civil Engineering Dept', '62', 'kuali.org.PersonRelation.AdministrativeOfficer')
 /
-insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('152', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Administrative Officer of Chemical Engineering College', '100', 1, '1', 1, 'Administrative Officer of Engineering College', '31', 'kuali.org.PersonRelation.AdministrativeOfficer')
+insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('152', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Administrative Officer of Engineering College', '100', 1, '1', 1, 'Administrative Officer of Engineering College', '31', 'kuali.org.PersonRelation.AdministrativeOfficer')
 /
 
 //ORG ORG RELATION
