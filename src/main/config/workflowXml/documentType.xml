@@ -82,32 +82,45 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </start>
+        <!-- OrgAdmin Derived role (checks OrgService for members who are admins of the orgId)-->
         <role name="Department Admin Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
         </role>
+        
+        <!-- Department Committee Reviewer Role -->
         <role name="Department Committee Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptCommitteeQualifierResolver</qualifierResolverClass>
         </role>
+        
+        <!-- College Committee Reviewer Role -->
         <role name="College Committee Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.CollegeCommitteeQualifierResolver</qualifierResolverClass>
         </role>
-        <role name="Senate Admin Review">
+        
+        <!-- Just a named person for now we could use the OrgAdmin Derived role + simple xml that always 
+             passes the senate admin OrgId as a qualifier -->
+        <requests name="Senate Admin Review">
+          <activationType>P</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateAdminReviewRule</ruleName>
+        </requests>
+        
+        <!-- Senate Committee Reviewer Role -->
+        <role name="Senate Committee Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
         </role>
-        <requests name="Senate Committee Review">
-          <activationType>P</activationType>
-          <ruleSelector>Named</ruleSelector>
-          <ruleName>SenateReviewRule</ruleName>
-        </requests>
+        
+        <!-- This is just a named person -->
         <requests name="Senate Review">
           <activationType>P</activationType>
           <ruleSelector>Named</ruleSelector>
           <ruleName>SenateReviewRule</ruleName>
         </requests>
+        
       </routeNodes>
     </documentType>
   </documentTypes>
