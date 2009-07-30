@@ -253,7 +253,11 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		orgIdList.add("4");
 		List<Org> orgs = dao.getOrganizationsByIdList(orgIdList);
 		assertEquals(3, orgs.size());
-		Collections.sort(orgIdList);
+		Collections.sort(orgs, new Comparator<Org>() {
+			@Override
+			public int compare(Org o1, Org o2) {
+				return o1.getId().compareTo(o2.getId());
+			}});
 		assertEquals("BORG", orgs.get(0).getShortName());
 		assertEquals("ChancellorsOffice", orgs.get(1).getShortName());
 		assertEquals("KU", orgs.get(2).getShortName());
