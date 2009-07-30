@@ -1,20 +1,8 @@
-package org.kuali.student.lum.lu.ui.comment;
+package org.kuali.student.lum.lu.ui.client.async;
 
-
-import java.util.List;
-
-import javax.jws.WebParam;
-
-
-import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
-
-
- 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
     /**
