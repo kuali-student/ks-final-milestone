@@ -32,7 +32,7 @@ public class OrgAdminDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
 		
 		String orgId = qualification.get("orgId");
 		try {
-			List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, "kuali.org.PersonRelation.AdminMember");
+			List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, "kuali.org.PersonRelation.AdministrativeOfficer");
 			for(String principalId:principalIds){
 				RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
 				members.add(member);
