@@ -111,7 +111,15 @@
         </property>
 	</bean>
 
-	<!-- OrgAdmin Derived role -->
-	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgAdminDerivedRoleTypeServiceImpl"/>
+	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
+	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		<property name="orgPersonRelationType" value="kuali.org.PersonRelation.AdministrativeOfficer" />
+		<property name="orgService" ref="orgClient"/>
+	</bean>
+
+	<!-- Org Derived role (anyone that's related to this org -->
+	<bean id="ksOrgRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		<property name="orgService" ref="orgClient"/>
+	</bean>
 	
 </beans>

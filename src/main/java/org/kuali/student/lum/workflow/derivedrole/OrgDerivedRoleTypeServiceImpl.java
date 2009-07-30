@@ -7,6 +7,7 @@ import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
@@ -14,7 +15,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 	.getLogger(OrgDerivedRoleTypeServiceImpl.class);
 	
 	private OrganizationService orgService;
-	private String orgPersonRelationType;
+	private String orgPersonRelationType=null;
 	
 	/**
 	 * This method should grab the orgId from the qualification 
@@ -34,13 +35,23 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		
 		String orgId = qualification.get("orgId");
 		try {
-			List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
-			for(String principalId:principalIds){
-				RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
-				members.add(member);
+			//If the orgPersonRelationType is set, restrict members to that relationship type
+			if(orgPersonRelationType!=null){
+				List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
+				for(String principalId:principalIds){
+					RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
+					members.add(member);
+				}
+			//Otherwise get all members of the organization
+			}else{
+				List<OrgPersonRelationInfo> principalIds = orgService.getAllOrgPersonRelationsByOrg(orgId);
+				for(OrgPersonRelationInfo principalId:principalIds){
+					RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null);
+					members.add(member);
+				}
 			}
 		} catch (Exception e) {
-			LOG.warn("Error getting "+orgPersonRelationType+" relations from Org Service for Org:"+orgId+". "+e.getMessage());
+			LOG.warn("Error getting relations from Org Service for Org:"+orgId+". "+e.getMessage());
 		} 
 	
 		return members;
