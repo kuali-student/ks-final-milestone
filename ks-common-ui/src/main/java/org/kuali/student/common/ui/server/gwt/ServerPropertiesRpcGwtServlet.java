@@ -10,7 +10,7 @@ import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class ServerPropertiesServlet extends RemoteServiceServlet implements ServerPropertiesRpcService {
+public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implements ServerPropertiesRpcService {
     
     Map<String,String> properties = new HashMap<String,String>();
 
