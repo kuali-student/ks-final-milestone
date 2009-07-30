@@ -768,6 +768,12 @@ insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, 
 /
 insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('149', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Must be the Chair of the Departmental COC', '100', 1, '1', 1, 'Ex-Officio Member of the Geology CIC', '171', 'kuali.org.PersonRelation.Ex-Officio')
 /
+insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('150', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Administrative Officer of Chemical Engineering Dept', '100', 1, '1', 1, 'Administrative Officer of Chemical Engineering Dept', '61', 'kuali.org.PersonRelation.AdministrativeOfficer')
+/
+insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('151', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Administrative Officer of Civil Engineering Dept', '100', 1, '1', 1, 'Administrative Officer of Civil Engineering Dept', '62', 'kuali.org.PersonRelation.AdministrativeOfficer')
+/
+insert into KSOR_ORG_POS_RESTR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, DESCR, MAX_NUM_RELTN, MIN_NUM_RELTN, ATPDURATIONTYPEKEY, TIMEQUANTITY, TTL, ORG, PERS_RELTN_TYPE) values ('152', 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 'TESTUSER', {ts '2000-01-01 00:00:00.0'}, 1, 'Administrative Officer of Engineering College', '100', 1, '1', 1, 'Administrative Officer of Engineering College', '31', 'kuali.org.PersonRelation.AdministrativeOfficer')
+/
 
 //ORG ORG RELATION
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('1', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '2', '1', 'kuali.org.Board')
@@ -1221,6 +1227,12 @@ insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RE
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('5', '53', 'KIM-1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Head', 'Active', 1)
 /
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('6', '68', 'KIM-1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Professor', 'Active', 1)
+/
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('7', '31', 'user1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.AdministrativeOfficer', 'Active', 1)
+/
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('8', '61', 'user2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.AdministrativeOfficer', 'Active', 1)
+/
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('9', '62', 'user2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.AdministrativeOfficer', 'Active', 1)
 /
 
 
