@@ -17,6 +17,7 @@
 
 	<build>
 		<plugins>
+
 			<!-- 
 			This is only here to exclude javax classes, which are being compiled
 			from sources bundled with gwt jars. Issue appears fixed in gwt 1.6.4.			
@@ -212,6 +213,36 @@
 					<artifactId>spring-jdbc</artifactId>
 				</dependency>												  				
 			</dependencies>
+		</profile>
+		<profile>
+<!-- mvn -P build-codehaus-gwt org.codehaus.mojo:gwt-maven-plugin:1.1:generateAsync
+     processes java files that match service pattern and writes GWT *ServuceAsync.java files
+     to the default generateDirectory: target/generate-sources/gwt
+     generated Async.java files have the same package as the Service.java it's derived from
+     You can copy the generated file to the same directory as the Service file.
+     Important Note: this only generates files when the Service extends RemoteService. It ignores Services that
+     extend BaseRpcService --> 
+            <id>build-codehaus-gwt</id>
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>gwt-maven-plugin</artifactId>
+                            <version>1.1</version>
+                            <configuration>
+                                <failOnError>true</failOnError>
+                                <servicePattern>**/common/ui/**/*Service.java</servicePattern> 
+                            </configuration> 
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>generateAsync</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                       </plugin>
+                   </plugins>                  
+               </build>
 		</profile>
 	</profiles>
 
