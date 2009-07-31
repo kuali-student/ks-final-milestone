@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @author Kuali Student Team
  *
  */
-@RemoteServiceRelativePath("CluProposalRpcService")
+@RemoteServiceRelativePath("rpcservices/CluProposalRpcService")
 public interface CluProposalRpcService extends BaseRpcService{
     public CluProposal createProposal(CluProposal cluProposal);   
     public CluProposal startProposalWorkflow(CluProposal cluProposal);

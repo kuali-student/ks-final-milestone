@@ -11,42 +11,43 @@
 	<!-- Spring to GWT servlet mapping -->
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="alwaysUseFullPath" value="true" />		
 		<property name="urlMap">
 			<map>
 				<entry
-					key="/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService">
+					key="/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/RequirementsService">
 					<ref bean="requirementsServiceGwtController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.course.Course/LuRpcService">
+					key="/org.kuali.student.lum.lu.ui.course.Course/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/LuRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/MessageService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MessageService">
 					<ref bean="messageServiceGwtController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/OrgRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/OrgRpcService">
 					<ref bean="OrgRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/CluProposalRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/SecurityRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService">
 					<ref bean="SecurityRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService">
 					<ref bean="ServerPropertiesServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/CommentRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService">
 					<ref bean="CommentRpcGwtServletController" />
 				</entry>
 			</map>

@@ -15,7 +15,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-@RemoteServiceRelativePath("RequirementsService")
+@RemoteServiceRelativePath("rpcservices/RequirementsService")
 public interface RequirementsRpcService extends BaseRpcService {
     
     public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception;

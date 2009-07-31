@@ -17,7 +17,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * 
  * @author Kuali Student Team
  */
-@RemoteServiceRelativePath("LuRpcService")
+@RemoteServiceRelativePath("rpcservices/LuRpcService")
 public interface LuRpcService extends BaseRpcService {
 
     public CluInfo createClu(String luTypeKey, CluInfo cluInfo);
