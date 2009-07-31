@@ -164,11 +164,6 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		mockCommittee.setType("kuali.org.Committee");
 		EasyMock.expect(mockOrgSvc.getOrganizationsByIdList(Arrays.asList("5", "31", "137", "43"))).andReturn(Arrays.asList(mockBoard, mockCollege, mockCommittee, mockCollege2));
 		
-		/*
-		EasyMock.expect(mockOrgSvc.getOrganization("31")).andReturn(mockCollege);
-		EasyMock.expect(mockOrgSvc.getOrganization("43")).andReturn(mockCollege2);
-		*/
-		
 		EasyMock.replay(mockOrgSvc);
 		return mockOrgSvc;
 	}
