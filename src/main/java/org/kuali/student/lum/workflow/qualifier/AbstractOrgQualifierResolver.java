@@ -33,6 +33,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	private static final String KUALI_ORG_DEPARTMENT = "kuali.org.Department";
 	private static final String KUALI_ORG_COLLEGE = "kuali.org.College";
 	protected static final String DEPARTMENT = "department";
+	protected static final String DEPARTMENT_ID = "departmentId";
 	protected static final String COLLEGE = "college";
 	protected static final String ORG_ID = "orgId";
 	protected OrganizationService orgService;

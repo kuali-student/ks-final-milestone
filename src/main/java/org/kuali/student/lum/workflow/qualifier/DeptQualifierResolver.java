@@ -44,6 +44,7 @@ public class DeptQualifierResolver extends AbstractOrgQualifierResolver {
 			if (isDepartment(orgInfo)) {
 				AttributeSet aSet = new AttributeSet();
 				aSet.put(DEPARTMENT, orgInfo.getShortName());
+				aSet.put(DEPARTMENT_ID, orgInfo.getId());
 				returnSet.add(aSet);
 			}
 		}
