@@ -50,6 +50,10 @@
 	<bean id="loDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="loDataSource" />
 	</bean>
+	
+	<bean id="commentDataSource" parent="defaultDataSource">
+		<property name="uniqueResourceName" value="commentDataSource" />
+	</bean>
 
 	<!-- JPA EntityManagerFactory -->
 	<bean id="defaultEntityManagerFactory" abstract="true" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -83,6 +87,13 @@
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/lo-persistence.xml" />
 		<property name="dataSource" ref="loDataSource" />
+	</bean>
+	
+	<bean id="commentEntityManagerFactory" parent="defaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Comment"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/comment-persistence.xml" />
+		<property name="dataSource" ref="commentDataSource" />
 	</bean>
 	
 	<!-- JPA annotation processor (injects entity managers using @PersistenceUnit) -->
@@ -191,6 +202,16 @@
 		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:organization-search-config.xml" />
+	</bean>
+	
+	<!-- Organization Service Config -->
+	<bean id="commentDao"
+		class="org.kuali.student.core.comment.dao.impl.CommentDaoImpl">
+	</bean>
+
+	<bean id="commentServiceImpl"
+		class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
+		<property name="commentDao" ref="commentDao" />
 	</bean>
 
 	<!-- Preloaded data -->

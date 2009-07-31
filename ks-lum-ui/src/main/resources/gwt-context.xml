@@ -45,6 +45,10 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties">
 					<ref bean="ServerPropertiesServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/CommentRpcService">
+					<ref bean="CommentRpcGwtServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -92,6 +96,12 @@
 		<property name="servletName" value="SecurityGwtServlet" />
 		<property name="servletInstance" ref="SecurityGwtServlet" />
 	</bean>
+	
+	<bean id="CommentRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CommentRpcGwtServlet" />
+		<property name="servletInstance" ref="CommentRpcGwtServlet" />
+	</bean>
 
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet"
@@ -121,6 +131,11 @@
 	<bean id="messagesServiceGwt"
 		class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
 		<property name="serviceImpl" ref="messageServiceImpl" />
+	</bean>
+	
+	<bean id="CommentRpcGwtServlet"
+		class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
+		<property name="service" ref="commentClient" />
 	</bean>
 
 	<bean id="OrgRpcGwtServlet"
@@ -156,6 +171,19 @@
 			value="{http://student.kuali.org/lum/lu}LuService" />
 		<property name="address"
 			value="http://localhost:8080/ks-lum-web/services/LuService" />
+	</bean>
+	
+	<!-- Comment Service Client -->
+	<bean id="commentClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/CommentService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.core.comment.service.CommentService" />
+		<property name="serviceQNameString"
+			value="{http://org.kuali.student/core/comment}CommentService" />
+		<property name="address"
+			value="http://localhost:8080/ks-lum-web/services/CommentService" />
 	</bean>
 
     <!-- Translation Service Client -->

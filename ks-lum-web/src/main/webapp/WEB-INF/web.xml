@@ -63,6 +63,11 @@
 	
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/CommentRpcService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties</url-pattern>
 	</servlet-mapping>
 	
