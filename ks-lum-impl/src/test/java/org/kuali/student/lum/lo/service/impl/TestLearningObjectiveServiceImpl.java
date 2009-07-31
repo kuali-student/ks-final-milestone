@@ -90,8 +90,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(desc);
         assertEquals("<p>New ResultComponent</p>", desc.getFormatted());
         assertEquals("New ResultComponent", desc.getPlain());
-        assertEquals(created.getEffectiveDate(), updated.getEffectiveDate());
-        assertEquals(created.getExpirationDate(), updated.getExpirationDate());
+        assertEquals(date.toString(), updated.getEffectiveDate().toString());
+        assertEquals(date.toString(), updated.getExpirationDate().toString());
         newAttributes = updated.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
