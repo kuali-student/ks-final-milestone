@@ -120,7 +120,7 @@
 							<className>
 								org.kuali.student.core.comment.service.CommentService
 							</className>
-							<serviceName>DocumentService</serviceName>
+							<serviceName>CommentService</serviceName>
 							<targetNameSpace>http://student.kuali.org/core/comment</targetNameSpace>			
 						</configuration>
 						<goals>
