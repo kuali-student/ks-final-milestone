@@ -99,8 +99,8 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertNotNull(ids);
             assertEquals(1, ids.size());
             assertEquals("LRC-RESULT_VALUE-GRADE-1", ids.get(0));
-            assertEquals(date, newRci.getEffectiveDate());
-            assertEquals(date, newRci.getExpirationDate());
+            assertEquals(date.toString(), newRci.getEffectiveDate().toString());
+            assertEquals(date.toString(), newRci.getExpirationDate().toString());
             Map<String, String> newAttributes = newRci.getAttributes();
             assertNotNull(newAttributes);
             assertEquals("attrValue", newAttributes.get("attrKey"));
@@ -125,8 +125,8 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
                 assertEquals(2, ids.size());
                 assertEquals("LRC-RESULT_VALUE-GRADE-1", ids.get(0));
                 assertEquals("LRC-RESULT_VALUE-GRADE-2", ids.get(1));
-                assertEquals(date, newRci.getEffectiveDate());
-                assertEquals(date, newRci.getExpirationDate());
+                assertEquals(date.toString(), newRci.getEffectiveDate().toString());
+                assertEquals(date.toString(), newRci.getExpirationDate().toString());
                 newAttributes = newRci.getAttributes();
                 assertNotNull(newAttributes);
                 assertEquals("attrValue", newAttributes.get("attrKey"));

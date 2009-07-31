@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,8 +72,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(desc);
         assertEquals("<p>New ResultComponent</p>", desc.getFormatted());
         assertEquals("New ResultComponent", desc.getPlain());
-        assertEquals(date, created.getEffectiveDate());
-        assertEquals(date, created.getExpirationDate());
+        assertEquals(date.toString(), created.getEffectiveDate().toString());
+        assertEquals(date.toString(), created.getExpirationDate().toString());
         Map<String, String> newAttributes = created.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
@@ -88,8 +90,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(desc);
         assertEquals("<p>New ResultComponent</p>", desc.getFormatted());
         assertEquals("New ResultComponent", desc.getPlain());
-        assertEquals(date, updated.getEffectiveDate());
-        assertEquals(date, updated.getExpirationDate());
+        assertEquals(created.getEffectiveDate(), updated.getEffectiveDate());
+        assertEquals(created.getExpirationDate(), updated.getExpirationDate());
         newAttributes = updated.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
@@ -213,6 +215,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         // make sure it was persisted
         equivalents = client.getEquivalentLos("81ABEA67-3BCC-4088-8348-E265F3670145");
+        Collections.sort(equivalents, new Comparator<LoInfo>(){
+			public int compare(LoInfo o1, LoInfo o2) {
+				return o1.getId().compareTo(o1.getId());
+			}
+        });
         assertEquals(1, equivalents.size());
         assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", equivalents.get(0).getId());
         
