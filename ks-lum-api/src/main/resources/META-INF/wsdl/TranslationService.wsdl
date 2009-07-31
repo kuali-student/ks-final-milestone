@@ -29,14 +29,10 @@
     </xs:complexType>
     <xs:complexType name="nlTranslationNodeInfo">
         <xs:sequence>
-            <xs:element minOccurs="0" name="booleanExpr" type="xs:string"/>
+            <xs:element minOccurs="0" name="booleanExpression" type="xs:string"/>
             <xs:element minOccurs="0" name="nlTranslation" type="xs:string"/>
             <xs:element minOccurs="0" name="parentNode" type="tns:nlTranslationNodeInfo"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="childNodeList" type="tns:nlTranslationNodeInfo"/>
-            <xs:element minOccurs="0" name="booleanExpression" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="childNodes" nillable="true" type="tns:nlTranslationNodeInfo"/>
-            <xs:element minOccurs="0" name="NLTranslation" type="xs:string"/>
-            <xs:element minOccurs="0" name="parent" type="tns:nlTranslationNodeInfo"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="referenceId" type="xs:string"/>
