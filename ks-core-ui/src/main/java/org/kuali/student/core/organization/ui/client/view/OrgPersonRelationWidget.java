@@ -41,6 +41,7 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
+import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
 import org.kuali.student.core.person.ui.client.view.PersonSearchWidget;
 
 import com.google.gwt.core.client.GWT;
@@ -254,7 +255,8 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
                             orgPersonRelForm.setFieldValue("relPersonId",orgPersonRelationInfo.getPersonId());
                             final String orgPersonRelType = orgPersonRelationInfo.getType();
                             
-                            PersonRpcService.Util.getInstance().fetchPerson(orgPersonRelationInfo.getPersonId(), 
+                            PersonRpcServiceAsync personRpcService = GWT.create(PersonRpcService.class);
+                            personRpcService.fetchPerson(orgPersonRelationInfo.getPersonId(), 
                                     new AsyncCallback<PersonInfo>(){
 
                                         public void onFailure(Throwable caught) {

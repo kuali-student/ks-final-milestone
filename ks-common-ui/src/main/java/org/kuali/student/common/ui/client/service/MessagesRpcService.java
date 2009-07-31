@@ -8,9 +8,11 @@ import org.kuali.student.core.messages.dto.MessageList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 
+@RemoteServiceRelativePath("rpcservices/MessagesRpcService")
 public interface MessagesRpcService extends RemoteService {
     public static class Util {
 

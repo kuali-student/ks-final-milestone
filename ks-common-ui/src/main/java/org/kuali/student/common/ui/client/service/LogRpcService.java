@@ -2,12 +2,10 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-@RemoteServiceRelativePath("LogService")
+@RemoteServiceRelativePath("rpcservices/LogRpcService")
 public interface LogRpcService extends RemoteService {
 
     

@@ -6,7 +6,7 @@ import org.kuali.student.core.comment.dto.CommentInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("CommentRpcService")
+@RemoteServiceRelativePath("rpcservices/CommentRpcService")
 public interface CommentRpcService extends BaseRpcService {
     /**
      * Adds a comment to a reference.

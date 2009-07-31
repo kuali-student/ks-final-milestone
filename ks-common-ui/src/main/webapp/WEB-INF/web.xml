@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
 	<servlet>
-		<servlet-name>spring</servlet-name>
+		<servlet-name>GWT</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 		<init-param>
@@ -11,16 +11,8 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
-		<url-pattern>/org.kuali.student.common.ui.CommonUITest/MessageService</url-pattern>
+		<servlet-name>GWT</servlet-name>
+		<url-pattern>/org.kuali.student.common.ui.CommonUITest/rpcservices/*</url-pattern>
 	</servlet-mapping>
 	
-<servlet-mapping>
-  <servlet-name>spring</servlet-name>
-  <url-pattern>/org.kuali.student.common.ui.CommonUITest/LogService</url-pattern>
-</servlet-mapping>
-
-
-
-
 </web-app>

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -14,9 +13,11 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
+import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
@@ -32,6 +33,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PersonSearchWidget extends Composite implements HasSelectionHandlers<PersonInfo> {
+    PersonRpcServiceAsync personRpcService = GWT.create(PersonRpcService.class);
+    
     VerticalPanel root = new VerticalPanel();
     
     ListBox orgHierarchyDropDown = null;
@@ -73,7 +76,7 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
                     String personId ;
                     personId = resultTable.getSelectedItems().get(0);
 
-                    PersonRpcService.Util.getInstance().fetchPerson(personId, new AsyncCallback<PersonInfo>(){
+                    personRpcService.fetchPerson(personId, new AsyncCallback<PersonInfo>(){
                         public void onFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                         }
@@ -103,7 +106,7 @@ public class PersonSearchWidget extends Composite implements HasSelectionHandler
         qpv1.setValue(personName.getText().replace('*', '%'));
         queryParamValues.add(qpv1);
         
-        PersonRpcService.Util.getInstance().searchForResults("person.search.personQuickViewByGivenName", 
+        personRpcService.searchForResults("person.search.personQuickViewByGivenName", 
                 queryParamValues, new AsyncCallback<List<Result>>(){
 
                     public void onFailure(Throwable caught) {

@@ -12,13 +12,13 @@
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="urlMap">
 			<map>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService">
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
 				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpcService">
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/PersonRpcService">
 					<ref bean="personRpcGwtServletController"/>
 				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/AuthorizationRpcService">
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/AuthorizationRpcService">
 					<ref bean="authorizationRpcGwtServletController"/>
 				</entry>
 			</map>

@@ -26,7 +26,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @author Kuali Student Team
  *
  */
-@RemoteServiceRelativePath("SecurityRpcService")
+@RemoteServiceRelativePath("rpcservices/SecurityRpcService")
 public interface SecurityRpcService extends RemoteService{    
     public String getPrincipalUsername();
 }

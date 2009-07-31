@@ -13,18 +13,15 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
 * This class lists all of the methods that the remote calls between client and servlet make, 
 * most of these will be verbatim from the web service  
 */
-@RemoteServiceRelativePath("OrgRpcService")
+@RemoteServiceRelativePath("rpcservices/OrgRpcService")
 public interface OrgRpcService extends RemoteService, BaseRpcService {
 	
 	public OrgInfo createOrganization(OrgInfo orgInfo);

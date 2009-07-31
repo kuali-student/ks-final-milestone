@@ -9,11 +9,11 @@
 		<property name="urlMap">
 			<map>
 				<entry
-					key="/org.kuali.student.common.ui.CommonUITest/MessageService">
+					key="/org.kuali.student.common.ui.CommonUITest/rpcservices/MessageService">
 					<ref bean="messageServiceGwtController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.common.ui.CommonUITest/LogService">
+					key="/org.kuali.student.common.ui.CommonUITest/rpcservices/LogService">
 					<ref bean="logServiceGwtController" />
 				</entry>
 			</map>

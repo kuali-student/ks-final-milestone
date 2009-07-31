@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("ServerProperties")
+@RemoteServiceRelativePath("rpcservices/ServerPropertiesRpcService")
 public interface ServerPropertiesRpcService extends RemoteService {
     /**
      * Gets the property from the server for use on the client side.
