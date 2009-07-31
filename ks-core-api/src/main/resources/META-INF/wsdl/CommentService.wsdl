@@ -1,6 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="DocumentService" targetNamespace="http://student.kuali.org/commentService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/commentService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="CommentService" targetNamespace="http://student.kuali.org/commentService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/commentService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.kuali.student/core/dictionary" xmlns:tns="http://org.kuali.student/core/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.kuali.student/core/search">
+    <xs:import namespace="http://org.kuali.student/core/dictionary"/>
+    <xs:complexType name="searchIndexedType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="allias" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchRelationship">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
+            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeAttribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="parentType" type="xs:string"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="alias" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="criteriaSet">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="criterion" type="tns:criterion"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="criteria" type="tns:criteriaSet"/>
+        </xs:sequence>
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="criterion">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="attribute" type="tns:typeAttribute"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="values" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="queryParamInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="queryParamValue">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="result">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="resultCell">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="resultColumnInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchCriteriaTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="queryParams">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="queryParam" type="tns:queryParamInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchResultTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="resultColumns">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="resultColumn" type="tns:resultColumnInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="searchResultTypeInfo" type="tns:searchResultTypeInfo"/>
+            <xs:element minOccurs="0" name="searchCriteriaTypeInfo" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.kuali.student/core/dictionary">
     <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
@@ -634,111 +739,6 @@
     <xs:element name="getObjectStructure" nillable="true" type="ns2:getObjectStructure"/>
     <xs:element name="getObjectStructureResponse" nillable="true" type="ns2:getObjectStructureResponse"/>
     <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.kuali.student/core/dictionary" xmlns:tns="http://org.kuali.student/core/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.kuali.student/core/search">
-    <xs:import namespace="http://org.kuali.student/core/dictionary"/>
-    <xs:complexType name="searchIndexedType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="allias" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchRelationship">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="typeAttribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="parentType" type="xs:string"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="alias" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="criteriaSet">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="criterion" type="tns:criterion"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="criteria" type="tns:criteriaSet"/>
-        </xs:sequence>
-        <xs:attribute name="operator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="criterion">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="attribute" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="operator" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="values" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="queryParamInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="queryParamValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="result">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="resultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="resultColumnInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchCriteriaTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="queryParams">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="queryParam" type="tns:queryParamInfo"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchResultTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="resultColumns">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="resultColumn" type="tns:resultColumnInfo"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="searchResultTypeInfo" type="tns:searchResultTypeInfo"/>
-            <xs:element minOccurs="0" name="searchCriteriaTypeInfo" type="tns:searchCriteriaTypeInfo"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="addTagResponse">
@@ -1741,7 +1741,7 @@
       </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="DocumentService">
+  <wsdl:service name="CommentService">
     <wsdl:port name="CommentServicePort" binding="tns:CommentServiceServiceSoapBinding">
       <soap:address location="http://localhost:9090/CommentServicePort"/>
     </wsdl:port>
