@@ -51,6 +51,10 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService">
 					<ref bean="ServerPropertiesServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService">
+					<ref bean="CommentRpcGwtServletController" />
+				</entry>				
 			</map>
 		</property>
 	</bean>
@@ -92,6 +96,12 @@
 		<property name="servletName" value="SecurityGwtServlet" />
 		<property name="servletInstance" ref="SecurityGwtServlet" />
 	</bean>
+
+	<bean id="CommentRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CommentRpcGwtServlet" />
+		<property name="servletInstance" ref="CommentRpcGwtServlet" />
+	</bean>
 	
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet" class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
@@ -125,8 +135,17 @@
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 
+	<bean id="CommentRpcGwtServlet"
+		class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
+		<property name="service" ref="commentClient" />
+	</bean>
+
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
+	</bean>
+
+	<bean id="SecurityGwtServlet"
+		class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
 	</bean>
 
 	<!-- Service Implementations -->
@@ -136,10 +155,6 @@
 				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="SecurityGwtServlet"
-		class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
 	</bean>
 
 	<!-- Lu Service Client -->
@@ -156,6 +171,18 @@
 	</bean>
 	
     <!-- Translation Service Client -->
+	<bean id="commentClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/CommentService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.core.comment.service.CommentService" />
+		<property name="serviceQNameString"
+			value="{http://org.kuali.student/core/comment}CommentService" />
+		<property name="address"
+			value="${ks.core.comment.serviceAddress" />
+	</bean>
+    
     <bean id="translationClient"
         class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
         <property name="wsdlLocation"
