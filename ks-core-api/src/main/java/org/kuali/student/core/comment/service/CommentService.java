@@ -47,7 +47,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTR/Comment+Service+v1.0-rc1">CommentService</>
  *
  */
-@WebService(name = "CommentService", targetNamespace = "http://student.kuali.org/commentService") // TODO CHECK THESE VALUES
+@WebService(name = "CommentService", targetNamespace = "http://org.kuali.student/core/comment")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CommentService extends DictionaryService {
     /**
