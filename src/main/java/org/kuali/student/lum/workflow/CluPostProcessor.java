@@ -2,9 +2,11 @@ package org.kuali.student.lum.workflow;
 import java.security.InvalidParameterException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,8 +89,9 @@ public class CluPostProcessor implements PostProcessor{
 		
 		//Clear all pending Collab request documents for this document
 		Collection<Long> pendingCollabIds = KEWServiceLocator.getRouteHeaderService().findByDocTypeAndAppId("CluCollaboratorDocument", routeHeaderId.toString());
-        if(pendingCollabIds!=null){
-        	for(Long pendingCollabId:pendingCollabIds){
+		if(pendingCollabIds!=null){
+			Set<Long> uniquePendingCollagIds = new HashSet<Long>(pendingCollabIds);
+        	for(Long pendingCollabId:uniquePendingCollagIds){
         		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, pendingCollabId);
         		workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
         	}
