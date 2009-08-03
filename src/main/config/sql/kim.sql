@@ -1,5 +1,3 @@
--- update kew app doc id until we get the change in the master db
-ALTER TABLE KREW_DOC_HDR_T MODIFY APP_DOC_ID VARCHAR(255);
 
 -- clean up ksb registry table
 DELETE FROM KRSB_SVC_DEF_T;
