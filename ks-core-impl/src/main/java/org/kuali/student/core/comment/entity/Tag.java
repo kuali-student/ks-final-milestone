@@ -28,9 +28,9 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSCO_TAG")
 @NamedQueries( {
-        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType.id=:refTypeId"),
+        @NamedQuery(name = "Tag.getTags", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id=:refTypeId"),
         @NamedQuery(name = "Tag.getTag", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id=:refTypeId"),
-        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType.id=:refTypeId OR tag.type.id=:tagTypeId"),
+        @NamedQuery(name = "Tag.getTagsByType", query = "SELECT  tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType.id=:refTypeId AND tag.type.id=:tagTypeId"),
         @NamedQuery(name = "Tag.getTagsByRefId", query="SELECT tag FROM Tag tag JOIN tag.reference r1 WHERE r1.referenceId=:refId")})
 public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
@@ -75,7 +75,7 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
      * AutoGenerate the Id
      */
     @PrePersist
-    public void prePersist() {
+    public void beforePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
     }
 

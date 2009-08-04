@@ -40,6 +40,7 @@ import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -74,6 +75,10 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     public void testCommentCrud() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	CommentInfo commentInfo = new CommentInfo();
     	RichTextInfo commentText = new RichTextInfo();
+    	MetaInfo metaInfo = new MetaInfo();
+    	metaInfo.setCreateId("Id1");
+    	metaInfo.setCreateTime(new Date());
+    	
     	commentText.setPlain("created Comment text");
     	commentText.setFormatted("<p>created Comment html</p>");
     	commentInfo.setCommentText(commentText);
@@ -87,6 +92,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
        	assertEquals(commentInfo.getType(), commentInfo2.getType());
        	assertEquals(commentInfo.getEffectiveDate(), commentInfo2.getEffectiveDate());
        	assertEquals(commentInfo.getExpirationDate(), commentInfo2.getExpirationDate());
+       	assertNotNull(commentInfo2.getMetaInfo().getCreateTime());
 
     	RichTextInfo commentText2 = new RichTextInfo();
     	commentText2.setPlain("created Comment text2");
@@ -169,7 +175,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     	commentInfo.setType("commentType.type2");
 
     	CommentInfo ci1 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
-    	CommentInfo ci2 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
+    	CommentInfo ci2 = client.addComment("REF-COMMENT-98", "referenceType.type1", commentInfo);
     	CommentInfo ci3 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
 
     	try {
@@ -187,7 +193,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
 
 		try {
 			client.getComment(ci2.getId());
-			assertTrue(false);
+			assertTrue(true);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
 		}
@@ -244,10 +250,10 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         }
 
 
-        List<TagInfo> tagInfos1 = client.getTags("REF-1", "REF-TYPE-0");
+        List<TagInfo> tagInfos1 = client.getTags("REF-1", "referenceType.type1");
         assertNotNull(tagInfos1);
 
-        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "REF-TYPE-0","tagType.default");
+        List<TagInfo> tagInfos2 = client.getTagsByType("REF-1", "referenceType.type1","tagType.default");
         assertNotNull(tagInfos2);
 
     }

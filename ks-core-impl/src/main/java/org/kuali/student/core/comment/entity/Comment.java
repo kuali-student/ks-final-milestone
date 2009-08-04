@@ -47,9 +47,9 @@ import org.kuali.student.core.entity.RichText;
 @Entity
 @Table(name = "KSCO_COMMENT")
 @NamedQueries( {
-        @NamedQuery(name = "Comment.getComments", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType=:refTypeId"),
+        @NamedQuery(name = "Comment.getComments", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId"),
         @NamedQuery(name = "Comment.getComment", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId"),
-        @NamedQuery(name = "Comment.getCommentsByType", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId OR r1.referenceType=:refTypeId OR comment.type.id=:commentTypeId"),
+        @NamedQuery(name = "Comment.getCommentsByType", query = "SELECT  comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId AND r1.referenceType=:refTypeId AND comment.type.id=:commentTypeId"),
         @NamedQuery(name = "Comment.getCommentsByRefId", query="SELECT comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId=:refId")})
 public class Comment extends MetaEntity implements AttributeOwner<CommentAttribute> {
     private static final long serialVersionUID = 1L;
@@ -88,7 +88,7 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
      * AutoGenerate the Id
      */
     @PrePersist
-    public void prePersist() {
+    public void beforePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
     }
 

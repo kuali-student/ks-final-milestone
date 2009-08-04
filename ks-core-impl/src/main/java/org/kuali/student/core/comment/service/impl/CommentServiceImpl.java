@@ -100,9 +100,9 @@ public class CommentServiceImpl implements CommentService {
             throw new InvalidParameterException(e.getMessage());
         }
 
-        commentDao.create(comment);
+        Comment createdComment = commentDao.create(comment);
 
-        CommentInfo createdCommentInfo = CommentServiceAssembler.toCommentInfo(comment);
+        CommentInfo createdCommentInfo = CommentServiceAssembler.toCommentInfo(createdComment);
 
         return createdCommentInfo;
     }
@@ -138,9 +138,9 @@ public class CommentServiceImpl implements CommentService {
             e.printStackTrace();
         }
 
-        commentDao.create(tag);
+        Tag createdTag = commentDao.create(tag);
 
-        TagInfo createdTagInfo = CommentServiceAssembler.toTagInfo(tag);
+        TagInfo createdTagInfo = CommentServiceAssembler.toTagInfo(createdTag);
 
         return createdTagInfo;
     }
@@ -357,7 +357,6 @@ public class CommentServiceImpl implements CommentService {
     public List<String> searchForComments(CommentCriteriaInfo commentCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
     	// TODO Just show that we are hooked up to search service. Needs to be fixed to use the CommentCriteriaInfo values
-
     	List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(1);
     	QueryParamValue queryParamValue = new QueryParamValue();
     	queryParamValue.setKey("comment_queryParam_commentId");
