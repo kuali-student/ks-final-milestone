@@ -39,7 +39,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 public class CluPostProcessor implements PostProcessor{
 
-	private static final NetworkIdDTO KS_SYS_PRINCIPAL = new NetworkIdDTO("ks");
+	private static final NetworkIdDTO KS_SYS_PRINCIPAL = new NetworkIdDTO("KS");
 	
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(CluPostProcessor.class);
@@ -93,7 +93,13 @@ public class CluPostProcessor implements PostProcessor{
 			Set<Long> uniquePendingCollagIds = new HashSet<Long>(pendingCollabIds);
         	for(Long pendingCollabId:uniquePendingCollagIds){
         		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, pendingCollabId);
-        		workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
+        		String routeStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
+        		if(!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) &&
+        		   !KEWConstants.ROUTE_HEADER_APPROVED_CD.equals(routeStatus) &&
+        		   !KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) &&
+        		   !KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeStatus)){
+        			workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
+        		}
         	}
         }
 
