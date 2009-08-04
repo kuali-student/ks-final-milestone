@@ -13,23 +13,13 @@
       <list>
         <ref bean="KualiStudentKimAttributes-department" />
         <ref bean="KualiStudentKimAttributes-college" />
-        <ref bean="KualiStudentKimAttributes-department-coc" />
-        <ref bean="KualiStudentKimAttributes-college-coc" />
       </list>
     </property>
   </bean>
 
   <bean id="KualiStudentKimAttributes-department" parent="KualiStudentKimAttributes-department-parentBean" />
-	<bean id="KualiStudentKimAttributes-department-coc" parent="KualiStudentKimAttributes-department-parentBean">
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentCocValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
   <bean id="KualiStudentKimAttributes-department-parentBean" abstract="true" parent="AttributeDefinition"
-        p:name="kuali.org.Department"
+        p:name="department"
         p:forceUppercase="false"
         p:label="Department"
         p:shortLabel="Dept"
@@ -37,22 +27,14 @@
         p:required="true" >
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentCommitteeValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
 
   <bean id="KualiStudentKimAttributes-college" parent="KualiStudentKimAttributes-college-parentBean" />
-	<bean id="KualiStudentKimAttributes-college-coc" parent="KualiStudentKimAttributes-college-parentBean">
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeCocValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
   <bean id="KualiStudentKimAttributes-college-parentBean" abstract="true" parent="AttributeDefinition"
-        p:name="kuali.org.College"
+        p:name="college"
         p:forceUppercase="false"
         p:label="College"
         p:shortLabel="College"
@@ -60,9 +42,9 @@
         p:required="true" >
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeCommitteeValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
 
-</beans>
+</beans>  
