@@ -180,5 +180,14 @@ public interface KSStyles {
     public static final String KS_RICH_TEXT_LARGE_TOOLBAR = "KS-RichText-Large-Toolbar";
     public static final String KS_RICH_TEXT_LARGE_CONTENT = "KS-RichText-Large-Content-Panel";
     public static final String KS_RICH_TEXT_NORMAL_CONTENT = "KS-RichText-Normal-Content-Panel";
+    
+    public static final String KS_ERROR_DIALOG = "KS-Error-Dialog";
+    public static final String KS_ERROR_DIALOG_TITLE = "KS-Error-Dialog-Title";
+    public static final String KS_ERROR_DIALOG_LABEL = "KS-Error-Dialog-Label";
+    public static final String KS_ERROR_DIALOG_PANEL = "KS-Error-Dialog-Panel";
+    public static final String KS_ERROR_DIALOG_DESCRIPTION = "KS-Error-Dialog-Description";
+    public static final String KS_ERROR_DIALOG_TEXTAREA = "KS-Error-Dialog-TextArea";
+    public static final String KS_ERROR_DIALOG_BUTTON = "KS-Error-Dialog-Button";
+
 	
 }

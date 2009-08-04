@@ -33,6 +33,8 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/public/KSDisclosureSection.css")
 	public CssResource disclosureSectionCss();
     @Resource("org/kuali/student/common/ui/public/KSDropDown.css")
+    public CssResource ErrorDialogCss();
+    @Resource("org/kuali/student/common/ui/public/KSErrorDialog.css")
 	public CssResource dropDownCss();
     @Resource("org/kuali/student/common/ui/public/KSFloatPanel.css")
 	public CssResource floatPanelCss();

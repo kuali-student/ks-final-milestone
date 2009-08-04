@@ -21,8 +21,8 @@
    	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
    	<bean parent="enCommon" p:id="send"     	p:value="Send"/>
    	
-   	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Submit an Error Report"/>
-   	<bean parent="enCommon" p:id="errorDescription"     	p:value="This page will send us a report on this error to assist us in fixing the error."/>
+   	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
+   	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
    	<bean parent="enCommon" p:id="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
    	 	
   	
@@ -43,8 +43,8 @@
    	<bean parent="esCommon" p:id="advSearch"	p:value="Búsqueda avanzada"/>
    	<bean parent="esCommon" p:id="send"     	p:value="Envie"/>
 
-   	<bean parent="esCommon" p:id="errorDialogTitle"     	p:value="Someta un Informe del Error"/>
-   	<bean parent="esCommon" p:id="errorDescription"     	p:value="Esta página nos enviará un informe del error."/>
+   	<bean parent="esCommon" p:id="errorDialogTitle"     	p:value="Envíenos un informe del error"/>
+   	<bean parent="esCommon" p:id="errorDescription"     	p:value="Aquí está la información incluida en este informe."/>
    	<bean parent="esCommon" p:id="describeAction"     	p:value="Incorpore una breve descripción de lo que usted hacía."/>
 
 	<!--  Default Validation Messages -->

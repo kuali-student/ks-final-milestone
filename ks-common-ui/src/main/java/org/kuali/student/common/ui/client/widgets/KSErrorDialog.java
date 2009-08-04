@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class KSErrorDialog {
@@ -30,23 +31,6 @@ public class KSErrorDialog {
             return this.messageId;
         }
     }  
-    public enum ExposedStyles {
-        ERROR_DIALOG("KS-Error-Dialog"),
-        ERROR_DIALOG_TITLE("KS-Error-Dialog-Title"),
-        ERROR_DIALOG_LABEL("KS-Error-Dialog-Label"),
-        ERROR_DIALOG_DESCRIPTION("KS-Error-Dialog-Description"),
-        ERROR_DIALOG_TEXTAREA("KS-Error-Dialog-TextArea"),
-        ERROR_DIALOG_BUTTON("KS-Error-Dialog-Button");
-
-        private String styleName;
-        private ExposedStyles(String styleName) {
-            this.styleName = styleName;
-        }
-        public String toString() {
-            return this.styleName;
-        }
-    }
-
 
     public static void bindUncaughtExceptionHandler() {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -60,23 +44,33 @@ public class KSErrorDialog {
         final KSLightBox lightbox = new KSLightBox();
         
         final VerticalPanel panel = new VerticalPanel();
-        panel.addStyleName(ExposedStyles.ERROR_DIALOG.toString());
+        panel.addStyleName(KSStyles.KS_ERROR_DIALOG);
 
         final KSLabel title = new KSLabel(context.getMessage(MessagesRequired.DIALOG_TITLE.toString()));
-        title.addStyleName(ExposedStyles.ERROR_DIALOG_TITLE.toString());
+        title.addStyleName(KSStyles.KS_ERROR_DIALOG_TITLE);
+        
+        final KSLabel errorDescriptionLabel = new KSLabel(context.getMessage(MessagesRequired.ERROR_DESCRIPTION.toString()));
+        errorDescriptionLabel.addStyleName(KSStyles.KS_ERROR_DIALOG_LABEL);
 
-        final KSLabel descriptionLabel = new KSLabel(context.getMessage(MessagesRequired.ERROR_DESCRIPTION.toString()));
-        descriptionLabel.addStyleName(ExposedStyles.ERROR_DIALOG_LABEL.toString());
-
-        final KSTextArea description = new KSTextArea();
-        description.setText(getErrorDescription(error));
-        description.addStyleName(ExposedStyles.ERROR_DIALOG_TEXTAREA.toString());
+        final SimplePanel errorDescriptionPanel = new SimplePanel();
+        errorDescriptionPanel.addStyleName(KSStyles.KS_ERROR_DIALOG_PANEL);
+        
+        final KSTextArea errorDescription = new KSTextArea();
+        errorDescription.setText(getErrorDescription(error));
+        errorDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
+        errorDescription.setReadOnly(true);
+        errorDescription.setEnabled(false);
+        errorDescriptionPanel.add(errorDescription);
 
         final KSLabel describeActionLabel = new KSLabel(context.getMessage(MessagesRequired.DESCRIBE_ACTION.toString()));
-        describeActionLabel.addStyleName(ExposedStyles.ERROR_DIALOG_LABEL.toString());
+        describeActionLabel.addStyleName(KSStyles.KS_ERROR_DIALOG_LABEL);
+        
+        final SimplePanel actionDescriptionPanel = new SimplePanel();
+        actionDescriptionPanel.addStyleName(KSStyles.KS_ERROR_DIALOG_PANEL);    
 
         final KSTextArea actionDescription = new KSTextArea();
-        actionDescription.addStyleName(ExposedStyles.ERROR_DIALOG_TEXTAREA.toString());
+        actionDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
+        actionDescriptionPanel.add(actionDescription);
 
         final SendCancelGroup buttonPanel = new SendCancelGroup(new Callback<SendCancelEnum>(){
 
@@ -99,11 +93,13 @@ public class KSErrorDialog {
         });
 
         panel.add(title);
-        panel.add(descriptionLabel);
-        panel.add(description);
+        panel.add(errorDescriptionLabel);
+        panel.add(errorDescriptionPanel);
         panel.add(describeActionLabel);
-        panel.add(actionDescription);
+        panel.add(actionDescriptionPanel);
         panel.add(buttonPanel);
+        
+        panel.setSize("100", "100");
 
         lightbox.setWidget(panel);
         lightbox.show();
