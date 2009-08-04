@@ -1,5 +1,7 @@
 package org.kuali.student.core.search.dto;
+
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,19 +12,35 @@ import javax.xml.bind.annotation.XmlElement;
 public class QueryParamValue implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlElement
-	private String value; 
+	private String value;
+	@XmlElement
+	private List<String> listValue;
 	@XmlAttribute
-	private String key; 
-	public String getValue(){
-		return value;
+	private String key;
+
+	public Object getValue() {
+		if (value != null) {
+			return value;
+		} else {
+			return listValue;
+		}
 	}
-	public void setValue(String value){
+
+	public void setValue(String value) {
 		this.value = value;
+		listValue = null;
 	}
-	public String getKey(){
+
+	public void setValue(List<String> listValue) {
+		this.listValue = listValue;
+		value = null;
+	}
+
+	public String getKey() {
 		return key;
 	}
-	public void setKey(String key){
+
+	public void setKey(String key) {
 		this.key = key;
 	}
 }
