@@ -98,7 +98,7 @@ public class CollegeCommitteeQualifierResolverTest extends BaseRiceTestCase {
 		attributeSets = resolver.resolve(context);
 		assertEquals(1, attributeSets.size());
 		assertEquals(1, attributeSets.get(0).size());
-		assertEquals("MockCOC", attributeSets.get(0).get(KUALI_ORG_COC));
+		assertEquals("MockCOC", attributeSets.get(0).get("college"));
 		
 		// and this
 		context = new RouteContext();
@@ -111,7 +111,7 @@ public class CollegeCommitteeQualifierResolverTest extends BaseRiceTestCase {
 		
 		assertEquals(1, set1.size());
 		
-		String coc = set1.get(AbstractOrgQualifierResolver.KUALI_ORG_COC);
+		String coc = set1.get("college");
 		assertEquals("MockCOC", coc);
 	}
 

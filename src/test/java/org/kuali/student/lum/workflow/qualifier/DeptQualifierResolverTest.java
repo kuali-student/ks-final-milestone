@@ -85,7 +85,7 @@ public class DeptQualifierResolverTest extends BaseRiceTestCase {
 		attributeSets = resolver.resolve(context);
 		assertEquals(1, attributeSets.size());
 		assertEquals(2, attributeSets.get(0).size());
-		assertEquals("Chemistry", attributeSets.get(0).get(KUALI_ORG_DEPARTMENT));
+		assertEquals("Chemistry", attributeSets.get(0).get("department"));
 	}
 	
 	/**
