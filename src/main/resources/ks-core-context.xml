@@ -16,8 +16,14 @@
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
 		destroy-method="close">
 		<property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties"
-			value="${propertiesPrefix.org.jdbc.xaDataSourceProperties}" />
+		<property name="xaProperties">
+			<props>
+				<prop key="user">org</prop>
+				<prop key="password">org</prop>
+				<prop key="databaseName">target/orgDB</prop>
+				<prop key="createDatabase">create</prop>
+			</props>
+		</property>
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 		<property name="testQuery" value="${jdbc.validationQuery}" />
 	</bean>
@@ -28,14 +34,26 @@
 
 	<bean id="emDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="emDataSource" />
-		<property name="xaProperties"
-			value="${propertiesPrefix.em.jdbc.xaDataSourceProperties}" />
+		<property name="xaProperties">
+			<props>
+				<prop key="user">em</prop>
+				<prop key="password">em</prop>
+				<prop key="databaseName">target/emDB</prop>
+				<prop key="createDatabase">create</prop>
+			</props>
+		</property>
 	</bean>
 
 	<bean id="messageDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="messageDataSource" />
-		<property name="xaProperties"
-			value="${propertiesPrefix.message.jdbc.xaDataSourceProperties}" />
+		<property name="xaProperties">
+			<props>
+				<prop key="user">message</prop>
+				<prop key="password">message</prop>
+				<prop key="databaseName">target/messageDB</prop>
+				<prop key="createDatabase">create</prop>
+			</props>
+		</property>
 	</bean>
 
 	<bean id="commentDataSource" parent="defaultDataSource">
@@ -54,7 +72,8 @@
 		</property>
 		<property name="jpaPropertyMap">
 			<props>
-				<prop key="hibernate.transaction.manager_lookup_class">com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup</prop>
+				<prop key="hibernate.transaction.manager_lookup_class">
+					com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup</prop>
 				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
 				<prop key="hibernate.connection.release_mode">after_transaction</prop>
 			</props>
@@ -91,7 +110,15 @@
 	<!--  Atomikos Configurations -->
 	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
 		init-method="init" destroy-method="shutdownForce">
-		<constructor-arg value="${propertiesPrefix.atomikos.properties}" />
+		<constructor-arg>
+		<props>
+		<prop key="com.atomikos.icatch.service">com.atomikos.icatch.standalone.UserTransactionServiceFactory</prop>
+		<prop key="com.atomikos.icatch.output_dir">target</prop>
+		<prop key="com.atomikos.icatch.log_base_dir">target</prop>
+		<prop key="com.atomikos.icatch.console_log_level">WARN</prop>
+		<prop key="com.atomikos.icatch.enable_logging">true</prop>
+		</props>
+		</constructor-arg>
 	</bean>
 
 	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
