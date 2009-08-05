@@ -1,0 +1,135 @@
+<!--
+    This is the standalone default settings config file.  It is always loaded to read default settings.
+    Parameter replacement is performed in both config files and their parents (at runtime), and the
+    Spring config file (through a PropertyPlaceholderConfigurer).
+    Variable syntax:
+    ${varname}
+    ${institution}
+-->
+<config>
+
+    <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
+
+    <!-- BEGIN KUALI STUDENT SETTINGS -->
+    <param name="appserver.url">http://localhost:8081</param>
+    <param name="app.code">ks-rice</param>
+    <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+    <param name="rice.logging.configure">true</param>
+    
+    <param name="lum.application.url">http://localhost:8080/ks-lum-web</param>
+    
+    <!-- KSB -->
+    <param name="Routing.ImmediateExceptionRouting">true</param>
+    <!-- END KUALI STUDENT SETTINGS -->
+
+    <!-- BEGIN KUALI STUDENT SETTINGS OVERRIDES -->
+    <!-- KEW -->
+    <param name="xml.pipeline.lifecycle.enabled">true</param>
+    <param name="email.reminder.lifecycle.enabled">true</param>
+    <param name="plugin.registry.enabled">false</param>
+    <param name="notification.quartz.autostartup">false</param>
+    <param name="notification.concurrent.jobs">false</param>
+    
+    <param name="simpleDocumentActionsService.security">false</param>
+    <param name="secure.workflowutility.soapservice.endpoint">false</param>
+
+    <!-- KIM -->
+    <param name="kim.soapExposedService.jaxws.security">false</param>
+    <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
+
+    <!-- Datasource Configuration -->
+    <param name="datasource.ojb.platform">Oracle9i</param>
+    <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="datasource.username">rice100br</param>
+    <param name="datasource.password">kuali</param>
+    <param name="datasource.driver.name" override="false">oracle.jdbc.driver.OracleDriver</param>
+
+    <!-- Keystore Configuration -->
+    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.alias">rice</param>
+    <param name="keystore.password">r1c3pw</param>
+
+    <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
+    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+
+    <!-- default config files -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
+    <param name="config.location">${rice.base}../../../conf/rice-config.xml</param>
+    <param name="config.location">${rice.base}../../conf/rice-config.xml</param>
+    <param name="config.location">${additional.config.locations}</param>
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+	<!-- additional config files -->
+	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
+	
+<!-- core-web.properties -->
+	
+  <param name="jpa.properties.eclipselink.application-location">target</param> 
+  <param name="propertiesPrefix.message.jdbc.xaDataSourceProperties">$[${db.vendor}.message.jdbc.xaDataSourceProperties]</param> 
+  <param name="jdbc.xaDataSourceClassName">org.apache.derby.jdbc.EmbeddedXADataSource</param> 
+  <param name="eclipselink.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter</param> 
+  <param name="derby.em.jdbc.xaDataSourceProperties.user">em</param> 
+  <param name="atomikos.properties.com.atomikos.icatch.service">com.atomikos.icatch.standalone.UserTransactionServiceFactory</param> 
+  <param name="atomikos.properties.com.atomikos.icatch.console_log_level">WARN</param> 
+  <param name="jpa.databasePlatform">${${jpa.vendor}.${db.vendor}.jpa.databasePlatform}</param> 
+  <param name="ks.core.org.serviceAddress">http://localhost:8080/ks-integrate/services/OrgService</param> 
+  <param name="oracle.message.jdbc.xaDataSourceProperties.password">message</param> 
+  <param name="eclipselink.oracle.jpa.databasePlatform">org.eclipse.persistence.platform.database.OraclePlatform</param> 
+  <param name="jpa.showSql">false</param> 
+  <param name="jpa.properties.hibernate.transaction.manager_lookup_class">com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup</param> 
+  <param name="oracle.jdbc.validationQuery">SELECT 1 FROM DUAL</param> 
+  <param name="propertiesPrefix.org.jdbc.xaDataSourceProperties">$[${db.vendor}.org.jdbc.xaDataSourceProperties]</param> 
+  <param name="derby.em.jdbc.xaDataSourceProperties.createDatabase">create</param> 
+  <param name="derby.message.jdbc.xaDataSourceProperties.user">message</param> 
+  <param name="jpa.properties.eclipselink.ddl-generation">drop-and-create-tables</param> 
+  <param name="jpa.generateDdl">true</param> 
+  <param name="jpa.properties.hibernate.hbm2ddl.auto">create-drop</param> 
+  <param name="derby.jdbc.validationQuery">VALUES(1)</param> 
+  <param name="jdbc.validationQuery">${${db.vendor}.jdbc.validationQuery}</param> 
+  <param name="eclipselink.derby.jpa.databasePlatform">org.eclipse.persistence.platform.database.DerbyPlatform</param> 
+  <param name="derby.em.jdbc.xaDataSourceProperties.password">em</param> 
+  <param name="derby.message.jdbc.xaDataSourceProperties.databaseName">target/messageDB</param> 
+  <param name="oracle.message.jdbc.xaDataSourceProperties.URL">jdbc:oracle:thin:@localhost:1521:XE</param> 
+  <param name="derby.org.jdbc.xaDataSourceProperties.password">org</param> 
+  <param name="atomikos.properties.com.atomikos.icatch.output_dir">target</param> 
+  <param name="derby.em.jdbc.xaDataSourceProperties.databaseName">target/emDB</param> 
+  <param name="oracle.org.jdbc.xaDataSourceProperties.user">org</param> 
+  <param name="atomikos.properties.com.atomikos.icatch.log_base_dir">target</param> 
+  <param name="derby.org.jdbc.xaDataSourceProperties.createDatabase">create</param> 
+  <param name="oracle.message.jdbc.xaDataSourceProperties.user">message</param> 
+  <param name="propertiesPrefix.atomikos.properties">$[atomikos.properties]</param> 
+  <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param> 
+  <param name="hibernate.derby.jpa.databasePlatform">org.hibernate.dialect.DerbyDialect</param> 
+  <param name="jpa.properties.eclipselink.weaving">false</param> 
+  <param name="oracle.org.jdbc.xaDataSourceProperties.password">org</param> 
+  <param name="jpa.properties.eclipselink.ddl-generation.output-mode">database</param> 
+  <param name="oracle.em.jdbc.xaDataSourceProperties.URL">jdbc:oracle:thin:@localhost:1521:XE</param> 
+  <param name="oracle.jdbc.xaDataSourceClassName">oracle.jdbc.xa.client.OracleXADataSource</param> 
+  <param name="oracle.em.jdbc.xaDataSourceProperties.password">em</param> 
+  <param name="propertiesPrefix.em.jdbc.xaDataSourceProperties">$[${db.vendor}.em.jdbc.xaDataSourceProperties]</param> 
+  <param name="db.vendor">derby</param> 
+  <param name="oracle.org.jdbc.xaDataSourceProperties.URL">jdbc:oracle:thin:@localhost:1521:XE</param> 
+  <param name="hibernate.oracle.jpa.databasePlatform">org.hibernate.dialect.OracleDialect</param> 
+  <param name="jpa.vendorAdapter">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</param> 
+  <param name="jpa.vendor">hibernate</param> 
+  <param name="propertiesPrefix.jpa.properties">$[jpa.properties]</param> 
+  <param name="derby.jdbc.xaDataSourceClassName">org.apache.derby.jdbc.EmbeddedXADataSource</param> 
+  <param name="derby.org.jdbc.xaDataSourceProperties.user">org</param> 
+  <param name="jdbc.maxPoolSize">20</param> 
+  <param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param> 
+  <param name="derby.org.jdbc.xaDataSourceProperties.databaseName">target/orgDB</param> 
+  <param name="jpa.properties.hibernate.connection.release_mode">after_transaction</param> 
+  <param name="derby.message.jdbc.xaDataSourceProperties.createDatabase">create</param> 
+  <param name="derby.message.jdbc.xaDataSourceProperties.password">message</param> 
+  <param name="atomikos.properties.com.atomikos.icatch.enable_logging">true</param> 
+  <param name="jpa.properties.eclipselink.target-server">org.kuali.student.common.util.jta.AtomikosJtaTransactionController</param> 
+  <param name="hibernate.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</param> 
+  <param name="oracle.em.jdbc.xaDataSourceProperties.user">em</param> 
+
+	
+	
+
+	
+
+</config>
