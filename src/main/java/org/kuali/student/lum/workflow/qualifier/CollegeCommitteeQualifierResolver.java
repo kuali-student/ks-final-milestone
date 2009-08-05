@@ -105,7 +105,7 @@ public class CollegeCommitteeQualifierResolver extends CollegeQualifierResolver 
 			orgInfoMap.put(coc.getId(), coc);
 		}
 		for (OrgInfo coc : orgInfoMap.values()) {
-			returnAttrSetList.add(new AttributeSet(KUALI_ORG_COC, coc.getShortName()));
+			returnAttrSetList.add(new AttributeSet("college", coc.getShortName()));
 		}
 		return returnAttrSetList;
 	}

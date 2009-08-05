@@ -84,7 +84,7 @@ public class DeptCommitteeQualifierResolver extends CollegeQualifierResolver {
 		}
 		
 		for (OrgInfo coc : cocs) {
-			returnAttrSetList.add(new AttributeSet(KUALI_ORG_COC, coc.getShortName()));
+			returnAttrSetList.add(new AttributeSet("department", coc.getShortName()));
 		}
 		return returnAttrSetList;
 	}
