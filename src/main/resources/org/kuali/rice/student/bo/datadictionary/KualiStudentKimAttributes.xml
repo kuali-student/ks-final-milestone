@@ -27,7 +27,7 @@
         p:required="true" >
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DepartmentCommitteeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -42,7 +42,7 @@
         p:required="true" >
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.CollegeCommitteeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
