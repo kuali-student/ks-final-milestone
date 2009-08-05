@@ -26,8 +26,9 @@
 
     <!-- these are defaulted to false already, helpful to turn on for debug -->
     <param name="rice.jpa.JpaProperties.hibernate.show_sql">true</param>
-    <param name="rice.jpa.JpaProperties.hibernate.use_sql_comments">true</param>
     <param name="rice.jpa.JpaProperties.hibernate.format_sql">true</param>
+    <!-- do NOT turn this on when using the derby client, it is of little use anyway -->
+    <param name="rice.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
 
     <!-- Oracle Config Settings -->
     <param name="rice.jpa.DatabasePlatform">org.hibernate.dialect.DerbyDialect</param>
