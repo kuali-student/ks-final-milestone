@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.core.dto.StatusInfo;
 
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {
 
@@ -33,5 +34,12 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 			String referenceTypeKey, CommentInfo commentInfo) throws Exception {
 		return service.updateComment(referenceId, referenceTypeKey, commentInfo);
 	}
+
+	@Override
+	public StatusInfo removeComment(String commentId, String referenceId,
+			String referenceTypeKey) throws Exception {
+		return service.removeComment(commentId, referenceId, referenceTypeKey);
+	}
+
 
 }

@@ -27,7 +27,9 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.i18n.client.Constants;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -140,13 +142,8 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 		@Override
 		public void onMouseDown(MouseDownEvent event) {
 			
-			Widget sender = (Widget) event.getSource();
-			if(sender instanceof FocusPanel){
-				inUse = true;
-			}
-			else{
-				richText.setFocus(true);
-			}
+			//Widget sender = (Widget) event.getSource();
+			richText.setFocus(true);
 		}
 
 		@Override
@@ -154,15 +151,6 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 			Widget sender = (Widget) event.getSource();
 			if(sender instanceof ListBox){
 				inUse = true;
-			}
-			else if(sender instanceof FocusPanel){
-				if(lbFocus){
-					inUse = true;
-				}
-				else{
-					inUse = false;
-					richText.setFocus(true);
-				}
 			}
 			else{
 				inUse = false;
@@ -207,10 +195,10 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	  private RichTextArea.BasicFormatter basic;
 	  private RichTextArea.ExtendedFormatter extended;
 	  
-	  private FocusPanel wrapper = new FocusPanel();
+	  //private FocusPanel wrapper = new FocusPanel();
 	  private VerticalFlowPanel outer = new VerticalFlowPanel();
 	  private HorizontalBlockFlowPanel topPanel = new HorizontalBlockFlowPanel();
-	  private HorizontalBlockFlowPanel bottomPanel = new HorizontalBlockFlowPanel();
+	  //private HorizontalBlockFlowPanel bottomPanel = new HorizontalBlockFlowPanel();
 	  private ToggleButton bold;
 	  private ToggleButton italic;
 	  private ToggleButton underline;
@@ -255,13 +243,44 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    this.richText = richText;
 	    this.basic = richText.getBasicFormatter();
 	    this.extended = richText.getExtendedFormatter();
-	    initWidget(wrapper);
+	    initWidget(outer);
 	    outer.add(topPanel);
 	    //outer.add(bottomPanel);
-	    wrapper.add(outer);
 	    
-	    wrapper.addMouseDownHandler(handler);
-	    wrapper.addMouseUpHandler(handler);
+	    Event.addNativePreviewHandler(new Event.NativePreviewHandler() {
+			@Override
+			public void onPreviewNativeEvent(NativePreviewEvent event) {
+	    	    int type = event.getTypeInt();
+	    	    if (Element.is(event.getNativeEvent().getEventTarget())) {
+	    	     com.google.gwt.dom.client.Element e = Element.as(event.getNativeEvent().getEventTarget());
+	    	     
+	    	     if (outer.getElement().isOrHasChild(e)) {
+	    	         switch(type)
+	    	         {
+	    	        	 case Event.ONMOUSEDOWN:
+	    	        		 inUse = true;
+	    	        		 break;
+	    	        	 case Event.ONMOUSEUP:
+	    	        		if(lbFocus){
+	    	 					inUse = true;
+	    	 				}
+	    	 				else{
+	    	 					inUse = false;
+	    	 					KSRichTextToolbarImpl.this.richText.setFocus(true);
+	    	 				}
+	    	        		break;
+	    	        	 default:
+	    	        		break;
+	    	         }
+	    	     }
+	    	    
+	    	    }
+			}
+	    });
+	    //wrapper.add(outer);
+	    
+	    //wrapper.addMouseDownHandler(handler);
+	    //wrapper.addMouseUpHandler(handler);
 
 	    setStyleName("gwt-RichTextToolbar");
 	    richText.addStyleName("hasRichTextToolbar");
@@ -415,4 +434,13 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	      strikethrough.setDown(extended.isStrikethrough());
 	    }
 	  }
+
+	@Override
+	protected void onDetach() {
+		inUse = false;
+		lbFocus = false;
+		super.onDetach();
+	}
+	  
+	  
 }

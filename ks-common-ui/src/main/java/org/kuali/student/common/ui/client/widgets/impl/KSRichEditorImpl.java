@@ -141,7 +141,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
                 }
             });		
 			
-			popoutImage.addClickHandler(new ClickHandler(){
+/*			popoutImage.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -161,9 +161,10 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 					popoutActive = true;
 				}
 			});
-			popoutImagePanel.add(popoutImage);
+			popoutImagePanel.add(popoutImage);*/
 			buttonPanel.setContent(popoutEditor);
 			popoutWindow.setWidget(buttonPanel);
+			textArea.setFocus(false);
 		}
 	}
 	
@@ -188,12 +189,12 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 				toolbarHeight = toolbar.getOffsetHeight();
 				textArea.setHeight(height-toolbarHeight + "px");
 				
-				if(!isUsedInPopup){
+/*				if(!isUsedInPopup){
 					popoutImagePanel.show();
 					int left = textArea.getAbsoluteLeft() + width - popoutImagePanel.getOffsetWidth() -18; 
 					int top = textArea.getAbsoluteTop() + textArea.getOffsetHeight() - popoutImagePanel.getOffsetHeight() -2;
 					popoutImagePanel.setPopupPosition(left, top);
-				}
+				}*/
 				
 			}
 			toolbarShowing = true;
@@ -210,7 +211,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	}
 	
 	private void setupDefaultStyle(){
-		popoutImagePanel.addStyleName(KSStyles.KS_POPOUT_IMAGE_PANEL);
+/*		popoutImagePanel.addStyleName(KSStyles.KS_POPOUT_IMAGE_PANEL);
 		popoutImage.addStyleName(KSStyles.KS_POPOUT_IMAGE);
 		popoutImage.addMouseOverHandler(new MouseOverHandler(){
 
@@ -226,19 +227,33 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 			public void onMouseOut(MouseOutEvent event) {
 				popoutImage.removeStyleName(KSStyles.KS_POPOUT_IMAGE_HOVER);
 			}
-		});
+		});*/
 		
 	}
 	
 	protected void onLoad() {
 		super.onLoad();
+		textArea.setEnabled(true);
 	}
 	
 	protected void onUnload() {
 		super.onUnload();
-        popoutImagePanel.hide();
+		textArea.setEnabled(false);
+		//textArea.setFocus(false);
+        //popoutImagePanel.hide();
+        //textArea.setFocus(false);
 	}
 	
+	
+	
+	@Override
+	protected void onDetach() {
+		// TODO Auto-generated method stub
+		super.onDetach();
+		textArea.setEnabled(false);
+		//textArea.setFocus(false);
+	}
+
 	// delegate methods to RichTextArea
 	public String getHTML() {
 		return textArea.getHTML();
@@ -259,4 +274,12 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	public RichTextArea getTextArea(){
 		return textArea;
 	}
+
+	@Override
+	public void setStyleName(String style) {
+		content.setStyleName(style);
+		
+	}
+	
+	
 }

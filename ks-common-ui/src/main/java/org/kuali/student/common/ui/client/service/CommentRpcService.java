@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -44,6 +45,14 @@ public interface CommentRpcService extends BaseRpcService {
      * @throws Exception 
      */
     public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws Exception;
+    
+    /**
+     * Removes a comment.
+     * @param commentId id of comment to be removed
+     * @param referenceId identifier of reference
+     * @param referenceTypeKey reference type
+     */
+    public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws Exception;
 
 
 }

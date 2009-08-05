@@ -94,4 +94,10 @@ public class KSRichEditor extends KSRichEditorAbstract implements HasText{
     protected void init(boolean isUsedInPopup) {
         richEditor.init(isUsedInPopup);
     }
+
+
+	@Override
+	public void setStyleName(String text) {
+		richEditor.setStyleName(text);
+	}
 }

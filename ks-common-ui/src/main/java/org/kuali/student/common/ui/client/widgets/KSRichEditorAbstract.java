@@ -24,6 +24,9 @@ public abstract class KSRichEditorAbstract extends RichTextEditor {
 	public abstract void setHTML(String html);
 
 	public abstract void setText(String text);
+	
+	@Override
+	public abstract void setStyleName(String text);
 
     protected abstract void init(boolean isUsedInPopup);
 }

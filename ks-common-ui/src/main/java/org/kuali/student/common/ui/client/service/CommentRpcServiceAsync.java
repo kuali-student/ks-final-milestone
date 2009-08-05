@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -43,5 +44,13 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @throws Exception 
      */
     public void updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo, AsyncCallback<CommentInfo> callback) throws Exception;
+    
+    /**
+     * Removes a comment.
+     * @param commentId id of comment to be removed
+     * @param referenceId identifier of reference
+     * @param referenceTypeKey reference type
+     */
+    public void removeComment(String commentId, String referenceId, String referenceTypeKey, AsyncCallback<StatusInfo> callback) throws Exception;
 
 }

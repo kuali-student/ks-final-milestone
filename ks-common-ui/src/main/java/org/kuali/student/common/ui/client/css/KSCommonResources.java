@@ -98,5 +98,8 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     public CssResource flowPanelCss();
     
     @Resource("org/kuali/student/common/ui/public/KSMultiplicity.css")
-    public CssResource multiplicityCss();    
+    public CssResource multiplicityCss();
+    
+    @Resource("org/kuali/student/common/ui/public/CommentTool.css")
+    public CssResource commentToolCss();   
 }

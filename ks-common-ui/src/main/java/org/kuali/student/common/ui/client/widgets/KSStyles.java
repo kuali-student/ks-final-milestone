@@ -188,6 +188,22 @@ public interface KSStyles {
     public static final String KS_ERROR_DIALOG_DESCRIPTION = "KS-Error-Dialog-Description";
     public static final String KS_ERROR_DIALOG_TEXTAREA = "KS-Error-Dialog-TextArea";
     public static final String KS_ERROR_DIALOG_BUTTON = "KS-Error-Dialog-Button";
-
+    
+    public static final String KS_COMMENT_IMAGE_BUTTON = "KS-Comment-Image-Button";
+    public static final String KS_COMMENT_IMAGE_BUTTON_PANEL = "KS-Comment-Image-Button-Panel";
+    public static final String KS_COMMENT_NAME = "KS-Comment-Image-Name";
+    public static final String KS_COMMENT_DATE_CREATED = "KS-Comment-Date-Created";
+    public static final String KS_COMMENT_DATE_MODIFIED = "KS-Comment-Date-Modified";
+    public static final String KS_COMMENT_HEADER = "KS-Comment-Header";
+    public static final String KS_COMMENT_FOOTER = "KS-Comment-Footer";
+    public static final String KS_COMMENT_CREATE_PANEL = "KS-Comment-Create-Panel";
+    public static final String KS_COMMENT_CREATE_EDITOR = "KS-Comment-Create-Editor";
+    public static final String KS_COMMENT_CONTAINER = "KS-Comment-Container";
+    public static final String KS_COMMENT_TEXT = "KS-Comment-Text";
+    public static final String KS_COMMENT_INLINE_EDIT = "KS-Comment-Inline-Edit-Panel";
+    public static final String KS_COMMENT_INLINE_EDIT_EDITOR = "KS-Comment-Inline-Edit-Editor";
+    public static final String KS_COMMENT_LOGIN_USER = "KS-Comment-Login-User";
+	public static final String KS_COMMENT_HEADER_LEFT = "KS-Comment-Header-Left";
+	public static final String KS_COMMENT_CONTAINER_IN_USE = "KS-Comment-Container-InUse";
 	
 }
