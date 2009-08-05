@@ -39,6 +39,7 @@ import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
+import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -166,7 +167,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testCommentsRemove() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testCommentsRemove() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	CommentInfo commentInfo = new CommentInfo();
     	RichTextInfo commentText = new RichTextInfo();
     	commentText.setPlain("created Comment text");
@@ -177,6 +178,9 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     	CommentInfo ci1 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
     	CommentInfo ci2 = client.addComment("REF-COMMENT-98", "referenceType.type1", commentInfo);
     	CommentInfo ci3 = client.addComment("REF-COMMENT-99", "referenceType.type1", commentInfo);
+    	
+    	List<CommentInfo> comments = client.getComments("REF-COMMENT-99", "referenceType.type1");
+    	assertNotNull(comments);
 
     	try {
 			StatusInfo si = client.removeComments("REF-COMMENT-99");
@@ -212,6 +216,8 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         CommentInfo commentInfo = client.getComment("COMMENT-1");
         assertNotNull(commentInfo);
 
+        List<CommentInfo> comments = client.getComments("REF-2", "referenceType.type2");
+        assertNotNull(comments);
         try {
             commentInfo = client.getComment(null);
             assertTrue(false);
@@ -317,7 +323,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateDeleteTags() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    public void testCreateDeleteTags() throws ParseException, DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException{
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         TagInfo tagInfo= new TagInfo();
 
@@ -331,15 +337,16 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         tagInfo.setReferenceTypeKey("");
         tagInfo.setType("tagType.default");
 
-        client.addTag("REF-1", "referenceType.type1", tagInfo);
-        client.addTag("REF-1", "referenceType.type1", tagInfo);
-        client.addTag("REF-1", "referenceType.type1", tagInfo);
+        client.addTag("REF-12", "referenceType.type1", tagInfo);
+        client.addTag("REF-12", "referenceType.type1", tagInfo);
+        client.addTag("REF-12", "referenceType.type1", tagInfo);
 
-
+        List<TagInfo> tags = client.getTags("REF-12", "referenceType.type1");
+        assertNotNull(tags);
 
      // now test remove multiple tags linked to the same reference(and clean up changes made)
         StatusInfo si;
-        String tagRefId = "REF-1";
+        String tagRefId = "REF-12";
         String tagRefType = "REF-TYPE-0";
         try {
             si = client.removeTags(tagRefId);
@@ -372,6 +379,6 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetReferenceTypes() throws OperationFailedException {
     	List<ReferenceTypeInfo> referenceTypes = client.getReferenceTypes();
-    	assertEquals(1, referenceTypes.size());
+    	assertEquals(2, referenceTypes.size());
     }
 }
