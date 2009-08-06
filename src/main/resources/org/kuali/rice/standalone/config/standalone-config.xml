@@ -116,7 +116,7 @@
   <param name="propertiesPrefix.jpa.properties">$[jpa.properties]</param> 
   <param name="derby.jdbc.xaDataSourceClassName">org.apache.derby.jdbc.EmbeddedXADataSource</param> 
   <param name="derby.org.jdbc.xaDataSourceProperties.user">org</param> 
-  <param name="jdbc.maxPoolSize">20</param> 
+  <param name="jdbc.maxPoolSize">50</param> 
   <param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param> 
   <param name="derby.org.jdbc.xaDataSourceProperties.databaseName">target/orgDB</param> 
   <param name="jpa.properties.hibernate.connection.release_mode">after_transaction</param> 

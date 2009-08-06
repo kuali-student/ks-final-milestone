@@ -86,12 +86,20 @@
 			value="classpath:META-INF/organization-persistence.xml" />
 		<property name="dataSource" ref="orgDataSource" />
 	</bean>
+	<bean id="orgEntityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="orgEntityManagerFactory" />
+	</bean>
 
 	<bean id="emEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="EnumerationManagement" />
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/enumeration-persistence.xml" />
 		<property name="dataSource" ref="emDataSource" />
+	</bean>
+	<bean id="emEntityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="emEntityManagerFactory" />
 	</bean>
 
 	<bean id="messageEntityManagerFactory" parent="defaultEntityManagerFactory">
@@ -100,10 +108,20 @@
 		<property name="dataSource" ref="messageDataSource" />
 	</bean>
 
+	<bean id="messageEntityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="messageEntityManagerFactory" />
+	</bean>
+
 	<bean id="commentEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Comment" />
 		<property name="persistenceXmlLocation" value="classpath:META-INF/comment-persistence.xml" />
 		<property name="dataSource" ref="commentDataSource" />
+	</bean>
+
+	<bean id="commentEntityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="commentEntityManagerFactory" />
 	</bean>
 
 	<!-- JTA Configuration -->
@@ -145,12 +163,17 @@
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
 	<!-- JPA PostProcessing -->
-<!--	<bean-->
-<!--		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />-->
+	<!--	<bean-->
+	<!--
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"
+		/>
+	-->
+
 
 	<!-- Enumeration Service Config -->
 	<bean id="emDao"
 		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+		<property name="entityManager" ref="emEntityManager" />
 	</bean>
 
 	<bean id="emServiceImpl"
@@ -158,9 +181,11 @@
 		<property name="enumDAO" ref="emDao" />
 	</bean>
 
+
 	<!-- Organization Service Config -->
 	<bean id="orgDao"
 		class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+		<property name="em" ref="orgEntityManager" />
 	</bean>
 
 	<bean id="orgServiceImpl"
@@ -186,6 +211,7 @@
 	<!-- Message Service Config -->
 	<bean id="messageDao"
 		class="org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl">
+		<property name="entityManager" ref="messageEntityManager" />
 	</bean>
 
 	<bean id="messageServiceImpl"
@@ -195,6 +221,7 @@
 
 	<!-- Comment Service -->
 	<bean id="commentDao" class="org.kuali.student.core.comment.dao.impl.CommentDaoImpl">
+		<property name="em" ref="commentEntityManager" />
 	</bean>
 
 	<bean id="commentDictionaryServiceDelegate"
@@ -218,16 +245,16 @@
 	</bean>
 
 	<!-- Preloaded data -->
-	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-		<property name="jtaTxManager" ref="JtaTxManager" />
-		<property name="preloadMap">
-			<map>
-				<entry key="Organization">
-					<value>classpath:ks-org.sql</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+<!--	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">-->
+<!--		<property name="jtaTxManager" ref="JtaTxManager" />-->
+<!--		<property name="preloadMap">-->
+<!--			<map>-->
+<!--				<entry key="Organization">-->
+<!--					<value>classpath:ks-org.sql</value>-->
+<!--				</entry>-->
+<!--			</map>-->
+<!--		</property>-->
+<!--	</bean>-->
 
 	<bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
