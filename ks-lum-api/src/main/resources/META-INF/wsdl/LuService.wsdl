@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="LuService" targetNamespace="http://student.kuali.org/lum/lu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/lum/lu" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="LuService" targetNamespace="http://student.kuali.org/wsdl/lu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lu" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/dictionary" xmlns:ns1="http://student.kuali.org/lum/lu" xmlns:tns="http://student.kuali.org/core/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/core/enumerable">
-    <xs:import namespace="http://student.kuali.org/lum/lu"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/lu" xmlns:tns="http://student.kuali.org/wsdl/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerable">
+    <xs:import namespace="http://student.kuali.org/wsdl/lu"/>
     <xs:element name="getEnumeration" type="tns:getEnumeration"/>
     <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
     <xs:complexType name="getEnumeration">
@@ -31,7 +31,7 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/exceptions">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
     <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
     <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
     <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
@@ -99,7 +99,7 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.kuali.student/core/dictionary">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
     <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
     <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
@@ -294,8 +294,8 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.kuali.student/core/dictionary" xmlns:tns="http://org.kuali.student/core/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.kuali.student/core/search">
-    <xs:import namespace="http://org.kuali.student/core/dictionary"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
+    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
     <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
     <xs:element name="getSearchCriteriaTypeResponse" type="tns:getSearchCriteriaTypeResponse"/>
     <xs:element name="getSearchCriteriaTypes" type="tns:getSearchCriteriaTypes"/>
@@ -502,9 +502,9 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/exceptions" xmlns:ns1="http://org.kuali.student/core/dictionary" xmlns:ns2="http://org.kuali.student/core/search" xmlns:ns3="http://student.kuali.org/core/enumerable" xmlns:tns="http://student.kuali.org/lum/lu" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/lum/lu">
-    <xs:import namespace="http://org.kuali.student/core/dictionary"/>
-    <xs:import namespace="http://org.kuali.student/core/search"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:ns2="http://student.kuali.org/wsdl/search" xmlns:ns3="http://student.kuali.org/wsdl/enumerable" xmlns:tns="http://student.kuali.org/wsdl/lu" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lu">
+    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
+    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
     <xs:element name="addCluResourceRequirement" type="tns:addCluResourceRequirement"/>
     <xs:element name="addCluResourceRequirementResponse" type="tns:addCluResourceRequirementResponse"/>
     <xs:element name="addCluSetToCluSet" type="tns:addCluSetToCluSet"/>

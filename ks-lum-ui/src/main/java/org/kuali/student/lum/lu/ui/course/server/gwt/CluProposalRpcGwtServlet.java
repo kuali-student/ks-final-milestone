@@ -395,7 +395,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         
 		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
         System.out.println("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
+        
         AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
+        
         String documentStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(cluProposal.getWorkflowId()));
         String actionsRequested = "";
         for(Map.Entry<String,String> entry:results.entrySet()){

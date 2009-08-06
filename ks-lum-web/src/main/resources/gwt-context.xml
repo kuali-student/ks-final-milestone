@@ -165,7 +165,7 @@
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQNameString"
-			value="{http://student.kuali.org/lum/lu}LuService" />
+			value="{http://student.kuali.org/wsdl/lu}LuService" />
 		<property name="address"
 			value="${ks.lum.serviceAddress}"/>
 	</bean>
@@ -178,7 +178,7 @@
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.core.comment.service.CommentService" />
 		<property name="serviceQNameString"
-			value="{http://org.kuali.student/core/comment}CommentService" />
+			value="{http://student.kuali.org/wsdl/comment}CommentService" />
 		<property name="address"
 			value="${ks.core.comment.serviceAddress" />
 	</bean>
@@ -190,7 +190,7 @@
         <property name="serviceEndpointInterface"
             value="org.kuali.student.lum.nlt.service.TranslationService" />
         <property name="serviceQNameString"
-            value="{http://student.kuali.org/lum/nlt}TranslationService" />
+            value="{http://student.kuali.org/wsdl/nlt}TranslationService" />
         <property name="address"
             value="${ks.lum.nlt.serviceAddress}" />
     </bean>
@@ -202,7 +202,7 @@
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
-			value="{http://org.kuali.student/core/organization}OrganizationService" />
+			value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 		<property name="address" 
             value="${ks.core.org.serviceAddress}"/>		
 	</bean>

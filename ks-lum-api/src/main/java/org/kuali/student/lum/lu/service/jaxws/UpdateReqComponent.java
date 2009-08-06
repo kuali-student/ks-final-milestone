@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "updateReqComponent", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "updateReqComponent", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "updateReqComponent", namespace = "http://student.kuali.org/lum/lu", propOrder = {"reqComponentId","reqComponentInfo"})
+@XmlType(name = "updateReqComponent", namespace = "http://student.kuali.org/wsdl/lu", propOrder = {"reqComponentId","reqComponentInfo"})
 
 public class UpdateReqComponent {
 

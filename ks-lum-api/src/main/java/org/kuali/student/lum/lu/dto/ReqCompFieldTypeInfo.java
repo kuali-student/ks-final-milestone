@@ -33,7 +33,7 @@ public class ReqCompFieldTypeInfo implements Serializable, Idable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlElement(namespace="http://org.kuali.student/core/dictionary")
+    @XmlElement(namespace="http://student.kuali.org/wsdl/dictionary")
     private FieldDescriptor fieldDescriptor;
 
     @XmlAttribute(name="key")

@@ -46,7 +46,7 @@ import org.kuali.student.lum.proposal.dto.ReferenceTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  *
  */
-@WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/proposalService") // TODO CHECK THESE VALUES
+@WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposalService") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface ProposalService { 
     /** 

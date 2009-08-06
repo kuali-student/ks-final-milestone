@@ -19,7 +19,7 @@ import org.kuali.student.lum.nlt.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.lum.nlt.service.TranslationService;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.lum.nlt.service.TranslationService", serviceName = "TranslationService", portName = "TranslationService", targetNamespace = "http://student.kuali.org/lum/nlt")
+@WebService(endpointInterface = "org.kuali.student.lum.nlt.service.TranslationService", serviceName = "TranslationService", portName = "TranslationService", targetNamespace = "http://student.kuali.org/wsdl/nlt")
 @Transactional(rollbackFor={Throwable.class})
 public class TranslationServiceImpl implements TranslationService {
 

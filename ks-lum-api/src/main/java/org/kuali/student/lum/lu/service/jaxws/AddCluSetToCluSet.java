@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "addCluSetToCluSet", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "addCluSetToCluSet", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addCluSetToCluSet", namespace = "http://student.kuali.org/lum/lu", propOrder = {"cluSetId","addedCluSetId"})
+@XmlType(name = "addCluSetToCluSet", namespace = "http://student.kuali.org/wsdl/lu", propOrder = {"cluSetId","addedCluSetId"})
 
 public class AddCluSetToCluSet {
 

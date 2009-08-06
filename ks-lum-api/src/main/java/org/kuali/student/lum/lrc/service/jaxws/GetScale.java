@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getScale", namespace = "http://student.kuali.org/lum/lrc")
+@XmlRootElement(name = "getScale", namespace = "http://student.kuali.org/wsdl/lrc")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getScale", namespace = "http://student.kuali.org/lum/lrc")
+@XmlType(name = "getScale", namespace = "http://student.kuali.org/wsdl/lrc")
 
 public class GetScale {
 

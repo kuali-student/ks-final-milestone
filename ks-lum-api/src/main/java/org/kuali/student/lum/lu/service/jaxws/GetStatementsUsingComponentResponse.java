@@ -15,9 +15,9 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getStatementsUsingComponentResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getStatementsUsingComponentResponse", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getStatementsUsingComponentResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getStatementsUsingComponentResponse", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetStatementsUsingComponentResponse {
 

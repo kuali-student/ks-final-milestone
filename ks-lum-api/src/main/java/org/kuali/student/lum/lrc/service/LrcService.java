@@ -48,7 +48,7 @@ import org.kuali.student.lum.lrc.dto.ScaleInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Result+Catalog+Service">LrcService</>
  *
  */
-@WebService(name = "LrcService", targetNamespace = "http://student.kuali.org/lum/lrc")
+@WebService(name = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LrcService {
     /**

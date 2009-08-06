@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getNaturalLanguageForStatementAsTreeResponse", namespace = "http://student.kuali.org/lum/nlt")
+@XmlRootElement(name = "getNaturalLanguageForStatementAsTreeResponse", namespace = "http://student.kuali.org/wsdl/nlt")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getNaturalLanguageForStatementAsTreeResponse", namespace = "http://student.kuali.org/lum/nlt")
+@XmlType(name = "getNaturalLanguageForStatementAsTreeResponse", namespace = "http://student.kuali.org/wsdl/nlt")
 
 public class GetNaturalLanguageForStatementAsTreeResponse {
 

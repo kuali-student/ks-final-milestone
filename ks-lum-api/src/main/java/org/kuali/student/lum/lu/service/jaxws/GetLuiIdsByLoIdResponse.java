@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getLuiIdsByLoIdResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getLuiIdsByLoIdResponse", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getLuiIdsByLoIdResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getLuiIdsByLoIdResponse", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetLuiIdsByLoIdResponse {
 

@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "removeLrScaleFromLui", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "removeLrScaleFromLui", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "removeLrScaleFromLui", namespace = "http://student.kuali.org/lum/lu", propOrder = {"lrScaleTypeKey","lrTypeKey","luiId"})
+@XmlType(name = "removeLrScaleFromLui", namespace = "http://student.kuali.org/wsdl/lu", propOrder = {"lrScaleTypeKey","lrTypeKey","luiId"})
 
 public class RemoveLrScaleFromLui {
 

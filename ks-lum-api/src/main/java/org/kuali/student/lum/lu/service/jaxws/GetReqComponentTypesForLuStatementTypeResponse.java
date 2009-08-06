@@ -15,9 +15,9 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getReqComponentTypesForLuStatementTypeResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getReqComponentTypesForLuStatementTypeResponse", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getReqComponentTypesForLuStatementTypeResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getReqComponentTypesForLuStatementTypeResponse", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetReqComponentTypesForLuStatementTypeResponse {
 

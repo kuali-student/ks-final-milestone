@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="LrcService" targetNamespace="http://student.kuali.org/lum/lrc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/lum/lrc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="LrcService" targetNamespace="http://student.kuali.org/wsdl/lrc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lrc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/lum/lrc" xmlns:tns="http://service.lrc.lum.student.kuali.org/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.lrc.lum.student.kuali.org/">
-    <xs:import namespace="http://student.kuali.org/lum/lrc"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/lrc" xmlns:tns="http://service.lrc.lum.student.kuali.org/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.lrc.lum.student.kuali.org/">
+    <xs:import namespace="http://student.kuali.org/wsdl/lrc"/>
     <xs:element name="compareGradesResponse" type="tns:compareGradesResponse"/>
     <xs:element name="createResultComponentResponse" type="tns:createResultComponentResponse"/>
     <xs:element name="deleteResultComponentResponse" type="tns:deleteResultComponentResponse"/>
@@ -170,7 +170,7 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/exceptions">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
     <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
     <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
     <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
@@ -220,7 +220,7 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://service.lrc.lum.student.kuali.org/" xmlns:ns1="http://org.kuali.student/core/exceptions" xmlns:tns="http://student.kuali.org/lum/lrc" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/lum/lrc">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://service.lrc.lum.student.kuali.org/" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:tns="http://student.kuali.org/wsdl/lrc" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lrc">
     <xs:element name="compareGrades" type="tns:compareGrades"/>
     <xs:element name="createResultComponent" type="tns:createResultComponent"/>
     <xs:element name="deleteResultComponent" type="tns:deleteResultComponent"/>

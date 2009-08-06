@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getGradeTypes", namespace = "http://student.kuali.org/lum/lrc")
+@XmlRootElement(name = "getGradeTypes", namespace = "http://student.kuali.org/wsdl/lrc")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getGradeTypes", namespace = "http://student.kuali.org/lum/lrc")
+@XmlType(name = "getGradeTypes", namespace = "http://student.kuali.org/wsdl/lrc")
 
 public class GetGradeTypes {
 

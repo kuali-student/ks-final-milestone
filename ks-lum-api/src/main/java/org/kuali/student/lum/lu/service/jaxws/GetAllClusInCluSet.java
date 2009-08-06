@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getAllClusInCluSet", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getAllClusInCluSet", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAllClusInCluSet", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getAllClusInCluSet", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetAllClusInCluSet {
 

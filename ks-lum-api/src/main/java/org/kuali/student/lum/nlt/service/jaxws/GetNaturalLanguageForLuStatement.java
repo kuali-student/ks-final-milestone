@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getNaturalLanguageForLuStatement", namespace = "http://student.kuali.org/lum/nlt")
+@XmlRootElement(name = "getNaturalLanguageForLuStatement", namespace = "http://student.kuali.org/wsdl/nlt")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getNaturalLanguageForLuStatement", namespace = "http://student.kuali.org/lum/nlt", propOrder = {"cluId","luStatementId","nlUsageTypeKey","language"})
+@XmlType(name = "getNaturalLanguageForLuStatement", namespace = "http://student.kuali.org/wsdl/nlt", propOrder = {"cluId","luStatementId","nlUsageTypeKey","language"})
 
 public class GetNaturalLanguageForLuStatement {
 

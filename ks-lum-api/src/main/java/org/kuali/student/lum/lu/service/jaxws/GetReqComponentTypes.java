@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getReqComponentTypes", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getReqComponentTypes", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getReqComponentTypes", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getReqComponentTypes", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetReqComponentTypes {
 

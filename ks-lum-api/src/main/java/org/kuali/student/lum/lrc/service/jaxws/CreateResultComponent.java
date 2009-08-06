@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "createResultComponent", namespace = "http://student.kuali.org/lum/lrc")
+@XmlRootElement(name = "createResultComponent", namespace = "http://student.kuali.org/wsdl/lrc")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createResultComponent", namespace = "http://student.kuali.org/lum/lrc", propOrder = {"resultComponentTypeKey","resultComponentInfo"})
+@XmlType(name = "createResultComponent", namespace = "http://student.kuali.org/wsdl/lrc", propOrder = {"resultComponentTypeKey","resultComponentInfo"})
 
 public class CreateResultComponent {
 

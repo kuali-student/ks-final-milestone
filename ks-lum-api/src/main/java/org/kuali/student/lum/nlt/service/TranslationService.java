@@ -14,7 +14,7 @@ import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 import org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo;
 
-@WebService(name = "TranslationService", targetNamespace = "http://student.kuali.org/lum/nlt")
+@WebService(name = "TranslationService", targetNamespace = "http://student.kuali.org/wsdl/nlt")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface TranslationService {
     /**

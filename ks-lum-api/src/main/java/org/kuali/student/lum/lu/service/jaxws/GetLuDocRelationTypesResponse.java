@@ -15,9 +15,9 @@ import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getLuDocRelationTypesResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getLuDocRelationTypesResponse", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getLuDocRelationTypesResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getLuDocRelationTypesResponse", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetLuDocRelationTypesResponse {
 

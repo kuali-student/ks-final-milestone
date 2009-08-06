@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "addLuStatementToClu", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "addLuStatementToClu", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addLuStatementToClu", namespace = "http://student.kuali.org/lum/lu", propOrder = {"cluId","luStatementId"})
+@XmlType(name = "addLuStatementToClu", namespace = "http://student.kuali.org/wsdl/lu", propOrder = {"cluId","luStatementId"})
 
 public class AddLuStatementToClu {
 

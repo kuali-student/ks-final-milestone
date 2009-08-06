@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getCreditTypes", namespace = "http://student.kuali.org/lum/lrc")
+@XmlRootElement(name = "getCreditTypes", namespace = "http://student.kuali.org/wsdl/lrc")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getCreditTypes", namespace = "http://student.kuali.org/lum/lrc")
+@XmlType(name = "getCreditTypes", namespace = "http://student.kuali.org/wsdl/lrc")
 
 public class GetCreditTypes {
 

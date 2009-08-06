@@ -15,9 +15,9 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "getClusFromCluSetResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "getClusFromCluSetResponse", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getClusFromCluSetResponse", namespace = "http://student.kuali.org/lum/lu")
+@XmlType(name = "getClusFromCluSetResponse", namespace = "http://student.kuali.org/wsdl/lu")
 
 public class GetClusFromCluSetResponse {
 

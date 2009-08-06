@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "translateGrade", namespace = "http://student.kuali.org/lum/lrc")
+@XmlRootElement(name = "translateGrade", namespace = "http://student.kuali.org/wsdl/lrc")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "translateGrade", namespace = "http://student.kuali.org/lum/lrc", propOrder = {"gradeKey","scaleKey","translateScaleKey"})
+@XmlType(name = "translateGrade", namespace = "http://student.kuali.org/wsdl/lrc", propOrder = {"gradeKey","scaleKey","translateScaleKey"})
 
 public class TranslateGrade {
 

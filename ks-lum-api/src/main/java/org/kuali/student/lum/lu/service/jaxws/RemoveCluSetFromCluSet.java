@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "removeCluSetFromCluSet", namespace = "http://student.kuali.org/lum/lu")
+@XmlRootElement(name = "removeCluSetFromCluSet", namespace = "http://student.kuali.org/wsdl/lu")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "removeCluSetFromCluSet", namespace = "http://student.kuali.org/lum/lu", propOrder = {"cluSetId","removedCluSetId"})
+@XmlType(name = "removeCluSetFromCluSet", namespace = "http://student.kuali.org/wsdl/lu", propOrder = {"cluSetId","removedCluSetId"})
 
 public class RemoveCluSetFromCluSet {
 

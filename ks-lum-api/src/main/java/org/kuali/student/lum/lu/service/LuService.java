@@ -145,7 +145,7 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
  * @author Kuali Student Team
  *
  */
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/lum/lu")
+@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuService extends DictionaryService, EnumerableService, SearchService {
 

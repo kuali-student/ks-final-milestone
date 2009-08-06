@@ -38,7 +38,7 @@
 								org.kuali.student.lum.lo.service.LearningObjectiveService
 							</className>
 							<serviceName>LoService</serviceName>
-							<targetNameSpace>http://student.kuali.org/lum/lo</targetNameSpace>
+							<targetNameSpace>http://student.kuali.org/wsdl/lo</targetNameSpace>
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -52,7 +52,7 @@
 								org.kuali.student.lum.lu.service.LuService
 							</className>
 							<serviceName>LuService</serviceName>
-							<targetNameSpace>http://student.kuali.org/lum/lu</targetNameSpace>
+							<targetNameSpace>http://student.kuali.org/wsdl/lu</targetNameSpace>
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -66,7 +66,7 @@
                                 org.kuali.student.lum.lrc.service.LrcService
                             </className>
                             <serviceName>LrcService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/lum/lrc</targetNameSpace>
+                            <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>
@@ -80,7 +80,7 @@
                                 org.kuali.student.lum.nlt.service.TranslationService
                             </className>
                             <serviceName>TranslationService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/lum/nlt</targetNameSpace>
+                            <targetNameSpace>http://student.kuali.org/wsdl/nlt</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>
