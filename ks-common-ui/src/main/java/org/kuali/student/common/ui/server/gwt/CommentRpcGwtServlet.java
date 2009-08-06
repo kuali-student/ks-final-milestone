@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dto.StatusInfo;
 
@@ -39,6 +40,11 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 	public StatusInfo removeComment(String commentId, String referenceId,
 			String referenceTypeKey) throws Exception {
 		return service.removeComment(commentId, referenceId, referenceTypeKey);
+	}
+	
+	@Override
+	public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception {
+		return service.getCommentTypesForReferenceType(referenceTypeKey);
 	}
 
 

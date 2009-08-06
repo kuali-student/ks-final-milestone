@@ -23,7 +23,11 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.comment.dto.CommentInfo;
+import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
@@ -46,7 +50,9 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     private String referenceKey;
     
 	private CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
-	
+	private static final String ALL = "All";
+	private static final String ALL_DESC = "All Comments";
+	private static final String ALL_NAME = "All";
     private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel commentList = new VerticalFlowPanel();
     private SectionTitle headerTitle = SectionTitle.generateH1Title("Proposal Comments");
@@ -56,10 +62,12 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     private KSRichEditor commentEditor = new KSRichEditor();
     private List<Comment> comments = new ArrayList<Comment>();
     private KSLabel loggedInAs = new KSLabel();
-    private KSLabel seeComments = new KSLabel("See Comments from");
+    private HorizontalBlockFlowPanel commentTypesPanel = new HorizontalBlockFlowPanel();
+    private KSLabel seeComments = new KSLabel("See Comments from ");
     private KSLabel loadingComments = new KSLabel("Loading Comments");
     private KSDropDown commentTypes = new KSDropDown();
     private boolean showingEditButtons = true;
+    private List<CommentTypeInfo> types = new ArrayList<CommentTypeInfo>();
     
     private Comparator<CommentInfo> commentInfoComparator = new Comparator<CommentInfo>(){
 
@@ -123,10 +131,87 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     
     public CommentPanel(Enum<?> viewEnum, String viewName) {
 		super(viewEnum, viewName);
-	} 
+	}
+    
       
     @Override
     protected Widget createWidget() {
+    	commentTypes.setBlankFirstItem(false);
+    	commentTypes.setListItems(new ListItems(){
+
+			@Override
+			public List<String> getAttrKeys() {
+				List<String> keys = new ArrayList<String>();
+				keys.add("desc");
+				keys.add("name");
+				return keys;
+			}
+
+			@Override
+			public String getItemAttribute(String id, String attrkey) {
+				String result = null;
+				if(id.equals(ALL)){
+					if(attrkey.equalsIgnoreCase("desc")){
+						result = ALL_DESC;
+					}
+					else if(attrkey.equalsIgnoreCase("name")){
+						result = ALL_NAME;
+					}
+				}
+				else{
+					CommentTypeInfo type = null;
+					for(CommentTypeInfo i: types){
+						if(i.getId().equals(id)){
+							type = i;
+							break;
+						}
+					}
+					
+					if(type != null){
+						if(attrkey.equalsIgnoreCase("desc")){
+							result = type.getDesc();
+						}
+						else if(attrkey.equalsIgnoreCase("name")){
+							result = type.getName();
+						}
+					}
+				}
+				return result;
+			}
+
+			@Override
+			public int getItemCount() {
+				return types.size();
+			}
+
+			@Override
+			public List<String> getItemIds() {
+				List<String> ids = new ArrayList<String>();
+				ids.add(ALL);
+				for(CommentTypeInfo i: types){
+					ids.add(i.getId());
+				}
+				
+				return ids;
+			}
+
+			@Override
+			public String getItemText(String id) {
+				return getItemAttribute(id, "name");
+			}
+    	});
+    	
+    	
+    	commentTypes.selectItem(ALL);
+    	commentTypes.addSelectionChangeHandler(new SelectionChangeHandler(){
+
+			@Override
+			public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+				refreshComments();
+				
+			}
+    	});
+    	
         buttonPanel.setButtonText(OkEnum.Ok, "Submit");
         //FIXME: get person logged in as
         loggedInAs.setText("PersonId Here");
@@ -142,39 +227,13 @@ public class CommentPanel extends ToolView implements HasReferenceId{
         createPanel.add(loggedInAs);
         createPanel.add(buttonPanel);
         
-        //TEST CODE
-        createPanel.add(new KSButton("Get Comments", new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				try {
-					commentServiceAsync.getComments(referenceId, referenceKey, new AsyncCallback<List<CommentInfo>>(){
-
-						@Override
-						public void onFailure(Throwable caught) {
-							caught.printStackTrace();
-							
-						}
-
-						@Override
-						public void onSuccess(List<CommentInfo> result) {
-							String out = "";
-							Collections.sort(result, commentInfoComparator);
-							for(CommentInfo i: result){
-								out = out + i.getCommentText().getPlain() + "\n\n";
-							}
-							Window.alert(out);
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-			}
-        }));
+        commentTypesPanel.add(seeComments);
+        commentTypesPanel.add(commentTypes);
+        createPanel.add(commentTypesPanel);
         
         layout.add(createPanel);
         layout.add(commentList);
+        refreshCommentTypes();
         return layout;
     }
     
@@ -204,13 +263,9 @@ public class CommentPanel extends ToolView implements HasReferenceId{
         referenceKey = key;
     }
     
-    
-    public void refreshComments(){
-        commentList.clear();
-        commentList.add(loadingComments);
-        //rpc call to get all current comments and populate into comment list
+    public void refreshCommentTypes(){
     	try {
-			commentServiceAsync.getComments(referenceId, referenceKey, new AsyncCallback<List<CommentInfo>>(){
+			commentServiceAsync.getCommentTypesForReferenceType(referenceKey,  new AsyncCallback<List<CommentTypeInfo>>(){
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -219,17 +274,76 @@ public class CommentPanel extends ToolView implements HasReferenceId{
 				}
 
 				@Override
-				public void onSuccess(List<CommentInfo> result) {
-					comments.clear();
-					Collections.sort(result, commentInfoComparator);
-					for(CommentInfo c: result){
-						Comment commentWidget = new Comment(c);
-						comments.add(commentWidget);
-						commentList.add(commentWidget);
-					}
-					commentList.remove(loadingComments);
+				public void onSuccess(List<CommentTypeInfo> result) {
+					types = result;
+					commentTypes.redraw();
 				}
 			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
+    public void refreshComments(){
+        commentList.clear();
+        commentList.add(loadingComments);
+        //rpc call to get all current comments and populate into comment list
+    	try {
+    		if(commentTypes.getSelectedItem().equals(ALL)){
+				commentServiceAsync.getComments(referenceId, referenceKey, new AsyncCallback<List<CommentInfo>>(){
+	
+						@Override
+						public void onFailure(Throwable caught) {
+							caught.printStackTrace();
+							commentList.remove(loadingComments);
+						}
+		
+						@Override
+						public void onSuccess(List<CommentInfo> result) {
+							if(result != null){
+								comments.clear();
+								Collections.sort(result, commentInfoComparator);
+								for(CommentInfo c: result){
+									Comment commentWidget = new Comment(c);
+									comments.add(commentWidget);
+									commentList.add(commentWidget);
+								}
+							}
+							
+							commentList.remove(loadingComments);
+							//refreshCommentTypes();
+						}
+					});
+	    		}
+    		else{
+    			//must be showing specific comment type
+				commentServiceAsync.getCommentsByType(referenceId, referenceKey, commentTypes.getSelectedItem(), new AsyncCallback<List<CommentInfo>>(){
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						caught.printStackTrace();
+						commentList.remove(loadingComments);
+					}
+	
+					@Override
+					public void onSuccess(List<CommentInfo> result) {
+						if(result != null){
+							comments.clear();
+							Collections.sort(result, commentInfoComparator);
+							for(CommentInfo c: result){
+								Comment commentWidget = new Comment(c);
+								comments.add(commentWidget);
+								commentList.add(commentWidget);
+							}
+						}
+						
+						commentList.remove(loadingComments);
+						//refreshCommentTypes();
+					}
+				});
+
+    		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
