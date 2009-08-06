@@ -206,4 +206,12 @@ public interface KSStyles {
 	public static final String KS_COMMENT_HEADER_LEFT = "KS-Comment-Header-Left";
 	public static final String KS_COMMENT_CONTAINER_IN_USE = "KS-Comment-Container-InUse";
 	
+    public static final String KS_SECTION_TITLE = "KS-Section-Title";
+    public static final String KS_H1_SECTION_TITLE = "KS-H1-Section-Title";
+    public static final String KS_H2_SECTION_TITLE = "KS-H2-Section-Title";
+    public static final String KS_H3_SECTION_TITLE = "KS-H3-Section-Title";
+    public static final String KS_H4_SECTION_TITLE = "KS-H4-Section-Title";
+    public static final String KS_H5_SECTION_TITLE = "KS-H5-Section-Title";
+    public static final String KS_H6_SECTION_TITLE = "KS-H6-Section-Title";
+
 }

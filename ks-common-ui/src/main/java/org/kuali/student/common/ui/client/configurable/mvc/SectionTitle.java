@@ -15,6 +15,14 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H1_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H2_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H3_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H4_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H5_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H6_SECTION_TITLE;
+
 import com.google.gwt.user.client.ui.HTML;
 
 /**
@@ -30,35 +38,37 @@ public class SectionTitle extends HTML {
     }
 
     public static SectionTitle generateEmptyTitle() {
-        return generateTitle(" ");        
+        return generateTitle(" ", null);        
     }
 
-    public static SectionTitle generateH1Title(String titletext) {               
-        return generateTitle("<h1>" + titletext + "</h1>");        
+    public static SectionTitle generateH1Title(String titletext)  {     
+        return generateTitle("<h1>" + titletext + "</h1>", KS_H1_SECTION_TITLE);      
     }
 
     public static SectionTitle generateH2Title(String titletext) {
-        return generateTitle("<h2>" + titletext + "</h2>");        
+        return generateTitle("<h2>" + titletext + "</h2>", KS_H2_SECTION_TITLE);        
     }
 
     public static SectionTitle generateH3Title(String titletext) {
-        return generateTitle("<h3>" + titletext + "</h3>");        
+        return generateTitle("<h3>" + titletext + "</h3>", KS_H3_SECTION_TITLE);        
     }
     
     public static SectionTitle generateH4Title(String titletext) {
-        return generateTitle("<h4>" + titletext + "</h4>");        
+        return generateTitle("<h4>" + titletext + "</h4>", KS_H4_SECTION_TITLE);        
     }
     
     public static SectionTitle generateH5Title(String titletext) {
-        return generateTitle("<h5>" + titletext + "</h5>");        
+        return generateTitle("<h5>" + titletext + "</h5>", KS_H5_SECTION_TITLE);        
     }
     
     public static SectionTitle generateH6Title(String titletext) {
-        return generateTitle("<h6>" + titletext + "</h6>");        
+        return generateTitle("<h6>" + titletext + "</h6>", KS_H6_SECTION_TITLE);        
     }
-    private static SectionTitle generateTitle(String text) {
+    private static SectionTitle generateTitle(String text, String styleName) {
         SectionTitle thisTitle = new SectionTitle();
         thisTitle.setHTML(text);
+        thisTitle.addStyleName(KS_SECTION_TITLE);
+        thisTitle.addStyleName(styleName);
         return thisTitle;
     }
 }
