@@ -48,7 +48,12 @@
 
 	<repositories>
 		<repository>
-			<id>kuali.snapshot</id>
+			<id>kuali</id>
+			<name>Kuali Repository</name>
+			<url>https://test.kuali.org/maven</url>
+		</repository>
+		<repository>
+			<id>kuali.release</id>
 			<url>http://archiva.kuali.umd.edu/repository/release</url>
 			<snapshots>
 				<enabled>false</enabled>
@@ -62,6 +67,7 @@
 			</releases>
 		</repository>
 	</repositories>
+
 
 	<dependencies>
 		<dependency>
