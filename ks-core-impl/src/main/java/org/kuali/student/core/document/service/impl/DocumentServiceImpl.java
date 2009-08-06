@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@WebService(endpointInterface = "org.kuali.student.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/documentService")
+@WebService(endpointInterface = "org.kuali.student.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/documentService")
 @Transactional(rollbackFor={Throwable.class})
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;

@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "addTag", namespace = "http://student.kuali.org/commentService")
+@XmlRootElement(name = "addTag", namespace = "http://student.kuali.org/wsdl/commentService")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addTag", namespace = "http://student.kuali.org/commentService", propOrder = {"referenceId","referenceTypeKey","tagInfo"})
+@XmlType(name = "addTag", namespace = "http://student.kuali.org/wsdl/commentService", propOrder = {"referenceId","referenceTypeKey","tagInfo"})
 
 public class AddTag {
 

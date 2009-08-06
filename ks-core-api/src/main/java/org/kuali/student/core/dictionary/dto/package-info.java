@@ -5,5 +5,5 @@
 // Generated on: 2008.10.21 at 02:14:18 PM PDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://org.kuali.student/core/dictionary", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://student.kuali.org/wsdl/dictionary", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.kuali.student.core.dictionary.dto;

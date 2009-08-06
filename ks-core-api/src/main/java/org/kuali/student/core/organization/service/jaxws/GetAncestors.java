@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getAncestors", namespace = "http://org.kuali.student/core/organization")
+@XmlRootElement(name = "getAncestors", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAncestors", namespace = "http://org.kuali.student/core/organization", propOrder = {"orgId","orgHierarchy"})
+@XmlType(name = "getAncestors", namespace = "http://student.kuali.org/wsdl/organization", propOrder = {"orgId","orgHierarchy"})
 
 public class GetAncestors {
 

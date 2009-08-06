@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<enumeratedValues xmlns="http://org.kuali.student/core/dictionary">
+<enumeratedValues xmlns="http://student.kuali.org/wsdl/dictionary">
   <enumeratedValue>
     <code>FL</code>
     <abbrevValue>FL</abbrevValue>

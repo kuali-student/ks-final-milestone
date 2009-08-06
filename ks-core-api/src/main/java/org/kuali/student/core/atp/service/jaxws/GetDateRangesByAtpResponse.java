@@ -15,9 +15,9 @@ import org.kuali.student.core.atp.dto.DateRangeInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getDateRangesByAtpResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getDateRangesByAtpResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getDateRangesByAtpResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "getDateRangesByAtpResponse", namespace = "http://student.kuali.org/wsdl/atp")
 
 public class GetDateRangesByAtpResponse {
 

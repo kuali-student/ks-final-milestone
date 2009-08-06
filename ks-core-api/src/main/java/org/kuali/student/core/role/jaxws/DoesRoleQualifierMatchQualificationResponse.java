@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "doesRoleQualifierMatchQualificationResponse", namespace = "http://org.kuali.student/core/roleType")
+@XmlRootElement(name = "doesRoleQualifierMatchQualificationResponse", namespace = "http://student.kuali.org/wsdl/roleType")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "doesRoleQualifierMatchQualificationResponse", namespace = "http://org.kuali.student/core/roleType")
+@XmlType(name = "doesRoleQualifierMatchQualificationResponse", namespace = "http://student.kuali.org/wsdl/roleType")
 
 public class DoesRoleQualifierMatchQualificationResponse {
 

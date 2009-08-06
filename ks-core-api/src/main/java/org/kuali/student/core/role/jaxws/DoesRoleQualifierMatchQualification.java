@@ -16,9 +16,9 @@ import org.kuali.student.core.ws.binding.AttributeSetAdapter;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "doesRoleQualifierMatchQualification", namespace = "http://org.kuali.student/core/roleType")
+@XmlRootElement(name = "doesRoleQualifierMatchQualification", namespace = "http://student.kuali.org/wsdl/roleType")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "doesRoleQualifierMatchQualification", namespace = "http://org.kuali.student/core/roleType", propOrder = {"arg0","arg1"})
+@XmlType(name = "doesRoleQualifierMatchQualification", namespace = "http://student.kuali.org/wsdl/roleType", propOrder = {"arg0","arg1"})
 
 public class DoesRoleQualifierMatchQualification {
 

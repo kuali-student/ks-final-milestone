@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  * This is a description of what this class does - Rich don't forget to fill this in. 
  * 
  */
-@WebService(endpointInterface = "org.kuali.student.core.role.QualifierHierarchyRoleTypeService", serviceName = "QHRoleTypeService", portName = "QHRoleTypeService", targetNamespace = "http://org.kuali.student/core/qhRoleType")
+@WebService(endpointInterface = "org.kuali.student.core.role.QualifierHierarchyRoleTypeService", serviceName = "QHRoleTypeService", portName = "QHRoleTypeService", targetNamespace = "http://student.kuali.org/wsdl/qhRoleType")
 @Transactional
 
 //TODO: Implement this correctly using KimRoleTypeService

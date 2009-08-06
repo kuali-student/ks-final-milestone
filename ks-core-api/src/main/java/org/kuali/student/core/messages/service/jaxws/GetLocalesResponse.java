@@ -15,9 +15,9 @@ import org.kuali.student.core.messages.dto.LocaleKeyList;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getLocalesResponse", namespace = "http://student.kuali.org/core/messages")
+@XmlRootElement(name = "getLocalesResponse", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getLocalesResponse", namespace = "http://student.kuali.org/core/messages")
+@XmlType(name = "getLocalesResponse", namespace = "http://student.kuali.org/wsdl/messages")
 
 public class GetLocalesResponse {
 

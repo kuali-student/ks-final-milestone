@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getAtpSeasonalTypes", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getAtpSeasonalTypes", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAtpSeasonalTypes", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "getAtpSeasonalTypes", namespace = "http://student.kuali.org/wsdl/atp")
 
 public class GetAtpSeasonalTypes {
 

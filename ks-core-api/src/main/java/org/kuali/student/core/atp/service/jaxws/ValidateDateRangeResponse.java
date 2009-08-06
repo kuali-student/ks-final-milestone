@@ -13,9 +13,9 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "validateDateRangeResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "validateDateRangeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateDateRangeResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "validateDateRangeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 public class ValidateDateRangeResponse {
 
 	@XmlElement(name = "return")

@@ -15,9 +15,9 @@ import org.kuali.student.core.comment.dto.TagTypeInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getTagTypesResponse", namespace = "http://student.kuali.org/commentService")
+@XmlRootElement(name = "getTagTypesResponse", namespace = "http://student.kuali.org/wsdl/commentService")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getTagTypesResponse", namespace = "http://student.kuali.org/commentService")
+@XmlType(name = "getTagTypesResponse", namespace = "http://student.kuali.org/wsdl/commentService")
 
 public class GetTagTypesResponse {
 

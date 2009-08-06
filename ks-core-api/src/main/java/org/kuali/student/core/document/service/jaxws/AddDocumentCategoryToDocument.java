@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "addDocumentCategoryToDocument", namespace = "http://student.kuali.org/core/document")
+@XmlRootElement(name = "addDocumentCategoryToDocument", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addDocumentCategoryToDocument", namespace = "http://student.kuali.org/core/document", propOrder = {"documentId","documentCategoryKey"})
+@XmlType(name = "addDocumentCategoryToDocument", namespace = "http://student.kuali.org/wsdl/document", propOrder = {"documentId","documentCategoryKey"})
 
 public class AddDocumentCategoryToDocument {
 

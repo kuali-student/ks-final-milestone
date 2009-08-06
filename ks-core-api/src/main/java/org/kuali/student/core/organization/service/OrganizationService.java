@@ -63,7 +63,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * @author Kuali Student Team
  */
 
-@WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
+@WebService(name = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface OrganizationService extends DictionaryService, SearchService, EnumerableService {
 

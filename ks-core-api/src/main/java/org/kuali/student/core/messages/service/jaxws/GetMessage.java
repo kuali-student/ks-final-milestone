@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getMessage", namespace = "http://student.kuali.org/core/messages")
+@XmlRootElement(name = "getMessage", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getMessage", namespace = "http://student.kuali.org/core/messages", propOrder = {"localeKey","messageGroupKey","messageKey"})
+@XmlType(name = "getMessage", namespace = "http://student.kuali.org/wsdl/messages", propOrder = {"localeKey","messageGroupKey","messageKey"})
 
 public class GetMessage {
 

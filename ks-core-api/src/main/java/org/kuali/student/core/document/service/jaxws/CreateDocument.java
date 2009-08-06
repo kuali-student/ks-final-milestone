@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "createDocument", namespace = "http://student.kuali.org/core/document")
+@XmlRootElement(name = "createDocument", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createDocument", namespace = "http://student.kuali.org/core/document", propOrder = {"documentTypeKey","documentCategoryKey","documentInfo"})
+@XmlType(name = "createDocument", namespace = "http://student.kuali.org/wsdl/document", propOrder = {"documentTypeKey","documentCategoryKey","documentInfo"})
 
 public class CreateDocument {
 

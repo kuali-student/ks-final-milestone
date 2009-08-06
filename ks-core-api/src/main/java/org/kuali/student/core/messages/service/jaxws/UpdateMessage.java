@@ -15,9 +15,9 @@ import org.kuali.student.core.messages.dto.Message;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "updateMessage", namespace = "http://student.kuali.org/core/messages")
+@XmlRootElement(name = "updateMessage", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "updateMessage", namespace = "http://student.kuali.org/core/messages", propOrder = {"localeKey","messageGroupKey","messageKey","messageInfo"})
+@XmlType(name = "updateMessage", namespace = "http://student.kuali.org/wsdl/messages", propOrder = {"localeKey","messageGroupKey","messageKey","messageInfo"})
 
 public class UpdateMessage {
 

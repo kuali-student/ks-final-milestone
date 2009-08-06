@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "validateAtp", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "validateAtp", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateAtp", namespace = "http://student.kuali.org/core/atp", propOrder = {"validationType","atpInfo"})
+@XmlType(name = "validateAtp", namespace = "http://student.kuali.org/wsdl/atp", propOrder = {"validationType","atpInfo"})
 
 public class ValidateAtp {
 

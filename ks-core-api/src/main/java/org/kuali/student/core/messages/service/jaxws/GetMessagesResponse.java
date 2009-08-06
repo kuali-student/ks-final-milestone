@@ -15,9 +15,9 @@ import org.kuali.student.core.messages.dto.MessageList;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getMessagesResponse", namespace = "http://student.kuali.org/core/messages")
+@XmlRootElement(name = "getMessagesResponse", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getMessagesResponse", namespace = "http://student.kuali.org/core/messages")
+@XmlType(name = "getMessagesResponse", namespace = "http://student.kuali.org/wsdl/messages")
 
 public class GetMessagesResponse {
 

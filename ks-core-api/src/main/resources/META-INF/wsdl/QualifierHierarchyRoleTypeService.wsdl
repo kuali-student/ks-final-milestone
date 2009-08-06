@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="QHRoleTypeService" targetNamespace="http://org.kuali.student/core/qhRoleType" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://org.kuali.student/core/qhRoleType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="QHRoleTypeService" targetNamespace="http://student.kuali.org/wsdl/qhRoleType" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/qhRoleType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/roleType" xmlns:tns="http://org.kuali.student/core/qhRoleType" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/qhRoleType">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/roleType" xmlns:tns="http://student.kuali.org/wsdl/qhRoleType" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/qhRoleType">
     <xs:complexType name="jaxbAttributeList">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
@@ -24,8 +24,8 @@
     <xs:element name="doRoleQualifiersMatchQualification" nillable="true" type="ns0:doRoleQualifiersMatchQualification"/>
     <xs:element name="doRoleQualifiersMatchQualificationResponse" nillable="true" type="ns0:doRoleQualifiersMatchQualificationResponse"/>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://org.kuali.student/core/qhRoleType" xmlns:tns="http://org.kuali.student/core/roleType" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/roleType">
-    <xs:import namespace="http://org.kuali.student/core/qhRoleType"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/qhRoleType" xmlns:tns="http://student.kuali.org/wsdl/roleType" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/roleType">
+    <xs:import namespace="http://student.kuali.org/wsdl/qhRoleType"/>
     <xs:element name="doRoleQualifiersMatchQualification" type="tns:doRoleQualifiersMatchQualification"/>
     <xs:element name="doRoleQualifiersMatchQualificationResponse" type="tns:doRoleQualifiersMatchQualificationResponse"/>
     <xs:element name="doesRoleQualifierMatchQualification" type="tns:doesRoleQualifierMatchQualification"/>

@@ -15,9 +15,9 @@ import org.kuali.student.core.comment.dto.CommentInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getCommentsByTypeResponse", namespace = "http://student.kuali.org/commentService")
+@XmlRootElement(name = "getCommentsByTypeResponse", namespace = "http://student.kuali.org/wsdl/commentService")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getCommentsByTypeResponse", namespace = "http://student.kuali.org/commentService")
+@XmlType(name = "getCommentsByTypeResponse", namespace = "http://student.kuali.org/wsdl/commentService")
 
 public class GetCommentsByTypeResponse {
 

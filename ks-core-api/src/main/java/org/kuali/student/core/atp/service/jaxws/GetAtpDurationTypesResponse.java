@@ -15,9 +15,9 @@ import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getAtpDurationTypesResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getAtpDurationTypesResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAtpDurationTypesResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "getAtpDurationTypesResponse", namespace = "http://student.kuali.org/wsdl/atp")
 
 public class GetAtpDurationTypesResponse {
 

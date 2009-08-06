@@ -15,9 +15,9 @@ import org.kuali.student.core.atp.dto.AtpInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getAtpsByAtpTypeResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getAtpsByAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAtpsByAtpTypeResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "getAtpsByAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 
 public class GetAtpsByAtpTypeResponse {
 

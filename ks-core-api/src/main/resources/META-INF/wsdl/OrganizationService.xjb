@@ -17,21 +17,21 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
           xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-  <jaxws:bindings  node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://org.kuali.student/core/search']">
+  <jaxws:bindings  node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://student.kuali.org/wsdl/search']">
       <jxb:globalBindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema">
         <jxb:javaType name="java.util.Date" xmlType="xs:dateTime"
                       parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDateTime"
                       printMethod="org.apache.cxf.tools.common.DataTypeAdapter.printDateTime"/>
       </jxb:globalBindings>
   </jaxws:bindings>
-  <jaxws:bindings  node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://org.kuali.student/core/organization']">
+  <jaxws:bindings  node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://student.kuali.org/wsdl/organization']">
       <jxb:globalBindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema">
         <jxb:javaType name="java.util.Date" xmlType="xs:dateTime"
                       parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDateTime"
                       printMethod="org.apache.cxf.tools.common.DataTypeAdapter.printDateTime"/>
       </jxb:globalBindings>
   </jaxws:bindings>
-  <jaxws:bindings  node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://org.kuali.student/core/dictionary']">
+  <jaxws:bindings  node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://student.kuali.org/wsdl/dictionary']">
       <jxb:globalBindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema">
         <jxb:javaType name="java.util.Date" xmlType="xs:dateTime"
                       parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDateTime"

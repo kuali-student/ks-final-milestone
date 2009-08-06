@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "removePositionRestrictionFromOrgResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlRootElement(name = "removePositionRestrictionFromOrgResponse", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "removePositionRestrictionFromOrgResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlType(name = "removePositionRestrictionFromOrgResponse", namespace = "http://student.kuali.org/wsdl/organization")
 
 public class RemovePositionRestrictionFromOrgResponse {
 

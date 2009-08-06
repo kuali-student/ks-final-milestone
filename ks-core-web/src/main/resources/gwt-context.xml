@@ -91,7 +91,7 @@
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
-			value="{http://org.kuali.student/core/organization}OrganizationService" />
+			value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 		<property name="address" value="${ks.core.org.serviceAddress}" />
 
 	</bean>

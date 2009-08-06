@@ -13,9 +13,9 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "validateDocumentResponse", namespace = "http://student.kuali.org/core/document")
+@XmlRootElement(name = "validateDocumentResponse", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateDocumentResponse", namespace = "http://student.kuali.org/core/document")
+@XmlType(name = "validateDocumentResponse", namespace = "http://student.kuali.org/wsdl/document")
 public class ValidateDocumentResponse {
 
 	@XmlElement(name = "return")

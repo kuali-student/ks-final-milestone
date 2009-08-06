@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getObjectTypes", namespace = "http://org.kuali.student/core/dictionary")
+@XmlRootElement(name = "getObjectTypes", namespace = "http://student.kuali.org/wsdl/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getObjectTypes", namespace = "http://org.kuali.student/core/dictionary")
+@XmlType(name = "getObjectTypes", namespace = "http://student.kuali.org/wsdl/dictionary")
 
 public class GetObjectTypes {
 

@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "removeTag", namespace = "http://student.kuali.org/commentService")
+@XmlRootElement(name = "removeTag", namespace = "http://student.kuali.org/wsdl/commentService")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "removeTag", namespace = "http://student.kuali.org/commentService", propOrder = {"tagId","referenceId","referenceTypeKey"})
+@XmlType(name = "removeTag", namespace = "http://student.kuali.org/wsdl/commentService", propOrder = {"tagId","referenceId","referenceTypeKey"})
 
 public class RemoveTag {
 

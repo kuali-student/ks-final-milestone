@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "validateStructureData", namespace = "http://org.kuali.student/core/dictionary")
+@XmlRootElement(name = "validateStructureData", namespace = "http://student.kuali.org/wsdl/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateStructureData", namespace = "http://org.kuali.student/core/dictionary", propOrder = {"objectTypeKey","stateKey","info"})
+@XmlType(name = "validateStructureData", namespace = "http://student.kuali.org/wsdl/dictionary", propOrder = {"objectTypeKey","stateKey","info"})
 
 public class ValidateStructureData {
 

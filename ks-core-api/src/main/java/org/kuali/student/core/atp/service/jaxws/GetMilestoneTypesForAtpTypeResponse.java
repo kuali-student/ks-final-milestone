@@ -15,9 +15,9 @@ import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getMilestoneTypesForAtpTypeResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getMilestoneTypesForAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getMilestoneTypesForAtpTypeResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "getMilestoneTypesForAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 
 public class GetMilestoneTypesForAtpTypeResponse {
 

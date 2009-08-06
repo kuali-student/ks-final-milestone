@@ -15,9 +15,9 @@ import org.kuali.student.core.document.dto.DocumentTypeInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getDocumentTypesResponse", namespace = "http://student.kuali.org/core/document")
+@XmlRootElement(name = "getDocumentTypesResponse", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getDocumentTypesResponse", namespace = "http://student.kuali.org/core/document")
+@XmlType(name = "getDocumentTypesResponse", namespace = "http://student.kuali.org/wsdl/document")
 
 public class GetDocumentTypesResponse {
 

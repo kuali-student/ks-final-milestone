@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getDateRangeTypesForAtpType", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getDateRangeTypesForAtpType", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getDateRangeTypesForAtpType", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "getDateRangeTypesForAtpType", namespace = "http://student.kuali.org/wsdl/atp")
 
 public class GetDateRangeTypesForAtpType {
 

@@ -26,7 +26,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
  * 
  */
-@WebService(name = "QHRoleTypeService", targetNamespace = "http://org.kuali.student/core/qhRoleType")
+@WebService(name = "QHRoleTypeService", targetNamespace = "http://student.kuali.org/wsdl/qhRoleType")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface QualifierHierarchyRoleTypeService {
 

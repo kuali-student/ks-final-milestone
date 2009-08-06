@@ -13,9 +13,9 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "validateMilestoneResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "validateMilestoneResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateMilestoneResponse", namespace = "http://student.kuali.org/core/atp")
+@XmlType(name = "validateMilestoneResponse", namespace = "http://student.kuali.org/wsdl/atp")
 public class ValidateMilestoneResponse {
 
 	@XmlElement(name = "return")

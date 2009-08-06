@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "validateObjectResponse", namespace = "http://org.kuali.student/core/dictionary")
+@XmlRootElement(name = "validateObjectResponse", namespace = "http://student.kuali.org/wsdl/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateObjectResponse", namespace = "http://org.kuali.student/core/dictionary")
+@XmlType(name = "validateObjectResponse", namespace = "http://student.kuali.org/wsdl/dictionary")
 
 public class ValidateObjectResponse {
 

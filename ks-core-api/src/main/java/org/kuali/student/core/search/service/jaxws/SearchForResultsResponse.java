@@ -15,9 +15,9 @@ import org.kuali.student.core.search.dto.Result;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "searchForResultsResponse", namespace = "http://org.kuali.student/core/search")
+@XmlRootElement(name = "searchForResultsResponse", namespace = "http://student.kuali.org/wsdl/search")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "searchForResultsResponse", namespace = "http://org.kuali.student/core/search")
+@XmlType(name = "searchForResultsResponse", namespace = "http://student.kuali.org/wsdl/search")
 
 public class SearchForResultsResponse {
 

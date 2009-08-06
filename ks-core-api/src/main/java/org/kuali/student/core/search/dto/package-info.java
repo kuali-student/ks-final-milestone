@@ -1,2 +1,2 @@
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://org.kuali.student/core/search", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://student.kuali.org/wsdl/search", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.kuali.student.core.search.dto;

@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "addDateRange", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "addDateRange", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "addDateRange", namespace = "http://student.kuali.org/core/atp", propOrder = {"atpKey","dateRangeKey","dateRangeInfo"})
+@XmlType(name = "addDateRange", namespace = "http://student.kuali.org/wsdl/atp", propOrder = {"atpKey","dateRangeKey","dateRangeInfo"})
 
 public class AddDateRange {
 

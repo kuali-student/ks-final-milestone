@@ -51,7 +51,7 @@ import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
+@WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @Transactional(rollbackFor={Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
 

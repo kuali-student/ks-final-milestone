@@ -16,9 +16,9 @@ import org.kuali.student.core.ws.binding.AttributeSetAdapter;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getAllImpliedQualifications", namespace = "http://org.kuali.student/core/roleType")
+@XmlRootElement(name = "getAllImpliedQualifications", namespace = "http://student.kuali.org/wsdl/roleType")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAllImpliedQualifications", namespace = "http://org.kuali.student/core/roleType")
+@XmlType(name = "getAllImpliedQualifications", namespace = "http://student.kuali.org/wsdl/roleType")
 
 public class GetAllImpliedQualifications {
 

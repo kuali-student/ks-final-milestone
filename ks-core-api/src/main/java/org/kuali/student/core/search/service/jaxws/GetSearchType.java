@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getSearchType", namespace = "http://org.kuali.student/core/search")
+@XmlRootElement(name = "getSearchType", namespace = "http://student.kuali.org/wsdl/search")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getSearchType", namespace = "http://org.kuali.student/core/search")
+@XmlType(name = "getSearchType", namespace = "http://student.kuali.org/wsdl/search")
 
 public class GetSearchType {
 

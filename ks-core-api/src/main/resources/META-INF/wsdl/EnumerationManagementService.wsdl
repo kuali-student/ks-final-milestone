@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="EnumerationManagementService" targetNamespace="http://student.kuali.org/wsdl/EnumerationManagementService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/EnumerationManagementService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/exceptions" xmlns:tns="http://student.kuali.org/wsdl/EnumerationManagementService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/EnumerationManagementService">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:tns="http://student.kuali.org/wsdl/EnumerationManagementService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/EnumerationManagementService">
     <xs:element name="addEnumeratedValue" type="tns:addEnumeratedValue"/>
     <xs:element name="addEnumeratedValueResponse" type="tns:addEnumeratedValueResponse"/>
     <xs:element name="getEnumeration" type="tns:getEnumeration"/>
@@ -153,7 +153,7 @@
     <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
     <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/exceptions">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
     <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
     <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
     <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>

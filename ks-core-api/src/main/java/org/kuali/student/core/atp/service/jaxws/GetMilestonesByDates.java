@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getMilestonesByDates", namespace = "http://student.kuali.org/core/atp")
+@XmlRootElement(name = "getMilestonesByDates", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getMilestonesByDates", namespace = "http://student.kuali.org/core/atp", propOrder = {"startDate","endDate"})
+@XmlType(name = "getMilestonesByDates", namespace = "http://student.kuali.org/wsdl/atp", propOrder = {"startDate","endDate"})
 
 public class GetMilestonesByDates {
 

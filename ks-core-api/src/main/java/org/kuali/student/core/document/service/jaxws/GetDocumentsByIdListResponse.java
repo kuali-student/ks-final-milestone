@@ -15,9 +15,9 @@ import org.kuali.student.core.document.dto.DocumentInfo;
  * Generated source version: 2.2
  */
 
-@XmlRootElement(name = "getDocumentsByIdListResponse", namespace = "http://student.kuali.org/core/document")
+@XmlRootElement(name = "getDocumentsByIdListResponse", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getDocumentsByIdListResponse", namespace = "http://student.kuali.org/core/document")
+@XmlType(name = "getDocumentsByIdListResponse", namespace = "http://student.kuali.org/wsdl/document")
 
 public class GetDocumentsByIdListResponse {
 

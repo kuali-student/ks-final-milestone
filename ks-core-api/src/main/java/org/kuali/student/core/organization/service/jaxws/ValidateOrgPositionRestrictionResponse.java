@@ -13,9 +13,9 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "validateOrgPositionRestrictionResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlRootElement(name = "validateOrgPositionRestrictionResponse", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateOrgPositionRestrictionResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlType(name = "validateOrgPositionRestrictionResponse", namespace = "http://student.kuali.org/wsdl/organization")
 public class ValidateOrgPositionRestrictionResponse {
 
 	@XmlElement(name = "return")

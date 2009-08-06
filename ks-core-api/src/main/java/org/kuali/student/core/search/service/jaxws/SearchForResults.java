@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.4
  */
 
-@XmlRootElement(name = "searchForResults", namespace = "http://org.kuali.student/core/search")
+@XmlRootElement(name = "searchForResults", namespace = "http://student.kuali.org/wsdl/search")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "searchForResults", namespace = "http://org.kuali.student/core/search", propOrder = {"searchTypeKey","queryParamValues"})
+@XmlType(name = "searchForResults", namespace = "http://student.kuali.org/wsdl/search", propOrder = {"searchTypeKey","queryParamValues"})
 
 public class SearchForResults {
 

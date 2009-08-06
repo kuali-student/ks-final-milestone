@@ -15,9 +15,9 @@ import org.kuali.student.core.messages.dto.MessageGroupKeyList;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getMessagesByGroups", namespace = "http://student.kuali.org/core/messages")
+@XmlRootElement(name = "getMessagesByGroups", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getMessagesByGroups", namespace = "http://student.kuali.org/core/messages", propOrder = {"localeKey","messageGroupKeyList"})
+@XmlType(name = "getMessagesByGroups", namespace = "http://student.kuali.org/wsdl/messages", propOrder = {"localeKey","messageGroupKeyList"})
 
 public class GetMessagesByGroups {
 

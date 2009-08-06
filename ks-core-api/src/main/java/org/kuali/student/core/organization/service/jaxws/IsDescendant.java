@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "isDescendant", namespace = "http://org.kuali.student/core/organization")
+@XmlRootElement(name = "isDescendant", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "isDescendant", namespace = "http://org.kuali.student/core/organization", propOrder = {"orgId","descendantOrgId","orgHierarchy"})
+@XmlType(name = "isDescendant", namespace = "http://student.kuali.org/wsdl/organization", propOrder = {"orgId","descendantOrgId","orgHierarchy"})
 
 public class IsDescendant {
 

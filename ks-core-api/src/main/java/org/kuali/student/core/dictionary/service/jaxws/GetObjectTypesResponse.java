@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getObjectTypesResponse", namespace = "http://org.kuali.student/core/dictionary")
+@XmlRootElement(name = "getObjectTypesResponse", namespace = "http://student.kuali.org/wsdl/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getObjectTypesResponse", namespace = "http://org.kuali.student/core/dictionary")
+@XmlType(name = "getObjectTypesResponse", namespace = "http://student.kuali.org/wsdl/dictionary")
 
 public class GetObjectTypesResponse {
 

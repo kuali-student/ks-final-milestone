@@ -15,9 +15,9 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getAllOrgPersonRelationsByPersonResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlRootElement(name = "getAllOrgPersonRelationsByPersonResponse", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getAllOrgPersonRelationsByPersonResponse", namespace = "http://org.kuali.student/core/organization")
+@XmlType(name = "getAllOrgPersonRelationsByPersonResponse", namespace = "http://student.kuali.org/wsdl/organization")
 
 public class GetAllOrgPersonRelationsByPersonResponse {
 

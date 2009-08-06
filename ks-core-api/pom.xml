@@ -51,7 +51,7 @@
 								org.kuali.student.core.organization.service.OrganizationService
 							</className>
 							<serviceName>OrganizationService</serviceName>
-							<targetNameSpace>http://org.kuali.student/core/organization</targetNameSpace>			
+							<targetNameSpace> http://student.kuali.org/wsdl/organization</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -79,7 +79,7 @@
 								org.kuali.student.core.atp.service.AtpService
 							</className>
 							<serviceName>AtpService</serviceName>
-							<targetNameSpace>http://student.kuali.org/core/AtpService</targetNameSpace>			
+							<targetNameSpace>http://student.kuali.org/wsdl/atp</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -93,7 +93,7 @@
 								org.kuali.student.core.messages.service.MessageService
 							</className>
 							<serviceName>MessageService</serviceName>
-							<targetNameSpace>http://student.kuali.org/core/messages</targetNameSpace>			
+							<targetNameSpace>http://student.kuali.org/wsdl/messages</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -107,7 +107,7 @@
 								org.kuali.student.core.document.service.DocumentService
 							</className>
 							<serviceName>DocumentService</serviceName>
-							<targetNameSpace>http://student.kuali.org/core/document</targetNameSpace>			
+							<targetNameSpace>http://student.kuali.org/wsdl/document</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
@@ -121,7 +121,7 @@
 								org.kuali.student.core.comment.service.CommentService
 							</className>
 							<serviceName>CommentService</serviceName>
-							<targetNameSpace>http://student.kuali.org/core/comment</targetNameSpace>			
+							<targetNameSpace>http://student.kuali.org/wsdl/comment</targetNameSpace>			
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
