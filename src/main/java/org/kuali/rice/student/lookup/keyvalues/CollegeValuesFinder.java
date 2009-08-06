@@ -25,7 +25,7 @@ public class CollegeValuesFinder extends KeyValuesBase {
 	public List<KeyLabelPair> getKeyValues() {
 		List<KeyLabelPair> colleges = new ArrayList<KeyLabelPair>();
 
-	   	OrganizationService orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://org.kuali.student/core/organization","OrganizationService"));
+	   	OrganizationService orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 	   		   	
 	   	String searchTypeKey="org.search.orgQuickViewByOrgType";
 	   	

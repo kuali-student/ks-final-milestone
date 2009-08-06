@@ -62,7 +62,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 
 	protected OrganizationService getOrganizationService() {
 		if (null == orgService) {
-		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://org.kuali.student/core/organization","OrganizationService"));
+		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 		}
 		return orgService;
 	}

@@ -33,7 +33,7 @@ public abstract class CocValuesFiinder extends KeyValuesBase {
 
 		OrganizationService orgService = (OrganizationService) GlobalResourceLoader
 				.getService(new QName(
-						"http://org.kuali.student/core/organization",
+						"http://student.kuali.org/wsdl/organization",
 						"OrganizationService"));
 
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
