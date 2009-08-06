@@ -12,53 +12,74 @@
 
 
 	<!-- Datasources -->
-	<bean id="defaultDataSource" abstract="true"
+	<!--	<bean id="defaultDataSource" abstract="true"-->
+	<!--
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
-		destroy-method="close">
-		<property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaProperties">
-			<props>
-				<prop key="user">org</prop>
-				<prop key="password">org</prop>
-				<prop key="databaseName">target/orgDB</prop>
-				<prop key="createDatabase">create</prop>
-			</props>
-		</property>
-		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
-		<property name="testQuery" value="${jdbc.validationQuery}" />
+	-->
+	<!--		destroy-method="close">-->
+	<!--
+		<property name="xaDataSourceClassName"
+		value="${jdbc.xaDataSourceClassName}" />
+	-->
+	<!--		<property name="xaProperties">-->
+	<!--			<props>-->
+	<!--				<prop key="user">org</prop>-->
+	<!--				<prop key="password">org</prop>-->
+	<!--				<prop key="databaseName">target/orgDB</prop>-->
+	<!--				<prop key="createDatabase">create</prop>-->
+	<!--			</props>-->
+	<!--		</property>-->
+	<!--		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />-->
+	<!--		<property name="testQuery" value="${jdbc.validationQuery}" />-->
+	<!--	</bean>-->
+
+	<bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+		<property name="url" value="jdbc:derby:target/derby/orgDB;create=true" />
+		<property name="maxSize" value="10" />
+		<property name="minSize" value="10" />
+		<property name="maxWait" value="600" />
+		<property name="validationQuery" value="values(1)" />
+		<property name="username" value="org" />
+		<property name="password" value="org" />
 	</bean>
 
-	<bean id="orgDataSource" parent="defaultDataSource">
-		<property name="uniqueResourceName" value="orgDataSource" />
-	</bean>
+	<!--	<bean id="orgDataSource" parent="defaultDataSource">-->
+	<!--		<property name="uniqueResourceName" value="orgDataSource" />-->
+	<!--	</bean>-->
 
-	<bean id="emDataSource" parent="defaultDataSource">
-		<property name="uniqueResourceName" value="emDataSource" />
-		<property name="xaProperties">
-			<props>
-				<prop key="user">em</prop>
-				<prop key="password">em</prop>
-				<prop key="databaseName">target/emDB</prop>
-				<prop key="createDatabase">create</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="messageDataSource" parent="defaultDataSource">
+	<!--	<bean id="emDataSource" parent="defaultDataSource">-->
+	<!--		<property name="uniqueResourceName" value="emDataSource" />-->
+	<!--		<property name="xaProperties">-->
+	<!--			<props>-->
+	<!--				<prop key="user">em</prop>-->
+	<!--				<prop key="password">em</prop>-->
+	<!--				<prop key="databaseName">target/emDB</prop>-->
+	<!--				<prop key="createDatabase">create</prop>-->
+	<!--			</props>-->
+	<!--		</property>-->
+	<!--	</bean>-->
+<!---->
+	<!--	<bean id="messageDataSource" parent="defaultDataSource">-->
+	<!--
 		<property name="uniqueResourceName" value="messageDataSource" />
-		<property name="xaProperties">
-			<props>
-				<prop key="user">message</prop>
-				<prop key="password">message</prop>
-				<prop key="databaseName">target/messageDB</prop>
-				<prop key="createDatabase">create</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="commentDataSource" parent="defaultDataSource">
+	-->
+	<!--		<property name="xaProperties">-->
+	<!--			<props>-->
+	<!--				<prop key="user">message</prop>-->
+	<!--				<prop key="password">message</prop>-->
+	<!--				<prop key="databaseName">target/messageDB</prop>-->
+	<!--				<prop key="createDatabase">create</prop>-->
+	<!--			</props>-->
+	<!--		</property>-->
+	<!--	</bean>-->
+<!---->
+	<!--	<bean id="commentDataSource" parent="defaultDataSource">-->
+	<!--
 		<property name="uniqueResourceName" value="commentDataSource" />
-	</bean>
+	-->
+	<!--	</bean>-->
 
 	<!-- JPA EntityManagerFactory -->
 	<bean id="defaultEntityManagerFactory" abstract="true"
@@ -95,7 +116,7 @@
 		<property name="persistenceUnitName" value="EnumerationManagement" />
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/enumeration-persistence.xml" />
-		<property name="dataSource" ref="emDataSource" />
+		<property name="dataSource" ref="orgDataSource" />
 	</bean>
 	<bean id="emEntityManager"
 		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
@@ -105,7 +126,7 @@
 	<bean id="messageEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="MessageManagement" />
 		<property name="persistenceXmlLocation" value="classpath:META-INF/messages-persistence.xml" />
-		<property name="dataSource" ref="messageDataSource" />
+		<property name="dataSource" ref="orgDataSource" />
 	</bean>
 
 	<bean id="messageEntityManager"
@@ -116,7 +137,7 @@
 	<bean id="commentEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Comment" />
 		<property name="persistenceXmlLocation" value="classpath:META-INF/comment-persistence.xml" />
-		<property name="dataSource" ref="commentDataSource" />
+		<property name="dataSource" ref="orgDataSource" />
 	</bean>
 
 	<bean id="commentEntityManager"
@@ -151,10 +172,25 @@
 		<property name="transactionTimeout" value="3500" />
 	</bean>
 
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
+		<property name="defaultTimeout" value="${transaction.timeout}" />
+	</bean>
+
+	<bean id="userTransaction" class="org.kuali.rice.core.jta.UserTransactionFactoryBean">
+		<property name="defaultUserTransaction">
+			<ref local="jotm" />
+		</property>
+	</bean>
+	<bean id="jtaTransactionManager" class="org.kuali.rice.core.jta.TransactionManagerFactoryBean">
+		<property name="defaultTransactionManager">
+			<ref local="jotm" />
+		</property>
+	</bean>
+
 	<bean id="JtaTxManager"
 		class="org.springframework.transaction.jta.JtaTransactionManager">
-		<property name="transactionManager" ref="atomikosTransactionManager" />
-		<property name="userTransaction" ref="atomikosUserTransaction" />
+		<property name="transactionManager" ref="jtaTransactionManager" />
+		<property name="userTransaction" ref="userTransaction" />
 		<property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
 	</bean>
 
@@ -245,7 +281,9 @@
 	</bean>
 
 	<!-- Preloaded data -->
+	<!--	-->
 <!--	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">-->
+<!---->
 <!--		<property name="jtaTxManager" ref="JtaTxManager" />-->
 <!--		<property name="preloadMap">-->
 <!--			<map>-->
