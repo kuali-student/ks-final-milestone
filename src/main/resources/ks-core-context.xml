@@ -71,12 +71,12 @@
 			</bean>
 		</property>
 		<property name="jpaPropertyMap">
-			<props>
-				<prop key="hibernate.transaction.manager_lookup_class">
-					com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup</prop>
-				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
-				<prop key="hibernate.connection.release_mode">after_transaction</prop>
-			</props>
+			<map>
+				<entry key="hibernate.transaction.manager_lookup_class"
+					value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />
+				<entry key="hibernate.hbm2ddl.auto" value="create-drop" />
+				<entry key="hibernate.connection.release_mode" value="after_transaction" />
+			</map>
 		</property>
 	</bean>
 
@@ -111,13 +111,14 @@
 	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
 		init-method="init" destroy-method="shutdownForce">
 		<constructor-arg>
-		<props>
-		<prop key="com.atomikos.icatch.service">com.atomikos.icatch.standalone.UserTransactionServiceFactory</prop>
-		<prop key="com.atomikos.icatch.output_dir">target</prop>
-		<prop key="com.atomikos.icatch.log_base_dir">target</prop>
-		<prop key="com.atomikos.icatch.console_log_level">WARN</prop>
-		<prop key="com.atomikos.icatch.enable_logging">true</prop>
-		</props>
+			<props>
+				<prop key="com.atomikos.icatch.service">
+					com.atomikos.icatch.standalone.UserTransactionServiceFactory</prop>
+				<prop key="com.atomikos.icatch.output_dir">target</prop>
+				<prop key="com.atomikos.icatch.log_base_dir">target</prop>
+				<prop key="com.atomikos.icatch.console_log_level">WARN</prop>
+				<prop key="com.atomikos.icatch.enable_logging">true</prop>
+			</props>
 		</constructor-arg>
 	</bean>
 
@@ -144,8 +145,8 @@
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
 	<!-- JPA PostProcessing -->
-	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+<!--	<bean-->
+<!--		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />-->
 
 	<!-- Enumeration Service Config -->
 	<bean id="emDao"

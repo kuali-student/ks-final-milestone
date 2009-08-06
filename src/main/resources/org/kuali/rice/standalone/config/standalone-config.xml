@@ -72,7 +72,7 @@
   <param name="derby.em.jdbc.xaDataSourceProperties.user">em</param> 
   <param name="atomikos.properties.com.atomikos.icatch.service">com.atomikos.icatch.standalone.UserTransactionServiceFactory</param> 
   <param name="atomikos.properties.com.atomikos.icatch.console_log_level">WARN</param> 
-  <param name="jpa.databasePlatform">${${jpa.vendor}.${db.vendor}.jpa.databasePlatform}</param> 
+  <param name="jpa.databasePlatform">org.hibernate.dialect.DerbyDialect</param> 
   <param name="ks.core.org.serviceAddress">http://localhost:8080/ks-integrate/services/OrgService</param> 
   <param name="oracle.message.jdbc.xaDataSourceProperties.password">message</param> 
   <param name="eclipselink.oracle.jpa.databasePlatform">org.eclipse.persistence.platform.database.OraclePlatform</param> 
