@@ -218,7 +218,9 @@
 	<xsd:complexType name="constraintSelector">
 		<xsd:choice minOccurs="1" maxOccurs="1">
 			<xsd:sequence>
-				<xsd:element name="minOccurs" type="xsd:int"
+                <xsd:element name="minValue" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="maxValue" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+                <xsd:element name="minOccurs" type="xsd:int"
 					minOccurs="0" maxOccurs="1">
 				</xsd:element>
 				<xsd:element name="maxOccurs" type="xsd:string"
@@ -249,8 +251,6 @@
 			<xsd:element name="typeStateCase"
 				type="typeStateCaseConstraint" minOccurs="1" maxOccurs="1">
 			</xsd:element>
-			<xsd:element name="minVlaue" type="xsd:string"></xsd:element>
-			<xsd:element name="maxValue" type="xsd:string"></xsd:element>
 		</xsd:choice>
 		<xsd:attribute name="key" type="xsd:string" use="required"></xsd:attribute>
 		<xsd:attribute name="className" type="xsd:string"></xsd:attribute>
