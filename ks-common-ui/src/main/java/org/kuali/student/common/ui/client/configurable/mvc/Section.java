@@ -44,7 +44,9 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         //If fieldDescriptor.getFieldWidget() is not implementing the 
         //HasBlurHandlers. binding.bind does not do the bind. 
         ValidationEventBinding binding = new LostFocusValidationEventBinding();
-        binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
+        if(fieldDescriptor.getValidationRequestCallback()!= null){
+            binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
+        }
         // how to deal with the special case
     }
     
