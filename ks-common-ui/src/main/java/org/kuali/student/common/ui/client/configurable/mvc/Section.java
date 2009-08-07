@@ -40,6 +40,12 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         RowDescriptor row = new RowDescriptor();
         row.addField(fieldDescriptor);
         rows.add(row);
+        
+        //If fieldDescriptor.getFieldWidget() is not implementing the 
+        //HasBlurHandlers. binding.bind does not do the bind. 
+        ValidationEventBinding binding = new LostFocusValidationEventBinding();
+        binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
+        // how to deal with the special case
     }
     
     @Override    
