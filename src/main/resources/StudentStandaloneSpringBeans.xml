@@ -30,20 +30,35 @@
         </property>
     </bean>
    
-   <!-- Expose Org Service on Bus  --> 
-   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="remotedServiceRegistry" ref="enServiceInvoker" />
-        <property name="serviceDefinition">
-            <bean id="OrgWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="service" ref="orgServiceImpl" />
-                <property name="serviceNameSpaceURI" value="http://org.kuali.student/core/organization" />
-                <property name="localServiceName" value="OrganizationService" />
-                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+      <!-- Expose Org Service on Bus  --> 
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">     
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="busSecurity" value="false" />
+                <property name="service" ref="orgServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="false"></property>
             </bean>
         </property>
     </bean>
+   
+   
+   <!-- Expose Org Service on Bus  --> 
+<!--   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">-->
+<!--        <property name="remotedServiceRegistry" ref="enServiceInvoker" />-->
+<!--        <property name="serviceDefinition">-->
+<!--            <bean id="OrgWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">-->
+<!--                <property name="service" ref="orgServiceImpl" />-->
+<!--                <property name="serviceNameSpaceURI" value="http://org.kuali.student/core/organization" />-->
+<!--                <property name="localServiceName" value="OrganizationService" />-->
+<!--                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />-->
+<!--                <property name="jaxWsService" value="true" />-->
+<!--                <property name="busSecurity" value="false" />-->
+<!--            </bean>-->
+<!--        </property>-->
+<!--    </bean>-->
     
 <!--    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">-->
 <!--        <property name="serviceClass"-->

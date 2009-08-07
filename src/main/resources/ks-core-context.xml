@@ -94,7 +94,7 @@
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.transaction.manager_lookup_class"
-					value="com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup" />
+					value="org.hibernate.transaction.JOTMTransactionManagerLookup" />
 				<entry key="hibernate.hbm2ddl.auto" value="create-drop" />
 				<entry key="hibernate.connection.release_mode" value="after_transaction" />
 			</map>
@@ -147,30 +147,30 @@
 
 	<!-- JTA Configuration -->
 	<!--  Atomikos Configurations -->
-	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
-		init-method="init" destroy-method="shutdownForce">
-		<constructor-arg>
-			<props>
-				<prop key="com.atomikos.icatch.service">
-					com.atomikos.icatch.standalone.UserTransactionServiceFactory</prop>
-				<prop key="com.atomikos.icatch.output_dir">target</prop>
-				<prop key="com.atomikos.icatch.log_base_dir">target</prop>
-				<prop key="com.atomikos.icatch.console_log_level">WARN</prop>
-				<prop key="com.atomikos.icatch.enable_logging">true</prop>
-			</props>
-		</constructor-arg>
-	</bean>
-
-	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
-		depends-on="userTransactionService">
-		<property name="startupTransactionService" value="true" />
-		<property name="forceShutdown" value="true" />
-	</bean>
-
-	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp"
-		depends-on="userTransactionService">
-		<property name="transactionTimeout" value="3500" />
-	</bean>
+<!--	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"-->
+<!--		init-method="init" destroy-method="shutdownForce">-->
+<!--		<constructor-arg>-->
+<!--			<props>-->
+<!--				<prop key="com.atomikos.icatch.service">-->
+<!--					com.atomikos.icatch.standalone.UserTransactionServiceFactory</prop>-->
+<!--				<prop key="com.atomikos.icatch.output_dir">target</prop>-->
+<!--				<prop key="com.atomikos.icatch.log_base_dir">target</prop>-->
+<!--				<prop key="com.atomikos.icatch.console_log_level">WARN</prop>-->
+<!--				<prop key="com.atomikos.icatch.enable_logging">true</prop>-->
+<!--			</props>-->
+<!--		</constructor-arg>-->
+<!--	</bean>-->
+<!---->
+<!--	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"-->
+<!--		depends-on="userTransactionService">-->
+<!--		<property name="startupTransactionService" value="true" />-->
+<!--		<property name="forceShutdown" value="true" />-->
+<!--	</bean>-->
+<!---->
+<!--	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp"-->
+<!--		depends-on="userTransactionService">-->
+<!--		<property name="transactionTimeout" value="3500" />-->
+<!--	</bean>-->
 
 	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
 		<property name="defaultTimeout" value="${transaction.timeout}" />
@@ -285,6 +285,7 @@
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
 
 		<property name="jtaTxManager" ref="JtaTxManager" />
+		<property name="entityManager" ref="orgEntityManager"/>
 		<property name="preloadMap">
 			<map>
 				<entry key="Organization">
