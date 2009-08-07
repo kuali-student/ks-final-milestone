@@ -38,18 +38,21 @@ public class LoadSqlListener implements ApplicationListener,
 	private Map<String,String> preloadMap;
 	private JtaTransactionManager jtaTxManager;	
 	
+	private EntityManager entityManager;
+	
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent && !loaded) {
 		
 			for (Entry<String, String> entry : preloadMap.entrySet()) {
 				String sqlFileName = entry.getValue();
-				EntityManagerFactory emf = EntityManagerFactoryUtils
-						.findEntityManagerFactory(applicationContext, entry
-								.getKey());
-				EntityManager em = SharedEntityManagerCreator
-						.createSharedEntityManager(emf);
-				
+				if(entityManager==null){
+					EntityManagerFactory emf = EntityManagerFactoryUtils
+							.findEntityManagerFactory(applicationContext, entry
+									.getKey());
+					entityManager = SharedEntityManagerCreator
+							.createSharedEntityManager(emf);
+				}
 				File sqlFile;
 				BufferedReader in;
 				try{
@@ -72,7 +75,7 @@ public class LoadSqlListener implements ApplicationListener,
 					while((ln=in.readLine())!=null){
 						if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
 							ln=ln.replaceFirst("[;/]\\s*$","");
-							em.createNativeQuery(ln).executeUpdate();
+							entityManager.createNativeQuery(ln).executeUpdate();
 						}
 					}
 					jtaTxManager.commit(txStatus);
@@ -106,6 +109,14 @@ public class LoadSqlListener implements ApplicationListener,
 
 	public void setPreloadMap(Map<String, String> preloadMap) {
 		this.preloadMap = preloadMap;
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }
