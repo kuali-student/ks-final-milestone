@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
-import org.kuali.student.common.validator.BeanConstraintSetupFactory;
 
 import org.kuali.student.common.validator.ConstraintSetupFactory;
 import org.kuali.student.common.validator.ServerDateParser;
@@ -27,6 +26,28 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class ModelDTOTest {
+    @Test
+    public void testElementXPath() {
+        ConstraintMockPerson p = buildTestPerson1();
+        ConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+        MapContext ctx = new MapContext();
+        ModelDTO modelDTO = null;
+        try {
+            modelDTO = ctx.fromBean(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Validator val = new Validator(bc, true);
+        val.setDateParser(new ServerDateParser());
+        val.addMessages(buildMessageStore());
+        
+        List<ValidationResultContainer> results = val.validateTypeStateObject( modelDTO, buildObjectStructure1());    
+        assertEquals(results.size(), 3);
+
+        assertEquals(results.get(0).getElement(), "/personInfo[id='P1']/firstName/");
+        assertEquals(results.get(1).getElement(), "/personInfo[id='P1']/dob/");
+        assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
+    }
     @Test
     public void modelDTOtest() {
         ConstraintMockPerson p = buildTestPerson1();
