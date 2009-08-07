@@ -198,11 +198,7 @@
 			<artifactId>derby</artifactId>
 			<version>${derby.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-bundle-jaxrs</artifactId>
-			<version>2.2.1</version>
-		</dependency>
+
 	</dependencies>
 
 	<profiles>
