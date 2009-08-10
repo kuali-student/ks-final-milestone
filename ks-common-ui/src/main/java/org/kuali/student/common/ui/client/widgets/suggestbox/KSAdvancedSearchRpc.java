@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -47,9 +46,6 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandlers<List<String>>{
-    
-    private final Logger logger = Logger.getLogger(KSAdvancedSearchRpc.class);
-    
     private KSTabPanel tabPanel = new KSTabPanel();
     private VerticalPanel searchLayout = new VerticalPanel();
     private VerticalPanel resultLayout = new VerticalPanel();
@@ -209,7 +205,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             queryParamValue.setKey(((HasName)w).getName());
             if (w instanceof KSSelectItemWidgetAbstract){
                 queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
-                logger.debug(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
             } else {
                 String value = ((HasText)w).getText();
                 value = value.replace('*','%');

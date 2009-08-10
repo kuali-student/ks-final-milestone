@@ -17,7 +17,6 @@ package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -40,8 +39,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class OrgUpdatePanel extends Composite implements HasStateChanges{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-    
-    final Logger logger = Logger.getLogger(OrgUpdatePanel.class);
 
     VerticalPanel root = new VerticalPanel();
     SimplePanel editPanel = new SimplePanel();
@@ -96,7 +93,7 @@ public class OrgUpdatePanel extends Composite implements HasStateChanges{
 
     @Override
     public void loadState(String state) {
-        logger.debug("parsing "+state);
+        System.out.println("parsing "+state);
         if(state != null && !state.trim().equals("")) {
             String[] split = state.split("&");
             if(split.length > 1) {

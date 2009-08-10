@@ -1,7 +1,5 @@
 package org.kuali.student.common.ui.client.widgets.table;
 
-import org.apache.log4j.Logger;
-
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,9 +20,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NodeWidget extends SimplePanel implements NativePreviewHandler {
-    
-    final Logger logger = Logger.getLogger(NodeWidget.class);
-    
     private Node node;
     HTML html = new HTML();
     CheckBox checkBox = new CheckBox();
@@ -90,12 +85,12 @@ public class NodeWidget extends SimplePanel implements NativePreviewHandler {
     public void onPreviewNativeEvent(NativePreviewEvent pevent) {
         NativeEvent event = pevent.getNativeEvent();
         EventTarget target = event.getEventTarget();
-     //   logger.debug(this.getElement().is(Element.as(target)));
+     //   System.out.println(this.getElement().is(Element.as(target)));
         if(checkBox.getElement().isOrHasChild(Element.as(target))){
             return;
         }else if(this.getElement().is(Element.as(target)) && 
                 Event.as(event).getTypeInt() == Event.ONMOUSEDOWN ){
-                    logger.debug("doing");
+                    System.out.println("doing");
                   boolean before = checkBox.getValue();
                                   checkBox.setValue(!before);
                                   ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());

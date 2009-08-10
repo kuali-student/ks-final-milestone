@@ -2,15 +2,10 @@ package org.kuali.student.common.ui.client.widgets.table;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 /**
  * A generic tree node. 
  * */
 public class Node<T> {
-    
-    final static Logger logger = Logger.getLogger(Node.class);
-    
     /** Children are stored in a list*/
     List<Node> childrenList = new ArrayList<Node>();
     /** Parent Node. null if node has no parent*/
@@ -379,8 +374,8 @@ public class Node<T> {
         a.setUserObject("a");
         q.addNode(a);
 
-//        logger.debug(root.deepTrans(root));
-  //      logger.debug(root.deepTrans(root.clone()));
+//        System.out.println(root.deepTrans(root));
+  //      System.out.println(root.deepTrans(root.clone()));
         
         Node x = new Node();
         x.setUserObject("x");
@@ -393,11 +388,11 @@ public class Node<T> {
         
         x.addNode(y);
         x.addNode(z);
-        logger.debug(x.deepTrans(x.clone()));
+        System.out.println(x.deepTrans(x.clone()));
 */        
         ExpressionParser p = new ExpressionParser();
         Node<Token> n = p.parse("(a or b) and c or d and f");
-        logger.debug(n);
-        logger.debug(ExpressionParser.getExpressionString(n));
+        System.out.println(n);
+        System.out.println(ExpressionParser.getExpressionString(n));
     }
 }   

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
@@ -22,8 +21,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{ 
 	//TODO make this work with KSAccordionPanel
 	private KSAccordionPanelImpl menu = new KSAccordionPanelImpl();
-	
-	private final Logger logger = Logger.getLogger(KSAccordionMenuImpl.class);
 	
 	private final Map<KSMenuItemData, FocusPanel> accordionMenuItemPanels = new HashMap<KSMenuItemData, FocusPanel>();
 	private final Map<String, KSAccordionMenuImpl> subMenuMap = new HashMap<String, KSAccordionMenuImpl>();
@@ -199,7 +196,7 @@ public class KSAccordionMenuImpl extends KSAccordionMenuAbstract{
         KSMenuItemData current = null;
         for(KSMenuItemData i: items){
             if(i.getLabel().toLowerCase().trim().equals(currentString)){
-                logger.debug("Got here");
+                System.out.println("Got here");
                 current = i;
                 break;
             }

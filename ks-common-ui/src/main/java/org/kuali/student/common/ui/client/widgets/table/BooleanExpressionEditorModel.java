@@ -4,18 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BooleanExpressionEditorModel implements NodeEditor {
-    
-    final Logger logger = Logger.getLogger(BooleanExpressionEditorModel.class);
-    
     private List<Node<Token>> orignalOrder = new ArrayList<Node<Token>>();
     private List<Widget> widgetList = new ArrayList<Widget>();
     private List<Node<Token>> nodeList = new ArrayList<Node<Token>>();
@@ -593,7 +586,7 @@ public class BooleanExpressionEditorModel implements NodeEditor {
             clonedList.add(n.clone());
         }
         nodeList = clonedList;
-        logger.debug("undo:"+undoStack+"\n");
+        System.out.println("undo:"+undoStack+"\n");
         reBuildWidgetList();
     }
 }
