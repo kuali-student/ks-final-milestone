@@ -10,6 +10,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	<import resource="classpath:ks-core-context.xml" />
+	<import resource="classpath:ks-lu-context.xml" />
       <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker" />
         <property name="serviceDefinition">
@@ -40,6 +41,20 @@
                 <property name="localServiceName" value="OrganizationService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
                 <property name="busSecurity" value="false"></property>
+            </bean>
+        </property>
+    </bean>
+    
+        <!-- Expose LU Service on Bus -->
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean id="LumWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="luServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lu" />
+                <property name="localServiceName" value="LuService" />
+                <property name="serviceInterface" value="org.kuali.student.lum.lu.service.LuService" />
+                <property name="jaxWsService" value="true" />
+                <property name="busSecurity" value="false" />
             </bean>
         </property>
     </bean>

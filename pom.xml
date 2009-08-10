@@ -149,6 +149,33 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.kuali.student.lum</groupId>
+			<artifactId>ks-lum-impl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jpa</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-common-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-common-util</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.kuali.student.core</groupId>
+					<artifactId>ks-common-test</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.kuali.student.lum</groupId>
+					<artifactId>ks-lum-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>2.4</version>
