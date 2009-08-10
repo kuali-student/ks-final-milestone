@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
@@ -59,6 +60,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class LuConfigurer {
     
+    final Logger logger = Logger.getLogger(LuConfigurer.class);
+    
     final static ApplicationContext context = Application.getApplicationContext();
     
     private String type;
@@ -74,16 +77,16 @@ public class LuConfigurer {
         /* Map<String, Field> result = LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", "draft");
         
         for (String key : result.keySet()) {
-            System.out.println("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.CreditCourse:" + "draft:" + key + "\"" + "\tp:value=\"\"/>");
+            logger.debug("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.CreditCourse:" + "draft:" + key + "\"" + "\tp:value=\"\"/>");
         }
         result = LUDictionaryManager.getInstance().getFields("cluIdentifierInfo", "kuali.lu.type.creditcourse.identifier.official", "active");
-        System.out.println(result.size());
+        logger.debug(result.size());
         for (String key : result.keySet()) {
-            System.out.println("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.creditcourse.identifier.official:" + "active:" + key + "\"" + "\tp:value=\"\"/>");
+            logger.debug("<bean parent=\"enCourse\" " + "p:id=\"kuali.lu.type.creditcourse.identifier.official:" + "active:" + key + "\"" + "\tp:value=\"\"/>");
         }
         result = LUDictionaryManager.getInstance().getFields("proposalInfo", "lutype.shell.course", "proposed");
         for (String key : result.keySet()) {
-            System.out.println("<bean parent=\"enCourse\" " + "p:id=\"lutype.shell.course:" + "proposed:" + key + "\"" + "\tp:value=\"\"/>");
+            logger.debug("<bean parent=\"enCourse\" " + "p:id=\"lutype.shell.course:" + "proposed:" + key + "\"" + "\tp:value=\"\"/>");
         }*/
         
         addCluStartSection(layout);
@@ -429,7 +432,7 @@ public class LuConfigurer {
 //
 //    private static String getLabel(String type, String state, String fieldId) {
 //        String labelKey = type + ":" + state + ":" + fieldId;
-//        System.out.println(labelKey);
+//        logger.debug(labelKey);
 //        return context.getMessage(labelKey);
 //    }
 //

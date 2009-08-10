@@ -1,5 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
@@ -10,6 +11,9 @@ import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 
 public class ModelDTOAdapter {
+    
+    final static Logger logger = Logger.getLogger(ModelDTOAdapter.class);
+    
     public static void set(ModelDTO base, String path, ModelDTOValue value, String objectKey, String type, String state){
         if(path.startsWith("/")){
             path = path.substring(1);
@@ -18,7 +22,7 @@ public class ModelDTOAdapter {
         String key = pathArr[0];
         if(pathArr.length > 1){
             
-            System.out.println(key);
+            logger.debug(key);
             if(key.contains("[")){
                 String[] keyArr = pathArr[0].split("[");
                 key = keyArr[0];
@@ -50,7 +54,7 @@ public class ModelDTOAdapter {
             }
         }
         else{
-            System.out.println(key);
+            logger.debug(key);
             base.put(key, value);
         }
      
@@ -106,11 +110,11 @@ public class ModelDTOAdapter {
     	
     	Field field = dictionary.getField("cluInfo", type, state, key);
     	if(field == null){
-    	    System.out.println("Field is null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
+    	    logger.debug("Field is null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
     	}
     	else{
-    	    System.out.println("Field is not null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
-    	    System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
+    	    logger.debug("Field is not null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
+    	    logger.debug(field.getFieldDescriptor().getObjectStructure().getKey());
     	    name = field.getFieldDescriptor().getObjectStructure().getKey();
     	}
     	

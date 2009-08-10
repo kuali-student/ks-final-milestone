@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -108,6 +109,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @Transactional(rollbackFor={Throwable.class})
 public class LuServiceImpl implements LuService {
+    
+    final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
     private LuDao luDao;
     private SearchManager searchManager;
@@ -2199,7 +2202,7 @@ public class LuServiceImpl implements LuService {
         try{
             updated = luDao.update(clu);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
         return LuServiceAssembler.toCluInfo(updated);
     }

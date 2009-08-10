@@ -17,6 +17,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -53,6 +54,8 @@ import org.springframework.security.userdetails.UserDetails;
 // Fixme: Replace Object with ProposalService interface class
 public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
+    final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
+    
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_USER_ID = "user1";
     private SimpleDocumentActionsWebService simpleDocService; 
@@ -364,7 +367,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         String username = getCurrentUser();
         
 		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
-        System.out.println("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
+        logger.debug("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
         
         AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
         
@@ -658,7 +661,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
         MapContext ctx = new MapContext();
         try{
-            System.out.println("DOING AN UPDATE");
+            logger.debug("DOING AN UPDATE");
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);

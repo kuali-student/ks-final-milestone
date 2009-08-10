@@ -1,5 +1,6 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -30,6 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequisiteView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
+    
+    final Logger logger = Logger.getLogger(CourseRequisiteView.class);
     
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
@@ -167,7 +170,7 @@ public class CourseRequisiteView extends ViewComposite {
             }
             
             if(rule == null) {
-                System.out.println("Clearing model");
+                logger.debug("Clearing model");
                 RulesUtilities.clearModel(courseData);
                 CourseRuleInfo newCourse = new CourseRuleInfo();
                 newCourse.setId("CLU-NL-5"); //Integer.toString(tempCounterID++));

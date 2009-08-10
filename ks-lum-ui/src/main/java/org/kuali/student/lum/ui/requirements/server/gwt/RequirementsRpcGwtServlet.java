@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -32,6 +33,8 @@ import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServi
  */
 public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements RequirementsRpcService {
 
+    final Logger logger = Logger.getLogger(RequirementsRpcGwtServlet.class);
+    
     private TranslationService translationService;
     
     private static final long serialVersionUID = 822326113643828855L;
@@ -221,7 +224,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                 }
             }
             
-            System.out.println("Did not find LuStatementInfo based on cluid: " + cluId + " and luStatementTypeKey: " + luStatementTypeKey);                                       
+            logger.debug("Did not find LuStatementInfo based on cluid: " + cluId + " and luStatementTypeKey: " + luStatementTypeKey);                                       
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to find Lu Statement based on CLU id:" + cluId + " and Statement type key: " + luStatementTypeKey, ex);
@@ -318,7 +321,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
             //retrieve all statements
             List<LuNlStatementInfo> stmtInfoList = new ArrayList<LuNlStatementInfo>();
             for (StatementVO statement : statementVOs) {  
-                System.out.println("got STATEMENT witho operator: " + statement.getLuStatementInfo().getOperator());
+                logger.debug("got STATEMENT witho operator: " + statement.getLuStatementInfo().getOperator());
                 LuNlStatementInfo tempLuNlStmtInfo = new LuNlStatementInfo(); 
                 tempLuNlStmtInfo.setOperator(statement.getLuStatementInfo().getOperator());
                 tempLuNlStmtInfo.setStatementTypeId(statement.getLuStatementInfo().getType());
