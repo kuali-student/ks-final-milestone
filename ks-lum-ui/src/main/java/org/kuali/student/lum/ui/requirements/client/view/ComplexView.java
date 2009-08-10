@@ -2,7 +2,6 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -39,8 +38,6 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class ComplexView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    
-    final Logger logger = Logger.getLogger(ComplexView.class);
     
     //view's widgets
     private Panel mainPanel = new SimplePanel();
@@ -117,7 +114,7 @@ public class ComplexView extends ViewComposite {
             public void onClick(ClickEvent event) {
                 Cell cell = ruleTable.getCellForEvent(event);
                 if (cell == null) {
-                    logger.debug("Cell is NULL");
+                    System.out.println("Cell is NULL");
                     return;
                 }
                 
@@ -156,9 +153,9 @@ public class ComplexView extends ViewComposite {
             public void onClick(ClickEvent event) {
                               
                 Cell cell = ruleTable.getCellForEvent(event);
-                //logger.debug("Cell is NULL 0 ???");
+                //System.out.println("Cell is NULL 0 ???");
                 if (cell == null) {
-                    //logger.debug("Cell is NULL 0" + event.getSource());
+                    //System.out.println("Cell is NULL 0" + event.getSource());
                     return;
                 }
                 

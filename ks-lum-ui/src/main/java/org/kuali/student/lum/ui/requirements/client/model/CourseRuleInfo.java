@@ -3,15 +3,12 @@ package org.kuali.student.lum.ui.requirements.client.model;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 
 public class CourseRuleInfo implements Idable, Serializable {
 
-    final Logger logger = Logger.getLogger(CourseRuleInfo.class);
-    
     private static final long serialVersionUID = 2L;
     private String id;
     private CluInfo courseInfo;
@@ -19,12 +16,12 @@ public class CourseRuleInfo implements Idable, Serializable {
      
     public LuStatementInfo getLuStatementByType(String LuStatementType) {
         for (LuStatementInfo stmtInfo : luStatementInfoList) {
-            logger.debug("Found statement type: " + stmtInfo.getType());
+            System.out.println("Found statement type: " + stmtInfo.getType());
             if (stmtInfo.getType().equals(LuStatementType)) {
                 return stmtInfo;
             }
         }
-        logger.debug("Did not find given Statement Type: " + LuStatementType);
+        System.out.println("Did not find given Statement Type: " + LuStatementType);
         return null;
     }
     

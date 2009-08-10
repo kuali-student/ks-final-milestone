@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -26,9 +25,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CourseReqManager extends Controller {
-    
-    final Logger logger = Logger.getLogger(CourseReqManager.class);
-    
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     public enum PrereqViews {
@@ -144,7 +140,7 @@ public class CourseReqManager extends Controller {
             throw new IllegalArgumentException();
         }
         
-        logger.debug("Retrieving req. comp. types: " + luStatementType);
+        System.out.println("Retrieving req. comp. types: " + luStatementType);
         
         if (modelType.equals(ReqComponentTypeInfo.class)) {        
             requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(luStatementType, new AsyncCallback<List<ReqComponentTypeInfo>>() {

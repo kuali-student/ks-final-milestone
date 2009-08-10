@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -63,8 +62,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class ClauseEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
 
-    final Logger logger = Logger.getLogger(ClauseEditorView.class);
-    
     public enum reqCompFieldDefinitions { TODO }
 
     //view's widgets
@@ -348,7 +345,7 @@ public class ClauseEditorView extends ViewComposite {
         requirementsRpcServiceAsync.getReqComponentTemplates(editedReqComp, new AsyncCallback<String[]>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                logger.debug(caught.getMessage());
+                System.out.println(caught.getMessage());
                 caught.printStackTrace();
             }
 
