@@ -3,13 +3,25 @@
 
     <context-param>
 	    <param-name>contextConfigLocation</param-name>
-      	<param-value>classpath:cxf-lu-context.xml</param-value>
+      	<param-value>classpath:ksb/ks-lu-context.xml</param-value>
     </context-param>	
 
 	 <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	 </listener> 
 	
+	<servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+
+<!-- 
 	<servlet>
 		<servlet-name>CXF</servlet-name>
 		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
@@ -20,6 +32,7 @@
 		<servlet-name>CXF</servlet-name>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
+-->	
 	
 	<servlet>
 		<servlet-name>GWT</servlet-name>
@@ -27,7 +40,7 @@
 		<load-on-startup>2</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:gwt-context.xml</param-value>
+			<param-value>classpath:ksb/gwt-context.xml</param-value>
 		</init-param>		
 	</servlet>
 	

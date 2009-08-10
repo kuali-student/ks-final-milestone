@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -80,8 +81,8 @@ public class LUMApplicationManager extends Controller{
                 return homeMenuView;
             case CREATE_COURSE:
                 if (courseView == null){
-                    courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-                    //courseView = new DelegatingViewComposite(this, new CluProposalController());
+                    //courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                    courseView = new DelegatingViewComposite(this, new CluProposalController());
                 }
                 //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
                 return courseView;

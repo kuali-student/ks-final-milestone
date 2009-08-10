@@ -71,6 +71,23 @@
 			<artifactId>derby</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbynet</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+	      	<groupId>org.kuali.rice</groupId>
+	      	<artifactId>rice-impl</artifactId>
+			<scope>runtime</scope>	      
+	    </dependency>					
+
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>

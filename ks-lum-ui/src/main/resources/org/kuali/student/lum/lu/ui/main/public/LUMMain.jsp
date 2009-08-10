@@ -19,7 +19,7 @@
         MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
         String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common"});
 
-        DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("luClient");
+        DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lu}LuService");
         Map structures = new HashMap();
 
         String objectTypes = preloader.getObjectTypesEncodedString();
