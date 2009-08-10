@@ -13,12 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
@@ -34,6 +30,9 @@ import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
+import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
+import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
@@ -45,9 +44,6 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -282,45 +278,19 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 	private String getCluProposalDocContent(CluProposal cluProposal){
     	try{
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            
-            Element root = doc.createElement("cluProposal");
-            doc.appendChild(root);
-            
-            Element cluId = doc.createElement("cluId");
-            root.appendChild(cluId);
-            
-            Text cluIdText = doc.createTextNode(cluProposal.getCluInfo().getId());
-            cluId.appendChild(cluIdText);
-            
-            Element orgId = doc.createElement("orgId");
-            root.appendChild(orgId);
-            
-            // TODO - CluInfo.getAdminOrg() is deprecated; supposed to use
-            //            AccreditationInfo now instead
-            // question: if > 1 AccreditationInfo in CluInfo.accreditationList,
-            // that may mean more than one orgID. What should be used then?
-            
-            Text orgIdText;
+    		
+    		CluProposalDocInfo docContent = new CluProposalDocInfo();
+    		
+    		docContent.setCluId(cluProposal.getCluInfo().getId());
             if(cluProposal.getCluInfo()!=null && cluProposal.getCluInfo().getPrimaryAdminOrg()!=null && cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId()!=null){
-            	orgIdText = doc.createTextNode(cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId());
+            	docContent.setOrgId(cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId());
             }
-            // orgId might not be set yet
-            else{
-            	orgIdText = doc.createTextNode("");
-            }
-            orgId.appendChild(orgIdText);
-            
-            DOMSource domSource = new DOMSource(doc);
+    		
+    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
+    		Marshaller marshaller = context.createMarshaller();
             StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.transform(domSource, result);
-	    	
-            return writer.toString();
+    		marshaller.marshal(docContent, writer);
+    		return writer.toString();
             
     	}catch(Exception e){
     		e.printStackTrace();
@@ -530,69 +500,26 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             }
             
             //Get the document xml
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-	        Document doc = docBuilder.newDocument();
-	        
-	        Element root = doc.createElement("cluCollaborator");
-	        doc.appendChild(root);
-	        
-	        Element cluIdElement = doc.createElement("cluId");
-	        root.appendChild(cluIdElement);
-	        
-	        Text cluIdText = doc.createTextNode(cluInfo.getId());
-	        cluIdElement.appendChild(cluIdText);
-	        
-	        Element routingPrincipalIdRoleAttribute = doc.createElement("PrincipalIdRoleAttribute");
-	        root.appendChild(routingPrincipalIdRoleAttribute);
-	        
-	        Element recipientPrincipalIdElement = doc.createElement("recipientPrincipalId");
-	        routingPrincipalIdRoleAttribute.appendChild(recipientPrincipalIdElement);
-	        
-	        Text recipientPrincipalIdText = doc.createTextNode(recipientPrincipalId);
-	        recipientPrincipalIdElement.appendChild(recipientPrincipalIdText);
-
-	        Element principalIdElement = doc.createElement("principalId");
-	        root.appendChild(principalIdElement);
-	        
-	        Text principalIdText = doc.createTextNode(username);
-	        principalIdElement.appendChild(principalIdText);
-	        
-	        Element docIdElement = doc.createElement("docId");
-	        root.appendChild(docIdElement);
-	        
-	        Text docIdText = doc.createTextNode(docId);
-	        docIdElement.appendChild(docIdText);
-	        
-	        Element collaboratorTypeElement = doc.createElement("collaboratorType");
-	        root.appendChild(collaboratorTypeElement);
-	        
-	        Text collaboratorTypeText = doc.createTextNode(collabType);
-	        collaboratorTypeElement.appendChild(collaboratorTypeText);
-
-	        Element participationRequiredElement = doc.createElement("participationRequired");
-	        root.appendChild(participationRequiredElement);
-	        
-	        Text participationRequiredText = doc.createTextNode(Boolean.toString(participationRequired));
-	        participationRequiredElement.appendChild(participationRequiredText);
-	        
-	        Element respondByElement = doc.createElement("respondBy");
-	        root.appendChild(respondByElement);
-	        
-	        Text respondByText = doc.createTextNode(respondBy);
-	        respondByElement.appendChild(respondByText);
-	        
-	        DOMSource domSource = new DOMSource(doc);
-	        StringWriter writer = new StringWriter();
-	        StreamResult result = new StreamResult(writer);
-	        TransformerFactory tf = TransformerFactory.newInstance();
-	        Transformer transformer = tf.newTransformer();
-	        transformer.transform(domSource, result);
-            
-            String docContent = writer.toString();
+    		CluProposalCollabRequestDocInfo docContent = new CluProposalCollabRequestDocInfo();
+    		
+    		docContent.setCluId(cluInfo.getId());
+    		docContent.setPrincipalIdRoleAttribute(new PrincipalIdRoleAttribute());
+    		docContent.getPrincipalIdRoleAttribute().setRecipientPrincipalId(recipientPrincipalId);
+    		docContent.setPrincipalId(username);
+    		docContent.setDocId(docId);
+    		docContent.setCollaboratorType(collabType);
+    		docContent.setParticipationRequired(participationRequired);
+    		docContent.setRespondBy(respondBy);
+    		
+    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
+    		Marshaller marshaller = context.createMarshaller();
+            StringWriter writer = new StringWriter();
+    		marshaller.marshal(docContent, writer);
+    		
+            String docContentString = writer.toString();
 
             //Do the routing
-            StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContent, collaborateComment);
+            StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContentString, collaborateComment);
             
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
