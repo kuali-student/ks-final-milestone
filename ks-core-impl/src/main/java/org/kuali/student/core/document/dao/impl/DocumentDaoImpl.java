@@ -13,15 +13,13 @@ import java.util.ListIterator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.xml.bind.JAXBException;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.xml.sax.SAXException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -29,6 +27,9 @@ import org.xml.sax.SAXException;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements DocumentDao {
+    
+    final Logger logger = Logger.getLogger(DocumentDaoImpl.class);
+    
     @PersistenceContext(unitName = "Document")
     @Override
     public void setEm(EntityManager em) {
@@ -54,7 +55,7 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
         try {
             doc = fetch(Document.class, documentId);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
         List<DocumentCategory> categories = doc.getCategoryList();
 
@@ -72,7 +73,6 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
         return documents;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException {
         Document document = fetch(Document.class, documentId);

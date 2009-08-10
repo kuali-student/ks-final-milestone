@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -18,6 +19,8 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
+    
+    final static Logger logger = Logger.getLogger(BaseAssembler.class);
 
 	public static Map<String, String> toAttributeMap(
 			List<? extends Attribute<?>> attributes) {
@@ -56,7 +59,7 @@ public class BaseAssembler {
 				attribute.setOwner(owner);
 				attributes.add(attribute);
 			} catch (Exception e) {
-				e.printStackTrace();// TODO Logging
+				logger.error("Exception occured: ", e);
 			}
 		}
 
@@ -94,7 +97,7 @@ public class BaseAssembler {
 			return typeInfo;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception occured: ", e);
 		}
 		return null;
 

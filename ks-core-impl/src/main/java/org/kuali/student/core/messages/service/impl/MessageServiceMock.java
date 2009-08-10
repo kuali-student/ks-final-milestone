@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.messages.dto.LocaleKeyList;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.dto.MessageGroupKeyList;
@@ -42,6 +43,8 @@ import org.springframework.core.io.Resource;
  *
  */
 public class MessageServiceMock implements MessageService {
+    
+    final Logger logger = Logger.getLogger(MessageServiceMock.class);
 
     List<String> messageFiles;
     
@@ -219,7 +222,7 @@ public class MessageServiceMock implements MessageService {
         this.messageFiles = messageFiles;
 
         //bootstrap the data
-        System.out.println("Bootstrap messages started.");
+        logger.debug("Bootstrap messages started.");
         if (this.messages.isEmpty()){
             for (String messageFileName:messageFiles){                                        
                 Resource res;
@@ -242,12 +245,12 @@ public class MessageServiceMock implements MessageService {
                         putMessage(m.getLocale(), m.getGroupName(), m.getId(), m.getValue());
                     }
                 } catch (Exception e) {
-                    System.out.println(e);
+                    logger.debug(e);
                 }
             }           
         }
     
-        System.out.println("Bootstrap messages finished.");
+        logger.debug("Bootstrap messages finished.");
     }
     
     

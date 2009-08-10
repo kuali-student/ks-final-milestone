@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.core.enumerationmanagement.dto.EnumContextValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueFieldInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
@@ -17,6 +18,8 @@ import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity
 
 public class EnumerationAssembler {
 
+    final static Logger logger = Logger.getLogger(EnumerationAssembler.class);
+    
     public static void toEnumeratedValueEntity(EnumeratedValueInfo enumeratedValue, EnumeratedValueEntity enumeratedValueEntity) {
         try {
             BeanUtils.copyProperties(enumeratedValueEntity, enumeratedValue);
@@ -31,9 +34,9 @@ public class EnumerationAssembler {
             }
             enumeratedValueEntity.setContextEntityList(contextEntityList);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
     }
 
@@ -51,9 +54,9 @@ public class EnumerationAssembler {
             }
             enumeratedValue.setContexts(contextList);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
 
     }
@@ -134,9 +137,9 @@ public class EnumerationAssembler {
             enumerationMeta.setEnumeratedValueFields(enumeratedValueFieldList);
 
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
 
     }
@@ -159,9 +162,9 @@ public class EnumerationAssembler {
             }
             enumerationMetaEntity.setEnumeratedValueFieldList(eValueFieldEntityList);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
 
     }

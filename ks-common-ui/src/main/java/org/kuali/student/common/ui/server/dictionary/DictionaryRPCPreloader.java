@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
@@ -36,6 +37,8 @@ import com.google.gwt.user.server.rpc.RPC;
 
 public class DictionaryRPCPreloader {
 
+    final Logger logger = Logger.getLogger(DictionaryRPCPreloader.class);
+    
     DictionaryService dictService ;
     String serviceName;
     Map<Class<?>, Boolean> whitelist;
@@ -91,7 +94,7 @@ public class DictionaryRPCPreloader {
          } catch (NoSuchMethodException e) {
              e.printStackTrace();
          } catch (SerializationException e) {
-             System.out.println(e.getMessage());
+             logger.debug(e.getMessage());
              e.printStackTrace();
          }
 
@@ -122,7 +125,7 @@ public class DictionaryRPCPreloader {
           } catch (NoSuchMethodException e) {
               e.printStackTrace();
           } catch (SerializationException e) {
-              System.out.println(e.getMessage());
+              logger.debug(e.getMessage());
               e.printStackTrace();
           }
 
@@ -185,7 +188,7 @@ public class DictionaryRPCPreloader {
 //   } catch (NoSuchMethodException e) {
 //   e.printStackTrace();
 //   } catch (SerializationException e) {
-//   System.out.println(e.getMessage());
+//   logger.debug(e.getMessage());
 //   e.printStackTrace();
 //   }
 

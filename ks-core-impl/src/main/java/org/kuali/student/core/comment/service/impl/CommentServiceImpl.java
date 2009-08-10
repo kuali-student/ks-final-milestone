@@ -21,6 +21,7 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
@@ -64,6 +65,9 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/commentService")
 @Transactional(rollbackFor={Throwable.class})
 public class CommentServiceImpl implements CommentService {
+    
+    final Logger logger = Logger.getLogger(CommentServiceImpl.class);
+    
     private CommentDao commentDao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
     private SearchManager searchManager;
@@ -135,7 +139,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             tag = CommentServiceAssembler.toTag(false, tagInfo, commentDao);
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+            logger.error("Exception occured: ", e);
         }
 
         Tag createdTag = commentDao.create(tag);

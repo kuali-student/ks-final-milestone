@@ -15,28 +15,18 @@
  */
 package org.kuali.student.core.organization.ui.client.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
-import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -50,6 +40,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class OrgUpdatePanel extends Composite implements HasStateChanges{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
+    final Logger logger = Logger.getLogger(OrgUpdatePanel.class);
 
     VerticalPanel root = new VerticalPanel();
     SimplePanel editPanel = new SimplePanel();
@@ -104,7 +96,7 @@ public class OrgUpdatePanel extends Composite implements HasStateChanges{
 
     @Override
     public void loadState(String state) {
-        System.out.println("parsing "+state);
+        logger.debug("parsing "+state);
         if(state != null && !state.trim().equals("")) {
             String[] split = state.split("&");
             if(split.length > 1) {

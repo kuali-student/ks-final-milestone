@@ -122,7 +122,7 @@ public class SimpleExceptionLoggingAdvice implements ThrowsAdvice {
 		    	logger.error(t.getMessage(), t);
 				break;
 			case STACKTRACE:
-		    	t.printStackTrace();
+		    	logger.error(t.getMessage(), t);
 				break;
 		}
     }

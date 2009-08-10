@@ -8,9 +8,11 @@ import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
 
 import org.aopalliance.aop.Advice;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 public class IdToObjectEhcacheAdvice implements Advice {
+    
 	private CacheManager cacheManager;
 	private String cacheName;
 

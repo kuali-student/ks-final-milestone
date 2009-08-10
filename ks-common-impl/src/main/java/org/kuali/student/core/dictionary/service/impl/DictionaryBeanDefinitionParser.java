@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
 import org.kuali.student.core.dictionary.dto.ConstraintDescriptor;
 import org.kuali.student.core.dictionary.dto.ConstraintSelector;
@@ -33,6 +34,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinitionParser{
+    
+    final Logger logger = Logger.getLogger(DictionaryBeanDefinitionParser.class);
 
 	//Resolves the tag name to an actual class
     @Override
@@ -190,7 +193,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	        
 	    	return root;
     	}catch(Exception e){
-    		e.printStackTrace();
+    		logger.error("Exception occured: ", e);
     	}
     	return null;
 	}

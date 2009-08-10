@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
@@ -23,7 +24,6 @@ import org.kuali.student.core.search.dto.Result;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -38,6 +38,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class OrgLocateName extends Composite implements HasStateChanges {
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    
+    final Logger logger = Logger.getLogger(OrgLocateName.class);
     
     DeckPanel w = new DeckPanel();
     Panel root = new HorizontalPanel();
@@ -263,7 +265,7 @@ public class OrgLocateName extends Composite implements HasStateChanges {
         for(String type : orgTypes.getSelectedItems()) {
             checks += "&" + type;
         }
-        System.out.println(source.getText()+checks);
+        logger.debug(source.getText()+checks);
         return source.getText()+checks;
     }
 

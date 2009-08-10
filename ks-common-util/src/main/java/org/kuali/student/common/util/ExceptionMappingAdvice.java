@@ -84,7 +84,7 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 				//Log the error
 				StringWriter traceWriter = new StringWriter();
 				PrintWriter printWriter = new PrintWriter(traceWriter, false);
-				ex.printStackTrace(printWriter);
+				logger.error(printWriter, ex);
 				printWriter.close();
 				String faultMessage = traceWriter.getBuffer().toString();
 				logger.error(faultMessage);

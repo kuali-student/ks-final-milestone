@@ -2,6 +2,7 @@ package org.kuali.student.core.search.service.impl;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.search.dto.CriteriaInfo;
 import org.kuali.student.core.search.dto.CriteriaSet;
 import org.kuali.student.core.search.dto.Criterion;
@@ -10,6 +11,7 @@ import org.kuali.student.core.search.dto.TypeAttribute;
 
 public class CriteriaParser {
 
+    final static Logger logger = Logger.getLogger(CriteriaParser.class);
 	
 	public static void main(String[] args){
 		//Try to get select orginfo where (type="x" or type="y") and (shortname like "%a%" or shorname ="sdfasdf")
@@ -74,8 +76,8 @@ public class CriteriaParser {
 		
 		CriteriaParser cp = new CriteriaParser();
 		CriteriaParseResult pr = cp.parseCriteriaInfo(ci);
-		System.out.println(pr.getQueryString());
-		System.out.println(pr.getBindings());
+		logger.debug(pr.getQueryString());
+		logger.debug(pr.getBindings());
 	}
 
 	

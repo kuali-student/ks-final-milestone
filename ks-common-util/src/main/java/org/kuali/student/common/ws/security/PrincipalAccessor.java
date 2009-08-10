@@ -2,12 +2,17 @@ package org.kuali.student.common.ws.security;
 
 import javax.xml.ws.WebServiceContext;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * @author Will Gomes
  *
  */
 public class PrincipalAccessor {
+    
+    final static Logger logger = Logger.getLogger(PrincipalAccessor.class);
+    
     public static PrincipalWrapper getPrincipalFromWebServiceContext(WebServiceContext wsContext){
         Class<?> principalWrapperImpl = null;
         PrincipalWrapper principal = null;
@@ -20,7 +25,7 @@ public class PrincipalAccessor {
                 principalWrapperImpl = 
                     Class.forName("org.kuali.student.common.metro.security.PrincipalWrapperImpl");
             } catch (ClassNotFoundException cnfe2){
-                System.err.println("PrincpalWraper implementaion could not be found.");
+                logger.error("PrincpalWraper implementaion could not be found.");
             }
         } 
         
@@ -28,7 +33,7 @@ public class PrincipalAccessor {
             principal = (PrincipalWrapper)principalWrapperImpl.newInstance();
             principal.setPrincipal(wsContext);
         } catch (Exception e){
-            e.printStackTrace();            
+            logger.error("Exception occured: ", e);            
         }
             
         return principal;

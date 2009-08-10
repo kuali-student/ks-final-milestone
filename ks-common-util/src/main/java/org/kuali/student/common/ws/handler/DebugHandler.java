@@ -8,8 +8,12 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
+import org.apache.log4j.Logger;
+
 public class DebugHandler implements SOAPHandler<SOAPMessageContext> {
 
+    final Logger logger = Logger.getLogger(DebugHandler.class);
+    
 	private PrintStream err;
 	private PrintStream out;
 	
@@ -63,7 +67,7 @@ public class DebugHandler implements SOAPHandler<SOAPMessageContext> {
 			ps.println();
 		}
 		catch(Exception ex)	{
-			ex.printStackTrace(this.err);
+		    logger.error(this.err, ex);
 		}
 		
 		return true;

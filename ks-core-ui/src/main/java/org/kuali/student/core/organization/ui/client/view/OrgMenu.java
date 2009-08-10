@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -41,6 +42,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>{
+    
+    final Logger logger = Logger.getLogger(OrgMenu.class);
     
     SimplePanel contentPanel;
     private KSMenu menuPanel;
@@ -96,7 +99,7 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
 //        StateHandler handler = new StateHandler() {
 //            @Override
 //            public void onStateChange(StateEvent event) {
-//                System.out.println("stateevent: "+event.getState());
+//                logger.debug("stateevent: "+event.getState());
 //                if(event.getState() != null && !event.getState().equals(""))
 //                    History.newItem(state+"%"+event.getState(), false);
 //            }
@@ -123,7 +126,7 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
     public void onValueChange(ValueChangeEvent<String> event) {
         String value = event.getValue();
         String[] split = value.split("%", 2);
-        System.out.println("Got event #"+value);
+        logger.debug("Got event #"+value);
         history = true;
         menuPanel.selectMenuItem(split[0].split("/")); // don't like the way this is implemented, but oh well
         history = false;

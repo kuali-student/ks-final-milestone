@@ -7,6 +7,7 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -54,6 +55,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @Transactional(rollbackFor={Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
+    
+    final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
 
 	private OrganizationDao organizationDao;
     private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
@@ -191,7 +194,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 	throw new DataValidationErrorException(validationResult.toString());
             }
         } catch (DoesNotExistException e1) {
-            e1.printStackTrace();
+            logger.error("Exception occured: ", e1);
         }
 
 		Org org = null;
