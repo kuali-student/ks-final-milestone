@@ -80,9 +80,9 @@
 		
 		<!--Derby rice.core.database.XAPoolDataSource	-->
 	<param name="derby.jdbc.ClassName">org.apache.derby.jdbc.EmbeddedDriver</param>
-	<param name="derby.jdbc.URL">jdbc:derby:target/derby/orgDB;create=true</param>
-	<param name="derby.jdbc.user">org</param>
-	<param name="derby.jdbc.password">org</param>
+	<param name="derby.jdbc.org.URL">jdbc:derby:target/derby/orgDB;create=true</param>
+	<param name="derby.jdbc.org.user">org</param>
+	<param name="derby.jdbc.org.password">org</param>
 	
 	<param name="derby.jdbc.lu.URL">jdbc:derby:target/derby/luDB;create=true</param>
 	<param name="derby.jdbc.lu.user">lu</param>
@@ -90,14 +90,19 @@
 	
 	<!--Oracle rice.core.database.XAPoolDataSource	-->
 	<param name="oracle.jdbc.ClassName">oracle.jdbc.driver.OracleDriver</param>
-	<param name="oracle.jdbc.URL">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="oracle.jdbc.user">org</param>
-	<param name="oracle.jdbc.password">org</param>
+	<param name="oracle.jdbc.org.URL">jdbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="oracle.jdbc.org.user">org</param>
+	<param name="oracle.jdbc.org.password">org</param>
+	
+	<param name="oracle.jdbc.lu.URL">jdbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="oracle.jdbc.lu.user">lu</param>
+	<param name="oracle.jdbc.lu.password">lu</param>
 	
 	<param name="jdbc.ClassName">${${db.vendor}.jdbc.ClassName}</param>
-	<param name="jdbc.URL">${${db.vendor}.jdbc.URL}</param>
-	<param name="jdbc.user">${${db.vendor}.jdbc.user}</param>
-	<param name="jdbc.password">${${db.vendor}.jdbc.password}</param>
+	
+	<param name="jdbc.org.URL">${${db.vendor}.jdbc.org.URL}</param>
+	<param name="jdbc.org.user">${${db.vendor}.jdbc.org.user}</param>
+	<param name="jdbc.org.password">${${db.vendor}.jdbc.org.password}</param>
 	
 	<param name="jdbc.lu.URL">${${db.vendor}.jdbc.lu.URL}</param>
 	<param name="jdbc.lu.user">${${db.vendor}.jdbc.lu.user}</param>

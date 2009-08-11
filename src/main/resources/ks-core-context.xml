@@ -51,13 +51,13 @@
 	<bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
 		<property name="transactionManager" ref="jotm" />
 		<property name="driverClassName" value="${jdbc.ClassName}" />
-		<property name="url" value="${jdbc.URL}" />
+		<property name="url" value="${jdbc.org.URL}" />
 		<property name="maxSize" value="10" />
 		<property name="minSize" value="10" />
 		<property name="maxWait" value="600" />
 		<property name="validationQuery" value="values(1)" />
-		<property name="username" value="${jdbc.user}" />
-		<property name="password" value="${jdbc.password}" />
+		<property name="username" value="${jdbc.org.user}" />
+		<property name="password" value="${jdbc.org.password}" />
 	</bean>
 
 	<!--	<bean id="orgDataSource" parent="defaultDataSource">-->
