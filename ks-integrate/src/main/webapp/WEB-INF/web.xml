@@ -110,7 +110,7 @@
 	<servlet>
 		<servlet-name>messageServiceGwt</servlet-name>
 		<servlet-class>
-			org.kuali.student.common.ui.server.gwt.MessagesService
+			org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet
 		</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

@@ -11,101 +11,107 @@
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:lum-web.properties</value>
+				<value>classpath:lum-web.properties
+				</value>
 				<value>classpath:core-web.properties
 				</value>
 			</list>
 		</property>
-		<property name="customConfigSystemProperty" value="ks.config.location"/>
-        <property name="customConfigFileLocation" value="file:${user.home}/kuali/main/dev/ks-lum-web.properties" />
+		<property name="customConfigSystemProperty" value="ks.config.location" />
+		<property name="customConfigFileLocation"
+			value="file:${user.home}/kuali/main/dev/ks-lum-web.properties" />
 		<property name="order" value="0" />
 	</bean>
-	
-		<!-- Spring to GWT servlet mapping -->
-	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+
+	<!-- Spring to GWT servlet mapping -->
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="urlMap">
 			<map>
-				<entry key="/org.kuali.student.lum.ui.requirements.Requirements/RequirementsService">
+				<entry key="/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/RequirementsService">
 					<ref bean="requirementsServiceGwtController"/>
 				</entry>
-				<entry key="/org.kuali.student.lum.lu.ui.course.Course/LuRpcService">
+				<entry key="/org.kuali.student.lum.lu.ui.course.Course/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController"/>
 				</entry>				
-				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/LuRpcService">
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController"/>
 				</entry>				
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/MessageService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MessageService">
 					<ref bean="messageServiceGwtController" />
-				</entry>
-				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/OrgRpcService">
-					<ref bean="OrgRpcGwtServletController"/>
-				</entry>								
-				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/CluProposalRpcService">
+				</entry>							
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController"/>
 				</entry>	
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/SecurityRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService">
 					<ref bean="SecurityRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/ServerProperties">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService">
 					<ref bean="ServerPropertiesServletController" />
 				</entry>
-				<!--				-->
 				<entry
-					key="/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService">
-					<ref bean="OrgRpcGwtServletController" />
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService">
+					<ref bean="CommentRpcGwtServletController" />
+				</entry>
+				<!--GWT-context from Ks-Core start				-->
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/OrgRpcService">
+					<ref bean="orgRpcServiceGwtController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.core.organization.ui.OrgEntry/PersonRpcService">
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/PersonRpcService">
 					<ref bean="personRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.core.organization.ui.OrgEntry/AuthorizationRpcService">
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/AuthorizationRpcService">
 					<ref bean="authorizationRpcGwtServletController" />
 				</entry>
-				<!--				-->
+				<!--end	-->
 			</map>
 		</property>
 	</bean>
-	
+
 	<!-- Controllers -->
 	<bean id="requirementsServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="requirementsRpcGwtServlet"/>
-		<property name="servletInstance" ref="requirementsRpcGwtServlet"/>
+		<property name="servletName" value="requirementsRpcGwtServlet" />
+		<property name="servletInstance" ref="requirementsRpcGwtServlet" />
 	</bean>
-	
+
 	<bean id="LuRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="LuRpcGwtServlet"/>
-		<property name="servletInstance" ref="LuRpcGwtServlet"/>
+		<property name="servletName" value="LuRpcGwtServlet" />
+		<property name="servletInstance" ref="LuRpcGwtServlet" />
 	</bean>
 
 	<bean id="CluProposalRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="CluProposalRpcGwtServlet"/>
-		<property name="servletInstance" ref="CluProposalRpcGwtServlet"/>
+		<property name="servletName" value="CluProposalRpcGwtServlet" />
+		<property name="servletInstance" ref="CluProposalRpcGwtServlet" />
 	</bean>
 
-	<bean id="ServerPropertiesServletController"
-		class="org.kuali.student.common.ws.ServletWrappingController">
+	<bean id="ServerPropertiesServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="ServerPropertiesServlet" />
 		<property name="servletInstance" ref="ServerPropertiesServlet" />
 	</bean>
-	
+
 	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="messagesServiceGwt" />
 		<property name="servletInstance" ref="messagesServiceGwt" />
 	</bean>
 
-	<bean id="OrgRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="orgRpcGwtServlet"/>
-		<property name="servletInstance" ref="orgRpcGwtServlet"/>
+	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="orgRpcGwtServlet" />
+		<property name="servletInstance" ref="orgRpcGwtServlet" />
 	</bean>
-	
-	<bean id="SecurityRpcGwtServletController"
-		class="org.kuali.student.common.ws.ServletWrappingController">
+
+	<bean id="SecurityRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="SecurityGwtServlet" />
 		<property name="servletInstance" ref="SecurityGwtServlet" />
+	</bean>
+	<bean id="CommentRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CommentRpcGwtServlet" />
+		<property name="servletInstance" ref="CommentRpcGwtServlet" />
 	</bean>
 	<!--	-->
 	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -119,19 +125,22 @@
 	</bean>
 	<!---->
 	<!-- GWT Servlets -->
-	<bean id="requirementsRpcGwtServlet" class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
-		<property name="service" ref="luClient"/>
-        <property name="translationService" ref="translationClient"/>
+	<bean id="requirementsRpcGwtServlet"
+		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
+		<property name="service" ref="luClient" />
+		<property name="translationService" ref="translationClient" />
 	</bean>
-	
-	<bean id="LuRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
+
+	<bean id="LuRpcGwtServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />
 	</bean>
 
-	<bean id="CluProposalRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
+	<bean id="CluProposalRpcGwtServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
 		<property name="service" ref="luClient" />
-		<property name="simpleDocService" ref="simpleDocActionsClient"/>
-		<property name="workflowUtilityService" ref="workflowUtilityClient"/>
+		<property name="simpleDocService" ref="simpleDocActionsClient" />
+		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="orgService" ref="orgClient" />
 	</bean>
 
@@ -139,26 +148,32 @@
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 		<property name="properties">
 			<map>
-				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>
-				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}"/>
+				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}" />
+				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}" />
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="messagesServiceGwt"
-		class="org.kuali.student.common.ui.server.gwt.MessagesService">
+		class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
 		<property name="serviceImpl" ref="messageServiceImpl" />
 	</bean>
 
-	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
-		<property name="service" ref="orgClient"/>
+	<bean id="CommentRpcGwtServlet"
+		class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
+		<property name="service" ref="commentClient" />
+	</bean>
+
+	<bean id="orgRpcGwtServlet"
+		class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
+		<property name="service" ref="orgClient" />
 	</bean>
 
 	<bean id="personRpcGwtServlet"
 		class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
 
 	</bean>
-		<bean id="authorizationRpcGwtServlet"
+	<bean id="authorizationRpcGwtServlet"
 		class="org.kuali.student.core.authorization.ui.server.gwt.AuthorizationRpcGwtServlet">
 		<!--<property name="permissionService" ref="permissionClient" />-->
 	</bean>
@@ -183,12 +198,24 @@
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.lum.lu.service.LuService" />
 		<property name="serviceQNameString"
-			value="{http://student.kuali.org/lum/lu}LuService" />
+			value="{http://student.kuali.org/wsdl/lu}LuService" />
 		<property name="address"
 			value="${ks.lum.serviceAddress}"/>
 	</bean>
-	
-    <!-- Translation Service Client -->
+
+	<!-- Translation Service Client -->
+	<bean id="commentClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:META-INF/wsdl/CommentService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.core.comment.service.CommentService" />
+		<property name="serviceQNameString"
+			value="{http://student.kuali.org/wsdl/comment}CommentService" />
+		<property name="address"
+			value="${ks.core.comment.serviceAddress" />
+	</bean>
+    
     <bean id="translationClient"
         class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
         <property name="wsdlLocation"
@@ -196,7 +223,7 @@
         <property name="serviceEndpointInterface"
             value="org.kuali.student.lum.nlt.service.TranslationService" />
         <property name="serviceQNameString"
-            value="{http://student.kuali.org/lum/nlt}TranslationService" />
+            value="{http://student.kuali.org/wsdl/nlt}TranslationService" />
         <property name="address"
             value="${ks.lum.nlt.serviceAddress}" />
     </bean>
@@ -208,9 +235,9 @@
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
-			value="{http://org.kuali.student/core/organization}OrganizationService" />
-		<property name="address" 
-            value="${ks.core.org.serviceAddress}"/>		
+			value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+		<property name="address" value="${ks.core.org.serviceAddress}" />
+
 	</bean>
 
 	<bean id="workflowUtilityClient"
@@ -236,6 +263,6 @@
 		<property name="address" 
             value="${ks.rice.simpleDocActions.serviceAddress}"/>		
 	</bean>
-		
+
 
 </beans>
