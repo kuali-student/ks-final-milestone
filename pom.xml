@@ -1,106 +1,80 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>ks-lum</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    
-	<name>KS LUM</name>
-	<description>KS Learning Unit Management POM</description>
-	
-	<url>http://student.kuali.org/site/lum/${project.version}</url>
-	
-	<properties>
-		<ks.core.version>0.0.1-SNAPSHOT</ks.core.version>
-	</properties>
-	
-	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	
-	<modules>
-		<module>ks-lum-api</module>
-		<module>ks-lum-impl</module>
-		<module>ks-lum-ui</module>
-		<module>ks-lum-web</module>
-	</modules>
-	
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://archiva.kuali.umd.edu/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	
-	<scm>
-		<connection>
-			scm:svn:https://test.kuali.org/svn/student/ks-lum/branches/ks-lum-dev
-		</connection>
-		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/ks-lum/branches/ks-lum-dev
-		</developerConnection>
-	</scm>
-	
-	<distributionManagement>
-		<site>
-			<id>ks.site</id>
-			<url>
-                scp://wsa135.uits.indiana.edu/opt/www/student/site/lum/${project.version}
-			</url>
-		</site>
-	</distributionManagement>
-	
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${javadoc.plugin.version}</version>
-				
-				<configuration>
-					<maxmemory>256m</maxmemory>
-					<aggregate>true</aggregate>
-					<show>private</show>
-					<source>1.6</source>
-					<links>
-						<link>http://cxf.apache.org/javadoc/2.1/</link>
-						<link>
-							http://java.sun.com/javase/6/docs/api/
-						</link>
-						<link>
-							http://java.sun.com/javaee/5/docs/api/
-						</link>
-						<link>
-							http://static.springframework.org/spring/docs/2.5.x/api/
-						</link>
-						<link>
-							http://student.kuali.org/site/core/${ks.core.version}/apidocs/
-						</link>
-					</links>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>javadoc</report>
-						</reports>
-					</reportSet>
-				</reportSets>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
 
-			</plugin>
-		</plugins>
-	</reporting>
+    Copyright 2009 The Kuali Foundation
 
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may	obtain a copy of the License at
+
+    	http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.kuali.student.mojo</groupId>
+ <artifactId>maven-ksdictionary-generator-plugin</artifactId>
+ <version>0.0.1-SNAPSHOT</version>
+ <packaging>maven-plugin</packaging>
+ <name>KS Tools - Dictionary Generator</name>
+
+ <dependencies>
+  <dependency>
+   <groupId>com.google.gdata</groupId>
+   <artifactId>gdata-base</artifactId>
+   <version>1.0</version>
+  </dependency>
+  <dependency>
+   <groupId>com.google.gdata</groupId>
+   <artifactId>gdata-core</artifactId>
+   <version>1.0</version>
+  </dependency>
+  <dependency>
+   <groupId>com.google.gdata</groupId>
+   <artifactId>gdata-spreadsheet</artifactId>
+   <version>3.0</version>
+  </dependency>
+  <dependency>
+   <groupId>junit</groupId>
+   <artifactId>junit</artifactId>
+   <version>4.5</version>
+   <scope>test</scope>
+  </dependency>
+  <dependency>
+   <groupId>org.apache.maven</groupId>
+   <artifactId>maven-plugin-api</artifactId>
+   <version>2.0</version>
+  </dependency>
+ </dependencies>
+	
+ <distributionManagement>
+  <repository>
+   <id>kuali.release</id>
+   <name>Internal Release Repository</name>
+   <url>dav:http://archiva.kuali.umd.edu/repository/release</url>
+  </repository>
+  <snapshotRepository>
+   <id>kuali.snapshots</id>
+   <name>Internal Snapshot Repository</name>
+   <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
+  </snapshotRepository>
+ </distributionManagement>
+	
+ <build>
+  <plugins>
+   <plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+     <source>1.6</source>
+     <target>1.6</target>
+    </configuration>
+   </plugin>
+  </plugins>
+ </build>
 </project>
