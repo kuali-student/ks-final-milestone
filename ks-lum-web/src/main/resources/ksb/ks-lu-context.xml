@@ -313,7 +313,7 @@
                 <property name="service" ref="commentServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.core.comment.service.impl.CommentServiceImpl" />
                 <property name="localServiceName" value="CommentService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/CommentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/comment" />
                 <property name="busSecurity" value="false"></property>
             </bean>
         </property>
@@ -327,6 +327,9 @@
 				<entry key="Lu">
 					<value>classpath:ks-lu.sql</value>
 				</entry>
+				<entry key="Comment">
+					<value>classpath:ks-comment.sql</value>
+				</entry>				
 			</map>
 		</property>
 	</bean>
