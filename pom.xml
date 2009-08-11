@@ -43,7 +43,7 @@
 
     <repositories>
         <repository>
-            <id>kuali.snapshot</id>
+            <id>kuali.release</id>
             <url>http://archiva.kuali.umd.edu/repository/release</url>
             <snapshots>
                 <enabled>false</enabled>
@@ -67,14 +67,14 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-web</artifactId>
-            <version>1.0.0-KS-0724</version>
+            <version>1.0.0-KS-0807</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <version>1.0.0-KS-0724</version>
+            <version>1.0.0-KS-0807</version>
             <exclusions>
                 <exclusion>
                     <groupId>htmlunit</groupId>
@@ -144,7 +144,7 @@
                 <dependency>
                     <groupId>org.kuali.rice</groupId>
                     <artifactId>rice-impl</artifactId>
-                    <version>1.0.0-KS-0724</version>
+                    <version>1.0.0-KS-0807</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.springframework</groupId>
