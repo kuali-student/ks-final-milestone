@@ -48,15 +48,15 @@
 	<!--		<property name="testQuery" value="${jdbc.validationQuery}" />-->
 	<!--	</bean>-->
 
-	<bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+	<bean id="orgDataSource" class="org.enhydra.jdbc.oracle.OracleXADataSource">
 		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${jdbc.ClassName}" />
+		<property name="driverName" value="${jdbc.ClassName}" />
 		<property name="url" value="${jdbc.org.URL}" />
-		<property name="maxSize" value="10" />
-		<property name="minSize" value="10" />
-		<property name="maxWait" value="600" />
-		<property name="validationQuery" value="values(1)" />
-		<property name="username" value="${jdbc.org.user}" />
+		<property name="maxCon" value="10" />
+		<property name="minCon" value="10" />
+		<property name="deadLockMaxWait" value="600" />
+		<!--<property name="validationQuery" value="${jdbc.validationQuery}" />-->
+		<property name="user" value="${jdbc.org.user}" />
 		<property name="password" value="${jdbc.org.password}" />
 	</bean>
 

@@ -39,9 +39,7 @@
 		class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>
-					classpath:org/kuali/rice/standalone/config/standalone-config.xml
-				</value>
+				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -55,26 +53,26 @@
 
 	<!-- Datasources -->
 
-	<bean id="luDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+	<bean id="luDataSource" class="org.enhydra.jdbc.oracle.OracleXADataSource">
 		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${jdbc.ClassName}" />
+		<property name="driverName" value="${jdbc.ClassName}" />
 		<property name="url" value="${jdbc.lu.URL}" />
-		<property name="maxSize" value="10" />
-		<property name="minSize" value="10" />
-		<property name="maxWait" value="600" />
-		<property name="validationQuery" value="values(1)" />
-		<property name="username" value="${jdbc.lu.user}" />
+		<property name="maxCon" value="10" />
+		<property name="minCon" value="10" />
+		<property name="deadLockMaxWait" value="600" />
+		<!--<property name="validationQuery" value="${jdbc.validationQuery}" />-->
+		<property name="user" value="${jdbc.lu.user}" />
 		<property name="password" value="${jdbc.lu.password}" />
 	</bean>
-	<bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
+	<bean id="orgDataSource" class="org.enhydra.jdbc.oracle.OracleXADataSource">
 		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${jdbc.ClassName}" />
+		<property name="driverName" value="${jdbc.ClassName}" />
 		<property name="url" value="${jdbc.org.URL}" />
-		<property name="maxSize" value="10" />
-		<property name="minSize" value="10" />
-		<property name="maxWait" value="600" />
-		<property name="validationQuery" value="values(1)" />
-		<property name="username" value="${jdbc.org.user}" />
+		<property name="maxCon" value="10" />
+		<property name="minCon" value="10" />
+		<property name="deadLockMaxWait" value="600" />
+		<!--<property name="validationQuery" value="${jdbc.validationQuery}" />-->
+		<property name="user" value="${jdbc.org.user}" />
 		<property name="password" value="${jdbc.org.password}" />
 	</bean>
 

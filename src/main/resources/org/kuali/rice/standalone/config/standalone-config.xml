@@ -40,8 +40,8 @@
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">rice100br</param>
-    <param name="datasource.password">kuali</param>
+    <param name="datasource.username">riceks</param>
+    <param name="datasource.password">riceks</param>
     <param name="datasource.driver.name" override="false">oracle.jdbc.driver.OracleDriver</param>
 
     <!-- Keystore Configuration -->
@@ -66,7 +66,7 @@
 	<!-- core-web.properties -->
 		
 	<param name="jpa.vendor">hibernate</param>
-	<param name="db.vendor">derby</param>
+	<param name="db.vendor">oracle</param>
 	
 	<param name="hibernate.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</param>
 	<param name="eclipselink.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter</param>
