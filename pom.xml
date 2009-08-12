@@ -91,6 +91,7 @@
         <eclipselink.version>1.0</eclipselink.version>
         <aspectj.version>1.5.4</aspectj.version>
         <kuali.rice.version>1.0.0-KS-0807</kuali.rice.version>
+        <xalan.version>2.7.1</xalan.version>
 
         <!-- plugin versions -->
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
@@ -1194,6 +1195,12 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.7.0</version>
             </dependency>
+                 		
+            <dependency>
+	            <groupId>xalan</groupId>
+	            <artifactId>xalan</artifactId>
+	            <version>${xalan.version}</version>
+            </dependency>     		
                  											
 		</dependencies>
 	</dependencyManagement>
