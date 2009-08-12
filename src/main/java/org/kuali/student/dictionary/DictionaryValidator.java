@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * This validates a single dictinoary entry
  * @author nwright
  */
 public class DictionaryValidator implements ModelValidator

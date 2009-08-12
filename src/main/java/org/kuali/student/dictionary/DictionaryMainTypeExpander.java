@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * A dictionary expander that expandds the main type
  * @author nwright
  */
 public class DictionaryMainTypeExpander implements DictionaryExpander
@@ -67,7 +67,7 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
   Type type = finder.findType (root.getXmlObject (), dict.getMainType ());
   if (type == null)
   {
-   throw new RuntimeException ("Could not find main type for dictionary entry " +
+   throw new DictionaryValidationException ("Could not find main type for dictionary entry " +
     dict.getId () + ": " + root.getXmlObject () + "." + dict.getMainType ());
   }
   return type;
@@ -87,7 +87,7 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
    }
    catch (CloneNotSupportedException ex)
    {
-    throw new RuntimeException (ex);
+    throw new DictionaryExecutionException (ex);
    }
   }
  }

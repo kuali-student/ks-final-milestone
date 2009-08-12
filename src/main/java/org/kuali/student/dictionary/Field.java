@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ * This models a single field definition in the spreadsheet
  * @author nwright
  */
 public class Field implements Serializable

@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.util.Collection;
 
 /**
- *
+ * Implementers of this can validate the spreadsheet model
  * @author nwright
  */
 public interface ModelValidator

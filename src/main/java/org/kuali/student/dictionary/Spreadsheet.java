@@ -18,7 +18,8 @@ package org.kuali.student.dictionary;
 import java.util.List;
 
 /**
- *
+ * Abstration of the spreadsheet that holds the data so we can implement both
+ * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
 public interface Spreadsheet
@@ -29,7 +30,6 @@ public interface Spreadsheet
   * @return
   */
  public List<Dictionary> getDictionary ();
-
 
  /**
   * load lu States
@@ -66,7 +66,5 @@ public interface Spreadsheet
   * @return
   */
  public List<CrossObjectConstraint> getCrossObjectConstraints ();
-
-
 
 }

@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 /**
- *
+ * Loads a spreadsheet using either a google or excel reader
  * @author nwright
  */
 public class SpreadsheetLoader implements Spreadsheet
@@ -147,7 +147,7 @@ public class SpreadsheetLoader implements Spreadsheet
   inline.setValidChars (getFixup (worksheetReader, "validChars"));
   if ( ! isValidChars (inline.getValidChars ()))
   {
-   throw new RuntimeException ("Field " + dict.getId () +
+   throw new DictionaryValidationException ("Field " + dict.getId () +
     " contains an invalid regular expression " + inline.getValidChars ());
   }
   inline.setLookup (getFixup (worksheetReader, "lookup"));
@@ -317,7 +317,7 @@ public class SpreadsheetLoader implements Spreadsheet
    inline.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (inline.getValidChars ()))
    {
-    throw new RuntimeException ("Field " + field.getId () +
+    throw new DictionaryValidationException ("Field " + field.getId () +
      " contains an invalid regular expression " + inline.getValidChars ());
    }
    inline.setLookup (getFixup (worksheetReader, "lookup"));
@@ -371,7 +371,7 @@ public class SpreadsheetLoader implements Spreadsheet
    constraint.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (constraint.getValidChars ()))
    {
-    throw new RuntimeException ("Constraint " + constraint.getId () +
+    throw new DictionaryValidationException ("Constraint " + constraint.getId () +
      " contains an invalid regular expression " + constraint.getValidChars ());
    }
    constraint.setLookup (getFixup (worksheetReader, "lookup"));

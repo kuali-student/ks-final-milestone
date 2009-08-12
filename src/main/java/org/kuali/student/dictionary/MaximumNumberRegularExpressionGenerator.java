@@ -22,6 +22,7 @@ import java.util.List;
  * Create a regular expression pattern matching any positive number that
  * is less than or equal to the given max number.
  * Based on http://www.bytemycode.com/snippets/snippet/661/
+ * This became obsolete when Kamal added in the minValue and maxValue fields
  * @author nwright
  */
 public class MaximumNumberRegularExpressionGenerator

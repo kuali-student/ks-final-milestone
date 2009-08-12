@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * Writes a single constraint for the type-state when case statement
  * @author nwright
  */
 public class TypeStateCaseConstraintWriter extends XmlWriter
@@ -71,7 +71,7 @@ public class TypeStateCaseConstraintWriter extends XmlWriter
    Type type = getType (when.getType2 (), when.getObject2 ());
    if (type == null)
    {
-    throw new RuntimeException ("CrossObjectConstraint " + when.getId () +
+    throw new DictionaryValidationException ("CrossObjectConstraint " + when.getId () +
      " has a type, " + when.getType2 () +
      ", that does not exist for the object, " + when.getObject2 ());
 

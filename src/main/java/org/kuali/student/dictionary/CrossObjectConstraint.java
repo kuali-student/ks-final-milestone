@@ -16,7 +16,7 @@
 package org.kuali.student.dictionary;
 
 /**
- *
+ * Models a cross-object constraint
  * @author nwright
  */
 public class CrossObjectConstraint

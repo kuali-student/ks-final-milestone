@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.List;
 
 /**
- *
+ * Reads an on-line google spreadsheet using the gdata API
  * @author nwright
  */
 public class GoogleSpreadsheetReader implements SpreadsheetReader
@@ -96,7 +96,7 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
    }
    catch (AuthenticationException e)
    {
-    throw new RuntimeException (e);
+    throw new DictionaryExecutionException (e);
    }
   }
   return service;
@@ -127,11 +127,11 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   }
   catch (IOException e)
   {
-   throw new RuntimeException (e);
+   throw new DictionaryExecutionException (e);
   }
   catch (ServiceException e)
   {
-   throw new RuntimeException (e);
+   throw new DictionaryExecutionException (e);
   }
 
   for (WorksheetEntry sheet : sheets)
@@ -155,11 +155,11 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   }
   catch (IOException e)
   {
-   throw new RuntimeException (e);
+   throw new DictionaryExecutionException (e);
   }
   catch (ServiceException e)
   {
-   throw new RuntimeException (e);
+   throw new DictionaryExecutionException (e);
   }
 
   // search by name
@@ -185,11 +185,11 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   }
   catch (IOException e)
   {
-   throw new RuntimeException (e);
+   throw new DictionaryExecutionException (e);
   }
   catch (ServiceException e)
   {
-   throw new RuntimeException (e);
+   throw new DictionaryExecutionException (e);
   }
   List<WorksheetEntry> worksheets = feed.getEntries ();
   for (WorksheetEntry sheet : worksheets)

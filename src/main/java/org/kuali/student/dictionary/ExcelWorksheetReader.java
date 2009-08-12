@@ -23,7 +23,7 @@ import java.sql.Statement;
 import java.sql.Types;
 
 /**
- *
+ * This reads a single tab of an Excel spreadsheet using the JDBC-ODBC bridge
  * @author nwright
  */
 public class ExcelWorksheetReader implements WorksheetReader
@@ -52,7 +52,7 @@ public class ExcelWorksheetReader implements WorksheetReader
   }
   catch (SQLException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
  }
 
@@ -75,11 +75,11 @@ public class ExcelWorksheetReader implements WorksheetReader
      return i;
     }
    }
-   throw new RuntimeException (name + " is not the name of a column found in the worksheet");
+   throw new DictionaryValidationException (name + " is not the name of a column found in the worksheet");
   }
   catch (SQLException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
  }
 
@@ -94,7 +94,7 @@ public class ExcelWorksheetReader implements WorksheetReader
   }
   catch (SQLException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
  }
 
@@ -146,17 +146,17 @@ public class ExcelWorksheetReader implements WorksheetReader
      }
      else
      {
-      throw new RuntimeException (name + " is not an integer but should be " + d);
+      throw new DictionaryValidationException (name + " is not an integer but should be " + d);
      }
      return valStr;
     default:
-     throw new RuntimeException (
+     throw new DictionaryExecutionException (
       "unhandled type " + type + " for " + name);
    }
   }
   catch (SQLException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
  }
 
@@ -169,7 +169,7 @@ public class ExcelWorksheetReader implements WorksheetReader
   }
   catch (SQLException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
  }
 

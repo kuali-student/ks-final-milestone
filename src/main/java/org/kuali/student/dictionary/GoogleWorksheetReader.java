@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- *
+ * Reads a single tab of a google spreadsheet using the Gdata API
  * @author nwright
  */
 public class GoogleWorksheetReader implements WorksheetReader
@@ -56,11 +56,11 @@ public class GoogleWorksheetReader implements WorksheetReader
   }
   catch (IOException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
   catch (ServiceException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
   this.listEntries = listFeed.getEntries ();
   this.it = this.listEntries.iterator ();
@@ -72,7 +72,7 @@ public class GoogleWorksheetReader implements WorksheetReader
   name = name.toLowerCase ().trim ();
   if ( ! currentCustomElementCollection.getTags ().contains (name))
   {
-   throw new RuntimeException ("ColName=" + name + " does not exist in " +
+   throw new DictionaryValidationException ("ColName=" + name + " does not exist in " +
     currentCustomElementCollection.getTags ());
   }
   String value = currentCustomElementCollection.getValue (name);

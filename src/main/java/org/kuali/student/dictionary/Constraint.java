@@ -16,6 +16,8 @@
 package org.kuali.student.dictionary;
 
 /**
+ * This models a constraint either an in-line one or one defined as part of the bank of constraints.
+ * Note: Cross-object Constraints are not modeled here.
  *
  * @author nwright
  */

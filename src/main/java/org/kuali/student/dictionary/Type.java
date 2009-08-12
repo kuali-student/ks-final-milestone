@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.io.Serializable;
 
 /**
- *
+ * Models the type object in the spreadsheets
  * @author nwright
  */
 public class Type implements Serializable

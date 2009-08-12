@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.util.Collection;
 
 /**
- *
+ * This validates a single field definition
  * @author nwright
  */
 public class FieldValidator implements ModelValidator

@@ -18,7 +18,8 @@ package org.kuali.student.dictionary;
 import java.util.List;
 
 /**
- *
+ * An implementing class expands the dictionary entries by translating a group reference into each of it's sets
+ * Envision both type and state expanders but right now just have type expanders
  * @author nwright
  */
 public interface DictionaryExpander

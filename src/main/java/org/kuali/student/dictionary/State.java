@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.io.Serializable;
 
 /**
- *
+ * Models the state object in the spreadsheet
  * @author nwright
  */
 public class State implements Serializable

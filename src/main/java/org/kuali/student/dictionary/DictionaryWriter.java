@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * This writes out the entire dictionary xml file
  * @author nwright
  */
 public class DictionaryWriter extends XmlWriter
@@ -57,7 +57,7 @@ public class DictionaryWriter extends XmlWriter
     buf.append ("\n");
     buf.append ("*error*" + cnt + ":" + msg);
    }
-   throw new RuntimeException (buf.toString ());
+   throw new DictionaryValidationException (buf.toString ());
   }
   sheet = new ExpandedSpreadsheet (sheet, new DictionaryMainTypeExpander (sheet));
   sheet = new ExpandedSpreadsheet (sheet, new DictionarySubTypeExpander (sheet));
@@ -66,7 +66,7 @@ public class DictionaryWriter extends XmlWriter
   {
    if (d.getMainType ().endsWith ("*"))
    {
-    throw new RuntimeException ("Main type was not expanded " + d.getId () + ":" + d.getMainType ());
+    throw new DictionaryValidationException ("Main type was not expanded " + d.getId () + ":" + d.getMainType ());
    }
   }
   writeHeader ();
@@ -152,7 +152,7 @@ public class DictionaryWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new RuntimeException ("No default dictionary entries found for " +
+   throw new DictionaryValidationException ("No default dictionary entries found for " +
     xmlType.getName ());
   }
   return list;
@@ -171,7 +171,7 @@ public class DictionaryWriter extends XmlWriter
   {
    System.out.println (dict.getId ());
   }
-  throw new RuntimeException (notUsed.size () +
+  throw new DictionaryValidationException (notUsed.size () +
    " dictionary entries were never written out.");
  }
 
@@ -217,7 +217,7 @@ public class DictionaryWriter extends XmlWriter
   {
    System.out.println (coc.getId ());
   }
-  throw new RuntimeException (notUsed.size () +
+  throw new DictionaryValidationException (notUsed.size () +
    " cross-object constraints were never written out.");
  }
 

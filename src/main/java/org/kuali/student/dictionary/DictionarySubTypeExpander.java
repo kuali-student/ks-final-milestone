@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * A dictionary expander that expands the sub-type
  * @author nwright
  */
 public class DictionarySubTypeExpander implements DictionaryExpander
@@ -80,7 +80,7 @@ public class DictionarySubTypeExpander implements DictionaryExpander
   Type type = finder.findType (xmlObject, dict.getSubType ());
   if (type == null)
   {
-   throw new RuntimeException ("could not find sub type for dictionary entry " +
+   throw new DictionaryValidationException ("could not find sub type for dictionary entry " +
     dict.getId () + ": " + dict.getXmlObject () + "." + dict.getSubType ());
   }
 
@@ -100,7 +100,7 @@ public class DictionarySubTypeExpander implements DictionaryExpander
    }
    catch (CloneNotSupportedException ex)
    {
-    throw new RuntimeException (ex);
+    throw new DictionaryExecutionException (ex);
    }
 
   }

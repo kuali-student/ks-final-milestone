@@ -18,7 +18,8 @@ package org.kuali.student.dictionary;
 import java.util.List;
 
 /**
- *
+ * This reads the supplied spreadsheet but then caches it so it doesn't have to
+ * re-read it again.
  * @author nwright
  */
 public class SpreadsheetCache implements Spreadsheet

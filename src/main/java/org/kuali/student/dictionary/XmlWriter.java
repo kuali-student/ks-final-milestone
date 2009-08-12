@@ -18,10 +18,10 @@ package org.kuali.student.dictionary;
 import java.io.PrintStream;
 
 /**
- *
+ * Base class for all XML writers
  * @author nwright
  */
-public class XmlWriter
+public abstract class XmlWriter
 {
 
  private char indentChar = '\t';

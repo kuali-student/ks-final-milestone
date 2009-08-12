@@ -20,7 +20,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * This reads an excel spreadsheet using the JDBC-ODBC bridge
  * @author nwright
  */
 public class ExcelSpreadsheetReader implements SpreadsheetReader
@@ -52,7 +52,7 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
   }
   catch (ClassNotFoundException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
   try
   {
@@ -63,7 +63,7 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
   }
   catch (SQLException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryExecutionException (ex);
   }
   return connection;
  }

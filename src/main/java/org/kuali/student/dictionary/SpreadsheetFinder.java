@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Untility that implements searches of the spreadsheet model that are needed
+ * TODO: refactor all the *Writer to use this instead of their own finds.
  * @author nwright
  */
 public class SpreadsheetFinder
@@ -68,7 +69,7 @@ public class SpreadsheetFinder
   Dictionary parent = findParent (dict);
   if (parent == null)
   {
-   throw new RuntimeException ("dictionary entry " + dict.getId () +
+   throw new DictionaryValidationException ("dictionary entry " + dict.getId () +
     " has no parent but parent object is not " + Type.NA);
   }
   return findRoot (parent);

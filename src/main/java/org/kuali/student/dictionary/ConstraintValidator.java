@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
+ * This validates a constraint.
  * @author nwright
  */
 public class ConstraintValidator implements ModelValidator

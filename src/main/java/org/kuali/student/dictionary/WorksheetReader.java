@@ -16,7 +16,7 @@
 package org.kuali.student.dictionary;
 
 /**
- *
+ * Interface required to get data from a single tab of a spreadsheet
  * @author nwright
  */
 public interface WorksheetReader

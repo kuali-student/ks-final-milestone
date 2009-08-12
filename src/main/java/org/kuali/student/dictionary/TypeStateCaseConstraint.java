@@ -18,7 +18,8 @@ package org.kuali.student.dictionary;
 import java.util.List;
 
 /**
- *
+ * Models a single type state constraint that combines multiple entries into a single
+ * constraint statement
  * @author nwright
  */
 public class TypeStateCaseConstraint

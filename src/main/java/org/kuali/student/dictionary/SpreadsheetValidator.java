@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * Validates the entire spreadsheet model
  * @author nwright
  */
 public class SpreadsheetValidator implements ModelValidator

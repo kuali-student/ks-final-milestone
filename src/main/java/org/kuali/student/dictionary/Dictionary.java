@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ * Models a single dictionary entry
  * @author nwright
  */
 public class Dictionary implements Serializable, Cloneable

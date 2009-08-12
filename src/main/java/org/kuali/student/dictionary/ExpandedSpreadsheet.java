@@ -18,8 +18,9 @@ package org.kuali.student.dictionary;
 import java.util.List;
 
 /**
- * This expands the dictionary entries when it encounters types that are not
- * individual types but actually groups
+ * This provides expansion functionality to the spreadsheet model by expanding
+ * the dictionary entries when it encounters types or states that are not
+ * individual types or states but actually groups.
  * @author nwright
  */
 public class ExpandedSpreadsheet implements Spreadsheet

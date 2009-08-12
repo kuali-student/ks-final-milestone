@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.io.PrintStream;
 
 /**
- *
+ * This writes a reference to a previously written constraint.
  * @author nwright
  */
 public class ConstraintRefWriter extends XmlWriter

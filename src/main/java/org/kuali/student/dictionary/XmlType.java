@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.io.Serializable;
 
 /**
- *
+ * Implements the XML type definitions in the spreadsheet
  * @author nwright
  */
 public class XmlType implements Serializable

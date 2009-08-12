@@ -15,14 +15,30 @@
  */
 package org.kuali.student.dictionary;
 
-
 /**
- * interface that can be implemented for both google and excel spreadsheets
+ * Exception thrown when encounter an unexpected exeception when generating the dictionary
  * @author nwright
  */
-public interface SpreadsheetReader
+public class DictionaryExecutionException extends RuntimeException
 {
 
- public WorksheetReader getWorksheetReader (String name);
+ public DictionaryExecutionException (Throwable cause)
+ {
+  super (cause);
+ }
+
+ public DictionaryExecutionException (String message, Throwable cause)
+ {
+  super (message, cause);
+ }
+
+ public DictionaryExecutionException (String message)
+ {
+  super (message);
+ }
+
+ public DictionaryExecutionException ()
+ {
+ }
 
 }

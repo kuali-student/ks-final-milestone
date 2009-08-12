@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * This writes out a single field entry and all of it's constraints into the XML output document
  * @author nwright
  */
 public class FieldWriter extends XmlWriter
@@ -61,8 +61,8 @@ public class FieldWriter extends XmlWriter
     }
    }
   }
-  throw new RuntimeException ("No field entry found for dictionary entry, " + d.
-   getId () + ", pointing to field " +
+  throw new DictionaryValidationException ("No field entry found for dictionary entry, " +
+   d.getId () + ", pointing to field " +
    d.getXmlObject () + "." + d.getShortName ());
  }
 
@@ -202,8 +202,8 @@ public class FieldWriter extends XmlWriter
    writeAttribute ("id", dict.getId ());
    // remember that this field was written before
    dictionaryEntriesWritten.add (dict.getId ());
-   //indent (System.out, ' ');
-   //System.out.println ("Writing out: " + dict.getId () + " with id");
+  //indent (System.out, ' ');
+  //System.out.println ("Writing out: " + dict.getId () + " with id");
   }
   writeAttribute ("key", dict.getShortName ());
   println (">");
@@ -310,7 +310,7 @@ public class FieldWriter extends XmlWriter
    {
     return list;
    }
-   throw new RuntimeException ("No sub-fields found in default dictionary for dictionary entry " +
+   throw new DictionaryValidationException ("No sub-fields found in default dictionary for dictionary entry " +
     d.getId ());
   }
   return list;
@@ -344,7 +344,7 @@ public class FieldWriter extends XmlWriter
    return field.getXmlType ();
   }
 
-  throw new RuntimeException ("Unexpected data value for the primitive column in field.  Found " +
+  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " +
    f.getPrimitive () + " on field " + f.getId ());
  }
 
@@ -435,7 +435,7 @@ public class FieldWriter extends XmlWriter
    }
 
   }
-  throw new RuntimeException ("Unexpected value for the xmlType column in field.  Found " +
+  throw new DictionaryValidationException ("Unexpected value for the xmlType column in field.  Found " +
    field.getXmlType () + " on field " + field.getId ());
  }
 
@@ -446,7 +446,6 @@ public class FieldWriter extends XmlWriter
   return crossObjectConstraintsWritten;
  }
 
- 
  private List<CrossObjectConstraint> getTypeStateWhens ()
  {
   List<CrossObjectConstraint> list = new ArrayList ();

@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- *
+ * Writes an object structure entity in the output XML document, either the in-line or root ones.
  * @author nwright
  */
 public class ObjectStructureWriter extends XmlWriter
@@ -127,7 +127,7 @@ public class ObjectStructureWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new RuntimeException ("No main types found in dictionary for " +
+   throw new DictionaryValidationException ("No main types found in dictionary for " +
     xmlType.getName ());
   }
   return list;
@@ -148,7 +148,7 @@ public class ObjectStructureWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new RuntimeException ("No sub-types found in dictionary for " +
+   throw new DictionaryValidationException ("No sub-types found in dictionary for " +
     xmlType.getName ());
   }
   return list;
@@ -159,7 +159,7 @@ public class ObjectStructureWriter extends XmlWriter
   Type type = finder.findType (xmlObject, name);
   if (type == null)
   {
-   throw new RuntimeException ("Could not find type for: " + xmlObject + "." +
+   throw new DictionaryValidationException ("Could not find type for: " + xmlObject + "." +
    name);
   }
   return type;
@@ -177,7 +177,7 @@ public class ObjectStructureWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new RuntimeException ("No states found for " + xmlType.getName ());
+   throw new DictionaryValidationException ("No states found for " + xmlType.getName ());
   }
   return list;
  }

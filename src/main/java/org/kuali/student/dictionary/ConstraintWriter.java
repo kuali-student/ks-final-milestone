@@ -18,7 +18,7 @@ package org.kuali.student.dictionary;
 import java.io.PrintStream;
 
 /**
- *
+ * Writes out a constraint in XML format.
  * @author nwright
  */
 public class ConstraintWriter extends XmlWriter
@@ -140,7 +140,7 @@ public class ConstraintWriter extends XmlWriter
    String maxNumStr = validChars.substring ("maxInt:".length ()).trim ();
    if (maxNumStr.equals (""))
    {
-    throw new RuntimeException ("No integer entered after 'maxInt:' for constraint " +
+    throw new DictionaryValidationException ("No integer entered after 'maxInt:' for constraint " +
      constraint.getId ());
    }
    int maxNum = 0;
@@ -150,7 +150,7 @@ public class ConstraintWriter extends XmlWriter
    }
    catch (NumberFormatException ex)
    {
-    throw new RuntimeException ("The text after 'maxInt:', " + maxNumStr +
+    throw new DictionaryValidationException ("The text after 'maxInt:', " + maxNumStr +
      "  is not an integer in constraint " + constraint.getId ());
    }
    validChars = generator.generate (maxNum);
