@@ -68,7 +68,9 @@ public class SectionTitle extends HTML {
         SectionTitle thisTitle = new SectionTitle();
         thisTitle.setHTML(text);
         thisTitle.addStyleName(KS_SECTION_TITLE);
-        thisTitle.addStyleName(styleName);
+        if(styleName != null){
+        	thisTitle.addStyleName(styleName);
+        }
         return thisTitle;
     }
 }
