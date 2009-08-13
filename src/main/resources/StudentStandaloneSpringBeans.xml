@@ -11,6 +11,43 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	<import resource="classpath:ks-core-context.xml" />
 	<import resource="classpath:ks-lu-context.xml" />
+	
+	<!--<bean id="systemPropertyConfigurer"
+		class="org.kuali.student.common.util.SystemPropertyConfigurer">
+		<property name="properties">
+			<map>
+			  <entry key="derby.system.home" value="target" />
+			  <entry key="derby.drda.startNetworkServer" value="true" />
+			</map>
+		</property>
+	</bean>-->
+	
+	<!-- Redefine KSB datasource -->
+	<!--<bean id="ksbRegistryDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${rice.ksb.datasource.driver.name}" />
+		<property name="url" value="${rice.ksb.datasource.url}" />
+		<property name="maxSize" value="${rice.ksb.datasource.pool.maxSize}" />
+		<property name="minSize" value="${rice.ksb.datasource.pool.minSize}" />
+		<property name="maxWait" value="${rice.ksb.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${rice.ksb.datasource.pool.validationQuery}" />
+		<property name="username" value="${rice.ksb.datasource.username}" />
+		<property name="password" value="${rice.ksb.datasource.password}" />
+	</bean>-->
+
+	<!--<bean id="ksbMessageDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${rice.ksb.datasource.driver.name}" />
+		<property name="url" value="${rice.ksb.datasource.url}" />
+		<property name="maxSize" value="${rice.ksb.datasource.pool.maxSize}" />
+		<property name="minSize" value="${rice.ksb.datasource.pool.minSize}" />
+		<property name="maxWait" value="${rice.ksb.datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${rice.ksb.datasource.pool.validationQuery}" />
+		<property name="username" value="${rice.ksb.datasource.username}" />
+		<property name="password" value="${rice.ksb.datasource.password}" />
+	</bean>-->
+	
+	<!-- Export Services to the Bus -->
       <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker" />
         <property name="serviceDefinition">
