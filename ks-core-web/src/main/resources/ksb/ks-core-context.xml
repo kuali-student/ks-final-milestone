@@ -81,13 +81,13 @@
     
 
 	<!-- Default Datasource -->
-	<bean id="coreDataSource" class="org.kuali.rice.core.database.XAPoolDataSource" depends-on="systemPropertyConfigurer">
+	<bean id="coreDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
         <property name="transactionManager" ref="jotm" />
-        <property name="driverClassName" value="${datasource.driver.name}" />
+        <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
         <property name="maxSize" value="10" />
         <property name="minSize" value="10" />
         <property name="maxWait" value="600" />
-        <property name="validationQuery" value="values(1)" />
+        <property name="validationQuery" value="${ks.core.datasource.validationQuery}" />
         <property name="url" value="${ks.core.datasource.url}" />
         <property name="username" value="${ks.core.datasource.username}" />
         <property name="password" value="${ks.core.datasource.password}" />        

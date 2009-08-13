@@ -55,9 +55,11 @@
     <param name="datasource.pool.maxSize">10</param>
     <param name="datasource.pool.minSize">10</param>
     
+    <param name="ks.core.datasource.driver.name">org.apache.derby.jdbc.ClientDriver</param>
     <param name="ks.core.datasource.url">jdbc:derby://localhost:1527/derby/core;create=true</param>
     <param name="ks.core.datasource.username">kscore</param>
     <param name="ks.core.datasource.password">kscore</param>
+    <param name="ks.core.datasource.validationQuery">values(1)</param>
     
 
     <!-- Keystore Configuration -->
@@ -65,7 +67,7 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
-    <param name="config.location">${user.home}/ks-core-config.xml</param> 
+    <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
 </config>
