@@ -15,12 +15,8 @@
 		<spring.version>2.5.4</spring.version>
 		<atomikos.version>3.4.1</atomikos.version>
 		<derby.version>10.4.2.0</derby.version>
+		<rice.version>1.0.0-KS-0807</rice.version>
 	</properties>
-	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
 	<build>
 		<plugins>
 			<plugin>
@@ -98,14 +94,14 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-web</artifactId>
-			<version>1.0.0-KS-0807</version>
+			<version>${rice.version}</version>
 			<type>war</type>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>1.0.0-KS-0807</version>
+			<version>${rice.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -139,6 +135,23 @@
 					<groupId>org.eclipse.jdt</groupId>
 					<artifactId>core</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>tomcat</groupId>
+					<artifactId>jasper-compiler-jdt</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>tomcat</groupId>
+					<artifactId>jasper-compiler</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>tomcat</groupId>
+					<artifactId>jasper-runtime</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.eclipse.jdt</groupId>
+					<artifactId>core</artifactId>
+				</exclusion>
+
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -236,9 +249,20 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<version>${derby.version}</version>
+			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbynet</artifactId>
+			<version>${derby.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<version>${derby.version}</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
-
 
 </project>
