@@ -15,7 +15,8 @@
  */
 package org.kuali.student.lum.workflow.qualifier;
 
-import java.util.Arrays;
+import static org.kuali.student.lum.workflow.qualifier.AbstractOrgQualifierResolver.KUALI_ORG_DEPARTMENT;
+
 import java.util.List;
 
 import org.easymock.EasyMock;
@@ -32,9 +33,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver;
 
 /**
  * Tests the XPathQualifierResolver.
@@ -86,7 +84,7 @@ public class DeptQualifierResolverTest extends BaseRiceTestCase {
 		
 		attributeSets = resolver.resolve(context);
 		assertEquals(1, attributeSets.size());
-		assertEquals(1, attributeSets.get(0).size());
+		assertEquals(2, attributeSets.get(0).size());
 		assertEquals("Chemistry", attributeSets.get(0).get("department"));
 	}
 	
@@ -99,7 +97,6 @@ public class DeptQualifierResolverTest extends BaseRiceTestCase {
 	 * @throws InvalidParameterException 
 	 * @throws DoesNotExistException 
 	 */
-	@SuppressWarnings("unchecked")
 	private OrganizationService getMockOrgService() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		EasyMock.reset(mockOrgSvc);
 		

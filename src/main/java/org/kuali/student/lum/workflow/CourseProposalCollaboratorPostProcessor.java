@@ -1,11 +1,12 @@
 package org.kuali.student.lum.workflow;
 
+import java.io.StringReader;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 import org.kuali.rice.kew.dto.DocumentContentDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.AfterProcessEvent;
 import org.kuali.rice.kew.postprocessor.BeforeProcessEvent;
@@ -18,6 +19,7 @@ import org.kuali.rice.kew.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
 
 public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
@@ -65,36 +67,25 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 	}
 	
     private void addAdhocFYI(DocumentContentDTO document) {
-    	Pattern pattern = Pattern.compile("<docId>\\s*([^<\\s]+)");
-		Matcher matcher = pattern.matcher(document.getApplicationContent());
-		matcher.find();
-		String docId = matcher.group(1);
-
-    	pattern = Pattern.compile("<recipientPrincipalId>\\s*([^<\\s]+)");
-		matcher = pattern.matcher(document.getApplicationContent());
-		matcher.find();
-		String recipientPrincipalId = matcher.group(1);
-
-	   	pattern = Pattern.compile("<principalId>\\s*([^<\\s]+)");
-		matcher = pattern.matcher(document.getApplicationContent());
-		matcher.find();
-		String principalId = matcher.group(1);
-		
-	   	pattern = Pattern.compile("<collaboratorType>\\s*([^<\\s]+)");
-		matcher = pattern.matcher(document.getApplicationContent());
-		matcher.find();
-		String collaboratorType = matcher.group(1);
-		
-		String annotation = "Collaborator Approved";
-	    
        	try {
+			JAXBContext context = JAXBContext.newInstance(CluProposalCollabRequestDocInfo.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+	        CluProposalCollabRequestDocInfo collabRequest = (CluProposalCollabRequestDocInfo) unmarshaller.unmarshal(new StringReader(document.getApplicationContent()));
+    	
+			String docId = collabRequest.getDocId();
+			String recipientPrincipalId = collabRequest.getPrincipalIdRoleAttribute().getRecipientPrincipalId();
+			String principalId = collabRequest.getPrincipalId();
+			String collaboratorType = collabRequest.getCollaboratorType();
+		
+			String annotation = "Collaborator Approved";
+
 			WorkflowDocument workflowDocument = new WorkflowDocument(principalId, new Long(docId));
 			if (workflowDocument.getNodeNames().length == 0) {
 				throw new RuntimeException("No active nodes found on document");
 			}
 			String collaborateAtNodeName = workflowDocument.getNodeNames()[0];
 			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, collaborateAtNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, collaboratorType);
-		} catch (WorkflowException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

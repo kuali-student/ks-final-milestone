@@ -1,8 +1,12 @@
 package org.kuali.student.lum.workflow;
 import java.security.InvalidParameterException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +15,7 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
-import org.kuali.rice.kew.dto.WorkflowIdDTO;
+import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.AfterProcessEvent;
 import org.kuali.rice.kew.postprocessor.BeforeProcessEvent;
@@ -35,6 +39,8 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 public class CluPostProcessor implements PostProcessor{
 
+	private static final NetworkIdDTO KS_SYS_PRINCIPAL = new NetworkIdDTO("KS");
+	
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(CluPostProcessor.class);
 	
@@ -60,34 +66,43 @@ public class CluPostProcessor implements PostProcessor{
 
 	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange)
 			throws Exception {
-		/*
+
 		Long routeHeaderId = documentRouteLevelChange.getRouteHeaderId();
 		
 		//Clear all the current Collab FYIs on the current document
-        Collection<ActionItem> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(routeHeaderId);
-        for (Iterator<ActionItem> iterator = actionItems.iterator(); iterator.hasNext();) {
+		Collection<ActionItem> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(routeHeaderId);
+        Map<Long,Long> fyisToClear = new HashMap<Long,Long>();
+		for (Iterator<ActionItem> iterator = actionItems.iterator(); iterator.hasNext();) {
             ActionItem item = iterator.next();
             if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequestCd())&&item.getRequestLabel()!=null
             		&&(item.getRequestLabel().startsWith("Co-Author")||
             		   item.getRequestLabel().startsWith("Commentor")||
             		   item.getRequestLabel().startsWith("Viewer")||
             		   item.getRequestLabel().startsWith("Delegate"))){
-        		WorkflowIdDTO principalIdVO = new WorkflowIdDTO("admin");
-        		WorkflowDocument workflowDocument = new WorkflowDocument(principalIdVO, item.getRouteHeaderId());
-        		workflowDocument.clearFYI();
+            	fyisToClear.put(item.getActionRequestId(), item.getRouteHeaderId());
             }
         }
+		for(Map.Entry<Long, Long> fyiToClear:fyisToClear.entrySet()){
+    		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, fyiToClear.getValue());
+    		workflowDocument.superUserActionRequestApprove(fyiToClear.getKey(), "Cleared by KS because CluProposal status has changed");
+		}
 		
 		//Clear all pending Collab request documents for this document
 		Collection<Long> pendingCollabIds = KEWServiceLocator.getRouteHeaderService().findByDocTypeAndAppId("CluCollaboratorDocument", routeHeaderId.toString());
-        if(pendingCollabIds!=null){
-        	for(Long pendingCollabId:pendingCollabIds){
-        		WorkflowIdDTO principalIdVO = new WorkflowIdDTO("admin");
-        		WorkflowDocument workflowDocument = new WorkflowDocument(principalIdVO, pendingCollabId);
-        		workflowDocument.disapprove("Collaboration request has been revoked because CluProposal status has changed");
+		if(pendingCollabIds!=null){
+			Set<Long> uniquePendingCollagIds = new HashSet<Long>(pendingCollabIds);
+        	for(Long pendingCollabId:uniquePendingCollagIds){
+        		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, pendingCollabId);
+        		String routeStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
+        		if(!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) &&
+        		   !KEWConstants.ROUTE_HEADER_APPROVED_CD.equals(routeStatus) &&
+        		   !KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) &&
+        		   !KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeStatus)){
+        			workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
+        		}
         	}
         }
-		*/
+
 		return new ProcessDocReport(true, "");
 	}
 

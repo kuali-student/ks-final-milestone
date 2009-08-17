@@ -30,14 +30,15 @@ import org.kuali.student.core.organization.service.OrganizationService;
  */
 public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolver {
 
-	private static final String KUALI_ORG_DEPARTMENT = "kuali.org.Department";
-	private static final String KUALI_ORG_COLLEGE = "kuali.org.College";
-	protected static final String DEPARTMENT = "department";
-	protected static final String COLLEGE = "college";
+	static final String KUALI_ORG_DEPARTMENT = "kuali.org.Department";
+	static final String KUALI_ORG_COLLEGE = "kuali.org.College";
+	static final String KUALI_ORG_COC = "kuali.org.COC";
+	
+	protected static final String DEPARTMENT_ID = "departmentId";
 	protected static final String ORG_ID = "orgId";
 	protected OrganizationService orgService;
 	
-	protected static final String DEPT_RESOLVER_CONFIG =
+	protected static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
 										"<baseXPathExpression>/documentContent/applicationContent/cluProposal</baseXPathExpression>" +
 										"<qualifier name=\"" + ORG_ID +  "\">" +
@@ -49,7 +50,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	protected static RuleAttribute ruleAttribute = new RuleAttribute();
 	
 	static {
-		ruleAttribute.setXmlConfigData(DEPT_RESOLVER_CONFIG);
+		ruleAttribute.setXmlConfigData(ORG_RESOLVER_CONFIG);
 	}
 
 	/**
@@ -61,7 +62,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 
 	protected OrganizationService getOrganizationService() {
 		if (null == orgService) {
-		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://org.kuali.student/core/organization","OrganizationService"));
+		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 		}
 		return orgService;
 	}
@@ -70,15 +71,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 		orgService = orgSvc;
 	}
 
-	protected boolean isDepartment(OrgInfo orgInfo) {
-		return isOrgType(orgInfo, KUALI_ORG_DEPARTMENT);
-	}
-	
-	protected boolean isCollege(OrgInfo orgInfo) {
-		return isOrgType(orgInfo, KUALI_ORG_COLLEGE);
-	}
-	
-	private boolean isOrgType(OrgInfo orgInfo, String orgType) {
+	protected boolean isOrgType(OrgInfo orgInfo, String orgType) {
 		String actualType;
 		if ((null != orgInfo) && (null != (actualType = orgInfo.getType()))) {
 			return actualType.equals(orgType);

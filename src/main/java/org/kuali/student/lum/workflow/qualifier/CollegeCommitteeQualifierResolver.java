@@ -1,5 +1,4 @@
-/*
- * Copyright 2009 The Kuali Foundation
+/* * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +16,24 @@
 package org.kuali.student.lum.workflow.qualifier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
+
 
 
 /**
  * @author Kuali Student Team
  *
  */
-public class CollegeCommitteeQualifierResolver extends AbstractOrgQualifierResolver {
-	
-   	private QueryParamValue orgHierarchyQPV = new QueryParamValue();
-   	private List<QueryParamValue> orgHierarchyQPVs = new ArrayList<QueryParamValue>();
-   	
-	public CollegeCommitteeQualifierResolver() {
-	   	orgHierarchyQPV.setKey("org_queryParam_orgId");
-	   	orgHierarchyQPVs.add(orgHierarchyQPV);
-	}
+public class CollegeCommitteeQualifierResolver extends CollegeQualifierResolver {
 	
 	@Override
 	/* (non-Javadoc)
@@ -47,43 +41,49 @@ public class CollegeCommitteeQualifierResolver extends AbstractOrgQualifierResol
 	 */
 	public List<AttributeSet> resolve(RouteContext context) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
-		AttributeSet returnSet = new AttributeSet();
-		List<Result> searchResults = null;
+		// where we'll put info about our COCs
+		List<OrgInfo> cocs = new ArrayList<OrgInfo>();
 		
-		List<AttributeSet> attributeSets;
-		try {
-			attributeSets = super.resolve(context);
-			if (attributeSets.size() > 0 && attributeSets.get(0).size() > 0) {
-				String orgId = getAttribute(attributeSets, ORG_ID);
-				if (null != orgId) {
-					OrgInfo orgInfo;
-					orgInfo = getOrganizationService().getOrganization(orgId);
-					if (null != orgInfo) {
-						// found a college right away
-						if (isCollege(orgInfo)) {
-							returnSet.put(COLLEGE, orgInfo.getShortName());
-						}
-						else {
-							// get the hierarchy(s) this org is in
-							orgHierarchyQPV.setValue(orgId);
-							searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
-							
-							if (null != searchResults) {
-								// find ancestors in each hierarchy, looking for colleges
-								String hierarchyId;
-								for (Result result : searchResults) {
-									for (ResultCell cell : result.getResultCells()) {
-										// get the ancestors of the org in this hierarchy
-										hierarchyId = cell.getValue();
-										List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, hierarchyId);
-										if (ancestorIds.size() > 0) { // hey, it could conceivably be the root
-											// look for colleges
-											List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
-											for (OrgInfo org : ancestors) {
-												if (isCollege(org)) {
-													// found one
-													returnSet.put(COLLEGE, org.getShortName());
-												}
+		// find the college(s) for the orgId in context's documentContent's document
+		List<MinimalOrgInfo> colleges = findOrgsOfType(context, KUALI_ORG_COLLEGE);
+		
+		// now find the committee(s) for those college(s)
+		if (null != colleges) {
+			for (MinimalOrgInfo college : colleges) {
+				orgHierarchyQPV.setValue(college.getId());
+				List<Result> searchResults;
+				try {
+					searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
+	
+					if (null != searchResults) {
+						// find descendants in each hierarchy, looking for COC's
+						String hierarchyId;
+						for (Result result : searchResults) {
+							for (ResultCell cell : result.getResultCells()) {
+								// get the ancestors of the org in this hierarchy
+								hierarchyId = cell.getValue();
+								List<String> descendantIds = getOrganizationService().getAllDescendants(college.getId(), hierarchyId);
+								if (descendantIds.size() > 0) { // if not leaf node; is it possible to have college with no descendants?
+									// look for COC's; first get the OrgInfo's for these descendants
+									List<OrgInfo> descendants = getOrganizationService().getOrganizationsByIdList(descendantIds);
+									
+									// get all COC's and Departments to screen out COC's of Departments.
+									// TODO - do this in SQL; this way has got to be bloody expensive 
+									Map<String, OrgInfo> depts = new HashMap<String, OrgInfo>();
+									for (OrgInfo org : descendants) {
+										if (isOrgType(org, KUALI_ORG_COC)) {
+											cocs.add(org);
+										} else if (isOrgType(org, KUALI_ORG_DEPARTMENT)) {
+											depts.put(org.getId(), org);
+										}
+									}
+									// this could be the _really_ expensive part
+									// remove any COC that is descendant of a Department
+									for (String deptId : depts.keySet()) {
+										for (Iterator<OrgInfo> cocIter = cocs.iterator(); cocIter.hasNext(); ) {
+											OrgInfo coc = cocIter.next();
+											if (getOrganizationService().isDescendant(coc.getId(), deptId, hierarchyId)) {
+												cocIter.remove();
 											}
 										}
 									}
@@ -91,31 +91,22 @@ public class CollegeCommitteeQualifierResolver extends AbstractOrgQualifierResol
 							}
 						}
 					}
-				}
-				if (returnSet.size() > 0) { // found at least one college
-					returnAttrSetList.add(returnSet);
-				}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 			}
-		} catch (Exception e) {
-				e.printStackTrace();
+		}
+		
+		// remove possible dup COC's
+		// TODO - yet another inefficiency. This whole method needs rethinking,
+		// refactoring, and sql-izing
+		Map<String, OrgInfo> orgInfoMap = new HashMap<String, OrgInfo>();
+		for (OrgInfo coc : cocs) {
+			orgInfoMap.put(coc.getId(), coc);
+		}
+		for (OrgInfo coc : orgInfoMap.values()) {
+			returnAttrSetList.add(new AttributeSet("college", coc.getShortName()));
 		}
 		return returnAttrSetList;
-	}
-
-	/**
-	 * @param attributeSets 
-	 * @param string
-	 * @return
-	 */
-	private String getAttribute(List<AttributeSet> attributeSets, String searchStr) {
-		String attrStr;
-		
-		for (AttributeSet set : attributeSets) {
-			attrStr = set.get(searchStr);
-			if (null != attrStr) {
-				return attrStr;
-			}
-		}
-		return null;
 	}
 }

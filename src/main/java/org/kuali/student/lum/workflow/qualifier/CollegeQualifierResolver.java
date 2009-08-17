@@ -17,7 +17,7 @@
 package org.kuali.student.lum.workflow.qualifier;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.rice.kew.engine.RouteContext;
@@ -39,8 +39,8 @@ import org.kuali.student.core.search.dto.ResultCell;
  */
 public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 	
-   	private QueryParamValue orgHierarchyQPV = new QueryParamValue();
-   	private List<QueryParamValue> orgHierarchyQPVs = new ArrayList<QueryParamValue>();
+   	protected QueryParamValue orgHierarchyQPV = new QueryParamValue();
+   	protected List<QueryParamValue> orgHierarchyQPVs = new ArrayList<QueryParamValue>();
    	
 	public CollegeQualifierResolver() {
 	   	orgHierarchyQPV.setKey("org_queryParam_orgId");
@@ -54,23 +54,46 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 	public List<AttributeSet> resolve(RouteContext context) {
 		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
 		
+		List<MinimalOrgInfo> colleges = findOrgsOfType(context, KUALI_ORG_COLLEGE);
+		
+		if (null != colleges) {
+			for (MinimalOrgInfo college : colleges) {
+				returnAttrSetList.add(new AttributeSet(KUALI_ORG_COLLEGE, college.getShortName()));
+			}
+		}
+		return returnAttrSetList;
+	}
+
+	/**
+	 * Finds all the orgs of the specified orgType that either are or are ancestors of
+	 * the org specified by the orgId contained in rContext's documentContent's document.
+	 * Return their id's and shortName's contained in MinimalOrgValue's
+	 *
+	 * @param rContext 
+	 * 
+	 * @return List<MinimalOrgValue>
+	 */
+	protected List<MinimalOrgInfo> findOrgsOfType(RouteContext rContext, String orgType) {
 		List<AttributeSet> attributeSets;
+		List<MinimalOrgInfo> orgsFound = null;
+		
 		try {
-			attributeSets = super.resolve(context);
+			attributeSets = super.resolve(rContext);
 			OrgInfo orgInfo = getOrgInfo(attributeSets);
 			if (null != orgInfo) {
-				if (isCollege(orgInfo)) {
-					// found a college right away
-					returnAttrSetList.add(new AttributeSet(COLLEGE, orgInfo.getShortName()));
+				if (isOrgType(orgInfo, orgType)) {
+					// found an org right away
+		 			orgsFound = Arrays.asList(new MinimalOrgInfo(orgInfo.getId(), orgInfo.getShortName()));
 				}
 				else {
-					returnAttrSetList.addAll(getCollegesOrgIsIn(orgInfo.getId()));
+					orgsFound = getOrgsOrgIsIn(orgInfo.getId(), orgType);
 				}
 			}
 		} catch (Exception e) {
 				e.printStackTrace();
 		}
-		return returnAttrSetList;
+		
+		return orgsFound;
 	}
 
 	/**
@@ -83,9 +106,9 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 	 * @throws InvalidParameterException 
 	 * @throws DoesNotExistException 
 	 */
-	private Collection<? extends AttributeSet> getCollegesOrgIsIn(String id) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+	private List<MinimalOrgInfo> getOrgsOrgIsIn(String id, String orgType) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		
-		List<AttributeSet> attrSets = new ArrayList<AttributeSet>();
+		List<MinimalOrgInfo> orgs = new ArrayList<MinimalOrgInfo>();
 		// get the hierarchy(s) this org is in
 		orgHierarchyQPV.setValue(id);
 		List<Result> searchResults = getOrganizationService().searchForResults("org.search.hierarchiesOrgIsIn", orgHierarchyQPVs);
@@ -102,16 +125,16 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 						// look for colleges
 						List<OrgInfo> ancestors = getOrganizationService().getOrganizationsByIdList(ancestorIds);
 						for (OrgInfo org : ancestors) {
-							if (isCollege(org)) {
+							if (isOrgType(org, orgType)) {
 								// found one
-								attrSets.add(new AttributeSet(COLLEGE, org.getShortName()));
+								orgs.add(new MinimalOrgInfo(org.getId(), org.getShortName()));
 							}
 						}
 					}
 				}
 			}
 		}
-		return attrSets;
+		return orgs;
 	}
 
 	/**

@@ -109,10 +109,11 @@
         </requests>
         
         <!-- Senate Committee Reviewer Role -->
-        <role name="Senate Committee Review">
+        <requests name="Senate Committee Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
-        </role>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateCommitteeReviewRule</ruleName>
+        </requests>
         
         <!-- This is just a named person -->
         <requests name="Senate Review">

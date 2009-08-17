@@ -15,6 +15,19 @@
             </responsibilities>
         </rule>
         <rule>
+            <name>SenateCommitteeReviewRule</name>
+            <documentType>CluDocument</documentType>
+            <description>A named rule</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <principalName>user2</principalName>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
             <name>SenateAdminReviewRule</name>
             <documentType>CluDocument</documentType>
             <description>A named rule</description>
@@ -27,19 +40,5 @@
                 </responsibility>
             </responsibilities>
         </rule>
-	  	<rule>
-			<documentType>CluCollaboratorDocument</documentType>
-            <ruleTemplate>RequestedCollaboratorRoleTemplate</ruleTemplate>
-			<description>principal id routing test</description>
-			<forceAction>true</forceAction>
-			<responsibilities>
-				<responsibility>
-					<role>org.kuali.rice.kew.rule.PrincipalIdRoleAttribute!principalId</role>
-					<approvePolicy>F</approvePolicy>
-					<actionRequested>A</actionRequested>
-					<priority>1</priority>
-				</responsibility>
-			</responsibilities>
-		</rule>
     </rules>
 </data>
