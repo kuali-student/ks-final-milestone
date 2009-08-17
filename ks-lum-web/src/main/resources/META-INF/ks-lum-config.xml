@@ -64,8 +64,8 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
-    <param name="config.location">${user.home}/ks-lum-config.xml</param> 
+    <param name="config.location">${user.home}/kuali/main/dev/ks-lum-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-    <param name="config.location">${user.home}/ks-config.xml</param> 
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
     
 </config>
