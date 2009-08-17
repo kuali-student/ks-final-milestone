@@ -17,6 +17,11 @@
 		<derby.version>10.4.2.0</derby.version>
 		<rice.version>1.0.0-KS-0807</rice.version>
 	</properties>
+	<parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<build>
 		<plugins>
 			<plugin>
