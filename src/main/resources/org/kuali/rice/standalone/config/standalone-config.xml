@@ -174,5 +174,7 @@
 	<param name="ks.brms.ruleManagement.serviceAddress">http://localhost:8080/ks-brms/services/RuleManagementService</param>
 	<param name="ks.brms.ruleExecution.serviceAddress">http://localhost:8080/ks-brms/services/RuleExecutionService</param>
 	<param name="ks.brms.ruleRepository.RuleRepositoryService">http://localhost:8080/ks-brms/services/RuleRepositoryService</param>
+	<!--This is the override config file where data source parameters can be overridden	-->
+	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
 	
 </config>
