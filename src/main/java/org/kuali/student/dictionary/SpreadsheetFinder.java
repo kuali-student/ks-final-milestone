@@ -156,14 +156,21 @@ public class SpreadsheetFinder
 
  protected boolean matches (String pattern, String key)
  {
-  // TODO: allow patterns other than * at the end
+  // check for wildcard * at the end
   if (pattern.endsWith ("*"))
   {
    if (key.startsWith (pattern.substring (0, pattern.length () - 1)))
    {
     return true;
    }
-
+  }
+  // Check if key is in a comma separated list of keys
+  if (pattern.indexOf (",") != -1)
+  {
+   if (("," + pattern + ",").indexOf ("," + key + ",") != -1)
+   {
+    return true;
+   }
   }
   return false;
  }

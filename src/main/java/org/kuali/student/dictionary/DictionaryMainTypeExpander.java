@@ -37,6 +37,7 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
   this.finder = new SpreadsheetFinder (this.spreadsheet);
  }
 
+ @Override
  public List<Dictionary> expand ()
  {
   newDicts = new ArrayList (oldDicts.size () * 3);
