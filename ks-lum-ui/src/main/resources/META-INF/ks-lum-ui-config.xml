@@ -55,5 +55,6 @@
 
     <param name="config.location">${user.home}/ks-lum-ui-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">${user.home}/ks-config.xml</param> 
 
 </config>

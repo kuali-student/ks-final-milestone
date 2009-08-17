@@ -84,11 +84,11 @@
 	<!-- Default Datasource -->
 	<bean id="lumDataSource" class="org.kuali.rice.core.database.XAPoolDataSource" depends-on="systemPropertyConfigurer">
         <property name="transactionManager" ref="jotm" />
-        <property name="driverClassName" value="${datasource.driver.name}" />
+        <property name="driverClassName" value="${ks.lum.datasource.driver.name}" />
         <property name="maxSize" value="10" />
         <property name="minSize" value="10" />
         <property name="maxWait" value="600" />
-        <property name="validationQuery" value="values(1)" />
+        <property name="validationQuery" value="${ks.lum.datasource.validationQuery}" />
         <property name="url" value="${ks.lum.datasource.url}" />
         <property name="username" value="${ks.lum.datasource.username}" />
         <property name="password" value="${ks.lum.datasource.password}" />        

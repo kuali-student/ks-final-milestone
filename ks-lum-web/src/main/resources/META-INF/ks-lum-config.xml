@@ -57,7 +57,7 @@
     <param name="ks.lum.datasource.url">jdbc:derby://localhost:1527/derby/lum;create=true</param>
     <param name="ks.lum.datasource.username">kslum</param>
     <param name="ks.lum.datasource.password">kslum</param>
-    
+    <param name="ks.lum.datasource.validationQuery">values(1)</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
@@ -66,5 +66,6 @@
 
     <param name="config.location">${user.home}/ks-lum-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-
+    <param name="config.location">${user.home}/ks-config.xml</param> 
+    
 </config>
