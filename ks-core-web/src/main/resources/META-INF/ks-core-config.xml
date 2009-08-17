@@ -69,5 +69,5 @@
 
     <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
 </config>
