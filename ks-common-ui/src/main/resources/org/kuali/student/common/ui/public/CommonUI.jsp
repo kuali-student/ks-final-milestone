@@ -2,6 +2,8 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page import="org.kuali.student.common.ui.server.messages.MessageRPCPreloader"%>
+<%@page import="org.kuali.student.core.messages.service.impl.MessageServiceMock"%>
+<%@page import="java.util.ArrayList"%>
 <html>
 	<head>
 	
@@ -29,6 +31,15 @@
 		                                        -->
 <%
  MessageRPCPreloader mesageRPCPreloader = new MessageRPCPreloader();
+ 
+ //This method of setting message service is only here for testing common-ui, normally this would be spring
+ //injected or obtained from a service bus.
+ MessageServiceMock messageService = new MessageServiceMock();
+ ArrayList fileList = new ArrayList();
+ fileList.add("classpath:org\\kuali\\student\\common\\ui\\gwt-messages.xml");
+ messageService.setMessageFiles(fileList);
+ mesageRPCPreloader.setMessageService(messageService);
+  
  String messageData = mesageRPCPreloader.getMessagesByGroupsEncodingString("en",new String[]{"common"});
 %>
 
