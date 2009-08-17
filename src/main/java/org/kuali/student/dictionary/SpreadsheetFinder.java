@@ -165,11 +165,17 @@ public class SpreadsheetFinder
    }
   }
   // Check if key is in a comma separated list of keys
+  // changed it so the list could contain a wildard as one of it's elements
+  // for example kuali.type.foo.*,kuali.type.bar.joe
   if (pattern.indexOf (",") != -1)
   {
-   if (("," + pattern + ",").indexOf ("," + key + ",") != -1)
+   String[] patterns = pattern.split (",");
+   for (String pat : patterns)
    {
-    return true;
+    if (matches (pat.trim (), key))
+    {
+     return true;
+    }
    }
   }
   return false;
