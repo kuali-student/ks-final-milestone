@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.workflow.qualifier;
 
+import static org.kuali.student.lum.workflow.qualifier.AbstractOrgQualifierResolver.COLLEGE;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +36,6 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
-import static org.kuali.student.lum.workflow.qualifier.AbstractOrgQualifierResolver.KUALI_ORG_COLLEGE;
 
 
 /**
@@ -97,8 +98,8 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		
 		attributeSets = resolver.resolve(context);
 		assertEquals(1, attributeSets.size());
-		assertEquals(1, attributeSets.get(0).size());
-		assertEquals("Engineering", attributeSets.get(0).get(KUALI_ORG_COLLEGE));
+		assertEquals(2, attributeSets.get(0).size());
+		assertEquals("Engineering", attributeSets.get(0).get(COLLEGE));
 		
 		// and this
 		context = new RouteContext();
@@ -110,11 +111,11 @@ public class CollegeQualifierResolverTest extends BaseRiceTestCase {
 		AttributeSet set1 = attributeSets.get(0);
 		AttributeSet set2 = attributeSets.get(1);
 		
-		assertEquals(1, set1.size());
-		assertEquals(1, set2.size());
+		assertEquals(2, set1.size());
+		assertEquals(2, set2.size());
 		
-		String college1 = set1.get(AbstractOrgQualifierResolver.KUALI_ORG_COLLEGE);
-		String college2 = set2.get(AbstractOrgQualifierResolver.KUALI_ORG_COLLEGE);
+		String college1 = set1.get(AbstractOrgQualifierResolver.COLLEGE);
+		String college2 = set2.get(AbstractOrgQualifierResolver.COLLEGE);
 		assertTrue(college1.equals("Engineering") ^ college2.equals("Engineering"));
 		assertTrue(college1.equals("Liberal Arts") ^ college2.equals("Liberal Arts"));
 	}

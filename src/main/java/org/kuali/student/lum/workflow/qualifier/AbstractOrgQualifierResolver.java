@@ -31,11 +31,14 @@ import org.kuali.student.core.organization.service.OrganizationService;
 public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolver {
 
 	static final String KUALI_ORG_DEPARTMENT = "kuali.org.Department";
-	static final String KUALI_ORG_COLLEGE = "kuali.org.College";
-	static final String KUALI_ORG_COC = "kuali.org.COC";
+	static final String KUALI_ORG_COLLEGE    = "kuali.org.College";
+	static final String KUALI_ORG_COC        = "kuali.org.COC";
 	
-	protected static final String DEPARTMENT_ID = "departmentId";
-	protected static final String ORG_ID = "orgId";
+	static final String DEPARTMENT_ID = "departmentId";
+	static final String DEPARTMENT    = "department";
+	static final String COLLEGE       = "college";
+	static final String COLLEGE_ID    = "collegeId";
+	static final String ORG_ID        = "orgId";
 	protected OrganizationService orgService;
 	
 	protected static final String ORG_RESOLVER_CONFIG =

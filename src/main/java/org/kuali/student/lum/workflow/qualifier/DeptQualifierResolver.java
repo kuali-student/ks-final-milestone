@@ -43,7 +43,7 @@ public class DeptQualifierResolver extends AbstractOrgQualifierResolver {
 			}
 			if (isOrgType(orgInfo, KUALI_ORG_DEPARTMENT)) {
 				AttributeSet aSet = new AttributeSet();
-				aSet.put("department", orgInfo.getShortName());
+				aSet.put(DEPARTMENT, orgInfo.getShortName());
 				aSet.put(DEPARTMENT_ID, orgInfo.getId());
 				returnSet.add(aSet);
 			}
