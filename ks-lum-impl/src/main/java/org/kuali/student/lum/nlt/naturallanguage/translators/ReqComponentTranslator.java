@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate;
@@ -25,7 +24,6 @@ public class ReqComponentTranslator {
     final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
 
     private String language;
-    private LuDao luDao;
     private ContextRegistry<Context<ReqComponent>> contextRegistry;
     private TemplateTranslator templateTranslator = new TemplateTranslator();
 
@@ -47,40 +45,12 @@ public class ReqComponentTranslator {
 	}
 
     /**
-     * Sets the learning unit data access object.
-     * 
-     * @param luDao LU DAO
-     */
-    public void setLuDao(final LuDao luDao) {
-        this.luDao = luDao;
-    }
-
-    /**
      * Sets the template context registry.
      * 
      * @param contextRegistry Template context registry
      */
     public void setContextRegistry(final ContextRegistry<Context<ReqComponent>> contextRegistry) {
     	this.contextRegistry = contextRegistry;
-    }
-
-    /**
-     * Translates a requirement component by <code>reqComponentId</code> for a specific <code>nlUsageTypeKey</code> into
-     * natural language.
-     * 
-     * @param id
-     *            Id of object type to translate
-     * @param nlUsageTypeKey
-     *            Natural language usuage type key (context)
-     * @return Natural language translation
-     * @throws DoesNotExistException
-     *             Id or natural language usuage type key does not exist
-     * @throws OperationFailedException
-     *             Translation fails
-     */
-    public String translate(final String reqComponentId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-        ReqComponent reqComponent = this.luDao.fetch(ReqComponent.class, reqComponentId);
-        return translate(reqComponent, nlUsageTypeKey);
     }
 
     /**
@@ -97,7 +67,11 @@ public class ReqComponentTranslator {
      *             Translation fails
      */
     public String translate(final ReqComponent reqComponent, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-        ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
+    	if(reqComponent == null) {
+    		throw new DoesNotExistException("ReqComponent cannot be null");
+    	}
+    	
+    	ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
 
         Map<String, Object> contextMap = buildContextMap(reqComponent);
 

@@ -68,7 +68,8 @@ public class TranslationServiceImpl implements TranslationService {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
-			String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatementId, nlUsageTypeKey);
+			LuStatement luStatement = this.luDao.fetch(LuStatement.class, luStatementId);
+			String nl = this.naturalLanguageTranslator.translateStatement(cluId, luStatement, nlUsageTypeKey);
 			return nl;
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
@@ -145,7 +146,8 @@ public class TranslationServiceImpl implements TranslationService {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
-			String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponentId, nlUsageTypeKey);
+	        ReqComponent reqComponent = this.luDao.fetch(ReqComponent.class, reqComponentId);
+			String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 			return nl;
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
@@ -208,9 +210,9 @@ public class TranslationServiceImpl implements TranslationService {
 	 * @throws DoesNotExistException CLU or statement does not exist
 	 * @throws OperationFailedException Translation fails
 	 */
-	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
+	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String luStatementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
 		checkForNullOrEmptyParameter(cluId, "cluId");
-		checkForNullOrEmptyParameter(statementId, "statementId");
+		checkForNullOrEmptyParameter(luStatementId, "luStatementId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
@@ -219,7 +221,8 @@ public class TranslationServiceImpl implements TranslationService {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
-			return this.naturalLanguageTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
+			LuStatement luStatement = this.luDao.fetch(LuStatement.class, luStatementId);
+			return this.naturalLanguageTranslator.translateToTree(cluId, luStatement, nlUsageTypeKey);
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
 		}

@@ -11,7 +11,6 @@ import org.kuali.student.brms.internal.common.runtime.MessageContainer;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate;
 import org.kuali.student.lum.lu.entity.ReqComponent;
@@ -33,7 +32,6 @@ public class StatementTranslator {
     final static Logger logger = LoggerFactory.getLogger(StatementTranslator.class);
 
     private String language;
-	private LuDao luDao;
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator;
 	private NaturalLanguageMessageBuilder messageBuilder;
@@ -73,15 +71,6 @@ public class StatementTranslator {
 		}
 	}
 	
-	/**
-     * Sets the learning unit data access object.
-     * 
-     * @param luDao LU DAO
-	 */
-	public void setLuDao(final LuDao luDao) {
-		this.luDao = luDao;
-	}
-
     /**
      * Sets the template context registry.
      * 
@@ -111,23 +100,6 @@ public class StatementTranslator {
 		setLanguage();
     }
 
-    /**
-	 * Translates a statement directly attached to a CLU (anchor) for a 
-	 * specific natural language usuage type (context) into natural language.
-	 * 
-     * @param cluId CLU anchor
-     * @param statementId Statement identifier
-     * @param nlUsageTypeKey Usuage type key (context)
-     * @return Natural language statement translation
-     * @throws DoesNotExistException CLU or statement id does not exists
-     * @throws OperationFailedException Translation failure
-     */
-	public String translate(final String cluId, final String statementId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
-		String message = translate(cluId, luStatement, nlUsageTypeKey);
-		return message;
-	}
-
 	/**
 	 * Translates a statement directly attached to a CLU (anchor) for a 
 	 * specific natural language usuage type (context) into natural language.
@@ -141,7 +113,8 @@ public class StatementTranslator {
 	 */
 	public String translate(final String cluId, final LuStatement luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
-			return null;
+//			return null;
+    		throw new DoesNotExistException("LuStatement cannot be null");
 		}
 
 		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(luStatement);
@@ -157,22 +130,6 @@ public class StatementTranslator {
 	 * language usuage type (context) into natural language tree structure.
 	 * 
 	 * @param cluId Clu anchor
-	 * @param statementId Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language root tree node
-	 * @throws DoesNotExistException CLU or statement does not exist
-	 * @throws OperationFailedException Translation fails
-	 */
-	public NLTranslationNodeInfo translateToTree(final String cluId, final String statementId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		LuStatement luStatement = this.luDao.fetch(LuStatement.class, statementId);
-		return translateToTree(cluId, luStatement, nlUsageTypeKey);
-	}
-
-	/**
-	 * Translates a statement directly attached to a CLU for a specific natural 
-	 * language usuage type (context) into natural language tree structure.
-	 * 
-	 * @param cluId Clu anchor
 	 * @param luStatement LU statement
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language root tree node
@@ -181,7 +138,8 @@ public class StatementTranslator {
 	 */
 	public NLTranslationNodeInfo translateToTree(final String cluId, final LuStatement luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
-			return null;
+//			return null;
+    		throw new DoesNotExistException("LuStatement cannot be null");
 		}
 
 		String booleanExpression = statementParser.getBooleanExpressionAsReqComponents(luStatement);

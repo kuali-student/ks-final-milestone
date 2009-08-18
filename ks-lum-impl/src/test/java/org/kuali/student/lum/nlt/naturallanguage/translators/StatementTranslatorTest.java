@@ -60,13 +60,11 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		NaturalLanguageMessageBuilder englishMessageBuilder = new NaturalLanguageMessageBuilder(executor, "en", new BooleanOperators("and", "or"));
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
-    	englishReqComponentTranslator.setLuDao(this.luDao);
     	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	englishReqComponentTranslator.setLanguage("en");
 
     	this.englishTranslator = new StatementTranslator();
     	this.englishTranslator.setReqComponentTranslator(englishReqComponentTranslator);
-		this.englishTranslator.setLuDao(this.luDao);
 		this.englishTranslator.setContextRegistry(statementContextRegistry);
 		this.englishTranslator.setMessageBuilder(englishMessageBuilder);
 		this.englishTranslator.setLanguage("en");
@@ -74,13 +72,11 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		NaturalLanguageMessageBuilder germanMessageBuilder = new NaturalLanguageMessageBuilder(executor, "en", new BooleanOperators("and", "or"));
 
     	ReqComponentTranslator germanReqComponentTranslator = new ReqComponentTranslator();
-    	germanReqComponentTranslator.setLuDao(this.luDao);
     	germanReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	germanReqComponentTranslator.setLanguage("de");
 
     	this.germanTranslator = new StatementTranslator();
     	this.germanTranslator.setReqComponentTranslator(germanReqComponentTranslator);
-		this.germanTranslator.setLuDao(this.luDao);
 		this.germanTranslator.setContextRegistry(statementContextRegistry);
 		this.germanTranslator.setMessageBuilder(germanMessageBuilder);
 		this.germanTranslator.setLanguage("de");
@@ -99,7 +95,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 		this.luDao.create(stmt1);
 		
-		String translation = englishTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
+		String translation = englishTranslator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
@@ -117,7 +113,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 		this.luDao.create(stmt1);
 		
-		String translation = germanTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
+		String translation = germanTranslator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
 
 		Assert.assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180", translation);
 	}
@@ -135,15 +131,15 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 
 		this.luDao.create(stmt1);
 		
-		String translation = englishTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
+		String translation = englishTranslator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
 		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180", translation);
 
 		englishTranslator.setLanguage("de");
-		translation = englishTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
+		translation = englishTranslator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
 		Assert.assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180", translation);
 
 		englishTranslator.setLanguage("en");
-		translation = englishTranslator.translate("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
+		translation = englishTranslator.translate("CLU-NL-1", stmt1, "KUALI.CATALOG");
 		Assert.assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
 
@@ -546,7 +542,7 @@ public class StatementTranslatorTest extends AbstractTransactionalDaoTest {
 		// Rule = R1 and R2
 		LuStatement stmt1 = createSimpleStatement(true);
 		
-		NLTranslationNodeInfo root = englishTranslator.translateToTree("CLU-NL-1", stmt1.getId(), "KUALI.CATALOG");
+		NLTranslationNodeInfo root = englishTranslator.translateToTree("CLU-NL-1", stmt1, "KUALI.CATALOG");
 		Assert.assertNotNull(root.getId());
 		Assert.assertEquals(2, root.getChildNodes().size());
 		Assert.assertNotNull(root.getChildNodes().get(0).getId());

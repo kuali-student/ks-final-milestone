@@ -20,6 +20,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dao.LuDao;
+import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.nlt.naturallanguage.ContextRegistry;
@@ -78,12 +79,12 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		NaturalLanguageMessageBuilder englishMessageBuilder = new NaturalLanguageMessageBuilder(executor, "en", booleanLanguageMap);
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
-    	englishReqComponentTranslator.setLuDao(this.luDao);
+//    	englishReqComponentTranslator.setLuDao(this.luDao);
     	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	englishReqComponentTranslator.setLanguage("en");
 
     	StatementTranslator englishStatementTranslator = new StatementTranslator();
-    	englishStatementTranslator.setLuDao(this.luDao);
+//    	englishStatementTranslator.setLuDao(this.luDao);
     	englishStatementTranslator.setContextRegistry(statementContextRegistry);
     	englishStatementTranslator.setReqComponentTranslator(englishReqComponentTranslator);
     	englishStatementTranslator.setMessageBuilder(englishMessageBuilder);
@@ -95,12 +96,12 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		NaturalLanguageMessageBuilder germanMessageBuilder = new NaturalLanguageMessageBuilder(executor, "de", booleanLanguageMap);
 
     	ReqComponentTranslator germanReqComponentTranslator = new ReqComponentTranslator();
-    	germanReqComponentTranslator.setLuDao(this.luDao);
+//    	germanReqComponentTranslator.setLuDao(this.luDao);
     	germanReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	germanReqComponentTranslator.setLanguage("de");
 
     	StatementTranslator germanStatementTranslator = new StatementTranslator();
-    	germanStatementTranslator.setLuDao(this.luDao);
+//    	germanStatementTranslator.setLuDao(this.luDao);
     	germanStatementTranslator.setContextRegistry(statementContextRegistry);
     	germanStatementTranslator.setReqComponentTranslator(germanReqComponentTranslator);
     	germanStatementTranslator.setMessageBuilder(germanMessageBuilder);
@@ -112,12 +113,12 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		NaturalLanguageMessageBuilder japaneseMessageBuilder = new NaturalLanguageMessageBuilder(executor, "jp", booleanLanguageMap);
 
     	ReqComponentTranslator japaneseReqComponentTranslator = new ReqComponentTranslator();
-    	japaneseReqComponentTranslator.setLuDao(this.luDao);
+//    	japaneseReqComponentTranslator.setLuDao(this.luDao);
     	japaneseReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
     	japaneseReqComponentTranslator.setLanguage("jp");
 
     	StatementTranslator japaneseStatementTranslator = new StatementTranslator();
-    	japaneseStatementTranslator.setLuDao(this.luDao);
+//    	japaneseStatementTranslator.setLuDao(this.luDao);
     	japaneseStatementTranslator.setContextRegistry(statementContextRegistry);
     	japaneseStatementTranslator.setReqComponentTranslator(japaneseReqComponentTranslator);
     	japaneseStatementTranslator.setMessageBuilder(japaneseMessageBuilder);
@@ -132,7 +133,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		NaturalLanguageUtil.createReqComponentFields(this.luDao, this.reqComponent, "1", "greater_than_or_equal_to", this.cluSetId1);
 		
-		String text = englishTranslator.translateReqComponent(reqComponent.getId(), nlUsageTypeKey);
+		String text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", text);
 	}
@@ -142,7 +143,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		NaturalLanguageUtil.createReqComponentFields(this.luDao, this.reqComponent, "1", "greater_than_or_equal_to", this.cluSetId1);
 		
-		String text = germanTranslator.translateReqComponent(reqComponent.getId(), nlUsageTypeKey);
+		String text = germanTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
 	}
@@ -152,20 +153,22 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		NaturalLanguageUtil.createReqComponentFields(this.luDao, this.reqComponent, "1", "greater_than_or_equal_to", this.cluSetId1);
 		
-		String text = englishTranslator.translateReqComponent(reqComponent.getId(), nlUsageTypeKey);
+		String text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", text);
 		englishTranslator.setLanguage("de");
 
-		text = englishTranslator.translateReqComponent(reqComponent.getId(), nlUsageTypeKey);
+		text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
 	}
 
 	@Test
-	public void testTranslateReqComponent_InvalidReqComponentId() throws DoesNotExistException, OperationFailedException {
+	public void testTranslateReqComponent_NullReqComponent() throws DoesNotExistException, OperationFailedException {
 		try {
-			englishTranslator.translateReqComponent("InvalidId", "KUALI.CATALOG");
-			Assert.fail("Requirement component translation should have failed since 'InvalidId' is not a valid requirement component id");
+//			englishTranslator.translateReqComponent("InvalidId", "KUALI.CATALOG");
+//			Assert.fail("Requirement component translation should have failed since 'InvalidId' is not a valid requirement component id");
+			englishTranslator.translateReqComponent(null, "KUALI.CATALOG");
+			Assert.fail("Requirement component translation should have failed since requirement component is null");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());
 		}
@@ -174,7 +177,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 	@Test
 	public void testTranslateReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, OperationFailedException {
 		try {
-			englishTranslator.translateReqComponent(reqComponent.getId(), "KUALI.xxx.CATALOG");
+			englishTranslator.translateReqComponent(reqComponent, "KUALI.xxx.CATALOG");
 			Assert.fail("Requirement component translation should have failed since 'KUALI.xxx.CATALOG' is not a valid nlUsageTypeKey");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());
@@ -182,34 +185,60 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 	}
 
 	@Test
+	public void testTranslateStatement_NullStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		try {
+			englishTranslator.translateStatement("CLU-NL-1", null, "KUALI.CATALOG");
+			Assert.fail("Statement translation should have failed since statement is null");
+		} catch (DoesNotExistException e) {
+			Assert.assertNotNull(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testTranslateStatementTree_NullStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		try {
+			englishTranslator.translateToTree("CLU-NL-1", null, "KUALI.CATALOG");
+			Assert.fail("Tree node translation should have failed since statement is null");
+		} catch (DoesNotExistException e) {
+			Assert.assertNotNull(e.getMessage());
+		}
+	}
+
+	@Test
 	public void testTranslateStatement_English() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, "STMT-5");
+		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testTranslateStatement_German() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = germanTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, "STMT-5");
+		String naturalLanguage = germanTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testTranslateStatement_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, "STMT-5");
+
+		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 
 		englishTranslator.setLanguage("de");
-		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 
 		englishTranslator.setLanguage("en");
-		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testTranslateStatementTree_English() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, "STMT-5");
+
+		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
@@ -220,7 +249,9 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
 	@Test
 	public void testTranslateStatementTree_German() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		NLTranslationNodeInfo rootNode = germanTranslator.translateToTree("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, "STMT-5");
+
+		NLTranslationNodeInfo rootNode = germanTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
@@ -231,7 +262,9 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 
 	@Test
 	public void testTranslateStatementTree_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		LuStatement luStatement = this.luDao.fetch(LuStatement.class, "STMT-5");
+
+		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
@@ -241,7 +274,7 @@ public class NaturalLanguageTranslatorTest extends AbstractTransactionalDaoTest 
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 		englishTranslator.setLanguage("de");
 
-		rootNode = englishTranslator.translateToTree("CLU-NL-1", "STMT-5", "KUALI.CATALOG");
+		rootNode = englishTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 }

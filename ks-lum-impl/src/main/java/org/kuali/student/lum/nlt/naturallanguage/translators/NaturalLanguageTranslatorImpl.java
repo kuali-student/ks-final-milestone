@@ -84,20 +84,6 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * Translates a requirement component for a specific natural language 
 	 * usuage type (context) into natural language.
 	 * 
-	 * @param reqComponentId Requirement component to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language requirement translation
-	 * @throws DoesNotExistException Requirement component id does not exists
-	 * @throws OperationFailedException
-	 */
-	public String translateReqComponent(final String reqComponentId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return this.reqComponentTranslator.translate(reqComponentId, nlUsageTypeKey);
-	}
-	
-	/**
-	 * Translates a requirement component for a specific natural language 
-	 * usuage type (context) into natural language.
-	 * 
 	 * @param reqComponent Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language requirement translation
@@ -108,21 +94,6 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 		return this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
 	}
 	
-	/**
-	 * Translates a statement directly attached to a CLU (anchor) for a 
-	 * specific natural language usuage type (context) into natural language.
-	 * 
-	 * @param cluId Anchor CLU id
-	 * @param statementId Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language statement translation
-	 * @throws DoesNotExistException CLU or statement id does not exists
-	 * @throws OperationFailedException
-	 */
-	public String translateStatement(final String cluId, final String statementId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return this.statementTranslator.translate(cluId, statementId, nlUsageTypeKey);
-	}
-
 	/**
 	 * Translates a statement for a specific natural language 
 	 * usuage type (context) into natural language.
@@ -136,21 +107,6 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 */
 	public String translateStatement(final String cluId, final LuStatement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		return this.statementTranslator.translate(cluId, statement, nlUsageTypeKey);
-	}
-
-	/**
-	 * Translates a statement directly attached to a CLU for a specific natural 
-	 * language usuage type (context) into natural language tree structure.
-	 * 
-	 * @param cluId Clu anchor
-	 * @param statementId Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language root tree node
-	 * @throws DoesNotExistException CLU or statement does not exist
-	 * @throws OperationFailedException Translation fails
-	 */
-	public NLTranslationNodeInfo translateToTree(final String cluId, final String statementId, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return this.statementTranslator.translateToTree(cluId, statementId, nlUsageTypeKey);
 	}
 
 	/**

@@ -140,14 +140,12 @@
 
     <bean id="reqComponentTranslator"
         class="org.kuali.student.lum.nlt.naturallanguage.translators.ReqComponentTranslator">
-        <property name="luDao" ref="LuDaoImpl" />
         <property name="contextRegistry" ref="contextRegistry" />
         <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="statementTranslator"
         class="org.kuali.student.lum.nlt.naturallanguage.translators.StatementTranslator">
-        <property name="luDao" ref="LuDaoImpl" />
         <property name="contextRegistry" ref="contextRegistry" />
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
