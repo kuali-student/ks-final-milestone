@@ -14,7 +14,6 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.cas.CasAuthenticationToken;
 import org.springframework.security.ui.FilterChainOrder;
 import org.springframework.security.ui.SpringSecurityFilter;
-import org.springframework.security.ui.WebAuthenticationDetails;
 
 public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
     
@@ -27,29 +26,23 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
         CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         
         if(cat != null && !isSAMLInSecurityContext()){
-            System.out.println("Request URI : " + request.getRequestURI() );
-            System.out.println("CasAuthenticationToken is not null");
-            System.out.println("The Details : " + ((WebAuthenticationDetails)cat.getDetails()).getRemoteAddress() );
-            Assertion assertion = null;
-            String proxyTicket = "result";
+            // This is not a SAML Assertion. It is CAS specific way to hold information about the authenticated user.
+            // The information is returned from the CAS server as a response to a validation request.
+            Assertion casAssertion = null;
+            String proxyTicket = null;
             
-            assertion = cat.getAssertion();
+            casAssertion = cat.getAssertion();
             
-            if(assertion != null){
-                System.out.println("assertion is not null");
-                proxyTicket = assertion.getPrincipal().getProxyTicketFor(proxyTargetService);
+            if(casAssertion != null){
+                proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
             }
             
-            // IF() statement above checks for SAML in security context, if its there don't make this service call
-            // the first time we make this call the CxfJaxWsProxyClientFactory client with SamlTokenInHandler interceptor 
-            // wiil place the SAML from the header in the security context, then the next time we dont make the call.
-            System.out.println("The proxy ticket sent : " + proxyTicket);
-            String serviceResponse = samlIssuerService.validateProxyTicket(proxyTicket, proxyTargetService);
-            System.out.println("samlIssuerService response : " + serviceResponse);
+            // if statement above checks for SAML in security context, if its there don't make this service call.
+            // The first time we make this call the CxfJaxWsProxyClientFactory client with SamlTokenInHandler interceptor 
+            // wiil place the SAML from the header in the security context, therefore skipping this call in the next request.
+            samlIssuerService.validateProxyTicket(proxyTicket, proxyTargetService);
         }
-        
         filterChain.doFilter(request, response);
-
     }
     
     private boolean isSAMLInSecurityContext(){

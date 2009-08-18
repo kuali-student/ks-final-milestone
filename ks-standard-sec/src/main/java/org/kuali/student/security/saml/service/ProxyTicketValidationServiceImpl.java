@@ -6,16 +6,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jws.WebService;
 
 import org.jasig.cas.client.util.CommonUtils;
 import org.jasig.cas.client.util.XmlUtils;
+import org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor;
 
 @WebService(endpointInterface = "org.kuali.student.security.saml.service.ProxyTicketValidationService", serviceName = "ProxyTicketValidationService", portName = "ProxyTicketValidationService", targetNamespace = "http://org.kuali.student/security/saml")
 public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationService {
     
     private String casServerUrl;
+    private SamlTokenCxfOutInterceptor samlTokenCxfOutInterceptor = null;
     
     public String validateProxyTicket(String proxyTicketId, String proxyTargetService){
         
@@ -32,7 +36,7 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
             StringBuffer stringBuffer = new StringBuffer(255);
             String response;
 
-            // don't think i this sync is needed
+            // don't think this sync is needed
             synchronized (stringBuffer) {
                 while ((line = in.readLine()) != null) {
                     stringBuffer.append(line);
@@ -50,9 +54,16 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
             String pgt  = XmlUtils.getTextForElement(response, "proxyGrantingTicket");
             String proxies = XmlUtils.getTextForElement(response, "proxies");
             
-            // we have to take the user and added to the attributes in the SAML Assertion before inserting in WS-Security header.
-            return "Signed SAML Assertion is in soap header for user : " + user + "\n" + 
-            "proxyGrantingTicket" + pgt + "\n" + "proxies : " + proxies;
+            Map<String,String> samlProperties = new HashMap<String,String>();
+            samlProperties.put("user", user);
+            samlProperties.put("proxyGrantingTicket", pgt);
+            samlProperties.put("proxies", proxies);
+            
+            if(samlTokenCxfOutInterceptor != null){
+                samlTokenCxfOutInterceptor.setSamlProperties(samlProperties);
+            }
+            
+            return "Signed SAML Assertion is in soap header for authenticated user";
             
         } catch (final Exception e) {
             throw new RuntimeException(e);
@@ -61,44 +72,6 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
                 conn.disconnect();
             }
         }
-        
-        /*DefaultBootstrap.bootstrap(); 
-        XMLObjectBuilderFactory builderFactory = Configuration.getBuilderFactory();
-        
-        SAMLObjectBuilder<Issuer> issuerBuilder = (SAMLObjectBuilder<Issuer>) builderFactory.getBuilder(Issuer.DEFAULT_ELEMENT_NAME);
-        Issuer issuer = issuerBuilder.buildObject();
-        
-        SAMLObjectBuilder<Subject> subjectBuilder = (SAMLObjectBuilder<Subject>) builderFactory.getBuilder(Subject.DEFAULT_ELEMENT_NAME);
-        Subject subject = subjectBuilder.buildObject();
-        
-        SAMLObjectBuilder<AuthnStatement> authnStatementBuilder = (SAMLObjectBuilder<AuthnStatement>) builderFactory.getBuilder(AuthnStatement.DEFAULT_ELEMENT_NAME);
-        AuthnStatement authnStatement = authnStatementBuilder.buildObject();
-        
-        SAMLObjectBuilder<Assertion> assertionBuilder = (SAMLObjectBuilder<Assertion>) builderFactory.getBuilder(Assertion.DEFAULT_ELEMENT_NAME);
-        Assertion assertion = assertionBuilder.buildObject();
-        assertion.setVersion(SAMLVersion.VERSION_20);
-        assertion.setID("xxxxx-ID-xxxxx");
-        assertion.setIssueInstant(new DateTime());
-        assertion.setIssuer(issuer);
-        assertion.setSubject(subject);
-        List<AuthnStatement> authnStatements = assertion.getAuthnStatements();
-        authnStatements.add(authnStatement);*/
-        
-        
-        /*NameIDType nameIDType = new NameIDType();
-        nameIDType.setValue("https://identityProvider.umd.edu/SAML2");
-        
-        SubjectType subjectType = new SubjectType();
-        //subjectType.getContent().add(e);
-        
-        AuthnStatementType authStmtType = new AuthnStatementType();
-        authStmtType.setSessionIndex("b07b804c-7c29-ea16-7300-4f3d6f7928ac");
-        
-        AssertionType assertionType = new AssertionType();
-        assertionType.setVersion(SAMLVersion.VERSION_20.toString());
-        assertionType.setID("xxxxx-ID-xxxxx");
-        assertionType.setIssuer(nameIDType);
-        assertionType.getStatementOrAuthnStatementOrAuthzDecisionStatement().add(authStmtType);*/
     }
     
     private String constructUrl(String proxyTicketId, String proxyTargetService) {
@@ -116,5 +89,13 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
 
     public void setCasServerUrl(String casServerUrl) {
         this.casServerUrl = casServerUrl;
+    }
+
+    public SamlTokenCxfOutInterceptor getSamlTokenCxfOutInterceptor() {
+        return samlTokenCxfOutInterceptor;
+    }
+
+    public void setSamlTokenCxfOutInterceptor(SamlTokenCxfOutInterceptor samlTokenCxfOutInterceptor) {
+        this.samlTokenCxfOutInterceptor = samlTokenCxfOutInterceptor;
     }
 }

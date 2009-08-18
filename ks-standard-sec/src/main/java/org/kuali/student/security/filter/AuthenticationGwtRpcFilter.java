@@ -38,7 +38,6 @@ public class AuthenticationGwtRpcFilter extends SpringSecurityFilter {
         String URI = request.getRequestURI();
         
         if(URI.endsWith(".html") && !URI.endsWith(".cache.html")){
-            System.out.println("Request URI : " + request.getRequestURI() );
             response.setHeader("Cache-Control", "no-cache");
             response.setHeader("Cache-Control", "no-store");
         }

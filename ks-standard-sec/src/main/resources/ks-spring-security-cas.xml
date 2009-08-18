@@ -9,7 +9,7 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
-
+  	
 	<bean id="proxyTicketRetrieverFilter" class="org.kuali.student.security.filter.ProxyTicketRetrieverFilter">
     	<security:custom-filter before="AUTHENTICATION_PROCESSING_FILTER"/>
     	<property name="proxyTargetService" value="${ks.default.security.saml.proxyTicket.serviceAddress}"/>
@@ -60,6 +60,9 @@
 	<bean id="proxyTicketValidationServiceImpl"
 		class="org.kuali.student.security.saml.service.ProxyTicketValidationServiceImpl">
 		<property name="casServerUrl" value="${ks.default.security.cas.serverAddress}" />
+		<!-- I need to set the saml properties inside this service, have not figured out 
+		     how to pass the properties without injection, don't even know if cxf provides a hook -->
+		<property name="samlTokenCxfOutInterceptor" ref="wss4jOutInterceptor" />
 	</bean>
 
 	<bean id="proxyTicketValidationClient"
@@ -70,29 +73,37 @@
 			value="org.kuali.student.security.saml.service.ProxyTicketValidationService" />
 		<property name="serviceQNameString"
 			value="{http://org.kuali.student/security/saml}ProxyTicketValidationService" />
-		<property name="address" value="${ks.default.security.saml.proxyTicket.serviceAddress}"/>		
+		<property name="address" value="${ks.default.security.saml.proxyTicket.serviceAddress}"/>	
 	</bean>
 	
+	<!--<bean id="wss4jOutInterceptor" class="org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor"/>
+       	<bean id="wss4jOutInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor"> -->
+	<bean id="wss4jOutInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor">
+		<constructor-arg>
+			<map>
+				<!-- <entry key="action" value="SAMLTokenUnsigned"/> -->
+	           	<entry key="action" value="SAMLTokenSigned"/>
+	           	<entry key="signatureKeyIdentifier" value="DirectReference"/>
+	           	<entry key="samlPropFile" value="saml.properties"/>
+	           			
+	           	<!--   experimenting with holder-of-key confirmation method
+	           	<entry key="signaturePropFile" value="crypto.properties"/>
+	           	<entry key="user" value="tomcat"/>
+	           	-->
+	            <!-- 
+	            <entry key="passwordCallbackRef">
+	            	<ref bean="myPasswordCallback"/>
+	            </entry>
+	            -->
+	        </map>
+		</constructor-arg>
+	</bean>
+	      	 	
     <jaxws:endpoint id="proxyTicketValidationService"
         implementorClass="org.kuali.student.security.saml.service.ProxyTicketValidationServiceImpl"
         implementor="#proxyTicketValidationServiceImpl" address="/ProxyTicketValidationService" >
-        
        	<jaxws:outInterceptors>
-	      	<bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
-	        	<constructor-arg>
-	           		<map>
-	           			<!-- <entry key="action" value="SAMLTokenUnsigned"/> -->
-	           			<entry key="action" value="SAMLTokenSigned"/>
-	           			<entry key="signatureKeyIdentifier" value="DirectReference"/>
-	           			<entry key="samlPropFile" value="saml.properties"/>
-	               		<!--
-	               		<entry key="passwordCallbackRef">
-	                  		<ref bean="myPasswordCallback"/>
-	              		</entry>
-	              		-->
-	            	</map>
-	         	</constructor-arg>
-	      	</bean>
-	   </jaxws:outInterceptors>
+       		<ref bean="wss4jOutInterceptor"/> 	
+	    </jaxws:outInterceptors>
 	</jaxws:endpoint>
 </beans>
