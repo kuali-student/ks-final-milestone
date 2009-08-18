@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.security.SecurityContext;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.messages.dto.Message;
 
 // TODO find out what we'll really be storing here, and where to get it
@@ -17,6 +18,7 @@ public class ApplicationContext {
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
+	Map<String, ObjectStructure> dictionaryData = new HashMap<String, ObjectStructure>();
 	
 	private SecurityContext securityContext;
 	
@@ -48,7 +50,13 @@ public class ApplicationContext {
 	public List<String> getRoles() {
 		return roles;
 	}
-	
+	public void addDictionaryData(String name, ObjectStructure objStructure){
+	    dictionaryData.put(name, objStructure);
+	}
+
+    public ObjectStructure getDictionaryData(String name){
+       return dictionaryData.get(name);
+    }
 	public void addMessages(List<Message> messages) {
 	    for (Message m : messages) {
 	        String groupName = m.getGroupName();

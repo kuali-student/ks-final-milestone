@@ -9,6 +9,9 @@ public class Application {
 	private static ApplicationComposite applicationComposite;
 	
 	public static ApplicationContext getApplicationContext() {
+	    if(applicationContext == null){
+	        applicationContext = new ApplicationContext();
+	    }
 		return applicationContext;
 	}
 	public static void setApplicationContext(ApplicationContext applicationContext) {
