@@ -17,7 +17,7 @@
     <param name="rice.logging.configure">true</param>
 
     
-    <param name="lum.application.url">http://localhost:8080/ks-lum-web</param>
+    <param name="lum.application.url">http://localhost:8081/ks-rice-dev</param>
     
     <!-- KSB -->
     <param name="Routing.ImmediateExceptionRouting">true</param>
@@ -43,14 +43,14 @@
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">rice100br</param>
-    <param name="datasource.password">kuali</param>
+    <param name="datasource.username">riceks</param>
+    <param name="datasource.password">riceks</param>
     <param name="datasource.driver.name" override="false">oracle.jdbc.driver.OracleDriver</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
-    <param name="keystore.alias">riceks</param>
-    <param name="keystore.password">riceks</param>
+    <param name="keystore.alias">rice</param>
+    <param name="keystore.password">r1c3pw</param>
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
     <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
