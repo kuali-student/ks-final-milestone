@@ -9,43 +9,7 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-	<import resource="classpath:ks-core-context.xml" />
-	<import resource="classpath:ks-lu-context.xml" />
 	
-	<!--<bean id="systemPropertyConfigurer"
-		class="org.kuali.student.common.util.SystemPropertyConfigurer">
-		<property name="properties">
-			<map>
-			  <entry key="derby.system.home" value="target" />
-			  <entry key="derby.drda.startNetworkServer" value="true" />
-			</map>
-		</property>
-	</bean>-->
-	
-	<!-- Redefine KSB datasource -->
-	<!--<bean id="ksbRegistryDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
-		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${rice.ksb.datasource.driver.name}" />
-		<property name="url" value="${rice.ksb.datasource.url}" />
-		<property name="maxSize" value="${rice.ksb.datasource.pool.maxSize}" />
-		<property name="minSize" value="${rice.ksb.datasource.pool.minSize}" />
-		<property name="maxWait" value="${rice.ksb.datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${rice.ksb.datasource.pool.validationQuery}" />
-		<property name="username" value="${rice.ksb.datasource.username}" />
-		<property name="password" value="${rice.ksb.datasource.password}" />
-	</bean>-->
-
-	<!--<bean id="ksbMessageDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
-		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${rice.ksb.datasource.driver.name}" />
-		<property name="url" value="${rice.ksb.datasource.url}" />
-		<property name="maxSize" value="${rice.ksb.datasource.pool.maxSize}" />
-		<property name="minSize" value="${rice.ksb.datasource.pool.minSize}" />
-		<property name="maxWait" value="${rice.ksb.datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${rice.ksb.datasource.pool.validationQuery}" />
-		<property name="username" value="${rice.ksb.datasource.username}" />
-		<property name="password" value="${rice.ksb.datasource.password}" />
-	</bean>-->
 	
 	<!-- Export Services to the Bus -->
       <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -67,86 +31,6 @@
             </bean>
         </property>
     </bean>
-   
-      <!-- Expose Org Service on Bus  --> 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">     
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="orgServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
-                <property name="localServiceName" value="OrganizationService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
-                <property name="busSecurity" value="false"></property>
-            </bean>
-        </property>
-    </bean>
-    
-        <!-- Expose LU Service on Bus -->
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">
-            <bean id="LumWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="service" ref="luServiceImpl" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lu" />
-                <property name="localServiceName" value="LuService" />
-                <property name="serviceInterface" value="org.kuali.student.lum.lu.service.LuService" />
-                <property name="jaxWsService" value="true" />
-                <property name="busSecurity" value="false" />
-            </bean>
-        </property>
-    </bean>
-   
-   
-   <!-- Expose Org Service on Bus  --> 
-<!--   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">-->
-<!--        <property name="remotedServiceRegistry" ref="enServiceInvoker" />-->
-<!--        <property name="serviceDefinition">-->
-<!--            <bean id="OrgWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">-->
-<!--                <property name="service" ref="orgServiceImpl" />-->
-<!--                <property name="serviceNameSpaceURI" value="http://org.kuali.student/core/organization" />-->
-<!--                <property name="localServiceName" value="OrganizationService" />-->
-<!--                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />-->
-<!--                <property name="jaxWsService" value="true" />-->
-<!--                <property name="busSecurity" value="false" />-->
-<!--            </bean>-->
-<!--        </property>-->
-<!--    </bean>-->
-    
-<!--    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">-->
-<!--        <property name="serviceClass"-->
-<!--            value="org.kuali.student.core.organization.service.OrganizationService" />-->
-<!--        <property name="address"-->
-<!--            value="${lum.application.url}/services/OrgService" />-->
-<!--    </bean>-->
-<!---->
-<!--    <bean id="orgClient" class="org.kuali.student.core.organization.service.OrganizationService"-->
-<!--        factory-bean="orgClientFactory" factory-method="create" />-->
-    
-    <!-- Expose LU Service on Bus -->
-<!--    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">-->
-<!--        <property name="remotedServiceRegistry" ref="enServiceInvoker" />-->
-<!--        <property name="serviceDefinition">-->
-<!--            <bean id="LumWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">-->
-<!--                <property name="service" ref="luClient" />-->
-<!--                <property name="serviceNameSpaceURI" value="http://student.kuali.org/lum/lu" />-->
-<!--                <property name="localServiceName" value="LuService" />-->
-<!--                <property name="serviceInterface" value="org.kuali.student.lum.lu.service.LuService" />-->
-<!--                <property name="jaxWsService" value="true" />-->
-<!--                <property name="busSecurity" value="false" />-->
-<!--            </bean>-->
-<!--        </property>-->
-<!--    </bean>-->
-<!-- -->
-<!--    <bean id="luClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">-->
-<!--        <property name="serviceClass"-->
-<!--            value="org.kuali.student.lum.lu.service.LuService" />-->
-<!--        <property name="address"-->
-<!--            value="${lum.application.url}/services/LuService" />-->
-<!--    </bean>-->
-<!---->
-<!--    <bean id="luClient" class="org.kuali.student.lum.lu.service.LuService"-->
-<!--        factory-bean="luClientFactory" factory-method="create" />-->
-  
   
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
     <property name="remotedServiceRegistry" ref="enServiceInvoker"/>

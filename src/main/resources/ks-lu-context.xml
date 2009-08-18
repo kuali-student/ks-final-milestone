@@ -246,6 +246,23 @@
 			</map>
 		</property>
 	</bean>
+	
+	        <!-- Expose LU Service on Bus -->
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean id="LumWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="luServiceImpl" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lu" />
+                <property name="localServiceName" value="LuService" />
+                <property name="serviceInterface" value="org.kuali.student.lum.lu.service.LuService" />
+                <property name="jaxWsService" value="true" />
+                <property name="busSecurity" value="false" />
+            </bean>
+        </property>
+    </bean>
+    
+    
+    
 	<aop:config>
 		<aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
 			<aop:after-throwing

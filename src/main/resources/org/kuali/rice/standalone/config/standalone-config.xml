@@ -15,6 +15,7 @@
     <param name="app.code">ks-rice</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
+
     
     <param name="lum.application.url">http://localhost:8080/ks-lum-web</param>
     
@@ -37,17 +38,19 @@
     <param name="kim.soapExposedService.jaxws.security">false</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
+
+    
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">riceks</param>
-    <param name="datasource.password">riceks</param>
+    <param name="datasource.username">rice100br</param>
+    <param name="datasource.password">kuali</param>
     <param name="datasource.driver.name" override="false">oracle.jdbc.driver.OracleDriver</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
-    <param name="keystore.alias">rice</param>
-    <param name="keystore.password">r1c3pw</param>
+    <param name="keystore.alias">riceks</param>
+    <param name="keystore.password">riceks</param>
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
     <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
@@ -60,13 +63,23 @@
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
-	<!-- additional config files -->
-	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
+
 	
 	<!-- Properties for Core and Lum Services -->
 		
 	<param name="jpa.vendor">hibernate</param>
-	<param name="db.vendor">oracle</param>
+	<param name="db.vendor">derby</param>
+	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/uber-config-override.xml-->
+	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
+	<!--Set the came of the context file in order to load the particular project	-->
+	<param name="ks.projects">classpath:ks-core-context.xml,classpath:ks-lu-context.xml</param>
+	<!--This is the override config file where data source parameters can be overridden	-->
+	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
+	
+	
+	<!-- additional config files -->
+	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml,${ks.projects}</param>
+	
 	
 	<param name="hibernate.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</param>
 	<param name="eclipselink.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter</param>
@@ -174,7 +187,6 @@
 	<param name="ks.brms.ruleManagement.serviceAddress">http://localhost:8080/ks-brms/services/RuleManagementService</param>
 	<param name="ks.brms.ruleExecution.serviceAddress">http://localhost:8080/ks-brms/services/RuleExecutionService</param>
 	<param name="ks.brms.ruleRepository.RuleRepositoryService">http://localhost:8080/ks-brms/services/RuleRepositoryService</param>
-	<!--This is the override config file where data source parameters can be overridden	-->
-	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
+
 	
 </config>

@@ -203,17 +203,17 @@
 
 	<!-- Preloaded data -->
 	<!--	-->
-<!--	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">-->
-<!---->
-<!--		<property name="jtaTxManager" ref="JtaTxManager" />-->
-<!--		<property name="preloadMap">-->
-<!--			<map>-->
-<!--				<entry key="Organization">-->
-<!--					<value>classpath:ks-org.sql</value>-->
-<!--				</entry>-->
-<!--			</map>-->
-<!--		</property>-->
-<!--	</bean>-->
+	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+
+		<property name="jtaTxManager" ref="JtaTxManager" />
+		<property name="preloadMap">
+			<map>
+				<entry key="Organization">
+					<value>classpath:ks-org.sql</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
 
 	<bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
@@ -227,6 +227,22 @@
 			</map>
 		</property>
 	</bean>
+	
+	<!-- Expose Org Service on Bus  --> 
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">     
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="orgServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="false"></property>
+            </bean>
+        </property>
+    </bean>
+    
+    
 	<aop:config>
 		<aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
 			<aop:after-throwing
