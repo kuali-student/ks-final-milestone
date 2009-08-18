@@ -1137,6 +1137,9 @@ insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, 
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('183', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '171', '69', 'kuali.org.Chartered')
 /
 
+//Add english also to social science college... this means english has two colleges
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('184', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '50', '29', 'kuali.org.Part')
+/
 
 //ORG attributes
 insert into KSOR_ORG_ATTR (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('2', 'Governors', 'ks.org.attr.Alias', '2')

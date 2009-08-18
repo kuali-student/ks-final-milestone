@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -182,7 +184,14 @@ public class NestedConfigParserImpl implements ConfigParser {
             content.setLength(0);
             // accumulate all content (preserving any XML content)
             getNodeValue(name, location, param, content);
-            String value = subs.replace(content);
+           
+            if(content.toString().contains("jpa")){
+            	int x=0;x++;
+            }
+            
+            String value = resolve(content.toString(),params);
+
+            //String value = content.toString();
             if (LOG.isDebugEnabled()) {
                 LOG.debug(prefix + INDENT + "* " + name + "=[" + ConfigLogger.getDisplaySafeValue(name, value) + "]");
             }
@@ -211,7 +220,7 @@ public class NestedConfigParserImpl implements ConfigParser {
 	                        content.setLength(0);
 	                        String subParamName = ((Element)subParamList.item(j)).getAttribute(NAME_ATTR);
 	                        getNodeValue(subParamName, location, subParamList.item(j), content);
-	                        String subParamValue = subs.replace(content);
+	                        String subParamValue = resolve(content.toString(),params);
 	                        
 	                        setParam(params, override, propPrefix+"."+subParamName, subParamValue, prefix + INDENT);
 	                     
@@ -223,6 +232,23 @@ public class NestedConfigParserImpl implements ConfigParser {
         }
         LOG.info(prefix + "- Parsed config: " + location);
     }
+    
+	private String resolve(String string, Map<String,Object> props) {
+		String regex="\\$\\{([^{}]+)\\}";
+
+		Pattern pattern = Pattern.compile(regex);
+	    Matcher matcher = pattern.matcher(string);
+	    while(matcher.find()){
+	    	String resolved = resolve(matcher.group(1),props);
+	    	if(!props.containsKey(resolved)){
+	    		throw new RuntimeException("Property \""+resolved+"\" could not be resolved");
+	    	}
+	    	String propertyValue = (String) props.get(resolved);
+	    	string = matcher.replaceFirst(Matcher.quoteReplacement(propertyValue));
+		    matcher = matcher.reset(string);
+	    }
+		return string;
+	}
     
     /**
      * Generates a random integer in the range specified by the specifier, in the format: min-max

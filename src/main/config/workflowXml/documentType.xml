@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>KualiStudentDocument</name>
+      <parent>KualiDocument</parent>
+      <description>Kuali Student Parent Document</description>
+      <label>Kuali Student Parent Document</label>
+      <active>true</active>
+    </documentType>
+    <documentType>
+      <name>CollaboratorRequestDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Document used to request to add a collaborator on a Kuali Student Document</description>
+      <label>Request Collaborator Document</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CourseProposalCollaboratorPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>ALLOW_UNREQUESTED_ACTION</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Accept Collaboration" />
+          <requests name="Accept Collaboration"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Accept Collaboration">
+		  <activationType>P</activationType>
+		  <ruleTemplate>RequestedCollaboratorRoleTemplate</ruleTemplate>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CluCollaboratorDocument</name>
+      <parent>CollaboratorRequestDocument</parent>
+      <description>Sample Clu Collaborator Request Document</description>
+      <label>Sample Clu Collaborator Request Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>CollaboratorRequestCustomActionListAttribute</name>
+        </attribute>
+      </attributes>
+    </documentType>
+    <documentType>
+      <name>CluDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Sample Clu Document</description>
+      <label>Sample Clu Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
+      <active>true</active>
+      <attributes>
+        <attribute>
+            <name>CluDocument.ProposalOrgSearchAttribute</name>
+        </attribute>
+        </attributes>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Admin Review" />
+          <requests name="Department Admin Review" nextNode="Department Committee Review" />
+          <requests name="Department Committee Review" nextNode="College Committee Review" />
+          <requests name="College Committee Review" nextNode="Senate Admin Review" />
+          <requests name="Senate Admin Review" nextNode="Senate Committee Review" />
+          <requests name="Senate Committee Review" nextNode="Senate Review" />
+          <requests name="Senate Review"  />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <!-- OrgAdmin Derived role (checks OrgService for members who are admins of the orgId)-->
+        <role name="Department Admin Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
+        </role>
+        
+        <!-- Department Committee Reviewer Role -->
+        <role name="Department Committee Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        
+        <!-- College Committee Reviewer Role -->
+        <role name="College Committee Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.CollegeCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        
+        <!-- Just a named person for now we could use the OrgAdmin Derived role + simple xml that always 
+             passes the senate admin OrgId as a qualifier -->
+        <requests name="Senate Admin Review">
+          <activationType>P</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateAdminReviewRule</ruleName>
+        </requests>
+        
+        <!-- Senate Committee Reviewer Role -->
+        <requests name="Senate Committee Review">
+          <activationType>P</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateCommitteeReviewRule</ruleName>
+        </requests>
+        
+        <!-- This is just a named person -->
+        <requests name="Senate Review">
+          <activationType>P</activationType>
+          <ruleSelector>Named</ruleSelector>
+          <ruleName>SenateReviewRule</ruleName>
+        </requests>
+        
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+
