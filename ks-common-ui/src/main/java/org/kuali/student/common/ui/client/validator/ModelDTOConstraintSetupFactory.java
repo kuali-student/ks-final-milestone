@@ -1,11 +1,12 @@
 package org.kuali.student.common.ui.client.validator;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.validator.ConstraintDataProvider;
 import org.kuali.student.common.validator.ConstraintSetupFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 
 public class ModelDTOConstraintSetupFactory implements ConstraintSetupFactory {
-
+  
 	@Override
 	public ConstraintDataProvider getDataProvider(Object obj) {
 
@@ -17,8 +18,7 @@ public class ModelDTOConstraintSetupFactory implements ConstraintSetupFactory {
 
 	@Override
 	public ObjectStructure getObjectStructure(String key) {
-		// TODO Auto-generated method stub
-		return null;
+		return Application.getApplicationContext().getDictionaryData(key);
 	}
 
 }
