@@ -51,7 +51,6 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", port = "8181",additionalContextFile="classpath:organization-additional-context.xml")
 	public OrganizationService client;
 
-
 	@Test
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
@@ -67,6 +66,27 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		String searchId = st.getSearchCriteriaTypeInfo().getQueryParams().get(0).getFieldDescriptor().getSearch().getKey();
 		results = client.searchForResults(searchId, null);
 		assertEquals(2,results.size());
+		
+		//Test org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType
+		queryParamValues = new ArrayList<QueryParamValue>();
+		qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.relationType");
+		qpv1.setValue("kuali.org.Chartered");
+		queryParamValues.add(qpv1);
+		
+		QueryParamValue qpv2 = new QueryParamValue();
+		qpv2.setKey("org.queryParam.orgType");
+		qpv2.setValue("kuali.org.College");
+		queryParamValues.add(qpv2);
+		
+		QueryParamValue qpv3 = new QueryParamValue();
+		qpv3.setKey("org.queryParam.relatedOrgType");
+		qpv3.setValue("kuali.org.COC");
+		queryParamValues.add(qpv3);
+		
+		results = client.searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType", queryParamValues);
+		assertEquals(5,results.size());
+
 	}
 	
 	@Test

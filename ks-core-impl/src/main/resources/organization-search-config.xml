@@ -53,6 +53,17 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
+		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
+		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
 	<search:searchType id="org.search.orgByShortName">
 		<search:name>ShortName match</search:name>
 		<search:desc>Search on shortName only.</search:desc>
@@ -235,6 +246,15 @@
 	<search:queryParam id="org.queryParam.orgType">
 		<ref bean="childFieldDescriptor" />
 	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.relationType">
+		<ref bean="childFieldDescriptor" />
+	</search:queryParam>
+
+	<search:queryParam id="org.queryParam.relatedOrgType">
+		<ref bean="childFieldDescriptor" />
+	</search:queryParam>
+
 	
 	<search:queryParam id="org.queryParam.orgHierarchyId">
 		<dict:fieldDescriptor>
@@ -265,6 +285,16 @@
 		<search:desc>Org ID on which to search for containing hierarchies</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType">
+		<search:name>OrgByRelationTypeOrgTypeRelatedOrgType</search:name>
+		<search:desc>Orgs in a relation with the given org type and related org type</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.relationType" />
+			<ref bean="org.queryParam.orgType" />
+			<ref bean="org.queryParam.relatedOrgType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -346,6 +376,9 @@
 				</entry>
 				<entry key="org.search.orgFullViewById">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
+				</entry>
+				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
+					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.type.id = :org_queryParam_orgType AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
 			</map>
 		</property>
