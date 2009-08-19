@@ -58,7 +58,10 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 		
 		if (null != colleges) {
 			for (MinimalOrgInfo college : colleges) {
-				returnAttrSetList.add(new AttributeSet(KUALI_ORG_COLLEGE, college.getShortName()));
+				AttributeSet attributeSet = new AttributeSet();
+				attributeSet.put(COLLEGE, college.getShortName());
+				attributeSet.put(COLLEGE_ID, college.getId());
+				returnAttrSetList.add(attributeSet);
 			}
 		}
 		return returnAttrSetList;
