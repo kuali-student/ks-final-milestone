@@ -329,7 +329,10 @@
 				</entry>
 				<entry key="Comment">
 					<value>classpath:ks-comment.sql</value>
-				</entry>				
+				</entry>
+                <entry key="Organization">
+                    <value>classpath:ks-org.sql</value>
+                </entry>			
 			</map>
 		</property>
 	</bean>
