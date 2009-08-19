@@ -35,6 +35,7 @@ public class VerticalSectionView extends SectionView {
 	public void beforeShow(){
 	    
 	    if (!loaded){
+	    	panel.add(generateTitlePanel());
 	        panel.add(sectionTitle);
 	        panel.add(instructionsLabel);
 	        for(Section ns: sections){
@@ -47,7 +48,7 @@ public class VerticalSectionView extends SectionView {
 	        loaded = true;
 	    }
 
-        //Request model and redraw view if model changed
+        //Request model and redraw view
 	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
             public void onModelReady(Model<ModelDTO> m) {
                 //if (model != m){

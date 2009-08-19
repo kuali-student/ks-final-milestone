@@ -28,7 +28,15 @@ public interface HasReferenceId {
     
     public String getReferenceId();
     
-    public void setReferenceKey(String key);
+    public void setReferenceTypeKey(String key);
     
-    public String getReferenceKey();
+    public String getReferenceTypeKey();
+    
+    public void setReferenceType(String type);
+    
+    public String getReferenceType();
+    
+    public void setReferenceState(String state);
+    
+    public String getReferenceState();
 }

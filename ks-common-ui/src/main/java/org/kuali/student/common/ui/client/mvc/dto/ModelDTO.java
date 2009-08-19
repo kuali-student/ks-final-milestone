@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
+
 /**
  * Generic class used to wrap RPC results following the SDO pattern.
  * 
@@ -32,10 +34,40 @@ public class ModelDTO implements Serializable {
 	private String className;
 	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
 	
+	private transient ModelDTOAdapter adapter = null;
+
+/*    *//**
+     * @param keyClassMap
+     *//*
+    private void setAdapterObjectStructKeyToClassNameMap(Map<String, String> keyClassMap) {
+        if (adapter == null && GWT.isClient()) {
+            Map<String, String> m = new HashMap<String, String>();
+            adapter = new ModelDTOAdapter(m);
+            //m.put("org.kuali.student.lum.lu.dto.CluInfo", "CluInfo");
+            //m.put("org.kuali.student.lum.lu.dto.PublishingInfo", "PublishingInfo");
+            
+            
+        }
+        return adapter;
+
+    }*/
+    
+
+	
 	private ModelDTO() {
 		
 	}
 	
+	
+	
+	public ModelDTOAdapter getAdapter() {
+		return adapter;
+	}
+
+	public void setAdapter(ModelDTOAdapter adapter) {
+		this.adapter = adapter;
+	}
+
 	/**
 	 * This cop
 	 * @param newModelDTO
@@ -74,7 +106,14 @@ public class ModelDTO implements Serializable {
 	 * @param value ModelDTOValue value of the property
 	 */
 	public void put(String key, ModelDTOValue value) {
-		map.put(key, value);
+		if(adapter != null){
+			adapter.put(key, value);
+		}
+		else{
+			map.put(key, value);
+			
+		}
+		
 	}
 	/**
 	 * 
@@ -82,7 +121,12 @@ public class ModelDTO implements Serializable {
 	 * @return ModelDTOValue value of the property
 	 */
 	public ModelDTOValue get(String key) {
-		return map.get(key);
+		if(adapter != null){
+			return adapter.get(key);
+		}
+		else{
+			return map.get(key);
+		}
 	}
 	
 	/**

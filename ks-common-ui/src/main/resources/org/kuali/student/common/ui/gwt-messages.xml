@@ -24,7 +24,17 @@
    	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
    	<bean parent="enCommon" p:id="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
-   	 	
+   	 
+   	 <!--  CommentPanel Messages -->
+   	<bean parent="enCommon" p:id="allComments"     	p:value="All"/>
+   	
+   	<!-- CreditCourse readable states -->
+   	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.draft"     	p:value="Proposal"/>
+   	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.submitted"     	p:value="Submitted"/>
+   	
+   	<!-- RequiredEnum Messages -->
+   	<bean parent="enCommon" p:id="required"     	p:value="Required"/>
+   	<bean parent="enCommon" p:id="optional"     	p:value="(optional)"/>
   	
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
@@ -63,4 +73,7 @@
    	<bean parent="enValidation" p:id="validation.maxValueFailed"		p:value="Value cannot be more than ${maxValue}"/>
    	<bean parent="enValidation" p:id="validation.minValueFailed"		p:value="Value cannot be less than ${minValue}"/>
 
+	
+	
+	
 </beans>

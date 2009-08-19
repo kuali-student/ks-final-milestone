@@ -20,7 +20,7 @@ public class VerticalSection extends Section{
     @Override
     public void redraw() {
         panel.clear();
-        panel.add(sectionTitle);
+        panel.add(generateTitlePanel());
         panel.add(instructionsLabel);
         for(Section ns: sections){
             ns.redraw();

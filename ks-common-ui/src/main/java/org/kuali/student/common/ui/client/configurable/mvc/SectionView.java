@@ -36,6 +36,7 @@ public abstract class SectionView extends Section implements View{
         this.controller = null;
         this.viewEnum = viewEnum;
         this.viewName = viewName;
+        sectionTitle = SectionTitle.generateH1Title(getName());
     }
         
     /** 

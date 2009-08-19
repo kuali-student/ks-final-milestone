@@ -41,6 +41,7 @@ public class FieldDescriptor {
     private PropertyBinding propertyBinding;
     private PropertyBinding widgetBinding;
     private Callback<Boolean> validationRequestCallback;
+    private RequiredEnum requiredState = RequiredEnum.NOT_MARKED; 
     /**
      * @param fieldKey
      * @param fieldLabel
@@ -52,9 +53,21 @@ public class FieldDescriptor {
         this.fieldLabel = fieldLabel;
         this.fieldType = fieldType;
         this.fieldWidget = fieldWidget;
-        if(fieldWidget instanceof RichTextEditor){
-            this.setWidgetBinding(RichTextBinding.INSTANCE);
-        }
+    }
+    
+    public FieldDescriptor(String fieldKey, String fieldLabel, ModelDTOValue.Type fieldType, Widget fieldWidget, RequiredEnum requiredState) {
+        this.fieldKey = fieldKey;
+        this.fieldLabel = fieldLabel;
+        this.fieldType = fieldType;
+        this.fieldWidget = fieldWidget;
+        this.requiredState = requiredState;
+    }
+    
+    public FieldDescriptor(String fieldKey, String fieldLabel, ModelDTOValue.Type fieldType, RequiredEnum requiredState) {
+        this.fieldKey = fieldKey;
+        this.fieldLabel = fieldLabel;
+        this.fieldType = fieldType;
+        this.requiredState = requiredState;
     }
 
     public FieldDescriptor(String fieldKey, String fieldLabel, ModelDTOValue.Type fieldType) {
@@ -63,7 +76,15 @@ public class FieldDescriptor {
         this.fieldType = fieldType;
     }
 
-    public String getFieldKey() {
+    public RequiredEnum getRequiredState() {
+		return requiredState;
+	}
+
+	public void setRequiredState(RequiredEnum requiredState) {
+		this.requiredState = requiredState;
+	}
+
+	public String getFieldKey() {
         return fieldKey;
     }
 
@@ -99,7 +120,9 @@ public class FieldDescriptor {
 
     public PropertyBinding getWidgetBinding() {
         if(widgetBinding == null){
-        	if(fieldWidget instanceof HasModelDTOValue){
+            if(fieldWidget instanceof RichTextEditor){
+            	widgetBinding = RichTextBinding.INSTANCE;
+            }else if(fieldWidget instanceof HasModelDTOValue){
         		widgetBinding = HasModelDTOValueBinding.INSTANCE;
         	}else if (fieldWidget instanceof HasText) {
                 widgetBinding = new HasTextBinding(fieldType);

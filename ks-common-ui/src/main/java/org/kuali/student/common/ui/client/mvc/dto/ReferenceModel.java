@@ -25,20 +25,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
  */
 public class ReferenceModel implements HasReferenceId{
     String referenceId;
-    String referenceKey;
-
-    @Override
-    public String getReferenceId() {
-        return referenceId;
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId#getReferenceKey()
-     */
-    @Override
-    public String getReferenceKey() {
-        return referenceKey;
-    }
+    String referenceTypeKey;
+    String referenceType;
+    String referenceState;
+    
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId#setReferenceId(java.lang.String)
@@ -52,8 +42,37 @@ public class ReferenceModel implements HasReferenceId{
      * @see org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId#setReferenceKey(java.lang.String)
      */
     @Override
-    public void setReferenceKey(String key) {
-        this.referenceKey = key;
+    public String getReferenceId() {
+        return referenceId;
     }
 
+    @Override
+	public String getReferenceTypeKey() {
+		return referenceTypeKey;
+	}
+
+    @Override
+	public void setReferenceTypeKey(String referenceTypeKey) {
+		this.referenceTypeKey = referenceTypeKey;
+	}
+
+    @Override
+	public String getReferenceType() {
+		return referenceType;
+	}
+
+    @Override
+	public void setReferenceType(String referenceType) {
+		this.referenceType = referenceType;
+	}
+
+    @Override
+	public String getReferenceState() {
+		return referenceState;
+	}
+
+    @Override
+	public void setReferenceState(String referenceState) {
+		this.referenceState = referenceState;
+	}
 }

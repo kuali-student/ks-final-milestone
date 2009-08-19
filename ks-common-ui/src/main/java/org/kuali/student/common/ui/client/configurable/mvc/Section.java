@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -25,8 +27,65 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     
     protected List<RowDescriptor> rows = new ArrayList<RowDescriptor>();
     
-    @Override
+    private RequiredEnum requiredState = RequiredEnum.NOT_MARKED;
+
+    protected HorizontalBlockFlowPanel generateTitlePanel() {
+    	HorizontalBlockFlowPanel titlePanel = new HorizontalBlockFlowPanel();
+    	titlePanel.add(sectionTitle);
+    	titlePanel.add(new KSRequiredMarker(requiredState));
+		return titlePanel;
+	}
+
+	public RequiredEnum getRequiredState() {
+		return requiredState;
+	}
+
+	public void setRequiredState(RequiredEnum requiredState) {
+		this.requiredState = requiredState;
+		for(FieldDescriptor f: fields){
+	        if(this.getRequiredState() == RequiredEnum.REQUIRED){
+	        	//if top level is required remove required from sub fields, stop required * from being shown
+	        	if(f.getRequiredState() == RequiredEnum.REQUIRED){
+	        		f.setRequiredState(RequiredEnum.NOT_MARKED);
+	        	}
+	        }
+	        else if(this.getRequiredState() == RequiredEnum.OPTIONAL){
+	        	if(f.getRequiredState() == RequiredEnum.OPTIONAL){
+	        		f.setRequiredState(RequiredEnum.NOT_MARKED);
+	        	}
+	        }
+		}
+		
+		for(Section s: sections){
+	        if(this.getRequiredState() == RequiredEnum.REQUIRED){
+	        	//if top level is required remove required from sub fields, stop required * from being shown
+	        	if(s.getRequiredState() == RequiredEnum.REQUIRED){
+	        		s.setRequiredState(RequiredEnum.NOT_MARKED);
+	        	}
+	        }
+	        else if(this.getRequiredState() == RequiredEnum.OPTIONAL){
+	        	if(s.getRequiredState() == RequiredEnum.OPTIONAL){
+	        		s.setRequiredState(RequiredEnum.NOT_MARKED);
+	        	}
+	        }
+		}
+	}
+
+	@Override
     public void addSection(Section section) {
+        //Required logic
+        if(this.getRequiredState() == RequiredEnum.REQUIRED){
+        	//if top level is required remove required from sub fields, stop required * from being shown
+        	if(section.getRequiredState() == RequiredEnum.REQUIRED){
+        		section.setRequiredState(RequiredEnum.NOT_MARKED);
+        	}
+        }
+        else if(this.getRequiredState() == RequiredEnum.OPTIONAL){
+        	if(section.getRequiredState() == RequiredEnum.OPTIONAL){
+        		section.setRequiredState(RequiredEnum.NOT_MARKED);
+        	}
+        }
+		
         sections.add(section);
         RowDescriptor row = new RowDescriptor();
         row.addSection(section);
@@ -35,6 +94,19 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     
     @Override
     public void addField(FieldDescriptor fieldDescriptor) {
+        //Required logic
+        if(this.getRequiredState() == RequiredEnum.REQUIRED){
+        	//if top level is required remove required from sub fields, stop required * from being shown
+        	if(fieldDescriptor.getRequiredState() == RequiredEnum.REQUIRED){
+        		fieldDescriptor.setRequiredState(RequiredEnum.NOT_MARKED);
+        	}
+        }
+        else if(this.getRequiredState() == RequiredEnum.OPTIONAL){
+        	if(fieldDescriptor.getRequiredState() == RequiredEnum.OPTIONAL){
+        		fieldDescriptor.setRequiredState(RequiredEnum.NOT_MARKED);
+        	}
+        }
+        
         fields.add(fieldDescriptor);
 
         RowDescriptor row = new RowDescriptor();
@@ -48,6 +120,8 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
             binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
         }
         // how to deal with the special case
+        
+
     }
     
     @Override    

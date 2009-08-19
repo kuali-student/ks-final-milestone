@@ -107,4 +107,9 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     public CssResource sectionTitleCss(); 
 
     @Resource("org/kuali/student/common/ui/public/DebugPanel.css")
-    public CssResource debugPanelCss(); }
+    public CssResource debugPanelCss();
+
+	@Resource("org/kuali/student/common/ui/public/KSRequiredMarker.css")
+	public CssResource requiredMarkerCss(); 
+
+}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -55,6 +56,7 @@ public class RowDescriptor extends Composite{
                     rowPanel.add(fieldDescriptor.getFieldWidget());
                 }
             }
+            rowPanel.add(new KSRequiredMarker(fieldDescriptor.getRequiredState()));
         }
     }
 

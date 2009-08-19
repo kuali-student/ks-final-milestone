@@ -40,8 +40,10 @@ public abstract class ToolView extends LazyPanel implements View{
         new ModelRequestCallback<ReferenceModel>(){
             public void onModelReady(Model<ReferenceModel> model) {
                 reference.setReferenceId(model.get().getReferenceId());
-                reference.setReferenceKey(model.get().getReferenceKey());
-                ToolView.this.setVisible(true);                
+                reference.setReferenceTypeKey(model.get().getReferenceTypeKey());
+                reference.setReferenceType(model.get().getReferenceType());
+                reference.setReferenceState(model.get().getReferenceState());
+                ToolView.this.setVisible(true);       
             }
     
             public void onRequestFail(Throwable cause) {
