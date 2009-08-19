@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
@@ -41,6 +42,7 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
+import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
@@ -66,7 +68,7 @@ public class LuConfigurer {
     
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
-        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS,
+        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS, DOCUMENTS,
         DEMO_SECTION
     }
                
@@ -97,6 +99,7 @@ public class LuConfigurer {
         
         layout.addTool(new CollaboratorTool());
         layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
+        layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
         //layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
     }
     
@@ -105,14 +108,15 @@ public class LuConfigurer {
                  
         
         VerticalSection proposedCourseTitle = new VerticalSection();
-        proposedCourseTitle.setSectionTitle(SectionTitle.generateH1Title("Proposed Course Title"));
+        proposedCourseTitle.setSectionTitle(SectionTitle.generateH2Title("Proposed Course Title"));
         proposedCourseTitle.addField(new FieldDescriptor("/officialIdentifier/longName", null, Type.STRING));
+        proposedCourseTitle.setRequiredState(RequiredEnum.REQUIRED);
         section.addSection(proposedCourseTitle);
         
         section.addField(new FieldDescriptor("/publishingInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
         
-        section.addField(new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING));
-        section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING));
+        section.addField(new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING, RequiredEnum.REQUIRED));
+        section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING, RequiredEnum.OPTIONAL));
         section.addField(new FieldDescriptor("nextReviewPeriod", "Next Review Period", Type.STRING));
         
         

@@ -7,6 +7,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ListType;
@@ -25,13 +28,16 @@ public class CluProposalModelDTO extends ModelDTO {
     private ModelDTOValue.ListType courseFormats;
     private ModelDTOValue.ListType crossListClus;
     private ModelDTOValue.ListType jointClus;
+    private transient ModelDTOAdapter adapter;
 
     /**
      * @param className
      */
     public CluProposalModelDTO() {
         //super("CluInfo");
-        super(CluInfo.class.getName());
+        super(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
+        //this.setAdapter();
+        adapter = new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get());
     }
 
     /**
@@ -49,7 +55,8 @@ public class CluProposalModelDTO extends ModelDTO {
         } else if ("jointClus".equals(key)){
             jointClus = (ModelDTOValue.ListType)value;
         } else if (key.contains("/")){
-            ModelDTOAdapter.set(this, key, value, CluInfo.class.getName(), ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get() );
+            //ModelDTOAdapter.set(this, key, value, CluInfo.class.getName(), ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get() );
+        	adapter.put(key, value);
         } else {
             super.put(key, value);            
         }
@@ -68,7 +75,7 @@ public class CluProposalModelDTO extends ModelDTO {
         } else if ("jointClus".equals(key)){
             return jointClus;
         } else if (key.contains("/")){
-            return ModelDTOAdapter.get(this, key);
+            return adapter.get(key);
         } else {
             return super.get(key);            
         }

@@ -70,6 +70,7 @@ public class LUConstants {
     
     //Tool names
     public static final String TOOL_COMMENTS = "Proposal Comments";
+    public static final String TOOL_DOCUMENTS = "Attach Documents";
 
     // Dictionary definitions
     public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";

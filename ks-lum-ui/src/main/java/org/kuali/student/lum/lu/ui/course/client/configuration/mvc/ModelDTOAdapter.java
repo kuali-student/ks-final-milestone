@@ -1,16 +1,35 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 
 public class ModelDTOAdapter {
-    public static void set(ModelDTO base, String path, ModelDTOValue value, String objectKey, String type, String state){
+	private String objectKey;
+	private String type;
+	private String state;
+	private ModelDTO baseModelDTO;
+	private Map<String, String> objectKeyClassNameMap;
+	
+	public ModelDTOAdapter(ModelDTO baseModelDTO, Map<String, String> objectKeyClassNameMap, String objectKey, String type, String state){
+		this.objectKey = objectKey;
+		this.type = type;
+		this.state = state;
+		this.baseModelDTO = baseModelDTO;
+		this.objectKeyClassNameMap = objectKeyClassNameMap;
+	}
+
+	public void put(String path, ModelDTOValue value){
+		
+		//recursive method
+		this.put(baseModelDTO, path, value);
+    }
+	
+	private void put(ModelDTO base, String path, ModelDTOValue value){
         if(path.startsWith("/")){
             path = path.substring(1);
         }
@@ -18,7 +37,7 @@ public class ModelDTOAdapter {
         String key = pathArr[0];
         if(pathArr.length > 1){
             
-            System.out.println(key);
+            //System.out.println(key);
             if(key.contains("[")){
                 String[] keyArr = pathArr[0].split("[");
                 key = keyArr[0];
@@ -36,7 +55,7 @@ public class ModelDTOAdapter {
                 ModelDTOValue modelDTOValue = base.get(key);
                 ModelDTO modelDTO = null;
                 if(modelDTOValue == null){
-                    modelDTO = new ModelDTO(getClassName(key, objectKey, type, state));
+                    modelDTO = new ModelDTO(getClassName(key));
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
                     
@@ -46,17 +65,21 @@ public class ModelDTOAdapter {
                     modelDTO = ((ModelDTOType) modelDTOValue).get();
                 }
                 
-                set(modelDTO, pathArr[1], value, objectKey, type, state);
+                put(modelDTO, pathArr[1], value);
             }
         }
         else{
-            System.out.println(key);
+            //System.out.println(key);
             base.put(key, value);
         }
-     
+	}
+	
+    public ModelDTOValue get(String path){
+    	return get(baseModelDTO, path);
+        
     }
-    
-    public static ModelDTOValue get(ModelDTO base, String path){
+	
+	private ModelDTOValue get(ModelDTO base, String path){
     	ModelDTOValue returnValue = null;
     	
     	if(path.startsWith("/")){
@@ -97,15 +120,19 @@ public class ModelDTOAdapter {
         	returnValue = base.get(key);
         }
     	return returnValue;
-        
-    }
-    
-    private static String getClassName(String key, String objectKey, String type, String state){
+	}
+	
+    private String getClassName(String key){
     	LUDictionaryManager dictionary = LUDictionaryManager.getInstance();
     	String name = null;
     	
-    	Field field = dictionary.getField("cluInfo", type, state, key);
-    	if(field == null){
+    	Field field = dictionary.getField(objectKey, type, state, key);
+    	if(field != null && field.getFieldDescriptor() != null){
+    		System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
+    		name = objectKeyClassNameMap.get(field.getFieldDescriptor().getObjectStructure().getKey());
+    	}
+    	
+/*    	if(field == null){
     	    System.out.println("Field is null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
     	}
     	else{
@@ -122,7 +149,8 @@ public class ModelDTOAdapter {
         }
         else if(key.equalsIgnoreCase("publishingInfo")){
             name = CluPublishingInfo.class.getName();
-        }
+        }*/
+    	
         return name;
     }
 }
