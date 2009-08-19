@@ -10,8 +10,8 @@
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+	
 	<import resource="ks-nl-context.xml" />
-
 	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
 	</bean>
@@ -126,7 +126,7 @@
 		<property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
 	</bean>
 
-	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<aop:aspectj-autoproxy proxy-target-class="false" />
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
@@ -273,5 +273,7 @@
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
+	
+	
 
 </beans>

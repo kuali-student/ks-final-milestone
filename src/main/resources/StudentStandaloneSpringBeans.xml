@@ -63,15 +63,30 @@
         </property>
 	</bean>
 
+<!--    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">-->
+<!--        <property name="serviceClass"-->
+<!--            value="org.kuali.student.core.organization.service.OrganizationService" />-->
+<!--        <property name="address"-->
+<!--            value="${lum.application.url}/remoting/OrganizationService" />-->
+<!--    </bean>-->
+<!---->
+<!--    <bean id="orgClient" class="org.kuali.student.core.organization.service.OrganizationService"-->
+<!--        factory-bean="orgClientFactory" factory-method="create" />-->
+
+	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+	        
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
 		<property name="orgPersonRelationType" value="kuali.org.PersonRelation.AdministrativeOfficer" />
-		<property name="orgService" ref="orgServiceImpl"/>
+		<property name="orgService" ref="orgClient"/>
 	</bean>
 
 	<!-- Org Derived role (anyone that's related to this org -->
 	<bean id="ksOrgRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
-		<property name="orgService" ref="orgServiceImpl"/>
+		<property name="orgService" ref="orgClient"/>
 	</bean>
 	
 </beans>

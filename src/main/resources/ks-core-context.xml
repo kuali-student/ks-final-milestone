@@ -122,7 +122,7 @@
 		<property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
 	</bean>
 
-	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<aop:aspectj-autoproxy proxy-target-class="false" />
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
