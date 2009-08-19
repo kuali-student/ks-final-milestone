@@ -10,6 +10,9 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
+	<!--To add lum and/or core services to standalone please add the respective context file definitions at 
+		${user.home}/kuali/main/dev/uber-config-override.xml in ${ks.projects}	-->
+	
 	
 	<!-- Export Services to the Bus -->
       <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
