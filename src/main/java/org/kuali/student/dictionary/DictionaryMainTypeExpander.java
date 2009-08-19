@@ -50,7 +50,7 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
   for (Dictionary d : oldDicts)
   {
    Type type = getMainType (d);
-   if (type.getStatus ().equals ("Grouping"))
+   if (type.getStatus ().equals (Type.GROUPING))
    {
     expandMainType (d, type);
    }

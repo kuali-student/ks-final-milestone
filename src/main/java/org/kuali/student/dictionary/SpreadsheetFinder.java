@@ -16,7 +16,9 @@
 package org.kuali.student.dictionary;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Untility that implements searches of the spreadsheet model that are needed
@@ -124,10 +126,17 @@ public class SpreadsheetFinder
   return list;
  }
 
- public List<Type> findExpandedTypes (Type type)
+ /**
+  * Expands a type that has a status of Type.GROUPING.
+  * A group can contain another group
+  * @param type
+  * @return
+  */
+ public Set<Type> findExpandedTypes (Type type)
  {
-  List<Type> types = new ArrayList ();
-  String matchPattern = type.getTypeKey ();
+  Set<Type> types = new HashSet ();
+  String pattern = type.getTypeKey ();
+  GroupTypeStatePatternMatcher matcher = new GroupTypeStatePatternMatcher (pattern);
   for (Type t : spreadsheet.getTypes ())
   {
    // can't match yourself
@@ -144,42 +153,21 @@ public class SpreadsheetFinder
    // must match the same type of object
    if (type.getXmlObject ().equals (t.getXmlObject ()))
    {
-    if (matches (matchPattern, t.getTypeKey ()))
+    if (matcher.matches (t.getTypeKey ()))
+    {
+    if (t.getStatus ().equals (Type.GROUPING))
+    {
+     //TODO: Worry about self-recursion
+     types.addAll (findExpandedTypes (t));
+    }
+    else
     {
      types.add (t);
     }
-
+    }
    }
   }
   return types;
  }
-
- protected boolean matches (String pattern, String key)
- {
-  // check for wildcard * at the end
-  if (pattern.endsWith ("*"))
-  {
-   if (key.startsWith (pattern.substring (0, pattern.length () - 1)))
-   {
-    return true;
-   }
-  }
-  // Check if key is in a comma separated list of keys
-  // changed it so the list could contain a wildard as one of it's elements
-  // for example kuali.type.foo.*,kuali.type.bar.joe
-  if (pattern.indexOf (",") != -1)
-  {
-   String[] patterns = pattern.split (",");
-   for (String pat : patterns)
-   {
-    if (matches (pat.trim (), key))
-    {
-     return true;
-    }
-   }
-  }
-  return false;
- }
-
 }
 

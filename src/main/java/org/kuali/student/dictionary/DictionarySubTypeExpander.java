@@ -55,7 +55,7 @@ public class DictionarySubTypeExpander implements DictionaryExpander
    {
     newDicts.add (d);
    }
-   else if (type.getStatus ().equals ("Grouping"))
+   else if (type.getStatus ().equals (Type.GROUPING))
    {
     newDicts.addAll (expandSubType (d, type));
    }
