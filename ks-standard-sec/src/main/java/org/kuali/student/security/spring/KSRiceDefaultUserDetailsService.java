@@ -36,7 +36,7 @@ import org.springframework.security.util.AuthorityUtils;
  */
 public class KSRiceDefaultUserDetailsService implements UserDetailsService{
 
-    private User ksuser = null;
+    private UserDetails ksuser = null;
     private String password = "";
    
     private boolean enabled = true;
@@ -55,8 +55,16 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
         password = username;
-        
-        aquireIdentityService();
+
+        try{
+            aquireIdentityService(); // If kim identity service is not avlaible on the service bus then it will throw null pointer exception
+        }
+        catch(NullPointerException exception){
+            KSDefaultUserDetailsService defaultUserDetailsService = new KSDefaultUserDetailsService();
+            ksuser=defaultUserDetailsService.loadUserByUsername(username); // For development purposes, on null pointer exception we use the default user details service.
+            return ksuser;
+        }
+
         KimPrincipalInfo kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
         if(kimPrincipalInfo!=null){
             username = kimPrincipalInfo.getPrincipalId();
@@ -75,12 +83,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     
     private void aquireIdentityService() {
         if(identityService==null){
-            ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
-            factory.setServiceClass(IdentityService.class);
-            factory.setAddress(identityServiceAddress);
-            factory.setServiceName(new QName("KIM", "kimIdentityServiceSOAPunsecure"));
-            factory.getServiceFactory().setDataBinding(new AegisDatabinding());
-            identityService = (IdentityService) factory.create();
+            throw new NullPointerException();
         }
      }
 
