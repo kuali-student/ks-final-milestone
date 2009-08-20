@@ -15,10 +15,6 @@
  */
 package org.kuali.student.security.spring;
 
-import javax.xml.namespace.QName;
-
-import org.apache.cxf.aegis.databinding.AegisDatabinding;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.springframework.security.GrantedAuthority;
@@ -43,7 +39,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     private boolean nonlocked = true;
     
     private IdentityService identityService = null;
-    private String identityServiceAddress;
+    
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
     private GrantedAuthority[] authorities = 
@@ -55,23 +51,21 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
         password = username;
+        
 
-        try{
-            aquireIdentityService(); // If kim identity service is not avlaible on the service bus then it will throw null pointer exception
-        }
-        catch(NullPointerException exception){
+        KimPrincipalInfo kimPrincipalInfo = null;
+        try {
+	        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+        } catch (NullPointerException npe) { // If kim identity service is not available on the service bus
             KSDefaultUserDetailsService defaultUserDetailsService = new KSDefaultUserDetailsService();
             ksuser=defaultUserDetailsService.loadUserByUsername(username); // For development purposes, on null pointer exception we use the default user details service.
             return ksuser;
         }
-
-        KimPrincipalInfo kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
-        if(kimPrincipalInfo!=null){
+        if (null != kimPrincipalInfo) {
             username = kimPrincipalInfo.getPrincipalId();
         } else {
             throw new UsernameNotFoundException("Kim Identity Service could not find a principal, KimPrincipalInfo is null"); 
         }
-        
         ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
         
         return ksuser;
@@ -79,24 +73,6 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     
     public void setAuthorities(String[] roles) {
         this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
-    }
-    
-    private void aquireIdentityService() {
-        if(identityService==null){
-            throw new NullPointerException();
-        }
-     }
-
-    public String getIdentityServiceAddress() {
-        return identityServiceAddress;
-    }
-
-    public void setIdentityServiceAddress(String identityServiceAddress) {
-        this.identityServiceAddress = identityServiceAddress;
-    }
-    
-    public IdentityService getIdentityService() {
-        return identityService;
     }
 
     public void setIdentityService(IdentityService identityService) {

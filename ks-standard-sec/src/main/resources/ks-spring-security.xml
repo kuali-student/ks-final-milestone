@@ -30,7 +30,10 @@
 
 	<security:authentication-provider user-service-ref='ksRiceUserDetailsService'/>
 	
-<!--	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">-->
+<!-- Have to comment entire bean def out, even though we're not ref'ing it as authentication-provider
+     Spring won't allow > 1 implementor of UserDetailsService to be created
+	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">
+ -->
 		<!-- uncomment if you do not want to use the default roles of ROLE_KS_ADMIN, ROLE_KS_USER
 		<property name="authorities">
 			<list>
@@ -38,14 +41,23 @@
 			</list>
 		</property>
 		-->
-<!--  	</bean> -->
+<!--
+	</bean>
+-->
 
 
 	<!--Enabling Kim identity service to authenticate the users	-->
 	<!--Using KSB client proxy to fetch the service	-->
 	<bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<!--  We should be reading these from ks-spring-security.properties (see above), but it looks like we're being bitten by
+		      http://jira.springframework.org/browse/SPR-5719. Once that's resolved, remove these and un-comment
+		      next two lines -->
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
 		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
+		<!--
+		<property name="serviceEndpointInterface" value="${ks.default.security.rice.serviceEndpointInterface}" />
+		<property name="serviceQName" value="${ks.default.security.rice.serviceQName}" />
+		-->
 	</bean>
 	
 	<bean id="ksRiceUserDetailsService" class="org.kuali.student.security.spring.KSRiceDefaultUserDetailsService">
