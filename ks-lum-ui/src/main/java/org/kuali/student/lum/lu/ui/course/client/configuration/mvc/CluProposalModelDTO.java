@@ -37,7 +37,7 @@ public class CluProposalModelDTO extends ModelDTO {
         //super("CluInfo");
         super(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
         //this.setAdapter();
-        adapter = new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get());
+        
     }
 
     /**
@@ -56,6 +56,9 @@ public class CluProposalModelDTO extends ModelDTO {
             jointClus = (ModelDTOValue.ListType)value;
         } else if (key.contains("/")){
             //ModelDTOAdapter.set(this, key, value, CluInfo.class.getName(), ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get() );
+        	if(adapter == null){
+        		adapter = new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get());
+        	}
         	adapter.put(key, value);
         } else {
             super.put(key, value);            
@@ -75,6 +78,9 @@ public class CluProposalModelDTO extends ModelDTO {
         } else if ("jointClus".equals(key)){
             return jointClus;
         } else if (key.contains("/")){
+        	if(adapter == null){
+        		adapter = new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get());
+        	}
             return adapter.get(key);
         } else {
             return super.get(key);            
