@@ -91,4 +91,12 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     public void setIdentityServiceAddress(String identityServiceAddress) {
         this.identityServiceAddress = identityServiceAddress;
     }
+    
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
 }
