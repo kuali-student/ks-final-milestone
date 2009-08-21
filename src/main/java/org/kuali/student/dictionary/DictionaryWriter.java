@@ -64,9 +64,10 @@ public class DictionaryWriter extends XmlWriter
   this.finder = new SpreadsheetFinder (sheet);
   for (Dictionary d : sheet.getDictionary ())
   {
-   if (d.getMainType ().endsWith ("*"))
+   if (d.getMainType ().endsWith ("*") || d.getMainType ().indexOf (",") != -1)
    {
-    throw new DictionaryValidationException ("Main type was not expanded " + d.getId () + ":" + d.getMainType ());
+    throw new DictionaryValidationException
+     ("Main type was not expanded " + d.getId () + ":" + d.getMainType ());
    }
   }
   writeHeader ();

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-newmodel-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-newmodel-extension dictionary-newmodel-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+	<dict:constraint key="required" id="required">
+	<!-- Required -->
+	<dict:minOccurs>1</dict:minOccurs>
+	</dict:constraint>
+	<dict:constraint key="optional" id="optional">
+	<!-- Optional -->
+	<!-- Used to override a previous required constraint.  Also implied by the absence of a required constraint -->
+	<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+	<dict:constraint key="not.used" id="not.used">
+	<!-- Not Used -->
+	<dict:minOccurs>0</dict:minOccurs>
+	<dict:maxOccurs>0</dict:maxOccurs>
+	</dict:constraint>
+	<dict:constraint key="code" id="code">
+	<!-- Alphanumeric code, hypen and period. -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="uppercase" id="uppercase">
+	<!-- uppercase alphanumeric code, hypen and period. -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Z0-9.-]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="lowercase" id="lowercase">
+	<!-- lowercase alphanumeric code, hypen and period. -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[a-z0-9.-]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="free.text" id="free.text">
+	<!-- Free form text field; most characters allowed except carraige-return, line-feed, tabs, etc. -->
+	<!-- What about international characters? -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>255</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Za-z0-9.-;;&apos;&amp;%$#@!]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="plain.text" id="plain.text">
+	<!-- Multi-line text field that accepts most standard characters plus carraige-return and linefeed. -->
+	<dict:minLength>1</dict:minLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Za-z0-9.-;;&apos;&amp;%$#@!\n\r\t]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="rich.text" id="rich.text">
+	<!-- Multi-line text field that accepts all types of characters -->
+	<!-- Not sure rich text means we need to allow all types of characters -->
+	<dict:minLength>1</dict:minLength>
+	</dict:constraint>
+	<dict:constraint key="date" id="date">
+	<!-- Date -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=760 (but not sure) -->
+	<dict:minLength>10</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="date.time" id="date.time">
+	<!-- Date-Time -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure) -->
+	<dict:minLength>19</dict:minLength>
+	<dict:maxLength>19</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="integer" id="integer">
+	<!-- Integer -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=14 -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:^(\+|-)?\d+$</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="positive.integer" id="positive.integer">
+	<!-- Positive Integer -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=13 -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:^\d+$</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="decimal" id="decimal">
+	<!-- decimal number -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=117 -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:^[-+]?\d+(\.\d+)?$</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="amount" id="amount">
+	<!-- Amount field -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=131 -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:^\$?\d+(\.(\d{2}))?$</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="boolean" id="boolean">
+	<!-- True or False -->
+	<!-- http://regexlib.com/REDetails.aspx?regexp_id=905 -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>5</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[Ff]+(alse)?|[Tt]+(rue)</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="kuali.id" id="kuali.id" serverSide="true">
+	<!-- Kuali ID; calculated by service on add, then read-only. -->
+	<dict:minOccurs>1</dict:minOccurs>
+	<dict:maxOccurs>1</dict:maxOccurs>
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="kuali.type" id="kuali.type" serverSide="true">
+	<!-- Kuali TYPE: required on add, then read-only -->
+	<dict:minOccurs>1</dict:minOccurs>
+	<dict:maxOccurs>1</dict:maxOccurs>
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="kuali.state" id="kuali.state" serverSide="true">
+	<!-- Kuali STATE: required -->
+	<dict:minOccurs>1</dict:minOccurs>
+	<dict:maxOccurs>1</dict:maxOccurs>
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>30</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+	</dict:validChars>
+	</dict:constraint>
+	<dict:constraint key="kuali.meta.data" id="kuali.meta.data" serverSide="true">
+	<!-- Kuali Meta Data: calculated by service, read-only -->
+	<dict:minOccurs>1</dict:minOccurs>
+	<dict:maxOccurs>1</dict:maxOccurs>
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="related.cluId" id="related.cluId" serverSide="true">
+	<!-- Id of an existing CLU -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="related.orgId" id="related.orgId" serverSide="true">
+	<!-- Id of an existing ORG -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="related.principalId" id="related.principalId" serverSide="true">
+	<!-- Id of an existing PRINCIPAL -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+	<dict:constraint key="lu.types" id="lu.types">
+	<!-- In list of configured learning unit types -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.lu.types">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="lu.identifier.types" id="lu.identifier.types">
+	<!-- In list of configured clu identifier types -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.lu.identifier.types">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="duration.types" id="duration.types">
+	<!-- In list of configured duration types -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.durationTypes">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="instructional.format.types" id="instructional.format.types">
+	<!-- In list of configured instructional formats -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>30</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.instructionalFormatTypes">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="season.types" id="season.types">
+	<!-- In list of configured seasons -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.seasonTypes">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="atp.types" id="atp.types">
+	<!-- In list of configured  time period types -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.atpTypes">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="dynamic.field.types" id="dynamic.field.types">
+	<!-- In list of configured dynamic field types -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.dynamicFieldTypes">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="clu.clu.relation.types" id="clu.clu.relation.types">
+	<!-- In list of configured clul-clu relation types -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>60</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.clu.clu.relation.types">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="lu.states" id="lu.states">
+	<!-- In list of configured learning unit states -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>30</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.lu.states">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="lu.identifier.states" id="lu.identifier.states">
+	<!-- In list of configured clu identifier states -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>30</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.lu.identifier.states">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="subject.area" id="subject.area">
+	<!-- In list of configured subject areas -->
+	<dict:minLength>4</dict:minLength>
+	<dict:maxLength>4</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[A-Z]*</dict:value>
+	</dict:validChars>
+	<dict:lookup search="kuali.enum.type.subjectArea">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="available.course.numbers" id="available.course.numbers">
+	<!-- In list of configured available course numbers -->
+	<dict:minLength>3</dict:minLength>
+	<dict:maxLength>3</dict:maxLength>
+	<dict:validChars>
+	<dict:value>regex:[0-9]*</dict:value>
+	</dict:validChars>
+	<dict:lookup search="kuali.enum.type.availableNumbers">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="offering.campuses" id="offering.campuses">
+	<!-- In list of configured offering campuses -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>30</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.offeringCampuses">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="unit.types" id="unit.types">
+	<!-- In list of configured unit types -->
+	<!-- Although called a type, this is not a formal type in kuali student like an lu type, for example it may be changeable after being added. -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.validUnitTypes">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
+	<dict:constraint key="eye.colors" id="eye.colors">
+	<!-- In a list of configured eye colors -->
+	<!-- Blue, Brown, Green, Hazel, etc -->
+	<dict:minLength>1</dict:minLength>
+	<dict:maxLength>10</dict:maxLength>
+	<dict:lookup search="kuali.enum.type.validEyeColors">
+	<dict:lookupKey field="(none)" mapsTo="(none)"/>
+	</dict:lookup>
+	</dict:constraint>
