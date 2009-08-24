@@ -129,10 +129,13 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
     @SuppressWarnings("unchecked")//columnDef cast
     public PagingScrollTable<RowType> build(GenericTableModel tableModel) {
         DefaultTableDefinition<RowType> tableDefinition = new DefaultTableDefinition<RowType>();
-        for (AbstractColumnDefinition columnDef: columnDefs) {
-            columnPixelWidths.add(columnDef.getPreferredColumnWidth());
-            tableDefinition.addColumnDefinition(columnDef);
+        if(columnDefs!=null){
+	        for (AbstractColumnDefinition columnDef: columnDefs) {
+	            columnPixelWidths.add(columnDef.getPreferredColumnWidth());
+	            tableDefinition.addColumnDefinition(columnDef);
+	        }
         }
+
         if(isPagable){
             pagingScrollTable = new PagingScrollTable<RowType>(tableModel.createCachedTableModel(numPageRows,numPages),tableDefinition);
             pagingScrollTable.setPageSize(numPageRows);

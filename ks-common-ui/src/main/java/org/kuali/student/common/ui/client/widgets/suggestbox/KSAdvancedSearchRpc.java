@@ -123,7 +123,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                     searchParamTable.setWidget(row, column, paramLabel);
                     column++;
                     
-                    if (fd.getSearch().getKey() != null ){                                                
+                    if (fd.getSearch()!=null && fd.getSearch().getKey() != null ){                                                
                         KSSelectItemWidgetAbstract dropDown = new KSDropDown();
                         populateSearchEnumeration(dropDown, fd.getSearch().getKey());
                         
