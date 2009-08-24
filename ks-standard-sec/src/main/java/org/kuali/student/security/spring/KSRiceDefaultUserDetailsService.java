@@ -15,6 +15,7 @@
  */
 package org.kuali.student.security.spring;
 
+import org.kuali.rice.core.exception.RiceRuntimeException;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.springframework.security.GrantedAuthority;
@@ -55,8 +56,15 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
 
         KimPrincipalInfo kimPrincipalInfo = null;
         try {
+            if(identityService==null){
+                throw new NullPointerException();
+            }
 	        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
-        } catch (NullPointerException npe) { // If kim identity service is not available on the service bus
+        }
+        catch(Exception e){
+            //Added to handle the exception incase Rice service is not available. 
+            // This is implemented because in developement environment if rice service is not up then 
+            // we deflect the authentication to DefaultUserDetailService.
             KSDefaultUserDetailsService defaultUserDetailsService = new KSDefaultUserDetailsService();
             ksuser=defaultUserDetailsService.loadUserByUsername(username); // For development purposes, on null pointer exception we use the default user details service.
             return ksuser;
