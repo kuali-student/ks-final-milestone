@@ -55,6 +55,7 @@
     <param name="datasource.pool.maxSize">10</param>
     <param name="datasource.pool.minSize">10</param>
     
+   	<param name="ks.core.jpa.DatabasePlatform">org.hibernate.dialect.DerbyDialect</param>
     <param name="ks.core.datasource.driver.name">org.apache.derby.jdbc.ClientDriver</param>
     <param name="ks.core.datasource.url">jdbc:derby://localhost:1527/derby/core;create=true</param>
     <param name="ks.core.datasource.username">kscore</param>

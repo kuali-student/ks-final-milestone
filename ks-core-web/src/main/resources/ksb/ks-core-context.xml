@@ -99,7 +99,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform"
-                    value="${rice.jpa.DatabasePlatform}" />
+                    value="${ks.core.jpa.DatabasePlatform}" />
                 <property name="showSql" value="true" />
                 <property name="generateDdl" value="true" />
             </bean>
@@ -107,6 +107,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JOTMTransactionManagerLookup"/>
+                <entry key="hibernate.hbm2ddl.auto" value="create-drop"/>
             </map>
         </property>
     </bean>
