@@ -31,20 +31,6 @@
 		<property name="targetMethod" value="getProperties" />
 	</bean>
 
-
-	<bean id="orgDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
-		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${jdbc.ClassName}" />
-		<property name="url" value="${jdbc.org.URL}" />
-		<property name="maxSize" value="10" />
-		<property name="minSize" value="10" />
-		<property name="maxWait" value="600" />
-		<property name="validationQuery" value="${jdbc.validationQuery}" />
-		<property name="username" value="${jdbc.org.user}" />
-		<property name="password" value="${jdbc.org.password}" />
-	</bean>
-	
-
 	<bean id="luDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
 		<property name="transactionManager" ref="jotm" />
 		<property name="driverClassName" value="${jdbc.ClassName}" />
@@ -77,23 +63,12 @@
 		<property name="dataSource" ref="luDataSource" />
 	</bean>
 
-	<bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
-		<property name="persistenceUnitName" value="Organization" />
-		<property name="persistenceXmlLocation"
-			value="classpath:META-INF/organization-persistence.xml" />
-		<property name="dataSource" ref="orgDataSource" />
-	</bean>
-
 	<bean id="loEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Lo" />
 		<property name="persistenceXmlLocation" value="classpath:META-INF/lo-persistence.xml" />
 		<property name="dataSource" ref="luDataSource" />
 	</bean>
 
-	<bean id="orgEntityManager"
-		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-		<property name="entityManagerFactory" ref="orgEntityManagerFactory" />
-	</bean>
 	<bean id="luEntityManager"
 		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
 		<property name="entityManagerFactory" ref="luEntityManagerFactory" />
@@ -187,31 +162,6 @@
 			value="classpath:lo-dictionary-config.xml" />
 	</bean>
 
-	<!-- Organization Service Config -->
-	<bean id="orgDao"
-		class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
-		<property name="em" ref="orgEntityManager" />
-	</bean>
-
-	<bean id="orgServiceImpl"
-		class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
-		<property name="organizationDao" ref="orgDao" />
-		<property name="searchManager" ref="orgSearchManager" />
-		<property name="dictionaryServiceDelegate" ref="orgDictionary" />
-	</bean>
-
-	<bean id="orgDictionary"
-		class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-		<constructor-arg index="0"
-			value="classpath:organization-dictionary-config.xml" />
-	</bean>
-
-	<bean id="orgSearchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-		autowire="byType">
-		<constructor-arg index="0"
-			value="classpath:organization-search-config.xml" />
-	</bean>
 
 	<!-- Preloaded data -->
 
@@ -222,9 +172,6 @@
 			<map>
 				<entry key="Lu">
 					<value>classpath:ks-lu.sql</value>
-				</entry>
-				<entry key="Organization">
-					<value>classpath:ks-org.sql</value>
 				</entry>
 			</map>
 		</property>
