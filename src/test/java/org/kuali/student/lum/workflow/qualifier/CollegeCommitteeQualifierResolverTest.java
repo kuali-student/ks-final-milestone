@@ -97,7 +97,7 @@ public class CollegeCommitteeQualifierResolverTest extends BaseRiceTestCase {
 		
 		attributeSets = resolver.resolve(context);
 		assertEquals(1, attributeSets.size());
-		assertEquals(1, attributeSets.get(0).size());
+		assertEquals(2, attributeSets.get(0).size());
 		assertEquals("MockCOC", attributeSets.get(0).get("college"));
 		
 		// and this
@@ -109,7 +109,7 @@ public class CollegeCommitteeQualifierResolverTest extends BaseRiceTestCase {
 		assertEquals(1, attributeSets.size());
 		AttributeSet set1 = attributeSets.get(0);
 		
-		assertEquals(1, set1.size());
+		assertEquals(2, set1.size());
 		
 		String coc = set1.get("college");
 		assertEquals("MockCOC", coc);
