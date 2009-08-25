@@ -105,6 +105,10 @@ public class FieldWriter extends XmlWriter
    {
     continue;
    }
+   if ( ! override.getMainType ().equals (d.getMainType ()))
+   {
+    continue;
+   }
    if ( ! override.getMainState ().equals (ms.getName ()))
    {
     continue;

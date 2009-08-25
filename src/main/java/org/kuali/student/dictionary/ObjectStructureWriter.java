@@ -92,15 +92,35 @@ public class ObjectStructureWriter extends XmlWriter
     writeComment (state.getComments ());
     for (Dictionary dict : dictionary)
     {
-     FieldWriter fw =
-      new FieldWriter (getOut (), getIndent () + 1, spreadsheet, dict, mainState, inline);
-     fw.write ();
+     if (matchesType (dict, type))
+     {
+      FieldWriter fw =
+       new FieldWriter (getOut (), getIndent () + 1, spreadsheet, dict, mainState, inline);
+      fw.write ();
+     }
     }
     indentPrintln ("</dict:state>");
    }
    indentPrintln ("</dict:type>");
   }
   indentPrintln ("</dict:objectStructure>");
+ }
+
+ private boolean matchesType (Dictionary dict, Type type)
+ {
+  if (inline)
+  {
+   if (dict.getSubType ().equals (type.getName ()))
+   {
+    return true;
+   }
+   return false;
+  }
+  if (dict.getMainType ().equals (type.getName ()))
+  {
+   return true;
+  }
+  return false;
  }
 
  private List<Type> filterTypes ()
@@ -159,8 +179,9 @@ public class ObjectStructureWriter extends XmlWriter
   Type type = finder.findType (xmlObject, name);
   if (type == null)
   {
-   throw new DictionaryValidationException ("Could not find type for: " + xmlObject + "." +
-   name);
+   throw new DictionaryValidationException ("Could not find type for: " +
+    xmlObject + "." +
+    name);
   }
   return type;
  }
@@ -177,7 +198,8 @@ public class ObjectStructureWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new DictionaryValidationException ("No states found for " + xmlType.getName ());
+   throw new DictionaryValidationException ("No states found for " + xmlType.
+    getName ());
   }
   return list;
  }

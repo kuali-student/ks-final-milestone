@@ -19,7 +19,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This writes out the entire dictionary xml file
@@ -122,8 +121,10 @@ public class DictionaryWriter extends XmlWriter
  {
   for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
   {
+   List<Dictionary> dictEntries = getDictionaryEntriees (xmlType);
    ObjectStructureWriter writer =
-    new ObjectStructureWriter (getOut (), getIndent () + 1, sheet, xmlType, getFields (xmlType), false, null);
+    new ObjectStructureWriter (getOut (), getIndent () + 1, sheet, 
+    xmlType, dictEntries, false, null);
    writer.write ();
   }
  }
@@ -141,7 +142,7 @@ public class DictionaryWriter extends XmlWriter
   return list;
  }
 
- private List<Dictionary> getFields (XmlType xmlType)
+ private List<Dictionary> getDictionaryEntriees (XmlType xmlType)
  {
   List<Dictionary> list = new ArrayList ();
   for (Dictionary dict : finder.findDefaultDictionary ())
