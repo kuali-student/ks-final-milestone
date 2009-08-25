@@ -59,7 +59,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ClauseEditorView extends ViewComposite {
+public class RuleComponentEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
 
     public enum reqCompFieldDefinitions { TODO }
@@ -99,54 +99,7 @@ public class ClauseEditorView extends ViewComposite {
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private static int tempCounterID = 2000;
 
-
-    //private List<Color> colors = new ArrayList<Color>();
-    private Model<Color> colors = new Model<Color>();
-
-    private ModelListItems<Color> tableItems = new ModelListItems<Color>(){
-        @Override
-        public List<String> getAttrKeys() {
-            List<String> attributes = new ArrayList<String>();
-            attributes.add("Color");
-            attributes.add("Warmth");
-            attributes.add("Type");
-            return attributes;
-        }
-
-        @Override
-        public String getItemAttribute(String id, String attrkey) {
-            String value = null;
-            for(Color c: colors.getValues()){
-                if(c.getId().equals(id)){
-                    if(attrkey.equals("Color")){
-                        value = c.getColor();
-                    }
-                    else if(attrkey.equals("Warmth")){
-                        value = c.getWarmth();
-                    }
-                    else if(attrkey.equals("Type")){
-                        value = c.getType();
-                    }
-                    break;
-                }
-            }
-            return value;
-        }
-
-        @Override
-        public String getItemText(String id) {
-            String value = null;
-            for(Color c: colors.getValues()){
-                if(c.getId().equals(id)){
-                    value = c.getColor();
-                    break;
-                }
-            }
-            return value;
-        }
-    };
-
-    public ClauseEditorView(Controller controller) {
+    public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
         super.initWidget(mainPanel);
         setupHandlers();
@@ -212,51 +165,8 @@ public class ClauseEditorView extends ViewComposite {
         tempPanelButtons.add(horizSpacer);
         tempPanelButtons.add(btnCancelView);
         addEditRuleView.add(tempPanelButtons);
-
-    //    final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync) requirementsRpcServiceAsync, "org.search.orgByShortName",
-    //                                                    "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName");
-        //oracle.setTextWidget(sb.getTextBox());
-
-
-        colors.add(new Color("1", "Blue", "Cool", "Primary"));
-        colors.add(new Color("2", "Red", "Warm", "Primary"));
-        colors.add(new Color("3", "Orange", "Warm", "Secondary"));
-        colors.add(new Color("4", "Yellow", "Warm", "Primary"));
-        colors.add(new Color("5", "Green", "Cool", "Secondary"));
-        colors.add(new Color("6", "Purple", "Cool", "Secondary"));
-        colors.add(new Color("7", "Black", "Neutral", "None"));
-        tableItems.setModel(colors);
-        tableItems.setComparator(new Comparator<Color>(){
-
-            @Override
-            public int compare(Color c1, Color c2) {
-                return c1.getColor().compareToIgnoreCase(c2.getColor());
-            }
-        });
-
-  //      KSListItemsSuggestOracle oracle = new KSListItemsSuggestOracle();
-   //     oracle.setListItems(tableItems);        
-        
-   //    
-  //      KSSelectableTableList stl = new KSSelectableTableList();
-  //      KSSuggestBox sb = new KSSuggestBox(oracle);
-        
-
-//        List<SearchParameter> params = new ArrayList<SearchParameter>();
-//        params.add(new SearchParameter("Color", "Color"));
-//        params.add(new SearchParameter("Warmth", "Warmth"));
-//        List<String> enumeratedValues = new ArrayList<String>();
-//        enumeratedValues.add("Primary");
-//        enumeratedValues.add("Secondary");
-//        enumeratedValues.add("None");
-//        params.add(new SearchParameter("Type", "Type", enumeratedValues));
-//
-//        KSSuggestBoxWAdvSearch suggest = new KSSuggestBoxWAdvSearch(sb, new KSAdvancedSearchWindow(params));
-//        KSSuggestBoxPicker sbp = new KSSuggestBoxPicker(suggest, stl);
-
-        //addEditRuleView.add(sbp);
-        
-      /*  
+ 
+        /*
         final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)requirementsRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
         KSSuggestBox sb = new KSSuggestBox(oracle);
         oracle.setTextWidget(sb.getTextBox());
@@ -270,9 +180,7 @@ public class ClauseEditorView extends ViewComposite {
         resultKeys.add("org.resultColumn.orgType");
         resultKeys.add("org.resultColumn.orgHierarchyName");
         KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, requirementsRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
-        addEditRuleView.add(picker);
-        */                
-        
+        addEditRuleView.add(picker); */
         
         HorizontalPanel bodyPanel = new HorizontalPanel(); 
         bodyPanel.add(ruleTypesPanel);
@@ -402,7 +310,7 @@ public class ClauseEditorView extends ViewComposite {
                 if (origReqCompType != null) {
                     editedReqComp.setType(origReqCompType); //revert possible changes to type
                 }
-                getController().showView(PrereqViews.COMPLEX);
+                getController().showView(PrereqViews.MANAGE_RULES);
             }
         });
 
@@ -955,7 +863,7 @@ public class ClauseEditorView extends ViewComposite {
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                getController().showView(PrereqViews.COMPLEX);
+                getController().showView(PrereqViews.MANAGE_RULES);
             }
         });
     }

@@ -51,16 +51,16 @@ public class CourseRequisiteView extends ViewComposite {
     private static int course_id = 0;
     private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
     private final Model<RuleInfo> courseRules = new Model<RuleInfo>();
-    private final CourseReqManager courseReqManager = new CourseReqManager(courseRules);
     private boolean dataInitialized = false;
     
-    public CourseRequisiteView(Controller controller) {
+    public CourseRequisiteView(Controller controller, String courseId) {
         super(controller, "Course Requisites");
-        super.initWidget(mainPanel);                   
+        super.initWidget(mainPanel);           
+        initializeView(courseId);
     }
     
     public void initializeView(String courseId) {
-        
+GWT.log("Initialize view", null);        
         mainPanel.clear();
         viewPanel.clear();
         mainPanel.add(viewPanel);
@@ -153,7 +153,8 @@ public class CourseRequisiteView extends ViewComposite {
         @Override
         public void onClick(ClickEvent event) {
             Widget sender = (Widget) event.getSource();
-          
+            CourseReqManager courseReqManager = (CourseReqManager) getController();
+            
             RuleInfo rule = getRuleInfo(sender.getTitle());
             
             if (sender.getTitle().contains("prereq")) {

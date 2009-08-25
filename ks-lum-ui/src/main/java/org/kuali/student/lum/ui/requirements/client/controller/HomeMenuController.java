@@ -36,7 +36,7 @@ public class HomeMenuController extends Controller implements View {
     
     public View defaultPanel = new DefaultPanel(this);
    // public View createCoursePanel = new CreateCreditCoursePanel(this);
-    public CourseRequisiteView createModifyCoursePanel = new CourseRequisiteView(this);
+    public CourseRequisiteView createModifyCoursePanel = new CourseRequisiteView(this, "xxx");
     
     public HorizontalPanel mainPanel = new HorizontalPanel();
     public VerticalPanel menuPanel = new VerticalPanel();

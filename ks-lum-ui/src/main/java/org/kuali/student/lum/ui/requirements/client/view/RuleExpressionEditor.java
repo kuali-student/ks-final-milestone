@@ -116,7 +116,7 @@ public class RuleExpressionEditor extends ViewComposite {
                     prereqInfo.setStatementVO(newStatementVO);
                     prereqInfo.setPreviewedExpression(null);
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                    getController().showView(PrereqViews.COMPLEX);
+                    getController().showView(PrereqViews.MANAGE_RULES);
                 } else {
                     String expression = prereqInfo.getExpression();
                     prereqInfo.setPreviewedExpression(expression);
@@ -129,7 +129,7 @@ public class RuleExpressionEditor extends ViewComposite {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.setPreviewedExpression(null);
-                getController().showView(PrereqViews.COMPLEX);
+                getController().showView(PrereqViews.MANAGE_RULES);
             }
         });
     }

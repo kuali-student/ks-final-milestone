@@ -15,27 +15,31 @@ import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
-import org.kuali.student.lum.ui.requirements.client.view.ClauseEditorView;
-import org.kuali.student.lum.ui.requirements.client.view.ComplexView;
+import org.kuali.student.lum.ui.requirements.client.view.CourseRequisiteView;
+import org.kuali.student.lum.ui.requirements.client.view.RuleComponentEditorView;
+import org.kuali.student.lum.ui.requirements.client.view.ManageRulesView;
 import org.kuali.student.lum.ui.requirements.client.view.RuleExpressionEditor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class CourseReqManager extends Controller {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     public enum PrereqViews {
-        SIMPLE, COMPLEX, CLAUSE_EDITOR, RULE_EXPRESSION_EDITOR
+        RULES_LIST, MANAGE_RULES, CLAUSE_EDITOR, RULE_EXPRESSION_EDITOR
     }
 
     //controller's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
-    private final ComplexView complexView = new ComplexView(this);
-    private final ClauseEditorView clauseEditorView = new ClauseEditorView(this);
+    private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this, "CLU-NL-2");
+    private final ManageRulesView manageRulesView = new ManageRulesView(this);
+    private final RuleComponentEditorView rulesEditorView = new RuleComponentEditorView(this);
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
@@ -46,11 +50,12 @@ public class CourseReqManager extends Controller {
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
-    public CourseReqManager(Model<RuleInfo> ruleInfo) {
+    public CourseReqManager() {
         super();
         super.initWidget(viewPanel);
-        viewPanel.add(mainPanel);              
-        this.ruleInfo = ruleInfo;
+        viewPanel.add(mainPanel);   
+        mainPanel.add(new Label("Test"));
+ this.ruleInfo = null;
         resetReqCompVOModel();
         loadData();
     }
@@ -74,7 +79,8 @@ public class CourseReqManager extends Controller {
 
     @Override
     protected void hideView(View view) {
-        viewPanel.clear();
+    	GWT.log("clear", null);
+        //viewPanel.clear();
     }
 
     @Override
@@ -114,18 +120,20 @@ public class CourseReqManager extends Controller {
 
     @Override
     public void showDefaultView() {
-        showView(PrereqViews.COMPLEX);
+        showView(PrereqViews.RULES_LIST);
     }
 
     @Override
     protected <V extends Enum<?>> View getView(V viewType) {
         switch ((PrereqViews) viewType) {
-            case COMPLEX:
-                return complexView;
+	        case RULES_LIST:
+	            return courseRequisiteView;
+	        case MANAGE_RULES:
+                return manageRulesView;
             case CLAUSE_EDITOR:    
-                clauseEditorView.setClusData(clusData);
-                clauseEditorView.setCluSetsData(cluSetsData);
-                return clauseEditorView;
+                rulesEditorView.setClusData(clusData);
+                rulesEditorView.setCluSetsData(cluSetsData);
+                return rulesEditorView;
             case RULE_EXPRESSION_EDITOR:
                 return ruleExpressionEditorView;
             default:

@@ -1,5 +1,6 @@
 package org.kuali.student.lum.ui.requirements.client;
 
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.HomeMenuController;
 import org.kuali.student.lum.ui.requirements.client.view.RequirementsResources;
 
@@ -14,15 +15,15 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class RequirementsEntryPoint implements EntryPoint {
 
-    HomeMenuController homeController = new HomeMenuController();
+	CourseReqManager courseReqController = new CourseReqManager();
     
     public void onModuleLoad() {
         
         final String injectString = this.getCssString();
         StyleInjector.injectStylesheet(injectString);
         
-        RootPanel.get().add(homeController);
-        homeController.showDefaultView();                                     
+        RootPanel.get().add(courseReqController);
+        courseReqController.showDefaultView();                                     
     }
     
     public String getCssString(){

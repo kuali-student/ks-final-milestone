@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
-public class ComplexView extends ViewComposite {
+public class ManageRulesView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
     //view's widgets
@@ -73,7 +73,7 @@ public class ComplexView extends ViewComposite {
     private boolean isInitialized = false;
     private transient StatementVO simplifiedStatementVO; 
 
-    public ComplexView(Controller controller) {
+    public ManageRulesView(Controller controller) {
         super(controller, "Complex View");
         super.initWidget(mainPanel);                
     }
