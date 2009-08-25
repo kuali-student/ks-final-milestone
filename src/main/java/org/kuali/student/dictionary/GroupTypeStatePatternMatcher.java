@@ -54,6 +54,11 @@ public class GroupTypeStatePatternMatcher
     }
    }
   }
+  //ok the pattern is the key so just compare
+  if (pattern.equals (key))
+  {
+   return true;
+  }
   return false;
  }
 }
