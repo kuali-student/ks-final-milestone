@@ -36,6 +36,7 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.proposal.service.ProposalService", serviceName = "ProposalService", portName = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 @Transactional(rollbackFor={Throwable.class})
 public class ProposalServiceImpl implements ProposalService {
-    private ProposalDao dao;
+    private ProposalDao proposalDao;
 
     /**
      * This overridden method ...
@@ -124,7 +125,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public ProposalInfo getProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalId, "proposalId");
-        Proposal entity = dao.fetch(Proposal.class, proposalId);
+        Proposal entity = proposalDao.fetch(Proposal.class, proposalId);
         return ProposalAssembler.toProposalInfo(entity);
     }
 
@@ -231,8 +232,8 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<ProposalTypeInfo> getProposalTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ProposalType> proposalTypes = proposalDao.find(ProposalType.class);
+        return ProposalAssembler.toProposalTypeInfos(proposalTypes);
     }
 
     /**
@@ -387,11 +388,11 @@ public class ProposalServiceImpl implements ProposalService {
         }
     }
 
-    public ProposalDao getDao() {
-        return dao;
+    public ProposalDao getProposalDao() {
+        return proposalDao;
     }
 
-    public void setDao(ProposalDao dao) {
-        this.dao = dao;
+    public void setProposalDao(ProposalDao dao) {
+        this.proposalDao = dao;
     }
 }

@@ -28,6 +28,10 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
         implementorClass="org.kuali.student.core.comment.service.impl.CommentServiceImpl"
         implementor="#commentServiceImpl" address="/CommentService" />
 
+    <jaxws:endpoint id="proposalService"
+        implementorClass="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl"
+        implementor="#proposalServiceImpl" address="/ProposalService" />
+
 	<!--
 	<cxf:bus>
 		<cxf:features>

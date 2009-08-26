@@ -37,7 +37,7 @@
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
 		<property name="testQuery" value="${jdbc.validationQuery}"/>
 	</bean>
-	
+
 	<bean id="orgDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="orgDataSource" />
 	</bean>
@@ -51,10 +51,14 @@
 		<property name="uniqueResourceName" value="messageDataSource" />
 		<property name="xaProperties" value="${propertiesPrefix.message.jdbc.xaDataSourceProperties}"/>
 	</bean>
-	
+
 	<bean id="commentDataSource" parent="defaultDataSource">
 		<property name="uniqueResourceName" value="commentDataSource" />
 	</bean>
+
+    <bean id="proposalDataSource" parent="defaultDataSource">
+        <property name="uniqueResourceName" value="proposalDataSource" />
+    </bean>
 
 	<!-- JPA EntityManagerFactory -->
 	<bean id="defaultEntityManagerFactory" abstract="true" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -68,7 +72,7 @@
 		</property>
 		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
 	</bean>
-	
+
 	<bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Organization"/>
 		<property name="persistenceXmlLocation"
@@ -89,13 +93,20 @@
 			value="classpath:META-INF/messages-persistence.xml" />
 		<property name="dataSource" ref="messageDataSource" />
 	</bean>
-	
+
 	<bean id="commentEntityManagerFactory" parent="defaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Comment"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/comment-persistence.xml" />
 		<property name="dataSource" ref="commentDataSource" />
 	</bean>
+
+    <bean id="proposalEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Proposal"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/proposal-persistence.xml" />
+        <property name="dataSource" ref="proposalDataSource" />
+    </bean>
 
 	<!-- JTA Configuration -->
 	<!--  Atomikos Configurations -->
@@ -193,6 +204,16 @@
         <property name="commentDao" ref="commentDao" />
         <property name="dictionaryServiceDelegate" ref="commentDictionaryServiceDelegate" />
         <property name="searchManager" ref="commentSearchManager" />
+    </bean>
+
+    <!-- Proposal Service -->
+    <bean name="proposalDao"
+        class="org.kuali.student.core.proposal.dao.impl.ProposalDaoImpl">
+    </bean>
+
+    <bean name="proposalServiceImpl"
+        class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
+        <property name="proposalDao" ref="proposalDao"/>
     </bean>
 
 	<!-- Preloaded data -->

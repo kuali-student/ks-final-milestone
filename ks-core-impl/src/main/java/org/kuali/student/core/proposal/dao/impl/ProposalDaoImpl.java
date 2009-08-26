@@ -15,6 +15,9 @@
  */
 package org.kuali.student.core.proposal.dao.impl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.proposal.dao.ProposalDao;
 
@@ -25,5 +28,10 @@ import org.kuali.student.core.proposal.dao.ProposalDao;
  *
  */
 public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao {
+    @PersistenceContext(unitName = "Proposal")
+    @Override
+    public void setEm(EntityManager em) {
+        super.setEm(em);
+    }
 
 }

@@ -15,8 +15,13 @@
  */
 package org.kuali.student.core.proposal.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -36,6 +41,24 @@ public class ProposalAssembler extends BaseAssembler {
                 new String[] { "desc", "attributes", "type" });
 
 
+        return dto;
+    }
+
+    public static List<ProposalTypeInfo> toProposalTypeInfos(List<ProposalType> entities) {
+        List<ProposalTypeInfo> dtos = new ArrayList<ProposalTypeInfo>(entities.size());
+        for (ProposalType entity : entities) {
+            dtos.add(toProposalTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+    private static ProposalTypeInfo toProposalTypeInfo(ProposalType entity) {
+        ProposalTypeInfo dto = new ProposalTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
+
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
 

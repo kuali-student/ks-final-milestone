@@ -15,7 +15,10 @@
  */
 package org.kuali.student.core.proposal.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -23,6 +26,8 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 
 /**
@@ -40,5 +45,13 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     @Test
     public void testService() {
         assertNotNull(client);
+    }
+
+    @Test
+    public void getProposalTypes() throws OperationFailedException {
+        List<ProposalTypeInfo> types = client.getProposalTypes();
+        assertNotNull(types);
+        assertEquals(2, types.size());
+
     }
 }

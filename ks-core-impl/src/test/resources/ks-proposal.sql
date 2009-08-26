@@ -1,0 +1,2 @@
+INSERT INTO KSCO_PROPOSAL_TYPE (ID, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('proposalType.courseCorrection', 'Course Correction', 'A proposed minor change to a course which would not result in the creation of a new cluId.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
+INSERT INTO KSCO_PROPOSAL_TYPE (ID, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('proposalType.newCourse', 'New Course', 'A new Course proposal.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'});
