@@ -311,7 +311,7 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="commentServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.core.comment.service.impl.CommentServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.comment.service.CommentService" />
                 <property name="localServiceName" value="CommentService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/comment" />
                 <property name="busSecurity" value="false"></property>
