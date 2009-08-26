@@ -378,6 +378,18 @@ insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND
 /
 insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('141', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Recommends and develops policies and procedures for university-wide curricular standards, reviews catalog offerings and degree requirements, and initiates discussions on future curricular matters. The committee reviews college proposals and makes recommen', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Senate Subcommittee on Curricula', 'COC', 'Active', 'kuali.org.COC')
 /
+insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('172', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Biological Science Division Coc', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Biological Science Division Coc', 'Biological Science Division Coc', 'Active', 'kuali.org.COC')
+/
+insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('173', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Chemical Science Division Coc', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Chemical Science Division Coc', 'Chemical Science Division Coc', 'Active', 'kuali.org.COC')
+/
+insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('174', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Behavioral Science Division Coc', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Behavioral Science Division Coc', 'Behavioral Science Division Coc', 'Active', 'kuali.org.COC')
+/
+insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('175', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Social Science Division Coc', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Social Science Division Coc', 'Social Science Division Coc', 'Active', 'kuali.org.COC')
+/
+insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('176', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Publication Office', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Publication Office', 'Publication Office', 'Active', 'kuali.org.Office')
+/
+insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE) values ('177', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, '', 'Undergraduate Program Coc', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Undergraduate Program Coc', 'Undergraduate Program Coc', 'Active', 'kuali.org.COC')
+/
 
 //ORG HIERARCHY
 
@@ -1014,74 +1026,6 @@ insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, 
 /
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('119', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '141', '135', 'kuali.org.Subcommittee')
 /
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('120', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '24', '141', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('121', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '28', '24', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('122', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '29', '24', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('123', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '31', '24', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('124', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '30', '24', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('125', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '26', '141', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('126', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '28', '26', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('127', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '29', '26', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('128', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '31', '26', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('129', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '30', '26', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('130', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '147', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('131', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '148', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('132', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '149', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('133', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '150', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('134', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '151', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('135', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '152', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('136', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '153', '28', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('137', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '154', '29', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('138', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '155', '29', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('139', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '156', '29', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('140', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '157', '29', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('141', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '158', '31', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('142', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '159', '31', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('143', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '160', '31', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('144', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '161', '31', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('145', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '162', '30', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('146', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '163', '30', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('147', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '164', '30', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('148', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '165', '30', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('149', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '166', '30', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('150', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '167', '141', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('151', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '168', '141', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('152', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '169', '141', 'kuali.org.CurriculumChild')
-/
-insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('153', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '170', '141', 'kuali.org.CurriculumChild')
-/
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('154', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '143', '28', 'kuali.org.Chartered')
 /
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('155', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '144', '29', 'kuali.org.Chartered')
@@ -1142,7 +1086,41 @@ insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, 
 /
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('183', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '171', '69', 'kuali.org.Chartered')
 /
-
+--Org COC relations
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('184', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '177', '141', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('185', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '176', '141', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('186', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '144', '177', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('187', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '145', '177', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('188', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '174', '144', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('189', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '175', '144', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('190', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '172', '145', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('191', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '173', '145', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('192', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '155', '174', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('193', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '154', '175', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('194', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '156', '175', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('195', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '157', '175', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('196', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '162', '172', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('197', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '164', '172', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('198', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '163', '173', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('199', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '165', '173', 'kuali.org.CurriculumChild')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, ST, RELATED_ORG, ORG, TYPE) values ('200', 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 'TESTUSER', {ts '2009-01-22 00:00:00.0'}, 1, {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', '166', '173', 'kuali.org.CurriculumChild')
+/
 
 //ORG attributes
 insert into KSOR_ORG_ATTR (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('2', 'Governors', 'ks.org.attr.Alias', '2')
