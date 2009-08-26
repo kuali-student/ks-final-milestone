@@ -187,13 +187,19 @@ GWT.log("Initialize view", null);
                 
                 courseReqManager.resetReqCompVOModel();
                 
-                mainPanel.clear();
-                mainPanel.add(courseReqManager.getMainPanel());
+//                mainPanel.clear();
+//                mainPanel.add(courseReqManager.getMainPanel());
+                if (courseReqManager.getRuleInfoModel() == null) {
+                    courseReqManager.setRuleInfoModel(new Model<RuleInfo>());
+                }
                 courseReqManager.showView(PrereqViews.CLAUSE_EDITOR);
             } else {
-                mainPanel.clear();
-                mainPanel.add(courseReqManager.getMainPanel());
-                courseReqManager.showDefaultView();
+//                mainPanel.clear();
+//                mainPanel.add(courseReqManager.getMainPanel());
+                if (courseReqManager.getRuleInfoModel() == null) {
+                    courseReqManager.setRuleInfoModel(new Model<RuleInfo>());
+                }
+                courseReqManager.showView(PrereqViews.MANAGE_RULES);
             }
         }       
     }    

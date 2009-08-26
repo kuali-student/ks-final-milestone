@@ -43,7 +43,7 @@ public class CourseReqManager extends Controller {
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
-    private final Model<RuleInfo> ruleInfo;
+    private Model<RuleInfo> ruleInfo;
     private Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes; 
     private String luStatementType = "unknown";
@@ -64,6 +64,14 @@ public class CourseReqManager extends Controller {
         return mainPanel;
     }
     
+    public void setRuleInfoModel(Model<RuleInfo> ruleInfo) {
+        this.ruleInfo = ruleInfo;
+    }
+    
+    public Model<RuleInfo> getRuleInfoModel() {
+        return ruleInfo;
+    }
+    
     @Override
     protected void onLoad() {
         showDefaultView();
@@ -80,7 +88,7 @@ public class CourseReqManager extends Controller {
     @Override
     protected void hideView(View view) {
     	GWT.log("clear", null);
-        //viewPanel.clear();
+        mainPanel.clear();
     }
 
     @Override
@@ -126,7 +134,7 @@ public class CourseReqManager extends Controller {
     @Override
     protected <V extends Enum<?>> View getView(V viewType) {
         switch ((PrereqViews) viewType) {
-	        case RULES_LIST:
+            case RULES_LIST:
 	            return courseRequisiteView;
 	        case MANAGE_RULES:
                 return manageRulesView;
