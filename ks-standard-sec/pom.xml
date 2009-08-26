@@ -69,7 +69,7 @@
   		<dependency>
   			<groupId>org.kuali.rice</groupId>
   			<artifactId>rice-api</artifactId>
-  			<version>1.0.0-KS-0724</version>
+  			<version>1.0.0</version>
   		</dependency>
 
 	</dependencies>
