@@ -4,9 +4,10 @@
     xmlns:security="http://www.springframework.org/schema/security"
     xmlns:p="http://www.springframework.org/schema/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/security 
+           http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 	<bean id="propertyConfigurer"
 		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
@@ -21,19 +22,38 @@
 	<!--  <import resource="ks-spring-security-cas.xml"/> -->
 	
 	<!--  <security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" > -->
-	<security:http auto-config="true">
+	<security:http auto-config="false">
     	<security:intercept-url pattern="/logout.html*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
+        <security:form-login />
+		<security:anonymous />
+		<security:http-basic />
         <security:logout/>
     </security:http>
 
-	<security:authentication-provider user-service-ref='ksRiceUserDetailsService'/>
+<!--	<security:authentication-provider user-service-ref='ksRiceUserDetailsService'/>-->
+
+	<!--List of Custom Providers that can be registered with the default authentication manager -->
+	<!--If one returns null then the authentication control is passed onto the next	-->
+  	<bean id="daoAuthenticationProvider" 
+      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+      	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
+    	<security:custom-authentication-provider />
+   	</bean>
+   	
+   	  <bean id="daoAuthenticationProvider2" 
+      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+      	<property name="userDetailsService" ref="ksUserDetailsService"/>
+    	<security:custom-authentication-provider />
+   	</bean>
+    
+
 	
 <!-- Have to comment entire bean def out, even though we're not ref'ing it as authentication-provider
-     Spring won't allow > 1 implementor of UserDetailsService to be created
+     Spring won't allow > 1 implementor of UserDetailsService to be created -->
 	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">
- -->
+
 		<!-- uncomment if you do not want to use the default roles of ROLE_KS_ADMIN, ROLE_KS_USER
 		<property name="authorities">
 			<list>
@@ -41,9 +61,9 @@
 			</list>
 		</property>
 		-->
-<!--
+
 	</bean>
--->
+
 
 
 	<!--Enabling Kim identity service to authenticate the users	-->
@@ -62,6 +82,8 @@
 	
 	<bean id="ksRiceUserDetailsService" class="org.kuali.student.security.spring.KSRiceDefaultUserDetailsService">
 		<property name="identityService" ref="identityServiceClient"/>
+<!--		<property name="identityService"> <null/>-->
+<!--		</property>-->
   	</bean>
 	
 	<bean id="authenticationGwtRpcFilter" class="org.kuali.student.security.filter.AuthenticationGwtRpcFilter">

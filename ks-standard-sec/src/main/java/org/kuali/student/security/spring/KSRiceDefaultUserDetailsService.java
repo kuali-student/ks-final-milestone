@@ -18,6 +18,8 @@ package org.kuali.student.security.spring;
 import org.kuali.rice.core.exception.RiceRuntimeException;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
+import org.springframework.security.AccountExpiredException;
+import org.springframework.security.AccountStatusException;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
@@ -47,36 +49,34 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
         if(username==null || username.equals("")){
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
         password = username;
         
-
         KimPrincipalInfo kimPrincipalInfo = null;
         try {
-            if(identityService==null){
-                throw new NullPointerException();
-            }
 	        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
-        }
-        catch(Exception e){
-            //Added to handle the exception incase Rice service is not available. 
-            // This is implemented because in developement environment if rice service is not up then 
-            // we deflect the authentication to DefaultUserDetailService.
-            KSDefaultUserDetailsService defaultUserDetailsService = new KSDefaultUserDetailsService();
-            ksuser=defaultUserDetailsService.loadUserByUsername(username); // For development purposes, on null pointer exception we use the default user details service.
-            return ksuser;
-        }
         if (null != kimPrincipalInfo) {
             username = kimPrincipalInfo.getPrincipalId();
         } else {
-            throw new UsernameNotFoundException("Kim Identity Service could not find a principal, KimPrincipalInfo is null"); 
+            //KimUserNotFoundException is thrown because the spring security doesnot stop at UsernameNotFoundException and continue to 
+            // proceed to the next available userdetailservice.
+            //When rice is up and user name is not found in it then authentication should stop there and allow the user to enter the correct username.
+            //For production release please replace this with UsernameNotFoundException.
+            throw new KimUserNotFoundException("Invalid username");  
         }
         ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
         
         return ksuser;
+        }
+
+        catch(RiceRuntimeException rre){
+            //Added to handle the exception in case Rice service is not available. 
+            // This is implemented because in developement environment if rice service is not up then 
+            // we deflect the authentication to DefaultUserDetailService.
+              return null;
+        }
     }
     
     public void setAuthorities(String[] roles) {
