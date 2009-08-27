@@ -4,17 +4,11 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-	
-	<!--To add lum and/or core services to standalone please add the respective context file definitions at 
-		${user.home}/kuali/main/dev/uber-config-override.xml in ${ks.projects}	-->
-	
-	
-	<!-- Export Services to the Bus -->
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
       <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker" />
         <property name="serviceDefinition">
@@ -34,6 +28,57 @@
             </bean>
         </property>
     </bean>
+   
+   <!-- Expose Org Service on Bus  --> 
+   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker" />
+        <property name="serviceDefinition">
+            <bean id="OrgWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="orgClient" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+                <property name="jaxWsService" value="true" />
+                <property name="busSecurity" value="false" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass"
+            value="org.kuali.student.core.organization.service.OrganizationService" />
+        <property name="address"
+            value="${lum.application.url}/services/OrgService" />
+    </bean>
+
+    <bean id="orgClient" class="org.kuali.student.core.organization.service.OrganizationService"
+        factory-bean="orgClientFactory" factory-method="create" />
+    
+    <!-- Expose LU Service on Bus -->
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker" />
+        <property name="serviceDefinition">
+            <bean id="LumWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="service" ref="luClient" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/lum/lu" />
+                <property name="localServiceName" value="LuService" />
+                <property name="serviceInterface" value="org.kuali.student.lum.lu.service.LuService" />
+                <property name="jaxWsService" value="true" />
+                <property name="busSecurity" value="false" />
+            </bean>
+        </property>
+    </bean>
+ 
+    <bean id="luClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass"
+            value="org.kuali.student.lum.lu.service.LuService" />
+        <property name="address"
+            value="${lum.application.url}/services/LuService" />
+    </bean>
+
+    <bean id="luClient" class="org.kuali.student.lum.lu.service.LuService"
+        factory-bean="luClientFactory" factory-method="create" />
+  
   
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
     <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
@@ -66,29 +111,23 @@
         </property>
 	</bean>
 
-<!--    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">-->
-<!--        <property name="serviceClass"-->
-<!--            value="org.kuali.student.core.organization.service.OrganizationService" />-->
-<!--        <property name="address"-->
-<!--            value="${lum.application.url}/remoting/OrganizationService" />-->
-<!--    </bean>-->
-<!---->
-<!--    <bean id="orgClient" class="org.kuali.student.core.organization.service.OrganizationService"-->
-<!--        factory-bean="orgClientFactory" factory-method="create" />-->
-
-	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
-	</bean>
-	        
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
-		<property name="orgPersonRelationType" value="kuali.org.PersonRelation.AdministrativeOfficer" />
+		<property name="includedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
+			</list>
+		</property>
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 
 	<!-- Org Derived role (anyone that's related to this org -->
-	<bean id="ksOrgRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+	<bean id="ksOrgCommitteeRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		<property name="excludedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
+			</list>
+		</property>
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 	

@@ -15,9 +15,8 @@
     <param name="app.code">ks-rice</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
-
     
-    <param name="lum.application.url">http://localhost:8081/ks-rice-dev</param>
+    <param name="lum.application.url">http://localhost:8080/ks-lum-web</param>
     
     <!-- KSB -->
     <param name="Routing.ImmediateExceptionRouting">true</param>
@@ -38,14 +37,11 @@
     <param name="kim.soapExposedService.jaxws.security">false</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
-
-    
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">riceks</param>
-    <param name="datasource.password">riceks</param>
-    <param name="datasource.driver.name" override="false">oracle.jdbc.driver.OracleDriver</param>
+    <param name="datasource.username">RICEKS</param>
+    <param name="datasource.password">RICEKS</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
@@ -63,130 +59,6 @@
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
-
-	
-	<!-- Properties for Core and Lum Services -->
-		
-	<param name="jpa.vendor">hibernate</param>
-	<param name="db.vendor">derby</param>
-	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/uber-config-override.xml-->
-	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
-	<!--Set the came of the context file in order to load the particular project	-->
-	<param name="ks.projects">classpath:ks-core-context.xml,classpath:ks-lu-context.xml</param>
-	<!--This is the override config file where data source parameters can be overridden	-->
-	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
-	
-	
 	<!-- additional config files -->
-	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml,${ks.projects}</param>
-	
-	
-	<param name="hibernate.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</param>
-	<param name="eclipselink.jpa.vendorAdapter">org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter</param>
-	<param name="jpa.vendorAdapter">${${jpa.vendor}.jpa.vendorAdapter}</param>
-	
-	<param name="hibernate.oracle.jpa.databasePlatform">org.hibernate.dialect.OracleDialect</param>
-	<param name="hibernate.derby.jpa.databasePlatform">org.hibernate.dialect.DerbyDialect</param>
-	<param name="eclipselink.oracle.jpa.databasePlatform">org.eclipse.persistence.platform.database.OraclePlatform</param>
-	<param name="eclipselink.derby.jpa.databasePlatform">org.eclipse.persistence.platform.database.DerbyPlatform</param>
-	<param name="jpa.databasePlatform">${${jpa.vendor}.${db.vendor}.jpa.databasePlatform}</param>
-		
-		<!--Derby rice.core.database.XAPoolDataSource	-->
-	<param name="derby.jdbc.ClassName">org.apache.derby.jdbc.EmbeddedDriver</param>
-	<param name="derby.jdbc.org.URL">jdbc:derby:target/derby/orgDB;create=true</param>
-	<param name="derby.jdbc.org.user">org</param>
-	<param name="derby.jdbc.org.password">org</param>
-	
-	<param name="derby.jdbc.lu.URL">jdbc:derby:target/derby/luDB;create=true</param>
-	<param name="derby.jdbc.lu.user">lu</param>
-	<param name="derby.jdbc.lu.password">lu</param>
-	
-	<!--Oracle rice.core.database.XAPoolDataSource	-->
-	<param name="oracle.jdbc.ClassName">oracle.jdbc.driver.OracleDriver</param>
-	<param name="oracle.jdbc.org.URL">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="oracle.jdbc.org.user">org</param>
-	<param name="oracle.jdbc.org.password">org</param>
-	
-	<param name="oracle.jdbc.lu.URL">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="oracle.jdbc.lu.user">lu</param>
-	<param name="oracle.jdbc.lu.password">lu</param>
-	
-	<param name="jdbc.ClassName">${${db.vendor}.jdbc.ClassName}</param>
-	
-	<param name="jdbc.org.URL">${${db.vendor}.jdbc.org.URL}</param>
-	<param name="jdbc.org.user">${${db.vendor}.jdbc.org.user}</param>
-	<param name="jdbc.org.password">${${db.vendor}.jdbc.org.password}</param>
-	
-	<param name="jdbc.lu.URL">${${db.vendor}.jdbc.lu.URL}</param>
-	<param name="jdbc.lu.user">${${db.vendor}.jdbc.lu.user}</param>
-	<param name="jdbc.lu.password">${${db.vendor}.jdbc.lu.password}</param>
-	
-
-	
-	
-	<!-- Derby (Atomikos) -->
-<!--	<param name="derby.jdbc.xaDataSourceProperties">-->
-<!--		<param name="user">lu</param>-->
-<!--		<param name="password">lu</param>-->
-<!--		<param name="databaseName">target/luDB</param>-->
-<!--		<param name="createDatabase">create</param>-->
-<!--	</param>-->
-<!--	 Oracle (Atomikos) -->
-<!--	<param name="oracle.jdbc.xaDataSourceProperties"> -->
-<!--		<param name="URL">jdbc:oracle:thin:@localhost:1521:XE</param>-->
-<!--		<param name="user">lu</param>-->
-<!--		<param name="password">lu</param>-->
-<!--	</param>-->
-	
-<!--	<param name="jdbc.xaDataSourceProperties">${${db.vendor}.jdbc.xaDataSourceProperties}</param>-->
-	
-	<param name="jpa.showSql">false</param>
-	<param name="jpa.generateDdl">true</param>
-	
-	<param name="jdbc.maxPoolSize">20</param>
-	
-
-	<param name="oracle.jdbc.validationQuery">SELECT 1 FROM DUAL</param>
-	<param name="derby.jdbc.validationQuery">VALUES(1)</param>
-	<param name="jdbc.validationQuery">${${db.vendor}.jdbc.validationQuery}</param>
-	
-	<param name="jpa.properties">
-		<param name="eclipselink.weaving">false</param>
-		<param name="eclipselink.application-location">target</param>
-		<param name="eclipselink.ddl-generation">drop-and-create-tables</param>
-		<param name="eclipselink.ddl-generation.output-mode">database</param>
-		<param name="eclipselink.target-server">org.kuali.student.common.util.jta.AtomikosJtaTransactionController</param>
-		<param name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>
-		<param name="hibernate.hbm2ddl.auto">create-drop</param>
-		<param name="hibernate.connection.release_mode">after_transaction</param>
-	</param>
-	
-	<!-- Atomikos (transaction service properties) -->
-	<param name="atomikos.properties">
-		<param name="com.atomikos.icatch.service">com.atomikos.icatch.standalone.UserTransactionServiceFactory</param>
-		<param name="com.atomikos.icatch.output_dir">target</param>
-		<param name="com.atomikos.icatch.log_base_dir">target</param>
-		<param name="com.atomikos.icatch.console_log_level">WARN</param>
-		<param name="com.atomikos.icatch.enable_logging">true</param>
-	</param>
-	
-	<!-- These properties will be written as system properties -->
-	<param name="systemProperties">
-		<param name="system.properties.derby.stream.error.file">target/derby.log</param>
-	</param>
-	
-	<param name="ks.lum.nlt.serviceAddress">http://localhost:8080/ks-integrate/services/TranslationService</param>
-	<param name="ks.lum.serviceAddress">http://localhost:8080/ks-integrate/services/LuService</param>
-	<param name="ks.rice.simpleDocActions.serviceAddress">http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService</param>
-	<param name="ks.rice.workflowUtility.serviceAddress">http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP</param>
-	<param name="ks.rice.kimIdentity.serviceAddress">http://localhost:8081/ks-rice-dev/remoting/kimIdentityServiceSOAPUnsecure</param>
-	<param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
-	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
-	<param name="ks.core.org.serviceAddress">http://localhost:8080/ks-integrate/services/OrgService</param>
-	<param name="ks.brms.factFinder.serviceAddress">http://localhost:8080/ks-brms/services/FactFinderService</param>
-	<param name="ks.brms.ruleManagement.serviceAddress">http://localhost:8080/ks-brms/services/RuleManagementService</param>
-	<param name="ks.brms.ruleExecution.serviceAddress">http://localhost:8080/ks-brms/services/RuleExecutionService</param>
-	<param name="ks.brms.ruleRepository.RuleRepositoryService">http://localhost:8080/ks-brms/services/RuleRepositoryService</param>
-
-	
+	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
 </config>
