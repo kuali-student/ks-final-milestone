@@ -57,7 +57,8 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
   try
   {
    // Get a connection to the database
-   String url = JDBC_ODBC_URL_PREFIX + "Driver={" + MS_EXCEL_DRIVER + "}" + ";DBQ=" + spreadsheetFileName;
+   String url = JDBC_ODBC_URL_PREFIX + "Driver={" + MS_EXCEL_DRIVER + "}" +
+    ";DBQ=" + spreadsheetFileName;
    connection =
     DriverManager.getConnection (url);
   }
@@ -72,6 +73,25 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
  public WorksheetReader getWorksheetReader (String name)
  {
   return new ExcelWorksheetReader (this, name);
+ }
+
+ @Override
+ public void close ()
+ {
+  if (connection == null)
+  {
+   return;
+  }
+  try
+  {
+   connection.close ();
+  }
+  catch (SQLException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
+  // there is no explicit close but this should free up memory
+  connection = null;
  }
 
 }

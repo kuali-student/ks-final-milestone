@@ -43,11 +43,17 @@ public class GoogleWorksheetReader implements WorksheetReader
  private CustomElementCollection currentCustomElementCollection;
 
  public GoogleWorksheetReader (GoogleSpreadsheetReader googleSpreadsheetReader,
-                               String name)
+                               String worksheetName)
  {
   this.googleSpreadsheetReader = googleSpreadsheetReader;
-  this.worksheetName = name;
-  this.worksheetEntry = this.googleSpreadsheetReader.getWorksheetEntry (name);
+  this.worksheetName = worksheetName;
+  reopen ();
+ }
+
+ @Override
+ public void reopen ()
+ {
+  worksheetEntry = googleSpreadsheetReader.getWorksheetEntry (worksheetName);
   URL url = worksheetEntry.getListFeedUrl ();
   try
   {
@@ -72,7 +78,8 @@ public class GoogleWorksheetReader implements WorksheetReader
   name = name.toLowerCase ().trim ();
   if ( ! currentCustomElementCollection.getTags ().contains (name))
   {
-   throw new DictionaryValidationException ("ColName=" + name + " does not exist in " +
+   throw new DictionaryValidationException ("ColName=" + name +
+    " does not exist in " +
     currentCustomElementCollection.getTags ());
   }
   String value = currentCustomElementCollection.getValue (name);
@@ -103,6 +110,17 @@ public class GoogleWorksheetReader implements WorksheetReader
  public int getEstimatedRows ()
  {
   return this.worksheetEntry.getRowCount ();
+ }
+
+ @Override
+ public void close ()
+ {
+  worksheetEntry = null;
+  listFeed = null;
+  listEntries = null;
+  it = null;
+  currentListEntry = null;
+  currentCustomElementCollection = null;
  }
 
 }

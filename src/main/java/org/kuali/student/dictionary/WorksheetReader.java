@@ -28,9 +28,25 @@ public interface WorksheetReader
   * Get the value with the specified column name
   * @param name
   * @return nulls converted to "" and values trimmed.
+  * @throws DictionaryValidationException if name is not a valid column name
   */
  public String getValue (String name);
 
+ /**
+  * Move to the next row in the worksheet
+  * @return false if no next row
+  */
  public boolean next ();
 
+/**
+  * Reopen the resource
+ *  Note: the resource is assumed to be automatically opened when created.
+  */
+ public void reopen ();
+
+ /**
+  * Close and free any resources
+  * Do nothing if already closed.
+  */
+ public void close ();
 }

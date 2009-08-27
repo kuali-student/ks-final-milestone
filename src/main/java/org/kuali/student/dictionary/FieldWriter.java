@@ -212,18 +212,21 @@ public class FieldWriter extends XmlWriter
   writeAttribute ("key", dict.getShortName ());
   println (">");
 
+  incrementIndent ();
   writeComment (field.getComments ());
   writeComment (dict.getComments ());
  }
 
  private void writeFieldFooter ()
  {
+  decrementIndent ();
   indentPrintln ("</dict:field>");
  }
 
  private void writeFieldDescriptor ()
  {
   indentPrintln ("<dict:fieldDescriptor>");
+  incrementIndent ();
   writeTag ("dict:name", dict.getName ());
   writeTag ("dict:desc", dict.getDesc ());
   writeTag ("dict:dataType", calcDataType ());
@@ -237,6 +240,7 @@ public class FieldWriter extends XmlWriter
    osw.write ();
   }
   writeTag ("dict:readOnly", calcReadOnly ());
+  decrementIndent ();
   indentPrintln ("</dict:fieldDescriptor>");
  }
 
@@ -253,6 +257,7 @@ public class FieldWriter extends XmlWriter
  private void writeConstraintDescriptor ()
  {
   indentPrintln ("<dict:constraintDescriptor>");
+  incrementIndent ();
   // write out referenced constraints
   for (String id : field.getConstraintIds ())
   {
@@ -283,6 +288,7 @@ public class FieldWriter extends XmlWriter
   TypeStateCaseConstraintWriter tsccw =
    new TypeStateCaseConstraintWriter (getOut (), getIndent () + 1, tscc, spreadsheet);
   tsccw.write ();
+  decrementIndent ();
   indentPrintln ("</dict:constraintDescriptor>");
  }
 

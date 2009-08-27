@@ -64,6 +64,7 @@ public class ObjectStructureWriter extends XmlWriter
   indentPrint ("<dict:objectStructure");
   writeAttribute ("key", xmlType.getName ());
   println (">");
+  incrementIndent ();
   writeComment (xmlType.getDesc ());
   for (Type type : filterTypes ())
   {
@@ -76,6 +77,7 @@ public class ObjectStructureWriter extends XmlWriter
    writeComment (type.getDesc ());
    writeComment (type.getAliases ());
    writeComment (type.getComments ());
+   incrementIndent ();
    for (State state : filterStates ())
    {
     if ( ! inline)
@@ -101,8 +103,10 @@ public class ObjectStructureWriter extends XmlWriter
     }
     indentPrintln ("</dict:state>");
    }
+   decrementIndent ();
    indentPrintln ("</dict:type>");
   }
+  decrementIndent ();
   indentPrintln ("</dict:objectStructure>");
  }
 

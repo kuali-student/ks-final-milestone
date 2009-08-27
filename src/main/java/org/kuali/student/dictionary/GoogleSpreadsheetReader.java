@@ -206,4 +206,14 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   return null;
  }
 
+ @Override
+ public void close ()
+ {
+  if (service == null)
+  {
+   return;
+  }
+  // there is no explicit close but this should free up memory
+  service = null;
+ }
 }

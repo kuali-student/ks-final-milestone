@@ -26,10 +26,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelWorksheetReaderTest implements TestConstants
+public class JExcelApiWorksheetReaderTest implements TestConstants
 {
 
- public ExcelWorksheetReaderTest ()
+ public JExcelApiWorksheetReaderTest ()
  {
  }
 
@@ -45,14 +45,13 @@ public class ExcelWorksheetReaderTest implements TestConstants
  {
  }
 
- private ExcelSpreadsheetReader spreadsheetReader;
+ private JExcelApiSpreadsheetReader spreadsheetReader;
 
  @Before
  public void setUp ()
  {
-
   System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
-  spreadsheetReader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
+  spreadsheetReader = new JExcelApiSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
  }
 
  @After
@@ -61,33 +60,33 @@ public class ExcelWorksheetReaderTest implements TestConstants
   spreadsheetReader.close ();
  }
 
- private ExcelWorksheetReader getInstance (String name)
+ private JExcelApiWorksheetReader getInstance (String name)
  {
-  return (ExcelWorksheetReader) spreadsheetReader.getWorksheetReader (name);
+  return (JExcelApiWorksheetReader) spreadsheetReader.getWorksheetReader (name);
  }
 
  /**
-  * Test of getEstimatedRows method, of class ExcelWorksheetReader.
+  * Test of getEstimatedRows method, of class JExcelApiWorksheetReader.
   */
  @Test
  public void testGetEstimatedRows ()
  {
   System.out.println ("getEstimatedRows");
-  ExcelWorksheetReader instance = getInstance ("Constraints");
-  int expResult = 100;
+  JExcelApiWorksheetReader instance = getInstance ("Constraints");
+  int expResult = 162;
   int result = instance.getEstimatedRows ();
   assertEquals (expResult, result);
  }
 
  /**
-  * Test of getValue method, of class ExcelWorksheetReader.
+  * Test of getValue method, of class JExcelApiWorksheetReader.
   */
  @Test
  public void testGetValue ()
  {
   System.out.println ("getValue");
   String name = "id";
-  ExcelWorksheetReader instance = getInstance ("Constraints");
+  JExcelApiWorksheetReader instance = getInstance ("Constraints");
   if ( ! instance.next ())
   {
    fail ("no rows found expected lots");
@@ -98,14 +97,14 @@ public class ExcelWorksheetReaderTest implements TestConstants
  }
 
  /**
-  * Test of getValue method, of class ExcelWorksheetReader.
+  * Test of getValue method, of class JExcelApiWorksheetReader.
   */
  @Test
  public void testGetValueBoolean ()
  {
   System.out.println ("getValueBoolean");
   String name = "serverSide";
-  ExcelWorksheetReader instance = getInstance ("Constraints");
+  JExcelApiWorksheetReader instance = getInstance ("Constraints");
   for (int i = 1; i <= 28; i ++)
   {
    if ( ! instance.next ())
@@ -138,14 +137,14 @@ public class ExcelWorksheetReaderTest implements TestConstants
  }
 
  /**
-  * Test of getValue method, of class ExcelWorksheetReader.
+  * Test of getValue method, of class JExcelApiWorksheetReader.
   */
  @Test
  public void testGetValueInteger ()
  {
   System.out.println ("getValueInteger");
   String name = "minLength";
-  ExcelWorksheetReader instance = getInstance ("Constraints");
+  JExcelApiWorksheetReader instance = getInstance ("Constraints");
   for (int i = 1; i <= 14; i ++)
   {
    if ( ! instance.next ())
@@ -210,55 +209,26 @@ public class ExcelWorksheetReaderTest implements TestConstants
  }
 
  /**
-  * Test of getValue method, of class ExcelWorksheetReader.
-  */
- @Test
- public void testGetValueBigInteger ()
- {
-  System.out.println ("getValueBigInteger");
-  String name = "minLength";
-  ExcelWorksheetReader instance = getInstance ("Fields");
-  boolean found = false;
-  while (instance.next ())
-  {
-   String id = instance.getValue ("id");
-   if (id.equals ("richTextInfo.plain"))
-   {
-    found = true;
-    String expResult = "999999999";
-   String result = instance.getValue (name);
-   System.out.println (id + "=" + result);
-   assertEquals (id + "=" + expResult, id + "=" + result);
-   }
-  }
-  if ( ! found)
-  {
-   fail ("did not find richTextInfo.plain");
-  }
-  assertEquals (true, true);
- }
-
- /**
-  * Test of next method, of class ExcelWorksheetReader.
+  * Test of next method, of class JExcelApiWorksheetReader.
   */
  @Test
  public void testNext ()
  {
   System.out.println ("next");
-  ExcelWorksheetReader instance = getInstance ("Constraints");
+  JExcelApiWorksheetReader instance = getInstance ("Constraints");
   boolean expResult = true;
   boolean result = instance.next ();
   assertEquals (expResult, result);
  }
 
  /**
-  * Test of getValue method, of class ExcelWorksheetReader.
+  * Test of getValue method, of class JExcelApiWorksheetReader.
   */
  @Test
  public void testGetDictionaryComments ()
  {
   System.out.println ("getDictionaryComments");
-  ExcelWorksheetReader instance = getInstance ("Dictionary");
+  JExcelApiWorksheetReader instance = getInstance ("Dictionary");
   for (int i = 1; i <= 6; i ++)
   {
    if ( ! instance.next ())

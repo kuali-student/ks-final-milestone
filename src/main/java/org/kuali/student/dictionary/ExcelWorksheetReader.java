@@ -38,17 +38,18 @@ public class ExcelWorksheetReader implements WorksheetReader
  {
   this.excelSpreadsheetReader = excelSpreadsheetReader;
   this.name = name;
-  this.rs = this.getResultSet (name);
+  reopen ();
  }
 
- private ResultSet getResultSet (String name)
+ @Override
+ public void reopen ()
  {
   try
   {
    Connection con = this.excelSpreadsheetReader.getConnection ();
    Statement stmt = con.createStatement ();
    ResultSet resultSet = stmt.executeQuery ("select * from " + name);
-   return resultSet;
+   rs = resultSet;
   }
   catch (SQLException ex)
   {
@@ -75,7 +76,8 @@ public class ExcelWorksheetReader implements WorksheetReader
      return i;
     }
    }
-   throw new DictionaryValidationException (name + " is not the name of a column found in the worksheet");
+   throw new DictionaryValidationException (name +
+    " is not the name of a column found in the worksheet");
   }
   catch (SQLException ex)
   {
@@ -107,6 +109,7 @@ public class ExcelWorksheetReader implements WorksheetReader
    switch (type)
    {
     case Types.VARCHAR:
+    case Types.LONGVARCHAR:
      String valStr = rs.getString (name);
      if (valStr == null)
      {
@@ -146,7 +149,8 @@ public class ExcelWorksheetReader implements WorksheetReader
      }
      else
      {
-      throw new DictionaryValidationException (name + " is not an integer but should be " + d);
+      throw new DictionaryValidationException (name +
+       " is not an integer but should be " + d);
      }
      return valStr;
     default:
@@ -166,6 +170,24 @@ public class ExcelWorksheetReader implements WorksheetReader
   try
   {
    return rs.next ();
+  }
+  catch (SQLException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
+ }
+
+ @Override
+ public void close ()
+ {
+  if (rs == null)
+  {
+   return;
+  }
+  try
+  {
+   this.rs.close ();
+   this.rs = null;
   }
   catch (SQLException ex)
   {

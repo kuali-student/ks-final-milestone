@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExpandedSpreadsheetTest
+public class ExpandedSpreadsheetTest implements TestConstants
 {
 
  public ExpandedSpreadsheetTest ()
@@ -46,22 +46,24 @@ public class ExpandedSpreadsheetTest
  {
  }
 
+ private ExcelSpreadsheetReader reader;
+ private Spreadsheet instance;
+
  @Before
  public void setUp ()
  {
+  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
+  reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
+  instance = new SpreadsheetLoader (reader);
+  instance = new SpreadsheetCache (instance);
  }
 
  @After
  public void tearDown ()
  {
+  reader.close ();
  }
 
- protected static Spreadsheet getInstance ()
- {
-  Spreadsheet sheet = ExcelSpreadsheetLoaderTest.getInstance ();
-  sheet = new SpreadsheetCache (sheet);
-  return sheet;
- }
 
  /**
   * Test of loadDicts method, of class SpreadsheetGeter.
@@ -71,7 +73,7 @@ public class ExpandedSpreadsheetTest
  {
   System.out.println ("getDictsWithMainTypeExpanded");
 
-  Spreadsheet sheet = getInstance ();
+  Spreadsheet sheet = instance;
   sheet =
    new ExpandedSpreadsheet (sheet, new DictionaryMainTypeExpander (sheet));
 //  List<Field> expResult = new ArrayList ();
@@ -106,7 +108,7 @@ public class ExpandedSpreadsheetTest
  {
   System.out.println ("getDictsWithMainAndSubTypeExpanded");
 
-  Spreadsheet sheet = getInstance ();
+  Spreadsheet sheet = instance;
   sheet =
    new ExpandedSpreadsheet (sheet, new DictionaryMainTypeExpander (sheet));
   int before = sheet.getDictionary ().size ();
@@ -145,7 +147,6 @@ public class ExpandedSpreadsheetTest
  public void testGetStates ()
  {
   System.out.println ("loadStates");
-  Spreadsheet instance = getInstance ();
 //  List<State> expResult = new ArrayList ();
   List<State> result = instance.getStates ();
   assertEquals (26, result.size ());
@@ -158,7 +159,6 @@ public class ExpandedSpreadsheetTest
  public void testGetTypes ()
  {
   System.out.println ("loadTypes");
-  Spreadsheet instance = getInstance ();
 //  List<Type> expResult = new ArrayList ();
   List<Type> result = instance.getTypes ();
   for (Type type : result)
@@ -176,7 +176,6 @@ public class ExpandedSpreadsheetTest
  public void testGetXmlTypes ()
  {
   System.out.println ("loadXmlTypes");
-  Spreadsheet instance = getInstance ();
 //  List<Type> expResult = new ArrayList ();
   List<XmlType> result = instance.getXmlTypes ();
 //  for (XmlType info : result)
@@ -193,7 +192,6 @@ public class ExpandedSpreadsheetTest
  public void testGetFields ()
  {
   System.out.println ("loadFields");
-  Spreadsheet instance = getInstance ();
 //  List<Type> expResult = new ArrayList ();
   List<Field> result = instance.getFields ();
 //  for (MessageStructureField field : result)
@@ -210,7 +208,6 @@ public class ExpandedSpreadsheetTest
  public void testGetConstraints ()
  {
   System.out.println ("loadConstraints");
-  Spreadsheet instance = getInstance ();
 //  List<Type> expResult = new ArrayList ();
   List<Constraint> result = instance.getConstraints ();
 //  for (MessageStructureField field : result)
@@ -227,7 +224,6 @@ public class ExpandedSpreadsheetTest
  public void testGetCrossObjectConstraints ()
  {
   System.out.println ("loadCrossObjectConstraints");
-  Spreadsheet instance = getInstance ();
 //  List<Type> expResult = new ArrayList ();
   List<CrossObjectConstraint> result = instance.getCrossObjectConstraints ();
 //  for (MessageStructureField field : result)

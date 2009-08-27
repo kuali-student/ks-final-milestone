@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelSpreadsheetReaderTest
+public class ExcelSpreadsheetReaderTest implements TestConstants
 {
 
  public ExcelSpreadsheetReaderTest ()
@@ -46,22 +46,22 @@ public class ExcelSpreadsheetReaderTest
  {
  }
 
+
+
+ private ExcelSpreadsheetReader instance;
+
  @Before
  public void setUp ()
  {
+  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
+  instance = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
  }
 
  @After
  public void tearDown ()
  {
- }
+  instance.close ();
 
- public static String DIRECTORY = "src/test/resources/dictionary/";
-
- public static ExcelSpreadsheetReader getInstance ()
- {
-  System.out.println ("reading " + DIRECTORY + "type-state configuration.xls");
-  return new ExcelSpreadsheetReader (DIRECTORY + "type-state configuration.xls");
  }
 
  /**
@@ -71,7 +71,6 @@ public class ExcelSpreadsheetReaderTest
  public void testGetConnection ()
  {
   System.out.println ("getConnection");
-  ExcelSpreadsheetReader instance = getInstance ();
   Connection con = instance.getConnection ();
   assertNotNull (con);
  }
@@ -84,7 +83,6 @@ public class ExcelSpreadsheetReaderTest
  {
   System.out.println ("getWorksheetReader");
   String name = "Constraints";
-  ExcelSpreadsheetReader instance = this.getInstance ();
   WorksheetReader reader = instance.getWorksheetReader (name);
   assertNotNull (reader);
  }

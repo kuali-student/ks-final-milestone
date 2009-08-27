@@ -15,16 +15,13 @@
  */
 package org.kuali.student.dictionary;
 
-
 /**
- * interface that can be implemented for both google and excel spreadsheets
+ *
  * @author nwright
  */
-public interface SpreadsheetReader
+public interface TestConstants
 {
-
- public WorksheetReader getWorksheetReader (String name);
-
- public void close ();
-
+  public static String DIRECTORY = "src/test/resources/dictionary/";
+  
+  public static String TYPE_STATE_EXCEL_FILE = DIRECTORY + "type-state configuration.xls";
 }

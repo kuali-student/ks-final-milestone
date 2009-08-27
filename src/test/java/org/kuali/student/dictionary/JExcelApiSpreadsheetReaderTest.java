@@ -15,9 +15,6 @@
  */
 package org.kuali.student.dictionary;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -29,10 +26,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelDictionaryWriterTest implements TestConstants
+public class JExcelApiSpreadsheetReaderTest implements TestConstants
 {
 
- public ExcelDictionaryWriterTest ()
+ public JExcelApiSpreadsheetReaderTest ()
  {
  }
 
@@ -48,49 +45,33 @@ public class ExcelDictionaryWriterTest implements TestConstants
  {
  }
 
+ JExcelApiSpreadsheetReader instance;
+
  @Before
  public void setUp ()
  {
+  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
+  instance = new JExcelApiSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
  }
 
  @After
  public void tearDown ()
  {
+  instance.close ();
+  instance = null;
  }
 
+
  /**
-  * Test of write method, of class DictionaryWriter.
+  * Test of getWorksheetReader method, of class JExcelApiSpreadsheetReader.
   */
  @Test
- public void testWriteExcelDictionary ()
+ public void testGetWorksheetReader ()
  {
-  System.out.println ("writeExcelDictionary");
-  File file =
-   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-excel.xml");
-  PrintStream out;
-  try
-  {
-   out = new PrintStream (file);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new RuntimeException (ex);
-  }
-  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
-  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
-  try
-  {
-   SpreadsheetLoader loader = new SpreadsheetLoader (reader);
-   Spreadsheet cache = new SpreadsheetCache (loader);
-   DictionaryWriter instance = new DictionaryWriter (out, cache);
-   instance.write ();
-  }
-  finally
-  {
-   out.close ();
-   reader.close ();
-  }
-  assertEquals (true, true);
+  System.out.println ("getWorksheetReader");
+  String name = "Constraints";
+  WorksheetReader reader = instance.getWorksheetReader (name);
+  assertNotNull (reader);
  }
 
 }

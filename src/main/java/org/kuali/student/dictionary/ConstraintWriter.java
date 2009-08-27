@@ -40,13 +40,14 @@ public class ConstraintWriter extends XmlWriter
   }
   // only add spacing on stand alone ones
   // inline constraints shouldn't be separated
-  if (constraint.getId ().equals (""))
+  if ( ! constraint.getId ().equals (""))
   {
    println ("");
   }
 
   indentPrint ("<dict:constraint");
   //TODO: not sure what to put in the key attribute
+  incrementIndent ();
   writeAttribute ("key", constraint.getKey ());
   writeAttribute ("id", constraint.getId ());
   // TODO: figure out what className means
@@ -87,6 +88,7 @@ public class ConstraintWriter extends XmlWriter
 
   // end the constraint
   indentPrintln ("</dict:constraint>");
+  decrementIndent ();
  }
 
  private boolean isEmptyConstraint ()
