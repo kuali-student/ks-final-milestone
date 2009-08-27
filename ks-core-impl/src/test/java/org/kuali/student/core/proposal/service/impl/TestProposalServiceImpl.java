@@ -31,6 +31,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -63,21 +64,45 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     public void getProposal() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ProposalInfo proposalInfo = client.getProposal("PROPOSAL-1");
         assertNotNull(proposalInfo);
+        assertEquals(1, proposalInfo.getProposerPerson().size());
         assertEquals(4, proposalInfo.getProposalReference().size());
         assertEquals("Clu", proposalInfo.getProposalReferenceType());
 
         try {
-            proposalInfo = client.getProposal("PROPOSAL-XXX");
+            client.getProposal("PROPOSAL-XXX");
             assertTrue(false);
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
 
         try {
-            proposalInfo = client.getProposal(null);
+            client.getProposal(null);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
+    }
+
+    @Test
+    public void getProposalDocRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ProposalDocRelationInfo docRelationInfo = client.getProposalDocRelation("DOCREL-1");
+        assertNotNull(docRelationInfo);
+        assertEquals("PROPOSAL-1", docRelationInfo.getProposalId());
+        assertEquals("DOC-ID-1", docRelationInfo.getDocumentId());
+
+        try {
+            client.getProposalDocRelation("DOCREL-XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalDocRelation(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+
     }
 }

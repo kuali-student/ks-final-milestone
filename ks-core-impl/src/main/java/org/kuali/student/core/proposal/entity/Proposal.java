@@ -51,10 +51,10 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     @Column(name="NAME")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
     private List<ProposalPerson> proposerPerson;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
     private List<ProposalOrg> proposerOrg;
 
     @ManyToMany(fetch=FetchType.EAGER)

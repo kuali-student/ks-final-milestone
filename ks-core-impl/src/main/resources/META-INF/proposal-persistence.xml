@@ -11,13 +11,6 @@
         <class>org.kuali.student.core.entity.RichText</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 
-        <class>org.kuali.student.core.document.entity.Document</class>
-        <class>org.kuali.student.core.document.entity.DocumentType</class>
-        <class>org.kuali.student.core.document.entity.DocumentCategory</class>
-        <class>org.kuali.student.core.document.entity.DocumentAttribute</class>
-        <class>org.kuali.student.core.document.entity.DocumentTypeAttribute</class>
-        <class>org.kuali.student.core.document.entity.DocumentCategoryAttribute</class>
-
         <class>org.kuali.student.core.proposal.entity.ObjectReference</class>
         <class>org.kuali.student.core.proposal.entity.Proposal</class>
         <class>org.kuali.student.core.proposal.entity.ProposalAttribute</class>

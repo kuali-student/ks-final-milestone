@@ -96,7 +96,7 @@ public class ProposalDocRelation extends MetaEntity implements AttributeOwner<Pr
         this.proposal = proposal;
     }
 
-    public String getDocument() {
+    public String getDocumentId() {
         return documentId;
     }
 

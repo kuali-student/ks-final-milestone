@@ -18,10 +18,14 @@ package org.kuali.student.core.proposal.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.entity.ObjectReference;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
@@ -84,6 +88,29 @@ public class ProposalAssembler extends BaseAssembler {
                 new String[] { "attributes" });
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        return dto;
+    }
+
+    public static ProposalDocRelationInfo toProposalDocRelationInfo(ProposalDocRelation entity) {
+        ProposalDocRelationInfo dto = new ProposalDocRelationInfo();
+
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "proposalId", "desc", "attributes", "metaInfo", "type" });
+
+        dto.setProposalId(entity.getProposal().getId());
+        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setType(entity.getType().getId());
+        return dto;
+    }
+
+    private static RichTextInfo toRichTextInfo(RichText entity) {
+        RichTextInfo dto = new RichTextInfo();
+
+        BeanUtils.copyProperties(entity, dto);
+
         return dto;
     }
 

@@ -36,6 +36,7 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -137,8 +138,8 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public ProposalDocRelationInfo getProposalDocRelation(String proposalDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        ProposalDocRelation docRelation = proposalDao.fetch(ProposalDocRelation.class, proposalDocRelationId);
+        return ProposalAssembler.toProposalDocRelationInfo(docRelation);
     }
 
     /**
