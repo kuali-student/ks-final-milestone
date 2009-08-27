@@ -33,7 +33,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "KSDO_PROPOSAL_REFERENCE")
+@Table(name = "KSCO_PROPOSAL_REFERENCE")
 public class ObjectReference {
     @Id
     @Column(name = "REFERENCE_ID")

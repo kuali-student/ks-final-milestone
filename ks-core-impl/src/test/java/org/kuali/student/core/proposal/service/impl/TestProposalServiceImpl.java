@@ -17,6 +17,7 @@ package org.kuali.student.core.proposal.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -26,7 +27,11 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 
@@ -52,6 +57,27 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         List<ProposalTypeInfo> types = client.getProposalTypes();
         assertNotNull(types);
         assertEquals(2, types.size());
+    }
 
+    @Test
+    public void getProposal() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ProposalInfo proposalInfo = client.getProposal("PROPOSAL-1");
+        assertNotNull(proposalInfo);
+        assertEquals(4, proposalInfo.getProposalReference().size());
+        assertEquals("Clu", proposalInfo.getProposalReferenceType());
+
+        try {
+            proposalInfo = client.getProposal("PROPOSAL-XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            proposalInfo = client.getProposal(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
     }
 }

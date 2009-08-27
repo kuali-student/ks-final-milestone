@@ -58,11 +58,11 @@ public class ProposalPerson {
         this.id = id;
     }
 
-    public String getPerson_id() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPerson_id(String personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 

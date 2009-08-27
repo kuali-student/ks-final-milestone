@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -69,14 +70,19 @@ public class LoadDataBean implements ApplicationContextAware{
 				    }
 					BufferedReader in
 					   = new BufferedReader(new FileReader(sqlFile));
-					String ln;
+					String ln = "";
 
-					while((ln=in.readLine())!=null){
-						if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
-							ln=ln.replaceFirst("[;/]\\s*$","");
-							em.createNativeQuery(ln).executeUpdate();
-						}
-					}
+					try {
+                        while((ln=in.readLine())!=null){
+                        	if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+                        		ln=ln.replaceFirst("[;/]\\s*$","");
+                        		em.createNativeQuery(ln).executeUpdate();
+                        	}
+                        }
+                    } catch (PersistenceException e) {
+                        LOG.error("Failed statement: " + ln);
+                        throw e;
+                    }
 				}
 
 			} catch (Exception e) {

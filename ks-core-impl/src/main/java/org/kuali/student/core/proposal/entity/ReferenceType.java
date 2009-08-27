@@ -48,9 +48,8 @@ public class ReferenceType implements AttributeOwner<ReferenceTypeAttribute> {
     @Column(name="NAME")
     private String name;
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    @Column(name = "REFERENCE_DESC")
+    private String desc;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -80,11 +79,11 @@ public class ReferenceType implements AttributeOwner<ReferenceTypeAttribute> {
         this.name = name;
     }
 
-    public RichText getDesc() {
+    public String getDesc() {
         return desc;
     }
 
-    public void setDesc(RichText desc) {
+    public void setDesc(String desc) {
         this.desc = desc;
     }
 

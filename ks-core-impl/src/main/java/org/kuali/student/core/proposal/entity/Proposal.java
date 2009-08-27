@@ -34,7 +34,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /**
  * Proposal
@@ -70,9 +69,8 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     @Column(name = "RATIONALE")
     private String rationale;
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private RichText detailDesc;
+    @Column(name = "DETAIL_DESC")
+    private String detailDesc;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -141,11 +139,11 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
         this.rationale = rationale;
     }
 
-    public RichText getDetailDesc() {
+    public String getDetailDesc() {
         return detailDesc;
     }
 
-    public void setDetailDesc(RichText detailDesc) {
+    public void setDetailDesc(String detailDesc) {
         this.detailDesc = detailDesc;
     }
 

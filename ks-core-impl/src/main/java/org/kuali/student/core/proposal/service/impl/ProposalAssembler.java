@@ -20,7 +20,10 @@ import java.util.List;
 
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
+import org.kuali.student.core.proposal.entity.ObjectReference;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalOrg;
+import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
@@ -38,8 +41,30 @@ public class ProposalAssembler extends BaseAssembler {
 
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "type" });
+                new String[] { "proposerPerson", "proposerOrg", "proposalReferenceType", "proposalReference", "detailDesc", "attributes", "type" });
+        if (entity.getProposerPerson() != null) {
+            List<String> personIds = new ArrayList<String>(entity.getProposerPerson().size());
+            for (ProposalPerson person : entity.getProposerPerson()) {
+                personIds.add(person.getPersonId());
+            }
+            dto.setProposerPerson(personIds);
+        }
+        if (entity.getProposerOrg() != null) {
+            List<String> orgIds = new ArrayList<String>(entity.getProposerOrg().size());
+            for (ProposalOrg org : entity.getProposerOrg()) {
+                orgIds.add(org.getOrgId());
+            }
+            dto.setProposerOrg(orgIds);
+        }
 
+        dto.setProposalReferenceType(entity.getProposalReference().get(0).getType().getName());
+        List<String> objectIds = new ArrayList<String>(entity.getProposalReference().size());
+        for (ObjectReference object : entity.getProposalReference()) {
+            objectIds.add(object.getObjectReferenceId());
+        }
+        dto.setProposalReference(objectIds);
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setType(entity.getType().getId());
 
         return dto;
     }
