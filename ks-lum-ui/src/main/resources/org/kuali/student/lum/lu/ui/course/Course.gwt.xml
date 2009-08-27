@@ -6,5 +6,5 @@
 	<inherits name='org.kuali.student.lum.lu.Lu'/>
 	<inherits name='org.kuali.student.core.Core'/>  
 	<inherits name='org.kuali.student.core.search.Search'/>  
-	<inherits name='org.kuali.student.core.atp.Atp'/> 
+	<inherits name='org.kuali.student.core.atp.Atp'/>
 </module>

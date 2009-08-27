@@ -83,11 +83,19 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.kuali.student</groupId>
+			<artifactId>ks-rice</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>pom</type>
+			<scope>runtime</scope>
+		</dependency>
+		<!--
+		<dependency>
 	      	<groupId>org.kuali.rice</groupId>
 	      	<artifactId>rice-impl</artifactId>
 			<scope>runtime</scope>	      
-	    </dependency>					
-
+	    </dependency>
+	     -->					
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
