@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -99,6 +100,40 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
 
         try {
             client.getProposalDocRelation(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+
+    }
+
+    @Test
+    public void getProposalsByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ArrayList<String> ids =  new ArrayList<String>();
+        ids.add("PROPOSAL-1");
+        ids.add("PROPOSAL-2");
+        List<ProposalInfo> proposals = client.getProposalsByIdList(ids);
+        assertNotNull(proposals);
+        assertEquals(ids.size(), proposals.size());
+
+        ids.add("PROPOSAL-XXX");
+        try {
+            client.getProposalsByIdList(ids);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            ids.clear();
+            client.getProposalsByIdList(ids);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByIdList(null);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);

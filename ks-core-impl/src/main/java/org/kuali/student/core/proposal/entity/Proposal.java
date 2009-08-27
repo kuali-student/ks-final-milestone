@@ -27,6 +27,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -43,6 +45,9 @@ import org.kuali.student.core.entity.MetaEntity;
  */
 @Entity
 @Table(name = "KSCO_PROPOSAL")
+@NamedQueries( {
+    @NamedQuery(name = "Proposal.getProposalsByIdList", query = "SELECT p FROM Proposal p WHERE p.id IN (:idList)")
+})
 public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttribute> {
     @Id
     @Column(name = "PROPOSAL_ID")

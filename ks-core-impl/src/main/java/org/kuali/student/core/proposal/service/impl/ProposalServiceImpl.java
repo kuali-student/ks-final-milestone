@@ -258,8 +258,12 @@ public class ProposalServiceImpl implements ProposalService {
     public List<ProposalInfo> getProposalsByIdList(List<String> proposalIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalIdList, "proposalIdList");
         checkForEmptyList(proposalIdList, "proposalIdList");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<Proposal> proposals = proposalDao.getProposalsByIdList(proposalIdList);
+        if (proposals.size() != proposalIdList.size()) {
+            throw new DoesNotExistException();
+        }
+        return ProposalAssembler.toProposalInfos(proposals);
     }
 
     /**

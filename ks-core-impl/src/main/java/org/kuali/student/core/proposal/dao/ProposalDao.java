@@ -15,7 +15,10 @@
  */
 package org.kuali.student.core.proposal.dao;
 
+import java.util.List;
+
 import org.kuali.student.core.dao.CrudDao;
+import org.kuali.student.core.proposal.entity.Proposal;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -24,5 +27,5 @@ import org.kuali.student.core.dao.CrudDao;
  *
  */
 public interface ProposalDao extends CrudDao {
-
+    public List<Proposal> getProposalsByIdList(List<String> idList);
 }

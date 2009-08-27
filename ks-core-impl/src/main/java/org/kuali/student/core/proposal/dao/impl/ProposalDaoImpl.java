@@ -15,11 +15,16 @@
  */
 package org.kuali.student.core.proposal.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
+import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.proposal.dao.ProposalDao;
+import org.kuali.student.core.proposal.entity.Proposal;
 
 /**
  * Database access for the Proposal Service
@@ -34,4 +39,11 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
         super.setEm(em);
     }
 
+    public List<Proposal> getProposalsByIdList(List<String> idList) {
+        Query query = em.createNamedQuery("Proposal.getProposalsByIdList");
+        query.setParameter("idList", idList);
+        @SuppressWarnings("unchecked")
+        List<Proposal> proposals = query.getResultList();
+        return proposals;
+    }
 }

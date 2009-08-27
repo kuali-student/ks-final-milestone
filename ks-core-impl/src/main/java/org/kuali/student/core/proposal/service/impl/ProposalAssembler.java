@@ -40,6 +40,14 @@ import org.springframework.beans.BeanUtils;
  */
 public class ProposalAssembler extends BaseAssembler {
 
+    public static List<ProposalInfo> toProposalInfos(List<Proposal> entities) {
+        List<ProposalInfo> dtos = new ArrayList<ProposalInfo>(entities.size());
+        for (Proposal entity : entities) {
+            dtos.add(toProposalInfo(entity));
+        }
+        return dtos;
+    }
+
     public static ProposalInfo toProposalInfo(Proposal entity) {
         ProposalInfo dto = new ProposalInfo();
 
