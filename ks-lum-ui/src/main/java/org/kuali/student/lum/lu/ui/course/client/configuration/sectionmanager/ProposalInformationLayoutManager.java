@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CollaborationSection;
@@ -34,7 +35,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.SimpleConfigurabl
 import org.kuali.student.lum.lu.ui.course.client.configuration.typemanager.CreditCourseDataManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
-import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.ui.Widget;
 

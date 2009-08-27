@@ -24,13 +24,13 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalMo
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
- * 
+ * This is a description of what this class does - Will Gomes don't forget to fill this in.
+ *
  * @author Kuali Student Team
  *
  */
 public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
-    public void createProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);  
+    public void createProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void startProposalWorkflow(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void saveProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
     public void submitProposal(CluProposal cluProposal, AsyncCallback<CluProposal> callback);
@@ -43,8 +43,9 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void disapproveProposal(CluProposal cluProposal, AsyncCallback<Boolean> callback);
     public void addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy, AsyncCallback<Boolean> callback);
     public void getCollaborators(String docId, AsyncCallback<HashMap<String, ArrayList<String>>> callback);
+    public void addFyi(String docId, String recipientPrincipalId, String annotation, AsyncCallback<Boolean> callback);
     public void loginBackdoor(String backdoorId, AsyncCallback<Boolean> callback);
-    
+
     public void createProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
     public void saveProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
     public void getProposalModelDTO(String id, AsyncCallback<CluProposalModelDTO> callback);

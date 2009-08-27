@@ -1891,7 +1891,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		<dict:readOnly>false</dict:readOnly>
 	</dict:fieldDescriptor>
 
-	<dict:objectStructure key="org.kuali.student.lum.proposal.dto.ProposalInfo">
+	<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo">
 		<dict:type key="luType.shell.course">
 			<dict:state key="proposed">
 				<dict:field key="id">

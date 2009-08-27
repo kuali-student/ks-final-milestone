@@ -24,14 +24,14 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalMo
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
- * 
+ * This is a description of what this class does - Will Gomes don't forget to fill this in.
+ *
  * @author Kuali Student Team
  *
  */
 @RemoteServiceRelativePath("rpcservices/CluProposalRpcService")
 public interface CluProposalRpcService extends BaseRpcService{
-    public CluProposal createProposal(CluProposal cluProposal);   
+    public CluProposal createProposal(CluProposal cluProposal);
     public CluProposal startProposalWorkflow(CluProposal cluProposal);
     public CluProposal saveProposal(CluProposal cluProposal);
     public CluProposal submitProposal(CluProposal cluProposal);
@@ -39,14 +39,15 @@ public interface CluProposalRpcService extends BaseRpcService{
     public CluProposal getProposal(String id);
     public CluProposal getCluProposalFromWorkflowId(String docId);
     public String getActionsRequested(CluProposal cluProposal);
+    public Boolean addFyi(String docId, String recipientPrincipalId, String annotation);
     public Boolean approveProposal(CluProposal cluProposal);
     public Boolean disapproveProposal(CluProposal cluProposal);
     public Boolean acknowledgeProposal(CluProposal cluProposal);
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy);
     public HashMap<String, ArrayList<String>> getCollaborators(String docId);
     public Boolean loginBackdoor(String backdoorId);
-    
-    
+
+
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO);
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO);
     public CluProposalModelDTO getProposalModelDTO(String id);

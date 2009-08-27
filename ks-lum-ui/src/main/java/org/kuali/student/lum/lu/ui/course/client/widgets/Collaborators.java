@@ -29,25 +29,25 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Collaborators extends Composite implements HasWorkflowId{
-	
+
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
-	
+
 //    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
     private static final String urlParams = "?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
     private String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do" + urlParams;
-    
+
 	private String workflowId;
-	
+
 	private VerticalPanel collaboratorPanel = new VerticalPanel();
 	private KSTextBox userIdField = new KSTextBox();
 	private KSTextBox respondByField = new KSTextBox();
 	private KSDropDown roleField = new KSDropDown();
     KSLightBox searchUserDialog = new KSLightBox();
     KSRadioButtonList participationField = new KSRadioButtonList("Participation");
-    
+
     private VerticalPanel currentCollaborators = new VerticalPanel();
-    
+
     private KSLabel coAuthorsLabel = new KSLabel();
     private KSLabel commentorsLabel = new KSLabel();
     private KSLabel viewersLabel = new KSLabel();
@@ -58,7 +58,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	private VerticalPanel viewersUserIds = new VerticalPanel();
 	private VerticalPanel delegatesUserIds = new VerticalPanel();
 
-	
+
 	public Collaborators(){
 	    init();
     }
@@ -75,10 +75,10 @@ public class Collaborators extends Composite implements HasWorkflowId{
                 if(result != null)
                     ricePersonLookupUrl = result + urlParams;
             }
-            
+
         });
         super.initWidget(collaboratorPanel);
-        
+
         //Setup the collaborator type dropdown
         roleField.setBlankFirstItem(false);
         SimpleListItems roleListItems = new SimpleListItems();
@@ -94,7 +94,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
         participationListItems.addItem("Required", "Required");
         participationListItems.addItem("Optional", "Optional");
         participationField.setListItems(participationListItems);
-        
+
         //Setup the person search in an IFrame
         final KRUserSearchIFrame userSearch = new KRUserSearchIFrame(ricePersonLookupUrl);
         userSearch.addSelectionHandler(new SelectionHandler<String>(){
@@ -105,22 +105,22 @@ public class Collaborators extends Composite implements HasWorkflowId{
         });
 
         userSearch.setSize("600px", "500px");
-        
+
         VerticalPanel userLookupPanel = new VerticalPanel();
-        
+
 		userLookupPanel.add(userSearch);
-		
+
 		KSButton closeSearchButton = new KSButton("Cancel");
 		closeSearchButton.addClickHandler(new ClickHandler(){
         	public void onClick(ClickEvent event) {
         		searchUserDialog.hide();
         	}
         });
-		
+
 		userLookupPanel.add(closeSearchButton);
-		
+
 		searchUserDialog.setWidget(userLookupPanel);
-        
+
         //Create the button that opens the search dialog
 		Hyperlink searchForPeopleLink = new Hyperlink("Advance Search","AdvancePeopleSearch");
         searchForPeopleLink.addClickHandler(new ClickHandler(){
@@ -129,7 +129,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
         		searchUserDialog.show();
         	}
         });
-        
+
         //Create the button that invites collaborators
         KSButton inviteCollabButton = new KSButton("Invite Collaborators");
         inviteCollabButton.addClickHandler(new ClickHandler(){
@@ -137,14 +137,23 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				addCollaborator(userIdField.getValue(), roleField.getSelectedItem(), "Required".equals(participationField.getSelectedItem()), respondByField.getValue());
 			}
         });
-        
+
+        // Create the button that invites FYIs
+        KSButton inviteFyiButton = new KSButton("Add as FYI");
+        inviteFyiButton.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                addFyi(userIdField.getValue(), "annotation");
+            }
+        });
+
         //Assemble the layout
         collaboratorPanel.add(new KSLabel("Collaborators & Delegates"));
-        
+
         FlexTable table = new FlexTable();
 
-        table.getFlexCellFormatter().setColSpan(3, 0, 4);
+        table.getFlexCellFormatter().setColSpan(4, 0, 4);
         table.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+        table.getCellFormatter().setHorizontalAlignment(3, 1, HasHorizontalAlignment.ALIGN_RIGHT);
     	table.setWidget(0, 0, new KSLabel("Name"));
     	table.setWidget(0, 1, new KSLabel("Role"));
     	table.setWidget(0, 2, new KSLabel("Participation"));
@@ -155,9 +164,10 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	table.setWidget(1, 3, respondByField);
     	table.setWidget(2, 0, searchForPeopleLink);
     	table.setWidget(3, 0, inviteCollabButton);
+        table.setWidget(3, 1, inviteFyiButton);
 
         collaboratorPanel.add(table);
-    	
+
     	//Add the list of current collaborators
         currentCollaborators.add(coAuthorsLabel);
     	currentCollaborators.add(new KSLabel("Co-Author can make edits to the proposal directly."));
@@ -166,7 +176,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	currentCollaborators.add(commentorsLabel);
     	currentCollaborators.add(new KSLabel("Commentors can read and write commonts for the proposal."));
     	currentCollaborators.add(commentorUserIds);
-    	
+
     	currentCollaborators.add(viewersLabel);
     	currentCollaborators.add(new KSLabel("Viewers may see the document but not edit it."));
     	currentCollaborators.add(viewersUserIds);
@@ -182,8 +192,8 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
         collaboratorPanel.add(currentCollaborators);
     }
-    
-    
+
+
     public void refreshCollaboratorList(){
     	if(workflowId!=null){
 	        cluProposalRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<HashMap<String,ArrayList<String>>>(){
@@ -197,7 +207,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 						}
 						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
 					}
-					
+
 					commentorUserIds.clear();
 					if(result.containsKey("Commentor")){
 						for(String id:result.get("Commentor")){
@@ -205,7 +215,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 						}
 						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
 					}
-					
+
 					viewersUserIds.clear();
 					if(result.containsKey("Viewer")){
 						for(String id:result.get("Viewer")){
@@ -213,7 +223,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 						}
 						viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
 					}
-					
+
 					delegatesUserIds.clear();
 					if(result.containsKey("Delegate")){
 						for(String id:result.get("Delegate")){
@@ -225,7 +235,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	        });
     	}
     }
-    
+
     private void addCollaborator(final String recipientPrincipalId, final String collabType, boolean participationRequired, String respondBy){
     	if(workflowId==null){
             GWT.log("Collaborators called with "+ricePersonLookupUrl, null);
@@ -235,13 +245,13 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				public void onFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 				}
-	
+
 				public void onSuccess(Boolean result) {
 					userIdField.setValue("");
 					//Add to the list and no refresh even though we should because rice has a timing issue
 					if("Co-Author".equals(collabType)){
 						coAuthorUserIds.add(new KSLabel(recipientPrincipalId));
-						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");						
+						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
 					}else if("Commentor".equals(collabType)){
 						commentorUserIds.add(new KSLabel(recipientPrincipalId));
 						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
@@ -254,11 +264,34 @@ public class Collaborators extends Composite implements HasWorkflowId{
 					}
 					//refreshCollaboratorList();
 				}
-	    		
+
 	    	});
     	}
     }
-    
+
+    private void addFyi(final String recipientPrincipalId, final String annotation) {
+        if (workflowId == null) {
+            GWT.log("Fyis called with " + ricePersonLookupUrl, null);
+            Window.alert("Workflow must be started before FYIs can be added");
+        } else {
+            cluProposalRpcServiceAsync.addFyi(workflowId, recipientPrincipalId,
+                    annotation,
+                    new AsyncCallback<Boolean>() {
+                        public void onFailure(Throwable caught) {
+                            Window.alert("Could not add FYI");
+                        }
+
+                        public void onSuccess(Boolean result) {
+                            userIdField.setValue("");
+                            // Add to the list and no refresh even though we
+                            // should because rice has a timing issue
+                            // refreshCollaboratorList();
+                        }
+
+                    });
+        }
+    }
+
 	@Override
 	public String getWorkflowId() {
 		return workflowId;
@@ -267,7 +300,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	public void setWorkflowId(String workflowId) {
 		this.workflowId = workflowId;
 	}
-	
+
 
 
 }

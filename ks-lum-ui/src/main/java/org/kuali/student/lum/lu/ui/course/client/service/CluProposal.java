@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
