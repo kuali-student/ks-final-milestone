@@ -41,6 +41,7 @@ import java.util.Map;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluFeeInfo;
@@ -49,19 +50,18 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 /**
- * 
+ *
  * N.B.  Incomplete !!!!!!!!!!!!!!!!
  * N.B.  Incomplete !!!!!!!!!!!!!!!!
- * 
+ *
  * This class is incomplete but I've checked it in while I work on something else.
  * It will probably be moved to a different package once completed
- * 
- * This class performs a selective deep clone of LUM objects (currently CLU and Proposal) 
+ *
+ * This class performs a selective deep clone of LUM objects (currently CLU and Proposal)
  * with additional logic to set initial values for some fields.
- *  
+ *
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
@@ -94,7 +94,7 @@ public class LumCopyUtil {
         newClu.setIntensity(cloneTimeAmountInfo(oldClu.getIntensity()));
 
         newClu.setStdDuration(cloneTimeAmountInfo(oldClu.getStdDuration()));
-        newClu.setCanCreateLui(oldClu.isCanCreateLui());       
+        newClu.setCanCreateLui(oldClu.isCanCreateLui());
         newClu.setReferenceURL(oldClu.getReferenceURL());
         newClu.setLuCodes(cloneLuCodeInfoList(oldClu.getLuCodes()));
         newClu.setPublishingInfo(cloneCluPublishingInfo(oldClu.getPublishingInfo()));
@@ -112,7 +112,7 @@ public class LumCopyUtil {
         newClu.setAttributes(cloneAttributes(oldClu.getAttributes()));
         newClu.setMetaInfo(initializeMetaInfo());
 
-        newClu.setType(oldClu.getType());       
+        newClu.setType(oldClu.getType());
         newClu.setState("Proposed");  // TODO how do we determine the initial state?
         // id : ADT excluded
 
@@ -144,7 +144,7 @@ public class LumCopyUtil {
 
 
     private static CluIdentifierInfo cloneCluIdentifier(CluInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         CluIdentifierInfo clone = new CluIdentifierInfo();
@@ -154,7 +154,7 @@ public class LumCopyUtil {
     }
 
     private static CluInstructorInfo cloneCluInstructorInfo(CluInstructorInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         CluInstructorInfo clone = new CluInstructorInfo();
@@ -167,7 +167,7 @@ public class LumCopyUtil {
     }
 
     private static List<CluInstructorInfo> cloneCluInstructorInfoList(List<CluInstructorInfo> old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         List<CluInstructorInfo> clone = new ArrayList<CluInstructorInfo>();
@@ -175,10 +175,10 @@ public class LumCopyUtil {
             clone.add(cloneCluInstructorInfo(info));
         }
         return clone;
-    }    
+    }
 
     private static LuCodeInfo cloneLuCodeInfo(LuCodeInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         LuCodeInfo clone = new LuCodeInfo();
@@ -191,7 +191,7 @@ public class LumCopyUtil {
         return clone;
     }
     private static List<LuCodeInfo> cloneLuCodeInfoList(List<LuCodeInfo> old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         List<LuCodeInfo> clone = new ArrayList<LuCodeInfo>();
@@ -202,7 +202,7 @@ public class LumCopyUtil {
     }
 
     private static List<AccreditationInfo> cloneAccreditationInfoList(List<AccreditationInfo> old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         List<AccreditationInfo> clone = new ArrayList<AccreditationInfo>();
@@ -213,7 +213,7 @@ public class LumCopyUtil {
     }
 
     private static AccreditationInfo cloneAccreditationInfo(AccreditationInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         AccreditationInfo clone = new AccreditationInfo();
@@ -227,7 +227,7 @@ public class LumCopyUtil {
     }
 
     private static CluFeeInfo cloneCluFeeInfo(CluFeeInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         CluFeeInfo clone = new CluFeeInfo();
@@ -238,7 +238,7 @@ public class LumCopyUtil {
     }
 
     private static CluAccountingInfo cloneCluAccountingInfo(CluAccountingInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         CluAccountingInfo clone = new CluAccountingInfo();
@@ -250,7 +250,7 @@ public class LumCopyUtil {
 
 
     private static CluPublishingInfo cloneCluPublishingInfo(CluPublishingInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         CluPublishingInfo clone = new CluPublishingInfo();
@@ -264,10 +264,10 @@ public class LumCopyUtil {
         clone.setState(old.getState());
 
         return clone;
-    }    
+    }
 
     private static Map<String, String> cloneAttributes(Map<String, String> old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         Map<String, String> clone = new HashMap<String, String>();
@@ -279,19 +279,19 @@ public class LumCopyUtil {
     }
 
     private static RichTextInfo cloneRichTextInfo(RichTextInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         RichTextInfo clone = new RichTextInfo();
         clone.setFormatted(old.getFormatted());
         clone.setPlain(old.getPlain());
         return clone;
-    }    
+    }
 
 
 
     private static List<String> cloneStringList(List<String> old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         List<String> clone = new ArrayList<String>();
@@ -300,7 +300,7 @@ public class LumCopyUtil {
         }
         return clone;
 
-    }    
+    }
 
     //TODO what should the initial values be?
     private static MetaInfo initializeMetaInfo() {
@@ -311,10 +311,10 @@ public class LumCopyUtil {
 
         return clone;
 
-    }    
+    }
 
     private static TimeAmountInfo cloneTimeAmountInfo(TimeAmountInfo old) {
-        if (old == null) 
+        if (old == null)
             return null;
 
         TimeAmountInfo clone = new TimeAmountInfo();
