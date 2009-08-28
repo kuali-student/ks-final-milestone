@@ -44,15 +44,15 @@ import org.junit.Test;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.lum.proposal.dto.ProposalInfo;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
+ * This is a description of what this class does - hjohnson don't forget to fill this in.
+ *
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
@@ -62,7 +62,7 @@ public class TestLumCopyUtil {
     public void testCluCopy () {
 
         CluInfo clu =  buildClu1();
-        CluInfo cloned = LumCopyUtil.copyClu(clu);       
+        CluInfo cloned = LumCopyUtil.copyClu(clu);
 
         //TODO Add more tests
         assertFalse(clu.toString().equals(cloned.toString()));
@@ -70,13 +70,13 @@ public class TestLumCopyUtil {
         assertFalse(clu.getOfficialIdentifier().toString().equals(cloned.getOfficialIdentifier().toString()));
         assertFalse(clu.getOfficialIdentifier().getShortName().equals(cloned.getOfficialIdentifier().getShortName()));
         assertFalse(clu.getOfficialIdentifier().getLongName().equals(cloned.getOfficialIdentifier().getLongName()));
-        
+
         cloned.setStudySubjectArea("Changed");
         assertFalse(clu.getStudySubjectArea().equals(cloned.getStudySubjectArea()));
-               
+
         cloned.getDesc().setPlain("Changed");
         assertFalse(clu.getDesc().getPlain().equals(cloned.getDesc().getPlain()));
-        
+
         cloned.getMarketingDesc().setPlain("Changed");
         assertFalse(clu.getMarketingDesc().getPlain().equals(cloned.getMarketingDesc().getPlain()));
 
@@ -86,14 +86,14 @@ public class TestLumCopyUtil {
         cloned.getAccreditationList().add(newAccrediation);
         assertFalse(clu.getAccreditationList().size() ==  cloned.getAccreditationList().size());
 
-        
+
         cloned.getCampusLocationList().add("Central Campus");
         assertFalse(clu.getCampusLocationList().size() ==  cloned.getCampusLocationList().size());
 
         cloned.setAdminOrg("Biology");
         assertFalse(clu.getAdminOrg().equals(cloned.getAdminOrg()));
-        
-        assertFalse(clu.getPrimaryInstructor().toString().equals(cloned.getPrimaryInstructor().toString()));      
+
+        assertFalse(clu.getPrimaryInstructor().toString().equals(cloned.getPrimaryInstructor().toString()));
         cloned.getPrimaryInstructor().getAttributes().put("EyeColour", "Green");
         assertFalse(clu.getPrimaryInstructor().getAttributes().get("EyeColour").equals(cloned.getPrimaryInstructor().getAttributes().get("EyeColour")));
 
@@ -103,7 +103,7 @@ public class TestLumCopyUtil {
     public void testProposalCopy () {
 
         ProposalInfo proposal =  buildProposal1();
-        ProposalInfo cloned = LumCopyUtil.copyProposal(proposal);     
+        ProposalInfo cloned = LumCopyUtil.copyProposal(proposal);
 
         assertFalse(proposal.toString().equals(cloned.toString()));
 
@@ -111,16 +111,16 @@ public class TestLumCopyUtil {
         assertFalse(proposal.getDetailDesc().equals(cloned.getDetailDesc()));
 
         cloned.setName("Test a change");
-        assertFalse(proposal.getName().equals(cloned.getName()));     
+        assertFalse(proposal.getName().equals(cloned.getName()));
 
         cloned.setProposalReferenceType("Test a change");
-        assertFalse(proposal.getProposalReferenceType().equals(cloned.getProposalReferenceType()));      
+        assertFalse(proposal.getProposalReferenceType().equals(cloned.getProposalReferenceType()));
 
         cloned.setRationale("Test a change");
-        assertFalse(proposal.getRationale().equals(cloned.getRationale()));      
+        assertFalse(proposal.getRationale().equals(cloned.getRationale()));
 
         cloned.setName("Test a change");
-        assertFalse(proposal.getState().equals(cloned.getState()));      
+        assertFalse(proposal.getState().equals(cloned.getState()));
 
         cloned.setType("Test a change");
         assertFalse(proposal.getType().equals(cloned.getType()));
@@ -165,7 +165,7 @@ public class TestLumCopyUtil {
         proposal.setProposerPerson(new ArrayList<String>(Arrays.asList("Johns Smith")));
         proposal.setRationale("Just because");
         proposal.setState("Draft");
-        proposal.setType("Credit Course");        
+        proposal.setType("Credit Course");
 
         return proposal;
     }
@@ -203,7 +203,7 @@ public class TestLumCopyUtil {
         marketingDesc.setFormatted("This is <b>formatted</b> description");
         clu1.setMarketingDesc(marketingDesc);
 
-        clu1.setCampusLocationList(new ArrayList<String>(Arrays.asList("South Campus", "Downtown Campus"))); 
+        clu1.setCampusLocationList(new ArrayList<String>(Arrays.asList("South Campus", "Downtown Campus")));
 
         AccreditationInfo accreditation = new AccreditationInfo();
         accreditation.setId("3409850495-sdfgsdfg");
@@ -214,7 +214,7 @@ public class TestLumCopyUtil {
         clu1.setAccreditationList(new ArrayList<AccreditationInfo>(Arrays.asList(accreditation)));
 
         clu1.setAdminOrg("Department of Chemistry");
-        clu1.setParticipatingOrgs(new ArrayList<String>(Arrays.asList("Chemistry", "Physics", "Biology"))); 
+        clu1.setParticipatingOrgs(new ArrayList<String>(Arrays.asList("Chemistry", "Physics", "Biology")));
 
         CluInstructorInfo instructor = new CluInstructorInfo();
         instructor.setOrgId("123abc");
@@ -257,11 +257,11 @@ public class TestLumCopyUtil {
 
 //      clu1.setFeeInfo(feeInfo);
 //      clu1.setAccountingInfo(accountingInfo);
-        
+
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("TeachingLanguage", "Welsh");
         clu1.setAttributes(attributes);
-        
+
         MetaInfo metaInfo = new MetaInfo();
         metaInfo.setCreateId("hjoh");
         metaInfo.setCreateTime(GregorianCalendar.getInstance().getTime());
