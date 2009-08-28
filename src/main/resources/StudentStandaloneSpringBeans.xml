@@ -113,21 +113,12 @@
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
-		<property name="includedOrgPersonRelationTypes">
-			<list>
-				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
-			</list>
-		</property>
+		<property name="orgPersonRelationType" value="kuali.org.PersonRelation.AdministrativeOfficer" />
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 
 	<!-- Org Derived role (anyone that's related to this org -->
-	<bean id="ksOrgCommitteeRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
-		<property name="excludedOrgPersonRelationTypes">
-			<list>
-				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
-			</list>
-		</property>
+	<bean id="ksOrgRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 	
