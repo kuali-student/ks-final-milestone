@@ -38,6 +38,7 @@ import org.kuali.student.core.proposal.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalType;
+import org.kuali.student.core.proposal.entity.ReferenceType;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
@@ -222,8 +223,9 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public ProposalTypeInfo getProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        ProposalType proposalType = proposalDao.fetch(ProposalType.class, proposalTypeKey);
+        return ProposalAssembler.toProposalTypeInfo(proposalType);
     }
 
     /**
@@ -245,8 +247,9 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<ProposalTypeInfo> getProposalTypesForReferenceType(String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<ProposalType> proposalTypes = proposalDao.getProposalTypesForReferenceType(referenceTypeKey);
+        return ProposalAssembler.toProposalTypeInfos(proposalTypes);
     }
 
     /**
@@ -274,8 +277,9 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<ProposalInfo> getProposalsByProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<Proposal> proposals = proposalDao.getProposalsByProposalType(proposalTypeKey);
+        return ProposalAssembler.toProposalInfos(proposals);
     }
 
     /**
@@ -287,8 +291,9 @@ public class ProposalServiceImpl implements ProposalService {
     public List<ProposalInfo> getProposalsByReference(String referenceTypeKey, String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
         checkForMissingParameter(referenceId, "referenceId");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<Proposal> proposals = proposalDao.getProposalsByReference(referenceTypeKey, referenceId);
+        return ProposalAssembler.toProposalInfos(proposals);
     }
 
     /**
@@ -300,8 +305,9 @@ public class ProposalServiceImpl implements ProposalService {
     public List<ProposalInfo> getProposalsByState(String proposalState, String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalState, "proposalState");
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<Proposal> proposals = proposalDao.getProposalsByState(proposalState, proposalTypeKey);
+        return ProposalAssembler.toProposalInfos(proposals);
     }
 
     /**
@@ -311,8 +317,8 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ReferenceType> referenceTypes = proposalDao.find(ReferenceType.class);
+        return ProposalAssembler.toReferenceTypeInfos(referenceTypes);
     }
 
     /**

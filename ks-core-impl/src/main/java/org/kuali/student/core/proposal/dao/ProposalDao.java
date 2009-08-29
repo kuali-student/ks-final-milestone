@@ -18,7 +18,9 @@ package org.kuali.student.core.proposal.dao;
 import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalType;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -28,4 +30,8 @@ import org.kuali.student.core.proposal.entity.Proposal;
  */
 public interface ProposalDao extends CrudDao {
     public List<Proposal> getProposalsByIdList(List<String> idList);
+    public List<Proposal> getProposalsByProposalType(String proposalTypeId) throws DoesNotExistException;
+    public List<Proposal> getProposalsByReference(String referenceTypeId, String referenceId) throws DoesNotExistException;
+    public List<Proposal> getProposalsByState(String proposalState, String proposalTypeId) throws DoesNotExistException;
+    public List<ProposalType> getProposalTypesForReferenceType(String referenceTypeId) throws DoesNotExistException;
 }

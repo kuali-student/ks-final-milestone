@@ -46,7 +46,11 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSCO_PROPOSAL")
 @NamedQueries( {
-    @NamedQuery(name = "Proposal.getProposalsByIdList", query = "SELECT p FROM Proposal p WHERE p.id IN (:idList)")
+    @NamedQuery(name = "Proposal.getProposalsByIdList", query = "SELECT p FROM Proposal p WHERE p.id IN (:idList)"),
+    @NamedQuery(name = "Proposal.getProposalsByProposalType", query = "SELECT DISTINCT p FROM Proposal p WHERE p.type.id = :proposalTypeId"),
+    @NamedQuery(name = "Proposal.getProposalsByReference", query = "SELECT r.proposals FROM ObjectReference r WHERE r.objectReferenceId = :referenceId AND r.type.id = :referenceTypeId"),
+    @NamedQuery(name = "Proposal.getProposalsByState", query = "SELECT DISTINCT p FROM Proposal p WHERE p.state = :proposalState AND p.type.id = :proposalTypeId"),
+    @NamedQuery(name = "Proposal.getProposalTypesForReferenceType", query = "SELECT DISTINCT p.type FROM ObjectReference r JOIN r.proposals p WHERE r.type.id = :referenceTypeId")
 })
 public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttribute> {
     @Id

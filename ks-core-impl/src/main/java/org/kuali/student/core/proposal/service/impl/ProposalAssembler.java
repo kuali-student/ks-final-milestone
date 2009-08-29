@@ -23,12 +23,14 @@ import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
+import org.kuali.student.core.proposal.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.entity.ObjectReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
+import org.kuali.student.core.proposal.entity.ReferenceType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -89,7 +91,7 @@ public class ProposalAssembler extends BaseAssembler {
         return dtos;
     }
 
-    private static ProposalTypeInfo toProposalTypeInfo(ProposalType entity) {
+    public static ProposalTypeInfo toProposalTypeInfo(ProposalType entity) {
         ProposalTypeInfo dto = new ProposalTypeInfo();
 
         BeanUtils.copyProperties(entity, dto,
@@ -114,11 +116,29 @@ public class ProposalAssembler extends BaseAssembler {
         return dto;
     }
 
-    private static RichTextInfo toRichTextInfo(RichText entity) {
+    public static RichTextInfo toRichTextInfo(RichText entity) {
         RichTextInfo dto = new RichTextInfo();
 
         BeanUtils.copyProperties(entity, dto);
 
+        return dto;
+    }
+
+    public static List<ReferenceTypeInfo> toReferenceTypeInfos(List<ReferenceType> entities) {
+        List<ReferenceTypeInfo> dtos = new ArrayList<ReferenceTypeInfo>(entities.size());
+        for (ReferenceType entity : entities) {
+            dtos.add(toReferenceTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+    public static ReferenceTypeInfo toReferenceTypeInfo(ReferenceType entity) {
+        ReferenceTypeInfo dto = new ReferenceTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto,
+                new String[] { "attributes" });
+
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
 

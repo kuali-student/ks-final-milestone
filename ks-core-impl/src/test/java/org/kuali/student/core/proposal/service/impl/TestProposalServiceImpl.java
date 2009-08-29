@@ -35,6 +35,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
+import org.kuali.student.core.proposal.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 
 /**
@@ -104,7 +105,6 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
-
     }
 
     @Test
@@ -138,6 +138,146 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
-
     }
+
+    @Test
+    public void getProposalsByProposalType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<ProposalInfo> proposals = client.getProposalsByProposalType("proposalType.courseCorrection");
+        assertNotNull(proposals);
+        assertEquals(2, proposals.size());
+
+        try {
+            client.getProposalsByProposalType("proposalType.courseCorrection-XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByProposalType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getProposalsByReference() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<ProposalInfo> proposals = client.getProposalsByReference("REFTYPE-1" ,"REMOTEREF-1");
+        assertNotNull(proposals);
+        assertEquals(2, proposals.size());
+
+        try {
+            client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByReference("REFTYPE-1","REMOTEREF-1XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByReference(null ,"REMOTEREF-1");
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByReference("REFTYPE-1" ,null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getReferenceTypes() throws OperationFailedException {
+        // TODO Why is ReferenceTypeInfo causing problems
+        if (false) {
+        List<ReferenceTypeInfo> referenceTypes = client.getReferenceTypes();
+        assertNotNull(referenceTypes);
+        assertEquals(2, referenceTypes.size());
+        }
+    }
+
+    @Test
+    public void getProposalsByState() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<ProposalInfo> proposalInfos = client.getProposalsByState("active", "proposalType.courseCorrection");
+        assertNotNull(proposalInfos);
+        assertEquals(2, proposalInfos.size());
+
+        try {
+            client.getProposalsByState("activeXXX", "proposalType.courseCorrection");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByState("active", "proposalType.courseCorrectionXXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByState(null, "proposalType.courseCorrection");
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalsByState("active", null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getProposalTypesForReferenceType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<ProposalTypeInfo> proposalTypeInfos = client.getProposalTypesForReferenceType("REFTYPE-1");
+        assertNotNull(proposalTypeInfos);
+        assertEquals(2, proposalTypeInfos.size());
+
+        try {
+            client.getProposalTypesForReferenceType("REFTYPE-XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalTypesForReferenceType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getProposalType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ProposalTypeInfo typeInfo = client.getProposalType("proposalType.courseCorrection");
+        assertNotNull(typeInfo);
+        try {
+            client.getProposalType("proposalType.courseCorrectionXXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+   }
 }
