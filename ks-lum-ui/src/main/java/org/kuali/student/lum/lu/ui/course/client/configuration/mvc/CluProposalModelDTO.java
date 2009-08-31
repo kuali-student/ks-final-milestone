@@ -7,9 +7,15 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOAdapter;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ListType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.lum.lu.dto.CluInfo;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -23,8 +29,7 @@ public class CluProposalModelDTO extends ModelDTO {
     private ModelDTOValue.ListType courseFormats;
     private ModelDTOValue.ListType crossListClus;
     private ModelDTOValue.ListType jointClus;
-    private transient ModelDTOAdapter adapter;
-    
+
     /**
      * @param className
      */
@@ -51,10 +56,10 @@ public class CluProposalModelDTO extends ModelDTO {
             jointClus = (ModelDTOValue.ListType)value;
         } else if (key.contains("/")){
             //ModelDTOAdapter.set(this, key, value, CluInfo.class.getName(), ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get() );
-        	if(adapter == null){
-        		adapter = new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get());
+        	if(getAdapter() == null){
+        		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get()));
         	}
-        	adapter.put(key, value);
+        	super.put(key, value);
         } else {
             super.put(key, value);            
         }
@@ -73,10 +78,10 @@ public class CluProposalModelDTO extends ModelDTO {
         } else if ("jointClus".equals(key)){
             return jointClus;
         } else if (key.contains("/")){
-        	if(adapter == null){
-        		adapter = new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get());
+        	if(getAdapter() == null){
+        		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get()));
         	}
-            return adapter.get(key);
+        	return super.get(key);
         } else {
             return super.get(key);            
         }
