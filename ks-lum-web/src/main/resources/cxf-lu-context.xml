@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<import resource="classpath:ks-lu-context.xml" />
+
+	<jaxws:endpoint id="luService"
+		implementorClass="org.kuali.student.lum.lu.service.impl.LuServiceImpl"
+		implementor="#luServiceImpl" address="/LuService" />
+	<jaxws:endpoint id="loService"
+		implementorClass="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl"
+		implementor="#loServiceImpl" address="/LoService" />
+	<jaxws:endpoint id="orgService"
+		implementorClass="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl"
+		implementor="#orgServiceImpl" address="/OrgService" />
+    <jaxws:endpoint id="translationService"
+        implementorClass="org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl"
+        implementor="#translationServiceImpl" address="/TranslationService" />
+	<jaxws:endpoint id="commentService"
+        implementorClass="org.kuali.student.core.comment.service.impl.CommentServiceImpl"
+        implementor="#commentServiceImpl" address="/CommentService" />
+        
+</beans>
