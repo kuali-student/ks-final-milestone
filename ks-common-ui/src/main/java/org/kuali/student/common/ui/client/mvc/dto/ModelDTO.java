@@ -35,30 +35,6 @@ public class ModelDTO implements Serializable {
 	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
 	
 	private transient ModelDTOAdapter adapter = null;
-
-/*    *//**
-     * @param keyClassMap
-     *//*
-    private void setAdapterObjectStructKeyToClassNameMap(Map<String, String> keyClassMap) {
-        if (adapter == null && GWT.isClient()) {
-            Map<String, String> m = new HashMap<String, String>();
-            adapter = new ModelDTOAdapter(m);
-            //m.put("org.kuali.student.lum.lu.dto.CluInfo", "CluInfo");
-            //m.put("org.kuali.student.lum.lu.dto.PublishingInfo", "PublishingInfo");
-            
-            
-        }
-        return adapter;
-
-    }*/
-    
-
-	
-	private ModelDTO() {
-		
-	}
-	
-	
 	
 	public ModelDTOAdapter getAdapter() {
 		return adapter;

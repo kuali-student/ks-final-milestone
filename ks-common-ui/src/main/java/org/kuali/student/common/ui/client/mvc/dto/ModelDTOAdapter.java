@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.mvc.dto;
 
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
@@ -122,15 +123,14 @@ public class ModelDTOAdapter {
 	}
 	
     private String getClassName(String key){
-    	
+    	DictionaryManager dictionary = DictionaryManager.getInstance();
     	String name = null;
     	
-/*    	LUDictionaryManager dictionary = LUDictionaryManager.getInstance();
     	Field field = dictionary.getField(objectKey, type, state, key);
     	if(field != null && field.getFieldDescriptor() != null){
     		System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
     		name = objectKeyClassNameMap.get(field.getFieldDescriptor().getObjectStructure().getKey());
-    	}*/
+    	}
     	
 /*    	if(field == null){
     	    System.out.println("Field is null" + " Type is " + type + " State is " +  state + " ObjectKey is " + objectKey);
