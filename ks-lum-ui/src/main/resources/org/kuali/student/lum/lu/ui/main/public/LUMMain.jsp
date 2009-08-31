@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page	import="org.kuali.student.common.ui.server.messages.MessageRPCPreloader"%>
 <%@page	import="org.kuali.student.common.ui.server.dictionary.DictionaryRPCPreloader"%>
-<%@page	import="org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryHelper"%>
+<%@page	import="org.kuali.student.common.ui.client.dictionary.DictionaryHelper"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 
@@ -40,7 +40,7 @@
 	    <%
         for(int j=0; j<keys.length; j++) {           
             
-            String newKey = LUDictionaryHelper.buildJavaScriptKey(keys[j]);
+            String newKey = DictionaryHelper.buildJavaScriptKey(keys[j]);
               
      %>
             var <%=newKey.toString()%> = '<%=structures.get(keys[j])%>';

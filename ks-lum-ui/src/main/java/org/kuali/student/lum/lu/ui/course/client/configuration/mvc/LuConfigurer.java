@@ -423,24 +423,7 @@ public class LuConfigurer {
 //        return context.getMessage(labelKey);
 //    }
 //
-    private Map<String, Field> indexFields(String type, String state, ObjectStructure structure) {
-        LUDictionaryManager.getInstance().getFields("cluInfo", "kuali.lu.type.CreditCourse", state);
 
-        for (org.kuali.student.core.dictionary.dto.Type t : structure.getType()) {
-            if (t.getKey().equals(type)) {
-                for (State s : t.getState()) {
-                    if (s.getKey().equals(state)) {
-                        Map<String, Field> result = new HashMap<String, Field>();
-                        for (Field f : s.getField()) {
-                            result.put(f.getKey(), f);
-                        }
-                        return result;
-                    }
-                }
-            }
-        }
-        return null;
-    }
     
     public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){

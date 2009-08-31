@@ -25,6 +25,8 @@ import java.util.StringTokenizer;
  * 
  * Separate class created for jsp compatible methods. 
  * 
+ * @deprecated
+ * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */

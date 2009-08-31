@@ -32,6 +32,7 @@ import org.kuali.student.core.dictionary.dto.Type;
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
+ *@deprecated
  */
 public class LUDictionaryManager {
 
