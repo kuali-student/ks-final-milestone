@@ -67,13 +67,13 @@
         </attributes>
       <routePaths>
         <routePath>
-          <start name="PreRoute" nextNode="Department Admin Review" />
-          <requests name="Department Admin Review" nextNode="Department Committee Review" />
-          <requests name="Department Committee Review" nextNode="College Committee Review" />
-          <requests name="College Committee Review" nextNode="Senate Admin Review" />
-          <requests name="Senate Admin Review" nextNode="Senate Committee Review" />
-          <requests name="Senate Committee Review" nextNode="Senate Review" />
-          <requests name="Senate Review"  />
+          <start name="PreRoute" nextNode="Department Review" />
+          <requests name="Department Review" nextNode="Division Review" />
+          <requests name="Division Review" nextNode="Undergrad Affairs Review" />
+          <requests name="Undergrad Affairs Review" nextNode="College Review" />
+          <requests name="College Review" nextNode="Senate Review" />
+          <requests name="Senate Review" nextNode="Publication Review" />
+          <requests name="Publication Review"  />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -82,44 +82,38 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </start>
+        
         <!-- OrgAdmin Derived role (checks OrgService for members who are admins of the orgId)-->
-        <role name="Department Admin Review">
+        <role name="Department Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass>
         </role>
         
         <!-- Department Committee Reviewer Role -->
-        <role name="Department Committee Review">
+        <role name="Division Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.DeptCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+
+        <role name="Undergrad Affairs Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.UnderGradAffairsCommitteeQualifierResolver</qualifierResolverClass>
         </role>
         
         <!-- College Committee Reviewer Role -->
-        <role name="College Committee Review">
+        <role name="College Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifier.CollegeCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass>
         </role>
         
-        <!-- Just a named person for now we could use the OrgAdmin Derived role + simple xml that always 
-             passes the senate admin OrgId as a qualifier -->
-        <requests name="Senate Admin Review">
-          <activationType>P</activationType>
-          <ruleSelector>Named</ruleSelector>
-          <ruleName>SenateAdminReviewRule</ruleName>
-        </requests>
-        
-        <!-- Senate Committee Reviewer Role -->
-        <requests name="Senate Committee Review">
-          <activationType>P</activationType>
-          <ruleSelector>Named</ruleSelector>
-          <ruleName>SenateCommitteeReviewRule</ruleName>
-        </requests>
-        
-        <!-- This is just a named person -->
         <requests name="Senate Review">
-          <activationType>P</activationType>
-          <ruleSelector>Named</ruleSelector>
-          <ruleName>SenateReviewRule</ruleName>
+	      <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass>
+        </requests>
+        
+        <requests name="Publication Review">
+	      <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass>
         </requests>
         
       </routeNodes>

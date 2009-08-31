@@ -11,7 +11,6 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
-import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -38,60 +37,38 @@ public abstract class CocValuesFiinder extends KeyValuesBase {
 
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
 		QueryParamValue qpOrgType = new QueryParamValue();
+		qpOrgType.setKey("org.queryParam.relationType");
+		qpOrgType.setValue("kuali.org.CurriculumChild");
+		queryParamValues.add(qpOrgType);
+		
+		qpOrgType = new QueryParamValue();
 		qpOrgType.setKey("org.queryParam.orgType");
 		qpOrgType.setValue(orgType);
 		queryParamValues.add(qpOrgType);
+		
+		qpOrgType = new QueryParamValue();
+		qpOrgType.setKey("org.queryParam.relatedOrgType");
+		qpOrgType.setValue("kuali.org.COC");
+		queryParamValues.add(qpOrgType);
 
 		try {
-			List<Result> results = orgService.searchForResults("org.search.orgQuickViewByOrgType",
+			List<Result> results = orgService.searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType",
 					queryParamValues);
-			List<String> ids = new ArrayList<String>(results.size());
-			for (Result result : results) {
-				for (ResultCell departmentResultCell : result.getResultCells()) {
-					if ("org.resultColumn.orgId".equals(departmentResultCell
-							.getKey())) {
-						List<OrgTreeInfo> orgTreeInfo = orgService.getOrgTree(
-								departmentResultCell.getValue(),
-								"kuali.org.hierarchy.Main", 0);
-						for (OrgTreeInfo orgTree : orgTreeInfo) {
-							String id = orgTree.getOrgId();
-							if (!ids.contains(id)) {
-								ids.add(id);
-							}
-						}
 
+			for (Result result : results) {
+				String orgId = "";
+				String orgShortName = "";
+				for (ResultCell resultCell : result.getResultCells()) {
+					if ("org.resultColumn.orgId".equals(resultCell
+							.getKey())) {
+						orgId = resultCell.getValue();
+					} else if ("org.resultColumn.orgShortName"
+							.equals(resultCell.getKey())) {
+						orgShortName = resultCell.getValue();
 					}
 				}
-			}
-			if (!ids.isEmpty()) {
-				queryParamValues.clear();
-				QueryParamValue qpOrgIds = new QueryParamValue();
-				qpOrgIds.setKey("org.queryParam.orgIds");
-				qpOrgIds.setValue(ids);
-				queryParamValues.add(qpOrgIds);
-				qpOrgType = new QueryParamValue();
-				qpOrgType.setKey("org.queryParam.orgType");
-				qpOrgType.setValue("kuali.org.COC");
-				queryParamValues.add(qpOrgType);
-				results = orgService.searchForResults("org.search.orgQuickViewByOrgIdsAndType",
-						queryParamValues);
-				if (results != null) {
-					for (Result result : results) {
-						String orgId = "";
-						String orgShortName = "";
-						for (ResultCell resultCell : result.getResultCells()) {
-							if ("org.resultColumn.orgId".equals(resultCell
-									.getKey())) {
-								orgId = resultCell.getValue();
-							} else if ("org.resultColumn.orgShortName"
-									.equals(resultCell.getKey())) {
-								orgShortName = resultCell.getValue();
-							}
-						}
-						// departments.add(new KeyLabelPair(orgId, orgShortName));
-						departments.add(new KeyLabelPair(orgShortName, orgShortName));
-					}
-				}
+				// departments.add(new KeyLabelPair(orgId, orgShortName));
+				departments.add(new KeyLabelPair(orgShortName, orgShortName));
 			}
 
 			return departments;

@@ -11,11 +11,14 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-	.getLogger(OrgDerivedRoleTypeServiceImpl.class);
+	
+	private static final org.apache.log4j.Logger LOG = 
+			org.apache.log4j.Logger.getLogger(OrgDerivedRoleTypeServiceImpl.class);
 	
 	private OrganizationService orgService;
-	private String orgPersonRelationType=null;
+	private List<String> includedOrgPersonRelationTypes = null;
+	private List<String> excludedOrgPersonRelationTypes = null;
+	
 	
 	/**
 	 * This method should grab the orgId from the qualification 
@@ -35,23 +38,27 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		
 		String orgId = qualification.get("departmentId");
 		try {
-			//If the orgPersonRelationType is set, restrict members to that relationship type
-			if(orgPersonRelationType!=null){
-				List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
-				for(String principalId:principalIds){
-					RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
-					members.add(member);
+			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
+			if(includedOrgPersonRelationTypes!=null){
+				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
+					List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
+					for(String principalId:principalIds){
+						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
+						members.add(member);
+					}
 				}
-			//Otherwise get all members of the organization
+			//Otherwise get all members of the organization except for the excluded
 			}else{
-				List<OrgPersonRelationInfo> principalIds = orgService.getAllOrgPersonRelationsByOrg(orgId);
-				for(OrgPersonRelationInfo principalId:principalIds){
-					RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null);
-					members.add(member);
+				List<OrgPersonRelationInfo> relations = orgService.getAllOrgPersonRelationsByOrg(orgId);
+				for(OrgPersonRelationInfo relation:relations){
+					if(excludedOrgPersonRelationTypes==null||excludedOrgPersonRelationTypes.contains(relation.getType())){
+						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null);
+						members.add(member);
+					}
 				}
 			}
 		} catch (Exception e) {
-			LOG.warn("Error getting relations from Org Service for Org:"+orgId+". "+e.getMessage());
+			LOG.warn("Error getting relations from Org Service for Org:"+orgId+". ",e);
 		} 
 	
 		return members;
@@ -65,12 +72,24 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		this.orgService = orgService;
 	}
 
-	public String getOrgPersonRelationType() {
-		return orgPersonRelationType;
+	public List<String> getIncludedOrgPersonRelationTypes() {
+		return includedOrgPersonRelationTypes;
 	}
 
-	public void setOrgPersonRelationType(String orgPersonRelationType) {
-		this.orgPersonRelationType = orgPersonRelationType;
+	public void setIncludedOrgPersonRelationTypes(
+			List<String> includedOrgPersonRelationTypes) {
+		this.includedOrgPersonRelationTypes = includedOrgPersonRelationTypes;
 	}
+
+	public List<String> getExcludedOrgPersonRelationTypes() {
+		return excludedOrgPersonRelationTypes;
+	}
+
+	public void setExcludedOrgPersonRelationTypes(
+			List<String> excludedOrgPersonRelationTypes) {
+		this.excludedOrgPersonRelationTypes = excludedOrgPersonRelationTypes;
+	}
+
+
 
 }

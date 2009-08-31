@@ -17,6 +17,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 
 	protected String department;
 	protected String college;
+	protected String division;
 
 	/**
 	 * @return the department
@@ -47,11 +48,21 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	public void setCollege(String college) {
 		this.college = college;
 	}
+	
+	public String getDivision() {
+		return division;
+	}
 
+	public void setDivision(String division) {
+		this.division = division;
+	}
+	
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap m = new LinkedHashMap();
 		return m;
 	}
+
+
 
 }

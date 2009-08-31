@@ -30,7 +30,7 @@
     </bean>
    
    <!-- Expose Org Service on Bus  --> 
-   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+   <!--<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker" />
         <property name="serviceDefinition">
             <bean id="OrgWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
@@ -42,7 +42,7 @@
                 <property name="busSecurity" value="false" />
             </bean>
         </property>
-    </bean>
+    </bean>-->
     
     <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
         <property name="serviceClass"
@@ -55,7 +55,7 @@
         factory-bean="orgClientFactory" factory-method="create" />
     
     <!-- Expose LU Service on Bus -->
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <!--<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker" />
         <property name="serviceDefinition">
             <bean id="LumWebService" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
@@ -67,7 +67,7 @@
                 <property name="busSecurity" value="false" />
             </bean>
         </property>
-    </bean>
+    </bean>-->
  
     <bean id="luClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
         <property name="serviceClass"
@@ -113,12 +113,21 @@
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
-		<property name="orgPersonRelationType" value="kuali.org.PersonRelation.AdministrativeOfficer" />
+		<property name="includedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
+			</list>
+		</property>
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 
 	<!-- Org Derived role (anyone that's related to this org -->
-	<bean id="ksOrgRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+	<bean id="ksOrgCommitteeRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		<property name="excludedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
+			</list>
+		</property>
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 	
