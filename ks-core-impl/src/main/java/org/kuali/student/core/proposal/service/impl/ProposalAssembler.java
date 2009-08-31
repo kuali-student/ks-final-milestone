@@ -115,6 +115,14 @@ public class ProposalAssembler extends BaseAssembler {
         dto.setType(entity.getType().getId());
         return dto;
     }
+    
+    public static List<ProposalDocRelationInfo> toProposalDocRelationInfos(List<ProposalDocRelation> entities){
+        List<ProposalDocRelationInfo> dtos = new ArrayList<ProposalDocRelationInfo>(entities.size());
+        for (ProposalDocRelation entity : entities) {
+            dtos.add(toProposalDocRelationInfo(entity));
+        }
+        return dtos;
+    }
 
     public static RichTextInfo toRichTextInfo(RichText entity) {
         RichTextInfo dto = new RichTextInfo();

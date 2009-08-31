@@ -24,6 +24,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,6 +43,11 @@ import org.kuali.student.core.entity.RichText;
  */
 @Entity
 @Table(name = "KSCO_PROPOSAL_DOCREL")
+@NamedQueries( {
+        @NamedQuery(name = "ProposalDocRelation.getByDocId", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE documentId =:documentId"),
+        @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByIdList", query = "SELECT proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE proposalDocRelation.id IN (:idList)"),
+        @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByProposal", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE proposal.id =:proposalId"),
+        @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByType", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE type.id =:proposalDocRelationTypeKey")})
 public class ProposalDocRelation extends MetaEntity implements AttributeOwner<ProposalDocRelationAttribute> {
     @Id
     @Column(name = "DOCREL_ID")

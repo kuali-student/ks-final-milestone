@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalType;
 
 /**
@@ -34,4 +35,8 @@ public interface ProposalDao extends CrudDao {
     public List<Proposal> getProposalsByReference(String referenceTypeId, String referenceId) throws DoesNotExistException;
     public List<Proposal> getProposalsByState(String proposalState, String proposalTypeId) throws DoesNotExistException;
     public List<ProposalType> getProposalTypesForReferenceType(String referenceTypeId) throws DoesNotExistException;
+    public List<ProposalDocRelation> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException;
+    public List<ProposalDocRelation> getProposalDocRelationsByIdList(List<String> idList) throws DoesNotExistException;
+    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException;
+    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException;
 }

@@ -174,8 +174,9 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<ProposalDocRelationInfo> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentId, "documentId");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByDocument(documentId);
+        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
     }
 
     /**
@@ -187,8 +188,8 @@ public class ProposalServiceImpl implements ProposalService {
     public List<ProposalDocRelationInfo> getProposalDocRelationsByIdList(List<String> proposalDocRelationIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalDocRelationIdList, "proposalDocRelationIdList");
         checkForEmptyList(proposalDocRelationIdList, "proposalDocRelationIdList");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByIdList(proposalDocRelationIdList);
+        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
     }
 
     /**
@@ -199,8 +200,8 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<ProposalDocRelationInfo> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalId, "proposalId");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByProposal(proposalId);
+        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
     }
 
     /**
@@ -211,8 +212,8 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<ProposalDocRelationInfo> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalDocRelationTypeKey, "proposalDocRelationTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByType(proposalDocRelationTypeKey);
+        return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
     }
 
     /**

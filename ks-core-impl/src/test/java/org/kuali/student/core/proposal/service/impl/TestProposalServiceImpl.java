@@ -106,6 +106,37 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
+    
+    @Test
+    public void getProposalDocRelationsByDocument() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+    {
+        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByDocument("DOC-ID-1");
+        assertNotNull(docRelationInfos);
+    }
+    
+    @Test
+    public void getProposalDocRelationsByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+    {
+        ArrayList<String> ids =  new ArrayList<String>();
+        ids.add("DOCREL-1");
+        ids.add("DOCREL-2");
+        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByIdList(ids);
+        assertNotNull(docRelationInfos);
+    }
+    
+    @Test
+    public void getProposalDocRelationsByProposal() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+    {
+        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
+        assertNotNull(docRelationInfos);
+    }
+    
+    @Test
+    public void getProposalDocRelationsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+    {
+        List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByType("PROP-DOCREL-TYPE1");
+        assertNotNull(docRelationInfos);
+    }
 
     @Test
     public void getProposalsByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

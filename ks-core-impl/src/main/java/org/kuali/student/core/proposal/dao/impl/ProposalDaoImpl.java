@@ -25,6 +25,7 @@ import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
 import org.kuali.student.core.proposal.entity.Proposal;
+import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalType;
 
 /**
@@ -98,5 +99,41 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
         }
         return proposalTypes;
 
+    }
+
+    @Override
+    public List<ProposalDocRelation> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException {
+        Query query = em.createNamedQuery("ProposalDocRelation.getByDocId");
+        query.setParameter("documentId", documentId);
+        @SuppressWarnings("unchecked")
+        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        return proposalDocRelations;
+    }
+
+    @Override
+    public List<ProposalDocRelation> getProposalDocRelationsByIdList(List<String> idList) throws DoesNotExistException {
+        Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByIdList");
+        query.setParameter("idList", idList);
+        @SuppressWarnings("unchecked")
+        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        return proposalDocRelations;
+    }
+
+    @Override
+    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException {
+        Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByProposal");
+        query.setParameter("proposalId", proposalId);
+        @SuppressWarnings("unchecked")
+        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        return proposalDocRelations;
+    }
+
+    @Override
+    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException {
+        Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByType");
+        query.setParameter("proposalDocRelationTypeKey", proposalDocRelationTypeKey);
+        @SuppressWarnings("unchecked")
+        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        return proposalDocRelations;
     }
 }
