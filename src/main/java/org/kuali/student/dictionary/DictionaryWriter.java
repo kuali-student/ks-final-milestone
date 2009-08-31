@@ -169,12 +169,16 @@ public class DictionaryWriter extends XmlWriter
    return;
   }
   System.out.println ("************");
+  StringBuffer sb = new StringBuffer ();
   for (Dictionary dict : notUsed)
   {
    System.out.println (dict.getId ());
+   sb.append ("\n");
+   sb.append (dict.getId ());
+   sb.append ("\n");
   }
   throw new DictionaryValidationException (notUsed.size () +
-   " dictionary entries were never written out.");
+   " dictionary entries were never written out." + sb.toString ());
  }
 
  private List<Dictionary> calcNotUsedDictionary ()
