@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.ui.client.mvc;
+package org.kuali.student.common.ui.client.event;
+
+import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
 
 /**
- * An event that wishes to provide the state of an event should implement
- * the HasEventState interface.
+ * A save action handler should be implemented to carry out a save operation in response
+ * to a save action.  A SaveAction will have an ActionCompleteCallback, which should
+ * be invoked upon completion of a save action to notify the action requester of
+ * a success/failed save action. 
  * 
  * @author Kuali Student Team
  *
  */
-public interface HasEventState {
-
-    public enum EventState{SUCCESS, FAILURE};
-    
-    public EventState getEventState();
+public interface SaveActionHandler extends ApplicationEventHandler{
+    public void doSave(SaveActionEvent saveAction);
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.ui.client.event;
 
-import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
+import org.kuali.student.common.ui.client.mvc.HasActionState;
 
 /**
  * A save event with user defined save types. This allows a single widget to handle
@@ -24,31 +24,35 @@ import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
  * @author Kuali Student Team
  *
  */
-public class SaveEvent<SaveType extends Enum<?>> extends ApplicationEvent<SaveHandler>{
-    public static final Type<SaveHandler> TYPE = new Type<SaveHandler>();
+public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements HasActionState{
+    public static final Type<SaveActionHandler> TYPE = new Type<SaveActionHandler>();
     
-    private SaveType saveType;
+    private ActionState actionState;
     
-    public SaveEvent(){
-        
+    public SaveActionEvent(){
     }
-    
-    public SaveEvent(SaveType saveType){
-        this.saveType = saveType;
-    }
-    
+   
     @Override
-    protected void dispatch(SaveHandler handler) {
-        handler.onSave(this);
+    protected void dispatch(SaveActionHandler handler) {
+        handler.doSave(this);
     }
 
     @Override
-    public Type<SaveHandler> getAssociatedType() {
+    public Type<SaveActionHandler> getAssociatedType() {
         return TYPE;
     }
+        
+
+    public void setActionState(ActionState state){
+        this.actionState = state;
+    }
     
-    public SaveType getSaveType(){
-        return this.saveType;
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.HasActionState#getActionState()
+     */
+    @Override
+    public ActionState getActionState() {
+        return this.actionState;
     }
     
 }

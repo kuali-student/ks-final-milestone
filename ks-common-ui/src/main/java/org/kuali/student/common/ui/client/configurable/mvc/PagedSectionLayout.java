@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.event.ActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -29,7 +30,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
     
 	private final VerticalPanel menuPanel = new VerticalPanel();
 	private final SimplePanel contentPanel = new SimplePanel();
-	private final HorizontalPanel buttonPanel = new HorizontalPanel();
+	private final HorizontalPanel sectionButtonPanel = new HorizontalPanel();
 
 	//FIXME: Better way to manage hierarchy, ordering, and handle to views
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
@@ -42,17 +43,19 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 	private KSBasicMenu sectionMenu;
 	
     private KSLightBox startSectionWindow = new KSLightBox();
+    private SectionView startSectionView;
     
 	private boolean loaded = false;
+	
 	private int currSectionIdx = 0;
 	
-	View defaultView = null;
+	Enum<?> defaultView = null;
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
 	private String sectionMenuTitle = "Proposal";
 	private String toolMenuTitle = "Tools";
-	
+		
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
             currSectionIdx++;
@@ -65,7 +68,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		super.initWidget(panel);
 		panel.add(menuPanel, DockPanel.WEST);
 		panel.add(contentPanel, DockPanel.CENTER);
-		panel.add(buttonPanel, DockPanel.SOUTH); 
+		panel.add(sectionButtonPanel, DockPanel.SOUTH); 
 	}
 	
 	private void init(){
@@ -81,7 +84,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
         menuPanel.add(toolMenu);
         menuPanel.add(sectionMenu);
 
-        buttonPanel.add(nextButton);         
+        sectionButtonPanel.add(nextButton);         
 	}
 	
 	@Override
@@ -118,6 +121,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 			    if (currSectionIdx != newMenuItemIdx){
                     currSectionIdx = newMenuItemIdx;
                     toolMenu.clearSelected();
+                    sectionButtonPanel.setVisible(true);
     			    showView(section.getViewEnum());
 			    }
 			}
@@ -127,7 +131,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
 		section.setController(this);
 		
 		if (defaultView == null){
-		    defaultView = section;
+		    defaultView = section.getViewEnum();
 		}
 	}
 	
@@ -139,6 +143,7 @@ public abstract class PagedSectionLayout extends Controller implements Configura
             public void onClick(ClickEvent event) {
                 currSectionIdx = -1;
                 sectionMenu.clearSelected();
+                sectionButtonPanel.setVisible(false);
                 showView(tool.getViewEnum());
             }
         }); 
@@ -156,25 +161,31 @@ public abstract class PagedSectionLayout extends Controller implements Configura
     }    
 	
 	public void addStartSection(final SectionView section){
-	    VerticalPanel panel = new VerticalPanel();
-        
+	    startSectionView = section;
+	    
+	    VerticalPanel panel = new VerticalPanel();        	    
 	    panel.add(section);
-	    panel.add(new KSButton("Create",new ClickHandler(){
+	    panel.add(new KSButton("Save",new ClickHandler(){
             public void onClick(ClickEvent event) {
-                //Fire create event, and close on successful event, or expose
-                //a way to close the window.
-                startSectionWindow.hide();
-                defaultView.beforeShow();
+                section.updateModel();
+                SaveActionEvent saveActionEvent = new SaveActionEvent();
+                
+                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+                    public void onActionComplete(ActionEvent action) {
+                        startSectionWindow.hide();
+                    }                    
+                });
+                
+                fireApplicationEvent(saveActionEvent);
             }	        
 	    }));
 
         section.setController(this);
-	    section.beforeShow();
 	    startSectionWindow.setWidget(panel);
 	}
-	
+		
 	public void addButton(KSButton button){
-	    buttonPanel.add(button);	    
+	    sectionButtonPanel.add(button);	    
 	}
 	
 	/** 
@@ -211,35 +222,18 @@ public abstract class PagedSectionLayout extends Controller implements Configura
      */
     @Override
     public void showDefaultView() {
-        requestModel(modelDTOType, defaultViewCallback);
+        if (!loaded){
+            init();
+            loaded = true;
+        }
+                   
+        showView(defaultView);
     }
     
-    private ModelRequestCallback<ModelDTO> defaultViewCallback = new ModelRequestCallback<ModelDTO>(){
-
-        public void onModelReady(Model<ModelDTO> model) {
-            if (!loaded){
-                init();
-                loaded = true;
-            }
-            
-            buttonPanel.setVisible(false);
-            sectionMenuItems.get(0).setSelected(true);
-            
-            ModelDTO modelDTO = model.get();
-            if (modelDTO.get("id") == null){                
-                startSectionWindow.show();
-            } else {
-                defaultView.beforeShow();
-            }
-        }
-
-        public void onRequestFail(Throwable cause) {
-            // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
-            
-        }
-        
-    };
-
+    public void showStartSection(){
+        startSectionView.beforeShow();        
+        startSectionWindow.show();
+    }
     public Class<? extends ModelDTO> getModelDTOType() {
         return modelDTOType;
     }

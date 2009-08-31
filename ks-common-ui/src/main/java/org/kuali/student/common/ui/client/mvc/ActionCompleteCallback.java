@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.ui.client.event;
+package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
+import org.kuali.student.common.ui.client.event.ActionEvent;
 
 /**
- * A save handler should be implemented to carry out a save operation in response
- * to a save event.  A SaveEvent will have an EventHandlerCallback, which should
- * be invoked upon save complete action to notify widget that fired the event of
- * a success/failed save action. 
+ * This callback invoked when an action event has been completed.
  * 
  * @author Kuali Student Team
  *
  */
-public interface LoadModelHandler extends ApplicationEventHandler{
-    public void loadModel(LoadModelEvent loadModel);
+public interface ActionCompleteCallback {
+    
+    /**
+     * Call this method upon successful handling of an action event
+     *
+     */
+    public void onActionComplete(ActionEvent action);
+    
 }

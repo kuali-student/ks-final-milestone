@@ -16,18 +16,14 @@
 package org.kuali.student.common.ui.client.mvc;
 
 /**
- * This callback is used to inform a source widget of an event of the event's
- * status.
+ * An action that requires state
  * 
  * @author Kuali Student Team
  *
  */
-public interface EventStateCallback {
+public interface HasActionState {
+
+    public enum ActionState{SUCCESS, FAILURE};
     
-    /**
-     * Call this method upon successful handling of an event
-     *
-     */
-    public void onEventComplete(HasEventState event);
-    
+    public ActionState getActionState();
 }

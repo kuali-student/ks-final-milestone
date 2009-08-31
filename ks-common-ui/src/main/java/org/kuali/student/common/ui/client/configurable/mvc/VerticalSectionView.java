@@ -59,7 +59,7 @@ public class VerticalSectionView extends SectionView {
 
             @Override
             public void onRequestFail(Throwable cause) {
-                Window.alert("Failed to get model");
+                Window.alert("Failed to get model: " + getName());
             }
             
         });
