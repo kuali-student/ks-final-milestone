@@ -160,20 +160,5 @@ public class CollegeQualifierResolver extends AbstractOrgQualifierResolver {
 		return returnInfo;
 	}
 
-	/**
-	 * @param attributeSets 
-	 * @param string
-	 * @return
-	 */
-	private String getAttribute(List<AttributeSet> attributeSets, String searchStr) {
-		String attrStr;
-		
-		for (AttributeSet set : attributeSets) {
-			attrStr = set.get(searchStr);
-			if (null != attrStr) {
-				return attrStr;
-			}
-		}
-		return null;
-	}
+
 }

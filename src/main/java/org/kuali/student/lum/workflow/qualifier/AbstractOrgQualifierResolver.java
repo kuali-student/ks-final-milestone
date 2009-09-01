@@ -16,13 +16,20 @@
 
 package org.kuali.student.lum.workflow.qualifier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.role.XPathQualifierResolver;
 import org.kuali.rice.kew.rule.bo.RuleAttribute;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
 
 /**
  * @author Kuali Student Team
@@ -30,15 +37,26 @@ import org.kuali.student.core.organization.service.OrganizationService;
  */
 public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolver {
 
-	static final String KUALI_ORG_DEPARTMENT = "kuali.org.Department";
-	static final String KUALI_ORG_COLLEGE    = "kuali.org.College";
-	static final String KUALI_ORG_COC        = "kuali.org.COC";
+	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+	.getLogger(AbstractOrgQualifierResolver.class);
 	
-	static final String DEPARTMENT_ID = "departmentId";
-	static final String DEPARTMENT    = "department";
-	static final String COLLEGE       = "college";
-	static final String COLLEGE_ID    = "collegeId";
-	static final String ORG_ID        = "orgId";
+	protected static final String KUALI_ORG_TYPE_CURRICULUM_CHILD = "kuali.org.CurriculumChild";
+	protected static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
+	protected static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
+	protected static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
+	protected static final String KUALI_ORG_COC        			  = "kuali.org.COC";
+	protected static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
+	protected static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
+	
+	protected static final String DEPARTMENT_ID = "departmentId";
+	protected static final String DEPARTMENT    = "department";
+	protected static final String DIVISION      = "division";
+	protected static final String DIVISION_ID   = "divisionId";
+	protected static final String COLLEGE       = "college";
+	protected static final String COLLEGE_ID    = "collegeId";
+	protected static final String ORG_ID        = "orgId";
+	protected static final String ORG           = "org";
+	
 	protected OrganizationService orgService;
 	
 	protected static final String ORG_RESOLVER_CONFIG =
@@ -80,5 +98,105 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 			return actualType.equals(orgType);
 		}
 		return false;
+	}
+	
+	/**
+	 * @param attributeSets 
+	 * @param string
+	 * @return
+	 */
+	protected String getAttribute(List<AttributeSet> attributeSets, String searchStr) {
+		String attrStr;
+		
+		for (AttributeSet set : attributeSets) {
+			attrStr = set.get(searchStr);
+			if (null != attrStr) {
+				return attrStr;
+			}
+		}
+		return null;
+	}
+	
+	protected List<Result> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
+		List<Result> results = null;
+		if (null != orgId) {
+			List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
+			QueryParamValue qpRelType = new QueryParamValue();
+			qpRelType.setKey("org.queryParam.relationType");
+			qpRelType.setValue(relationType);
+			queryParamValues.add(qpRelType);
+			
+			QueryParamValue qpOrgId = new QueryParamValue();
+			qpOrgId.setKey("org.queryParam.orgId");
+			qpOrgId.setValue(orgId);
+			queryParamValues.add(qpOrgId);
+			
+			QueryParamValue qpRelOrgType = new QueryParamValue();
+			qpRelOrgType.setKey("org.queryParam.relatedOrgType");
+			qpRelOrgType.setValue(relatedOrgType);
+			queryParamValues.add(qpRelOrgType);
+			try {
+				results = getOrganizationService().searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType",
+						queryParamValues);
+			} catch (Exception e) {
+				LOG.error("Error calling org service");
+				throw new RuntimeException(e);
+			}
+		}
+		return results;
+	}
+
+	protected List<AttributeSet> attributeSetFromSearchResult(List<Result> results,
+			String orgShortNameKey, String orgIdKey) {
+		List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
+		if(results!=null){
+			for(Result result:results){
+				AttributeSet attributeSet = new AttributeSet();
+				String resolvedOrgId = "";
+				String resolvedOrgShortName = "";
+				for (ResultCell resultCell : result.getResultCells()) {
+					if ("org.resultColumn.orgId".equals(resultCell
+							.getKey())) {
+						resolvedOrgId = resultCell.getValue();
+					} else if ("org.resultColumn.orgShortName"
+							.equals(resultCell.getKey())) {
+						resolvedOrgShortName = resultCell.getValue();
+					}
+				}
+				if(orgShortNameKey!=null){
+					attributeSet.put(orgShortNameKey, resolvedOrgShortName);
+				}
+				if(orgIdKey!=null){
+					attributeSet.put(orgIdKey, resolvedOrgId);
+				}
+				attributeSet.put(ORG, resolvedOrgShortName);
+				attributeSet.put(ORG_ID, resolvedOrgId);
+				returnAttrSetList.add(attributeSet);
+			}
+		}
+		return returnAttrSetList;
+	}
+	
+	protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey,String orgIdKey){
+		List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
+		List<OrgInfo> ancestorOrgs;
+		if(orgId!=null){
+			try {
+				List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, KUALI_ORG_HIERARCHY_CURRICULUM);
+				ancestorOrgs = getOrganizationService().getOrganizationsByIdList(ancestorIds);
+			} catch (Exception e) {
+				LOG.error("Error calling org service");
+				throw new RuntimeException(e);
+			}
+			if(ancestorOrgs!=null){
+				for(OrgInfo ancestorOrg:ancestorOrgs){
+					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
+						List<Result> results = relatedOrgsFromOrgId(orgId,KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
+						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
+					}
+				}
+			}
+		}
+		return returnAttributeSets;
 	}
 }
