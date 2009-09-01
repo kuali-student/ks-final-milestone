@@ -24,8 +24,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CourseReqManager extends Controller {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
@@ -50,11 +52,16 @@ public class CourseReqManager extends Controller {
     private Map<String, String> clusData = new HashMap<String, String>(); 
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
-    public CourseReqManager() {
-        super();
-        super.initWidget(viewPanel);
-        viewPanel.add(mainPanel);   
-        mainPanel.add(new Label("Test"));
+    public CourseReqManager(VerticalPanel displayPanel) {
+        super();       
+        
+        if (displayPanel == null) {        
+       	 	super.initWidget(viewPanel);
+       	 	viewPanel.add(mainPanel);
+        } else {
+        	displayPanel.add(mainPanel);
+        }
+        
  this.ruleInfo = null;
         resetReqCompVOModel();
         loadData();
@@ -74,7 +81,7 @@ public class CourseReqManager extends Controller {
     
     @Override
     protected void onLoad() {
-        showDefaultView();
+        //showDefaultView();
     }
 
     // controller operations

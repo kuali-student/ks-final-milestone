@@ -24,8 +24,12 @@
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="urlMap">
 			<map>
-				<entry key="/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/RequirementsService">
+				<entry key="/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/RequirementsRpcService">
 					<ref bean="requirementsServiceGwtController"/>
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService">
+					<ref bean="requirementsServiceGwtController" />
 				</entry>
 				<entry key="/org.kuali.student.lum.lu.ui.course.Course/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController"/>

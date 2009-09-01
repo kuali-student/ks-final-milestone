@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class RequirementsEntryPoint implements EntryPoint {
 
-	CourseReqManager courseReqController = new CourseReqManager();
+	CourseReqManager courseReqController = new CourseReqManager(null);
     
     public void onModuleLoad() {
         
@@ -23,7 +23,7 @@ public class RequirementsEntryPoint implements EntryPoint {
         StyleInjector.injectStylesheet(injectString);
         
         RootPanel.get().add(courseReqController);
-        courseReqController.showDefaultView();                                     
+        //courseReqController.showDefaultView();  comment out if running Requirements module outside of LUM UI                                     
     }
     
     public String getCssString(){

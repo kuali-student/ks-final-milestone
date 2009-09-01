@@ -2,6 +2,9 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
+import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -52,12 +55,17 @@ public class CourseRequisiteView extends ViewComposite {
     private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
     private final Model<RuleInfo> courseRules = new Model<RuleInfo>();
     private boolean dataInitialized = false;
+    private boolean isInitialized = false;
     
     public CourseRequisiteView(Controller controller, String courseId) {
         super(controller, "Course Requisites");
         super.initWidget(mainPanel);           
-        initializeView(courseId);
     }
+    
+    public void beforeShow() {                 	
+        initializeView("CLU-NL-2");        
+        isInitialized = true;
+    }    
     
     public void initializeView(String courseId) {
 GWT.log("Initialize view", null);        
@@ -97,7 +105,7 @@ GWT.log("Initialize view", null);
     private void retrieveRuleTypeData(final String luStatementTypeKey) {
         
         layoutBasicRuleSection(luStatementTypeKey);
-        
+
         requirementsRpcServiceAsync.getStatementVO(courseData.get(getCourseId()).getId(), luStatementTypeKey, new AsyncCallback<StatementVO>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());

@@ -15,7 +15,5 @@
 	<inherits name='org.kuali.student.core.atp.Atp'/> 
 
 	<entry-point class="org.kuali.student.lum.ui.requirements.client.RequirementsEntryPoint"/>
-
-	<public path="public"/>
-	<public path="client" />
+	
 </module>

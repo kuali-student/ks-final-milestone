@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -41,6 +42,7 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUDictionaryManager;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -63,7 +65,7 @@ public class LuConfigurer {
     
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
-        COURSE_RESTRICTIONS, PRE_CO_REQUISTES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS, DOCUMENTS,
+        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS, DOCUMENTS,
         DEMO_SECTION
     }
                
@@ -88,6 +90,7 @@ public class LuConfigurer {
         addGovernanceSection(layout);
         addCourseLogistics(layout);
         addCourseInfoSection(layout);
+        addCourseRequisitesSection(layout);
         addActiveDatesSection(layout);
         addFinancialsSection(layout);
         addProgramRequirements(layout);
@@ -148,7 +151,32 @@ public class LuConfigurer {
         
         layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
     }
+    
+    /**
+     * Adds a section for adding or modifying rules associated with a given course (program).
+     * 
+     * @param layout - a content pane to which this section is added to
+     * @return
+     */
+    private static void addCourseRequisitesSection(ConfigurableLayout layout) {
+        CustomSectionView section = new CustomSectionView(LuSections.COURSE_REQUISITES, LUConstants.SECTION_COURSE_REQUISITES, CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_COURSE_REQUISITES));
 
+        VerticalSection startDate = new VerticalSection();
+        startDate.setSectionTitle(SectionTitle.generateH2Title("Test"));
+                
+        //CREDITS
+		/* TO Do - once we have a section that allows for flow between rule screens
+        VerticalSection enrollmentSection = new VerticalSection();
+        enrollmentSection.setSectionTitle(SectionTitle.generateH2Title("Enrollment Restrictions"));
+        enrollmentSection.addField(new FieldDescriptor("rationalle", "Rationalle", Type.STRING));
+        enrollmentSection.addField(new FieldDescriptor("rules", "Rules", Type.STRING));
+        enrollmentSection.addWidget(new KSButton());
+        section.addSection(enrollmentSection);   */
+        
+        layout.addSection(new String[] {LUConstants.SECTION_COURSE_REQUISITES}, section); 
+    }    
+    
     private static void addActiveDatesSection(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, LUConstants.SECTION_ACTIVE_DATES, CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_ACTIVE_DATES));

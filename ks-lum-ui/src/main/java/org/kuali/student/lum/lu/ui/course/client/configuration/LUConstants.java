@@ -58,6 +58,7 @@ public class LUConstants {
     public static final String SECTION_STUDENT_ELIGIBILITY = "Student Eligibility";
     public static final String SECTION_COURSE_RESTRICTIONS = "Course Restrictions";
     public static final String SECTION_PREQS_AND_CREQS = "Pre + Co Requisites";
+    public static final String SECTION_COURSE_REQUISITES = "Course Requisites";
 
     public static final String SECTION_ADMINISTRATIVE = "Administrative";
     public static final String SECTION_CREDITS = "Credits";

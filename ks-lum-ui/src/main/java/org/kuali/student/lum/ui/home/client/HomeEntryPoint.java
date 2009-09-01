@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class HomeEntryPoint implements EntryPoint{
 
-	CourseReqManager courseReqManager = new CourseReqManager();
+	CourseReqManager courseReqManager = new CourseReqManager(null);
     
     @Override
     public void onModuleLoad() {
