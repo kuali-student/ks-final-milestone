@@ -55,7 +55,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @Transactional(rollbackFor={Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
-    
+
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
 
 	private OrganizationDao organizationDao;
@@ -186,7 +186,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		//Set all the values on orgInfo
 		orgInfo.setType(orgTypeKey);
-		
+
 		try {
             List<ValidationResultContainer> validations = validateOrg("", orgInfo);
             for (ValidationResultContainer validationResult : validations) {
@@ -548,7 +548,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(orgId, "orgId");
 		checkForMissingParameter(descendantOrgId, "descendantOrgId");
 		checkForMissingParameter(orgHierarchy, "orgHierarchy");
-		
+
 		// get ancestors of the descendant, as it will be more efficient in most cases
 		List<String> ancestors = organizationDao.getAllAncestors(descendantOrgId, orgHierarchy);
 		boolean result = ancestors.contains(orgId);
@@ -770,10 +770,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgInfo, "orgInfo");
-		
+
 		//FIXME redo validation here and for all calls to create/update
 		//return validator.validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
-		
+
 		return new ArrayList<ValidationResultContainer>(0);
 	}
 

@@ -119,7 +119,6 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
     /**
      * List of organization identifiers. Structure should contain a proposerPerson OR a proposerOrg
      */
-    @Deprecated
     public List<String> getProposerOrg() {
         if (proposerOrg == null) {
             proposerOrg = new ArrayList<String>(0);
@@ -127,7 +126,6 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         return proposerOrg;
     }
 
-    @Deprecated
     public void setProposerOrg(List<String> proposerOrg) {
         this.proposerOrg = proposerOrg;
     }

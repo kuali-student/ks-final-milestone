@@ -24,7 +24,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * Join table between Proposal and what it references
@@ -34,6 +39,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KSCO_PROPOSAL_REFERENCE")
+@NamedQueries( {
+    @NamedQuery(name = "ObjectReference.getObjectReference", query = "SELECT o FROM ObjectReference o WHERE o.objectReferenceId = :objectReferenceId AND o.type.id = :objectReferenceType"),
+})
 public class ObjectReference {
     @Id
     @Column(name = "REFERENCE_ID")
@@ -48,6 +56,11 @@ public class ObjectReference {
     @ManyToOne(optional=true)
     @JoinColumn(name = "TYPE")
     private ReferenceType type;
+
+    @PrePersist
+    protected void onPrePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
 
     public String getId() {
         return id;

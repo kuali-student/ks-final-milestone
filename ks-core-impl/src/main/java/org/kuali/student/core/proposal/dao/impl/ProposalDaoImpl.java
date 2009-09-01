@@ -18,14 +18,18 @@ package org.kuali.student.core.proposal.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
+import org.kuali.student.core.proposal.entity.ObjectReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
+import org.kuali.student.core.proposal.entity.ProposalOrg;
+import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
 
 /**
@@ -120,7 +124,7 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
     }
 
     @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException {
+    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) {
         Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByProposal");
         query.setParameter("proposalId", proposalId);
         @SuppressWarnings("unchecked")
@@ -129,11 +133,36 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
     }
 
     @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException {
+    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) {
         Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByType");
         query.setParameter("proposalDocRelationTypeKey", proposalDocRelationTypeKey);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
         return proposalDocRelations;
+    }
+
+    @Override
+    public ProposalPerson getProposalPerson(String proposerId) {
+        Query query = em.createNamedQuery("ProposalPerson.getProposalPerson");
+        query.setParameter("proposerId", proposerId);
+        ProposalPerson proposalPerson = (ProposalPerson)query.getSingleResult();
+        return proposalPerson;
+    }
+
+    @Override
+    public ProposalOrg getProposalOrg(String orgId) throws NoResultException {
+        Query query = em.createNamedQuery("ProposalOrg.getProposalOrg");
+        query.setParameter("orgId", orgId);
+        ProposalOrg proposalPerson = (ProposalOrg)query.getSingleResult();
+        return proposalPerson;
+    }
+
+    @Override
+    public ObjectReference getObjectReference(String objectReferenceId, String objectReferenceType) throws NoResultException {
+        Query query = em.createNamedQuery("ObjectReference.getObjectReference");
+        query.setParameter("objectReferenceType", objectReferenceType);
+        query.setParameter("objectReferenceId", objectReferenceId);
+        ObjectReference objectReference = (ObjectReference)query.getSingleResult();
+        return objectReference;
     }
 }

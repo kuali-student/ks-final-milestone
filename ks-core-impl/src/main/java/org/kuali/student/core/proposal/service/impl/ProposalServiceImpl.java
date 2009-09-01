@@ -64,8 +64,19 @@ public class ProposalServiceImpl implements ProposalService {
     public ProposalInfo createProposal(String proposalTypeKey, ProposalInfo proposalInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
         checkForMissingParameter(proposalInfo, "proposalInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        if (proposalInfo.getProposerPerson() != null && !proposalInfo.getProposerPerson().isEmpty() && proposalInfo.getProposerOrg() != null && !proposalInfo.getProposerOrg().isEmpty()) {
+            throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
+        }
+       try {
+           Proposal proposal = ProposalAssembler.toProposal(proposalTypeKey, proposalInfo, proposalDao);
+           proposalDao.create(proposal);
+
+           return ProposalAssembler.toProposalInfo(proposal);
+       } catch (VersionMismatchException e) {
+           throw new InvalidParameterException(e.getMessage());
+       }
+
     }
 
     /**
@@ -91,8 +102,15 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public StatusInfo deleteProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(proposalId, "proposalId");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+        try {
+            proposalDao.delete(Proposal.class, proposalId);
+        } catch (DoesNotExistException e) {
+            status.setSuccess(false);
+        }
+
+        return status;
     }
 
     /**
@@ -174,7 +192,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<ProposalDocRelationInfo> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentId, "documentId");
-        
+
         List<ProposalDocRelation> proposalDocRelations = proposalDao.getProposalDocRelationsByDocument(documentId);
         return ProposalAssembler.toProposalDocRelationInfos(proposalDocRelations);
     }
@@ -331,8 +349,20 @@ public class ProposalServiceImpl implements ProposalService {
     public ProposalInfo updateProposal(String proposalId, ProposalInfo proposalInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(proposalId, "proposalId");
         checkForMissingParameter(proposalInfo, "proposalInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        proposalInfo.setId(proposalId);
+        if (proposalInfo.getProposerPerson() != null && !proposalInfo.getProposerPerson().isEmpty() && proposalInfo.getProposerOrg() != null && !proposalInfo.getProposerOrg().isEmpty()) {
+            throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
+        }
+
+        try {
+            Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), proposalInfo, proposalDao);
+            proposalDao.update(proposal);
+
+            return ProposalAssembler.toProposalInfo(proposal);
+        } catch (VersionMismatchException e) {
+            throw new InvalidParameterException(e.getMessage());
+        }
     }
 
     /**

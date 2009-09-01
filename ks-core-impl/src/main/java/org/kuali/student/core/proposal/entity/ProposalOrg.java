@@ -18,8 +18,8 @@ package org.kuali.student.core.proposal.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -32,18 +32,17 @@ import org.kuali.student.common.util.UUIDHelper;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_JN_ORG")
+@Table(name = "KSCO_PROPOSAL_ORG")
+@NamedQueries( {
+    @NamedQuery(name = "ProposalOrg.getProposalOrg", query = "SELECT p FROM ProposalOrg p WHERE p.orgId = :orgId"),
+})
 public class ProposalOrg {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ORGREF_ID")
     private String id;
 
     @Column(name = "ORG_ID")
     private String orgId; // External service key
-
-    @ManyToOne
-    @JoinColumn(name = "PROPOSAL_ID")
-    private Proposal proposal;
 
     @PrePersist
     public void onPrePersist() {
@@ -65,13 +64,4 @@ public class ProposalOrg {
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
-
-    public Proposal getProposal() {
-        return proposal;
-    }
-
-    public void setProposal(Proposal proposal) {
-        this.proposal = proposal;
-    }
-
 }

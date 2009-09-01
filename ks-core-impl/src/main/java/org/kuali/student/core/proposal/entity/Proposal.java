@@ -34,6 +34,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -60,10 +61,22 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     @Column(name="NAME")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="KSCO_PROPOSAL_JN_PERSON",
+            joinColumns=
+            @JoinColumn(name="PROPOSAL_ID", referencedColumnName="PROPOSAL_ID"),
+      inverseJoinColumns=
+            @JoinColumn(name="PERSONREF_ID", referencedColumnName="PERSONREF_ID")
+    )
     private List<ProposalPerson> proposerPerson;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="KSCO_PROPOSAL_JN_ORG",
+            joinColumns=
+            @JoinColumn(name="PROPOSAL_ID", referencedColumnName="PROPOSAL_ID"),
+      inverseJoinColumns=
+            @JoinColumn(name="ORGREF_ID", referencedColumnName="ORGREF_ID")
+    )
     private List<ProposalOrg> proposerOrg;
 
     @ManyToMany(fetch=FetchType.EAGER)
@@ -98,6 +111,11 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
 
     @Column(name = "STATE")
     private String state;
+
+    @Override
+    protected void onPrePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
 
     public String getId() {
         return id;

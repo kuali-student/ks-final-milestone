@@ -15,12 +15,16 @@
  */
 package org.kuali.student.core.proposal.service.impl;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -28,10 +32,17 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
@@ -68,7 +79,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertNotNull(proposalInfo);
         assertEquals(1, proposalInfo.getProposerPerson().size());
         assertEquals(4, proposalInfo.getProposalReference().size());
-        assertEquals("Clu", proposalInfo.getProposalReferenceType());
+        assertEquals("REFTYPE-1", proposalInfo.getProposalReferenceType());
 
         try {
             client.getProposal("PROPOSAL-XXX");
@@ -106,14 +117,14 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
     }
-    
+
     @Test
     public void getProposalDocRelationsByDocument() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByDocument("DOC-ID-1");
         assertNotNull(docRelationInfos);
     }
-    
+
     @Test
     public void getProposalDocRelationsByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
     {
@@ -123,14 +134,14 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByIdList(ids);
         assertNotNull(docRelationInfos);
     }
-    
+
     @Test
     public void getProposalDocRelationsByProposal() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
         assertNotNull(docRelationInfos);
     }
-    
+
     @Test
     public void getProposalDocRelationsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
     {
@@ -311,4 +322,98 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
    }
+
+   @Test public void proposalCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+       ProposalInfo proposalInfo = new ProposalInfo();
+       proposalInfo.setName("name");
+
+       List<String> proposerPersons = new ArrayList<String>();
+       proposerPersons.add("gnl");
+       proposerPersons.add("david");
+       proposalInfo.setProposerPerson(proposerPersons);
+
+       List<String> proposalReferences = new ArrayList<String>();
+       proposalReferences.add("doc-1");
+       proposalInfo.setProposalReference(proposalReferences);
+       proposalInfo.setProposalReferenceType("REFTYPE-1");
+       proposalInfo.setRationale("rationale");
+       proposalInfo.setDetailDesc("detail desc");
+       Date effectiveDate = new Date();
+       proposalInfo.setEffectiveDate(effectiveDate);
+       Date expirationDate = new Date();
+       proposalInfo.setExpirationDate(expirationDate);
+       Map<String, String> attributes = new HashMap<String, String>();
+       attributes.put("key", "value");
+       proposalInfo.setAttributes(attributes);
+       proposalInfo.setType("proposalType.courseCorrection");
+       proposalInfo.setState("active");
+
+       String id = client.createProposal("proposalType.courseCorrection", proposalInfo).getId();
+
+       ProposalInfo createdProposalInfo = client.getProposal(id);
+       assertNotNull(createdProposalInfo);
+       checkProposalCrud(proposalInfo, createdProposalInfo);
+
+       List<String> orgs = new ArrayList<String>();
+       orgs.add("kuali");
+       orgs.add("ubc");
+       createdProposalInfo.setProposerOrg(orgs);
+        try {
+            client.updateProposal(id, createdProposalInfo);
+            assertTrue(false); // Can't have both person and org proposers
+        } catch (InvalidParameterException e) {
+            assertTrue(true);
+        } catch (VersionMismatchException e) {
+            assertTrue(false);
+        }
+        createdProposalInfo.setProposerPerson(null);
+        try {
+            client.updateProposal(id, createdProposalInfo);
+            ProposalInfo updatedProposalInfo = client.getProposal(id);
+            checkProposalCrud(createdProposalInfo, updatedProposalInfo);
+        } catch (InvalidParameterException e) {
+            assertTrue(false);
+        } catch (VersionMismatchException e) {
+            assertTrue(false);
+        }
+
+        try {
+            StatusInfo status = client.deleteProposal(id);
+            assertTrue(status.getSuccess());
+        } catch (DependentObjectsExistException e) {
+            assertTrue(false);
+        }
+
+        try {
+            StatusInfo status = client.deleteProposal(id);
+            assertFalse(status.getSuccess());
+        } catch (DependentObjectsExistException e) {
+            assertTrue(false);
+        }
+        try {
+            client.getProposal(id);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+   }
+
+    private void checkProposalCrud(ProposalInfo master, ProposalInfo validate) {
+        if (master.getId() != null) {
+            assertEquals(master.getId(), validate.getId());
+        }
+        assertEquals(master.getName(), validate.getName());
+        assertEquals(master.getProposerPerson(), validate.getProposerPerson());
+        assertEquals(master.getProposerOrg(), validate.getProposerOrg());
+        assertEquals(master.getProposalReferenceType(), validate.getProposalReferenceType());
+        assertEquals(master.getProposalReference(), validate.getProposalReference());
+        assertEquals(master.getRationale(), validate.getRationale());
+        assertEquals(master.getDetailDesc(), validate.getDetailDesc());
+        assertEquals(master.getEffectiveDate(), validate.getEffectiveDate());
+        assertEquals(master.getExpirationDate(), validate.getExpirationDate());
+        assertEquals(master.getAttributes(), validate.getAttributes());
+
+        assertEquals(master.getType(), validate.getType());
+        assertEquals(master.getState(), validate.getState());
+    }
 }
