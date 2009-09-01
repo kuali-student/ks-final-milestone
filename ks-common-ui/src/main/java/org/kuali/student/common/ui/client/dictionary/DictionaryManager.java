@@ -146,9 +146,9 @@ public class DictionaryManager {
         //TODO what should be returned if this field def exists but not for this type/state combo?
 
         //Fix me default in case something bad happened
-        Field f = new Field();
-        f.setFieldDescriptor(new FieldDescriptor());
-        f.getFieldDescriptor().setName(fieldName);
+        Field f = null;
+        /*f.setFieldDescriptor(new FieldDescriptor());
+        f.getFieldDescriptor().setName(fieldName);*/
         return f;
     }
 
