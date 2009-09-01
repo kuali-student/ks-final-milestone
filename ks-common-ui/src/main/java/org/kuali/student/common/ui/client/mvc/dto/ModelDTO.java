@@ -36,12 +36,21 @@ public class ModelDTO implements Serializable {
 	
 	private transient ModelDTOAdapter adapter = null;
 	
+	public ModelDTO(){}
+	
 	public ModelDTOAdapter getAdapter() {
-		return adapter;
+		if(GWT.isClient()){
+			return adapter;
+		}
+		else{
+			return null;
+		}
 	}
 
 	public void setAdapter(ModelDTOAdapter adapter) {
-		this.adapter = adapter;
+		if(GWT.isClient()){
+			this.adapter = adapter;
+		}
 	}
 
 	/**
@@ -82,7 +91,7 @@ public class ModelDTO implements Serializable {
 	 * @param value ModelDTOValue value of the property
 	 */
 	public void put(String key, ModelDTOValue value) {
-		if(adapter != null){
+		if(GWT.isClient() && adapter != null){
 			adapter.put(key, value);
 		}
 		else{
@@ -97,7 +106,7 @@ public class ModelDTO implements Serializable {
 	 * @return ModelDTOValue value of the property
 	 */
 	public ModelDTOValue get(String key) {
-		if(adapter != null){
+		if(GWT.isClient() && adapter != null){
 			return adapter.get(key);
 		}
 		else{

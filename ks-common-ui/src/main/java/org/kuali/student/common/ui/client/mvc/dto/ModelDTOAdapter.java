@@ -1,24 +1,23 @@
 package org.kuali.student.common.ui.client.mvc.dto;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.core.dictionary.dto.Field;
 
-public class ModelDTOAdapter {
+public class ModelDTOAdapter implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String objectKey;
-	private String type;
-	private String state;
 	private ModelDTO baseModelDTO;
 	private Map<String, String> objectKeyClassNameMap;
 	
-	public ModelDTOAdapter(ModelDTO baseModelDTO, Map<String, String> objectKeyClassNameMap, String objectKey, String type, String state){
+	public ModelDTOAdapter(ModelDTO baseModelDTO, Map<String, String> objectKeyClassNameMap, String objectKey){
 		this.objectKey = objectKey;
-		this.type = type;
-		this.state = state;
 		this.baseModelDTO = baseModelDTO;
 		this.objectKeyClassNameMap = objectKeyClassNameMap;
 	}
@@ -127,7 +126,7 @@ public class ModelDTOAdapter {
     	DictionaryManager dictionary = DictionaryManager.getInstance();
     	String name = null;
     	
-    	Field field = dictionary.getField(objectKey, type, state, key);
+    	Field field = dictionary.getField(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get(), key);
     	System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){
     		
