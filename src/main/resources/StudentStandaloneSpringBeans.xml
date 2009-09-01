@@ -118,7 +118,7 @@
 				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
 			</list>
 		</property>
-		<property name="orgService" ref="orgClient"/>
+		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
 	<!-- Org Derived role (anyone that's related to this org -->
@@ -128,7 +128,7 @@
 				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
 			</list>
 		</property>
-		<property name="orgService" ref="orgClient"/>
+		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 	
 </beans>

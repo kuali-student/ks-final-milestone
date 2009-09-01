@@ -61,7 +61,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	
 	protected static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
-										"<baseXPathExpression>/documentContent/applicationContent/cluProposal</baseXPathExpression>" +
+										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
 										"<qualifier name=\"" + ORG_ID +  "\">" +
 											"<xPathExpression>./orgId</xPathExpression>" + 
 										"</qualifier>" +
@@ -136,7 +136,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 			qpRelOrgType.setValue(relatedOrgType);
 			queryParamValues.add(qpRelOrgType);
 			try {
-				results = getOrganizationService().searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType",
+				results = getOrganizationService().searchForResults("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId",
 						queryParamValues);
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
