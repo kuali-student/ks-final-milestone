@@ -1,26 +1,20 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import org.kuali.student.common.ui.client.configurable.mvc.RowDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * 
- * An vertical layout implementation of SectionView. Fields to this section view
- * will be added in a vertical layout. 
+ * Displays Rules pages within this section, allowing end user to navigate between rules screens
+ * without using or affecting menu on the left.  
  * 
  * @author Kuali Student Team
  *
@@ -29,7 +23,7 @@ public class CustomSectionView extends SectionView {
     
     protected final VerticalPanel panel = new VerticalPanel();
 	private boolean loaded = false;
-	CourseReqManager childController;
+	CourseReqManager childController;	//controls the display of all rules related pages
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
