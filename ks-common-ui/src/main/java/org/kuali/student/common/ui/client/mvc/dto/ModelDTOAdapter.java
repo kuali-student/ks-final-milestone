@@ -52,14 +52,14 @@ public class ModelDTOAdapter {
                 }
             }
             else{
-                ModelDTOValue modelDTOValue = base.get(key);
+                ModelDTOValue modelDTOValue = base.map.get(key);
                 ModelDTO modelDTO = null;
                 if(modelDTOValue == null){
                     modelDTO = new ModelDTO(getClassName(key));
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
                     
-                    base.put(key, modelDTOType);
+                    base.map.put(key, modelDTOType);
                 }
                 else{
                     modelDTO = ((ModelDTOType) modelDTOValue).get();
@@ -70,7 +70,7 @@ public class ModelDTOAdapter {
         }
         else{
             //System.out.println(key);
-            base.put(key, value);
+        	base.map.put(key, value);
         }
 	}
 	
@@ -104,7 +104,8 @@ public class ModelDTOAdapter {
                 }*/
             }
             else{
-                ModelDTOValue modelDTOValue = base.get(key);
+            	System.out.println(key);
+                ModelDTOValue modelDTOValue = base.map.get(key);
                 
                 if(modelDTOValue == null){
                     returnValue = null;
@@ -117,7 +118,7 @@ public class ModelDTOAdapter {
             }
         }
         else{
-        	returnValue = base.get(key);
+        	returnValue = base.map.get(key);
         }
     	return returnValue;
 	}
@@ -127,7 +128,9 @@ public class ModelDTOAdapter {
     	String name = null;
     	
     	Field field = dictionary.getField(objectKey, type, state, key);
+    	System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){
+    		
     		System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
     		name = objectKeyClassNameMap.get(field.getFieldDescriptor().getObjectStructure().getKey());
     	}
