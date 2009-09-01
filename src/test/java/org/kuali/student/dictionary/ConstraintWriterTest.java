@@ -91,7 +91,7 @@ public class ConstraintWriterTest
   System.out.println ("|||||||");
   System.out.println (baos.toString ());
   System.out.println ("|||||||");
-  assertEquals (668, baos.toString ().length ());
+  assertEquals (687, baos.toString ().length ());
  }
 
  /**
@@ -111,7 +111,7 @@ public class ConstraintWriterTest
   System.out.println ("|||||||");
   System.out.println (baos.toString ());
   System.out.println ("|||||||");
-  assertEquals (581, baos.toString ().length ());
+  assertEquals (597, baos.toString ().length ());
  }
 
 }
