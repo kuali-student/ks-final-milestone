@@ -34,7 +34,7 @@ import org.kuali.student.common.util.UUIDHelper;
 @Entity
 @Table(name = "KSCO_PROPOSAL_ORG")
 @NamedQueries( {
-    @NamedQuery(name = "ProposalOrg.getProposalOrg", query = "SELECT p FROM ProposalOrg p WHERE p.orgId = :orgId"),
+    @NamedQuery(name = "ProposalOrg.getProposalOrg", query = "SELECT p FROM ProposalOrg p WHERE p.orgId = :orgId")
 })
 public class ProposalOrg {
     @Id

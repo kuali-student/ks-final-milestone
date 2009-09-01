@@ -40,7 +40,7 @@ import org.kuali.student.common.util.UUIDHelper;
 @Entity
 @Table(name = "KSCO_PROPOSAL_REFERENCE")
 @NamedQueries( {
-    @NamedQuery(name = "ObjectReference.getObjectReference", query = "SELECT o FROM ObjectReference o WHERE o.objectReferenceId = :objectReferenceId AND o.type.id = :objectReferenceType"),
+    @NamedQuery(name = "ObjectReference.getObjectReference", query = "SELECT o FROM ObjectReference o WHERE o.objectReferenceId = :objectReferenceId AND o.type.id = :objectReferenceType")
 })
 public class ObjectReference {
     @Id
