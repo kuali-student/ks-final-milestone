@@ -58,6 +58,7 @@ public class ExcelDictionaryWriterTest implements TestConstants
  {
  }
 
+
  /**
   * Test of write method, of class DictionaryWriter.
   */
@@ -66,7 +67,7 @@ public class ExcelDictionaryWriterTest implements TestConstants
  {
   System.out.println ("writeExcelDictionary");
   File file =
-   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-excel.xml");
+   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-jexcelapi.xml");
   PrintStream out;
   try
   {
@@ -76,14 +77,13 @@ public class ExcelDictionaryWriterTest implements TestConstants
   {
    throw new RuntimeException (ex);
   }
-  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
   SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
   try
   {
-   SpreadsheetLoader loader = new SpreadsheetLoader (reader);
-   Spreadsheet cache = new SpreadsheetCache (loader);
-   DictionaryWriter instance = new DictionaryWriter (out, cache);
-   instance.write ();
+  SpreadsheetLoader loader = new SpreadsheetLoader (reader);
+  Spreadsheet cache = new SpreadsheetCache (loader);
+  DictionaryWriter instance = new DictionaryWriter (out, cache);
+  instance.write ();
   }
   finally
   {
