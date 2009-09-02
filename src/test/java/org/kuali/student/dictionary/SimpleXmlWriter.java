@@ -21,10 +21,10 @@ import java.io.PrintStream;
  *
  * @author nwright
  */
-public class TestXmlWriter extends XmlWriter
+public class SimpleXmlWriter extends XmlWriter
 {
 
- public TestXmlWriter (PrintStream out, int indent)
+ public SimpleXmlWriter (PrintStream out, int indent)
  {
   super (out, indent);
  }

@@ -66,7 +66,7 @@ public class XmlWriterTest
   System.out.println ("writeAttribute");
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  XmlWriter instance = new TestXmlWriter (out, 0);
+  XmlWriter instance = new SimpleXmlWriter (out, 0);
   String attribute = "id";
   String value = "myId";
   instance.writeAttribute (attribute, value);
@@ -82,7 +82,7 @@ public class XmlWriterTest
   System.out.println ("writeBlankAttribute");
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  XmlWriter instance = new TestXmlWriter (out, 0);
+  XmlWriter instance = new SimpleXmlWriter (out, 0);
   String attribute = "id";
   String value = "";
   instance.writeAttribute (attribute, value);
@@ -99,7 +99,7 @@ public class XmlWriterTest
   System.out.println ("writeTag");
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  XmlWriter instance = new TestXmlWriter (out, 0);
+  XmlWriter instance = new SimpleXmlWriter (out, 0);
   String tag = "testTag";
   String value = "testTagValue";
   instance.writeTag (tag, value);
@@ -116,7 +116,7 @@ public class XmlWriterTest
   System.out.println ("writeBkankTag");
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  XmlWriter instance = new TestXmlWriter (out, 0);
+  XmlWriter instance = new SimpleXmlWriter (out, 0);
   String tag = "testTag";
   String value = "";
   instance.writeTag (tag, value);
@@ -134,7 +134,7 @@ public class XmlWriterTest
   System.out.println ("writeComment");
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  XmlWriter instance = new TestXmlWriter (out, 0);
+  XmlWriter instance = new SimpleXmlWriter (out, 0);
   String comment = "test Comment with new \n line in the middle";
   instance.writeComment (comment);
   System.out.println ("|" + baos.toString () + "|");
@@ -151,7 +151,7 @@ public class XmlWriterTest
   System.out.println ("writeBlankComment");
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  XmlWriter instance = new TestXmlWriter (out, 0);
+  XmlWriter instance = new SimpleXmlWriter (out, 0);
   String comment = "";
   instance.writeComment (comment);
   System.out.println ("|" + baos.toString () + "|");
@@ -165,7 +165,7 @@ public class XmlWriterTest
  public void testEscapeXML ()
  {
   System.out.println ("escapeXML");
-  XmlWriter instance = new TestXmlWriter (System.out, 0);
+  XmlWriter instance = new SimpleXmlWriter (System.out, 0);
   assertEquals ("&lt;", instance.escapeXML ("<"));
   assertEquals ("&gt;", instance.escapeXML (">"));
   assertEquals ("xyz", instance.escapeXML ("xyz"));
