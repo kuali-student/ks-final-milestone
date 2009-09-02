@@ -58,11 +58,22 @@ public class GoogleSpreadsheetReaderTest
 
  private static String USER_ID = "nwright@mit.edu";
  private static String PASSWORD = "xxxxx";
- private static String PUBLISHED_SPREADSHEET = "Unit Test Spreadsheet 1 - Published";
- private static String UNPUBLISHED_SPREADSHEET = "Unit Test Spreadsheet 2 - Unpublished";
+ private static String PUBLISHED_SPREADSHEET =
+  "Unit Test Spreadsheet 1 - Published";
+ private static String UNPUBLISHED_SPREADSHEET =
+  "Unit Test Spreadsheet 2 - Unpublished";
  private static String WORKSHEET = "TestWorksheet2";
- private static String PUBLISHED_KEY   = "tZ5p8stPQLHYbfUU7AxWAjg";
+ private static String PUBLISHED_KEY = "tZ5p8stPQLHYbfUU7AxWAjg";
  private static String UNPUBLISHED_KEY = "tk4cpzowoRNN3UO2QXIyHJQ";
+
+ /**
+  * Test of write method, of class DictionaryWriter.
+  */
+ @Test
+ public void testTrue ()
+ {
+  assertEquals (true, true);
+ }
 
  /**
   * Test of find method, of class GoogleSpreadsheetReader.

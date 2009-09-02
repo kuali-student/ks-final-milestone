@@ -80,6 +80,15 @@ public class GoogleSpreadsheetExampleReaderTest
   "http://spreadsheets.google.com/feeds";
 
  /**
+  * Test of write method, of class DictionaryWriter.
+  */
+ @Test
+ public void testTrue ()
+ {
+  assertEquals (true, true);
+ }
+
+ /**
   * Test of find method, of class GoogleSpreadsheetReader.
   */
 // @Test

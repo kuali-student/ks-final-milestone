@@ -65,6 +65,15 @@ public class GoogleDictionaryWriterTest
  /**
   * Test of write method, of class DictionaryWriter.
   */
+ @Test
+ public void testTrue ()
+ {
+  assertEquals (true, true);
+ }
+
+ /**
+  * Test of write method, of class DictionaryWriter.
+  */
 // @Test
  public void testWriteGoogleDictionary ()
  {

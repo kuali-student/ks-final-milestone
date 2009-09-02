@@ -67,7 +67,7 @@ public class ExcelDictionaryWriterTest implements TestConstants
  {
   System.out.println ("writeExcelDictionary");
   File file =
-   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-jexcelapi.xml");
+   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-excel.xml");
   PrintStream out;
   try
   {
