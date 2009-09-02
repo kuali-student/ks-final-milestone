@@ -135,28 +135,6 @@ public class ConstraintWriter extends XmlWriter
   {
    return "";
   }
-  if (validChars.startsWith ("maxInt:"))
-  {
-   MaximumNumberRegularExpressionGenerator generator =
-    new MaximumNumberRegularExpressionGenerator ();
-   String maxNumStr = validChars.substring ("maxInt:".length ()).trim ();
-   if (maxNumStr.equals (""))
-   {
-    throw new DictionaryValidationException ("No integer entered after 'maxInt:' for constraint " +
-     constraint.getId ());
-   }
-   int maxNum = 0;
-   try
-   {
-    maxNum = Integer.parseInt (maxNumStr);
-   }
-   catch (NumberFormatException ex)
-   {
-    throw new DictionaryValidationException ("The text after 'maxInt:', " + maxNumStr +
-     "  is not an integer in constraint " + constraint.getId ());
-   }
-   validChars = generator.generate (maxNum);
-  }
   return "regex:" + validChars;
  }
 
