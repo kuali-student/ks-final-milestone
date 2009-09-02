@@ -788,11 +788,6 @@
 			<!-- Libraries not required for Java 1.6_04+ are being excluding (based cxf WHICH_JARS file) -->
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-tools-common</artifactId>
-				<version>${cxf.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-frontend-jaxws</artifactId>
 				<version>${cxf.version}</version>
 				<exclusions>
