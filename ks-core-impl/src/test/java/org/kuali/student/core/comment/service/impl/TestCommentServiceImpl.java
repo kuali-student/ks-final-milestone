@@ -35,7 +35,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
