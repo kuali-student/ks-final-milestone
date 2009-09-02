@@ -78,6 +78,12 @@
     <configuration>
      <source>1.6</source>
      <target>1.6</target>
+     <archive>
+      <manifest>
+       <addClasspath>true</addClasspath>
+       <mainClass>org.kuali.student.dictionary.DictionaryGeneratorFromCommandLine</mainClass>
+      </manifest>
+     </archive>
     </configuration>
    </plugin>
   </plugins>

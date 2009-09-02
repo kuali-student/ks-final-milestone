@@ -23,7 +23,7 @@ import java.io.PrintStream;
  *
  * @author nwright
  */
-public class CommandLineGenerator
+public class DictionaryGeneratorFromCommandLine
 {
 
  /**
@@ -31,7 +31,7 @@ public class CommandLineGenerator
   */
  public static void main (String[] args)
  {
-  CommandLineGenerator instance = new CommandLineGenerator ();
+  DictionaryGeneratorFromCommandLine instance = new DictionaryGeneratorFromCommandLine ();
   instance.generate (args);
 
  }
