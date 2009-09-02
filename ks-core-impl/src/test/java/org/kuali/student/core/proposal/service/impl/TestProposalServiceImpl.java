@@ -15,8 +15,8 @@
  */
 package org.kuali.student.core.proposal.service.impl;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -32,7 +32,6 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -45,6 +44,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
+import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
@@ -501,5 +501,32 @@ private ProposalInfo setupProposalInfo() {
         assertEquals(master.getAttributes(), validate.getAttributes());
         assertEquals(master.getType(), validate.getType());
         assertEquals(master.getState(), validate.getState());
+    }
+
+    @Test
+    public void getProposalDocRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ProposalDocRelationTypeInfo docRelInfo = client.getProposalDocRelationType("PROP-DOCREL-TYPE1");
+        assertNotNull(docRelInfo);
+
+        try {
+            client.getProposalDocRelationType("PROP-DOCREL-TYPEXXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+        try {
+            client.getProposalDocRelationType(null);
+            assertTrue(false);
+        } catch (MissingParameterException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void getProposalDocRelationTypes() throws OperationFailedException {
+        List<ProposalDocRelationTypeInfo> types = client.getProposalDocRelationTypes();
+        assertNotNull(types);
+        assertEquals(1, types.size());
     }
 }

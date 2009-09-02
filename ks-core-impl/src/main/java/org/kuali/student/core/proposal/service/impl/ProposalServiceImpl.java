@@ -37,6 +37,7 @@ import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
+import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.entity.ReferenceType;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -182,8 +183,9 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public ProposalDocRelationTypeInfo getProposalDocRelationType(String proposalDocRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalDocRelationTypeKey, "proposalDocRelationTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        ProposalDocRelationType type = proposalDao.fetch(ProposalDocRelationType.class, proposalDocRelationTypeKey);
+        return ProposalAssembler.toProposalDocRelationTypeInfo(type);
     }
 
     /**
@@ -193,8 +195,8 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<ProposalDocRelationTypeInfo> getProposalDocRelationTypes() throws OperationFailedException {
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ProposalDocRelationType> types = proposalDao.find(ProposalDocRelationType.class);
+        return ProposalAssembler.toProposalDocRelationTypeInfos(types);
     }
 
     /**

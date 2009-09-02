@@ -27,6 +27,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
+import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
@@ -262,5 +263,23 @@ public class ProposalAssembler extends BaseAssembler {
         proposalDocRelation.setType(docRelType);
 
         return proposalDocRelation;
+    }
+
+    public static List<ProposalDocRelationTypeInfo> toProposalDocRelationTypeInfos(List<ProposalDocRelationType> entities) {
+        List<ProposalDocRelationTypeInfo> dtos = new ArrayList<ProposalDocRelationTypeInfo>(entities.size());
+        for (ProposalDocRelationType entity : entities) {
+            dtos.add(toProposalDocRelationTypeInfo(entity));
+        }
+        return dtos;
+    }
+
+    public static ProposalDocRelationTypeInfo toProposalDocRelationTypeInfo(ProposalDocRelationType entity) {
+        ProposalDocRelationTypeInfo dto = new ProposalDocRelationTypeInfo();
+
+        BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
+
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+        return dto;
     }
 }
