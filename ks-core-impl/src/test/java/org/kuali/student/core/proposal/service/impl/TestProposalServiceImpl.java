@@ -33,6 +33,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -323,30 +324,9 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         }
    }
 
-   @Test public void proposalCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-       ProposalInfo proposalInfo = new ProposalInfo();
-       proposalInfo.setName("name");
-
-       List<String> proposerPersons = new ArrayList<String>();
-       proposerPersons.add("gnl");
-       proposerPersons.add("david");
-       proposalInfo.setProposerPerson(proposerPersons);
-
-       List<String> proposalReferences = new ArrayList<String>();
-       proposalReferences.add("doc-1");
-       proposalInfo.setProposalReference(proposalReferences);
-       proposalInfo.setProposalReferenceType("REFTYPE-1");
-       proposalInfo.setRationale("rationale");
-       proposalInfo.setDetailDesc("detail desc");
-       Date effectiveDate = new Date();
-       proposalInfo.setEffectiveDate(effectiveDate);
-       Date expirationDate = new Date();
-       proposalInfo.setExpirationDate(expirationDate);
-       Map<String, String> attributes = new HashMap<String, String>();
-       attributes.put("key", "value");
-       proposalInfo.setAttributes(attributes);
-       proposalInfo.setType("proposalType.courseCorrection");
-       proposalInfo.setState("active");
+   @Test
+   public void proposalCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+       ProposalInfo proposalInfo = setupProposalInfo();
 
        String id = client.createProposal("proposalType.courseCorrection", proposalInfo).getId();
 
@@ -398,7 +378,34 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         }
    }
 
-    private void checkProposalCrud(ProposalInfo master, ProposalInfo validate) {
+private ProposalInfo setupProposalInfo() {
+    ProposalInfo proposalInfo = new ProposalInfo();
+       proposalInfo.setName("name");
+
+       List<String> proposerPersons = new ArrayList<String>();
+       proposerPersons.add("gnl");
+       proposerPersons.add("david");
+       proposalInfo.setProposerPerson(proposerPersons);
+
+       List<String> proposalReferences = new ArrayList<String>();
+       proposalReferences.add("doc-1");
+       proposalInfo.setProposalReference(proposalReferences);
+       proposalInfo.setProposalReferenceType("REFTYPE-1");
+       proposalInfo.setRationale("rationale");
+       proposalInfo.setDetailDesc("detail desc");
+       Date effectiveDate = new Date();
+       proposalInfo.setEffectiveDate(effectiveDate);
+       Date expirationDate = new Date();
+       proposalInfo.setExpirationDate(expirationDate);
+       Map<String, String> attributes = new HashMap<String, String>();
+       attributes.put("key", "value");
+       proposalInfo.setAttributes(attributes);
+       proposalInfo.setType("proposalType.courseCorrection");
+       proposalInfo.setState("active");
+    return proposalInfo;
+}
+
+    private static void checkProposalCrud(ProposalInfo master, ProposalInfo validate) {
         if (master.getId() != null) {
             assertEquals(master.getId(), validate.getId());
         }
@@ -413,6 +420,85 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(master.getExpirationDate(), validate.getExpirationDate());
         assertEquals(master.getAttributes(), validate.getAttributes());
 
+        assertEquals(master.getType(), validate.getType());
+        assertEquals(master.getState(), validate.getState());
+    }
+
+    @Test
+    public void proposalDocCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ProposalDocRelationInfo docInfo = new ProposalDocRelationInfo();
+        ProposalInfo proposalInfo = setupProposalInfo();
+        docInfo.setTitle("doc title");
+        RichTextInfo desc = new RichTextInfo();
+        desc.setFormatted("<p>doc rel desc</p");
+        desc.setPlain("doc rel desc");
+        docInfo.setDesc(desc);
+        docInfo.setEffectiveDate(new Date());
+        docInfo.setExpirationDate(new Date());
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("key", "value");
+        docInfo.setAttributes(attributes);
+        docInfo.setType("PROP-DOCREL-TYPE1");
+        docInfo.setState("active");
+
+        String proposalId = client.createProposal("proposalType.courseCorrection", proposalInfo).getId();
+
+        String id = client.createProposalDocRelation("PROP-DOCREL-TYPE1", "DOC-1", proposalId, docInfo).getId();
+
+        ProposalDocRelationInfo createdDocRelInfo = client.getProposalDocRelation(id);
+        assertEquals(id, createdDocRelInfo.getId());
+        checkProposalDocRelationCrud(docInfo, createdDocRelInfo);
+        createdDocRelInfo.setState("inactive");
+        try {
+            client.updateProposalDocRelation(id, createdDocRelInfo);
+            assertTrue(true);
+        } catch (VersionMismatchException e) {
+            assertTrue(false);
+        }
+        try {
+            client.updateProposalDocRelation("xxx", createdDocRelInfo);
+            assertTrue(false);
+        } catch (DoesNotExistException e1) {
+            assertTrue(true);
+        } catch (VersionMismatchException e) {
+            assertTrue(false);
+        }
+        ProposalDocRelationInfo createdDocRelInfo2 = client.getProposalDocRelation(id);
+        checkProposalDocRelationCrud(createdDocRelInfo, createdDocRelInfo2);
+
+        StatusInfo status = client.deleteProposalDocRelation(id);
+        assertTrue(status.getSuccess());
+
+        status = client.deleteProposalDocRelation(id);
+        assertFalse(status.getSuccess());
+
+        try {
+           client.getProposalDocRelation(id);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+
+    }
+
+    private void checkProposalDocRelationCrud(ProposalDocRelationInfo master, ProposalDocRelationInfo validate) {
+        if (master.getId() != null) {
+            assertEquals(master.getId(), validate.getId());
+        }
+        if (master.getProposalId() != null) {
+            assertEquals(master.getProposalId(), validate.getProposalId());
+        }
+        if (master.getDocumentId() != null) {
+            assertEquals(master.getDocumentId(), validate.getDocumentId());
+        }
+        assertEquals(master.getTitle(), validate.getTitle());
+        RichTextInfo masterDesc = master.getDesc();
+        RichTextInfo validateDesc = validate.getDesc();
+        assertEquals(masterDesc.getPlain(), validateDesc.getPlain());
+        assertEquals(masterDesc.getFormatted(), validateDesc.getFormatted());
+        assertEquals(master.getEffectiveDate(), validate.getEffectiveDate());
+        assertEquals(master.getExpirationDate(), validate.getExpirationDate());
+        assertEquals(master.getAttributes(), validate.getAttributes());
         assertEquals(master.getType(), validate.getType());
         assertEquals(master.getState(), validate.getState());
     }

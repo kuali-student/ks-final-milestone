@@ -90,8 +90,14 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(documentId, "documentId");
         checkForMissingParameter(proposalId, "proposalId");
         checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        try {
+            ProposalDocRelation proposalDocRelation = ProposalAssembler.toProposalDocRelation(proposalDocRelationType, documentId, proposalId, proposalDocRelationInfo, proposalDao);
+            proposalDao.create(proposalDocRelation);
+            return ProposalAssembler.toProposalDocRelationInfo(proposalDocRelation);
+        } catch (VersionMismatchException e) {
+            throw new InvalidParameterException(e.getMessage());
+        }
     }
 
     /**
@@ -121,8 +127,15 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public StatusInfo deleteProposalDocRelation(String proposalDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+        try {
+            proposalDao.delete(ProposalDocRelation.class, proposalDocRelationId);
+        } catch (DoesNotExistException e) {
+            status.setSuccess(false);
+        }
+
+        return status;
     }
 
     /**
@@ -374,8 +387,16 @@ public class ProposalServiceImpl implements ProposalService {
     public ProposalDocRelationInfo updateProposalDocRelation(String proposalDocRelationId, ProposalDocRelationInfo proposalDocRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
         checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        try {
+            proposalDocRelationInfo.setId(proposalDocRelationId);
+            ProposalDocRelation proposalDocRelation = ProposalAssembler.toProposalDocRelation(proposalDocRelationInfo.getType(), proposalDocRelationInfo.getDocumentId(), proposalDocRelationInfo.getProposalId(), proposalDocRelationInfo, proposalDao);
+            proposalDao.update(proposalDocRelation);
+            return ProposalAssembler.toProposalDocRelationInfo(proposalDocRelation);
+        } catch (VersionMismatchException e) {
+            throw new InvalidParameterException(e.getMessage());
+        }
+
     }
 
     /**

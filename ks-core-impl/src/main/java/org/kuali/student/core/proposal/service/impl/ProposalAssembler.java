@@ -34,6 +34,8 @@ import org.kuali.student.core.proposal.entity.ObjectReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalAttribute;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
+import org.kuali.student.core.proposal.entity.ProposalDocRelationAttribute;
+import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
@@ -234,4 +236,31 @@ public class ProposalAssembler extends BaseAssembler {
         return proposal;
     }
 
+    public static ProposalDocRelation toProposalDocRelation(String proposalDocRelationType, String documentId, String proposalId, ProposalDocRelationInfo proposalDocRelationInfo, ProposalDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+        ProposalDocRelation proposalDocRelation = new ProposalDocRelation();
+
+        if (proposalDocRelationInfo.getId() != null && !proposalDocRelationInfo.getId().isEmpty()) {
+            proposalDocRelation = dao.fetch(ProposalDocRelation.class, proposalDocRelationInfo.getId());
+            if (!String.valueOf(proposalDocRelation.getVersionInd()).equals(proposalDocRelationInfo.getMetaInfo().getVersionInd())){
+                throw new VersionMismatchException("Proposal to be updated is not the current version");
+            }
+        } else {
+            proposalDocRelation = new ProposalDocRelation();
+        }
+
+        BeanUtils.copyProperties(proposalDocRelationInfo, proposalDocRelation, new String[] { "proposalId", "type",
+                "attributes", "metaInfo", "desc" });
+
+        proposalDocRelation.setDocumentId(documentId);
+        proposalDocRelation.setDesc(toRichText(proposalDocRelationInfo.getDesc()));
+        proposalDocRelation.setAttributes(toGenericAttributes(ProposalDocRelationAttribute.class, proposalDocRelationInfo.getAttributes(), proposalDocRelation, dao));
+
+        Proposal proposal = dao.fetch(Proposal.class, proposalId);
+        proposalDocRelation.setProposal(proposal);
+
+        ProposalDocRelationType docRelType = dao.fetch(ProposalDocRelationType.class, proposalDocRelationType);
+        proposalDocRelation.setType(docRelType);
+
+        return proposalDocRelation;
+    }
 }
