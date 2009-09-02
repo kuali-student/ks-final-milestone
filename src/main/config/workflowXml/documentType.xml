@@ -106,15 +106,15 @@
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass>
         </role>
         
-        <requests name="Senate Review">
+        <role name="Senate Review">
 	      <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass>
-        </requests>
+        </role>
         
-        <requests name="Publication Review">
+        <role name="Publication Review">
 	      <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass>
-        </requests>
+        </role>
         
       </routeNodes>
     </documentType>
