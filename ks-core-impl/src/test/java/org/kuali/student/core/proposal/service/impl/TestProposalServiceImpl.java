@@ -242,10 +242,10 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     @Test
     public void getReferenceTypes() throws OperationFailedException {
         // TODO Why is ReferenceTypeInfo causing problems
-        if (false) {
+        if (true) {
         List<ReferenceTypeInfo> referenceTypes = client.getReferenceTypes();
         assertNotNull(referenceTypes);
-        assertEquals(2, referenceTypes.size());
+        assertEquals(1, referenceTypes.size());
         }
     }
 
