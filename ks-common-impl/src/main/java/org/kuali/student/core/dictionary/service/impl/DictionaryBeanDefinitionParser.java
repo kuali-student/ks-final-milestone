@@ -119,46 +119,47 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
             Node node = element.getChildNodes().item(i);
         	
             //We are only interested in child elements that have not been visited
-            if(Node.ELEMENT_NODE == node.getNodeType() && !visitedNodes.contains(node.getLocalName())){	              
+            if(Node.ELEMENT_NODE == node.getNodeType()){	              
 	            
             	//Get the local name minus the "Ref"
             	String localName=node.getLocalName();
             	if(localName.endsWith("Ref")){
             		localName=localName.substring(0, localName.length()-"Ref".length());
             	}
-            	
-            	//Check if the child element belongs in a list
-            	if(isList(localName)){
-            		Element childList=getChildList(element,localName);
-                	visitedNodes.add(localName);
-                    List<?> refList = pc.getDelegate().parseListElement(childList, pc.getContainingBeanDefinition());
-                    if(refList!=null&&!refList.isEmpty()){
-                    	String fieldName=resolveFieldName(element.getLocalName(),localName);
-                    	builder.addPropertyValue(fieldName,refList);
-                    }
-                    
-                //Check if the child element is a Ref
-                }else if(node.getLocalName().endsWith("Ref")){
-                	if("objectStructureRef".equals(node.getLocalName())){
-                		builder.addPropertyValue("objectStructureRef", ((Element)node).getAttribute("bean"));
-                	}else{
-                		builder.addPropertyReference(localName, ((Element)node).getAttribute("bean"));
-                	}
-               }else{
-            	    //Get the child of the child to see if we need to parse the nested node, or just set the text value
-                    Element childElement = getFirstChildElement(node);
-                    if(childElement!=null ||"search".equals(node.getLocalName())){
-                    	//Parse the nested Node
-                        Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
-                        String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
-                        builder.addPropertyValue(fieldName, childBean);
-                    }else{
-                   		//Set the text value
-                		String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
-                		builder.addPropertyValue(fieldName, node.getTextContent());
-                    }
-                }
-            }
+            	if(!visitedNodes.contains(localName)){
+	            	//Check if the child element belongs in a list
+	            	if(isList(localName)){
+	            		Element childList=getChildList(element,localName);
+	                	visitedNodes.add(localName);
+	                    List<?> refList = pc.getDelegate().parseListElement(childList, pc.getContainingBeanDefinition());
+	                    if(refList!=null&&!refList.isEmpty()){
+	                    	String fieldName=resolveFieldName(element.getLocalName(),localName);
+	                    	builder.addPropertyValue(fieldName,refList);
+	                    }
+	                    
+	                //Check if the child element is a Ref
+	                }else if(node.getLocalName().endsWith("Ref")){
+	                	if("objectStructureRef".equals(node.getLocalName())){
+	                		builder.addPropertyValue("objectStructureRef", ((Element)node).getAttribute("bean"));
+	                	}else{
+	                		builder.addPropertyReference(localName, ((Element)node).getAttribute("bean"));
+	                	}
+	               }else{
+	            	    //Get the child of the child to see if we need to parse the nested node, or just set the text value
+	                    Element childElement = getFirstChildElement(node);
+	                    if(childElement!=null ||"search".equals(node.getLocalName())){
+	                    	//Parse the nested Node
+	                        Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
+	                        String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
+	                        builder.addPropertyValue(fieldName, childBean);
+	                    }else{
+	                   		//Set the text value
+	                		String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
+	                		builder.addPropertyValue(fieldName, node.getTextContent());
+	                    }
+	                }
+	            }
+	        }
         }
     }
 
@@ -237,11 +238,8 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
     private boolean isList(String localName) {
 
         return "field".equals(localName)||
-        	   "fieldRef".equals(localName)||
         	   "case".equals(localName)||
         	   "when".equals(localName)||
-        	   "typeStateCase".equals(localName)||
-        	   "typeStateWhen".equals(localName)||
         	   "lookup".equals(localName)||
         	   "lookupKey".equals(localName)||
         	   "occurs".equals(localName)||
