@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
 	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
-	http://student.kuali.org/xsd/search-extension http://terpconnect.umd.edu/~depstei2/search-extension.xsd
-	http://student.kuali.org/xsd/dictionary-extension http://terpconnect.umd.edu/~depstei2/dictionary-extension.xsd
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 	<import resource="organization-dictionary-config.xml" />
