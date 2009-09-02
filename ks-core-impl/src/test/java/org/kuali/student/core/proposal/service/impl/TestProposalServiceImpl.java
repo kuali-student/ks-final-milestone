@@ -47,7 +47,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
-import org.kuali.student.core.proposal.dto.ReferenceTypeInfo;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 
 /**
