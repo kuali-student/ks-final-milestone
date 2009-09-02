@@ -59,13 +59,13 @@ public class GoogleDictionaryWriterTest
  }
 
  //private static String USER_ID = "nwright@mit.edu";
- //private static String PASSWORD = "";
+ //private static String PASSWORD = "xxxxx";
  private static String SPREADSHEET_KEY = "tSdKqlIJ1piKNBie4_H0hoA";
 
  /**
   * Test of write method, of class DictionaryWriter.
   */
- @Test
+// @Test
  public void testWriteGoogleDictionary ()
  {
   System.out.println ("writeGoogleDictionary");

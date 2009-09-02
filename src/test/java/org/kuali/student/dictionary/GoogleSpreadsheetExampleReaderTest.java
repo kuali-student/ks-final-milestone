@@ -67,7 +67,7 @@ public class GoogleSpreadsheetExampleReaderTest
  }
 
  private static String USER_ID = "nwright@mit.edu";
- private static String PASSWORD = "stupid81";
+ private static String PASSWORD = "xxxxx";
  private static String APPPLICATION = "kuali-mit-1";
  private static String PUBLISHED_SPREADSHEET =
   "Unit Test Spreadsheet 1 - Published";
@@ -82,7 +82,7 @@ public class GoogleSpreadsheetExampleReaderTest
  /**
   * Test of find method, of class GoogleSpreadsheetReader.
   */
- @Test
+// @Test
  public void testFindAuthenticatedPrivateAccessToPublishedWorksheet ()
   throws AuthenticationException,
          MalformedURLException,
@@ -115,7 +115,7 @@ public class GoogleSpreadsheetExampleReaderTest
  /**
   * Test of find method, of class GoogleSpreadsheetReader.
   */
- @Test
+// @Test
  public void testFindAuthenticatedPublicAccessToPublishedWorksheet ()
   throws AuthenticationException,
          MalformedURLException,
@@ -148,7 +148,7 @@ public class GoogleSpreadsheetExampleReaderTest
  /**
   * Test of find method, of class GoogleSpreadsheetReader.
   */
- @Test
+// @Test
  public void testFindUnauthenticatedPublicAccessToPublishedWorksheet ()
   throws AuthenticationException,
          MalformedURLException,

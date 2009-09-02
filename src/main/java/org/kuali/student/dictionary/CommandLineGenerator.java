@@ -89,7 +89,7 @@ public class CommandLineGenerator
 
   try
   {
-   reader = new JExcelApiSpreadsheetReader (inFile);
+   reader = new ExcelSpreadsheetReader (inFile);
    SpreadsheetLoader loader = new SpreadsheetLoader (reader);
    Spreadsheet cache = new SpreadsheetCache (loader);
    DictionaryWriter instance = new DictionaryWriter (out, cache);

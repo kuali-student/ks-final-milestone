@@ -23,17 +23,17 @@ import jxl.Sheet;
  * This reads a single tab of an Excel spreadsheet using the JDBC-ODBC bridge
  * @author nwright
  */
-public class JExcelApiWorksheetReader implements WorksheetReader
+public class ExcelWorksheetReader implements WorksheetReader
 {
 
- private JExcelApiSpreadsheetReader jExcelApiSpreadsheetReader;
+ private ExcelSpreadsheetReader jExcelApiSpreadsheetReader;
  private String name;
  private Sheet sheet;
  private int row = 0;
  private List<String> columnNames;
 
- public JExcelApiWorksheetReader (
-  JExcelApiSpreadsheetReader jExcelApiSpreadsheetReader,
+ public ExcelWorksheetReader (
+  ExcelSpreadsheetReader jExcelApiSpreadsheetReader,
   String name)
  {
   this.jExcelApiSpreadsheetReader = jExcelApiSpreadsheetReader;

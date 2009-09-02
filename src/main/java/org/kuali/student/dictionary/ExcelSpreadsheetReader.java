@@ -24,12 +24,12 @@ import jxl.read.biff.BiffException;
  * This reads an excel spreadsheet using the JExcelAPI from SourceForge
  * @author nwright
  */
-public class JExcelApiSpreadsheetReader implements SpreadsheetReader
+public class ExcelSpreadsheetReader implements SpreadsheetReader
 {
 
  private String spreadsheetFileName;
 
- public JExcelApiSpreadsheetReader (String spreadsheetFileName)
+ public ExcelSpreadsheetReader (String spreadsheetFileName)
  {
   this.spreadsheetFileName = spreadsheetFileName;
  }
@@ -60,7 +60,7 @@ public class JExcelApiSpreadsheetReader implements SpreadsheetReader
  @Override
  public WorksheetReader getWorksheetReader (String name)
  {
-  return new JExcelApiWorksheetReader (this, name);
+  return new ExcelWorksheetReader (this, name);
  }
 
  @Override

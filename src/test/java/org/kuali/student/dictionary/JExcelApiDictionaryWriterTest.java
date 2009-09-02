@@ -77,7 +77,7 @@ public class JExcelApiDictionaryWriterTest implements TestConstants
   {
    throw new RuntimeException (ex);
   }
-  SpreadsheetReader reader = new JExcelApiSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
+  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
   try
   {
   SpreadsheetLoader loader = new SpreadsheetLoader (reader);

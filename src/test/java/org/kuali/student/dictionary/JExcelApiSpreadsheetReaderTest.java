@@ -45,13 +45,13 @@ public class JExcelApiSpreadsheetReaderTest implements TestConstants
  {
  }
 
- JExcelApiSpreadsheetReader instance;
+ ExcelSpreadsheetReader instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
-  instance = new JExcelApiSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
+  instance = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
  }
 
  @After
@@ -63,7 +63,7 @@ public class JExcelApiSpreadsheetReaderTest implements TestConstants
 
 
  /**
-  * Test of getWorksheetReader method, of class JExcelApiSpreadsheetReader.
+  * Test of getWorksheetReader method, of class ExcelSpreadsheetReader.
   */
  @Test
  public void testGetWorksheetReader ()
