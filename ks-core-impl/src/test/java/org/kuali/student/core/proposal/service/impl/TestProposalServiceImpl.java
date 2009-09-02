@@ -529,4 +529,17 @@ private ProposalInfo setupProposalInfo() {
         assertNotNull(types);
         assertEquals(1, types.size());
     }
+    
+    @Test
+    public void getAllowedProposalDocRelationTypesForProposalType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<String> proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.courseCorrection");
+        assertNotNull(proposalDocRelationTypeKeyList);
+        assertEquals(1,proposalDocRelationTypeKeyList.size());
+        try {
+            proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.newCourse");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+    }
 }

@@ -147,8 +147,8 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<String> getAllowedProposalDocRelationTypesForProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
-        // TODO lindholm - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ProposalDocRelationType> proposalDocRelationType = proposalDao.getAllowedProposalDocRelationTypesForProposalType(proposalTypeKey);
+        return ProposalAssembler.toProposalDocRelationTypeKeyList(proposalDocRelationType);
     }
 
     /**

@@ -282,4 +282,13 @@ public class ProposalAssembler extends BaseAssembler {
 
         return dto;
     }
+    
+    public static List<String> toProposalDocRelationTypeKeyList(List<ProposalDocRelationType> entities){
+        List<String> dtos = new ArrayList<String>(entities.size());
+        for(ProposalDocRelationType entity:entities){
+            dtos.add(entity.getId());
+        }
+        
+        return dtos;
+    }
 }

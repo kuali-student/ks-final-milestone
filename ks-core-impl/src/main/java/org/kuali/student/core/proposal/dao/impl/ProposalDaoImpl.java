@@ -28,6 +28,7 @@ import org.kuali.student.core.proposal.dao.ProposalDao;
 import org.kuali.student.core.proposal.entity.ObjectReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
+import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
@@ -164,5 +165,17 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
         query.setParameter("objectReferenceId", objectReferenceId);
         ObjectReference objectReference = (ObjectReference)query.getSingleResult();
         return objectReference;
+    }
+
+    @Override
+    public List<ProposalDocRelationType> getAllowedProposalDocRelationTypesForProposalType(String proposalTypeKey) throws DoesNotExistException {
+        Query query = em.createNamedQuery("Proposal.getDocRelationTypesForProposalType");
+        query.setParameter("proposalTypeKey", proposalTypeKey);
+        @SuppressWarnings("unchecked")
+        List<ProposalDocRelationType> proposalDocRelationTypeList = query.getResultList();
+        if(proposalDocRelationTypeList==null||proposalDocRelationTypeList.isEmpty()){
+            throw new DoesNotExistException(proposalTypeKey);
+        }
+        return proposalDocRelationTypeList;
     }
 }

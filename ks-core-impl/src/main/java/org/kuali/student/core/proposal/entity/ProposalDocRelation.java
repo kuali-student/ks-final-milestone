@@ -48,7 +48,9 @@ import org.kuali.student.core.entity.RichText;
         @NamedQuery(name = "ProposalDocRelation.getByDocId", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE documentId =:documentId"),
         @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByIdList", query = "SELECT proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE proposalDocRelation.id IN (:idList)"),
         @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByProposal", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE proposal.id =:proposalId"),
-        @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByType", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE type.id =:proposalDocRelationTypeKey")})
+        @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByType", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE type.id =:proposalDocRelationTypeKey"),
+        @NamedQuery(name = "Proposal.getDocRelationTypesForProposalType", query = "SELECT DISTINCT pdr.type FROM ProposalDocRelation pdr JOIN pdr.proposal p WHERE p.type.id=:proposalTypeKey")
+     })
 public class ProposalDocRelation extends MetaEntity implements AttributeOwner<ProposalDocRelationAttribute> {
     @Id
     @Column(name = "DOCREL_ID")
