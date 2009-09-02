@@ -26,10 +26,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class JExcelApiWorksheetReaderTest implements TestConstants
+public class ExcelWorksheetReaderTest implements TestConstants
 {
 
- public JExcelApiWorksheetReaderTest ()
+ public ExcelWorksheetReaderTest ()
  {
  }
 

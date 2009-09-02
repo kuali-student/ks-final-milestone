@@ -26,10 +26,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class JExcelApiSpreadsheetReaderTest implements TestConstants
+public class ExcelSpreadsheetReaderTest implements TestConstants
 {
 
- public JExcelApiSpreadsheetReaderTest ()
+ public ExcelSpreadsheetReaderTest ()
  {
  }
 
