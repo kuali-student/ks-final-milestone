@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DictionaryParseTest {
-	private ApplicationContext context = new ClassPathXmlApplicationContext("lu-dictionary-config-generated-excel.xml");
+	private ApplicationContext context = new ClassPathXmlApplicationContext("lu-dict-original.xml");
 	
 	@Test
 	public void test1(){
 		Map<?, ?> map = context.getBeansOfType(ObjectStructure.class);
-		assertEquals(17,map.size());
+		assertEquals(133,map.size());
 	}
 }
