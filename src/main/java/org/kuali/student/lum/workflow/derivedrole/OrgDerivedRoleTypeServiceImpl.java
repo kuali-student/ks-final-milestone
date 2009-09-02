@@ -43,7 +43,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		validateRequiredAttributesAgainstReceived(qualification);
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		
-		String orgId = qualification.get("departmentId");
+		String orgId = qualification.get("orgId");
 		try {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
 			if(includedOrgPersonRelationTypes!=null){
