@@ -1,0 +1,170 @@
+package org.kuali.student.core.person.ui.server.gwt;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.core.person.dto.PersonNameInfo;
+import org.kuali.student.core.person.service.PersonService;
+import org.kuali.student.core.person.ui.client.service.PersonRpcService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+public class PersonRpcGwtServlet extends RemoteServiceServlet implements
+		PersonRpcService {
+
+	private static final long serialVersionUID = 3797505861921543183L;
+
+	private PersonService service;
+
+	private IdentityService identityService;
+	private String identityServiceAddress;
+	  
+	@Override
+	public List<Result> searchForResults(String searchTypeKey,
+			List<QueryParamValue> queryParamValues) {
+		// TODO Auto-generated method stub
+		// try {
+		List<Result> results = new ArrayList<Result>();
+		
+		aquireIdentityService();
+		
+		if (identityService != null) {
+			@SuppressWarnings("unchecked")
+			List<KimEntityDefaultInfo> entities = (List<KimEntityDefaultInfo>) identityService
+					.lookupEntityDefaultInfo(new HashMap<String, String>(),
+							true);
+			for (KimEntityDefaultInfo entity : entities) {
+				if (entity.getPrincipals() != null) {
+					for (KimPrincipal principal : entity.getPrincipals()) {
+						Result result = new Result();
+						ResultCell cell = new ResultCell();
+						cell.setKey("Person Id");
+						cell.setValue(principal.getPrincipalId());
+						result.getResultCells().add(cell);
+						cell = new ResultCell();
+						cell.setKey("Person Name");
+						cell.setValue(principal.getPrincipalName());
+						result.getResultCells().add(cell);
+						results.add(result);
+					}
+				}
+			}
+			return results;
+		}
+		String[] kimPrincipalIds= new String[]{
+				"1",
+				"admin",
+				"admin1",
+				"admin2",
+				"dev1",
+				"dev2",
+				"director",
+				"doug",
+				"earl",
+				"edna",
+				"employee",
+				"eric",
+				"erin",
+				"fran",
+				"frank",
+				"fred",
+				"idm1",
+				"idm2",
+				"idm3",
+				"kuluser",
+				"newaccountuser",
+				"notsys",
+				"notsysadm",
+				"quickstart",
+				"supervisor",
+				"test1",
+				"test2",
+				"testadmin1",
+				"testadmin2",
+				"testuser1",
+				"testuser2",
+				"testuser3",
+				"testuser4",
+				"testuser5",
+				"testuser6",
+				"user1",
+				"user2",
+				"user3",
+				"user4"};
+		for(int i = 0;i<kimPrincipalIds.length;i++){
+			
+			Result result = new Result();
+			ResultCell cell = new ResultCell();
+			cell.setKey("Person Id");
+			cell.setValue(kimPrincipalIds[i]);
+			result.getResultCells().add(cell);
+			cell = new ResultCell();
+			cell.setKey("Person Name");
+			cell.setValue(kimPrincipalIds[i]);
+			result.getResultCells().add(cell);
+			results.add(result);
+		}
+
+		return results;
+	}
+
+	private void aquireIdentityService() {
+//		if(identityService==null){
+//			try{
+//				//{KIM}kimIdentityServiceSOAPUnsecure http://localhost:8081/ks-rice-dev/remoting/kimIdentityServiceSOAPUnsecure  
+//				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
+//				factory.setServiceClass(IdentityService.class);
+//				factory.setAddress(identityServiceAddress);
+//				factory.setWsdlLocation(identityServiceAddress+"?wsdl");
+//				factory.setServiceName(new QName("KIM", "kimIdentityServiceSOAPUnsecure"));
+//				factory.getServiceFactory().setDataBinding((DataBinding) Class.forName("org.apache.cxf.aegis.databinding.AegisDatabinding").newInstance());
+//				identityService = (IdentityService) factory.create();
+//			}catch(Exception e){
+//				e.printStackTrace();
+//			}
+//		}
+	}
+
+	public PersonService getService() {
+		return service;
+	}
+
+	public void setService(PersonService service) {
+		this.service = service;
+	}
+
+	@Override
+	public PersonInfo fetchPerson(String personId) {
+		PersonInfo person = new PersonInfo();
+		person.setId(personId);
+		PersonNameInfo nameInfo = new PersonNameInfo();
+		nameInfo.setGivenName(personId);
+		person.getPersonNameInfoList().add(nameInfo);
+		return person;
+	}
+
+	public IdentityService getIdentityService() {
+		return identityService;
+	}
+
+	public void setIdentityService(IdentityService identityService) {
+		this.identityService = identityService;
+	}
+
+	public String getIdentityServiceAddress() {
+		return identityServiceAddress;
+	}
+
+	public void setIdentityServiceAddress(String identityServiceAddress) {
+		this.identityServiceAddress = identityServiceAddress;
+	}
+
+}
