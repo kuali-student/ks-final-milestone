@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.dto.ReferenceTypeInfo;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
