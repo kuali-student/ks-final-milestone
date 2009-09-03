@@ -337,4 +337,26 @@ public class Constraint
   this.comments = comments;
  }
 
+ private String className;
+
+ /**
+  * Get the value of className
+  *
+  * @return the value of className
+  */
+ public String getClassName ()
+ {
+  return className;
+ }
+
+ /**
+  * Set the value of className
+  *
+  * @param className new value of className
+  */
+ public void setClassName (String className)
+ {
+  this.className = className;
+ }
+
 }

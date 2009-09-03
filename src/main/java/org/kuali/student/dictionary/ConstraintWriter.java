@@ -50,8 +50,7 @@ public class ConstraintWriter extends XmlWriter
   incrementIndent ();
   writeAttribute ("key", constraint.getKey ());
   writeAttribute ("id", constraint.getId ());
-  // TODO: figure out what className means
-  //writeAttribute ("className", constraint.getClassName ());
+  writeAttribute ("className", constraint.getClassName ());
   writeAttribute ("serverSide", constraint.getServerSide ());
   println (">");
 

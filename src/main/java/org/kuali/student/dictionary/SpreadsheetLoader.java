@@ -374,6 +374,7 @@ public class SpreadsheetLoader implements Spreadsheet
     throw new DictionaryValidationException ("Constraint " + constraint.getId () +
      " contains an invalid regular expression " + constraint.getValidChars ());
    }
+   constraint.setClassName (getFixup (worksheetReader, "className"));
    constraint.setLookup (getFixup (worksheetReader, "lookup"));
    constraint.setComments (getFixup (worksheetReader, "comments"));
    if ( ! constraint.getDesc ().equals ("ignore this row"))
