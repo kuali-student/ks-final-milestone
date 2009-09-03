@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
@@ -35,44 +35,49 @@ import org.kuali.student.lum.nlt.naturallanguage.util.LuStatementAnchor;
 
 public class NaturalLanguageTranslatorTest {
 
-	private LuServiceMock luService = new LuServiceMock();
+	private static LuServiceMock luService = new LuServiceMock();
 
+	private static NaturalLanguageMessageBuilder englishMessageBuilder; 
+	private static NaturalLanguageMessageBuilder germanMessageBuilder; 
+	private static NaturalLanguageMessageBuilder japaneseMessageBuilder; 
+	
 	private NaturalLanguageTranslatorImpl englishTranslator = new NaturalLanguageTranslatorImpl();
 	private NaturalLanguageTranslatorImpl germanTranslator = new NaturalLanguageTranslatorImpl();
 	private NaturalLanguageTranslatorImpl japaneseTranslator = new NaturalLanguageTranslatorImpl();
 
 	private String cluSetId1 = "CLUSET-NL-1";
-	private CustomReqComponentInfo reqComponent;
-	private CustomLuStatementInfo luStatement;
+	private static CustomReqComponentInfo reqComponent;
+	private static CustomLuStatementInfo luStatement;
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    	createMessageBuilder();
+    	createReqComponent();
+    	createLuStatement();
+    	luService.clear();
+    	luService.addAll(NaturalLanguageUtil.createData());
+    }
 
     @Before
     public void setUp() throws Exception {
     	createTranslator();
-    	createReqComponent();
-    	createLuStatement();
-    	this.luService.clear();
-    	this.luService.addAll(NaturalLanguageUtil.createData());
+    }
+    
+    private static void createReqComponent() throws Exception {
+    	reqComponent = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+    	reqComponent.setId("REQCOMP-NL-1");
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
+    private static void createLuStatement() throws Exception {
+    	luStatement = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.OR);
+    	luStatement.setId("STMT-5");
 
-    private void createReqComponent() throws Exception {
-    	this.reqComponent = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
-    	this.reqComponent.setId("REQCOMP-NL-1");
-    }
-
-    private void createLuStatement() throws Exception {
-    	this.luStatement = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.OR);
-    	this.luStatement.setId("STMT-5");
-
-    	CustomReqComponentInfo req1 = reqComponent = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+    	CustomReqComponentInfo req1 = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
     	req1.setId("REQCOMP-NL-1");
     	List<ReqCompFieldInfo> fieldList1 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", "CLUSET-NL-1");
     	req1.setReqCompFields(fieldList1);
 
-    	CustomReqComponentInfo req2 = reqComponent = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+    	CustomReqComponentInfo req2 = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
     	req2.setId("REQCOMP-NL-4");
     	List<ReqCompFieldInfo> fieldList2 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("2", "greater_than_or_equal_to", "CLUSET-NL-2");
     	req2.setReqCompFields(fieldList2);
@@ -81,17 +86,10 @@ public class NaturalLanguageTranslatorTest {
     	requiredComponents.add(req1);
     	requiredComponents.add(req2);
 
-    	this.luStatement.setRequiredComponents(requiredComponents);
+    	luStatement.setRequiredComponents(requiredComponents);
     }
     
-    private void createTranslator() {
-    	this.englishTranslator.setLanguage("en");
-    	this.germanTranslator.setLanguage("de");
-    	this.japaneseTranslator.setLanguage("jp");
-    	
-    	ContextRegistry<Context<CustomReqComponentInfo>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry(luService);
-    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(luService);
-
+    private static void createMessageBuilder() {
     	SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
     	final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 		executor.setEnableStatisticsLogging(false);
@@ -104,7 +102,18 @@ public class NaturalLanguageTranslatorTest {
 		booleanLanguageMap.put("en", new BooleanOperators("and", "or"));
 		booleanLanguageMap.put("jp", new BooleanOperators("XandX", "XorX"));
 
-		NaturalLanguageMessageBuilder englishMessageBuilder = new NaturalLanguageMessageBuilder(executor, "en", booleanLanguageMap);
+		englishMessageBuilder = new NaturalLanguageMessageBuilder(executor, "en", booleanLanguageMap);
+		germanMessageBuilder = new NaturalLanguageMessageBuilder(executor, "de", booleanLanguageMap);
+		japaneseMessageBuilder = new NaturalLanguageMessageBuilder(executor, "jp", booleanLanguageMap);
+    }
+    
+    private void createTranslator() {
+    	englishTranslator.setLanguage("en");
+    	germanTranslator.setLanguage("de");
+    	japaneseTranslator.setLanguage("jp");
+    	
+    	ContextRegistry<Context<CustomReqComponentInfo>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry(luService);
+    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(luService);
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
     	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
@@ -116,10 +125,8 @@ public class NaturalLanguageTranslatorTest {
     	englishStatementTranslator.setMessageBuilder(englishMessageBuilder);
     	englishStatementTranslator.setLanguage("en");
 
-    	this.englishTranslator.setReqComponentTranslator(englishReqComponentTranslator);
-    	this.englishTranslator.setStatementTranslator(englishStatementTranslator);
-
-		NaturalLanguageMessageBuilder germanMessageBuilder = new NaturalLanguageMessageBuilder(executor, "de", booleanLanguageMap);
+    	englishTranslator.setReqComponentTranslator(englishReqComponentTranslator);
+    	englishTranslator.setStatementTranslator(englishStatementTranslator);
 
     	ReqComponentTranslator germanReqComponentTranslator = new ReqComponentTranslator();
     	germanReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
@@ -131,10 +138,8 @@ public class NaturalLanguageTranslatorTest {
     	germanStatementTranslator.setMessageBuilder(germanMessageBuilder);
     	germanStatementTranslator.setLanguage("de");
 
-    	this.germanTranslator.setReqComponentTranslator(germanReqComponentTranslator);
-    	this.germanTranslator.setStatementTranslator(germanStatementTranslator);
-
-		NaturalLanguageMessageBuilder japaneseMessageBuilder = new NaturalLanguageMessageBuilder(executor, "jp", booleanLanguageMap);
+    	germanTranslator.setReqComponentTranslator(germanReqComponentTranslator);
+    	germanTranslator.setStatementTranslator(germanStatementTranslator);
 
     	ReqComponentTranslator japaneseReqComponentTranslator = new ReqComponentTranslator();
     	japaneseReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
@@ -146,17 +151,17 @@ public class NaturalLanguageTranslatorTest {
     	japaneseStatementTranslator.setMessageBuilder(japaneseMessageBuilder);
     	japaneseStatementTranslator.setLanguage("jp");
 
-    	this.japaneseTranslator.setReqComponentTranslator(japaneseReqComponentTranslator);
-    	this.japaneseTranslator.setStatementTranslator(japaneseStatementTranslator);
+    	japaneseTranslator.setReqComponentTranslator(japaneseReqComponentTranslator);
+    	japaneseTranslator.setStatementTranslator(japaneseStatementTranslator);
     }
 
 	@Test
 	public void testTranslateReqComponent_English() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		List<ReqCompFieldInfo> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", this.cluSetId1);
-		this.reqComponent.setReqCompFields(fieldList);
+		reqComponent.setReqCompFields(fieldList);
 		
-		String text = englishTranslator.translateReqComponent(this.reqComponent, nlUsageTypeKey);
+		String text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", text);
 	}
@@ -165,9 +170,9 @@ public class NaturalLanguageTranslatorTest {
 	public void testTranslateReqComponent_German() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		List<ReqCompFieldInfo> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", this.cluSetId1);
-		this.reqComponent.setReqCompFields(fieldList);
+		reqComponent.setReqCompFields(fieldList);
 		
-		String text = germanTranslator.translateReqComponent(this.reqComponent, nlUsageTypeKey);
+		String text = germanTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
 	}
@@ -176,13 +181,13 @@ public class NaturalLanguageTranslatorTest {
 	public void testTranslateReqComponent_EnglishGerman() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.CATALOG";
 		List<ReqCompFieldInfo> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", this.cluSetId1);		
-		this.reqComponent.setReqCompFields(fieldList);
-		String text = englishTranslator.translateReqComponent(this.reqComponent, nlUsageTypeKey);
+		reqComponent.setReqCompFields(fieldList);
+		String text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", text);
 		englishTranslator.setLanguage("de");
 
-		text = englishTranslator.translateReqComponent(this.reqComponent, nlUsageTypeKey);
+		text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
 	}
 
@@ -199,7 +204,7 @@ public class NaturalLanguageTranslatorTest {
 	@Test
 	public void testTranslateReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, OperationFailedException {
 		try {
-			englishTranslator.translateReqComponent(this.reqComponent, "KUALI.xxx.CATALOG");
+			englishTranslator.translateReqComponent(reqComponent, "KUALI.xxx.CATALOG");
 			Assert.fail("Requirement component translation should have failed since 'KUALI.xxx.CATALOG' is not a valid nlUsageTypeKey");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());
@@ -228,33 +233,33 @@ public class NaturalLanguageTranslatorTest {
 
 	@Test
 	public void testTranslateStatement_English() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testTranslateStatement_German() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = germanTranslator.translateStatement("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		String naturalLanguage = germanTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testTranslateStatement_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		String naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 
 		englishTranslator.setLanguage("de");
-		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 
 		englishTranslator.setLanguage("en");
-		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		naturalLanguage = englishTranslator.translateStatement("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testTranslateStatementTree_English() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
@@ -265,7 +270,7 @@ public class NaturalLanguageTranslatorTest {
 
 	@Test
 	public void testTranslateStatementTree_German() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		NLTranslationNodeInfo rootNode = germanTranslator.translateToTree("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		NLTranslationNodeInfo rootNode = germanTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
@@ -276,7 +281,7 @@ public class NaturalLanguageTranslatorTest {
 
 	@Test
 	public void testTranslateStatementTree_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		NLTranslationNodeInfo rootNode = englishTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 
 		assertEquals("STMT-5", rootNode.getId());
 		assertEquals("R1 + R2", rootNode.getBooleanExpression());
@@ -286,7 +291,7 @@ public class NaturalLanguageTranslatorTest {
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 		englishTranslator.setLanguage("de");
 
-		rootNode = englishTranslator.translateToTree("CLU-NL-1", this.luStatement, "KUALI.CATALOG");
+		rootNode = englishTranslator.translateToTree("CLU-NL-1", luStatement, "KUALI.CATALOG");
 		assertEquals("Voraussetzung fur die MATH 152 Linear Systems: Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", rootNode.getNLTranslation());
 	}
 }

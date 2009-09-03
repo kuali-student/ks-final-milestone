@@ -3,9 +3,8 @@ package org.kuali.student.lum.nlt.naturallanguage.translators;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
@@ -17,12 +16,12 @@ import org.kuali.student.lum.nlt.naturallanguage.translators.NaturalLanguageMess
 
 public class NaturalLanguageMessageBuilderTest {
 
-	private SimpleExecutorDroolsImpl executor;
-	private Map<String, BooleanOperators> booleanLanguageMap;
+	private static SimpleExecutorDroolsImpl executor;
+	private static Map<String, BooleanOperators> booleanLanguageMap;
 	
-    @Before
-    public void setUp() throws Exception {
-    	this.executor = new SimpleExecutorDroolsImpl();
+    @BeforeClass
+    public static void setUp() throws Exception {
+    	executor = new SimpleExecutorDroolsImpl();
     	final DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 		executor.setEnableStatisticsLogging(false);
 		executor.setRuleBaseCache(ruleBase);
@@ -33,10 +32,6 @@ public class NaturalLanguageMessageBuilderTest {
 		booleanLanguageMap.put("de", new BooleanOperators("und", "oder"));
     }
     
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
 	public void testConstructor1_BuildMessage_Success() throws Exception {
 		NaturalLanguageMessageBuilder messageBuilder = new NaturalLanguageMessageBuilder(executor);
