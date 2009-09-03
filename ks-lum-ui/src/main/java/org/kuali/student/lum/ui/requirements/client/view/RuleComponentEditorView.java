@@ -32,6 +32,8 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -61,6 +63,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RuleComponentEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
+    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 
     public enum reqCompFieldDefinitions { TODO }
 
@@ -166,12 +169,12 @@ public class RuleComponentEditorView extends ViewComposite {
         tempPanelButtons.add(btnCancelView);
         addEditRuleView.add(tempPanelButtons);
  
-        /*
-        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)requirementsRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
+        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
         KSSuggestBox sb = new KSSuggestBox(oracle);
         oracle.setTextWidget(sb.getTextBox());
         
-        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(requirementsRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
+        // here
+        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
         
         KSSuggestBoxWAdvSearch advSearchSuggest = new KSSuggestBoxWAdvSearch(sb, searchWindow);
         List<String> resultKeys = new ArrayList<String>();
@@ -179,8 +182,8 @@ public class RuleComponentEditorView extends ViewComposite {
         resultKeys.add("org.resultColumn.orgLongName");
         resultKeys.add("org.resultColumn.orgType");
         resultKeys.add("org.resultColumn.orgHierarchyName");
-        KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, requirementsRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
-        addEditRuleView.add(picker); */
+        KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, orgRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
+        addEditRuleView.add(picker);
         
         HorizontalPanel bodyPanel = new HorizontalPanel(); 
         bodyPanel.add(ruleTypesPanel);
