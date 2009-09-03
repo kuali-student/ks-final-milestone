@@ -34,7 +34,8 @@ public class LUMApplicationManager extends Controller{
     private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
     KSHistory history;
 
-    private View courseView;
+    private View createCourseView;
+//    private View viewCourseView;
     private LUCreateUpdateView modifyView;
     
     private Model<CluProposal> cluModel = new Model<CluProposal>();
@@ -51,13 +52,17 @@ public class LUMApplicationManager extends Controller{
     protected void onLoad() {
         addApplicationEventHandler(ChangeViewStateEvent.TYPE, new ChangeViewStateHandler() {
             public void onViewStateChange(ChangeViewStateEvent event) {
-                //This is very hacky
+                //FIXME: This is very hacky
                 if (event.getEventSource() != null && event.getEventSource() instanceof SelectionEvent){                    
                     List<String> selectedIds = (List<String>)((SelectionEvent)event.getEventSource()).getSelectedItem();
                     if (modifyView == null){
                         modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
                     }
                     modifyView.setId(selectedIds.get(0));
+//                    if (viewCourseView == null){
+//                        viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, new ViewCluController(selectedIds.get(0), LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED));
+//                    }
+     
                 }
                 showView(event.getViewType());  
             }
@@ -70,7 +75,7 @@ public class LUMApplicationManager extends Controller{
     }
 
     public enum LUMViews {
-        HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL
+        HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE
     }
 
     @Override
@@ -79,18 +84,24 @@ public class LUMApplicationManager extends Controller{
             case HOME_MENU:
                 return homeMenuView;
             case CREATE_COURSE:
-                if (courseView == null){
-                    courseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-                    //courseView = new DelegatingViewComposite(this, new CluProposalController());
+                if (createCourseView == null){
+                    createCourseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+//                    createCourseView = new DelegatingViewComposite(this, new CluProposalController());
                 }
                 //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
-                return courseView;
+                return createCourseView;
             case EDIT_COURSE_PROPOSAL:
                 if (modifyView == null){
                     modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
                 }
                 ((LUCreateUpdateView)modifyView).addLayoutToHistory(history, LUMViews.EDIT_COURSE_PROPOSAL);
                 return modifyView;
+//            case VIEW_COURSE:
+//                if (viewCourseView == null){
+//                    viewCourseView = new DelegatingViewComposite(this, new ViewCluController(null, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED));
+//                }
+//                //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
+//                return viewCourseView;
             default:
                 return null;
         }
