@@ -390,6 +390,12 @@ public class ManageRulesView extends ViewComposite {
                 redraw();
             }
         });
+        
+        btnCancelChange.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                getController().showView(PrereqViews.RULES_LIST);
+            }
+        });        
     }
     
     public void showUnSimpTemporarily(StatementVO unsimplified) {
