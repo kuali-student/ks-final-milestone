@@ -50,6 +50,18 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService">
 					<ref bean="CommentRpcGwtServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRpcService">
+					<ref bean="DocumentRpcGwtServletController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentUpload">
+					<ref bean="documentUploadGwtController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/UploadStatusRpcService">
+					<ref bean="uploadStatusRpcGwtController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -97,6 +109,22 @@
 		<property name="servletName" value="CommentRpcGwtServlet" />
 		<property name="servletInstance" ref="CommentRpcGwtServlet" />
 	</bean>
+	
+	<bean id="DocumentRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="DocumentRpcGwtServlet" />
+		<property name="servletInstance" ref="DocumentRpcGwtServlet" />
+	</bean>
+	
+	<bean id="documentUploadGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="documentUpload" />
+		<property name="servletInstance" ref="documentUpload" />
+	</bean>
+	
+	<bean id="uploadStatusRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="uploadStatusRpcGwtServlet" />
+		<property name="servletInstance" ref="uploadStatusRpcGwtServlet" />
+	</bean>
 
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet"
@@ -127,6 +155,11 @@
 		class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
 		<property name="service" ref="commentClient" />
 	</bean>
+	
+	<bean id="DocumentRpcGwtServlet"
+		class="org.kuali.student.common.ui.server.gwt.DocumentRpcGwtServlet">
+		<property name="service" ref="documentService" />
+	</bean>
 
 	<bean id="OrgRpcGwtServlet"
 		class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
@@ -135,6 +168,13 @@
 
 	<bean id="SecurityGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
+	</bean>
+	
+	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+		<property name="documentService" ref="documentService"/>
+	</bean>
+	
+	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
 	</bean>
 
 	<!-- Service clients -->
@@ -166,6 +206,11 @@
 	<bean id="simpleDocActionsClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
 		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService" />
+	</bean>
+	
+	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 
 </beans>
