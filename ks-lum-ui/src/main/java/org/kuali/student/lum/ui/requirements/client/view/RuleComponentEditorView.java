@@ -279,7 +279,7 @@ public class RuleComponentEditorView extends ViewComposite {
         SimplePanel reqCompDetailsPanel = new SimplePanel();
         reqCompDetailsPanel.setStyleName("KS-Rules-ReqCompEdit-Width");
 
-        displayReqComponentText(templates[COMPOSITION_TEMLATE], reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
+        displayReqComponentText(templates[COMPOSITION_TEMLATE], reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompField()));
         reqCompDetailsPanel.add(reqCompDesc);
 
         reqCompDetailsExamplePanel.add(reqCompDetailsPanel);
@@ -421,7 +421,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
         if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
             fields = new ArrayList<ReqCompFieldInfo>();
-            editedReqComp.setReqCompFields(fields);
+            editedReqComp.setReqCompField(fields);
             for (KSTextBox reqCompWidget : reqCompWidgets) {
                 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                 fieldInfo.setId(reqCompWidget.getName());
@@ -443,7 +443,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 fields.add(fieldInfo);
             }
         }
-        editedReqComp.setReqCompFields(fields);
+        editedReqComp.setReqCompField(fields);
         return true;
     }
 
@@ -704,7 +704,7 @@ public class RuleComponentEditorView extends ViewComposite {
         editedReqComp = new ReqComponentInfo();
         editedReqComp.setDesc("");      //will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
-        editedReqComp.setReqCompFields(null); //fieldList);
+        editedReqComp.setReqCompField(null); //fieldList);
         if (reqCompID != null) editedReqComp.setType(reqCompID);
         editedReqCompVO = new ReqComponentVO(editedReqComp);
     }
