@@ -124,6 +124,13 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByDocument("DOC-ID-1");
         assertNotNull(docRelationInfos);
+        
+        try {
+            client.getProposalDocRelation("DOC-ID-XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -134,6 +141,16 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         ids.add("DOCREL-2");
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByIdList(ids);
         assertNotNull(docRelationInfos);
+        
+        try {
+            ArrayList<String> idsMock =  new ArrayList<String>();
+            idsMock.add("DOCREL-XX");
+            idsMock.add("DOCREL-XX");
+            client.getProposalDocRelationsByIdList(idsMock);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -141,6 +158,13 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
         assertNotNull(docRelationInfos);
+        
+        try {
+            client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -148,6 +172,13 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByType("PROP-DOCREL-TYPE1");
         assertNotNull(docRelationInfos);
+        
+        try {
+            client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX");
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
     }
 
     @Test

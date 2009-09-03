@@ -112,6 +112,9 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
         query.setParameter("documentId", documentId);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
+            throw new DoesNotExistException(documentId);
+        }
         return proposalDocRelations;
     }
 
@@ -121,24 +124,33 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
         query.setParameter("idList", idList);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
+            throw new DoesNotExistException("For given list of ids");
+        }
         return proposalDocRelations;
     }
 
     @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) {
+    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException {
         Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByProposal");
         query.setParameter("proposalId", proposalId);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
+            throw new DoesNotExistException(proposalId);
+        }
         return proposalDocRelations;
     }
 
     @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) {
+    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException {
         Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByType");
         query.setParameter("proposalDocRelationTypeKey", proposalDocRelationTypeKey);
         @SuppressWarnings("unchecked")
         List<ProposalDocRelation> proposalDocRelations = query.getResultList();
+        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
+            throw new DoesNotExistException(proposalDocRelationTypeKey);
+        }
         return proposalDocRelations;
     }
 
