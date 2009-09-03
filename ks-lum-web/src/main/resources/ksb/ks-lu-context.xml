@@ -319,6 +319,54 @@
             </bean>
         </property>
     </bean>
+    
+    <!-- Document Service Config -->
+    
+	<bean id="documentEntityManagerFactory" parent="defaultEntityManagerFactory">
+		<property name="persistenceUnitName" value="Document"/>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/document-persistence.xml" />
+		<property name="dataSource" ref="lumDataSource" />
+	</bean>
+
+    <bean id="documentEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="documentEntityManagerFactory" />
+    </bean>
+
+    <bean id="documentDao"
+        class="org.kuali.student.core.document.dao.impl.DocumentDaoImpl">
+        <property name="em" ref="documentEntityManager" />        
+    </bean>
+
+    <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="classpath:document-dictionary-config.xml" />
+    </bean>
+<!--
+    <bean id="documentSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+        autowire="byType">
+        <constructor-arg index="0" value="classpath:document-search-config.xml" />
+    </bean>-->
+
+    <bean id="documentServiceImpl"
+        class="org.kuali.student.core.document.service.impl.DocumentServiceImpl">
+        <property name="documentDao" ref="documentDao" />
+        <property name="dictionaryServiceDelegate" ref="documentDictionaryServiceDelegate" />
+<!--        <property name="searchManager" ref="documentSearchManager" />-->
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">     
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="documentServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.document.service.DocumentService" />
+                <property name="localServiceName" value="DocumentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/document" />
+                <property name="busSecurity" value="false"></property>
+            </bean>
+        </property>
+    </bean>
 
 	<!--  Preloaded data -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
@@ -333,7 +381,10 @@
 				</entry>
                 <entry key="Organization">
                     <value>classpath:ks-org.sql</value>
-                </entry>			
+                </entry>
+                <entry key="Document">
+					<value>classpath:ks-document.sql</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
