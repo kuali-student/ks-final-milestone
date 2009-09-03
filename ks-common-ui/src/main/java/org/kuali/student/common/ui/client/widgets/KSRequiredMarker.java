@@ -12,8 +12,9 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class KSRequiredMarker extends Composite{
 	
 	private SimplePanel content = new SimplePanel();
-	private KSLabel optionalLabel;
+	//private KSLabel optionalLabel;
     private RequiredEnum required;
+    Image asterisk = KSImages.INSTANCE.asterisk().createImage();
     
     public KSRequiredMarker(RequiredEnum required){
     	this.required = required;
@@ -37,7 +38,7 @@ public class KSRequiredMarker extends Composite{
 		switch(required){
 			case REQUIRED:
 				this.setVisible(true);
-				Image asterisk = KSImages.INSTANCE.asterisk().createImage();
+				//Image asterisk = createImage();
 				asterisk.addStyleName(KSStyles.KS_REQUIRED_MARKER_ASTERISK);
 				asterisk.setTitle(required.toString());
 				content.setWidget(asterisk);

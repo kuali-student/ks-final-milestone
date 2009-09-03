@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -65,7 +66,8 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     @JoinColumn(name = "RT_DESCR_ID")
     private RichText desc;
 
-    @Column(name = "DOCUMENT")
+    @Lob
+    @Column(name = "DOCUMENT", length=10000000)
     private String document;
     
     @Temporal(TemporalType.TIMESTAMP)

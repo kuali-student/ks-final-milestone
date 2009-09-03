@@ -126,7 +126,12 @@ public class ModelDTOAdapter implements Serializable{
     	DictionaryManager dictionary = DictionaryManager.getInstance();
     	String name = null;
     	
+    	Map<String, Field> fields = dictionary.getFields(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get());
+    	for(String k: fields.keySet()){
+    		System.out.println("Field key: " + k + " Name: " + fields.get(k).getFieldDescriptor().getName());
+    	}
     	Field field = dictionary.getField(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get(), key);
+    	
     	System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){
     		

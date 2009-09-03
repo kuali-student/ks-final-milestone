@@ -22,6 +22,14 @@
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/AuthorizationRpcService">
 					<ref bean="authorizationRpcGwtServletController"/>
 				</entry>
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/DocumentUpload">
+					<ref bean="documentUploadGwtController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/UploadStatusRpcService">
+					<ref bean="uploadStatusRpcGwtController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -42,6 +50,16 @@
 		<property name="servletInstance" ref="authorizationRpcGwtServlet"/>
 	</bean>
 	
+	<bean id="documentUploadGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="documentUpload" />
+		<property name="servletInstance" ref="documentUpload" />
+	</bean>
+	
+	<bean id="uploadStatusRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="uploadStatusRpcGwtServlet" />
+		<property name="servletInstance" ref="uploadStatusRpcGwtServlet" />
+	</bean>
+	
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
@@ -55,10 +73,22 @@
 		<!--<property name="permissionService" ref="permissionClient" />-->
 	</bean>
 	
+	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+		<property name="documentService" ref="documentService"/>
+	</bean>
+	
+	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
+	</bean>
+	
 	<!-- Service Clients -->	
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+	
+	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 			
 </beans>

@@ -110,6 +110,9 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     public CssResource debugPanelCss();
 
 	@Resource("org/kuali/student/common/ui/public/KSRequiredMarker.css")
-	public CssResource requiredMarkerCss(); 
+	public CssResource requiredMarkerCss();
+	
+	@Resource("org/kuali/student/common/ui/public/UploadProgressBar.css")
+	public CssResource uploadProgressBarCss(); 
 
 }
