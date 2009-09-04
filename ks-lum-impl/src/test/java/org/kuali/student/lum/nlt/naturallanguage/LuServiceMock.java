@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebParam;
-
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;

@@ -6,12 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import org.kuali.student.lum.lu.entity.Clu;
-//import org.kuali.student.lum.lu.entity.CluIdentifier;
-//import org.kuali.student.lum.lu.entity.CluSet;
-//import org.kuali.student.lum.lu.entity.ReqComponent;
-//import org.kuali.student.lum.lu.entity.ReqComponentField;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
