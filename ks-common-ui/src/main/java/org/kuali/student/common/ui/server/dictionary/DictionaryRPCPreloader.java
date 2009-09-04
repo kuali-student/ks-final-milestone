@@ -134,6 +134,7 @@ public class DictionaryRPCPreloader {
          String[] strResult = null;  
          try {             
              List<String> result = null;
+             result = dictionaryService.getObjectTypes();
              result = getDictionaryService().getObjectTypes();
              strResult=new String[result.size()];  
              result.toArray(strResult);
