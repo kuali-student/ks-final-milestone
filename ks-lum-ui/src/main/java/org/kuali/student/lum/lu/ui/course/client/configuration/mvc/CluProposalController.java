@@ -18,6 +18,8 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.event.ValidateResultEvent;
+import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -114,6 +116,15 @@ public class CluProposalController extends PagedSectionLayout{
                 doSaveAction(saveAction);
             }            
         });
+        super.addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
+            @Override
+            public void onValidateResult(ValidateResultEvent event) {
+               event.getValidationResult();
+               //String ele = event.getValidationResult().get(0).getElement();
+               Window.alert("Error:");
+            }
+        });
+
     }
     
         
