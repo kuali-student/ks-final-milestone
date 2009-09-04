@@ -22,9 +22,9 @@
 	</bean>
 
 	<security:authentication-manager alias="authenticationManager"/>
-	<bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl" />
+	<bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
 	<bean id="proxyRetriever" class="org.jasig.cas.client.proxy.Cas20ProxyRetriever">
-		<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}" />
+		<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/>
 	</bean>
 
 	<bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
@@ -33,7 +33,7 @@
 		<property name="authenticationFailureUrl" value="/logout.html"/>
 		<property name="defaultTargetUrl" value="/"/>
 		<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage" />
-        <property name="proxyReceptorUrl" value="/secure/receptor" />
+        <property name="proxyReceptorUrl" value="/secure/receptor"/>
 	</bean>
 	
 	<bean id="casProcessingFilterEntryPoint" class="org.springframework.security.ui.cas.CasProcessingFilterEntryPoint">
@@ -44,13 +44,13 @@
 	<bean id="casAuthenticationProvider" class="org.springframework.security.providers.cas.CasAuthenticationProvider">
 		<security:custom-authentication-provider />
 		<property name="userDetailsService" ref="ksUserDetailsService"/>
-		<property name="serviceProperties" ref="serviceProperties" />
+		<property name="serviceProperties" ref="serviceProperties"/>
 		<property name="ticketValidator">
 			<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-				<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}" />
-				<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage" />
-        		<property name="proxyCallbackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor" />
-        		<property name="proxyRetriever" ref="proxyRetriever" />
+				<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/>
+				<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
+        		<property name="proxyCallbackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/>
+        		<property name="proxyRetriever" ref="proxyRetriever"/>
 			</bean>
 		</property>
 		<property name="key" value="an_id_for_this_auth_provider_only"/>
@@ -59,25 +59,36 @@
 	<!-- Service and Client for proxy ticket validation and SAML -->
 	<bean id="proxyTicketValidationServiceImpl"
 		class="org.kuali.student.security.saml.service.ProxyTicketValidationServiceImpl">
-		<property name="casServerUrl" value="${ks.default.security.cas.serverAddress}" />
+		<property name="casServerUrl" value="${ks.default.security.cas.serverAddress}"/>
 		<!-- I need to set the saml properties inside this service, have not figured out 
 		     how to pass the properties without injection, don't even know if cxf provides a hook -->
-		<property name="samlTokenCxfOutInterceptor" ref="wss4jOutInterceptor" />
+		<property name="samlTokenCxfOutInterceptor" ref="wss4jOutInterceptor"/>
+		<property name="samlIssuerForUser" value="org.kuali.student.principal"/>
 	</bean>
 
 	<bean id="proxyTicketValidationClient"
 		class="org.kuali.student.common.ws.beans.CxfJaxWsProxyClientFactory">
 		<property name="wsdlLocation"
-			value="classpath:META-INF/wsdl/ProxyTicketValidationService.wsdl" />
+			value="classpath:META-INF/wsdl/ProxyTicketValidationService.wsdl"/>
 		<property name="serviceEndpointInterface"
-			value="org.kuali.student.security.saml.service.ProxyTicketValidationService" />
+			value="org.kuali.student.security.saml.service.ProxyTicketValidationService"/>
 		<property name="serviceQNameString"
-			value="{http://org.kuali.student/security/saml}ProxyTicketValidationService" />
-		<property name="address" value="${ks.default.security.saml.proxyTicket.serviceAddress}"/>	
+			value="{http://org.kuali.student/security/saml}ProxyTicketValidationService"/>
+		<property name="address" value="${ks.default.security.saml.proxyTicket.serviceAddress}"/>
+		<property name="samlTokenInInterceptor" ref="wss4jInInterceptor"/>
 	</bean>
 	
-	<!--<bean id="wss4jOutInterceptor" class="org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor"/>
-       	<bean id="wss4jOutInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor"> -->
+	<bean id="wss4jInInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfInInterceptor">
+		<constructor-arg>
+			<map>
+	           	<entry key="action" value="Signature SAMLTokenSigned"/>
+	           	<entry key="signaturePropFile" value="crypto.properties"/>
+	        </map>
+		</constructor-arg>
+		<property name="samlIssuerForUser" value="org.kuali.student.principal"/>
+		<property name="ignoreActions" value="true"/>
+	</bean>
+	
 	<bean id="wss4jOutInterceptor" class="org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor">
 		<constructor-arg>
 			<map>
@@ -90,20 +101,15 @@
 	           	<entry key="signaturePropFile" value="crypto.properties"/>
 	           	<entry key="user" value="tomcat"/>
 	           	-->
-	            <!-- 
-	            <entry key="passwordCallbackRef">
-	            	<ref bean="myPasswordCallback"/>
-	            </entry>
-	            -->
 	        </map>
 		</constructor-arg>
 	</bean>
-	      	 	
+      	 	
     <jaxws:endpoint id="proxyTicketValidationService"
         implementorClass="org.kuali.student.security.saml.service.ProxyTicketValidationServiceImpl"
-        implementor="#proxyTicketValidationServiceImpl" address="/ProxyTicketValidationService" >
+        implementor="#proxyTicketValidationServiceImpl" address="/ProxyTicketValidationService">
        	<jaxws:outInterceptors>
-       		<ref bean="wss4jOutInterceptor"/> 	
+       		<ref bean="wss4jOutInterceptor"/>
 	    </jaxws:outInterceptors>
 	</jaxws:endpoint>
 </beans>

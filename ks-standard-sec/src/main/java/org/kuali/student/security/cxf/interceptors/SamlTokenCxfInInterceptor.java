@@ -1,6 +1,7 @@
 package org.kuali.student.security.cxf.interceptors;
 
 import java.io.StringWriter;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.xml.namespace.QName;
@@ -27,7 +28,13 @@ import org.w3c.dom.NodeList;
 
 
 public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
-
+    
+    private String samlIssuerForUser = null;
+    
+    public SamlTokenCxfInInterceptor(Map<String, Object> properties) {
+        super(properties);
+    }
+    
     @Override
     protected void computeAction(SoapMessage msg, RequestData reqData) {
         super.computeAction(msg, reqData);
@@ -59,14 +66,14 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
                             SAMLAssertion samlAssertion = stp.handleSAMLToken((Element)childNode);
                             System.out.println("THE SAML ISSUER : " + samlAssertion.getIssuer());
                             
-                            if(samlAssertion.getIssuer().equals("org.kuali.student.principal")){
+                            if(samlAssertion.getIssuer().equals(samlIssuerForUser)){
                                 CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
                                 cat.setDetails(samlAssertion);
                                 break;
                             }
                             
                         }catch (Exception e) {
-                            e.printStackTrace();
+                            throw new RuntimeException(e);
                         }
                     }
                 }    
@@ -104,6 +111,14 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
     @Override
     public void setIgnoreActions(boolean i) {
         super.setIgnoreActions(i);
+    }
+
+    public String getSamlIssuerForUser() {
+        return samlIssuerForUser;
+    }
+
+    public void setSamlIssuerForUser(String samlIssuerForUser) {
+        this.samlIssuerForUser = samlIssuerForUser;
     }
 
 }

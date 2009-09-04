@@ -19,7 +19,8 @@ import org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor;
 public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationService {
     
     private String casServerUrl;
-    private SamlTokenCxfOutInterceptor samlTokenCxfOutInterceptor = null;
+    private SamlTokenCxfOutInterceptor samlTokenCxfOutInterceptor;
+    private String samlIssuerForUser;
     
     public String validateProxyTicket(String proxyTicketId, String proxyTargetService){
         
@@ -36,13 +37,10 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
             StringBuffer stringBuffer = new StringBuffer(255);
             String response;
 
-            // don't think this sync is needed
-            synchronized (stringBuffer) {
-                while ((line = in.readLine()) != null) {
-                    stringBuffer.append(line);
-                }
-                response = stringBuffer.toString();
+            while ((line = in.readLine()) != null) {
+                stringBuffer.append(line);
             }
+            response = stringBuffer.toString();
 
             String error = XmlUtils.getTextForElement(response, "authenticationFailure");
 
@@ -58,10 +56,11 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
             samlProperties.put("user", user);
             samlProperties.put("proxyGrantingTicket", pgt);
             samlProperties.put("proxies", proxies);
+            samlProperties.put("samlIssuerForUser", samlIssuerForUser);
             
             if(samlTokenCxfOutInterceptor != null){
                 samlTokenCxfOutInterceptor.setSamlProperties(samlProperties);
-            }
+            } 
             
             return "Signed SAML Assertion is in soap header for authenticated user";
             
@@ -97,5 +96,13 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
 
     public void setSamlTokenCxfOutInterceptor(SamlTokenCxfOutInterceptor samlTokenCxfOutInterceptor) {
         this.samlTokenCxfOutInterceptor = samlTokenCxfOutInterceptor;
+    }
+
+    public String getSamlIssuerForUser() {
+        return samlIssuerForUser;
+    }
+
+    public void setSamlIssuerForUser(String samlIssuerForUser) {
+        this.samlIssuerForUser = samlIssuerForUser;
     }
 }

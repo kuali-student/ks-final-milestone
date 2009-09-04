@@ -70,7 +70,9 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
     private boolean mtomEnabled;
     
     // KS : added to hold information used to create authenticated user, SAML Assertion
-    private Map<String,String> samlProperties = new HashMap<String,String>();
+    // KS : made this a ThreadLocal since we don't know if interceptors are thread-safe.
+    //private Map<String,String> samlProperties = new HashMap<String,String>();
+    private ThreadLocal<Map<String,String>> samlPropertiesHolder = new ThreadLocal<Map<String,String>>();
     
     public SamlTokenCxfOutInterceptor() {
         super();
@@ -295,13 +297,11 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
             String wsuId = null;
             Node assertionNode = null;
             
-            String user = samlProperties.get("user");
-            String pgt = samlProperties.get("proxyGrantingTicket");
-            String proxies = samlProperties.get("proxies");
-            
-            // KS : we probably want to make these external as properties.
-            String nameQualifier = "org.kuali.student.principal";
-            String issuer = "org.kuali.student.principal";
+            String user = getSamlProperties().get("user");
+            String pgt = getSamlProperties().get("proxyGrantingTicket");
+            String proxies = getSamlProperties().get("proxies");
+            String issuer = getSamlProperties().get("samlIssuerForUser");
+            String nameQualifier = getSamlProperties().get("samlIssuerForUser");
             
             SAMLAssertion assertion = new SAMLAssertion();
             assertion.setIssuer(issuer);
@@ -383,7 +383,7 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
                 // insert wsse:Security in header element
                 soapHeader.addChildElement(wsseSecurity);
             } catch(SOAPException se){
-                
+                throw new Fault(se);
             }
             return wsuId;
         }
@@ -402,6 +402,12 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
     }
     
     public void setSamlProperties(Map<String, String> samlProperties){
-        this.samlProperties = samlProperties;
+        //this.samlProperties = samlProperties;
+        this.samlPropertiesHolder.set(samlProperties);
+    }
+
+    public Map<String, String> getSamlProperties() {
+        //return samlProperties;
+        return this.samlPropertiesHolder.get();
     }
 }
