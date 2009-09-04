@@ -57,8 +57,6 @@ public class ProposalServiceImpl implements ProposalService {
     private ProposalDao proposalDao;
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#createProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
      */
     @Override
@@ -81,8 +79,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#createProposalDocRelation(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
      */
     @Override
@@ -102,8 +98,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#deleteProposal(java.lang.String)
      */
     @Override
@@ -121,8 +115,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#deleteProposalDocRelation(java.lang.String)
      */
     @Override
@@ -140,9 +132,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.core.proposal.service.ProposalService#getAllowedProposalDocRelationTypesForProposalType(java.lang.String)
+    * @see org.kuali.student.core.proposal.service.ProposalService#getAllowedProposalDocRelationTypesForProposalType(java.lang.String)
      */
     @Override
     public List<String> getAllowedProposalDocRelationTypesForProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -152,8 +142,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposal(java.lang.String)
      */
     @Override
@@ -164,8 +152,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelation(java.lang.String)
      */
     @Override
@@ -176,8 +162,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationType(java.lang.String)
      */
     @Override
@@ -189,8 +173,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationTypes()
      */
     @Override
@@ -200,8 +182,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByDocument(java.lang.String)
      */
     @Override
@@ -213,8 +193,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByIdList(java.util.List)
      */
     @Override
@@ -226,8 +204,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByProposal(java.lang.String)
      */
     @Override
@@ -238,8 +214,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalDocRelationsByType(java.lang.String)
      */
     @Override
@@ -263,8 +237,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypes()
      */
     @Override
@@ -274,8 +246,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypesForReferenceType(java.lang.String)
      */
     @Override
@@ -287,8 +257,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByIdList(java.util.List)
      */
     @Override
@@ -304,8 +272,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByProposalType(java.lang.String)
      */
     @Override
@@ -317,8 +283,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByReference(java.lang.String, java.lang.String)
      */
     @Override
@@ -331,8 +295,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByState(java.lang.String, java.lang.String)
      */
     @Override
@@ -345,8 +307,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#getReferenceTypes()
      */
     @Override
@@ -356,8 +316,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#updateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
      */
     @Override
@@ -377,8 +335,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#updateProposalDocRelation(java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
      */
     @Override
@@ -393,8 +349,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
      */
     @Override
@@ -406,8 +360,6 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.proposal.service.ProposalService#validateProposalDocRelation(java.lang.String, org.kuali.student.core.proposal.dto.ProposalDocRelationInfo)
      */
     @Override
@@ -433,6 +385,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
+     * Check for an empty list
      * @param param
      * @param paramName
      * @throws MissingParameterException
