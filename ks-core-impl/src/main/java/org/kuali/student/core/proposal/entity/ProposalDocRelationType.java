@@ -22,15 +22,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.RichText;
 
 /**
  *
@@ -38,7 +35,7 @@ import org.kuali.student.core.entity.RichText;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_DOCREL_TYPE")
+@Table(name = "KSPR_PROPOSAL_DOCREL_TYPE")
 public class ProposalDocRelationType implements AttributeOwner<ProposalDocRelationTypeAttribute> {
     @Id
     @Column(name = "ID")

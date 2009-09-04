@@ -29,7 +29,7 @@ import org.kuali.student.core.entity.Attribute;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_REFTYPE_ATTR")
+@Table(name = "KSPR_PROPOSAL_REFTYPE_ATTR")
 public class ReferenceTypeAttribute extends Attribute<ReferenceType> {
     @ManyToOne
     @JoinColumn(name = "OWNER")

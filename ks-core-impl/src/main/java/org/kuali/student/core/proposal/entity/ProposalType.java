@@ -35,7 +35,7 @@ import org.kuali.student.core.entity.AttributeOwner;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_TYPE")
+@Table(name = "KSPR_PROPOSAL_TYPE")
 public class ProposalType implements AttributeOwner<ProposalTypeAttribute> {
     @Id
     @Column(name = "ID")

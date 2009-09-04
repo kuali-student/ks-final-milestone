@@ -43,7 +43,7 @@ import org.kuali.student.core.entity.RichText;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_DOCREL")
+@Table(name = "KSPR_PROPOSAL_DOCREL")
 @NamedQueries( {
         @NamedQuery(name = "ProposalDocRelation.getByDocId", query = "SELECT  proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE documentId =:documentId"),
         @NamedQuery(name = "ProposalDocRelation.getProposalDocRelationsByIdList", query = "SELECT proposalDocRelation FROM ProposalDocRelation proposalDocRelation WHERE proposalDocRelation.id IN (:idList)"),

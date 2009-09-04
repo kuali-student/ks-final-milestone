@@ -36,7 +36,7 @@ import org.kuali.student.core.entity.AttributeOwner;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_REFTYPE")
+@Table(name = "KSPR_PROPOSAL_REFTYPE")
 public class ReferenceType implements AttributeOwner<ReferenceTypeAttribute> {
     @Id
     @Column(name = "ID")

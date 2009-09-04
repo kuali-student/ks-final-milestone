@@ -45,7 +45,7 @@ import org.kuali.student.core.entity.MetaEntity;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL")
+@Table(name = "KSPR_PROPOSAL")
 @NamedQueries( {
     @NamedQuery(name = "Proposal.getProposalsByIdList", query = "SELECT p FROM Proposal p WHERE p.id IN (:idList)"),
     @NamedQuery(name = "Proposal.getProposalsByProposalType", query = "SELECT DISTINCT p FROM Proposal p WHERE p.type.id = :proposalTypeId"),
@@ -68,7 +68,7 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     private List<ProposalOrg> proposerOrg;
 
     @ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name="KSCO_PROPOSAL_JN_REFERENCE",
+    @JoinTable(name="KSPR_PROPOSAL_JN_REFERENCE",
             joinColumns=
             @JoinColumn(name="PROPOSAL_ID", referencedColumnName="PROPOSAL_ID"),
       inverseJoinColumns=

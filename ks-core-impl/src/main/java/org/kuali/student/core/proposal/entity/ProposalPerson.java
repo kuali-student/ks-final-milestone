@@ -34,7 +34,7 @@ import org.kuali.student.common.util.UUIDHelper;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_JN_PERSON")
+@Table(name = "KSPR_PROPOSAL_JN_PERSON")
 @NamedQueries( {
     @NamedQuery(name = "ProposalPerson.getProposalPerson", query = "SELECT p FROM ProposalPerson p WHERE p.personId = :proposerId")
 })

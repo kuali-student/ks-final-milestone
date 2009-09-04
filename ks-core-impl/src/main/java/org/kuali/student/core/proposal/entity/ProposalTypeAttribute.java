@@ -29,7 +29,7 @@ import org.kuali.student.core.entity.Attribute;
  *
  */
 @Entity
-@Table(name = "KSCO_PROPOSAL_TYPE_ATTR")
+@Table(name = "KSPR_PROPOSAL_TYPE_ATTR")
 public class ProposalTypeAttribute extends Attribute<ProposalType> {
     @ManyToOne
     @JoinColumn(name = "OWNER")
