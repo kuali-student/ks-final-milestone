@@ -18,6 +18,7 @@ import javax.xml.bind.Marshaller;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kew.dto.ActionItemDTO;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -369,8 +370,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
         logger.debug("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
 
-        AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
-
+        //FIXME This soap call is not marshalling corectly! returning: <return/> 
+        //AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
+        ActionItemDTO[] actionItems = workflowUtilityService.getAllActionItems(Long.parseLong(cluProposal.getWorkflowId()));
+        AttributeSet results = new AttributeSet();
+        if(actionItems!=null){
+        	for(ActionItemDTO actionItem:actionItems){
+        		if(actionItem.getPrincipalId()!=null&&actionItem.getPrincipalId().equals(username)){
+        			results.put(actionItem.getActionRequestCd(), "true");
+        		}
+        	}
+        }
+        
         String documentStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(cluProposal.getWorkflowId()));
         String actionsRequested = "";
         for(Map.Entry<String,String> entry:results.entrySet()){

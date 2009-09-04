@@ -136,15 +136,14 @@ public class LUMApplicationManager extends Controller{
                     }
 
                     public void onSuccess(Boolean result) {
-                        if(result){
-                            if (modifyView == null){
-                                modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
-                            }
-                            modifyView.setId(docId);
-                            showView(LUMViews.EDIT_COURSE_PROPOSAL);
-                        }else{
+                        if(!result){
                             Window.alert("Error with backdoor login");
                         }
+                        if (modifyView == null){
+                            modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                        }
+                        modifyView.setId(docId);
+                        showView(LUMViews.EDIT_COURSE_PROPOSAL);
                     }
                 
                 });
