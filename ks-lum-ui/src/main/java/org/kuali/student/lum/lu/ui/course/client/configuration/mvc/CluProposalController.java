@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -26,6 +28,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
@@ -119,9 +122,12 @@ public class CluProposalController extends PagedSectionLayout{
         super.addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
             @Override
             public void onValidateResult(ValidateResultEvent event) {
-               event.getValidationResult();
-               //String ele = event.getValidationResult().get(0).getElement();
-               Window.alert("Error:");
+               List<ValidationResultContainer> list = event.getValidationResult();
+               if(list == null || list.size() == 0 ){
+                   return;
+               }
+               String ele = list.get(0).getElement();
+               Window.alert("Error:"+ele);
             }
         });
 
