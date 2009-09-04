@@ -10,15 +10,10 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 @RemoteServiceRelativePath("rpcservices/RequirementsRpcService")
 public interface RequirementsRpcService extends BaseRpcService {
-    
-    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception;
     public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception;
     public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception;  
     public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception;

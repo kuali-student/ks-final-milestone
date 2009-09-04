@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="ks-lum-api/src/main/java"/>
+	<classpathentry kind="src" path="ks-lum-ui/src/test/java"/>
 	<classpathentry kind="src" path="ks-lum-api/src/main/resources"/>
 	<classpathentry kind="src" path="ks-lum-impl/src/main/java"/>
 	<classpathentry kind="src" path="ks-lum-impl/src/main/resources"/>

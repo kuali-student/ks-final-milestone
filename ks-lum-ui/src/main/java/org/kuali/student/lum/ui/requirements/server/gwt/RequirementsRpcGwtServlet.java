@@ -39,19 +39,6 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     
     private static final long serialVersionUID = 822326113643828855L;
 
-    public String[] getReqComponentTemplates(ReqComponentInfo compInfo) throws Exception {       
-        String[] templates = new String[3];           
-        
-        templates[0] = "";
-        if (compInfo.getReqCompFields() != null) {
-            templates[0] = ""; //getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.CATALOG");
-        }
-        templates[1] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.EXAMPLE");
-        templates[2] = getNaturalLanguageForReqComponentInfo(compInfo, "KUALI.COMPOSITION");                                   
-        
-        return templates;
-    }       
-    
     public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         
         String naturalLanguage = "";           

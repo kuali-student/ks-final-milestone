@@ -38,6 +38,7 @@ import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
@@ -69,9 +70,10 @@ public class RuleComponentEditorView extends ViewComposite {
 
     //view's widgets
     private static final int NOF_BASIC_RULE_TYPES = 3;
-    private static final int CATALOG_TEMLATE = 0;
-    private static final int EXAMPLE_TEMLATE = 1;
-    private static final int COMPOSITION_TEMLATE = 2;
+    private static final String TEMLATE_LANGUAGE = "en";
+    private static final String CATALOG_TEMLATE = "KUALI.CATALOG";
+    private static final String EXAMPLE_TEMLATE = "KUALI.EXAMPLE";
+    private static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";
     private static final String SIMPLE_RULE_RB_GROUP = "RuleTypesGroup";
     private static final String RULE_TYPES_OTHER = "Other:";
     private List<KSRadioButton> rbRuleType = new ArrayList<KSRadioButton>();
@@ -252,22 +254,23 @@ public class RuleComponentEditorView extends ViewComposite {
         if (selectedReqType == null) {
             return;
         }
-
-        requirementsRpcServiceAsync.getReqComponentTemplates(editedReqComp, new AsyncCallback<String[]>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                System.out.println(caught.getMessage());
-                caught.printStackTrace();
-            }
-
-            public void onSuccess(final String[] templates) {
-                displayReqComponentDetailsCont(templates);
-            }
-        });
+        displayReqComponentDetailsCont();
     }
 
-    private void displayReqComponentDetailsCont(String[] templates) {
-
+    private String getTemplate(String nlUsageTypeKey) {
+    	return getTemplate(nlUsageTypeKey, TEMLATE_LANGUAGE);
+    }
+    
+    private String getTemplate(String nlUsageTypeKey, String language) {
+    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
+    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
+    			return template.getTemplate();
+    		}
+    	}
+    	return null;
+    }
+    
+    private void displayReqComponentDetailsCont() {
         //show heading
         VerticalPanel reqCompDetailsExampleContainerPanel = new VerticalPanel();
         KSLabel reqCompTypeName = new KSLabel(selectedReqType.getDesc() + ":");
@@ -279,7 +282,8 @@ public class RuleComponentEditorView extends ViewComposite {
         SimplePanel reqCompDetailsPanel = new SimplePanel();
         reqCompDetailsPanel.setStyleName("KS-Rules-ReqCompEdit-Width");
 
-        displayReqComponentText(templates[COMPOSITION_TEMLATE], reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
+        String compositionTemplate = getTemplate(COMPOSITION_TEMLATE);
+        displayReqComponentText(compositionTemplate, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
         reqCompDetailsPanel.add(reqCompDesc);
 
         reqCompDetailsExamplePanel.add(reqCompDetailsPanel);
@@ -290,7 +294,8 @@ public class RuleComponentEditorView extends ViewComposite {
         KSLabel exampleText1 = new KSLabel("Example:");
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);
-        exampleText.setText(templates[EXAMPLE_TEMLATE]);
+        String exampleTemplate = getTemplate(EXAMPLE_TEMLATE);
+        exampleText.setText(exampleTemplate);
         exampleText.setStyleName("KS-RuleEditor-ExampleText2");
         examplePanel.add(exampleText);
         reqCompDetailsExamplePanel.add(examplePanel);
@@ -301,7 +306,8 @@ public class RuleComponentEditorView extends ViewComposite {
         verticalSpacer2.setHeight("30px");
         reqCompDetailsExampleContainerPanel.add(verticalSpacer2);
 
-        reqCompDetailsExampleContainerPanel.add(new KSLabel(templates[CATALOG_TEMLATE]));
+        String catalogTemplate = getTemplate(CATALOG_TEMLATE);
+        reqCompDetailsExampleContainerPanel.add(new KSLabel(catalogTemplate));
 
         ruleDetailsPanel.add(reqCompDetailsExampleContainerPanel);
     }

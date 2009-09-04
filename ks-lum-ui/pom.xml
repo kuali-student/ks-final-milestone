@@ -261,6 +261,12 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-impl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
 
 	</dependencies>
 
