@@ -55,7 +55,6 @@ public class SpreadsheetLoader implements Spreadsheet
   return list;
  }
 
-
  private String get (WorksheetReader worksheetReader, String colName)
  {
   String value = worksheetReader.getValue (colName);
@@ -250,6 +249,7 @@ public class SpreadsheetLoader implements Spreadsheet
    info.setHasOwnState (getFixup (worksheetReader, "hasOwnState"));
    info.setHasOwnCreateUpdate (getFixup (worksheetReader, "hasOwnCreateUpdate"));
 
+   info.setJavaPackage (getFixup (worksheetReader, "javaPackage"));
    info.setExamples (getFixup (worksheetReader, "examples"));
    if ( ! info.getDesc ().equals ("ignore this row"))
    {
@@ -374,7 +374,7 @@ public class SpreadsheetLoader implements Spreadsheet
     throw new DictionaryValidationException ("Constraint " + constraint.getId () +
      " contains an invalid regular expression " + constraint.getValidChars ());
    }
-   constraint.setClassName (getFixup (worksheetReader, "className"));
+   constraint.setClassName (decorateClassName (getFixup (worksheetReader, "className")));
    constraint.setLookup (getFixup (worksheetReader, "lookup"));
    constraint.setComments (getFixup (worksheetReader, "comments"));
    if ( ! constraint.getDesc ().equals ("ignore this row"))
@@ -383,6 +383,11 @@ public class SpreadsheetLoader implements Spreadsheet
    }
   }
   return list;
+ }
+
+ protected String decorateClassName (String className)
+ {
+  return new ClassNameDecorator (className).decorate ();
  }
 
  /**

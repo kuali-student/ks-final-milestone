@@ -186,6 +186,28 @@ public class XmlType implements Serializable
   this.hasOwnCreateUpdate = hasOwnCreateUpdate;
  }
 
+ private String javaPackage;
+
+ /**
+  * Get the value of javaPackage
+  *
+  * @return the value of javaPackage
+  */
+ public String getJavaPackage ()
+ {
+  return javaPackage;
+ }
+
+ /**
+  * Set the value of javaPackage
+  *
+  * @param javaPackage new value of javaPackage
+  */
+ public void setJavaPackage (String javaPackage)
+ {
+  this.javaPackage = javaPackage;
+ }
+
  private String comments;
 
  /**

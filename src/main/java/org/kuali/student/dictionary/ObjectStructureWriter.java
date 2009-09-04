@@ -62,7 +62,8 @@ public class ObjectStructureWriter extends XmlWriter
  {
   indentPrintln ("");
   indentPrint ("<dict:objectStructure");
-  writeAttribute ("key", xmlType.getName ());
+  String fullName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.getJavaPackage ()).build ();
+  writeAttribute ("key", fullName);
   println (">");
   incrementIndent ();
   writeComment (xmlType.getDesc ());

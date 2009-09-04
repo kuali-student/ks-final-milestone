@@ -65,7 +65,7 @@ public class ConstraintWriter extends XmlWriter
   writeTag ("dict:maxValue", constraint.getMaxValue ());
   writeTag ("dict:minOccurs", constraint.getMinOccurs ());
   writeTag ("dict:maxOccurs", constraint.getMaxOccurs ());
-  writeTag ("dict:minLength", constraint.getMinLength ());
+ writeTag ("dict:minLength", constraint.getMinLength ());
   writeTag ("dict:maxLength", constraint.getMaxLength ());
   if ( ! calcValidChars ().equals (""))
   {
