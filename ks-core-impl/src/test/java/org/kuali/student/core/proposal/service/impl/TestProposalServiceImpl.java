@@ -124,7 +124,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByDocument("DOC-ID-1");
         assertNotNull(docRelationInfos);
-        
+
         try {
             client.getProposalDocRelation("DOC-ID-XXX");
             assertTrue(false);
@@ -141,7 +141,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         ids.add("DOCREL-2");
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByIdList(ids);
         assertNotNull(docRelationInfos);
-        
+
         try {
             ArrayList<String> idsMock =  new ArrayList<String>();
             idsMock.add("DOCREL-XX");
@@ -158,7 +158,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByProposal("PROPOSAL-1");
         assertNotNull(docRelationInfos);
-        
+
         try {
             client.getProposalDocRelationsByProposal("PROPOSAL-XXX");
             assertTrue(false);
@@ -172,7 +172,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
     {
         List<ProposalDocRelationInfo> docRelationInfos = client.getProposalDocRelationsByType("PROP-DOCREL-TYPE1");
         assertNotNull(docRelationInfos);
-        
+
         try {
             client.getProposalDocRelationsByType("PROP-DOCREL-TYPEXXX");
             assertTrue(false);
@@ -355,105 +355,114 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         }
    }
 
-   @Test
-   public void proposalCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-       ProposalInfo proposalInfo = setupProposalInfo();
+    @Test
+    public void proposalCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ProposalInfo proposalInfo = setupProposalInfo();
 
-       String id = client.createProposal("proposalType.courseCorrection", proposalInfo).getId();
+        String id = client.createProposal("proposalType.courseCorrection", proposalInfo).getId();
 
-       ProposalInfo createdProposalInfo = client.getProposal(id);
-       assertNotNull(createdProposalInfo);
-       checkProposalCrud(proposalInfo, createdProposalInfo);
+        ProposalInfo createdProposalInfo = client.getProposal(id);
+        assertNotNull(createdProposalInfo);
+        checkProposalCrud(proposalInfo, createdProposalInfo);
 
-       List<String> orgs = new ArrayList<String>();
-       orgs.add("kuali");
-       orgs.add("ubc");
-       createdProposalInfo.setProposerOrg(orgs);
-        try {
-            client.updateProposal(id, createdProposalInfo);
-            assertTrue(false); // Can't have both person and org proposers
-        } catch (InvalidParameterException e) {
-            assertTrue(true);
-        } catch (VersionMismatchException e) {
-            assertTrue(false);
-        }
-        createdProposalInfo.setProposerPerson(null);
-        try {
-            client.updateProposal(id, createdProposalInfo);
-            ProposalInfo updatedProposalInfo = client.getProposal(id);
-            checkProposalCrud(createdProposalInfo, updatedProposalInfo);
-        } catch (InvalidParameterException e) {
-            assertTrue(false);
-        } catch (VersionMismatchException e) {
-            assertTrue(false);
-        }
+        List<String> orgs = new ArrayList<String>();
+        orgs.add("kuali");
+        orgs.add("ubc");
+        createdProposalInfo.setProposerOrg(orgs);
+         try {
+             client.updateProposal(id, createdProposalInfo);
+             assertTrue(false); // Can't have both person and org proposers
+         } catch (InvalidParameterException e) {
+             assertTrue(true);
+         } catch (VersionMismatchException e) {
+             assertTrue(false);
+         }
+         createdProposalInfo.setProposerPerson(null);
+         try {
+             client.updateProposal(id, createdProposalInfo);
+             ProposalInfo updatedProposalInfo = client.getProposal(id);
+             checkProposalCrud(createdProposalInfo, updatedProposalInfo);
 
-        try {
-            StatusInfo status = client.deleteProposal(id);
-            assertTrue(status.getSuccess());
-        } catch (DependentObjectsExistException e) {
-            assertTrue(false);
-        }
+             List<String> proposalReferences = new ArrayList<String>();
+             proposalReferences.add("doc-2");
 
-        try {
-            StatusInfo status = client.deleteProposal(id);
-            assertFalse(status.getSuccess());
-        } catch (DependentObjectsExistException e) {
-            assertTrue(false);
-        }
-        try {
-            client.getProposal(id);
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-   }
+             updatedProposalInfo.setProposalReference(proposalReferences);
+             client.updateProposal(id, updatedProposalInfo);
+             ProposalInfo updatedProposalInfo2 = client.getProposal(id);
+             checkProposalCrud(updatedProposalInfo, updatedProposalInfo2);
+         } catch (InvalidParameterException e) {
+             assertTrue(false);
+         } catch (VersionMismatchException e) {
+             assertTrue(false);
+         }
 
-private ProposalInfo setupProposalInfo() {
-    ProposalInfo proposalInfo = new ProposalInfo();
-       proposalInfo.setName("name");
+         try {
+             StatusInfo status = client.deleteProposal(id);
+             assertTrue(status.getSuccess());
+         } catch (DependentObjectsExistException e) {
+             assertTrue(false);
+         }
 
-       List<String> proposerPersons = new ArrayList<String>();
-       proposerPersons.add("gnl");
-       proposerPersons.add("david");
-       proposalInfo.setProposerPerson(proposerPersons);
+         try {
+             StatusInfo status = client.deleteProposal(id);
+             assertFalse(status.getSuccess());
+         } catch (DependentObjectsExistException e) {
+             assertTrue(false);
+         }
+         try {
+             client.getProposal(id);
+             assertTrue(false);
+         } catch (DoesNotExistException e) {
+             assertTrue(true);
+         }
 
-       List<String> proposalReferences = new ArrayList<String>();
-       proposalReferences.add("doc-1");
-       proposalInfo.setProposalReference(proposalReferences);
-       proposalInfo.setProposalReferenceType("REFTYPE-1");
-       proposalInfo.setRationale("rationale");
-       proposalInfo.setDetailDesc("detail desc");
-       Date effectiveDate = new Date();
-       proposalInfo.setEffectiveDate(effectiveDate);
-       Date expirationDate = new Date();
-       proposalInfo.setExpirationDate(expirationDate);
-       Map<String, String> attributes = new HashMap<String, String>();
-       attributes.put("key", "value");
-       proposalInfo.setAttributes(attributes);
-       proposalInfo.setType("proposalType.courseCorrection");
-       proposalInfo.setState("active");
-    return proposalInfo;
-}
-
-    private static void checkProposalCrud(ProposalInfo master, ProposalInfo validate) {
-        if (master.getId() != null) {
-            assertEquals(master.getId(), validate.getId());
-        }
-        assertEquals(master.getName(), validate.getName());
-        assertEquals(master.getProposerPerson(), validate.getProposerPerson());
-        assertEquals(master.getProposerOrg(), validate.getProposerOrg());
-        assertEquals(master.getProposalReferenceType(), validate.getProposalReferenceType());
-        assertEquals(master.getProposalReference(), validate.getProposalReference());
-        assertEquals(master.getRationale(), validate.getRationale());
-        assertEquals(master.getDetailDesc(), validate.getDetailDesc());
-        assertEquals(master.getEffectiveDate(), validate.getEffectiveDate());
-        assertEquals(master.getExpirationDate(), validate.getExpirationDate());
-        assertEquals(master.getAttributes(), validate.getAttributes());
-
-        assertEquals(master.getType(), validate.getType());
-        assertEquals(master.getState(), validate.getState());
     }
+
+     private ProposalInfo setupProposalInfo() {
+         ProposalInfo proposalInfo = new ProposalInfo();
+            proposalInfo.setName("name");
+
+            List<String> proposerPersons = new ArrayList<String>();
+            proposerPersons.add("gnl");
+            proposerPersons.add("david");
+            proposalInfo.setProposerPerson(proposerPersons);
+
+            List<String> proposalReferences = new ArrayList<String>();
+            proposalReferences.add("doc-1");
+            proposalInfo.setProposalReference(proposalReferences);
+            proposalInfo.setProposalReferenceType("REFTYPE-1");
+            proposalInfo.setRationale("rationale");
+            proposalInfo.setDetailDesc("detail desc");
+            Date effectiveDate = new Date();
+            proposalInfo.setEffectiveDate(effectiveDate);
+            Date expirationDate = new Date();
+            proposalInfo.setExpirationDate(expirationDate);
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put("key", "value");
+            proposalInfo.setAttributes(attributes);
+            proposalInfo.setType("proposalType.courseCorrection");
+            proposalInfo.setState("active");
+         return proposalInfo;
+     }
+
+     private static void checkProposalCrud(ProposalInfo master, ProposalInfo validate) {
+         if (master.getId() != null) {
+             assertEquals(master.getId(), validate.getId());
+         }
+         assertEquals(master.getName(), validate.getName());
+         assertEquals(master.getProposerPerson(), validate.getProposerPerson());
+         assertEquals(master.getProposerOrg(), validate.getProposerOrg());
+         assertEquals(master.getProposalReferenceType(), validate.getProposalReferenceType());
+         assertEquals(master.getProposalReference(), validate.getProposalReference());
+         assertEquals(master.getRationale(), validate.getRationale());
+         assertEquals(master.getDetailDesc(), validate.getDetailDesc());
+         assertEquals(master.getEffectiveDate(), validate.getEffectiveDate());
+         assertEquals(master.getExpirationDate(), validate.getExpirationDate());
+         assertEquals(master.getAttributes(), validate.getAttributes());
+
+         assertEquals(master.getType(), validate.getType());
+         assertEquals(master.getState(), validate.getState());
+     }
 
     @Test
     public void proposalDocCrud() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -509,7 +518,6 @@ private ProposalInfo setupProposalInfo() {
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
-
     }
 
     private void checkProposalDocRelationCrud(ProposalDocRelationInfo master, ProposalDocRelationInfo validate) {
@@ -560,7 +568,7 @@ private ProposalInfo setupProposalInfo() {
         assertNotNull(types);
         assertEquals(1, types.size());
     }
-    
+
     @Test
     public void getAllowedProposalDocRelationTypesForProposalType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<String> proposalDocRelationTypeKeyList = client.getAllowedProposalDocRelationTypesForProposalType("proposalType.courseCorrection");

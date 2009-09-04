@@ -61,22 +61,10 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     @Column(name="NAME")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="KSCO_PROPOSAL_JN_PERSON",
-            joinColumns=
-            @JoinColumn(name="PROPOSAL_ID", referencedColumnName="PROPOSAL_ID"),
-      inverseJoinColumns=
-            @JoinColumn(name="PERSONREF_ID", referencedColumnName="PERSONREF_ID")
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
     private List<ProposalPerson> proposerPerson;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="KSCO_PROPOSAL_JN_ORG",
-            joinColumns=
-            @JoinColumn(name="PROPOSAL_ID", referencedColumnName="PROPOSAL_ID"),
-      inverseJoinColumns=
-            @JoinColumn(name="ORGREF_ID", referencedColumnName="ORGREF_ID")
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
     private List<ProposalOrg> proposerOrg;
 
     @ManyToMany(fetch=FetchType.EAGER)

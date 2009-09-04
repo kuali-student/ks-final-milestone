@@ -170,43 +170,55 @@ public class ProposalAssembler extends BaseAssembler {
             }
         } else {
             proposal = new Proposal();
+            proposal.setProposerPerson(new ArrayList<ProposalPerson>(0));
+            proposal.setProposerOrg(new ArrayList<ProposalOrg>(0));
         }
 
         // Copy all basic properties
-        BeanUtils.copyProperties(proposalInfo, proposal, new String[] { "type",
+        BeanUtils.copyProperties(proposalInfo, proposal, new String[] { "id", "type",
                 "attributes", "metaInfo", "proposerPerson", "proposerOrg", "proposalReference" });
 
         // Copy Attributes
         proposal.setAttributes(toGenericAttributes(ProposalAttribute.class, proposalInfo.getAttributes(), proposal, dao));
 
+        // TODO Rework when JPA gets cascading deletes (2.0)
+        List<ProposalPerson> persons = proposal.getProposerPerson();
+        for (ProposalPerson person : persons) {
+            dao.getEm().remove(person);
+        }
+        List<ProposalOrg> orgs = proposal.getProposerOrg();
+        for (ProposalOrg org : orgs) {
+            dao.getEm().remove(org);
+        }
+        persons.clear();
+        orgs.clear();
+        dao.getEm().merge(proposal);
         if (proposalInfo.getProposerPerson() != null) {
             // Copy ProposerPersons
-            List<ProposalPerson> persons = new ArrayList<ProposalPerson>(proposalInfo.getProposerPerson().size());
             for (String proposer : proposalInfo.getProposerPerson()) {
                 ProposalPerson person;
                 try {
                     person = dao.getProposalPerson(proposer);
                 } catch (NoResultException e) {
-                    ProposalPerson proposerPerson = new ProposalPerson();
-                    proposerPerson.setPersonId(proposer);
-                    person = dao.create(proposerPerson);
+                    person = new ProposalPerson();
+                    person.setPersonId(proposer);
+                    person.setProposal(proposal);
                 }
                 persons.add(person);
             }
-            proposal.setProposerPerson(persons);
         }
 
         if (proposalInfo.getProposerOrg() != null) {
             // Copy ProposerPersons
-            List<ProposalOrg> orgs = new ArrayList<ProposalOrg>(proposalInfo.getProposerOrg().size());
             for (String proposer : proposalInfo.getProposerOrg()) {
                 ProposalOrg org;
                 try {
                     org = dao.getProposalOrg(proposer);
                 } catch (NoResultException e) {
-                    ProposalOrg proposerPerson = new ProposalOrg();
-                    proposerPerson.setOrgId(proposer);
-                    org = dao.create(proposerPerson);
+                    ProposalOrg proposerOrg = new ProposalOrg();
+                    proposerOrg.setOrgId(proposer);
+                    proposerOrg.setProposal(proposal);
+                    org = dao.create(proposerOrg);
                 }
                 orgs.add(org);
             }

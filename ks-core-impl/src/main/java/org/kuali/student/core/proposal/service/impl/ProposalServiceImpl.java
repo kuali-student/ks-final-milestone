@@ -370,14 +370,10 @@ public class ProposalServiceImpl implements ProposalService {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
 
-        try {
-            Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), proposalInfo, proposalDao);
-            proposalDao.update(proposal);
+        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), proposalInfo, proposalDao);
+        proposalDao.update(proposal);
 
-            return ProposalAssembler.toProposalInfo(proposal);
-        } catch (VersionMismatchException e) {
-            throw new InvalidParameterException(e.getMessage());
-        }
+        return ProposalAssembler.toProposalInfo(proposal);
     }
 
     /**
@@ -390,15 +386,10 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalDocRelationId, "proposalDocRelationId");
         checkForMissingParameter(proposalDocRelationInfo, "proposalDocRelationInfo");
 
-        try {
-            proposalDocRelationInfo.setId(proposalDocRelationId);
-            ProposalDocRelation proposalDocRelation = ProposalAssembler.toProposalDocRelation(proposalDocRelationInfo.getType(), proposalDocRelationInfo.getDocumentId(), proposalDocRelationInfo.getProposalId(), proposalDocRelationInfo, proposalDao);
-            proposalDao.update(proposalDocRelation);
-            return ProposalAssembler.toProposalDocRelationInfo(proposalDocRelation);
-        } catch (VersionMismatchException e) {
-            throw new InvalidParameterException(e.getMessage());
-        }
-
+        proposalDocRelationInfo.setId(proposalDocRelationId);
+        ProposalDocRelation proposalDocRelation = ProposalAssembler.toProposalDocRelation(proposalDocRelationInfo.getType(), proposalDocRelationInfo.getDocumentId(), proposalDocRelationInfo.getProposalId(), proposalDocRelationInfo, proposalDao);
+        proposalDao.update(proposalDocRelation);
+        return ProposalAssembler.toProposalDocRelationInfo(proposalDocRelation);
     }
 
     /**
