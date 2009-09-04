@@ -85,8 +85,9 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
 
     @Override
     public void initialize(Object o) {
-        
-        if (o instanceof ModelDTO) {
+        if(o == null){
+            modelDTO = null;
+        }else if (o instanceof ModelDTO) {
             modelDTO = (ModelDTO) o;
         } else {
             throw new IllegalArgumentException("The object must be an instance of ModelDTO.");
