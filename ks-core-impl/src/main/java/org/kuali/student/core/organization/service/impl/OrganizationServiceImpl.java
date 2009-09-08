@@ -2,7 +2,9 @@ package org.kuali.student.core.organization.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
@@ -919,11 +921,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(rootOrgId, "rootOrgId");
 		checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
-		List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
+		Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
 		Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
 		results.add(new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName()));
 		results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
-		return results;
+		return new ArrayList<OrgTreeInfo>(results);
 	}
 
 	private List<OrgTreeInfo> parseOrgTree(String rootOrgId,
