@@ -43,7 +43,7 @@ public class OrgSearchAttribute extends StandardGenericXMLSearchableAttribute {
 						orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 					}
 					OrgInfo orgInfo = orgService.getOrganization(orgId);
-					value.setupAttributeValue(orgInfo.getLongName());
+					value.setupAttributeValue(orgInfo.getShortName());
 				} catch (DoesNotExistException e) {
 					LOG.error(e);
 					throw new RuntimeException(e);

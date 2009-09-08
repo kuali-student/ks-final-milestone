@@ -13,7 +13,7 @@
                         <type>text</type>
                     </display>
                     <fieldEvaluation>
-                        <xpathexpression>//cluProposal/orgId</xpathexpression>
+                        <xpathexpression>//cluProposalDocInfo/orgId</xpathexpression>
                     </fieldEvaluation>
                 </fieldDef>
             </searchingConfig>
