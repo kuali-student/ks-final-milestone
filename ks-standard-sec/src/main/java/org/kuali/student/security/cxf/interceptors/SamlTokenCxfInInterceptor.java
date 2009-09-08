@@ -47,8 +47,6 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
         QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
         if(msg.hasHeader(wsseQN)){
             Header wsseHeader = msg.getHeader(wsseQN);
-            System.out.println("\n\n\n SamlTokenCxfInInterceptor Begins");
-            System.out.println("THE HEADER : " + wsseHeader.getName().toString());
             
             if(wsseHeader != null){
                 Node domSecurityHeader = (Node) wsseHeader.getObject();
@@ -57,50 +55,25 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
                 
                 for(int i=0; i < nodeList.getLength(); i++){
                     childNode = nodeList.item(i);
-                    System.out.println("CHILD NODE " + i + " : " + childNode.getLocalName());
                     
                     if((childNode.getNodeName().equals("Assertion")) && (childNode.getNodeType() == Node.ELEMENT_NODE)){
                         SAMLTokenProcessor stp = new SAMLTokenProcessor();
                         
                         try {
                             SAMLAssertion samlAssertion = stp.handleSAMLToken((Element)childNode);
-                            System.out.println("THE SAML ISSUER : " + samlAssertion.getIssuer());
                             
                             if(samlAssertion.getIssuer().equals(samlIssuerForUser)){
                                 CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
                                 cat.setDetails(samlAssertion);
                                 break;
-                            }
-                            
+                            }                           
                         }catch (Exception e) {
                             throw new RuntimeException(e);
                         }
                     }
                 }    
             }
-                       
-            // This code below gets the entire SOAP Mesage, the msg.getContentFormats() Classes are
-            // javax.xml.soap.SOAPMessage, org.w3c.dom.Node, javax.xml.stream.XMLStreamReader, java.io.InputStream
-            //Node doc = msg.getContent(Node.class);
-            System.out.println("\n\n THE WHOLE MESSAGE RECEIVED IN INTERCEPTOR ...... ");
-            Node env = msg.getContent(Node.class);
-            DOMSource domSource = new DOMSource(env);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer;
-            try {
-                transformer = tf.newTransformer();
-                transformer.transform(domSource, result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            writer.flush();
-            System.out.println(writer.toString());
         }
-        
-        System.out.println("LAST PRINT IN HANDLE MESSAGE, the phase : " + this.getPhase() );
     }
 
     @Override
