@@ -1,5 +1,6 @@
 package org.kuali.student.common.test.spring;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -26,6 +27,7 @@ public class DaoTestDependencyInjectorListener extends
 				Class<?> clazz = Class.forName(a.value());
 				BeanDefinition definition = new RootBeanDefinition(clazz);
 				registry.registerBeanDefinition(f.getName(), definition);
+				Field.setAccessible(new AccessibleObject[]{f}, true);
 				f.set(testContext.getTestInstance(), testContext
 						.getApplicationContext().getBean(f.getName()));
 			}

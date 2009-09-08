@@ -30,7 +30,7 @@ import org.springframework.aop.framework.ProxyFactory;
 public class ServiceCommonTest extends AbstractServiceTest {
 
 	@Client(value="org.kuali.student.common_test_tester.support.MyServiceImpl",additionalContextFile="classpath:test-my-additional-context.xml")
-	public MyService client;
+	private MyService client;
 
 	@Test
 	public void test1() {

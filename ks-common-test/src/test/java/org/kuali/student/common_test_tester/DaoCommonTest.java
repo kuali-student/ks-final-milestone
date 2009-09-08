@@ -14,7 +14,7 @@ import org.kuali.student.common_test_tester.support.Value;
 public class DaoCommonTest extends AbstractTransactionalDaoTest {
 
 	@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml", testSqlFile="classpath:test.sql")
-	public MyDao myDao;
+	private MyDao myDao;
 
 	public Value value1;
 	
