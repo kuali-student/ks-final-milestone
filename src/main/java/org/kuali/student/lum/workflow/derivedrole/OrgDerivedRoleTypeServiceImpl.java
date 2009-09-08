@@ -58,7 +58,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 			}else{
 				List<OrgPersonRelationInfo> relations = orgService.getAllOrgPersonRelationsByOrg(orgId);
 				for(OrgPersonRelationInfo relation:relations){
-					if(excludedOrgPersonRelationTypes==null||excludedOrgPersonRelationTypes.contains(relation.getType())){
+					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
 						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null);
 						members.add(member);
 					}
