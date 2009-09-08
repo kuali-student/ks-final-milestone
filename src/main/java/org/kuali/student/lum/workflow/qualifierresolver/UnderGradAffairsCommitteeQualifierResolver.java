@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.lum.workflow.qualifier.AbstractOrgQualifierResolver;
 
 public class UnderGradAffairsCommitteeQualifierResolver extends AbstractOrgQualifierResolver{
 	@Override

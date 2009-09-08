@@ -5,7 +5,6 @@ import java.util.List;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.lum.workflow.qualifier.AbstractOrgQualifierResolver;
 
 public class DepartmentCommitteeQualifierResolver extends
 		AbstractOrgQualifierResolver {

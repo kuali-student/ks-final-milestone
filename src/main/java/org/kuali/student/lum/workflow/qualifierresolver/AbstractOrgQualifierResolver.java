@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.student.lum.workflow.qualifier;
+package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
 import java.util.List;
