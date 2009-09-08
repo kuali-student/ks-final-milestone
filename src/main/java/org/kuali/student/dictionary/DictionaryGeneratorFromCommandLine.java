@@ -31,13 +31,38 @@ public class DictionaryGeneratorFromCommandLine
   */
  public static void main (String[] args)
  {
-  DictionaryGeneratorFromCommandLine instance = new DictionaryGeneratorFromCommandLine ();
+  DictionaryGeneratorFromCommandLine instance =
+   new DictionaryGeneratorFromCommandLine ();
   instance.generate (args);
 
  }
 
+ private void displayVersion ()
+ {
+  displayVersion (System.out);
+ }
+
+ public void displayVersion (PrintStream out)
+ {
+  //TODO: figure out how to get the version from the Maven property
+  out.println ("Kuali Student Dictionary Geneator: Version 0.5");
+  out.println ("             Built on Tuesday, September 9, 2009");
+ }
+
+ private void displayParameters (String inFile, String outFile)
+ {
+  displayParameters (System.out, inFile, outFile);
+ }
+
+ public void displayParameters (PrintStream out, String inFile, String outFile)
+ {
+  out.println ("Reading: " + inFile);
+  out.println ("Generating: " + outFile);
+ }
+
  private void displayUsage ()
  {
+  displayUsage (System.out);
  }
 
  public void displayUsage (PrintStream out)
@@ -51,6 +76,7 @@ public class DictionaryGeneratorFromCommandLine
 
  private void generate (String[] args)
  {
+  displayVersion ();
   if (args == null)
   {
    displayUsage ();
@@ -73,7 +99,7 @@ public class DictionaryGeneratorFromCommandLine
 
  protected void generate (String inFile, String outFile)
  {
-  System.out.println ("Reading " + inFile + " and generating " + outFile);
+  displayParameters (inFile, outFile);
   File file = new File (outFile);
   PrintStream out;
   try
