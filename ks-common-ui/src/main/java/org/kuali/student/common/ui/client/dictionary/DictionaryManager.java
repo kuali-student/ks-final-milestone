@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
@@ -39,7 +38,7 @@ public class DictionaryManager {
     private static final char DICT_KEY_SEPARATOR = ':';
 
     private Validator validator = null;//FIXME! inject this somehow new Validator(); 
-    private static Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
+    private Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
 
 
     private static DictionaryManager manager = new DictionaryManager();
@@ -76,10 +75,10 @@ public class DictionaryManager {
                     if (f.getFieldDescriptor().getObjectStructure() != null) {
                         loadSubStructure(result, f);
                     }
-                    else {
-                        result.put(f.getKey().toLowerCase(), f);
-                    }
-                }
+                    
+                    result.put(f.getKey().toLowerCase(), f);
+                    System.out.println(f.getKey());
+                }                
                 indexedFields.put(structure.getKey().toLowerCase() + DICT_KEY_SEPARATOR + t.getKey().toLowerCase() + DICT_KEY_SEPARATOR +   s.getKey().toLowerCase() , result);
             }
         }
@@ -93,13 +92,14 @@ public class DictionaryManager {
                 if (!s.getField().isEmpty()) {
                     if (s.getKey().equals("active")) { // temp while we work out how to handle diff states of cluIdentifierInfo
                         for (Field f : s.getField()) {
-                            result.put(field.getKey().toLowerCase() + '.' + f.getKey().toLowerCase(), f);                  
+                            result.put(field.getKey().toLowerCase() + '.' + f.getKey().toLowerCase(), f);
+                            System.out.println(field.getKey() + "." + f.getKey());
                         }
                     }
                 }
-                else {
-                    result.put(field.getKey().toLowerCase(), field);                    
-                }
+
+                result.put(field.getKey().toLowerCase(), field);
+                System.out.println(field.getKey());
             }
         }
     }

@@ -11,11 +11,8 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 
 public class DictionaryLoader {
-//  Map<String, ObjectStructure> map = new HashMap<String, ObjectStructure>();
-    public DictionaryLoader(){
-        loadDictionary();
-    }
-    private void loadDictionary() {
+   
+    public static void loadDictionary() {
         try {
             List<String> types = getDictSerializedObject("objectTypes");
             for (String key: types) {
@@ -28,15 +25,16 @@ public class DictionaryLoader {
             e.printStackTrace();
         }
     }
+    
     @SuppressWarnings("unchecked")
-    public  <T> T getDictSerializedObject(String key  ) throws SerializationException
+    public static <T> T getDictSerializedObject(String key  ) throws SerializationException
     {
         SerializationStreamFactory ssf = GWT.create( BaseRpcService.class); // magic
         String serialized = getString( key );
         return (T)ssf.createStreamReader( serialized ).readObject();
     }
     
-    public  native String getString(String name) /*-{
+    public static native String getString(String name) /*-{
         return eval("$wnd."+name);
     }-*/;
 }
