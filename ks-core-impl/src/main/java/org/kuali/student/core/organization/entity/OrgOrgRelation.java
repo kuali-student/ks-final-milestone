@@ -1,6 +1,5 @@
 package org.kuali.student.core.organization.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -124,9 +123,6 @@ public class OrgOrgRelation extends MetaEntity implements
 
 	@Override
 	public List<OrgOrgRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<OrgOrgRelationAttribute>();
-		}
 		return attributes;
 	}
 

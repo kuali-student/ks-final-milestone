@@ -194,6 +194,9 @@ public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchy
         // returns a list of Qualifier types names associated with the qualifier hierarchy name.
         if(qualifierHierarchyDAO != null){
     	QualifierHierarchy qualifierHierarchy = qualifierHierarchyDAO.fetchQualifierHierarchyByName(qualifierHierarchyName);
+    	if(qualifierHierarchy.getQualifierTypes() == null){
+    		qualifierHierarchy.setQualifierTypes(new ArrayList<QualifierType>());
+    	}
         List<QualifierType> lstQualifierTypes = qualifierHierarchy.getQualifierTypes();
         
         List<String> attributeNames = new ArrayList<String>();

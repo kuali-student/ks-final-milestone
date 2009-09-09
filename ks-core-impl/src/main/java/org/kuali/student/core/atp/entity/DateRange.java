@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -103,9 +102,6 @@ public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAtt
 	}
 
 	public List<DateRangeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<DateRangeAttribute>();
-		}
 		return attributes;
 	}
 

@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -45,9 +44,6 @@ public class AtpType extends Type<AtpTypeAttribute> implements AttributeOwner<At
 	}
 
 	public List<AtpTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<AtpTypeAttribute>();
-		}
 		return attributes;
 	}
 

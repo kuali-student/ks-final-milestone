@@ -1,6 +1,5 @@
 package org.kuali.student.core.document.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,10 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.comment.entity.TagAttribute;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.RichText;
-import org.kuali.student.core.entity.Type;
 @Entity
 @Table(name = "KSDO_DOCUMENT_CATEGORY")
 @NamedQueries( {
@@ -136,9 +133,6 @@ public class DocumentCategory implements AttributeOwner<DocumentCategoryAttribut
     
     @Override
     public List<DocumentCategoryAttribute> getAttributes() {
-        if(attributes==null){
-            attributes = new ArrayList<DocumentCategoryAttribute>(0);
-        }
         return attributes;
     }
 

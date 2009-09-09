@@ -96,9 +96,6 @@ public class QualifierType {
     }
 
     public List<QualifierType> getPkQualifierTypes() {
-    	if(pkQualifierTypes==null){
-    		pkQualifierTypes = new ArrayList<QualifierType>();
-    	}
         return pkQualifierTypes;
     }
 
@@ -118,9 +115,6 @@ public class QualifierType {
 	 * @return the qualifierHierarchys
 	 */
 	public List<QualifierHierarchy> getQualifierHierarchys() {
-		if(qualifierHierarchys==null){
-			qualifierHierarchys = new ArrayList<QualifierHierarchy>();
-		}
 		return qualifierHierarchys;
 	}
 

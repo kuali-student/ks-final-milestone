@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,9 +22,6 @@ public class MilestoneType extends Type<MilestoneTypeAttribute> {
 	private List<MilestoneTypeAttribute> attributes;
 
 	public List<MilestoneTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<MilestoneTypeAttribute>();
-		}
 		return attributes;
 	}
 

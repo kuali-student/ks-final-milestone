@@ -1,6 +1,5 @@
 package org.kuali.student.core.comment.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,9 +22,6 @@ public class CommentType extends Type<CommentTypeAttribute> {
 
     @Override
     public List<CommentTypeAttribute> getAttributes() {
-        if(attributes==null){
-            attributes = new ArrayList<CommentTypeAttribute>(0);
-        }
         return attributes;
     }
 

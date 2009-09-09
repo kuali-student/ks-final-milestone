@@ -1,6 +1,5 @@
 package org.kuali.student.core.organization.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,9 +37,6 @@ public class OrgType extends Type<OrgTypeAttribute> {
 	}
 
 	public List<OrgTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<OrgTypeAttribute>();
-		}
 		return attributes;
 	}
 
@@ -49,9 +45,6 @@ public class OrgType extends Type<OrgTypeAttribute> {
 	}
 
 	public List<OrgHierarchy> getOrgHierarchies() {
-		if (orgHierarchies == null) {
-			orgHierarchies = new ArrayList<OrgHierarchy>();
-		}
 		return orgHierarchies;
 	}
 

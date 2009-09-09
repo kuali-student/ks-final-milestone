@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,9 +16,6 @@ public class AtpSeasonalType extends Type<AtpSeasonalTypeAttribute>{
 	private List<AtpSeasonalTypeAttribute> attributes;
 
 	public List<AtpSeasonalTypeAttribute> getAttributes() {
-		if(attributes==null){
-			attributes = new ArrayList<AtpSeasonalTypeAttribute>();
-		}
 		return attributes;
 	}
 

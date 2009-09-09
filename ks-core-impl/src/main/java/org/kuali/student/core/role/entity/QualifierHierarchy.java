@@ -96,10 +96,6 @@ public class QualifierHierarchy {
     }
 
     public List<Qualifier> getQualifiers() {
-        if(qualifiers == null) {
-            qualifiers = new ArrayList<Qualifier>();
-        }
-
         return qualifiers;
     }
 
@@ -111,9 +107,6 @@ public class QualifierHierarchy {
 	 * @return the qualifierTypes
 	 */
 	public List<QualifierType> getQualifierTypes() {
-		if(qualifierTypes==null){
-			qualifierTypes= new ArrayList<QualifierType>();
-		}
 		return qualifierTypes;
 	}
 

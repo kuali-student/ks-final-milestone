@@ -1,6 +1,5 @@
 package org.kuali.student.core.organization.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,9 +62,6 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	
 	@Override
 	public List<OrgHierarchyAttribute> getAttributes() {
-		if(attributes==null){
-			attributes=new ArrayList<OrgHierarchyAttribute>();
-		}
 		return attributes;
 	}
 
@@ -123,9 +119,6 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	}
 
 	public List<OrgType> getOrganizationTypes() {
-		if(organizationTypes==null){
-			organizationTypes=new ArrayList<OrgType>();
-		}
 		return organizationTypes;
 	}
 
@@ -134,9 +127,6 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	}
 
 	public List<OrgOrgRelationType> getOrgOrgRelationTypes() {
-		if(orgOrgRelationTypes==null){
-			orgOrgRelationTypes=new ArrayList<OrgOrgRelationType>();
-		}
 		return orgOrgRelationTypes;
 	}
 

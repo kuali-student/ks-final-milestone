@@ -15,7 +15,6 @@
  */
 package org.kuali.student.core.comment.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -165,9 +164,6 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
 
     @Override
     public List<CommentAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CommentAttribute>(0);
-        }
         return attributes;
     }
 

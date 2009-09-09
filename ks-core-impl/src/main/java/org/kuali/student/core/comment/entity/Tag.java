@@ -1,6 +1,5 @@
 package org.kuali.student.core.comment.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -160,9 +159,6 @@ public class Tag extends MetaEntity implements AttributeOwner<TagAttribute>{
 
     @Override
     public List<TagAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<TagAttribute>(0);
-        }
         return attributes;
     }
 

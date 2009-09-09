@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -105,9 +104,6 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	}
 
 	public List<AtpAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<AtpAttribute>();
-		}
 		return attributes;
 	}
 
@@ -132,9 +128,6 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	}
 
 	public List<DateRange> getDateRanges() {
-		if (dateRanges == null) {
-			dateRanges = new ArrayList<DateRange>();
-		}
 		return dateRanges;
 	}
 
@@ -143,9 +136,6 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	}
 
 	public List<Milestone> getMilestones() {
-		if (milestones == null) {
-			milestones = new ArrayList<Milestone>();
-		}
 		return milestones;
 	}
 

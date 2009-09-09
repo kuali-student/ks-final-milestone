@@ -15,7 +15,6 @@
  */
 package org.kuali.student.core.document.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -193,9 +192,6 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
 
     @Override
     public List<DocumentAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<DocumentAttribute>(0);
-        }
         return attributes;
     }
 

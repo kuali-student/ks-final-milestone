@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,9 +83,6 @@ public class Milestone extends MetaEntity implements
 	}
 
 	public List<MilestoneAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<MilestoneAttribute>();
-		}
 		return attributes;
 	}
 

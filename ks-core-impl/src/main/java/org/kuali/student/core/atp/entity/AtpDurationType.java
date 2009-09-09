@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,9 +17,6 @@ public class AtpDurationType extends Type<AtpDurationTypeAttribute> {
 	private List<AtpDurationTypeAttribute> attributes;
 
 	public List<AtpDurationTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<AtpDurationTypeAttribute>();
-		}
 		return attributes;
 	}
 

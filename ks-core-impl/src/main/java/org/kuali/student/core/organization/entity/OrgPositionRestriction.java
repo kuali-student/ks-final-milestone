@@ -1,6 +1,5 @@
 package org.kuali.student.core.organization.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -120,9 +119,6 @@ public class OrgPositionRestriction extends MetaEntity implements
 
 	@Override
 	public List<OrgPositionRestrictionAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<OrgPositionRestrictionAttribute>();
-		}
 		return attributes;
 	}
 

@@ -1,6 +1,5 @@
 package org.kuali.student.core.atp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,9 +21,6 @@ public class DateRangeType extends Type<DateRangeTypeAttribute> {
 	private List<DateRangeTypeAttribute> attributes;
 
 	public List<DateRangeTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<DateRangeTypeAttribute>();
-		}
 		return attributes;
 	}
 

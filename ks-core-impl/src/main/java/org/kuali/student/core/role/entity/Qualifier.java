@@ -96,10 +96,6 @@ public class Qualifier {
     }
 
     public List<Qualifier> getQualifiers() {
-        if(qualifiers == null) {
-            qualifiers = new ArrayList<Qualifier>();
-        }
-
         return qualifiers;
     }
 

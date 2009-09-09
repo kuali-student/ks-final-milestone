@@ -1,6 +1,5 @@
 package org.kuali.student.core.organization.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -56,9 +55,6 @@ public class OrgPersonRelationType extends Type<OrgPersonRelationTypeAttribute> 
 
 	@Override
 	public List<OrgPersonRelationTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<OrgPersonRelationTypeAttribute>();
-		}
 		return attributes;
 	}
 
@@ -108,9 +104,6 @@ public class OrgPersonRelationType extends Type<OrgPersonRelationTypeAttribute> 
 	}*/
 
 	public List<Org> getOrganizations() {
-		if (null == organizations) {
-			organizations = new ArrayList<Org>();
-		}
 		return organizations;
 	}
 
