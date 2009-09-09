@@ -635,7 +635,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		// test getting the whole tree
 		results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 0);
-		assertEquals(160, results.size());
+		assertEquals(142, results.size());
 	}
 
 	@Test
