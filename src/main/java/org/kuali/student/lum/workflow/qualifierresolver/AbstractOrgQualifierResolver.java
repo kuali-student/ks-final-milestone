@@ -191,7 +191,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 			if(ancestorOrgs!=null){
 				for(OrgInfo ancestorOrg:ancestorOrgs){
 					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
-						List<Result> results = relatedOrgsFromOrgId(orgId,KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
+						List<Result> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_CHILD,KUALI_ORG_COC);
 						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
 					}
 				}
