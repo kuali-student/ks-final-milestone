@@ -115,7 +115,7 @@
 	<bean id="ksOrgAdminRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
 		<property name="includedOrgPersonRelationTypes">
 			<list>
-				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
+				<value>kuali.org.PersonRelation.Chair</value>
 			</list>
 		</property>
 		<!--<property name="orgService" ref="orgClient"/>-->
@@ -125,7 +125,7 @@
 	<bean id="ksOrgCommitteeRoleTypeService" class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
 		<property name="excludedOrgPersonRelationTypes">
 			<list>
-				<value>kuali.org.PersonRelation.AdministrativeOfficer</value>
+				<value>kuali.org.PersonRelation.Chair</value>
 			</list>
 		</property>
 		<!--<property name="orgService" ref="orgClient"/>-->
