@@ -639,8 +639,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		checkForMissingParameter(queryParamValues, "queryParamValues");
-
+		
 		return searchManager.searchForResults(searchTypeKey, queryParamValues, organizationDao);
 	}
 
