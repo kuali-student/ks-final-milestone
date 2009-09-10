@@ -94,7 +94,7 @@ public class LuConfigurer {
         section.setSectionTitle(SectionTitle.generateH1Title("Proposal Information"));
         section.setInstructions("Enter the following to save a draft of the clu proposal.");
 
-        section.addField(new FieldDescriptor("name", "Proposed Course Title", Type.STRING));
+        section.addField(new FieldDescriptor("name", "Proposal Title", Type.STRING));
         //This will need to be a person picker
         section.addField(new FieldDescriptor("proposerPerson", "Originiating Faculty Member",Type.STRING)) ;
         ((PagedSectionLayout)layout).addStartSection(section);
@@ -102,13 +102,7 @@ public class LuConfigurer {
     
     private static void addDemoSection(ConfigurableLayout layout) {
         VerticalSectionView section = new VerticalSectionView(LuSections.DEMO_SECTION, "Demo Section", CluProposalModelDTO.class);
-                 
-        
-        VerticalSection proposedCourseTitle = new VerticalSection();
-        proposedCourseTitle.addField(new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING));
-        proposedCourseTitle.setRequiredState(RequiredEnum.REQUIRED);
-        section.addSection(proposedCourseTitle);
-        
+                               
         //section.addField(new FieldDescriptor("/publishingInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
         
         final FieldDescriptor subjectFD = new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING, RequiredEnum.REQUIRED);
@@ -263,56 +257,49 @@ public class LuConfigurer {
         CustomNestedSection courseNumber = new CustomNestedSection();
         courseNumber.setSectionTitle(SectionTitle.generateH2Title("Course Number")); //Section title constants)
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        courseNumber.addField(new FieldDescriptor("division", null, Type.STRING));//TODO OrgSearch goes here?
-        courseNumber.addField(new FieldDescriptor("suffixCode", null, Type.STRING));
+        courseNumber.addField(new FieldDescriptor("/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
+        courseNumber.addField(new FieldDescriptor("/officialIdentifier/suffixCode", null, Type.STRING));
         courseNumber.nextRow();
         
             //CROSS LISTED
+/*
             VerticalSection crossListed = new VerticalSection();
             crossListed.setSectionTitle(SectionTitle.generateH2Title("Cross Listed (offered under alternate course numbers)"));
             crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
             crossListed.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
-            
+*/
             //OFFERED JOINTLY
+/*        
             VerticalSection offeredJointly = new VerticalSection();
             offeredJointly.setSectionTitle(SectionTitle.generateH2Title("Offered Jointly (co-located with another course)"));
             offeredJointly.setInstructions("Enter an existing course or proposal.");
             offeredJointly.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
+*/            
             
             //Version Codes
-            VerticalSection versionCodes = new VerticalSection();
+/*
+        VerticalSection versionCodes = new VerticalSection();
             versionCodes.setSectionTitle(SectionTitle.generateH2Title("Version Codes"));
             versionCodes.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong
+*/            
             
+/*
         courseNumber.addSection(crossListed);
         courseNumber.nextRow();
         courseNumber.addSection(offeredJointly);
         courseNumber.nextRow();
         courseNumber.addSection(versionCodes);
+*/        
         section.addSection(courseNumber);
         
-        VerticalSection proposedCourseTitle = new VerticalSection();
-        proposedCourseTitle.setSectionTitle(SectionTitle.generateH2Title("Proposed Course Title"));
-        proposedCourseTitle.addField(new FieldDescriptor("longName", null, Type.STRING));
-        section.addSection(proposedCourseTitle);
-        
-        VerticalSection transcriptTitle = new VerticalSection();
-        transcriptTitle.setSectionTitle(SectionTitle.generateH2Title("Transcript Title"));
-        transcriptTitle.addField(new FieldDescriptor("shortName", null, Type.STRING));
-        section.addSection(transcriptTitle);
-        
-        VerticalSection description = new VerticalSection();
-        description.setSectionTitle(SectionTitle.generateH2Title("Description"));
-        description.addField(new FieldDescriptor("desc", null, Type.STRING, new KSTextArea()));
-        section.addSection(description);
-        
-        VerticalSection rationale = new VerticalSection();
-        rationale.setSectionTitle(SectionTitle.generateH2Title("Rationale"));
-        rationale.addField(new FieldDescriptor("marketingDesc", null, Type.STRING, new KSTextArea()));
-        section.addSection(rationale);
+        KSTextArea textArea = new KSTextArea();
+        textArea.setWidth("50");
+        section.addField(new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING));        
+        section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Transcript Title", Type.STRING));        
+        section.addField(new FieldDescriptor("desc", "Course Description", Type.MODELDTO, new KSRichEditor()));        
+        section.addField(new FieldDescriptor("marketingDesc", "Marketing Description", Type.MODELDTO, new KSRichEditor()));
 
-        layout.addSection(new String[] {LUConstants.SECTION_COURSE_INFORMATION}, section);        
-       
+        layout.addSection(new String[] {LUConstants.SECTION_COURSE_INFORMATION}, section);               
     }
     
     public static class CrossListedList extends MultiplicityComposite{
