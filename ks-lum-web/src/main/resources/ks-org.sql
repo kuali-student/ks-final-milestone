@@ -656,7 +656,7 @@ insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RE
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('17', '172', 'doug', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Member', 'Active', 1)
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('18', '164', 'dev1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Chair', 'Active', 1)
 insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('19', '164', 'dev2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Member', 'Active', 1)
-
+insert into KSOR_ORG_PERS_RELTN (ID, ORG, PERS_ID, EFF_DT, EXPIR_DT, ORG_PERS_RELTN_TYPE, ST, VERSIONIND) values ('20', '176', 'user4', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},'kuali.org.PersonRelation.Chair', 'Active', 1)
 //
 insert into KSOR_ORG_TYPE_JN_ORG_PERRL_TYP (ORG_TYPE_ID, ORG_PERS_RELTN_TYPE_ID) VALUES ('kuali.org.Department', 'kuali.org.PersonRelation.Professor')
 insert into KSOR_ORG_TYPE_JN_ORG_PERRL_TYP (ORG_TYPE_ID, ORG_PERS_RELTN_TYPE_ID) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Head')
