@@ -92,11 +92,20 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
     }
     
     /** 
-     * This method should be implemented if list supports multiple select. 
+     * This method should be implemented if list supports setting of multiple select. 
      * 
      */
     public void setMultipleSelect(boolean isMultipleSelect){
         throw new UnsupportedOperationException();
+    }
+    
+    /**
+     *  
+     * This method should if implemented if list supports multiple select
+     *
+     */
+    public boolean isMultipleSelect(){
+        return false;
     }
         
     /** 

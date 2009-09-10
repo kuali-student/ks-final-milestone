@@ -175,5 +175,11 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
     public boolean isEnabled() {
         return enabled;
     }
+    
+    @Override
+    public boolean isMultipleSelect(){
+        return true;
+    }
+
 
 }

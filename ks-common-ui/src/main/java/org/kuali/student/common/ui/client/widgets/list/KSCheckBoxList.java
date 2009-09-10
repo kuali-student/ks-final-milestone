@@ -101,6 +101,11 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract {
     }
 
     @Override
+    public boolean isMultipleSelect() {
+        return selectItemWidget.isMultipleSelect();
+    }
+
+    @Override
     public void redraw() {
         selectItemWidget.redraw();
     }
