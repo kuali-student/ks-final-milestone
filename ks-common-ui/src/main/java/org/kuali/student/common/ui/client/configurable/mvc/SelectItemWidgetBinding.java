@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
@@ -15,10 +16,23 @@ public class SelectItemWidgetBinding implements PropertyBinding<KSSelectItemWidg
     
     @Override
     public ModelDTOValue getValue(KSSelectItemWidgetAbstract object) {
-        //TODO NEED AN IS MULTIPLESELECTABLE BOOLEAN ACCESSOR
-        //Does not support multi select yet
-        ModelDTOValue modelValue = new StringType();
-        ((StringType) modelValue).set(object.getSelectedItem());
+        ModelDTOValue modelValue = null;
+        if (object.isMultipleSelect()){         
+            modelValue = new ListType();
+            
+            List<ModelDTOValue> modelValueList = new ArrayList<ModelDTOValue>();                        
+            List<String> selectedItems = object.getSelectedItems();
+            for (String stringItem:selectedItems){
+                StringType stringTypeItem = new StringType();
+                stringTypeItem.set(stringItem);
+                modelValueList.add(stringTypeItem);
+            }
+             
+            ((ListType)modelValue).set(modelValueList);
+        } else {                        
+             modelValue = new StringType();
+            ((StringType) modelValue).set(object.getSelectedItem());
+        }
         return modelValue;
     }
 
