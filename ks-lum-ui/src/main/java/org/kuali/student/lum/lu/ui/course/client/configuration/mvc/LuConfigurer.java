@@ -44,7 +44,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -123,39 +122,22 @@ public class LuConfigurer {
 
                 ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
                 final Validator val = new Validator(bc, true);
-                // val.setDateParser(new ServerDateParser());
-                // val.addMessages(buildMessageStore());
-                // ModelDTO modelDTO = null;
-                // System.out.println(results.size());
-                // System.out.println(results.get(0).getErrorLevel());
-                // System.out.println(results.get(0).getValidationResults().get(0).getMessage());
-
-                // Window.alert("Must be longer than 3 letter.");
                 final ValidateResultEvent e = new ValidateResultEvent();
 
                 Controller.findController(subjectFD.getFieldWidget()).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<ModelDTO>() {
                     public void onModelReady(Model<ModelDTO> m) {
-                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(m.get().getClassName());
-                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), Application.getApplicationContext().getDictionaryData(m.get().getClassName()));
-                        // ArrayList<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
-                        // ValidationResultContainer vrc = new ValidationResultContainer();
-                        // vrc.addError("Joe");
-                        // vrc.setElement("Joe");
-                        // results.add(vrc);
+                        String key = m.get().getClassName();
+                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
+                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
                         e.setValidationResult(results);// filled by calling the real validate code
-                        // LuConfigurer.this.fireApplicationEvent(e);
                         Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
                     }
-
                     @Override
                     public void onRequestFail(Throwable cause) {
                         Window.alert("Failed to get model");
                     }
-
                 });
-
             }
-
         });
 
         section.addField(subjectFD);
