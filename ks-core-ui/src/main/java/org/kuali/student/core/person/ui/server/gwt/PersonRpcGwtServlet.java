@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.service.IdentityService;
@@ -19,7 +22,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 		PersonRpcService {
-
+	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+	.getLogger(PersonRpcGwtServlet.class);
 	private static final long serialVersionUID = 3797505861921543183L;
 
 	private PersonService service;
@@ -34,31 +38,38 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 		// try {
 		List<Result> results = new ArrayList<Result>();
 		
-		aquireIdentityService();
+		if (null == identityService) {
+			identityService = (IdentityService) GlobalResourceLoader.getService(new QName("KIM","kimIdentityServiceSOAPUnsecure"));
+		}
 		
 		if (identityService != null) {
-			@SuppressWarnings("unchecked")
-			List<KimEntityDefaultInfo> entities = (List<KimEntityDefaultInfo>) identityService
-					.lookupEntityDefaultInfo(new HashMap<String, String>(),
-							true);
-			for (KimEntityDefaultInfo entity : entities) {
-				if (entity.getPrincipals() != null) {
-					for (KimPrincipal principal : entity.getPrincipals()) {
-						Result result = new Result();
-						ResultCell cell = new ResultCell();
-						cell.setKey("Person Id");
-						cell.setValue(principal.getPrincipalId());
-						result.getResultCells().add(cell);
-						cell = new ResultCell();
-						cell.setKey("Person Name");
-						cell.setValue(principal.getPrincipalName());
-						result.getResultCells().add(cell);
-						results.add(result);
+			try{
+				@SuppressWarnings("unchecked")
+				List<KimEntityDefaultInfo> entities = (List<KimEntityDefaultInfo>) identityService
+						.lookupEntityDefaultInfo(new HashMap<String, String>(),
+								true);
+				for (KimEntityDefaultInfo entity : entities) {
+					if (entity.getPrincipals() != null) {
+						for (KimPrincipal principal : entity.getPrincipals()) {
+							Result result = new Result();
+							ResultCell cell = new ResultCell();
+							cell.setKey("Person Id");
+							cell.setValue(principal.getPrincipalId());
+							result.getResultCells().add(cell);
+							cell = new ResultCell();
+							cell.setKey("Person Name");
+							cell.setValue(principal.getPrincipalName());
+							result.getResultCells().add(cell);
+							results.add(result);
+						}
 					}
 				}
+				return results;
+			}catch(Exception e){
+				LOG.error("Error getting identityService", e);
 			}
-			return results;
 		}
+		
 		String[] kimPrincipalIds= new String[]{
 				"1",
 				"admin",
@@ -114,23 +125,6 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 		}
 
 		return results;
-	}
-
-	private void aquireIdentityService() {
-//		if(identityService==null){
-//			try{
-//				//{KIM}kimIdentityServiceSOAPUnsecure http://localhost:8081/ks-rice-dev/remoting/kimIdentityServiceSOAPUnsecure  
-//				ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
-//				factory.setServiceClass(IdentityService.class);
-//				factory.setAddress(identityServiceAddress);
-//				factory.setWsdlLocation(identityServiceAddress+"?wsdl");
-//				factory.setServiceName(new QName("KIM", "kimIdentityServiceSOAPUnsecure"));
-//				factory.getServiceFactory().setDataBinding((DataBinding) Class.forName("org.apache.cxf.aegis.databinding.AegisDatabinding").newInstance());
-//				identityService = (IdentityService) factory.create();
-//			}catch(Exception e){
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	public PersonService getService() {
