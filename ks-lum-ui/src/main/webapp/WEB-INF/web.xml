@@ -3,7 +3,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:ks-lum-ui-context.xml</param-value>
+        <param-value>classpath:META-INF/ks-lum-ui-context.xml</param-value>
     </context-param>
 
     <listener>
@@ -16,7 +16,7 @@
 		<load-on-startup>1</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:gwt-context.xml</param-value>
+			<param-value>classpath:META-INF/gwt-context.xml</param-value>
 		</init-param>
 	</servlet>
 
