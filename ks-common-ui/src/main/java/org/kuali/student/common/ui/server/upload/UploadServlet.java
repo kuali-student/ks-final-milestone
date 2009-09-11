@@ -129,7 +129,7 @@ public class UploadServlet extends HttpServlet{
 				    	        bytes.write(buffer, 0, read);
 				    	        fileStatus.setProgress(fileStatus.getProgress() + read);
 				    	        // TODO you could put a Thread.sleep(500) here to simulate slow network
-				    	        Thread.sleep(500);
+				    	        //Thread.sleep(500);
 				    	    }
 				    	}
 				    	bytes.flush();
