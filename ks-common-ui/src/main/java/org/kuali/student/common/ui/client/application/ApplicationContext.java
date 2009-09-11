@@ -86,6 +86,31 @@ public class ApplicationContext {
 	    
 	    return result;
 	}
+	
+    /**
+     * 
+     * This method looks up a UI Label in the messages cache.  
+     * First looks for a label specific to the type and state of the field.
+     * If none found try for a generalized label.
+     * Otherwise return the supplied fieldId
+     * 
+     * @param type
+     * @param state
+     * @param fieldId
+     * @return
+     */public String getUILabel(String type, String state, String fieldId) {
+
+        String label = getMessage(type + ":" + state + ":" + fieldId);
+        
+        if (label == null)
+            label = getMessage(fieldId);
+        
+        if (label == null)
+            label =  fieldId;
+        
+        return label;
+        
+    }
 
     public SecurityContext getSecurityContext() {
         return securityContext;
