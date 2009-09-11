@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
@@ -11,7 +12,9 @@ import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
+import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
+import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -60,7 +63,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 	private String referenceType;
 	private String referenceState;
 
-	private final int POLL_INTERVAL = 50; //FIXME put this back to 2000, low for testing ONLY
+	private final int POLL_INTERVAL = 2000; //FIXME put this back to 2000, low for testing ONLY
 	
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
 	private HorizontalBlockFlowPanel browsePanel = new HorizontalBlockFlowPanel();
@@ -71,13 +74,16 @@ public class DocumentTool extends ToolView implements HasReferenceId{
     private SimplePanel createPanel = new SimplePanel();
     private boolean showingEditButtons = true;
     private List<Document> documents = new ArrayList<Document>();
-    private KSLabel loadingDocuments = new KSLabel("Loading Documents");
+    private KSLabel loadingDocuments = new KSLabel("Loading Documents...");
     private FormPanel form = new FormPanel();
     
     private KSLightBox progressWindow = new KSLightBox();
     private VerticalFlowPanel progressPanel = new VerticalFlowPanel();
     private KSLabel progressLabel = new KSLabel();
     private ProgressBar progressBar = new ProgressBar();
+    private FlexTable fileProgressTable = new FlexTable();
+    //private 
+    
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
 		@Override
 		public void exec(OkEnum result) {
@@ -101,6 +107,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 				  //progressBar.setMin
 				  progressBar.setProgress(0);
 				  progressBar.setMaxProgress(0);
+				  fileProgressTable.clear();
 				  progressWindow.show();
 				  uploadStatusRpc.getUploadId(new AsyncCallback<String>(){
 
@@ -118,6 +125,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 						progressLabel.setText("Uploading...");
 						Timer progressTimer = new Timer(){
 							private boolean maxSet = false;
+							private boolean idsAdded = false;
 							@Override
 							public void run() {
 								uploadStatusRpc.getUploadStatus(result, new AsyncCallback<UploadStatus>(){
@@ -129,12 +137,22 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 										refreshDocuments();
 										cancel();
 									}
-
+									
+									private int currentFile = 0;
+									
 									@Override
 									public void onSuccess(UploadStatus result) {
 										if(!maxSet && result.getTotalSize() != null && result.getTotalSize() != 0){
 											progressBar.setMaxProgress(((double)result.getTotalSize())/1024);
 											maxSet = true;
+										}
+										
+										//Individual file status
+										fileProgressTable.clear();
+										currentFile = 0;
+										for(FileStatus fs: result.getFileStatusList()){
+											addFileProgress(fs);
+											currentFile++;
 										}
 										
 										if(result.getProgress() != null){
@@ -143,19 +161,24 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 										
 										if(result.getStatus() == UploadTransferStatus.UPLOAD_FINISHED){
 											progressLabel.setText("Processing...");
+											progressBar.setProgress(progressBar.getMaxProgress());
 										}
 										else if(result.getStatus() == UploadTransferStatus.COMMIT_FINISHED){
 											progressLabel.setText("File upload successful!");
+											progressBar.setProgress(progressBar.getMaxProgress());
 											progressButtons.getButton(OkEnum.Ok).setEnabled(true);
 											resetUploadFormPanel();
 											
+											cancel();
 											//FIXME This is not the way it will work, this temporary to show doc links
 											//FIXME the refresh will query relations for this tool's referenceId and get the docs from there
 											//These ids probably will be used to create the doc relations here instead
-											uploadedDocIds.addAll(result.getCreatedDocIds());
+											if(!idsAdded){
+												uploadedDocIds.addAll(result.getCreatedDocIds());
+												idsAdded=true;
+											}
 											refreshDocuments();
 											
-											cancel();
 										}
 										else if(result.getStatus() == UploadTransferStatus.ERROR){
 											progressLabel.setText("Error uploading!");
@@ -163,6 +186,55 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 											refreshDocuments();
 											cancel();
 										}
+										
+									}
+									
+									NumberFormat nf = NumberFormat.getFormat("#.##");
+									
+									private void addFileProgress(FileStatus fs) {
+										
+										HTML fileNameLabel;
+										//Name
+										if(fs.getStatus() == FileTransferStatus.COMMIT_FINISHED){
+											fileNameLabel = new HTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + fs.getDocId() + "\"><b>" + fs.getFileName() + "</b></a>");
+										}
+										else{
+											fileNameLabel = new HTML("<b>" + fs.getFileName() + "</b>");
+										}
+										
+										fileProgressTable.setWidget(currentFile, 0, fileNameLabel);
+										
+										//Progress
+										Long curProgress = (fs.getProgress())/1024;
+										String curProgressString = "";
+										if(curProgress < 1024){
+											curProgressString = nf.format(curProgress) + "kb";
+										}
+										else{
+											curProgressString = nf.format(curProgress/1024) + "mb";
+										}
+										fileProgressTable.setWidget(currentFile, 1,  new KSLabel(curProgressString));
+										
+										//Status
+										String statusString = "";
+										switch(fs.getStatus()){
+											case ERROR:
+												statusString = "Error!";
+												break;
+											case COMMIT_FINISHED:
+												statusString = "Finished";
+												break;
+											case FILE_ERROR:
+												//Not used
+												break;
+											case IN_PROGRESS:
+												statusString = "Uploading...";
+												break;
+											case UPLOAD_FINISHED:
+												statusString = "Processing...";
+												break;
+										}
+										fileProgressTable.setWidget(currentFile, 2, new KSLabel(statusString));
 										
 									}
 
@@ -212,7 +284,8 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 		
 		progressPanel.add(progressLabel);
 		progressPanel.add(progressBar);
-		progressBar.setWidth("300px");
+		progressPanel.add(fileProgressTable);
+		progressBar.setWidth("400px");
 		progressBar.setTextFormatter(new TextFormatter(){
 
 			@Override
@@ -220,7 +293,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 				String result;
 				NumberFormat nf = NumberFormat.getFormat("#.##");
 				if(curProgress == bar.getMaxProgress()){
-					result = "Complete (" + nf.format(curProgress) + "kb)";
+					result = "Total Uploaded: " + nf.format(curProgress) + "kb";
 				}
 				else if(curProgress == 0 || bar.getMaxProgress() == 0){
 					result = "";
@@ -249,7 +322,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
 		});
 		progressBar.setHeight("30px");
 		progressPanel.add(progressButtons);
-		progressPanel.setWidth("400px");
+		progressPanel.setWidth("500px");
 		progressWindow.setWidget(progressPanel);
 		//refreshDocuments();
 		
@@ -432,13 +505,14 @@ public class DocumentTool extends ToolView implements HasReferenceId{
              				@Override
              				public void onFailure(Throwable caught) {
              					//FIXME dont know what to do here
-             					
+             					refreshDocuments();
              				}
 
 							@Override
 							public void onSuccess(StatusInfo result) {
 								//FIXME dont know what to do here
-								
+								uploadedDocIds.remove(Document.this.info.getId());
+								refreshDocuments();
 							}
 
              			});
@@ -446,7 +520,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
              			e.printStackTrace();
              		}
                 	
-                	refreshDocuments();
+                	
                 }
             });
             

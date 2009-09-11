@@ -17,7 +17,7 @@ public class UploadStatus implements Serializable{
 	private UploadTransferStatus status = UploadTransferStatus.IN_PROGRESS;
 	private int itemsRead = 0;
 	private List<String> createdDocIds = new ArrayList<String>();
-	private Map<String, FileStatus> fileStatusMap = new HashMap<String, FileStatus>();
+	private List<FileStatus> fileStatusList = new ArrayList<FileStatus>();
 	
 	public Long getTotalSize() {
 		return totalSize;
@@ -49,12 +49,13 @@ public class UploadStatus implements Serializable{
 	public void setCreatedDocIds(List<String> createdDocIds) {
 		this.createdDocIds = createdDocIds;
 	}
-	public Map<String, FileStatus> getFileStatusMap() {
-		return fileStatusMap;
+	public List<FileStatus> getFileStatusList() {
+		return fileStatusList;
 	}
-	public void setFileStatusMap(Map<String, FileStatus> fileStatusMap) {
-		this.fileStatusMap = fileStatusMap;
+	public void setFileStatusList(List<FileStatus> fileStatusList) {
+		this.fileStatusList = fileStatusList;
 	}
+
 	
 	
 	

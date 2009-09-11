@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.server.upload;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -47,7 +48,6 @@ public class UploadServlet extends HttpServlet{
 		}
 		
 		public void update(long pBytesRead, long pContentLength, int pItems) {
-	       
 	       UploadStatus status = (UploadStatus) (session.getAttribute(uploadId));
 	       if(status.getTotalSize() == null && pContentLength != -1){
 	    	   status.setTotalSize(pContentLength);
@@ -84,10 +84,12 @@ public class UploadServlet extends HttpServlet{
 		try {
 			
 			ServletFileUpload upload = new ServletFileUpload();
+			upload.setProgressListener(new DocumentProgressListener(request.getParameter("uploadId"), request.getSession()));
 			FileItemIterator iter = upload.getItemIterator(request);
 			DocumentInfo info = new DocumentInfo();
-			upload.setProgressListener(new DocumentProgressListener(request.getParameter("uploadId"), request.getSession()));
+			
 			boolean fileError = false;
+			int currentItem = 0;
 			while (iter.hasNext()) {
 			    FileItemStream item = iter.next();
 			    String name = item.getFieldName();
@@ -108,9 +110,14 @@ public class UploadServlet extends HttpServlet{
 			    	if (fullFileName != null) {
 			            String filename = FilenameUtils.getName(fullFileName);
 			            FileStatus fileStatus = new FileStatus();
-			            status.getFileStatusMap().put(filename, fileStatus);
+			            fileStatus.setFileName(filename);
+			            status.getFileStatusList().add(currentItem, fileStatus);
 				    	DocumentBinaryInfo bInfo = new DocumentBinaryInfo();
 				    	ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+/*				    	Iterator headers = item.getHeaders().getHeaderNames();
+				    	while(headers.hasNext()){
+				    		System.out.println(headers.next());
+				    	}*/
 				    	//TODO import this class maybe?
 				    	//Base64OutputStream base64 = new Base64OutputStream(bytes);
 				    	byte[] buffer = new byte[4096];
@@ -122,6 +129,7 @@ public class UploadServlet extends HttpServlet{
 				    	        bytes.write(buffer, 0, read);
 				    	        fileStatus.setProgress(fileStatus.getProgress() + read);
 				    	        // TODO you could put a Thread.sleep(500) here to simulate slow network
+				    	        Thread.sleep(500);
 				    	    }
 				    	}
 				    	bytes.flush();
@@ -146,23 +154,30 @@ public class UploadServlet extends HttpServlet{
 			    }
 			     
 		    	if(info.getDesc() != null && info.getDocumentBinaryInfo() != null && info.getType() != null){
-		    		FileStatus fileStatus = status.getFileStatusMap().get(info.getFileName());
+		    		//FileStatus fileStatus = status.getFileStatusMap().get(info.getFileName());
+		    		FileStatus fileStatus = status.getFileStatusList().get(currentItem);
 		    		try{
 			    		DocumentInfo createdDoc = documentService.createDocument(info.getType(), "documentCategory.proposal", info);
 			    		fileStatus.setStatus(FileTransferStatus.COMMIT_FINISHED);
 			    		if(createdDoc != null){
 			    			status.getCreatedDocIds().add(createdDoc.getId());
+			    			fileStatus.setDocId(createdDoc.getId());
 			    		}
 		    		}
 		    		catch(Exception e){
 		    			fileError = true;
 		    			fileStatus.setStatus(FileTransferStatus.ERROR);
 		    		}
+		    		info = new DocumentInfo();
+		    		currentItem++;
 		    	}
 			}
 			
 			if(fileError){
 				status.setStatus(UploadTransferStatus.ERROR);
+			}
+			else{
+				status.setStatus(UploadTransferStatus.COMMIT_FINISHED);
 			}
 			
 		} catch (Exception e) {

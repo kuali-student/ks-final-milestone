@@ -10,6 +10,7 @@ public class FileStatus implements Serializable{
 	private FileTransferStatus status = FileTransferStatus.IN_PROGRESS;
 	private Long progress = 0L;
 	private String fileName;
+	private String docId;
 	
 	public String getFileName() {
 		return fileName;
@@ -29,5 +30,12 @@ public class FileStatus implements Serializable{
 	public void setProgress(Long progress) {
 		this.progress = progress;
 	}
+	public String getDocId() {
+		return docId;
+	}
+	public void setDocId(String docId) {
+		this.docId = docId;
+	}
+	
 	
 }
