@@ -15,6 +15,21 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 			
+	<build>
+		<plugins>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<!-- Exclude files from jar required only for testing in hosted mode -->
+			            <exclude>META-INF/*</exclude>
+					</excludes>
+           		</configuration>
+			</plugin>        
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>build-gwt</id>
