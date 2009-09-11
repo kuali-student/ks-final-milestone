@@ -89,6 +89,14 @@ public class Field implements Serializable{
 		return selector;
 	}
 
+	/**
+	 * 	Indicates if the field is a selector field, which indicates that changes 
+	 *  to this field may alter the structure of the object type. This may provide 
+	 *  insight as to frequency of calls to a validate operation, as the 
+	 *  constraints will not be externalized.
+	 *  
+	 * @param isSelector
+	 */
 	public void setSelector(boolean isSelector) {
 		this.selector = isSelector;
 	}
