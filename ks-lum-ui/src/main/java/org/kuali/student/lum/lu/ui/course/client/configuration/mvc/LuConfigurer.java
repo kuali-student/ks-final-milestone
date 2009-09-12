@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -66,6 +67,11 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class LuConfigurer {
+    
+    //FIXME:  Initialize type and state
+    private static String type;
+    private static String state;
+
        
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES, 
@@ -160,7 +166,7 @@ public class LuConfigurer {
         section.addSection(startDate);
         section.addSection(endDate);
         
-        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state, LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
     
     /**
@@ -170,8 +176,9 @@ public class LuConfigurer {
      * @return
      */
     private static void addCourseRequisitesSection(ConfigurableLayout layout) {
-        CustomSectionView section = new CustomSectionView(LuSections.COURSE_REQUISITES, LUConstants.SECTION_COURSE_REQUISITES, CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_COURSE_REQUISITES));
+        CustomSectionView section = new CustomSectionView(LuSections.COURSE_REQUISITES, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.REQUISITES_LABEL_KEY)));
 
         VerticalSection startDate = new VerticalSection();
         startDate.setSectionTitle(SectionTitle.generateH2Title("Test"));
@@ -185,12 +192,13 @@ public class LuConfigurer {
         enrollmentSection.addWidget(new KSButton());
         section.addSection(enrollmentSection);   */
         
-        layout.addSection(new String[] {LUConstants.SECTION_COURSE_REQUISITES}, section); 
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.REQUISITES_LABEL_KEY)}, section); 
     }    
     
     private static void addActiveDatesSection(ConfigurableLayout layout) {
-        VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, LUConstants.SECTION_ACTIVE_DATES, CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_ACTIVE_DATES));
+        VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.ACTIVE_DATES_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.ACTIVE_DATES_LABEL_KEY)));
 
         VerticalSection startDate = new VerticalSection();
         startDate.setSectionTitle(SectionTitle.generateH2Title("Start Date"));
@@ -203,12 +211,13 @@ public class LuConfigurer {
         section.addSection(startDate);
         section.addSection(endDate);
         
-        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section); 
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.ADMINISTRATION_LABEL_KEY)}, section); 
     }
     
     private static void addFinancialsSection(ConfigurableLayout layout) {
-        VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS, LUConstants.SECTION_FINANCIALS, CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_FINANCIALS));
+        VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.FINANCIALS_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.FINANCIALS_LABEL_KEY)));
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = new VerticalSection();
@@ -224,31 +233,36 @@ public class LuConfigurer {
         
         section.addSection(feeType);
         section.addSection(feeAmount);
-        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section);
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.ADMINISTRATION_LABEL_KEY)}, section);
     }
     
     private static void addProgramRequirements(ConfigurableLayout layout) {
-        VerticalSectionView section = new VerticalSectionView(LuSections.PGM_REQUIREMENTS, LUConstants.SECTION_PROGRAM_REQUIREMENTS, CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_PROGRAM_REQUIREMENTS));
+        VerticalSectionView section = new VerticalSectionView(LuSections.PGM_REQUIREMENTS, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY)));
         
-        layout.addSection(new String[] {LUConstants.SECTION_ADMINISTRATIVE}, section);
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.ADMINISTRATION_LABEL_KEY)}, section);
         
     }
        
     public static void addGovernanceSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, LUConstants.SECTION_GOVERNANCE, CluProposalModelDTO.class);        
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_GOVERNANCE));
+        VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY),
+                CluProposalModelDTO.class);        
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY)));
         
         section.addField(new FieldDescriptor("academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));        
         section.addField(new FieldDescriptor("campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
         section.addField(new FieldDescriptor("adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));
         
-        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);        
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);        
     }
     
     public static void addCourseInfoSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, LUConstants.SECTION_COURSE_INFORMATION, CluProposalModelDTO.class);        
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_COURSE_INFORMATION));
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY),
+                CluProposalModelDTO.class);        
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY)));
         
         //FIXME: Label should be key to messaging, field type should come from dictionary?
         
@@ -299,7 +313,7 @@ public class LuConfigurer {
         section.addField(new FieldDescriptor("desc", "Course Description", Type.MODELDTO, new KSRichEditor()));        
         section.addField(new FieldDescriptor("marketingDesc", "Marketing Description", Type.MODELDTO, new KSRichEditor()));
 
-        layout.addSection(new String[] {LUConstants.SECTION_COURSE_INFORMATION}, section);               
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY)}, section);               
     }
     
     public static class CrossListedList extends MultiplicityComposite{
@@ -356,8 +370,9 @@ public class LuConfigurer {
     }
     
     public static void addCourseLogistics(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, LUConstants.SECTION_COURSE_LOGISTICS, CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_COURSE_LOGISTICS));
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, 
+                Application.getApplicationContext().getUILabel(type, state,LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.LOGISTICS_LABEL_KEY)));
         
         //CREDITS
         VerticalSection credits = new VerticalSection();
@@ -380,7 +395,7 @@ public class LuConfigurer {
         section.addSection(learningResults);
         section.addSection(scheduling);
         section.addField(new FieldDescriptor("courseFormats", "Course Formats", Type.LIST, new CourseFormatList()));
-        layout.addSection(new String[] {LUConstants.SECTION_PROPOSAL_INFORMATION}, section);
+        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
     
     public static class CourseFormatList extends MultiplicityComposite{

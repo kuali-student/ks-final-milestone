@@ -17,7 +17,8 @@
 <%
     try {
         MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
-        String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common"});
+        String commonMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common"});
+        String lumMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course"});
 
         DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lu}LuService");
         Map structures = new HashMap();
@@ -34,7 +35,8 @@
         }
 %>
 <script type="text/javascript"> 
-	    var i18nMessages = '<%=messageData%>';
+	    var commonMessages = '<%=commonMessageData%>';
+	    var lumMessages = '<%=lumMessageData%>';
 	    var objectTypes = '<%=objectTypes%>';
 	 
 	    <%

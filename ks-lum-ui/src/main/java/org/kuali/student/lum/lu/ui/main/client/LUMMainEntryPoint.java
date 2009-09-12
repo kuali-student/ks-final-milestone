@@ -57,14 +57,16 @@ public class LUMMainEntryPoint implements EntryPoint{
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {
-        MessageList messageList =  getMsgSerializedObject( );
-        context.addMessages(messageList.getMessages());
-    }
+        MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
+        MessageList lumMessageList =  getMsgSerializedObject("lumMessages" );
+        context.addMessages(commonMessageList.getMessages());
+        context.addMessages(lumMessageList.getMessages());
+ }
 
     @SuppressWarnings("unchecked")
-    public  <T> T getMsgSerializedObject( ) throws SerializationException
+    public  <T> T getMsgSerializedObject(String key ) throws SerializationException
     {
-        String serialized = getString( "i18nMessages" );
+        String serialized = getString( key );
         SerializationStreamFactory ssf = GWT.create( MessagesRpcService.class); // magic
         SerializationStreamReader ssr = ssf.createStreamReader( serialized );
         T ret = (T)ssr.readObject();

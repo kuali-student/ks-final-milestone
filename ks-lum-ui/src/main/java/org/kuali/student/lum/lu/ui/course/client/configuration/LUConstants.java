@@ -64,10 +64,7 @@ public class LUConstants {
     public static final String SECTION_CREDITS = "Credits";
     public static final String SECTION_ACTIVE_DATES = "Active Dates";
     public static final String SECTION_FINANCIALS = "Financials";
-    public static final String SECTION_PROGRAM_REQUIREMENTS = "Program Requirements";
-
-    public static final String SECTION_ATTACHMENTS = "Attachments";
-    public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
+    public static final String SECTION_PROGRAM_REQUIREMENTS = "Program Requirements";    
     
     //Tool names
     public static final String TOOL_COMMENTS = "Proposal Comments";
@@ -77,7 +74,53 @@ public class LUConstants {
     public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
     public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
     public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
-    
-    
- }
+
+    // Message keys for label lookup
+    public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
+    public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
+    public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
+    public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
+    public static final String PRIMARY_ADMIN_ORG_LABEL_KEY = "cluPrimaryAdminOrg";
+    public static final String ALT_ADMIN_ORGS_LABEL_KEY = "cluAltAdminOrgs";
+    public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
+    public static final String CREDITS_LABEL_KEY = "cluCredits";
+    public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
+    public static final String SCHEDULING_LABEL_KEY = "cluScheduling";
+    public static final String FORMATS_LABEL_KEY = "cluFormats";
+
+    public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
+    public static final String INFORMATION_LABEL_KEY = "cluInformation";
+    public static final String IDENTIFIER_LABEL_KEY = "cluIdentifier";
+    public static final String CROSS_LISTED_LABEL_KEY = "cluCrosslisted";
+    public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
+    public static final String VERSION_CODES_LABEL_KEY = "cluVersionCodes";
+    public static final String TITLE_LABEL_KEY = "cluTitle";
+    public static final String SHORT_TITLE_LABEL_KEY = "cluShortTitle";
+    public static final String DESCRIPTION_LABEL_KEY = "cluDescription";
+    public static final String RATIONALE_LABEL_KEY = "cluRationale";
+    public static final String LEARNING_OBJECTIVES_LABEL_KEY = "cluLearningObjectives";
+    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
+
+    public static final String STUDENT_ELIGIBILITY_LABEL_KEY = "cluStudentEligibility";
+    public static final String RESTRICTIONS_LABEL_KEY = "cluCourseRestrictions";
+    public static final String REQUISITES_LABEL_KEY = "cluCourseRequisites";
+    public static final String PREQS_LABEL_KEY = "cluPreRequisites";
+    public static final String CREQS_LABEL_KEY = "cluCoRequisites";
+
+    public static final String ADMINISTRATION_LABEL_KEY = "cluAdministration";
+    public static final String ACTIVE_DATES_LABEL_KEY = "cluActiveDates";
+    public static final String START_DATE_LABEL_KEY = "cluStartDate";
+    public static final String END_DATE_LABEL_KEY = "cluEndDate";
+    public static final String FINANCIALS_LABEL_KEY = "cluFinancials";
+    public static final String FEE_TYPE_LABEL_KEY = "cluFeeType";
+    public static final String FEE_AMOUNT_LABEL_KEY = "cluFeeAmount";
+    public static final String FEE_DESC_LABEL_KEY = "cluFeeDesc";
+    public static final String PROGRAM_REQUIREMENTS_LABEL_KEY = "cluProgramRequirements";
+    public static final String GENERAL_REQS_LABEL_KEY = "cluGeneralRequirements";
+    public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
+
+    public static final String SECTION_ATTACHMENTS = "Attachments";
+    public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
+
+}
 
