@@ -18,7 +18,7 @@ public class RowDescriptor extends Composite{
     private List<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
     private List<Section> sections = new ArrayList<Section>();
     
-    protected FieldLabelType currentFieldLabelType = FieldLabelType.LABEL_LEFT;
+    protected FieldLabelType currentFieldLabelType = FieldLabelType.LABEL_TOP;
     
     public RowDescriptor(){
         this.initWidget(rowPanel);
