@@ -144,7 +144,10 @@ public class Validator {
 
 		Object value = dataProvider.getValue(field.getKey());
 		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
-
+		// what if the value is null
+		// check the object structure to see if it is legal to be a null value
+		// otherwise 
+		
 		// Check to see if the Field is not a complex type
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
