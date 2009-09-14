@@ -19,7 +19,7 @@ public class SectionConstraintDataProvider {
     }
  // question
     public String getObjectId() {
-        return "";
+        return model.getObjectId();
     }
 
     public Object getValue(String fieldKey) {
