@@ -43,6 +43,8 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	private KSTextBox userIdField = new KSTextBox();
 	private KSTextBox respondByField = new KSTextBox();
 	private KSDropDown roleField = new KSDropDown();
+	private KSDropDown adhocRequests = new KSDropDown();
+	
     KSLightBox searchUserDialog = new KSLightBox();
     KSRadioButtonList participationField = new KSRadioButtonList("Participation");
 
@@ -87,7 +89,15 @@ public class Collaborators extends Composite implements HasWorkflowId{
         roleListItems.addItem("Viewer", "Viewer");
         roleListItems.addItem("Delegate", "Delegate");
         roleField.setListItems(roleListItems);
-
+        
+        //Setup list for Adhoc requests.
+        adhocRequests.setBlankFirstItem(false);
+        SimpleListItems adhoclist = new SimpleListItems();
+        adhoclist.addItem("FYI", "FYI");
+        adhoclist.addItem("Approve","Approve");
+        adhoclist.addItem("Acknowledge","Acknowledge");
+        adhocRequests.setListItems(adhoclist);
+        
         //Setup the participation radio buttons
         participationField.setColumnSize(2);
         SimpleListItems participationListItems = new SimpleListItems();
@@ -139,10 +149,10 @@ public class Collaborators extends Composite implements HasWorkflowId{
         });
 
         // Create the button that invites FYIs
-        KSButton inviteFyiButton = new KSButton("Add as FYI");
-        inviteFyiButton.addClickHandler(new ClickHandler(){
+        KSButton adhocButton = new KSButton("Send");
+        adhocButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                addFyi(userIdField.getValue(), "annotation");
+                adhoc(userIdField.getValue(),adhocRequests.getSelectedItem(), "annotation");
             }
         });
 
@@ -150,10 +160,9 @@ public class Collaborators extends Composite implements HasWorkflowId{
         collaboratorPanel.add(new KSLabel("Collaborators & Delegates"));
 
         FlexTable table = new FlexTable();
-
-        table.getFlexCellFormatter().setColSpan(4, 0, 4);
+        table.getFlexCellFormatter().setColSpan(6, 0, 6);
         table.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-        table.getCellFormatter().setHorizontalAlignment(3, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+//        table.getCellFormatter().setHorizontalAlignment(3, 1, HasHorizontalAlignment.ALIGN_RIGHT);
     	table.setWidget(0, 0, new KSLabel("Name"));
     	table.setWidget(0, 1, new KSLabel("Role"));
     	table.setWidget(0, 2, new KSLabel("Participation"));
@@ -163,8 +172,12 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	table.setWidget(1, 2, participationField);
     	table.setWidget(1, 3, respondByField);
     	table.setWidget(2, 0, searchForPeopleLink);
-    	table.setWidget(3, 0, inviteCollabButton);
-        table.setWidget(3, 1, inviteFyiButton);
+        table.setWidget(3, 0, inviteCollabButton);
+    	table.setWidget(4, 0, new KSLabel("AdHoc Request"));
+    	table.setWidget(5, 0, adhocRequests);
+    	table.setWidget(5, 1, adhocButton);
+    	
+
 
         collaboratorPanel.add(table);
 
@@ -269,23 +282,21 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	}
     }
 
-    private void addFyi(final String recipientPrincipalId, final String annotation) {
+    private void adhoc(final String recipientPrincipalId, final String requestType, final String annotation) {
         if (workflowId == null) {
             GWT.log("Fyis called with " + ricePersonLookupUrl, null);
-            Window.alert("Workflow must be started before FYIs can be added");
+            Window.alert("Workflow must be started before Adhocs can be sent");
         } else {
-            cluProposalRpcServiceAsync.addFyi(workflowId, recipientPrincipalId,
+            cluProposalRpcServiceAsync.adhocRequest(workflowId, recipientPrincipalId,requestType,
                     annotation,
                     new AsyncCallback<Boolean>() {
                         public void onFailure(Throwable caught) {
-                            Window.alert("Could not add FYI");
+                            Window.alert("Adhoc request failed");
                         }
 
                         public void onSuccess(Boolean result) {
                             userIdField.setValue("");
-                            // Add to the list and no refresh even though we
-                            // should because rice has a timing issue
-                            // refreshCollaboratorList();
+                            Window.alert(requestType + " sent to user " + recipientPrincipalId);
                         }
 
                     });

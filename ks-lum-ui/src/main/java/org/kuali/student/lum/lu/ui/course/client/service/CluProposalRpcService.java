@@ -39,7 +39,7 @@ public interface CluProposalRpcService extends BaseRpcService{
     public CluProposal getProposal(String id);
     public CluProposal getCluProposalFromWorkflowId(String docId);
     public String getActionsRequested(CluProposal cluProposal);
-    public Boolean addFyi(String docId, String recipientPrincipalId, String annotation);
+    public Boolean adhocRequest(String docId, String recipientPrincipalId,String requestType, String annotation);
     public Boolean approveProposal(CluProposal cluProposal);
     public Boolean disapproveProposal(CluProposal cluProposal);
     public Boolean acknowledgeProposal(CluProposal cluProposal);

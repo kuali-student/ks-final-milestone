@@ -49,7 +49,7 @@ import org.springframework.security.userdetails.UserDetails;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
- *
+ * 
  * @author Kuali Student Team
  */
 // Fixme: Replace Object with ProposalService interface class
@@ -63,13 +63,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private WorkflowUtility workflowUtilityService;
     private OrganizationService orgService;
 
-
-	private Map<String, ProposalInfo> getProposalInfoMap() {
-	    @SuppressWarnings("unchecked")
-	    Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
-        if(proposalInfoMap == null){
-        	proposalInfoMap = new HashMap<String, ProposalInfo>();
-        	getThreadLocalRequest().getSession(true).setAttribute("proposal", proposalInfoMap);
+    private Map<String, ProposalInfo> getProposalInfoMap() {
+        @SuppressWarnings("unchecked")
+        Map<String, ProposalInfo> proposalInfoMap = (Map<String, ProposalInfo>) getThreadLocalRequest().getSession(true).getAttribute("proposal");
+        if (proposalInfoMap == null) {
+            proposalInfoMap = new HashMap<String, ProposalInfo>();
+            getThreadLocalRequest().getSession(true).setAttribute("proposal", proposalInfoMap);
         }
         return proposalInfoMap;
     }
@@ -81,12 +80,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public CluProposal createProposal(CluProposal cluProposal) {
         try {
 
-            //FIXME: Restore code to handle proposal service?
+            // FIXME: Restore code to handle proposal service?
 
             /*
-            ProposalInfo proposalInfo = cluProposal.getProposalInfo();
-            proposalInfo.setId(UUIDHelper.genStringUUID());
-            proposalInfo.setProposalReferenceType("clu");
+             * ProposalInfo proposalInfo = cluProposal.getProposalInfo(); proposalInfo.setId(UUIDHelper.genStringUUID());
+             * proposalInfo.setProposalReferenceType("clu");
              */
 
             CluInfo parentCluInfo = cluProposal.getCluInfo();
@@ -94,13 +92,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             cluProposal.setCluInfo(parentCluInfo);
             String saveComment = "Saved By CluProposalService";
             List<CluInfo> activities = cluProposal.getActivities();
-            if (activities != null){
+            if (activities != null) {
                 for (CluInfo cluInfo : activities) {
 
                     cluInfo = service.createClu(cluInfo.getType(), cluInfo);
                     CluCluRelationInfo relInfo = new CluCluRelationInfo();
 
-                    //TODO: Create a proper relation type for activities
+                    // TODO: Create a proper relation type for activities
                     relInfo.setCluId(parentCluInfo.getId());
                     relInfo.setRelatedCluId(cluInfo.getId());
                     relInfo.setType("proposal.actvitiy");
@@ -110,29 +108,27 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             }
 
             /*
-            ArrayList<String> proposalRefIds = new ArrayList<String>();
-            proposalRefIds.add(parentCluInfo.getId());
-            proposalInfo.setProposalReference(proposalRefIds);
-            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
+             * ArrayList<String> proposalRefIds = new ArrayList<String>(); proposalRefIds.add(parentCluInfo.getId());
+             * proposalInfo.setProposalReference(proposalRefIds); getProposalInfoMap().put(proposalInfo.getId(),
+             * proposalInfo);
              */
             /*-------------------------------------------------------------------------------------------------------------------------------*/
 
+            // get a user name
+            String username = getCurrentUser();
 
-            //get a user name
-            String username=getCurrentUser();
-
-            //Create and then route the document
+            // Create and then route the document
             String workflowDocTypeId = "CluDocument";
-            if(simpleDocService==null){
-            	throw new RuntimeException("Workflow Service is unavailable");
+            if (simpleDocService == null) {
+                throw new RuntimeException("Workflow Service is unavailable");
             }
             DocumentResponse docResponse = simpleDocService.create(username, parentCluInfo.getId(), workflowDocTypeId, parentCluInfo.getOfficialIdentifier().getLongName());
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+                throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
-            StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), saveComment);
-            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-            	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
+            StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal), saveComment);
+            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
             }
 
             cluProposal.setWorkflowId(docResponse.getDocId());
@@ -143,8 +139,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
         return cluProposal;
     }
-
-
 
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#deleteProposal(java.lang.String)
@@ -160,7 +154,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      */
     @Override
     public CluProposal getProposal(String id) {
-        //FIXME: This will need to tie into workflow to work properly?
+        // FIXME: This will need to tie into workflow to work properly?
         ProposalInfo proposalInfo = getProposalInfoMap().get(id);
         if (proposalInfo != null) {
             try {
@@ -172,8 +166,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
 
                 List<CluInfo> activities = new ArrayList<CluInfo>();
-                for (CluCluRelationInfo relInfo:cluRelations){
-                    if (relInfo.getType().equals("proposal.activity")){
+                for (CluCluRelationInfo relInfo : cluRelations) {
+                    if (relInfo.getType().equals("proposal.activity")) {
                         activities.add(service.getClu(relInfo.getRelatedCluId()));
                     }
                 }
@@ -187,16 +181,16 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
         }
 
-        //FIXME: This is only temporary code and needs to be removed
-        if (proposalInfo == null){
-            //We will asssume the id passed in is a clu id
+        // FIXME: This is only temporary code and needs to be removed
+        if (proposalInfo == null) {
+            // We will asssume the id passed in is a clu id
             try {
                 CluInfo cluInfo = service.getClu(id);
                 CluProposal cluProposal = new CluProposal();
                 cluProposal.setCluInfo(cluInfo);
                 return cluProposal;
             } catch (Exception e) {
-            	e.printStackTrace();
+                e.printStackTrace();
             }
 
         }
@@ -213,21 +207,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo parentCluInfo = cluProposal.getCluInfo();
             parentCluInfo = service.updateClu(cluProposal.getCluInfo().getId(), parentCluInfo);
             cluProposal.setCluInfo(parentCluInfo);
-            //get a user name
+            // get a user name
             String username = getCurrentUser();
 
-            /*FIXME: Restore code to handle proposal service?
-            ProposalInfo proposalInfo = cluProposal.getProposalInfo();
-            List<String> proposalReferences = new ArrayList<String>();
-            proposalReferences.add(parentCluInfo.getId());
-            getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
-            */
+            /*
+             * FIXME: Restore code to handle proposal service? ProposalInfo proposalInfo = cluProposal.getProposalInfo();
+             * List<String> proposalReferences = new ArrayList<String>(); proposalReferences.add(parentCluInfo.getId());
+             * getProposalInfoMap().put(proposalInfo.getId(), proposalInfo);
+             */
 
             List<CluInfo> activities = cluProposal.getActivities();
-            if (activities != null){
+            if (activities != null) {
                 for (CluInfo cluInfo : activities) {
 
-                    if (cluInfo.getId() == null){
+                    if (cluInfo.getId() == null) {
                         cluInfo = service.createClu(cluInfo.getType(), cluInfo);
                         CluCluRelationInfo relInfo = new CluCluRelationInfo();
                         relInfo.setCluId(parentCluInfo.getId());
@@ -238,29 +231,27 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 }
             }
 
-            if(simpleDocService==null){
-            	throw new RuntimeException("Workflow Service is unavailable");
+            if (simpleDocService == null) {
+                throw new RuntimeException("Workflow Service is unavailable");
             }
 
             DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
 
-            //Check that the call was successful
-            if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
-            	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+            // Check that the call was successful
+            if (docResponse == null || StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+                throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
             }
 
-            if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docResponse.getDocStatus())) ||
-            	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docResponse.getDocStatus())) ) {
-                StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal), "");
-                if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-                	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
+            if ((KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docResponse.getDocStatus())) || (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docResponse.getDocStatus()))) {
+                StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal), "");
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
                 }
-            }
-            else {
-            	StandardResponse stdResp = simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(),getCluProposalDocContent(cluProposal));
-            	if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-            		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
-            	}
+            } else {
+                StandardResponse stdResp = simpleDocService.saveDocumentContent(docResponse.getDocId(), username, parentCluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal));
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
+                }
             }
 
         } catch (Exception e) {
@@ -279,55 +270,54 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return null;
     }
 
+    private String getCluProposalDocContent(CluProposal cluProposal) {
+        try {
 
-	private String getCluProposalDocContent(CluProposal cluProposal){
-    	try{
+            CluProposalDocInfo docContent = new CluProposalDocInfo();
 
-    		CluProposalDocInfo docContent = new CluProposalDocInfo();
-
-    		docContent.setCluId(cluProposal.getCluInfo().getId());
-            if(cluProposal.getCluInfo()!=null && cluProposal.getCluInfo().getPrimaryAdminOrg()!=null && cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId()!=null){
-            	docContent.setOrgId(cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId());
+            docContent.setCluId(cluProposal.getCluInfo().getId());
+            if (cluProposal.getCluInfo() != null && cluProposal.getCluInfo().getPrimaryAdminOrg() != null && cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId() != null) {
+                docContent.setOrgId(cluProposal.getCluInfo().getPrimaryAdminOrg().getOrgId());
             }
 
-    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
-    		Marshaller marshaller = context.createMarshaller();
+            JAXBContext context = JAXBContext.newInstance(docContent.getClass());
+            Marshaller marshaller = context.createMarshaller();
             StringWriter writer = new StringWriter();
-    		marshaller.marshal(docContent, writer);
-    		return writer.toString();
+            marshaller.marshal(docContent, writer);
+            return writer.toString();
 
-    	}catch(Exception e){
-    		e.printStackTrace();
-    	}
-    	return "";
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
-	@Override
-	public CluProposal startProposalWorkflow(CluProposal cluProposal) {
-		try {
-            if(simpleDocService==null){
-            	throw new RuntimeException("Workflow Service is unavailable");
+    @Override
+    public CluProposal startProposalWorkflow(CluProposal cluProposal) {
+        try {
+            if (simpleDocService == null) {
+                throw new RuntimeException("Workflow Service is unavailable");
             }
 
             CluInfo cluInfo = cluProposal.getCluInfo();
 
-            //get a user name
+            // get a user name
             String username = getCurrentUser();
 
-            //Create and then route the document
+            // Create and then route the document
             DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
 
-            if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
-            	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+            if (docResponse == null || StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+                throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
             }
 
             String routeComment = "Routed By CluProposalService";
 
             StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), getCluProposalDocContent(cluProposal), routeComment);
 
-            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
-        	}
+            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
+            }
 
             cluProposal.setWorkflowId(docResponse.getDocId());
 
@@ -336,264 +326,382 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 
         return cluProposal;
-	}
-
-	@Override
-	public CluProposal getCluProposalFromWorkflowId(String docId) {
-        if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-        //get a user name
-        String username = getCurrentUser();
-
-        DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
-        if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
-        	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
-        }
-
-		CluProposal proposal = getProposal(docResponse.getAppDocId());
-		proposal.setWorkflowId(docId);
-		return proposal;
-	}
-
-	@Override
-	public String getActionsRequested(CluProposal cluProposal) {
-        try{
-		if(workflowUtilityService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-        //get a user name
-        String username = getCurrentUser();
-
-		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
-        logger.debug("Calling action requested with user:"+username+" and docId:"+cluProposal.getWorkflowId());
-
-        //FIXME This soap call is not marshalling corectly! returning: <return/> 
-        //AttributeSet results = workflowUtilityService.getActionsRequested(username, Long.parseLong(cluProposal.getWorkflowId()));
-        ActionItemDTO[] actionItems = workflowUtilityService.getAllActionItems(Long.parseLong(cluProposal.getWorkflowId()));
-        AttributeSet results = new AttributeSet();
-        if(actionItems!=null){
-        	for(ActionItemDTO actionItem:actionItems){
-        		if(actionItem.getPrincipalId()!=null&&actionItem.getPrincipalId().equals(username)){
-        			results.put(actionItem.getActionRequestCd(), "true");
-        		}
-        	}
-        }
-        
-        String documentStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(cluProposal.getWorkflowId()));
-        String actionsRequested = "";
-        for(Map.Entry<String,String> entry:results.entrySet()){
-        	// if saved or initiated status... must show only 'complete' button
-        	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(documentStatus) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(documentStatus)) {
-        		// show only complete button if complete or approve code in this doc status
-        		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
-        			actionsRequested+="S";
-        		}
-        		// if not Complete or Approve code then show the standard buttons
-        		else {
-	            	if("true".equals(entry.getValue())){
-	            		actionsRequested+=entry.getKey();
-	            	}
-        		}
-        	}
-        	else {
-            	if("true".equals(entry.getValue())){
-            		actionsRequested+=entry.getKey();
-            	}
-        	}
-        }
-        	return actionsRequested;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error getting actions Requested",e);
-        }
-	}
-
-
-	@Override
-	public Boolean approveProposal(CluProposal cluProposal) {
-        if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-		try{
-            //get a user name
-            String username = getCurrentUser();
-
-	        CluInfo cluInfo = cluProposal.getCluInfo();
-	        DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
-	        if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
-	        	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
-	        }
-	        String approveComment = "Approved by CluProposalService";
-
-	        StandardResponse stdResp = simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), docResponse.getDocContent(), approveComment);
-            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found approving document: " + stdResp.getErrorMessage());
-        	}
-
-		}catch(Exception e){
-            e.printStackTrace();
-		}
-        return new Boolean(true);
-	}
-
-	@Override
-	public Boolean disapproveProposal(CluProposal cluProposal) {
-        if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-		try{
-            //get a user name
-            String username = getCurrentUser();
-
-	        String disapproveComment = "Disapproved by CluProposalService";
-
-	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        StandardResponse stdResp = simpleDocService.disapprove(cluProposal.getWorkflowId(), username, disapproveComment);
-
-	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found disapproving document: " + stdResp.getErrorMessage());
-        	}
-
-		}catch(Exception e){
-            e.printStackTrace();
-		}
-        return new Boolean(true);
-	}
-
-
-	@Override
-	public Boolean acknowledgeProposal(CluProposal cluProposal) {
-        if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-		try{
-			//get a user name
-            String username=getCurrentUser();
-
-	        String acknowledgeComment = "Acknowledged by CluProposalService";
-
-	        //String docId, String principalId, String docTitle, String docContent, String annotation
-	        StandardResponse stdResp = simpleDocService.acknowledge(cluProposal.getWorkflowId(), username, acknowledgeComment);
-
-	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found acknowledging document: " + stdResp.getErrorMessage());
-        	}
-
-		}catch(Exception e){
-            e.printStackTrace();
-		}
-        return new Boolean(true);
-	}
-
-	@Override
-    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy){
-        if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-		try{
-			//get a user name
-            String username=getCurrentUser();
-
-	        String collaborateComment = "Collaborate by CluProposalService";
-
-	        //create and route a Collaborate workflow
-	        //Get the document app Id
-	        CluProposal cluProposal = getCluProposalFromWorkflowId(docId);
-	        CluInfo cluInfo = cluProposal.getCluInfo();
-            String workflowDocTypeId = "CluCollaboratorDocument";//TODO make sure this name is correct
-            DocumentResponse docResponse = simpleDocService.create(username, docId, workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
-            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
-            }
-
-            //Get the document xml
-    		CluProposalCollabRequestDocInfo docContent = new CluProposalCollabRequestDocInfo();
-
-    		docContent.setCluId(cluInfo.getId());
-    		docContent.setPrincipalIdRoleAttribute(new PrincipalIdRoleAttribute());
-    		docContent.getPrincipalIdRoleAttribute().setRecipientPrincipalId(recipientPrincipalId);
-    		docContent.setPrincipalId(username);
-    		docContent.setDocId(docId);
-    		docContent.setCollaboratorType(collabType);
-    		docContent.setParticipationRequired(participationRequired);
-    		docContent.setRespondBy(respondBy);
-
-    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
-    		Marshaller marshaller = context.createMarshaller();
-            StringWriter writer = new StringWriter();
-    		marshaller.marshal(docContent, writer);
-
-            String docContentString = writer.toString();
-
-            //Do the routing
-            StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContentString, collaborateComment);
-
-            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
-        	}
-
-		}catch(Exception e){
-            e.printStackTrace();
-		}
-        return new Boolean(true);
-    }
-
-	@Override
-    public HashMap<String, ArrayList<String>> getCollaborators(String docId){
-		try{
-        if(workflowUtilityService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
-        }
-
-		HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
-
-		ArrayList<String> coAuthors = new ArrayList<String>();
-		ArrayList<String> commentors= new ArrayList<String>();
-		ArrayList<String> viewers = new ArrayList<String>();
-		ArrayList<String> delegates = new ArrayList<String>();
-
-		ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
-        if(items!=null){
-        	for(ActionRequestDTO item:items){
-        		if (item.isActivated() && (!item.isDone())) {
-	        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
-	        			if(item.getRequestLabel().startsWith("Co-Author")){
-		        			coAuthors.add(item.getPrincipalId());
-		        		}
-		        		else if(item.getRequestLabel().startsWith("Commentor")){
-		        			commentors.add(item.getPrincipalId());
-		        		}
-		        		else if(item.getRequestLabel().startsWith("Viewer")){
-		        			viewers.add(item.getPrincipalId());
-		        		}
-		        		else if(item.getRequestLabel().startsWith("Delegate")){
-		        			delegates.add(item.getPrincipalId());
-		        		}
-	        		}
-        		}
-        	}
-        }
-
-        results.put("Co-Authors", coAuthors);
-        results.put("Commentor", commentors);
-        results.put("Viewer", viewers);
-        results.put("Delegate", delegates);
-        return results;
-		}catch(Exception e){
-            throw new RuntimeException("Error getting actions Requested",e);
-		}
     }
 
     @Override
-    public Boolean addFyi(String docId, String recipientPrincipalId,
-            String annotation) {
+    public CluProposal getCluProposalFromWorkflowId(String docId) {
+        if (simpleDocService == null) {
+            throw new RuntimeException("Workflow Service is unavailable");
+        }
+
+        // get a user name
+        String username = getCurrentUser();
+
+        DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
+        if (docResponse == null || StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+            throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+        }
+
+        CluProposal proposal = getProposal(docResponse.getAppDocId());
+        proposal.setWorkflowId(docId);
+        return proposal;
+    }
+
+    @Override
+    public String getActionsRequested(CluProposal cluProposal) {
+        try {
+            if (workflowUtilityService == null) {
+                throw new RuntimeException("Workflow Service is unavailable");
+            }
+
+            // get a user name
+            String username = getCurrentUser();
+
+            // Build up a string of actions requested from the attribute set. The actions can be S, F,A,C,K. examples are "A"
+            // "AF" "FCK" "SCA"
+            logger.debug("Calling action requested with user:" + username + " and docId:" + cluProposal.getWorkflowId());
+
+            // FIXME This soap call is not marshalling corectly! returning: <return/>
+            // AttributeSet results = workflowUtilityService.getActionsRequested(username,
+            // Long.parseLong(cluProposal.getWorkflowId()));
+            ActionItemDTO[] actionItems = workflowUtilityService.getAllActionItems(Long.parseLong(cluProposal.getWorkflowId()));
+            AttributeSet results = new AttributeSet();
+            if (actionItems != null) {
+                for (ActionItemDTO actionItem : actionItems) {
+                    if (actionItem.getPrincipalId() != null && actionItem.getPrincipalId().equals(username)) {
+                        results.put(actionItem.getActionRequestCd(), "true");
+                    }
+                }
+            }
+
+            String documentStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(cluProposal.getWorkflowId()));
+            String actionsRequested = "";
+            for (Map.Entry<String, String> entry : results.entrySet()) {
+                // if saved or initiated status... must show only 'complete' button
+                if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(documentStatus) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(documentStatus)) {
+                    // show only complete button if complete or approve code in this doc status
+                    if ((KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue()))) {
+                        actionsRequested += "S";
+                    }
+                    // if not Complete or Approve code then show the standard buttons
+                    else {
+                        if ("true".equals(entry.getValue())) {
+                            actionsRequested += entry.getKey();
+                        }
+                    }
+                } else {
+                    if ("true".equals(entry.getValue())) {
+                        actionsRequested += entry.getKey();
+                    }
+                }
+            }
+            return actionsRequested;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error getting actions Requested", e);
+        }
+    }
+
+    @Override
+    public Boolean approveProposal(CluProposal cluProposal) {
+        if (simpleDocService == null) {
+            throw new RuntimeException("Workflow Service is unavailable");
+        }
+
+        try {
+            // get a user name
+            String username = getCurrentUser();
+
+            CluInfo cluInfo = cluProposal.getCluInfo();
+            DocumentResponse docResponse = simpleDocService.getDocument(cluProposal.getWorkflowId(), username);
+            if (docResponse == null || StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+                throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+            }
+            String approveComment = "Approved by CluProposalService";
+
+            StandardResponse stdResp = simpleDocService.approve(cluProposal.getWorkflowId(), username, cluInfo.getOfficialIdentifier().getLongName(), docResponse.getDocContent(), approveComment);
+            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                throw new RuntimeException("Error found approving document: " + stdResp.getErrorMessage());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Boolean(true);
+    }
+
+    @Override
+    public Boolean disapproveProposal(CluProposal cluProposal) {
+        if (simpleDocService == null) {
+            throw new RuntimeException("Workflow Service is unavailable");
+        }
+
+        try {
+            // get a user name
+            String username = getCurrentUser();
+
+            String disapproveComment = "Disapproved by CluProposalService";
+
+            // String docId, String principalId, String docTitle, String docContent, String annotation
+            StandardResponse stdResp = simpleDocService.disapprove(cluProposal.getWorkflowId(), username, disapproveComment);
+
+            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                throw new RuntimeException("Error found disapproving document: " + stdResp.getErrorMessage());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Boolean(true);
+    }
+
+    @Override
+    public Boolean acknowledgeProposal(CluProposal cluProposal) {
+        if (simpleDocService == null) {
+            throw new RuntimeException("Workflow Service is unavailable");
+        }
+
+        try {
+            // get a user name
+            String username = getCurrentUser();
+
+            String acknowledgeComment = "Acknowledged by CluProposalService";
+
+            // String docId, String principalId, String docTitle, String docContent, String annotation
+            StandardResponse stdResp = simpleDocService.acknowledge(cluProposal.getWorkflowId(), username, acknowledgeComment);
+
+            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                throw new RuntimeException("Error found acknowledging document: " + stdResp.getErrorMessage());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Boolean(true);
+    }
+
+    @Override
+    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) {
+        if (simpleDocService == null) {
+            throw new RuntimeException("Workflow Service is unavailable");
+        }
+
+        try {
+            // get a user name
+            String username = getCurrentUser();
+
+            String collaborateComment = "Collaborate by CluProposalService";
+
+            // create and route a Collaborate workflow
+            // Get the document app Id
+            CluProposal cluProposal = getCluProposalFromWorkflowId(docId);
+            CluInfo cluInfo = cluProposal.getCluInfo();
+            String workflowDocTypeId = "CluCollaboratorDocument";// TODO make sure this name is correct
+            DocumentResponse docResponse = simpleDocService.create(username, docId, workflowDocTypeId, cluInfo.getOfficialIdentifier().getLongName());
+            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+                throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+            }
+
+            // Get the document xml
+            CluProposalCollabRequestDocInfo docContent = new CluProposalCollabRequestDocInfo();
+
+            docContent.setCluId(cluInfo.getId());
+            docContent.setPrincipalIdRoleAttribute(new PrincipalIdRoleAttribute());
+            docContent.getPrincipalIdRoleAttribute().setRecipientPrincipalId(recipientPrincipalId);
+            docContent.setPrincipalId(username);
+            docContent.setDocId(docId);
+            docContent.setCollaboratorType(collabType);
+            docContent.setParticipationRequired(participationRequired);
+            docContent.setRespondBy(respondBy);
+
+            JAXBContext context = JAXBContext.newInstance(docContent.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            StringWriter writer = new StringWriter();
+            marshaller.marshal(docContent, writer);
+
+            String docContentString = writer.toString();
+
+            // Do the routing
+            StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, cluInfo.getOfficialIdentifier().getLongName(), docContentString, collaborateComment);
+
+            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Boolean(true);
+    }
+
+    @Override
+    public HashMap<String, ArrayList<String>> getCollaborators(String docId) {
+        try {
+            if (workflowUtilityService == null) {
+                throw new RuntimeException("Workflow Service is unavailable");
+            }
+
+            HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
+
+            ArrayList<String> coAuthors = new ArrayList<String>();
+            ArrayList<String> commentors = new ArrayList<String>();
+            ArrayList<String> viewers = new ArrayList<String>();
+            ArrayList<String> delegates = new ArrayList<String>();
+
+            ActionRequestDTO[] items = workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
+            if (items != null) {
+                for (ActionRequestDTO item : items) {
+                    if (item.isActivated() && (!item.isDone())) {
+                        if (KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested()) && item.getRequestLabel() != null) {
+                            if (item.getRequestLabel().startsWith("Co-Author")) {
+                                coAuthors.add(item.getPrincipalId());
+                            } else if (item.getRequestLabel().startsWith("Commentor")) {
+                                commentors.add(item.getPrincipalId());
+                            } else if (item.getRequestLabel().startsWith("Viewer")) {
+                                viewers.add(item.getPrincipalId());
+                            } else if (item.getRequestLabel().startsWith("Delegate")) {
+                                delegates.add(item.getPrincipalId());
+                            }
+                        }
+                    }
+                }
+            }
+
+            results.put("Co-Authors", coAuthors);
+            results.put("Commentor", commentors);
+            results.put("Viewer", viewers);
+            results.put("Delegate", delegates);
+            return results;
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting actions Requested", e);
+        }
+    }
+
+    @Override
+    public Boolean loginBackdoor(String backdoorId) {
+        try {
+            // Set spring security principal to the new backdoorId
+            Object credentials = SecurityContextHolder.getContext().getAuthentication().getCredentials();
+
+            GrantedAuthority[] authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+            User u = new User(backdoorId, backdoorId, true, true, true, true, authorities);
+
+            Authentication auth = new UsernamePasswordAuthenticationToken(u, credentials, authorities);
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    private String getCurrentUser() {
+        String username = DEFAULT_USER_ID;// FIXME this is bad, need to find some kind of mock security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object obj = auth.getPrincipal();
+            if (obj instanceof UserDetails) {
+                username = ((UserDetails) obj).getUsername();
+            } else {
+                username = obj.toString();
+            }
+        }
+        return username;
+    }
+
+    public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
+        this.simpleDocService = simpleDocService;
+    }
+
+    public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
+        this.workflowUtilityService = workflowUtilityService;
+    }
+
+    public OrganizationService getOrgService() {
+        return orgService;
+    }
+
+    public void setOrgService(OrganizationService orgService) {
+        this.orgService = orgService;
+    }
+
+    /**
+     * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
+     */
+    @Override
+    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
+        MapContext ctx = new MapContext();
+        CluProposalModelDTO result = new CluProposalModelDTO();
+        try {
+            CluInfo cluInfo = (CluInfo) ctx.fromModelDTO(cluProposalDTO);
+            cluInfo = service.createClu(cluInfo.getType(), cluInfo);
+            ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
+            // May not need to make a new one here
+            cluProposalDTO = new CluProposalModelDTO();
+            cluProposalDTO.copyFrom(cluModelDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return cluProposalDTO;
+    }
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
+     */
+    @Override
+    public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
+        MapContext ctx = new MapContext();
+        try {
+            logger.debug("DOING AN UPDATE");
+            CluInfo cluInfo = (CluInfo) ctx.fromModelDTO(cluProposalDTO);
+            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
+            ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
+            cluProposalDTO = new CluProposalModelDTO();
+            cluProposalDTO.copyFrom(cluModelDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return cluProposalDTO;
+    }
+
+    @Override
+    public CluProposalModelDTO getProposalModelDTO(String id) {
+        MapContext ctx = new MapContext();
+        CluProposalModelDTO result = null;
+        try {
+            // CluProposal cluProposal = new CluProposal();
+            // cluProposal.setProposalInfo(proposalInfo);
+
+            // String parentCluId = proposalInfo.getProposalReference().get(0);
+            CluInfo cluInfo = service.getClu(id);
+            // List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
+
+            /*
+             * List<CluInfo> activities = new ArrayList<CluInfo>(); for (CluCluRelationInfo relInfo:cluRelations){ if
+             * (relInfo.getType().equals("proposal.activity")){ activities.add(service.getClu(relInfo.getRelatedCluId())); }
+             * }
+             */
+
+            // cluProposal.setCluInfo(parentClu);
+            // cluProposal.setActivities(activities);
+            ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
+            result = new CluProposalModelDTO();
+            result.copyFrom(cluModelDTO);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Boolean adhocRequest(String docId, String recipientPrincipalId, String requestType, String annotation) {
         if (simpleDocService == null) {
             throw new RuntimeException("Workflow Service is unavailable");
         }
@@ -603,173 +711,49 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             String username = getCurrentUser();
 
             String fyiAnnotation = "FYI by CluProposalService";
-
+            String approveAnnotation = "Approve by CluProposalService";
+            String ackAnnotation = "Ack by CluProposalService";
             // create and route a Collaborate workflow
             // Get the document app Id
             /*
-            CluProposal cluProposal = getCluProposalFromWorkflowId(docId);
-            CluInfo cluInfo = cluProposal.getCluInfo();
-            String workflowDocTypeId = "CluCollaboratorDocument";// TODO make
-                                                                    // sure this
-                                                                    // name is
-                                                                    // correct
-            DocumentResponse docResponse = simpleDocService.create(username,
-                    docId, workflowDocTypeId, cluInfo.getOfficialIdentifier()
-                            .getLongName());
-            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-                throw new RuntimeException("Error found creating document: "
-                        + docResponse.getErrorMessage());
-            }
-*/
+             * CluProposal cluProposal = getCluProposalFromWorkflowId(docId); CluInfo cluInfo = cluProposal.getCluInfo();
+             * String workflowDocTypeId = "CluCollaboratorDocument";// TODO make // sure this // name is // correct
+             * DocumentResponse docResponse = simpleDocService.create(username, docId, workflowDocTypeId,
+             * cluInfo.getOfficialIdentifier() .getLongName()); if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
+             * throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage()); }
+             */
             // Do the adHoc
-            StandardResponse stdResp = simpleDocService
-                    .requestAdHocAckToPrincipal(docId,
-                            username, recipientPrincipalId, fyiAnnotation);
-            if (stdResp == null
-                    || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                throw new RuntimeException("Error found routing document: "
-                        + stdResp.getErrorMessage());
+            // Error with the simpleDocService.requestAdHocXXXToPrincipal method. the workflow document is getting routed to the wrong user.
+            // Please change the order once this has been fixed in the rice api. 
+            if (requestType.equals("FYI")) {
+//                StandardResponse stdResp = simpleDocService.requestAdHocFyiToPrincipal(docId, username, recipientPrincipalId, fyiAnnotation);
+                StandardResponse stdResp = simpleDocService.requestAdHocFyiToPrincipal(docId,recipientPrincipalId, username, fyiAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new RuntimeException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
+                }
             }
-            stdResp = simpleDocService.route(docId, username, null, null, fyiAnnotation);
-            if (stdResp == null
-                    || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                throw new RuntimeException("Error found routing document: "
-                        + stdResp.getErrorMessage());
+            if (requestType.equals("Approve")) {
+//                StandardResponse stdResp = simpleDocService.requestAdHocApproveToPrincipal(docId, username, recipientPrincipalId, approveAnnotation);
+                StandardResponse stdResp = simpleDocService.requestAdHocApproveToPrincipal(docId, recipientPrincipalId,username, approveAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new RuntimeException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
+                }
             }
+            if (requestType.equals("Acknowledge")) {
+//                StandardResponse stdResp = simpleDocService.requestAdHocAckToPrincipal(docId, username, recipientPrincipalId, ackAnnotation);
+                StandardResponse stdResp = simpleDocService.requestAdHocAckToPrincipal(docId,recipientPrincipalId,username, ackAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new RuntimeException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
+                }
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
             return new Boolean(false);
         }
         return new Boolean(true);
-    }
-
-	@Override
-	public Boolean loginBackdoor(String backdoorId) {
-		try{
-			//Set spring security principal to the new backdoorId
-		    Object credentials = SecurityContextHolder.getContext().getAuthentication().getCredentials();
-
-		    GrantedAuthority[] authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-
-		    User u = new User(backdoorId, backdoorId, true, true, true, true, authorities);
-
-		    Authentication auth = new UsernamePasswordAuthenticationToken(u, credentials, authorities);
-
-		    SecurityContextHolder.getContext().setAuthentication(auth);
-		}catch(Exception e){
-			e.printStackTrace();
-			return Boolean.FALSE;
-		}
-		return Boolean.TRUE;
-	}
-
-	private String getCurrentUser() {
-        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null){
-        	Object obj = auth.getPrincipal();
-        	if (obj instanceof UserDetails) {
-            	username = ((UserDetails)obj).getUsername();
-            } else {
-            	username = obj.toString();
-            }
-        }
-		return username;
-	}
-
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
-		this.simpleDocService = simpleDocService;
-	}
-
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
-		this.workflowUtilityService = workflowUtilityService;
-	}
-
-	public OrganizationService getOrgService() {
-		return orgService;
-	}
-
-	public void setOrgService(OrganizationService orgService) {
-		this.orgService = orgService;
-	}
-
-    /**
-     * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
-     */
-    @Override
-    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
-        MapContext ctx = new MapContext();
-        CluProposalModelDTO result = new CluProposalModelDTO();
-        try{
-            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
-            cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            //May not need to make a new one here
-            cluProposalDTO = new CluProposalModelDTO();
-            cluProposalDTO.copyFrom(cluModelDTO);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return cluProposalDTO;
-    }
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
-     */
-    @Override
-    public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
-        MapContext ctx = new MapContext();
-        try{
-            logger.debug("DOING AN UPDATE");
-            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
-            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluProposalDTO = new CluProposalModelDTO();
-            cluProposalDTO.copyFrom(cluModelDTO);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return cluProposalDTO;
-    }
-
-    @Override
-    public CluProposalModelDTO getProposalModelDTO(String id){
-        MapContext ctx = new MapContext();
-        CluProposalModelDTO result = null;
-        try {
-            //CluProposal cluProposal = new CluProposal();
-            //cluProposal.setProposalInfo(proposalInfo);
-
-            //String parentCluId = proposalInfo.getProposalReference().get(0);
-            CluInfo cluInfo = service.getClu(id);
-            //List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
-
-            /*
-            List<CluInfo> activities = new ArrayList<CluInfo>();
-            for (CluCluRelationInfo relInfo:cluRelations){
-                if (relInfo.getType().equals("proposal.activity")){
-                    activities.add(service.getClu(relInfo.getRelatedCluId()));
-                }
-            }
-            */
-
-            //cluProposal.setCluInfo(parentClu);
-            //cluProposal.setActivities(activities);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            result = new CluProposalModelDTO();
-            result.copyFrom(cluModelDTO);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            }
-        return result;
     }
 
 }
