@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -187,6 +188,10 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public void updateView(ModelDTO modelDTO) {
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
+            if (field.getFieldWidget() instanceof MultiplicityComposite){
+                ModelDTOValue value = modelDTO.get(field.getFieldKey());
+                ((MultiplicityComposite)field.getFieldWidget()).setValue(value);
+            }
             PropertyBinding pBinding = field.getPropertyBinding();
             PropertyBinding wBinding = field.getWidgetBinding();
             if (wBinding != null){
