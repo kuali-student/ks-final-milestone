@@ -144,9 +144,6 @@ public class Validator {
 
 		Object value = dataProvider.getValue(field.getKey());
 		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
-		// what if the value is null
-		// check the object structure to see if it is legal to be a null value
-		// otherwise 
 		
 		// Check to see if the Field is not a complex type
 		if ("complex"
@@ -230,8 +227,20 @@ public class Validator {
 	private void processNestedObjectStructure(
 			List<ValidationResultContainer> results, Object value,
 			ObjectStructure nestedObjStruct, Field field) {
-		results.addAll(validateTypeStateObject(value, nestedObjStruct));
 
+        // what if the value is null
+        // check the object structure to see if it is legal to be a null value
+        // otherwise 
+        if (value == null || "".equals(value.toString().trim())) {
+            //if (bcb.minOccurs != null && bcb.minOccurs > 0) {
+              //  valResults.addError(messages.get("validation.required"));
+                //return;
+            //}
+        }        
+	    
+	    results.addAll(validateTypeStateObject(value, nestedObjStruct));
+
+		
 		// CD should have only one type state case constraint
 		ConstraintDescriptor cd = field.getConstraintDescriptor();
 		if (null != cd) {
