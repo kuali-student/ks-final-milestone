@@ -81,7 +81,6 @@ public class LuConfigurer {
                
     public static void configureCluProposal(ConfigurableLayout layout){       
         addCluStartSection(layout);
-        addDemoSection(layout);
         addGovernanceSection(layout);
         addCourseLogistics(layout);
         addCourseInfoSection(layout);
@@ -106,69 +105,6 @@ public class LuConfigurer {
         ((PagedSectionLayout)layout).addStartSection(section);
     }
     
-    private static void addDemoSection(ConfigurableLayout layout) {
-        VerticalSectionView section = new VerticalSectionView(LuSections.DEMO_SECTION, "Demo Section", CluProposalModelDTO.class);
-                               
-        //section.addField(new FieldDescriptor("/publishingInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
-        
-        final FieldDescriptor subjectFD = new FieldDescriptor("studySubjectArea", "Study Subject Area", Type.STRING, RequiredEnum.REQUIRED);
-
-        subjectFD.setValidationCallBack(new Callback<Boolean>() {
-            @Override
-            public void exec(Boolean result) {
-                // Widget w = subjectFD.getFieldWidget();
-                // TextBox textBox = (TextBox) w;
-
-                ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
-                final Validator val = new Validator(bc, true);
-                final ValidateResultEvent e = new ValidateResultEvent();
-
-                Controller.findController(subjectFD.getFieldWidget()).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<ModelDTO>() {
-                    public void onModelReady(Model<ModelDTO> m) {
-                        String key = m.get().getClassName();
-                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
-                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
-                        e.setValidationResult(results);// filled by calling the real validate code
-                        Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
-                    }
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to get model");
-                    }
-                });
-            }
-        });
-
-        section.addField(subjectFD);
-
-        section.addField(new FieldDescriptor("referenceURL", "Reference URL", Type.STRING, RequiredEnum.OPTIONAL));
-        section.addField(new FieldDescriptor("nextReviewPeriod", "Next Review Period", Type.STRING));
-        
-        
-        VerticalSection description = new VerticalSection();
-        description.setSectionTitle(SectionTitle.generateH2Title("Description"));
-        description.addField(new FieldDescriptor("desc", null, Type.MODELDTO, new KSRichEditor()));
-        section.addSection(description);
-        
-        VerticalSection rationale = new VerticalSection();
-        rationale.setSectionTitle(SectionTitle.generateH2Title("Rationale"));
-        rationale.addField(new FieldDescriptor("marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
-        section.addSection(rationale);
-        
-        VerticalSection startDate = new VerticalSection();
-        startDate.setSectionTitle(SectionTitle.generateH2Title("Start Date"));
-        startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
-        
-        VerticalSection endDate = new VerticalSection();
-        endDate.setSectionTitle(SectionTitle.generateH2Title("End Date"));
-        endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
-        
-        section.addSection(startDate);
-        section.addSection(endDate);
-        
-        layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state, LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
-    }
-    
     /**
      * Adds a section for adding or modifying rules associated with a given course (program).
      * 
@@ -183,8 +119,7 @@ public class LuConfigurer {
         VerticalSection startDate = new VerticalSection();
         startDate.setSectionTitle(SectionTitle.generateH2Title("Test"));
                 
-        //CREDITS
-		/* TO Do - once we have a section that allows for flow between rule screens
+		/* TODO: Once we have a section that allows for flow between rule screens
         VerticalSection enrollmentSection = new VerticalSection();
         enrollmentSection.setSectionTitle(SectionTitle.generateH2Title("Enrollment Restrictions"));
         enrollmentSection.addField(new FieldDescriptor("rationalle", "Rationalle", Type.STRING));
@@ -201,11 +136,11 @@ public class LuConfigurer {
         section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.ACTIVE_DATES_LABEL_KEY)));
 
         VerticalSection startDate = new VerticalSection();
-        startDate.setSectionTitle(SectionTitle.generateH2Title("Start Date"));
+        startDate.setSectionTitle(SectionTitle.generateH5Title("Start Date"));
         startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
         
         VerticalSection endDate = new VerticalSection();
-        endDate.setSectionTitle(SectionTitle.generateH2Title("End Date"));
+        endDate.setSectionTitle(SectionTitle.generateH5Title("End Date"));
         endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
         
         section.addSection(startDate);
@@ -250,11 +185,19 @@ public class LuConfigurer {
                 Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY),
                 CluProposalModelDTO.class);        
         section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY)));
+                
+        CustomNestedSection nsection = new CustomNestedSection();
+        nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);        
+        nsection.addField(new FieldDescriptor("academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));                
+        nsection.nextRow();nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        nsection.addField(new FieldDescriptor("campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
+        nsection.nextRow();nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        nsection.addField(new FieldDescriptor("adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));        
+        nsection.nextRow();nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        nsection.addField(new FieldDescriptor("/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
         
-        section.addField(new FieldDescriptor("academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));        
-        section.addField(new FieldDescriptor("campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
-        section.addField(new FieldDescriptor("adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));
-        
+        section.addSection(nsection);
+       
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);        
     }
     
@@ -269,7 +212,7 @@ public class LuConfigurer {
         
         //COURSE NUMBER
         CustomNestedSection courseNumber = new CustomNestedSection();
-        courseNumber.setSectionTitle(SectionTitle.generateH2Title("Course Number")); //Section title constants)
+        courseNumber.setSectionTitle(SectionTitle.generateH5Title("Course Number")); //Section title constants)
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         courseNumber.addField(new FieldDescriptor("/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
         courseNumber.addField(new FieldDescriptor("/officialIdentifier/suffixCode", null, Type.STRING));
@@ -438,6 +381,33 @@ public class LuConfigurer {
 
     }
     
+    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD){
+        return new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+                // Widget w = subjectFD.getFieldWidget();
+                // TextBox textBox = (TextBox) w;
+
+                ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+                final Validator val = new Validator(bc, true);
+                final ValidateResultEvent e = new ValidateResultEvent();
+
+                Controller.findController(subjectFD.getFieldWidget()).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<ModelDTO>() {
+                    public void onModelReady(Model<ModelDTO> m) {
+                        String key = m.get().getClassName();
+                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
+                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
+                        e.setValidationResult(results);// filled by calling the real validate code
+                        Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
+                    }
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert("Failed to get model");
+                    }
+                });
+            }
+        };        
+    }
     // TODO look up field label and type from dictionary & messages
  
 //    private static Type translateDictType(String dictType) {
