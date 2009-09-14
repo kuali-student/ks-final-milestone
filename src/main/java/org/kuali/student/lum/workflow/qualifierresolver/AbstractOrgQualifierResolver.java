@@ -179,11 +179,14 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	
 	protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey,String orgIdKey){
 		List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
-		List<OrgInfo> ancestorOrgs;
+		List<OrgInfo> ancestorOrgs = null;
+		
 		if(orgId!=null){
 			try {
 				List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, KUALI_ORG_HIERARCHY_CURRICULUM);
-				ancestorOrgs = getOrganizationService().getOrganizationsByIdList(ancestorIds);
+				if(ancestorIds != null && ancestorIds.size() > 0) {
+					ancestorOrgs = getOrganizationService().getOrganizationsByIdList(ancestorIds);
+				}
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
