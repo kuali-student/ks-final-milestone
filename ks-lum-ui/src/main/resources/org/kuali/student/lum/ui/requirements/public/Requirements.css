@@ -395,8 +395,9 @@
 }
 
 .KS-RichText-Normal{
+	/*TODO declare own style if overriding default, don't override default
 	width: 300px;
-	height: 90px;
+	height: 90px;*/
 }
 
 .KS-Rules-Rule-Views{
