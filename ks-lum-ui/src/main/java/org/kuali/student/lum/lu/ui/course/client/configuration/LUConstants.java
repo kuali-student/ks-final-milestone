@@ -82,7 +82,10 @@ public class LUConstants {
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
     public static final String PRIMARY_ADMIN_ORG_LABEL_KEY = "cluPrimaryAdminOrg";
     public static final String ALT_ADMIN_ORGS_LABEL_KEY = "cluAltAdminOrgs";
+
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
+    public static final String PRIM_INSTR_LABEL_KEY = "cluPrimaryInstructor";
+    public static final String ALT_INSTR_LABEL_KEY = "cluAlternateInstructors";
     public static final String CREDITS_LABEL_KEY = "cluCredits";
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
     public static final String SCHEDULING_LABEL_KEY = "cluScheduling";

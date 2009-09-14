@@ -31,6 +31,8 @@
 		   	<bean parent="enCourse" p:id="cluPrimaryAdminOrg"	    	p:value="Primary Administering Organization"/>
 		   	<bean parent="enCourse" p:id="cluAltAdminOrgs"	    	p:value="Alternate Administering Organizations"/>
   	 	<bean parent="enCourse" p:id="cluLogistics"		p:value="Course Logistics"/>
+		   	<bean parent="enCourse" p:id="cluPrimaryInstructor"	    	p:value="Primary Instructor"/>
+		   	<bean parent="enCourse" p:id="cluAlternateInstructors"	    	p:value="Alternate Instructors"/>
 		   	<bean parent="enCourse" p:id="cluCredits"	    	p:value="Credits"/>
 		   	<bean parent="enCourse" p:id="cluLearningResults"	    	p:value="Learning Results"/>
 		   	<bean parent="enCourse" p:id="cluScheduling"	    	p:value="Scheduling"/>
@@ -84,6 +86,8 @@
 		   	<bean parent="esCourse" p:id="cluPrimaryAdminOrg"	    	p:value="Organización de administración primaria"/>
 		   	<bean parent="esCourse" p:id="cluAltAdminOrgs"	    	p:value="Organizaciones de administración alternas"/>
   	 	<bean parent="esCourse" p:id="cluLogistics"		p:value="Logística del curso"/>
+		   	<bean parent="esCourse" p:id="cluPrimaryInstructor"	    	p:value="Instructor primario"/>
+		   	<bean parent="esCourse" p:id="cluAlternateInstructors"	    	p:value="Instructores alternos"/>
 		   	<bean parent="esCourse" p:id="cluCredits"	    	p:value="Créditos"/>
 		   	<bean parent="esCourse" p:id="cluLearningResults"	    	p:value="Aprendizaje de resultados"/>
 		   	<bean parent="esCourse" p:id="cluScheduling"	    	p:value="Horario"/>

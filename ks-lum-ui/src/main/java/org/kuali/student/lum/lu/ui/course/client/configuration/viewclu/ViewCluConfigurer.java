@@ -121,12 +121,12 @@ public class ViewCluConfigurer {
         //INSTRUCTORS
         CustomNestedSection primaryInstructor = new CustomNestedSection();
         primaryInstructor.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        primaryInstructor.setSectionTitle(SectionTitle.generateH3Title("Primary Instructor"));
+        primaryInstructor.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.PRIM_INSTR_LABEL_KEY)));
         primaryInstructor.addField(new FieldDescriptor("primaryInstructor/personId", "Person ID :   ", Type.STRING, new KSLabel()));
         primaryInstructor.addField(new FieldDescriptor("primaryInstructor/orgId", "Org ID :   ", Type.STRING, new KSLabel()));
 
         VerticalSection altInstructors = new VerticalSection();
-        altInstructors.setSectionTitle(SectionTitle.generateH3Title("Alternate Instructors"));
+        altInstructors.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.ALT_INSTR_LABEL_KEY)));
         altInstructors.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));        
 
         //CREDITS
@@ -188,7 +188,7 @@ public class ViewCluConfigurer {
 
         VerticalSection altIdSection = new VerticalSection();
         altIdSection.setSectionTitle(SectionTitle.generateH3Title("Alternate Identifiers"));
-        altIdSection.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateInstructorList()));        
+        altIdSection.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));        
 
         
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
@@ -372,15 +372,15 @@ public class ViewCluConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluIdentifier");
+            MultiplicitySection multi = new MultiplicitySection("CluIdentifierInfo");
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("/code", "Code", Type.STRING));
-            ns.addField(new FieldDescriptor("/division", "Division", Type.STRING));
-            ns.addField(new FieldDescriptor("/level", "Level", Type.STRING));
-            ns.addField(new FieldDescriptor("/variation", "Variation", Type.STRING));
-            ns.addField(new FieldDescriptor("/suffixCode", "Suffix Code", Type.STRING));
+            ns.addField(new FieldDescriptor("code", "Code", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("division", "Division", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("level", "Level", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("variation", "Variation", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("suffixCode", "Suffix Code", Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
