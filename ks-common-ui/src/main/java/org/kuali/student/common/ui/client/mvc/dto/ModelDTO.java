@@ -33,6 +33,7 @@ public class ModelDTO implements Serializable {
 	
 	private String className;
 	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
+	protected Map<String, ModelDTOValue.ListType> relations = new HashMap<String, ModelDTOValue.ListType>();
 	
 	private transient ModelDTOAdapter adapter = null;
 	
@@ -95,11 +96,23 @@ public class ModelDTO implements Serializable {
 			adapter.put(key, value);
 		}
 		else{
-			map.put(key, value);
-			
-		}
-		
+			map.put(key, value);			
+		}		
 	}
+	
+	/**
+	 * Put a list of model dto's related to this model dto
+	 * 
+	 * @param key
+	 */
+	public void putRelations(String key, ModelDTOValue.ListType value){
+	    relations.put(key, value);
+	}
+	
+	public ModelDTOValue.ListType getRelations(String key){
+	    return relations.get(key);
+	}
+	
 	/**
 	 * 
 	 * @param key String key for the bean property

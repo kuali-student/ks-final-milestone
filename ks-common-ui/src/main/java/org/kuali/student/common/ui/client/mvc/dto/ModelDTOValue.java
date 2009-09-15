@@ -66,8 +66,11 @@ public interface ModelDTOValue extends Serializable {
 		private static final long serialVersionUID = 1L;
 		private String value = null;
 		
-		public StringType() {
-			
+		public StringType() {			
+		}
+		
+		public StringType(String value){
+		    this.set(value);
 		}
 		
 		@Override
@@ -487,8 +490,11 @@ public interface ModelDTOValue extends Serializable {
 		private static final long serialVersionUID = 1L;
 		private ModelDTO value = null;
 	    
-		public ModelDTOType() {
-			
+		public ModelDTOType() {			
+		}
+		
+		public ModelDTOType(ModelDTO value){
+		    this.set(value);
 		}
 		
 	    @Override
