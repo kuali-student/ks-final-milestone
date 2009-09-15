@@ -95,9 +95,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public ModelDTOValue getValue() {
         if (modelDTOValue == null){
             ModelDTO modelDTO = new ModelDTO(modelDtoClassName);
-            // commented out by Joe Yin, wait for W G for further actions
-//            modelDTO.put("type", new ModelDTOValue.StringType(this.type));
-  //          modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
+            modelDTO.put("type", new ModelDTOValue.StringType(this.type));
+            modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
         }
         
         return this.modelDTOValue;
