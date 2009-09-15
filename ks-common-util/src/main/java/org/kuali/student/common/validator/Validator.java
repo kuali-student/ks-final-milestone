@@ -137,17 +137,33 @@ public class Validator {
 
 		return results;
 	}
-
+    private boolean isNullable(Field field){
+        List<ConstraintSelector> constraintList = field.getConstraintDescriptor().getConstraint();
+        for(ConstraintSelector cs: constraintList){
+            if(cs.getMinOccurs() != null && cs.getMinOccurs() > 0){
+                return false;
+            }
+        }
+        return true;
+    }
 	public List<ValidationResultContainer> validateField(Field field,
 			Type type, State state, ObjectStructure objStruct,
 			ConstraintDataProvider dataProvider) {
 
 		Object value = dataProvider.getValue(field.getKey());
 		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
-		
 		// Check to see if the Field is not a complex type
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
+	        if (value == null || "".equals(value.toString().trim())) {
+	            if(isNullable(field) == false){
+                   ValidationResultContainer valResults = new ValidationResultContainer(
+	                            getElementXpath() + field.getKey() + "/");
+                  valResults.addError(messages.get("validation.required"));
+                  results.add(valResults);
+                   return results;
+	            }
+	        }   
 			ObjectStructure nestedObjStruct = null;
 			if (hasText(field.getFieldDescriptor()
 					.getObjectStructureRef())) {
@@ -228,15 +244,7 @@ public class Validator {
 			List<ValidationResultContainer> results, Object value,
 			ObjectStructure nestedObjStruct, Field field) {
 
-        // what if the value is null
-        // check the object structure to see if it is legal to be a null value
-        // otherwise 
-        if (value == null || "".equals(value.toString().trim())) {
-            //if (bcb.minOccurs != null && bcb.minOccurs > 0) {
-              //  valResults.addError(messages.get("validation.required"));
-                //return;
-            //}
-        }        
+     
 	    
 	    results.addAll(validateTypeStateObject(value, nestedObjStruct));
 
