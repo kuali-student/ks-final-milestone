@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
@@ -40,6 +39,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
@@ -184,19 +184,12 @@ public class LuConfigurer {
                 Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY),
                 CluProposalModelDTO.class);        
         section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY)));
-                
-        CustomNestedSection nsection = new CustomNestedSection();
-        nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);        
-        nsection.addField(new FieldDescriptor("academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));                
-        nsection.nextRow();nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        nsection.addField(new FieldDescriptor("campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
-        nsection.nextRow();nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        nsection.addField(new FieldDescriptor("adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));        
-        nsection.nextRow();nsection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        nsection.addField(new FieldDescriptor("/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
-        
-        section.addSection(nsection);
        
+        section.addField(new FieldDescriptor("academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));                
+        section.addField(new FieldDescriptor("campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
+        section.addField(new FieldDescriptor("adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));        
+        section.addField(new FieldDescriptor("/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
+              
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);        
     }
     
@@ -318,43 +311,57 @@ public class LuConfigurer {
         
         //CREDITS
         VerticalSection credits = new VerticalSection();
-        credits.setSectionTitle(SectionTitle.generateH2Title("Credits"));
+        credits.setSectionTitle(SectionTitle.generateH3Title("Credits"));
         credits.addField(new FieldDescriptor("creditType", "Credit Type", Type.STRING));//TODO CREDIT TYPE ENUMERATION
         credits.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
         credits.addField(new FieldDescriptor("maxCredits", "Maximum Credits", Type.STRING));
         
         //LEARNING RESULTS
         VerticalSection learningResults = new VerticalSection();
-        learningResults.setSectionTitle(SectionTitle.generateH2Title("Learning Results"));
+        learningResults.setSectionTitle(SectionTitle.generateH3Title("Learning Results"));
         learningResults.addField(new FieldDescriptor("evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
         
         VerticalSection scheduling = new VerticalSection();
-        scheduling.setSectionTitle(SectionTitle.generateH2Title("Scheduling"));
+        scheduling.setSectionTitle(SectionTitle.generateH3Title("Scheduling"));
         scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING)); //TODO TERM ENUMERATION
         scheduling.addField(new FieldDescriptor("stdDuration", "Duration", Type.STRING)); //TODO DURATION ENUMERATION
+        scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING)); //TODO TERM ENUMERATION
+        
+        //COURSE FORMATS
+        VerticalSection courseFormats = new VerticalSection();
+        courseFormats.setSectionTitle(SectionTitle.generateH3Title("Course Formats"));
+        courseFormats.addField(new FieldDescriptor("courseFormats", null, Type.LIST, new CourseFormatList()));
         
         section.addSection(credits);
         section.addSection(learningResults);
         section.addSection(scheduling);
-        section.addField(new FieldDescriptor("courseFormats", "Course Formats", Type.LIST, new CourseFormatList()));
+        section.addSection(courseFormats);
+        
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
     
-    public static class CourseFormatList extends MultiplicityComposite{
-        public int formatNumber = 1;
+    public static class CourseFormatList extends MultiplicityComposite{        
+        {
+            setAddItemLabel("Add Additional Format");
+            setItemLabel("Course Format");
+        }
+        
         public Widget createItem() {
             return new CourseActivityList();
         }
     }
     
-    // This will probably a custom clu activity widget that uses a CluInfo model dto.
     public static class CourseActivityList extends MultiplicityComposite{
-        public int activityNumber = 1;
+        
+        {
+            setAddItemLabel("Add Activity");
+            setItemLabel("Activity");
+        }
+        
         public Widget createItem() {
-            MultiplicitySection item = new MultiplicitySection("cluInfo");
+            MultiplicitySection item = new MultiplicitySection("CluInfo");
             CustomNestedSection activity = new CustomNestedSection();
-            activity.setSectionTitle(SectionTitle.generateH2Title("Activity " + activityNumber));
-            activity.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING));
+            activity.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING, new CluActivityType()));
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
@@ -372,7 +379,6 @@ public class LuConfigurer {
             activity.addField(new FieldDescriptor("clu.method", "Delivery Method", Type.STRING));
             activity.addField(new FieldDescriptor("clu.size", "Class Size", Type.STRING));
             
-            activityNumber++;
             item.addSection(activity);
             
             return item;
@@ -482,6 +488,7 @@ public class LuConfigurer {
         }
     }
     
+    //FIXME: Create a configurable checkbox list which can obtain values via RPC calls
     public static class CampusLocationList extends KSCheckBoxList{
         public CampusLocationList(){
             SimpleListItems campusLocations = new SimpleListItems();
@@ -492,6 +499,23 @@ public class LuConfigurer {
             campusLocations.addItem("All Campuses", "All Campuses");
             
             super.setListItems(campusLocations);
+        }
+    }
+    
+    //FIXME: Create a configurable drop down list which can obtain values via RPC calls
+    public static class CluActivityType extends KSDropDown{
+        public CluActivityType(){
+            SimpleListItems activityTypes = new SimpleListItems();
+            
+            activityTypes.addItem("kuali.lu.type.activity.Tutorial", "Tutorial");
+            activityTypes.addItem("kuali.lu.type.activity.Lecture", "Lecture");
+            activityTypes.addItem("kuali.lu.type.activity.WebLecture", "WebLecture");
+            activityTypes.addItem("kuali.lu.type.activity.Discussion", "Discussion");
+            activityTypes.addItem("kuali.lu.type.activity.Lab", "Lab");
+            activityTypes.addItem("kuali.lu.type.activity.Directed", "Directed");
+            activityTypes.addItem("kuali.lu.type.activity.WebDiscuss", "WebDiscuss");
+            
+            super.setListItems(activityTypes);
         }
     }
     

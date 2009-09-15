@@ -2088,6 +2088,19 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:name>course primaryInstructor</dict:name>
 						<dict:desc>course primaryInstructor</dict:desc>
 						<dict:dataType>complex</dict:dataType>
+						<dict:objectStructure key="cluInstructorInfo">
+							<dict:type key="kuali.not.applicable">
+								<dict:state key="(n/a)">
+										<dict:field id="course.primaryInstructor.Id" key="personId">
+											<dict:fieldDescriptor>
+												<dict:name>course primaryInstructor Id</dict:name>
+												<dict:desc>person Id of the primary instructor</dict:desc>
+												<dict:dataType>string</dict:dataType>
+											</dict:fieldDescriptor>
+										</dict:field>									
+								</dict:state>
+							</dict:type>
+						</dict:objectStructure>
 					</dict:fieldDescriptor>
 					<dict:constraintDescriptor>
 							<dict:constraintRef bean="optional"/>
