@@ -123,8 +123,8 @@ public class Validator {
 					if (s.getKey().equalsIgnoreCase(
 							(String) dataProvider.getValue("state"))) {
 						for (Field f : s.getField()) {
-							results.addAll(validateField(f, t, s, objStructure,
-									dataProvider));
+						    List<ValidationResultContainer> l = validateField(f, t, s, objStructure,dataProvider);
+							results.addAll(l);
 						}
 						break;
 					}
@@ -152,18 +152,23 @@ public class Validator {
 
 		Object value = dataProvider.getValue(field.getKey());
 		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
+		
+		// added by joe
+        if (value == null || "".equals(value.toString().trim())) {
+            if(isNullable(field) == false){
+               ValidationResultContainer valResults = new ValidationResultContainer(
+                            getElementXpath() + field.getKey() + "/");
+              valResults.addError(messages.get("validation.required"));
+              results.add(valResults);
+               return results;
+            }
+        }   
+        // added finished
+        
 		// Check to see if the Field is not a complex type
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
-	        if (value == null || "".equals(value.toString().trim())) {
-	            if(isNullable(field) == false){
-                   ValidationResultContainer valResults = new ValidationResultContainer(
-	                            getElementXpath() + field.getKey() + "/");
-                  valResults.addError(messages.get("validation.required"));
-                  results.add(valResults);
-                   return results;
-	            }
-	        }   
+
 			ObjectStructure nestedObjStruct = null;
 			if (hasText(field.getFieldDescriptor()
 					.getObjectStructureRef())) {
@@ -179,7 +184,15 @@ public class Validator {
 					processNestedObjectStructure(results, o, nestedObjStruct,
 							field);
 				}
-			} else {
+// added by Joe
+			} else if(value == null){
+	               ValidationResultContainer valResults = new ValidationResultContainer(
+                           getElementXpath() + field.getKey() + "/");
+             valResults.addError("cannot be null");
+             results.add(valResults);
+        //      return results;
+// added by Joe finished			    
+			}else{
 				processNestedObjectStructure(results, value, nestedObjStruct,
 						field);
 			}
