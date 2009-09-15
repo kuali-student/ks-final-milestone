@@ -20,7 +20,8 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,6 +30,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -47,6 +49,10 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     private ModelDTOValue.ListType modelDTOList =  new ModelDTOValue.ListType();
     private List<HasModelDTOValue> modelDTOValueWidgets;
     private boolean loaded = false;
+    private String addItemLabel;
+    private String itemLabel;
+    private int itemCount = 0;
+    
 
     //Initialization block
     {
@@ -60,7 +66,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      *
      */
     private class MultiplicityItemWidgetDecorator extends Composite{
-        HorizontalBlockFlowPanel itemPanel;
+        VerticalFlowPanel itemPanel;
         Widget listItem;
         
         KSButton removeButton = new KSButton("-", new ClickHandler(){
@@ -73,14 +79,24 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         });        
         
         private MultiplicityItemWidgetDecorator(Widget listItem){
-            itemPanel = new HorizontalBlockFlowPanel();
+            itemPanel = new VerticalFlowPanel();
             this.listItem = listItem;
             initWidget(itemPanel);
             if (listItem instanceof MultiplicityComposite){
                 ((MultiplicityComposite)listItem).redraw();
             }
+            itemCount++;
+            itemPanel.addStyleName("KS-Multiplicity-Item");
+            
+            HorizontalPanel headerPanel = new HorizontalPanel();
+            headerPanel.addStyleName("KS-Multiplicity-Item-Header");
+            KSLabel headerLabel = new KSLabel(itemLabel + " " + itemCount);
+            headerPanel.add(headerLabel);
+            headerPanel.add(removeButton);
+            
+                        
+            itemPanel.add(headerPanel);
             itemPanel.add(listItem);
-            itemPanel.add(removeButton);
         }
         
     }
@@ -168,7 +184,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         if (!loaded){
             modelDTOValueWidgets = new ArrayList<HasModelDTOValue>();
                        
-            KSButton addItemButton = new KSButton("Add Item", new ClickHandler(){
+            KSButton addItemButton = new KSButton(addItemLabel, new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     addItem();
                 }            
@@ -176,7 +192,6 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     
             initWidget(mainPanel);           
             mainPanel.addStyleName("KS-Multiplicity-Composite");
-            itemsPanel.add(addItemButton);
             mainPanel.add(itemsPanel);
             mainPanel.add(addItemButton);
             loaded = true;
@@ -217,6 +232,15 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         return null;
     }
  
+    public void setAddItemLabel(String addItemLabel) {
+        this.addItemLabel = addItemLabel;
+    }
+
+
+    public void setItemLabel(String itemLabel) {
+        this.itemLabel = itemLabel;
+    }
+
     /**
      * This must return a widget that implements the HasModelDTOValue interface. This method
      * will be used when user clicks the "Add" button to add a new item to the list of items.

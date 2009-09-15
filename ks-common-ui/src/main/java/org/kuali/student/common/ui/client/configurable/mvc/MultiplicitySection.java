@@ -42,14 +42,25 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class MultiplicitySection extends Section implements HasModelDTOValue{
 
     private ModelDTOValue modelDTOValue; 
-    protected final FlowPanel panel;
+    protected FlowPanel panel;
     private String modelDtoClassName;
+    private String type;
+    private String state;
 
     public MultiplicitySection(String modelDtoClassName){
+        init(modelDtoClassName, null, null);
+    }
+    
+    public MultiplicitySection(String modelDtoClassName, String type, String state){
+        init(modelDtoClassName, type, state);
+    }
+
+    public void init(String modelDtoClassName, String type, String state){
         fields = new ArrayList<FieldDescriptor>();
         panel = new FlowPanel();
         this.modelDtoClassName = modelDtoClassName;
-        initWidget(panel);
+        this.type = type;
+        initWidget(panel);        
     }
     
     /**
@@ -82,8 +93,10 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     @Override
     public ModelDTOValue getValue() {
         if (modelDTOValue == null){
-            modelDTOValue = new ModelDTOValue.ModelDTOType();
-            ((ModelDTOValue.ModelDTOType)modelDTOValue).set(new ModelDTO(modelDtoClassName));
+            ModelDTO modelDTO = new ModelDTO(modelDtoClassName);
+            modelDTO.put("type", new ModelDTOValue.StringType(this.type));
+                       
+            modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
         }
         
         return this.modelDTOValue;
