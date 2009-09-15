@@ -7,16 +7,18 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
-	<bean id="propertyConfigurer"
-		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
-		<property name="locations">
+	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean" depends-on="systemPropertyConfigurer">
+		<property name="configLocations">
 			<list>
-				<value>classpath:lum-web.properties</value>
+				<value>classpath:META-INF/ks-lum-config.xml</value>
 			</list>
 		</property>
-		<property name="customConfigSystemProperty" value="ks.config.location"/>
-        <property name="customConfigFileLocation" value="file:${user.home}/kuali/main/dev/ks-lum-web.properties" />
-		<property name="order" value="0" />
+	</bean>
+
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
 	</bean>
 
 	<!-- Spring to GWT servlet mapping -->
@@ -126,12 +128,7 @@
 
 	<bean id="ServerPropertiesServlet"
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
-		<property name="properties">
-			<map>
-				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>
-				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}"/>
-			</map>
-		</property>
+		<property name="properties" ref="configProperties" />
 	</bean>
 	
 	<bean id="messagesServiceGwt"
