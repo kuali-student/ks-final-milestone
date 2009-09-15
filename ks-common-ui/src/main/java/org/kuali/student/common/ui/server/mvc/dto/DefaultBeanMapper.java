@@ -126,7 +126,11 @@ public class DefaultBeanMapper implements BeanMapper {
                         PropertyMapping pm = getPropertyMapping(propKey, defaultPropertyMappingInstance);
                         Object propValue = pm.fromModelDTOValue(value.get(propKey), context);
                         if(pd.getWriteMethod() != null){
-                            pd.getWriteMethod().invoke(result, new Object[] {propValue});    
+                            try {
+                                pd.getWriteMethod().invoke(result, new Object[] {propValue});
+                            } catch (Exception e){
+                                throw new BeanMappingException("Unable to map field " + propKey, e);
+                            }
                         }
                     }
                 }
