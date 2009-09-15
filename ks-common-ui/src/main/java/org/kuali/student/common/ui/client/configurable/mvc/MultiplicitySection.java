@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
@@ -94,9 +95,9 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public ModelDTOValue getValue() {
         if (modelDTOValue == null){
             ModelDTO modelDTO = new ModelDTO(modelDtoClassName);
-            modelDTO.put("type", new ModelDTOValue.StringType(this.type));
-                       
-            modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
+            // commented out by Joe Yin, wait for W G for further actions
+//            modelDTO.put("type", new ModelDTOValue.StringType(this.type));
+  //          modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
         }
         
         return this.modelDTOValue;
