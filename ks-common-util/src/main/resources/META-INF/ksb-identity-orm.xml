@@ -6,9 +6,9 @@
     <entity class="org.kuali.rice.ksb.messaging.ServiceInfo" >
         <attributes>
             <id name="messageEntryId">
-				<column name="SVC_DEF_ID"/>
-    	        <generated-value strategy="IDENTITY"/>
-			</id>
+                <column name="SVC_DEF_ID"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
         </attributes>
        
     </entity>

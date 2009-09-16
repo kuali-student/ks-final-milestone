@@ -24,12 +24,12 @@
 
     <param name="rice.ksb.jpa.enabled">true</param>
 
-    <param name="rice.ksb.registry.jpa.PersistenceXmlLocation">META-INF/ksb-persistence.xml</param>
-    <param name="rice.ksb.registry.jpa.PersistenceUnitName">ksb-registry-unit</param>
+    <param name="rice.ksb.registry.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
+    <param name="rice.ksb.registry.jpa.PersistenceUnitName">ksb-registry-identity-unit</param>
     <param name="rice.ksb.registry.jpa.GenerateDdl">true</param>
 
-    <param name="rice.ksb.message.jpa.PersistenceXmlLocation">META-INF/ksb-persistence.xml</param>
-    <param name="rice.ksb.message.jpa.PersistenceUnitName">ksb-message-unit</param>
+    <param name="rice.ksb.message.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
+    <param name="rice.ksb.message.jpa.PersistenceUnitName">ksb-message-identity-unit</param>
     <param name="rice.ksb.message.jpa.GenerateDdl">true</param>
 
     <!-- these are defaulted to false already, helpful to turn on for debug -->
