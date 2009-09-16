@@ -4,6 +4,7 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class TimeAmount {
+	//TODO Col names
 	private String atpDurationTypeKey;
 	private Integer timeQuantity;
 	public String getAtpDurationTypeKey() {
