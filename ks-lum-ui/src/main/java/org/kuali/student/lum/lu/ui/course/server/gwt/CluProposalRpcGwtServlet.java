@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -404,7 +403,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             //Create and then route the document
             if(simpleDocService==null){
-            	throw new RuntimeException("Workflow Service is unavailable");
+            	return cluProposalDTO;
+            	//throw new RuntimeException("Workflow Service is unavailable");
             }
             String title = cluInfo.getOfficialIdentifier()==null?"NoLongNameSet":cluInfo.getOfficialIdentifier().getLongName();
             title = title==null?"NoLongNameSet":title;
@@ -447,7 +447,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             //Do workclow update of doc content
             if(simpleDocService==null){
-            	throw new RuntimeException("Workflow Service is unavailable");
+            	return cluProposalDTO;
+            	//throw new RuntimeException("Workflow Service is unavailable");
             }
             //get a user name
             String username = getCurrentUser();
