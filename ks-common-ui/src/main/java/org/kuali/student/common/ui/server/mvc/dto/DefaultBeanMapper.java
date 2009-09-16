@@ -122,23 +122,23 @@ public class DefaultBeanMapper implements BeanMapper {
                 
                 for (PropertyDescriptor pd : properties) {
                     String propKey = pd.getName();
-                    if (value.keySet().contains(propKey)) {
-                        PropertyMapping pm = getPropertyMapping(propKey, defaultPropertyMappingInstance);
-                        Object propValue = pm.fromModelDTOValue(value.get(propKey), context);
-                        if(pd.getWriteMethod() != null){
-                            try {
-                                pd.getWriteMethod().invoke(result, new Object[] {propValue});
-                            } catch (Exception e){
-                                throw new BeanMappingException("Unable to map field " + propKey, e);
+                    try {
+                        if (value.keySet().contains(propKey)) {
+                            PropertyMapping pm = getPropertyMapping(propKey, defaultPropertyMappingInstance);
+                            Object propValue = pm.fromModelDTOValue(value.get(propKey), context);
+                            if(pd.getWriteMethod() != null){    
+                                    pd.getWriteMethod().invoke(result, new Object[] {propValue});
                             }
                         }
+                    } catch (Exception e){
+                        throw new BeanMappingException("Unable to map field " + propKey, e);
                     }
                 }
             } catch (Exception e) {
                 if (e instanceof BeanMappingException) {
                     throw (BeanMappingException) e;
                 } else {
-                    throw new BeanMappingException("Unable to map " + value.getClass().getName() + " to ModelDTO", e);
+                    throw new BeanMappingException("Unable to map ModelDTO to " + value.getClassName(), e);
                 }
             }
         }

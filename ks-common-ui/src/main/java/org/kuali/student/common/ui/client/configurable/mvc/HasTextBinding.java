@@ -44,7 +44,9 @@ public class HasTextBinding implements PropertyBinding<HasText>{
                 break;
             case INTEGER:
                 modelValue = new IntegerType();
-                ((IntegerType) modelValue).set(Integer.parseInt(value));
+                if (value != null && value.length() > 0){
+                    ((IntegerType) modelValue).set(Integer.parseInt(value));
+                }
                 break;
             case LONG:
                 modelValue = new LongType();

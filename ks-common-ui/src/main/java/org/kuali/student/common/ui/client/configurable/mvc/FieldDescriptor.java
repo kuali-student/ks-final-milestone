@@ -101,7 +101,8 @@ public class FieldDescriptor {
         if (fieldWidget == null){
             //This could possible do a dictionary lookup to determine widget to use if none specified.
             switch (fieldType){
-                case STRING: fieldWidget = new KSTextBox(); break;                     
+                case STRING: fieldWidget = new KSTextBox(); break;
+                case INTEGER: fieldWidget = new KSTextBox();break;
             }
         }
         return fieldWidget;
