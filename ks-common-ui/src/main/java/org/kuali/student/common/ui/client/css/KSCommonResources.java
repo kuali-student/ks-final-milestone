@@ -103,7 +103,7 @@ public interface KSCommonResources extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/public/CommentTool.css")
     public CssResource commentToolCss();   
     
-    @Resource("org/kuali/student/common/ui/public/SectionTitle.css")
+    @Resource("org/kuali/student/common/ui/public/KSSectionTitle.css")
     public CssResource sectionTitleCss(); 
 
     @Resource("org/kuali/student/common/ui/public/DebugPanel.css")
