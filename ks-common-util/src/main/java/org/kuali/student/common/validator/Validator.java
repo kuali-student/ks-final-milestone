@@ -160,8 +160,8 @@ public class Validator {
                             getElementXpath() + field.getKey() + "/");
               valResults.addError(messages.get("validation.required"));
               results.add(valResults);
+               return results;
             }
-            return results;
         }   
         // added finished
         
@@ -184,6 +184,14 @@ public class Validator {
 					processNestedObjectStructure(results, o, nestedObjStruct,
 							field);
 				}
+// added by Joe
+			} else if(value == null){
+	               ValidationResultContainer valResults = new ValidationResultContainer(
+                           getElementXpath() + field.getKey() + "/");
+             valResults.addError("cannot be null");
+             results.add(valResults);
+        //      return results;
+// added by Joe finished			    
 			}else{
 				processNestedObjectStructure(results, value, nestedObjStruct,
 						field);
@@ -780,7 +788,13 @@ public class Validator {
 
 	private void validateString(Object value, BaseConstraintBean bcb,
 			ValidationResultContainer result) {
-	    String s = (value == null) ? "" : value.toString().trim();
+		if(value == null){
+            result.addError(MessageUtils.interpolate(messages
+                    .get("Empty string")));
+		    return ;
+		}
+	    String s = value.toString().trim();
+
 		if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxLength)
 				&& bcb.minLength > 0) {
 			if (s.length() > Integer.parseInt(bcb.maxLength)
