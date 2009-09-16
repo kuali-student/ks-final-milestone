@@ -60,6 +60,9 @@
     <param name="ks.lum.datasource.username">kslum</param>
     <param name="ks.lum.datasource.password">kslum</param>
     <param name="ks.lum.datasource.validationQuery">values(1)</param>
+    
+    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
+    <param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param> 
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
@@ -68,6 +71,8 @@
 
     <param name="config.location">${user.home}/kuali/main/dev/ks-lum-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param>
+    
+    
     
 </config>
