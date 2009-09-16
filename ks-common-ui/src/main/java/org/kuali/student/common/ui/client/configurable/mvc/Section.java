@@ -29,6 +29,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     protected List<RowDescriptor> rows = new ArrayList<RowDescriptor>();
     
     private RequiredEnum requiredState = RequiredEnum.NOT_MARKED;
+    private FieldLabelType labelType = FieldLabelType.LABEL_TOP;
 
     protected HorizontalBlockFlowPanel generateTitlePanel() {
     	HorizontalBlockFlowPanel titlePanel = new HorizontalBlockFlowPanel();
@@ -111,6 +112,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         fields.add(fieldDescriptor);
 
         RowDescriptor row = new RowDescriptor();
+        row.setCurrentFieldLabelType(this.labelType);
         row.addField(fieldDescriptor);
         rows.add(row);
         
@@ -208,5 +210,15 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
 
     public abstract void clear();
     public abstract void redraw();
+
+    public FieldLabelType getLabelType() {
+        return labelType;
+    }
+
+    public void setLabelType(FieldLabelType labelType) {
+        this.labelType = labelType;
+    }
+    
+    
 
 }
