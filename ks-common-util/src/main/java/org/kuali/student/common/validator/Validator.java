@@ -780,13 +780,7 @@ public class Validator {
 
 	private void validateString(Object value, BaseConstraintBean bcb,
 			ValidationResultContainer result) {
-		if(value == null){
-            result.addError(MessageUtils.interpolate(messages
-                    .get("Empty string")));
-		    return ;
-		}
-	    String s = value.toString().trim();
-
+	    String s = (value == null) ? "" : value.toString().trim();
 		if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxLength)
 				&& bcb.minLength > 0) {
 			if (s.length() > Integer.parseInt(bcb.maxLength)
