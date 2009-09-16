@@ -71,7 +71,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         return ksuser;
         }
 
-        catch(RiceRuntimeException rre){
+        catch(Exception rre){
             //Added to handle the exception in case Rice service is not available. 
             // This is implemented because in developement environment if rice service is not up then 
             // we deflect the authentication to DefaultUserDetailService.
