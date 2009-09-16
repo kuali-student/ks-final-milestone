@@ -312,8 +312,9 @@ public class LuConfigurer {
         //CREDITS
         VerticalSection credits = new VerticalSection();
         credits.setSectionTitle(SectionTitle.generateH3Title("Credits"));
-        credits.addField(new FieldDescriptor("creditType", "Credit Type", Type.STRING));//TODO CREDIT TYPE ENUMERATION
-        credits.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
+        //TODO: These needs to be mapped to learning results
+        credits.addField(new FieldDescriptor("creditType", "Credit Type", Type.STRING));
+        credits.addField(new FieldDescriptor("creditValue", "Credit Value", Type.STRING));
         credits.addField(new FieldDescriptor("maxCredits", "Maximum Credits", Type.STRING));
         
         //LEARNING RESULTS
@@ -323,9 +324,8 @@ public class LuConfigurer {
         
         VerticalSection scheduling = new VerticalSection();
         scheduling.setSectionTitle(SectionTitle.generateH3Title("Scheduling"));
-        scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING)); //TODO TERM ENUMERATION
-        scheduling.addField(new FieldDescriptor("stdDuration", "Duration", Type.STRING)); //TODO DURATION ENUMERATION
-        scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING)); //TODO TERM ENUMERATION
+        scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING, new AtpTypeList()));
+        scheduling.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO DURATION ENUMERATION
         
         //COURSE FORMATS
         VerticalSection courseFormats = new VerticalSection();
@@ -363,14 +363,18 @@ public class LuConfigurer {
             CustomNestedSection activity = new CustomNestedSection();
             activity.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING, new CluActivityType()));
             activity.nextRow();
+
+            /* CreditInfo is deprecated, needs to be replaced with learning results
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("evalType", "Learning Result", Type.STRING));
             activity.nextRow();
+            */
+            
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("term", "Term", Type.STRING));
+            activity.addField(new FieldDescriptor("term", "Term", Type.STRING, new AtpTypeList()));
             activity.addField(new FieldDescriptor("duration", "Activity Duration", Type.STRING)); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -516,6 +520,20 @@ public class LuConfigurer {
             activityTypes.addItem("kuali.lu.type.activity.WebDiscuss", "WebDiscuss");
             
             super.setListItems(activityTypes);
+        }
+    }
+    
+    //FIXME: Is this what should be part of the term field
+    public static class AtpTypeList extends KSDropDown{
+        public AtpTypeList(){
+            SimpleListItems activityTypes = new SimpleListItems();
+            
+            activityTypes.addItem("atpType.semester.fall", "Fall");
+            activityTypes.addItem("atpType.semester.spring", "Spring");
+            activityTypes.addItem("atpType.semester.summer", "Summer");
+            activityTypes.addItem("atpType.semester.winter", "Winter");
+            
+            super.setListItems(activityTypes);            
         }
     }
     
