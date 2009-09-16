@@ -16,29 +16,16 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
-import org.kuali.student.common.ui.client.service.LogRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -138,22 +125,23 @@ public class ViewCluController extends PagedSectionLayout{
     private void loadClu() {
         
         if (id != null) {
-           cluProposalRpcServiceAsync.getProposalModelDTO(id,  new AsyncCallback<CluProposalModelDTO>(){
-            @Override
-            public void onFailure(Throwable caught) {
-                caught.printStackTrace();
-                
-            }
-
-            @Override
-            public void onSuccess(CluProposalModelDTO result) {
-                cluProposalModel.put(result);
-                getCurrentView().beforeShow();
-//                cluProposalModel.update(result);
-//                getCurrentView().updateModel();
-
-            }
-        }); 
+        	//FIXME This method is no longer available
+//           cluProposalRpcServiceAsync.getProposalModelDTO(id,  new AsyncCallback<CluProposalModelDTO>(){
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                caught.printStackTrace();
+//                
+//            }
+//
+//            @Override
+//            public void onSuccess(CluProposalModelDTO result) {
+//                cluProposalModel.put(result);
+//                getCurrentView().beforeShow();
+////                cluProposalModel.update(result);
+////                getCurrentView().updateModel();
+//
+//            }
+//        }); 
            
         }
     }

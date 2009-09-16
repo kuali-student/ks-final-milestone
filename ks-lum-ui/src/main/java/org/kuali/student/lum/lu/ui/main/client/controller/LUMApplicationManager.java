@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -85,17 +86,18 @@ public class LUMApplicationManager extends Controller{
                 return homeMenuView;
             case CREATE_COURSE:
                 if (createCourseView == null){
-                    createCourseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-//                    createCourseView = new DelegatingViewComposite(this, new CluProposalController());
+//                  createCourseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                	createCourseView = new DelegatingViewComposite(this, new CluProposalController());
                 }
                 //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
                 return createCourseView;
             case EDIT_COURSE_PROPOSAL:
-                if (modifyView == null){
-                    modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                if (createCourseView == null){
+//                  createCourseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
+                	createCourseView = new DelegatingViewComposite(this, new CluProposalController());
                 }
-                ((LUCreateUpdateView)modifyView).addLayoutToHistory(history, LUMViews.EDIT_COURSE_PROPOSAL);
-                return modifyView;
+              //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
+              return createCourseView;
 //            case VIEW_COURSE:
 //                if (viewCourseView == null){
 //                    viewCourseView = new DelegatingViewComposite(this, new ViewCluController(null, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED));
@@ -128,6 +130,7 @@ public class LUMApplicationManager extends Controller{
     public void showDefaultView() {
         final String docId=Window.Location.getParameter("docId");
         String backdoorId=Window.Location.getParameter("backdoorId");
+        final LUMApplicationManager thisManager = this;
         if(docId!=null){
             if(backdoorId!=null){
                 cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
@@ -139,19 +142,17 @@ public class LUMApplicationManager extends Controller{
                         if(!result){
                             Window.alert("Error with backdoor login");
                         }
-                        if (modifyView == null){
-                            modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                        if (createCourseView == null){
+                            createCourseView = new DelegatingViewComposite(thisManager, new CluProposalController(docId));
                         }
-                        modifyView.setId(docId);
                         showView(LUMViews.EDIT_COURSE_PROPOSAL);
                     }
                 
                 });
             }else{
-                if (modifyView == null){
-                    modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                if (createCourseView == null){
+                    createCourseView = new DelegatingViewComposite(thisManager, new CluProposalController(docId));
                 }
-                modifyView.setId(docId);
                 this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
             }
         }

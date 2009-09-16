@@ -31,24 +31,22 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("rpcservices/CluProposalRpcService")
 public interface CluProposalRpcService extends BaseRpcService{
-    public CluProposal createProposal(CluProposal cluProposal);
-    public CluProposal startProposalWorkflow(CluProposal cluProposal);
-    public CluProposal saveProposal(CluProposal cluProposal);
-    public CluProposal submitProposal(CluProposal cluProposal);
-    public CluProposal deleteProposal(String id);
-    public CluProposal getProposal(String id);
-    public CluProposal getCluProposalFromWorkflowId(String docId);
-    public String getActionsRequested(CluProposal cluProposal);
+	
+	public Boolean submitProposal(CluProposalModelDTO cluProposalDTO);
+    public String getActionsRequested(CluProposalModelDTO cluProposal);
     public Boolean adhocRequest(String docId, String recipientPrincipalId,String requestType, String annotation);
-    public Boolean approveProposal(CluProposal cluProposal);
-    public Boolean disapproveProposal(CluProposal cluProposal);
-    public Boolean acknowledgeProposal(CluProposal cluProposal);
+    public Boolean approveProposal(CluProposalModelDTO cluProposal);
+    public Boolean disapproveProposal(CluProposalModelDTO cluProposal);
+    public Boolean acknowledgeProposal(CluProposalModelDTO cluProposal);
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy);
     public HashMap<String, ArrayList<String>> getCollaborators(String docId);
     public Boolean loginBackdoor(String backdoorId);
-
-
+    public CluProposalModelDTO getCluProposalFromWorkflowId(String docId);
+	public String getWorkflowIdFromCluId(String cluId);
+    
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO);
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO);
-    public CluProposalModelDTO getProposalModelDTO(String id);
+    public Boolean deleteProposal(String id);
+    public CluProposalModelDTO getProposal(String id);
+        
 }

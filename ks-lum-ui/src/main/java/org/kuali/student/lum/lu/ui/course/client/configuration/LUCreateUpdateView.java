@@ -114,19 +114,20 @@ public class LUCreateUpdateView extends ViewComposite {
                 			if(cluInfo==null||cluInfo.getPrimaryAdminOrg()==null||cluInfo.getPrimaryAdminOrg().getOrgId()==null){
                 				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
                 			}else{
-	                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
-									public void onFailure(
-											Throwable caught) {
-										Window.alert("Error starting Proposal workflow");
-									}
-									public void onSuccess(
-											CluProposal result) {
-										Window.alert("Proposal has been routed to workflow");
-										layout.getObject().setWorkflowId(result.getWorkflowId());
-										layout.removeButton(wfStartWorkflowButton);
-										layout.refresh();
-									}
-								});
+                				//FIXME This method is no longer available
+//	                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
+//									public void onFailure(
+//											Throwable caught) {
+//										Window.alert("Error starting Proposal workflow");
+//									}
+//									public void onSuccess(
+//											CluProposal result) {
+//										Window.alert("Proposal has been routed to workflow");
+//										layout.getObject().setWorkflowId(result.getWorkflowId());
+//										layout.removeButton(wfStartWorkflowButton);
+//										layout.refresh();
+//									}
+//								});
                 			}
                 		}
                 	});
@@ -138,164 +139,171 @@ public class LUCreateUpdateView extends ViewComposite {
                     //FIXME: This should get proposal instead of CluInfo
                 	//Load an existing clu
                 	if(id.length()==36){
-                		cluProposalRpcServiceAsync.getProposal(id, new AsyncCallback<CluProposal>(){
-							public void onFailure(Throwable caught) {
-								//TODO Error msg
-							}
-
-							public void onSuccess(CluProposal cluProposal) {
-			                    layout.setObject(cluProposal);
-			                    layout.render();
-							}	
-                		});
+                		//FIXME This method is no longer available
+//                		cluProposalRpcServiceAsync.getProposal(id, new AsyncCallback<CluProposal>(){
+//							public void onFailure(Throwable caught) {
+//								//TODO Error msg
+//							}
+//
+//							public void onSuccess(CluProposal cluProposal) {
+//			                    layout.setObject(cluProposal);
+//			                    layout.render();
+//							}	
+//                		});
                 	}else{
+                		//FIXME This method is no longer available
                 		//convert from docId to cluid if the id is not 36 chars
-                		cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(id, new AsyncCallback<CluProposal>(){
-							public void onFailure(Throwable caught) {
-								Window.alert("GetCluProposal Failed");
-							}
-
-							public void onSuccess(final CluProposal cluProposal) {
-			                    
-								layout.setObject(cluProposal);
-			                    //Load up workflow action buttons here
-			                    cluProposalRpcServiceAsync.getActionsRequested(cluProposal, new AsyncCallback<String>(){
-									public void onFailure(Throwable caught) {
-										Window.alert("GetActionResquested Failed");
-									}
-									public void onSuccess(String result) {
-										// check for custom KS "S" code for is submit required
-										if(result!=null&&result.contains("S")){
-						                	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
-						                		public void onClick(ClickEvent event) {
-						                			CluInfo cluInfo = layout.getObject().getCluInfo();
-						                			if(cluInfo==null||cluInfo.getPrimaryAdminOrg()==null||cluInfo.getPrimaryAdminOrg().getOrgId()==null){
-						                				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
-						                			}else{
-							                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
-															public void onFailure(
-																	Throwable caught) {
-																Window.alert("Error starting Proposal workflow");
-															}
-															public void onSuccess(
-																	CluProposal result) {
-																Window.alert("Proposal has been routed to workflow");
-																layout.getObject().setWorkflowId(result.getWorkflowId());
-																layout.removeButton(wfStartWorkflowButton);
-																layout.refresh();
-															}
-														});
-						                			}
-						                		}
-						                	});
-						                	layout.addButton(wfStartWorkflowButton);
-										}
-										// if 'completion' is request code use
-//										else if(result!=null&&result.contains("C")){
-//											wfCompleteButton = new KSButton("COMPLETE", new ClickHandler(){
-//												public void onClick(ClickEvent event) {
-//													cluProposalRpcServiceAsync.completeProposal(cluProposal, new AsyncCallback<Boolean>(){
-//														public void onFailure(
-//																Throwable caught) {
-//															Window.alert("Error completing Proposal");
-//														}
-//														public void onSuccess(
-//																Boolean result) {
-//															Window.alert("Proposal was completed");
-//															layout.removeButton(wfCompleteButton);
-//															layout.removeButton(wfDisApproveButton);
-//														}
-//														
-//													});
-//												}        
-//											});
-//											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
-//										        public void onClick(ClickEvent event) {
-//													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
-//														public void onFailure(
-//																Throwable caught) {
-//															Window.alert("Error disapproving Proposal");
-//														}
-//														public void onSuccess(
-//																Boolean result) {
-//															Window.alert("Proposal was disapproved");
-//															layout.removeButton(wfCompleteButton);
-//															layout.removeButton(wfDisApproveButton);
-//														}
-//														
-//													});
-//										        }        
-//										    });
-//							            
-//											layout.addButton(wfCompleteButton);
-//											layout.addButton(wfDisApproveButton);
-//										}
-										// if complete is requested then approve will be by default
-										// ignore approve at this point
-//										else if(result!=null&&result.contains("A")){
-										else if(result!=null&&(result.contains("A")||result.contains("C"))){
-											wfApproveButton = new KSButton("APPROVE", new ClickHandler(){
-												public void onClick(ClickEvent event) {
-													cluProposalRpcServiceAsync.approveProposal(cluProposal, new AsyncCallback<Boolean>(){
-														public void onFailure(
-																Throwable caught) {
-															Window.alert("Error approving Proposal");
-														}
-														public void onSuccess(
-																Boolean result) {
-															Window.alert("Proposal was approved");
-															layout.removeButton(wfApproveButton);
-															layout.removeButton(wfDisApproveButton);
-														}
-														
-													});
-												}        
-											});
-											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
-										        public void onClick(ClickEvent event) {
-													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
-														public void onFailure(
-																Throwable caught) {
-															Window.alert("Error disapproving Proposal");
-														}
-														public void onSuccess(
-																Boolean result) {
-															Window.alert("Proposal was disapproved");
-															layout.removeButton(wfApproveButton);
-															layout.removeButton(wfDisApproveButton);
-														}
-														
-													});
-										        }        
-										    });
-							            
-											layout.addButton(wfApproveButton);
-											layout.addButton(wfDisApproveButton);
-										}
-										if(result!=null&&result.contains("K")){
-											wfAcknowledgeButton= new KSButton("ACKNOWLEDGE", new ClickHandler(){
-										        public void onClick(ClickEvent event) {
-													cluProposalRpcServiceAsync.acknowledgeProposal(cluProposal, new AsyncCallback<Boolean>(){
-														public void onFailure(
-																Throwable caught) {
-															Window.alert("Error acknowledging Proposal");
-														}
-														public void onSuccess(
-																Boolean result) {
-															Window.alert("Proposal was acknowledged");
-															layout.removeButton(wfAcknowledgeButton);
-														}
-														
-													});
-										        }        
-										    });
-											layout.addButton(wfAcknowledgeButton);
-										}
-									}
-			                    });
-			                    layout.render();
-							}	
-                		});
+//                		cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(id, new AsyncCallback<CluProposal>(){
+//							public void onFailure(Throwable caught) {
+//								Window.alert("GetCluProposal Failed");
+//							}
+//
+//							public void onSuccess(final CluProposal cluProposal) {
+//			                    
+//								layout.setObject(cluProposal);
+//			                    //Load up workflow action buttons here
+//								//FIXME This method is no longer available
+////			                    cluProposalRpcServiceAsync.getActionsRequested(cluProposal, new AsyncCallback<String>(){
+////									public void onFailure(Throwable caught) {
+////										Window.alert("GetActionResquested Failed");
+////									}
+////									public void onSuccess(String result) {
+////										// check for custom KS "S" code for is submit required
+////										if(result!=null&&result.contains("S")){
+////						                	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
+////						                		public void onClick(ClickEvent event) {
+////						                			CluInfo cluInfo = layout.getObject().getCluInfo();
+////						                			if(cluInfo==null||cluInfo.getPrimaryAdminOrg()==null||cluInfo.getPrimaryAdminOrg().getOrgId()==null){
+////						                				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
+////						                			}else{
+////						                				//FIXME This method is no longer available
+//////							                			cluProposalRpcServiceAsync.startProposalWorkflow(layout.getObject(), new AsyncCallback<CluProposal>(){
+//////															public void onFailure(
+//////																	Throwable caught) {
+//////																Window.alert("Error starting Proposal workflow");
+//////															}
+//////															public void onSuccess(
+//////																	CluProposal result) {
+//////																Window.alert("Proposal has been routed to workflow");
+//////																layout.getObject().setWorkflowId(result.getWorkflowId());
+//////																layout.removeButton(wfStartWorkflowButton);
+//////																layout.refresh();
+//////															}
+//////														});
+////						                			}
+////						                		}
+////						                	});
+////						                	layout.addButton(wfStartWorkflowButton);
+////										}
+////										// if 'completion' is request code use
+//////										else if(result!=null&&result.contains("C")){
+//////											wfCompleteButton = new KSButton("COMPLETE", new ClickHandler(){
+//////												public void onClick(ClickEvent event) {
+//////													cluProposalRpcServiceAsync.completeProposal(cluProposal, new AsyncCallback<Boolean>(){
+//////														public void onFailure(
+//////																Throwable caught) {
+//////															Window.alert("Error completing Proposal");
+//////														}
+//////														public void onSuccess(
+//////																Boolean result) {
+//////															Window.alert("Proposal was completed");
+//////															layout.removeButton(wfCompleteButton);
+//////															layout.removeButton(wfDisApproveButton);
+//////														}
+//////														
+//////													});
+//////												}        
+//////											});
+//////											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
+//////										        public void onClick(ClickEvent event) {
+//////													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
+//////														public void onFailure(
+//////																Throwable caught) {
+//////															Window.alert("Error disapproving Proposal");
+//////														}
+//////														public void onSuccess(
+//////																Boolean result) {
+//////															Window.alert("Proposal was disapproved");
+//////															layout.removeButton(wfCompleteButton);
+//////															layout.removeButton(wfDisApproveButton);
+//////														}
+//////														
+//////													});
+//////										        }        
+//////										    });
+//////							            
+//////											layout.addButton(wfCompleteButton);
+//////											layout.addButton(wfDisApproveButton);
+//////										}
+////										// if complete is requested then approve will be by default
+////										// ignore approve at this point
+//////										else if(result!=null&&result.contains("A")){
+////										else if(result!=null&&(result.contains("A")||result.contains("C"))){
+////											wfApproveButton = new KSButton("APPROVE", new ClickHandler(){
+////												public void onClick(ClickEvent event) {
+////													//FIXME This method is no longer available
+//////													cluProposalRpcServiceAsync.approveProposal(cluProposal, new AsyncCallback<Boolean>(){
+//////														public void onFailure(
+//////																Throwable caught) {
+//////															Window.alert("Error approving Proposal");
+//////														}
+//////														public void onSuccess(
+//////																Boolean result) {
+//////															Window.alert("Proposal was approved");
+//////															layout.removeButton(wfApproveButton);
+//////															layout.removeButton(wfDisApproveButton);
+//////														}
+//////														
+//////													});
+////												}        
+////											});
+////											wfDisApproveButton = new KSButton("DISAPPROVE", new ClickHandler(){
+////										        public void onClick(ClickEvent event) {
+////										        	//FIXME This method is no longer available
+//////													cluProposalRpcServiceAsync.disapproveProposal(cluProposal, new AsyncCallback<Boolean>(){
+//////														public void onFailure(
+//////																Throwable caught) {
+//////															Window.alert("Error disapproving Proposal");
+//////														}
+//////														public void onSuccess(
+//////																Boolean result) {
+//////															Window.alert("Proposal was disapproved");
+//////															layout.removeButton(wfApproveButton);
+//////															layout.removeButton(wfDisApproveButton);
+//////														}
+//////														
+//////													});
+////										        }        
+////										    });
+////							            
+////											layout.addButton(wfApproveButton);
+////											layout.addButton(wfDisApproveButton);
+////										}
+////										if(result!=null&&result.contains("K")){
+////											wfAcknowledgeButton= new KSButton("ACKNOWLEDGE", new ClickHandler(){
+////										        public void onClick(ClickEvent event) {
+////										        	//FIXME This method is no longer available
+//////													cluProposalRpcServiceAsync.acknowledgeProposal(cluProposal, new AsyncCallback<Boolean>(){
+//////														public void onFailure(
+//////																Throwable caught) {
+//////															Window.alert("Error acknowledging Proposal");
+//////														}
+//////														public void onSuccess(
+//////																Boolean result) {
+//////															Window.alert("Proposal was acknowledged");
+//////															layout.removeButton(wfAcknowledgeButton);
+//////														}
+//////														
+//////													});
+////										        }        
+////										    });
+////											layout.addButton(wfAcknowledgeButton);
+////										}
+////									}
+////			                    });
+//			                    layout.render();
+//							}	
+//                		});
                 	}
                 }
 

@@ -47,8 +47,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class CluProposalController extends PagedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
     private Model<ProposalInfoModelDTO> proposalInfoModel;
-    
-    CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+	private String docId = null;
+	
+    public CluProposalController(String docId) {
+		this();
+		this.docId = docId;
+	}
+
+	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     private boolean savedOnce=false;
     
     private KSButton saveButton = new KSButton("Save", new ClickHandler(){
@@ -65,43 +71,45 @@ public class CluProposalController extends PagedSectionLayout{
     
     private KSButton testButton = new KSButton("Get Proposal Info", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
-                    new AsyncCallback<CluProposalModelDTO>(){
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-                    
-                }
-
-                @Override
-                public void onSuccess(CluProposalModelDTO result) {
-                    
-                    Window.alert(result.toString());
-                }
-                
-            });
+        	//FIXME This method is no longer available
+//            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
+//                    new AsyncCallback<CluProposalModelDTO>(){
+//
+//                @Override
+//                public void onFailure(Throwable caught) {
+//                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+//                    
+//                }
+//
+//                @Override
+//                public void onSuccess(CluProposalModelDTO result) {
+//                    
+//                    Window.alert(result.toString());
+//                }
+//                
+//            });
         }       
     });
     
     private KSButton testButton2 = new KSButton("Get & Set", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
-                    new AsyncCallback<CluProposalModelDTO>(){
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-                    
-                }
-
-                @Override
-                public void onSuccess(CluProposalModelDTO result) {
-                    cluProposalModel.put(result);
-                    getCurrentView().beforeShow();
-                }
-                
-            });
+        	//FIXME This method is no longer available
+//            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
+//                    new AsyncCallback<CluProposalModelDTO>(){
+//
+//                @Override
+//                public void onFailure(Throwable caught) {
+//                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+//                    
+//                }
+//
+//                @Override
+//                public void onSuccess(CluProposalModelDTO result) {
+//                    cluProposalModel.put(result);
+//                    getCurrentView().beforeShow();
+//                }
+//                
+//            });
         }       
     });
 
@@ -145,19 +153,51 @@ public class CluProposalController extends PagedSectionLayout{
 
     @SuppressWarnings("unchecked")
     @Override
-    public void requestModel(Class modelType, ModelRequestCallback callback) {
+    public void requestModel(Class modelType, final ModelRequestCallback callback) {
         if (modelType == CluProposalModelDTO.class){
             if (cluProposalModel == null){
-                cluProposalModel = new Model<CluProposalModelDTO>();
-                cluProposalModel.put(new CluProposalModelDTO());
-                StringType type = new StringType();
-                type.set("kuali.lu.type.CreditCourse");
-                cluProposalModel.get().put("type", type);
+            	if(docId!=null){
+            		cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(docId, new AsyncCallback<CluProposalModelDTO>(){
+
+            			@Override
+						public void onFailure(Throwable caught) {
+            				Window.alert("error loading Clu: "+docId);
+                    		cluProposalModel = new Model<CluProposalModelDTO>();
+                        	
+        	                cluProposalModel.put(new CluProposalModelDTO());
+        	                StringType type = new StringType();
+        	                type.set("kuali.lu.type.CreditCourse");
+        	                cluProposalModel.get().put("type", type);
+        	                
+        	                StringType state = new StringType();
+        	                state.set("draft");
+        	                cluProposalModel.get().put("state", state);
+        	                callback.onModelReady(cluProposalModel);
+						}
+
+						@Override
+						public void onSuccess(CluProposalModelDTO result) {
+		            		cluProposalModel = new Model<CluProposalModelDTO>();
+		                	cluProposalModel.put(result);
+							callback.onModelReady(cluProposalModel);
+						}
+            			
+            		});
+            		
+            	}else{
+            		cluProposalModel = new Model<CluProposalModelDTO>();
+            	
+	                cluProposalModel.put(new CluProposalModelDTO());
+	                StringType type = new StringType();
+	                type.set("kuali.lu.type.CreditCourse");
+	                cluProposalModel.get().put("type", type);
+	                
+	                StringType state = new StringType();
+	                state.set("draft");
+	                cluProposalModel.get().put("state", state);
+	                callback.onModelReady(cluProposalModel);
+            	}
                 
-                StringType state = new StringType();
-                state.set("draft");
-                cluProposalModel.get().put("state", state);
-                callback.onModelReady(cluProposalModel);
             } else {
                 callback.onModelReady(cluProposalModel); 
             }

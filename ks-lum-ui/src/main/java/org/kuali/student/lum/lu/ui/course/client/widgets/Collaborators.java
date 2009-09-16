@@ -3,6 +3,12 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
+import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -12,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
@@ -33,6 +40,8 @@ public class Collaborators extends Composite implements HasWorkflowId{
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
 
+	Model<CluProposalModelDTO> cluProposalWorkflowModel=null;
+    
 //    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
     private static final String urlParams = "?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
     private String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do" + urlParams;
@@ -60,8 +69,10 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	private VerticalPanel viewersUserIds = new VerticalPanel();
 	private VerticalPanel delegatesUserIds = new VerticalPanel();
 
-
+    final KRUserSearchIFrame userSearch = new KRUserSearchIFrame();
+	
 	public Collaborators(){
+		super();
 	    init();
     }
     private void init(){
@@ -69,13 +80,16 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
             @Override
             public void onFailure(Throwable caught) { //ignoring, we'll use the default
+            	userSearch.setUrl(ricePersonLookupUrl);
             }
 
             @Override
             public void onSuccess(String result) {
                 GWT.log("ServerProperties fetched for ks.rice.personLookup.serviceAddress: "+result, null);
-                if(result != null)
+                if(result != null){
                     ricePersonLookupUrl = result + urlParams;
+                }
+            	userSearch.setUrl(ricePersonLookupUrl);
             }
 
         });
@@ -106,7 +120,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
         participationField.setListItems(participationListItems);
 
         //Setup the person search in an IFrame
-        final KRUserSearchIFrame userSearch = new KRUserSearchIFrame(ricePersonLookupUrl);
+
         userSearch.addSelectionHandler(new SelectionHandler<String>(){
 			public void onSelection(SelectionEvent<String> event) {
 				userIdField.setValue(event.getSelectedItem());
@@ -204,9 +218,66 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	delegatesLabel.setText("Delegates (0)");
 
         collaboratorPanel.add(currentCollaborators);
+        
+        collaboratorPanel.add(new WorkflowButtonsWidget());
     }
 
 
+	/* (non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Widget#onLoad()
+	 */
+	@Override
+	protected void onLoad() {
+
+		super.onLoad();
+		
+		if(null==cluProposalWorkflowModel){
+			
+			//Get the Model from the controller and register a model change handler when the workflow model is updated
+			Controller.findController(this).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>(){
+			
+				@Override
+				public void onModelReady(Model<CluProposalModelDTO> model) {
+					
+					//After we get the model update immediately
+					cluProposalWorkflowModel = model;
+					updateWorkflowId(cluProposalWorkflowModel.get());
+					
+					//Add a change listener for when the model changes
+					model.addModelChangeHandler(new ModelChangeHandler<CluProposalModelDTO>(){
+						@Override
+						public void onModelChange(ModelChangeEvent<CluProposalModelDTO> event) {
+							updateWorkflowId(event.getValue());
+						}
+					});
+				}
+	
+				@Override
+				public void onRequestFail(Throwable cause) {
+					Window.alert("Model Request Failed. "+cause.getMessage());
+				}
+			});
+		}else{
+			updateWorkflowId(cluProposalWorkflowModel.get());
+		}
+	}
+    
+	private void updateWorkflowId(CluProposalModelDTO model){
+		StringType cluIdType = (StringType)model.get("id");
+		String cluId = null==cluIdType?"":cluIdType.get();
+
+		cluProposalRpcServiceAsync.getWorkflowIdFromCluId(cluId, new AsyncCallback<String>(){
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				workflowId=result;
+			}
+		});
+	}
+	
     public void refreshCollaboratorList(){
     	if(workflowId!=null){
 	        cluProposalRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<HashMap<String,ArrayList<String>>>(){

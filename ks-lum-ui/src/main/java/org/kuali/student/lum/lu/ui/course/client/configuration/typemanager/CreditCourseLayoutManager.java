@@ -80,19 +80,20 @@ public class CreditCourseLayoutManager {
         layout.addSaveSectionHandler(new SaveHandler(){
             public void onSave(SaveEvent saveEvent) {
                 CluProposal cluProposal = (CluProposal)layout.getObject();
-                cluProposalRpcServiceAsync.saveProposal(cluProposal, new AsyncCallback<CluProposal>(){
-                    
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        //TODO: How to display error and prevent continue                        
-                    }
-
-                    @Override
-                    public void onSuccess(CluProposal result) {
-                        layout.setObject(result);
-                        layout.refresh();
-                    }                   
-                });
+              //FIXME This method is no longer available
+//                cluProposalRpcServiceAsync.saveProposal(cluProposal, new AsyncCallback<CluProposal>(){
+//                    
+//                    @Override
+//                    public void onFailure(Throwable caught) {
+//                        //TODO: How to display error and prevent continue                        
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(CluProposal result) {
+//                        layout.setObject(result);
+//                        layout.refresh();
+//                    }                   
+//                });
                 
             }            
         });
@@ -135,20 +136,21 @@ public class CreditCourseLayoutManager {
                 CluProposal cluProposal = (CluProposal)startCluProposalSection.getParentLayout().getObject();
                 cluProposal.setProposalInfo(new ProposalInfo());
                 if (saveEvent.getSaveType() == SaveTypes.CREATE){
-                    cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
-    
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            //TODO: How to display error and prevent continue                        
-                        }
-    
-                        @Override
-                        public void onSuccess(CluProposal result) {
-                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
-                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setWorkflowId(result.getWorkflowId());
-                            layout.refresh();
-                        }                   
-                    });
+                	//FIXME This method is no longer available
+//                    cluProposalRpcServiceAsync.createProposal(cluProposal, new AsyncCallback<CluProposal>(){
+//    
+//                        @Override
+//                        public void onFailure(Throwable caught) {
+//                            //TODO: How to display error and prevent continue                        
+//                        }
+//    
+//                        @Override
+//                        public void onSuccess(CluProposal result) {
+//                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setCluInfo(result.getCluInfo());
+//                            ((CluProposal)startCluProposalSection.getParentLayout().getObject()).setWorkflowId(result.getWorkflowId());
+//                            layout.refresh();
+//                        }                   
+//                    });
                 } else if (saveEvent.getSaveType() == SaveTypes.WF_CREATE){
 //                    cluProposalRpcServiceAsync.createAndRouteProposal(cluProposal, new AsyncCallback<CluProposal>(){
 //                        
