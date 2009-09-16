@@ -485,7 +485,8 @@ public class Validator {
 
 		// TODO: Allow different processing based on the label
 		if ("regex".equalsIgnoreCase(processorType)) {
-			if (!Pattern.matches(validChars, fieldValue.toString())) {
+			//if (!Pattern.matches(validChars, fieldValue.toString())) {
+		    if (!fieldValue.toString().matches(validChars)) {
 				valResults
 						.addError(messages.get("validation.validCharsFailed"));
 			}
