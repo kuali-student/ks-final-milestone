@@ -215,7 +215,13 @@ public class CluProposalController extends PagedSectionLayout{
         		//ref.setReferenceId(((StringType) cluProposalModel.get().get("id")).get());
         		//ref.setReferenceKey(((StringType) cluProposalModel.get().get("type")).get());
         		//FIXME: test code
-        		ref.setReferenceId("testId");
+        		if(cluProposalModel.get().get("id") != null){
+            		ref.setReferenceId(((StringType)cluProposalModel.get().get("id")).get());
+        		}
+        		else{
+        			ref.setReferenceId(null);
+        		}
+        		
         		ref.setReferenceTypeKey("referenceType.clu");
         		ref.setReferenceType("kuali.lu.type.CreditCourse");
         		ref.setReferenceState("draft");
