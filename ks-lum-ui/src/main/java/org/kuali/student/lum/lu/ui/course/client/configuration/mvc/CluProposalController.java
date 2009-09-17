@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
@@ -134,7 +135,14 @@ public class CluProposalController extends PagedSectionLayout{
                if(list == null || list.size() == 0 ){
                    return;
                }
-               String ele = list.get(0).getElement();
+               String ele = "";
+               for(ValidationResultContainer vc: list){
+                   ele += vc.getDataType()+" "+vc.getElement()+"\n";    
+                   List<ValidationResultInfo> vrList = vc.getValidationResults();
+                   for(ValidationResultInfo vr: vrList){
+                       ele += vr.getMessage()+"\n";
+                   }
+               }
                Window.alert("Error:"+ele);
             }
         });
