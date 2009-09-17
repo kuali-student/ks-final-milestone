@@ -243,7 +243,10 @@ public class LuConfigurer {
         
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
-        section.addField(new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING));        
+        FieldDescriptor fd = new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING);
+        Callback<Boolean> callback =  getSubjectValidationCallback(fd);
+        fd.setValidationCallBack(callback);
+        section.addField(fd);        
         section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Transcript Title", Type.STRING));        
         section.addField(new FieldDescriptor("desc", "Course Description", Type.MODELDTO, new KSRichEditor()));        
         section.addField(new FieldDescriptor("marketingDesc", "Marketing Description", Type.MODELDTO, new KSRichEditor()));
@@ -251,6 +254,33 @@ public class LuConfigurer {
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY)}, section);               
     }
     
+    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD){
+        return new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+                // Widget w = subjectFD.getFieldWidget();
+                // TextBox textBox = (TextBox) w;
+
+                ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+                final Validator val = new Validator(bc, true);
+                final ValidateResultEvent e = new ValidateResultEvent();
+
+                Controller.findController(subjectFD.getFieldWidget()).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<ModelDTO>() {
+                    public void onModelReady(Model<ModelDTO> m) {
+                        String key = m.get().getClassName();
+                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
+                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
+                        e.setValidationResult(results);// filled by calling the real validate code
+                        Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
+                    }
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert("Failed to get model");
+                    }
+                });
+            }
+        };        
+    }
     public static class CrossListedList extends MultiplicityComposite{
 
         @Override
@@ -270,7 +300,7 @@ public class LuConfigurer {
         }
         
     }
-    
+
     public static class OfferedJointlyList extends MultiplicityComposite{
 
         @Override
@@ -389,34 +419,7 @@ public class LuConfigurer {
         }
 
     }
-    
-    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD){
-        return new Callback<Boolean>() {
-            @Override
-            public void exec(Boolean result) {
-                // Widget w = subjectFD.getFieldWidget();
-                // TextBox textBox = (TextBox) w;
 
-                ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
-                final Validator val = new Validator(bc, true);
-                final ValidateResultEvent e = new ValidateResultEvent();
-
-                Controller.findController(subjectFD.getFieldWidget()).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<ModelDTO>() {
-                    public void onModelReady(Model<ModelDTO> m) {
-                        String key = m.get().getClassName();
-                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
-                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
-                        e.setValidationResult(results);// filled by calling the real validate code
-                        Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
-                    }
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to get model");
-                    }
-                });
-            }
-        };        
-    }
     // TODO look up field label and type from dictionary & messages
  
 //    private static Type translateDictType(String dictType) {
