@@ -44,13 +44,19 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		
 		String orgId = qualification.get("orgId");
+		String org = qualification.get("org");
+		
+		//Put the org name into the attribute set
+		AttributeSet attributes = new AttributeSet();
+		attributes.put("Qualifier", org);
+
 		try {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
 			if(includedOrgPersonRelationTypes!=null){
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
 					List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
 					for(String principalId:principalIds){
-						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null);
+						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, attributes);
 						members.add(member);
 					}
 				}
@@ -59,7 +65,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 				List<OrgPersonRelationInfo> relations = orgService.getAllOrgPersonRelationsByOrg(orgId);
 				for(OrgPersonRelationInfo relation:relations){
 					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
-						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, null);
+						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
 						members.add(member);
 					}
 				}
