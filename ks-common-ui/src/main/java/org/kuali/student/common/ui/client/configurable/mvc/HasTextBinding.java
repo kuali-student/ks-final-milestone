@@ -93,7 +93,10 @@ public class HasTextBinding implements PropertyBinding<HasText>{
                 object.setText(((CharacterType)value).get().toString());
             }
             else if(value instanceof IntegerType){
-                object.setText(((IntegerType)value).get().toString());
+                Integer intValue = ((IntegerType)value).get();
+                if (intValue != null){
+                    object.setText(intValue.toString());
+                }
             }
             else if(value instanceof LongType){
                 object.setText(((LongType)value).get().toString());
