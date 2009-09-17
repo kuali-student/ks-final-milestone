@@ -32,11 +32,11 @@ public class ValidatorTest {
     	ConstraintMockPerson p = buildTestPerson1();
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, buildObjectStructure1());    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getElement(), "/personInfo[id='P1']/firstName/");
     	assertEquals(results.get(1).getElement(), "/personInfo[id='P1']/dob/");
-    	assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
+    	//assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
 	}
 	
     @Test     
@@ -49,7 +49,7 @@ public class ValidatorTest {
     	val.addMessages(buildMessageStore());
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( buildTestPerson1(), buildObjectStructure1());    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(1).getValidationResults().get(0).getMessage(), "validation.required");
@@ -69,7 +69,7 @@ public class ValidatorTest {
     	p.setFirstName("thisisaveryveryverylo");
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, buildObjectStructure1());    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.lengthOutOfRange");
@@ -91,7 +91,7 @@ public class ValidatorTest {
     	o1.getType().get(0).getState().get(0).getField().get(0).getConstraintDescriptor().getConstraint().get(0).setMaxLength(null);
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.minLengthFailed");
@@ -112,7 +112,7 @@ public class ValidatorTest {
     	ObjectStructure o1 = buildObjectStructure1();
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(1).getValidationResults().get(0).getMessage(), "validation.minValueFailed");    	
@@ -134,7 +134,7 @@ public class ValidatorTest {
     	o1.getType().get(0).getState().get(0).getField().get(0).getConstraintDescriptor().getConstraint().get(0).setMinLength(0);
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.maxLengthFailed");
@@ -155,7 +155,7 @@ public class ValidatorTest {
     	ObjectStructure o1 = buildObjectStructure1();
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
-    	assertEquals(results.size(), 3);
+    	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.validCharsFailed");
@@ -196,14 +196,14 @@ public class ValidatorTest {
     	ObjectStructure o = buildObjectStructure2();
     	
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o);    
-    	assertEquals(results.size(), 5);
+    	assertEquals(results.size(), 4);
+
+    	assertEquals(results.get(2).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(2).getValidationResults().get(0).getMessage(), "validation.required");
 
     	assertEquals(results.get(3).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(3).getValidationResults().get(0).getMessage(), "validation.required");
-
-    	assertEquals(results.get(4).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(4).getValidationResults().get(0).getMessage(), "validation.requiresField");
-    	assertEquals(results.get(4).getValidationResults().get(1).getMessage(), "validation.validCharsFailed");    	
+    	assertEquals(results.get(3).getValidationResults().get(0).getMessage(), "validation.requiresField");
+    	assertEquals(results.get(3).getValidationResults().get(1).getMessage(), "validation.validCharsFailed");    	
     }
     
     
