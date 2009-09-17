@@ -401,11 +401,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //get a user name
             String username=getCurrentUser();
 
-            //Create and then route the document
-            if(simpleDocService==null){
-            	return cluProposalDTO;
-            	//throw new RuntimeException("Workflow Service is unavailable");
-            }
             String title = cluInfo.getOfficialIdentifier()==null?"NoLongNameSet":cluInfo.getOfficialIdentifier().getLongName();
             title = title==null?"NoLongNameSet":title;
             
@@ -423,7 +418,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             }
         }
         catch(Exception e){
-            e.printStackTrace();
+            if (!e.getMessage().contains("No remote services available")){
+                e.printStackTrace();
+                throw new RuntimeException("Error saving Proposal. ",e);
+            }
         }
 
         return cluProposalDTO;
@@ -445,11 +443,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             cluProposalDTO = new CluProposalModelDTO();
             cluProposalDTO.copyFrom(cluModelDTO);
             
-            //Do workclow update of doc content
-            if(simpleDocService==null){
-            	return cluProposalDTO;
-            	//throw new RuntimeException("Workflow Service is unavailable");
-            }
             //get a user name
             String username = getCurrentUser();
             
@@ -480,7 +473,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
         }
         catch(Exception e){
-            throw new RuntimeException("Error saving Proposal. ",e);
+            if (!e.getMessage().contains("No remote services available")){
+                throw new RuntimeException("Error saving Proposal. ",e);
+            }
         }
 
         return cluProposalDTO;
