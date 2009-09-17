@@ -33,16 +33,16 @@
 					</modules>
 				</configuration>
 			</plugin>
-			<!-- <plugin>
+			<plugin>
 		        <groupId>org.codehaus.mojo</groupId>
         		<artifactId>tomcat-maven-plugin</artifactId>
 		        <configuration>
 		        	<server>ks-core-web</server>
 		        	<port>8181</port>
 		        </configuration>
-		    </plugin> -->
+		    </plugin>
 
-    		<plugin>
+    		<!-- <plugin>
 		        <groupId>org.codehaus.mojo</groupId>
         		<artifactId>tomcat-maven-plugin</artifactId>
         		<version>1.0-beta-1-patched</version>
@@ -60,7 +60,7 @@
 						</goals>
 					</execution>
 				</executions>
-		    </plugin>
+		    </plugin>-->
 		    <plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -68,7 +68,7 @@
 						<exclude>**/student/core/web/**</exclude>
 					</excludes>
 				</configuration>
-				<executions>
+				<!-- <executions>
 					<execution>
 						<id>integration-test</id>
 						<phase>integration-test</phase>
@@ -85,7 +85,7 @@
 							</includes>
 						</configuration>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 		</plugins>
 	</build>
