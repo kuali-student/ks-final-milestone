@@ -33,6 +33,7 @@ public class ModelDTO implements Serializable {
 	
 	private String className;
 	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
+	protected Map<String, String> applicationStateMap = new HashMap<String, String>();
 	protected Map<String, ModelDTOValue.ListType> relations = new HashMap<String, ModelDTOValue.ListType>();
 	
 	private transient ModelDTOAdapter adapter = null;
@@ -125,6 +126,26 @@ public class ModelDTO implements Serializable {
 		else{
 			return map.get(key);
 		}
+	}
+
+	/**
+	 * Gets the application state by key.
+	 * 
+	 * @param key Application state key
+	 * @return
+	 */
+	public String getApplicationState(String key) {
+		return applicationStateMap.get(key);
+	}
+
+	/**
+	 * Adds the application state.
+	 * 
+	 * @param key Application state key
+	 * @param value Application state value
+	 */
+	public void putApplicationState(String key, String value) {
+		this.applicationStateMap.put(key, value);
 	}
 	
 	/**

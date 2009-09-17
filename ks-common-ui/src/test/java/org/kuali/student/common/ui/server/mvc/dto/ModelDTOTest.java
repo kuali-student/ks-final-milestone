@@ -587,5 +587,13 @@ public class ModelDTOTest {
 
         return result;
     }
+    
+    @Test
+    public void testGetApplicationState() throws Exception {
+        ModelDTO modelDTO = new ModelDTO();
+        modelDTO.putApplicationState("key1", "value1");
+
+        assertEquals("value1", modelDTO.getApplicationState("key1"));
+    }
 
 }
