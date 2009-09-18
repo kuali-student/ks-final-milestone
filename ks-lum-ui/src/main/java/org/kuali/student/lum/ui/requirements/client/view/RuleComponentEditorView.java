@@ -170,22 +170,22 @@ public class RuleComponentEditorView extends ViewComposite {
         tempPanelButtons.add(horizSpacer);
         tempPanelButtons.add(btnCancelView);
         addEditRuleView.add(tempPanelButtons);
- 
-        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
-        KSSuggestBox sb = new KSSuggestBox(oracle);
-        oracle.setTextWidget(sb.getTextBox());
-        
-        // here
-        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
-        
-        KSSuggestBoxWAdvSearch advSearchSuggest = new KSSuggestBoxWAdvSearch(sb, searchWindow);
-        List<String> resultKeys = new ArrayList<String>();
-        resultKeys.add("org.resultColumn.orgShortName");
-        resultKeys.add("org.resultColumn.orgLongName");
-        resultKeys.add("org.resultColumn.orgType");
-        resultKeys.add("org.resultColumn.orgHierarchyName");
-        KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, orgRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
-        addEditRuleView.add(picker);
+
+//        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
+//        KSSuggestBox sb = new KSSuggestBox(oracle);
+//        oracle.setTextWidget(sb.getTextBox());
+//        
+//        // here
+//        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
+//        
+//        KSSuggestBoxWAdvSearch advSearchSuggest = new KSSuggestBoxWAdvSearch(sb, searchWindow);
+//        List<String> resultKeys = new ArrayList<String>();
+//        resultKeys.add("org.resultColumn.orgShortName");
+//        resultKeys.add("org.resultColumn.orgLongName");
+//        resultKeys.add("org.resultColumn.orgType");
+//        resultKeys.add("org.resultColumn.orgHierarchyName");
+//        KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, orgRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
+//        addEditRuleView.add(picker);
         
         HorizontalPanel bodyPanel = new HorizontalPanel(); 
         bodyPanel.add(ruleTypesPanel);
