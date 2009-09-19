@@ -37,6 +37,10 @@ public class KeyValuePair {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public String getKey() {
 		return key;
 	}
@@ -51,13 +55,5 @@ public class KeyValuePair {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 }

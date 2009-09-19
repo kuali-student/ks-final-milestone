@@ -1,8 +1,6 @@
 package org.kuali.student.common.ui.server.applicationstate.entity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -59,10 +57,6 @@ public class ApplicationState {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	
 	public String getApplicationId() {
 		return applicationId;
 	}
@@ -101,17 +95,5 @@ public class ApplicationState {
 
 	public void setKeyValueList(List<KeyValuePair> keyValueList) {
 		this.keyValueList = keyValueList;
-	}
-
-	private Map<String, String> getMap(List<KeyValuePair> list) {
-		Map<String, String> map = new HashMap<String, String>();
-		for(KeyValuePair pair : list) {
-			map.put(pair.getKey(), pair.getValue());
-		}
-		return map;
-	}
-
-	public Map<String, String> getApplicationStateMap() {
-		return getMap(getKeyValueList());
 	}
 }

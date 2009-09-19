@@ -1,8 +1,8 @@
 package org.kuali.student.common.ui.server.applicationstate.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -11,10 +11,13 @@ import javax.persistence.Query;
 
 import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateDao;
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
-import org.kuali.student.common.ui.server.applicationstate.entity.KeyValuePair;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 
+/**
+ * This data access class stores the GUI (page, section, widget, etc.) 
+ * application states as key value pairs in a database.
+ */
 public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl implements ApplicationStateDao {
 
 	private final static String DEFAULT_USER_ID = "APPLICATION";
@@ -25,7 +28,17 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 		super.setEm(em);
 	}
 
-	@Override
+	/**
+	 * Gets a list of application states by 
+	 * <code>applicationId</code>, <code>referenceKey</code>,  
+	 * <code>referenceType</code> and <code>userId</code>.
+	 * 
+	 * @param applicationId Application id
+	 * @param referenceKey Reference key
+	 * @param referenceType Reference type
+	 * @param userId User id
+	 * @return An application state
+	 */
 	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType, String userId) {
 		Query query = em.createNamedQuery("ApplicationState.getApplicationStateByAppRefUserId");
 		query.setParameter("applicationId", applicationId);
@@ -37,7 +50,16 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 		return appState;
 	}
 
-	@Override
+	/**
+	 * Gets a list of application states by 
+	 * <code>applicationId</code>, <code>referenceKey</code> and 
+	 * <code>referenceType</code>.
+	 * 
+	 * @param applicationId Application id
+	 * @param referenceKey Reference key
+	 * @param referenceType Reference type
+	 * @return A list of application states
+	 */
 	public List<ApplicationState> getApplicationState(String applicationId, String referenceKey, String referenceType) {
 		Query query = em.createNamedQuery("ApplicationState.getApplicationState");
 		query.setParameter("applicationId", applicationId);
@@ -49,6 +71,12 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 		return appStateList;
 	}
 
+	/**
+	 * Gets a list of application states by <code>applicationId</code>.
+	 * 
+	 * @param applicationId
+	 * @return A list of application states
+	 */
 	public List<ApplicationState> getApplicationState(String applicationId) {
 		Query query = em.createNamedQuery("ApplicationState.getApplicationStateByAppId");
 		query.setParameter("applicationId", applicationId);
@@ -57,7 +85,15 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 		List<ApplicationState> appStateList = (List<ApplicationState>) query.getResultList();
 		return appStateList;
 	}
-	
+
+	/**
+	 * Gets a list of application states by 
+	 * <code>applicationId</code> and <code>userId</code>.
+	 * 
+	 * @param applicationId Application id
+	 * @param userId User id
+	 * @return A list of application states
+	 */
 	public List<ApplicationState> getApplicationState(String applicationId, String userId) {
 		Query query = em.createNamedQuery("ApplicationState.getApplicationStateByAppUserId");
 		query.setParameter("applicationId", applicationId);
@@ -67,45 +103,41 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 		List<ApplicationState> appStateList = (List<ApplicationState>) query.getResultList();
 		return appStateList;
 	}
-	
-	private List<KeyValuePair> getList(Map<String, String> applicationStateMap) {
-		List<KeyValuePair> keyValueList = new ArrayList<KeyValuePair>();
-		for(Map.Entry<String, String> entry : applicationStateMap.entrySet()) {
-			KeyValuePair pair = new KeyValuePair();
-			pair.setKey(entry.getKey());
-			pair.setValue(entry.getValue());
-			keyValueList.add(pair);
-		}
-		return keyValueList;
-	}
-	
-	@Override
-	public ApplicationState createApplicationState(String applicationId, String referenceKey, String referenceType, Map<String, String> applicationStateMap) throws AlreadyExistsException {
-		return createApplicationState(applicationId, referenceKey, referenceType, DEFAULT_USER_ID, applicationStateMap);
-	}
 
-	@Override
-	public ApplicationState createApplicationState(String applicationId, String referenceKey, String referenceType, String userId,
-			Map<String, String> applicationStateMap) throws AlreadyExistsException {
-
-		ApplicationState appState = new ApplicationState();
-		appState.setApplicationId(applicationId);
-		appState.setReferenceKey(referenceKey);
-		appState.setReferenceType(referenceType);
-		appState.setUserId(userId);
-		List<KeyValuePair> keyValueList = getList(applicationStateMap);
-		appState.setKeyValueList(keyValueList);
-		
-		return createApplicationState(appState);
-	}
-
+	/**
+	 * Creates and returns an application state.
+	 * 
+	 * @param appState Application state
+	 * @return A new application state
+	 * @throws AlreadyExistsException
+	 */
 	public ApplicationState createApplicationState(ApplicationState appState) throws AlreadyExistsException {
+		if(appState.getUserId() == null) {
+			appState.setUserId(DEFAULT_USER_ID);
+		}
+
 		try {
 			getApplicationState(appState.getApplicationId(), appState.getReferenceKey(), appState.getReferenceType(), appState.getUserId());
 		} catch(NoResultException e) {
 			return super.create(appState);
 		}
 		throw new AlreadyExistsException("Application state already exists");
+	}
+
+	/**
+	 * Creates a collection of application states and returns their ids.
+	 * 
+	 * @param appStateList collection of application states
+	 * @return A list of newly created application state ids
+	 * @throws AlreadyExistsException
+	 */
+	public List<String> createApplicationState(Collection<ApplicationState> appStates) throws AlreadyExistsException {
+		List<String> newAppStateList = new ArrayList<String>();
+		for(ApplicationState appState : appStates) {
+			ApplicationState newAppState = createApplicationState(appState);
+			newAppStateList.add(newAppState.getId());
+		}
+		return newAppStateList;
 	}
 
 }
