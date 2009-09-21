@@ -1,7 +1,7 @@
 <config>
 
     <param name="module.name">ks-lum-web</param>
-    <param name="db.vendor">oracle</param>
+    <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
 	
 	
@@ -10,7 +10,7 @@
 	<param name="ks.lum.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
 	<param name="ks.lum.datasource.driver.name">${ks.lum.datasource.driver.name.${db.vendor}}</param>
 	
-	<param name="ks.lum.datasource.url.oracle">dbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="ks.lum.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
 	<param name="ks.lum.datasource.url.derby">jdbc:derby://localhost:1527/derby/lum;create=true</param>
 	<param name="ks.lum.datasource.url">${ks.lum.datasource.url.${db.vendor}}</param>
 	
@@ -84,7 +84,7 @@
     
     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-	<param name="datasource.url.oracle">dbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
 	<param name="datasource.username.oracle">RICEKS</param>
 	<param name="datasource.password.oracle">RICEKS</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>
