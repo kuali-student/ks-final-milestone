@@ -231,6 +231,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      *
      */
     public void clear(){
+        itemCount = 0;
         if (itemsPanel != null){itemsPanel.clear();}
         //TODO: Should this do iterate over each widget and call their clear()
         if (modelDTOValueWidgets != null){modelDTOValueWidgets.clear();}        
