@@ -258,9 +258,6 @@ public class LuConfigurer {
         return new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
-                // Widget w = subjectFD.getFieldWidget();
-                // TextBox textBox = (TextBox) w;
-
                 ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
                 final Validator val = new Validator(bc, true);
                 final ValidateResultEvent e = new ValidateResultEvent();
