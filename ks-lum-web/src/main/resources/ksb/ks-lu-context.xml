@@ -23,7 +23,11 @@
 		</property>
 	</bean>
 
-	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean" depends-on="systemPropertyConfigurer">
+	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+	
+	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-lum-config.xml</value>
@@ -83,7 +87,7 @@
     
 
 	<!-- Default Datasource -->
-	<bean id="lumDataSource" class="org.kuali.rice.core.database.XAPoolDataSource" depends-on="systemPropertyConfigurer">
+	<bean id="lumDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="${ks.lum.datasource.driver.name}" />
         <property name="maxSize" value="10" />
