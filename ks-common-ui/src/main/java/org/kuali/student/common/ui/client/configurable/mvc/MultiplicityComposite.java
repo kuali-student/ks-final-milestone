@@ -43,22 +43,24 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public abstract class MultiplicityComposite extends Composite implements HasModelDTOValue{
-        
-    private FlowPanel mainPanel = new FlowPanel();
-    private FlowPanel itemsPanel = new FlowPanel();
-    private ModelDTOValue.ListType modelDTOList =  new ModelDTOValue.ListType();
-    private List<HasModelDTOValue> modelDTOValueWidgets;
-    private boolean loaded = false;
+
+    protected FlowPanel mainPanel = new FlowPanel();
+    protected FlowPanel itemsPanel = new FlowPanel();
+    protected ModelDTOValue.ListType modelDTOList =  new ModelDTOValue.ListType();
+    protected List<HasModelDTOValue> modelDTOValueWidgets;
+    protected boolean loaded = false;
     private String addItemLabel;
-    private String itemLabel;
+    private String itemLabel = "Item ";
     private int itemCount = 0;
-    
+
+    private boolean updateable = true;
+
 
     //Initialization block
     {
         modelDTOList.set(new ArrayList<ModelDTOValue>());
     };
-    
+
     /**
      * This simply decorates a list item widget to add styling and a remove button 
      *   
@@ -68,16 +70,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     private class MultiplicityItemWidgetDecorator extends Composite{
         VerticalFlowPanel itemPanel;
         Widget listItem;
-        
-        KSButton removeButton = new KSButton("-", new ClickHandler(){
-            public void onClick(ClickEvent event) {
-                ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getValue(); 
-                modelDTOList.get().remove(listItemValue);
-                itemsPanel.remove(MultiplicityItemWidgetDecorator.this);
-                modelDTOValueWidgets.remove(listItem);
-            }            
-        });        
-        
+
         private MultiplicityItemWidgetDecorator(Widget listItem){
             itemPanel = new VerticalFlowPanel();
             this.listItem = listItem;
@@ -87,30 +80,45 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             }
             itemCount++;
             itemPanel.addStyleName("KS-Multiplicity-Item");
-            
+
             HorizontalPanel headerPanel = new HorizontalPanel();
             headerPanel.addStyleName("KS-Multiplicity-Item-Header");
             KSLabel headerLabel = new KSLabel(itemLabel + " " + itemCount);
             headerPanel.add(headerLabel);
-            headerPanel.add(removeButton);
-            
-                        
+            if (updateable) {
+                headerPanel.add(generateRemoveButton());
+            }
+
             itemPanel.add(headerPanel);
             itemPanel.add(listItem);
         }
-        
+
+        private KSButton generateRemoveButton() {
+
+            return new KSButton("-", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getValue(); 
+                    modelDTOList.get().remove(listItemValue);
+                    itemsPanel.remove(MultiplicityItemWidgetDecorator.this);
+                    modelDTOValueWidgets.remove(listItem);
+                }            
+            });  
+
+        }        
     }
-        
+
+
+
     /**
      * @see com.google.gwt.user.client.ui.HasValue#setValue(java.lang.Object)
      */
     @Override
     public void setValue(ModelDTOValue modelDTOValue) {
-    	if(modelDTOValue != null){
-	        assert(modelDTOValue instanceof ModelDTOValue.ListType);
-	        this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;
-	        redraw();
-    	}
+        if(modelDTOValue != null){
+            assert(modelDTOValue instanceof ModelDTOValue.ListType);
+            this.modelDTOList = (ModelDTOValue.ListType)modelDTOValue;
+            redraw();
+        }
     }
 
 
@@ -121,7 +129,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     public void setValue(ModelDTOValue value, boolean fireEvents) {
         setValue(value);
     }
-    
+
 
     /**
      * @see com.google.gwt.user.client.ui.HasValue#getValue()
@@ -140,8 +148,8 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             modelDTOValueWidgets.get(i).updateModelDTOValue();
         }
     }
-    
-    
+
+
     /**
      * This method creates a new empty item.
      *
@@ -149,16 +157,16 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     private void addItem(){            
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
-       
+
         itemsPanel.add(listItem);
         if (newItemWidget instanceof MultiplicityComposite){
             ((MultiplicityComposite)newItemWidget).redraw();
         }
-        
+
         modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());
         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }    
-    
+
     /**
      * 
      * This method creates a new item, populated using values from the modelDTOValue object
@@ -174,7 +182,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         itemsPanel.add(listItem);
         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }
-    
+
     /** 
      * Init method to support lazy initialization of multiplicity composite
      *
@@ -183,22 +191,21 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         //Setup if not already loaded
         if (!loaded){
             modelDTOValueWidgets = new ArrayList<HasModelDTOValue>();
-                       
-            KSButton addItemButton = new KSButton(addItemLabel, new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    addItem();
-                }            
-            });                
-    
+
+
+
             initWidget(mainPanel);           
             mainPanel.addStyleName("KS-Multiplicity-Composite");
             mainPanel.add(itemsPanel);
-            mainPanel.add(addItemButton);
+            if (updateable) {
+                mainPanel.add(generateAddButton());
+
+            }
             loaded = true;
         } else {
             clear();
         }
-        
+
         //Update the composite with values from ModelDTO
         if (modelDTOList != null){
             List<ModelDTOValue> modelDTOValueList = modelDTOList.get();
@@ -209,7 +216,15 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             }                                               
         }
     }
-    
+
+    private KSButton generateAddButton() {
+        return new KSButton(addItemLabel, new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                addItem();
+            }            
+        }); 
+
+    }
     /**
      *
      *  This method will remove all data associated with this mode
@@ -221,8 +236,8 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         if (modelDTOValueWidgets != null){modelDTOValueWidgets.clear();}        
         //if (modelDTOList != null){modelDTOList.get().clear();}
     }
-    
-    
+
+
     /**
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
@@ -231,7 +246,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         // TODO: Add value change handlers
         return null;
     }
- 
+
     public void setAddItemLabel(String addItemLabel) {
         this.addItemLabel = addItemLabel;
     }
@@ -248,6 +263,15 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      * @return
      */
     public abstract Widget createItem();
-    
-    
+
+
+    public boolean isUpdateable() {
+        return updateable;
+    }
+
+
+    public void setUpdateable(boolean forUpdate) {
+        this.updateable = forUpdate;
+    }
+
 }
