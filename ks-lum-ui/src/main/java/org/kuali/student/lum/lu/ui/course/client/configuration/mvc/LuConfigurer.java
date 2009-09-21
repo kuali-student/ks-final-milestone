@@ -78,11 +78,11 @@ public class LuConfigurer {
         DEMO_SECTION
     }
                
-    public static void configureCluProposal(ConfigurableLayout layout){       
+    public static void configureCluProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){       
         addCluStartSection(layout);
         addGovernanceSection(layout);
         addCourseLogistics(layout);
-        addCourseInfoSection(layout);
+        addCourseInfoSection(layout, objectKey, typeKey, stateKey);
         addCourseRequisitesSection(layout);
         addActiveDatesSection(layout);
         addFinancialsSection(layout);
@@ -193,7 +193,7 @@ public class LuConfigurer {
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);        
     }
     
-    public static void addCourseInfoSection(ConfigurableLayout layout){
+    public static void addCourseInfoSection(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, 
                 Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY),
                 CluProposalModelDTO.class);        
@@ -244,7 +244,7 @@ public class LuConfigurer {
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
         FieldDescriptor fd = new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING);
-        Callback<Boolean> callback =  getSubjectValidationCallback(fd);
+        Callback<Boolean> callback =  getSubjectValidationCallback(fd,objectKey);
         fd.setValidationCallBack(callback);
         section.addField(fd);        
         section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Transcript Title", Type.STRING));        
@@ -254,30 +254,20 @@ public class LuConfigurer {
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY)}, section);               
     }
     
-    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD){
+    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD, final String objectKey){
         return new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
                 final Validator val = new Validator(bc, true);
                 final ValidateResultEvent e = new ValidateResultEvent();
-
-                Controller.findController(subjectFD.getFieldWidget()).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<ModelDTO>() {
-                    public void onModelReady(Model<ModelDTO> m) {
-                        String key = m.get().getClassName();
-                        ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
-                        if(objStructure == null){
-                            Window.alert("Cannot load dictionary(object structure)");
-                        }
-                        List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
-                        e.setValidationResult(results);// filled by calling the real validate code
-                        Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
-                    }
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to get model");
-                    }
-                });
+                ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
+                if(objStructure == null){
+                    Window.alert("Cannot load dictionary(object structure)");
+                }
+//                List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
+  //              e.setValidationResult(results);// filled by calling the real validate code
+    //            Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
             }
         };        
     }

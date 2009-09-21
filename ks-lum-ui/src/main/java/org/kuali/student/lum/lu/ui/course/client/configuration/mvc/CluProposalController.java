@@ -119,7 +119,7 @@ public class CluProposalController extends PagedSectionLayout{
         String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
         String typeKey ="type";
         String stateKey = "state";
-        LuConfigurer.configureCluProposal(this);
+        LuConfigurer.configureCluProposal(this, objectKey, typeKey, stateKey);
         addButton(saveButton);
         addButton(testButton);
         addButton(testButton2);
