@@ -85,8 +85,8 @@
     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="datasource.url.oracle">dbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="datasource.username.oracle">rice100br</param>
-	<param name="datasource.password.oracle">kuali</param>
+	<param name="datasource.username.oracle">RICEKS</param>
+	<param name="datasource.password.oracle">RICEKS</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>
 	<param name="rice.ksb.jpa.enabled.oracle">true</param>  
 	
