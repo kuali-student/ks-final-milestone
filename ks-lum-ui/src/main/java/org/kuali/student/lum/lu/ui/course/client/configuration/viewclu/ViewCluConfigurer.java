@@ -32,7 +32,6 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
@@ -71,9 +70,10 @@ public class ViewCluConfigurer {
         layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
 
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());               
-//        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
-//        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateProgramRequirementsSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateProgramRequirementsSection());
 
+        //TODO Need a display version of these Tools
         layout.addTool(new CollaboratorTool());
         layout.addTool(new CommentPanel(LuSections.COMMENTS, "View Comments"));
         layout.addTool(new DocumentTool(LuSections.DOCUMENTS, "View Attached Documents"));
@@ -86,24 +86,23 @@ public class ViewCluConfigurer {
 
         //FIXME: Label should come from messaging, field type should come from dictionary?
 //      section.addField(createMVCFieldDescriptor("campusLocationInfo", LUConstants.STRUCTURE_CLU_INFO, type, state));
-        
+
         VerticalSection curriculumOversightSection = new VerticalSection();
-       
+
         curriculumOversightSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY)));
         curriculumOversightSection.addField(new FieldDescriptor("/studySubjectArea", "Subject Area:  ", Type.STRING, new KSLabel()));
-        
+
         VerticalSection campusLocationSection = new VerticalSection();
         campusLocationSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY)));
 //        campusLocationSection.addField(new FieldDescriptor("campusLocationList", null, Type.LIST, new CampusLocationList()));
-        campusLocationSection.addField(new FieldDescriptor("campusLocationList", "TO DO", Type.STRING, new KSLabel()));
-      
+
         VerticalSection adminOrgSection = new VerticalSection();
         adminOrgSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.PRIMARY_ADMIN_ORG_LABEL_KEY)));
         adminOrgSection.addField(new FieldDescriptor("/primaryAdminOrg/orgId", "Org ID:  ", Type.STRING, new KSLabel()));        
 
         VerticalSection altAdminOrgSection = new VerticalSection();
         altAdminOrgSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.ALT_ADMIN_ORGS_LABEL_KEY)));
-//TODO        altAdminOrgSection.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));        
+        altAdminOrgSection.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));        
 
         section.addSection(curriculumOversightSection);
         section.addSection(campusLocationSection);
@@ -126,7 +125,7 @@ public class ViewCluConfigurer {
 
         VerticalSection altInstructors = new VerticalSection();
         altInstructors.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.ALT_INSTR_LABEL_KEY)));
-//TODO        altInstructors.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));        
+        altInstructors.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));        
 
         //CREDITS
         VerticalSection credits = new VerticalSection();
@@ -153,15 +152,15 @@ public class ViewCluConfigurer {
         VerticalSection formatsSection = new VerticalSection();
         formatsSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.FORMATS_LABEL_KEY)));
         formatsSection.addField(new FieldDescriptor("courseFormats", "TO DO", Type.STRING, new KSLabel()));
-        
+
         section.addSection(primaryInstructor);
         section.addSection(altInstructors);
         section.addSection(credits);
         section.addSection(learningResults);
         section.addSection(scheduling);
         section.addSection(formatsSection);
-        
- 
+
+
         return section;
 
     }
@@ -187,32 +186,32 @@ public class ViewCluConfigurer {
 
         VerticalSection altIdSection = new VerticalSection();
         altIdSection.setSectionTitle(SectionTitle.generateH3Title("Alternate Identifiers"));
-//TODO        altIdSection.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));        
+        altIdSection.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));        
 
-        
+
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
         //CROSS LISTED
         VerticalSection crossListedSection = new VerticalSection();
         crossListedSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CROSS_LISTED_LABEL_KEY)));
-//        crossListedSection.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
+//      crossListedSection.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
         crossListedSection.addField(new FieldDescriptor("crossListClus", "TO DO", Type.STRING, new KSLabel()));
-        
+
         //OFFERED JOINTLY
         VerticalSection offeredJointlySection = new VerticalSection();
         offeredJointlySection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY)));
-//        offeredJointlySection.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
+//      offeredJointlySection.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
         offeredJointlySection.addField(new FieldDescriptor("jointClus", "TO DO", Type.STRING, new KSLabel()));
-        
+
         //Version Codes
         VerticalSection versionCodesSection = new VerticalSection();
         versionCodesSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.VERSION_CODES_LABEL_KEY)));
-//        versionCodesSection.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong     
+//      versionCodesSection.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong     
         versionCodesSection.addField(new FieldDescriptor("luLuRelationType.alias", "TO DO", Type.STRING, new KSLabel()));
-        
+
         VerticalSection courseTitleSection = new VerticalSection();
         courseTitleSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.TITLE_LABEL_KEY)));
         courseTitleSection.addField(new FieldDescriptor("/officialIdentifier/longName", null, Type.STRING, new KSLabel()));
- 
+
         VerticalSection transcriptTitle = new VerticalSection();
         transcriptTitle.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.SHORT_TITLE_LABEL_KEY)));
         transcriptTitle.addField(new FieldDescriptor("/officialIdentifier/shortName", null, Type.STRING, new KSLabel()));
@@ -224,13 +223,13 @@ public class ViewCluConfigurer {
         VerticalSection rationale = new VerticalSection();
         rationale.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.RATIONALE_LABEL_KEY)));
         rationale.addField(new FieldDescriptor("/marketingDesc/plain", null, Type.STRING, new KSLabel()));        
- 
+
         section.addSection(cluIdSection);
         section.addSection(altIdSection);
         //TODO Advanced options
-//        section.addSection(crossListedSection);
-//        section.addSection(offeredJointlySection);
-//        section.addSection(versionCodesSection);
+//      section.addSection(crossListedSection);
+//      section.addSection(offeredJointlySection);
+//      section.addSection(versionCodesSection);
         section.addSection(courseTitleSection);
         section.addSection(transcriptTitle);
         section.addSection(description);
@@ -336,38 +335,49 @@ public class ViewCluConfigurer {
     }
 
     //TODO: CampusLocationList
-    public static class CampusLocationList extends KSSelectableTableList{
-        public CampusLocationList(){
-                                    
-//            SimpleListItems items = new SimpleListItems();
-            
-//            items.addItem("North County Campus", "North County Campus");
-//            items.addItem("South County Campus", "South County Campus");
-//            items.addItem("Extended Studies Campus", "Extended Studies Campus");
-//            items.addItem("All Campuses", "All Campuses");
-            
-//            super.setListItems(items);
+    public static class CampusLocationList extends MultiplicityComposite{
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection("CampusLocationInfo");
+
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("campusName", "Campus Name", Type.STRING, new KSLabel()));
+            multi.addSection(ns);
+
+            return multi;
         }
     }
-    
-    private static class AlternateInstructorList extends MultiplicityComposite{
 
+    private static class AlternateInstructorList extends MultiplicityComposite{
+        
+        protected AlternateInstructorList () {
+            this.setItemLabel("Instructor");      
+            this.setUpdateable(false);         
+        }
+        
         @Override
         public Widget createItem() {
             MultiplicitySection multi = new MultiplicitySection("CluInstructorInfo");
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("personId", "Person ID", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("orgId", "Org ID", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("personId", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("orgId", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
         }
 
     }
-    
+
     private static class AlternateIdentifierList extends MultiplicityComposite{
+        
+        protected AlternateIdentifierList () {
+            this.setItemLabel("Identifier");      
+            this.setUpdateable(false);         
+        }
 
         @Override
         public Widget createItem() {
@@ -375,19 +385,24 @@ public class ViewCluConfigurer {
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("code", "Code", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("division", "Division", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("level", "Level", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("variation", "Variation", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("suffixCode", "Suffix Code", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("code", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("division", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("level", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("variation", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("suffixCode", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
         }
 
     }
-    
+
     private static class AlternateAdminOrgList extends MultiplicityComposite{
+        
+        protected AlternateAdminOrgList () {
+            this.setItemLabel("Org ID");      
+            this.setUpdateable(false);         
+        }
 
         @Override
         public Widget createItem() {
@@ -395,7 +410,7 @@ public class ViewCluConfigurer {
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("orgId", "Org ID", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("orgId", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
@@ -436,7 +451,7 @@ public class ViewCluConfigurer {
         }
 
     }
-    
+
     private static class VersionCodeList extends MultiplicityComposite{
 
         @Override
@@ -503,9 +518,9 @@ public class ViewCluConfigurer {
         Field f = DictionaryManager.getInstance().getField(objectKey, type, state, fieldName);
 
         FieldDescriptor fd = new FieldDescriptor(f.getKey(), 
-                    getLabel(f.getKey() ),   
-                    translateDictType(f.getFieldDescriptor().getDataType())               
-            );
+                getLabel(f.getKey() ),   
+                translateDictType(f.getFieldDescriptor().getDataType())               
+        );
         return fd;
     }
 
@@ -527,7 +542,7 @@ public class ViewCluConfigurer {
         }
 
     }    
-    
+
     private static String getLabel(String fieldId) {
         return Application.getApplicationContext().getUILabel(type, state, fieldId);
     }
@@ -539,8 +554,5 @@ public class ViewCluConfigurer {
     public static void setState(String state) {
         ViewCluConfigurer.state = state;
     }
-    
 
-    
-
- }
+}
