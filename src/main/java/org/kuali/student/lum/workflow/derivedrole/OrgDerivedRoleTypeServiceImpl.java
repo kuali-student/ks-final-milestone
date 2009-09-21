@@ -48,7 +48,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		
 		//Put the org name into the attribute set
 		AttributeSet attributes = new AttributeSet();
-		attributes.put("Qualifier", org);
+		attributes.put("org", org);
 
 		try {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
