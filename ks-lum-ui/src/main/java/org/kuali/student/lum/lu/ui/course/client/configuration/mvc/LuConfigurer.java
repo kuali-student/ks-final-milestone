@@ -269,6 +269,9 @@ public class LuConfigurer {
                     public void onModelReady(Model<ModelDTO> m) {
                         String key = m.get().getClassName();
                         ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(key);
+                        if(objStructure == null){
+                            Window.alert("Cannot load dictionary(object structure)");
+                        }
                         List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
                         e.setValidationResult(results);// filled by calling the real validate code
                         Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
