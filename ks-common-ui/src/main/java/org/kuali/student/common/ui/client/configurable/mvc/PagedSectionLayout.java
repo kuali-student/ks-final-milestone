@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class PagedSectionLayout extends Controller implements ConfigurableLayout {
+public abstract class PagedSectionLayout extends LayoutController implements ConfigurableLayout {
       
     private final DockPanel panel = new DockPanel();
     

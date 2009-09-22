@@ -17,7 +17,8 @@ public class LostFocusValidationEventBinding  implements ValidationEventBinding 
                 }
             });
         } else {
-            throw new IllegalArgumentException("It must implements HasBlurHandlers interface.");
+            //TODO address the exception
+          //  throw new IllegalArgumentException("It must implements HasBlurHandlers interface.");
         }
     }
 }
