@@ -96,7 +96,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     }
     
     @Override
-    public void addField(FieldDescriptor fieldDescriptor) {
+    public void addField(final FieldDescriptor fieldDescriptor) {
         //Required logic
         if(this.getRequiredState() == RequiredEnum.REQUIRED){
         	//if top level is required remove required from sub fields, stop required * from being shown
@@ -118,12 +118,18 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         rows.add(row);
         
         //If fieldDescriptor.getFieldWidget() is not implementing the 
-        //HasBlurHandlers. binding.bind does not do the bind. 
+        //HasBlurHandlers. binding.bind does not do the bind.
+     // how to deal with the special case
         ValidationEventBinding binding = new LostFocusValidationEventBinding();
-        if(fieldDescriptor.getValidationRequestCallback()!= null){
-            binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
+        if(fieldDescriptor.getValidationRequestCallback()== null){
+            fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).validate();
+                }
+            });
         }
-        // how to deal with the special case
+        binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
         
 
     }
