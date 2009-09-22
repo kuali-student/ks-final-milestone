@@ -62,6 +62,10 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/UploadStatusRpcService">
 					<ref bean="uploadStatusRpcGwtController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRelationMockRpcService">
+					<ref bean="documentRelationMockRpcGwtController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -125,6 +129,11 @@
 		<property name="servletName" value="uploadStatusRpcGwtServlet" />
 		<property name="servletInstance" ref="uploadStatusRpcGwtServlet" />
 	</bean>
+	
+	<bean id="documentRelationMockRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="documentRelationMockRpcGwtServlet" />
+		<property name="servletInstance" ref="documentRelationMockRpcGwtServlet" />
+	</bean>
 
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet"
@@ -172,9 +181,14 @@
 	
 	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
 		<property name="documentService" ref="documentService"/>
+		<property name="relationService" ref="relationService"/>
 	</bean>
 	
 	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
+	</bean>
+	
+	<bean id="documentRelationMockRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.DocumentRelationMockRpcGwtServlet">
+		<property name="service" ref="relationService"/>
 	</bean>
 
 	<!-- Service clients -->
@@ -211,6 +225,11 @@
 	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
+	</bean>
+	
+	<bean id="relationService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.mock.service.DocumentRelationService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/documentRelation}DocumentRelationService" />
 	</bean>
 
 </beans>
