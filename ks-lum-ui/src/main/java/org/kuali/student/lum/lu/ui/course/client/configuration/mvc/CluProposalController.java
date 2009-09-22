@@ -15,21 +15,16 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
-import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
@@ -113,12 +108,13 @@ public class CluProposalController extends PagedSectionLayout{
 //            });
         }       
     });
-
+    
     public CluProposalController(){
         super();
-        String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
+        final String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
         String typeKey ="type";
         String stateKey = "state";
+        
         LuConfigurer.configureCluProposal(this, objectKey, typeKey, stateKey);
         addButton(saveButton);
         addButton(testButton);
@@ -131,25 +127,22 @@ public class CluProposalController extends PagedSectionLayout{
                 doSaveAction(saveAction);
             }            
         });
-        super.addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-            @Override
-            public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultContainer> list = event.getValidationResult();
-               if(list == null || list.size() == 0 ){
-                   return;
-               }
-               String ele = "";
-               for(ValidationResultContainer vc: list){
-                   ele += vc.getDataType()+" "+vc.getElement()+"\n";    
-                   List<ValidationResultInfo> vrList = vc.getValidationResults();
-                   for(ValidationResultInfo vr: vrList){
-                       ele += vr.getMessage()+"\n";
-                   }
-               }
-               Window.alert("Error:"+ele);
-            }
-        });
+        requestModel(CluProposalModelDTO.class, new ModelRequestCallback(){
 
+            @Override
+            public void onModelReady(Model model) {
+                CluProposalController.this.setModelDTO((ModelDTO)model.get(), objectKey);
+                
+            }
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+                
+            }
+            
+        });
+       
     }
     
         

@@ -244,8 +244,8 @@ public class LuConfigurer {
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
         FieldDescriptor fd = new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING);
-        Callback<Boolean> callback =  getSubjectValidationCallback(fd,objectKey);
-        fd.setValidationCallBack(callback);
+//        Callback<Boolean> callback =  getSubjectValidationCallback(fd,objectKey);
+  //      fd.setValidationCallBack(callback);
         section.addField(fd);        
         section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Transcript Title", Type.STRING));        
         section.addField(new FieldDescriptor("desc", "Course Description", Type.MODELDTO, new KSRichEditor()));        
@@ -254,23 +254,25 @@ public class LuConfigurer {
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY)}, section);               
     }
     
-    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD, final String objectKey){
-        return new Callback<Boolean>() {
-            @Override
-            public void exec(Boolean result) {
-                ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
-                final Validator val = new Validator(bc, true);
-                final ValidateResultEvent e = new ValidateResultEvent();
-                ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
-                if(objStructure == null){
-                    Window.alert("Cannot load dictionary(object structure)");
-                }
-//                List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
-  //              e.setValidationResult(results);// filled by calling the real validate code
-    //            Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
-            }
-        };        
-    }
+//    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD, final String objectKey){
+  //      return new Callback<Boolean>() {
+    //        @Override
+      //      public void exec(Boolean result) {
+        //        ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+          //      final Validator val = new Validator(bc, true);
+            //    final ValidateResultEvent e = new ValidateResultEvent();
+              //          ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
+                //        if(objStructure == null){
+                  //          Window.alert("Cannot load dictionary(object structure)");
+                    //    }
+                      //  List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
+                        //e.setValidationResult(results);// filled by calling the real validate code
+                        //Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
+
+
+//            }
+  //      };        
+   // }
     public static class CrossListedList extends MultiplicityComposite{
 
         @Override
