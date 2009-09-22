@@ -4,7 +4,6 @@
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
 
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
 
     <param name="app.code" override="false">ks-core-web</param>
@@ -107,5 +106,5 @@
 
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
-
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 </config>
