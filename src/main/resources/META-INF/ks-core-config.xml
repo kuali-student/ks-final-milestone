@@ -1,8 +1,11 @@
 <config>
   
     <param name="module.name">ks-core-web</param>
-    <param name="db.vendor">oracle</param>
+    <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
+
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
 
     <param name="app.code" override="false">ks-core-web</param>
 	<param name="app.context.name" override="false">${app.code}</param>
@@ -30,11 +33,9 @@
     <param name="rice.ksb.registry.jpa.PersistenceUnitName.derby">ksb-registry-identity-unit</param>
     <param name="rice.ksb.registry.jpa.PersistenceUnitName.oracle">ksb-registry-sequence-unit</param>
     <param name="rice.ksb.registry.jpa.PersistenceUnitName">${rice.ksb.registry.jpa.PersistenceUnitName.${db.vendor}}</param>
-<!--    <param name="rice.ksb.registry.jpa.PersistenceUnitName">ksb-registry-identity-unit</param>-->
     <param name="rice.ksb.registry.jpa.GenerateDdl">true</param>
 
     <param name="rice.ksb.message.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
-<!--    <param name="rice.ksb.message.jpa.PersistenceUnitName">ksb-message-identity-unit</param>-->
     <param name="rice.ksb.message.jpa.PersistenceUnitName.derby">ksb-message-identity-unit</param>
     <param name="rice.ksb.message.jpa.PersistenceUnitName.oracle">ksb-message-sequence-unit</param>
     <param name="rice.ksb.message.jpa.PersistenceUnitName">${rice.ksb.message.jpa.PersistenceUnitName.${db.vendor}}</param>
@@ -52,9 +53,7 @@
  
     <param name="datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
     <param name="datasource.url.derby">jdbc:derby://localhost:1527/derby/rice-db;create=true</param>
-    <!--
-    <param name="datasource.url">jdbc:derby:target/derby/rice-db;create=true</param>
-    -->    
+
     <param name="datasource.username.derby">rice</param>
     <param name="datasource.password.derby">r1c3</param>
     <param name="datasource.pool.validationQuery.derby">values(1)</param>
@@ -65,7 +64,7 @@
     
     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-	<param name="datasource.url.oracle">dbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
 	<param name="datasource.username.oracle">RICEKS</param>
 	<param name="datasource.password.oracle">RICEKS</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>
@@ -88,7 +87,7 @@
     
     <param name="ks.core.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
     <param name="ks.core.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-    <param name="ks.core.datasource.url.oracle">dbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="ks.core.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
     <param name="ks.core.datasource.username.oracle">kscore</param>
     <param name="ks.core.datasource.password.oracle">kscore</param>
     <param name="ks.core.datasource.validationQuery.oracle">select 1 from dual</param>
@@ -106,7 +105,7 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
+	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
+
 </config>

@@ -68,6 +68,8 @@
 	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/uber-config-override.xml-->
 	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
 	<!--Set the came of the context file in order to load the particular project	-->
+	<param name="config.location">classpath:META-INF/ks-core-config.xml</param>
+	<param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
 	<param name="ks.projects">classpath:ks-core-context.xml,classpath:ks-lu-context.xml</param>
 	<!--This is the override config file where data source parameters can be overridden	-->
 	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
@@ -171,7 +173,7 @@
 		<param name="system.properties.derby.stream.error.file">target/derby.log</param>
 	</param>
 	
-	<param name="ks.lum.nlt.serviceAddress">http://localhost:8080/ks-integrate/services/TranslationService</param>
+	<!--<param name="ks.lum.nlt.serviceAddress">http://localhost:8080/ks-integrate/services/TranslationService</param>
 	<param name="ks.lum.serviceAddress">http://localhost:8080/ks-integrate/services/LuService</param>
 	<param name="ks.rice.simpleDocActions.serviceAddress">http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService</param>
 	<param name="ks.rice.workflowUtility.serviceAddress">http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP</param>
@@ -182,7 +184,7 @@
 	<param name="ks.brms.factFinder.serviceAddress">http://localhost:8080/ks-brms/services/FactFinderService</param>
 	<param name="ks.brms.ruleManagement.serviceAddress">http://localhost:8080/ks-brms/services/RuleManagementService</param>
 	<param name="ks.brms.ruleExecution.serviceAddress">http://localhost:8080/ks-brms/services/RuleExecutionService</param>
-	<param name="ks.brms.ruleRepository.RuleRepositoryService">http://localhost:8080/ks-brms/services/RuleRepositoryService</param>
+	<param name="ks.brms.ruleRepository.RuleRepositoryService">http://localhost:8080/ks-brms/services/RuleRepositoryService</param>-->
 
 	
 </config>

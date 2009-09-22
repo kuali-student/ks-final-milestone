@@ -45,9 +45,9 @@
 		<property name="properties" ref="configProperties" />
 	</bean>
 
-	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+	<!--<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSCoreContext"/>
-	</bean>
+	</bean>-->
 
 	<bean id="messageService" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
