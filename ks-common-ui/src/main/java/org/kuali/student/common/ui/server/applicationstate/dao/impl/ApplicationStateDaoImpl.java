@@ -29,9 +29,9 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 	}
 
 	/**
-	 * Gets a list of application states by 
-	 * <code>applicationId</code>, <code>referenceKey</code>,  
-	 * <code>referenceType</code> and <code>userId</code>.
+	 * Gets an application states by <code>applicationId</code>, 
+	 * <code>referenceKey</code>, <code>referenceType</code> and 
+	 * <code>userId</code>.
 	 * 
 	 * @param applicationId Application id
 	 * @param referenceKey Reference key
@@ -51,57 +51,16 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 	}
 
 	/**
-	 * Gets a list of application states by 
-	 * <code>applicationId</code>, <code>referenceKey</code> and 
-	 * <code>referenceType</code>.
+	 * Gets an application states by <code>applicationId</code>, 
+	 * <code>referenceKey</code> and <code>referenceType</code>.
 	 * 
 	 * @param applicationId Application id
 	 * @param referenceKey Reference key
 	 * @param referenceType Reference type
 	 * @return A list of application states
 	 */
-	public List<ApplicationState> getApplicationState(String applicationId, String referenceKey, String referenceType) {
-		Query query = em.createNamedQuery("ApplicationState.getApplicationState");
-		query.setParameter("applicationId", applicationId);
-		query.setParameter("referenceKey", referenceKey);
-		query.setParameter("referenceType", referenceType);
-
-		@SuppressWarnings("unchecked")
-		List<ApplicationState> appStateList = (List<ApplicationState>) query.getResultList();
-		return appStateList;
-	}
-
-	/**
-	 * Gets a list of application states by <code>applicationId</code>.
-	 * 
-	 * @param applicationId
-	 * @return A list of application states
-	 */
-	public List<ApplicationState> getApplicationState(String applicationId) {
-		Query query = em.createNamedQuery("ApplicationState.getApplicationStateByAppId");
-		query.setParameter("applicationId", applicationId);
-
-		@SuppressWarnings("unchecked")
-		List<ApplicationState> appStateList = (List<ApplicationState>) query.getResultList();
-		return appStateList;
-	}
-
-	/**
-	 * Gets a list of application states by 
-	 * <code>applicationId</code> and <code>userId</code>.
-	 * 
-	 * @param applicationId Application id
-	 * @param userId User id
-	 * @return A list of application states
-	 */
-	public List<ApplicationState> getApplicationState(String applicationId, String userId) {
-		Query query = em.createNamedQuery("ApplicationState.getApplicationStateByAppUserId");
-		query.setParameter("applicationId", applicationId);
-		query.setParameter("userId", userId);
-
-		@SuppressWarnings("unchecked")
-		List<ApplicationState> appStateList = (List<ApplicationState>) query.getResultList();
-		return appStateList;
+	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType) {
+		return getApplicationState(applicationId, referenceKey, referenceType, DEFAULT_USER_ID);
 	}
 
 	/**

@@ -37,25 +37,7 @@ public interface ApplicationStateDao extends CrudDao, SearchableDao {
 	 * @param referenceType Reference type
 	 * @return A list of application states
 	 */
-	public List<ApplicationState> getApplicationState(String applicationId, String referenceKey, String referenceType);
-
-	/**
-	 * Gets a list of application states by <code>applicationId</code>.
-	 * 
-	 * @param applicationId
-	 * @return A list of application states
-	 */
-	public List<ApplicationState> getApplicationState(String applicationId);
-
-	/**
-	 * Gets a list of application states by 
-	 * <code>applicationId</code> and <code>userId</code>.
-	 * 
-	 * @param applicationId Application id
-	 * @param userId User id
-	 * @return A list of application states
-	 */
-	public List<ApplicationState> getApplicationState(String applicationId, String userId);
+	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType);
 
 	/**
 	 * Creates and returns an application state.

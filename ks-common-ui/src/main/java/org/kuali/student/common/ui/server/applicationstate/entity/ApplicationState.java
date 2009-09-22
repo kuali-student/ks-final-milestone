@@ -19,10 +19,7 @@ import org.kuali.student.common.util.UUIDHelper;
 @Table(name = "KS_APP_STATE_T", 
        uniqueConstraints={@UniqueConstraint(columnNames={"APPLICATION_ID", "REFERENCE_KEY", "REFERENCE_TYPE", "USERID"})})
 @NamedQueries( {
-        @NamedQuery(name = "ApplicationState.getApplicationState", query = "SELECT appState FROM ApplicationState appState WHERE appState.applicationId =:applicationId AND appState.referenceKey =:referenceKey AND appState.referenceType =:referenceType"),
-        @NamedQuery(name = "ApplicationState.getApplicationStateByAppRefUserId", query = "SELECT appState FROM ApplicationState appState WHERE appState.applicationId =:applicationId AND appState.referenceKey =:referenceKey AND appState.referenceType =:referenceType AND appState.userId =:userId"),
-        @NamedQuery(name = "ApplicationState.getApplicationStateByAppId", query = "SELECT appState FROM ApplicationState appState WHERE appState.applicationId =:applicationId"),
-        @NamedQuery(name = "ApplicationState.getApplicationStateByAppUserId", query = "SELECT appState FROM ApplicationState appState WHERE appState.applicationId =:applicationId AND appState.userId =:userId")
+        @NamedQuery(name = "ApplicationState.getApplicationStateByAppRefUserId", query = "SELECT appState FROM ApplicationState appState WHERE appState.applicationId =:applicationId AND appState.referenceKey =:referenceKey AND appState.referenceType =:referenceType AND appState.userId =:userId")
 } )
 public class ApplicationState {
 
@@ -44,7 +41,7 @@ public class ApplicationState {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<KeyValuePair> keyValueList;
-	
+
 	/**
 	 * AutoGenerate the Id
 	 */
