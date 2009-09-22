@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -22,7 +23,10 @@ public class CluDictionaryClassNameHelper {
 	public static final String CLU_PUBLISHING_INFO_CLASS = CluPublishingInfo.class.getName();
     public static final String CLU_ADMIN_ORG_INFO_KEY = "cluAdminOrgInfo";
     public static final String CLU_ADMIN_ORG_INFO_CLASS = AdminOrgInfo.class.getName();
-	//TODO add the rest
+    public static final String CLU_TIME_AMOUNT_INFO_KEY = "timeAmountInfo";
+    public static final String CLU_TIME_AMOUNT_INFO_CLASS = TimeAmountInfo.class.getName();
+
+    //TODO add the rest
 	
 	public static Map<String, String> getObjectKeytoClassMap(){
 		Map<String, String> theMap = new HashMap<String, String>();
@@ -31,6 +35,7 @@ public class CluDictionaryClassNameHelper {
 		theMap.put(CLU_INSTRUCTOR_INFO_KEY, CLU_INSTRUCTOR_INFO_CLASS);
 		theMap.put(CLU_PUBLISHING_INFO_KEY, CLU_PUBLISHING_INFO_CLASS);
         theMap.put(CLU_ADMIN_ORG_INFO_KEY, CLU_ADMIN_ORG_INFO_CLASS);
-		return theMap;
+        theMap.put(CLU_TIME_AMOUNT_INFO_KEY, CLU_TIME_AMOUNT_INFO_CLASS);
+        return theMap;
 	}
 }

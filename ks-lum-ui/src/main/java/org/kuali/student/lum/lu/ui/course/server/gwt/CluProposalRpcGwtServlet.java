@@ -10,6 +10,7 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
@@ -25,8 +26,10 @@ import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -393,9 +396,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            //May not need to make a new one here
-            cluProposalDTO = new CluProposalModelDTO();
             cluProposalDTO.copyFrom(cluModelDTO);
+            
+            saveCourseFormats(cluProposalDTO);
             
             //Do Workflow Create and save docContent
             //get a user name
@@ -427,6 +430,25 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
 
+    private void saveCourseFormats(CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType)cluProposalDTO.get("courseFormats");
+        MapContext ctx = new MapContext();
+        
+        if (courseFormatListType != null){
+            List<ModelDTOValue> courseFormatList = courseFormatListType.get();
+            
+            for (ModelDTOValue value:courseFormatList){
+                ModelDTO courseFormatModelDTO = ((ModelDTOValue.ModelDTOType)value).get();
+                
+                CluInfo courseFormatShell = (CluInfo)ctx.fromModelDTO(courseFormatModelDTO);
+                
+                System.out.println(courseFormatShell.getType());
+                                
+            }
+        }
+        
+    }
+    
     /**
      * This overridden method ...
      *
@@ -443,6 +465,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             cluProposalDTO = new CluProposalModelDTO();
             cluProposalDTO.copyFrom(cluModelDTO);
             
+            saveCourseFormats(cluProposalDTO);
             //get a user name
             String username = getCurrentUser();
             

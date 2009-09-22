@@ -28,10 +28,6 @@ public class CluProposalModelDTO extends ModelDTO {
 
     private static final long serialVersionUID = 1L;
     
-    private ModelDTOValue.ListType courseFormats;
-    private ModelDTOValue.ListType crossListClus;
-    private ModelDTOValue.ListType jointClus;
-
     /**
      * @param className
      */
@@ -48,23 +44,10 @@ public class CluProposalModelDTO extends ModelDTO {
      */
     @Override
     public void put(String key, ModelDTOValue value) {
-        if ("courseFormats".equals(key)){
-            courseFormats = (ModelDTOValue.ListType)value;
-        } else if ("crossListClus".equals(key)){
-            crossListClus = (ModelDTOValue.ListType)value;
-        } else if ("jointClus".equals(key)){
-            jointClus = (ModelDTOValue.ListType)value;
-/*        } else if (key.contains("/")){
-        	if(getAdapter() == null){
-        		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get()));
-        	}
-        	super.put(key, value);*/
-        } else {
-        	if(GWT.isClient() && getAdapter() == null){
-        		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
-        	}
-            super.put(key, value);            
-        }
+    	if(GWT.isClient() && getAdapter() == null){
+    		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
+    	}
+    	super.put(key, value);            
     }
 
 
@@ -73,46 +56,9 @@ public class CluProposalModelDTO extends ModelDTO {
      */
     @Override
     public ModelDTOValue get(String key) {
-        if ("courseFormats".equals(key)){
-            return courseFormats;
-        } else if ("crossListClus".equals(key)){
-            return crossListClus;
-        } else if ("jointClus".equals(key)){
-            return jointClus;
-/*        } else if (key.contains("/")){
-        	if(getAdapter() == null){
-        		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo", ((StringType) this.get("type")).get(), ((StringType) this.get("state")).get()));
-        	}
-        	return super.get(key);*/
-        } else {
-        	if(GWT.isClient() && getAdapter() == null){
-        		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
-        	}
-            return super.get(key);            
-        }
-    }
-
-    /**
-     * Returns the activity clus associated with this model
-     * 
-     * @return
-     */
-    public ModelDTOValue.ListType getCourseFormats() {
-        return courseFormats;
-    }
-
-    public ModelDTOValue.ListType getCrossListClus() {
-        return crossListClus;
-    }
-
-    public ModelDTOValue.ListType getJointClus() {
-        return jointClus;
-    }
-    
-    public String toString(){
-        return super.toString() + 
-        (crossListClus != null ? " crossListClus= " + crossListClus.toString():"") + 
-        (courseFormats != null ? " courseFormats= " + courseFormats.toString():"") +
-        (jointClus != null ? " jointClus= " + jointClus.toString():"");
-    }
+    	if(GWT.isClient() && getAdapter() == null){
+    		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
+    	}
+        return super.get(key);            
+    }    
 }

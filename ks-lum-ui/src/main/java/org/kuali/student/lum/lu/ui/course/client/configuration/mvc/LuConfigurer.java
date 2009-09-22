@@ -367,6 +367,11 @@ public class LuConfigurer {
         }
         
         public Widget createItem() {
+            MultiplicitySection item = new MultiplicitySection("CluInfo");
+            //TODO: Do we need ability to add hidden fields, so key/value pairs can be set into ModelDTO
+            //e.g. addHiddenField("type", "kuali.lu.type.CreditCourseFormatShell");
+            
+            item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
             return new CourseActivityList();
         }
     }
@@ -381,7 +386,7 @@ public class LuConfigurer {
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection("CluInfo");
             CustomNestedSection activity = new CustomNestedSection();
-            activity.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING, new CluActivityType()));
+            activity.addField(new FieldDescriptor("type", "Activity Type", Type.STRING, new CluActivityType()));
             activity.nextRow();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
@@ -395,13 +400,12 @@ public class LuConfigurer {
             
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("term", "Term", Type.STRING, new AtpTypeList()));
-            activity.addField(new FieldDescriptor("duration", "Activity Duration", Type.STRING)); //TODO dropdown need here?
+            activity.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("clu.hours", "Contact Hours", Type.STRING));
+            activity.addField(new FieldDescriptor("/intensity/timeQuantity", "Contact Hours", Type.STRING));
             //TODO PER WHATEVER
-            activity.addField(new FieldDescriptor("clu.method", "Delivery Method", Type.STRING));
-            activity.addField(new FieldDescriptor("clu.size", "Class Size", Type.STRING));
+            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Class Size", Type.STRING));
             
             item.addSection(activity);
             
