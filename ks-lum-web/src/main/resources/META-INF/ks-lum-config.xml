@@ -4,7 +4,6 @@
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
 	
-	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param>
 	
 	<param name="ks.lum.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
@@ -106,5 +105,6 @@
     <param name="keystore.password">r1c3pw</param>
 
     <param name="config.location">${user.home}/kuali/main/dev/ks-lum-config.xml</param> 
+	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     
 </config>
