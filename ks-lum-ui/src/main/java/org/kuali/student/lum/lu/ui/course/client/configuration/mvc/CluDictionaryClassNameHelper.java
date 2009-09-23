@@ -29,17 +29,35 @@ public class CluDictionaryClassNameHelper {
     public static final String PROPOSAL_INFO_KEY = "proposalInfo";
     public static final String PROPOSAL_INFO_CLASS = ProposalInfo.class.getName();
 
-    //TODO add the rest
+	private static final Map<String, String> objectKeyToClassMap = new HashMap<String, String>(){
+		private static final long serialVersionUID = 1L;
+	{
+		put(CLU_INFO_KEY, CLU_INFO_CLASS);
+		put(CLU_IDENTIFIER_INFO_KEY, CLU_IDENTIFIER_INFO_CLASS);
+		put(CLU_INSTRUCTOR_INFO_KEY, CLU_INSTRUCTOR_INFO_CLASS);
+		put(CLU_PUBLISHING_INFO_KEY, CLU_PUBLISHING_INFO_CLASS);
+        put(CLU_ADMIN_ORG_INFO_KEY, CLU_ADMIN_ORG_INFO_CLASS);
+        put(CLU_TIME_AMOUNT_INFO_KEY, CLU_TIME_AMOUNT_INFO_CLASS);
+        put(PROPOSAL_INFO_KEY, PROPOSAL_INFO_CLASS);
+	}};
+	
+	private static final Map<String, String> classToObjectKeyMap = new HashMap<String, String>(){
+		private static final long serialVersionUID = 1L;
+	{
+		put(CLU_INFO_CLASS, CLU_INFO_KEY);
+		put(CLU_IDENTIFIER_INFO_CLASS, CLU_IDENTIFIER_INFO_KEY);
+		put(CLU_INSTRUCTOR_INFO_CLASS, CLU_INSTRUCTOR_INFO_KEY);
+		put(CLU_PUBLISHING_INFO_CLASS, CLU_PUBLISHING_INFO_KEY);
+	    put(CLU_ADMIN_ORG_INFO_CLASS, CLU_ADMIN_ORG_INFO_KEY);
+	    put(CLU_TIME_AMOUNT_INFO_CLASS, CLU_TIME_AMOUNT_INFO_KEY);
+	    put(PROPOSAL_INFO_CLASS, PROPOSAL_INFO_KEY);
+	}};
 	
 	public static Map<String, String> getObjectKeytoClassMap(){
-		Map<String, String> theMap = new HashMap<String, String>();
-		theMap.put(CLU_INFO_KEY, CLU_INFO_CLASS);
-		theMap.put(CLU_IDENTIFIER_INFO_KEY, CLU_IDENTIFIER_INFO_CLASS);
-		theMap.put(CLU_INSTRUCTOR_INFO_KEY, CLU_INSTRUCTOR_INFO_CLASS);
-		theMap.put(CLU_PUBLISHING_INFO_KEY, CLU_PUBLISHING_INFO_CLASS);
-        theMap.put(CLU_ADMIN_ORG_INFO_KEY, CLU_ADMIN_ORG_INFO_CLASS);
-        theMap.put(CLU_TIME_AMOUNT_INFO_KEY, CLU_TIME_AMOUNT_INFO_CLASS);
-        theMap.put(PROPOSAL_INFO_KEY, PROPOSAL_INFO_CLASS);
-        return theMap;
+        return objectKeyToClassMap;
+	}
+	
+	public static Map<String, String> getClasstoObjectKeyMap(){
+        return classToObjectKeyMap;
 	}
 }
