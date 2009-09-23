@@ -169,13 +169,13 @@ public class CluProposalController extends PagedSectionLayout{
                     		cluProposalModel = new Model<CluProposalModelDTO>();
                         	
         	                cluProposalModel.put(new CluProposalModelDTO());
-        	                StringType type = new StringType();
+/*        	                StringType type = new StringType();
         	                type.set("kuali.lu.type.CreditCourse");
         	                cluProposalModel.get().put("type", type);
         	                
         	                StringType state = new StringType();
         	                state.set("draft");
-        	                cluProposalModel.get().put("state", state);
+        	                cluProposalModel.get().put("state", state);*/
         	                callback.onModelReady(cluProposalModel);
 						}
 
@@ -192,13 +192,13 @@ public class CluProposalController extends PagedSectionLayout{
             		cluProposalModel = new Model<CluProposalModelDTO>();
             	
 	                cluProposalModel.put(new CluProposalModelDTO());
-	                StringType type = new StringType();
+/*	                StringType type = new StringType();
 	                type.set("kuali.lu.type.CreditCourse");
 	                cluProposalModel.get().put("type", type);
 	                
 	                StringType state = new StringType();
 	                state.set("draft");
-	                cluProposalModel.get().put("state", state);
+	                cluProposalModel.get().put("state", state);*/
 	                callback.onModelReady(cluProposalModel);
             	}
                 
