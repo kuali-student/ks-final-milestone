@@ -10,7 +10,7 @@
            http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 	<bean id="propertyConfigurer"
-		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:ks-spring-security.properties</value>
@@ -48,12 +48,7 @@
     	<security:custom-authentication-provider />
    	</bean>
     
-
-	
-<!-- Have to comment entire bean def out, even though we're not ref'ing it as authentication-provider
-     Spring won't allow > 1 implementor of UserDetailsService to be created -->
 	<bean id="ksUserDetailsService" class="org.kuali.student.security.spring.KSDefaultUserDetailsService">
-
 		<!-- uncomment if you do not want to use the default roles of ROLE_KS_ADMIN, ROLE_KS_USER
 		<property name="authorities">
 			<list>
@@ -61,9 +56,7 @@
 			</list>
 		</property>
 		-->
-
 	</bean>
-
 
 
 	<!--Enabling Kim identity service to authenticate the users	-->
@@ -82,8 +75,6 @@
 	
 	<bean id="ksRiceUserDetailsService" class="org.kuali.student.security.spring.KSRiceDefaultUserDetailsService">
 		<property name="identityService" ref="identityServiceClient"/>
-<!--		<property name="identityService"> <null/>-->
-<!--		</property>-->
   	</bean>
 	
 	<bean id="authenticationGwtRpcFilter" class="org.kuali.student.security.filter.AuthenticationGwtRpcFilter">
