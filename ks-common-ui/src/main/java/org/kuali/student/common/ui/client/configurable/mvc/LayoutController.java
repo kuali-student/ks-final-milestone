@@ -57,7 +57,9 @@ public abstract class LayoutController extends Controller  {
     public void validate(Section section){
         ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
         
-        final Validator val = new Validator(bc, true);
+//        
+//        Validator val = new Validator(bc, true);
+
         final ValidateResultEvent e = new ValidateResultEvent();
         //getModel().keySet();
         ModelDTO model = getModel();
@@ -68,9 +70,10 @@ public abstract class LayoutController extends Controller  {
             if(objStructure == null){
                Window.alert("Cannot load dictionary(object structure)");
             }
-      
-            //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
 
+            ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
+            Validator val = new Validator(bc, true);
+            
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.setValidationResult(results);// filled by calling the real validate code
             fireApplicationEvent(e);
