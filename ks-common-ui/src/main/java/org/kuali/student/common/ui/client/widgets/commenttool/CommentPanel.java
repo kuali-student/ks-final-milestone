@@ -301,6 +301,12 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
+        if(referenceId != null && !(referenceId.isEmpty())){
+			buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
+		}
+		else{
+			buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
+		}
         refreshComments();
     }
     

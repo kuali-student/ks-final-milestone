@@ -10,6 +10,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.core.dictionary.dto.Field;
 
+import com.google.gwt.core.client.GWT;
+
 public class ModelDTOAdapter implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String objectKey;
@@ -131,17 +133,17 @@ public class ModelDTOAdapter implements Serializable{
     private String getClassName(String key){
     	DictionaryManager dictionary = DictionaryManager.getInstance();
     	String name = null;
-    	
-    	Map<String, Field> fields = dictionary.getFields(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get());
+    	//GWT.log(key + " " + objectKey + ((StringType) baseModelDTO.map.get("type")).get() + ((StringType) baseModelDTO.map.get("state")).get(), null);
+/*    	Map<String, Field> fields = dictionary.getFields(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get());
     	for(String k: fields.keySet()){
     		System.out.println("Field key: " + k + " Name: " + fields.get(k).getFieldDescriptor().getName());
-    	}
+    	}*/
     	Field field = dictionary.getField(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get(), key);
     	
-    	System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
+    	//System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){
     		
-    		System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
+    		//System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
     		name = objectKeyClassNameMap.get(field.getFieldDescriptor().getObjectStructure().getKey());
     	}
     	
