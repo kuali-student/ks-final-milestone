@@ -9,13 +9,13 @@ import org.kuali.student.common.validator.ConstraintDataProvider;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SectionConstraintDataProvider {
+public class SectionConstraintDataProvider implements ConstraintDataProvider  {
     private ConstraintDataProvider model = null;
     private Section section = null;
 
     // TODO add constructors/setters for passing these in
     public SectionConstraintDataProvider(Section s,ConstraintDataProvider model){
-        
+        this.model = model;
     }
  // question
     public String getObjectId() {
