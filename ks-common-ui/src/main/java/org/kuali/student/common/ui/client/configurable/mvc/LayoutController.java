@@ -65,7 +65,7 @@ public abstract class LayoutController extends Controller  {
             if(objStructure == null){
                Window.alert("Cannot load dictionary(object structure)");
             }
-            List<ValidationResultContainer> results = val.validateTypeStateObject(getModel(), objStructure);
+            List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.setValidationResult(results);// filled by calling the real validate code
             fireApplicationEvent(e);
         }
