@@ -94,13 +94,13 @@ public class LuConfigurer {
     }
     
     public static void addCluStartSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start", ProposalInfoModelDTO.class);
+        VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start", CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title("Proposal Information"));
         section.setInstructions("Enter the following to save a draft of the clu proposal.");
 
-        section.addField(new FieldDescriptor("name", "Proposal Title", Type.STRING));
+        section.addField(new FieldDescriptor("proposalInfo/name", "Proposal Title", Type.STRING));
         //This will need to be a person picker
-        section.addField(new FieldDescriptor("proposerPerson", "Originiating Faculty Member",Type.STRING)) ;
+        section.addField(new FieldDescriptor("proposalInfo/proposerPerson", "Originiating Faculty Member",Type.STRING)) ;
         ((PagedSectionLayout)layout).addStartSection(section);
     }
     
@@ -206,8 +206,8 @@ public class LuConfigurer {
         CustomNestedSection courseNumber = new CustomNestedSection();
         courseNumber.setSectionTitle(SectionTitle.generateH5Title("Course Number")); //Section title constants)
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        courseNumber.addField(new FieldDescriptor("/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
-        courseNumber.addField(new FieldDescriptor("/officialIdentifier/suffixCode", null, Type.STRING));
+        courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
+        courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", null, Type.STRING));
         courseNumber.nextRow();
         
             //CROSS LISTED
@@ -243,13 +243,13 @@ public class LuConfigurer {
         
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
-        FieldDescriptor fd = new FieldDescriptor("/officialIdentifier/longName", "Proposed Course Title", Type.STRING);
+        FieldDescriptor fd = new FieldDescriptor("cluInfo/officialIdentifier/longName", "Proposed Course Title", Type.STRING);
 //        Callback<Boolean> callback =  getSubjectValidationCallback(fd,objectKey);
   //      fd.setValidationCallBack(callback);
         section.addField(fd);        
-        section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Transcript Title", Type.STRING));        
-        section.addField(new FieldDescriptor("desc", "Course Description", Type.MODELDTO, new KSRichEditor()));        
-        section.addField(new FieldDescriptor("marketingDesc", "Marketing Description", Type.MODELDTO, new KSRichEditor()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", "Transcript Title", Type.STRING));        
+        section.addField(new FieldDescriptor("cluInfo/desc", "Course Description", Type.MODELDTO, new KSRichEditor()));        
+        section.addField(new FieldDescriptor("cluInfo/marketingDesc", "Marketing Description", Type.MODELDTO, new KSRichEditor()));
 
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.INFORMATION_LABEL_KEY)}, section);               
     }

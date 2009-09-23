@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -25,6 +26,8 @@ public class CluDictionaryClassNameHelper {
     public static final String CLU_ADMIN_ORG_INFO_CLASS = AdminOrgInfo.class.getName();
     public static final String CLU_TIME_AMOUNT_INFO_KEY = "timeAmountInfo";
     public static final String CLU_TIME_AMOUNT_INFO_CLASS = TimeAmountInfo.class.getName();
+    public static final String PROPOSAL_INFO_KEY = "proposalInfo";
+    public static final String PROPOSAL_INFO_CLASS = ProposalInfo.class.getName();
 
     //TODO add the rest
 	
@@ -36,6 +39,7 @@ public class CluDictionaryClassNameHelper {
 		theMap.put(CLU_PUBLISHING_INFO_KEY, CLU_PUBLISHING_INFO_CLASS);
         theMap.put(CLU_ADMIN_ORG_INFO_KEY, CLU_ADMIN_ORG_INFO_CLASS);
         theMap.put(CLU_TIME_AMOUNT_INFO_KEY, CLU_TIME_AMOUNT_INFO_CLASS);
+        theMap.put(PROPOSAL_INFO_KEY, PROPOSAL_INFO_CLASS);
         return theMap;
 	}
 }

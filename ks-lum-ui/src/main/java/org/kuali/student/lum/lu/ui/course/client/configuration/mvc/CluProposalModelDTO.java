@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -26,22 +27,50 @@ import com.google.gwt.core.client.GWT;
  */
 public class CluProposalModelDTO extends ModelDTO {
 
-    private static final long serialVersionUID = 1L;
-    
-    /**
-     * @param className
-     */
-    public CluProposalModelDTO() {
-        super(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
+   private static final long serialVersionUID = 1L;
+	   
+   public CluProposalModelDTO() {
+	   Window.alert("GOT HERE");
+		setAdapter(new ModelDTOAdapter(this, null, null));
+	        
+		ModelDTO cluInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
+		cluInfoModelDTO.setAdapter(new ModelDTOAdapter(cluInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
+	
+		ModelDTOValue.ModelDTOType cluInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
+		cluInfoModelDTOValue.set(cluInfoModelDTO);
+		
+		ModelDTO proposalInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.PROPOSAL_INFO_CLASS);
+		proposalInfoModelDTO.setAdapter(new ModelDTOAdapter(proposalInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "proposalInfo"));
+		
+		ModelDTOValue.ModelDTOType proposalInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
+		proposalInfoModelDTOValue.set(proposalInfoModelDTO);
+		
+		//Clu Info, type, and state
+		this.put("cluInfo", cluInfoModelDTOValue);
+        StringType type = new StringType();
+        type.set("kuali.lu.type.CreditCourse");
+        this.put("cluInfo/type", type);
+        StringType state = new StringType();
+        state.set("draft");
+        this.put("cluInfo/state", state);
         
-    }
+        //Proposal Info, type, and state
+		this.put("proposalInfo", proposalInfoModelDTOValue);
+        StringType proposalType = new StringType();
+        proposalType.set("kuali.proposal.type.course.create");
+        this.put("proposalInfo/type", proposalType);
+        StringType proposalState = new StringType();
+        proposalState.set("draft.private");
+        this.put("proposalInfo/state", proposalState);
+		
+	}
 
-    /**
+/*    *//**
      * The CluProposalModelDTO extends the base ModelDTO("CluInfo") to add additional
      * properties to a clu, eg. Activity clus.
      * 
      * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTO#put(java.lang.String, org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
-     */
+     *//*
     @Override
     public void put(String key, ModelDTOValue value) {
     	if(GWT.isClient() && getAdapter() == null){
@@ -51,14 +80,14 @@ public class CluProposalModelDTO extends ModelDTO {
     }
 
 
-    /**
+    *//**
      * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTO#get(java.lang.String)
-     */
+     *//*
     @Override
     public ModelDTOValue get(String key) {
     	if(GWT.isClient() && getAdapter() == null){
     		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
     	}
         return super.get(key);            
-    }    
+    } */   
 }
