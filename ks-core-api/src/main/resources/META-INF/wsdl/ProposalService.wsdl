@@ -1,0 +1,1647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProposalService" targetNamespace="http://student.kuali.org/wsdl/proposal" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/proposal" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DependentObjectsExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:tns="http://student.kuali.org/wsdl/proposal" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/proposal">
+    <xs:element name="createProposal" type="tns:createProposal"/>
+    <xs:element name="createProposalDocRelation" type="tns:createProposalDocRelation"/>
+    <xs:element name="createProposalDocRelationResponse" type="tns:createProposalDocRelationResponse"/>
+    <xs:element name="createProposalResponse" type="tns:createProposalResponse"/>
+    <xs:element name="deleteProposal" type="tns:deleteProposal"/>
+    <xs:element name="deleteProposalDocRelation" type="tns:deleteProposalDocRelation"/>
+    <xs:element name="deleteProposalDocRelationResponse" type="tns:deleteProposalDocRelationResponse"/>
+    <xs:element name="deleteProposalResponse" type="tns:deleteProposalResponse"/>
+    <xs:element name="getAllowedProposalDocRelationTypesForProposalType" type="tns:getAllowedProposalDocRelationTypesForProposalType"/>
+    <xs:element name="getAllowedProposalDocRelationTypesForProposalTypeResponse" type="tns:getAllowedProposalDocRelationTypesForProposalTypeResponse"/>
+    <xs:element name="getProposal" type="tns:getProposal"/>
+    <xs:element name="getProposalDocRelation" type="tns:getProposalDocRelation"/>
+    <xs:element name="getProposalDocRelationResponse" type="tns:getProposalDocRelationResponse"/>
+    <xs:element name="getProposalDocRelationType" type="tns:getProposalDocRelationType"/>
+    <xs:element name="getProposalDocRelationTypeResponse" type="tns:getProposalDocRelationTypeResponse"/>
+    <xs:element name="getProposalDocRelationTypes" type="tns:getProposalDocRelationTypes"/>
+    <xs:element name="getProposalDocRelationTypesResponse" type="tns:getProposalDocRelationTypesResponse"/>
+    <xs:element name="getProposalDocRelationsByDocument" type="tns:getProposalDocRelationsByDocument"/>
+    <xs:element name="getProposalDocRelationsByDocumentResponse" type="tns:getProposalDocRelationsByDocumentResponse"/>
+    <xs:element name="getProposalDocRelationsByIdList" type="tns:getProposalDocRelationsByIdList"/>
+    <xs:element name="getProposalDocRelationsByIdListResponse" type="tns:getProposalDocRelationsByIdListResponse"/>
+    <xs:element name="getProposalDocRelationsByProposal" type="tns:getProposalDocRelationsByProposal"/>
+    <xs:element name="getProposalDocRelationsByProposalResponse" type="tns:getProposalDocRelationsByProposalResponse"/>
+    <xs:element name="getProposalDocRelationsByType" type="tns:getProposalDocRelationsByType"/>
+    <xs:element name="getProposalDocRelationsByTypeResponse" type="tns:getProposalDocRelationsByTypeResponse"/>
+    <xs:element name="getProposalResponse" type="tns:getProposalResponse"/>
+    <xs:element name="getProposalType" type="tns:getProposalType"/>
+    <xs:element name="getProposalTypeResponse" type="tns:getProposalTypeResponse"/>
+    <xs:element name="getProposalTypes" type="tns:getProposalTypes"/>
+    <xs:element name="getProposalTypesForReferenceType" type="tns:getProposalTypesForReferenceType"/>
+    <xs:element name="getProposalTypesForReferenceTypeResponse" type="tns:getProposalTypesForReferenceTypeResponse"/>
+    <xs:element name="getProposalTypesResponse" type="tns:getProposalTypesResponse"/>
+    <xs:element name="getProposalsByIdList" type="tns:getProposalsByIdList"/>
+    <xs:element name="getProposalsByIdListResponse" type="tns:getProposalsByIdListResponse"/>
+    <xs:element name="getProposalsByProposalType" type="tns:getProposalsByProposalType"/>
+    <xs:element name="getProposalsByProposalTypeResponse" type="tns:getProposalsByProposalTypeResponse"/>
+    <xs:element name="getProposalsByReference" type="tns:getProposalsByReference"/>
+    <xs:element name="getProposalsByReferenceResponse" type="tns:getProposalsByReferenceResponse"/>
+    <xs:element name="getProposalsByState" type="tns:getProposalsByState"/>
+    <xs:element name="getProposalsByStateResponse" type="tns:getProposalsByStateResponse"/>
+    <xs:element name="getReferenceTypes" type="tns:getReferenceTypes"/>
+    <xs:element name="getReferenceTypesResponse" type="tns:getReferenceTypesResponse"/>
+    <xs:element name="updateProposal" type="tns:updateProposal"/>
+    <xs:element name="updateProposalDocRelation" type="tns:updateProposalDocRelation"/>
+    <xs:element name="updateProposalDocRelationResponse" type="tns:updateProposalDocRelationResponse"/>
+    <xs:element name="updateProposalResponse" type="tns:updateProposalResponse"/>
+    <xs:element name="validateProposal" type="tns:validateProposal"/>
+    <xs:element name="validateProposalDocRelation" type="tns:validateProposalDocRelation"/>
+    <xs:element name="validateProposalDocRelationResponse" type="tns:validateProposalDocRelationResponse"/>
+    <xs:element name="validateProposalResponse" type="tns:validateProposalResponse"/>
+    <xs:complexType name="getProposalDocRelationType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalDocRelationTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalDocRelationTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="proposalDocRelationTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getProposalTypesForReferenceType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalTypesForReferenceTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="proposalTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="createProposalDocRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalDocRelationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="documentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalId" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalDocRelationInfo" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="proposalDocRelationInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalId" type="xs:string"/>
+            <xs:element minOccurs="0" name="documentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="title" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="richTextInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="plain" type="xs:string"/>
+            <xs:element minOccurs="0" name="formatted" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="metaInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="createId" type="xs:string"/>
+            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createProposalDocRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalDocRelationTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByState">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalState" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByStateResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="proposalInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="proposerPerson" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="proposerOrg" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalReferenceType" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="proposalReference" type="xs:string"/>
+            <xs:element minOccurs="0" name="rationale" type="xs:string"/>
+            <xs:element minOccurs="0" name="detailDesc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByIdList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="proposalIdList" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByIdListResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getProposalTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createProposal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalInfo" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createProposalResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getAllowedProposalDocRelationTypesForProposalType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getAllowedProposalDocRelationTypesForProposalTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByDocument">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="documentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByDocumentResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByProposal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByProposalResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateProposalDocRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalDocRelationInfo" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateProposalDocRelationResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validationResultContainer">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
+            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
+            <xs:element minOccurs="0" name="element" type="xs:string"/>
+            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
+            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validationResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalDocRelationTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteProposal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteProposalResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByProposalType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByProposalTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateProposalDocRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalDocRelationId" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalDocRelationInfo" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateProposalDocRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalDocRelationId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByIdList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="proposalDocRelationIdList" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalDocRelationsByIdListResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalDocRelationInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateProposal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalInfo" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateProposalResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateProposal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalId" type="xs:string"/>
+            <xs:element minOccurs="0" name="proposalInfo" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateProposalResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReferenceTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getReferenceTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:referenceTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="referenceTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByReference">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getProposalsByReferenceResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:proposalInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteProposalDocRelation">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proposalDocRelationId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteProposalDocRelationResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="errorLevel">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OK"/>
+            <xs:enumeration value="WARN"/>
+            <xs:enumeration value="ERROR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+    <xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+    <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+    <xs:element name="DependentObjectsExistException" nillable="true" type="ns0:DependentObjectsExistException"/>
+    <xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getReferenceTypesResponse">
+    <wsdl:part name="parameters" element="tns:getReferenceTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllowedProposalDocRelationTypesForProposalTypeResponse">
+    <wsdl:part name="parameters" element="tns:getAllowedProposalDocRelationTypesForProposalTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProposalDocRelationResponse">
+    <wsdl:part name="parameters" element="tns:deleteProposalDocRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalTypesForReferenceTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProposalTypesForReferenceTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalTypesResponse">
+    <wsdl:part name="parameters" element="tns:getProposalTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByIdList">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByIdList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposal">
+    <wsdl:part name="parameters" element="tns:getProposal">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationTypes">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalResponse">
+    <wsdl:part name="parameters" element="tns:getProposalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByProposalType">
+    <wsdl:part name="parameters" element="tns:getProposalsByProposalType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByIdListResponse">
+    <wsdl:part name="parameters" element="tns:getProposalsByIdListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProposalResponse">
+    <wsdl:part name="parameters" element="tns:deleteProposalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProposalDocRelation">
+    <wsdl:part name="parameters" element="tns:createProposalDocRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelation">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByProposal">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByProposal">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByType">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProposal">
+    <wsdl:part name="parameters" element="tns:validateProposal">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProposalResponse">
+    <wsdl:part name="parameters" element="tns:updateProposalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationTypesResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProposalDocRelation">
+    <wsdl:part name="parameters" element="tns:updateProposalDocRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProposal">
+    <wsdl:part name="parameters" element="tns:createProposal">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProposalResponse">
+    <wsdl:part name="parameters" element="tns:createProposalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByProposalResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByProposalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProposalDocRelationResponse">
+    <wsdl:part name="parameters" element="tns:updateProposalDocRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByDocumentResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByDocumentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProposalDocRelation">
+    <wsdl:part name="parameters" element="tns:deleteProposalDocRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProposal">
+    <wsdl:part name="parameters" element="tns:updateProposal">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByProposalTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProposalsByProposalTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProposalDocRelationResponse">
+    <wsdl:part name="parameters" element="tns:validateProposalDocRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllowedProposalDocRelationTypesForProposalType">
+    <wsdl:part name="parameters" element="tns:getAllowedProposalDocRelationTypesForProposalType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByIdListResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByIdListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalTypes">
+    <wsdl:part name="parameters" element="tns:getProposalTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReferenceTypes">
+    <wsdl:part name="parameters" element="tns:getReferenceTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProposalTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalType">
+    <wsdl:part name="parameters" element="tns:getProposalType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProposal">
+    <wsdl:part name="parameters" element="tns:deleteProposal">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DependentObjectsExistException">
+    <wsdl:part name="DependentObjectsExistException" element="tns:DependentObjectsExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByState">
+    <wsdl:part name="parameters" element="tns:getProposalsByState">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationType">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProposalDocRelationResponse">
+    <wsdl:part name="parameters" element="tns:createProposalDocRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByStateResponse">
+    <wsdl:part name="parameters" element="tns:getProposalsByStateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalTypesForReferenceType">
+    <wsdl:part name="parameters" element="tns:getProposalTypesForReferenceType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationsByDocument">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationsByDocument">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationTypeResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByIdList">
+    <wsdl:part name="parameters" element="tns:getProposalsByIdList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByReferenceResponse">
+    <wsdl:part name="parameters" element="tns:getProposalsByReferenceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProposalResponse">
+    <wsdl:part name="parameters" element="tns:validateProposalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalsByReference">
+    <wsdl:part name="parameters" element="tns:getProposalsByReference">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProposalDocRelationResponse">
+    <wsdl:part name="parameters" element="tns:getProposalDocRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProposalDocRelation">
+    <wsdl:part name="parameters" element="tns:validateProposalDocRelation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ProposalService">
+    <wsdl:operation name="getProposalDocRelationType">
+      <wsdl:input name="getProposalDocRelationType" message="tns:getProposalDocRelationType">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationTypeResponse" message="tns:getProposalDocRelationTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalTypesForReferenceType">
+      <wsdl:input name="getProposalTypesForReferenceType" message="tns:getProposalTypesForReferenceType">
+    </wsdl:input>
+      <wsdl:output name="getProposalTypesForReferenceTypeResponse" message="tns:getProposalTypesForReferenceTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProposalDocRelation">
+      <wsdl:input name="createProposalDocRelation" message="tns:createProposalDocRelation">
+    </wsdl:input>
+      <wsdl:output name="createProposalDocRelationResponse" message="tns:createProposalDocRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationTypes">
+      <wsdl:input name="getProposalDocRelationTypes" message="tns:getProposalDocRelationTypes">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationTypesResponse" message="tns:getProposalDocRelationTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByState">
+      <wsdl:input name="getProposalsByState" message="tns:getProposalsByState">
+    </wsdl:input>
+      <wsdl:output name="getProposalsByStateResponse" message="tns:getProposalsByStateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByIdList">
+      <wsdl:input name="getProposalsByIdList" message="tns:getProposalsByIdList">
+    </wsdl:input>
+      <wsdl:output name="getProposalsByIdListResponse" message="tns:getProposalsByIdListResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposal">
+      <wsdl:input name="getProposal" message="tns:getProposal">
+    </wsdl:input>
+      <wsdl:output name="getProposalResponse" message="tns:getProposalResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalTypes">
+      <wsdl:input name="getProposalTypes" message="tns:getProposalTypes">
+    </wsdl:input>
+      <wsdl:output name="getProposalTypesResponse" message="tns:getProposalTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProposal">
+      <wsdl:input name="createProposal" message="tns:createProposal">
+    </wsdl:input>
+      <wsdl:output name="createProposalResponse" message="tns:createProposalResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllowedProposalDocRelationTypesForProposalType">
+      <wsdl:input name="getAllowedProposalDocRelationTypesForProposalType" message="tns:getAllowedProposalDocRelationTypesForProposalType">
+    </wsdl:input>
+      <wsdl:output name="getAllowedProposalDocRelationTypesForProposalTypeResponse" message="tns:getAllowedProposalDocRelationTypesForProposalTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByDocument">
+      <wsdl:input name="getProposalDocRelationsByDocument" message="tns:getProposalDocRelationsByDocument">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByDocumentResponse" message="tns:getProposalDocRelationsByDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByProposal">
+      <wsdl:input name="getProposalDocRelationsByProposal" message="tns:getProposalDocRelationsByProposal">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByProposalResponse" message="tns:getProposalDocRelationsByProposalResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProposalDocRelation">
+      <wsdl:input name="validateProposalDocRelation" message="tns:validateProposalDocRelation">
+    </wsdl:input>
+      <wsdl:output name="validateProposalDocRelationResponse" message="tns:validateProposalDocRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByType">
+      <wsdl:input name="getProposalDocRelationsByType" message="tns:getProposalDocRelationsByType">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByTypeResponse" message="tns:getProposalDocRelationsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProposal">
+      <wsdl:input name="deleteProposal" message="tns:deleteProposal">
+    </wsdl:input>
+      <wsdl:output name="deleteProposalResponse" message="tns:deleteProposalResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByProposalType">
+      <wsdl:input name="getProposalsByProposalType" message="tns:getProposalsByProposalType">
+    </wsdl:input>
+      <wsdl:output name="getProposalsByProposalTypeResponse" message="tns:getProposalsByProposalTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProposalDocRelation">
+      <wsdl:input name="updateProposalDocRelation" message="tns:updateProposalDocRelation">
+    </wsdl:input>
+      <wsdl:output name="updateProposalDocRelationResponse" message="tns:updateProposalDocRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelation">
+      <wsdl:input name="getProposalDocRelation" message="tns:getProposalDocRelation">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationResponse" message="tns:getProposalDocRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByIdList">
+      <wsdl:input name="getProposalDocRelationsByIdList" message="tns:getProposalDocRelationsByIdList">
+    </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByIdListResponse" message="tns:getProposalDocRelationsByIdListResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProposal">
+      <wsdl:input name="validateProposal" message="tns:validateProposal">
+    </wsdl:input>
+      <wsdl:output name="validateProposalResponse" message="tns:validateProposalResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalType">
+      <wsdl:input name="getProposalType" message="tns:getProposalType">
+    </wsdl:input>
+      <wsdl:output name="getProposalTypeResponse" message="tns:getProposalTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProposal">
+      <wsdl:input name="updateProposal" message="tns:updateProposal">
+    </wsdl:input>
+      <wsdl:output name="updateProposalResponse" message="tns:updateProposalResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReferenceTypes">
+      <wsdl:input name="getReferenceTypes" message="tns:getReferenceTypes">
+    </wsdl:input>
+      <wsdl:output name="getReferenceTypesResponse" message="tns:getReferenceTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByReference">
+      <wsdl:input name="getProposalsByReference" message="tns:getProposalsByReference">
+    </wsdl:input>
+      <wsdl:output name="getProposalsByReferenceResponse" message="tns:getProposalsByReferenceResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProposalDocRelation">
+      <wsdl:input name="deleteProposalDocRelation" message="tns:deleteProposalDocRelation">
+    </wsdl:input>
+      <wsdl:output name="deleteProposalDocRelationResponse" message="tns:deleteProposalDocRelationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProposalServiceServiceSoapBinding" type="tns:ProposalService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getProposalDocRelationType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelationType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalTypesForReferenceType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalTypesForReferenceType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalTypesForReferenceTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProposalDocRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createProposalDocRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createProposalDocRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelationTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByState">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalsByState">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalsByStateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByIdList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalsByIdList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalsByIdListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProposal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createProposal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createProposalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllowedProposalDocRelationTypesForProposalType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllowedProposalDocRelationTypesForProposalType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllowedProposalDocRelationTypesForProposalTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelationsByDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByProposal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelationsByProposal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByProposalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelationsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProposalDocRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateProposalDocRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateProposalDocRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProposal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProposal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProposalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByProposalType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalsByProposalType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalsByProposalTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProposalDocRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateProposalDocRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateProposalDocRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalDocRelationsByIdList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalDocRelationsByIdList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalDocRelationsByIdListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateProposal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateProposal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateProposalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProposal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateProposal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateProposalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReferenceTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReferenceTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReferenceTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProposalDocRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProposalDocRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProposalDocRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProposalsByReference">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProposalsByReference">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProposalsByReferenceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProposalService">
+    <wsdl:port name="ProposalServicePort" binding="tns:ProposalServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ProposalServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
