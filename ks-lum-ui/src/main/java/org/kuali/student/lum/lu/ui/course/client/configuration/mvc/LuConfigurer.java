@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
@@ -100,7 +101,7 @@ public class LuConfigurer {
 
         section.addField(new FieldDescriptor("proposalInfo/name", "Proposal Title", Type.STRING));
         //This will need to be a person picker
-        section.addField(new FieldDescriptor("proposalInfo/proposerPerson", "Originiating Faculty Member",Type.STRING)) ;
+        section.addField(new FieldDescriptor("proposalInfo/proposerPerson", "Originiating Faculty Member",Type.LIST, new PersonList())) ;
         ((PagedSectionLayout)layout).addStartSection(section);
     }
     
@@ -136,11 +137,11 @@ public class LuConfigurer {
 
         VerticalSection startDate = new VerticalSection();
         startDate.setSectionTitle(SectionTitle.generateH5Title("Start Date"));
-        startDate.addField(new FieldDescriptor("effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
+        startDate.addField(new FieldDescriptor("cluInfo/effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
         
         VerticalSection endDate = new VerticalSection();
         endDate.setSectionTitle(SectionTitle.generateH5Title("End Date"));
-        endDate.addField(new FieldDescriptor("expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
+        endDate.addField(new FieldDescriptor("cluInfo/expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
         
         section.addSection(startDate);
         section.addSection(endDate);
@@ -156,14 +157,14 @@ public class LuConfigurer {
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = new VerticalSection();
         feeType.setSectionTitle(SectionTitle.generateH2Title("Fee Type"));
-        feeType.addField(new FieldDescriptor("feeType", null, Type.STRING));
+        feeType.addField(new FieldDescriptor("cluInfo/feeType", null, Type.STRING));
         
         VerticalSection feeAmount = new VerticalSection();
         feeAmount.setSectionTitle(SectionTitle.generateH2Title("Fee Amount"));
-        feeAmount.addField(new FieldDescriptor("feeAmount", "$", Type.STRING));
-        feeAmount.addField(new FieldDescriptor("taxable", "Taxable", Type.STRING));//TODO checkboxes go here instead
-        feeAmount.addField(new FieldDescriptor("feeDesc", "Description", Type.STRING, new KSTextArea()));
-        feeAmount.addField(new FieldDescriptor("internalNotation", "Internal Fee Notation", Type.STRING, new KSTextArea()));
+        feeAmount.addField(new FieldDescriptor("cluInfo/feeAmount", "$", Type.STRING));
+        feeAmount.addField(new FieldDescriptor("cluInfo/taxable", "Taxable", Type.STRING));//TODO checkboxes go here instead
+        feeAmount.addField(new FieldDescriptor("cluInfo/feeDesc", "Description", Type.STRING, new KSTextArea()));
+        feeAmount.addField(new FieldDescriptor("cluInfo/internalNotation", "Internal Fee Notation", Type.STRING, new KSTextArea()));
         
         section.addSection(feeType);
         section.addSection(feeAmount);
@@ -281,11 +282,11 @@ public class LuConfigurer {
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("department", "Department", Type.STRING));//TODO OrgSearch goes here, wrong key
+            ns.addField(new FieldDescriptor("cluInfo/department", "Department", Type.STRING));//TODO OrgSearch goes here, wrong key
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("division", "Subject Code", Type.STRING));//TODO OrgSearch goes here?
-            ns.addField(new FieldDescriptor("suffixCode", "Course Number", Type.STRING));
+            ns.addField(new FieldDescriptor("cluInfo/division", "Subject Code", Type.STRING));//TODO OrgSearch goes here?
+            ns.addField(new FieldDescriptor("cluInfo/suffixCode", "Course Number", Type.STRING));
             multi.addSection(ns);
             
             return multi;
@@ -301,7 +302,7 @@ public class LuConfigurer {
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("courseTitle", "Course Number or Title", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("cluInfo/courseTitle", "Course Number or Title", Type.STRING));//TODO wrong key
             multi.addSection(ns);
             
             return multi;
@@ -317,8 +318,8 @@ public class LuConfigurer {
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("versionCode", "Code", Type.STRING));//TODO wrong key
-            ns.addField(new FieldDescriptor("title", "Title", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("cluInfo/versionCode", "Code", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("cluInfo/title", "Title", Type.STRING));//TODO wrong key
             multi.addSection(ns);
             
             return multi;
@@ -335,19 +336,19 @@ public class LuConfigurer {
         VerticalSection credits = new VerticalSection();
         credits.setSectionTitle(SectionTitle.generateH3Title("Credits"));
         //TODO: These needs to be mapped to learning results
-        credits.addField(new FieldDescriptor("creditType", "Credit Type", Type.STRING));
-        credits.addField(new FieldDescriptor("creditValue", "Credit Value", Type.STRING));
-        credits.addField(new FieldDescriptor("maxCredits", "Maximum Credits", Type.STRING));
+        credits.addField(new FieldDescriptor("cluInfo/creditType", "Credit Type", Type.STRING));
+        credits.addField(new FieldDescriptor("cluInfo/creditValue", "Credit Value", Type.STRING));
+        credits.addField(new FieldDescriptor("cluInfo/maxCredits", "Maximum Credits", Type.STRING));
         
         //LEARNING RESULTS
         VerticalSection learningResults = new VerticalSection();
         learningResults.setSectionTitle(SectionTitle.generateH3Title("Learning Results"));
-        learningResults.addField(new FieldDescriptor("evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
+        learningResults.addField(new FieldDescriptor("cluInfo/evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
         
         VerticalSection scheduling = new VerticalSection();
         scheduling.setSectionTitle(SectionTitle.generateH3Title("Scheduling"));
-        scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term", Type.STRING, new AtpTypeList()));
-        scheduling.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO DURATION ENUMERATION
+        scheduling.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", "Term", Type.STRING, new AtpTypeList()));
+        scheduling.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO DURATION ENUMERATION
         
         //COURSE FORMATS
         VerticalSection courseFormats = new VerticalSection();
@@ -388,7 +389,7 @@ public class LuConfigurer {
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection("CluInfo");
             CustomNestedSection activity = new CustomNestedSection();
-            activity.addField(new FieldDescriptor("type", "Activity Type", Type.STRING, new CluActivityType()));
+            activity.addField(new FieldDescriptor("cluInfo/type", "Activity Type", Type.STRING, new CluActivityType()));
             activity.nextRow();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
@@ -401,11 +402,11 @@ public class LuConfigurer {
             */
             
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("term", "Term", Type.STRING, new AtpTypeList()));
-            activity.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO dropdown need here?
+            activity.addField(new FieldDescriptor("cluInfo/term", "Term", Type.STRING, new AtpTypeList()));
+            activity.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("/intensity/timeQuantity", "Contact Hours", Type.STRING));
+            activity.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Contact Hours", Type.STRING));
             //TODO PER WHATEVER
             activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Class Size", Type.STRING));
             
@@ -536,6 +537,26 @@ public class LuConfigurer {
         }
     }
     
+    //FIXME: This needs to be a proper person picker (or some other widget person entry widget)
+    public static class PersonList extends KSDropDown{
+        public PersonList(){
+            SimpleListItems people = new SimpleListItems();
+            
+            String userId = Application.getApplicationContext().getUserId();
+            people.addItem(userId, userId);
+            people.addItem("altPerson", "Jon Doe");
+            
+            super.setListItems(people);
+            
+            this.selectItem(userId);
+        }
+        
+        //FIXME: This is a hack, since field is a list, but wireframe allows only single select
+        public boolean isMultipleSelect(){
+            return true;
+        }        
+    }
+
     public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
             super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);            

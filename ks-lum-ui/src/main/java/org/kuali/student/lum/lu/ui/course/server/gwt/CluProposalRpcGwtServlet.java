@@ -27,11 +27,13 @@ import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
@@ -47,11 +49,10 @@ import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in.
+ * GWT service orchestration code for creating and modifying clu proposals.
  *
  * @author Kuali Student Team
  */
-// Fixme: Replace Object with ProposalService interface class
 public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
     final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
@@ -60,11 +61,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private static final String DEFAULT_USER_ID = "user1";
     private static final String WF_TYPE_CLU_DOCUMENT = "CluDocument";
     private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
+    
+    //Rice Services
     private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
+
+    //Core Services
     private OrganizationService orgService;
-
-
+    private ProposalService proposalService;
 
 
 	@Override
@@ -389,14 +393,28 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
-    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {
+    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {        
         MapContext ctx = new MapContext();
-        //CluProposalModelDTO result = new CluProposalModelDTO();
+
+        logger.info("Creating proposal");
         try{
-            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
+            //Convert proposalInfo model dto to proposalInfo
+            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("proposalInfo")).get();
+            ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
+            
+            //Create proposal in proposalService
+            proposalService.createProposal(proposalInfo.getType(), proposalInfo);
+            ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
+            proposalInfoModelDTO.copyFrom(proposalModelDTO);            
+            
+            //Convert cluInfo model dto to cluInfo object
+            ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("cluInfo")).get();
+            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
+
+            //Create clu in LuService
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluProposalDTO.copyFrom(cluModelDTO);
+            cluInfoModelDTO.copyFrom(cluModelDTO);
             
             saveCourseFormats(cluProposalDTO);
             
@@ -442,30 +460,41 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 
                 CluInfo courseFormatShell = (CluInfo)ctx.fromModelDTO(courseFormatModelDTO);
                 
-                System.out.println(courseFormatShell.getType());
-                                
+                logger.debug(courseFormatShell.getType());                                
             }
         }
         
     }
     
     /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
         MapContext ctx = new MapContext();
         try{
-            logger.debug("DOING AN UPDATE");
-            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluProposalDTO);
-            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
+            logger.debug("Updating proposal");
+
+            //Convert proposalInfo model dto to proposalInfo
+            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("proposalInfo")).get();
+            ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
+            
+            //Create proposal in proposalService
+            proposalService.updateProposal(proposalInfo.getType(), proposalInfo);
+            ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
+            proposalInfoModelDTO.copyFrom(proposalModelDTO);            
+            
+            //Convert cluInfo model dto to cluInfo object
+            ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("cluInfo")).get();
+            CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
+
+            //Create clu in LuService
+            cluInfo = service.updateClu(cluInfo.getType(), cluInfo);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluProposalDTO = new CluProposalModelDTO();
-            cluProposalDTO.copyFrom(cluModelDTO);
+            cluInfoModelDTO.copyFrom(cluModelDTO);
             
             saveCourseFormats(cluProposalDTO);
+            
             //get a user name
             String username = getCurrentUser();
             
@@ -693,4 +722,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public void setOrgService(OrganizationService orgService) {
 		this.orgService = orgService;
 	}
+
+    public ProposalService getProposalService() {
+        return proposalService;
+    }
+
+    public void setProposalService(ProposalService proposalService) {
+        this.proposalService = proposalService;
+    }
+	
 }

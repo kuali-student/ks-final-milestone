@@ -153,6 +153,7 @@
 		<property name="orgService" ref="orgClient" />
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
+		<property name="proposalService" ref="proposalClient" />
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
 	</bean>
 
@@ -210,6 +211,11 @@
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+
+	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
 
 	<bean id="workflowUtilityClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
