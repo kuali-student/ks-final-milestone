@@ -29,6 +29,7 @@ public class SectionConstraintDataProvider implements ConstraintDataProvider  {
     // TODO add constructors/setters for passing these in
     public SectionConstraintDataProvider(Section s,ConstraintDataProvider model){
         this.model = model;
+        this.section = section;
     }
  // question
     public String getObjectId() {
