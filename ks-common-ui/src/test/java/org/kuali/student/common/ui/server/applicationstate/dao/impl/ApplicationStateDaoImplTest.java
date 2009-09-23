@@ -48,6 +48,64 @@ public class ApplicationStateDaoImplTest extends AbstractTransactionalDaoTest {
 	}
 
 	@Test
+	public void testUpdateApplicationState1() throws Exception {
+		List<KeyValuePair> list = getKeyValuePairList(1,3);
+		ApplicationState appState = getApplicationState("1", "2", "course", null, list);
+		ApplicationState newAppState = dao.createApplicationState(appState);
+		
+		ApplicationState getAppState = dao.getApplicationState("1", "2", "course");
+
+		list = new ArrayList<KeyValuePair>();
+		list.add(new KeyValuePair("k1", "v1"));
+		list.add(new KeyValuePair("k2", "v2"));
+		getAppState.setKeyValueList(list);
+		
+		dao.update(getAppState);
+		
+		getAppState = dao.getApplicationState("1", "2", "course");
+		Assert.assertNotNull(getAppState);
+		Assert.assertEquals(newAppState.toString(), getAppState.toString());
+		Assert.assertEquals(newAppState.getKeyValueList().toString(), getAppState.getKeyValueList().toString());
+
+		ApplicationState getAppState2 = dao.fetch(ApplicationState.class, newAppState.getId());
+		Assert.assertEquals(getAppState.toString(), getAppState2.toString());
+		Assert.assertEquals(getAppState.getKeyValueList().toString(), getAppState2.getKeyValueList().toString());
+		
+		dao.delete(ApplicationState.class, newAppState.getId());
+	}
+
+	@Test
+	public void testUpdateApplicationState2() throws Exception {
+		List<KeyValuePair> list = getKeyValuePairList(1,3);
+		ApplicationState appState = getApplicationState("1", "2", "course", null, list);
+		ApplicationState newAppState = dao.createApplicationState(appState);
+		
+		ApplicationState getAppState = dao.getApplicationState("1", "2", "course");
+
+		getAppState.setApplicationId("A");
+		getAppState.setReferenceKey("B");
+		getAppState.setReferenceType("program");
+		list = new ArrayList<KeyValuePair>();
+		list.add(new KeyValuePair("k1", "v1"));
+		list.add(new KeyValuePair("k2", "v2"));
+		getAppState.setKeyValueList(list);
+
+		dao.update(getAppState);
+		
+		getAppState = dao.getApplicationState("A", "B", "program");
+
+		Assert.assertNotNull(getAppState);
+		Assert.assertEquals(newAppState.toString(), getAppState.toString());
+		Assert.assertEquals(newAppState.getKeyValueList().toString(), getAppState.getKeyValueList().toString());
+
+		ApplicationState getAppState2 = dao.fetch(ApplicationState.class, newAppState.getId());
+		Assert.assertEquals(getAppState.toString(), getAppState2.toString());
+		Assert.assertEquals(getAppState.getKeyValueList().toString(), getAppState2.getKeyValueList().toString());
+		
+		dao.delete(ApplicationState.class, newAppState.getId());
+	}
+
+	@Test
 	public void testCreateGetApplicationState1() throws Exception {
 		List<KeyValuePair> list = getKeyValuePairList(1,3);
 		ApplicationState appState = getApplicationState("1", "2", "course", null, list);

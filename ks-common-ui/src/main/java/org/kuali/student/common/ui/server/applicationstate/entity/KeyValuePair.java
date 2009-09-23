@@ -56,4 +56,9 @@ public class KeyValuePair {
 	public void setValue(String value) {
 		this.value = value;
 	}
+
+	@Override
+	public String toString() {
+		return "KeyValuePair[id=" + id + ", key=" + key + ", value=" + value + "]";
+	}
 }

@@ -93,4 +93,11 @@ public class ApplicationState {
 	public void setKeyValueList(List<KeyValuePair> keyValueList) {
 		this.keyValueList = keyValueList;
 	}
+
+	@Override
+	public String toString() {
+		return "ApplicationState[id=" + id + ", applicationId=" + applicationId 
+				+ ", referenceKey=" + referenceKey + ", referenceType="
+				+ referenceType + ", userId=" + userId + "]";
+	}
 }
