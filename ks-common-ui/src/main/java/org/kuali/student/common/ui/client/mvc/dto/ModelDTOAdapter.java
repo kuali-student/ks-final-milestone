@@ -64,7 +64,13 @@ public class ModelDTOAdapter implements Serializable{
                     modelDTO = ((ModelDTOType) modelDTOValue).get();
                 }
                 
-                put(modelDTO, pathArr[1], value);
+                //If there is an adapter in place use that! otherwise continue processing
+                if(modelDTO.getAdapter() != null){
+                	modelDTO.put(pathArr[1], value);
+                }
+                else{
+                	put(modelDTO, pathArr[1], value);
+                }
             }
         }
         else{
