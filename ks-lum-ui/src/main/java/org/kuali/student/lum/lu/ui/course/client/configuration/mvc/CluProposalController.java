@@ -130,7 +130,7 @@ public class CluProposalController extends PagedSectionLayout{
 
             @Override
             public void onModelReady(Model model) {
-                CluProposalController.this.setModelDTO((ModelDTO)model.get(), objectKey);
+                CluProposalController.this.setModelDTO((ModelDTO)model.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());
                 
             }
 
