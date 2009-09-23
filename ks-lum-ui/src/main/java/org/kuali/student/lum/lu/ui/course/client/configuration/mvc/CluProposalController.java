@@ -42,7 +42,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class CluProposalController extends PagedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
-    private Model<ProposalInfoModelDTO> proposalInfoModel;
 	private String docId = null;
 	
     public CluProposalController(String docId) {
@@ -166,17 +165,8 @@ public class CluProposalController extends PagedSectionLayout{
             			@Override
 						public void onFailure(Throwable caught) {
             				Window.alert("error loading Clu: "+docId);
-                    		cluProposalModel = new Model<CluProposalModelDTO>();
-                        	
-        	                cluProposalModel.put(new CluProposalModelDTO());
-/*        	                StringType type = new StringType();
-        	                type.set("kuali.lu.type.CreditCourse");
-        	                cluProposalModel.get().put("type", type);
-        	                
-        	                StringType state = new StringType();
-        	                state.set("draft");
-        	                cluProposalModel.get().put("state", state);*/
-        	                callback.onModelReady(cluProposalModel);
+            				createNewCluProposalModel();
+            				callback.onModelReady(cluProposalModel);
 						}
 
 						@Override
@@ -189,17 +179,8 @@ public class CluProposalController extends PagedSectionLayout{
             		});
             		
             	}else{
-            		cluProposalModel = new Model<CluProposalModelDTO>();
-            	
-	                cluProposalModel.put(new CluProposalModelDTO());
-/*	                StringType type = new StringType();
-	                type.set("kuali.lu.type.CreditCourse");
-	                cluProposalModel.get().put("type", type);
-	                
-	                StringType state = new StringType();
-	                state.set("draft");
-	                cluProposalModel.get().put("state", state);*/
-	                callback.onModelReady(cluProposalModel);
+                    createNewCluProposalModel();            	    
+                    callback.onModelReady(cluProposalModel);
             	}
                 
             } else {
@@ -224,19 +205,27 @@ public class CluProposalController extends PagedSectionLayout{
         		Model<ReferenceModel> model = new Model<ReferenceModel>();
         		model.put(ref);
         		callback.onModelReady(model);
-        	}
-        } else if (modelType == ProposalInfoModelDTO.class){            
-            proposalInfoModel = new Model<ProposalInfoModelDTO>();
-            ProposalInfoModelDTO proposalInfoModelDTO = new ProposalInfoModelDTO();
-            proposalInfoModel.put(proposalInfoModelDTO);
-            callback.onModelReady(proposalInfoModel);                        
+        	}                     
         } else {
             super.requestModel(modelType, callback);
         }
     }
     
+    private void createNewCluProposalModel(){
+        cluProposalModel = new Model<CluProposalModelDTO>();                
+        cluProposalModel.put(new CluProposalModelDTO());
+        
+        cluProposalModel.get().put("cluInfo/type", "kuali.lu.type.CreditCourse");
+        cluProposalModel.get().put("cluInfo/state", "draft");
+
+        cluProposalModel.get().put("proposalInfo/type", "kuali.proposal.type.course.create");
+        cluProposalModel.get().put("proposalInfo/state", "draft.private");        
+    }
+    
     public void doSaveAction(SaveActionEvent saveActionEvent){
-        if (proposalInfoModel == null){
+        String proposalName = ((ModelDTO)cluProposalModel.get()).getString("proposalInfo/name");
+
+        if (proposalName == null){
             showStartSection();
         } else {
             saveProposalClu(saveActionEvent);

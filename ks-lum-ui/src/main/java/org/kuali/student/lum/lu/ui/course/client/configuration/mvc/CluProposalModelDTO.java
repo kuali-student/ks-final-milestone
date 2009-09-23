@@ -7,17 +7,10 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOAdapter;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ListType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
-import org.kuali.student.lum.lu.dto.CluInfo;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -45,24 +38,8 @@ public class CluProposalModelDTO extends ModelDTO {
 		ModelDTOValue.ModelDTOType proposalInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 		proposalInfoModelDTOValue.set(proposalInfoModelDTO);
 		
-		//Clu Info, type, and state
 		this.put("cluInfo", cluInfoModelDTOValue);
-        StringType type = new StringType();
-        type.set("kuali.lu.type.CreditCourse");
-        this.put("cluInfo/type", type);
-        StringType state = new StringType();
-        state.set("draft");
-        this.put("cluInfo/state", state);
-        
-        //Proposal Info, type, and state
-		this.put("proposalInfo", proposalInfoModelDTOValue);
-        StringType proposalType = new StringType();
-        proposalType.set("kuali.proposal.type.course.create");
-        this.put("proposalInfo/type", proposalType);
-        StringType proposalState = new StringType();
-        proposalState.set("draft.private");
-        this.put("proposalInfo/state", proposalState);
-		
+		this.put("proposalInfo", proposalInfoModelDTOValue);		
 	}
 
 /*    *//**

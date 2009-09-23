@@ -185,10 +185,10 @@ public class LuConfigurer {
                 CluProposalModelDTO.class);        
         section.setSectionTitle(SectionTitle.generateH1Title(Application.getApplicationContext().getUILabel(type, state,LUConstants.GOVERNANCE_LABEL_KEY)));
        
-        section.addField(new FieldDescriptor("academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));                
-        section.addField(new FieldDescriptor("campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
-        section.addField(new FieldDescriptor("adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));        
-        section.addField(new FieldDescriptor("/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
+        section.addField(new FieldDescriptor("cluInfo/academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));                
+        section.addField(new FieldDescriptor("cluInfo/campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));       
+        section.addField(new FieldDescriptor("cluInfo/adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));        
+        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
               
         layout.addSection(new String[] {Application.getApplicationContext().getUILabel(type, state,LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);        
     }
