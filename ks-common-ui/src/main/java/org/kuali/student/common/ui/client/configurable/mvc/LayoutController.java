@@ -1,6 +1,8 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -19,16 +21,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class LayoutController extends Controller  {
     private ModelDTO modelDTO;
-    private String objectKey;
     private LayoutController parentLayoutController= null; 
-    
+    private Map<String, String> classToObjectKeyMap = new HashMap<String, String>();
     public LayoutController(){
         
     }
     
-    public void setModelDTO(ModelDTO dto, String objectKey){
+    public void setModelDTO(ModelDTO dto, Map<String, String> classToObjectKeyMap){
         modelDTO = dto;
-        this.objectKey = objectKey;
+        this.classToObjectKeyMap = classToObjectKeyMap;
         super.addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
             @Override
             public void onValidateResult(ValidateResultEvent event) {
@@ -55,21 +56,12 @@ public abstract class LayoutController extends Controller  {
         ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
         final Validator val = new Validator(bc, true);
         final ValidateResultEvent e = new ValidateResultEvent();
-        //ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
-//        if(objStructure == null){
-  //         Window.alert("Cannot load dictionary(object structure)");
-    //    }
-      //  List<ValidationResultContainer> results = val.validateTypeStateObject(getModel(), objStructure);
-        //e.setValidationResult(results);// filled by calling the real validate code
-//        fireApplicationEvent(e);
-        //
+        //getModel().keySet();
         ModelDTO model = getModel();
         for(String key: model.keySet()){
-         ModelDTO currentModel = ((ModelDTOType) model.get(key)).get();
-         //CluDictionaryClassNameHelper
-         currentModel.getClassName();
-         //Use CluDictionaryClassNameHelper to get objectkey HERE
-         ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
+        	ModelDTO currentModel = ((ModelDTOType) model.get(key)).get();
+        	String objectKey = classToObjectKeyMap.get(currentModel.getClassName());
+        	ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
             if(objStructure == null){
                Window.alert("Cannot load dictionary(object structure)");
             }
@@ -77,7 +69,7 @@ public abstract class LayoutController extends Controller  {
             e.setValidationResult(results);// filled by calling the real validate code
             fireApplicationEvent(e);
         }
-        
+
     }
     public static LayoutController findParentLayout(Widget w){
         LayoutController result = null;
