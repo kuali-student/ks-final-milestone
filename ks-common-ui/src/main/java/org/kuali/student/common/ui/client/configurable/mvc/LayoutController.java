@@ -72,7 +72,7 @@ public abstract class LayoutController extends Controller  {
             }
 
             ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
-            Validator val = new Validator(bc, true);
+            Validator val = new Validator(sectionbc, true);
             
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.setValidationResult(results);// filled by calling the real validate code
