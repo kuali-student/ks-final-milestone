@@ -11,6 +11,8 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
+import org.kuali.student.common.ui.client.validator.SectionContraintSetupFactory;
+import org.kuali.student.common.validator.ConstraintSetupFactory;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -52,8 +54,9 @@ public abstract class LayoutController extends Controller  {
     public ModelDTO getModel(){
         return modelDTO;
     }
-    public void validate(){
+    public void validate(Section section){
         ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
+        
         final Validator val = new Validator(bc, true);
         final ValidateResultEvent e = new ValidateResultEvent();
         //getModel().keySet();
@@ -65,6 +68,9 @@ public abstract class LayoutController extends Controller  {
             if(objStructure == null){
                Window.alert("Cannot load dictionary(object structure)");
             }
+      
+            //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
+
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.setValidationResult(results);// filled by calling the real validate code
             fireApplicationEvent(e);

@@ -125,7 +125,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
             fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
-                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).validate();
+                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).validate(Section.this);
                 }
             });
         }
