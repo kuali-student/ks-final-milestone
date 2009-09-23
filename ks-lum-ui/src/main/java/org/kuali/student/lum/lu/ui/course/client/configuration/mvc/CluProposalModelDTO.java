@@ -10,7 +10,9 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOAdapter;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -21,50 +23,54 @@ import com.google.gwt.user.client.Window;
 public class CluProposalModelDTO extends ModelDTO {
 
    private static final long serialVersionUID = 1L;
+   private boolean adaptersCreated = false;
 	   
    public CluProposalModelDTO() {
-	   Window.alert("GOT HERE");
-		setAdapter(new ModelDTOAdapter(this, null, null));
-	        
 		ModelDTO cluInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
-		cluInfoModelDTO.setAdapter(new ModelDTOAdapter(cluInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
-	
 		ModelDTOValue.ModelDTOType cluInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 		cluInfoModelDTOValue.set(cluInfoModelDTO);
 		
 		ModelDTO proposalInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.PROPOSAL_INFO_CLASS);
-		proposalInfoModelDTO.setAdapter(new ModelDTOAdapter(proposalInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "proposalInfo"));
-		
 		ModelDTOValue.ModelDTOType proposalInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 		proposalInfoModelDTOValue.set(proposalInfoModelDTO);
 		
-		this.put("cluInfo", cluInfoModelDTOValue);
-		this.put("proposalInfo", proposalInfoModelDTOValue);		
+		map.put("cluInfo", cluInfoModelDTOValue);
+		map.put("proposalInfo", proposalInfoModelDTOValue);
+		checkAndCreateAdapters();
 	}
 
-/*    *//**
+    /**
      * The CluProposalModelDTO extends the base ModelDTO("CluInfo") to add additional
      * properties to a clu, eg. Activity clus.
      * 
      * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTO#put(java.lang.String, org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
-     *//*
+     */
     @Override
     public void put(String key, ModelDTOValue value) {
-    	if(GWT.isClient() && getAdapter() == null){
-    		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
-    	}
+    	checkAndCreateAdapters();
     	super.put(key, value);            
     }
 
 
-    *//**
+    /**
      * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTO#get(java.lang.String)
-     *//*
+     */
     @Override
     public ModelDTOValue get(String key) {
-    	if(GWT.isClient() && getAdapter() == null){
-    		setAdapter(new ModelDTOAdapter(this, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
-    	}
+    	checkAndCreateAdapters();
         return super.get(key);            
-    } */   
+    }
+    
+    private void checkAndCreateAdapters(){
+    	if(GWT.isClient() && adaptersCreated == false){
+	    	setAdapter(new ModelDTOAdapter(this, null, null));
+	    	//CluInfo
+	    	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) this.map.get("cluInfo")).get();
+	    	cluInfoModelDTO.setAdapter(new ModelDTOAdapter(cluInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "cluInfo"));
+	    	//ProposalInfo
+	    	ModelDTO proposalInfoModelDTO = (ModelDTO) ((ModelDTOType) this.map.get("proposalInfo")).get();
+	    	proposalInfoModelDTO.setAdapter(new ModelDTOAdapter(proposalInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "proposalInfo"));
+	    	adaptersCreated = true;
+    	}
+    }
 }
