@@ -30,18 +30,18 @@ import org.kuali.student.core.entity.Attribute;
  */
 @Entity
 @Table(name = "KSPR_PROPOSAL_REFTYPE_ATTR")
-public class ReferenceTypeAttribute extends Attribute<ReferenceType> {
+public class ProposalReferenceTypeAttribute extends Attribute<ProposalReferenceType> {
     @ManyToOne
     @JoinColumn(name = "OWNER")
-    private ReferenceType owner;
+    private ProposalReferenceType owner;
 
     @Override
-    public ReferenceType getOwner() {
+    public ProposalReferenceType getOwner() {
         return owner;
     }
 
    @Override
-    public void setOwner(ReferenceType owner) {
+    public void setOwner(ProposalReferenceType owner) {
         this.owner = owner;
     }
 

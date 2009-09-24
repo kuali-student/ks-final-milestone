@@ -21,7 +21,7 @@ import javax.persistence.EntityManager;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.proposal.entity.ObjectReference;
+import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
@@ -47,7 +47,7 @@ public interface ProposalDao extends CrudDao {
     public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException;
     public ProposalPerson getProposalPerson(String proposerId);
     public ProposalOrg getProposalOrg(String orgId);
-    public ObjectReference getObjectReference(String objectReferenceId, String objectReferenceType);
+    public ProposalReference getObjectReference(String objectReferenceId, String objectReferenceType);
     public EntityManager getEm();
     public List<ProposalDocRelationType> getAllowedProposalDocRelationTypesForProposalType(String proposalTypeKey) throws DoesNotExistException;
 }

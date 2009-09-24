@@ -25,29 +25,26 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 /**
+ * This is a description of what this class does - lindholm don't forget to fill this in.
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
 @Entity
-@Table(name = "KSPR_PROPOSAL_TYPE")
-public class ProposalType extends Type<ProposalTypeAttribute> {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<ProposalTypeAttribute> attributes;
+@Table(name = "KSPR_PROPOSAL_REFTYPE")
+public class ProposalReferenceType extends Type<ProposalReferenceTypeAttribute> {
 
-    /**
-     * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
-     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<ProposalReferenceTypeAttribute> attributes;
+
+
     @Override
-    public List<ProposalTypeAttribute> getAttributes() {
+    public List<ProposalReferenceTypeAttribute> getAttributes() {
         return attributes;
     }
 
-    /**
-     * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
-     */
     @Override
-    public void setAttributes(List<ProposalTypeAttribute> attributes) {
+    public void setAttributes(List<ProposalReferenceTypeAttribute> attributes) {
         this.attributes = attributes;
     }
 

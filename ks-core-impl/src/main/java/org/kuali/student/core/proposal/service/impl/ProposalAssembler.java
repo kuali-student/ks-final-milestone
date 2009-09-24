@@ -31,7 +31,7 @@ import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.proposal.entity.ObjectReference;
+import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalAttribute;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
@@ -40,7 +40,7 @@ import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalType;
-import org.kuali.student.core.proposal.entity.ReferenceType;
+import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -83,7 +83,7 @@ public class ProposalAssembler extends BaseAssembler {
 
         dto.setProposalReferenceType(entity.getProposalReference().get(0).getType().getId());
         List<String> objectIds = new ArrayList<String>(entity.getProposalReference().size());
-        for (ObjectReference object : entity.getProposalReference()) {
+        for (ProposalReference object : entity.getProposalReference()) {
             objectIds.add(object.getObjectReferenceId());
         }
         dto.setProposalReference(objectIds);
@@ -143,15 +143,15 @@ public class ProposalAssembler extends BaseAssembler {
         return dto;
     }
 
-    public static List<ReferenceTypeInfo> toReferenceTypeInfos(List<ReferenceType> entities) {
+    public static List<ReferenceTypeInfo> toReferenceTypeInfos(List<ProposalReferenceType> entities) {
         List<ReferenceTypeInfo> dtos = new ArrayList<ReferenceTypeInfo>(entities.size());
-        for (ReferenceType entity : entities) {
+        for (ProposalReferenceType entity : entities) {
             dtos.add(toReferenceTypeInfo(entity));
         }
         return dtos;
     }
 
-    public static ReferenceTypeInfo toReferenceTypeInfo(ReferenceType entity) {
+    public static ReferenceTypeInfo toReferenceTypeInfo(ProposalReferenceType entity) {
         ReferenceTypeInfo dto = new ReferenceTypeInfo();
 
         BeanUtils.copyProperties(entity, dto,
@@ -227,15 +227,15 @@ public class ProposalAssembler extends BaseAssembler {
 
         if (proposalInfo.getProposalReference() != null) {
             // Copy propsal references
-            List<ObjectReference> references = new ArrayList<ObjectReference>(proposalInfo.getProposalReference().size());
+            List<ProposalReference> references = new ArrayList<ProposalReference>(proposalInfo.getProposalReference().size());
             for (String objectReferenceId : proposalInfo.getProposalReference()) {
-                ObjectReference ref;
+                ProposalReference ref;
                 try {
                     ref = dao.getObjectReference(objectReferenceId, proposalInfo.getProposalReferenceType());
                 } catch (NoResultException e) {
-                    ObjectReference objectReference = new ObjectReference();
+                    ProposalReference objectReference = new ProposalReference();
                     objectReference.setObjectReferenceId(objectReferenceId);
-                    ReferenceType refType = dao.fetch(ReferenceType.class, proposalInfo.getProposalReferenceType());
+                    ProposalReferenceType refType = dao.fetch(ProposalReferenceType.class, proposalInfo.getProposalReferenceType());
                     objectReference.setType(refType);
                     ref = dao.create(objectReference);
                 }

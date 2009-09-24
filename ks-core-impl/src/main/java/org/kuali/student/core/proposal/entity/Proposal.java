@@ -49,9 +49,9 @@ import org.kuali.student.core.entity.MetaEntity;
 @NamedQueries( {
     @NamedQuery(name = "Proposal.getProposalsByIdList", query = "SELECT p FROM Proposal p WHERE p.id IN (:idList)"),
     @NamedQuery(name = "Proposal.getProposalsByProposalType", query = "SELECT DISTINCT p FROM Proposal p WHERE p.type.id = :proposalTypeId"),
-    @NamedQuery(name = "Proposal.getProposalsByReference", query = "SELECT r.proposals FROM ObjectReference r WHERE r.objectReferenceId = :referenceId AND r.type.id = :referenceTypeId"),
+    @NamedQuery(name = "Proposal.getProposalsByReference", query = "SELECT r.proposals FROM ProposalReference r WHERE r.objectReferenceId = :referenceId AND r.type.id = :referenceTypeId"),
     @NamedQuery(name = "Proposal.getProposalsByState", query = "SELECT DISTINCT p FROM Proposal p WHERE p.state = :proposalState AND p.type.id = :proposalTypeId"),
-    @NamedQuery(name = "Proposal.getProposalTypesForReferenceType", query = "SELECT DISTINCT p.type FROM ObjectReference r JOIN r.proposals p WHERE r.type.id = :referenceTypeId")
+    @NamedQuery(name = "Proposal.getProposalTypesForReferenceType", query = "SELECT DISTINCT p.type FROM ProposalReference r JOIN r.proposals p WHERE r.type.id = :referenceTypeId")
 })
 public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttribute> {
     @Id
@@ -74,7 +74,7 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
       inverseJoinColumns=
             @JoinColumn(name="REFERENCE_ID", referencedColumnName="REFERENCE_ID")
     )
-    private List<ObjectReference> proposalReference;
+    private List<ProposalReference> proposalReference;
 
     @Column(name = "RATIONALE")
     private String rationale;
@@ -138,11 +138,11 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     }
 
 
-    public List<ObjectReference> getProposalReference() {
+    public List<ProposalReference> getProposalReference() {
         return proposalReference;
     }
 
-    public void setProposalReference(List<ObjectReference> proposalReference) {
+    public void setProposalReference(List<ProposalReference> proposalReference) {
         this.proposalReference = proposalReference;
     }
 

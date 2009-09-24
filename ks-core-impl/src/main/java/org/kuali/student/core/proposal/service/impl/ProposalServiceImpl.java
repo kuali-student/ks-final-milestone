@@ -39,7 +39,7 @@ import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalType;
-import org.kuali.student.core.proposal.entity.ReferenceType;
+import org.kuali.student.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
@@ -311,7 +311,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
-        List<ReferenceType> referenceTypes = proposalDao.find(ReferenceType.class);
+        List<ProposalReferenceType> referenceTypes = proposalDao.find(ProposalReferenceType.class);
         return ProposalAssembler.toReferenceTypeInfos(referenceTypes);
     }
 

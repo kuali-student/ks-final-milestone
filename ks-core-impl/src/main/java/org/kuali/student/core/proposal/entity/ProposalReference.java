@@ -40,9 +40,9 @@ import org.kuali.student.common.util.UUIDHelper;
 @Entity
 @Table(name = "KSPR_PROPOSAL_REFERENCE")
 @NamedQueries( {
-    @NamedQuery(name = "ObjectReference.getObjectReference", query = "SELECT o FROM ObjectReference o WHERE o.objectReferenceId = :objectReferenceId AND o.type.id = :objectReferenceType")
+    @NamedQuery(name = "ProposalReference.getObjectReference", query = "SELECT o FROM ProposalReference o WHERE o.objectReferenceId = :objectReferenceId AND o.type.id = :objectReferenceType")
 })
-public class ObjectReference {
+public class ProposalReference {
     @Id
     @Column(name = "REFERENCE_ID")
     private String id;
@@ -55,7 +55,7 @@ public class ObjectReference {
 
     @ManyToOne(optional=true)
     @JoinColumn(name = "TYPE")
-    private ReferenceType type;
+    private ProposalReferenceType type;
 
     @PrePersist
     protected void onPrePersist() {
@@ -86,11 +86,11 @@ public class ObjectReference {
         this.objectReferenceId = objectReferenceId;
     }
 
-    public ReferenceType getType() {
+    public ProposalReferenceType getType() {
         return type;
     }
 
-    public void setType(ReferenceType type) {
+    public void setType(ProposalReferenceType type) {
         this.type = type;
     }
 }

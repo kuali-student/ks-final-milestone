@@ -11,7 +11,6 @@
         <class>org.kuali.student.core.entity.RichText</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 
-        <class>org.kuali.student.core.proposal.entity.ObjectReference</class>
         <class>org.kuali.student.core.proposal.entity.Proposal</class>
         <class>org.kuali.student.core.proposal.entity.ProposalAttribute</class>
         <class>org.kuali.student.core.proposal.entity.ProposalDocRelation</class>
@@ -20,10 +19,11 @@
         <class>org.kuali.student.core.proposal.entity.ProposalDocRelationTypeAttribute</class>
         <class>org.kuali.student.core.proposal.entity.ProposalOrg</class>
         <class>org.kuali.student.core.proposal.entity.ProposalPerson</class>
+        <class>org.kuali.student.core.proposal.entity.ProposalReference</class>
+        <class>org.kuali.student.core.proposal.entity.ProposalReferenceType</class>
+        <class>org.kuali.student.core.proposal.entity.ProposalReferenceTypeAttribute</class>
         <class>org.kuali.student.core.proposal.entity.ProposalType</class>
         <class>org.kuali.student.core.proposal.entity.ProposalTypeAttribute</class>
-        <class>org.kuali.student.core.proposal.entity.ReferenceType</class>
-        <class>org.kuali.student.core.proposal.entity.ReferenceTypeAttribute</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 	</persistence-unit>
