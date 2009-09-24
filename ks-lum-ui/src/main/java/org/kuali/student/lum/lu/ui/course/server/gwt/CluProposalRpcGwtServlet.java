@@ -61,6 +61,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private static final String DEFAULT_USER_ID = "user1";
     private static final String WF_TYPE_CLU_DOCUMENT = "CluDocument";
     private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
+    private static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu";
     
     //Rice Services
     private SimpleDocumentActionsWebService simpleDocService;
@@ -397,16 +398,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         MapContext ctx = new MapContext();
 
         logger.info("Creating proposal");
-        try{
-            //Convert proposalInfo model dto to proposalInfo
-            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("proposalInfo")).get();
-            ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
-            
-            //Create proposal in proposalService
-            proposalService.createProposal(proposalInfo.getType(), proposalInfo);
-            ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
-            proposalInfoModelDTO.copyFrom(proposalModelDTO);            
-            
+        try{                    
             //Convert cluInfo model dto to cluInfo object
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("cluInfo")).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
@@ -417,6 +409,24 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             cluInfoModelDTO.copyFrom(cluModelDTO);
             
             saveCourseFormats(cluProposalDTO);
+            
+            //Convert proposalInfo model dto to proposalInfo
+            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("proposalInfo")).get();
+            ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
+
+            //TODO: Should effective/expiration date be copied from cluInfo or new fields added to screen
+
+            //Add reference to clu in the proposal
+            List<String> proposalReferences = new ArrayList<String>();
+            proposalReferences.add(cluInfo.getId());
+            proposalInfo.setProposalReferenceType(PROPOSAL_REFERENCE_TYPE);
+            proposalInfo.setProposalReference(proposalReferences);            
+            
+            //Create proposal in proposalService
+            proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);
+            ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
+            proposalInfoModelDTO.copyFrom(proposalModelDTO);            
+
             
             //Do Workflow Create and save docContent
             //get a user name
@@ -480,7 +490,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
             
             //Create proposal in proposalService
-            proposalService.updateProposal(proposalInfo.getType(), proposalInfo);
+            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
             
@@ -489,7 +499,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
             //Create clu in LuService
-            cluInfo = service.updateClu(cluInfo.getType(), cluInfo);
+            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
             cluInfoModelDTO.copyFrom(cluModelDTO);
             
