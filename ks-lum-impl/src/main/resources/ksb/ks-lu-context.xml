@@ -95,7 +95,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform"
-                    value="org.hibernate.dialect.DerbyDialect" />
+                    value="${ks.lum.jpa.DatabasePlatform}" />
                 <property name="showSql" value="true" />
                 <property name="generateDdl" value="true" />
             </bean>
@@ -222,7 +222,7 @@
     </bean>
 
 	<!--  Preloaded data -->
-	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+	<bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
 		<property name="jtaTxManager" ref="jtaTxManager"/>
 		<property name="preloadMap">
 			<map>
