@@ -25,6 +25,8 @@
    	</bean>
 
    	<bean parent="enCourse" p:id="cluProposalInformation"		p:value="Proposal Information"/>
+	   	<bean parent="enCourse" p:id="cluSummary"	    	p:value="Summary"/>
+		   	<bean parent="enCourse" p:id="cluBrief"	    	p:value="Proposal Brief"/>
 	   	<bean parent="enCourse" p:id="cluGovernance"	    	p:value="Governance"/>
 		   	<bean parent="enCourse" p:id="cluCurriculumOversight"	    	p:value="Curriculum Oversight"/>
 		   	<bean parent="enCourse" p:id="cluCampusLocation"	    	p:value="Campus Location"/>
@@ -40,7 +42,8 @@
 
    	<bean parent="enCourse" p:id="cluAcademicContent"		p:value="Academic Content"/>
 	   	<bean parent="enCourse" p:id="cluInformation"		p:value="Course Information"/>
-	   		<bean parent="enCourse" p:id="cluIdentifier"	    	p:value="Course Number"/>
+	   		<bean parent="enCourse" p:id="cluIdentifier"	    	p:value="Course Identifier"/>
+	   		<bean parent="enCourse" p:id="cluAltIdentifier"	    	p:value="Alternate Course Identifiers"/>
 	   		<bean parent="enCourse" p:id="cluCrosslisted"	    	p:value="Crosslisted Courses"/>
 	   		<bean parent="enCourse" p:id="cluJointOfferings"	    	p:value="Courses Offered Jointly"/>
 	   		<bean parent="enCourse" p:id="cluVersionCodes"	    	p:value="Version Codes"/>
@@ -80,6 +83,8 @@
    	</bean>
 
    	<bean parent="esCourse" p:id="cluProposalInformation"		p:value="Información de la oferta"/>
+	   	<bean parent="esCourse" p:id="cluSummary"	    	p:value="Resumen"/>
+		   	<bean parent="esCourse" p:id="cluBrief"	    	p:value="Escrito de la oferta"/>
 	   	<bean parent="esCourse" p:id="cluGovernance"	    	p:value="Gobierno"/>
 		   	<bean parent="esCourse" p:id="cluCurriculumOversight"	    	p:value="Descuido del plan de estudios"/>
 		   	<bean parent="esCourse" p:id="cluCampusLocation"	    	p:value="Localización del campus"/>
@@ -96,6 +101,7 @@
    	<bean parent="esCourse" p:id="cluAcademicContent"		p:value="Contenido académico"/>
 	   	<bean parent="esCourse" p:id="cluInformation"		p:value="Información del curso"/>
 	   		<bean parent="esCourse" p:id="cluIdentifier"	    	p:value="Identificador del curso"/>
+	   		<bean parent="esCourse" p:id="cluAltIdentifier"	    	p:value="Identificador del curso alternos"/>
 	   		<bean parent="esCourse" p:id="cluCrosslisted"	    	p:value="Cursos de compartido"/>
 	   		<bean parent="esCourse" p:id="cluJointOfferings"	    	p:value="Cursos ofrecidos en común"/>
 	   		<bean parent="esCourse" p:id="cluVersionCodes"	    	p:value="Códigos de la versión"/>
