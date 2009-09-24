@@ -177,4 +177,4 @@
         <property name="luService" ref="LuServiceImpl"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>
-</beans>
+</beans> 
