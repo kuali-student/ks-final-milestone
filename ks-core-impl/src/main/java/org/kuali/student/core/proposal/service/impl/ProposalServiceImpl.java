@@ -329,9 +329,9 @@ public class ProposalServiceImpl implements ProposalService {
         }
 
         Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), proposalInfo, proposalDao);
-        proposalDao.update(proposal);
+        Proposal updated = proposalDao.update(proposal);
 
-        return ProposalAssembler.toProposalInfo(proposal);
+        return ProposalAssembler.toProposalInfo(updated);
     }
 
     /**
