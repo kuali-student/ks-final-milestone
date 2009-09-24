@@ -132,8 +132,9 @@ public class FindPanel extends ViewComposite{
             public void onSelection(SelectionEvent<List<String>> event) {
                 final List<String> selected = event.getSelectedItem();
                 if (selected.size() > 0){
+//                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, event));
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
                     searchWindow.hide();
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, event));
                 }                
             }
             
