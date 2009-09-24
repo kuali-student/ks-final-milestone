@@ -379,6 +379,9 @@
 				<entry key="Document">
 					<value>classpath:ks-document.sql</value>
 				</entry>
+				<entry key="Proposal">
+					<value>classpath:ks-proposal.sql</value>
+				</entry>
             </map>
         </property>
     </bean>
