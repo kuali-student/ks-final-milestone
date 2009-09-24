@@ -28,7 +28,7 @@ public class SearchResultWriter extends XmlWriter
  private SearchResult searchResult;
 
  public SearchResultWriter (PrintStream out, int indent,
-                             SearchResult searchResult)
+                            SearchResult searchResult)
  {
   super (out, indent);
   this.searchResult = searchResult;
@@ -40,22 +40,22 @@ public class SearchResultWriter extends XmlWriter
 
   indentPrint ("<search:searchResultTypeInfo");
   //TODO: not sure what to put in the key attribute
-  incrementIndent ();
   writeAttribute ("id", searchResult.getKey ());
   println (">");
-
+  incrementIndent ();
   // write out comments
   writeComment (searchResult.getComments ());
 
   writeTag ("search:name", searchResult.getName ());
   writeTag ("search:desc", searchResult.getDescription ());
   indentPrintln ("<search:resultColumns>");
+  incrementIndent ();
   for (SearchResultColumn col : searchResult.getResultColumns ())
   {
    indentPrintln (calcRefBean (col.getKey ()));
   }
+  decrementIndent ();
   indentPrintln ("</search:resultColumns>");
-  // end 
   indentPrintln ("</search:searchResultTypeInfo>");
   decrementIndent ();
  }

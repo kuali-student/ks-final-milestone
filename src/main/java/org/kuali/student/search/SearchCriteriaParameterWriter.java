@@ -41,6 +41,7 @@ public class SearchCriteriaParameterWriter extends XmlWriter
   incrementIndent ();
   writeAttribute ("id", parm.getKey ());
   println (">");
+  incrementIndent ();
 
   // write out comments
   writeComment (parm.getComments ());
@@ -50,6 +51,7 @@ public class SearchCriteriaParameterWriter extends XmlWriter
   writeTag ("dict:desc", parm.getDescription ());
   writeTag ("dict:dataType", parm.getDataType ());
   indentPrintln ("</dict:fieldDescriptor>");
+  decrementIndent ();
   indentPrintln ("</search:queryParam>");
   decrementIndent ();
  }

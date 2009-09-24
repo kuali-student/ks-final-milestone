@@ -25,6 +25,12 @@ import java.util.List;
 public class MockSpreadsheet implements Spreadsheet
 {
 
+ public String getSourceName ()
+ {
+  return "Mock Spreadsheet";
+ }
+
+
  @Override
  public List<Constraint> getConstraints ()
  {

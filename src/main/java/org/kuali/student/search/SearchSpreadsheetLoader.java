@@ -40,8 +40,10 @@ public class SearchSpreadsheetLoader implements SearchSpreadsheet
    spreadsheetReader.getWorksheetReader ("Searches");
   List<SearchType> list = new ArrayList (worksheetReader.getEstimatedRows ());
   SearchType searchType = null;
+  int rowCount = 1;
   while (worksheetReader.next ())
   {
+   rowCount++;
    String type = getFixup (worksheetReader, "Type");
    if (type.equals ("Search"))
    {
@@ -64,23 +66,27 @@ public class SearchSpreadsheetLoader implements SearchSpreadsheet
     searchType.setCriteria (criteria);
     loadRow (worksheetReader, criteria);
    }
-   else if (type.equals ("Parm"))
+   else if (type.equals ("Param"))
    {
-    SearchCriteriaParameter parm = new SearchCriteriaParameter ();
-    searchType.getCriteria ().getParameters ().add (parm);
-    loadRow (worksheetReader, parm);
+    SearchCriteriaParameter param = new SearchCriteriaParameter ();
+    searchType.getCriteria ().getParameters ().add (param);
+    loadRow (worksheetReader, param);
    }
    else if (type.equals ("Result"))
    {
-    SearchResult results = new SearchResult ();
-    searchType.setResults (results);
-    loadRow (worksheetReader, results);
+    SearchResult result = new SearchResult ();
+    searchType.setResults (result);
+    loadRow (worksheetReader, result);
    }
    else if (type.equals ("Column"))
    {
     SearchResultColumn col = new SearchResultColumn ();
     searchType.getResults ().getResultColumns ().add (col);
     loadRow (worksheetReader, col);
+   }
+   else
+   {
+    throw new SearchValidationException ("Spreadsheet row #" + rowCount + " has an unknown type,[" + type + "]");
    }
   }
   return list;

@@ -28,7 +28,7 @@ public class SearchCriteriaWriter extends XmlWriter
  private SearchCriteria searchCriteria;
 
  public SearchCriteriaWriter (PrintStream out, int indent,
-                             SearchCriteria searchCriteria)
+                              SearchCriteria searchCriteria)
  {
   super (out, indent);
   this.searchCriteria = searchCriteria;
@@ -40,21 +40,23 @@ public class SearchCriteriaWriter extends XmlWriter
 
   indentPrint ("<search:searchCriteriaTypeInfo");
   //TODO: not sure what to put in the key attribute
-  incrementIndent ();
   writeAttribute ("id", searchCriteria.getKey ());
   println (">");
+  incrementIndent ();
 
   // write out comments
   writeComment (searchCriteria.getComments ());
 
   writeTag ("search:name", searchCriteria.getName ());
   writeTag ("search:desc", searchCriteria.getDescription ());
-  indentPrintln ("<search:queryParames>");
+  indentPrintln ("<search:queryParams>");
+  incrementIndent ();
   for (SearchCriteriaParameter col : searchCriteria.getParameters ())
   {
    indentPrintln (calcRefBean (col.getKey ()));
   }
-  indentPrintln ("</search:queryParames>");
+  decrementIndent ();
+  indentPrintln ("</search:queryParams>");
   // end 
   indentPrintln ("</search:searchCriteriaTypeInfo>");
   decrementIndent ();

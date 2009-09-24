@@ -62,10 +62,10 @@ public class SearchSpreadsheetWriter extends XmlWriter
   }
   writeHeader ();
   writeSearchTypes ();
-  writeSearchResultTypes ();
-  writeSearchResultColumns ();
   writeSearchCriteria ();
   writeSearchCriteriaParameters ();
+  writeSearchResultTypes ();
+  writeSearchResultColumns ();
   writeSqlQueryMap ();
   writeFooter ();
  }
@@ -249,9 +249,9 @@ public class SearchSpreadsheetWriter extends XmlWriter
   indentPrintln ("<map>");
   for (SearchImplementation impl : getJPQLImplementations ())
   {
-   indentPrintln ("<entry");
+   indentPrint ("<entry");
    writeAttribute ("key", impl.getKey ());
-   indentPrint (">");
+   indentPrintln (">");
    writeComment (impl.getComments ());
    writeTag ("value", impl.getDescription ());
    indentPrintln ("</entry>");
