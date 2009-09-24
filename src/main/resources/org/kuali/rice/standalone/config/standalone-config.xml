@@ -59,7 +59,16 @@
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
 	<!-- additional config files -->
-	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
+	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/uber-config-override.xml-->
+	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
+	<!--Set the came of the context file in order to load the particular project	-->
+	<param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml</param>
+	<!--This is the override config file where data source parameters can be overridden	-->
+	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
+	
+	
+	<!-- additional config files -->
+	<param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
 	
 	<!-- Lum DB settings -->
 	<param name="ks.lum.datasource.driver.name">oracle.jdbc.OracleDriver</param>
