@@ -24,6 +24,7 @@ public class SearchSql extends SearchRow
 
  public SearchSql ()
  {
+  super ();
  }
 
 }

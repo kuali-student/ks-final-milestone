@@ -34,24 +34,64 @@ public class SpreadsheetLoader implements Spreadsheet
   this.spreadsheetReader = spreadsheetReader;
  }
 
- public List<SearchRow> getSearchRows ()
+ public List<SearchType> getSearchTypes ()
  {
   WorksheetReader worksheetReader =
    spreadsheetReader.getWorksheetReader ("Searches");
-  List list = new ArrayList (worksheetReader.getEstimatedRows ());
+  List<SearchType> list = new ArrayList (worksheetReader.getEstimatedRows ());
+  SearchType searchType = null;
   while (worksheetReader.next ())
   {
-   SearchRow baseSearch = new SearchRow ();
-   baseSearch.setKey (getFixup (worksheetReader, "Key"));
-   baseSearch.setType (getFixup (worksheetReader, "Type"));
-   baseSearch.setName (getFixup (worksheetReader, "Name"));
-   baseSearch.setDescription (getFixup (worksheetReader, "Description"));
-   baseSearch.setDataType (getFixup (worksheetReader, "DataType"));
-   baseSearch.setStatus (getFixup (worksheetReader, "Status"));
-   baseSearch.setComments (getFixup (worksheetReader, "Comments"));
-   list.add (baseSearch);
+   String type = getFixup (worksheetReader, "Type");
+   if (type.equals ("Search"))
+   {
+    searchType = new SearchType ();
+    loadRow (worksheetReader, searchType);
+    list.add (searchType);
+   }
+   else if (type.equals ("SQL"))
+   {
+    SearchSql sql = new SearchSql ();
+    loadRow (worksheetReader, sql);
+    searchType.setSql (sql);
+   }
+   else if (type.equals ("Criteria"))
+   {
+    SearchCriteria criteria = new SearchCriteria ();
+    searchType.setCriteria (criteria);
+    loadRow (worksheetReader, criteria);
+   }
+   else if (type.equals ("Parm"))
+   {
+    SearchParameter parm = new SearchParameter ();
+    searchType.getCriteria ().getParameters ().add (parm);
+    loadRow (worksheetReader, parm);
+   }
+   else if (type.equals ("Result"))
+   {
+    SearchResults results = new SearchResults ();
+    searchType.setResults (results);
+    loadRow (worksheetReader, results);
+   }
+   else if (type.equals ("Column"))
+   {
+    SearchResultColumn col = new SearchResultColumn ();
+    searchType.getResults ().getResultColumns ().add (col);
+    loadRow (worksheetReader, col);
+   }
   }
   return list;
+ }
+
+ private void loadRow (WorksheetReader worksheetReader, SearchRow row)
+ {
+  row.setKey (getFixup (worksheetReader, "Key"));
+  row.setType (getFixup (worksheetReader, "Type"));
+  row.setName (getFixup (worksheetReader, "Name"));
+  row.setDescription (getFixup (worksheetReader, "Description"));
+  row.setDataType (getFixup (worksheetReader, "DataType"));
+  row.setStatus (getFixup (worksheetReader, "Status"));
+  row.setComments (getFixup (worksheetReader, "Comments"));
  }
 
  private String get (WorksheetReader worksheetReader, String colName)

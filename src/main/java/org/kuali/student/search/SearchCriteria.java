@@ -15,6 +15,7 @@
  */
 package org.kuali.student.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class SearchCriteria extends SearchRow
  {
  }
 
- protected List<SearchParameter> parameters;
+ protected List<SearchParameter> parameters = new ArrayList ();
 
  /**
   * Get the value of parameters

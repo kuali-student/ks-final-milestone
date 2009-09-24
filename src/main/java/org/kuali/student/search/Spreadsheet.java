@@ -29,7 +29,7 @@ public interface Spreadsheet
   * get search types
   * @return
   */
- public List<SearchRow> getSearchRows ();
+ public List<SearchType> getSearchTypes ();
 
  
 

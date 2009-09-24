@@ -15,8 +15,6 @@
  */
 package org.kuali.student.search;
 
-import java.util.List;
-
 /**
  *
  * @author nwright
@@ -29,14 +27,14 @@ public class SearchType extends SearchRow
   super ();
  }
 
- protected List<SearchSql> sql;
+ protected SearchSql sql;
 
  /**
   * Get the value of sql
   *
   * @return the value of sql
   */
- public List<SearchSql> getSql ()
+ public SearchSql getSql ()
  {
   return sql;
  }
@@ -46,7 +44,7 @@ public class SearchType extends SearchRow
   *
   * @param sql new value of sql
   */
- public void setSql (List<SearchSql> sql)
+ public void setSql (SearchSql sql)
  {
   this.sql = sql;
  }

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,26 +29,28 @@ public class SearchResults extends SearchRow
  {
  }
 
- protected List<SearchParameter> parameters;
+ private List<SearchResultColumn> resultColumns = new ArrayList ();
 
  /**
-  * Get the value of parameters
+  * Get the value of resultColumns
   *
-  * @return the value of parameters
+  * @return the value of resultColumns
   */
- public List<SearchParameter> getParameters ()
+ public List<SearchResultColumn> getResultColumns ()
  {
-  return parameters;
+  return resultColumns;
  }
 
  /**
-  * Set the value of parameters
+  * Set the value of resultColumns
   *
-  * @param parameters new value of parameters
+  * @param resultColumns new value of resultColumns
   */
- public void setParameters (List<SearchParameter> parameters)
+ public void setResultColumns (List<SearchResultColumn> resultColumns)
  {
-  this.parameters = parameters;
+  this.resultColumns = resultColumns;
  }
+
+
 
 }

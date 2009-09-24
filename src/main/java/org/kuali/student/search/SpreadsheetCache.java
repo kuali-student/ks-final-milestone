@@ -32,15 +32,15 @@ public class SpreadsheetCache implements Spreadsheet
   this.spreadsheet = spreadsheet;
  }
 
- private List<SearchRow> rows = null;
+ private List<SearchType> searchTypes = null;
 
  @Override
- public List<SearchRow> getSearchRows ()
+ public List<SearchType> getSearchTypes ()
  {
-  if (rows == null)
+  if (searchTypes == null)
   {
-   rows = spreadsheet.getSearchRows ();
+   searchTypes = spreadsheet.getSearchTypes ();
   }
-  return rows;
+  return searchTypes;
  }
 }

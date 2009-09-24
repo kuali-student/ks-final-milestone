@@ -70,25 +70,27 @@ public class SpreadsheetLoaderTest implements TestConstants
  public void testGetSearchRows ()
  {
   System.out.println ("getSearchRows");
-  List<SearchRow> list = instance.getSearchRows ();
-  assertEquals (88, list.size ());
-  SearchRow row = list.get (0);
-  assertEquals ("org.search.orgHierarchyIds", row.getKey ());
-  assertEquals ("Search", row.getType ());
-  assertEquals ("All org Hierarchies", row.getName ());
-  assertEquals ("Returns all org hierarchy ids", row.getDescription ());
-  assertEquals ("", row.getDataType ());
-  assertEquals ("Implemented", row.getStatus ());
-  assertEquals ("", row.getComments ());
+  List<SearchType> list = instance.getSearchTypes ();
+  assertEquals (11, list.size ());
+  SearchType searchType = list.get (0);
+  assertEquals ("org.search.orgHierarchyIds", searchType.getKey ());
+  assertEquals ("Search", searchType.getType ());
+  assertEquals ("All org Hierarchies", searchType.getName ());
+  assertEquals ("Returns all org hierarchy ids", searchType.getDescription ());
+  assertEquals ("", searchType.getDataType ());
+  assertEquals ("Implemented", searchType.getStatus ());
+  assertEquals ("", searchType.getComments ());
 
-  row = list.get (4);
-  assertEquals ("org.resultColumn.orgHierarchyId", row.getKey ());
-  assertEquals ("Column", row.getType ());
-  assertEquals ("Organization Hierarchy Id", row.getName ());
-  assertEquals ("Id for the Hierarchy an Organization is in", row.getDescription ());
-  assertEquals ("string", row.getDataType ());
-  assertEquals ("Implemented", row.getStatus ());
-  assertEquals ("", row.getComments ());
+  assertEquals (0, searchType.getCriteria ().getParameters ().size ());
+   assertEquals (2, searchType.getResults ().getResultColumns ().size ());
+  SearchResultColumn col = searchType.getResults ().getResultColumns ().get (0);
+  assertEquals ("org.resultColumn.orgHierarchyId", col.getKey ());
+  assertEquals ("Column", col.getType ());
+  assertEquals ("Organization Hierarchy Id", col.getName ());
+  assertEquals ("Id for the Hierarchy an Organization is in", col.getDescription ());
+  assertEquals ("string", col.getDataType ());
+  assertEquals ("Implemented", col.getStatus ());
+  assertEquals ("", col.getComments ());
  }
 
 }
