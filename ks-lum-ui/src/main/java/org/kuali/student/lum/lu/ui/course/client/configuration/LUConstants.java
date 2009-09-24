@@ -77,6 +77,8 @@ public class LUConstants {
 
     // Message keys for label lookup
     public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
+    public static final String SUMMARY_LABEL_KEY = "cluSummary";
+    public static final String BRIEF_LABEL_KEY = "cluBrief";
     public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
     public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
@@ -94,6 +96,7 @@ public class LUConstants {
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String INFORMATION_LABEL_KEY = "cluInformation";
     public static final String IDENTIFIER_LABEL_KEY = "cluIdentifier";
+    public static final String ALT_IDENTIFIER_LABEL_KEY = "cluAltIdentifier";
     public static final String CROSS_LISTED_LABEL_KEY = "cluCrosslisted";
     public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
     public static final String VERSION_CODES_LABEL_KEY = "cluVersionCodes";
