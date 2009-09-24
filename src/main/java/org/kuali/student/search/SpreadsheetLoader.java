@@ -42,13 +42,13 @@ public class SpreadsheetLoader implements Spreadsheet
   while (worksheetReader.next ())
   {
    SearchRow baseSearch = new SearchRow ();
-   baseSearch.setKey (getFixup (worksheetReader, "key"));
-   baseSearch.setType (getFixup (worksheetReader, "type"));
-   baseSearch.setName (getFixup (worksheetReader, "name"));
-   baseSearch.setDescription (getFixup (worksheetReader, "description"));
-   baseSearch.setDataType (getFixup (worksheetReader, "dataType"));
-   baseSearch.setStatus (getFixup (worksheetReader, "status"));
-   baseSearch.setComments (getFixup (worksheetReader, "comments"));
+   baseSearch.setKey (getFixup (worksheetReader, "Key"));
+   baseSearch.setType (getFixup (worksheetReader, "Type"));
+   baseSearch.setName (getFixup (worksheetReader, "Name"));
+   baseSearch.setDescription (getFixup (worksheetReader, "Description"));
+   baseSearch.setDataType (getFixup (worksheetReader, "DataType"));
+   baseSearch.setStatus (getFixup (worksheetReader, "Status"));
+   baseSearch.setComments (getFixup (worksheetReader, "Comments"));
    list.add (baseSearch);
   }
   return list;
