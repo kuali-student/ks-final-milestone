@@ -22,6 +22,8 @@
 		</property>
 	</bean>
 	
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"/>
+	
 	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
 	</bean>
