@@ -22,10 +22,10 @@ import java.util.List;
  *
  * @author nwright
  */
-public class SearchResults extends SearchRow
+public class SearchResult extends SearchRow
 {
 
- public SearchResults ()
+ public SearchResult ()
  {
  }
 

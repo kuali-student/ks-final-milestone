@@ -15,41 +15,16 @@
  */
 package org.kuali.student.search;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author nwright
  */
-public class SearchCriteria extends SearchRow
+public class SearchImplementation extends SearchRow
 {
 
- public SearchCriteria ()
+ public SearchImplementation ()
  {
+  super ();
  }
 
- protected List<SearchCriteriaParameter> parameters = new ArrayList ();
-
- /**
-  * Get the value of parameters
-  *
-  * @return the value of parameters
-  */
- public List<SearchCriteriaParameter> getParameters ()
- {
-  return parameters;
- }
-
- /**
-  * Set the value of parameters
-  *
-  * @param parameters new value of parameters
-  */
- public void setParameters (List<SearchCriteriaParameter> parameters)
- {
-  this.parameters = parameters;
- }
-
- 
 }

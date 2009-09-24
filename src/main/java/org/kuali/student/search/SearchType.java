@@ -27,26 +27,26 @@ public class SearchType extends SearchRow
   super ();
  }
 
- protected SearchSql sql;
+ protected SearchImplementation implementation;
 
  /**
-  * Get the value of sql
+  * Get the value of implementation
   *
-  * @return the value of sql
+  * @return the value of implementation
   */
- public SearchSql getSql ()
+ public SearchImplementation getImplementation ()
  {
-  return sql;
+  return implementation;
  }
 
  /**
-  * Set the value of sql
+  * Set the value of implementation
   *
-  * @param sql new value of sql
+  * @param implementation new value of implementation
   */
- public void setSql (SearchSql sql)
+ public void setImplementation (SearchImplementation implementation)
  {
-  this.sql = sql;
+  this.implementation = implementation;
  }
 
  protected SearchCriteria criteria;
@@ -71,14 +71,14 @@ public class SearchType extends SearchRow
   this.criteria = criteria;
  }
 
- protected SearchResults results;
+ protected SearchResult results;
 
  /**
   * Get the value of results
   *
   * @return the value of results
   */
- public SearchResults getResults ()
+ public SearchResult getResults ()
  {
   return results;
  }
@@ -88,7 +88,7 @@ public class SearchType extends SearchRow
   *
   * @param results new value of results
   */
- public void setResults (SearchResults results)
+ public void setResults (SearchResult results)
  {
   this.results = results;
  }

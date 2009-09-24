@@ -15,41 +15,30 @@
  */
 package org.kuali.student.search;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- *
+ * Exception thrown when encounter a problem with the spreadsheet model while
+ * generating the dictionary
  * @author nwright
  */
-public class SearchCriteria extends SearchRow
+public class SearchValidationException extends RuntimeException
 {
 
- public SearchCriteria ()
+ public SearchValidationException (Throwable cause)
  {
+  super (cause);
  }
 
- protected List<SearchCriteriaParameter> parameters = new ArrayList ();
-
- /**
-  * Get the value of parameters
-  *
-  * @return the value of parameters
-  */
- public List<SearchCriteriaParameter> getParameters ()
+ public SearchValidationException (String message, Throwable cause)
  {
-  return parameters;
+  super (message, cause);
  }
 
- /**
-  * Set the value of parameters
-  *
-  * @param parameters new value of parameters
-  */
- public void setParameters (List<SearchCriteriaParameter> parameters)
+ public SearchValidationException (String message)
  {
-  this.parameters = parameters;
+  super (message);
  }
 
- 
+ public SearchValidationException ()
+ {
+ }
 }

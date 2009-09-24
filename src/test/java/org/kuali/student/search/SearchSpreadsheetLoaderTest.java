@@ -28,10 +28,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class SpreadsheetLoaderTest implements TestConstants
+public class SearchSpreadsheetLoaderTest implements SearchTestConstants
 {
 
- public SpreadsheetLoaderTest ()
+ public SearchSpreadsheetLoaderTest ()
  {
  }
 
@@ -48,14 +48,14 @@ public class SpreadsheetLoaderTest implements TestConstants
  }
 
  private ExcelSpreadsheetReader reader;
- private Spreadsheet instance;
+ private SearchSpreadsheet instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
-  instance = new SpreadsheetCache (new SpreadsheetLoader (reader));
+  instance = new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
  }
 
  @After
@@ -67,9 +67,9 @@ public class SpreadsheetLoaderTest implements TestConstants
   * Test of getSearchRows method, of class SpreadsheetLoader.
   */
  @Test
- public void testGetSearchRows ()
+ public void testGetSearchTypes ()
  {
-  System.out.println ("getSearchRows");
+  System.out.println ("getSearchTypes");
   List<SearchType> list = instance.getSearchTypes ();
   assertEquals (11, list.size ());
   SearchType searchType = list.get (0);
@@ -81,8 +81,11 @@ public class SpreadsheetLoaderTest implements TestConstants
   assertEquals ("Implemented", searchType.getStatus ());
   assertEquals ("", searchType.getComments ());
 
+  assertEquals ("JPQL", searchType.getImplementation ().getType ());
+  assertEquals ("org.search.orgHierarchyIds", searchType.getImplementation ().getKey ());
+  
   assertEquals (0, searchType.getCriteria ().getParameters ().size ());
-   assertEquals (2, searchType.getResults ().getResultColumns ().size ());
+  assertEquals (2, searchType.getResults ().getResultColumns ().size ());
   SearchResultColumn col = searchType.getResults ().getResultColumns ().get (0);
   assertEquals ("org.resultColumn.orgHierarchyId", col.getKey ());
   assertEquals ("Column", col.getType ());

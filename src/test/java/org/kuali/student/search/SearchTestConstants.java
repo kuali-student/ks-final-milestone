@@ -15,22 +15,13 @@
  */
 package org.kuali.student.search;
 
-import java.util.List;
-
 /**
- * Abstration of the spreadsheet that holds the data so we can implement both
- * google and excel versions as well as caching and expanding ones.
+ *
  * @author nwright
  */
-public interface Spreadsheet
+public interface SearchTestConstants
 {
-
- /**
-  * get search types
-  * @return
-  */
- public List<SearchType> getSearchTypes ();
-
- 
-
+  public static String DIRECTORY = "src/test/resources/search/";
+  
+  public static String ORG_SEARCH_EXCEL_FILE = DIRECTORY + "Organization Search Specification.xls";
 }

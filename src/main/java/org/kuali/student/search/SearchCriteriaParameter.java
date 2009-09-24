@@ -15,32 +15,15 @@
  */
 package org.kuali.student.search;
 
-import java.util.List;
-
 /**
- * This reads the supplied spreadsheet but then caches it so it doesn't have to
- * re-read it again.
+ *
  * @author nwright
  */
-public class SpreadsheetCache implements Spreadsheet
+public class SearchCriteriaParameter extends SearchRow
 {
 
- private Spreadsheet spreadsheet;
- 
- public SpreadsheetCache (Spreadsheet spreadsheet)
+ public SearchCriteriaParameter ()
  {
-  this.spreadsheet = spreadsheet;
  }
 
- private List<SearchType> searchTypes = null;
-
- @Override
- public List<SearchType> getSearchTypes ()
- {
-  if (searchTypes == null)
-  {
-   searchTypes = spreadsheet.getSearchTypes ();
-  }
-  return searchTypes;
- }
 }

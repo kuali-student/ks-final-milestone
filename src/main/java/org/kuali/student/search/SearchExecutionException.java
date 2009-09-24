@@ -16,15 +16,29 @@
 package org.kuali.student.search;
 
 /**
- *
+ * Exception thrown when encounter an unexpected exeception when generating the dictionary
  * @author nwright
  */
-public class SearchSql extends SearchRow
+public class SearchExecutionException extends RuntimeException
 {
 
- public SearchSql ()
+ public SearchExecutionException (Throwable cause)
  {
-  super ();
+  super (cause);
+ }
+
+ public SearchExecutionException (String message, Throwable cause)
+ {
+  super (message, cause);
+ }
+
+ public SearchExecutionException (String message)
+ {
+  super (message);
+ }
+
+ public SearchExecutionException ()
+ {
  }
 
 }

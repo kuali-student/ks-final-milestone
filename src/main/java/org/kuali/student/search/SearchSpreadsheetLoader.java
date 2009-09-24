@@ -24,12 +24,12 @@ import org.kuali.student.dictionary.WorksheetReader;
  * Loads a spreadsheet using either a google or excel reader
  * @author nwright
  */
-public class SpreadsheetLoader implements Spreadsheet
+public class SearchSpreadsheetLoader implements SearchSpreadsheet
 {
 
  private SpreadsheetReader spreadsheetReader;
 
- public SpreadsheetLoader (SpreadsheetReader spreadsheetReader)
+ public SearchSpreadsheetLoader (SpreadsheetReader spreadsheetReader)
  {
   this.spreadsheetReader = spreadsheetReader;
  }
@@ -49,11 +49,14 @@ public class SpreadsheetLoader implements Spreadsheet
     loadRow (worksheetReader, searchType);
     list.add (searchType);
    }
-   else if (type.equals ("SQL"))
+   else if (type.equals ("JPQL"))
    {
-    SearchSql sql = new SearchSql ();
-    loadRow (worksheetReader, sql);
-    searchType.setSql (sql);
+    SearchImplementation impl = new SearchImplementation ();
+    loadRow (worksheetReader, impl);
+    //TODO: Fix this hack that gets the key set to the search key
+    impl.setDescription (impl.getKey ());
+    impl.setKey (searchType.getKey ());
+    searchType.setImplementation (impl);
    }
    else if (type.equals ("Criteria"))
    {
@@ -63,13 +66,13 @@ public class SpreadsheetLoader implements Spreadsheet
    }
    else if (type.equals ("Parm"))
    {
-    SearchParameter parm = new SearchParameter ();
+    SearchCriteriaParameter parm = new SearchCriteriaParameter ();
     searchType.getCriteria ().getParameters ().add (parm);
     loadRow (worksheetReader, parm);
    }
    else if (type.equals ("Result"))
    {
-    SearchResults results = new SearchResults ();
+    SearchResult results = new SearchResult ();
     searchType.setResults (results);
     loadRow (worksheetReader, results);
    }
