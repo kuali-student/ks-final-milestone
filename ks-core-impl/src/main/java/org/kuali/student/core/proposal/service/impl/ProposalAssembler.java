@@ -81,12 +81,16 @@ public class ProposalAssembler extends BaseAssembler {
             dto.setProposerOrg(orgIds);
         }
 
-        dto.setProposalReferenceType(entity.getProposalReference().get(0).getType().getId());
-        List<String> objectIds = new ArrayList<String>(entity.getProposalReference().size());
-        for (ProposalReference object : entity.getProposalReference()) {
-            objectIds.add(object.getObjectReferenceId());
+        if (entity.getProposalReference() != null){
+            if (entity.getProposalReference().size() > 0){
+                dto.setProposalReferenceType(entity.getProposalReference().get(0).getType().getId());
+            }
+            List<String> objectIds = new ArrayList<String>(entity.getProposalReference().size());
+            for (ProposalReference object : entity.getProposalReference()) {
+                objectIds.add(object.getObjectReferenceId());
+            }
+            dto.setProposalReference(objectIds);
         }
-        dto.setProposalReference(objectIds);
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setType(entity.getType().getId());
