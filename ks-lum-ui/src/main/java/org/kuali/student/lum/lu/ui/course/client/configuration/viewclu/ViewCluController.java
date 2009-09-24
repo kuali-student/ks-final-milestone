@@ -52,7 +52,7 @@ public class ViewCluController extends PagedSectionLayout{
 
     public ViewCluController(){
         super();
-        ViewCluConfigurer.generateLayout(this);
+        generateLayout();
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);  
     }
