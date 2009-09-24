@@ -18,6 +18,7 @@ package org.kuali.student.search;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,12 +79,23 @@ public class SearchSpreadsheetWriter extends XmlWriter
   indentPrintln ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
   indentPrintln ("<beans xmlns=\"http://www.springframework.org/schema/beans\"");
   indentPrintln ("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+  indentPrintln ("xmlns:search=\"http://student.kuali.org/xsd/search-extension\"");
   indentPrintln ("xmlns:dict=\"http://student.kuali.org/xsd/dictionary-extension\"");
-  indentPrint ("xsi:schemaLocation=\"\nhttp://student.kuali.org/xsd/dictionary-extension ");
-  indentPrintln ("dictionary-extension.xsd");
-  //indentPrintln ("https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-extension.xsd");
+  indentPrintln ("xsi:schemaLocation=\"\nhttp://student.kuali.org/xsd/dictionary-extension ");
+  indentPrintln ("https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-extension.xsd");
+  indentPrintln ("http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd");
   indentPrintln ("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd");
   indentPrintln ("\">");
+  StringBuffer buf = new StringBuffer ();
+  buf.append ("*** Automatically Generated ***");
+  buf.append ("\n");
+  buf.append ("on: " + (new Date ()));
+  buf.append ("\n");
+  buf.append ("by: " + this.getClass ().getName ());
+  buf.append ("\n");
+  buf.append ("using: " + sheet.getSourceName ());
+  buf.append ("\n");
+  writeComment (buf.toString ());
  }
 
  protected void writeFooter ()
@@ -235,7 +247,7 @@ public class SearchSpreadsheetWriter extends XmlWriter
   indentPrintln ("<bean id=\"queryMap\" class=\"org.springframework.beans.factory.config.MapFactoryBean\">");
   indentPrintln ("<property name=\"sourceMap\">");
   indentPrintln ("<map>");
-  for (SearchImplementation impl: getJPQLImplementations ())
+  for (SearchImplementation impl : getJPQLImplementations ())
   {
    indentPrintln ("<entry");
    writeAttribute ("key", impl.getKey ());

@@ -25,6 +25,8 @@ import java.util.List;
 public interface SearchSpreadsheet
 {
 
+ public String getSourceName ();
+
  /**
   * get search types
   * @return

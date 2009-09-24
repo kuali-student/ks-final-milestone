@@ -116,4 +116,11 @@ public class SpreadsheetCache implements Spreadsheet
   }
   return xmlTypes;
  }
+
+ public String getSourceName ()
+ {
+  return spreadsheet.getSourceName ();
+ }
+
+ 
 }

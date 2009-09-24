@@ -44,6 +44,14 @@ public class SearchTypeValidator implements ModelValidator
   {
    addError ("JPQL implementation is required");
   }
+  if (searchType.getCriteria () == null)
+  {
+   addError ("Criteria is required");
+  }
+  if (searchType.getResults () == null)
+  {
+   addError ("Results is required");
+  }
   return errors;
  }
 

@@ -453,4 +453,11 @@ public class SpreadsheetLoader implements Spreadsheet
   }
  }
 
+ public String getSourceName ()
+ {
+  return spreadsheetReader.getSourceName ();
+ }
+
+
+
 }

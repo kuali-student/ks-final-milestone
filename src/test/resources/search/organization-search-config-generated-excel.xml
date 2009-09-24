@@ -1,77 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:search="http://student.kuali.org/xsd/search-extension"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension 
+https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-extension.xsd
+http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
+<!-- *** Automatically Generated***
+on: Thu Sep 24 11:48:29 EDT 2009
+by: org.kuali.student.search.SearchSpreadsheetWriter
+using: Excel Spreadsheet src/test/resources/search/Organization Search Specification.xls
+ -->
 	<search:searchType id="org.search.orgHierarchyIds">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgHierarchyIds&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgHierarchyIds&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgHierarchyIds" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgHierarchyIds" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.hierarchiesOrgIsIn">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.hierarchiesOrgIsIn&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.hierarchiesOrgIsIn&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.hierarchiesOrgIsIn" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.hierarchiesOrgIsIn" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByOrgType">
 		<search:name>Organization Quick View By Org Type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByOrgType&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByOrgType" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByHierarchyShortName">
 		<search:name>Organization Quick View By Hierarchy and ShortName match</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a hierarchy with like on shortName</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByHierarchyShortName&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByHierarchyShortName" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
 		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByRelationTypeOrgTypeRelatedOrgType&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
 		<search:name>Organization Quick View By Relation Type, Org Ide and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with and org and specified types</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgByShortName">
 		<search:name>ShortName match</search:name>
 		<search:desc>Search on shortName only</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByShortName&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByShortName" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgByShortNameAndType">
 		<search:name>ShortName and Type match</search:name>
 		<search:desc>Search on shortName and Type</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByShortNameAndType&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByShortNameAndType" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickLongViewByFirstLetter">
 		<search:name>Organization Quick View by First Letter of Short Name or Long Name</search:name>
 		<search:desc>Returns a quick view of organization information for orgs whose short or long name start with a particular letter</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgQuickLongView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByFirstLetter&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgQuickLongView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByFirstLetter" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgFullViewById">
 		<search:name>Full view by organization id key</search:name>
 		<search:desc>Returns a full view of organization information for the id supplied</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;org.result.orgFullView&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgById&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="org.result.orgFullView" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgById" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="nestedSearchType">
 		<!-- This was talks about nested CLUs but I thought this was only Org? -->
 		<search:name>Nested</search:name>
 		<search:desc>Nested Search Type</search:desc>
-		<search:resultTypeInfo>&lt;ref bean=&quot;searchResultTypeNested&quot; /&gt;</search:resultTypeInfo>
-		<search:searchCriteriaTypeInfo>&lt;ref bean=&quot;org.criteria.orgByOrgTypeNested&quot; /&gt;</search:searchCriteriaTypeInfo>
+		<search:resultTypeInfo><ref bean="searchResultTypeNested" /></search:resultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByOrgTypeNested" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchResultTypeInfo id="org.result.orgHierarchyIds">
 		<search:name>Organization Quick View</search:name>

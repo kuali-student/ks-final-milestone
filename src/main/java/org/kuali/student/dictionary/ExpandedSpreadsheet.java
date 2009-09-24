@@ -85,4 +85,8 @@ public class ExpandedSpreadsheet implements Spreadsheet
   return spreadsheet.getXmlTypes ();
  }
 
+ public String getSourceName ()
+ {
+  return spreadsheet.getSourceName ();
+ }
 }

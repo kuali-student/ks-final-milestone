@@ -50,8 +50,12 @@ public class SearchTypeWriter extends XmlWriter
   //writeAttribute ("locale", constraint.getLocale ());
   writeTag ("search:name", searchType.getName ());
   writeTag ("search:desc", searchType.getDescription ());
-  writeTag ("search:resultTypeInfo", calcRefBean (searchType.getResults ().getKey ()));
-  writeTag ("search:searchCriteriaTypeInfo", calcRefBean (searchType.getCriteria ().getKey ()));
+  indentPrint ("<search:resultTypeInfo>");
+  print (calcRefBean (searchType.getResults ().getKey ()));
+  println ("</search:resultTypeInfo>");
+  indentPrint ("<search:searchCriteriaTypeInfo>");
+  print (calcRefBean (searchType.getCriteria ().getKey ()));
+  println ("</search:searchCriteriaTypeInfo>");
 
   // end the constraint
   indentPrintln ("</search:searchType>");

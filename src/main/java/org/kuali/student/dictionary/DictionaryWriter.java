@@ -18,6 +18,7 @@ package org.kuali.student.dictionary;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -92,6 +93,16 @@ public class DictionaryWriter extends XmlWriter
   //indentPrintln ("https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-extension.xsd");
   indentPrintln ("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd");
   indentPrintln ("\">");
+   StringBuffer buf = new StringBuffer ();
+  buf.append ("*** Automatically Generated ***");
+  buf.append ("\n");
+  buf.append ("on: " + (new Date ()));
+  buf.append ("\n");
+  buf.append ("by: " + this.getClass ().getName ());
+  buf.append ("\n");
+  buf.append ("using: " + sheet.getSourceName ());
+  buf.append ("\n");
+  writeComment (buf.toString ());
  }
 
  protected void writeFooter ()

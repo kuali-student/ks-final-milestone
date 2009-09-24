@@ -74,7 +74,8 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
   workbook = null;
  }
 
-
-
-
+ public String getSourceName ()
+ {
+  return "Excel Spreadsheet " + spreadsheetFileName;
+ }
 }

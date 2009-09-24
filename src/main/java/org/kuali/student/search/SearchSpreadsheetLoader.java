@@ -126,4 +126,8 @@ public class SearchSpreadsheetLoader implements SearchSpreadsheet
   return str;
  }
 
+ public String getSourceName ()
+ {
+  return spreadsheetReader.getSourceName ();
+ }
 }

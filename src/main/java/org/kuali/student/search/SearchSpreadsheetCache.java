@@ -43,4 +43,9 @@ public class SearchSpreadsheetCache implements SearchSpreadsheet
   }
   return searchTypes;
  }
+
+ public String getSourceName ()
+ {
+  return spreadsheet.getSourceName ();
+ }
 }

@@ -27,4 +27,5 @@ public interface SpreadsheetReader
 
  public void close ();
 
+ public String getSourceName ();
 }

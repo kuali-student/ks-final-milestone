@@ -26,6 +26,12 @@ public interface Spreadsheet
 {
 
  /**
+  * get name of the source of this spreadsheet
+  * @return
+  */
+ public String getSourceName ();
+
+ /**
   * get dictionary entries
   * @return
   */

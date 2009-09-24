@@ -216,4 +216,11 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   // there is no explicit close but this should free up memory
   service = null;
  }
+
+ public String getSourceName ()
+ {
+  return "Google Spreadsheet " + spreadsheetTitle;
+ }
+
+
 }
