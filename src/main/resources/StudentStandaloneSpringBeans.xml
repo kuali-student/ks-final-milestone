@@ -73,10 +73,10 @@
 	</bean>
 
 	<!-- Action Request Derived role -->
-	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.KSActionRequestDerivedRoleTypeServiceImpl"/>
+	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSActionRequestDerivedRoleTypeServiceImpl"/>
 
 	<!-- Route Log Derived role -->
-	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.KSRouteLogDerivedRoleTypeServiceImpl"/>
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl"/>
 
 	<!-- Hierarchy Derived role -->
 <!--
