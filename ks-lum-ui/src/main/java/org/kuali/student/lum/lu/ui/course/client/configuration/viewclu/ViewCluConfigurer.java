@@ -102,8 +102,7 @@ public class ViewCluConfigurer {
 
         section.addSection(generateCurriculumOversight(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY)));
         section.addSection(generateCampusLocation(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY)));
-        section.addSection(generatePrimaryAdminOrg(getH3Title(LUConstants.PRIMARY_ADMIN_ORG_LABEL_KEY)));
-        section.addSection(generateAltAdminOrgs(getH3Title(LUConstants.ALT_ADMIN_ORGS_LABEL_KEY)));
+        section.addSection(generateAdminOrgs(getH3Title(LUConstants.ADMIN_ORGS_LABEL_KEY)));
 
         return section;
 
@@ -113,8 +112,7 @@ public class ViewCluConfigurer {
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
 
-        section.addSection(generatePrimaryInstructor(getH3Title(LUConstants.PRIM_INSTR_LABEL_KEY)));
-        section.addSection(generateAltInstructors(getH3Title(LUConstants.ALT_INSTR_LABEL_KEY)));
+        section.addSection(generateInstructors(getH3Title(LUConstants.INSTRUCTORS_LABEL_KEY)));
         section.addSection(generateCredits(getH3Title(LUConstants.CREDITS_LABEL_KEY)));
         section.addSection(generateLearningResults(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY)));
         section.addSection(generateScheduling(getH3Title(LUConstants.SCHEDULING_LABEL_KEY)));
@@ -127,7 +125,7 @@ public class ViewCluConfigurer {
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, getLabel(LUConstants.INFORMATION_LABEL_KEY), CluProposalModelDTO.class);        
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.INFORMATION_LABEL_KEY)));
 
-        section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)));
+        section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY)));
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
 //      section.addSection(generateCrossListedSection());
 //      section.addSection(generateJointOfferingsSection());
@@ -253,9 +251,9 @@ public class ViewCluConfigurer {
         section.addSection(generateCredits(getH5Title(LUConstants.CREDITS_LABEL_KEY)));
        
         section.addSection(generateDates(getH5Title(LUConstants.ACTIVE_DATES_LABEL_KEY)));
-        section.addSection(generateIdentifiers(getH5Title(LUConstants.IDENTIFIER_LABEL_KEY)));
+        section.addSection(generateIdentifiers(getH5Title(LUConstants.IDENTIFIERS_LABEL_KEY)));
         section.addSection(generateTitles(getH5Title(LUConstants.TITLE_LABEL_KEY)));
-        section.addSection(generateDescriptions(getH5Title(LUConstants.PRIM_INSTR_LABEL_KEY)));
+        section.addSection(generateDescriptions(getH5Title(LUConstants.DESCRIPTION_LABEL_KEY)));
 //        section.addSection(generateLearningResultsSection(getH5Title(LUConstants.LEARNING_RESULTS_LABEL_KEY))));
 //        section.addSection(generateRestrictionsSection());
 //        section.addSection(generateRequisitesSection());
@@ -278,21 +276,13 @@ public class ViewCluConfigurer {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     } 
     
-    private static VerticalSection generateAltAdminOrgs(SectionTitle title) {
-        VerticalSection section = new VerticalSection();
-        if (title !=  null) {
-            section.setSectionTitle(title);
-          }
-        section.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
-        return section;
-    }
-
-    private static VerticalSection generatePrimaryAdminOrg(SectionTitle title) {
+    private static VerticalSection generateAdminOrgs(SectionTitle title) {
         VerticalSection section = new VerticalSection();
         if (title !=  null) {
             section.setSectionTitle(title);
           }
         section.addField(new FieldDescriptor("/primaryAdminOrg/orgId", "Org ID:  ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         return section;
     }
 
@@ -361,26 +351,16 @@ public class ViewCluConfigurer {
         return section;
     }
 
-    private static VerticalSection generateAltInstructors(SectionTitle title) {
+    private static VerticalSection generateInstructors(SectionTitle title) {
         VerticalSection section = new VerticalSection();
         if (title !=  null) {
             section.setSectionTitle(title);
           }
+       section.addField(new FieldDescriptor("primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));
         return section;
     }
-
-    private static CustomNestedSection generatePrimaryInstructor(SectionTitle title) {
-        //INSTRUCTORS
-        CustomNestedSection section = new CustomNestedSection();
-        if (title !=  null) {
-            section.setSectionTitle(title);
-          }
-        section.addField(new FieldDescriptor("primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
-        return section;
-    }
-
 
     private static VerticalSection generateDescriptions(SectionTitle title) {
         VerticalSection section = new VerticalSection();
@@ -492,7 +472,7 @@ public class ViewCluConfigurer {
     private static class AlternateInstructorList extends MultiplicityComposite{
 
         protected AlternateInstructorList () {
-            this.setItemLabel("Instructor");      
+            this.setItemLabel("Alternate Instructor");      
             this.setUpdateable(false);         
         }
 
@@ -514,7 +494,7 @@ public class ViewCluConfigurer {
     private static class AlternateIdentifierList extends MultiplicityComposite{
 
         protected AlternateIdentifierList () {
-            this.setItemLabel("Identifier");      
+            this.setItemLabel("Alternate Identifier");      
             this.setUpdateable(false);         
         }
 
@@ -539,7 +519,7 @@ public class ViewCluConfigurer {
     private static class AlternateAdminOrgList extends MultiplicityComposite{
 
         protected AlternateAdminOrgList () {
-            this.setItemLabel("Org ID");      
+            this.setItemLabel("Alternate Org ID");      
             this.setUpdateable(false);         
         }
 

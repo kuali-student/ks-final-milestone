@@ -83,12 +83,10 @@ public class LUConstants {
     public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
     public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
-    public static final String PRIMARY_ADMIN_ORG_LABEL_KEY = "cluPrimaryAdminOrg";
-    public static final String ALT_ADMIN_ORGS_LABEL_KEY = "cluAltAdminOrgs";
+    public static final String ADMIN_ORGS_LABEL_KEY = "cluAdminOrgs";
 
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
-    public static final String PRIM_INSTR_LABEL_KEY = "cluPrimaryInstructor";
-    public static final String ALT_INSTR_LABEL_KEY = "cluAlternateInstructors";
+    public static final String INSTRUCTORS_LABEL_KEY = "cluInstructors";
     public static final String CREDITS_LABEL_KEY = "cluCredits";
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
     public static final String SCHEDULING_LABEL_KEY = "cluScheduling";
@@ -96,8 +94,7 @@ public class LUConstants {
 
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String INFORMATION_LABEL_KEY = "cluInformation";
-    public static final String IDENTIFIER_LABEL_KEY = "cluIdentifier";
-    public static final String ALT_IDENTIFIER_LABEL_KEY = "cluAltIdentifier";
+    public static final String IDENTIFIERS_LABEL_KEY = "cluIdentifiers";
     public static final String CROSS_LISTED_LABEL_KEY = "cluCrosslisted";
     public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
     public static final String VERSION_CODES_LABEL_KEY = "cluVersionCodes";

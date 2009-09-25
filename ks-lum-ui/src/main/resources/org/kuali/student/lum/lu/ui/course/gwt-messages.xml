@@ -31,11 +31,9 @@
 	   	<bean parent="enCourse" p:id="cluGovernance"	    	p:value="Governance"/>
 		   	<bean parent="enCourse" p:id="cluCurriculumOversight"	    	p:value="Curriculum Oversight"/>
 		   	<bean parent="enCourse" p:id="cluCampusLocation"	    	p:value="Campus Location"/>
-		   	<bean parent="enCourse" p:id="cluPrimaryAdminOrg"	    	p:value="Primary Administering Organization"/>
-		   	<bean parent="enCourse" p:id="cluAltAdminOrgs"	    	p:value="Alternate Administering Organizations"/>
+		   	<bean parent="enCourse" p:id="cluAdminOrgs"	    	p:value="Administering Organizations"/>
   	 	<bean parent="enCourse" p:id="cluLogistics"		p:value="Course Logistics"/>
-		   	<bean parent="enCourse" p:id="cluPrimaryInstructor"	    	p:value="Primary Instructor"/>
-		   	<bean parent="enCourse" p:id="cluAlternateInstructors"	    	p:value="Alternate Instructors"/>
+		   	<bean parent="enCourse" p:id="cluInstructors"	    	p:value="Instructors"/>
 		   	<bean parent="enCourse" p:id="cluCredits"	    	p:value="Credits"/>
 		   	<bean parent="enCourse" p:id="cluLearningResults"	    	p:value="Learning Results"/>
 		   	<bean parent="enCourse" p:id="cluScheduling"	    	p:value="Scheduling"/>
@@ -43,8 +41,7 @@
 
    	<bean parent="enCourse" p:id="cluAcademicContent"		p:value="Academic Content"/>
 	   	<bean parent="enCourse" p:id="cluInformation"		p:value="Course Information"/>
-	   		<bean parent="enCourse" p:id="cluIdentifier"	    	p:value="Course Identifier"/>
-	   		<bean parent="enCourse" p:id="cluAltIdentifier"	    	p:value="Alternate Course Identifiers"/>
+	   		<bean parent="enCourse" p:id="cluIdentifiers"	    	p:value="Course Identifiers"/>
 	   		<bean parent="enCourse" p:id="cluCrosslisted"	    	p:value="Crosslisted Courses"/>
 	   		<bean parent="enCourse" p:id="cluJointOfferings"	    	p:value="Courses Offered Jointly"/>
 	   		<bean parent="enCourse" p:id="cluVersionCodes"	    	p:value="Version Codes"/>
@@ -90,11 +87,9 @@
 	   	<bean parent="esCourse" p:id="cluGovernance"	    	p:value="Gobierno"/>
 		   	<bean parent="esCourse" p:id="cluCurriculumOversight"	    	p:value="Descuido del plan de estudios"/>
 		   	<bean parent="esCourse" p:id="cluCampusLocation"	    	p:value="Localización del campus"/>
-		   	<bean parent="esCourse" p:id="cluPrimaryAdminOrg"	    	p:value="Organización de administración primaria"/>
-		   	<bean parent="esCourse" p:id="cluAltAdminOrgs"	    	p:value="Organizaciones de administración alternas"/>
+		   	<bean parent="esCourse" p:id="cluAdminOrgs"	    	p:value="Organizaciones de administración"/>
   	 	<bean parent="esCourse" p:id="cluLogistics"		p:value="Logística del curso"/>
-		   	<bean parent="esCourse" p:id="cluPrimaryInstructor"	    	p:value="Instructor primario"/>
-		   	<bean parent="esCourse" p:id="cluAlternateInstructors"	    	p:value="Instructores alternos"/>
+		   	<bean parent="esCourse" p:id="cluInstructors"	    	p:value="Instructores"/>
 		   	<bean parent="esCourse" p:id="cluCredits"	    	p:value="Créditos"/>
 		   	<bean parent="esCourse" p:id="cluLearningResults"	    	p:value="Aprendizaje de resultados"/>
 		   	<bean parent="esCourse" p:id="cluScheduling"	    	p:value="Horario"/>
@@ -102,8 +97,7 @@
 
    	<bean parent="esCourse" p:id="cluAcademicContent"		p:value="Contenido académico"/>
 	   	<bean parent="esCourse" p:id="cluInformation"		p:value="Información del curso"/>
-	   		<bean parent="esCourse" p:id="cluIdentifier"	    	p:value="Identificador del curso"/>
-	   		<bean parent="esCourse" p:id="cluAltIdentifier"	    	p:value="Identificador del curso alternos"/>
+	   		<bean parent="esCourse" p:id="cluIdentifiers"	    	p:value="Identificador del curso"/>
 	   		<bean parent="esCourse" p:id="cluCrosslisted"	    	p:value="Cursos de compartido"/>
 	   		<bean parent="esCourse" p:id="cluJointOfferings"	    	p:value="Cursos ofrecidos en común"/>
 	   		<bean parent="esCourse" p:id="cluVersionCodes"	    	p:value="Códigos de la versión"/>
