@@ -27,11 +27,11 @@ public class TypeStateCaseConstraintWriter extends XmlWriter
 {
 
  private TypeStateCaseConstraint constraint;
- private Spreadsheet spreadsheet;
+ private DictionarySpreadsheet spreadsheet;
 
  public TypeStateCaseConstraintWriter (PrintStream out, int indent,
                                        TypeStateCaseConstraint constraint,
-                                       Spreadsheet spreadsheet)
+                                       DictionarySpreadsheet spreadsheet)
  {
   super (out, indent);
   this.constraint = constraint;

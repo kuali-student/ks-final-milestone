@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelSpreadsheetLoaderTest implements TestConstants
+public class ExpandedDictionarySpreadsheetTest implements TestConstants
 {
 
- public ExcelSpreadsheetLoaderTest ()
+ public ExpandedDictionarySpreadsheetTest ()
  {
  }
 
@@ -47,14 +47,15 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
  }
 
  private ExcelSpreadsheetReader reader;
- private Spreadsheet instance;
+ private DictionarySpreadsheet instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
-  instance = new SpreadsheetLoader (reader);
+  instance = new DictionarySpreadsheetLoader (reader);
+  instance = new DictionarySpreadsheetCache (instance);
  }
 
  @After
@@ -67,28 +68,84 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
   * Test of loadDicts method, of class SpreadsheetGeter.
   */
  @Test
- public void testGetDicts ()
+ public void testGetDictsWithMainTypeExpanded ()
  {
-  System.out.println ("loadDicts");
+  System.out.println ("getDictsWithMainTypeExpanded");
 
+  DictionarySpreadsheet sheet = instance;
+  sheet =
+   new DictionarySpreadsheetExpanded (sheet, new DictionaryMainTypeExpander (sheet));
 //  List<Field> expResult = new ArrayList ();
-  List<Dictionary> result = instance.getDictionary ();
+  List<Dictionary> result = sheet.getDictionary ();
   boolean found = false;
   for (Dictionary dict : result)
   {
-//   System.out.println (dict.getId ());
+// System.out.println (dict.getId ());
    if (dict.getId ().equals ("course.activity.contact.hours.no"))
    {
     found = true;
     assertEquals ("0", dict.getInlineConstraint ().getMinValue ());
     assertEquals ("40", dict.getInlineConstraint ().getMaxValue ());
+    if (dict.getMainType ().equals ("All Activity Types"))
+    {
+     fail ("All activity types was not fully expanded");
+    }
    }
   }
   if ( ! found)
   {
    fail ("course.activity.contact.hours.no was not in default dictionary");
   }
-//   assertEquals (713, result.size ());
+  if (result.size () < 640)
+  {
+   fail ("Should have at least 630");
+  }
+//  assertEquals (630, result.size ());
+  assertEquals (true, true);
+ }
+
+ /**
+  * Test of loadDicts method, of class SpreadsheetGeter.
+  */
+ @Test
+ public void testGetDictsWithMainAndSubTypeExpanded ()
+ {
+  System.out.println ("getDictsWithMainAndSubTypeExpanded");
+
+  DictionarySpreadsheet sheet = instance;
+  sheet =
+   new DictionarySpreadsheetExpanded (sheet, new DictionaryMainTypeExpander (sheet));
+  int before = sheet.getDictionary ().size ();
+  sheet =
+   new DictionarySpreadsheetExpanded (sheet, new DictionarySubTypeExpander (sheet));
+  int after = sheet.getDictionary ().size ();
+  assertEquals (before, after);
+//  List<Field> expResult = new ArrayList ();
+  List<Dictionary> result = sheet.getDictionary ();
+  boolean found = false;
+  for (Dictionary dict : result)
+  {
+// System.out.println (dict.getId ());
+   if (dict.getId ().equals ("course.activity.contact.hours.no"))
+   {
+    found = true;
+    assertEquals ("0", dict.getInlineConstraint ().getMinValue ());
+    assertEquals ("40", dict.getInlineConstraint ().getMaxValue ());
+    if (dict.getMainType ().equals ("All Activity Types"))
+    {
+     fail ("All activity types was not fully expanded");
+    }
+   }
+  }
+  if ( ! found)
+  {
+   fail ("course.activity.contact.hours.no was not in default dictionary");
+  }
+  if (result.size () < 630)
+  {
+   fail ("Should have at least 630");
+  }
+//  assertEquals (630, result.size ());
   assertEquals (true, true);
  }
 
@@ -101,7 +158,11 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
   System.out.println ("loadStates");
 //  List<State> expResult = new ArrayList ();
   List<State> result = instance.getStates ();
-// assertEquals (26, result.size ());
+  if (result.size () < 26)
+  {
+   fail ("Should have at least 630");
+  }
+//  assertEquals (26, result.size ());
   assertEquals (true, true);
  }
 
@@ -118,6 +179,10 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
   {
    System.out.println (type.getName () + " " + type.getXmlObject () +
     " include=" + type.getInclude ());
+  }
+  if (result.size () < 111)
+  {
+   fail ("Should have at least 111");
   }
 //  assertEquals (111, result.size ());
   assertEquals (true, true);
@@ -136,6 +201,10 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
 //  {
 //   System.out.println (info.getObject ());
 //  }
+  if (result.size () < 57)
+  {
+   fail ("Should have at least 57");
+  }
 //  assertEquals (57, result.size ());
   assertEquals (true, true);
  }
@@ -153,6 +222,10 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
 //  {
 //   System.out.println (field.getObjectField ());
 //  }
+  if (result.size () < 178)
+  {
+   fail ("Should have at least 178");
+  }
 //  assertEquals (178, result.size ());
   assertEquals (true, true);
  }
@@ -170,6 +243,10 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
 //  {
 //   System.out.println (field.getObjectField ());
 //  }
+  if (result.size () < 94)
+  {
+   fail ("Should have at least 94");
+  }
 //  assertEquals (94, result.size ());
   assertEquals (true, true);
  }
@@ -187,9 +264,12 @@ public class ExcelSpreadsheetLoaderTest implements TestConstants
 //  {
 //   System.out.println (field.getObjectField ());
 //  }
+  if (result.size () < 11)
+  {
+   fail ("Should have at least 11");
+  }
 //  assertEquals (11, result.size ());
   assertEquals (true, true);
-
  }
 
 }

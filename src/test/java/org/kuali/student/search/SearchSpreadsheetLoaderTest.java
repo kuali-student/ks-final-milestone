@@ -75,8 +75,8 @@ public class SearchSpreadsheetLoaderTest implements SearchTestConstants
   SearchType searchType = list.get (0);
   assertEquals ("org.search.orgHierarchyIds", searchType.getKey ());
   assertEquals ("Search", searchType.getType ());
-  assertEquals ("All org Hierarchies", searchType.getName ());
-  assertEquals ("Returns all org hierarchy ids", searchType.getDescription ());
+  assertEquals ("All org hierarchies", searchType.getName ());
+  assertEquals ("Returns all org hierarchies, name and id", searchType.getDescription ());
   assertEquals ("", searchType.getDataType ());
   assertEquals ("Implemented", searchType.getStatus ());
   assertEquals ("", searchType.getComments ());
@@ -89,8 +89,8 @@ public class SearchSpreadsheetLoaderTest implements SearchTestConstants
   SearchResultColumn col = searchType.getResults ().getResultColumns ().get (0);
   assertEquals ("org.resultColumn.orgHierarchyId", col.getKey ());
   assertEquals ("Column", col.getType ());
-  assertEquals ("Organization Hierarchy Id", col.getName ());
-  assertEquals ("Id for the Hierarchy an Organization is in", col.getDescription ());
+  assertEquals ("Org Hierarchy Id", col.getName ());
+  assertEquals ("Internal Id of an organizational hierarchy", col.getDescription ());
   assertEquals ("string", col.getDataType ());
   assertEquals ("Implemented", col.getStatus ());
   assertEquals ("", col.getComments ());

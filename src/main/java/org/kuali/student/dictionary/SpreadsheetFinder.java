@@ -28,9 +28,9 @@ import java.util.Set;
 public class SpreadsheetFinder
 {
 
- private Spreadsheet spreadsheet;
+ private DictionarySpreadsheet spreadsheet;
 
- public SpreadsheetFinder (Spreadsheet spreadsheet)
+ public SpreadsheetFinder (DictionarySpreadsheet spreadsheet)
  {
   this.spreadsheet = spreadsheet;
  }

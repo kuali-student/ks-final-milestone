@@ -25,13 +25,13 @@ import java.util.Set;
  * Validates the entire spreadsheet model
  * @author nwright
  */
-public class SpreadsheetValidator implements ModelValidator
+public class DictionarySpreadsheetValidator implements ModelValidator
 {
 
- private Spreadsheet sheet;
+ private DictionarySpreadsheet sheet;
  private SpreadsheetFinder finder;
 
- public SpreadsheetValidator (Spreadsheet sheet)
+ public DictionarySpreadsheetValidator (DictionarySpreadsheet sheet)
  {
   this.sheet = sheet;
   this.finder = new SpreadsheetFinder (sheet);

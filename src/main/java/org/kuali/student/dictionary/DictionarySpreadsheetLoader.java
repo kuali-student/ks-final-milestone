@@ -24,12 +24,12 @@ import java.util.regex.PatternSyntaxException;
  * Loads a spreadsheet using either a google or excel reader
  * @author nwright
  */
-public class SpreadsheetLoader implements Spreadsheet
+public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
 {
 
  private SpreadsheetReader spreadsheetReader;
 
- public SpreadsheetLoader (SpreadsheetReader spreadsheetReader)
+ public DictionarySpreadsheetLoader (SpreadsheetReader spreadsheetReader)
  {
   this.spreadsheetReader = spreadsheetReader;
  }

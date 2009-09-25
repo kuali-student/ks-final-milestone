@@ -29,10 +29,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelDictionaryWriterTest implements TestConstants
+public class GoogleDictionarySpreadsheetWriterTest
 {
 
- public ExcelDictionaryWriterTest ()
+ public GoogleDictionarySpreadsheetWriterTest ()
  {
  }
 
@@ -58,16 +58,28 @@ public class ExcelDictionaryWriterTest implements TestConstants
  {
  }
 
+ //private static String USER_ID = "nwright@mit.edu";
+ //private static String PASSWORD = "xxxxx";
+ private static String SPREADSHEET_KEY = "tSdKqlIJ1piKNBie4_H0hoA";
 
  /**
   * Test of write method, of class DictionaryWriter.
   */
  @Test
- public void testWriteExcelDictionary ()
+ public void testTrue ()
  {
-  System.out.println ("writeExcelDictionary");
+  assertEquals (true, true);
+ }
+
+ /**
+  * Test of write method, of class DictionaryWriter.
+  */
+// @Test
+ public void testWriteGoogleDictionary ()
+ {
+  System.out.println ("writeGoogleDictionary");
   File file =
-   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-excel.xml");
+   new File ("src/resources/dictionary/lu-dictionary-config-generated-google.xml");
   PrintStream out;
   try
   {
@@ -77,19 +89,17 @@ public class ExcelDictionaryWriterTest implements TestConstants
   {
    throw new RuntimeException (ex);
   }
-  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
-  try
-  {
-  SpreadsheetLoader loader = new SpreadsheetLoader (reader);
-  Spreadsheet cache = new SpreadsheetCache (loader);
-  DictionaryWriter instance = new DictionaryWriter (out, cache);
+  GoogleSpreadsheetReader reader = new GoogleSpreadsheetReader ();
+  // don't need user name and password if spreadsheet is published
+  //reader.setUserCredentials (USER_ID, PASSWORD);
+  reader.setKey (SPREADSHEET_KEY);
+  reader.setVisibility ("public");
+  reader.setProjection ("values");
+  DictionarySpreadsheet spreadsheet = new DictionarySpreadsheetLoader (reader);
+  spreadsheet = new DictionarySpreadsheetCache (spreadsheet);
+  DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, spreadsheet);
   instance.write ();
-  }
-  finally
-  {
-   out.close ();
-   reader.close ();
-  }
+  out.close ();
   assertEquals (true, true);
  }
 

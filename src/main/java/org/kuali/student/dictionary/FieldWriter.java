@@ -28,7 +28,7 @@ import java.util.Set;
 public class FieldWriter extends XmlWriter
 {
 
- private Spreadsheet spreadsheet;
+ private DictionarySpreadsheet spreadsheet;
  private SpreadsheetFinder finder;
  private State mainState;
  private Dictionary origDict;
@@ -36,7 +36,7 @@ public class FieldWriter extends XmlWriter
  private Field field;
  private boolean inline;
 
- public FieldWriter (PrintStream out, int indent, Spreadsheet spreadsheet,
+ public FieldWriter (PrintStream out, int indent, DictionarySpreadsheet spreadsheet,
                      Dictionary origDict, State mainState, boolean inline)
  {
   super (out, indent);

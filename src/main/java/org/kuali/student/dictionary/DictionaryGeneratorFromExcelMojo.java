@@ -72,9 +72,9 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
    }
    SpreadsheetReader reader = new ExcelSpreadsheetReader (excelInputFile.
     getCanonicalPath ());
-   SpreadsheetLoader loader = new SpreadsheetLoader (reader);
-   Spreadsheet cache = new SpreadsheetCache (loader);
-   DictionaryWriter instance = new DictionaryWriter (out, cache);
+   DictionarySpreadsheetLoader loader = new DictionarySpreadsheetLoader (reader);
+   DictionarySpreadsheet cache = new DictionarySpreadsheetCache (loader);
+   DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, cache);
    instance.write ();
    out.close ();
   }

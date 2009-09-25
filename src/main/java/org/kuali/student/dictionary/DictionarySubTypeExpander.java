@@ -27,10 +27,10 @@ public class DictionarySubTypeExpander implements DictionaryExpander
 
  private List<Dictionary> oldDicts;
  private List<Dictionary> newDicts;
- private Spreadsheet spreadsheet;
+ private DictionarySpreadsheet spreadsheet;
  private SpreadsheetFinder finder;
 
- public DictionarySubTypeExpander (Spreadsheet spreadsheet)
+ public DictionarySubTypeExpander (DictionarySpreadsheet spreadsheet)
  {
   this.spreadsheet = spreadsheet;
   this.oldDicts = spreadsheet.getDictionary ();

@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author nwright
  */
-public class MockSpreadsheet implements Spreadsheet
+public class MockSpreadsheet implements DictionarySpreadsheet
 {
 
  public String getSourceName ()

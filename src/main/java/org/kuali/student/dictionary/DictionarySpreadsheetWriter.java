@@ -25,13 +25,13 @@ import java.util.List;
  * This writes out the entire dictionary xml file
  * @author nwright
  */
-public class DictionaryWriter extends XmlWriter
+public class DictionarySpreadsheetWriter extends XmlWriter
 {
 
- private Spreadsheet sheet;
+ private DictionarySpreadsheet sheet;
  private SpreadsheetFinder finder;
 
- public DictionaryWriter (PrintStream out, Spreadsheet sheet)
+ public DictionarySpreadsheetWriter (PrintStream out, DictionarySpreadsheet sheet)
  {
   super (out, 0);
   this.sheet = sheet;
@@ -44,7 +44,7 @@ public class DictionaryWriter extends XmlWriter
   */
  public void write ()
  {
-  Collection<String> errors = new SpreadsheetValidator (sheet).validate ();
+  Collection<String> errors = new DictionarySpreadsheetValidator (sheet).validate ();
   if (errors.size () > 0)
   {
    StringBuffer buf = new StringBuffer ();
@@ -59,8 +59,8 @@ public class DictionaryWriter extends XmlWriter
    }
    throw new DictionaryValidationException (buf.toString ());
   }
-  sheet = new ExpandedSpreadsheet (sheet, new DictionaryMainTypeExpander (sheet));
-  sheet = new ExpandedSpreadsheet (sheet, new DictionarySubTypeExpander (sheet));
+  sheet = new DictionarySpreadsheetExpanded (sheet, new DictionaryMainTypeExpander (sheet));
+  sheet = new DictionarySpreadsheetExpanded (sheet, new DictionarySubTypeExpander (sheet));
   this.finder = new SpreadsheetFinder (sheet);
   for (Dictionary d : sheet.getDictionary ())
   {

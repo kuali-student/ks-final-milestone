@@ -22,7 +22,7 @@ import java.util.List;
  * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public interface Spreadsheet
+public interface DictionarySpreadsheet
 {
 
  /**

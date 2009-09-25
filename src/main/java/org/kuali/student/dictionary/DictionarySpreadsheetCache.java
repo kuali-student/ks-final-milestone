@@ -22,12 +22,12 @@ import java.util.List;
  * re-read it again.
  * @author nwright
  */
-public class SpreadsheetCache implements Spreadsheet
+public class DictionarySpreadsheetCache implements DictionarySpreadsheet
 {
 
- private Spreadsheet spreadsheet;
+ private DictionarySpreadsheet spreadsheet;
 
- public SpreadsheetCache (Spreadsheet spreadsheet)
+ public DictionarySpreadsheetCache (DictionarySpreadsheet spreadsheet)
  {
   this.spreadsheet = spreadsheet;
  }

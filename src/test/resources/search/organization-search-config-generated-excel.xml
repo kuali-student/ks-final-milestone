@@ -8,107 +8,108 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Sep 25 13:12:58 EDT 2009
+on: Fri Sep 25 15:28:03 EDT 2009
 by: org.kuali.student.search.SearchSpreadsheetWriter
-using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search Specification.xls
+using: Excel Spreadsheet src/test/resources/search/Organization Search Specification.xls
  -->
 	<search:searchType id="org.search.orgHierarchyIds">
-		<search:name>All org Hierarchies</search:name>
-		<search:desc>Returns all org hierarchy ids</search:desc>
-		<search:searchResultTypeInfo><ref bean="org.result.orgHierarchyIds" /></search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgHierarchyIds" /></search:searchCriteriaTypeInfo>
+		<search:name>All org hierarchies</search:name>
+		<search:desc>Returns all org hierarchies, name and id</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.orgHierarchyIdName" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.none" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.hierarchiesOrgIsIn">
-		<search:name>All org Hierarchies</search:name>
+		<search:name>Org Hierarchies for an org</search:name>
 		<search:desc>Returns all org hierarchy ids</search:desc>
-		<search:searchResultTypeInfo><ref bean="org.result.hierarchiesOrgIsIn" /></search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo><ref bean="org.criteria.hierarchiesOrgIsIn" /></search:searchCriteriaTypeInfo>
+		<search:searchResultTypeInfo><ref bean="org.result.orgHierarchyId" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgId" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByOrgType">
-		<search:name>Organization Quick View By Org Type</search:name>
-		<search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
+		<search:name>All orgs of a given type</search:name>
+		<search:desc>Returns name and short name of all orgs of a given type</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByOrgType" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByHierarchyShortName">
-		<search:name>Organization Quick View By Hierarchy and ShortName match</search:name>
-		<search:desc>Returns a quick view of organization information for orgs in a hierarchy with like on shortName</search:desc>
+		<search:name>Find orgs within a given hierarchy</search:name>
+		<search:desc>Within a hierarchy it searches for orgs by short name</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByHierarchyShortName" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
-		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
-		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
+		<search:name>All organizations that are related in a particular way</search:name>
+		<search:desc>Returns the organization that have a specified relation and are themselves specified types</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
-		<search:name>Organization Quick View By Relation Type, Org Ide and RelatedOrg type</search:name>
-		<search:desc>Returns a quick view of organization information for orgs in a relation with and org and specified types</search:desc>
+		<search:name>Orgs related to a given org</search:name>
+		<search:desc>Returns a quick view of organization information for orgs in a relation with a specified org and a specified set of types</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgByShortName">
-		<search:name>ShortName match</search:name>
-		<search:desc>Search on shortName only</search:desc>
+		<search:name>Org by short name (or id match?)</search:name>
+		<search:desc>Search on short name or by specifying an org Id</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByShortName" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgByShortNameAndType">
-		<search:name>ShortName and Type match</search:name>
-		<search:desc>Search on shortName and Type</search:desc>
+		<search:name>Org by short name and Type match</search:name>
+		<search:desc>Search orgs on short name and Type (and ID?)</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByShortNameAndType" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgQuickLongViewByFirstLetter">
-		<search:name>Organization Quick View by First Letter of Short Name or Long Name</search:name>
-		<search:desc>Returns a quick view of organization information for orgs whose short or long name start with a particular letter</search:desc>
+		<search:name>Organizations matching either short or long name</search:name>
+		<search:desc>Returns an organization either by short or long name.</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgQuickLongView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByFirstLetter" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="org.search.orgFullViewById">
+		<!-- Why not just use the service operation? -->
 		<search:name>Full view by organization id key</search:name>
 		<search:desc>Returns a full view of organization information for the id supplied</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.orgFullView" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgById" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 	<search:searchType id="nestedSearchType">
-		<!-- This was talks about nested CLUs but I thought this was only Org? -->
-		<search:name>Nested</search:name>
+		<!-- This must be a test that was not removed -->
+		<search:name>Nested Query</search:name>
 		<search:desc>Nested Search Type</search:desc>
 		<search:searchResultTypeInfo><ref bean="searchResultTypeNested" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="org.criteria.orgByOrgTypeNested" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
-	<search:searchCriteriaTypeInfo id="org.criteria.orgHierarchyIds">
-		<search:name>OrgHierarchyIdsCriteria</search:name>
-		<search:desc>OrgHierarchyIdsCriteria Description</search:desc>
+	<search:searchCriteriaTypeInfo id="org.criteria.none">
+		<search:name>No criteria</search:name>
+		<search:desc>No criteria needed</search:desc>
 		<search:queryParams>
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
-	<search:searchCriteriaTypeInfo id="org.criteria.hierarchiesOrgIsIn">
-		<search:name>HierarchiesOrgIsInCriteria</search:name>
-		<search:desc>Org ID on which to search for containing hierarchies</search:desc>
+	<search:searchCriteriaTypeInfo id="org.criteria.orgId">
+		<search:name>Org Id only</search:name>
+		<search:desc>Just the id of an organization</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgId" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
-		<search:name>OrgByOrgTypeCriteria</search:name>
-		<search:desc>OrgByOrgTypeCriteria Description</search:desc>
+		<search:name>Organization type only</search:name>
+		<search:desc>Just the organization type</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgType" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByHierarchyShortName">
-		<search:name>OrgByHierarchyShortNameCriteria</search:name>
-		<search:desc>OrgByHierarchyShortNameCriteria Description</search:desc>
+		<search:name>Org Hierarchy ID and Short name</search:name>
+		<search:desc>The organization hierarchy and a short name</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgHierarchyId" />
 			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType">
-		<search:name>OrgByRelationTypeOrgTypeRelatedOrgType</search:name>
+		<search:name>Two org types and the relation type between them</search:name>
 		<search:desc>Orgs in a relation with the given org type and related org type</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.relationType" />
@@ -117,7 +118,7 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
-		<search:name>OrgQuickViewByRelationTypeRelatedOrgTypeOrgId</search:name>
+		<search:name>Org id, relation type and related org type</search:name>
 		<search:desc>Orgs in a relation with the given orgid, type and related org type</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.relationType" />
@@ -126,16 +127,16 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortName">
-		<search:name>OrgByShortNameCriteria</search:name>
-		<search:desc>OrgByShortNameCriteria Description</search:desc>
+		<search:name>Org short name or org Id</search:name>
+		<search:desc>short name for the organization or it&apos;s id</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgShortName" />
 			<ref bean="org.queryParam.orgId" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortNameAndType">
-		<search:name>OrgByShortNameAndTypeCriteria</search:name>
-		<search:desc>OrgByShortNameAndTypeCriteria Description</search:desc>
+		<search:name>Org Type and short name or Id</search:name>
+		<search:desc>Organization type and either short name or an id</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgId" />
 			<ref bean="org.queryParam.orgType" />
@@ -143,15 +144,15 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByFirstLetter">
-		<search:name>OrgByFirstLetterCriteria</search:name>
-		<search:desc>OrgByFirstLetterCriteria</search:desc>
+		<search:name>Org short name only</search:name>
+		<search:desc>Just the org short name</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgById">
-		<search:name>OrgByIdCriteria</search:name>
-		<search:desc>OrgByIdCriteria Description</search:desc>
+		<search:name>Org Id only</search:name>
+		<search:desc>Just the organization Id</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgId" />
 		</search:queryParams>
@@ -164,15 +165,13 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 	<search:queryParam id="org.queryParam.orgId">
-			<!-- Has a dict:fieldDescriptor parent="childFieldDescriptor" but I am not sure how that works -->
 			<dict:fieldDescriptor>
 			<dict:name>Org Id</dict:name>
-			<dict:desc>Organization Identifier</dict:desc>
+			<dict:desc>The internal identifier of an organization</dict:desc>
 			<dict:dataType>string</dict:dataType>
 			</dict:fieldDescriptor>
 		</search:queryParam>
 	<search:queryParam id="org.queryParam.orgType">
-			<!-- Has a ref bean="childFieldDescriptor" but not sure how that works? -->
 			<dict:fieldDescriptor>
 			<dict:name>Org Type</dict:name>
 			<dict:desc>Organization Type</dict:desc>
@@ -208,7 +207,7 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 			<!-- Has a ref bean="childFieldDescriptor" but not sure how that works? -->
 			<dict:fieldDescriptor>
 			<dict:name>Related Org Type</dict:name>
-			<dict:desc>Related Org Type</dict:desc>
+			<dict:desc>The org type of the related organization</dict:desc>
 			<dict:dataType>string</dict:dataType>
 			</dict:fieldDescriptor>
 		</search:queryParam>
@@ -220,32 +219,32 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 			<dict:dataType>string</dict:dataType>
 			</dict:fieldDescriptor>
 		</search:queryParam>
-	<search:searchResultTypeInfo id="org.result.orgHierarchyIds">
-		<search:name>Organization Quick View</search:name>
-		<search:desc>Quick view of the Organization</search:desc>
+	<search:searchResultTypeInfo id="org.result.orgHierarchyIdName">
+		<search:name>Hierarchy ID and Name</search:name>
+		<search:desc>The id and name of an organizational hierarchy</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgHierarchyId" />
 			<ref bean="org.resultColumn.orgHierarchyName" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
-	<search:searchResultTypeInfo id="org.result.hierarchiesOrgIsIn">
-		<search:name>Hierarchies Containing an Org</search:name>
-		<search:desc>IDs of hierarchies that a specified org is a member of</search:desc>
+	<search:searchResultTypeInfo id="org.result.orgHierarchyId">
+		<search:name>Org Hierarchy Id only</search:name>
+		<search:desc>Just the internal identifier of an organizational hierarchy</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgHierarchyId" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 	<search:searchResultTypeInfo id="org.result.orgQuickView">
 		<search:name>Organization Quick View</search:name>
-		<search:desc>Quick view of the Organization</search:desc>
+		<search:desc>Quick view that just returns the id and the short name</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgId" />
 			<ref bean="org.resultColumn.orgShortName" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 	<search:searchResultTypeInfo id="org.result.orgQuickLongView">
-		<search:name>Organization Quick View</search:name>
-		<search:desc>Quick view of the Organization</search:desc>
+		<search:name>Organization Long View</search:name>
+		<search:desc>Org id, long name, type and hierarchy name</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgId" />
 			<ref bean="org.resultColumn.orgLongName" />
@@ -255,7 +254,7 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 		</search:searchResultTypeInfo>
 	<search:searchResultTypeInfo id="org.result.orgFullView">
 		<search:name>Organization Full View</search:name>
-		<search:desc>Full view of the Organization</search:desc>
+		<search:desc>Organization full view, IUD, short and long name, type and hierarchy name</search:desc>
 		<search:resultColumns>
 			<ref bean="org.resultColumn.orgId" />
 			<ref bean="org.resultColumn.orgShortName" />
@@ -273,13 +272,13 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 	<search:resultColumn id="org.resultColumn.orgHierarchyId">
-		<search:name>Organization Hierarchy Id</search:name>
-		<search:desc>Id for the Hierarchy an Organization is in</search:desc>
+		<search:name>Org Hierarchy Id</search:name>
+		<search:desc>Internal Id of an organizational hierarchy</search:desc>
 		<search:dataType>string</search:dataType>
 		</search:resultColumn>
 	<search:resultColumn id="org.resultColumn.orgHierarchyName">
-		<search:name>Long name for the organization, recorded as the default listing</search:name>
-		<search:desc>Name for the Hierarchy an Organization is in</search:desc>
+		<search:name>Org Hierarchy name</search:name>
+		<search:desc>Name of an organizational hierarchy</search:desc>
 		<search:dataType>string</search:dataType>
 		</search:resultColumn>
 	<search:resultColumn id="org.resultColumn.orgId">
@@ -319,31 +318,59 @@ using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search 
 <value>SELECT oh.id, oh.name FROM OrgHierarchy oh</value>
 </entry>
 <entry key="org.search.hierarchiesOrgIsIn">
-<value>SELECT hierarchy.id FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
+<value>SELECT hierarchy.id
+ FROM Org org, in(org.type.orgHierarchies) hierarchy
+ WHERE org.id = :org_queryParam_orgId</value>
 </entry>
 <entry key="org.search.orgQuickViewByOrgType">
-<value>SELECT org.id, org.shortName FROM Org org WHERE org.type.id = :org_queryParam_orgType</value>
+<value>SELECT org.id, org.shortName 
+FROM Org org 
+WHERE org.type.id = :org_queryParam_orgType</value>
 </entry>
 <entry key="org.search.orgQuickViewByHierarchyShortName">
-<value>SELECT org.id, org.shortName FROM Org org, in(org.type.orgHierarchies) hierarcy WHERE org.shortName like :org_queryParam_orgShortName and hierarcy.id = :org_queryParam_orgHierarchyId</value>
+<value>SELECT org.id, org.shortName 
+FROM Org org, in(org.type.orgHierarchies) hierarcy 
+WHERE org.shortName like :org_queryParam_orgShortName 
+and hierarcy.id = :org_queryParam_orgHierarchyId</value>
 </entry>
 <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
-<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.type.id = :org_queryParam_orgType AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName 
+FROM OrgOrgRelation rel 
+WHERE rel.type.id = :org_queryParam_relationType 
+AND rel.org.type.id = :org_queryParam_orgType 
+AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 </entry>
 <entry key="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
-<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.id = :org_queryParam_orgId AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName 
+FROM OrgOrgRelation rel 
+WHERE rel.type.id = :org_queryParam_relationType 
+AND rel.org.id = :org_queryParam_orgId 
+AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 </entry>
 <entry key="org.search.orgByShortName">
-<value>SELECT org.id, org.shortName FROM Org org WHERE org.shortName like :org_queryParam_orgShortName or org.id = :org_queryParam_orgId</value>
+<!-- Why are we also searching on OR ORG_ID? -->
+<value>SELECT org.id, org.shortName 
+FROM Org org 
+WHERE org.shortName like :org_queryParam_orgShortName
+OR org.id = :org_queryParam_orgId</value>
 </entry>
 <entry key="org.search.orgByShortNameAndType">
-<value>SELECT org.id, org.shortName FROM Org org WHERE org.type.id = :org_queryParam_orgType AND (org.shortName like :org_queryParam_orgShortName or org.id = :org_queryParam_orgId)</value>
+<value>SELECT org.id, org.shortName 
+FROM Org org 
+WHERE org.type.id = :org_queryParam_orgType 
+AND (org.shortName like :org_queryParam_orgShortName 
+         OR org.id = :org_queryParam_orgId)</value>
 </entry>
 <entry key="org.search.orgQuickLongViewByFirstLetter">
-<value>SELECT org.id, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.shortName like :org_queryParam_orgShortName or org.longName like :org_queryParam_orgShortName</value>
+<value>SELECT org.id, org.longName, org.type.id, hierarchy.name 
+FROM Org org, in(org.type.orgHierarchies) hierarchy 
+WHERE org.shortName like :org_queryParam_orgShortName 
+OR org.longName like :org_queryParam_orgShortName</value>
 </entry>
 <entry key="org.search.orgFullViewById">
-<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy WHERE org.id = :org_queryParam_orgId</value>
+<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name 
+FROM Org org, in(org.type.orgHierarchies) hierarchy 
+WHERE org.id = :org_queryParam_orgId</value>
 </entry>
 <entry key="nestedSearchType">
 <value>NO QUERY MAP ENTRY FOUND FOR THIS SEARCH</value>
