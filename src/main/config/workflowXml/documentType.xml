@@ -44,7 +44,7 @@
       <parent>CollaboratorRequestDocument</parent>
       <description>Sample Clu Collaborator Request Document</description>
       <label>Sample Clu Collaborator Request Document</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/CollaboratorRequest.html</docHandler>
       <active>true</active>
       <attributes>
         <attribute>
