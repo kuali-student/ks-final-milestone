@@ -40,21 +40,21 @@ public class SearchSpreadsheetLoader implements SearchSpreadsheet
    spreadsheetReader.getWorksheetReader ("Searches");
   List<SearchType> list = new ArrayList (worksheetReader.getEstimatedRows ());
   SearchType searchType = null;
-  int rowCount = 1;
+  int rowNumber = 1;
   while (worksheetReader.next ())
   {
-   rowCount++;
+   rowNumber++;
    String type = getFixup (worksheetReader, "Type");
    if (type.equals ("Search"))
    {
     searchType = new SearchType ();
-    loadRow (worksheetReader, searchType);
+    loadRow (worksheetReader, searchType, rowNumber);
     list.add (searchType);
    }
    else if (type.equals ("JPQL"))
    {
     SearchImplementation impl = new SearchImplementation ();
-    loadRow (worksheetReader, impl);
+    loadRow (worksheetReader, impl, rowNumber);
     //TODO: Fix this hack that gets the key set to the search key
     impl.setDescription (impl.getKey ());
     impl.setKey (searchType.getKey ());
@@ -64,36 +64,37 @@ public class SearchSpreadsheetLoader implements SearchSpreadsheet
    {
     SearchCriteria criteria = new SearchCriteria ();
     searchType.setCriteria (criteria);
-    loadRow (worksheetReader, criteria);
+    loadRow (worksheetReader, criteria, rowNumber);
    }
    else if (type.equals ("Param"))
    {
     SearchCriteriaParameter param = new SearchCriteriaParameter ();
     searchType.getCriteria ().getParameters ().add (param);
-    loadRow (worksheetReader, param);
+    loadRow (worksheetReader, param, rowNumber);
    }
    else if (type.equals ("Result"))
    {
     SearchResult result = new SearchResult ();
     searchType.setResults (result);
-    loadRow (worksheetReader, result);
+    loadRow (worksheetReader, result, rowNumber);
    }
    else if (type.equals ("Column"))
    {
     SearchResultColumn col = new SearchResultColumn ();
     searchType.getResults ().getResultColumns ().add (col);
-    loadRow (worksheetReader, col);
+    loadRow (worksheetReader, col, rowNumber);
    }
    else
    {
-    throw new SearchValidationException ("Spreadsheet row #" + rowCount + " has an unknown type,[" + type + "]");
+    throw new SearchValidationException ("Spreadsheet row #" + rowNumber + " has an unknown type,[" + type + "]");
    }
   }
   return list;
  }
 
- private void loadRow (WorksheetReader worksheetReader, SearchRow row)
+ private void loadRow (WorksheetReader worksheetReader, SearchRow row, int rowNumber)
  {
+  row.setRowNumber (rowNumber);
   row.setKey (getFixup (worksheetReader, "Key"));
   row.setType (getFixup (worksheetReader, "Type"));
   row.setName (getFixup (worksheetReader, "Name"));

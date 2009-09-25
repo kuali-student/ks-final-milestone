@@ -44,13 +44,11 @@ public class SearchTypeWriter extends XmlWriter
   // write out comments
   writeComment (searchType.getComments ());
 
-  //TODO: deal with locale
-  //writeAttribute ("locale", constraint.getLocale ());
   writeTag ("search:name", searchType.getName ());
   writeTag ("search:desc", searchType.getDescription ());
-  indentPrint ("<search:resultTypeInfo>");
+  indentPrint ("<search:searchResultTypeInfo>");
   print (calcRefBean (searchType.getResults ().getKey ()));
-  println ("</search:resultTypeInfo>");
+  println ("</search:searchResultTypeInfo>");
   indentPrint ("<search:searchCriteriaTypeInfo>");
   print (calcRefBean (searchType.getCriteria ().getKey ()));
   println ("</search:searchCriteriaTypeInfo>");

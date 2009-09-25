@@ -30,6 +30,28 @@ public class SearchRow implements Serializable,
   super ();
  }
 
+ private int rowNumber;
+
+ /**
+  * Get the value of rowNumber
+  *
+  * @return the value of row
+  */
+ public int getRowNumber ()
+ {
+  return rowNumber;
+ }
+
+ /**
+  * Set the value of rowNumber
+  *
+  * @param rowNumber new value of rowNumber
+  */
+ public void setRowNumber (int rowNumber)
+ {
+  this.rowNumber = rowNumber;
+ }
+
  private String key;
 
  /**

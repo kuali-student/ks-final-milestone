@@ -48,10 +48,16 @@ public class SearchTypeValidator implements ModelValidator
   {
    addError ("Criteria is required");
   }
+  ModelValidator validator =
+   new SearchCriteriaValidator (searchType.getCriteria (), searchType);
+  errors.addAll (validator.validate ());
   if (searchType.getResults () == null)
   {
    addError ("Results is required");
   }
+  validator =
+   new SearchResultValidator (searchType.getResults (), searchType);
+  errors.addAll (validator.validate ());
   return errors;
  }
 
@@ -82,7 +88,7 @@ public class SearchTypeValidator implements ModelValidator
  private void addError (String msg)
  {
   String error = "Error in searchTypeionary entry: " + searchType.getKey () +
-   ": " + msg;
+   " of " + searchType + ": " + msg;
   if ( ! errors.contains (error))
   {
    errors.add (error);
