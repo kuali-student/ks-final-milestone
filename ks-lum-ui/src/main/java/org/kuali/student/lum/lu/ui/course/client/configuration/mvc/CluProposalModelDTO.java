@@ -27,15 +27,17 @@ public class CluProposalModelDTO extends ModelDTO {
 	   
    public CluProposalModelDTO() {
 		ModelDTO cluInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
+		cluInfoModelDTO.setKey("cluInfo");
 		ModelDTOValue.ModelDTOType cluInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 		cluInfoModelDTOValue.set(cluInfoModelDTO);
 		
 		ModelDTO proposalInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.PROPOSAL_INFO_CLASS);
+		proposalInfoModelDTO.setKey("proposalInfo");
 		ModelDTOValue.ModelDTOType proposalInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 		proposalInfoModelDTOValue.set(proposalInfoModelDTO);
 		
-		this.put("cluInfo", cluInfoModelDTOValue);
-		this.put("proposalInfo", proposalInfoModelDTOValue);
+		map.put("cluInfo", cluInfoModelDTOValue);
+		map.put("proposalInfo", proposalInfoModelDTOValue);
 		//You MUST create adapters after, no dictionary for top level at this point
 		checkAndCreateAdapters();
 	}
