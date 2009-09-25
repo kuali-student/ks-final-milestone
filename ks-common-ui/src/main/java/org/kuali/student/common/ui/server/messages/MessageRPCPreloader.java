@@ -18,7 +18,8 @@ import org.kuali.student.core.messages.service.MessageService;
 import com.google.gwt.user.server.rpc.RPC;
 
 public class MessageRPCPreloader {
-    private final String MESSAGE_SERVICE = "{http://org.kuali.student/core/messages}MessageService";
+    private final String MESSAGE_SERVICE_MOCK = "ks.messageServiceMock";
+	private final String MESSAGE_SERVICE = "{http://student.kuali.org/core/messages}MessageService";
     
     MessageService messageService;
     
@@ -28,7 +29,7 @@ public class MessageRPCPreloader {
     
     public MessageService getMessageService() {
         if (messageService == null){
-            setMessageService((MessageService)GlobalResourceLoader.getService("messageService"));
+            setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE_MOCK));
             if (messageService == null){
                 setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE));
             }
