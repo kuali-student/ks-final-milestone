@@ -1,9 +1,0 @@
-create-one-jar.cmd
-run-dictionary-generator.cmd
-
-kuali-dictionary-generator.jar
-MANIFEST.MF
-
-one-jar-boot-0.96.jar
-one-jar-example-0.96.jar
-one-jar-example.cmd
