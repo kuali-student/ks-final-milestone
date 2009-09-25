@@ -22,21 +22,25 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends RouteLogDerivedRoleTyp
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KSRouteLogDerivedRoleTypeServiceImpl.class);
 
 	protected void addDocumentNumberToQualification(AttributeSet qualification) {
-		if (!qualification.containsKey(KualiStudentKimAttributes.QUALIFICATION_CLU_ID)) {
-			throw new RuntimeException("Cannot find qualification for key '" + KualiStudentKimAttributes.QUALIFICATION_CLU_ID + "'");
-		}
-		try {
-			String documentTypeName = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
-			String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_CLU_ID);
-			DocumentDetailDTO docDetail = KEWServiceLocator.getWorkflowUtilityService().getDocumentDetailFromAppId(documentTypeName, appId);
-			if (docDetail == null) {
-				throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
+		// if qualification already has document id then no need to look it up
+		if (!qualification.containsKey(KimAttributes.DOCUMENT_NUMBER)) {
+			// document id is not contained inside qualification so look it up using clu id and document type name
+			if (!qualification.containsKey(KualiStudentKimAttributes.QUALIFICATION_CLU_ID)) {
+				throw new RuntimeException("Cannot find qualification for key '" + KualiStudentKimAttributes.QUALIFICATION_CLU_ID + "'");
 			}
-			qualification.put(KimAttributes.DOCUMENT_NUMBER, Long.toString(docDetail.getRouteHeaderId()));
-		} catch (WorkflowException e) {
-			String errorMessage = "Workflow Exception: " + e.getLocalizedMessage();
-			LOG.error(errorMessage, e);
-			throw new RuntimeException(e);
+			try {
+				String documentTypeName = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
+				String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_CLU_ID);
+				DocumentDetailDTO docDetail = KEWServiceLocator.getWorkflowUtilityService().getDocumentDetailFromAppId(documentTypeName, appId);
+				if (docDetail == null) {
+					throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
+				}
+				qualification.put(KimAttributes.DOCUMENT_NUMBER, Long.toString(docDetail.getRouteHeaderId()));
+			} catch (WorkflowException e) {
+				String errorMessage = "Workflow Exception: " + e.getLocalizedMessage();
+				LOG.error(errorMessage, e);
+				throw new RuntimeException(e);
+			}
 		}
 	}
 

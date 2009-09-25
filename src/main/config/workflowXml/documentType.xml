@@ -8,6 +8,38 @@
       <label>Kuali Student Parent Document</label>
       <active>true</active>
     </documentType>
+<!-- BEGIN TEST DOCUMENT FOR HIERARCHY ROUTING -->
+    <documentType>
+      <name>HierarchyNodeDocumentTest</name>
+      <parent>KualiStudentDocument</parent>
+      <label>HierarchyNodeDocumentTest</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+	    <policy>
+		  <name>DEFAULT_APPROVE</name>
+		  <value>true</value>
+	    </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="HierarchyNode" />
+          <role name="HierarchyNode"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="HierarchyNode">
+          <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+<!-- END TEST DOCUMENT FOR HIERARCHY ROUTING -->
     <documentType>
       <name>CollaboratorRequestDocument</name>
       <parent>KualiStudentDocument</parent>

@@ -34,12 +34,18 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	private static final String FYI_REQUEST_RECIPIENT_ROLE_NAME = "FYI Request Recipient";
 
 	{
+		requiredAttributes.add( KimAttributes.DOCUMENT_NUMBER );
 		requiredAttributes.add( KimAttributes.DOCUMENT_TYPE_NAME );
 		requiredAttributes.add( KualiStudentKimAttributes.QUALIFICATION_CLU_ID );
-		checkRequiredAttributes = true;
 	}
 
 	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
+		// first check for a valid document id passed in
+		String documentId = qualification.get(KimAttributes.DOCUMENT_NUMBER);
+		if (StringUtils.isNotEmpty(documentId)) {
+			return Long.valueOf(documentId);
+		}
+		// if no document id passed in get the document via the clu id and document type name
 		String documentTypeName = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
 		String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_CLU_ID);
 		DocumentDetailDTO docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
