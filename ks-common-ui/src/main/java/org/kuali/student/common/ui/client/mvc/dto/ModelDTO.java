@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
 import com.google.gwt.core.client.GWT;
@@ -34,6 +35,7 @@ public class ModelDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String className;
+	private String key;
 	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
 	protected Map<String, String> applicationStateMap = new HashMap<String, String>();
 	
@@ -94,7 +96,11 @@ public class ModelDTO implements Serializable {
 	 * @param value ModelDTOValue value of the property
 	 */
 	public void put(String key, ModelDTOValue value) {
-	    GWT.log(key, null);
+	    //GWT.log(key, null);
+	    if(value instanceof ModelDTOType){
+	    	((ModelDTOType) value).get().setKey(key);
+	    }
+	    
 		if(GWT.isClient() && adapter != null){
 			adapter.put(key, value);
 		}
@@ -178,4 +184,14 @@ public class ModelDTO implements Serializable {
 	public String toString(){
 	    return map.toString();
 	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+	
+	
 }
