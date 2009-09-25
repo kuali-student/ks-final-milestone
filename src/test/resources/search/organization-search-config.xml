@@ -4,7 +4,6 @@
 	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 	<import resource="organization-dictionary-config.xml" />
@@ -41,7 +40,7 @@
 			<ref bean="org.criteria.orgByOrgType" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgQuickViewByHierarchyShortName">
 		<search:name>Organization Quick View By Hierarchy and ShortName match</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a hierarchy with like on shortName.</search:desc>
@@ -52,7 +51,7 @@
 			<ref bean="org.criteria.orgByHierarchyShortName" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType">
 		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
@@ -63,7 +62,7 @@
 			<ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
 		<search:name>Organization Quick View By Relation Type, Org Ide and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with and org and specified types</search:desc>
@@ -74,7 +73,7 @@
 			<ref bean="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgByShortName">
 		<search:name>ShortName match</search:name>
 		<search:desc>Search on shortName only.</search:desc>
@@ -85,7 +84,7 @@
 			<ref bean="org.criteria.orgByShortName" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgByShortNameAndType">
 		<search:name>ShortName and Type match</search:name>
 		<search:desc>Search on shortName and Type.</search:desc>
@@ -96,7 +95,7 @@
 			<ref bean="org.criteria.orgByShortNameAndType" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgQuickLongViewByFirstLetter">
 		<search:name>Organization Quick View by First Letter of Short Name or Long Name</search:name>
 		<search:desc>Returns a quick view of organization information for orgs whose short or long name start with a particular letter</search:desc>
@@ -107,7 +106,7 @@
 			<ref bean="org.criteria.orgByFirstLetter" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-	
+
 	<search:searchType id="org.search.orgFullViewById">
 		<search:name>Full view by organization id key</search:name>
 		<search:desc>Returns a full view of organization information for the id supplied</search:desc>
@@ -155,7 +154,7 @@
 			<ref bean="org.resultColumn.orgHierarchyName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
-	
+
 	<search:searchResultTypeInfo id="org.result.orgFullView">
 		<search:name>Organization Full View</search:name>
 		<search:desc>Full view of the Organization</search:desc>
@@ -266,20 +265,20 @@
 		<ref bean="childFieldDescriptor" />
 	</search:queryParam>
 
-	
+
 	<search:queryParam id="org.queryParam.orgHierarchyId">
 		<dict:fieldDescriptor>
 			<dict:name>Hierarchy</dict:name>
 			<dict:search key="org.search.orgHierarchyIds"/>
 		</dict:fieldDescriptor>
 	</search:queryParam>
-	
+
 	<search:queryParam id="org.queryParam.orgShortName">
 		<dict:fieldDescriptor parent="childFieldDescriptor">
 			<dict:name>Org Name</dict:name>
 		</dict:fieldDescriptor>
 	</search:queryParam>
-	
+
 	<search:queryParam id="org.queryParam.orgId">
 		<dict:fieldDescriptor parent="childFieldDescriptor">
 			<dict:name>Org Id</dict:name>
@@ -298,7 +297,7 @@
 			<ref bean="org.queryParam.orgId" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
-	
+
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgType">
 		<search:name>OrgByRelationTypeOrgTypeRelatedOrgType</search:name>
 		<search:desc>Orgs in a relation with the given org type and related org type</search:desc>
@@ -326,7 +325,7 @@
 			<ref bean="org.queryParam.orgType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
-	
+
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByHierarchyShortName">
 		<search:name>OrgByHierarchyShortNameCriteria</search:name>
 		<search:desc>OrgByHierarchyShortNameCriteria Description</search:desc>
@@ -335,7 +334,7 @@
 			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
-	
+
 	<search:searchCriteriaTypeInfo id="org.criteria.orgByShortName">
 		<search:name>OrgByShortNameCriteria</search:name>
 		<search:desc>OrgByShortNameCriteria Description</search:desc>
@@ -361,7 +360,7 @@
 			<ref bean="org.queryParam.orgShortName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
-	
+
 	<search:searchCriteriaTypeInfo id="org.criteria.orgById">
 		<search:name>OrgByIdCriteria</search:name>
 		<search:desc>OrgByIdCriteria Description</search:desc>
