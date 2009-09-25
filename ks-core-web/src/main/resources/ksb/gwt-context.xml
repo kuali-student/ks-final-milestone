@@ -7,16 +7,27 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
-	<bean id="propertyConfigurer"
-		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
-		<property name="locations">
+	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+
+	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
+		<property name="configLocations">
 			<list>
-				<value>classpath:core-web.properties
-				</value>
+				<value>classpath:META-INF/ks-core-config.xml</value>
 			</list>
 		</property>
-		<property name="customConfigSystemProperty" value="ks.config.location" />
-		<property name="order" value="0" />
+	</bean>
+
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<bean id="propconfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
 	</bean>
 
 	<!-- Spring to GWT servlet mapping -->

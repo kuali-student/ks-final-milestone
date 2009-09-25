@@ -107,4 +107,9 @@
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    
+    <!-- Rice URLS --> 
+	<param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
+	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+    
 </config>
