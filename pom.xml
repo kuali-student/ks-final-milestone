@@ -39,7 +39,7 @@
 						<goals>
 							<goal>compile</goal>
 						</goals>
-<!--						<phase>none</phase>-->
+						<phase>none</phase>
 					</execution>
 				</executions>
 				<configuration>
@@ -48,6 +48,7 @@
 						<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>
 						<module>org.kuali.student.lum.ui.requirements.Requirements</module>
 					</modules>
+<!--					<style>PRETTY</style>-->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -174,6 +175,10 @@
 				<exclusion>
 					<groupId>org.eclipse.jdt</groupId>
 					<artifactId>core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
 				</exclusion>
 
 			</exclusions>
