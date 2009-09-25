@@ -8,9 +8,9 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Sep 25 12:32:15 EDT 2009
+on: Fri Sep 25 13:12:58 EDT 2009
 by: org.kuali.student.search.SearchSpreadsheetWriter
-using: Excel Spreadsheet src/test/resources/search/Organization Search Specification.xls
+using: Excel Spreadsheet ..\trunk\src\test\resources\search\Organization Search Specification.xls
  -->
 	<search:searchType id="org.search.orgHierarchyIds">
 		<search:name>All org Hierarchies</search:name>
