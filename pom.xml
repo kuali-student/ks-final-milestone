@@ -97,7 +97,6 @@
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-        <gwt.plugin.version>2.0.1-ks26</gwt.plugin.version>
 		<gwt.codehaus.plugin.version>1.2-SNAPSHOT</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
     </properties>
@@ -367,18 +366,6 @@
 	        		<version>1.0-beta-1</version>
 			    </plugin>
 	
-				<!-- GWT Maven Plugin Configuration -->
-				<plugin>
-					<groupId>com.totsp.gwt</groupId>
-					<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-					<version>${gwt.plugin.version}</version>
-					<configuration>
-						<gwtVersion>${gwtVersion}</gwtVersion>
-						<logLevel>INFO</logLevel>
-						<extraJvmArgs>-Xmx512m</extraJvmArgs>					
-					</configuration>
-				</plugin>
-
 				<!-- Codehaus GWT Maven Plugin Configuration-->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
