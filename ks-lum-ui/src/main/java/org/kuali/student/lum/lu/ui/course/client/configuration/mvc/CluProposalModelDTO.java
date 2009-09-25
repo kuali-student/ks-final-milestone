@@ -34,8 +34,9 @@ public class CluProposalModelDTO extends ModelDTO {
 		ModelDTOValue.ModelDTOType proposalInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 		proposalInfoModelDTOValue.set(proposalInfoModelDTO);
 		
-		map.put("cluInfo", cluInfoModelDTOValue);
-		map.put("proposalInfo", proposalInfoModelDTOValue);
+		this.put("cluInfo", cluInfoModelDTOValue);
+		this.put("proposalInfo", proposalInfoModelDTOValue);
+		//You MUST create adapters after, no dictionary for top level at this point
 		checkAndCreateAdapters();
 	}
 
