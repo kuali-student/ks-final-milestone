@@ -63,25 +63,25 @@ public class SearchSpreadsheetLoader implements SearchSpreadsheet
    else if (type.equals ("Criteria"))
    {
     SearchCriteria criteria = new SearchCriteria ();
-    searchType.setCriteria (criteria);
+    searchType.setSearchCriteria (criteria);
     loadRow (worksheetReader, criteria, rowNumber);
    }
    else if (type.equals ("Param"))
    {
     SearchCriteriaParameter param = new SearchCriteriaParameter ();
-    searchType.getCriteria ().getParameters ().add (param);
+    searchType.getSearchCriteria ().getParameters ().add (param);
     loadRow (worksheetReader, param, rowNumber);
    }
    else if (type.equals ("Result"))
    {
     SearchResult result = new SearchResult ();
-    searchType.setResults (result);
+    searchType.setSearchResult (result);
     loadRow (worksheetReader, result, rowNumber);
    }
    else if (type.equals ("Column"))
    {
     SearchResultColumn col = new SearchResultColumn ();
-    searchType.getResults ().getResultColumns ().add (col);
+    searchType.getSearchResult ().getResultColumns ().add (col);
     loadRow (worksheetReader, col, rowNumber);
    }
    else

@@ -25,7 +25,7 @@ import java.util.Set;
 import org.kuali.student.dictionary.XmlWriter;
 
 /**
- * This writes out the entire dictionary xml file
+ * This writes out the entire search xml file
  * @author nwright
  */
 public class SearchSpreadsheetWriter extends XmlWriter
@@ -137,9 +137,9 @@ public class SearchSpreadsheetWriter extends XmlWriter
   Set<String> keys = new HashSet ();
   for (SearchType st : sheet.getSearchTypes ())
   {
-   if (keys.add (st.getResults ().getKey ()))
+   if (keys.add (st.getSearchResult ().getKey ()))
    {
-    list.add (st.getResults ());
+    list.add (st.getSearchResult ());
    }
   }
   return list;
@@ -197,9 +197,9 @@ public class SearchSpreadsheetWriter extends XmlWriter
   Set<String> keys = new HashSet ();
   for (SearchType st : sheet.getSearchTypes ())
   {
-   if (keys.add (st.getCriteria ().getKey ()))
+   if (keys.add (st.getSearchCriteria ().getKey ()))
    {
-    list.add (st.getCriteria ());
+    list.add (st.getSearchCriteria ());
    }
   }
   return list;

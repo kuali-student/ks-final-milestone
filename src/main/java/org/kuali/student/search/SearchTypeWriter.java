@@ -47,10 +47,10 @@ public class SearchTypeWriter extends XmlWriter
   writeTag ("search:name", searchType.getName ());
   writeTag ("search:desc", searchType.getDescription ());
   indentPrint ("<search:searchResultTypeInfo>");
-  print (calcRefBean (searchType.getResults ().getKey ()));
+  print (calcRefBean (searchType.getSearchResult ().getKey ()));
   println ("</search:searchResultTypeInfo>");
   indentPrint ("<search:searchCriteriaTypeInfo>");
-  print (calcRefBean (searchType.getCriteria ().getKey ()));
+  print (calcRefBean (searchType.getSearchCriteria ().getKey ()));
   println ("</search:searchCriteriaTypeInfo>");
 
   // end the constraint

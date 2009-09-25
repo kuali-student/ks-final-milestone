@@ -56,7 +56,8 @@ public class SearchSpreadsheetValidatorTest implements SearchTestConstants
  {
   System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
-  spreadsheet = new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
+  spreadsheet =
+   new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
  }
 
  @After
@@ -73,8 +74,12 @@ public class SearchSpreadsheetValidatorTest implements SearchTestConstants
   System.out.println ("validate");
   SearchSpreadsheetValidator instance =
    new SearchSpreadsheetValidator (spreadsheet);
-  Collection expResult = new ArrayList ();
-  Collection result = instance.validate ();
+  Collection<String> expResult = new ArrayList ();
+  Collection<String> result = instance.validate ();
+  for (String error : result)
+  {
+   System.out.println (error);
+  }
   assertEquals (expResult, result);
  }
 

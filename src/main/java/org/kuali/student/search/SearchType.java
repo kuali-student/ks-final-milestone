@@ -56,7 +56,7 @@ public class SearchType extends SearchRow
   *
   * @return the value of criteria
   */
- public SearchCriteria getCriteria ()
+ public SearchCriteria getSearchCriteria ()
  {
   return criteria;
  }
@@ -66,7 +66,7 @@ public class SearchType extends SearchRow
   *
   * @param criteria new value of criteria
   */
- public void setCriteria (SearchCriteria criteria)
+ public void setSearchCriteria (SearchCriteria criteria)
  {
   this.criteria = criteria;
  }
@@ -78,7 +78,7 @@ public class SearchType extends SearchRow
   *
   * @return the value of results
   */
- public SearchResult getResults ()
+ public SearchResult getSearchResult ()
  {
   return results;
  }
@@ -88,7 +88,7 @@ public class SearchType extends SearchRow
   *
   * @param results new value of results
   */
- public void setResults (SearchResult results)
+ public void setSearchResult (SearchResult results)
  {
   this.results = results;
  }

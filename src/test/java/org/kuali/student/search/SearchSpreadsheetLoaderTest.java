@@ -84,9 +84,9 @@ public class SearchSpreadsheetLoaderTest implements SearchTestConstants
   assertEquals ("JPQL", searchType.getImplementation ().getType ());
   assertEquals ("org.search.orgHierarchyIds", searchType.getImplementation ().getKey ());
   
-  assertEquals (0, searchType.getCriteria ().getParameters ().size ());
-  assertEquals (2, searchType.getResults ().getResultColumns ().size ());
-  SearchResultColumn col = searchType.getResults ().getResultColumns ().get (0);
+  assertEquals (0, searchType.getSearchCriteria ().getParameters ().size ());
+  assertEquals (2, searchType.getSearchResult ().getResultColumns ().size ());
+  SearchResultColumn col = searchType.getSearchResult ().getResultColumns ().get (0);
   assertEquals ("org.resultColumn.orgHierarchyId", col.getKey ());
   assertEquals ("Column", col.getType ());
   assertEquals ("Org Hierarchy Id", col.getName ());
