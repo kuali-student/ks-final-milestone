@@ -53,7 +53,7 @@
             </map>
         </constructor-arg>
     </bean>
-    
+
     <bean id="contextRegistryReqComponent"
         class="org.kuali.student.lum.nlt.naturallanguage.ContextRegistry">
         <constructor-arg>
