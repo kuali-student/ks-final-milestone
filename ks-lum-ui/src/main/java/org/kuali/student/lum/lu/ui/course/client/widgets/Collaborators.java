@@ -241,13 +241,13 @@ public class Collaborators extends Composite implements HasWorkflowId{
 					
 					//After we get the model update immediately
 					cluProposalWorkflowModel = model;
-					updateWorkflowId(cluProposalWorkflowModel.get());
+					updateFromModel(cluProposalWorkflowModel.get());
 					
 					//Add a change listener for when the model changes
 					model.addModelChangeHandler(new ModelChangeHandler<CluProposalModelDTO>(){
 						@Override
 						public void onModelChange(ModelChangeEvent<CluProposalModelDTO> event) {
-							updateWorkflowId(event.getValue());
+							updateFromModel(event.getValue());
 						}
 					});
 				}
@@ -258,22 +258,24 @@ public class Collaborators extends Composite implements HasWorkflowId{
 				}
 			});
 		}else{
-			updateWorkflowId(cluProposalWorkflowModel.get());
+			updateFromModel(cluProposalWorkflowModel.get());
 		}
 	}
     
-	private void updateWorkflowId(CluProposalModelDTO model){
+	private void updateFromModel(CluProposalModelDTO model){
 		StringType cluIdType = (StringType)model.get("id");
 		String cluId = null==cluIdType?"":cluIdType.get();
 
 		cluProposalRpcServiceAsync.getWorkflowIdFromCluId(cluId, new AsyncCallback<String>(){
 			@Override
 			public void onFailure(Throwable caught) {
+				refreshCollaboratorList();
 			}
 
 			@Override
 			public void onSuccess(String result) {
 				workflowId=result;
+				refreshCollaboratorList();
 			}
 		});
 	}
@@ -289,32 +291,32 @@ public class Collaborators extends Composite implements HasWorkflowId{
 						for(String id:result.get("Co-Author")){
 							coAuthorUserIds.add(new KSLabel(id));
 						}
-						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
 					}
+					coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
 
 					commentorUserIds.clear();
 					if(result.containsKey("Commentor")){
 						for(String id:result.get("Commentor")){
 							commentorUserIds.add(new KSLabel(id));
 						}
-						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
 					}
+					commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
 
 					viewersUserIds.clear();
 					if(result.containsKey("Viewer")){
 						for(String id:result.get("Viewer")){
 							viewersUserIds.add(new KSLabel(id));
 						}
-						viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
 					}
+					viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
 
 					delegatesUserIds.clear();
 					if(result.containsKey("Delegate")){
 						for(String id:result.get("Delegate")){
 							delegatesUserIds.add(new KSLabel(id));
 						}
-						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
 					}
+					delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
 				}
 	        });
     	}
@@ -334,16 +336,16 @@ public class Collaborators extends Composite implements HasWorkflowId{
 					userIdField.setValue("");
 					//Add to the list and no refresh even though we should because rice has a timing issue
 					if("Co-Author".equals(collabType)){
-						coAuthorUserIds.add(new KSLabel(recipientPrincipalId));
+						coAuthorUserIds.add(new KSLabel(recipientPrincipalId+" was added"));
 						coAuthorsLabel.setText("Co-Authors ("+coAuthorUserIds.getWidgetCount()+")");
 					}else if("Commentor".equals(collabType)){
-						commentorUserIds.add(new KSLabel(recipientPrincipalId));
+						commentorUserIds.add(new KSLabel(recipientPrincipalId+" was added"));
 						commentorsLabel.setText("Commentors ("+commentorUserIds.getWidgetCount()+")");
 					}else if("Viewer".equals(collabType)){
-						viewersUserIds.add(new KSLabel(recipientPrincipalId));
+						viewersUserIds.add(new KSLabel(recipientPrincipalId+" was added"));
 						viewersLabel.setText("Viewers ("+viewersUserIds.getWidgetCount()+")");
 					}else if("Delegate".equals(collabType)){
-						delegatesUserIds.add(new KSLabel(recipientPrincipalId));
+						delegatesUserIds.add(new KSLabel(recipientPrincipalId+" was added"));
 						delegatesLabel.setText("Delegates ("+delegatesUserIds.getWidgetCount()+")");
 					}
 					//refreshCollaboratorList();
