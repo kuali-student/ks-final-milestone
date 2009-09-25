@@ -107,4 +107,11 @@
     <param name="config.location">${user.home}/kuali/main/dev/ks-lum-config.xml</param> 
 	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     
+    <!-- Rice URLS -->
+    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
+	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+    
+    <!-- LumUrls -->
+    <param name="ks.lum.MainEntryPoint">http://localhost:8080/ks-lum-web/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
+    
 </config>

@@ -48,5 +48,8 @@ public interface CluProposalRpcService extends BaseRpcService{
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO);
     public Boolean deleteProposal(String id);
     public CluProposalModelDTO getProposal(String id);
+    
+	public Boolean approveDocument(String requestDocId);
+	public Boolean disapproveDocument(String requestDocId);
         
 }

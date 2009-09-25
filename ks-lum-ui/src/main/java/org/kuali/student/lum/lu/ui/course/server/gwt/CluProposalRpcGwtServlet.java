@@ -19,6 +19,7 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -176,7 +177,59 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 	}
 
+	@Override
+	public Boolean approveDocument(String requestDocId){
+        if(simpleDocService==null){
+        	logger.error("Workflow Service is unavailable");
+        	return Boolean.FALSE;
+        }
 
+		try{
+			DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.getLong(requestDocId));
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.getLong(requestDocId));
+            //get a user name
+            String username = getCurrentUser();
+	        String approveComment = "Approved";
+
+	        StandardResponse stdResp = simpleDocService.approve(requestDocId.toString(), username, docDetail.getDocTitle(), docContent.getApplicationContent(), approveComment);
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+            	logger.error("Error found approving document: " + stdResp.getErrorMessage());
+            	return Boolean.FALSE;
+        	}
+		}catch(Exception e){
+            logger.error("Error approving document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+	
+	@Override
+	public Boolean disapproveDocument(String requestDocId){
+        if(simpleDocService==null){
+        	logger.error("Workflow Service is unavailable");
+        	return Boolean.FALSE;
+        }
+
+		try{
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.getLong(requestDocId));
+            //get a user name
+            String username = getCurrentUser();
+	        String disapproveComment = "Disapproved";
+
+	        //String docId, String principalId, String docTitle, String docContent, String annotation
+	        StandardResponse stdResp = simpleDocService.disapprove(docDetail.getRouteHeaderId().toString(), username, disapproveComment);
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		logger.error("Error found approving document: " + stdResp.getErrorMessage());
+        		return Boolean.FALSE;
+        	}
+		}catch(Exception e){
+            logger.error("Error approving document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+	
+	
 	@Override
 	public Boolean approveProposal(CluProposalModelDTO cluProposal) {
         if(simpleDocService==null){

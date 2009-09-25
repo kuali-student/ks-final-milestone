@@ -19,6 +19,11 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService">
 					<ref bean="requirementsServiceGwtController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/RequirementsRpcService">
+					<ref bean="requirementsServiceGwtController" />
+				</entry>
+				
 				<entry key="/org.kuali.student.lum.lu.ui.course.Course/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController"/>
 				</entry>				
@@ -35,12 +40,19 @@
 				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController"/>
 				</entry>	
+				<entry key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/CluProposalRpcService">
+					<ref bean="CluProposalRpcGwtServletController"/>
+				</entry>	
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService">
 					<ref bean="SecurityRpcGwtServletController" />
 				</entry>
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService">
+					<ref bean="ServerPropertiesServletController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/ServerPropertiesRpcService">
 					<ref bean="ServerPropertiesServletController" />
 				</entry>
 				<entry
