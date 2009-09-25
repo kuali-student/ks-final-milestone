@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ByteType;
@@ -25,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SectionConstraintDataProvider implements ConstraintDataProvider  {
     private ConstraintDataProvider model = null;
     private Section section = null;
-
+    private String className;
     // TODO add constructors/setters for passing these in
     public SectionConstraintDataProvider(Section s,ConstraintDataProvider model){
         this.model = model;
@@ -37,18 +38,28 @@ public class SectionConstraintDataProvider implements ConstraintDataProvider  {
     }
 
     public Object getValue(String fieldKey) {
+        System.out.println("\n\n\n\nFieldKey:"+fieldKey);
         Object result = getValueFromSectionIfExists(fieldKey);
+        System.out.println("Result:"+result);
         if (result == null) {
             result = model.getValue(fieldKey);
         }
+        System.out.println("Result from dto:"+result);
         return result;
     }
 
     public Object getValueFromSectionIfExists(String fieldKey) {
         List<FieldDescriptor> fdList = section.getFields();
         for(FieldDescriptor fd: fdList){
-            if(fd.getFieldKey() != null && fd.getFieldKey().equals(fieldKey)){
-                ModelDTOValue modelDTOValue =  fd.getWidgetBinding().getValue(fd.getFieldWidget());  
+            System.out.println("fd.getFieldKey():"+fd.getFieldKey());
+            String fullPath = fd.getFieldKey().toLowerCase();
+            //if(fd.getFieldKey() != null && fd.getFieldKey().equals(fieldKey)){
+            if(fd.getFieldKey() != null && fd.getFieldKey().endsWith(fieldKey)
+            &&  fullPath.indexOf(className)!= -1      
+            ){
+                ModelDTOValue modelDTOValue =  fd.getWidgetBinding().getValue(fd.getFieldWidget());
+                
+                System.out.println("modelDTOValue:"+modelDTOValue.getType());
                 if (modelDTOValue == null) {
                     return null;
                 }
@@ -98,8 +109,11 @@ public class SectionConstraintDataProvider implements ConstraintDataProvider  {
         
         return false;
     }
-// question
     public void initialize(Object o) {
+        if (o instanceof ModelDTO) {
+            System.out.println("init:"+((ModelDTO) o).getClassName());
+            className = ((ModelDTO) o).getClassName();
+        }
         model.initialize(o);
     }
 }

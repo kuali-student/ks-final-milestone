@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
@@ -44,6 +43,7 @@ public class Validator {
 	public Validator(ConstraintSetupFactory setupFactory, boolean serverSide) {
 		this.setupFactory = setupFactory;
 		this.serverSide = serverSide;
+		
 	}
 
 	/**
@@ -80,6 +80,12 @@ public class Validator {
 		for (Message m : list) {
 			messages.put(m.getId(), m.getValue());
 		}
+	}
+	private String getMessage(String id){
+	    if(messages.get(id) == null){
+	        return id;
+	    }
+	    return messages.get(id);
 	}
 
 	/**
@@ -158,7 +164,7 @@ public class Validator {
             if(isNullable(field) == false){
                ValidationResultContainer valResults = new ValidationResultContainer(
                             getElementXpath() + field.getKey() + "/");
-              valResults.addError(messages.get("validation.required"));
+              valResults.addError(getMessage("validation.required"));
               results.add(valResults);
 
             }
@@ -223,15 +229,13 @@ public class Validator {
 						processBaseConstraints(valResults, bcb, field, o);
 
 						if (bcb.minOccurs > ((Collection<?>) value).size()) {
-							valResults.addError(messages
-									.get("validation.minOccurs"));
+							valResults.addError(getMessage("validation.minOccurs"));
 						}
 
 						if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxOccurs)
 								&& Integer.parseInt(bcb.maxOccurs) < ((Collection<?>) value)
 										.size()) {
-							valResults.addError(messages
-									.get("validation.maxOccurs"));
+							valResults.addError(getMessage("validation.maxOccurs"));
 						}
 
 						results.add(valResults);
@@ -402,8 +406,7 @@ public class Validator {
 			Map<String, Object> rMap = new HashMap<String, Object>();
 			rMap.put("field1", field.getKey());
 			rMap.put("field2", fieldName);
-			valResults.addError(MessageUtils.interpolate(messages
-					.get("validation.requiresField"), rMap));
+			valResults.addError(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
 		}
 
 		return result;
@@ -489,10 +492,10 @@ public class Validator {
 			//if (!Pattern.matches(validChars, fieldValue.toString())) {
 		    if(fieldValue == null){
                 valResults
-                .addError(messages.get("validation.validCharsFailed"));
+                .addError(getMessage("validation.validCharsFailed"));
 		    }else if (fieldValue != null && !fieldValue.toString().matches(validChars)) {
 				valResults
-						.addError(messages.get("validation.validCharsFailed"));
+						.addError(getMessage("validation.validCharsFailed"));
 			}
 		}
 	}
@@ -535,7 +538,7 @@ public class Validator {
 				.getMax()) ? true : false;
 
 		if (!result) {
-			valResults.addError(messages.get("validation.occurs"));
+			valResults.addError(getMessage("validation.occurs"));
 		}
 
 		return result;
@@ -563,7 +566,7 @@ public class Validator {
 
 		if (value == null || "".equals(value.toString().trim())) {
 			if (bcb.minOccurs != null && bcb.minOccurs > 0) {
-				valResults.addError(messages.get("validation.required"));
+				valResults.addError(getMessage("validation.required"));
 				return;
 			}
 		}
@@ -591,7 +594,7 @@ public class Validator {
 			try {
 				Boolean.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(messages.get("validation.mustBeBoolean"));
+				result.addError(getMessage("validation.mustBeBoolean"));
 			}
 		}
 	}
@@ -605,7 +608,7 @@ public class Validator {
 			try {
 				v = Double.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(messages.get("validation.mustBeDouble"));
+				result.addError(getMessage("validation.mustBeDouble"));
 			}
 		}
 
@@ -616,18 +619,15 @@ public class Validator {
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.outOfRange"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.maxValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.minValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
 				}
 			}
 		}
@@ -643,7 +643,7 @@ public class Validator {
 			try {
 				v = Float.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(messages.get("validation.mustBeFloat"));
+				result.addError(getMessage("validation.mustBeFloat"));
 			}
 		}
 
@@ -654,18 +654,15 @@ public class Validator {
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.outOfRange"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.maxValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.minValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
 				}
 			}
 		}
@@ -681,7 +678,7 @@ public class Validator {
 			try {
 				v = Long.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(messages.get("validation.mustBeLong"));
+				result.addError(getMessage("validation.mustBeLong"));
 			}
 		}
 
@@ -692,18 +689,15 @@ public class Validator {
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.outOfRange"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.maxValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.minValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
 				}
 			}
 		}
@@ -720,7 +714,7 @@ public class Validator {
 			try {
 				v = Integer.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(messages.get("validation.mustBeInteger"));
+				result.addError(getMessage("validation.mustBeInteger"));
 			}
 		}
 
@@ -731,18 +725,15 @@ public class Validator {
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.outOfRange"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.maxValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.minValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
 				}
 			}
 		}
@@ -759,7 +750,7 @@ public class Validator {
 			try {
 				v = dateParser.parseDate(value.toString());
 			} catch (Exception e) {
-				result.addError(messages.get("validation.mustBeDate"));
+				result.addError(getMessage("validation.mustBeDate"));
 			}
 		}
 
@@ -773,18 +764,15 @@ public class Validator {
 				// validate range
 				if (v.getTime() > maxValue.getTime()
 						|| v.getTime() < minValue.getTime()) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.outOfRange"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v.getTime() > maxValue.getTime()) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.maxValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v.getTime() < minValue.getTime()) {
-					result.addError(MessageUtils.interpolate(messages
-							.get("validation.minValueFailed"), bcb.toMap()));
+					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
 				}
 			}
 		}
@@ -805,18 +793,15 @@ public class Validator {
 				&& bcb.minLength > 0) {
 			if (s.length() > Integer.parseInt(bcb.maxLength)
 					|| s.length() < bcb.minLength) {
-				result.addError(MessageUtils.interpolate(messages
-						.get("validation.lengthOutOfRange"), bcb.toMap()));
+				result.addError(MessageUtils.interpolate(getMessage("validation.lengthOutOfRange"), bcb.toMap()));
 			}
 		} else if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxLength)) {
 			if (s.length() > Integer.parseInt(bcb.maxLength)) {
-				result.addError(MessageUtils.interpolate(messages
-						.get("validation.maxLengthFailed"), bcb.toMap()));
+				result.addError(MessageUtils.interpolate(getMessage("validation.maxLengthFailed"), bcb.toMap()));
 			}
 		} else if (bcb.minLength > 0) {
 			if (s.length() < bcb.minLength) {
-				result.addError(MessageUtils.interpolate(messages
-						.get("validation.minLengthFailed"), bcb.toMap()));
+				result.addError(MessageUtils.interpolate(getMessage("validation.minLengthFailed"), bcb.toMap()));
 			}
 		}
 	}
