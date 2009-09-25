@@ -65,11 +65,11 @@ public class ViewCluConfigurer {
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
 
-        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInformationSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateInformationSection());
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
 
-        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRestrictionsSection());
-        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateRestrictionsSection());
+        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateRequisitesSection());
 
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());               
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
@@ -82,27 +82,16 @@ public class ViewCluConfigurer {
 
     }    
 
+    //Top Level Sections here
     private static SectionView generateSummarySection(){
         VerticalSectionView section = new VerticalSectionView(LuSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CluProposalModelDTO.class);        
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.SUMMARY_LABEL_KEY)));
 
-        VerticalSection proposalBriefSection = new VerticalSection();
-        proposalBriefSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.BRIEF_LABEL_KEY)));
-        proposalBriefSection.addField(new FieldDescriptor("/officialIdentifier/longName", "Course Title:  ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/officialIdentifier/code", "Course Code:  ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/metaInfo/createId", "Proposer:   ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/todo", "Delegate:   ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/todo", "Collaborators:   ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/metaInfo/createTime", "Date created:   ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/metaInfo/updateTime", "Date last changed:   ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/desc/plain", "Description:  ", Type.STRING, new KSLabel()));
-        proposalBriefSection.addField(new FieldDescriptor("/state", "Status:  ", Type.STRING, new KSLabel()));
-
-        section.addSection(proposalBriefSection);
+        section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
+        section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
+        
         return section;
-    }    
-
-
+    }   
 
     private static SectionView generateGovernanceSection(){
         VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE, getLabel(LUConstants.GOVERNANCE_LABEL_KEY), CluProposalModelDTO.class);        
@@ -111,27 +100,10 @@ public class ViewCluConfigurer {
         //FIXME: Label should come from messaging, field type should come from dictionary?
 //      section.addField(createMVCFieldDescriptor("campusLocationInfo", LUConstants.STRUCTURE_CLU_INFO, type, state));
 
-        VerticalSection curriculumOversightSection = new VerticalSection();
-
-        curriculumOversightSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY)));
-        curriculumOversightSection.addField(new FieldDescriptor("/studySubjectArea", "Subject Area:  ", Type.STRING, new KSLabel()));
-
-        VerticalSection campusLocationSection = new VerticalSection();
-        campusLocationSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY)));
-//        campusLocationSection.addField(new FieldDescriptor("campusLocationList", null, Type.LIST, new CampusLocationList()));
-
-        VerticalSection adminOrgSection = new VerticalSection();
-        adminOrgSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.PRIMARY_ADMIN_ORG_LABEL_KEY)));
-        adminOrgSection.addField(new FieldDescriptor("/primaryAdminOrg/orgId", "Org ID:  ", Type.STRING, new KSLabel()));        
-
-        VerticalSection altAdminOrgSection = new VerticalSection();
-        altAdminOrgSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.ALT_ADMIN_ORGS_LABEL_KEY)));
-        altAdminOrgSection.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));        
-
-        section.addSection(curriculumOversightSection);
-        section.addSection(campusLocationSection);
-        section.addSection(adminOrgSection);
-        section.addSection(altAdminOrgSection);
+        section.addSection(generateCurriculumOversight(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY)));
+        section.addSection(generateCampusLocation(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY)));
+        section.addSection(generatePrimaryAdminOrg(getH3Title(LUConstants.PRIMARY_ADMIN_ORG_LABEL_KEY)));
+        section.addSection(generateAltAdminOrgs(getH3Title(LUConstants.ALT_ADMIN_ORGS_LABEL_KEY)));
 
         return section;
 
@@ -141,128 +113,43 @@ public class ViewCluConfigurer {
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS, getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
 
-        //INSTRUCTORS
-        CustomNestedSection primaryInstructor = new CustomNestedSection();
-        primaryInstructor.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.PRIM_INSTR_LABEL_KEY)));
-        primaryInstructor.addField(new FieldDescriptor("primaryInstructor/personId", "Person ID :   ", Type.STRING, new KSLabel()));
-        primaryInstructor.addField(new FieldDescriptor("primaryInstructor/orgId", "Org ID :   ", Type.STRING, new KSLabel()));
-
-        VerticalSection altInstructors = new VerticalSection();
-        altInstructors.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.ALT_INSTR_LABEL_KEY)));
-        altInstructors.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));        
-
-        //CREDITS
-        VerticalSection credits = new VerticalSection();
-        credits.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CREDITS_LABEL_KEY)));
-        credits.addField(new FieldDescriptor("creditType", "Credit Type :   ", Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
-        credits.addField(new FieldDescriptor("creditInfo", "Credit Value :   ", Type.STRING, new KSLabel()));
-        credits.addField(new FieldDescriptor("maxCredits", "Maximum Credits :   ", Type.STRING, new KSLabel()));
-        credits.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
-        credits.addField(new FieldDescriptor("defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
-
-        //LEARNING RESULTS
-        VerticalSection learningResults = new VerticalSection();
-        learningResults.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.LEARNING_RESULTS_LABEL_KEY)));
-        learningResults.addField(new FieldDescriptor("evalType", "Evaluation Type :   ", Type.STRING, new KSLabel("evalType"))); //TODO EVAL TYPE ENUMERATION ????
-
-        VerticalSection scheduling = new VerticalSection();
-        scheduling.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.SCHEDULING_LABEL_KEY)));
-        scheduling.addField(new FieldDescriptor("offeredAtpTypes", "Term :   ", Type.STRING, new KSLabel())); //TODO TERM ENUMERATION
-        scheduling.addField(new FieldDescriptor("/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
-        scheduling.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration Time :   ", Type.STRING, new KSLabel())); 
-        scheduling.addField(new FieldDescriptor("/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
-        scheduling.addField(new FieldDescriptor("/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel())); 
-
-        VerticalSection formatsSection = new VerticalSection();
-        formatsSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.FORMATS_LABEL_KEY)));
-        formatsSection.addField(new FieldDescriptor("courseFormats", null, Type.LIST, new CourseFormatList()));
-
-        section.addSection(primaryInstructor);
-        section.addSection(altInstructors);
-        section.addSection(credits);
-        section.addSection(learningResults);
-        section.addSection(scheduling);
-        section.addSection(formatsSection);
-
+        section.addSection(generatePrimaryInstructor(getH3Title(LUConstants.PRIM_INSTR_LABEL_KEY)));
+        section.addSection(generateAltInstructors(getH3Title(LUConstants.ALT_INSTR_LABEL_KEY)));
+        section.addSection(generateCredits(getH3Title(LUConstants.CREDITS_LABEL_KEY)));
+        section.addSection(generateLearningResults(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY)));
+        section.addSection(generateScheduling(getH3Title(LUConstants.SCHEDULING_LABEL_KEY)));
+        section.addSection(generateFormats(getH3Title(LUConstants.FORMATS_LABEL_KEY)));
 
         return section;
 
     }
-
-    private static SectionView generateCourseInformationSection(){
+    private static SectionView generateInformationSection(){
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO, getLabel(LUConstants.INFORMATION_LABEL_KEY), CluProposalModelDTO.class);        
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.INFORMATION_LABEL_KEY)));
 
-        //FIXME: Label should be key to messaging, field type should come from dictionary?
-
-
-        //COURSE IDENTIFIER
-        //TODO: This should be a course number widget
-        CustomNestedSection cluIdSection = new CustomNestedSection();
-        cluIdSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.IDENTIFIER_LABEL_KEY))); //Section title constants)
-        cluIdSection.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        cluIdSection.addField(new FieldDescriptor("/officialIdentifier/code", "Code", Type.STRING, new KSLabel()));//TODO OrgSearch goes here?
-        cluIdSection.addField(new FieldDescriptor("/officialIdentifier/division", "Division", Type.STRING, new KSLabel()));//TODO OrgSearch goes here?
-        cluIdSection.addField(new FieldDescriptor("/officialIdentifier/level", "Level", Type.STRING, new KSLabel()));//TODO OrgSearch goes here?
-        cluIdSection.addField(new FieldDescriptor("/officialIdentifier/variation", "Variation", Type.STRING, new KSLabel()));
-        cluIdSection.addField(new FieldDescriptor("/officialIdentifier/suffixCode", "Suffix Code", Type.STRING, new KSLabel()));
-        cluIdSection.nextRow();
-
-        VerticalSection altIdSection = new VerticalSection();
-        altIdSection.setSectionTitle(SectionTitle.generateH3Title("Alternate Identifiers"));
-        altIdSection.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));        
-
-
+        section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)));
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
-        //CROSS LISTED
-        VerticalSection crossListedSection = new VerticalSection();
-        crossListedSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CROSS_LISTED_LABEL_KEY)));
-//      crossListedSection.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
-        crossListedSection.addField(new FieldDescriptor("crossListClus", "TO DO", Type.STRING, new KSLabel()));
-
-        //OFFERED JOINTLY
-        VerticalSection offeredJointlySection = new VerticalSection();
-        offeredJointlySection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY)));
-//      offeredJointlySection.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
-        offeredJointlySection.addField(new FieldDescriptor("jointClus", "TO DO", Type.STRING, new KSLabel()));
-
-        //Version Codes
-        VerticalSection versionCodesSection = new VerticalSection();
-        versionCodesSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.VERSION_CODES_LABEL_KEY)));
-//      versionCodesSection.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong     
-        versionCodesSection.addField(new FieldDescriptor("luLuRelationType.alias", "TO DO", Type.STRING, new KSLabel()));
-
-        VerticalSection courseTitleSection = new VerticalSection();
-        courseTitleSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.TITLE_LABEL_KEY)));
-        courseTitleSection.addField(new FieldDescriptor("/officialIdentifier/longName", null, Type.STRING, new KSLabel()));
-
-        VerticalSection transcriptTitle = new VerticalSection();
-        transcriptTitle.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.SHORT_TITLE_LABEL_KEY)));
-        transcriptTitle.addField(new FieldDescriptor("/officialIdentifier/shortName", null, Type.STRING, new KSLabel()));
-
-        VerticalSection description = new VerticalSection();
-        description.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.DESCRIPTION_LABEL_KEY)));
-        description.addField(new FieldDescriptor("/desc/plain", null, Type.STRING,  new KSLabel()));
-
-        VerticalSection rationale = new VerticalSection();
-        rationale.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.RATIONALE_LABEL_KEY)));
-        rationale.addField(new FieldDescriptor("/marketingDesc/plain", null, Type.STRING, new KSLabel()));        
-
-        section.addSection(cluIdSection);
-        section.addSection(altIdSection);
-        //TODO Advanced options
-//      section.addSection(crossListedSection);
-//      section.addSection(offeredJointlySection);
-//      section.addSection(versionCodesSection);
-        section.addSection(courseTitleSection);
-        section.addSection(transcriptTitle);
-        section.addSection(description);
-        section.addSection(rationale);
+//      section.addSection(generateCrossListedSection());
+//      section.addSection(generateJointOfferingsSection());
+//      section.addSection(generateVersionCodesSection());
+        section.addSection(generateTitles(getH3Title(LUConstants.TITLE_LABEL_KEY)));
+         section.addSection(generateDescriptions(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY)));
 
         return section;        
 
     }
+ 
+    private static SectionView generateActiveDatesSection() {
+        VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY)));
 
+        section.addSection(generateDates(null));
+        return section; 
+    }
+
+
+    
+    
     private static SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = new VerticalSectionView(LuSections.LEARNING_OBJECTIVES, getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)));
@@ -272,64 +159,18 @@ public class ViewCluConfigurer {
         return section;        
 
     }
-
-    private static SectionView generateCourseRestrictionsSection() {
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_RESTRICTIONS, getLabel(LUConstants.RESTRICTIONS_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.RESTRICTIONS_LABEL_KEY)));
-        section.addField(new FieldDescriptor("courseRestrictions", "TO DO", Type.STRING, new KSLabel()));
-
-        return section;        
-
-    }
-
-    private static SectionView generateCourseRequisitesSection() {
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-
-        VerticalSection preqSection = new VerticalSection();
-        preqSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.PREQS_LABEL_KEY)));
-        preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
-
-        VerticalSection creqSection = new VerticalSection();
-        creqSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.CREQS_LABEL_KEY)));
-        creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
-
-        section.addSection(preqSection);
-        section.addSection(creqSection);
-
-        return section;        
-
-    }
-
-    private static SectionView generateActiveDatesSection() {
-        VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES, getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY)));
-
-        VerticalSection startDateSection = new VerticalSection();
-        startDateSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.START_DATE_LABEL_KEY)));
-        startDateSection.addField(new FieldDescriptor("effectiveDate", null, Type.DATE, new KSLabel()));
-
-        VerticalSection endDateSection = new VerticalSection();
-        endDateSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.END_DATE_LABEL_KEY)));
-        endDateSection.addField(new FieldDescriptor("expirationDate", null, Type.DATE, new KSLabel()));
-
-        section.addSection(startDateSection);
-        section.addSection(endDateSection);
-
-        return section; 
-    }
-
+    
     private static SectionView generateFinancialsSection() {
         VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS, getLabel(LUConstants.FINANCIALS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeTypeSection = new VerticalSection();
-        feeTypeSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.FEE_TYPE_LABEL_KEY)));
+        feeTypeSection.setSectionTitle(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY));
         feeTypeSection.addField(new FieldDescriptor("feeType", null, Type.STRING, new KSLabel()));
 
         VerticalSection feeAmountSection = new VerticalSection();
-        feeAmountSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.FEE_AMOUNT_LABEL_KEY)));
+        feeAmountSection.setSectionTitle(getH3Title(LUConstants.FEE_AMOUNT_LABEL_KEY));
         feeAmountSection.addField(new FieldDescriptor("feeAmount", "$ :   ", Type.STRING, new KSLabel()));
         feeAmountSection.addField(new FieldDescriptor("taxable", "Taxable :   ", Type.STRING, new KSLabel()));//TODO checkboxes go here instead
         feeAmountSection.addField(new FieldDescriptor("feeDesc", "Description :   ", Type.STRING, new KSLabel()));
@@ -340,16 +181,44 @@ public class ViewCluConfigurer {
         return section;
     }
 
+    private static SectionView generateRestrictionsSection() {
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_RESTRICTIONS, getLabel(LUConstants.RESTRICTIONS_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.RESTRICTIONS_LABEL_KEY)));
+        section.addField(new FieldDescriptor("courseRestrictions", "TO DO", Type.STRING, new KSLabel()));
+
+        return section;        
+
+    }
+
+    private static SectionView generateRequisitesSection() {
+        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
+        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
+
+        VerticalSection preqSection = new VerticalSection();
+        preqSection.setSectionTitle(getH3Title(LUConstants.PREQS_LABEL_KEY));
+        preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
+
+        VerticalSection creqSection = new VerticalSection();
+        creqSection.setSectionTitle(getH3Title(LUConstants.CREQS_LABEL_KEY));
+        creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
+
+        section.addSection(preqSection);
+        section.addSection(creqSection);
+
+        return section;        
+
+    }
+    
     private static SectionView generateProgramRequirementsSection() {
         VerticalSectionView section = new VerticalSectionView(LuSections.PGM_REQUIREMENTS, getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY)));
 
         VerticalSection generalReqSection = new VerticalSection();
-        generalReqSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.GENERAL_REQS_LABEL_KEY)));
+        generalReqSection.setSectionTitle(getH3Title(LUConstants.GENERAL_REQS_LABEL_KEY));
         generalReqSection.addField(new FieldDescriptor("genRequirements", "TO DO", Type.STRING, new KSLabel()));
 
         VerticalSection deptReqSection = new VerticalSection();
-        deptReqSection.setSectionTitle(SectionTitle.generateH3Title(getLabel(LUConstants.DEPT_REQS_LABEL_KEY)));
+        deptReqSection.setSectionTitle(getH3Title(LUConstants.DEPT_REQS_LABEL_KEY));
         deptReqSection.addField(new FieldDescriptor("deptRequirements", "TO DO", Type.STRING, new KSLabel()));
 
         section.addSection(generalReqSection);
@@ -357,6 +226,244 @@ public class ViewCluConfigurer {
         return section;
 
     }
+    
+    //Sub Sections here
+
+    private static VerticalSection generateSummaryBrief(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        section.setSectionTitle(title);
+        section.addField(new FieldDescriptor("/officialIdentifier/longName", "Course Title:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/officialIdentifier/code", "Course Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/metaInfo/createId", "Proposer:     ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/todo", "Delegate:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/todo", "Collaborators:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/metaInfo/createTime", "Date created:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/metaInfo/updateTime", "Date last changed:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/desc/plain", "Description:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/state", "Status:    ", Type.STRING, new KSLabel()));
+        return section;
+    } 
+    
+    private static VerticalSection generateSummaryDetails(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        section.setSectionTitle(title);
+
+        section.addSection(generateCampusLocation(getH5Title(getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY))));
+        section.addSection(generateFormats(getH5Title(LUConstants.FORMATS_LABEL_KEY)));
+        section.addSection(generateCredits(getH5Title(LUConstants.CREDITS_LABEL_KEY)));
+       
+        section.addSection(generateDates(getH5Title(LUConstants.ACTIVE_DATES_LABEL_KEY)));
+        section.addSection(generateIdentifiers(getH5Title(LUConstants.IDENTIFIER_LABEL_KEY)));
+        section.addSection(generateTitles(getH5Title(LUConstants.TITLE_LABEL_KEY)));
+        section.addSection(generateDescriptions(getH5Title(LUConstants.PRIM_INSTR_LABEL_KEY)));
+//        section.addSection(generateLearningResultsSection(getH5Title(LUConstants.LEARNING_RESULTS_LABEL_KEY))));
+//        section.addSection(generateRestrictionsSection());
+//        section.addSection(generateRequisitesSection());
+//        section.addSection(generateFinancialsSection());
+//        section.addSection(generateProgramRequirementsSection());
+//        section.addSection(generateLearningObjectivesSection());
+
+        return section;
+    }
+    
+    private static SectionTitle getH2Title(String labelKey) {
+        return SectionTitle.generateH2Title(getLabel(labelKey));
+    } 
+    
+    private static SectionTitle getH3Title(String labelKey) {
+        return SectionTitle.generateH3Title(getLabel(labelKey));
+    } 
+    
+    private static SectionTitle getH5Title(String labelKey) {
+        return SectionTitle.generateH5Title(getLabel(labelKey));
+    } 
+    
+    private static VerticalSection generateAltAdminOrgs(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
+        return section;
+    }
+
+    private static VerticalSection generatePrimaryAdminOrg(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("/primaryAdminOrg/orgId", "Org ID:  ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+    private static VerticalSection generateCampusLocation(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        //        section.addField(new FieldDescriptor("campusLocationList", null, Type.LIST, new CampusLocationList()));
+        return section;
+    }
+
+    private static VerticalSection generateCurriculumOversight(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("/studySubjectArea", "Subject Area:  ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+
+    private static VerticalSection generateFormats(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("courseFormats", null, Type.LIST, new CourseFormatList()));
+        return section;
+    }
+
+    private static VerticalSection generateScheduling(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("offeredAtpTypes", "Term :   ", Type.STRING, new KSLabel())); //TODO TERM ENUMERATION
+        section.addField(new FieldDescriptor("/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration Time :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+    private static VerticalSection generateLearningResults(SectionTitle title) {
+        //LEARNING RESULTS
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("evalType", "Evaluation Type :   ", Type.STRING, new KSLabel("evalType"))); //TODO EVAL TYPE ENUMERATION ????
+        return section;
+    }
+
+    private static VerticalSection generateCredits(SectionTitle title) {
+        //CREDITS
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("creditType", "Credit Type :   ", Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
+        section.addField(new FieldDescriptor("creditInfo", "Credit Value :   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("maxCredits", "Maximum Credits :   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+    private static VerticalSection generateAltInstructors(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));
+        return section;
+    }
+
+    private static CustomNestedSection generatePrimaryInstructor(SectionTitle title) {
+        //INSTRUCTORS
+        CustomNestedSection section = new CustomNestedSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+
+    private static VerticalSection generateDescriptions(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("/desc/plain", "Description:    ", Type.STRING,  new KSLabel()));
+        section.addField(new FieldDescriptor("/marketingDesc/plain", "Rationale:    ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+    private static VerticalSection generateTitles(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Short Title:    ", Type.STRING, new KSLabel()));
+         section.addField(new FieldDescriptor("/officialIdentifier/longName", "Title:  ", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+    private static VerticalSection generateVersionCodes(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        //      section.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong     
+        section.addField(new FieldDescriptor("luLuRelationType.alias", "TO DO", Type.STRING, new KSLabel()));
+        return section;
+    }
+
+    private static VerticalSection generateJointOfferings(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+//      section.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
+        section.addField(new FieldDescriptor("jointClus", "TO DO", Type.STRING, new KSLabel()));
+        
+        return section;
+    }
+
+    private static VerticalSection generateCrossListed(SectionTitle title) {
+        //CROSS LISTED
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY));
+//      section.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
+        section.addField(new FieldDescriptor("crossListClus", "TO DO", Type.STRING, new KSLabel()));
+        
+        return section;
+    }
+
+    private static VerticalSection generateIdentifiers(SectionTitle title) {
+        //COURSE IDENTIFIER
+        //TODO: This should be a course number widget
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+            section.setSectionTitle(title);
+          }
+        section.addField(new FieldDescriptor("/officialIdentifier/code", "Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/officialIdentifier/division", "Division:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("/officialIdentifier/suffixCode", "Suffix Code:    ", Type.STRING, new KSLabel()));
+    
+        section.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
+       return section;
+    }
+
+    private static VerticalSection generateDates(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+          section.setSectionTitle(title);
+        }
+        
+        section.addField(new FieldDescriptor("effectiveDate", "Start Date:  ", Type.DATE, new KSLabel()));
+        section.addField(new FieldDescriptor("expirationDate", "End Date:   ", Type.DATE, new KSLabel()));
+        return section;
+    }
+
 
 //  //TODO: CampusLocationList
 

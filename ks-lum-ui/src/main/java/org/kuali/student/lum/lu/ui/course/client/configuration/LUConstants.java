@@ -79,6 +79,7 @@ public class LUConstants {
     public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
     public static final String SUMMARY_LABEL_KEY = "cluSummary";
     public static final String BRIEF_LABEL_KEY = "cluBrief";
+    public static final String FULL_VIEW_LABEL_KEY = "cluFullView";
     public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
     public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";

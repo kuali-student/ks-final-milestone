@@ -27,6 +27,7 @@
    	<bean parent="enCourse" p:id="cluProposalInformation"		p:value="Proposal Information"/>
 	   	<bean parent="enCourse" p:id="cluSummary"	    	p:value="Summary"/>
 		   	<bean parent="enCourse" p:id="cluBrief"	    	p:value="Proposal Brief"/>
+		   	<bean parent="enCourse" p:id="cluFullView"	    	p:value="Proposal Details"/>
 	   	<bean parent="enCourse" p:id="cluGovernance"	    	p:value="Governance"/>
 		   	<bean parent="enCourse" p:id="cluCurriculumOversight"	    	p:value="Curriculum Oversight"/>
 		   	<bean parent="enCourse" p:id="cluCampusLocation"	    	p:value="Campus Location"/>
@@ -85,6 +86,7 @@
    	<bean parent="esCourse" p:id="cluProposalInformation"		p:value="Información de la oferta"/>
 	   	<bean parent="esCourse" p:id="cluSummary"	    	p:value="Resumen"/>
 		   	<bean parent="esCourse" p:id="cluBrief"	    	p:value="Escrito de la oferta"/>
+		   	<bean parent="esCourse" p:id="cluFullView"	    	p:value="Detalles de la oferta"/>
 	   	<bean parent="esCourse" p:id="cluGovernance"	    	p:value="Gobierno"/>
 		   	<bean parent="esCourse" p:id="cluCurriculumOversight"	    	p:value="Descuido del plan de estudios"/>
 		   	<bean parent="esCourse" p:id="cluCampusLocation"	    	p:value="Localización del campus"/>
