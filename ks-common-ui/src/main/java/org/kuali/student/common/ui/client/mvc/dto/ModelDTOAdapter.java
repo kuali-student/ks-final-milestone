@@ -57,6 +57,7 @@ public class ModelDTOAdapter implements Serializable{
                 ModelDTO modelDTO = null;
                 if(modelDTOValue == null){
                     modelDTO = new ModelDTO(getClassName(key));
+                    modelDTO.setKey(key);
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
                     
