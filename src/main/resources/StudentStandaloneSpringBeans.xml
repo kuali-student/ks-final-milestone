@@ -61,7 +61,7 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
-	<!-- Org Derived role (anyone that's related to this org -->
+	<!-- Org Derived role (anyone that's related to this org) -->
 	<bean id="ksOrgCommitteeRoleTypeService"
 		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
 		<property name="excludedOrgPersonRelationTypes">
@@ -72,4 +72,14 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
+	<!-- Action Request Derived role -->
+	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.KSActionRequestDerivedRoleTypeServiceImpl"/>
+
+	<!-- Route Log Derived role -->
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.KSRouteLogDerivedRoleTypeServiceImpl"/>
+
+	<!-- Hierarchy Derived role -->
+<!--
+	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
+-->
 </beans>
