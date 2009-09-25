@@ -120,7 +120,7 @@
 	
 	<bean id="messagesServiceGwt"
 		class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
-		<property name="serviceImpl" ref="messageService" />
+		<property name="serviceImpl" ref="messageClient" />
 	</bean>
 
 	<bean id="CommentRpcGwtServlet"
@@ -155,6 +155,11 @@
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+
+	<bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.messages.service.MessageService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
