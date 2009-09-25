@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary;
+package org.kuali.student.search;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import org.kuali.student.dictionary.ExcelSpreadsheetReader;
+import org.kuali.student.dictionary.SpreadsheetReader;
 
 /**
  *
  * @author nwright
  */
-public class DictionaryGeneratorFromCommandLine
+public class SearchGeneratorFromCommandLine
 {
 
  /**
@@ -31,8 +33,8 @@ public class DictionaryGeneratorFromCommandLine
   */
  public static void main (String[] args)
  {
-  DictionaryGeneratorFromCommandLine instance =
-   new DictionaryGeneratorFromCommandLine ();
+  SearchGeneratorFromCommandLine instance =
+   new SearchGeneratorFromCommandLine ();
   instance.generate (args);
 
  }
@@ -45,8 +47,8 @@ public class DictionaryGeneratorFromCommandLine
  public void displayVersion (PrintStream out)
  {
   //TODO: figure out how to get the version from the Maven property
-  out.println ("Kuali Student Dictionary Geneator: Version 0.5");
-  out.println ("             Built on Tuesday, September 9, 2009");
+  out.println ("Kuali Student Search Geneator: Version 0.5");
+  out.println ("          Built on Tuesday, September 25, 2009");
  }
 
  private void displayParameters (String inFile, String outFile)
@@ -67,11 +69,11 @@ public class DictionaryGeneratorFromCommandLine
 
  public void displayUsage (PrintStream out)
  {
-  out.println ("Usage: java -jar kuali-dictionary-generator.jar <inputExcel> <outputXML>");
+  out.println ("Usage: java -jar kuali-search-generator.jar <inputExcel> <outputXML>");
   out.println ("\t@param inputExcel the fully qualified file name for the input excel file");
   out.println ("\t@param outputXML the fully qualified file name for the output xml file");
   out.println ("\t@note both / and \\ are allowed in directory path name");
-  out.println ("ex: java -jar kuali-dictionary-generator.jar mydir/org.kuali.student.dictionary.xls mydir\\lu-dictionary-config.xml");
+  out.println ("ex: java -jar kuali-search-generator.jar mydir/organization search specification.xls mydir\\org-search-config.xml ");
  }
 
  private void generate (String[] args)
@@ -80,17 +82,17 @@ public class DictionaryGeneratorFromCommandLine
   if (args == null)
   {
    displayUsage ();
-   throw new DictionaryExecutionException ("args is null");
+   throw new SearchExecutionException ("args is null");
   }
   if (args.length == 0)
   {
    displayUsage ();
-   throw new DictionaryExecutionException ("no args specified");
+   throw new SearchExecutionException ("no args specified");
   }
   if (args.length == 1)
   {
    displayUsage ();
-   throw new DictionaryExecutionException ("no output file specified");
+   throw new SearchExecutionException ("no output file specified");
   }
   String in = args[0];
   String out = args[1];
@@ -116,9 +118,9 @@ public class DictionaryGeneratorFromCommandLine
   try
   {
    reader = new ExcelSpreadsheetReader (inFile);
-   SpreadsheetLoader loader = new SpreadsheetLoader (reader);
-   Spreadsheet cache = new SpreadsheetCache (loader);
-   DictionaryWriter instance = new DictionaryWriter (out, cache);
+   SearchSpreadsheetLoader loader = new SearchSpreadsheetLoader (reader);
+   SearchSpreadsheet cache = new SearchSpreadsheetCache (loader);
+   SearchSpreadsheetWriter instance = new SearchSpreadsheetWriter (out, cache);
    instance.write ();
   }
   finally
