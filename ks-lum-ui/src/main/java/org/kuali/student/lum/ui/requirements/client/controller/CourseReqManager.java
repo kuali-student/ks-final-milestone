@@ -39,7 +39,7 @@ public class CourseReqManager extends Controller {
     //controller's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
-    private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this, "CLU-NL-2");
+    private final CourseRequisiteView courseRequisiteView = new CourseRequisiteView(this);
     private final ManageRulesView manageRulesView = new ManageRulesView(this);
     private final RuleComponentEditorView rulesEditorView = new RuleComponentEditorView(this);
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
@@ -47,9 +47,9 @@ public class CourseReqManager extends Controller {
     //controller's data
     private Model<RuleInfo> ruleInfo;
     private Model<ReqComponentVO>  selectedReqCompVO;    
-    private Model<ReqComponentTypeInfo> reqComponentTypes; 
+    private Model<ReqComponentTypeInfo> reqComponentTypes; //all requirements type info (fields and NL templates) for given statement type
     private String luStatementType = "unknown";
-    private Map<String, String> clusData = new HashMap<String, String>(); 
+    private Map<String, String> listOfAvailableClus = new HashMap<String, String>();   //temporary - will be replaced with search widgets
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
     public CourseReqManager(VerticalPanel displayPanel) {
@@ -62,42 +62,17 @@ public class CourseReqManager extends Controller {
         	displayPanel.add(mainPanel);
         }
         
- this.ruleInfo = null;
+        this.ruleInfo = null;
         resetReqCompVOModel();
-        loadData();
+        loadSearchBoxData();
     }
-
-    public SimplePanel getMainPanel() {
-        return mainPanel;
-    }
-    
-    public void setRuleInfoModel(Model<RuleInfo> ruleInfo) {
-        this.ruleInfo = ruleInfo;
-    }
-    
-    public Model<RuleInfo> getRuleInfoModel() {
-        return ruleInfo;
-    }
-    
+   
     @Override
     protected void onLoad() {
-        //showDefaultView();
+        //showDefaultView();   instead of showing default view every time user comes back, just show screen user left of last time
     }
 
     // controller operations
-    @Override
-    public void renderView(View view) {
-        // in this case we know that all of our widgets are composites
-        // but we could do view specific rendering, e.g. show a lightbox, etc
-        mainPanel.setWidget((ViewComposite) view);
-    }
-
-    @Override
-    protected void hideView(View view) {
-    	GWT.log("clear", null);
-        mainPanel.clear();
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void requestModel(Class modelType, ModelRequestCallback callback) {
@@ -137,6 +112,18 @@ public class CourseReqManager extends Controller {
     public void showDefaultView() {
         showView(PrereqViews.RULES_LIST);
     }
+    
+    @Override
+    public void renderView(View view) {
+        // in this case we know that all of our widgets are composites
+        // but we could do view specific rendering, e.g. show a lightbox, etc
+        mainPanel.setWidget((ViewComposite) view);
+    }
+
+    @Override
+    protected void hideView(View view) {
+        mainPanel.clear();
+    }    
 
     @Override
     protected <V extends Enum<?>> View getView(V viewType) {
@@ -146,7 +133,7 @@ public class CourseReqManager extends Controller {
 	        case MANAGE_RULES:
                 return manageRulesView;
             case CLAUSE_EDITOR:    
-                rulesEditorView.setClusData(clusData);
+                rulesEditorView.setClusData(listOfAvailableClus);
                 rulesEditorView.setCluSetsData(cluSetsData);
                 return rulesEditorView;
             case RULE_EXPRESSION_EDITOR:
@@ -183,7 +170,9 @@ public class CourseReqManager extends Controller {
         }
     }
 
-    private void loadData() {
+    private void loadSearchBoxData() {
+    	
+    	//the following call will be replaced by search widgets that will query for all existing clus
         requirementsRpcServiceAsync.getAllClus(new AsyncCallback<Map<String, String>>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -191,7 +180,7 @@ public class CourseReqManager extends Controller {
             }
 
             public void onSuccess(final Map<String, String> cluData) {  
-                clusData = cluData;                   
+                listOfAvailableClus = cluData;                   
             }
         });
         
@@ -200,7 +189,7 @@ public class CourseReqManager extends Controller {
         cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");
 
         
-        /*
+        /* will be removed when search widgets are added
         RequirementsService.Util.getInstance().getAllClusets(new AsyncCallback<Map<String, String>>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -220,6 +209,18 @@ public class CourseReqManager extends Controller {
     public void resetReqCompVOModel () {
         this.selectedReqCompVO = new Model<ReqComponentVO>();
     }
+    
+    public SimplePanel getMainPanel() {
+        return mainPanel;
+    }
+    
+    public void setRuleInfoModel(Model<RuleInfo> ruleInfo) {
+        this.ruleInfo = ruleInfo;
+    }
+    
+    public Model<RuleInfo> getRuleInfoModel() {
+        return ruleInfo;
+    }    
     
     public String getLuStatementType() {
         return luStatementType;

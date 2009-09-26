@@ -3,7 +3,6 @@ package org.kuali.student.lum.ui.requirements.client.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -36,7 +35,7 @@ public class HomeMenuController extends Controller implements View {
     
     public View defaultPanel = new DefaultPanel(this);
    // public View createCoursePanel = new CreateCreditCoursePanel(this);
-    public CourseRequisiteView createModifyCoursePanel = new CourseRequisiteView(this, "xxx");
+    public CourseRequisiteView createModifyCoursePanel = new CourseRequisiteView(this);
     
     public HorizontalPanel mainPanel = new HorizontalPanel();
     public VerticalPanel menuPanel = new VerticalPanel();
@@ -172,12 +171,9 @@ public class HomeMenuController extends Controller implements View {
         switch ((MenuViews) viewType) {
             case DEFAULT_VIEW:
                 return defaultPanel;
-            case CREATE_COURSE_VIEW:
-                createModifyCoursePanel.initializeView(null);                
-                return createModifyCoursePanel;      
-                //return defaultPanel;                
+            case CREATE_COURSE_VIEW:                        
             case MODIFY_COURSE_VIEW:
-                createModifyCoursePanel.initializeView(testCluId);
+                createModifyCoursePanel.initializeView();
                 return createModifyCoursePanel;
             default:
                 return defaultPanel;

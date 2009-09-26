@@ -80,32 +80,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         return NLStatement;
     }
     
-    public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {
-      
-        CourseRuleInfo courseInfo = new CourseRuleInfo();
-        
-        //retrieve course info
-        CluInfo cluInfo;
-        try {        
-            cluInfo = service.getClu(cluId);                   
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Unable to retrieve cluInfo for clu " + cluId, ex);
-        }                
-        courseInfo.setCourseInfo(cluInfo);    
-        courseInfo.setId(cluInfo.getId());
-        
-        //retrieve all statements associated with given course (we could retrieve only pre and co-req ?)
-        List<LuStatementInfo> luStatementInfoList;
-        try {        
-            luStatementInfoList = service.getLuStatementsForClu(cluId);            
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Unable to retrieve LuStatements for clu " + cluId, ex);
-        }
-        courseInfo.setLuStatementInfoList(luStatementInfoList); 
-        
-        return courseInfo;
+    public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {       
+        return null;
     }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
@@ -121,6 +97,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         return reqComponentTypeInfoList;
     }  
     
+    //this method is temporary and will be replaced by search widgets setup on the client side
     public Map<String, String> getAllClus() throws Exception {
         
         Map<String, String> cluCodes = new HashMap<String, String>();
@@ -160,6 +137,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         return cluCodes;
     }      
     
+    //to be removed when search widgets are added to the client
     public Map<String, String> getAllClusets() throws Exception {
         
         Map<String, String> clusetCodes = new HashMap<String, String>();

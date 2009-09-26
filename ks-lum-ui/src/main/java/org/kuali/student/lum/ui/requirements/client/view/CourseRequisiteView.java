@@ -6,10 +6,15 @@ import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
@@ -45,68 +50,69 @@ public class CourseRequisiteView extends ViewComposite {
     private SimplePanel prereqRuleTextPanel = new SimplePanel();
     private SimplePanel coreqRuleTextPanel = new SimplePanel();
     private SimplePanel antireqRuleTextPanel = new SimplePanel();
-    private SimplePanel enrollRuleTextPanel = new SimplePanel();  
+    private SimplePanel enrollRuleTextPanel = new SimplePanel(); 
+    private KSTextArea prereqRationaleTextArea = new KSTextArea();
+    private KSTextArea coreqRationaleTextArea = new KSTextArea();
+    private KSTextArea antireqRationaleTextArea = new KSTextArea();
+    private KSTextArea enrollRationaleTextArea = new KSTextArea();
     
     private ButtonEventHandler handler = new ButtonEventHandler(); 
     
     //view's data
-    private String selectedCourseId = null;
-    private static int course_id = 0;
-    private Model<CourseRuleInfo> courseData = new Model<CourseRuleInfo>();    
+  
     private final Model<RuleInfo> courseRules = new Model<RuleInfo>();
+    private String cluId = null;
     private boolean dataInitialized = false;
-    private boolean isInitialized = false;
     
-    public CourseRequisiteView(Controller controller, String courseId) {
+    public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
         super.initWidget(mainPanel);           
     }
     
-    public void beforeShow() {                 	
-        initializeView("CLU-NL-2");        
-        isInitialized = true;
+    public void beforeShow() {     
+    	
+    	getController().requestModel(CluProposalModelDTO.class,
+                new ModelRequestCallback<CluProposalModelDTO>() {
+                    @Override
+                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                    	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
+                    	cluId = "CLU-NL-5"; //TODO: ((StringType)cluInfoModelDTO.get("/officialIdentifier/cluId")).getString();
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert("Failed to get CluProposalModelDTO");
+                    }
+        });    	
+    	
+        initializeView();        
     }    
     
-    public void initializeView(String courseId) {
-GWT.log("Initialize view", null);        
+    public void initializeView() {
+       
         mainPanel.clear();
         viewPanel.clear();
         mainPanel.add(viewPanel);
         
-        this.selectedCourseId = courseId; 
-
         layoutMainPanel(viewPanel);
-        if ((courseId == null) || (dataInitialized)) {
+        if ((cluId == null) || dataInitialized) {
             return;
-        }        
+        }                
+ 
+        RulesUtilities.clearModel(courseRules);                                                          
         
-        requirementsRpcServiceAsync.getCourseAndRulesInfo(courseId, new AsyncCallback<CourseRuleInfo>() {
-                                   
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
-
-            public void onSuccess(final CourseRuleInfo courseRuleInfo) { 
-                
-                RulesUtilities.clearModel(courseRules);
-                
-                courseData.add(courseRuleInfo);                                                
-                
-                retrieveRuleTypeData("kuali.luStatementType.prereqAcademicReadiness");
-                retrieveRuleTypeData("kuali.luStatementType.coreqAcademicReadiness");                           
-                retrieveRuleTypeData("kuali.luStatementType.antireqAcademicReadiness");
-                retrieveRuleTypeData("kuali.luStatementType.enrollAcademicReadiness");
-                dataInitialized = true;
-            }
-            
-        });                                  
+        retrieveRuleTypeData("kuali.luStatementType.prereqAcademicReadiness");
+        retrieveRuleTypeData("kuali.luStatementType.coreqAcademicReadiness");                           
+        retrieveRuleTypeData("kuali.luStatementType.antireqAcademicReadiness");
+        retrieveRuleTypeData("kuali.luStatementType.enrollAcademicReadiness");
+        dataInitialized = true;                              
     }    
     
     private void retrieveRuleTypeData(final String luStatementTypeKey) {
         
         layoutBasicRuleSection(luStatementTypeKey);
 
-        requirementsRpcServiceAsync.getStatementVO(courseData.get(getCourseId()).getId(), luStatementTypeKey, new AsyncCallback<StatementVO>() {
+        requirementsRpcServiceAsync.getStatementVO(cluId, luStatementTypeKey, new AsyncCallback<StatementVO>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
@@ -125,9 +131,9 @@ GWT.log("Initialize view", null);
                 }
                 
                 final RuleInfo ruleInfo = new RuleInfo();
-                ruleInfo.setId(Integer.toString(course_id++));
-                ruleInfo.setCluId(courseData.get(getCourseId()).getId());
-                ruleInfo.setRationale("This is a test rationalle.");
+                ruleInfo.setId(cluId);
+                ruleInfo.setCluId(cluId);
+                ruleInfo.setRationale("");
                 ruleInfo.setStatementVO(statementVO);
                 ruleInfo.setLuStatementTypeKey(luStatementTypeKey);
                 
@@ -137,7 +143,7 @@ GWT.log("Initialize view", null);
                 
                 setRuleInfo(ruleInfo);                    
                                         
-                requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(courseData.get(getCourseId()).getId(), statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
+                requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(cluId, statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
                     public void onFailure(Throwable caught) {
                         Window.alert(caught.getMessage());
                         caught.printStackTrace();
@@ -176,14 +182,8 @@ GWT.log("Initialize view", null);
             }
             
             if(rule == null) {
-                System.out.println("Clearing model");
-                RulesUtilities.clearModel(courseData);
-                CourseRuleInfo newCourse = new CourseRuleInfo();
-                newCourse.setId("CLU-NL-5"); //Integer.toString(tempCounterID++));
                 CluInfo newCourseInfo = new CluInfo();
                 newCourseInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID+1000));
-                newCourse.setCourseInfo(newCourseInfo);
-                courseData.add(newCourse);
                 
                 RulesUtilities.clearModel(courseRules);
                 RuleInfo newPrereqInfo = new RuleInfo();
@@ -195,13 +195,9 @@ GWT.log("Initialize view", null);
                 
                 courseReqManager.resetReqCompVOModel();
                 
-//                mainPanel.clear();
-//                mainPanel.add(courseReqManager.getMainPanel());
-                  courseReqManager.setRuleInfoModel(courseRules);
+                courseReqManager.setRuleInfoModel(courseRules);
                 courseReqManager.showView(PrereqViews.CLAUSE_EDITOR);
             } else {
-//                mainPanel.clear();
-//                mainPanel.add(courseReqManager.getMainPanel());
                 courseReqManager.setRuleInfoModel(courseRules);
                 courseReqManager.showView(PrereqViews.MANAGE_RULES);
             }
@@ -265,28 +261,26 @@ GWT.log("Initialize view", null);
         rulesInfoPanel.add(heading);
         
         //BODY: rules RATIONALE
+        KSTextArea rantionale = getRationaleTextArea(luStatementTypeKey);
         HorizontalPanel rationalePanel = new HorizontalPanel();
         SimplePanel tempHolder = new SimplePanel();
         KSLabel rationale = new KSLabel("Rationale");
         rationale.setStyleName("KS-ReqMgr-Field-Labels");
-       // tempHolder.setWidth("100px");
         tempHolder.add(rationale);    
         rationalePanel.add(tempHolder);
-        KSTextArea rantionale = new KSTextArea();
         rationalePanel.add(rantionale);
         SimplePanel tempHolder4 = new SimplePanel();
         KSLabel note = new KSLabel("State why this course needs to have a " + ruleName.toLowerCase() + ".");
         note.setStyleName("KS-ReqMgr-Note");         
         tempHolder4.add(note);      
         rationalePanel.add(tempHolder4);
-        rulesInfoPanel.add(rationalePanel);                      
+        rulesInfoPanel.add(rationalePanel);
                
         //BODY: rules        
         HorizontalPanel rationalePanel2 = new HorizontalPanel();
         SimplePanel tempHolder2 = new SimplePanel();
         KSLabel rules = new KSLabel("Rules");
         rules.setStyleName("KS-ReqMgr-Field-Labels");
-       // tempHolder2.setWidth("100px");
         tempHolder2.add(rules);           
         rationalePanel2.add(tempHolder2);    
         rulesInfoPanel.add(rationalePanel2);  
@@ -300,7 +294,7 @@ GWT.log("Initialize view", null);
         return;
     }
         
-  private void loadRuleInfo(String luStatementTypeKey) {
+    private void loadRuleInfo(final String luStatementTypeKey) {
         
         RuleInfo rule = getRuleInfo(luStatementTypeKey);   
         VerticalPanel rulesInfoPanel = getRulesInfoPanel(luStatementTypeKey);                     
@@ -316,7 +310,32 @@ GWT.log("Initialize view", null);
         KSButton submit = new KSButton((rule == null ? "Add Rule" : "Manage rules"));
         submit.setTitle(luStatementTypeKey);
         submit.setStyleName("KS-Rules-Tight-Button");
-        submit.addClickHandler(handler);        
+        submit.addClickHandler(handler);
+        
+        // TODO remove when done testing the save application state feature
+        KSButton saveApplicationState = new KSButton("Save State");
+        saveApplicationState.setTitle("Save State");
+        saveApplicationState.setStyleName("KS-Rules-Tight-Button");
+        saveApplicationState.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                getController().requestModel(CluProposalModelDTO.class,
+                        new ModelRequestCallback<CluProposalModelDTO>() {
+                            @Override
+                            public void onModelReady(Model<CluProposalModelDTO> model) {
+                                KSTextArea rationaleTextArea = getRationaleTextArea(luStatementTypeKey);
+                                model.get().putApplicationState("rationale", rationaleTextArea.getText());
+                                Window.alert("You entered: " + model.get().getApplicationState("rationale"));
+                            }
+
+                            @Override
+                            public void onRequestFail(Throwable cause) {
+                                Window.alert("Failed to get CluProposalModelDTO");
+                            }
+                });
+            }
+        });
+        rationalePanel3.add(saveApplicationState);
         rationalePanel3.add(submit);
     }
     
@@ -336,6 +355,14 @@ GWT.log("Initialize view", null);
         return new SimplePanel();
     }    
     
+    private KSTextArea getRationaleTextArea(String luStatementTypeKey) {
+        if (luStatementTypeKey.contains("enroll")) return enrollRationaleTextArea;
+        if (luStatementTypeKey.contains("prereq")) return prereqRationaleTextArea;
+        if (luStatementTypeKey.contains("coreq")) return coreqRationaleTextArea;
+        if (luStatementTypeKey.contains("antireq")) return antireqRationaleTextArea;   
+        return new KSTextArea();
+    }    
+
     private String getRuleTypeName(String luStatementTypeKey) {
         if (luStatementTypeKey.contains("enroll")) return "Enrollment Restrictions";
         if (luStatementTypeKey.contains("prereq")) return "Prerequisites";
@@ -343,12 +370,4 @@ GWT.log("Initialize view", null);
         if (luStatementTypeKey.contains("antireq")) return "Antirequisites";
         return "";
     }
-    
-    public void setCourseId(String courseId) {
-        this.selectedCourseId = courseId;        
-    }
-    
-    public String getCourseId() {
-        return selectedCourseId;        
-    }     
 }

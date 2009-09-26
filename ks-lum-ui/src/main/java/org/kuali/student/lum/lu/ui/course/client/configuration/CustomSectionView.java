@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
@@ -37,11 +38,12 @@ public class CustomSectionView extends SectionView {
 	    super.initWidget(panel);
 	    this.modelDTOType = modelDTOType; 
 	}
-		
-	public void beforeShow(){	
+	
+    public void beforeShow(){	
 		
 		if (loaded == false) {
 			childController = new CourseReqManager(panel);
+			childController.setParentController(getController());
 		}
 		
 		//Request model and redraw view if model changed

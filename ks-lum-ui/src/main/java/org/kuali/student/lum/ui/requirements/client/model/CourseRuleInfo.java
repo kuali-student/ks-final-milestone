@@ -7,11 +7,9 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 
-public class CourseRuleInfo implements Idable, Serializable {
+public class CourseRuleInfo implements Serializable {
 
     private static final long serialVersionUID = 2L;
-    private String id;
-    private CluInfo courseInfo;
     private List<LuStatementInfo> luStatementInfoList;
      
     public LuStatementInfo getLuStatementByType(String LuStatementType) {
@@ -25,22 +23,6 @@ public class CourseRuleInfo implements Idable, Serializable {
         return null;
     }
     
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public CluInfo getCourseInfo() {
-        return courseInfo;
-    }
-
-    public void setCourseInfo(CluInfo courseInfo) {
-        this.courseInfo = courseInfo;
-    }
-
     public List<LuStatementInfo> getLuStatementInfoList() {
         return luStatementInfoList;
     }

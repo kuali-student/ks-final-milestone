@@ -20,8 +20,6 @@ public class RuleInfo implements Idable {
     private String previewedExpression; // the state of the expression when it was previewed
     private EditHistory editHistory;
     private boolean simplifying;
-//    private NodeConverter nodeConverter = new NodeConverter();
-
     
     @Override
     public String getId() {

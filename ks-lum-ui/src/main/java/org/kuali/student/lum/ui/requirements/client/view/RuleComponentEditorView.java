@@ -2,7 +2,6 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,26 +13,14 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.list.testData.Color;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSListItemsSuggestOracle;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxPicker;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
@@ -55,16 +42,14 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class RuleComponentEditorView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
-    private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    //private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 
     public enum reqCompFieldDefinitions { TODO }
 
@@ -306,8 +291,9 @@ public class RuleComponentEditorView extends ViewComposite {
         verticalSpacer2.setHeight("30px");
         reqCompDetailsExampleContainerPanel.add(verticalSpacer2);
 
+        /* we might want to show catalog template if the rule is updated but not when it is being edited 
         String catalogTemplate = getTemplate(CATALOG_TEMLATE);
-        reqCompDetailsExampleContainerPanel.add(new KSLabel(catalogTemplate));
+        reqCompDetailsExampleContainerPanel.add(new KSLabel(catalogTemplate)); */
 
         ruleDetailsPanel.add(reqCompDetailsExampleContainerPanel);
     }
@@ -387,7 +373,7 @@ public class RuleComponentEditorView extends ViewComposite {
                     if (btn.getText().trim().equals(reqCompTypeList.get(i).getDesc().trim())) {
                         selectedReqType = reqCompTypeList.get(i);
                         if (addNewReqComp) {
-                            setupNewEditedReqComp(selectedReqType.getId());
+                            setupNewEditedReqComp(selectedReqType);
                         } else {
                             editedReqComp.setType(selectedReqType.getId());
                         }
@@ -409,7 +395,7 @@ public class RuleComponentEditorView extends ViewComposite {
                  List<String> ids = w.getSelectedItems();
                  selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
                  if (addNewReqComp) {
-                     setupNewEditedReqComp(selectedReqType.getId());
+                     setupNewEditedReqComp(selectedReqType);
                  } else {
                      editedReqComp.setType(selectedReqType.getId());
                  }
@@ -631,7 +617,6 @@ public class RuleComponentEditorView extends ViewComposite {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
-                final ReqCompFieldInfo reqCompFieldInfo = getReqCompFieldInfo(fields, tag);
                 valueWidget.setText(getSpecificFieldValue(fields, tag));
                 valueWidget.setWidth("250px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
@@ -675,10 +660,6 @@ public class RuleComponentEditorView extends ViewComposite {
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
 
-    private Widget assembleSearchCourseWidget() {
-        return null;
-    }
-
     private ReqCompFieldInfo getReqCompFieldInfo(List<ReqCompFieldInfo> fields, String key) {
         ReqCompFieldInfo result = null;
         if (fields == null) {
@@ -706,38 +687,14 @@ public class RuleComponentEditorView extends ViewComposite {
         return result;
     }
 
-    private void setupNewEditedReqComp(String reqCompID) {
+    private void setupNewEditedReqComp(ReqComponentTypeInfo reqCompTypeInfo) {
         editedReqComp = new ReqComponentInfo();
         editedReqComp.setDesc("");      //will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
-        editedReqComp.setReqCompFields(null); //fieldList);
-        if (reqCompID != null) editedReqComp.setType(reqCompID);
+        editedReqComp.setReqCompFields(null); //fieldList);                       
+        editedReqComp.setRequiredComponentType(reqCompTypeInfo);
+        if (reqCompTypeInfo != null) editedReqComp.setType(reqCompTypeInfo.getId());
         editedReqCompVO = new ReqComponentVO(editedReqComp);
-    }
-
-    /**
-     * returns a comma delimited string that represents the union of the originalValue and selectedValues
-     * @param originalValue
-     * @param selectedValues
-     * @return
-     */
-    private String combineValues(String originalValue, List<String> selectedValues) {
-        int fieldValueCount = 0;
-        String tempOriginalValue =
-            (originalValue == null)? "" : originalValue;
-        StringBuilder newFieldValue = new StringBuilder("");
-        SortedSet<String> newValues = new TreeSet<String>();
-        newValues.addAll(Arrays.asList(tempOriginalValue.split(", +")));
-        newValues.addAll(selectedValues);
-        for (String newValue : newValues) {
-            if (fieldValueCount > 0 &&
-                    newFieldValue.toString().trim().length() > 0) {
-                newFieldValue.append(", ");
-            }
-            newFieldValue.append(newValue);
-            fieldValueCount++;
-        }
-        return newFieldValue.toString();
     }
 
     private void setReqComponentListAndReqComp() {
@@ -877,31 +834,11 @@ public class RuleComponentEditorView extends ViewComposite {
         });
     }
 
-    private Map<String, String> getClusData() {
-        return clusData;
-    }
-
     public void setClusData(Map<String, String> clusData) {
         this.clusData = clusData;
-    }
-
-    private Map<String, String> getCluSetsData() {
-        return cluSetsData;
     }
 
     public void setCluSetsData(Map<String, String> cluSetsData) {
         this.cluSetsData = cluSetsData;
     }
-
-    /**
-     * TODO test method remove when real clu codes are retrieved.
-     * @return
-     */
-    private Map<String, String> getTestCluCodes() {
-        Map<String, String> cluCodes = new HashMap<String, String>();
-        cluCodes.put("12345", "CHEM 100");
-        cluCodes.put("123444", "CLUSET-NL-1");
-        return cluCodes;
-    }
-
 }

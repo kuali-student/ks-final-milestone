@@ -71,7 +71,6 @@ public class ManageRulesView extends ViewComposite {
     //view's data
     private Model<RuleInfo> model;   
     private boolean isInitialized = false;
-    private transient StatementVO simplifiedStatementVO; 
 
     public ManageRulesView(Controller controller) {
         super(controller, "Complex View");
@@ -153,9 +152,7 @@ public class ManageRulesView extends ViewComposite {
             public void onClick(ClickEvent event) {
                               
                 Cell cell = ruleTable.getCellForEvent(event);
-                //System.out.println("Cell is NULL 0 ???");
                 if (cell == null) {
-                    //System.out.println("Cell is NULL 0" + event.getSource());
                     return;
                 }
                 
@@ -484,7 +481,7 @@ public class ManageRulesView extends ViewComposite {
         verticalSpacer3.setHeight("30px");
         complexView.add(verticalSpacer3);         
         
-        HorizontalPanel buttonsPanel = new HorizontalPanel();
+   /*     HorizontalPanel buttonsPanel = new HorizontalPanel();
         buttonsPanel.setSpacing(0);
         btnSaveRule.addStyleName("KS-Rules-Tight-Button");  
         buttonsPanel.add(btnSaveRule);
@@ -493,7 +490,7 @@ public class ManageRulesView extends ViewComposite {
         buttonsPanel.add(horizSpacer);        
         btnCancelChange.addStyleName("KS-Rules-Tight-Grey-Button"); 
         buttonsPanel.add(btnCancelChange);
-        complexView.add(buttonsPanel);                 
+        complexView.add(buttonsPanel); */                 
         
         mainPanel.clear();
         mainPanel.add(complexView); 
@@ -517,6 +514,20 @@ public class ManageRulesView extends ViewComposite {
             btnMoveRuleUp.setVisible(!simpleRule);
             btnMoveRuleDown.setVisible(!simpleRule);           
             
+            if (isInitialized == false) {
+                HorizontalPanel logicExpressionTab = new HorizontalPanel();
+                logicExpressionTab.add(logicalExpression);
+                editManually.addStyleName("KS-Rules-URL-Link");
+                logicExpressionTab.add(editManually);
+                ruleViewsPanel.addTab(logicExpressionTab, "Logic Expression");
+                SimplePanel NLPanel = new SimplePanel();
+                NLPanel.add(complexRuleNL);
+                ruleViewsPanel.addTab(NLPanel, "Natural Language");
+                ruleViewsPanel.setStyleName("KS-Rules-Rule-Views");
+                ruleViewsPanel.selectTab(0);   
+                ruleViewsPanel.setHeight("80px");
+            }                
+            
             //update rule views tabs
             if (emptyRule) {    //don't show NL or tabs
                 ruleViewsPanel.setVisible(false);
@@ -531,22 +542,7 @@ public class ManageRulesView extends ViewComposite {
                 complexView.add(simpleRuleNL);
                 updateNaturalLanguage();
                 ruleViewsPanel.setVisible(false);
-            } else {  //rule with 1 or more logical operators
-                if (isInitialized == false) {
-                    HorizontalPanel logicExpressionTab = new HorizontalPanel();
-                    logicExpressionTab.add(logicalExpression);
-                    editManually.addStyleName("KS-Rules-URL-Link");
-                    logicExpressionTab.add(editManually);
-                    ruleViewsPanel.addTab(logicExpressionTab, "Logic Expression");
-                    SimplePanel NLPanel = new SimplePanel();
-                    NLPanel.add(complexRuleNL);
-                    //NLPanel.setStyleName("KS-Rules-Rule-Views");
-                    ruleViewsPanel.addTab(NLPanel, "Natural Language");
-                    ruleViewsPanel.setStyleName("KS-Rules-Rule-Views");
-                    ruleViewsPanel.selectTab(0);   
-                    ruleViewsPanel.setHeight("80px");
-                }        
-                
+            } else {  //rule with 1 or more logical operators                    
                 KSLabel viewsHeading = new KSLabel("Alternate Views");
                 viewsHeading.setStyleName("KS-ReqMgr-BlockHeading");
                 complexView.add(viewsHeading);                
