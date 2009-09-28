@@ -7,7 +7,10 @@
     ${institution}
 -->
 <config>
+<param name="db.vendor">oracle</param> 
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="appserver.url">http://localhost:8081</param>
@@ -63,27 +66,29 @@
 	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
 	<!--Set the came of the context file in order to load the particular project	-->
 	<param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml</param>
+	
 	<!--This is the override config file where data source parameters can be overridden	-->
 	<param name="config.location">${user.home}/kuali/main/dev/uber-config-override.xml</param>
-	
 	
 	<!-- additional config files -->
 	<param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
 	
+	
+	
 	<!-- Lum DB settings -->
-	<param name="ks.lum.datasource.driver.name">oracle.jdbc.OracleDriver</param>
-	<param name="ks.lum.datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.lum.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
-	<param name="ks.lum.datasource.validationQuery">select 1 from dual</param>
-	<param name="ks.lum.datasource.username">kslum</param>
-    <param name="ks.lum.datasource.password">kslum</param>
+<!--	<param name="ks.lum.datasource.driver.name">oracle.jdbc.OracleDriver</param>-->
+<!--	<param name="ks.lum.datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>-->
+<!--	<param name="ks.lum.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>-->
+<!--	<param name="ks.lum.datasource.validationQuery">select 1 from dual</param>-->
+<!--	<param name="ks.lum.datasource.username">kslum</param>-->
+<!--    <param name="ks.lum.datasource.password">kslum</param>-->
 
 	<!-- Core DB settings -->
-	<param name="ks.core.datasource.driver.name">oracle.jdbc.OracleDriver</param>
-	<param name="ks.core.datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.core.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>
-	<param name="ks.core.datasource.validationQuery">select 1 from dual</param>
-	<param name="ks.core.datasource.username">kscore</param>
-    <param name="ks.core.datasource.password">kscore</param>	
+<!--	<param name="ks.core.datasource.driver.name">oracle.jdbc.OracleDriver</param>-->
+<!--	<param name="ks.core.datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>-->
+<!--	<param name="ks.core.jpa.DatabasePlatform">org.hibernate.dialect.Oracle10gDialect</param>-->
+<!--	<param name="ks.core.datasource.validationQuery">select 1 from dual</param>-->
+<!--	<param name="ks.core.datasource.username">kscore</param>-->
+<!--    <param name="ks.core.datasource.password">kscore</param>	-->
 	   
 </config>
