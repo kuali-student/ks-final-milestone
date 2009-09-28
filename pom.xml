@@ -39,7 +39,7 @@
 						<goals>
 							<goal>compile</goal>
 						</goals>
-						<phase>none</phase>
+<!--						<phase>none</phase>-->
 					</execution>
 				</executions>
 				<configuration>
