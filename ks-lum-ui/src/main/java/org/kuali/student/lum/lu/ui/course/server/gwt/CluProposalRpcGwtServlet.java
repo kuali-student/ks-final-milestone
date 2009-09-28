@@ -64,6 +64,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
     private static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu";
     
+    private static final String CLU_INFO_KEY = "cluInfo";
+    private static final String PROPOSAL_INFO_KEY = "proposalInfo";
+    
     //Rice Services
     private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
@@ -453,7 +456,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         logger.info("Creating proposal");
         try{                    
             //Convert cluInfo model dto to cluInfo object
-            ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("cluInfo")).get();
+            ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
             //Create clu in LuService
@@ -464,7 +467,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             saveCourseFormats(cluProposalDTO);
             
             //Convert proposalInfo model dto to proposalInfo
-            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("proposalInfo")).get();
+            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(PROPOSAL_INFO_KEY)).get();
             ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
 
             //TODO: Should effective/expiration date be copied from cluInfo or new fields added to screen
@@ -539,7 +542,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             logger.debug("Updating proposal");
 
             //Convert proposalInfo model dto to proposalInfo
-            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("proposalInfo")).get();
+            ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(PROPOSAL_INFO_KEY)).get();
             ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
             
             //Create proposal in proposalService
@@ -548,7 +551,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
             
             //Convert cluInfo model dto to cluInfo object
-            ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("cluInfo")).get();
+            ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
             //Create clu in LuService
@@ -640,37 +643,43 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return Boolean.TRUE;
 	}
 
-    @Override
-    public CluProposalModelDTO getProposal(String id){
+    /**
+     * Retreives a CluProposalMoelDTO given a proposal id.
+     */
+    public CluProposalModelDTO getProposal(String proposalId){
         MapContext ctx = new MapContext();
-        CluProposalModelDTO result = null;
+        CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
+
         try {
-            //CluProposal cluProposal = new CluProposal();
-            //cluProposal.setProposalInfo(proposalInfo);
-
-            //String parentCluId = proposalInfo.getProposalReference().get(0);
-            CluInfo cluInfo = service.getClu(id);
-            //List<CluCluRelationInfo> cluRelations = service.getCluCluRelationsByClu(parentCluId);
-
-            /*
-            List<CluInfo> activities = new ArrayList<CluInfo>();
-            for (CluCluRelationInfo relInfo:cluRelations){
-                if (relInfo.getType().equals("proposal.activity")){
-                    activities.add(service.getClu(relInfo.getRelatedCluId()));
-                }
-            }
-            */
-
-            //cluProposal.setCluInfo(parentClu);
-            //cluProposal.setActivities(activities);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            result = new CluProposalModelDTO();
-            result.copyFrom(cluModelDTO);
+            logger.debug("Retreiving clu proposal with proposal id " + proposalId);
+            
+            //Get proposal
+            ProposalInfo proposalInfo = proposalService.getProposal(proposalId);
+            ModelDTO proposalModelDTO = ((ModelDTOType)cluProposalDTO.get(PROPOSAL_INFO_KEY)).get(); 
+            proposalModelDTO.copyFrom((ModelDTO)ctx.fromBean(proposalInfo));
+            
+            //Get proposal's clu reference id
+            List<String> references = proposalInfo.getProposalReference();
+            //FIXME: Better error handling if more than one reference or no reference
+            assert(references.size() == 1);
+            String cluId = references.get(0);
+            
+            //Get clu
+            CluInfo cluInfo = service.getClu(cluId);
+            ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
+            cluModelDTO.copyFrom((ModelDTO)ctx.fromBean(cluInfo));
+            
+            getCourseFormats(cluProposalDTO);
 
         } catch (Exception e) {
             e.printStackTrace();
-            }
-        return result;
+        }
+
+        return cluProposalDTO;
+    }
+    
+    private void getCourseFormats(CluProposalModelDTO cluProposalDTO){
+        //TODO: Find all clu relations and load them
     }
     
 

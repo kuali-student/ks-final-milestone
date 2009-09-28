@@ -44,6 +44,17 @@ public class CluProposalController extends PagedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
 	private String docId = null;
 	
+	private final String CLU_PROPOSAL_ID_KEY   = "proposalInfo/id";
+	private final String CLU_PROPOSAL_NAME_KEY = "proposalInfo/name";
+
+	private String PROPOSAL_STATE = "draft.private";	
+    private String PROPOSAL_TYPE = "kuali.proposal.type.course.create";
+    
+	private final String CLU_TYPE = "kuali.lu.type.CreditCourse";
+	private final String CLU_STATE = "draft";
+	
+	private final String REFERENCE_TYPE = "referenceType.clu";
+	
     public CluProposalController(String docId) {
 		this();
 		this.docId = docId;
@@ -57,57 +68,23 @@ public class CluProposalController extends PagedSectionLayout{
             fireApplicationEvent(new SaveActionEvent());
         }
     });
-    
-    private KSButton clear = new KSButton("Clear", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            
-        }       
-    });
-    
+        
     private KSButton testButton = new KSButton("Get Proposal Info", new ClickHandler(){
         public void onClick(ClickEvent event) {
-        	//FIXME This method is no longer available
-//            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
-//                    new AsyncCallback<CluProposalModelDTO>(){
-//
-//                @Override
-//                public void onFailure(Throwable caught) {
-//                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-//                    
-//                }
-//
-//                @Override
-//                public void onSuccess(CluProposalModelDTO result) {
-//                    
-//                    Window.alert(result.toString());
-//                }
-//                
-//            });
+            cluProposalRpcServiceAsync.getProposal(cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY), 
+                    new AsyncCallback<CluProposalModelDTO>(){
+
+                public void onFailure(Throwable caught) {                   
+                }
+
+                public void onSuccess(CluProposalModelDTO result) {                    
+                    Window.alert(result.toString());
+                }
+                
+            });
         }       
     });
-    
-    private KSButton testButton2 = new KSButton("Get & Set", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-        	//FIXME This method is no longer available
-//            cluProposalRpcServiceAsync.getProposalModelDTO(((StringType) cluProposalModel.get().get("id")).get(), 
-//                    new AsyncCallback<CluProposalModelDTO>(){
-//
-//                @Override
-//                public void onFailure(Throwable caught) {
-//                    // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-//                    
-//                }
-//
-//                @Override
-//                public void onSuccess(CluProposalModelDTO result) {
-//                    cluProposalModel.put(result);
-//                    getCurrentView().beforeShow();
-//                }
-//                
-//            });
-        }       
-    });
-    
+        
     public CluProposalController(){
         super();
         final String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
@@ -117,7 +94,6 @@ public class CluProposalController extends PagedSectionLayout{
         LuConfigurer.configureCluProposal(this, objectKey, typeKey, stateKey);
         addButton(saveButton);
         addButton(testButton);
-        addButton(testButton2);
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
@@ -189,19 +165,18 @@ public class CluProposalController extends PagedSectionLayout{
         } else if(modelType == ReferenceModel.class){
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
-        		//ref.setReferenceId(((StringType) cluProposalModel.get().get("id")).get());
-        		//ref.setReferenceKey(((StringType) cluProposalModel.get().get("type")).get());
+
         		//FIXME: test code
-        		if(cluProposalModel.get().get("id") != null){
-            		ref.setReferenceId(((StringType)cluProposalModel.get().get("id")).get());
+        		if(cluProposalModel.get() != null && cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY) != null){
+            		ref.setReferenceId(cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY));
         		}
         		else{
         			ref.setReferenceId(null);
         		}
         		
-        		ref.setReferenceTypeKey("referenceType.clu");
-        		ref.setReferenceType("kuali.lu.type.CreditCourse");
-        		ref.setReferenceState("draft");
+        		ref.setReferenceTypeKey(REFERENCE_TYPE);
+        		ref.setReferenceType(CLU_TYPE);
+        		ref.setReferenceState(CLU_STATE);
         		Model<ReferenceModel> model = new Model<ReferenceModel>();
         		model.put(ref);
         		callback.onModelReady(model);
@@ -215,15 +190,15 @@ public class CluProposalController extends PagedSectionLayout{
         cluProposalModel = new Model<CluProposalModelDTO>();                
         cluProposalModel.put(new CluProposalModelDTO());
         
-        cluProposalModel.get().put("cluInfo/type", "kuali.lu.type.CreditCourse");
-        cluProposalModel.get().put("cluInfo/state", "draft");
+        cluProposalModel.get().put("cluInfo/type", CLU_TYPE);
+        cluProposalModel.get().put("cluInfo/state", CLU_STATE);
 
-        cluProposalModel.get().put("proposalInfo/type", "kuali.proposal.type.course.create");
-        cluProposalModel.get().put("proposalInfo/state", "draft.private");        
+        cluProposalModel.get().put("proposalInfo/type", PROPOSAL_TYPE);
+        cluProposalModel.get().put("proposalInfo/state", PROPOSAL_STATE);        
     }
     
     public void doSaveAction(SaveActionEvent saveActionEvent){
-        String proposalName = ((ModelDTO)cluProposalModel.get()).getString("proposalInfo/name");
+        String proposalName = ((ModelDTO)cluProposalModel.get()).getString(CLU_PROPOSAL_NAME_KEY);
 
         if (proposalName == null){
             showStartSection();
