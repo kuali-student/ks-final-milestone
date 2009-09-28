@@ -22,6 +22,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -36,6 +37,7 @@ import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
+import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
@@ -50,7 +52,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @XmlSeeAlso({org.kuali.student.core.dto.ReferenceTypeInfo.class})
-public interface ProposalService {
+public interface ProposalService extends DictionaryService, SearchService{
     /**
      * Retrieves the list of proposal types known by this service
      * @return list of proposal types

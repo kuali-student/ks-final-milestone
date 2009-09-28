@@ -19,6 +19,9 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -34,13 +37,18 @@ import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
-import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
+import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +63,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor={Throwable.class})
 public class ProposalServiceImpl implements ProposalService {
     private ProposalDao proposalDao;
+
+    private SearchManager searchManager;
+    private DictionaryService dictionaryServiceDelegate;
+    
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
+
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+    }
 
     /**
      * @see org.kuali.student.core.proposal.service.ProposalService#createProposal(java.lang.String, org.kuali.student.core.proposal.dto.ProposalInfo)
@@ -403,5 +422,115 @@ public class ProposalServiceImpl implements ProposalService {
 
     public void setProposalDao(ProposalDao dao) {
         this.proposalDao = dao;
+    }
+
+    /**
+     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
+     */
+    @Override
+    public ObjectStructure getObjectStructure(String objectTypeKey) {
+        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
+
+    /**
+     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
+     */
+    @Override
+    public List<String> getObjectTypes() {
+        return dictionaryServiceDelegate.getObjectTypes();
+    }
+
+    /**
+     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
+        return validateObject(objectTypeKey, stateKey, info);
+    }
+
+    /**
+     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
+        return validateStructureData(objectTypeKey, stateKey, info);
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+     */
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+     */
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+     */
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+     */
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+     */
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);    
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+     */
+    @Override
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+     */
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+     */
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
+     */
+    @Override
+    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        checkForMissingParameter(queryParamValues, "queryParamValues");
+
+        return searchManager.searchForResults(searchTypeKey, queryParamValues, proposalDao);
     }
 }

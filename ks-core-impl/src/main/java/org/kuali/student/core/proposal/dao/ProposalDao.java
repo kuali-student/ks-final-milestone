@@ -20,13 +20,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.kuali.student.core.dao.CrudDao;
+import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
+import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.ProposalType;
 
 /**
@@ -35,7 +36,7 @@ import org.kuali.student.core.proposal.entity.ProposalType;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public interface ProposalDao extends CrudDao {
+public interface ProposalDao extends CrudDao, SearchableDao {
     public List<Proposal> getProposalsByIdList(List<String> idList);
     public List<Proposal> getProposalsByProposalType(String proposalTypeId) throws DoesNotExistException;
     public List<Proposal> getProposalsByReference(String referenceTypeId, String referenceId) throws DoesNotExistException;
