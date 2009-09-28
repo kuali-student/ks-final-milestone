@@ -39,6 +39,8 @@
 		<property name="configLocations">
 			<list>
 				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+<!--				<value>classpath:META-INF/ks-core-config.xml</value>-->
+<!--				<value>classpath:META-INF/ks-lum-config.xml</value>-->
 			</list>
 		</property>
 	</bean>
@@ -63,7 +65,8 @@
 	
 		<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
 	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
-	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
+<!--	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>-->
+	<import resource="classpath:org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml" />
 	
 	
 </beans>
