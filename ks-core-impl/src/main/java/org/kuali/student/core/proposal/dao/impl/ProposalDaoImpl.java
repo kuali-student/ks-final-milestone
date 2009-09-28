@@ -22,15 +22,15 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
+import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
-import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
 import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
+import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.ProposalType;
 
 /**
@@ -39,7 +39,7 @@ import org.kuali.student.core.proposal.entity.ProposalType;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao {
+public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements ProposalDao {
     @PersistenceContext(unitName = "Proposal")
     @Override
     public void setEm(EntityManager em) {
