@@ -47,7 +47,7 @@
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-ui</module>
-        <!--<module>ks-core-web</module>-->
+        <module>ks-core-web</module>
     </modules>
 
     <scm>
@@ -301,8 +301,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<!-- Don't compile sources from Servlet API which are included in GWT -->
-					<!-- This should be fixed in GWT 2.0 -->
+					<!-- Don't compile sources that are in jars -->
 					<compilerArgument>-implicit:none</compilerArgument>
 				</configuration>
 			</plugin>
