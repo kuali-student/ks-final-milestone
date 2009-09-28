@@ -24,11 +24,12 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This class should be removed in time, it is replaced by the model DTO pattern
  * 
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class CluProposal implements Idable, HasTypeState, Serializable{
 
 	private static final long serialVersionUID = 1L;

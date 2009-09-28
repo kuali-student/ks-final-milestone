@@ -33,7 +33,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface CluProposalRpcService extends BaseRpcService{
 	
 	public Boolean submitProposal(CluProposalModelDTO cluProposalDTO);
-    public String getActionsRequested(CluProposalModelDTO cluProposal);
+    public String getActionsRequested(String cluProposalId);
     public Boolean adhocRequest(String docId, String recipientPrincipalId,String requestType, String annotation);
     public Boolean approveProposal(CluProposalModelDTO cluProposal);
     public Boolean disapproveProposal(CluProposalModelDTO cluProposal);
@@ -42,7 +42,7 @@ public interface CluProposalRpcService extends BaseRpcService{
     public HashMap<String, ArrayList<String>> getCollaborators(String docId);
     public Boolean loginBackdoor(String backdoorId);
     public CluProposalModelDTO getCluProposalFromWorkflowId(String docId);
-	public String getWorkflowIdFromCluId(String cluId);
+	public String getWorkflowIdFromProposalId(String proposalId);
     
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO);
     public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO);

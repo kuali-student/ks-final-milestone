@@ -86,6 +86,14 @@ public class WorkflowButtonsWidget extends Composite {
 		}
 	}
 	
+	private String getProposalIdFromModel(CluProposalModelDTO model){
+		String proposalId = "";
+		if(model!=null&&model.get("proposalInfo/id")!=null){
+			proposalId = ((StringType)model.get("proposalInfo/id")).get();
+		}
+		return proposalId;
+	}
+	
 	private void removeButton(KSButton button) {
 		button.setVisible(false);
 	}
@@ -97,7 +105,7 @@ public class WorkflowButtonsWidget extends Composite {
     	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
     		public void onClick(ClickEvent event) {
     			CluProposalModelDTO model = cluProposalWorkflowModel.get();
-    			if(model==null||((StringType)model.get("adminOrg")).get()==null){
+    			if(model==null||model.get("cluInfo/adminOrg")==null||((StringType)model.get("cluInfo/adminOrg")).get()==null){
     				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
     			}else{
         			cluProposalRpcServiceAsync.submitProposal(model, new AsyncCallback<Boolean>(){
@@ -177,8 +185,8 @@ public class WorkflowButtonsWidget extends Composite {
 	}
 
 	private void updateWorkflow(CluProposalModelDTO model){
-
-		cluProposalRpcServiceAsync.getActionsRequested(model, new AsyncCallback<String>(){
+		String proposalId = getProposalIdFromModel(model);
+		cluProposalRpcServiceAsync.getActionsRequested(proposalId, new AsyncCallback<String>(){
 
 			public void onFailure(Throwable caught) {
 				// TODO

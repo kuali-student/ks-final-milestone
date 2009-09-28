@@ -20,7 +20,8 @@ public class CluProposalCollabRequestDocInfo implements Serializable {
 	private String collaboratorType;
 	private boolean participationRequired;
 	private String respondBy;
-
+	private String routeNodeName;
+	
 	public String getCluId() {
 		return cluId;
 	}
@@ -76,5 +77,19 @@ public class CluProposalCollabRequestDocInfo implements Serializable {
 	public void setPrincipalIdRoleAttribute(
 			PrincipalIdRoleAttribute principalIdRoleAttribute) {
 		this.principalIdRoleAttribute = principalIdRoleAttribute;
+	}
+
+	/**
+	 * @return the routeNodeName
+	 */
+	public String getRouteNodeName() {
+		return routeNodeName;
+	}
+
+	/**
+	 * @param routeNodeName the routeNodeName to set
+	 */
+	public void setRouteNodeName(String routeNodeName) {
+		this.routeNodeName = routeNodeName;
 	}
 }

@@ -39,8 +39,6 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
-
-	Model<CluProposalModelDTO> cluProposalWorkflowModel=null;
     
 //    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
     private static final String urlParams = "?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
@@ -71,10 +69,13 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
     final KRUserSearchIFrame userSearch = new KRUserSearchIFrame();
 	
+    
+    
 	public Collaborators(){
 		super();
 	    init();
     }
+	
     private void init(){
         serverProperties.get("ks.rice.personLookup.serviceAddress", new AsyncCallback<String>() {
 
@@ -230,50 +231,36 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	protected void onLoad() {
 
 		super.onLoad();
+		//Get the Model from the controller and register a model change handler when the workflow model is updated
+		Controller.findController(this).requestModel(Collaborators.CollaboratorModel.class, new ModelRequestCallback<Collaborators.CollaboratorModel>(){
 		
-		if(null==cluProposalWorkflowModel){
-			
-			//Get the Model from the controller and register a model change handler when the workflow model is updated
-			Controller.findController(this).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>(){
-			
-				@Override
-				public void onModelReady(Model<CluProposalModelDTO> model) {
-					
-					//After we get the model update immediately
-					cluProposalWorkflowModel = model;
-					updateFromModel(cluProposalWorkflowModel.get());
-					
-					//Add a change listener for when the model changes
-					model.addModelChangeHandler(new ModelChangeHandler<CluProposalModelDTO>(){
-						@Override
-						public void onModelChange(ModelChangeEvent<CluProposalModelDTO> event) {
-							updateFromModel(event.getValue());
-						}
-					});
-				}
-	
-				@Override
-				public void onRequestFail(Throwable cause) {
-					Window.alert("Model Request Failed. "+cause.getMessage());
-				}
-			});
-		}else{
-			updateFromModel(cluProposalWorkflowModel.get());
-		}
+			@Override
+			public void onModelReady(Model<Collaborators.CollaboratorModel> model) {
+				//After we get the model update immediately
+				updateFromModel(model.get());
+			}
+
+			@Override
+			public void onRequestFail(Throwable cause) {
+				Window.alert("Model Request Failed. "+cause.getMessage());
+			}
+		});
 	}
     
-	private void updateFromModel(CluProposalModelDTO model){
-		StringType cluIdType = (StringType)model.get("id");
-		String cluId = null==cluIdType?"":cluIdType.get();
+	private void updateFromModel(CollaboratorModel model){
+		
+		String proposalId = null==model.getProposalId()?"":model.getProposalId();
 
-		cluProposalRpcServiceAsync.getWorkflowIdFromCluId(cluId, new AsyncCallback<String>(){
+		cluProposalRpcServiceAsync.getWorkflowIdFromProposalId(proposalId, new AsyncCallback<String>(){
 			@Override
 			public void onFailure(Throwable caught) {
+				Window.alert("Getting workflowId failed");
 				refreshCollaboratorList();
 			}
 
 			@Override
 			public void onSuccess(String result) {
+				//Window.alert("Getting workflowId succeeded");
 				workflowId=result;
 				refreshCollaboratorList();
 			}
@@ -386,5 +373,14 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	}
 
 
+	public static class CollaboratorModel{
+		private String proposalId;
 
+		public String getProposalId() {
+			return proposalId;
+		}
+		public void setProposalId(String proposalId) {
+			this.proposalId = proposalId;
+		}
+	}
 }

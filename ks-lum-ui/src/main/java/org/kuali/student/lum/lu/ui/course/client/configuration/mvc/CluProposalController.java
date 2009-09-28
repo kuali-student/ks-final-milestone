@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,6 +43,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class CluProposalController extends PagedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
+    private Model<Collaborators.CollaboratorModel> collaboratorModel;
+
 	private String docId = null;
 	
 	private final String CLU_PROPOSAL_ID_KEY   = "proposalInfo/id";
@@ -180,7 +183,21 @@ public class CluProposalController extends PagedSectionLayout{
         		Model<ReferenceModel> model = new Model<ReferenceModel>();
         		model.put(ref);
         		callback.onModelReady(model);
-        	}                     
+        	}
+        } else if(modelType == Collaborators.CollaboratorModel.class){
+        	//Update the collabmodel with info from the CluProposal Model
+        	//Create a new one if it does not yet exist
+        	if(null==collaboratorModel){
+        		Collaborators.CollaboratorModel collab = new Collaborators.CollaboratorModel();
+        		collaboratorModel = new Model<Collaborators.CollaboratorModel>();
+        		collaboratorModel.put(collab);
+        	}
+        	String proposalId="";
+        	if(cluProposalModel!=null&&cluProposalModel.get()!=null&&cluProposalModel.get().get(CLU_PROPOSAL_ID_KEY)!=null){
+        		proposalId=cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY);
+        	}
+        	collaboratorModel.get().setProposalId(proposalId);    
+        	callback.onModelReady(collaboratorModel);
         } else {
             super.requestModel(modelType, callback);
         }

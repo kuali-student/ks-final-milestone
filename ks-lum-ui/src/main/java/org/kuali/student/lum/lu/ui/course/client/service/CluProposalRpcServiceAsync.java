@@ -31,7 +31,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
 	public void submitProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<Boolean> callback);
-    public void getActionsRequested(CluProposalModelDTO cluProposal, AsyncCallback<String> callback);
+    public void getActionsRequested(String cluProposalId, AsyncCallback<String> callback);
     public void approveProposal(CluProposalModelDTO cluProposal, AsyncCallback<Boolean> callback);
     public void disapproveProposal(CluProposalModelDTO cluProposal, AsyncCallback<Boolean> callback);
     public void acknowledgeProposal(CluProposalModelDTO cluProposal, AsyncCallback<Boolean> callback);
@@ -40,7 +40,7 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void adhocRequest(String docId, String recipientPrincipalId, String requestType, String annotation, AsyncCallback<Boolean> callback);
     public void loginBackdoor(String backdoorId, AsyncCallback<Boolean> callback);
     public void getCluProposalFromWorkflowId(String docId, AsyncCallback<CluProposalModelDTO> callback);
-    public void getWorkflowIdFromCluId(String cluId, AsyncCallback<String> callback);
+    public void getWorkflowIdFromProposalId(String proposalId, AsyncCallback<String> callback);
     
     public void createProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
     public void saveProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
