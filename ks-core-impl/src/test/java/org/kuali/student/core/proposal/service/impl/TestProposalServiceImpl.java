@@ -49,6 +49,8 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 
 /**
  * Test the Proposal Service methods
@@ -61,6 +63,12 @@ import org.kuali.student.core.proposal.service.ProposalService;
 public class TestProposalServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.core.proposal.service.impl.ProposalServiceImpl", port = "8181",additionalContextFile="classpath:proposal-additional-context.xml")
     public ProposalService client;
+
+    @Test
+    public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        List<Result> results = client.searchForResults("proposal.search.courses", null);
+        assertEquals(3,results.size());
+    }
 
     @Test
     public void testService() {
