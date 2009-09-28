@@ -1,15 +1,14 @@
 package org.kuali.student.common.ui.client.event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
-import com.google.gwt.event.shared.GwtEvent.Type;
-
 public class ValidateResultEvent extends UncheckedApplicationEvent<ValidateResultHandler> {
     public static final Type<ValidateResultHandler> TYPE = new Type<ValidateResultHandler>();
-    private List<ValidationResultContainer> validationResultList;
+    private List<ValidationResultContainer> validationResultList = new ArrayList<ValidationResultContainer>();
     @Override
     protected void dispatch(ValidateResultHandler handler) {
         handler.onValidateResult(this);
@@ -22,6 +21,10 @@ public class ValidateResultEvent extends UncheckedApplicationEvent<ValidateResul
 
     public void setValidationResult(List<ValidationResultContainer> l){
         validationResultList = l;
+    }
+
+    public void addValidationResult(List<ValidationResultContainer> l){
+        validationResultList.addAll(l);
     }
     public List<ValidationResultContainer> getValidationResult(){
         return validationResultList;

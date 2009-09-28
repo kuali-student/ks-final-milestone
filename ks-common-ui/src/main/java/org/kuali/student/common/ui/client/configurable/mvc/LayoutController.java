@@ -44,10 +44,11 @@ public abstract class LayoutController extends Controller  {
                    ele += vc.getElement()+":";    
                    List<ValidationResultInfo> vrList = vc.getValidationResults();
                    for(ValidationResultInfo vr: vrList){
-                       ele += vr.getMessage()+"\n";
+                       ele += vr.getMessage()+"\n\n";
                    }
                }
-               Window.alert("Error:"+ele);
+               Window.alert("Error:\n"+ele);
+              // System.out.println(ele);
             }
         });
     }
@@ -75,9 +76,9 @@ public abstract class LayoutController extends Controller  {
             Validator val = new Validator(sectionbc, true);
             
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
-            e.setValidationResult(results);// filled by calling the real validate code
-            fireApplicationEvent(e);
+            e.addValidationResult(results);// filled by calling the real validate code
         }
+        fireApplicationEvent(e);
 
     }
     public static LayoutController findParentLayout(Widget w){
