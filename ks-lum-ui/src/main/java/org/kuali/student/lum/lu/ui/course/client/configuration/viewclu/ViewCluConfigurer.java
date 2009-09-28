@@ -32,6 +32,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
@@ -165,14 +167,14 @@ public class ViewCluConfigurer {
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeTypeSection = new VerticalSection();
         feeTypeSection.setSectionTitle(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY));
-        feeTypeSection.addField(new FieldDescriptor("feeType", null, Type.STRING, new KSLabel()));
+        feeTypeSection.addField(new FieldDescriptor("cluInfo/feeinfo/feeType", null, Type.STRING, new KSLabel()));
 
         VerticalSection feeAmountSection = new VerticalSection();
         feeAmountSection.setSectionTitle(getH3Title(LUConstants.FEE_AMOUNT_LABEL_KEY));
-        feeAmountSection.addField(new FieldDescriptor("feeAmount", "$ :   ", Type.STRING, new KSLabel()));
-        feeAmountSection.addField(new FieldDescriptor("taxable", "Taxable :   ", Type.STRING, new KSLabel()));//TODO checkboxes go here instead
-        feeAmountSection.addField(new FieldDescriptor("feeDesc", "Description :   ", Type.STRING, new KSLabel()));
-        feeAmountSection.addField(new FieldDescriptor("internalNotation", "Internal Fee Notation :   ", Type.STRING, new KSLabel()));
+        feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/feeAmount", "$ :   ", Type.STRING, new KSLabel()));
+        feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/taxable", "Taxable :   ", Type.STRING, new KSLabel()));//TODO checkboxes go here instead
+        feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/feeDesc", "Description :   ", Type.STRING, new KSLabel()));
+        feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/internalNotation", "Internal Fee Notation :   ", Type.STRING, new KSLabel()));
 
         section.addSection(feeTypeSection);
         section.addSection(feeAmountSection);
@@ -230,15 +232,15 @@ public class ViewCluConfigurer {
     private static VerticalSection generateSummaryBrief(SectionTitle title) {
         VerticalSection section = new VerticalSection();
         section.setSectionTitle(title);
-        section.addField(new FieldDescriptor("/officialIdentifier/longName", "Course Title:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/officialIdentifier/code", "Course Code:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/metaInfo/createId", "Proposer:     ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/todo", "Delegate:   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/todo", "Collaborators:   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/metaInfo/createTime", "Date created:   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/metaInfo/updateTime", "Date last changed:   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/desc/plain", "Description:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/state", "Status:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", "Course Title:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Course Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/metaInfo/createId", "Proposer:     ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/todo", "Delegate:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/todo", "Collaborators:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/metaInfo/createTime", "Date created:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/metaInfo/updateTime", "Date last changed:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/desc/plain", "Description:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/state", "Status:    ", Type.STRING, new KSLabel()));
         return section;
     } 
     
@@ -281,8 +283,8 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("/primaryAdminOrg/orgId", "Org ID:  ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
+        section.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         return section;
     }
 
@@ -291,7 +293,7 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        //        section.addField(new FieldDescriptor("campusLocationList", null, Type.LIST, new CampusLocationList()));
+        section.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.LIST, new CampusLocationList()));
         return section;
     }
 
@@ -300,7 +302,7 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("/studySubjectArea", "Subject Area:  ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/academicSubjectOrgs", null, Type.LIST, new AcademicSubjectOrgList()));
         return section;
     }
 
@@ -319,11 +321,18 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("offeredAtpTypes", "Term :   ", Type.STRING, new KSLabel())); //TODO TERM ENUMERATION
-        section.addField(new FieldDescriptor("/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
-        section.addField(new FieldDescriptor("/stdDuration/timeQuantity", "Duration Time :   ", Type.STRING, new KSLabel())); 
-        section.addField(new FieldDescriptor("/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
-        section.addField(new FieldDescriptor("/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel()));
+        
+        CustomNestedSection ns = new CustomNestedSection();
+        ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        ns.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", "Terms Offered :   ", Type.LIST, new OfferedAtpTypeList())); 
+        ns.nextRow();
+ 
+        section.addSection(ns);
+        section.addField(new FieldDescriptor("cluInfo/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration Time :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("cluInfo/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel()));
+
         return section;
     }
 
@@ -343,11 +352,11 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("creditType", "Credit Type :   ", Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
-        section.addField(new FieldDescriptor("creditInfo", "Credit Value :   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("maxCredits", "Maximum Credits :   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/creditInfo/creditType", "Credit Type :   ", Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
+        section.addField(new FieldDescriptor("cluInfo/creditInfo", "Credit Value :   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/maxCredits", "Maximum Credits :   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
         return section;
     }
 
@@ -356,9 +365,9 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-       section.addField(new FieldDescriptor("primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("instructors", null, Type.LIST, new AlternateInstructorList()));
+        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
         return section;
     }
 
@@ -367,8 +376,8 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("/desc/plain", "Description:    ", Type.STRING,  new KSLabel()));
-        section.addField(new FieldDescriptor("/marketingDesc/plain", "Rationale:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/desc/plain", "Description:    ", Type.STRING,  new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/marketingDesc/plain", "Rationale:    ", Type.STRING, new KSLabel()));
         return section;
     }
 
@@ -377,8 +386,8 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("/officialIdentifier/shortName", "Short Title:    ", Type.STRING, new KSLabel()));
-         section.addField(new FieldDescriptor("/officialIdentifier/longName", "Title:  ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", "Short Title:    ", Type.STRING, new KSLabel()));
+         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", "Title:  ", Type.STRING, new KSLabel()));
         return section;
     }
 
@@ -423,13 +432,13 @@ public class ViewCluConfigurer {
         if (title !=  null) {
             section.setSectionTitle(title);
           }
-        section.addField(new FieldDescriptor("/officialIdentifier/code", "Code:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/officialIdentifier/division", "Division:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("/officialIdentifier/suffixCode", "Suffix Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", "Division:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", "Suffix Code:    ", Type.STRING, new KSLabel()));
     
-        section.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
+        section.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
        return section;
     }
 
@@ -439,32 +448,32 @@ public class ViewCluConfigurer {
           section.setSectionTitle(title);
         }
         
-        section.addField(new FieldDescriptor("effectiveDate", "Start Date:  ", Type.DATE, new KSLabel()));
-        section.addField(new FieldDescriptor("expirationDate", "End Date:   ", Type.DATE, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/effectiveDate", "Start Date:  ", Type.DATE, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/expirationDate", "End Date:   ", Type.DATE, new KSLabel()));
         return section;
     }
 
+    public static class AcademicSubjectOrgList extends KSLabelList {
+        public AcademicSubjectOrgList(){
+            SimpleListItems list = new SimpleListItems();
 
-//  //TODO: CampusLocationList
-
-
-    public static class CampusLocationList extends MultiplicityComposite{
-        protected CampusLocationList () {
-            this.setItemLabel("Location");      
-            this.setUpdateable(false);         
+            super.setListItems(list);
         }
+    }
+    
+    public static class CampusLocationList extends KSLabelList {
+        public CampusLocationList(){
+            SimpleListItems list = new SimpleListItems();
 
-        @Override
-        public Widget createItem() {
-             MultiplicitySection multi = new MultiplicitySection("CluInstructorInfo");
-//
-//            CustomNestedSection ns = new CustomNestedSection();
-//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//            ns.addField(new FieldDescriptor("personId", null, Type.STRING, new KSLabel()));
-//            ns.addField(new FieldDescriptor("orgId", null, Type.STRING, new KSLabel()));
-//            multi.addSection(ns);
+            super.setListItems(list);
+        }
+    }
 
-            return multi;
+    public static class OfferedAtpTypeList extends KSLabelList {
+        public OfferedAtpTypeList(){
+            SimpleListItems list = new SimpleListItems();
+
+            super.setListItems(list);
         }
     }
 

@@ -30,7 +30,7 @@
 		   	<bean parent="enCourse" p:id="cluFullView"	    	p:value="Proposal Details"/>
 	   	<bean parent="enCourse" p:id="cluGovernance"	    	p:value="Governance"/>
 		   	<bean parent="enCourse" p:id="cluCurriculumOversight"	    	p:value="Curriculum Oversight"/>
-		   	<bean parent="enCourse" p:id="cluCampusLocation"	    	p:value="Campus Location"/>
+		   	<bean parent="enCourse" p:id="cluCampusLocation"	    	p:value="Campus Locations"/>
 		   	<bean parent="enCourse" p:id="cluAdminOrgs"	    	p:value="Administering Organizations"/>
   	 	<bean parent="enCourse" p:id="cluLogistics"		p:value="Course Logistics"/>
 		   	<bean parent="enCourse" p:id="cluInstructors"	    	p:value="Instructors"/>
@@ -86,7 +86,7 @@
 		   	<bean parent="esCourse" p:id="cluFullView"	    	p:value="Detalles de la oferta"/>
 	   	<bean parent="esCourse" p:id="cluGovernance"	    	p:value="Gobierno"/>
 		   	<bean parent="esCourse" p:id="cluCurriculumOversight"	    	p:value="Descuido del plan de estudios"/>
-		   	<bean parent="esCourse" p:id="cluCampusLocation"	    	p:value="Localización del campus"/>
+		   	<bean parent="esCourse" p:id="cluCampusLocation"	    	p:value="Localizaciones del campus"/>
 		   	<bean parent="esCourse" p:id="cluAdminOrgs"	    	p:value="Organizaciones de administración"/>
   	 	<bean parent="esCourse" p:id="cluLogistics"		p:value="Logística del curso"/>
 		   	<bean parent="esCourse" p:id="cluInstructors"	    	p:value="Instructores"/>

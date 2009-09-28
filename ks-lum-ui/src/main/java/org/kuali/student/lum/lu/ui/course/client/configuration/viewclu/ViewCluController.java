@@ -128,8 +128,8 @@ public class ViewCluController extends PagedSectionLayout{
                 @Override
                 public void onSuccess(CluProposalModelDTO result) {
                     cluProposalModel.put(result);
-                    ModelDTOValue typeModel = cluProposalModel.get().get("type");
-                    ModelDTOValue stateModel = cluProposalModel.get().get("state");
+                    ModelDTOValue typeModel = cluProposalModel.get().get("cluInfo/type");
+                    ModelDTOValue stateModel = cluProposalModel.get().get("cluInfo/state");
                     ViewCluConfigurer.setType(((StringType) typeModel).get());
                     ViewCluConfigurer.setState(((StringType) stateModel).get());
                     generateLayout();
