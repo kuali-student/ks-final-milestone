@@ -297,15 +297,6 @@
 
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<!-- Don't compile sources that are in jars -->
-					<compilerArgument>-implicit:none</compilerArgument>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
@@ -322,6 +313,16 @@
 		
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<!-- Don't compile sources that are in jars -->
+						<compilerArgument>-implicit:none</compilerArgument>
+					</configuration>
+				</plugin>
+
                 <!--  the site plugin is both build and reporting -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
