@@ -11,6 +11,19 @@ Setting up Maven Run Configuration in Eclipse
 	3. Under Profiles enter "build-codehaus-gwt"
 	4. Click run
 
+Run Services
+-------------
+	The following services are needed by the UI in addition to the LUM services in lum-web:
+	ks-core-web:
+	- MessageService
+	- OrganizationService
+	- ProposalService
+	- DocumentService
+	- CommentService
+	KS-Rice-Standalone (needed for workflow operations):
+	* If using any other modules besides the KSB, rice can NOT be run in Derby. 
+	* All KSB instances must use the same DB, so if you are using workflow you MUST NOT use Derby for the KSB. 
+
 Run/Debug hosted mode using launch script
 -----------------------------------------
 	1. Run "mvn -P build-codehaus-gwt compile" from cmd line (or use equivalent eclipse maven run configuration)
