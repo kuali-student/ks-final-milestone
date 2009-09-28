@@ -52,13 +52,14 @@ public class SectionConstraintDataProvider implements ConstraintDataProvider  {
         List<FieldDescriptor> fdList = section.getFields();
         for(FieldDescriptor fd: fdList){
             System.out.println("fd.getFieldKey():"+fd.getFieldKey());
+            System.out.println("className:"+className);
             String fullPath = fd.getFieldKey().toLowerCase();
             //if(fd.getFieldKey() != null && fd.getFieldKey().equals(fieldKey)){
-            if(fd.getFieldKey() != null && fd.getFieldKey().endsWith(fieldKey)
-            &&  fullPath.indexOf(className)!= -1      
+            if(fd.getFieldKey() != null && fd.getFieldKey().indexOf(fieldKey) != -1
+            &&  fullPath.indexOf(className.toLowerCase())!= -1      
             ){
+                System.out.println("getting value for:"+fieldKey);
                 ModelDTOValue modelDTOValue =  fd.getWidgetBinding().getValue(fd.getFieldWidget());
-                
                 System.out.println("modelDTOValue:"+modelDTOValue.getType());
                 if (modelDTOValue == null) {
                     return null;
@@ -111,8 +112,13 @@ public class SectionConstraintDataProvider implements ConstraintDataProvider  {
     }
     public void initialize(Object o) {
         if (o instanceof ModelDTO) {
-            System.out.println("init:"+((ModelDTO) o).getClassName());
+           // System.out.println("init:"+((ModelDTO) o).getClassName());
             className = ((ModelDTO) o).getClassName();
+            int index = className.lastIndexOf(".");
+            if(index == -1 ){
+                index = 0;
+            }
+            className = className.substring(index+1, className.length());
         }
         model.initialize(o);
     }

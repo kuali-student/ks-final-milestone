@@ -129,6 +129,7 @@ public class Validator {
 					if (s.getKey().equalsIgnoreCase(
 							(String) dataProvider.getValue("state"))) {
 						for (Field f : s.getField()) {
+
 						    List<ValidationResultContainer> l = validateField(f, t, s, objStructure,dataProvider);
 							results.addAll(l);
 						}
@@ -158,7 +159,10 @@ public class Validator {
 
 		Object value = dataProvider.getValue(field.getKey());
 		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
-		
+        System.out.println("validator:"+field.getKey());
+        System.out.println("value:"+value);
+        System.out.println("Complex:"+field.getFieldDescriptor().getDataType());
+        
 		// added by joe
         if (value == null || "".equals(value.toString().trim())) {
             if(isNullable(field) == false){
@@ -171,11 +175,10 @@ public class Validator {
             return results;
         }   
         // added finished
-        
+
 		// Check to see if the Field is not a complex type
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
-
 			ObjectStructure nestedObjStruct = null;
 			if (hasText(field.getFieldDescriptor()
 					.getObjectStructureRef())) {
@@ -261,11 +264,8 @@ public class Validator {
 	private void processNestedObjectStructure(
 			List<ValidationResultContainer> results, Object value,
 			ObjectStructure nestedObjStruct, Field field) {
-
-     
 	    
 	    results.addAll(validateTypeStateObject(value, nestedObjStruct));
-
 		
 		// CD should have only one type state case constraint
 		ConstraintDescriptor cd = field.getConstraintDescriptor();
@@ -273,7 +273,9 @@ public class Validator {
 			ConstraintSelector cs = cd.getConstraint().get(0);
 			TypeStateCaseConstraint tscs = cs.getTypeStateCaseConstraint();
 			if (null != tscs) {
-				// processTypeStateCaseConstraint(valResults);
+			//    ValidationResultContainer vc = new ValidationResultContainer();
+				//processTypeStateCaseConstraint(vc);
+				//results.add(vc);
 			}
 		}
 	}
