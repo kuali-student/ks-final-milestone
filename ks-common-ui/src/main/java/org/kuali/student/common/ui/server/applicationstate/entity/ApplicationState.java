@@ -54,6 +54,10 @@ public class ApplicationState {
 		return id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getApplicationId() {
 		return applicationId;
 	}

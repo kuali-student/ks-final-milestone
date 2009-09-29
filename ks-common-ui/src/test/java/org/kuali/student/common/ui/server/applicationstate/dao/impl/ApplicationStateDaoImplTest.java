@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateD
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
 import org.kuali.student.common.ui.server.applicationstate.entity.KeyValuePair;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 @PersistenceFileLocation("classpath:META-INF/application-state-persistence.xml")
 public class ApplicationStateDaoImplTest extends AbstractTransactionalDaoTest {
@@ -129,7 +130,7 @@ public class ApplicationStateDaoImplTest extends AbstractTransactionalDaoTest {
 		try {
 			dao.getApplicationState("1", "2", "course");
 			Assert.fail("Should have thrown an exception for no application state");
-		} catch(javax.persistence.NoResultException e) {
+		} catch(DoesNotExistException e) {
 			Assert.assertNotNull(e);
 		}
 	}
@@ -139,7 +140,7 @@ public class ApplicationStateDaoImplTest extends AbstractTransactionalDaoTest {
 		try {
 			dao.getApplicationState("1", "2", "course", "wil");
 			Assert.fail("Should have thrown an exception for no application state");
-		} catch(javax.persistence.NoResultException e) {
+		} catch(DoesNotExistException e) {
 			Assert.assertNotNull(e);
 		}
 	}

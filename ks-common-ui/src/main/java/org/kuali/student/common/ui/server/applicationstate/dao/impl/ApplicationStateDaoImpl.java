@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -13,6 +12,7 @@ import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateD
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This data access class stores the GUI (page, section, widget, etc.) 
@@ -38,16 +38,21 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 	 * @param referenceType Reference type
 	 * @param userId User id
 	 * @return An application state
+	 * @throws DoesNotExistException Thrown if application state does not exist
 	 */
-	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType, String userId) {
+	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType, String userId) throws DoesNotExistException {
 		Query query = em.createNamedQuery("ApplicationState.getApplicationStateByAppRefUserId");
 		query.setParameter("applicationId", applicationId);
 		query.setParameter("referenceKey", referenceKey);
 		query.setParameter("referenceType", referenceType);
 		query.setParameter("userId", userId);
 
-		ApplicationState appState = (ApplicationState) query.getSingleResult();
-		return appState;
+		try {
+			ApplicationState appState = (ApplicationState) query.getSingleResult();
+			return appState;
+		} catch(javax.persistence.NoResultException e) {
+			throw new DoesNotExistException("Application state does not exist");
+		}
 	}
 
 	/**
@@ -58,8 +63,9 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 	 * @param referenceKey Reference key
 	 * @param referenceType Reference type
 	 * @return A list of application states
+	 * @throws DoesNotExistException Thrown if application state does not exist
 	 */
-	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType) {
+	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType) throws DoesNotExistException {
 		return getApplicationState(applicationId, referenceKey, referenceType, DEFAULT_USER_ID);
 	}
 
@@ -68,7 +74,7 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 	 * 
 	 * @param appState Application state
 	 * @return A new application state
-	 * @throws AlreadyExistsException
+	 * @throws AlreadyExistsException Thrown if application state already exists
 	 */
 	public ApplicationState createApplicationState(ApplicationState appState) throws AlreadyExistsException {
 		if(appState.getUserId() == null) {
@@ -77,7 +83,7 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 
 		try {
 			getApplicationState(appState.getApplicationId(), appState.getReferenceKey(), appState.getReferenceType(), appState.getUserId());
-		} catch(NoResultException e) {
+		} catch(DoesNotExistException e) {
 			return super.create(appState);
 		}
 		throw new AlreadyExistsException("Application state already exists");
@@ -88,7 +94,7 @@ public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl imple
 	 * 
 	 * @param appStateList collection of application states
 	 * @return A list of newly created application state ids
-	 * @throws AlreadyExistsException
+	 * @throws AlreadyExistsException Thrown if application state already exists
 	 */
 	public List<String> createApplicationState(Collection<ApplicationState> appStates) throws AlreadyExistsException {
 		List<String> newAppStateList = new ArrayList<String>();

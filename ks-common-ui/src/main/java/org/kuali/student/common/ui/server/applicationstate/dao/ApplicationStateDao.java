@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationSta
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
  * This data access interface stores the GUI (page, section, widget, etc.) 
@@ -24,8 +25,9 @@ public interface ApplicationStateDao extends CrudDao, SearchableDao {
 	 * @param referenceType Reference type
 	 * @param userId User id
 	 * @return An application state
+	 * @throws DoesNotExistException Thrown if application state does not exist
 	 */
-	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType, String userId);
+	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType, String userId) throws DoesNotExistException;
 
 	/**
 	 * Gets a list of application states by 
@@ -36,15 +38,16 @@ public interface ApplicationStateDao extends CrudDao, SearchableDao {
 	 * @param referenceKey Reference key
 	 * @param referenceType Reference type
 	 * @return A list of application states
+	 * @throws DoesNotExistException Thrown if application state does not exist
 	 */
-	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType);
+	public ApplicationState getApplicationState(String applicationId, String referenceKey, String referenceType) throws DoesNotExistException;
 
 	/**
 	 * Creates and returns an application state.
 	 * 
 	 * @param appState Application state
 	 * @return A new application state
-	 * @throws AlreadyExistsException
+	 * @throws AlreadyExistsException Thrown if application state already exists
 	 */
 	public ApplicationState createApplicationState(ApplicationState appState)
 		throws AlreadyExistsException;
@@ -54,7 +57,7 @@ public interface ApplicationStateDao extends CrudDao, SearchableDao {
 	 * 
 	 * @param appStateList collection of application states
 	 * @return A list of newly created application state ids
-	 * @throws AlreadyExistsException
+	 * @throws AlreadyExistsException Thrown if application state already exists
 	 */
 	public List<String> createApplicationState(Collection<ApplicationState> appStates)
 		throws AlreadyExistsException;

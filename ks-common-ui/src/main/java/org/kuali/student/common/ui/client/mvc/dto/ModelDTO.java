@@ -173,7 +173,16 @@ public class ModelDTO implements Serializable {
 		this.applicationStateMap.put(key, value);
 	}
 	
-	/**
+    /**
+     * Gets the application state key value pair set.
+     * 
+     * @return Set of application state entries
+     */
+    public Set<Map.Entry<String,String>> getApplicationStateEntrySet() {
+        return this.applicationStateMap.entrySet();
+    }
+
+    /**
 	 * 
 	 * @return number of values in internal map
 	 */
