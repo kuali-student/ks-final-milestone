@@ -81,10 +81,11 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 			if (workflowDocument.getNodeNames().length == 0) {
 				throw new RuntimeException("No active nodes found on document id" + docId);
 			}
-			String routeNodeName = collabRequest.getRouteNodeName();
-			if (!Arrays.asList(workflowDocument.getNodeNames()).contains(routeNodeName)) {
-				throw new RuntimeException("Route node '" + routeNodeName + "' not found as active node on document id " + docId);
-			}
+			String routeNodeName = workflowDocument.getNodeNames()[0];
+//			String routeNodeName = collabRequest.getRouteNodeName();
+//			if (!Arrays.asList(workflowDocument.getNodeNames()).contains(routeNodeName)) {
+//				throw new RuntimeException("Route node '" + routeNodeName + "' not found as active node on document id " + docId);
+//			}
 			String annotation = "Collaborator Approved";
 			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, routeNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, collaboratorType);
 		} catch (Exception e) {
