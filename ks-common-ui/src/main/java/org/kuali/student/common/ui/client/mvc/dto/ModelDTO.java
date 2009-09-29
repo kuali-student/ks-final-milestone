@@ -63,6 +63,7 @@ public class ModelDTO implements Serializable {
 	 * @param newModelDTO
 	 */
 	public void copyFrom(ModelDTO newModelDTO){
+	    applicationStateMap.putAll(newModelDTO.applicationStateMap);
 		map.putAll(newModelDTO.map);
 	}
 	
