@@ -58,11 +58,6 @@ public class CluProposalController extends PagedSectionLayout{
 	
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	
-    public CluProposalController(String docId) {
-		this();
-		this.docId = docId;
-	}
-
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     private boolean savedOnce=false;
     
@@ -87,9 +82,19 @@ public class CluProposalController extends PagedSectionLayout{
             });
         }       
     });
-        
+    
+    public CluProposalController(String docId) {
+    	super();
+    	this.docId = docId;
+    	init();
+	}
+    
     public CluProposalController(){
         super();
+        init();
+    }
+    
+    private void init(){
         final String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
         String typeKey ="type";
         String stateKey = "state";
@@ -120,9 +125,7 @@ public class CluProposalController extends PagedSectionLayout{
             }
             
         });
-       
     }
-    
         
     /**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
