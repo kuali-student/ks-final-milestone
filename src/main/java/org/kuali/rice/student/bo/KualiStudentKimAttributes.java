@@ -15,6 +15,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 
 	private static final long serialVersionUID = 6969156403877595025L;
 
+	public static final String QUALIFICATION_PROPOSAL_ID   = "proposalId";
 	public static final String QUALIFICATION_CLU_ID        = "cluId";
 	public static final String QUALIFICATION_DEPARTMENT_ID = "departmentId";
 	public static final String QUALIFICATION_DEPARTMENT    = "department";

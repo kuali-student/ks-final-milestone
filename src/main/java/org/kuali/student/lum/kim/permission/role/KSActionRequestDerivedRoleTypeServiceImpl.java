@@ -36,7 +36,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	{
 		requiredAttributes.add( KimAttributes.DOCUMENT_NUMBER );
 		requiredAttributes.add( KimAttributes.DOCUMENT_TYPE_NAME );
-		requiredAttributes.add( KualiStudentKimAttributes.QUALIFICATION_CLU_ID );
+		requiredAttributes.add( KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID );
 	}
 
 	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
@@ -47,7 +47,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		}
 		// if no document id passed in get the document via the clu id and document type name
 		String documentTypeName = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
-		String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_CLU_ID);
+		String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID);
 		DocumentDetailDTO docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
 		if (docDetail == null) {
 			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
