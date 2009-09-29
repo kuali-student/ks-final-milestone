@@ -196,7 +196,7 @@ public class ProposalAssembler extends BaseAssembler {
         }
         persons.clear();
         orgs.clear();
-        dao.getEm().merge(proposal);
+
         if (proposalInfo.getProposerPerson() != null) {
             // Copy ProposerPersons
             for (String proposer : proposalInfo.getProposerPerson()) {
