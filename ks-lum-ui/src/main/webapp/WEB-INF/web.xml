@@ -33,6 +33,11 @@
 	<servlet-mapping>
 		<servlet-name>GWT</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>GWT</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/*</url-pattern>
 	</servlet-mapping>		
 
 </web-app>

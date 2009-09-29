@@ -23,8 +23,8 @@ public class CollaboratorRequestEntryPoint implements EntryPoint{
 	
     private VerticalPanel rootPanel = new VerticalPanel();
 
-    final String docId = Window.Location.getParameter("docId");
-    final String backdoorId = Window.Location.getParameter("backdoorId");
+    String docId;
+    String backdoorId;
     
 	private KSButton wfApproveButton = new KSButton("Approve", new ClickHandler(){
 		public void onClick(ClickEvent event) {
@@ -70,7 +70,9 @@ public class CollaboratorRequestEntryPoint implements EntryPoint{
     @Override
 	public void onModuleLoad() {
     	rootPanel.add(new KSLabel("You've been invited to collaborate"));
-    	
+        docId = Window.Location.getParameter("docId");
+        backdoorId = Window.Location.getParameter("backdoorId");
+        
         if(docId!=null){
             if(backdoorId!=null){
                 cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){

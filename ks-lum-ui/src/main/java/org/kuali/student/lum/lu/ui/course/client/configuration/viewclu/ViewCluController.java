@@ -28,6 +28,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -121,7 +122,8 @@ public class ViewCluController extends PagedSectionLayout{
             cluProposalRpcServiceAsync.getProposal(id,  new AsyncCallback<CluProposalModelDTO>(){
                 @Override
                 public void onFailure(Throwable caught) {
-                    caught.printStackTrace();
+                	Window.alert("Error loading Proposal: "+caught.getMessage());
+                	caught.printStackTrace();
 
                 }
 

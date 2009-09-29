@@ -31,10 +31,8 @@ import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
-import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
+//import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
@@ -80,7 +78,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private OrganizationService orgService;
     private ProposalService proposalService;
 
-    private ApplicationStateManager applicationStateManager;
+    //private ApplicationStateManager applicationStateManager;
 
 	@Override
 	public CluProposalModelDTO getCluProposalFromWorkflowId(String docId) {
@@ -192,8 +190,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 
 		try{
-			DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.getLong(requestDocId));
-			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.getLong(requestDocId));
+			DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(requestDocId));
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(requestDocId));
             //get a user name
             String username = getCurrentUser();
 	        String approveComment = "Approved";
@@ -218,7 +216,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 
 		try{
-			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.getLong(requestDocId));
+			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(requestDocId));
             //get a user name
             String username = getCurrentUser();
 	        String disapproveComment = "Disapproved";
@@ -258,7 +256,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
 	        String approveComment = "Approved by CluProposalService";
 	        
-	        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), getCluProposalDocContent(cluInfo), approveComment);
+	        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), getCluProposalDocContent(cluInfo,proposalInfo), approveComment);
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new RuntimeException("Error found approving document: " + stdResp.getErrorMessage());
         	}
@@ -480,8 +478,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 		    SecurityContextHolder.getContext().setAuthentication(auth);
 		}catch(Exception e){
-			e.printStackTrace();
-			return Boolean.FALSE;
+			//Try to put the username in a threadloacal for testing
+			this.getThreadLocalRequest().getSession().setAttribute("backdoorId", backdoorId);
+			logger.error("Error with backdoor login, saving to a session attribute", e);
 		}
 		return Boolean.TRUE;
 	}
@@ -496,7 +495,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         logger.info("Creating proposal");
         try{                    
             //add application state data
-            applicationStateManager.createOrUpdateApplicationState(cluProposalDTO);
+           // applicationStateManager.createOrUpdateApplicationState(cluProposalDTO);
 
             //Convert cluInfo model dto to cluInfo object
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
@@ -507,7 +506,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
             cluInfoModelDTO.copyFrom(cluModelDTO);
             
-            applicationStateManager.getApplicationState(cluProposalDTO);
+           // applicationStateManager.getApplicationState(cluProposalDTO);
 
             saveCourseFormats(cluProposalDTO);
             
@@ -544,14 +543,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             if(null!=cluInfo.getAdminOrg()){
 	            String saveComment = "Created By CluProposalService";
-	            StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, title,getCluProposalDocContent(cluInfo), saveComment);
+	            StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, title,getCluProposalDocContent(cluInfo,proposalInfo), saveComment);
 	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
 	            	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
 	            }
             }
         }
         catch(Exception e){
-            if (!e.getMessage().contains("No remote services available")){
+            if (e.getMessage()!=null&&!e.getMessage().contains("No remote services available")){
                 throw new RuntimeException("Error saving Proposal. ",e);
             }
             logger.error("Error saving Proposal",e);
@@ -618,18 +617,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             	throw new RuntimeException("Error found gettting document: ");
             }
             
-            String title = cluInfo.getOfficialIdentifier()==null?"NoLongNameSet":cluInfo.getOfficialIdentifier().getLongName();
+            String title = proposalInfo.getName()==null?"NoNameSet":proposalInfo.getName();
             title = title==null?"NoLongNameSet":title;
             
             if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
             	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
-                StandardResponse stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, title, getCluProposalDocContent(cluInfo), "");
+                StandardResponse stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, title, getCluProposalDocContent(cluInfo,proposalInfo), "");
                 if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
                 	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
                 }
             }
             else {
-            	StandardResponse stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, title, getCluProposalDocContent(cluInfo));
+            	StandardResponse stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, title, getCluProposalDocContent(cluInfo,proposalInfo));
             	if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
             		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
             	}
@@ -637,7 +636,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
         }
         catch(Exception e){
-            if (!e.getMessage().contains("No remote services available")){
+            if (e.getMessage()!=null&&!e.getMessage().contains("No remote services available")){
                 throw new RuntimeException("Error saving Proposal. ",e);
             }
             logger.error("Error saving Proposal",e);
@@ -680,7 +679,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             String routeComment = "Routed By CluProposalService";
 
-            StandardResponse stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), getCluProposalDocContent(cluInfo), routeComment);
+            StandardResponse stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), getCluProposalDocContent(cluInfo,proposalInfo), routeComment);
 
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
@@ -701,22 +700,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         MapContext ctx = new MapContext();
         CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
 
+    	boolean authorized=true;
         try {
-        	boolean authorized=true;
-        	try{
-	        	String QUALIFICATION_CLU_ID = "cluId";
-	        	String DOCUMENT_TYPE_NAME = "documentTypeName";
-	        	AttributeSet qualification = new AttributeSet();
-	        	qualification.put(QUALIFICATION_CLU_ID, proposalId);//Should be clu id? or what?
-	  			qualification.put(DOCUMENT_TYPE_NAME, "CluProposal");
-	  			authorized = permissionService.isAuthorized(getCurrentUser(), "KS-LUM", "Open Document", null, qualification);
-        	}catch(Exception e){
-        		logger.info("Error calling permission service. ", e);
-        	}
-        	if(!authorized){
-        		throw new RuntimeException("User is not authorized to open this document");
-        	}
-        	
             logger.debug("Retreiving clu proposal with proposal id " + proposalId);
             
             //Get proposal
@@ -729,6 +714,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //FIXME: Better error handling if more than one reference or no reference
             assert(references.size() == 1);
             String cluId = references.get(0);
+
+        	try{
+	        	String QUALIFICATION_PROPOSAL_ID = "proposalId";
+	        	String DOCUMENT_TYPE_NAME = "documentTypeName";
+	        	AttributeSet qualification = new AttributeSet();
+	        	qualification.put(QUALIFICATION_PROPOSAL_ID, proposalInfo.getId());
+	  			qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
+	  			authorized = permissionService.isAuthorized(getCurrentUser(), "KS-LUM", "Open Document", null, qualification);
+        	}catch(Exception e){
+        		logger.info("Error calling permission service. ", e);
+        	}
             
             //Get clu
             CluInfo cluInfo = service.getClu(cluId);
@@ -738,9 +734,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             getCourseFormats(cluProposalDTO);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error getting Proposal. ",e);
         }
 
+    	if(!authorized){
+    		throw new RuntimeException("User is not authorized to open this document");
+    	}
+    	
         return cluProposalDTO;
     }
     
@@ -759,11 +759,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             } else {
             	username = obj.toString();
             }
+        }else{
+        	username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
         }
 		return username;
 	}
 	
-	private String getCluProposalDocContent(CluInfo cluInfo){
+	private String getCluProposalDocContent(CluInfo cluInfo, ProposalInfo proposalInfo){
     	try{
 
     		CluProposalDocInfo docContent = new CluProposalDocInfo();
@@ -774,9 +776,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		
     		String cluId = cluInfo.getId()==null?"":cluInfo.getId(); 
     		String adminOrg = cluInfo.getAdminOrg()==null?"":cluInfo.getAdminOrg(); 
+    		String proposalId = proposalInfo.getId()==null?"":proposalInfo.getId();
     		
     		docContent.setCluId(cluId);
             docContent.setOrgId(adminOrg);
+            docContent.setProposalId(proposalId);
             
     		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
     		Marshaller marshaller = context.createMarshaller();
@@ -876,7 +880,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		this.permissionService = permissionService;
 	}
 	
-    public void setApplicationStateManager(ApplicationStateManager applicationStateManager) {
-        this.applicationStateManager = applicationStateManager;
-    }    
+//    public void setApplicationStateManager(ApplicationStateManager applicationStateManager) {
+//        this.applicationStateManager = applicationStateManager;
+//    }    
 }

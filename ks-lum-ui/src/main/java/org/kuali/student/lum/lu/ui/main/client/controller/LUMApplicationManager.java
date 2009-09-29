@@ -143,9 +143,9 @@ public class LUMApplicationManager extends Controller{
                         if(!result){
                             Window.alert("Error with backdoor login");
                         }
-                        if (createCourseView == null){
-                            createCourseView = new DelegatingViewComposite(thisManager, new CluProposalController(docId));
-                        }
+                        //if (createCourseView == null){
+                        createCourseView = new DelegatingViewComposite(thisManager, new CluProposalController(docId));
+                        //}
                         showView(LUMViews.EDIT_COURSE_PROPOSAL);
                     }
                 

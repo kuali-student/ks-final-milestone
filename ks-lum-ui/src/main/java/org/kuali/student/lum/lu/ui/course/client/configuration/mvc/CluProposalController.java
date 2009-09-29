@@ -72,7 +72,8 @@ public class CluProposalController extends PagedSectionLayout{
             cluProposalRpcServiceAsync.getProposal(cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY), 
                     new AsyncCallback<CluProposalModelDTO>(){
 
-                public void onFailure(Throwable caught) {                   
+                public void onFailure(Throwable caught) {
+                	Window.alert("Error loading Proposal: "+caught.getMessage());
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {                    
@@ -146,7 +147,7 @@ public class CluProposalController extends PagedSectionLayout{
 
             			@Override
 						public void onFailure(Throwable caught) {
-            				Window.alert("error loading Clu: "+docId);
+            				Window.alert("error loading Clu: "+docId+". "+caught.getMessage());
             				createNewCluProposalModel();
             				callback.onModelReady(cluProposalModel);
 						}

@@ -78,6 +78,17 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRelationMockRpcService">
 					<ref bean="documentRelationMockRpcGwtController" />
 				</entry>
+				<entry key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/CluProposalRpcService">
+					<ref bean="CluProposalRpcGwtServletController"/>
+				</entry>	
+				<entry
+					key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/ServerPropertiesRpcService">
+					<ref bean="ServerPropertiesServletController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/RequirementsRpcService">
+					<ref bean="requirementsServiceGwtController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -166,6 +177,7 @@
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="proposalService" ref="proposalClient" />
+		<property name="permissionService" ref="permissionServiceClient"/>
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
         <property name="applicationStateManager" ref="applicationStateManager" />
 	</bean>
@@ -250,5 +262,10 @@
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.mock.service.DocumentRelationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/documentRelation}DocumentRelationService" />
 	</bean>
-
+	
+	<bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
+		<property name="serviceQName" value="{KIM}kimPermissionServiceUnsecure" />
+	</bean>
+	
 </beans>

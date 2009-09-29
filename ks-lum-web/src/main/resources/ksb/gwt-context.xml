@@ -123,6 +123,7 @@
 		<property name="workflowUtilityService" ref="workflowUtilityClient"/>
 		<property name="orgService" ref="orgClient" />
 		<property name="proposalService" ref="proposalClient" />
+		<property name="permissionService" ref="permissionServiceClient"/>
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
@@ -188,5 +189,11 @@
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
 		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService" />
 	</bean>
+
+	<bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
+		<property name="serviceQName" value="{KIM}kimPermissionServiceUnsecure" />
+	</bean>
+
 	
 </beans>
