@@ -21,7 +21,10 @@ package org.kuali.student.search;
  */
 public interface SearchTestConstants
 {
-  public static String DIRECTORY = "src/test/resources/search/";
-  
-  public static String ORG_SEARCH_EXCEL_FILE = DIRECTORY + "Organization Search Specification.xls";
+
+ public static String DIRECTORY = "src/test/resources/search/";
+ public static String ORG_SEARCH_EXCEL_FILE = DIRECTORY +
+  "Organization Search Specification.xls";
+ public static String ORG_SEARCH_EXCEL_FILE_BAD = DIRECTORY +
+  "Organization Search Specification Test For Errors.xls";
 }

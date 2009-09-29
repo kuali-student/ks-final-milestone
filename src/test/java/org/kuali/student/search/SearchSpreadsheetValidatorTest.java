@@ -48,16 +48,9 @@ public class SearchSpreadsheetValidatorTest implements SearchTestConstants
  {
  }
 
- private ExcelSpreadsheetReader reader;
- private SearchSpreadsheet spreadsheet;
-
  @Before
  public void setUp ()
  {
-  System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE);
-  reader = new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
-  spreadsheet =
-   new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
  }
 
  @After
@@ -69,12 +62,45 @@ public class SearchSpreadsheetValidatorTest implements SearchTestConstants
   * Test of validate method, of class SearchTypeValidator.
   */
  @Test
- public void testValidate ()
+ public void testValidateGood ()
  {
-  System.out.println ("validate");
+  System.out.println ("validateGood");
+  System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE);
+  ExcelSpreadsheetReader reader =
+   new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
+  SearchSpreadsheet spreadsheet =
+   new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
   SearchSpreadsheetValidator instance =
    new SearchSpreadsheetValidator (spreadsheet);
   Collection<String> expResult = new ArrayList ();
+  Collection<String> result = instance.validate ();
+  for (String error : result)
+  {
+   System.out.println (error);
+  }
+  assertEquals (expResult, result);
+ }
+
+ /**
+  * Test of validate method, of class SearchTypeValidator.
+  */
+ @Test
+ public void testValidateBad ()
+ {
+  System.out.println ("validateBad");
+  System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE_BAD);
+  ExcelSpreadsheetReader reader =
+   new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE_BAD);
+  SearchSpreadsheet spreadsheet =
+   new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
+  SearchSpreadsheetValidator instance =
+   new SearchSpreadsheetValidator (spreadsheet);
+  Collection<String> expResult = new ArrayList ();
+  expResult.add ("Error in overall spreadsheet: two criteria with the same key have different names, one is on row 16 the other is on row 75");
+  expResult.add ("Error in overall spreadsheet: Two criteria with the same key have different descriptions, one is on row 16 the other is on row 75");
+  expResult.add ("Error in overall spreadsheet: two criteria with the same key have different parameters, one is on row 16 the other is on row 75 the parameters that are different are on row 17");
+  expResult.add ("Error in overall spreadsheet: two results with the same key have different result columns, one is on row 18 the other is on row 26 the result columns that are different are on row 19");
+  expResult.add ("Error in overall spreadsheet: two result columns with the same key have different names, one is on row 6 the other is on row 13");
   Collection<String> result = instance.validate ();
   for (String error : result)
   {
