@@ -8,6 +8,18 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
+    <import resource="classpath:META-INF/database-context.xml"/>
+
+    <!-- ApplicationStateManger Config -->
+    <bean id="applicationStateDao"
+        class="org.kuali.student.common.ui.server.applicationstate.dao.impl.ApplicationStateDaoImpl">
+    </bean>
+
+    <bean id="applicationStateManager"
+        class="org.kuali.student.common.ui.server.applicationstate.ApplicationStateManagerImpl">
+        <property name="applicationStateDao" ref="applicationStateDao"/>        
+    </bean>
+        
 	<!-- Spring to GWT servlet mapping -->
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -155,6 +167,7 @@
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="proposalService" ref="proposalClient" />
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
+        <property name="applicationStateManager" ref="applicationStateManager" />
 	</bean>
 
 	<bean id="ServerPropertiesServlet"

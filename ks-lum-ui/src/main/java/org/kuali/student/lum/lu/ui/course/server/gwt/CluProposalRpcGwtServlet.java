@@ -32,6 +32,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
@@ -79,6 +80,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private OrganizationService orgService;
     private ProposalService proposalService;
 
+    private ApplicationStateManager applicationStateManager;
 
 	@Override
 	public CluProposalModelDTO getCluProposalFromWorkflowId(String docId) {
@@ -493,6 +495,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
         logger.info("Creating proposal");
         try{                    
+            //add application state data
+            applicationStateManager.createOrUpdateApplicationState(cluProposalDTO);
+
             //Convert cluInfo model dto to cluInfo object
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
@@ -502,6 +507,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
             cluInfoModelDTO.copyFrom(cluModelDTO);
             
+            applicationStateManager.getApplicationState(cluProposalDTO);
+
             saveCourseFormats(cluProposalDTO);
             
             //Convert proposalInfo model dto to proposalInfo
@@ -869,4 +876,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		this.permissionService = permissionService;
 	}
 	
+    public void setApplicationStateManager(ApplicationStateManager applicationStateManager) {
+        this.applicationStateManager = applicationStateManager;
+    }    
 }
