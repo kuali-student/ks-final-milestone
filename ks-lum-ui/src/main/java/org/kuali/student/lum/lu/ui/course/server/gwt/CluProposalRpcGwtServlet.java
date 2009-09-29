@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -386,6 +387,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
 
+            //Get the current routeNodeName
+            String routeNodeName="";
+            RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getDocumentRouteNodeInstances(Long.parseLong(docId));
+            if(null!=routeNodes){
+            	for(RouteNodeInstanceDTO routeNode:routeNodes){
+            		if(routeNode.isActive()){
+            			routeNodeName=routeNode.getName();
+            		}
+            	}
+            }
+            
             //Get the document xml
     		CluProposalCollabRequestDocInfo docContent = new CluProposalCollabRequestDocInfo();
 
@@ -397,6 +409,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		docContent.setCollaboratorType(collabType);
     		docContent.setParticipationRequired(participationRequired);
     		docContent.setRespondBy(respondBy);
+    		docContent.setRouteNodeName(routeNodeName);
 
     		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
     		Marshaller marshaller = context.createMarshaller();
