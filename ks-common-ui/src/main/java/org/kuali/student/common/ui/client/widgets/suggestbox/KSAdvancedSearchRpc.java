@@ -26,6 +26,7 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -104,7 +105,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         searchService.getSearchType(searchTypeKey, new AsyncCallback<SearchTypeInfo>(){
 
             public void onFailure(Throwable caught) {
-                //TODO: How to handle this?
+                Window.alert("Error generating search layout: " + caught);
             }
 
             public void onSuccess(SearchTypeInfo searchTypeInfo) {

@@ -37,7 +37,9 @@ public class RichTextBinding implements PropertyBinding<RichTextEditor>{
                 String className = ((ModelDTOType) value).get().getClassName();
                 if(className.equalsIgnoreCase(RichTextInfo.class.getName())){
                     StringType formatted = (StringType) (((ModelDTOType) value).get()).get("formatted");
-                    object.setHTML(formatted.get());
+                    if (formatted != null){
+                        object.setHTML(formatted.get());
+                    }
                 }
                 else{
                     throw new UnsupportedOperationException("Richtext editors must have richTextInfo models as their values");

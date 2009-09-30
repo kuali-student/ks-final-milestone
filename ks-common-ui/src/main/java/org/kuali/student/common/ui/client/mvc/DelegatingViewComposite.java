@@ -55,7 +55,17 @@ public class DelegatingViewComposite extends ViewComposite {
     public void beforeShow() {
         if (childController.getCurrentView() == null){
             childController.showDefaultView();
+        } else {
+            childController.getCurrentView().beforeShow();
         }
+    }
+    
+    public Controller getChildController(){
+        return childController;
+    }
+    
+    public void setChildController(Controller controller){
+        this.childController = controller;
     }
 
 }
