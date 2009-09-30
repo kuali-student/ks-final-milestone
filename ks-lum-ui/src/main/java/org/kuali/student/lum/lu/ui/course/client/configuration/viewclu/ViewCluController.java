@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
@@ -77,13 +78,15 @@ public class ViewCluController extends PagedSectionLayout{
             if (cluProposalModel == null){
                 cluProposalModel = new Model<CluProposalModelDTO>();
                 cluProposalModel.put(new CluProposalModelDTO());
+                Updater updater = cluProposalModel.get().beginUpdate(true);
+                
                 StringType type = new StringType();
                 type.set("kuali.lu.type.CreditCourse");
-                cluProposalModel.get().put("type", type);
+                updater.put("type", type);
 
                 StringType state = new StringType();
                 state.set("draft");
-                cluProposalModel.get().put("state", state);
+                updater.put("state", state);
                 callback.onModelReady(cluProposalModel);
             } else {
                 callback.onModelReady(cluProposalModel); 

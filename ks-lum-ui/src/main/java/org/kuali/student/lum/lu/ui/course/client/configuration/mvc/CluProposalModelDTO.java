@@ -49,7 +49,7 @@ public class CluProposalModelDTO extends ModelDTO {
      * @see org.kuali.student.common.ui.client.mvc.dto.ModelDTO#put(java.lang.String, org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
      */
     @Override
-    public void put(String key, ModelDTOValue value) {
+    protected void put(String key, ModelDTOValue value) {
     	checkAndCreateAdapters();
     	super.put(key, value);            
     }
