@@ -262,7 +262,13 @@ public class ModelDTO implements Serializable {
 	}
 	
 	public String toString(){
-		String s = "Real:\n" + map.toString() +"\n******\nTransient:\n" + transientMap.toString();
+		String s = "";
+		if(transientMap != null){
+			s = "Real:\n" + map.toString() +"\n******\nTransient:\n" + transientMap.toString();
+		}
+		else{
+			s = "Real:\n" + map.toString();
+		}
 	    return s;
 	}
 
