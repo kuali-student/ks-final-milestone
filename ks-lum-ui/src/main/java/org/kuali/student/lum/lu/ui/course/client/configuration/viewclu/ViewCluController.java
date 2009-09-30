@@ -122,10 +122,10 @@ public class ViewCluController extends PagedSectionLayout{
     private void loadClu() {
 
         if (id != null) {
-            cluProposalRpcServiceAsync.getProposal(id,  new AsyncCallback<CluProposalModelDTO>(){
+            cluProposalRpcServiceAsync.getClu(id,  new AsyncCallback<CluProposalModelDTO>(){
                 @Override
                 public void onFailure(Throwable caught) {
-                	Window.alert("Error loading Proposal: "+caught.getMessage());
+                	Window.alert("Error loading Clu: "+caught.getMessage());
                 	caught.printStackTrace();
 
                 }
