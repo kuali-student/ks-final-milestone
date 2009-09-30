@@ -3,7 +3,8 @@
   	<inherits name="org.kuali.student.common.ui.CommonUI"/>
   	<inherits name="org.kuali.student.lum.lu.ui.home.Home"/>
   	<inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
-  	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
+  	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>  	
+  	<inherits name="org.kuali.student.core.proposal.ui.ProposalUI"/>
   	  	
 	<entry-point class="org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint"/>
 </module>

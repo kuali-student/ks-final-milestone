@@ -10,6 +10,7 @@ import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import com.google.gwt.dom.client.HRElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
@@ -41,6 +42,8 @@ public class CreateCreditCoursePanel extends ViewComposite{
             
             if(sender == startBlank){
                 CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_COURSE));
+            } else {
+                Window.alert("Function not yet implemented");
             }
         }
         
@@ -85,13 +88,17 @@ public class CreateCreditCoursePanel extends ViewComposite{
         super(controller, "Create Credit Course");
         Hyperlink more = new Hyperlink("More", "More");
         more.addStyleName("Home-Small-Hyperlink");
-        mainPanel.add(new ButtonRow(viewProcess, "Description goes here here here here here"));
+        mainPanel.add(new ButtonRow(viewProcess, ""));
+        viewProcess.addClickHandler(handler);
         mainPanel.add(new RowBreak());
-        mainPanel.add(new ButtonRow(startBlank, "Description goes here here here here here", more));
+        mainPanel.add(new ButtonRow(startBlank, "Create a new blank course proposal."));
         startBlank.addClickHandler(handler);
-        mainPanel.add(new ButtonRow(selectTemplate, "Description goes here here here here here"));
-        mainPanel.add(new ButtonRow(copyProposal, "Description goes here here here here here"));
-        mainPanel.add(new ButtonRow(copyCourse, "Description goes here here here here here"));
+        mainPanel.add(new ButtonRow(selectTemplate, "Create a proposal from a proposal template."));
+        selectTemplate.addClickHandler(handler);
+        mainPanel.add(new ButtonRow(copyProposal, "Create a proposal by copying an existing course proposal."));
+        copyProposal.addClickHandler(handler);
+        mainPanel.add(new ButtonRow(copyCourse, "Create a proposal by copying an existing course."));
+        copyCourse.addClickHandler(handler);
         Hyperlink helpMeDecide = new Hyperlink("Help Me Decide", "HelpMe");
         helpMeDecide.addStyleName("Home-Small-Hyperlink");
         helpMeDecide.addStyleName("Content-Left-Margin");
@@ -99,8 +106,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
 
             @Override
             public void onClick(ClickEvent event) {
-                
-                
+                Window.alert("Function not yet implemented.");                
             }
         });
         mainPanel.add(helpMeDecide);

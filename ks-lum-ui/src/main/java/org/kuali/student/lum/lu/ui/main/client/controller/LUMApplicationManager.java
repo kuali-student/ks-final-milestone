@@ -4,20 +4,14 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUCreateUpdateView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposal;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
@@ -33,16 +27,14 @@ public class LUMApplicationManager extends Controller{
    
     private final SimplePanel viewPanel = new SimplePanel();
 
-    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
     KSHistory history;
-
-    private View createCourseView;
-    private View viewCourseView;
-    private LUCreateUpdateView modifyView;
     
-    private Model<CluProposal> cluModel = new Model<CluProposal>();
+    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
 
-    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    private Controller cluProposalController = null;
+    private DelegatingViewComposite createCourseView;
+    private DelegatingViewComposite viewCourseView;
+        
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
     public LUMApplicationManager(){
@@ -57,18 +49,21 @@ public class LUMApplicationManager extends Controller{
                 //FIXME: This is very hacky
                 if (event.getEventSource() != null && event.getEventSource() instanceof SelectionEvent){                    
                     List<String> selectedIds = (List<String>)((SelectionEvent)event.getEventSource()).getSelectedItem();
-                    if (modifyView == null){
-                        modifyView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED, false);
+                    String selectedId = selectedIds.get(0);
+                    
+                    if (event.getViewType().equals(LUMViews.EDIT_COURSE_PROPOSAL)){
+                        initCluProposalViewFromProposalId(selectedId);                        
                     }
-                    modifyView.setId(selectedIds.get(0));
-                    if (viewCourseView == null){
-                        viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, new ViewCluController(selectedIds.get(0)));
+
+                    if (viewCourseView == null && event.getViewType().equals(LUMViews.VIEW_COURSE)){
+                        viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, new ViewCluController(selectedId));
                     }
      
                 }
                 showView(event.getViewType());  
             }
         });
+        
         addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
             public void onLogout(LogoutEvent event) {
                 Window.Location.assign("/j_spring_security_logout");
@@ -86,19 +81,11 @@ public class LUMApplicationManager extends Controller{
             case HOME_MENU:
                 return homeMenuView;
             case CREATE_COURSE:
-                if (createCourseView == null){
-//                    createCourseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-                    createCourseView = new DelegatingViewComposite(this, new CluProposalController());
-                }
-                //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
+                initBlankCluProposalView();
                 return createCourseView;
             case EDIT_COURSE_PROPOSAL:
-                if (createCourseView == null){
-//                  createCourseView = new LUCreateUpdateView(LUMApplicationManager.this, LUConstants.LU_TYPE_CREDIT_COURSE, LUConstants.LU_STATE_PROPOSED);
-                	createCourseView = new DelegatingViewComposite(this, new CluProposalController());
-                }
-              //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
-              return createCourseView;
+                //View setup should already be handled
+                return createCourseView;
             case VIEW_COURSE:
                 if (viewCourseView == null){
                     viewCourseView = new DelegatingViewComposite(this, new ViewCluController(null));
@@ -110,6 +97,28 @@ public class LUMApplicationManager extends Controller{
         }
     }
 
+    private View initBlankCluProposalView(){
+        if (cluProposalController == null){
+            cluProposalController = new CluProposalController(); 
+            createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);            
+        }
+        ((CluProposalController)cluProposalController).clear();
+        
+        return createCourseView;
+    }
+    
+    private View initCluProposalViewFromProposalId(String proposalId){
+        initBlankCluProposalView();
+        ((CluProposalController)cluProposalController).setProposalId(proposalId);
+        return createCourseView;
+    }
+    
+    private View initCluProposalViewFromDocId(String docId){
+        initBlankCluProposalView();
+        ((CluProposalController)cluProposalController).setDocId(docId);
+        return createCourseView;        
+    }
+    
     //Accessor for get view
     public <V extends Enum<?>> View getControllerView(V viewType){
         return this.getView(viewType);
@@ -131,7 +140,6 @@ public class LUMApplicationManager extends Controller{
     public void showDefaultView() {
         final String docId=Window.Location.getParameter("docId");
         String backdoorId=Window.Location.getParameter("backdoorId");
-        final LUMApplicationManager thisManager = this;
         if(docId!=null){
             if(backdoorId!=null){
                 cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
@@ -143,17 +151,13 @@ public class LUMApplicationManager extends Controller{
                         if(!result){
                             Window.alert("Error with backdoor login");
                         }
-                        //if (createCourseView == null){
-                        createCourseView = new DelegatingViewComposite(thisManager, new CluProposalController(docId));
-                        //}
+                        initCluProposalViewFromDocId(docId);
                         showView(LUMViews.EDIT_COURSE_PROPOSAL);
                     }
                 
                 });
             }else{
-                if (createCourseView == null){
-                    createCourseView = new DelegatingViewComposite(thisManager, new CluProposalController(docId));
-                }
+                initCluProposalViewFromDocId(docId);
                 this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
             }
         }
@@ -165,8 +169,4 @@ public class LUMApplicationManager extends Controller{
     public Class<? extends Enum<?>> getViewsEnum() {
         return LUMViews.class;
     }        
-
-    public void setCluId(String id){
-       // this.courseView.setId(id);
-    }
 }

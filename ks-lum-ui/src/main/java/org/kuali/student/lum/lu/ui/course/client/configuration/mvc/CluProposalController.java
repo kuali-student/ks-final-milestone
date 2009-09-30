@@ -18,16 +18,18 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
+import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,6 +48,7 @@ public class CluProposalController extends PagedSectionLayout{
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
 
 	private String docId = null;
+    private String proposalId = null;
 	
 	private final String CLU_PROPOSAL_ID_KEY   = "proposalInfo/id";
 	private final String CLU_PROPOSAL_NAME_KEY = "proposalInfo/name";
@@ -67,21 +70,11 @@ public class CluProposalController extends PagedSectionLayout{
         }
     });
         
-    private KSButton testButton = new KSButton("Get Proposal Info", new ClickHandler(){
+    private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            cluProposalRpcServiceAsync.getProposal(cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY), 
-                    new AsyncCallback<CluProposalModelDTO>(){
-
-                public void onFailure(Throwable caught) {
-                	Window.alert("Error loading Proposal: "+caught.getMessage());
-                }
-
-                public void onSuccess(CluProposalModelDTO result) {                    
-                    Window.alert(result.toString());
-                }
-                
-            });
-        }       
+            Controller parentController = CluProposalController.this.getParentController(); 
+            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+        }
     });
     
     public CluProposalController(String docId) {
@@ -96,13 +89,13 @@ public class CluProposalController extends PagedSectionLayout{
     }
     
     private void init(){
-        final String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
+		final String objectKey = "org.kuali.student.lum.lu.dto.CluInfo";
         String typeKey ="type";
         String stateKey = "state";
         
         LuConfigurer.configureCluProposal(this, objectKey, typeKey, stateKey);
         addButton(saveButton);
-        addButton(testButton);
+        addButton(quitButton);
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
@@ -143,29 +136,14 @@ public class CluProposalController extends PagedSectionLayout{
         if (modelType == CluProposalModelDTO.class){
             if (cluProposalModel == null){
             	if(docId!=null){
-            		cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(docId, new AsyncCallback<CluProposalModelDTO>(){
-
-            			@Override
-						public void onFailure(Throwable caught) {
-            				Window.alert("error loading Clu: "+docId+". "+caught.getMessage());
-            				createNewCluProposalModel();
-            				callback.onModelReady(cluProposalModel);
-						}
-
-						@Override
-						public void onSuccess(CluProposalModelDTO result) {
-		            		cluProposalModel = new Model<CluProposalModelDTO>();
-		                	cluProposalModel.put(result);
-							callback.onModelReady(cluProposalModel);
-						}
-            			
-            		});
-            		
-            	}else{
+            	    getCluProposalFromWorkflowId(callback);
+            	} else if (proposalId != null){
+            	    getCluProposalFromProposalId(callback);
+            	}
+            	else{
                     createNewCluProposalModel();            	    
                     callback.onModelReady(cluProposalModel);
-            	}
-                
+            	}                
             } else {
                 callback.onModelReady(cluProposalModel); 
             }
@@ -205,6 +183,45 @@ public class CluProposalController extends PagedSectionLayout{
         } else {
             super.requestModel(modelType, callback);
         }
+    }
+    
+    @SuppressWarnings("unchecked")        
+    private void getCluProposalFromWorkflowId(final ModelRequestCallback callback){
+        cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(docId, new AsyncCallback<CluProposalModelDTO>(){
+
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Error loading Proposal: "+docId+". "+caught.getMessage());
+                createNewCluProposalModel();
+                callback.onModelReady(cluProposalModel);
+            }
+
+            @Override
+            public void onSuccess(CluProposalModelDTO result) {
+                cluProposalModel = new Model<CluProposalModelDTO>();
+                cluProposalModel.put(result);
+                callback.onModelReady(cluProposalModel);
+            }
+            
+        });              
+    }
+    
+    @SuppressWarnings("unchecked")    
+    private void getCluProposalFromProposalId(final ModelRequestCallback callback){
+        cluProposalRpcServiceAsync.getProposal(proposalId, 
+                new AsyncCallback<CluProposalModelDTO>(){
+
+            public void onFailure(Throwable caught) {
+                Window.alert("Error loading Proposal: "+caught.getMessage());
+                createNewCluProposalModel();
+                callback.onModelReady(cluProposalModel);
+            }
+
+            public void onSuccess(CluProposalModelDTO result) {                    
+                cluProposalModel = new Model<CluProposalModelDTO>();
+                cluProposalModel.put(result);
+                callback.onModelReady(cluProposalModel);
+            }});                                        
     }
     
     private void createNewCluProposalModel(){
@@ -259,4 +276,37 @@ public class CluProposalController extends PagedSectionLayout{
             });
         }        
     }
+
+
+    public String getDocId() {
+        return docId;
+    }
+
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+        this.proposalId = null;
+        this.cluProposalModel = null;
+    }
+
+
+    public String getProposalId() {
+        return proposalId;
+    }
+
+
+    public void setProposalId(String proposalId) {
+        this.proposalId = proposalId;
+        this.docId = null;
+        this.cluProposalModel = null;        
+    }
+    
+    public void clear(){
+        this.cluProposalModel = null;
+        this.docId = null;
+        this.proposalId = null;
+        this.savedOnce=false;
+    }
+    
+    
 }

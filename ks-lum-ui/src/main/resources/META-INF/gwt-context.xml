@@ -63,6 +63,10 @@
 					<ref bean="CommentRpcGwtServletController" />
 				</entry>
 				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ProposalRpcService">
+					<ref bean="ProposalRpcGwtServletController" />
+				</entry>
+				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRpcService">
 					<ref bean="DocumentRpcGwtServletController" />
 				</entry>
@@ -137,6 +141,12 @@
 		<property name="servletInstance" ref="CommentRpcGwtServlet" />
 	</bean>
 	
+	<bean id="ProposalRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="ProposalRpcGwtServlet" />
+		<property name="servletInstance" ref="ProposalRpcGwtServlet" />
+	</bean>
+
 	<bean id="DocumentRpcGwtServletController"
 		class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="DocumentRpcGwtServlet" />
@@ -191,6 +201,11 @@
 		<property name="service" ref="commentClient" />
 	</bean>
 	
+	<bean id="ProposalRpcGwtServlet"
+		class="org.kuali.student.core.proposal.ui.server.gwt.ProposalRpcGwtServlet">
+		<property name="service" ref="proposalClient" />
+	</bean>
+
 	<bean id="DocumentRpcGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.DocumentRpcGwtServlet">
 		<property name="service" ref="documentService" />
