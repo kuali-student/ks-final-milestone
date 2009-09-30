@@ -7,10 +7,13 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOAdapter;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -24,6 +27,7 @@ public class CluProposalModelDTO extends ModelDTO {
 
    private static final long serialVersionUID = 1L;
    private boolean adaptersCreated = false;
+   private List<RuleInfo> ruleInfos;
 	   
    public CluProposalModelDTO() {
 		ModelDTO cluInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
@@ -75,5 +79,13 @@ public class CluProposalModelDTO extends ModelDTO {
 	    	proposalInfoModelDTO.setAdapter(new ModelDTOAdapter(proposalInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "proposalInfo"));
 	    	adaptersCreated = true;
     	}
+    }
+
+    public List<RuleInfo> getRuleInfos() {
+        return ruleInfos;
+    }
+
+    public void setRuleInfos(List<RuleInfo> ruleInfos) {
+        this.ruleInfos = ruleInfos;
     }
 }

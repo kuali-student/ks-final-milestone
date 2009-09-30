@@ -66,6 +66,10 @@ public class CourseReqManager extends Controller {
         resetReqCompVOModel();
         loadSearchBoxData();
     }
+    
+    public void saveApplicationState() {
+        courseRequisiteView.saveApplicationState();
+    }
    
     @Override
     protected void onLoad() {

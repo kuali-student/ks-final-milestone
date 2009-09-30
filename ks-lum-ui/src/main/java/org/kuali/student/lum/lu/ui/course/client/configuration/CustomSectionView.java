@@ -79,6 +79,7 @@ public class CustomSectionView extends SectionView {
 
 	@Override
 	public void updateModel() {
+	    childController.saveApplicationState();
 	}
 
 	@Override

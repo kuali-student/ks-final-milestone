@@ -1,5 +1,8 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -69,7 +72,7 @@ public class CourseRequisiteView extends ViewComposite {
         super.initWidget(mainPanel);           
     }
     
-    public void beforeShow() {     
+    public void beforeShow() {                 	
     	
     	getController().requestModel(CluProposalModelDTO.class,
                 new ModelRequestCallback<CluProposalModelDTO>() {
@@ -77,8 +80,8 @@ public class CourseRequisiteView extends ViewComposite {
                     public void onModelReady(Model<CluProposalModelDTO> model) {
                     	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
                     	cluId = "CLU-NL-5"; //TODO: ((StringType)cluInfoModelDTO.get("/officialIdentifier/cluId")).getString();
-                    }
-
+    }    
+    
                     @Override
                     public void onRequestFail(Throwable cause) {
                         Window.alert("Failed to get CluProposalModelDTO");
@@ -97,17 +100,32 @@ public class CourseRequisiteView extends ViewComposite {
         layoutMainPanel(viewPanel);
         if ((cluId == null) || dataInitialized) {
             return;
-        }                
- 
-        RulesUtilities.clearModel(courseRules);                                                          
+        }        
         
-        retrieveRuleTypeData("kuali.luStatementType.prereqAcademicReadiness");
-        retrieveRuleTypeData("kuali.luStatementType.coreqAcademicReadiness");                           
-        retrieveRuleTypeData("kuali.luStatementType.antireqAcademicReadiness");
-        retrieveRuleTypeData("kuali.luStatementType.enrollAcademicReadiness");
-        dataInitialized = true;                              
-    }    
-    
+                RulesUtilities.clearModel(courseRules);
+                
+                retrieveRuleTypeData("kuali.luStatementType.prereqAcademicReadiness");
+                retrieveRuleTypeData("kuali.luStatementType.coreqAcademicReadiness");                           
+                retrieveRuleTypeData("kuali.luStatementType.antireqAcademicReadiness");
+                retrieveRuleTypeData("kuali.luStatementType.enrollAcademicReadiness");
+                
+                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+
+                    @Override
+                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                        List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>(courseRules.getValues());
+                        model.get().setRuleInfos(ruleInfos);
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert("Failed to request for CluProposalModelDTO");
+                    }
+                });
+                
+                dataInitialized = true;
+            }
+            
     private void retrieveRuleTypeData(final String luStatementTypeKey) {
         
         layoutBasicRuleSection(luStatementTypeKey);
@@ -195,7 +213,7 @@ public class CourseRequisiteView extends ViewComposite {
                 
                 courseReqManager.resetReqCompVOModel();
                 
-                courseReqManager.setRuleInfoModel(courseRules);
+                  courseReqManager.setRuleInfoModel(courseRules);
                 courseReqManager.showView(PrereqViews.CLAUSE_EDITOR);
             } else {
                 courseReqManager.setRuleInfoModel(courseRules);
@@ -313,30 +331,60 @@ public class CourseRequisiteView extends ViewComposite {
         submit.addClickHandler(handler);
         
         // TODO remove when done testing the save application state feature
-        KSButton saveApplicationState = new KSButton("Save State");
-        saveApplicationState.setTitle("Save State");
-        saveApplicationState.setStyleName("KS-Rules-Tight-Button");
-        saveApplicationState.addClickHandler(new ClickHandler() {
+//        KSButton saveApplicationState = new KSButton("Save State");
+//        saveApplicationState.setTitle("Save State");
+//        saveApplicationState.setStyleName("KS-Rules-Tight-Button");
+//        saveApplicationState.addClickHandler(new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                getController().requestModel(CluProposalModelDTO.class,
+//                        new ModelRequestCallback<CluProposalModelDTO>() {
+//                            @Override
+//                            public void onModelReady(Model<CluProposalModelDTO> model) {
+//                                KSTextArea rationaleTextArea = getRationaleTextArea(luStatementTypeKey);
+//                                model.get().putApplicationState("rationale", rationaleTextArea.getText());
+//                                Window.alert("You entered: " + model.get().getApplicationState("rationale"));
+//                            }
+//
+//                            @Override
+//                            public void onRequestFail(Throwable cause) {
+//                                Window.alert("Failed to get CluProposalModelDTO");
+//                            }
+//                });
+//            }
+//        });
+//        rationalePanel3.add(saveApplicationState);
+        rationalePanel3.add(submit);
+    }
+    
+    public void saveApplicationState() {
+        getController().requestModel(CluProposalModelDTO.class,
+                new ModelRequestCallback<CluProposalModelDTO>() {
             @Override
-            public void onClick(ClickEvent event) {
-                getController().requestModel(CluProposalModelDTO.class,
-                        new ModelRequestCallback<CluProposalModelDTO>() {
-                            @Override
-                            public void onModelReady(Model<CluProposalModelDTO> model) {
-                                KSTextArea rationaleTextArea = getRationaleTextArea(luStatementTypeKey);
-                                model.get().putApplicationState("rationale", rationaleTextArea.getText());
-                                Window.alert("You entered: " + model.get().getApplicationState("rationale"));
-                            }
+            public void onModelReady(Model<CluProposalModelDTO> model) {
+                model.get().putApplicationState(
+                        "kuali.luStatementType.prereqAcademicReadiness.rationale", 
+                        getRationaleTextArea("kuali.luStatementType.prereqAcademicReadiness")
+                        .getText());
+                model.get().putApplicationState(
+                        "kuali.luStatementType.coreqAcademicReadiness.rationale", 
+                        getRationaleTextArea("kuali.luStatementType.coreqAcademicReadiness")
+                        .getText());
+                model.get().putApplicationState(
+                        "kuali.luStatementType.antireqAcademicReadiness.rationale", 
+                        getRationaleTextArea("kuali.luStatementType.antireqAcademicReadiness")
+                        .getText());
+                model.get().putApplicationState(
+                        "kuali.luStatementType.enrollAcademicReadiness.rationale", 
+                        getRationaleTextArea("kuali.luStatementType.enrollAcademicReadiness")
+                        .getText());
+            }
 
-                            @Override
-                            public void onRequestFail(Throwable cause) {
-                                Window.alert("Failed to get CluProposalModelDTO");
-                            }
-                });
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert("Failed to get CluProposalModelDTO");
             }
         });
-        rationalePanel3.add(saveApplicationState);
-        rationalePanel3.add(submit);
     }
     
     private VerticalPanel getRulesInfoPanel(String luStatementTypeKey) {
@@ -370,4 +418,4 @@ public class CourseRequisiteView extends ViewComposite {
         if (luStatementTypeKey.contains("antireq")) return "Antirequisites";
         return "";
     }
-}
+    }
