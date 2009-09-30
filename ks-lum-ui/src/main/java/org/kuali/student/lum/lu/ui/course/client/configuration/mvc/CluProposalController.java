@@ -15,9 +15,16 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.event.ValidateResultEvent;
+import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -25,6 +32,8 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -48,6 +57,8 @@ public class CluProposalController extends PagedSectionLayout{
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
 
 	private String docId = null;
+	private SaveActionEvent currentSaveEvent = null;
+    private boolean processingSave = false;
     private String proposalId = null;
 	
 	private final String CLU_PROPOSAL_ID_KEY   = "proposalInfo/id";
@@ -98,12 +109,37 @@ public class CluProposalController extends PagedSectionLayout{
         addButton(quitButton);
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
+        
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
                 GWT.log("CluProposalController received save action request.", null);
                 doSaveAction(saveAction);
             }            
         });
+        
+        addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
+            @Override
+            public void onValidateResult(ValidateResultEvent event) {
+            	if(processingSave){
+            		List<ValidationResultContainer> list = event.getValidationResult();
+            		ErrorLevel errorLevel = checkForErrors(list);
+            		if(errorLevel.equals(ErrorLevel.ERROR)){
+            			//TODO replace with a ks modal
+            			Window.alert("Validation failed.  The proposal could not be saved.  Please check fields for errors.");
+            		}
+            		else if(errorLevel.equals(ErrorLevel.WARN)){
+            			//TODO do something else for warning level?
+            			saveProposalClu(currentSaveEvent);
+            		}
+            		else{
+            			saveProposalClu(currentSaveEvent);
+            		}
+            		processingSave = false;
+            		currentSaveEvent = null;
+            	}
+            }
+        });
+        
         requestModel(CluProposalModelDTO.class, new ModelRequestCallback(){
 
             @Override
@@ -237,19 +273,22 @@ public class CluProposalController extends PagedSectionLayout{
     
     public void doSaveAction(SaveActionEvent saveActionEvent){
         String proposalName = ((ModelDTO)cluProposalModel.get()).getString(CLU_PROPOSAL_NAME_KEY);
-
+        processingSave=true;
+        currentSaveEvent = saveActionEvent;
         if (proposalName == null){
             showStartSection();
         } else {
-            saveProposalClu(saveActionEvent);
+        	View v = getCurrentView();
+        	if(v instanceof SectionView){
+        		this.validate((SectionView)v);
+        	}
         }
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
-        View v = getCurrentView();
         getCurrentView().updateModel();
         
-        if(!savedOnce){
+        if(cluProposalModel.get().get("cluInfo/id") == null){
             cluProposalRpcServiceAsync.createProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
                 public void onFailure(Throwable caught) {
                     caught.printStackTrace();                        
