@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:simple="http://cxf.apache.org/simple"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+          http://www.springframework.org/schema/aop
+          http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="systemPropertyConfigurer"
+        class="org.kuali.student.common.util.SystemPropertyConfigurer">
+        <property name="properties">
+            <map>
+              <entry key="derby.system.home" value="target" />
+              <entry key="derby.drda.startNetworkServer" value="true" />
+            </map>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
+    
+    <bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
+        <property name="configLocations">
+            <list>
+                <value>classpath:META-INF/ks-lum-config.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="configProperties"
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="config" />
+        <property name="targetMethod" value="getProperties" />
+    </bean>
+
+    <bean id="propconfig"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
+
+    <!-- JTA -->
+    <bean id="jtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="jotm" />
+        <property name="userTransaction" ref="jotm"/>
+        <property name="allowCustomIsolationLevels" value="true"/>
+    </bean> 
+
+    <tx:annotation-driven transaction-manager="jtaTxManager" />
+    
+    <bean id="applicationStateDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
+        <property name="transactionManager" ref="jotm" />
+        <property name="driverClassName" value="${ks.lum.datasource.driver.name}" />
+        <property name="maxSize" value="10" />
+        <property name="minSize" value="10" />
+        <property name="maxWait" value="600" />
+        <property name="validationQuery" value="${ks.lum.datasource.validationQuery}" />
+        <property name="url" value="${ks.lum.datasource.url}" />
+        <property name="username" value="${ks.lum.datasource.username}" />
+        <property name="password" value="${ks.lum.datasource.password}" />        
+    </bean>
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="defaultEntityManagerFactory" abstract="true"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform"
+                    value="${ks.lum.jpa.DatabasePlatform}" />
+                <property name="showSql" value="true" />
+                <property name="generateDdl" value="true" />
+            </bean>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JOTMTransactionManagerLookup"/>
+                <entry key="hibernate.hbm2ddl.auto" value="create-drop"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Application State Config -->
+    <bean id="applicationStateEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="ApplicationState"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/application-state-persistence.xml" />
+        <property name="dataSource" ref="applicationStateDataSource" />
+    </bean>
+
+    <bean id="applicationStateEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="applicationStateEntityManagerFactory" />
+    </bean>
+
+</beans>
