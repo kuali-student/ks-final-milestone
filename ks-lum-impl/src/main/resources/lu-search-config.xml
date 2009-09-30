@@ -55,7 +55,7 @@
 				</entry>
                 <entry key="lu.search.clus">
                     <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu
-                        ORDER BY clu.officialIdentifier.longName</value>
+                    	WHERE clu.state NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
                 </entry>
             </map>
 		</property>
