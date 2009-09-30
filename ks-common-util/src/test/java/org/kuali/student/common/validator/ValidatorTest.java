@@ -34,8 +34,8 @@ public class ValidatorTest {
     	List<ValidationResultContainer> results = val.validateTypeStateObject( p, buildObjectStructure1());    
     	assertEquals(results.size(), 2);
 
-    	assertEquals(results.get(0).getElement(), "/personInfo[id='P1']/firstName/");
-    	assertEquals(results.get(1).getElement(), "/personInfo[id='P1']/dob/");
+    	assertEquals(results.get(0).getElement(), "personInfo[id='P1']/firstName");
+    	assertEquals(results.get(1).getElement(), "personInfo[id='P1']/dob");
     	//assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
 	}
 	
