@@ -187,7 +187,7 @@ public class ModelDTO implements Serializable {
 	 * @param key
 	 * @param value
 	 */
-	public void put(String key, String value){
+	protected void put(String key, String value){
 	    StringType stringTypeValue = new StringType();
 	    stringTypeValue.set(value);
 	    put(key, stringTypeValue);
