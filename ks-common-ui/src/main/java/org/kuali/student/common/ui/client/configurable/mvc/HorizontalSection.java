@@ -43,11 +43,4 @@ public class HorizontalSection extends Section{
         // TODO bsmith - THIS METHOD NEEDS JAVADOCS
         
     }
-
-
-	@Override
-	public void processValidationResults(List<ValidationResultContainer> results) {
-		// TODO Auto-generated method stub
-		
-	}
 }

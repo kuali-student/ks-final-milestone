@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
@@ -17,6 +19,7 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,8 +28,43 @@ public abstract class LayoutController extends Controller  {
     private ModelDTO modelDTO;
     private LayoutController parentLayoutController= null; 
     private Map<String, String> classToObjectKeyMap = new HashMap<String, String>();
+
+    
+	protected final HashMap<String, View> sectionViewMap = new HashMap<String, View>();	
+	
     public LayoutController(){
-        
+		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
+            @Override
+            public void onValidateResult(ValidateResultEvent event) {
+               List<ValidationResultContainer> list = event.getValidationResult();
+               LayoutController.this.processValidationResults(list);
+            }
+        });
+    }
+    
+    public void processValidationResults(List<ValidationResultContainer> list){
+    	Collection<View> sections = sectionViewMap.values();
+        for(View v: sections){
+     	   if(v instanceof SectionView){
+     		   ((SectionView) v).processValidationResults(list);
+     	   }
+        }
+    }
+    
+    public ErrorLevel checkForErrors(List<ValidationResultContainer> list){
+		ErrorLevel errorLevel = ErrorLevel.OK;
+		
+		for(ValidationResultContainer vr: list){
+			if(vr.getErrorLevel().getLevel() > errorLevel.getLevel()){
+				errorLevel = vr.getErrorLevel();
+			}
+			if(errorLevel.equals(ErrorLevel.ERROR)){
+				break;
+			}
+		}
+    	
+    	return errorLevel;
+    	
     }
     
     public void setModelDTO(ModelDTO dto, Map<String, String> classToObjectKeyMap){

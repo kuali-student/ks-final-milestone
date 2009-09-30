@@ -6,6 +6,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.core.dictionary.dto.Field;
@@ -53,15 +54,28 @@ public class ModelDTOAdapter implements Serializable{
                 }
             }
             else{
-                ModelDTOValue modelDTOValue = base.map.get(key);
-                ModelDTO modelDTO = null;
+            	ModelDTO modelDTO = null;
+            	ModelDTOValue modelDTOValue = null;
+            	//check for transientMap
+            	if(base.transientMap != null){
+            		modelDTOValue = base.transientMap.get(key);
+            	}
+            	else{
+            		modelDTOValue = base.map.get(key);
+            	}
+                
                 if(modelDTOValue == null){
                     modelDTO = new ModelDTO(getClassName(key));
                     modelDTO.setKey(key);
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
+                    if(base.transientMap != null){
+                    	base.transientMap.put(key, modelDTOType);
+                    }
+                    else{
+                    	base.map.put(key, modelDTOType);
+                    }
                     
-                    base.map.put(key, modelDTOType);
                 }
                 else{
                     modelDTO = ((ModelDTOType) modelDTOValue).get();
@@ -69,7 +83,15 @@ public class ModelDTOAdapter implements Serializable{
                 
                 //If there is an adapter in place use that! otherwise continue processing
                 if(modelDTO.getAdapter() != null){
-                	modelDTO.put(pathArr[1], value);
+                	Updater updater = null;
+                	if(base.transientMap != null){
+                		updater = modelDTO.beginUpdate(false);
+                	}
+                	else{
+                		updater = modelDTO.beginUpdate(true);
+                	}
+                	
+                	updater.put(pathArr[1], value);
                 }
                 else{
                 	put(modelDTO, pathArr[1], value);
@@ -112,8 +134,13 @@ public class ModelDTOAdapter implements Serializable{
                 }*/
             }
             else{
-            	System.out.println(key);
-                ModelDTOValue modelDTOValue = base.map.get(key);
+            	ModelDTOValue modelDTOValue = null;
+            	if(base.transientMap != null){
+            		modelDTOValue = base.transientMap.get(key);
+            	}
+            	else{
+            		modelDTOValue = base.map.get(key);
+            	}
                 
                 if(modelDTOValue == null){
                     returnValue = null;

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValueBinding;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
@@ -38,8 +39,82 @@ public class ModelDTO implements Serializable {
 	private String key;
 	protected Map<String, ModelDTOValue> map = new HashMap<String, ModelDTOValue>();
 	protected Map<String, String> applicationStateMap = new HashMap<String, String>();
-	
+	protected transient Map<String, ModelDTOValue> transientMap = null;
 	private transient ModelDTOAdapter adapter = null;
+	
+	public class Updater{
+	     private final boolean autoCommit;
+	     private Updater(final boolean autoCommit) {
+	         this.autoCommit = autoCommit;
+	     }
+	     
+	     public void put(String key, ModelDTOValue value) {
+	         if (autoCommit) {
+	        	 if(transientMap != null){
+	        		 commit();
+	        	 }
+	             ModelDTO.this.put(key, value);
+	         } else {
+	             if(transientMap == null){
+	            	 copyMapToTransientMap();
+	             }
+	             ModelDTO.this.put(key, value);
+	         }
+	     }
+	     
+	     public void put(String key, String s){
+	         if (autoCommit) {
+	        	 if(transientMap != null){
+	        		 commit();
+	        	 }
+	        	 ModelDTO.this.put(key, s);
+	         } else {
+	             if(transientMap == null){
+	            	 copyMapToTransientMap();
+	             }
+	             ModelDTO.this.put(key, s);
+	         }
+	     }
+	     
+	     public void commit(){
+	    	 this.commit();
+	     }
+	}
+	
+	public Updater beginUpdate(boolean autoCommit){
+		return new Updater(autoCommit);
+	}
+	
+    protected void copyMapToTransientMap(){
+    	transientMap = new HashMap<String, ModelDTOValue>();
+    	for(String mk: map.keySet()){
+	    	ModelDTOValue copy = HasModelDTOValueBinding.deepCopy(map.get(mk));
+	    	if(copy instanceof ModelDTOType){
+	    		((ModelDTOType) copy).get().copyMapToTransientMap();
+	    	}
+	    	transientMap.put(mk, copy);
+    	}
+    }
+	
+	//private void putTransient(String)
+	
+	/**
+	 * Sets a bean property value
+	 * @param key String key for the bean property
+	 * @param value ModelDTOValue value of the property
+	 */
+	protected void put(String key, ModelDTOValue value) {
+	    if(value instanceof ModelDTOType){
+	    	((ModelDTOType) value).get().setKey(key);
+	    }
+	    
+		if(GWT.isClient() && adapter != null){
+			adapter.put(key, value);
+		}
+		else{
+			map.put(key, value);			
+		}		
+	}
 	
 	public ModelDTO(){}
 	
@@ -57,13 +132,25 @@ public class ModelDTO implements Serializable {
 			this.adapter = adapter;
 		}
 	}
+	
+	protected void commit(){
+		if(transientMap != null){
+			for(String mk: transientMap.keySet()){
+				ModelDTOValue value = transientMap.get(mk);
+				if(value instanceof ModelDTOType){
+					((ModelDTOType) value).get().commit();
+				}
+			}
+			map = transientMap;
+			transientMap = null;
+		}
+	}
 
 	/**
 	 * This cop
 	 * @param newModelDTO
 	 */
 	public void copyFrom(ModelDTO newModelDTO){
-	    applicationStateMap.putAll(newModelDTO.applicationStateMap);
 		map.putAll(newModelDTO.map);
 	}
 	
@@ -91,24 +178,8 @@ public class ModelDTO implements Serializable {
 		return map.keySet();
 	}
 	
-	/**
-	 * Sets a bean property value
-	 * @param key String key for the bean property
-	 * @param value ModelDTOValue value of the property
-	 */
-	public void put(String key, ModelDTOValue value) {
-	    //GWT.log(key, null);
-	    if(value instanceof ModelDTOType){
-	    	((ModelDTOType) value).get().setKey(key);
-	    }
-	    
-		if(GWT.isClient() && adapter != null){
-			adapter.put(key, value);
-		}
-		else{
-			map.put(key, value);			
-		}		
-	}
+
+	
 
 	/** 
 	 * Puts a string value as a StringType value in the ModelDTO
@@ -135,7 +206,6 @@ public class ModelDTO implements Serializable {
 			return map.get(key);
 		}
 	}
-
 
     /** 
      * Gets a string value from a StringType value in the ModelDTO. 
@@ -192,7 +262,8 @@ public class ModelDTO implements Serializable {
 	}
 	
 	public String toString(){
-	    return map.toString();
+		String s = "Real:\n" + map.toString() +"\n******\nTransient:\n" + transientMap.toString();
+	    return s;
 	}
 
 	public String getKey() {

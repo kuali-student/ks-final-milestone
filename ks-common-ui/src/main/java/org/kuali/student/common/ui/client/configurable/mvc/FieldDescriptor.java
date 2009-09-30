@@ -41,7 +41,10 @@ public class FieldDescriptor {
     private PropertyBinding propertyBinding;
     private PropertyBinding widgetBinding;
     private Callback<Boolean> validationRequestCallback;
-    private RequiredEnum requiredState = RequiredEnum.NOT_MARKED; 
+    private RequiredEnum requiredState = RequiredEnum.NOT_MARKED;
+    private boolean dirty = false;
+    private boolean hasHadFocus = false;
+    
     /**
      * @param fieldKey
      * @param fieldLabel
@@ -143,7 +146,25 @@ public class FieldDescriptor {
     public void setValidationCallBack(Callback<Boolean> callback){
         validationRequestCallback = callback;
     }
-    public Callback getValidationRequestCallback(){
+    public Callback<Boolean> getValidationRequestCallback(){
         return validationRequestCallback;
     }
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
+
+	public boolean hasHadFocus() {
+		return hasHadFocus;
+	}
+
+	public void setHasHadFocus(boolean hasHadFocus) {
+		this.hasHadFocus = hasHadFocus;
+	}
+    
+    
 }

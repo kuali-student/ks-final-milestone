@@ -9,11 +9,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LostFocusValidationEventBinding  implements ValidationEventBinding {
     
-    public void bind(final Widget w, final Callback<Boolean> validationRequestCallback) {
+    public void bind(final FieldDescriptor fd) {
+    	Widget w = fd.getFieldWidget();
         if (w instanceof HasBlurHandlers) {
             ((HasBlurHandlers)w).addBlurHandler(new BlurHandler() {
                 public void onBlur(BlurEvent event) {
-                    validationRequestCallback.exec(true);
+                	fd.setHasHadFocus(true);
+                	fd.getValidationRequestCallback().exec(true);
                 }
             });
         } else {

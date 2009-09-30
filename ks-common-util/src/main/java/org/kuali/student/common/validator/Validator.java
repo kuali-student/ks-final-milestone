@@ -167,7 +167,7 @@ public class Validator {
         if (value == null || "".equals(value.toString().trim())) {
             if(isNullable(field) == false){
                ValidationResultContainer valResults = new ValidationResultContainer(
-                            getElementXpath() + field.getKey() + "/");
+                            getElementXpath() + field.getKey());
               valResults.addError(getMessage("validation.required"));
               results.add(valResults);
 
@@ -245,7 +245,7 @@ public class Validator {
 					}
 				} else {
 					ValidationResultContainer valResults = new ValidationResultContainer(
-							getElementXpath() + field.getKey() + "/");
+							getElementXpath() + field.getKey());
 
 					BaseConstraintBean bcb = new BaseConstraintBean();
 					for (ConstraintSelector constraint : constraints) {
@@ -809,7 +809,7 @@ public class Validator {
 	}
 
 	private String getElementXpath() {
-		StringBuilder xPath = new StringBuilder("/");
+		StringBuilder xPath = new StringBuilder();
 
 		Iterator<String> itr = elementStack.iterator();
 		while (itr.hasNext()) {

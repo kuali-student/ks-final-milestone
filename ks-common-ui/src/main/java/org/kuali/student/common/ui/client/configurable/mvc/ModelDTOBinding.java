@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 
 
 public class ModelDTOBinding implements PropertyBinding<ModelDTO>{
@@ -58,8 +59,11 @@ public class ModelDTOBinding implements PropertyBinding<ModelDTO>{
 
     @Override
     public void setValue(ModelDTO object, ModelDTOValue value) {
-        //ModelDTOValue m = value;
-        object.put(fieldKey, value);
+    	Updater updater = object.beginUpdate(false);
+    	updater.put(fieldKey, value);
+    	
+    	//ModelDTOValue m = value;
+        
        /* if (fieldType != null) {
             switch (fieldType) {
                 case STRING:

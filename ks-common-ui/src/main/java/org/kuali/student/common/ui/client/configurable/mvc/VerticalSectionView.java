@@ -37,7 +37,7 @@ public class VerticalSectionView extends SectionView {
 	}
 		
 	public void beforeShow(){
-	    
+	    super.beforeShow();
 	    if (!loaded){
 	    	panel.add(generateTitlePanel());
 	        panel.add(sectionTitle);
@@ -118,29 +118,35 @@ public class VerticalSectionView extends SectionView {
         });
     }
 
-	@Override
+/*	@Override
 	public void processValidationResults(List<ValidationResultContainer> results) {
 		for(RowDescriptor r: rows){
 			r.clearValidationMessages();
 			for(FieldDescriptor f: r.getFields()){
-				for(ValidationResultContainer vc: results){
-					if(vc.getElement().equals(f.getFieldKey())){
-						r.setValidationMessages(vc.getValidationResults());
+				if(f.hasHadFocus()){
+					for(ValidationResultContainer vc: results){
+						if(vc.getElement().equals(f.getFieldKey())){
+							r.setValidationMessages(vc.getValidationResults());
+						}
 					}
 				}
 			}
 		}
-/*		
+		
+		for(ValidationResultContainer vc: results){
+			System.out.println(vc.getElement() + " : " +  vc.getDataType());
+		}
+		
 		for(FieldDescriptor f: fields){
 			for(ValidationResultContainer vc: results){
 				if(vc.getElement().equals(f.getFieldKey())){
 					
 				}
 			}
-		}*/
+		}
 		
 		for(Section s: sections){
 			s.processValidationResults(results);
 		}
-	}
+	}*/
 }

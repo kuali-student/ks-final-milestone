@@ -1,7 +1,10 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 /**
  * 
@@ -53,10 +56,10 @@ public abstract class SectionView extends Section implements View{
      * done.
      */
     public void beforeShow() {
-    // do nothing
+    	this.resetFieldInteractionFlags();
     }
 
-    /**
+	/**
      * Called by the controller before the view is hidden to allow the view to perform cleanup or request confirmation from
      * the user, etc. Can cancel the action by returning false.
      * 
@@ -64,6 +67,7 @@ public abstract class SectionView extends Section implements View{
      */
     @Override
     public boolean beforeHide() {
+    	//if()
         return true;
     }
 
@@ -99,5 +103,7 @@ public abstract class SectionView extends Section implements View{
     public void setController(Controller controller) {
         this.controller = controller;
     }
+
+
     
 }

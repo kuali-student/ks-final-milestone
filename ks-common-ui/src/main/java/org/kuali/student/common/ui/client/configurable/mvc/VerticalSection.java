@@ -40,23 +40,4 @@ public class VerticalSection extends Section{
         // TODO bsmith - THIS METHOD NEEDS JAVADOCS        
     }
 
-	@Override
-	public void processValidationResults(List<ValidationResultContainer> results) {
-		for(RowDescriptor r: rows){
-			r.clearValidationMessages();
-			for(FieldDescriptor f: r.getFields()){
-				for(ValidationResultContainer vc: results){
-					if(vc.getElement().equals(f.getFieldKey())){
-						r.setValidationMessages(vc.getValidationResults());
-					}
-				}
-			}
-		}
-		
-		for(Section s: sections){
-			s.processValidationResults(results);
-		}
-		
-	}
-
 }

@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
@@ -15,14 +16,14 @@ public class RichTextBinding implements PropertyBinding<RichTextEditor>{
     @Override
     public ModelDTOValue getValue(RichTextEditor object) {
         ModelDTO richTextModel = new ModelDTO(RichTextInfo.class.getName());
-
+        Updater updater = richTextModel.beginUpdate(true);
         StringType plain = new StringType();
         plain.set(object.getText());
-        richTextModel.put("plain", plain);
+        updater.put("plain", plain);
         
         StringType formatted = new StringType();
         formatted.set(object.getHTML());
-        richTextModel.put("formatted", formatted);
+        updater.put("formatted", formatted);
         
         ModelDTOType value = new ModelDTOType();
         value.set(richTextModel);

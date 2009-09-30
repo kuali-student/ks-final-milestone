@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
@@ -73,6 +74,18 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
 	        }
 		}
 	}
+	
+    public void resetFieldInteractionFlags() {
+		for(FieldDescriptor f: fields){
+			f.setDirty(false);
+			f.setHasHadFocus(false);
+		}
+		
+		for(Section s: sections){
+			s.resetFieldInteractionFlags();
+		}
+		
+	}
 
 	@Override
     public void addSection(Section section) {
@@ -125,11 +138,21 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
             fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
+                	PropertyBinding pBinding = fieldDescriptor.getPropertyBinding();
+                    PropertyBinding wBinding = fieldDescriptor.getWidgetBinding();
+                    ModelDTO model = LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).getModel();
+                    if (wBinding != null){
+                        Widget w = fieldDescriptor.getFieldWidget();            
+                        pBinding.setValue(model, wBinding.getValue(w));
+                        GWT.log(model.toString(), null);
+                    } else {
+                        GWT.log(fieldDescriptor.getFieldKey() + " has no widget binding.", null);
+                    }
                     LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).validate(Section.this);
                 }
             });
         }
-        binding.bind(fieldDescriptor.getFieldWidget(), fieldDescriptor.getValidationRequestCallback());
+        binding.bind(fieldDescriptor);
         
 
     }
@@ -218,7 +241,25 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public abstract void clear();
     public abstract void redraw();
     
-    public abstract void processValidationResults(List<ValidationResultContainer> results);
+	public void processValidationResults(List<ValidationResultContainer> results) {	
+		for(RowDescriptor r: rows){
+			r.clearValidationMessages();
+			for(FieldDescriptor f: r.getFields()){
+				if(f.hasHadFocus()){
+					for(ValidationResultContainer vc: results){
+						if(vc.getElement().equals(f.getFieldKey())){
+							r.setValidationMessages(vc.getValidationResults());
+						}
+					}
+					
+				}
+			}
+		}
+
+		for(Section s: sections){
+			s.processValidationResults(results);
+		}
+	}
 
     public FieldLabelType getLabelType() {
         return labelType;

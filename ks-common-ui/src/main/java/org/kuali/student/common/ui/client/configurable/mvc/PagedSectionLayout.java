@@ -41,7 +41,7 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 
 	//FIXME: Better way to manage hierarchy, ordering, and handle to views
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
-	private final HashMap<String, View> sectionViewMap = new HashMap<String, View>();	
+
 	private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
@@ -78,18 +78,7 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 		panel.add(sectionButtonPanel, DockPanel.SOUTH); 
 		
 		
-		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-            @Override
-            public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultContainer> list = event.getValidationResult();
-               Collection<View> sections = sectionViewMap.values();
-               for(View v: sections){
-            	   if(v instanceof SectionView){
-            		   ((SectionView) v).processValidationResults(list);
-            	   }
-               }
-            }
-        });
+
 	}
 	
 	private void init(){
