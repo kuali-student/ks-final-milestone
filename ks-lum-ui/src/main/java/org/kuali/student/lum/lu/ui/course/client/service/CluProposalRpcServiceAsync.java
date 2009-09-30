@@ -46,7 +46,9 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
     public void saveProposal(CluProposalModelDTO cluProposalDTO, AsyncCallback<CluProposalModelDTO> callback);
     public void deleteProposal(String id, AsyncCallback<Boolean> callback);
     public void getProposal(String id, AsyncCallback<CluProposalModelDTO> callback);
-    
+
+    public void getClu(String id, AsyncCallback<CluProposalModelDTO> callback);
+
 	public void approveDocument(String requestDocId, AsyncCallback<Boolean> callback);
 	public void disapproveDocument(String requestDocId, AsyncCallback<Boolean> callback);
     

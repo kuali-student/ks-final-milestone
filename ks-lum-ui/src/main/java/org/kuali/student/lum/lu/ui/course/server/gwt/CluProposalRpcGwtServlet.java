@@ -32,7 +32,6 @@ import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-//import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
@@ -714,8 +713,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         MapContext ctx = new MapContext();
         CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
 
-    	boolean authorized=true;
-        try {
+        	boolean authorized=true;
+        	try{
             logger.debug("Retreiving clu proposal with proposal id " + proposalId);
             
             //Get proposal
@@ -728,7 +727,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //FIXME: Better error handling if more than one reference or no reference
             assert(references.size() == 1);
             String cluId = references.get(0);
-
+            
         	try{
 	        	String QUALIFICATION_PROPOSAL_ID = "proposalId";
 	        	String DOCUMENT_TYPE_NAME = "documentTypeName";
@@ -753,8 +752,49 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
     	if(!authorized){
     		throw new RuntimeException("User is not authorized to open this document");
-    	}
-    	
+        }
+
+        return cluProposalDTO;
+    }
+
+    /**
+     * Retreives a CluProposalModelDTO given a clu id.
+     */
+    public CluProposalModelDTO getClu(String cluId){
+        MapContext ctx = new MapContext();
+        CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
+
+        boolean authorized=true;
+        try{
+        logger.debug("Retreiving clu with clu id " + cluId);
+               
+        try{
+            String QUALIFICATION_PROPOSAL_ID = "cluId";
+            String DOCUMENT_TYPE_NAME = "documentTypeName";
+            AttributeSet qualification = new AttributeSet();
+            qualification.put(QUALIFICATION_PROPOSAL_ID, cluId);
+            qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
+            authorized = permissionService.isAuthorized(getCurrentUser(), "KS-LUM", "Open Document", null, qualification);
+        }catch(Exception e){
+            logger.info("Error calling permission service. ", e);
+        }
+        
+        //Get clu
+        CluInfo cluInfo = service.getClu(cluId);
+//        CluInfo cluInfo = buildTestClu();
+        ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
+        cluModelDTO.copyFrom((ModelDTO)ctx.fromBean(cluInfo));
+        
+        getCourseFormats(cluProposalDTO);
+
+    } catch (Exception e) {
+        logger.error("Error getting Clu. ",e);
+    }
+
+    if(!authorized){
+        throw new RuntimeException("User is not authorized to open this document");
+    }
+        
         return cluProposalDTO;
     }
     
@@ -892,9 +932,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	 */
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
-	}
-	
+    }
+    
     public void setApplicationStateManager(ApplicationStateManager applicationStateManager) {
         this.applicationStateManager = applicationStateManager;
-    }    
+    } 
+    
 }
