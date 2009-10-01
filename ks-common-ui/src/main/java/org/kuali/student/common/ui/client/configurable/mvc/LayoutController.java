@@ -109,9 +109,10 @@ public abstract class LayoutController extends Controller  {
             if(objStructure == null){
                Window.alert("Cannot load dictionary(object structure)");
             }
-
-            ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
-            Validator val = new Validator(sectionbc, true);
+            
+            //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
+            //Validator val = new Validator(sectionbc, true);
+            Validator val = new Validator(bc, true);
             
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.addValidationResult(results);// filled by calling the real validate code
