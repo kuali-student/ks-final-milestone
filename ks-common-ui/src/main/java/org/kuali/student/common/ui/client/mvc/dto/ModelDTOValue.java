@@ -415,36 +415,50 @@ public interface ModelDTOValue extends Serializable {
 		public List<ModelDTOValue> get() {
 			return this.value;
 		}
-        public List getBaseTypeList() {
+        @SuppressWarnings("unchecked") // TODO - remove this and make sure callers can handle parameterized List returntype
+		public List getBaseTypeList() {
             List list = new ArrayList();
             for (ModelDTOValue modelDTOValue : value) {
 
                 switch (modelDTOValue.getType()) {
                     case STRING:
                         list.add(((StringType) modelDTOValue).get());
+                        break;
                     case CHARACTER:
                         list.add(((CharacterType) modelDTOValue).get());
+                        break;
                     case INTEGER:
                         list.add(((IntegerType) modelDTOValue).get());
+                        break;
                     case LONG:
                         list.add(((LongType) modelDTOValue).get());
+                        break;
                     case FLOAT:
                         list.add(((FloatType) modelDTOValue).get());
+                        break;
                     case DOUBLE:
                         list.add(((DoubleType) modelDTOValue).get());
+                        break;
                     case BYTE:
                         list.add(((ByteType) modelDTOValue).get());
+                        break;
                     case BOOLEAN:
                         list.add(((BooleanType) modelDTOValue).get());
+                        break;
                     case DATE:
                         list.add(((DateType) modelDTOValue).get());
-                        // case LIST:
+                        break;
+                    // case LIST:
                         // return ((ListType) modelDTOValue).get();
-                        // case MAP:
+                        // break;
+                    // case MAP:
                         // return ((MapType) modelDTOValue).get();
+                        // break;
                     case MODELDTO:
-
                         list.add(((ModelDTOType) modelDTOValue).get());
+                        break;
+                    default:
+                    	// TODOxception?
                 }
 
             }
