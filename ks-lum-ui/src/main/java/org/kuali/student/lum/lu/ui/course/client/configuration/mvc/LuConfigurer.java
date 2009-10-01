@@ -65,7 +65,6 @@ public class LuConfigurer {
     public enum LuSections{
         CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
         COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS, DOCUMENTS,
-        DEMO_SECTION
     }
 
     public static void configureCluProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){
@@ -483,6 +482,10 @@ public class LuConfigurer {
 
         public boolean isMultipleSelect(){
             return true;
+        }
+        
+        public void clear(){
+            orgPicker.clear();
         }
     }
 

@@ -57,6 +57,7 @@ public class OrgPicker extends Composite implements HasValue<String>{
 
 	@Override
 	public void setValue(String value) {
+	    suggestBox.reset();
 	    suggestBox.setValue(value);
 	}
 
@@ -76,5 +77,9 @@ public class OrgPicker extends Composite implements HasValue<String>{
 	public void fireEvent(GwtEvent<?> event) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void clear(){
+	    suggestBox.reset();
 	}
 }
