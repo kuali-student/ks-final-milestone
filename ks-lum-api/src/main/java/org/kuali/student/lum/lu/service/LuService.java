@@ -37,9 +37,7 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
@@ -49,9 +47,7 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -1004,46 +1000,6 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
     public List<String> getClusUsingComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves CLU ids by criteria
-     * @param cluCriteria criteria to be used for retrieval of multiple CLUs
-     * @return list of CLU identifiers that match the supplied criteria
-     * @throws InvalidParameterException invalid cluCriteria
-     * @throws MissingParameterException missing cluCriteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForClus(@WebParam(name="cluCriteria")CluCriteriaInfo cluCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves LUI ids by criteria
-     * @param luiCriteria criteria to be used for retrieval of multiple LUIs
-     * @return list of LUI identifiers that match the supplied criteria
-     * @throws InvalidParameterException invalid luiCriteria
-     * @throws MissingParameterException missing luiCriteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForLuis(@WebParam(name="luiCriteria")LuiCriteriaInfo luiCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves CLU to CLU relation identifiers by criteria
-     * @param cluCluRelationCriteria criteria to be used for retrieval of multiple CLU to CLU relations
-     * @return list of CLU to CLU relation identifiers that match the supplied criteria
-     * @throws InvalidParameterException invalid cluCluRelationCriteria
-     * @throws MissingParameterException missing cluCluRelationCriteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForCluCluRelations(@WebParam(name="cluCluRelationCriteria")CluCluRelationCriteriaInfo cluCluRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves LUI to LUI relation identifiers by criteria
-     * @param luiLuiRelationCriteria criteria to be used for retrieval of multiple LUI to LUI relations
-     * @return list of LUI to LUI relation identifiers that match the supplied criteria
-     * @throws InvalidParameterException invalid luiLuiRelation criteria
-     * @throws MissingParameterException missing luiLuiRelation criteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForLuiLuiRelations(@WebParam(name="luiLuiRelationCriteria")LuiLuiRelationCriteriaInfo luiLuiRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
      * Creates a new CLU
      * @param luTypeKey identifier of the LU Type for the CLU being created
      * @param cluInfo information about the CLU being created
@@ -1262,21 +1218,6 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws DoesNotExistException Clu or CluSet not found
 	 */
     public CluSetInfo createEnumeratedCluSet(@WebParam(name="cluSetName")String cluSetName, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
-
-    /** 
-     * Creates a CLU set with membership determined via a search criteria based query. Sets created in this manner cannot have their membership managed manually and cannot contain other sets.
-     * @param cluSetName name of the CLU set to be created
-     * @param cluSetInfo information required to create a CLU set
-     * @param cluCriteria criteria used to dynamically determine the members of the CLU set
-     * @return the created CLU set information
-     * @throws AlreadyExistsException the cluSet already exists
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws InvalidParameterException invalid cluSetName, cluSetInfo, cluCriteria
-     * @throws MissingParameterException missing cluSetName, cluSetInfo, cluCriteria
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public CluSetInfo createDynamicCluSet(@WebParam(name="cluSetName")String cluSetName, @WebParam(name="cluSetInfo")CluSetInfo cluSetInfo, @WebParam(name="cluCriteria")CluCriteriaInfo cluCriteria) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Update the information for a CLU set

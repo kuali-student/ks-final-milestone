@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="LuService" targetNamespace="http://student.kuali.org/wsdl/lu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lu" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/lu" xmlns:tns="http://student.kuali.org/wsdl/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerable">
-    <xs:import namespace="http://student.kuali.org/wsdl/lu"/>
-    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
-    <xs:complexType name="getEnumeration">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="code" type="xs:string"/>
-                        <xs:element name="abbrevValue" type="xs:string"/>
-                        <xs:element name="effectiveDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
-                        <xs:element maxOccurs="unbounded" name="contexts" type="ns0:context"/>
-                        <xs:element name="value" type="xs:string"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
     <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
@@ -226,77 +196,8 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="UnsupportedActionException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DependentObjectsExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="CircularReferenceException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:ns2="http://student.kuali.org/wsdl/search" xmlns:ns3="http://student.kuali.org/wsdl/enumerable" xmlns:tns="http://student.kuali.org/wsdl/lu" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lu">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
-    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
     <xs:element name="addCluResourceRequirement" type="tns:addCluResourceRequirement"/>
     <xs:element name="addCluResourceRequirementResponse" type="tns:addCluResourceRequirementResponse"/>
     <xs:element name="addCluSetToCluSet" type="tns:addCluSetToCluSet"/>
@@ -317,8 +218,6 @@
     <xs:element name="createCluCluRelation" type="tns:createCluCluRelation"/>
     <xs:element name="createCluCluRelationResponse" type="tns:createCluCluRelationResponse"/>
     <xs:element name="createCluResponse" type="tns:createCluResponse"/>
-    <xs:element name="createDynamicCluSet" type="tns:createDynamicCluSet"/>
-    <xs:element name="createDynamicCluSetResponse" type="tns:createDynamicCluSetResponse"/>
     <xs:element name="createEnumeratedCluSet" type="tns:createEnumeratedCluSet"/>
     <xs:element name="createEnumeratedCluSetResponse" type="tns:createEnumeratedCluSetResponse"/>
     <xs:element name="createLuDocRelationForClu" type="tns:createLuDocRelationForClu"/>
@@ -520,14 +419,6 @@
     <xs:element name="removeOutcomeLoFromCluResponse" type="tns:removeOutcomeLoFromCluResponse"/>
     <xs:element name="removeOutcomeLoFromLui" type="tns:removeOutcomeLoFromLui"/>
     <xs:element name="removeOutcomeLoFromLuiResponse" type="tns:removeOutcomeLoFromLuiResponse"/>
-    <xs:element name="searchForCluCluRelations" type="tns:searchForCluCluRelations"/>
-    <xs:element name="searchForCluCluRelationsResponse" type="tns:searchForCluCluRelationsResponse"/>
-    <xs:element name="searchForClus" type="tns:searchForClus"/>
-    <xs:element name="searchForClusResponse" type="tns:searchForClusResponse"/>
-    <xs:element name="searchForLuiLuiRelations" type="tns:searchForLuiLuiRelations"/>
-    <xs:element name="searchForLuiLuiRelationsResponse" type="tns:searchForLuiLuiRelationsResponse"/>
-    <xs:element name="searchForLuis" type="tns:searchForLuis"/>
-    <xs:element name="searchForLuisResponse" type="tns:searchForLuisResponse"/>
     <xs:element name="updateClu" type="tns:updateClu"/>
     <xs:element name="updateCluCluRelation" type="tns:updateCluCluRelation"/>
     <xs:element name="updateCluCluRelationResponse" type="tns:updateCluCluRelationResponse"/>
@@ -1019,24 +910,6 @@
             <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="searchForCluCluRelations">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="cluCluRelationCriteria" type="tns:cluCluRelationCriteriaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="cluCluRelationCriteriaInfo">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="types" type="ns2:searchIndexedType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="relationships" type="ns2:searchRelationship"/>
-            <xs:element minOccurs="0" name="criteria" type="ns2:criteriaSet"/>
-            <xs:element minOccurs="0" name="criterion" type="ns2:criterion"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchForCluCluRelationsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getLuDocRelationsByType">
         <xs:sequence>
             <xs:element minOccurs="0" name="luDocRelationTypeKey" type="xs:string"/>
@@ -1092,24 +965,8 @@
     </xs:complexType>
     <xs:complexType name="getLuStatementsResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:luStatementInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="luStatementInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="luStatementIds" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentIds" type="xs:string"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-            <xs:element minOccurs="0" name="luStatementType" type="tns:luStatementTypeInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="parentId" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="removeLuStatementFromClu">
         <xs:sequence>
@@ -1278,24 +1135,6 @@
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="searchForLuiLuiRelations">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="luiLuiRelationCriteria" type="tns:luiLuiRelationCriteriaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="luiLuiRelationCriteriaInfo">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="types" type="ns2:searchIndexedType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="relationships" type="ns2:searchRelationship"/>
-            <xs:element minOccurs="0" name="criteria" type="ns2:criteriaSet"/>
-            <xs:element minOccurs="0" name="criterion" type="ns2:criterion"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchForLuiLuiRelationsResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getCluCluRelation">
         <xs:sequence>
             <xs:element minOccurs="0" name="cluCluRelationId" type="xs:string"/>
@@ -1322,6 +1161,22 @@
             <xs:element minOccurs="0" name="validationType" type="xs:string"/>
             <xs:element minOccurs="0" name="luStatementInfo" type="tns:luStatementInfo"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="luStatementInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="luStatementIds" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentIds" type="xs:string"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+            <xs:element minOccurs="0" name="luStatementType" type="tns:luStatementTypeInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="parentId" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="validateLuStatementResponse">
         <xs:sequence>
@@ -1496,40 +1351,6 @@
             <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="createDynamicCluSet">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="cluSetName" type="xs:string"/>
-            <xs:element minOccurs="0" name="cluSetInfo" type="tns:cluSetInfo"/>
-            <xs:element minOccurs="0" name="cluCriteria" type="tns:cluCriteriaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="cluSetInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="cluCriteria" type="tns:cluCriteriaInfo"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="cluSetIds" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="cluIds" type="xs:string"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="cluCriteriaInfo">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="types" type="ns2:searchIndexedType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="relationships" type="ns2:searchRelationship"/>
-            <xs:element minOccurs="0" name="criteria" type="ns2:criteriaSet"/>
-            <xs:element minOccurs="0" name="criterion" type="ns2:criterion"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createDynamicCluSetResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:cluSetInfo"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getLrType">
         <xs:sequence>
             <xs:element minOccurs="0" name="lrTypeKey" type="xs:string"/>
@@ -1591,24 +1412,6 @@
     <xs:complexType name="updateCluResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="tns:cluInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchForLuis">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="luiCriteria" type="tns:luiCriteriaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="luiCriteriaInfo">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="types" type="ns2:searchIndexedType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="relationships" type="ns2:searchRelationship"/>
-            <xs:element minOccurs="0" name="criteria" type="ns2:criteriaSet"/>
-            <xs:element minOccurs="0" name="criterion" type="ns2:criterion"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchForLuisResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="removeLrScaleFromClu">
@@ -1762,6 +1565,19 @@
             <xs:element minOccurs="0" name="cluSetId" type="xs:string"/>
             <xs:element minOccurs="0" name="cluSetInfo" type="tns:cluSetInfo"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="cluSetInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="cluSetIds" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="cluIds" type="xs:string"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="updateCluSetResponse">
         <xs:sequence>
@@ -2209,16 +2025,6 @@
             <xs:element minOccurs="0" name="return" type="tns:luStatementInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="searchForClus">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="cluCriteria" type="tns:cluCriteriaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchForClusResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getCluSetInfo">
         <xs:sequence>
             <xs:element minOccurs="0" name="cluSetId" type="xs:string"/>
@@ -2247,7 +2053,7 @@
     </xs:complexType>
     <xs:complexType name="getReqComponentsResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="updateCluState">
@@ -2346,10 +2152,10 @@
     <xs:element name="getObjectTypesResponse" nillable="true" type="ns1:getObjectTypesResponse"/>
     <xs:element name="getSearchTypes" nillable="true" type="ns2:getSearchTypes"/>
     <xs:element name="getSearchTypesResponse" nillable="true" type="ns2:getSearchTypesResponse"/>
-    <xs:element name="getEnumeration" nillable="true" type="ns3:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" nillable="true" type="ns3:getEnumerationResponse"/>
     <xs:element name="getSearchType" nillable="true" type="ns2:getSearchType"/>
     <xs:element name="getSearchTypeResponse" nillable="true" type="ns2:getSearchTypeResponse"/>
+    <xs:element name="getEnumeration" nillable="true" type="ns3:getEnumeration"/>
+    <xs:element name="getEnumerationResponse" nillable="true" type="ns3:getEnumerationResponse"/>
     <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns2:getSearchTypesByCriteria"/>
     <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns2:getSearchTypesByCriteriaResponse"/>
     <xs:element name="getSearchTypesByResult" nillable="true" type="ns2:getSearchTypesByResult"/>
@@ -2366,6 +2172,104 @@
     <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns2:getSearchResultTypesResponse"/>
     <xs:element name="validateStructureData" nillable="true" type="ns1:validateStructureData"/>
     <xs:element name="validateStructureDataResponse" nillable="true" type="ns1:validateStructureDataResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="UnsupportedActionException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DependentObjectsExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CircularReferenceException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/lu" xmlns:tns="http://student.kuali.org/wsdl/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerable">
+    <xs:import namespace="http://student.kuali.org/wsdl/lu"/>
+    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
+    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
+    <xs:complexType name="getEnumeration">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="code" type="xs:string"/>
+                        <xs:element name="abbrevValue" type="xs:string"/>
+                        <xs:element name="effectiveDate" type="xs:dateTime"/>
+                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
+                        <xs:element maxOccurs="unbounded" name="contexts" type="ns0:context"/>
+                        <xs:element name="value" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
@@ -2387,40 +2291,6 @@
     <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
     <xs:element name="searchForResults" type="tns:searchForResults"/>
     <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
-    <xs:complexType name="searchIndexedType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="allias" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchRelationship">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="typeAttribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="parentType" type="xs:string"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="alias" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="criteriaSet">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="criterion" type="tns:criterion"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="criteria" type="tns:criteriaSet"/>
-        </xs:sequence>
-        <xs:attribute name="operator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="criterion">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="attribute" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="operator" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="values" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getSearchResultType">
         <xs:sequence>
             <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
@@ -2575,6 +2445,19 @@
             <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="searchRelationship">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
+            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeAttribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="parentType" type="xs:string"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="alias" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="updateCluCluRelationResponse">
@@ -2701,10 +2584,6 @@
     <wsdl:part name="parameters" element="tns:addCluSetToCluSetResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForCluCluRelationsResponse">
-    <wsdl:part name="parameters" element="tns:searchForCluCluRelationsResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getCluIdsByRelation">
     <wsdl:part name="parameters" element="tns:getCluIdsByRelation">
     </wsdl:part>
@@ -2743,10 +2622,6 @@
   </wsdl:message>
   <wsdl:message name="getLuTypesResponse">
     <wsdl:part name="parameters" element="tns:getLuTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForLuis">
-    <wsdl:part name="parameters" element="tns:searchForLuis">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLuStatementTypeResponse">
@@ -2905,16 +2780,16 @@
     <wsdl:part name="parameters" element="tns:validateCluResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLuStatementResponse">
-    <wsdl:part name="parameters" element="tns:getLuStatementResponse">
+  <wsdl:message name="getClusByRelationResponse">
+    <wsdl:part name="parameters" element="tns:getClusByRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getLuStatement">
     <wsdl:part name="parameters" element="tns:getLuStatement">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getClusByRelationResponse">
-    <wsdl:part name="parameters" element="tns:getClusByRelationResponse">
+  <wsdl:message name="getLuStatementResponse">
+    <wsdl:part name="parameters" element="tns:getLuStatementResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllCluIdsInCluSet">
@@ -2985,10 +2860,6 @@
     <wsdl:part name="parameters" element="tns:updateLuDocRelation">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForCluCluRelations">
-    <wsdl:part name="parameters" element="tns:searchForCluCluRelations">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getResourceRequirementsForCluId">
     <wsdl:part name="parameters" element="tns:getResourceRequirementsForCluId">
     </wsdl:part>
@@ -3053,10 +2924,6 @@
     <wsdl:part name="parameters" element="tns:getCluCluRelationResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createDynamicCluSetResponse">
-    <wsdl:part name="parameters" element="tns:createDynamicCluSetResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getLuiLuiRelation">
     <wsdl:part name="parameters" element="tns:getLuiLuiRelation">
     </wsdl:part>
@@ -3073,10 +2940,6 @@
     <wsdl:part name="parameters" element="tns:getClusFromCluSet">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForClus">
-    <wsdl:part name="parameters" element="tns:searchForClus">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getLui">
     <wsdl:part name="parameters" element="tns:getLui">
     </wsdl:part>
@@ -3087,10 +2950,6 @@
   </wsdl:message>
   <wsdl:message name="addOutcomeLoToCluResponse">
     <wsdl:part name="parameters" element="tns:addOutcomeLoToCluResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForLuiLuiRelationsResponse">
-    <wsdl:part name="parameters" element="tns:searchForLuiLuiRelationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addCluResourceRequirementResponse">
@@ -3353,10 +3212,6 @@
     <wsdl:part name="parameters" element="tns:getReqComponentType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForLuisResponse">
-    <wsdl:part name="parameters" element="tns:searchForLuisResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getCluCluRelation">
     <wsdl:part name="parameters" element="tns:getCluCluRelation">
     </wsdl:part>
@@ -3461,20 +3316,16 @@
     <wsdl:part name="parameters" element="tns:getCluSetInfo">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createDynamicCluSet">
-    <wsdl:part name="parameters" element="tns:createDynamicCluSet">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getRelatedClusByCluIdResponse">
     <wsdl:part name="parameters" element="tns:getRelatedClusByCluIdResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getLuLuRelationTypeInfoResponse">
-    <wsdl:part name="parameters" element="tns:getLuLuRelationTypeInfoResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getLuStatementTypes">
     <wsdl:part name="parameters" element="tns:getLuStatementTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLuLuRelationTypeInfoResponse">
+    <wsdl:part name="parameters" element="tns:getLuLuRelationTypeInfoResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteLuiLuiRelationResponse">
@@ -3517,10 +3368,6 @@
     <wsdl:part name="parameters" element="tns:getSearchTypesByResult">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="searchForClusResponse">
-    <wsdl:part name="parameters" element="tns:searchForClusResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getResourceRequirementsForCluIdResponse">
     <wsdl:part name="parameters" element="tns:getResourceRequirementsForCluIdResponse">
     </wsdl:part>
@@ -3537,12 +3384,12 @@
     <wsdl:part name="parameters" element="tns:getLrTypesForLuiResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="isCluInCluSetResponse">
-    <wsdl:part name="parameters" element="tns:isCluInCluSetResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="deleteLuDocRelationResponse">
     <wsdl:part name="parameters" element="tns:deleteLuDocRelationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isCluInCluSetResponse">
+    <wsdl:part name="parameters" element="tns:isCluInCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getStatementsUsingComponentResponse">
@@ -3659,10 +3506,6 @@
   </wsdl:message>
   <wsdl:message name="getAllClusInCluSet">
     <wsdl:part name="parameters" element="tns:getAllClusInCluSet">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForLuiLuiRelations">
-    <wsdl:part name="parameters" element="tns:searchForLuiLuiRelations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addCluToCluSetResponse">
@@ -3972,18 +3815,6 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="searchForCluCluRelations">
-      <wsdl:input name="searchForCluCluRelations" message="tns:searchForCluCluRelations">
-    </wsdl:input>
-      <wsdl:output name="searchForCluCluRelationsResponse" message="tns:searchForCluCluRelationsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getLuDocRelationsByType">
       <wsdl:input name="getLuDocRelationsByType" message="tns:getLuDocRelationsByType">
     </wsdl:input>
@@ -4262,18 +4093,6 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="searchForLuiLuiRelations">
-      <wsdl:input name="searchForLuiLuiRelations" message="tns:searchForLuiLuiRelations">
-    </wsdl:input>
-      <wsdl:output name="searchForLuiLuiRelationsResponse" message="tns:searchForLuiLuiRelationsResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getCluCluRelation">
       <wsdl:input name="getCluCluRelation" message="tns:getCluCluRelation">
     </wsdl:input>
@@ -4516,6 +4335,20 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getSearchType">
+      <wsdl:input name="getSearchType" message="tns:getSearchType">
+    </wsdl:input>
+      <wsdl:output name="getSearchTypeResponse" message="tns:getSearchTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="removeOutcomeLoFromLui">
       <wsdl:input name="removeOutcomeLoFromLui" message="tns:removeOutcomeLoFromLui">
     </wsdl:input>
@@ -4528,26 +4361,6 @@
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getEnumeration">
-      <wsdl:input name="getEnumeration" message="tns:getEnumeration">
-    </wsdl:input>
-      <wsdl:output name="getEnumerationResponse" message="tns:getEnumerationResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getSearchType">
-      <wsdl:input name="getSearchType" message="tns:getSearchType">
-    </wsdl:input>
-      <wsdl:output name="getSearchTypeResponse" message="tns:getSearchTypeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -4570,23 +4383,11 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createDynamicCluSet">
-      <wsdl:input name="createDynamicCluSet" message="tns:createDynamicCluSet">
+    <wsdl:operation name="getEnumeration">
+      <wsdl:input name="getEnumeration" message="tns:getEnumeration">
     </wsdl:input>
-      <wsdl:output name="createDynamicCluSetResponse" message="tns:createDynamicCluSetResponse">
+      <wsdl:output name="getEnumerationResponse" message="tns:getEnumerationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getLrType">
       <wsdl:input name="getLrType" message="tns:getLrType">
@@ -4676,18 +4477,6 @@
       <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
     </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForLuis">
-      <wsdl:input name="searchForLuis" message="tns:searchForLuis">
-    </wsdl:input>
-      <wsdl:output name="searchForLuisResponse" message="tns:searchForLuisResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
@@ -5622,18 +5411,6 @@
       <wsdl:output name="validateStructureDataResponse" message="tns:validateStructureDataResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="searchForClus">
-      <wsdl:input name="searchForClus" message="tns:searchForClus">
-    </wsdl:input>
-      <wsdl:output name="searchForClusResponse" message="tns:searchForClusResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getCluSetInfo">
       <wsdl:input name="getCluSetInfo" message="tns:getCluSetInfo">
     </wsdl:input>
@@ -6146,24 +5923,6 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="searchForCluCluRelations">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForCluCluRelations">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForCluCluRelationsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="addCluResourceRequirement">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="addCluResourceRequirement">
@@ -6581,24 +6340,6 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="searchForLuiLuiRelations">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForLuiLuiRelations">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForLuiLuiRelationsResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getCluCluRelation">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getCluCluRelation">
@@ -6962,39 +6703,6 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="removeOutcomeLoFromLui">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="removeOutcomeLoFromLui">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="removeOutcomeLoFromLuiResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getEnumeration">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getEnumeration">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getEnumerationResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="getSearchType">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getSearchType">
@@ -7043,25 +6751,22 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createDynamicCluSet">
+    <wsdl:operation name="removeOutcomeLoFromLui">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createDynamicCluSet">
+      <wsdl:input name="removeOutcomeLoFromLui">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="createDynamicCluSetResponse">
+      <wsdl:output name="removeOutcomeLoFromLuiResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
         <soap:fault name="InvalidParameterException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="DataValidationErrorException">
-        <soap:fault name="DataValidationErrorException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="MissingParameterException">
         <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException">
-        <soap:fault name="AlreadyExistsException" use="literal"/>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException">
         <soap:fault name="PermissionDeniedException" use="literal"/>
@@ -7069,6 +6774,15 @@
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumeration">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnumeration">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnumerationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getLrType">
       <soap:operation soapAction="" style="document"/>
@@ -7173,24 +6887,6 @@
       </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForLuis">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForLuis">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForLuisResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -8620,24 +8316,6 @@
       <wsdl:output name="validateStructureDataResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="searchForClus">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForClus">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForClusResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getCluIdsByRelation">
       <soap:operation soapAction="" style="document"/>

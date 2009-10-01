@@ -1,74 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="LoService" targetNamespace="http://student.kuali.org/wsdl/lo" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DependentObjectsExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="UnsupportedActionException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="CircularReferenceException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
     <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
@@ -819,6 +751,36 @@
     <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns0:getSearchTypesByCriteria"/>
     <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns0:getSearchTypesByCriteriaResponse"/>
 </xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/lo" xmlns:tns="http://student.kuali.org/wsdl/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerable">
+    <xs:import namespace="http://student.kuali.org/wsdl/lo"/>
+    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
+    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
+    <xs:complexType name="getEnumeration">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="code" type="xs:string"/>
+                        <xs:element name="abbrevValue" type="xs:string"/>
+                        <xs:element name="effectiveDate" type="xs:dateTime"/>
+                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
+                        <xs:element maxOccurs="unbounded" name="contexts" type="ns0:context"/>
+                        <xs:element name="value" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
     <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
@@ -993,19 +955,10 @@
             <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="criteriaSet">
+    <xs:complexType name="searchRelationship">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="criterion" type="tns:criterion"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="criteria" type="tns:criteriaSet"/>
-        </xs:sequence>
-        <xs:attribute name="operator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="criterion">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="attribute" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="operator" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="values" type="xs:string"/>
+            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
+            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="typeAttribute">
@@ -1015,46 +968,72 @@
             <xs:element minOccurs="0" name="alias" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="searchIndexedType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="allias" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchRelationship">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
-            <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
-        </xs:sequence>
-    </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/lo" xmlns:tns="http://student.kuali.org/wsdl/enumerable" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerable">
-    <xs:import namespace="http://student.kuali.org/wsdl/lo"/>
-    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
-    <xs:complexType name="getEnumeration">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="OperationFailedException">
         <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getEnumerationResponse">
+    <xs:complexType name="DoesNotExistException">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="code" type="xs:string"/>
-                        <xs:element name="abbrevValue" type="xs:string"/>
-                        <xs:element name="effectiveDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-                        <xs:element minOccurs="0" name="sortKey" type="xs:int"/>
-                        <xs:element maxOccurs="unbounded" name="contexts" type="ns0:context"/>
-                        <xs:element name="value" type="xs:string"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DependentObjectsExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="UnsupportedActionException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CircularReferenceException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

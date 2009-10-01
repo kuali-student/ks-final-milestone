@@ -41,9 +41,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
@@ -56,9 +54,7 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -535,18 +531,8 @@ public class LuServiceImpl implements LuService {
 
         return LuServiceAssembler.toCluCluRelationInfo(cluCluRelation);
     }
-
-    @Override
-    public CluSetInfo createDynamicCluSet(String cluSetName,
-            CluSetInfo cluSetInfo, CluCriteriaInfo cluCriteria)
-    throws AlreadyExistsException, DataValidationErrorException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
+    
+   	@Override
     public CluSetInfo createEnumeratedCluSet(String cluSetName,
             CluSetInfo cluSetInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
@@ -556,9 +542,9 @@ public class LuServiceImpl implements LuService {
         checkForMissingParameter(cluSetName, "cluSetName");
         checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
-        if(cluSetInfo.getCluCriteria()!=null){
-            throw new InvalidParameterException("Enumerated CluSets can not contain Criteria");
-        }
+//        if(cluSetInfo.getCluCriteria()!=null){
+//            throw new InvalidParameterException("Enumerated CluSets can not contain Criteria");
+//        }
 
         CluSet cluSet = new CluSet();
         BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id", "desc", "name", "attributes", "metaInfo" });
@@ -1793,40 +1779,6 @@ public class LuServiceImpl implements LuService {
     }
 
     @Override
-    public List<String> searchForCluCluRelations(
-            CluCluRelationCriteriaInfo cluCluRelationCriteria)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> searchForClus(CluCriteriaInfo cluCriteria)
-    throws InvalidParameterException, MissingParameterException,
-    OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> searchForLuiLuiRelations(
-            LuiLuiRelationCriteriaInfo luiLuiRelationCriteria)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> searchForLuis(LuiCriteriaInfo luiCriteria)
-    throws InvalidParameterException, MissingParameterException,
-    OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public List<Result> searchForResults(String searchTypeKey,
             List<QueryParamValue> queryParamValues)
             throws DoesNotExistException, InvalidParameterException,
@@ -2274,10 +2226,11 @@ public class LuServiceImpl implements LuService {
         }
 
         if(!cluSet.isCriteriaSet()){
-            if(cluSetInfo.getCluCriteria()!=null){
-                throw new UnsupportedActionException("Enumerated CluSets can not contain Criteria");
-            }
-            //update the cluIds
+//            if(cluSetInfo.getCluCriteria()!=null){
+//                throw new UnsupportedActionException("Enumerated CluSets can not contain Criteria");
+//            }
+
+        	//update the cluIds
             Set<String> newCluIds = new HashSet<String>(cluSetInfo.getCluIds());
             for(Iterator<Clu> i = cluSet.getClus().iterator();i.hasNext();){
                 if(!newCluIds.remove(i.next().getId())){

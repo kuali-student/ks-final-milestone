@@ -26,9 +26,7 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.lum.lu.dto.CluCluRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluCriteriaInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
@@ -38,9 +36,7 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteriaInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -145,15 +141,6 @@ public class LuServiceMock implements LuService {
 			CluCluRelationInfo cluCluRelationInfo)
 			throws AlreadyExistsException, CircularReferenceException,
 			DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		return null;
-	}
-
-	@Override
-	public CluSetInfo createDynamicCluSet(String cluSetName,
-			CluSetInfo cluSetInfo, CluCriteriaInfo cluCriteria)
-			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		return null;
@@ -873,36 +860,6 @@ public class LuServiceMock implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
-	}
-
-	@Override
-	public List<String> searchForCluCluRelations(
-			CluCluRelationCriteriaInfo cluCluRelationCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<String> searchForClus(CluCriteriaInfo cluCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<String> searchForLuiLuiRelations(
-			LuiLuiRelationCriteriaInfo luiLuiRelationCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<String> searchForLuis(LuiCriteriaInfo luiCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
 		return null;
 	}
 

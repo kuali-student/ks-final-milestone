@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="LrcService" targetNamespace="http://student.kuali.org/wsdl/lrc" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lrc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/lrc" xmlns:tns="http://service.lrc.lum.student.kuali.org/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.lrc.lum.student.kuali.org/">
     <xs:import namespace="http://student.kuali.org/wsdl/lrc"/>
     <xs:element name="compareGradesResponse" type="tns:compareGradesResponse"/>
@@ -31,19 +81,6 @@
     <xs:element name="getScaleResponse" type="tns:getScaleResponse"/>
     <xs:element name="translateGradeResponse" type="tns:translateGradeResponse"/>
     <xs:element name="updateResultComponentResponse" type="tns:updateResultComponentResponse"/>
-    <xs:complexType name="getCredentialTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getCredentialTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:credentialTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getGradesByKeyListResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="getGradeKeysByGradeTypeResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
@@ -54,62 +91,37 @@
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:creditInfo"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="getCreditTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:creditTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getResultComponentIdsByResultComponentTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="getResultComponentIdsByResultResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="updateResultComponentResponse">
+    <xs:complexType name="createResultComponentResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="ns1:resultComponentInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getGradeResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:gradeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="deleteResultComponentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getResultComponentTypeResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:resultComponentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCredentialsByKeyListResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:credentialInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getResultComponentTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:resultComponentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getGradeTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getScaleResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:scaleInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="translateGradeResponse">
+    <xs:complexType name="getGradesByScaleResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getCreditTypeResponse">
+    <xs:complexType name="getCreditResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:creditTypeInfo"/>
+            <xs:element minOccurs="0" name="return" type="ns1:creditInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getResultComponentResponse">
+    <xs:complexType name="updateResultComponentResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="ns1:resultComponentInfo"/>
         </xs:sequence>
@@ -119,39 +131,24 @@
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getCredentialKeysByCredentialTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getResultComponentIdsByResultComponentTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getGradesByScaleResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createResultComponentResponse">
+    <xs:complexType name="getResultComponentResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="ns1:resultComponentInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getGradeTypeResponse">
+    <xs:complexType name="getGradeTypesResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:gradeTypeInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getCreditTypesResponse">
+    <xs:complexType name="getResultComponentTypeResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:creditTypeInfo"/>
+            <xs:element minOccurs="0" name="return" type="ns1:resultComponentTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getCreditResponse">
+    <xs:complexType name="getCredentialKeysByCredentialTypeResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:creditInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getCredentialTypeResponse">
@@ -164,59 +161,62 @@
             <xs:element minOccurs="0" name="return" type="ns1:credentialInfo"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="deleteResultComponentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getResultComponentTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:resultComponentTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="compareGradesResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="OperationFailedException">
+    <xs:complexType name="getCredentialTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getCredentialTypesResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:credentialTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="MissingParameterException">
+    <xs:complexType name="getCredentialsByKeyListResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:credentialInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
+    <xs:complexType name="translateGradeResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
+    <xs:complexType name="getCreditTypeResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="return" type="ns1:creditTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
+    <xs:complexType name="getGradeResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="return" type="ns1:gradeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
+    <xs:complexType name="getScaleResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="return" type="ns1:scaleInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
+    <xs:complexType name="getGradesByKeyListResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:gradeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
+    <xs:complexType name="getGradeTypeResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="return" type="ns1:gradeTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
@@ -247,45 +247,6 @@
     <xs:element name="getScale" type="tns:getScale"/>
     <xs:element name="translateGrade" type="tns:translateGrade"/>
     <xs:element name="updateResultComponent" type="tns:updateResultComponent"/>
-    <xs:complexType name="credentialTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="jaxbAttributeList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Attribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getGradesByKeyList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="gradeKeyList" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="gradeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element minOccurs="0" name="scaleKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="rank" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
     <xs:complexType name="getGradeKeysByGradeType">
         <xs:sequence>
             <xs:element minOccurs="0" name="gradeTypeKey" type="xs:string"/>
@@ -314,15 +275,44 @@
             <xs:element minOccurs="0" name="formatted" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getCreditTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="creditTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getResultComponentIdsByResultComponentType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="resultComponentTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="getResultComponentIdsByResult">
         <xs:sequence>
             <xs:element minOccurs="0" name="resultValueId" type="xs:string"/>
             <xs:element minOccurs="0" name="resultComponentTypeKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="updateResultComponent">
+    <xs:complexType name="createResultComponent">
         <xs:sequence>
-            <xs:element minOccurs="0" name="resultComponentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="resultComponentTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="resultComponentInfo" type="tns:resultComponentInfo"/>
         </xs:sequence>
     </xs:complexType>
@@ -349,21 +339,57 @@
             <xs:element minOccurs="0" name="updateId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getGrade">
+    <xs:complexType name="getGradesByScale">
         <xs:sequence>
-            <xs:element minOccurs="0" name="gradeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="scale" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="deleteResultComponent">
+    <xs:complexType name="gradeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element minOccurs="0" name="scaleKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="rank" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getCredit">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="creditKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateResultComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="resultComponentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="resultComponentInfo" type="tns:resultComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCreditKeysByCreditType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="creditTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getResultComponent">
         <xs:sequence>
             <xs:element minOccurs="0" name="resultComponentId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="statusInfo">
+    <xs:complexType name="getGradeTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="gradeTypeInfo">
         <xs:sequence>
-            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
         </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="getResultComponentType">
         <xs:sequence>
@@ -380,9 +406,29 @@
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="getCredentialsByKeyList">
+    <xs:complexType name="getCredentialKeysByCredentialType">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="credentialKeyList" type="xs:string"/>
+            <xs:element minOccurs="0" name="credentialTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCredentialType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="credentialTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="credentialTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getCredential">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="credentialKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="credentialInfo">
@@ -397,21 +443,49 @@
         <xs:attribute name="type" type="xs:string"/>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
+    <xs:complexType name="deleteResultComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="resultComponentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="getResultComponentTypes">
         <xs:sequence/>
     </xs:complexType>
-    <xs:complexType name="getGradeTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="gradeTypeInfo">
+    <xs:complexType name="compareGrades">
         <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="gradeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="scaleKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="compareGradeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="compareScaleKey" type="xs:string"/>
         </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getCredentialsByKeyList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="credentialKeyList" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="translateGrade">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="gradeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="scaleKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="translateScaleKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getCreditType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="creditTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getGrade">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="gradeKey" type="xs:string"/>
+        </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getScale">
         <xs:sequence>
@@ -428,57 +502,9 @@
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="translateGrade">
+    <xs:complexType name="getGradesByKeyList">
         <xs:sequence>
-            <xs:element minOccurs="0" name="gradeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="scaleKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="translateScaleKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCreditType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="creditTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="creditTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getResultComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="resultComponentId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCreditKeysByCreditType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="creditTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCredentialKeysByCredentialType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="credentialTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getResultComponentIdsByResultComponentType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="resultComponentTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getGradesByScale">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="scale" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createResultComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="resultComponentTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="resultComponentInfo" type="tns:resultComponentInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="gradeKeyList" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="getGradeType">
@@ -486,70 +512,112 @@
             <xs:element minOccurs="0" name="gradeTypeKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getCreditTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getCredit">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="creditKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCredentialType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="credentialTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getCredential">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="credentialKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="compareGrades">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="gradeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="scaleKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="compareGradeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="compareScaleKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:element name="getCredentialTypes" nillable="true" type="ns0:getCredentialTypes"/>
-    <xs:element name="getCredentialTypesResponse" nillable="true" type="ns0:getCredentialTypesResponse"/>
-    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
-    <xs:element name="getGradesByKeyListResponse" nillable="true" type="ns0:getGradesByKeyListResponse"/>
-    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
-    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
     <xs:element name="getGradeKeysByGradeTypeResponse" nillable="true" type="ns0:getGradeKeysByGradeTypeResponse"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
     <xs:element name="getCreditsByKeyListResponse" nillable="true" type="ns0:getCreditsByKeyListResponse"/>
-    <xs:element name="getResultComponentIdsByResultResponse" nillable="true" type="ns0:getResultComponentIdsByResultResponse"/>
-    <xs:element name="updateResultComponentResponse" nillable="true" type="ns0:updateResultComponentResponse"/>
-    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" nillable="true" type="ns1:VersionMismatchException"/>
-    <xs:element name="DataValidationErrorException" nillable="true" type="ns1:DataValidationErrorException"/>
-    <xs:element name="getGradeResponse" nillable="true" type="ns0:getGradeResponse"/>
-    <xs:element name="deleteResultComponentResponse" nillable="true" type="ns0:deleteResultComponentResponse"/>
-    <xs:element name="getResultComponentTypeResponse" nillable="true" type="ns0:getResultComponentTypeResponse"/>
-    <xs:element name="getCredentialsByKeyListResponse" nillable="true" type="ns0:getCredentialsByKeyListResponse"/>
-    <xs:element name="getResultComponentTypesResponse" nillable="true" type="ns0:getResultComponentTypesResponse"/>
-    <xs:element name="getGradeTypesResponse" nillable="true" type="ns0:getGradeTypesResponse"/>
-    <xs:element name="getScaleResponse" nillable="true" type="ns0:getScaleResponse"/>
-    <xs:element name="translateGradeResponse" nillable="true" type="ns0:translateGradeResponse"/>
-    <xs:element name="getCreditTypeResponse" nillable="true" type="ns0:getCreditTypeResponse"/>
-    <xs:element name="getResultComponentResponse" nillable="true" type="ns0:getResultComponentResponse"/>
-    <xs:element name="getCreditKeysByCreditTypeResponse" nillable="true" type="ns0:getCreditKeysByCreditTypeResponse"/>
-    <xs:element name="getCredentialKeysByCredentialTypeResponse" nillable="true" type="ns0:getCredentialKeysByCredentialTypeResponse"/>
+    <xs:element name="getCreditTypesResponse" nillable="true" type="ns0:getCreditTypesResponse"/>
     <xs:element name="getResultComponentIdsByResultComponentTypeResponse" nillable="true" type="ns0:getResultComponentIdsByResultComponentTypeResponse"/>
-    <xs:element name="getGradesByScaleResponse" nillable="true" type="ns0:getGradesByScaleResponse"/>
+    <xs:element name="getResultComponentIdsByResultResponse" nillable="true" type="ns0:getResultComponentIdsByResultResponse"/>
     <xs:element name="createResultComponentResponse" nillable="true" type="ns0:createResultComponentResponse"/>
     <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
-    <xs:element name="getGradeTypeResponse" nillable="true" type="ns0:getGradeTypeResponse"/>
-    <xs:element name="getCreditTypesResponse" nillable="true" type="ns0:getCreditTypesResponse"/>
+    <xs:element name="DataValidationErrorException" nillable="true" type="ns1:DataValidationErrorException"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
+    <xs:element name="getGradesByScaleResponse" nillable="true" type="ns0:getGradesByScaleResponse"/>
     <xs:element name="getCreditResponse" nillable="true" type="ns0:getCreditResponse"/>
+    <xs:element name="updateResultComponentResponse" nillable="true" type="ns0:updateResultComponentResponse"/>
+    <xs:element name="VersionMismatchException" nillable="true" type="ns1:VersionMismatchException"/>
+    <xs:element name="getCreditKeysByCreditTypeResponse" nillable="true" type="ns0:getCreditKeysByCreditTypeResponse"/>
+    <xs:element name="getResultComponentResponse" nillable="true" type="ns0:getResultComponentResponse"/>
+    <xs:element name="getGradeTypesResponse" nillable="true" type="ns0:getGradeTypesResponse"/>
+    <xs:element name="getResultComponentTypeResponse" nillable="true" type="ns0:getResultComponentTypeResponse"/>
+    <xs:element name="getCredentialKeysByCredentialTypeResponse" nillable="true" type="ns0:getCredentialKeysByCredentialTypeResponse"/>
     <xs:element name="getCredentialTypeResponse" nillable="true" type="ns0:getCredentialTypeResponse"/>
     <xs:element name="getCredentialResponse" nillable="true" type="ns0:getCredentialResponse"/>
+    <xs:element name="deleteResultComponentResponse" nillable="true" type="ns0:deleteResultComponentResponse"/>
+    <xs:element name="getResultComponentTypesResponse" nillable="true" type="ns0:getResultComponentTypesResponse"/>
     <xs:element name="compareGradesResponse" nillable="true" type="ns0:compareGradesResponse"/>
+    <xs:element name="getCredentialTypes" nillable="true" type="ns0:getCredentialTypes"/>
+    <xs:element name="getCredentialTypesResponse" nillable="true" type="ns0:getCredentialTypesResponse"/>
+    <xs:element name="getCredentialsByKeyListResponse" nillable="true" type="ns0:getCredentialsByKeyListResponse"/>
+    <xs:element name="translateGradeResponse" nillable="true" type="ns0:translateGradeResponse"/>
+    <xs:element name="getCreditTypeResponse" nillable="true" type="ns0:getCreditTypeResponse"/>
+    <xs:element name="getGradeResponse" nillable="true" type="ns0:getGradeResponse"/>
+    <xs:element name="getScaleResponse" nillable="true" type="ns0:getScaleResponse"/>
+    <xs:element name="getGradesByKeyListResponse" nillable="true" type="ns0:getGradesByKeyListResponse"/>
+    <xs:element name="getGradeTypeResponse" nillable="true" type="ns0:getGradeTypeResponse"/>
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="getCredit">
+    <wsdl:part name="parameters" element="tns:getCredit">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultComponentIdsByResultComponentType">
+    <wsdl:part name="parameters" element="tns:getResultComponentIdsByResultComponentType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradeTypes">
+    <wsdl:part name="parameters" element="tns:getGradeTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCreditsByKeyListResponse">
+    <wsdl:part name="parameters" element="tns:getCreditsByKeyListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCredentialTypes">
+    <wsdl:part name="parameters" element="tns:getCredentialTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCreditKeysByCreditTypeResponse">
+    <wsdl:part name="parameters" element="tns:getCreditKeysByCreditTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradesByKeyListResponse">
+    <wsdl:part name="parameters" element="tns:getGradesByKeyListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getGradesByKeyList">
+    <wsdl:part name="parameters" element="tns:getGradesByKeyList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultComponentTypeResponse">
+    <wsdl:part name="parameters" element="tns:getResultComponentTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCreditsByKeyList">
+    <wsdl:part name="parameters" element="tns:getCreditsByKeyList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultComponentType">
+    <wsdl:part name="parameters" element="tns:getResultComponentType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResultComponentTypesResponse">
+    <wsdl:part name="parameters" element="tns:getResultComponentTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getCreditResponse">
     <wsdl:part name="parameters" element="tns:getCreditResponse">
     </wsdl:part>
@@ -578,16 +646,16 @@
     <wsdl:part name="parameters" element="tns:getResultComponentIdsByResultResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCredentialsByKeyListResponse">
-    <wsdl:part name="parameters" element="tns:getCredentialsByKeyListResponse">
+  <wsdl:message name="getCreditTypeResponse">
+    <wsdl:part name="parameters" element="tns:getCreditTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="compareGradesResponse">
     <wsdl:part name="parameters" element="tns:compareGradesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCreditTypeResponse">
-    <wsdl:part name="parameters" element="tns:getCreditTypeResponse">
+  <wsdl:message name="getCredentialsByKeyListResponse">
+    <wsdl:part name="parameters" element="tns:getCredentialsByKeyListResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCredential">
@@ -606,88 +674,64 @@
     <wsdl:part name="parameters" element="tns:deleteResultComponent">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCredit">
-    <wsdl:part name="parameters" element="tns:getCredit">
+  <wsdl:message name="updateResultComponent">
+    <wsdl:part name="parameters" element="tns:updateResultComponent">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResultComponentIdsByResultComponentType">
-    <wsdl:part name="parameters" element="tns:getResultComponentIdsByResultComponentType">
+  <wsdl:message name="createResultComponentResponse">
+    <wsdl:part name="parameters" element="tns:createResultComponentResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getGradeTypes">
-    <wsdl:part name="parameters" element="tns:getGradeTypes">
+  <wsdl:message name="compareGrades">
+    <wsdl:part name="parameters" element="tns:compareGrades">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCreditKeysByCreditTypeResponse">
-    <wsdl:part name="parameters" element="tns:getCreditKeysByCreditTypeResponse">
+  <wsdl:message name="getCredentialResponse">
+    <wsdl:part name="parameters" element="tns:getCredentialResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCredentialTypes">
-    <wsdl:part name="parameters" element="tns:getCredentialTypes">
+  <wsdl:message name="getCredentialsByKeyList">
+    <wsdl:part name="parameters" element="tns:getCredentialsByKeyList">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCreditsByKeyListResponse">
-    <wsdl:part name="parameters" element="tns:getCreditsByKeyListResponse">
+  <wsdl:message name="getGradeTypesResponse">
+    <wsdl:part name="parameters" element="tns:getGradeTypesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getGradesByKeyListResponse">
-    <wsdl:part name="parameters" element="tns:getGradesByKeyListResponse">
+  <wsdl:message name="getScale">
+    <wsdl:part name="parameters" element="tns:getScale">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getGradesByKeyList">
-    <wsdl:part name="parameters" element="tns:getGradesByKeyList">
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCreditsByKeyList">
-    <wsdl:part name="parameters" element="tns:getCreditsByKeyList">
+  <wsdl:message name="getResultComponentIdsByResultComponentTypeResponse">
+    <wsdl:part name="parameters" element="tns:getResultComponentIdsByResultComponentTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResultComponentTypeResponse">
-    <wsdl:part name="parameters" element="tns:getResultComponentTypeResponse">
+  <wsdl:message name="getCredentialType">
+    <wsdl:part name="parameters" element="tns:getCredentialType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="DataValidationErrorException">
-    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+  <wsdl:message name="getGradesByScale">
+    <wsdl:part name="parameters" element="tns:getGradesByScale">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResultComponentType">
-    <wsdl:part name="parameters" element="tns:getResultComponentType">
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getResultComponentTypesResponse">
-    <wsdl:part name="parameters" element="tns:getResultComponentTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="PermissionDeniedException">
-    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="OperationFailedException">
-    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="VersionMismatchException">
-    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="AlreadyExistsException">
-    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getGrade">
-    <wsdl:part name="parameters" element="tns:getGrade">
+  <wsdl:message name="getResultComponent">
+    <wsdl:part name="parameters" element="tns:getResultComponent">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCredentialTypesResponse">
     <wsdl:part name="parameters" element="tns:getCredentialTypesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCreditTypes">
-    <wsdl:part name="parameters" element="tns:getCreditTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="translateGrade">
-    <wsdl:part name="parameters" element="tns:translateGrade">
+  <wsdl:message name="getGrade">
+    <wsdl:part name="parameters" element="tns:getGrade">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getGradeResponse">
@@ -702,12 +746,24 @@
     <wsdl:part name="parameters" element="tns:getResultComponentIdsByResult">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="InvalidParameterException">
-    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+  <wsdl:message name="translateGrade">
+    <wsdl:part name="parameters" element="tns:translateGrade">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCreditTypes">
+    <wsdl:part name="parameters" element="tns:getCreditTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createResultComponent">
     <wsdl:part name="parameters" element="tns:createResultComponent">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="translateGradeResponse">
+    <wsdl:part name="parameters" element="tns:translateGradeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCreditType">
@@ -718,24 +774,20 @@
     <wsdl:part name="parameters" element="tns:getCredentialKeysByCredentialTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="translateGradeResponse">
-    <wsdl:part name="parameters" element="tns:translateGradeResponse">
+  <wsdl:message name="getGradesByScaleResponse">
+    <wsdl:part name="parameters" element="tns:getGradesByScaleResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResultComponentTypes">
     <wsdl:part name="parameters" element="tns:getResultComponentTypes">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getGradesByScaleResponse">
-    <wsdl:part name="parameters" element="tns:getGradesByScaleResponse">
+  <wsdl:message name="getCreditTypesResponse">
+    <wsdl:part name="parameters" element="tns:getCreditTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCredentialTypeResponse">
     <wsdl:part name="parameters" element="tns:getCredentialTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCreditTypesResponse">
-    <wsdl:part name="parameters" element="tns:getCreditTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getResultComponentResponse">
@@ -746,81 +798,7 @@
     <wsdl:part name="parameters" element="tns:getGradeKeysByGradeTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateResultComponent">
-    <wsdl:part name="parameters" element="tns:updateResultComponent">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="compareGrades">
-    <wsdl:part name="parameters" element="tns:compareGrades">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createResultComponentResponse">
-    <wsdl:part name="parameters" element="tns:createResultComponentResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCredentialsByKeyList">
-    <wsdl:part name="parameters" element="tns:getCredentialsByKeyList">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCredentialResponse">
-    <wsdl:part name="parameters" element="tns:getCredentialResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="MissingParameterException">
-    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getScale">
-    <wsdl:part name="parameters" element="tns:getScale">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getResultComponentIdsByResultComponentTypeResponse">
-    <wsdl:part name="parameters" element="tns:getResultComponentIdsByResultComponentTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getGradeTypesResponse">
-    <wsdl:part name="parameters" element="tns:getGradeTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCredentialType">
-    <wsdl:part name="parameters" element="tns:getCredentialType">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="DoesNotExistException">
-    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getResultComponent">
-    <wsdl:part name="parameters" element="tns:getResultComponent">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getGradesByScale">
-    <wsdl:part name="parameters" element="tns:getGradesByScale">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:portType name="LrcService">
-    <wsdl:operation name="getCredentialTypes">
-      <wsdl:input name="getCredentialTypes" message="tns:getCredentialTypes">
-    </wsdl:input>
-      <wsdl:output name="getCredentialTypesResponse" message="tns:getCredentialTypesResponse">
-    </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getGradesByKeyList">
-      <wsdl:input name="getGradesByKeyList" message="tns:getGradesByKeyList">
-    </wsdl:input>
-      <wsdl:output name="getGradesByKeyListResponse" message="tns:getGradesByKeyListResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getGradeKeysByGradeType">
       <wsdl:input name="getGradeKeysByGradeType" message="tns:getGradeKeysByGradeType">
     </wsdl:input>
@@ -849,193 +827,11 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getResultComponentIdsByResult">
-      <wsdl:input name="getResultComponentIdsByResult" message="tns:getResultComponentIdsByResult">
+    <wsdl:operation name="getCreditTypes">
+      <wsdl:input name="getCreditTypes" message="tns:getCreditTypes">
     </wsdl:input>
-      <wsdl:output name="getResultComponentIdsByResultResponse" message="tns:getResultComponentIdsByResultResponse">
+      <wsdl:output name="getCreditTypesResponse" message="tns:getCreditTypesResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="updateResultComponent">
-      <wsdl:input name="updateResultComponent" message="tns:updateResultComponent">
-    </wsdl:input>
-      <wsdl:output name="updateResultComponentResponse" message="tns:updateResultComponentResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getGrade">
-      <wsdl:input name="getGrade" message="tns:getGrade">
-    </wsdl:input>
-      <wsdl:output name="getGradeResponse" message="tns:getGradeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deleteResultComponent">
-      <wsdl:input name="deleteResultComponent" message="tns:deleteResultComponent">
-    </wsdl:input>
-      <wsdl:output name="deleteResultComponentResponse" message="tns:deleteResultComponentResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getResultComponentType">
-      <wsdl:input name="getResultComponentType" message="tns:getResultComponentType">
-    </wsdl:input>
-      <wsdl:output name="getResultComponentTypeResponse" message="tns:getResultComponentTypeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCredentialsByKeyList">
-      <wsdl:input name="getCredentialsByKeyList" message="tns:getCredentialsByKeyList">
-    </wsdl:input>
-      <wsdl:output name="getCredentialsByKeyListResponse" message="tns:getCredentialsByKeyListResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getResultComponentTypes">
-      <wsdl:input name="getResultComponentTypes" message="tns:getResultComponentTypes">
-    </wsdl:input>
-      <wsdl:output name="getResultComponentTypesResponse" message="tns:getResultComponentTypesResponse">
-    </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getGradeTypes">
-      <wsdl:input name="getGradeTypes" message="tns:getGradeTypes">
-    </wsdl:input>
-      <wsdl:output name="getGradeTypesResponse" message="tns:getGradeTypesResponse">
-    </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getScale">
-      <wsdl:input name="getScale" message="tns:getScale">
-    </wsdl:input>
-      <wsdl:output name="getScaleResponse" message="tns:getScaleResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="translateGrade">
-      <wsdl:input name="translateGrade" message="tns:translateGrade">
-    </wsdl:input>
-      <wsdl:output name="translateGradeResponse" message="tns:translateGradeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCreditType">
-      <wsdl:input name="getCreditType" message="tns:getCreditType">
-    </wsdl:input>
-      <wsdl:output name="getCreditTypeResponse" message="tns:getCreditTypeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getResultComponent">
-      <wsdl:input name="getResultComponent" message="tns:getResultComponent">
-    </wsdl:input>
-      <wsdl:output name="getResultComponentResponse" message="tns:getResultComponentResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCreditKeysByCreditType">
-      <wsdl:input name="getCreditKeysByCreditType" message="tns:getCreditKeysByCreditType">
-    </wsdl:input>
-      <wsdl:output name="getCreditKeysByCreditTypeResponse" message="tns:getCreditKeysByCreditTypeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCredentialKeysByCredentialType">
-      <wsdl:input name="getCredentialKeysByCredentialType" message="tns:getCredentialKeysByCredentialType">
-    </wsdl:input>
-      <wsdl:output name="getCredentialKeysByCredentialTypeResponse" message="tns:getCredentialKeysByCredentialTypeResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
@@ -1053,10 +849,10 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getGradesByScale">
-      <wsdl:input name="getGradesByScale" message="tns:getGradesByScale">
+    <wsdl:operation name="getResultComponentIdsByResult">
+      <wsdl:input name="getResultComponentIdsByResult" message="tns:getResultComponentIdsByResult">
     </wsdl:input>
-      <wsdl:output name="getGradesByScaleResponse" message="tns:getGradesByScaleResponse">
+      <wsdl:output name="getResultComponentIdsByResultResponse" message="tns:getResultComponentIdsByResultResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1082,15 +878,15 @@
     </wsdl:fault>
       <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getGradeType">
-      <wsdl:input name="getGradeType" message="tns:getGradeType">
+    <wsdl:operation name="getGradesByScale">
+      <wsdl:input name="getGradesByScale" message="tns:getGradesByScale">
     </wsdl:input>
-      <wsdl:output name="getGradeTypeResponse" message="tns:getGradeTypeResponse">
+      <wsdl:output name="getGradesByScaleResponse" message="tns:getGradesByScaleResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1101,18 +897,94 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getCreditTypes">
-      <wsdl:input name="getCreditTypes" message="tns:getCreditTypes">
-    </wsdl:input>
-      <wsdl:output name="getCreditTypesResponse" message="tns:getCreditTypesResponse">
-    </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getCredit">
       <wsdl:input name="getCredit" message="tns:getCredit">
     </wsdl:input>
       <wsdl:output name="getCreditResponse" message="tns:getCreditResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateResultComponent">
+      <wsdl:input name="updateResultComponent" message="tns:updateResultComponent">
+    </wsdl:input>
+      <wsdl:output name="updateResultComponentResponse" message="tns:updateResultComponentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCreditKeysByCreditType">
+      <wsdl:input name="getCreditKeysByCreditType" message="tns:getCreditKeysByCreditType">
+    </wsdl:input>
+      <wsdl:output name="getCreditKeysByCreditTypeResponse" message="tns:getCreditKeysByCreditTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultComponent">
+      <wsdl:input name="getResultComponent" message="tns:getResultComponent">
+    </wsdl:input>
+      <wsdl:output name="getResultComponentResponse" message="tns:getResultComponentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeTypes">
+      <wsdl:input name="getGradeTypes" message="tns:getGradeTypes">
+    </wsdl:input>
+      <wsdl:output name="getGradeTypesResponse" message="tns:getGradeTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultComponentType">
+      <wsdl:input name="getResultComponentType" message="tns:getResultComponentType">
+    </wsdl:input>
+      <wsdl:output name="getResultComponentTypeResponse" message="tns:getResultComponentTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredentialKeysByCredentialType">
+      <wsdl:input name="getCredentialKeysByCredentialType" message="tns:getCredentialKeysByCredentialType">
+    </wsdl:input>
+      <wsdl:output name="getCredentialKeysByCredentialTypeResponse" message="tns:getCredentialKeysByCredentialTypeResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1151,6 +1023,30 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="deleteResultComponent">
+      <wsdl:input name="deleteResultComponent" message="tns:deleteResultComponent">
+    </wsdl:input>
+      <wsdl:output name="deleteResultComponentResponse" message="tns:deleteResultComponentResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultComponentTypes">
+      <wsdl:input name="getResultComponentTypes" message="tns:getResultComponentTypes">
+    </wsdl:input>
+      <wsdl:output name="getResultComponentTypesResponse" message="tns:getResultComponentTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="compareGrades">
       <wsdl:input name="compareGrades" message="tns:compareGrades">
     </wsdl:input>
@@ -1163,21 +1059,113 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getCredentialTypes">
+      <wsdl:input name="getCredentialTypes" message="tns:getCredentialTypes">
+    </wsdl:input>
+      <wsdl:output name="getCredentialTypesResponse" message="tns:getCredentialTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredentialsByKeyList">
+      <wsdl:input name="getCredentialsByKeyList" message="tns:getCredentialsByKeyList">
+    </wsdl:input>
+      <wsdl:output name="getCredentialsByKeyListResponse" message="tns:getCredentialsByKeyListResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="translateGrade">
+      <wsdl:input name="translateGrade" message="tns:translateGrade">
+    </wsdl:input>
+      <wsdl:output name="translateGradeResponse" message="tns:translateGradeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCreditType">
+      <wsdl:input name="getCreditType" message="tns:getCreditType">
+    </wsdl:input>
+      <wsdl:output name="getCreditTypeResponse" message="tns:getCreditTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGrade">
+      <wsdl:input name="getGrade" message="tns:getGrade">
+    </wsdl:input>
+      <wsdl:output name="getGradeResponse" message="tns:getGradeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScale">
+      <wsdl:input name="getScale" message="tns:getScale">
+    </wsdl:input>
+      <wsdl:output name="getScaleResponse" message="tns:getScaleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradesByKeyList">
+      <wsdl:input name="getGradesByKeyList" message="tns:getGradesByKeyList">
+    </wsdl:input>
+      <wsdl:output name="getGradesByKeyListResponse" message="tns:getGradesByKeyListResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeType">
+      <wsdl:input name="getGradeType" message="tns:getGradeType">
+    </wsdl:input>
+      <wsdl:output name="getGradeTypeResponse" message="tns:getGradeTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LrcServiceServiceSoapBinding" type="tns:LrcService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="getCredentialTypes">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCredentialTypes">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCredentialTypesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getGradeKeysByGradeType">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getGradeKeysByGradeType">
@@ -1199,23 +1187,14 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getGradesByKeyList">
+    <wsdl:operation name="getCreditTypes">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getGradesByKeyList">
+      <wsdl:input name="getCreditTypes">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getGradesByKeyListResponse">
+      <wsdl:output name="getCreditTypesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
@@ -1241,12 +1220,105 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getResultComponentIdsByResultComponentType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResultComponentIdsByResultComponentType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResultComponentIdsByResultComponentTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createResultComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createResultComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createResultComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getResultComponentIdsByResult">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getResultComponentIdsByResult">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getResultComponentIdsByResultResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCredit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCreditResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradesByScale">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradesByScale">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradesByScaleResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1285,19 +1357,115 @@
       <wsdl:fault name="VersionMismatchException">
         <soap:fault name="VersionMismatchException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException">
         <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getGrade">
+    <wsdl:operation name="getCreditKeysByCreditType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getGrade">
+      <wsdl:input name="getCreditKeysByCreditType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getGradeResponse">
+      <wsdl:output name="getCreditKeysByCreditTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResultComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResultComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGradeTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getGradeTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getGradeTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getResultComponentType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getResultComponentType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResultComponentTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredentialKeysByCredentialType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCredentialKeysByCredentialType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCredentialKeysByCredentialTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredentialType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCredentialType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCredentialTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1330,19 +1498,19 @@
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="PermissionDeniedException">
         <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getResultComponentType">
+    <wsdl:operation name="getCredential">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getResultComponentType">
+      <wsdl:input name="getCredential">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getResultComponentTypeResponse">
+      <wsdl:output name="getCredentialResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1354,39 +1522,6 @@
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCredentialsByKeyList">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCredentialsByKeyList">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCredentialsByKeyListResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getGradeTypes">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getGradeTypes">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getGradeTypesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
@@ -1403,12 +1538,42 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getScale">
+    <wsdl:operation name="compareGrades">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getScale">
+      <wsdl:input name="compareGrades">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getScaleResponse">
+      <wsdl:output name="compareGradesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredentialTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCredentialTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCredentialTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCredentialsByKeyList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCredentialsByKeyList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCredentialsByKeyListResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1463,12 +1628,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getResultComponent">
+    <wsdl:operation name="getGrade">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getResultComponent">
+      <wsdl:input name="getGrade">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getResultComponentResponse">
+      <wsdl:output name="getGradeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1484,12 +1649,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getCreditKeysByCreditType">
+    <wsdl:operation name="getScale">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCreditKeysByCreditType">
+      <wsdl:input name="getScale">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getCreditKeysByCreditTypeResponse">
+      <wsdl:output name="getScaleResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1505,12 +1670,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getCredentialKeysByCredentialType">
+    <wsdl:operation name="getGradesByKeyList">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCredentialKeysByCredentialType">
+      <wsdl:input name="getGradesByKeyList">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getCredentialKeysByCredentialTypeResponse">
+      <wsdl:output name="getGradesByKeyListResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
@@ -1524,78 +1689,6 @@
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getResultComponentIdsByResultComponentType">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getResultComponentIdsByResultComponentType">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getResultComponentIdsByResultComponentTypeResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getGradesByScale">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getGradesByScale">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getGradesByScaleResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="createResultComponent">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createResultComponent">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="createResultComponentResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DataValidationErrorException">
-        <soap:fault name="DataValidationErrorException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException">
-        <soap:fault name="AlreadyExistsException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getGradeType">
@@ -1614,99 +1707,6 @@
       </wsdl:fault>
       <wsdl:fault name="DoesNotExistException">
         <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCreditTypes">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCreditTypes">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCreditTypesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCredential">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCredential">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCredentialResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCredentialType">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCredentialType">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCredentialTypeResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCredit">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCredit">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCreditResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="compareGrades">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="compareGrades">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="compareGradesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
