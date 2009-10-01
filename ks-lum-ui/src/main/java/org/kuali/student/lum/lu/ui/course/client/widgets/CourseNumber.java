@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * FIXME: This widget needs to be rewritten.
  * 
  * @author Kuali Student Team
  *

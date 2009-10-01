@@ -90,7 +90,6 @@ public class LUMApplicationManager extends Controller{
                 if (viewCourseView == null){
                     viewCourseView = new DelegatingViewComposite(this, new ViewCluController(null));
                 }
-                //((LUCreateUpdateView)courseView).addLayoutToHistory(history, LUMViews.CREATE_COURSE); 
                 return viewCourseView;
             default:
                 return null;

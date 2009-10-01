@@ -11,7 +11,6 @@ import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeHandler;
-import org.kuali.student.lum.lu.ui.course.client.configuration.DefaultCreateUpdateLayout;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -20,6 +19,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 
+//FIXME: This class needs huge overhaul (or better yet complete redsign of history support)
 public class KSHistory implements ValueChangeHandler<String> {
     
     public static final String CONTROLLER_KEY = "view";
@@ -125,8 +125,10 @@ public class KSHistory implements ValueChangeHandler<String> {
             if(params.get(LAYOUT_KEY) != null && !params.get(LAYOUT_KEY).isEmpty()) {
                 String path = params.get(LAYOUT_KEY).get(0);
                 ConfigurableLayout<?> configurableLayout = layoutMap.get(view);
+                /*
                 if(configurableLayout instanceof DefaultCreateUpdateLayout)
                     ((DefaultCreateUpdateLayout<?>)configurableLayout).selectSection(path); //probably should just be moved up to superclass
+                */
             }
         }
     }
