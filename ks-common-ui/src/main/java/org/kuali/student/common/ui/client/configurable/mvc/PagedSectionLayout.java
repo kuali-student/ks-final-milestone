@@ -227,10 +227,11 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	
 	public void addStartSection(final SectionView section){
 	    startSectionView = section;
+	    HorizontalPanel buttonPanel = new HorizontalPanel();
 	    
 	    VerticalPanel panel = new VerticalPanel();        	    
-	    panel.add(section);
-	    panel.add(new KSButton("Save",new ClickHandler(){
+	    panel.add(section);	    
+	    buttonPanel.add(new KSButton("Save",new ClickHandler(){
             public void onClick(ClickEvent event) {
                 section.updateModel();
                 SaveActionEvent saveActionEvent = new SaveActionEvent();
@@ -244,7 +245,13 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
                 fireApplicationEvent(saveActionEvent);
             }	        
 	    }));
+	    buttonPanel.add(new KSButton("Cancel", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                startSectionWindow.hide();
+            }	        
+	    }));
 
+	    panel.add(buttonPanel);
         section.setController(this);
 	    startSectionWindow.setWidget(panel);
 	}
