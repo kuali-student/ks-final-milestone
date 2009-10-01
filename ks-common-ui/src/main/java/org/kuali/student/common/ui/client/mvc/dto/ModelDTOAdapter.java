@@ -114,7 +114,7 @@ public class ModelDTOAdapter implements Serializable{
                 	modelDTO.put(pathArr[1], value);
                 }
                 else{
-                	put(modelDTO, pathArr[1], value);
+                	putTransient(modelDTO, pathArr[1], value);
                 }
             }
         }
