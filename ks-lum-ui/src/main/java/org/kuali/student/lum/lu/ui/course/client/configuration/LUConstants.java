@@ -125,6 +125,9 @@ public class LUConstants {
 
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
+    
+    public static final String STYLE_SECTION = "KS-LUM-Section";
+    public static final String STYLE_SECTION_DIVIDER = "KS-LUM-Section-Divider";
 
 }
 

@@ -26,6 +26,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
@@ -33,6 +34,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelTyp
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
@@ -43,6 +45,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
@@ -63,7 +66,7 @@ public class LuConfigurer {
 
 
     public enum LuSections{
-        CLU_BEGIN, AUTHOR, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
+        CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
         COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS, DOCUMENTS,
     }
 
@@ -76,17 +79,42 @@ public class LuConfigurer {
         addActiveDatesSection(layout);
         addFinancialsSection(layout);
         addProgramRequirements(layout);
-        addProposalSummarySection(layout);
+        
+        layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
         layout.addTool(new CollaboratorTool());
         layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
         layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
     }
 
-    public static void addProposalSummarySection(ConfigurableLayout layout){
-        layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, ViewCluConfigurer.generateSummarySection());
-    }
+    public static SectionView generateSummarySection(){
+        VerticalSectionView section = new VerticalSectionView(LuSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CluProposalModelDTO.class);
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.SUMMARY_LABEL_KEY)));
 
+        section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
+        section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
+        
+        return section;
+    }
+    
+    private static VerticalSection generateSummaryBrief(SectionTitle title) {
+        VerticalSection section = new VerticalSection();
+        section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.setSectionTitle(title);
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", "Course Title:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Course Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/proposerperson", "Proposer:     ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/todo", "Delegate:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/todo", "Collaborators:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/metaInfo/createTime", "Date created:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/metaInfo/updateTime", "Date last changed:   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/detailDesc", "Description:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/state", "Status:    ", Type.STRING, new KSLabel()));
+        return section;
+    } 
+    
     public static void addCluStartSection(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, "Start", CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title("Proposal Information"));
@@ -568,5 +596,21 @@ public class LuConfigurer {
     
     private static String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(type, state, labelKey);
+    }
+    
+    private static SectionTitle getH2Title(String labelKey) {
+        return SectionTitle.generateH2Title(getLabel(labelKey));
+    } 
+    
+    private static SectionTitle getH3Title(String labelKey) {
+        return SectionTitle.generateH3Title(getLabel(labelKey));
+    } 
+    
+    private static SectionTitle getH4Title(String labelKey) {
+        return SectionTitle.generateH4Title(getLabel(labelKey));
+    } 
+    
+    private static SectionTitle getH5Title(String labelKey) {
+        return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 }

@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
@@ -92,7 +93,7 @@ public class LUMApplicationManager extends Controller{
                 //View setup should already be handled.
                 
                 //FIXME: This is quick fix, need better way via config to set and show summary view.
-                cluProposalController.showView(ViewCluConfigurer.LuSections.SUMMARY);
+                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);
                 return createCourseView;
             case VIEW_COURSE:
                 if (viewCourseView == null){
