@@ -38,17 +38,15 @@ public class SelectItemWidgetBinding implements PropertyBinding<KSSelectItemWidg
 
     @Override
     public void setValue(KSSelectItemWidgetAbstract object, ModelDTOValue value) {
+        object.clear();
         if(value instanceof StringType){
             //is a single id
             String id = ((StringType) value).get();
-          //TODO NEED A CLEAR METHOD!!!!
             object.selectItem(id);
         }
         else if(value instanceof ListType){
             //is multiple ids
             List<ModelDTOValue> ids = ((ListType) value).get();
-            //TODO NEED A CLEAR METHOD!!!!
-            //List<String> selectableIds = object.getListItems().getItemIds();
             for(ModelDTOValue mv : ids){
                 if(mv instanceof StringType){
                     String id = ((StringType) mv).get();

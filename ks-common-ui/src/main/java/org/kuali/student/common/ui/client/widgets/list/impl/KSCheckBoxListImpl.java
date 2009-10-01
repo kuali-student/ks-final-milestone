@@ -181,5 +181,9 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         return true;
     }
 
-
+    @Override
+    public void clear(){
+        selectedItems.clear();
+        redraw();
+    }
 }

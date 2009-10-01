@@ -121,5 +121,14 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
     public abstract void setEnabled(boolean b);
     
     public abstract boolean isEnabled();
+    
+    /**
+     * 
+     * This method clears the current selection
+     *
+     */
+    public void clear(){
+        //FIXME: This method needs to be abstract;
+    }
 	
 }
