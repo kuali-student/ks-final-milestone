@@ -25,7 +25,6 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
-import org.kuali.student.core.document.dto.DocumentCriteriaInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.document.entity.Document;
@@ -142,12 +141,7 @@ public class DocumentServiceImpl implements DocumentService {
         statusInfo.setSuccess(dao.removeDocumentCategoryFromDocument(documentId, documentCategoryKey));
         return statusInfo;
     }
-    @Override
-    public List<String> searchForDocuments(DocumentCriteriaInfo documentCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(documentCriteria, "documentCriteria");
-       
-        return null;
-    }
+
     @Override
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");

@@ -16,7 +16,6 @@
 package org.kuali.student.core.comment.service.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,16 +31,13 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -51,8 +47,6 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -361,19 +355,6 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
         }
 
-    }
-
-    @Test
-    public void testSearch() throws InvalidParameterException, MissingParameterException, OperationFailedException {
-    	CommentCriteriaInfo commentCriteriaInfo = new CommentCriteriaInfo();
-    	// TODO Set up commentCriteriaInfo
-    	List<String> ids = client.searchForComments(commentCriteriaInfo);
-    	assertEquals(1, ids.size());
-
-    	TagCriteriaInfo tagCriteriaInfo = new TagCriteriaInfo();
-    	// TODO set up tagCriteriaInfo
-    	ids = client.searchForTags(tagCriteriaInfo);
-    	assertEquals(1, ids.size());
     }
 
     @Test

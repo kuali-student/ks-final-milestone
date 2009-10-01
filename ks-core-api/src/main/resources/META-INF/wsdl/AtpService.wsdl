@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="AtpService" targetNamespace="http://student.kuali.org/wsdl/atp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/atp" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:tns="http://student.kuali.org/wsdl/atp" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/atp">
     <xs:element name="addDateRange" type="tns:addDateRange"/>
     <xs:element name="addDateRangeResponse" type="tns:addDateRangeResponse"/>
@@ -581,56 +631,6 @@
     <xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
     <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
     <xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="VersionMismatchException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="getAtpsByDate">

@@ -25,14 +25,6 @@ public class ObjectFactory {
 	public ObjectFactory() {
 	}
 
-	public CriteriaSet createCriteriaSet() {
-		return new CriteriaSet();
-	}
-
-	public Criterion createCriterion() {
-		return new Criterion();
-	}
-
 	public QueryParamInfo createQueryParamInfo() {
 		return new QueryParamInfo();
 	}
@@ -55,10 +47,6 @@ public class ObjectFactory {
 
 	public SearchCriteriaTypeInfo createSearchCriteriaTypeInfo() {
 		return new SearchCriteriaTypeInfo();
-	}
-
-	public SearchIndexedType createSearchIndexedType() {
-		return new SearchIndexedType();
 	}
 
 	public SearchRelationship createSearchRelationship() {

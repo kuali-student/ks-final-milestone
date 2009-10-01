@@ -20,16 +20,13 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
-import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -173,26 +170,6 @@ public interface CommentService extends DictionaryService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public TagInfo getTag(@WebParam(name="tagId")String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieve ids of existing comments matching the supplied criteria.
-     * @param commentCriteriaInfo criteria to be used for retrieval of matching comments
-     * @return list of comment identifiers
-     * @throws InvalidParameterException invalid comment Criteria
-     * @throws MissingParameterException missing comment Criteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForComments(@WebParam(name="commentCriteriaInfo")CommentCriteriaInfo commentCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieve ids of existing tags matching the supplied criteria.
-     * @param tagCriteriaInfo criteria to be used for retrieval of matching tags
-     * @return list of tag identifiers
-     * @throws InvalidParameterException invalid tag Criteria
-     * @throws MissingParameterException missing tag Criteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForTags(@WebParam(name="tagCriteriaInfo")TagCriteriaInfo tagCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Adds a comment to a reference.

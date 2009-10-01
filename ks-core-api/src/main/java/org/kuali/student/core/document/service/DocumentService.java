@@ -22,7 +22,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
-import org.kuali.student.core.document.dto.DocumentCriteriaInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
@@ -128,16 +127,6 @@ public interface DocumentService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public List<DocumentCategoryInfo> getCategoriesByDocument(@WebParam(name="documentId")String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Retrieve ids of existing documents matching the supplied criteria.
-     * @param documentCriteria criteria to be used for retrieval of matching documents
-     * @return list of document identifiers
-     * @throws InvalidParameterException invalid documentCriteria
-     * @throws MissingParameterException missing documentCriteria
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> searchForDocuments(@WebParam(name="documentCriteria")DocumentCriteriaInfo documentCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Creates a new document.

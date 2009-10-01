@@ -15,7 +15,6 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -24,11 +23,8 @@ import javax.persistence.NoResultException;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.comment.dao.CommentDao;
-import org.kuali.student.core.comment.dto.CommentCriteriaInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.comment.dto.TagCriteriaInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
@@ -40,6 +36,7 @@ import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -49,9 +46,6 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
@@ -352,72 +346,6 @@ public class CommentServiceImpl implements CommentService {
         return new StatusInfo();
     }
 
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.core.comment.service.CommentService#searchForComments(org.kuali.student.core.comment.dto.CommentCriteriaInfo)
-     */
-    @Override
-    public List<String> searchForComments(CommentCriteriaInfo commentCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-
-    	// TODO Just show that we are hooked up to search service. Needs to be fixed to use the CommentCriteriaInfo values
-    	List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(1);
-    	QueryParamValue queryParamValue = new QueryParamValue();
-    	queryParamValue.setKey("comment_queryParam_commentId");
-    	queryParamValue.setValue("COMMENT-1");
-    	queryParamValues.add(queryParamValue);
-    	List<String> ids = new ArrayList<String>();
-    	try {
-			List<Result> results = searchManager.searchForResults("comment.search.commentTextById", queryParamValues, commentDao);
-			for (Result result : results) {
-				for (ResultCell resultCell : result.getResultCells()) {
-					if (resultCell.getKey().equals("comment.resultColumn.commentId")) {
-						ids.add(resultCell.getValue());
-					}
-				}
-			}
-		} catch (DoesNotExistException e) {
-			throw new InvalidParameterException(e.getMessage());
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
-
-    	return ids;
-    }
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.core.comment.service.CommentService#searchForTags(org.kuali.student.core.comment.dto.TagCriteriaInfo)
-     */
-    @Override
-    public List<String> searchForTags(TagCriteriaInfo tagCriteriaInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-       	// TODO Just show that we are hooked up to search service. Needs to be fixed to use the tagCriteriaInfo values
-
-    	List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(1);
-    	QueryParamValue queryParamValue = new QueryParamValue();
-    	queryParamValue.setKey("tag_queryParam_tagId");
-    	queryParamValue.setValue("Comment-TAG-2");
-    	queryParamValues.add(queryParamValue);
-    	List<String> ids = new ArrayList<String>();
-    	try {
-			List<Result> results = searchManager.searchForResults("tag.search.tagNamespaceById", queryParamValues, commentDao);
-			for (Result result : results) {
-				for (ResultCell resultCell : result.getResultCells()) {
-					if (resultCell.getKey().equals("tag.resultColumn.tagId")) {
-						ids.add(resultCell.getValue());
-					}
-				}
-			}
-		} catch (DoesNotExistException e) {
-			throw new InvalidParameterException(e.getMessage());
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException(e.getMessage());
-		}
-
-    	return ids;
-
-    }
 
     /**
      * This overridden method ...

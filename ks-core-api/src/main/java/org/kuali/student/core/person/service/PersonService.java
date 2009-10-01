@@ -33,10 +33,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.person.dto.PersonCriteria;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonReferenceIdInfo;
-import org.kuali.student.core.person.dto.PersonRelationCriteria;
 import org.kuali.student.core.person.dto.PersonRelationInfo;
 import org.kuali.student.core.person.dto.PersonRelationTypeInfo;
 import org.kuali.student.core.person.dto.PersonTypeInfo;
@@ -511,28 +509,6 @@ public interface PersonService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public List<Result> searchForResults(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name="queryParamValues")List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Retrieves identifiers of existing people matching the specified criteria.
-     * @param personCriteria criteria to be used for retrieval of multiple people, e.g. by personType, by name, by birthdate
-     * @return List of person identifiers that match the supplied criteria
-     * @throws InvalidParameterException invalid person criteria
-     * @throws MissingParameterException missing person criteria
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public List<String> searchForPeople(@WebParam(name="personCriteria")PersonCriteria personCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Retrieves a list of person person relation Ids meeting the specified criteria
-     * @param personRelationCriteria criteria to be used for finding relationships
-     * @return List of Person Person RelationshipIds with data that match the supplied criteria.
-     * @throws InvalidParameterException invalid personRelationCriteria
-     * @throws MissingParameterException Missing personRelationCriteria
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public List<String> searchForPersonPersonRelations(@WebParam(name="personRelationCriteria")PersonRelationCriteria personRelationCriteria) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a person record
