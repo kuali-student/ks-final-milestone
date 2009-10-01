@@ -7,7 +7,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.core.dictionary.dto.Field;
@@ -112,8 +111,7 @@ public class ModelDTOAdapter implements Serializable{
                 
                 //If there is an adapter in place use that! otherwise continue processing
                 if(modelDTO.getAdapter() != null){
-                	Updater updater = modelDTO.beginUpdate(false);
-                	updater.put(pathArr[1], value);
+                	modelDTO.put(pathArr[1], value);
                 }
                 else{
                 	put(modelDTO, pathArr[1], value);
@@ -170,9 +168,7 @@ public class ModelDTOAdapter implements Serializable{
                 
                 //If there is an adapter in place use that! otherwise continue processing
                 if(modelDTO.getAdapter() != null){
-                	Updater updater = modelDTO.beginUpdate(true);
-                	
-                	updater.put(pathArr[1], value);
+                	modelDTO.put(pathArr[1], value, true);
                 }
                 else{
                 	put(modelDTO, pathArr[1], value);
@@ -276,15 +272,14 @@ public class ModelDTOAdapter implements Serializable{
     		//Create modelDTO
     		modelDTO = new ModelDTO(name);
     		modelDTO.setKey(key);
-    		StringType typeValue = new StringType();
-    		typeValue.set(type);
-    		StringType stateValue = new StringType();
-    		typeValue.set(state);
+    		StringType typeValue = new StringType(type);
+    		StringType stateValue = new StringType(state);
     		if(autoCommit){
     			modelDTO.map.put("type", typeValue);
     			modelDTO.map.put("state", stateValue);
     		}
     		else{
+    			modelDTO.copyMapToTransientMap();
     			modelDTO.transientMap.put("type", typeValue);
     			modelDTO.transientMap.put("state", stateValue);
     		}

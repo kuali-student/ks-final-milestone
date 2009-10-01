@@ -21,7 +21,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -98,8 +97,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     public ModelDTOValue getValue() {
         if (modelDTOValue == null){
             ModelDTO modelDTO = new ModelDTO(modelDtoClassName);
-            Updater updater = modelDTO.beginUpdate(true);
-            updater.put("type", new ModelDTOValue.StringType(this.type));
+            //FIXME might need to go in transient map, unsure here
+            modelDTO.put("type", new ModelDTOValue.StringType(this.type), true);
             modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
         }
         

@@ -9,7 +9,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOAdapter;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ByteType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.CharacterType;
@@ -66,9 +65,8 @@ public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue
 				newModel.setAdapter(new ModelDTOAdapter(newModel, model.getAdapter().getObjectKeyClassNameMap(), model.getAdapter().getObjectKey()));
 			}
 			newModel.setKey(model.getKey());
-			Updater updater = newModel.beginUpdate(true);
 			for(String key: model.keySet()){
-				updater.put(key, deepCopy(model.get(key)));
+				newModel.put(key, deepCopy(model.get(key)),true);
 			}
 			copy = new ModelDTOType();
 			((ModelDTOType) copy).set(newModel);

@@ -27,7 +27,6 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ByteType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.CharacterType;
@@ -91,8 +90,7 @@ public class DefaultBeanMapper implements BeanMapper {
                     
                     PropertyMapping pm = getPropertyMapping(propKey, defaultPropertyMappingInstance);
                     ModelDTOValue mdv = pm.toModelDTOValue(propValue, context);
-                    Updater updater = result.beginUpdate(true);
-                    updater.put(propKey, mdv);
+                    result.put(propKey, mdv, true);
                 }
                 
             } catch (Exception e) {
