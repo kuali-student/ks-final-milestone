@@ -58,6 +58,7 @@ public class ModelDTO implements Serializable {
 	             if(transientMap == null){
 	            	 copyMapToTransientMap();
 	             }
+	             //System.out.println("****TransientMap=\n" + transientMap.toString());
 	             ModelDTO.this.put(key, value);
 	         }
 	     }
@@ -203,7 +204,13 @@ public class ModelDTO implements Serializable {
 			return adapter.get(key);
 		}
 		else{
-			return map.get(key);
+			if(transientMap != null){
+				return transientMap.get(key);
+			}
+			else{
+				return map.get(key);
+			}
+			
 		}
 	}
 
@@ -264,10 +271,10 @@ public class ModelDTO implements Serializable {
 	public String toString(){
 		String s = "";
 		if(transientMap != null){
-			s = "Real:\n" + map.toString() +"\n******\nTransient:\n" + transientMap.toString();
+			s = "Real:" + map.toString() +"&Transient:" + transientMap.toString();
 		}
 		else{
-			s = "Real:\n" + map.toString();
+			s = "Real:" + map.toString();
 		}
 	    return s;
 	}

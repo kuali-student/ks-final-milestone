@@ -59,6 +59,7 @@ public class ModelDTOAdapter implements Serializable{
             	//check for transientMap
             	if(base.transientMap != null){
             		modelDTOValue = base.transientMap.get(key);
+            		System.out.println("Status from ModelDTOAdapter\n" + base.toString());
             	}
             	else{
             		modelDTOValue = base.map.get(key);
@@ -100,7 +101,12 @@ public class ModelDTOAdapter implements Serializable{
         }
         else{
             //System.out.println(key);
-        	base.map.put(key, value);
+        	if(base.transientMap != null){
+        		base.transientMap.put(key, value);
+        	}
+        	else{
+        		base.map.put(key, value);
+        	}
         }
 	}
 	
@@ -153,7 +159,12 @@ public class ModelDTOAdapter implements Serializable{
             }
         }
         else{
-        	returnValue = base.map.get(key);
+        	if(base.transientMap != null){
+        		returnValue = base.transientMap.get(key);
+        	}
+        	else{
+        		returnValue = base.map.get(key);
+        	}
         }
     	return returnValue;
 	}
@@ -166,7 +177,10 @@ public class ModelDTOAdapter implements Serializable{
     	for(String k: fields.keySet()){
     		System.out.println("Field key: " + k + " Name: " + fields.get(k).getFieldDescriptor().getName());
     	}*/
-    	Field field = dictionary.getField(objectKey, ((StringType) baseModelDTO.map.get("type")).get(), ((StringType) baseModelDTO.map.get("state")).get(), key);
+    	System.out.println("baseModelDTO:\n" + baseModelDTO.toString());
+    	System.out.println(((StringType) baseModelDTO.get("type")).get());
+    	System.out.println(((StringType) baseModelDTO.get("state")).get());
+    	Field field = dictionary.getField(objectKey, ((StringType) baseModelDTO.get("type")).get(), ((StringType) baseModelDTO.get("state")).get(), key);
     	
     	//System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){

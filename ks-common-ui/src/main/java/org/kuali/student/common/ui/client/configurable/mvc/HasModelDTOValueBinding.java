@@ -61,6 +61,8 @@ public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue
 		else if(value instanceof ModelDTOType){
 			ModelDTO model = ((ModelDTOType) value).get();
 			ModelDTO newModel = new ModelDTO(model.getClassName());
+			newModel.setAdapter(model.getAdapter());
+			newModel.setKey(model.getKey());
 			for(String key: model.keySet()){
 				Updater updater = newModel.beginUpdate(true);
 				updater.put(key, deepCopy(model.get(key)));
