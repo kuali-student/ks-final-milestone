@@ -99,6 +99,8 @@ public class HasValueBinding implements PropertyBinding<HasValue>{
             else if(value instanceof DateType){
                 object.setValue(((DateType)value).get());
             }
+        } else if (object != null){
+            object.setValue("");
         }
     }
 
