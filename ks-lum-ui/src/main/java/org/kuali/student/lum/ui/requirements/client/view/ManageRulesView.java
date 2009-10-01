@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
+import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ObjectClonerUtil;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -51,8 +52,8 @@ public class ManageRulesView extends ViewComposite {
     private KSButton btnDelete = new KSButton("Delete");
     private KSButton btnMoveRuleDown = new KSButton();
     private KSButton btnMoveRuleUp = new KSButton();
-    private KSButton btnSaveRule = new KSButton("Save");     
-    private KSButton btnCancelChange = new KSButton("Cancel"); 
+//    private KSButton btnSaveRule = new KSButton("Save");     
+    private KSButton btnBackToRulesSummary = new KSButton("Back to Rules Summary"); 
     private KSTabPanel ruleViewsPanel = new KSTabPanel();
     private KSLabel logicalExpression = new KSLabel();
     private KSLabel simpleRuleNL = new KSLabel();
@@ -388,7 +389,7 @@ public class ManageRulesView extends ViewComposite {
             }
         });
         
-        btnCancelChange.addClickHandler(new ClickHandler() {
+        btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 getController().showView(PrereqViews.RULES_LIST);
             }
@@ -479,18 +480,18 @@ public class ManageRulesView extends ViewComposite {
         
         SimplePanel verticalSpacer3 = new SimplePanel();
         verticalSpacer3.setHeight("30px");
-        complexView.add(verticalSpacer3);         
+        complexView.add(verticalSpacer3);
         
-   /*     HorizontalPanel buttonsPanel = new HorizontalPanel();
+        HorizontalPanel buttonsPanel = new HorizontalPanel();
         buttonsPanel.setSpacing(0);
-        btnSaveRule.addStyleName("KS-Rules-Tight-Button");  
-        buttonsPanel.add(btnSaveRule);
+//        btnSaveRule.addStyleName("KS-Rules-Tight-Button");  
+//        buttonsPanel.add(btnSaveRule);
         SimplePanel horizSpacer = new SimplePanel();
         horizSpacer.setWidth("30px");        
         buttonsPanel.add(horizSpacer);        
-        btnCancelChange.addStyleName("KS-Rules-Tight-Grey-Button"); 
-        buttonsPanel.add(btnCancelChange);
-        complexView.add(buttonsPanel); */                 
+        btnBackToRulesSummary.addStyleName("KS-Rules-Tight-Grey-Button"); 
+        buttonsPanel.add(btnBackToRulesSummary);
+        complexView.add(buttonsPanel);                 
         
         mainPanel.clear();
         mainPanel.add(complexView); 
@@ -563,7 +564,7 @@ public class ManageRulesView extends ViewComposite {
         btnRedo.setEnabled(prereqInfo.getEditHistory().isRedoable());                 
         btnAddRule.setEnabled(true);
         btnDelete.setEnabled(prereqInfo.statementVOIsDegroupAble());
-        btnSaveRule.setEnabled(false);  
+//        btnSaveRule.setEnabled(false);  
         
         ruleTable.clear();
         Node tree = prereqInfo.getStatementTree();            
