@@ -12,6 +12,7 @@ import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute;
 import org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -25,7 +26,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
  * @author lindholm
  *
  */
-public class OrgSearchAttribute extends StandardGenericXMLSearchableAttribute {
+public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentTypeServiceImpl.class);
 
     private static final long serialVersionUID = 1L;
