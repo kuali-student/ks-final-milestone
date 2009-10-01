@@ -24,12 +24,103 @@ public class ModelDTOAdapter implements Serializable{
 		this.baseModelDTO = baseModelDTO;
 		this.objectKeyClassNameMap = objectKeyClassNameMap;
 	}
+	
+	public String getObjectKey() {
+		return objectKey;
+	}
 
-	public void put(String path, ModelDTOValue value){
+	public void setObjectKey(String objectKey) {
+		this.objectKey = objectKey;
+	}
+
+	public ModelDTO getBaseModelDTO() {
+		return baseModelDTO;
+	}
+
+	public void setBaseModelDTO(ModelDTO baseModelDTO) {
+		this.baseModelDTO = baseModelDTO;
+	}
+
+	public Map<String, String> getObjectKeyClassNameMap() {
+		return objectKeyClassNameMap;
+	}
+
+	public void setObjectKeyClassNameMap(Map<String, String> objectKeyClassNameMap) {
+		this.objectKeyClassNameMap = objectKeyClassNameMap;
+	}
+
+	public void put(String path, ModelDTOValue value, boolean autoCommit){
 		
 		//recursive method
-		this.put(baseModelDTO, path, value);
+		if(autoCommit){
+			this.put(baseModelDTO, path, value);
+		}
+		else{
+			this.putTransient(baseModelDTO, path, value);
+		}
+		
     }
+	
+	private void putTransient(ModelDTO base, String path, ModelDTOValue value){
+		if(path.startsWith("/")){
+            path = path.substring(1);
+        }
+        String[] pathArr = path.split("/", 2);
+        String key = pathArr[0];
+        if(pathArr.length > 1){
+            
+            //System.out.println(key);
+            if(key.contains("[")){
+                String[] keyArr = pathArr[0].split("[");
+                key = keyArr[0];
+                String[] attributeArr = keyArr[1].replace("]", "").split("=");
+                if(attributeArr[0].equals("id")){
+                    String id = attributeArr[1];
+                    //TODO: not handled yet
+                }
+                else if(attributeArr[0].equalsIgnoreCase("value")){
+                    String itemValue = attributeArr[1];
+                    //TODO: not handled yet
+                }
+            }
+            else{
+            	ModelDTO modelDTO = null;
+            	ModelDTOValue modelDTOValue = null;
+            	//check for transientMap
+                if(base.transientMap == null){
+                	base.copyMapToTransientMap();
+                }
+            	modelDTOValue = base.transientMap.get(key);
+                
+                if(modelDTOValue == null){
+                    modelDTO = new ModelDTO(getClassName(key));
+                    modelDTO.setKey(key);
+                    ModelDTOType modelDTOType = new ModelDTOType();
+                    modelDTOType.set(modelDTO);
+
+                    base.transientMap.put(key, modelDTOType);                    
+                }
+                else{
+                    modelDTO = ((ModelDTOType) modelDTOValue).get();
+                }
+                
+                //If there is an adapter in place use that! otherwise continue processing
+                if(modelDTO.getAdapter() != null){
+                	Updater updater = modelDTO.beginUpdate(false);
+                	updater.put(pathArr[1], value);
+                }
+                else{
+                	put(modelDTO, pathArr[1], value);
+                }
+            }
+        }
+        else{
+            if(base.transientMap == null){
+            	base.copyMapToTransientMap();
+            }
+        	base.transientMap.put(key, value);
+        }
+	}
 	
 	private void put(ModelDTO base, String path, ModelDTOValue value){
         if(path.startsWith("/")){
@@ -57,25 +148,15 @@ public class ModelDTOAdapter implements Serializable{
             	ModelDTO modelDTO = null;
             	ModelDTOValue modelDTOValue = null;
             	//check for transientMap
-            	if(base.transientMap != null){
-            		modelDTOValue = base.transientMap.get(key);
-            		System.out.println("Status from ModelDTOAdapter\n" + base.toString());
-            	}
-            	else{
-            		modelDTOValue = base.map.get(key);
-            	}
+            	modelDTOValue = base.map.get(key);
+
                 
                 if(modelDTOValue == null){
                     modelDTO = new ModelDTO(getClassName(key));
                     modelDTO.setKey(key);
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
-                    if(base.transientMap != null){
-                    	base.transientMap.put(key, modelDTOType);
-                    }
-                    else{
-                    	base.map.put(key, modelDTOType);
-                    }
+                    base.map.put(key, modelDTOType);
                     
                 }
                 else{
@@ -84,13 +165,7 @@ public class ModelDTOAdapter implements Serializable{
                 
                 //If there is an adapter in place use that! otherwise continue processing
                 if(modelDTO.getAdapter() != null){
-                	Updater updater = null;
-                	if(base.transientMap != null){
-                		updater = modelDTO.beginUpdate(false);
-                	}
-                	else{
-                		updater = modelDTO.beginUpdate(true);
-                	}
+                	Updater updater = modelDTO.beginUpdate(true);
                 	
                 	updater.put(pathArr[1], value);
                 }
@@ -101,12 +176,7 @@ public class ModelDTOAdapter implements Serializable{
         }
         else{
             //System.out.println(key);
-        	if(base.transientMap != null){
-        		base.transientMap.put(key, value);
-        	}
-        	else{
-        		base.map.put(key, value);
-        	}
+        	base.map.put(key, value);
         }
 	}
 	

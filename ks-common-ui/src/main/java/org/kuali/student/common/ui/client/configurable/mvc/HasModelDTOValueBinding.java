@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOAdapter;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.BooleanType;
@@ -61,10 +62,12 @@ public class HasModelDTOValueBinding implements PropertyBinding<HasModelDTOValue
 		else if(value instanceof ModelDTOType){
 			ModelDTO model = ((ModelDTOType) value).get();
 			ModelDTO newModel = new ModelDTO(model.getClassName());
-			newModel.setAdapter(model.getAdapter());
+			if(model.getAdapter() != null){
+				newModel.setAdapter(new ModelDTOAdapter(newModel, model.getAdapter().getObjectKeyClassNameMap(), model.getAdapter().getObjectKey()));
+			}
 			newModel.setKey(model.getKey());
+			Updater updater = newModel.beginUpdate(true);
 			for(String key: model.keySet()){
-				Updater updater = newModel.beginUpdate(true);
 				updater.put(key, deepCopy(model.get(key)));
 			}
 			copy = new ModelDTOType();

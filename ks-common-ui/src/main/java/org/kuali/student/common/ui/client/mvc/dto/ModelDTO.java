@@ -53,13 +53,13 @@ public class ModelDTO implements Serializable {
 	        	 if(transientMap != null){
 	        		 commit();
 	        	 }
-	             ModelDTO.this.put(key, value);
+	             ModelDTO.this.put(key, value, true);
 	         } else {
 	             if(transientMap == null){
 	            	 copyMapToTransientMap();
 	             }
-	             //System.out.println("****TransientMap=\n" + transientMap.toString());
-	             ModelDTO.this.put(key, value);
+	             System.out.println("****TransientMap=\n" + transientMap.toString());
+	             ModelDTO.this.put(key, value, false);
 	         }
 	     }
 	     
@@ -68,12 +68,12 @@ public class ModelDTO implements Serializable {
 	        	 if(transientMap != null){
 	        		 commit();
 	        	 }
-	        	 ModelDTO.this.put(key, s);
+	        	 ModelDTO.this.put(key, s, true);
 	         } else {
 	             if(transientMap == null){
 	            	 copyMapToTransientMap();
 	             }
-	             ModelDTO.this.put(key, s);
+	             ModelDTO.this.put(key, s, false);
 	         }
 	     }
 	     
@@ -104,16 +104,22 @@ public class ModelDTO implements Serializable {
 	 * @param key String key for the bean property
 	 * @param value ModelDTOValue value of the property
 	 */
-	protected void put(String key, ModelDTOValue value) {
+	protected void put(String key, ModelDTOValue value, boolean autoCommit) {
 	    if(value instanceof ModelDTOType){
 	    	((ModelDTOType) value).get().setKey(key);
 	    }
 	    
 		if(GWT.isClient() && adapter != null){
-			adapter.put(key, value);
+			adapter.put(key, value, autoCommit);
 		}
 		else{
-			map.put(key, value);			
+			if(autoCommit){
+				map.put(key, value);
+			}
+			else{
+				transientMap.put(key, value);
+			}
+						
 		}		
 	}
 	
@@ -188,10 +194,10 @@ public class ModelDTO implements Serializable {
 	 * @param key
 	 * @param value
 	 */
-	protected void put(String key, String value){
+	protected void put(String key, String value, boolean autoCommit){
 	    StringType stringTypeValue = new StringType();
 	    stringTypeValue.set(value);
-	    put(key, stringTypeValue);
+	    put(key, stringTypeValue, autoCommit);
 	}
 	
 	/**
