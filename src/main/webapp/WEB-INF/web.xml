@@ -8,10 +8,10 @@
       <param-value>dev</param-value>
     </context-param>
 
-    <context-param>
-	    <param-name>contextConfigLocation</param-name>
-      	<param-value>classpath:ksb/ks-lu-context.xml</param-value>
-    </context-param>	
+<!--    <context-param>-->
+<!--	    <param-name>contextConfigLocation</param-name>-->
+<!--      	<param-value>classpath:ksb/ks-lu-context.xml</param-value>-->
+<!--    </context-param>	-->
 
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
