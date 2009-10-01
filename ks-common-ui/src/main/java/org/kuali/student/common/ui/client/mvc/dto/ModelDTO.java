@@ -78,7 +78,7 @@ public class ModelDTO implements Serializable {
 	     }
 	     
 	     public void commit(){
-	    	 this.commit();
+	    	 ModelDTO.this.commit();
 	     }
 	}
 	
