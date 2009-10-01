@@ -440,7 +440,7 @@
 					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.id = :org_queryParam_orgId AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeMulti">
-					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id = :org_queryParam_orgType1 OR rel.org.type.id = :org_queryParam_orgType2 OR rel.org.type.id = :org_queryParam_orgType3)  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id = :org_queryParam_orgType1 OR rel.org.type.id = :org_queryParam_orgType2 OR rel.org.type.id = :org_queryParam_orgType3)  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
 			</map>
 		</property>
