@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.mvc.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
@@ -10,6 +11,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.core.dictionary.dto.Type;
 
 import com.google.gwt.core.client.GWT;
 
@@ -61,6 +64,10 @@ public class ModelDTOAdapter implements Serializable{
 		
     }
 	
+	public void put(String path, ModelDTOValue value){
+		this.putTransient(baseModelDTO, path, value);	
+    }
+	
 	private void putTransient(ModelDTO base, String path, ModelDTOValue value){
 		if(path.startsWith("/")){
             path = path.substring(1);
@@ -93,8 +100,7 @@ public class ModelDTOAdapter implements Serializable{
             	modelDTOValue = base.transientMap.get(key);
                 
                 if(modelDTOValue == null){
-                    modelDTO = new ModelDTO(getClassName(key));
-                    modelDTO.setKey(key);
+                    modelDTO = getModelDTO(key, false);
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
 
@@ -152,8 +158,7 @@ public class ModelDTOAdapter implements Serializable{
 
                 
                 if(modelDTOValue == null){
-                    modelDTO = new ModelDTO(getClassName(key));
-                    modelDTO.setKey(key);
+                    modelDTO = getModelDTO(key, true));
                     ModelDTOType modelDTOType = new ModelDTOType();
                     modelDTOType.set(modelDTO);
                     base.map.put(key, modelDTOType);
@@ -239,7 +244,8 @@ public class ModelDTOAdapter implements Serializable{
     	return returnValue;
 	}
 	
-    private String getClassName(String key){
+    private ModelDTO getModelDTO(String key, boolean autoCommit){
+    	ModelDTO modelDTO = null;
     	DictionaryManager dictionary = DictionaryManager.getInstance();
     	String name = null;
     	//GWT.log(key + " " + objectKey + ((StringType) baseModelDTO.map.get("type")).get() + ((StringType) baseModelDTO.map.get("state")).get(), null);
@@ -254,9 +260,36 @@ public class ModelDTOAdapter implements Serializable{
     	
     	//System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){
-    		
+    		//FIXME this is a temporary solution assuming only 1 type and state possible
+    		String type = "";
+    		String state = "";
+    		List<Type> types = field.getFieldDescriptor().getObjectStructure().getType();
+    		for(Type t: types){
+    			type = t.getKey();
+    			for(State s: t.getState()){
+    				state = s.getKey();
+    			}
+    		}
     		//System.out.println(field.getFieldDescriptor().getObjectStructure().getKey());
     		name = objectKeyClassNameMap.get(field.getFieldDescriptor().getObjectStructure().getKey());
+    		
+    		//Create modelDTO
+    		modelDTO = new ModelDTO(name);
+    		modelDTO.setKey(key);
+    		StringType typeValue = new StringType();
+    		typeValue.set(type);
+    		StringType stateValue = new StringType();
+    		typeValue.set(state);
+    		if(autoCommit){
+    			modelDTO.map.put("type", typeValue);
+    			modelDTO.map.put("state", stateValue);
+    		}
+    		else{
+    			modelDTO.transientMap.put("type", typeValue);
+    			modelDTO.transientMap.put("state", stateValue);
+    		}
+    		
+    		
     	}
     	
 /*    	if(field == null){
@@ -278,6 +311,6 @@ public class ModelDTOAdapter implements Serializable{
             name = CluPublishingInfo.class.getName();
         }*/
     	
-        return name;
+        return modelDTO;
     }
 }
