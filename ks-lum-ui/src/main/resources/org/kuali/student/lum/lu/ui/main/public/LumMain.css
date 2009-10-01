@@ -13,8 +13,12 @@
 }
 
 
-.KS-LUM-Top-Section {
+.KS-LUM-Section {
 	margin: 5px;
-	padding: 5px;
+	padding: 5px 5px 10px 5px;
 	width: 95%;
+}
+
+.KS-LUM-Section-Divider {
+	border-bottom: 1px solid orange;
 }

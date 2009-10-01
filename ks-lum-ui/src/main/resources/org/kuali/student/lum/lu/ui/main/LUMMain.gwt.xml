@@ -2,5 +2,7 @@
 
   	<inherits name="org.kuali.student.lum.lu.ui.main.LumUI"/>
   	  	
+  	<stylesheet src="LumMain.css"/>
+  	  	
 	<entry-point class="org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint"/>
 </module>
