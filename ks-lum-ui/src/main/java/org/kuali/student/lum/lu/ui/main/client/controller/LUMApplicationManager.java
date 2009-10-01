@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
+import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -82,9 +83,16 @@ public class LUMApplicationManager extends Controller{
                 return homeMenuView;
             case CREATE_COURSE:
                 initBlankCluProposalView();
+
+                //FIXME: This is a quick fix, need better way to reset view
+                cluProposalController.showDefaultView();  
+                
                 return createCourseView;
             case EDIT_COURSE_PROPOSAL:
-                //View setup should already be handled
+                //View setup should already be handled.
+                
+                //FIXME: This is quick fix, need better way via config to set and show summary view.
+                cluProposalController.showView(ViewCluConfigurer.LuSections.SUMMARY);
                 return createCourseView;
             case VIEW_COURSE:
                 if (viewCourseView == null){
