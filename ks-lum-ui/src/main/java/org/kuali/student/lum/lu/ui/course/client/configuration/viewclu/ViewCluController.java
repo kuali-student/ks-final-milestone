@@ -16,19 +16,26 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
+import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -45,11 +52,19 @@ public class ViewCluController extends PagedSectionLayout{
 
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);  
 
+    private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
+        public void onClick(ClickEvent event) {
+            Controller parentController =ViewCluController.this.getParentController(); 
+            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+        }
+    });
+    
     public ViewCluController(String id){
 
         this();
         this.id = id;
-
+        
+        addButton(quitButton);
     }
 
     public ViewCluController(){
