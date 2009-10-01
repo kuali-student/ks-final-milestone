@@ -31,7 +31,6 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO.Updater;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
@@ -264,13 +263,12 @@ public class CluProposalController extends PagedSectionLayout{
     private void createNewCluProposalModel(){
         cluProposalModel = new Model<CluProposalModelDTO>();                
         cluProposalModel.put(new CluProposalModelDTO());
-        Updater updater = cluProposalModel.get().beginUpdate(true);
         
-        updater.put("cluInfo/type", CLU_TYPE);
-        updater.put("cluInfo/state", CLU_STATE);
+        cluProposalModel.get().put("cluInfo/type", CLU_TYPE);
+        cluProposalModel.get().put("cluInfo/state", CLU_STATE);
 
-        updater.put("proposalInfo/type", PROPOSAL_TYPE);
-        updater.put("proposalInfo/state", PROPOSAL_STATE);
+        cluProposalModel.get().put("proposalInfo/type", PROPOSAL_TYPE);
+        cluProposalModel.get().put("proposalInfo/state", PROPOSAL_STATE);
     }
     
     public void doSaveAction(SaveActionEvent saveActionEvent){
