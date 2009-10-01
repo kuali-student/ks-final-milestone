@@ -7,18 +7,18 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.home.client.view.CreateCreditCoursePanel.ButtonRow;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -31,8 +31,8 @@ public class FindPanel extends ViewComposite{
     LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
     ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
     
-    KSAdvancedSearchWindow courseSearchWindow = new KSAdvancedSearchWindow(luServiceAsync, "lu.search.clus","lu.resultColumn.cluId");
-    KSAdvancedSearchWindow proposalSearchWindow = new KSAdvancedSearchWindow(proposalServiceAsync, "proposal.search.courses", "proposal.resultColumn.proposalId");
+    KSAdvancedSearchWindow courseSearchWindow = new KSAdvancedSearchWindow(luServiceAsync, "lu.search.clus","lu.resultColumn.cluId", "Find Course");
+    KSAdvancedSearchWindow proposalSearchWindow = new KSAdvancedSearchWindow(proposalServiceAsync, "proposal.search.courses", "proposal.resultColumn.proposalId", "Find Proposal");
     
     private VerticalPanel mainPanel = new VerticalPanel();
     
@@ -68,6 +68,7 @@ public class FindPanel extends ViewComposite{
             }            
         });
         
+        /* Replaced drop down list with buttons
         SimpleListItems searchTypes = new SimpleListItems();
         searchTypes.addItem(SEARCH_TYPE_PROPOSALS, SEARCH_TYPE_PROPOSALS);
         searchTypes.addItem(SEARCH_TYPE_COURSES, SEARCH_TYPE_COURSES);
@@ -81,7 +82,8 @@ public class FindPanel extends ViewComposite{
                     proposalSearchWindow.show();
                 }
             }            
-        });
+        });                  
+        
         
         findLayout.setCellSpacing(25);        
         findLabel.addStyleName("Home-Category-Label");
@@ -90,8 +92,26 @@ public class FindPanel extends ViewComposite{
         findLayout.setWidget(0, 1, searchFor);
                 
         findLayout.setStyleName("Content-Left-Margin");
+        
         mainPanel.add(findLayout);
-
+         */
+     
+        //FIXME: This is a quick fix
+        KSButton findCourseButton = new KSButton("Find Course", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                courseSearchWindow.show();
+            }            
+        });
+        
+        KSButton findProposalButton = new KSButton("Find Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                proposalSearchWindow.show();
+            }            
+        });
+        
+        mainPanel.add(new ButtonRow(findCourseButton, "Find an existing course."));
+        mainPanel.add(new ButtonRow(findProposalButton, "Find an existing proposal."));
+        
         this.initWidget(mainPanel);
     }
     

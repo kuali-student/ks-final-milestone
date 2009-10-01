@@ -49,7 +49,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
         
     }
     
-    private class ButtonRow extends Composite{
+    public static class ButtonRow extends Composite{
         private HorizontalPanel row = new HorizontalPanel();
         private KSLabel descLabel = new KSLabel();
         
