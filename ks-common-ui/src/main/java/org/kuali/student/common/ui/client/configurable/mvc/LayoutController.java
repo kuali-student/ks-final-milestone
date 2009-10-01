@@ -79,10 +79,10 @@ public abstract class LayoutController extends Controller  {
                }
                String ele = "";
                for(ValidationResultContainer vc: list){
-                   ele += vc.getElement()+":";    
+             
                    List<ValidationResultInfo> vrList = vc.getValidationResults();
                    for(ValidationResultInfo vr: vrList){
-                       ele += vr.getMessage()+"\n\n";
+                       ele += vc.getElement()+":"+vr.getMessage()+"\n\n";
                    }
                }
                Window.alert("Error:\n"+ele);
