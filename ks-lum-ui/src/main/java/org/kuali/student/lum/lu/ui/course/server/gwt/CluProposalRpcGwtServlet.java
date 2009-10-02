@@ -35,14 +35,18 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.springframework.security.Authentication;
@@ -516,12 +520,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             //Create clu in LuService
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluInfoModelDTO.copyFrom(cluModelDTO);
             
             //applicationStateManager.getApplicationState(cluProposalDTO);
 
-            saveCourseFormats(cluProposalDTO);
+            saveCourseFormats(cluInfo, cluProposalDTO);
+            saveCrossListedCourses(cluInfo, cluProposalDTO);
+            saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
+            saveVersionCodes(cluInfo, cluProposalDTO);
+            
+            // now update the clu with whatever changes were made in save... methods
+            cluInfo = service.updateClu(cluInfo.getType(), cluInfo);
+            
+            // 
+            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
+            cluInfoModelDTO.copyFrom(cluModelDTO);
             
             //Convert proposalInfo model dto to proposalInfo
             ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(PROPOSAL_INFO_KEY)).get();
@@ -572,24 +584,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
 
-    private void saveCourseFormats(CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType)cluProposalDTO.get("courseFormats");
-        MapContext ctx = new MapContext();
-        
-        if (courseFormatListType != null){
-            List<ModelDTOValue> courseFormatList = courseFormatListType.get();
-            
-            for (ModelDTOValue value:courseFormatList){
-                ModelDTO courseFormatModelDTO = ((ModelDTOValue.ModelDTOType)value).get();
-                
-                CluInfo courseFormatShell = (CluInfo)ctx.fromModelDTO(courseFormatModelDTO);
-                
-                logger.debug(courseFormatShell.getType());                                
-            }
-        }
-        
-    }
-    
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
@@ -612,12 +606,16 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
-            //Create clu in LuService
-            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
-            ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
-            cluInfoModelDTO.copyFrom(cluModelDTO);
+            saveCourseFormats(cluInfo, cluProposalDTO);
+            saveCrossListedCourses(cluInfo, cluProposalDTO);
+            saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
+            saveVersionCodes(cluInfo, cluProposalDTO);
             
-            saveCourseFormats(cluProposalDTO);
+            // now update the clu with whatever changes were made in save... methods
+            cluInfo = service.updateClu(cluInfo.getType(), cluInfo);
+            
+            ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
+            cluInfoModelDTO.copyFrom(cluModelDTO);
             
             //get a user name
             String username = getCurrentUser();
@@ -658,7 +656,123 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
     
-
+    private void saveCourseFormats(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType) cluProposalDTO.get("courseFormats");
+        MapContext ctx = new MapContext();
+        
+        if (courseFormatListType != null) { 
+            List<ModelDTOValue> courseFormatList = courseFormatListType.get();
+            List<String> courseFormatIds = new ArrayList<String>();
+            
+            for (ModelDTOValue courseFormatValue : courseFormatList){
+            	
+                ModelDTO courseFormatModelDTO = ((ModelDTOValue.ModelDTOType) courseFormatValue).get();
+	        	List<String> activityIds = new ArrayList<String>();
+                
+                CluInfo courseFormatShell = (CluInfo) ctx.fromModelDTO(courseFormatModelDTO);
+	        	
+		        ModelDTOValue.ListType activityListType = (ModelDTOValue.ListType) cluProposalDTO.get("activities");
+		        if (null != activityListType) {
+		        	List<ModelDTOValue> activityList = activityListType.get();
+		        	
+		        	for (ModelDTOValue activityValue : activityList) {
+		        		ModelDTO activityModelDTO = ((ModelDTOValue.ModelDTOType) activityValue).get();
+                
+		                CluInfo activityCluInfo = (CluInfo) ctx.fromModelDTO(activityModelDTO);
+		                
+			            // Create or update clu via LuService
+		                try {
+			                activityCluInfo = service.updateClu(activityCluInfo.getType(), activityCluInfo);
+		                } catch (DoesNotExistException dnee) {
+			                activityCluInfo = service.createClu(activityCluInfo.getType(), activityCluInfo);
+		                }
+		                
+			            ModelDTO newModelDTO = (ModelDTO) ctx.fromBean(activityCluInfo);
+		                activityModelDTO.copyFrom(newModelDTO);
+		                activityIds.add(activityCluInfo.getId());
+		        	}
+		        }
+		        
+	            // Create or update clu via LuService
+                try {
+	                courseFormatShell = service.updateClu(courseFormatShell.getType(), courseFormatShell);
+                } catch (DoesNotExistException dnee) {
+	                courseFormatShell = service.createClu(courseFormatShell.getType(), courseFormatShell);
+                }
+	            ModelDTO newModelDTO = (ModelDTO) ctx.fromBean(courseFormatShell);
+                courseFormatModelDTO.copyFrom(newModelDTO);
+		                
+                // create the CourseFormat->Activity relationships
+                for (String activityId : activityIds)  {
+	                CluCluRelationInfo ccrInfo = new CluCluRelationInfo();
+	                ccrInfo.setCluId(courseFormatShell.getId());
+	                ccrInfo.setRelatedCluId(activityId);
+	                ccrInfo.setType(LUConstants.LU_LU_RELATION_TYPE_CONTAINS);
+	                // TODO - ccrInfo.setState("<some kind of 'draft'?");
+	                try {
+		                service.createCluCluRelation(ccrInfo.getCluId(), ccrInfo.getRelatedCluId(), ccrInfo.getType(), ccrInfo);
+	                } catch (AlreadyExistsException aee) {} // should't be a problem
+                }
+                
+                courseFormatIds.add(courseFormatShell.getId());
+                
+                logger.debug(courseFormatShell.getType());                                
+            }
+            // create the Clu->CourseFormat relationships
+            for (String courseFormatId : courseFormatIds)  {
+                CluCluRelationInfo ccrInfo = new CluCluRelationInfo();
+                ccrInfo.setCluId(cluInfo.getId());
+                ccrInfo.setRelatedCluId(courseFormatId);
+                ccrInfo.setType(LUConstants.LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT);
+                // TODO - ccrInfo.setState("<some kind of 'draft'?");
+                try {
+	                service.createCluCluRelation(ccrInfo.getCluId(), ccrInfo.getRelatedCluId(), ccrInfo.getType(), ccrInfo);
+                } catch (AlreadyExistsException aee) {} // should't be a problem
+            }
+            // TODO - what if they add a course format & associated activity(ies), and then
+            //			remove one or more activities, or the course format as a whole?
+            //        probably have to retrieve ...COURSE_FORMAT and ...CONTAINS LuLuRelations on entry, and delete
+            //        those that aren't currently in the ModelDTO. Or, rethink the whole persistence flow...
+        }
+    }
+    
+    private void saveCrossListedCourses(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType crossListedListType = (ModelDTOValue.ListType)cluProposalDTO.get("alternateIdentifiers");
+        if (null != crossListedListType) {
+	        MapContext ctx = new MapContext();
+        	List<ModelDTOValue> crossListedList = crossListedListType.get();
+        	
+        	for (ModelDTOValue crossListedValue : crossListedList) {
+        		ModelDTO crossListedModelDTO = ((ModelDTOValue.ModelDTOType) crossListedValue).get();
+                
+                CluInfo crossListedCluInfo = (CluInfo) ctx.fromModelDTO(crossListedModelDTO);
+                // search for the cross-listed clu
+                
+                // if found, create a LU_LU_RELATION_TYPE_CROSS_LISTED CluCluRelation
+        	}
+        }
+    }
+    
+    private void saveCoursesOfferedJointly(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType)cluProposalDTO.get("offeredJointly");
+        if (null != offeredJointlyListType) {
+	        MapContext ctx = new MapContext();
+        	List<ModelDTOValue> offeredJointlyList = offeredJointlyListType.get();
+        	
+        	for (ModelDTOValue offeredJointlyValue : offeredJointlyList) {
+        		ModelDTO offeredJointlyModelDTO = ((ModelDTOValue.ModelDTOType) offeredJointlyValue).get();
+                
+                CluInfo offeredJointlyCluInfo = (CluInfo) ctx.fromModelDTO(offeredJointlyModelDTO);
+                // search for the jointly-offeredclu
+                
+                // if found, create a LU_LU_RELATION_TYPE_JOINTLY_OFFERED CluCluRelation
+        	}
+        }
+    }
+    
+    private void saveVersionCodes(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType versionCodeListType = (ModelDTOValue.ListType)cluProposalDTO.get("versionCodes");
+    }
 
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#deleteProposal(java.lang.String)

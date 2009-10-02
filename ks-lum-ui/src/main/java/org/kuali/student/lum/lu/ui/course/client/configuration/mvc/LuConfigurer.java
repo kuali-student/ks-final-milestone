@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityCompositeWithLabels;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -32,6 +33,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -61,7 +63,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class LuConfigurer {
 
     //FIXME:  Initialize type and state
-    private static String type;
+	private static String type;
     private static String state;
 
     private static boolean WITH_DIVIDER = true;
@@ -234,7 +236,6 @@ public class LuConfigurer {
 
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
-
         //COURSE NUMBER
         CustomNestedSection courseNumber = new CustomNestedSection();
         courseNumber.addStyleName(LUConstants.STYLE_SECTION);
@@ -243,38 +244,37 @@ public class LuConfigurer {
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", null, Type.STRING));
-        courseNumber.nextRow();
-
-            //CROSS LISTED
-/*
-            VerticalSection crossListed = new VerticalSection();
-            crossListed.setSectionTitle(SectionTitle.generateH2Title("Cross Listed (offered under alternate course numbers)"));
-            crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-            crossListed.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
-*/
-            //OFFERED JOINTLY
-/*
-            VerticalSection offeredJointly = new VerticalSection();
-            offeredJointly.setSectionTitle(SectionTitle.generateH2Title("Offered Jointly (co-located with another course)"));
-            offeredJointly.setInstructions("Enter an existing course or proposal.");
-            offeredJointly.addField(new FieldDescriptor("jointClus", null, Type.LIST, new OfferedJointlyList()));//TODO Key is probably wrong
-*/
-
-            //Version Codes
-/*
-        VerticalSection versionCodes = new VerticalSection();
-            versionCodes.setSectionTitle(SectionTitle.generateH2Title("Version Codes"));
-            versionCodes.addField(new FieldDescriptor("luLuRelationType.alias", null, Type.LIST, new VersionCodeList()));//TODO Key is probably wrong
-*/
-
-/*
-        courseNumber.addSection(crossListed);
-        courseNumber.nextRow();
-        courseNumber.addSection(offeredJointly);
-        courseNumber.nextRow();
-        courseNumber.addSection(versionCodes);
-*/
+        section.addSection(courseNumber);
         
+        // TODO - hide cross-listed, offered jointly and version codes initially, with
+        // clickable label to disclose them
+        
+        // Cross-listed
+        VerticalSection crossListed = new VerticalSection();
+        crossListed.setSectionTitle(SectionTitle.generateH3Title("Cross Listed (offered under alternate course numbers)"));
+        // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
+        crossListed.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new CrossListedList()));
+        crossListed.addStyleName("KS-LUM-Section-Divider");
+        courseNumber.addSection(crossListed);
+
+        // Offered jointly
+        VerticalSection offeredJointly = new VerticalSection();
+        offeredJointly.setSectionTitle(SectionTitle.generateH3Title("Offered Jointly (co-located with another course)"));
+        // offeredJointly.setInstructions("Enter an existing course or proposal.");
+        // TODO - says 'alternateIdentifiers' in cluuifields spreadsheet
+        offeredJointly.addField(new FieldDescriptor("offeredJointly", null, Type.LIST, new OfferedJointlyList()));
+        offeredJointly.addStyleName("KS-LUM-Section-Divider");
+        courseNumber.addSection(offeredJointly);
+
+        //Version Codes
+        VerticalSection versionCodes = new VerticalSection();
+        versionCodes.setSectionTitle(SectionTitle.generateH3Title("Version Codes"));
+        
+        // TODO - says 'alternateIdentifiers' in cluuifields spreadsheet
+        versionCodes.addField(new FieldDescriptor("versionCodes", null, Type.LIST, new VersionCodeList()));
+        versionCodes.addStyleName("KS-LUM-Section-Divider");
+        courseNumber.addSection(versionCodes);
+
         VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
@@ -292,7 +292,7 @@ public class LuConfigurer {
         VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
         rationale.addField(new FieldDescriptor("cluInfo/marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
         
-        section.addSection(courseNumber);
+        // section.addSection(courseNumber);
         section.addSection(longTitle);
         section.addSection(shortTitle);
         section.addSection(description);
@@ -320,59 +320,69 @@ public class LuConfigurer {
 //            }
   //      };
    // }
-    public static class CrossListedList extends MultiplicityComposite{
-
+    
+    public static class CrossListedList extends MultiplicityCompositeWithLabels {        
+        {
+            setAddItemLabel("Add Department and/or Subject Code/Course Number");
+            setItemLabel("Cross Listed Course");
+        }
+        
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-
+            MultiplicitySection multi = new MultiplicitySection("CluInfo"); // ??
+            
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/department", "Department", Type.STRING));//TODO OrgSearch goes here, wrong key
+            ns.addField(new FieldDescriptor("cluInfo/department", "Department", Type.STRING, new OrgPicker()));//TODO OrgSearch goes here, wrong key
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             ns.addField(new FieldDescriptor("cluInfo/division", "Subject Code", Type.STRING));//TODO OrgSearch goes here?
             ns.addField(new FieldDescriptor("cluInfo/suffixCode", "Course Number", Type.STRING));
             multi.addSection(ns);
-
+            
             return multi;
         }
-
     }
-
-    public static class OfferedJointlyList extends MultiplicityComposite{
+    
+    public static class OfferedJointlyList extends MultiplicityCompositeWithLabels {
+        {
+	        setAddItemLabel("Add an Existing Course or Proposal.");
+            setItemLabel("Jointly-Offered Course");
+        }
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-
+            MultiplicitySection multi = new MultiplicitySection("CluInfo"); // ??
+            
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/courseTitle", "Course Number or Title", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("cluInfo/courseTitle", "Course Number or Title", Type.STRING /*, new CluPicker() */ ));
             multi.addSection(ns);
-
+            
             return multi;
         }
-
     }
-
-    public static class VersionCodeList extends MultiplicityComposite{
+    
+    public static class VersionCodeList extends MultiplicityCompositeWithLabels {
+        {
+	        setAddItemLabel("Add a Version Code");
+            setItemLabel("Version Code");
+        }
 
         @Override
         public Widget createItem() {
             MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-
+            
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             ns.addField(new FieldDescriptor("cluInfo/versionCode", "Code", Type.STRING));//TODO wrong key
             ns.addField(new FieldDescriptor("cluInfo/title", "Title", Type.STRING));//TODO wrong key
             multi.addSection(ns);
-
+            
             return multi;
         }
-
     }
-
+        
     public static void addCourseLogistics(ConfigurableLayout layout){
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS,
                 getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);

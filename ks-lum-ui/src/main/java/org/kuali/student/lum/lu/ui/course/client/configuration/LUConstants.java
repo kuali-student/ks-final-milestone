@@ -15,9 +15,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -33,6 +30,12 @@ public class LUConstants {
     //     UI specific
 
     public final static String LU_TYPE_CREDIT_COURSE = "luType.shell.course";
+    
+	// found this in https://test.kuali.org/confluence/display/KULSTU/LuConfig.Types.LuLuRelationType
+    public final static String LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT = "luluRelationTYpe.hasCourseFormat";
+    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luluRelationTYpe.contains";
+    public final static String LU_LU_RELATION_TYPE_CROSS_LISTED = "luLuRelationType.alias";
+    public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
 
     // Valid states for Credit Course
     public final static String LU_STATE_PROPOSED = "Proposed"; // Should this be Draft
