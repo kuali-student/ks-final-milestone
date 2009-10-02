@@ -32,6 +32,7 @@ import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
+import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
@@ -86,9 +87,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private ApplicationStateManager applicationStateManager;
 
 	@Override
-	public CluProposalModelDTO getCluProposalFromWorkflowId(String docId) {
+	public CluProposalModelDTO getCluProposalFromWorkflowId(String docId) throws OperationFailedException{
         if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
         //get a user name
@@ -96,7 +97,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
         DocumentResponse docResponse = simpleDocService.getDocument(docId, username);
         if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
-        	throw new RuntimeException("Error found gettting document: " + docResponse.getErrorMessage());
+        	throw new OperationFailedException("Error found gettting document: " + docResponse.getErrorMessage());
         }
 
         CluProposalModelDTO proposal = getProposal(docResponse.getAppDocId());
@@ -105,9 +106,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 	
 	@Override
-	public String getWorkflowIdFromProposalId(String proposalId) {
+	public String getWorkflowIdFromProposalId(String proposalId) throws OperationFailedException {
         if(null==simpleDocService){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
         DocumentDetailDTO docDetail;
@@ -125,10 +126,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
 
 	@Override
-	public String getActionsRequested(String cluProposalId) {
+	public String getActionsRequested(String cluProposalId) throws OperationFailedException {
         try{
 		if(workflowUtilityService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		if(null==cluProposalId){
@@ -143,7 +144,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         String workflowDocTypeId = "CluDocument";
         DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(workflowDocTypeId, cluProposalId);
         if(docDetail==null){
-        	throw new RuntimeException("Error found gettting document. " );
+        	throw new OperationFailedException("Error found gettting document. " );
         }
         
 		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
@@ -183,7 +184,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	return actionsRequested;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error getting actions Requested",e);
+            throw new OperationFailedException("Error getting actions Requested",e);
         }
 	}
 
@@ -241,9 +242,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	
 	@Override
-	public Boolean approveProposal(CluProposalModelDTO cluProposal) {
+	public Boolean approveProposal(CluProposalModelDTO cluProposal) throws OperationFailedException {
         if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		try{
@@ -256,14 +257,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalInfo.getId());
             if(docDetail==null){
-            	throw new RuntimeException("Error found gettting document. " );
+            	throw new OperationFailedException("Error found gettting document. " );
             }
             
 	        String approveComment = "Approved by CluProposalService";
 	        
 	        StandardResponse stdResp = simpleDocService.approve(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), getCluProposalDocContent(cluInfo,proposalInfo), approveComment);
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found approving document: " + stdResp.getErrorMessage());
+        		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
         	}
 
 		}catch(Exception e){
@@ -273,9 +274,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
 	@Override
-	public Boolean disapproveProposal(CluProposalModelDTO cluProposal) {
+	public Boolean disapproveProposal(CluProposalModelDTO cluProposal) throws OperationFailedException {
         if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		try{
@@ -287,7 +288,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalInfo.getId());
             if(docDetail==null){
-            	throw new RuntimeException("Error found gettting document. " );
+            	throw new OperationFailedException("Error found gettting document. " );
             }
             
 	        String disapproveComment = "Disapproved by CluProposalService";
@@ -296,7 +297,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        StandardResponse stdResp = simpleDocService.disapprove(docDetail.getRouteHeaderId().toString(), username, disapproveComment);
 
 	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found disapproving document: " + stdResp.getErrorMessage());
+        		throw new OperationFailedException("Error found disapproving document: " + stdResp.getErrorMessage());
         	}
 
 		}catch(Exception e){
@@ -307,9 +308,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
 
 	@Override
-	public Boolean acknowledgeProposal(CluProposalModelDTO cluProposal) {
+	public Boolean acknowledgeProposal(CluProposalModelDTO cluProposal) throws OperationFailedException {
         if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		try{
@@ -321,7 +322,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalInfo.getId());
             if(docDetail==null){
-            	throw new RuntimeException("Error found gettting document. " );
+            	throw new OperationFailedException("Error found gettting document. " );
             }
             
 	        String acknowledgeComment = "Acknowledged by CluProposalService";
@@ -330,7 +331,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        StandardResponse stdResp = simpleDocService.acknowledge(docDetail.getRouteHeaderId().toString(), username, acknowledgeComment);
 
 	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found acknowledging document: " + stdResp.getErrorMessage());
+        		throw new OperationFailedException("Error found acknowledging document: " + stdResp.getErrorMessage());
         	}
 
 		}catch(Exception e){
@@ -366,9 +367,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 	
 	@Override
-    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy){
+    public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException{
         if(simpleDocService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		try{
@@ -388,7 +389,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             DocumentResponse docResponse = simpleDocService.create(username, docId, WF_TYPE_CLU_COLLABORATOR_DOCUMENT, title);
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+            	throw new OperationFailedException("Error found creating document: " + docResponse.getErrorMessage());
             }
 
             //Get the current routeNodeName
@@ -426,7 +427,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             StandardResponse stdResp = simpleDocService.route(docResponse.getDocId(), username, docResponse.getTitle(), docContentString, collaborateComment);
 
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
+        		throw new OperationFailedException("Error found routing document: " + stdResp.getErrorMessage());
         	}
 
 		}catch(Exception e){
@@ -436,10 +437,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
 
 	@Override
-    public HashMap<String, ArrayList<String>> getCollaborators(String docId){
+    public HashMap<String, ArrayList<String>> getCollaborators(String docId) throws OperationFailedException{
 		try{
         if(workflowUtilityService==null){
-        	throw new RuntimeException("Workflow Service is unavailable");
+        	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
@@ -477,7 +478,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         results.put("Delegate", delegates);
         return results;
 		}catch(Exception e){
-            throw new RuntimeException("Error getting actions Requested",e);
+            throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
  
@@ -503,10 +504,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
     /**
+     * @throws OperationFailedException 
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
-    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) {        
+    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) throws OperationFailedException {        
         MapContext ctx = new MapContext();
 
         logger.info("Creating proposal");
@@ -563,20 +565,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             logger.info("Creating proposal Workflow Document.");
             DocumentResponse docResponse = simpleDocService.create(username, proposalInfo.getId(), WF_TYPE_CLU_DOCUMENT, title);
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
+            	throw new OperationFailedException("Error found creating document: " + docResponse.getErrorMessage());
             }
             
             if(null!=cluInfo.getAdminOrg()){
 	            String saveComment = "Created By CluProposalService";
 	            StandardResponse stdResp = simpleDocService.save(docResponse.getDocId(), username, title,getCluProposalDocContent(cluInfo,proposalInfo), saveComment);
 	            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-	            	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
+	            	throw new OperationFailedException("Error found saving document: " + stdResp.getErrorMessage());
 	            }
             }
         }
         catch(Exception e){
-            if (e.getMessage()!=null&&!e.getMessage().contains("No remote services available")){
-                throw new RuntimeException("Error saving Proposal. ",e);
+            if ((e.getMessage()== null) || (!e.getMessage().contains("No remote services available"))){
+                throw new OperationFailedException("Error saving Proposal. ",e);
             }
             logger.error("Error saving Proposal",e);
         }
@@ -588,7 +590,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
-    public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) {
+    public CluProposalModelDTO saveProposal(CluProposalModelDTO cluProposalDTO) throws OperationFailedException{
         MapContext ctx = new MapContext();
         try{
             logger.debug("Updating proposal");
@@ -625,7 +627,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             
             //Check that the call was successful
             if(docDetail==null){
-            	throw new RuntimeException("Error found gettting document: ");
+            	throw new OperationFailedException("Error found gettting document: ");
             }
             
             String title = proposalInfo.getName()==null?"NoNameSet":proposalInfo.getName();
@@ -635,20 +637,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
                 StandardResponse stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, title, getCluProposalDocContent(cluInfo,proposalInfo), "");
                 if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-                	throw new RuntimeException("Error found saving document: " + stdResp.getErrorMessage());
+                	throw new OperationFailedException("Error found saving document: " + stdResp.getErrorMessage());
                 }
             }
             else {
             	StandardResponse stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, title, getCluProposalDocContent(cluInfo,proposalInfo));
             	if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-            		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
+            		throw new OperationFailedException("Error found updating document: " + stdResp.getErrorMessage());
             	}
             }
             
         }
         catch(Exception e){
             if (e.getMessage()!=null&&!e.getMessage().contains("No remote services available")){
-                throw new RuntimeException("Error saving Proposal. ",e);
+                throw new OperationFailedException("Error saving Proposal. ",e);
             }
             logger.error("Error saving Proposal",e);
         }
@@ -787,7 +789,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public Boolean submitProposal(CluProposalModelDTO cluProposalDTO) {
 		try {
             if(simpleDocService==null){
-            	throw new RuntimeException("Workflow Service is unavailable");
+            	throw new OperationFailedException("Workflow Service is unavailable");
             }
 
             //get a user name
@@ -801,7 +803,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalInfo.getId());
 
             if(docDetail==null){
-            	throw new RuntimeException("Error found gettting document. " );
+            	throw new OperationFailedException("Error found gettting document. " );
             }
 
             String routeComment = "Routed By CluProposalService";
@@ -809,7 +811,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             StandardResponse stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), getCluProposalDocContent(cluInfo,proposalInfo), routeComment);
 
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        		throw new RuntimeException("Error found routing document: " + stdResp.getErrorMessage());
+        		throw new OperationFailedException("Error found routing document: " + stdResp.getErrorMessage());
         	}
 
 
@@ -822,8 +824,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
     /**
      * Retreives a CluProposalMoelDTO given a proposal id.
+     * @throws OperationFailedException 
      */
-    public CluProposalModelDTO getProposal(String proposalId){
+    public CluProposalModelDTO getProposal(String proposalId) throws OperationFailedException{
         MapContext ctx = new MapContext();
         CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
 
@@ -865,7 +868,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 
     	if(!authorized){
-    		throw new RuntimeException("User is not authorized to open this document");
+    		throw new OperationFailedException("User is not authorized to open this document");
         }
 
         return cluProposalDTO;
@@ -873,8 +876,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
     /**
      * Retreives a CluProposalModelDTO given a clu id.
+     * @throws OperationFailedException 
      */
-    public CluProposalModelDTO getClu(String cluId){
+    public CluProposalModelDTO getClu(String cluId) throws OperationFailedException{
         MapContext ctx = new MapContext();
         CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
 
@@ -906,7 +910,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
 
     if(!authorized){
-        throw new RuntimeException("User is not authorized to open this document");
+        throw new OperationFailedException("User is not authorized to open this document");
     }
         
         return cluProposalDTO;
@@ -933,13 +937,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return username;
 	}
 	
-	private String getCluProposalDocContent(CluInfo cluInfo, ProposalInfo proposalInfo){
+	private String getCluProposalDocContent(CluInfo cluInfo, ProposalInfo proposalInfo) throws OperationFailedException{
     	try{
 
     		CluProposalDocInfo docContent = new CluProposalDocInfo();
     		
     		if(null == cluInfo){
-    			throw new RuntimeException("CluInfo must be set.");
+    			throw new OperationFailedException("CluInfo must be set.");
     		}
     		
     		String cluId = cluInfo.getId()==null?"":cluInfo.getId(); 
@@ -957,14 +961,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		return writer.toString();
 
     	}catch(Exception e){
-    		throw new RuntimeException("Error creating Document content for Clu. ", e);
+    		throw new OperationFailedException("Error creating Document content for Clu. ", e);
     	}
 	}
     
 	@Override
-    public Boolean adhocRequest(String docId, String recipientPrincipalId, String requestType, String annotation) {
+    public Boolean adhocRequest(String docId, String recipientPrincipalId, String requestType, String annotation) throws OperationFailedException {
         if (simpleDocService == null) {
-            throw new RuntimeException("Workflow Service is unavailable");
+            throw new OperationFailedException("Workflow Service is unavailable");
         }
 
         try {
@@ -981,7 +985,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
              * String workflowDocTypeId = "CluCollaboratorDocument";// TODO make // sure this // name is // correct
              * DocumentResponse docResponse = simpleDocService.create(username, docId, workflowDocTypeId,
              * cluInfo.getOfficialIdentifier() .getLongName()); if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-             * throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage()); }
+             * throw new OperationFailedException("Error found creating document: " + docResponse.getErrorMessage()); }
              */
             // Do the adHoc
             // Error with the simpleDocService.requestAdHocXXXToPrincipal method. the workflow document is getting routed to the wrong user.
@@ -990,21 +994,21 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 //                StandardResponse stdResp = simpleDocService.requestAdHocFyiToPrincipal(docId, username, recipientPrincipalId, fyiAnnotation);
                 StandardResponse stdResp = simpleDocService.requestAdHocFyiToPrincipal(docId,recipientPrincipalId, username, fyiAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                    throw new RuntimeException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
+                    throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
                 }
             }
             if (requestType.equals("Approve")) {
 //                StandardResponse stdResp = simpleDocService.requestAdHocApproveToPrincipal(docId, username, recipientPrincipalId, approveAnnotation);
                 StandardResponse stdResp = simpleDocService.requestAdHocApproveToPrincipal(docId, recipientPrincipalId,username, approveAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                    throw new RuntimeException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
+                    throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
                 }
             }
             if (requestType.equals("Acknowledge")) {
 //                StandardResponse stdResp = simpleDocService.requestAdHocAckToPrincipal(docId, username, recipientPrincipalId, ackAnnotation);
                 StandardResponse stdResp = simpleDocService.requestAdHocAckToPrincipal(docId,recipientPrincipalId,username, ackAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                    throw new RuntimeException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
+                    throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
                 }
             }
 
