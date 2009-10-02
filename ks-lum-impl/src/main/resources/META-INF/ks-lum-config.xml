@@ -1,6 +1,6 @@
 <config>
 
-    <param name="module.name">ks-lum-web</param>
+    <param name="module.name">ks-lum-impl</param>
     <param name="db.vendor">oracle</param>
 	<param name="jpa.vendor">hibernate</param>
 	
