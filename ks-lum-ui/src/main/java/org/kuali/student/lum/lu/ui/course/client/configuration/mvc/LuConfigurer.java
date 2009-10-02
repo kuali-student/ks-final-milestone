@@ -64,6 +64,9 @@ public class LuConfigurer {
     private static String type;
     private static String state;
 
+    private static boolean WITH_DIVIDER = true;
+    private static boolean NO_DIVIDER = false;
+
 
     public enum LuSections{
         CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
@@ -156,12 +159,10 @@ public class LuConfigurer {
                 getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY)));
 
-        VerticalSection startDate = new VerticalSection();
-        startDate.setSectionTitle(SectionTitle.generateH5Title("Start Date"));
+        VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
         startDate.addField(new FieldDescriptor("cluInfo/effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
 
-        VerticalSection endDate = new VerticalSection();
-        endDate.setSectionTitle(SectionTitle.generateH5Title("End Date"));
+        VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         endDate.addField(new FieldDescriptor("cluInfo/expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
 
         section.addSection(startDate);
@@ -176,12 +177,10 @@ public class LuConfigurer {
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
-        VerticalSection feeType = new VerticalSection();
-        feeType.setSectionTitle(SectionTitle.generateH2Title("Fee Type"));
+        VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
         feeType.addField(new FieldDescriptor("cluInfo/feeType", null, Type.STRING));
 
-        VerticalSection feeAmount = new VerticalSection();
-        feeAmount.setSectionTitle(SectionTitle.generateH2Title("Fee Amount"));
+        VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_AMOUNT_LABEL_KEY), WITH_DIVIDER);
         feeAmount.addField(new FieldDescriptor("cluInfo/feeAmount", "$", Type.STRING));
         feeAmount.addField(new FieldDescriptor("cluInfo/taxable", "Taxable", Type.STRING));//TODO checkboxes go here instead
         feeAmount.addField(new FieldDescriptor("cluInfo/feeDesc", "Description", Type.STRING, new KSTextArea()));
@@ -205,12 +204,24 @@ public class LuConfigurer {
         VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE,
                 getLabel(LUConstants.GOVERNANCE_LABEL_KEY),
                 CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)));
+        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)));
 
-        section.addField(new FieldDescriptor("cluInfo/academicSubjectOrgs", "Curriculum Oversight", Type.STRING, new OrgListPicker()));
-        section.addField(new FieldDescriptor("cluInfo/campusLocationList", "Campus Location", Type.STRING, new CampusLocationList()));
-        section.addField(new FieldDescriptor("cluInfo/adminOrg", "Administering Organization", Type.STRING, new OrgPicker()));
-        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", "PrimaryInstructor Id", Type.STRING));
+        VerticalSection oversight = initSection(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY), WITH_DIVIDER);    
+        oversight.addField(new FieldDescriptor("cluInfo/academicSubjectOrgs", null, Type.STRING, new OrgListPicker()));
+
+        VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
+        campus.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.STRING, new CampusLocationList()));
+
+        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORGS_LABEL_KEY), WITH_DIVIDER);    
+        adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new OrgPicker()));
+        
+        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTORS_LABEL_KEY), WITH_DIVIDER);    
+        instructors.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", null, Type.STRING));
+        
+        section.addSection(oversight);
+        section.addSection(campus);
+        section.addSection(adminOrgs);
+        section.addSection(instructors);
 
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
@@ -226,7 +237,9 @@ public class LuConfigurer {
 
         //COURSE NUMBER
         CustomNestedSection courseNumber = new CustomNestedSection();
-        courseNumber.setSectionTitle(SectionTitle.generateH5Title("Course Number")); //Section title constants)
+        courseNumber.addStyleName(LUConstants.STYLE_SECTION);
+        courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+        courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY)); //Section title constants)
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", null, Type.STRING));
@@ -261,17 +274,29 @@ public class LuConfigurer {
         courseNumber.nextRow();
         courseNumber.addSection(versionCodes);
 */
-        section.addSection(courseNumber);
-
+        
+        VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
-        FieldDescriptor fd = new FieldDescriptor("cluInfo/officialIdentifier/longName", "Proposed Course Title", Type.STRING);
+        FieldDescriptor fd = new FieldDescriptor("cluInfo/officialIdentifier/longName", null, Type.STRING);
 //        Callback<Boolean> callback =  getSubjectValidationCallback(fd,objectKey);
   //      fd.setValidationCallBack(callback);
-        section.addField(fd);
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", "Transcript Title", Type.STRING));
-        section.addField(new FieldDescriptor("cluInfo/desc", "Course Description", Type.MODELDTO, new KSRichEditor()));
-        section.addField(new FieldDescriptor("cluInfo/marketingDesc", "Marketing Description", Type.MODELDTO, new KSRichEditor()));
+        longTitle.addField(fd);
+        
+        VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
+        shortTitle.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", null, Type.STRING));
+        
+        VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
+        description.addField(new FieldDescriptor("cluInfo/desc", null, Type.MODELDTO, new KSRichEditor()));
+        
+        VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
+        rationale.addField(new FieldDescriptor("cluInfo/marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
+        
+        section.addSection(courseNumber);
+        section.addSection(longTitle);
+        section.addSection(shortTitle);
+        section.addSection(description);
+        section.addSection(rationale);
 
         layout.addSection(new String[] {getLabel(LUConstants.INFORMATION_LABEL_KEY)}, section);
     }
@@ -354,26 +379,21 @@ public class LuConfigurer {
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
 
         //CREDITS
-        VerticalSection credits = new VerticalSection();
-        credits.setSectionTitle(SectionTitle.generateH3Title("Credits"));
+        VerticalSection credits = initSection(getH3Title(LUConstants.CREDITS_LABEL_KEY), WITH_DIVIDER);
         //TODO: These needs to be mapped to learning results
         credits.addField(new FieldDescriptor("cluInfo/creditType", "Credit Type", Type.STRING));
         credits.addField(new FieldDescriptor("cluInfo/creditValue", "Credit Value", Type.STRING));
         credits.addField(new FieldDescriptor("cluInfo/maxCredits", "Maximum Credits", Type.STRING));
 
-        //LEARNING RESULTS
-        VerticalSection learningResults = new VerticalSection();
-        learningResults.setSectionTitle(SectionTitle.generateH3Title("Learning Results"));
+        VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
         learningResults.addField(new FieldDescriptor("cluInfo/evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
 
-        VerticalSection scheduling = new VerticalSection();
-        scheduling.setSectionTitle(SectionTitle.generateH3Title("Scheduling"));
+        VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         scheduling.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", "Term", Type.STRING, new AtpTypeList()));
         scheduling.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO DURATION ENUMERATION
 
         //COURSE FORMATS
-        VerticalSection courseFormats = new VerticalSection();
-        courseFormats.setSectionTitle(SectionTitle.generateH3Title("Course Formats"));
+        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
         courseFormats.addField(new FieldDescriptor("courseFormats", null, Type.LIST, new CourseFormatList()));
 
         section.addSection(credits);
@@ -592,6 +612,17 @@ public class LuConfigurer {
             return new Collaborators();
         }
 
+    }
+    
+    private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
+        VerticalSection section = new VerticalSection();
+        if (title !=  null) {
+          section.setSectionTitle(title);
+        }
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        if (withDivider)
+            section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+        return section;
     }
     
     private static String getLabel(String labelKey) {

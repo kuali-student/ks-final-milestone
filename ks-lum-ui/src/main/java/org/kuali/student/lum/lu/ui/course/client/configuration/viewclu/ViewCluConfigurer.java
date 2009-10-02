@@ -49,8 +49,6 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ViewCluConfigurer {
-
-
     
     private static boolean WITH_DIVIDER = true;
     private static boolean NO_DIVIDER = false;
@@ -236,7 +234,7 @@ public class ViewCluConfigurer {
 
     
     public static VerticalSection generateSummaryDetails(SectionTitle title) {
-        VerticalSection section = initSection(title, true);
+        VerticalSection section = initSection(title, WITH_DIVIDER);
 
         VerticalSection governance = new VerticalSection();
         governance.addStyleName(LUConstants.STYLE_SECTION);
