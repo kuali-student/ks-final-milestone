@@ -55,7 +55,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         password = username;
         
         KimPrincipalInfo kimPrincipalInfo = null;
-        try {
+        //try {
 	        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
         if (null != kimPrincipalInfo) {
             username = kimPrincipalInfo.getPrincipalId();
@@ -69,14 +69,14 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
         
         return ksuser;
-        }
-
+/*        }
         catch(Exception rre){
             //Added to handle the exception in case Rice service is not available. 
             // This is implemented because in developement environment if rice service is not up then 
             // we deflect the authentication to DefaultUserDetailService.
               return null;
         }
+*/
     }
     
     public void setAuthorities(String[] roles) {
