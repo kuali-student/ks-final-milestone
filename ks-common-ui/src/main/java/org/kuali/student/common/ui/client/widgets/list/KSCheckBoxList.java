@@ -5,6 +5,10 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSCheckBoxListImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 
@@ -14,8 +18,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team 
  *
  */
-public class KSCheckBoxList extends KSSelectItemWidgetAbstract {
-    private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSCheckBoxListImpl.class);
+public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements HasBlurHandlers, HasFocusHandlers {
+    private KSCheckBoxListImpl selectItemWidget = GWT.create(KSCheckBoxListImpl.class);
 
     
 	public KSCheckBoxList(String name) {
@@ -114,6 +118,16 @@ public class KSCheckBoxList extends KSSelectItemWidgetAbstract {
     public void clear() {
         selectItemWidget.clear();
     }
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return selectItemWidget.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return selectItemWidget.addFocusHandler(handler);
+	}
     
 }
 

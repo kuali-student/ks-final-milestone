@@ -5,13 +5,19 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.Idable;
 
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
 
 
@@ -21,7 +27,8 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team 
  *
  */
-public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
+public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements ClickHandler, HasBlurHandlers, HasFocusHandlers {
+	private final FocusGroup focus = new FocusGroup(this);
     private FlexTable checkBoxes = new FlexTable();
     private List<String> selectedItems = new ArrayList<String>();
 
@@ -133,6 +140,7 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         KSCheckBox checkbox = new KSCheckBox(getListItems().getItemText(id));
         checkbox.setFormValue(id);
         checkbox.addClickHandler(this);
+        focus.addWidget(checkbox);
         return checkbox;
     }
 
@@ -186,4 +194,14 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
         selectedItems.clear();
         redraw();
     }
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return focus.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focus.addFocusHandler(handler);
+	}
 }
