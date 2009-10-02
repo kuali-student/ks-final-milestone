@@ -85,8 +85,8 @@ public abstract class LayoutController extends Controller  {
                        ele += vc.getElement()+":"+vr.getMessage()+"\n\n";
                    }
                }
-               Window.alert("Error:\n"+ele);
-              // System.out.println(ele);
+               //Window.alert("Error:\n"+ele);
+               System.out.println(ele);
             }
         });
     }
