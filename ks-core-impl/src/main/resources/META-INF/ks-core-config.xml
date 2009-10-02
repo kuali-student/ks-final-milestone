@@ -2,7 +2,7 @@
   
   
   
-    <param name="module.name">ks-core-web</param>
+    <param name="module.name">ks-core-impl</param>
     <param name="db.vendor">oracle</param>
 	<param name="jpa.vendor">hibernate</param>
 	
