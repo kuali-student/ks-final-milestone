@@ -529,7 +529,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             saveVersionCodes(cluInfo, cluProposalDTO);
             
             // now update the clu with whatever changes were made in save... methods
-            cluInfo = service.updateClu(cluInfo.getType(), cluInfo);
+            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             
             // 
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
@@ -612,7 +612,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             saveVersionCodes(cluInfo, cluProposalDTO);
             
             // now update the clu with whatever changes were made in save... methods
-            cluInfo = service.updateClu(cluInfo.getType(), cluInfo);
+            cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             
             ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
             cluInfoModelDTO.copyFrom(cluModelDTO);
