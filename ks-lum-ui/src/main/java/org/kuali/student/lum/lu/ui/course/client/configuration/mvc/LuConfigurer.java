@@ -42,6 +42,7 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
+import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
@@ -109,13 +110,14 @@ public class LuConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(title);
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", "Course Title:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Course Code:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("proposalInfo/proposerperson", "Proposer:     ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", "Division:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", "Suffix Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/proposerPerson", "Proposer:     ", Type.LIST, new ProposerPersonList()));
         section.addField(new FieldDescriptor("proposalInfo/todo", "Delegate:   ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/todo", "Collaborators:   ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/metaInfo/createTime", "Date created:   ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/metaInfo/updateTime", "Date last changed:   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("proposalInfo/detailDesc", "Description:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/desc/plain", "Description:    ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/state", "Status:    ", Type.STRING, new KSLabel()));
         return section;
     } 
@@ -612,6 +614,14 @@ public class LuConfigurer {
         }
     }
 
+    public static class ProposerPersonList extends KSLabelList {
+        public ProposerPersonList(){
+            SimpleListItems list = new SimpleListItems();
+
+            super.setListItems(list);
+        }
+    }
+    
     public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
             super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);

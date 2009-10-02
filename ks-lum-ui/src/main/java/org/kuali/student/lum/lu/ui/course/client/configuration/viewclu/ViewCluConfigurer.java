@@ -125,9 +125,9 @@ public class ViewCluConfigurer {
 
         section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY), WITH_DIVIDER));
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
-//      section.addSection(generateCrossListedSection());
-//      section.addSection(generateJointOfferingsSection());
-//      section.addSection(generateVersionCodesSection());
+        section.addSection(generateCrossListed(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateJointOfferings(getH3Title(LUConstants.JOINT_OFFERINGS_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateVersionCodes(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateTitles(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER));
          section.addSection(generateDescriptions(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER));
 
@@ -359,13 +359,13 @@ public class ViewCluConfigurer {
 
     private static VerticalSection generateVersionCodes(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("luLuRelationType.alias", "TO DO", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("versionCodes", null, Type.STRING, new VersionCodeList()));
         return section;
     }
 
     private static VerticalSection generateJointOfferings(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("jointClus", "TO DO", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("offeredJointly", null, Type.LIST, new OfferedJointlyList()));
         
         return section;
     }
@@ -373,8 +373,8 @@ public class ViewCluConfigurer {
     private static VerticalSection generateCrossListed(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         section.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY));
-//      section.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));//TODO Key is probably wrong
-        section.addField(new FieldDescriptor("crossListClus", "TO DO", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("crossListClus", null, Type.LIST, new CrossListedList()));
+//        section.addField(new FieldDescriptor("crossListClus", "TO DO", Type.STRING, new KSLabel()));
         
         return section;
     }
@@ -491,56 +491,67 @@ public class ViewCluConfigurer {
         }
 
     }
-    private static class CrossListedList extends MultiplicityComposite{
-
+    public static class CrossListedList extends MultiplicityComposite {        
+        protected CrossListedList () {
+            this.setItemLabel("Cross Listed");      
+            this.setUpdateable(false);         
+        }
+        
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-
+            MultiplicitySection multi = new MultiplicitySection("CluInfo"); // ??
+            
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("department", "Department", Type.STRING));
+            ns.addField(new FieldDescriptor("cluInfo/department", "Department", Type.STRING, new KSLabel()));
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("division", "Subject Code", Type.STRING));
-            ns.addField(new FieldDescriptor("suffixCode", "Course Number", Type.STRING));
+            ns.addField(new FieldDescriptor("cluInfo/division", "Subject Code", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/suffixCode", "Course Number", Type.STRING, new KSLabel()));
             multi.addSection(ns);
-
+            
             return multi;
         }
+    }  
+    
+    public static class OfferedJointlyList extends MultiplicityComposite {
 
-    }    
-    private static class OfferedJointlyList extends MultiplicityComposite{
+        protected OfferedJointlyList () {
+            this.setItemLabel("Joint Offering");      
+            this.setUpdateable(false);         
+        }
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-
+            MultiplicitySection multi = new MultiplicitySection("CluInfo"); 
+            
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("courseTitle", "Course Number or Title", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("cluInfo/courseTitle", "Course Number or Title", Type.STRING , new KSLabel() ));
             multi.addSection(ns);
-
+            
             return multi;
         }
-
     }
 
-    private static class VersionCodeList extends MultiplicityComposite{
+    public static class VersionCodeList extends MultiplicityComposite {
+        protected VersionCodeList () {
+            this.setItemLabel("Version ");      
+            this.setUpdateable(false);         
+        }
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-
+            MultiplicitySection multi = new MultiplicitySection("CluInfo");
+            
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("versionCode", "Code", Type.STRING));//TODO wrong key
-            ns.addField(new FieldDescriptor("title", "Title", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("cluInfo/versionCode", "Code", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/title", "Title", Type.STRING, new KSLabel()));
             multi.addSection(ns);
-
+            
             return multi;
         }
-
     }
 
 
