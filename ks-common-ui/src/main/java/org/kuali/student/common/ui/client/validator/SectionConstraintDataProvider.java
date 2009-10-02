@@ -32,6 +32,9 @@ public class SectionConstraintDataProvider implements ConstraintDataProvider  {
         this.model = model;
         this.section = s;
     }
+    public String getPath(){
+        return "";
+    }
  // question
     public String getObjectId() {
         return model.getObjectId();
