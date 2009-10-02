@@ -74,7 +74,7 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void exec(IdableSuggestion result) {
                 currentSuggestion = result;
-                KSSuggestBox.this.setText(currentSuggestion.getReplacementString());
+                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
                 
             }
         });
