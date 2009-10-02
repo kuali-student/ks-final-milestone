@@ -8,7 +8,7 @@
             <description>CluDocument Searchable attribute</description>
             <type>SearchableXmlAttribute</type>
             <searchingConfig>
-                <fieldDef name="id" title="kuali_dd_label(Organization)">
+                <fieldDef name="id" title="Organization">
                     <display>
                         <type>select</type>
                            <values>kuali_values_finder_class(org.kuali.rice.student.lookup.keyvalues.OrgCocValuesFinder)</values>
