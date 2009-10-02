@@ -25,6 +25,7 @@ import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class Validator {
 
@@ -33,7 +34,7 @@ public class Validator {
 	private Map<String, String> messages = new HashMap<String, String>();
 
 	private Stack<String> elementStack = new Stack<String>();
-
+    private List<String> skipFields = new ArrayList<String>();
 	private DateParser dateParser = null;
 
 	private ConstraintSetupFactory setupFactory = null;
@@ -140,10 +141,21 @@ public class Validator {
 				break;
 			}
 		}
-
-		elementStack.pop();
-
+		  elementStack.pop();
+		  
+		   // Joe start
+		  List<ValidationResultContainer> resultsBuffer = new ArrayList<ValidationResultContainer>();
+	            for(ValidationResultContainer vc: results){
+	                if(skipFields.contains(vc.getElement()) == false){
+                        resultsBuffer.add(vc);
+                    }
+	            }
+	            results = resultsBuffer;
+          //Joe end
 		return results;
+	}
+	public void setSkipFields(List<String> list){
+	    skipFields = list;	    
 	}
     private boolean isNullable(Field field){
         List<ConstraintSelector> constraintList = field.getConstraintDescriptor().getConstraint();

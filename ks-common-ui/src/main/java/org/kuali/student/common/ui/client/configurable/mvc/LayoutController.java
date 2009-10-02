@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +96,11 @@ public abstract class LayoutController extends Controller  {
     }
     public void validate(Section section){
         ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
-        
+        List<String> skip = new ArrayList<String>();
+        skip.add("cluInfo/officialIdentifier/id");
+        skip.add("cluInfo/id");
+        skip.add("proposalInfo/id");
+
 //        
 //        Validator val = new Validator(bc, true);
 
@@ -113,7 +118,7 @@ public abstract class LayoutController extends Controller  {
             //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
             //Validator val = new Validator(sectionbc, true);
             Validator val = new Validator(bc, true);
-            
+            val.setSkipFields(skip);
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.addValidationResult(results);// filled by calling the real validate code
         }
