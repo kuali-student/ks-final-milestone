@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
+ * This class is a temporary hack to display a list of strings.
  * 
  * @author Kuali Student Team 
  *
@@ -173,6 +173,11 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
     public boolean isMultipleSelect(){
         return true;
     }
-
+    @Override
+    public void clear(){
+        selectedItems.clear();
+        setListItems(new SimpleListItems());
+        redraw();
+    }
 
 }

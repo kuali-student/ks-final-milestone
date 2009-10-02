@@ -109,7 +109,11 @@ public class KSLabelList extends KSSelectItemWidgetAbstract {
     public void redraw() {
         selectItemWidget.redraw();
     }
-    
+
+    @Override
+    public void clear() {
+        selectItemWidget.clear();
+    }
 }
 
 
