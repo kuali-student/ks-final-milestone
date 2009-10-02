@@ -278,7 +278,7 @@ public class CluProposalController extends PagedSectionLayout{
         if (proposalName == null){
             showStartSection();
         } else {
-        	View v = getCurrentView();
+            View v = getCurrentView();
         	if(v instanceof SectionView){
         		this.validate((SectionView)v);
         	}
@@ -287,11 +287,13 @@ public class CluProposalController extends PagedSectionLayout{
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
         getCurrentView().updateModel();
+        ((ModelDTO)cluProposalModel.get()).commit();
         
         if(cluProposalModel.get().get("cluInfo/id") == null){
             cluProposalRpcServiceAsync.createProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
                 public void onFailure(Throwable caught) {
-                    caught.printStackTrace();                        
+                    caught.printStackTrace();
+                    Window.alert(caught.getMessage());
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {
@@ -305,7 +307,8 @@ public class CluProposalController extends PagedSectionLayout{
             
             cluProposalRpcServiceAsync.saveProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
                 public void onFailure(Throwable caught) {
-                    caught.printStackTrace();                    
+                    caught.printStackTrace();          
+                    Window.alert(caught.getMessage());                    
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {
