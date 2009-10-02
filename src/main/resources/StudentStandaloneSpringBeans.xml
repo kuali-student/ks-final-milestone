@@ -72,4 +72,7 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
+	<!-- impl for Rice Authentication Service  -->
+	<bean id="ksRiceAuthenticationService" class="org.kuali.student.security.KSRiceAuthenticationServiceImpl"/>
+	
 </beans>

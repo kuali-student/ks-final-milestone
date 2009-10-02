@@ -7,7 +7,7 @@
     ${institution}
 -->
 <config>
-<param name="db.vendor">oracle</param> 
+	<param name="db.vendor">oracle</param> 
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
@@ -51,15 +51,9 @@
     <param name="keystore.password">r1c3pw</param>
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
-    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
-    <param name="filtermapping.login.1">/*</param>
+<!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->
+<!--    <param name="filtermapping.login.1">/*</param>-->
 
-    <!-- default config files -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
-    <param name="config.location">${rice.base}../../../conf/rice-config.xml</param>
-    <param name="config.location">${rice.base}../../conf/rice-config.xml</param>
-    <param name="config.location">${additional.config.locations}</param>
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
 	<!-- additional config files -->
 	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/uber-config-override.xml-->
@@ -73,7 +67,12 @@
 	<!-- additional config files -->
 	<param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
 	
-	
+	<!-- default config files -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
+    <param name="config.location">${rice.base}../../../conf/rice-config.xml</param>
+    <param name="config.location">${rice.base}../../conf/rice-config.xml</param>
+    <param name="config.location">${additional.config.locations}</param>
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	
 	<!-- Lum DB settings -->
 <!--	<param name="ks.lum.datasource.driver.name">oracle.jdbc.OracleDriver</param>-->
