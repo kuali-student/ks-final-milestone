@@ -103,8 +103,8 @@ public abstract class LayoutController extends Controller  {
         skip.add("proposalInfo/proposalReferenceType");
         skip.add("proposalInfo/proposalReference");
         skip.add("proposalInfo/metaInfo");
+        skip.add("cluInfo/isEnrollable");
         
-//        
 //        Validator val = new Validator(bc, true);
 
         final ValidateResultEvent e = new ValidateResultEvent();
