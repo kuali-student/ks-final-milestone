@@ -25,11 +25,10 @@ import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class Validator {
 
-	private static final String UNBOUNDED_CHECK = "unbounded";
+	private static final String UNBOUNDED_CHECK = null;
 
 	private Map<String, String> messages = new HashMap<String, String>();
 
@@ -248,9 +247,8 @@ public class Validator {
 							valResults.addError(getMessage("validation.minOccurs"));
 						}
 
-						if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxOccurs)
-								&& Integer.parseInt(bcb.maxOccurs) < ((Collection<?>) value)
-										.size()) {
+						Integer maxOccurs = tryParse(bcb.maxOccurs);
+						if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
 							valResults.addError(getMessage("validation.maxOccurs"));
 						}
 
@@ -272,6 +270,18 @@ public class Validator {
 			}
 		}
 		return results;
+	}
+	
+	private Integer tryParse(String s) {
+		Integer result = null;
+		if (s != null) {
+			try {
+				result = Integer.valueOf(s);
+			} catch (NumberFormatException e) {
+				// do nothing
+			}
+		}
+		return result;
 	}
 
 	private void processNestedObjectStructure(
@@ -331,24 +341,24 @@ public class Validator {
 		}
 
 		if (hasText(constraint.getMaxLength())) {
-			if (UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxLength)) {
+			Integer maxLength = tryParse(bcb.maxLength);
+			Integer constraintMaxLength = tryParse(constraint.getMaxLength());
+			if (maxLength == null) {
 				bcb.maxLength = constraint.getMaxLength();
-			} else if (!UNBOUNDED_CHECK.equalsIgnoreCase(constraint
-					.getMaxLength())) {
-				if (Integer.parseInt(bcb.maxLength) > Integer
-						.parseInt(constraint.getMaxLength())) {
+			} else if (constraintMaxLength != null) {
+				if (maxLength > constraintMaxLength) {
 					bcb.maxLength = constraint.getMaxLength();
 				}
 			}
 		}
 
 		if (hasText(constraint.getMaxOccurs())) {
-			if (UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxOccurs)) {
+			Integer maxOccurs = tryParse(bcb.maxOccurs);
+			Integer constraintMaxOccurs = tryParse(constraint.getMaxOccurs());
+			if (maxOccurs == null) {
 				bcb.maxLength = constraint.getMaxOccurs();
-			} else if (!UNBOUNDED_CHECK.equalsIgnoreCase(constraint
-					.getMaxOccurs())) {
-				if (Integer.parseInt(bcb.maxOccurs) > Integer
-						.parseInt(constraint.getMaxOccurs())) {
+			} else if (constraintMaxOccurs != null) {
+				if (maxOccurs > constraintMaxOccurs) {
 					bcb.maxOccurs = constraint.getMaxOccurs();
 				}
 			}
@@ -804,13 +814,12 @@ public class Validator {
 		}
 	    String s = value.toString().trim();
 
-		if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxLength)
-				&& bcb.minLength > 0) {
-			if (s.length() > Integer.parseInt(bcb.maxLength)
-					|| s.length() < bcb.minLength) {
+	    Integer maxLength = tryParse(bcb.maxLength);
+		if (maxLength != null && bcb.minLength > 0) {
+			if (s.length() > maxLength || s.length() < bcb.minLength) {
 				result.addError(MessageUtils.interpolate(getMessage("validation.lengthOutOfRange"), bcb.toMap()));
 			}
-		} else if (!UNBOUNDED_CHECK.equalsIgnoreCase(bcb.maxLength)) {
+		} else if (maxLength != null) {
 			if (s.length() > Integer.parseInt(bcb.maxLength)) {
 				result.addError(MessageUtils.interpolate(getMessage("validation.maxLengthFailed"), bcb.toMap()));
 			}
