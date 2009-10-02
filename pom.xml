@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>KS-0928</version>
+			<version>100-KS-M1-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>htmlunit</groupId>
@@ -144,7 +144,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-impl</artifactId>
-					<version>KS-0928</version>
+					<version>100-KS-M1-SNAPSHOT</version>
 					<exclusions>
 						<exclusion>
 							<groupId>org.springframework</groupId>
