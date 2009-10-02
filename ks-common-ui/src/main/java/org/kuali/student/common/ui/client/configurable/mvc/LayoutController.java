@@ -100,7 +100,10 @@ public abstract class LayoutController extends Controller  {
         skip.add("cluInfo/officialIdentifier/id");
         skip.add("cluInfo/id");
         skip.add("proposalInfo/id");
-
+        skip.add("proposalInfo/proposalReferenceType");
+        skip.add("proposalInfo/proposalReference");
+        skip.add("proposalInfo/metaInfo");
+        
 //        
 //        Validator val = new Validator(bc, true);
 
