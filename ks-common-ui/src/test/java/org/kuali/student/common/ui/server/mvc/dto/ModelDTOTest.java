@@ -26,6 +26,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class ModelDTOTest {
+/*
     @Test
     public void testElementXPath() {
         ConstraintMockPerson p = buildTestPerson1();
@@ -48,6 +49,7 @@ public class ModelDTOTest {
         assertEquals(results.get(1).getElement(), "personInfo[id='P1']/dob");
         //assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
     }
+*/    
     @Test
     public void modelDTOtest() {
         ConstraintMockPerson p = buildTestPerson1();

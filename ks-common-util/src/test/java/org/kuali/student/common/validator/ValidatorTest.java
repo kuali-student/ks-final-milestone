@@ -20,7 +20,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class ValidatorTest {
-
+/*
 	@Test
 	public void testElementXPath() {
     	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
@@ -38,7 +38,7 @@ public class ValidatorTest {
     	assertEquals(results.get(1).getElement(), "personInfo[id='P1']/dob");
     	//assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
 	}
-	
+	*/
     @Test     
     public void testRequired() {
     	

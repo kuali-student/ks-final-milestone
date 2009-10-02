@@ -18,7 +18,10 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 	protected BeanConstraintDataProvider() {
 
 	}
-
+	//TODO fix it later. 
+    public String getPath(){
+        return "";
+    }
 	@Override
 	public void initialize(Object o) {
 

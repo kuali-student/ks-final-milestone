@@ -106,7 +106,8 @@ public class Validator {
 				.hasField("state"));
 
 		// Push object structure to the top of the stack
-		StringBuilder objXPathElement = new StringBuilder(objStructure.getKey());
+		//StringBuilder objXPathElement = new StringBuilder(objStructure.getKey());
+		StringBuilder objXPathElement = new StringBuilder(dataProvider.getPath());
 		if (null != dataProvider.getObjectId()) {
 			objXPathElement.append("[id='" + dataProvider.getObjectId() + "']");
 		}

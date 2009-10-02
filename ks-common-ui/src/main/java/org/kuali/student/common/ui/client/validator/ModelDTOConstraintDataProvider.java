@@ -33,6 +33,15 @@ public class ModelDTOConstraintDataProvider implements ConstraintDataProvider {
         }
         return ((StringType) modelDTOValue).get();
     }
+    public String getPath(){
+        if (modelDTO == null) {
+            return "";
+        }
+        if(modelDTO.getKey() != null){
+            return modelDTO.getKey();
+        }
+        return "";
+    }
 
     @Override
     public Object getValue(String fieldKey) {

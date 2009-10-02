@@ -9,5 +9,7 @@ public interface ConstraintDataProvider {
 	public Boolean hasField(String fieldKey);	
 	
 	public void initialize(Object o);
+	
+	public String getPath();
 }
 
