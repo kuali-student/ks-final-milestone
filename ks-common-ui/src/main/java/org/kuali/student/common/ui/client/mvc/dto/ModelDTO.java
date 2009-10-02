@@ -81,6 +81,8 @@ public class ModelDTO implements Serializable {
 		if(commitChange){
 	       	if(transientMap != null){
 	    		//TODO throw exception instead
+	       		throw new IllegalStateException("The transient map has uncommitted changes, put failed.  " +
+	       				"Call commit() before attempting to put values in the real map.  Attempted key is: " + key);
 	       		//commit();
 	    	}
 	 	    if(value instanceof ModelDTOType){
@@ -127,6 +129,19 @@ public class ModelDTO implements Serializable {
 			map = transientMap;
 			transientMap = null;
 		}
+	}
+	
+	public void rollback(){
+		//Iteration might not be needed
+		if(transientMap != null){
+			for(String mk: transientMap.keySet()){
+				ModelDTOValue value = transientMap.get(mk);
+				if(value instanceof ModelDTOType){
+					((ModelDTOType) value).get().rollback();
+				}
+			}
+		}
+		transientMap = null;
 	}
 
 	/**
