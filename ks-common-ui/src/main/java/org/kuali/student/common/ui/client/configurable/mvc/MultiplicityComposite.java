@@ -28,9 +28,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -49,9 +51,10 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     protected ModelDTOValue.ListType modelDTOList =  new ModelDTOValue.ListType();
     protected List<HasModelDTOValue> modelDTOValueWidgets;
     protected boolean loaded = false;
-    private String addItemLabel;
+    protected String addItemLabel;
     private String itemLabel = "Item ";
     private int itemCount = 0;
+    protected boolean useDeleteLabel = false;
 
     private boolean updateable = true;
 
@@ -60,8 +63,16 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
     {
         modelDTOList.set(new ArrayList<ModelDTOValue>());
     };
+    
+    public MultiplicityComposite() {
+    	this(false);
+    }
 
-    /**
+    public MultiplicityComposite(boolean useDeleteLabel) {
+    	this.useDeleteLabel = useDeleteLabel;
+	}
+
+	/**
      * This simply decorates a list item widget to add styling and a remove button 
      *   
      * @author Kuali Student Team
@@ -86,24 +97,34 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             KSLabel headerLabel = new KSLabel(itemLabel + " " + itemCount);
             headerPanel.add(headerLabel);
             if (updateable) {
-                headerPanel.add(generateRemoveButton());
+                headerPanel.add(generateRemoveWidget());
             }
 
             itemPanel.add(headerPanel);
             itemPanel.add(listItem);
         }
 
-        private KSButton generateRemoveButton() {
-
-            return new KSButton("-", new ClickHandler(){
+        private Widget generateRemoveWidget() {
+        	ClickHandler ch = new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getValue(); 
                     modelDTOList.get().remove(listItemValue);
                     itemsPanel.remove(MultiplicityItemWidgetDecorator.this);
                     modelDTOValueWidgets.remove(listItem);
-                }            
-            });  
+                }
+        	};
 
+        	Widget returnWidget;
+        	if (useDeleteLabel) {
+        		Label deleteLabel = new Label("Delete");
+        		deleteLabel.addStyleName("KS-Multiplicity-Labels");
+        		deleteLabel.addClickHandler(ch);
+        		returnWidget = deleteLabel;
+        	}
+        	else {
+				returnWidget = new KSButton("-", ch); 
+        	}
+        	return returnWidget;
         }        
     }
 
@@ -154,7 +175,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
      * This method creates a new empty item.
      *
      */
-    private void addItem(){            
+    protected void addItem(){            
         Widget newItemWidget = createItem();
         MultiplicityItemWidgetDecorator listItem = new MultiplicityItemWidgetDecorator(newItemWidget);
 
@@ -198,7 +219,7 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
             mainPanel.addStyleName("KS-Multiplicity-Composite");
             mainPanel.add(itemsPanel);
             if (updateable) {
-                mainPanel.add(generateAddButton());
+                mainPanel.add(generateAddWidget());
 
             }
             loaded = true;
@@ -217,14 +238,14 @@ public abstract class MultiplicityComposite extends Composite implements HasMode
         }
     }
 
-    private KSButton generateAddButton() {
+    protected Widget generateAddWidget() {
         return new KSButton(addItemLabel, new ClickHandler(){
             public void onClick(ClickEvent event) {
                 addItem();
             }            
         }); 
-
     }
+
     /**
      *
      *  This method will remove all data associated with this mode
