@@ -346,7 +346,7 @@ public class Validator {
 			if (maxLength == null) {
 				bcb.maxLength = constraint.getMaxLength();
 			} else if (constraintMaxLength != null) {
-				if (maxLength > constraintMaxLength) {
+				if (constraintMaxLength > maxLength) {
 					bcb.maxLength = constraint.getMaxLength();
 				}
 			}
@@ -358,7 +358,7 @@ public class Validator {
 			if (maxOccurs == null) {
 				bcb.maxLength = constraint.getMaxOccurs();
 			} else if (constraintMaxOccurs != null) {
-				if (maxOccurs > constraintMaxOccurs) {
+				if (constraintMaxOccurs > maxOccurs) {
 					bcb.maxOccurs = constraint.getMaxOccurs();
 				}
 			}
