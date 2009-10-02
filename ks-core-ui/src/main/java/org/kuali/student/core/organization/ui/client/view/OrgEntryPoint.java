@@ -5,6 +5,8 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.messages.dto.MessageList;
 
@@ -17,6 +19,7 @@ import com.google.gwt.libideas.client.StyleInjector;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -34,11 +37,8 @@ public class OrgEntryPoint implements EntryPoint{
         final ApplicationContext context = new ApplicationContext();
         Application.setApplicationContext(context);
 
-        app = new ApplicationComposite();
-        
-        app.setContent(getContent());
-        RootPanel.get().add(app);
-        
+        loadApp(context);
+
         try {
             MessageList messageList =  getSerializedObject( "i18nMessages");
             context.addMessages(messageList.getMessages());
@@ -91,5 +91,27 @@ public class OrgEntryPoint implements EntryPoint{
         return eval("$wnd."+name);
     }-*/;
 
+    
+    public void loadApp(final ApplicationContext context){
+        SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
+        
+        securityRpc.getPrincipalUsername(new AsyncCallback<String>(){
+            public void onFailure(Throwable caught) {
+                context.setUserId("Unknown");
+                initScreen();
+            }
 
+            @Override
+            public void onSuccess(String principalId) {
+                context.setUserId(principalId);
+                initScreen();
+            }            
+        });
+    }
+    
+    private void initScreen(){
+        app = new ApplicationComposite();
+        app.setContent(getContent());
+        RootPanel.get().add(app);
+    }
 }
