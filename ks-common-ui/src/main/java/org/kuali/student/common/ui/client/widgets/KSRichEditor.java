@@ -5,6 +5,9 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.RichTextArea;
 
@@ -99,5 +102,17 @@ public class KSRichEditor extends KSRichEditorAbstract implements HasText{
 	@Override
 	public void setStyleName(String text) {
 		richEditor.setStyleName(text);
+	}
+
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return richEditor.addBlurHandler(handler);
+	}
+
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return richEditor.addFocusHandler(handler);
 	}
 }

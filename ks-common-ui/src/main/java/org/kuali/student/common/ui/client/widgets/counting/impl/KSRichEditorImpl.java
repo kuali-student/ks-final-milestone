@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.counting.KSRichEditorAbstract;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
@@ -28,6 +29,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
@@ -42,7 +44,7 @@ private final VerticalFlowPanel content = new VerticalFlowPanel();
     
     private final RichTextArea textArea = new RichTextArea();
     private final KSRichTextToolbar toolbar;
-    
+    private final FocusGroup group = new FocusGroup(this);
     private final PopupPanel popoutImagePanel = new PopupPanel();
     
     private final KSLightBox popoutWindow = new KSLightBox();
@@ -150,7 +152,8 @@ private final VerticalFlowPanel content = new VerticalFlowPanel();
         }
         else
         {
-
+        	group.addWidget(toolbar);
+        	group.addWidget(textArea);
             textArea.addFocusHandler(focusHandler);
             textArea.addBlurHandler(blurHandler);
             content.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL_CONTENT);
@@ -307,5 +310,16 @@ private final VerticalFlowPanel content = new VerticalFlowPanel();
     public RichTextArea getTextArea(){
         return textArea;
     }
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return group.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		// TODO Auto-generated method stub
+		return group.addFocusHandler(handler);
+	}
 
 }

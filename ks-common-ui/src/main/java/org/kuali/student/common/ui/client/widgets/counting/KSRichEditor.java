@@ -5,6 +5,9 @@ import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.common.ui.client.widgets.counting.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.RichTextArea;
 
@@ -98,4 +101,16 @@ public class KSRichEditor extends KSRichEditorAbstract implements HasText{
     public int getMaxTextLength() {
         return richEditor.getMaxTextLength();
     }
+
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return richEditor.addBlurHandler(handler);
+	}
+
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return richEditor.addFocusHandler(handler);
+	}
 }

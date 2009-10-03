@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.widgets.KSRichTextToolbar;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
@@ -25,6 +26,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
@@ -39,7 +41,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	
 	private final RichTextArea textArea = new RichTextArea();
 	private final KSRichTextToolbar toolbar;
-	
+	private final FocusGroup group = new FocusGroup(this);
 	private final PopupPanel popoutImagePanel = new PopupPanel();
 	
 	private final KSLightBox popoutWindow = new KSLightBox();
@@ -96,6 +98,8 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
     protected void init(boolean isUsedInPopup) {
 	    this.isUsedInPopup = isUsedInPopup;		
 		setupDefaultStyle();
+		group.addWidget(toolbar);
+		group.addWidget(textArea);
 		if(isUsedInPopup){
 	        toolbar.setVisible(true);
             content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE_CONTENT);
@@ -279,6 +283,16 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	public void setStyleName(String style) {
 		content.setStyleName(style);
 		
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return group.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return group.addFocusHandler(handler);
 	}
 	
 	

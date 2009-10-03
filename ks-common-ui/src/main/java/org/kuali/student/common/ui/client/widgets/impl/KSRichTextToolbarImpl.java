@@ -154,7 +154,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 			}
 			else{
 				inUse = false;
-				richText.setFocus(true);
+				//richText.setFocus(true);
 			}
 			
 		}
@@ -166,6 +166,9 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 				lbFocus = false;
 				inUse = false;
 			}
+			else{
+				KSRichTextToolbarImpl.this.fireEvent(event);
+			}
 		}
 
 		@Override
@@ -173,7 +176,11 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 			Widget sender = (Widget) event.getSource();
 			if(sender instanceof ListBox){
 				lbFocus = true;
-			}		
+			}
+			else{
+				KSRichTextToolbarImpl.this.fireEvent(event);
+			}
+			
 		}
 	  }
 	  

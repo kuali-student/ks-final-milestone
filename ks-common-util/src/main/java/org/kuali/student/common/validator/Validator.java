@@ -356,7 +356,7 @@ public class Validator {
 			Integer maxOccurs = tryParse(bcb.maxOccurs);
 			Integer constraintMaxOccurs = tryParse(constraint.getMaxOccurs());
 			if (maxOccurs == null) {
-				bcb.maxLength = constraint.getMaxOccurs();
+				bcb.maxOccurs = constraint.getMaxOccurs();
 			} else if (constraintMaxOccurs != null) {
 				if (constraintMaxOccurs > maxOccurs) {
 					bcb.maxOccurs = constraint.getMaxOccurs();
