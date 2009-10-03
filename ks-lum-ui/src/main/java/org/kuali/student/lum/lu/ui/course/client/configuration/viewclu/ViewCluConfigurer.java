@@ -37,6 +37,9 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.AtpTypeList;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.CluActivityType;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.CourseActivityList;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -565,6 +568,9 @@ public class ViewCluConfigurer {
         }
 
         public Widget createItem() {
+            MultiplicitySection item = new MultiplicitySection("CluInfo");
+
+            item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
             return new CourseActivityList();
         }
     }
@@ -581,26 +587,27 @@ public class ViewCluConfigurer {
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection("CluInfo");
             CustomNestedSection activity = new CustomNestedSection();
-            activity.setSectionTitle(SectionTitle.generateH3Title("Activity " + activityNumber));
-            activity.addField(new FieldDescriptor("clu.type", "Acitivity Type", Type.STRING));
+            activity.addField(new FieldDescriptor("cluInfo/type", "Activity Type", Type.STRING, new KSLabel()));
             activity.nextRow();
+
+            /* CreditInfo is deprecated, needs to be replaced with learning results
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("evalType", "Learning Result", Type.STRING));
             activity.nextRow();
+            */
+
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("term", "Term", Type.STRING));
-            activity.addField(new FieldDescriptor("duration", "Activity Duration", Type.STRING)); //TODO dropdown need here?
+            activity.addField(new FieldDescriptor("cluInfo/term", "Term", Type.STRING, new KSLabel()));
+            activity.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER, new KSLabel())); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("clu.hours", "Contact Hours", Type.STRING));
+            activity.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Contact Hours", Type.STRING, new KSLabel()));
             //TODO PER WHATEVER
-            activity.addField(new FieldDescriptor("clu.method", "Delivery Method", Type.STRING));
-            activity.addField(new FieldDescriptor("clu.size", "Class Size", Type.STRING));
+            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Class Size", Type.STRING, new KSLabel()));
 
-            activityNumber++;
             item.addSection(activity);
 
             return item;
