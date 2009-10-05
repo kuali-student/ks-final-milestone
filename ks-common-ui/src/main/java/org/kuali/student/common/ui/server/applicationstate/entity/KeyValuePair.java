@@ -9,16 +9,16 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KS_APP_STATE_KEY_VALUE_T") 
+@Table(name = "KSAP_KEY_VALUE_T") 
 public class KeyValuePair {
 	@Id
     @Column(name = "ID")
 	private String id;
 
-	@Column(name = "APP_STATE_KEY", nullable=false)
+	@Column(name = "KEY", nullable=false)
 	private String key;
 
-	@Column(name = "APP_STATE_VALUE", length=2000, nullable=false)
+	@Column(name = "VALUE", length=2000, nullable=false)
 	private String value;
 
 	public KeyValuePair() {

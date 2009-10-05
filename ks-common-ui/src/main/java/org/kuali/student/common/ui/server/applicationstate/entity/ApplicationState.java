@@ -16,8 +16,8 @@ import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KS_APP_STATE_T", 
-       uniqueConstraints={@UniqueConstraint(columnNames={"APPLICATION_ID", "REFERENCE_KEY", "REFERENCE_TYPE", "USERID"})})
+@Table(name = "KSAP_APP_STATE_T", 
+       uniqueConstraints={@UniqueConstraint(columnNames={"APPLICATION_ID", "REFERENCE_KEY", "REFERENCE_TYPE", "USER_ID"})})
 @NamedQueries( {
         @NamedQuery(name = "ApplicationState.getApplicationStateByAppRefUserId", query = "SELECT appState FROM ApplicationState appState WHERE appState.applicationId =:applicationId AND appState.referenceKey =:referenceKey AND appState.referenceType =:referenceType AND appState.userId =:userId")
 } )
@@ -36,10 +36,10 @@ public class ApplicationState {
 	@Column(name = "REFERENCE_TYPE", nullable=false)
 	private String referenceType;
 
-	@Column(name = "USERID", nullable=false)
+	@Column(name = "USER_ID", nullable=false)
 	private String userId;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="id")
 	private List<KeyValuePair> keyValueList;
 
 	/**
