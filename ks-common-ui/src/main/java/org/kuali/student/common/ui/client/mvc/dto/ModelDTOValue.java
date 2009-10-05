@@ -123,18 +123,22 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() {
-            return this.value.toString();
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-            value = value.trim();
-            if(value.length() == 1){
-                this.value = value.charAt(0);
-            }
-            else{
-                throw new UnsupportedOperationException("Characters can only be set with Strings containing 1 character");
-            }
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+	            value = value.trim();
+	            if(value.length() == 1){
+	                this.value = value.charAt(0);
+	            }
+	            else{
+	                throw new UnsupportedOperationException("Characters can only be set with Strings containing 1 character");
+	            }
+        	}
         }
         
         public String toString(){
@@ -165,13 +169,17 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() {
-            return this.value.toString();
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-            value = value.trim();
-            this.value = Integer.parseInt(value);
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+		        value = value.trim();
+	            this.value = Integer.parseInt(value);
+        	}
         }
         
         public String toString(){
@@ -202,13 +210,17 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() {
-            return this.value.toString();
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-            value = value.trim();
-            this.value = Long.parseLong(value);
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+		        value = value.trim();
+	            this.value = Long.parseLong(value);
+        	}
         }
         
         public String toString(){
@@ -239,13 +251,17 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() { 
-            return this.value.toString();
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-            value = value.trim();
-            this.value = Float.parseFloat(value);
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+		        value = value.trim();
+	            this.value = Float.parseFloat(value);
+        	}
         }
         
         public String toString(){
@@ -276,13 +292,17 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() {
-            return this.value.toString();
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-            value = value.trim();
-            this.value = Double.parseDouble(value);
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+		        value = value.trim();
+	            this.value = Double.parseDouble(value);
+        	}
         }
         
         public String toString(){
@@ -313,13 +333,17 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() {
-            return this.value.toString();
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-           value = value.trim();
-           this.value = Byte.parseByte(value); 
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+		        value = value.trim();
+		        this.value = Byte.parseByte(value);
+        	}
         }
         
         public String toString(){
@@ -350,20 +374,22 @@ public interface ModelDTOValue extends Serializable {
 
         @Override
         public String getString() {
-            String s = this.value.toString();
-            s = s.substring(0, 1).toUpperCase() + s.substring(1);
-            return s;
+            return value == null ? null : this.value.toString();
         }
 
         @Override
         public void setString(String value) {
-            value = value.trim();
-            if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
-                this.value = Boolean.parseBoolean(value);
-            }
-            else{
-                throw new UnsupportedOperationException("Booleans can only be set with true or false");
-            }
+        	if (value == null) {
+        		this.value = null;
+        	} else {
+		        value = value.trim();
+	            if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
+	                this.value = Boolean.parseBoolean(value);
+	            }
+	            else{
+	                throw new UnsupportedOperationException("Booleans can only be set with true or false");
+	            }
+        	}
         }
         
         public String toString(){
@@ -470,7 +496,7 @@ public interface ModelDTOValue extends Serializable {
 		}
 		
 		public String toString(){
-		    return value.toString();
+		    return value == null ? null : value.toString();
 		}
 	}
 	
@@ -496,7 +522,7 @@ public interface ModelDTOValue extends Serializable {
 	    }
 	    
 	    public String toString(){
-	        return value.toString();
+	        return value == null ? null : value.toString();
 	    }
 	}
 
@@ -525,7 +551,7 @@ public interface ModelDTOValue extends Serializable {
 	    }
 	    
 	    public String toString(){
-	        return value.toString();
+	        return value == null ? null : value.toString();
 	    }
 	}
 
