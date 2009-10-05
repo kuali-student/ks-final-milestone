@@ -63,7 +63,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         panel = new FlowPanel();
         this.modelDtoClassName = modelDtoClassName;
         this.type = type;
-        initWidget(panel);        
+        this.state = state;
+        initWidget(panel);
     }
     
     /**
@@ -98,7 +99,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         if (modelDTOValue == null){
             ModelDTO modelDTO = new ModelDTO(modelDtoClassName);
             //FIXME might need to go in transient map, unsure here
-            modelDTO.put("type", new ModelDTOValue.StringType(this.type), true);
+            modelDTO.put("type", new ModelDTOValue.StringType(this.type), false);
+            modelDTO.put("state", new ModelDTOValue.StringType(this.state), false);
             modelDTOValue = new ModelDTOValue.ModelDTOType(modelDTO);            
         }
         
