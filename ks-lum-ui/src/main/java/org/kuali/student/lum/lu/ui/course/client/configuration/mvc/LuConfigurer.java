@@ -52,6 +52,9 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluCo
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -547,6 +550,16 @@ public class LuConfigurer {
         public void clear(){
             orgPicker.clear();
         }
+
+		@Override
+		public HandlerRegistration addFocusHandler(FocusHandler handler) {
+			return orgPicker.addFocusHandler(handler);
+		}
+
+		@Override
+		public HandlerRegistration addBlurHandler(BlurHandler handler) {
+			return orgPicker.addBlurHandler(handler);
+		}
     }
 
     //FIXME: Create a configurable checkbox list which can obtain values via RPC calls

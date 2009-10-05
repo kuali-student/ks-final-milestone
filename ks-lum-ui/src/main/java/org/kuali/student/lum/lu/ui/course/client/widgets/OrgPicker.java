@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
 
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
@@ -10,6 +11,10 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -17,7 +22,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class OrgPicker extends Composite implements HasValue<String>{
+public class OrgPicker extends Composite implements HasValue<String>, HasFocusHandlers, HasBlurHandlers {
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
@@ -32,9 +37,14 @@ public class OrgPicker extends Composite implements HasValue<String>{
     
     VerticalPanel root = new VerticalPanel();
     
+    private final FocusGroup focus = new FocusGroup(this);
+    
 	public OrgPicker() {
 		super();
 
+		// FIXME when org search window is displayed, call focus.setSuppressed(true), and set it to false afterwards
+		focus.addWidget(suggestBox);
+		
 		initWidget(root);
 		orgSearchOracle.setTextWidget(suggestBox.getTextBox());
 		
@@ -81,5 +91,15 @@ public class OrgPicker extends Composite implements HasValue<String>{
 	
 	public void clear(){
 	    suggestBox.reset();
+	}
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focus.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return focus.addBlurHandler(handler);
 	}
 }
