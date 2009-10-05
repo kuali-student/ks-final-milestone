@@ -44,7 +44,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class ViewCluController extends PagedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
 
-    private String id = null;
+    private String cluId = null;
 
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);  
 
@@ -55,19 +55,12 @@ public class ViewCluController extends PagedSectionLayout{
         }
     });
     
-    public ViewCluController(String id){
-
-        this();
-        this.id = id;
-        
-        addButton(quitButton);
-    }
-
     public ViewCluController(){
         super();
         generateLayout();
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);  
+        addButton(quitButton);
     }
 
     public void onLoad() {
@@ -120,19 +113,17 @@ public class ViewCluController extends PagedSectionLayout{
         }
     }
 
-
-
     public void setId(String id) {
-
-        this.id = id;
-        loadClu();
+        this.cluId = id;
+        this.cluProposalModel = null;
+//        loadClu();
 
     }
 
     private void loadClu() {
 
-        if (id != null) {
-            cluProposalRpcServiceAsync.getClu(id,  new AsyncCallback<CluProposalModelDTO>(){
+        if (cluId != null) {
+            cluProposalRpcServiceAsync.getClu(cluId,  new AsyncCallback<CluProposalModelDTO>(){
                 @Override
                 public void onFailure(Throwable caught) {
                 	Window.alert("Error loading Clu: "+caught.getMessage());
@@ -163,6 +154,11 @@ public class ViewCluController extends PagedSectionLayout{
 
     private void generateLayout() {
         ViewCluConfigurer.generateLayout(this);
+    }
+    
+    public void clear(){
+        this.cluProposalModel = null;
+        this.cluId = null;
     }
 
 }

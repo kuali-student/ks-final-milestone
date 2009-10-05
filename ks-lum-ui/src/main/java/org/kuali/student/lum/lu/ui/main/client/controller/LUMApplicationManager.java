@@ -26,19 +26,20 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUMApplicationManager extends Controller{
-   
+
     private final SimplePanel viewPanel = new SimplePanel();
 
     KSHistory history;
-    
+
     private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
 
     private Controller cluProposalController = null;
+    private Controller viewCluController = null;
     private DelegatingViewComposite createCourseView;
-    private DelegatingViewComposite viewCourseView;
-        
+    private DelegatingViewComposite viewCluView;
+
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-    
+
     public LUMApplicationManager(){
         super();
         history = new KSHistory(this);
@@ -52,20 +53,20 @@ public class LUMApplicationManager extends Controller{
                 if (event.getEventSource() != null && event.getEventSource() instanceof SelectionEvent){                    
                     List<String> selectedIds = (List<String>)((SelectionEvent)event.getEventSource()).getSelectedItem();
                     String selectedId = selectedIds.get(0);
-                    
+
                     if (event.getViewType().equals(LUMViews.EDIT_COURSE_PROPOSAL)){
                         initCluProposalViewFromProposalId(selectedId);                        
                     }
 
-                    if (viewCourseView == null && event.getViewType().equals(LUMViews.VIEW_COURSE)){
-                        viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, new ViewCluController(selectedId));
+                    if (event.getViewType().equals(LUMViews.VIEW_COURSE)) {
+                        initViewCluViewFromCluId(selectedId);                        
                     }
-     
+
                 }
                 showView(event.getViewType());  
             }
         });
-        
+
         addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
             public void onLogout(LogoutEvent event) {
                 Window.Location.assign("/j_spring_security_logout");
@@ -87,19 +88,19 @@ public class LUMApplicationManager extends Controller{
 
                 //FIXME: This is a quick fix, need better way to reset view
                 cluProposalController.showDefaultView();  
-                
+
                 return createCourseView;
             case EDIT_COURSE_PROPOSAL:
                 //View setup should already be handled.
-                
+
                 //FIXME: This is quick fix, need better way via config to set and show summary view.
                 cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);
                 return createCourseView;
             case VIEW_COURSE:
-                if (viewCourseView == null){
-                    viewCourseView = new DelegatingViewComposite(this, new ViewCluController(null));
+                if (viewCluView == null){
+                    viewCluView = new DelegatingViewComposite(this, new ViewCluController());
                 }
-                return viewCourseView;
+                return viewCluView;
             default:
                 return null;
         }
@@ -111,27 +112,46 @@ public class LUMApplicationManager extends Controller{
             createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);            
         }
         ((CluProposalController)cluProposalController).clear();
-        
+
         return createCourseView;
     }
-    
+
     private View initCluProposalViewFromProposalId(String proposalId){
         initBlankCluProposalView();
         ((CluProposalController)cluProposalController).setProposalId(proposalId);
         return createCourseView;
     }
-    
+
     private View initCluProposalViewFromDocId(String docId){
         initBlankCluProposalView();
         ((CluProposalController)cluProposalController).setDocId(docId);
         return createCourseView;        
     }
+
+    private View initViewCluViewFromCluId(String cluId){
+        initBlankViewCluView();
+        ((ViewCluController)viewCluController).setId(cluId);
+        
+        return viewCluView;
+    }    
+    
+    private View initBlankViewCluView(){
+        if (viewCluController == null){
+            viewCluController = new ViewCluController(); 
+            viewCluView = new DelegatingViewComposite(LUMApplicationManager.this, viewCluController);            
+        }
+        ((ViewCluController)viewCluController).clear();
+
+        return viewCluView;
+    }
+
+
     
     //Accessor for get view
     public <V extends Enum<?>> View getControllerView(V viewType){
         return this.getView(viewType);
     }
-    
+
     @Override
     protected void hideView(View view) {
         viewPanel.clear();
@@ -162,7 +182,7 @@ public class LUMApplicationManager extends Controller{
                         initCluProposalViewFromDocId(docId);
                         showView(LUMViews.EDIT_COURSE_PROPOSAL);
                     }
-                
+
                 });
             }else{
                 initCluProposalViewFromDocId(docId);
