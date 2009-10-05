@@ -272,12 +272,12 @@ public class CluProposalController extends PagedSectionLayout{
     }
     
     public void doSaveAction(SaveActionEvent saveActionEvent){
-        String proposalID = ((ModelDTO)cluProposalModel.get()).getString(CLU_PROPOSAL_ID_KEY);
-        processingSave=true;
+        String proposalName = ((ModelDTO)cluProposalModel.get()).getString(CLU_PROPOSAL_NAME_KEY);
         currentSaveEvent = saveActionEvent;
-        if (proposalID == null){
+        if (proposalName == null){
             showStartSection();
         } else {
+            processingSave=true;
             View v = getCurrentView();
         	if(v instanceof SectionView){
         		((SectionView) v).setFieldHasHadFocusFlags(true);
