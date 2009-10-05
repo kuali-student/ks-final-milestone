@@ -43,7 +43,7 @@
 }
 .KS-Basic-Menu-Item-Panel{
 	width: 99%;
-	height: 20px;
+	/*height: 20px; bad*/
 	margin-bottom: 3px;
 }
 .KS-Basic-Menu-Item-Panel-Selected{
