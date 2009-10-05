@@ -64,14 +64,14 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeMulti">
+	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr">
 		<search:name>Organization Quick View By Relation Type, Org Type and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with specified types</search:desc>
 		<search:searchResultTypeInfo>
 			<ref bean="org.result.orgQuickView" />
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
-			<ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeMulti" />
+			<ref bean="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeAltr" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
@@ -259,6 +259,13 @@
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	
+	<dict:fieldDescriptor id="list">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>complex</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
 
 	<dict:fieldDescriptor id="childFieldDescriptor"
 		parent="parentFieldDescriptor">
@@ -269,16 +276,8 @@
 		<ref bean="childFieldDescriptor" />
 	</search:queryParam>
 	
-	<search:queryParam id="org.queryParam.orgType1">
-		<ref bean="childFieldDescriptor" />
-	</search:queryParam>
-	
-	<search:queryParam id="org.queryParam.orgType2">
-		<ref bean="childFieldDescriptor" />
-	</search:queryParam>
-	
-	<search:queryParam id="org.queryParam.orgType3">
-		<ref bean="childFieldDescriptor" />
+	<search:queryParam id="org.queryParam.orgTypeList">
+		<ref bean="list" />
 	</search:queryParam>
 
 	<search:queryParam id="org.queryParam.relationType">
@@ -331,15 +330,13 @@
 			<ref bean="org.queryParam.relatedOrgType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
-
-	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeMulti">
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByRelationTypeOrgTypeRelatedOrgTypeAltr">
 		<search:name>OrgByRelationTypeOrgTypeRelatedOrgType</search:name>
 		<search:desc>Orgs in a relation with the given org type and related org type</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.relationType" />
-			<ref bean="org.queryParam.orgType1" />
-			<ref bean="org.queryParam.orgType2" />
-			<ref bean="org.queryParam.orgType3" />
+			<ref bean="org.queryParam.orgTypeList" />
 			<ref bean="org.queryParam.relatedOrgType" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
@@ -439,8 +436,8 @@
 				<entry key="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId">
 					<value>SELECT rel.relatedOrg.id, rel.relatedOrg.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND rel.org.id = :org_queryParam_orgId AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
-				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeMulti">
-					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id = :org_queryParam_orgType1 OR rel.org.type.id = :org_queryParam_orgType2 OR rel.org.type.id = :org_queryParam_orgType3)  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr">
+					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id in (:org_queryParam_orgTypeList))  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
 				</entry>
 			</map>
 		</property>
