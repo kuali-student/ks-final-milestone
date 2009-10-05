@@ -614,10 +614,8 @@ public class LuConfigurer {
 
             String userId = Application.getApplicationContext().getUserId();
             people.addItem(userId, userId);
-            people.addItem("altPerson", "Jon Doe");
 
             super.setListItems(people);
-
             this.selectItem(userId);
         }
 
