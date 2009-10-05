@@ -27,7 +27,9 @@ public class CluProposalModelDTO extends ModelDTO {
 
    private static final long serialVersionUID = 1L;
    private boolean adaptersCreated = false;
-   private List<RuleInfo> ruleInfos;
+
+
+private List<RuleInfo> ruleInfos;
 	   
    public CluProposalModelDTO() {
 		ModelDTO cluInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
@@ -93,5 +95,13 @@ public class CluProposalModelDTO extends ModelDTO {
 
     public void setRuleInfos(List<RuleInfo> ruleInfos) {
         this.ruleInfos = ruleInfos;
+    }
+    
+    public boolean isAdaptersCreated() {
+    	return adaptersCreated;
+    }
+
+    public void setAdaptersCreated(boolean adaptersCreated) {
+    	this.adaptersCreated = adaptersCreated;
     }
 }
