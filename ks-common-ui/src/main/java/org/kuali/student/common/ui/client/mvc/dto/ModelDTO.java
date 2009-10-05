@@ -17,10 +17,12 @@ package org.kuali.student.common.ui.client.mvc.dto;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValueBinding;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ListType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
@@ -125,9 +127,23 @@ public class ModelDTO implements Serializable {
 				if(value instanceof ModelDTOType){
 					((ModelDTOType) value).get().commit();
 				}
+				else if(value instanceof ListType){
+					listCommit(((ListType) value).get());
+				}
 			}
 			map = transientMap;
 			transientMap = null;
+		}
+	}
+	
+	private void listCommit(List<ModelDTOValue> list){
+		for(ModelDTOValue value : list){
+			if(value instanceof ModelDTOType){
+				((ModelDTOType) value).get().commit();
+			}
+			else if(value instanceof ListType){
+				listCommit(((ListType) value).get());
+			}
 		}
 	}
 	
