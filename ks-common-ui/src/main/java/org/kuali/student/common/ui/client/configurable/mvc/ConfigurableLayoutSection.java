@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public interface ConfigurableLayoutSection {
+public interface ConfigurableLayoutSection extends HasLayoutController {
 
     /** 
      * Add a field to this section

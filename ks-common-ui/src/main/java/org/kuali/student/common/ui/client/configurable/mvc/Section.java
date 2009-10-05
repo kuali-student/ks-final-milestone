@@ -21,6 +21,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     
     protected SectionTitle sectionTitle = SectionTitle.generateEmptyTitle();
     protected final Label instructionsLabel = new Label();
+    protected LayoutController layoutController = null;
     
     public enum FieldLabelType{LABEL_TOP, LABEL_LEFT}
     public enum SectionTitleType{DECORATED_TITLE_BAR, TITLE_TOP, TITLE_LEFT, NONE}
@@ -287,6 +288,16 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public void setLabelType(FieldLabelType labelType) {
         this.labelType = labelType;
     }
+
+	@Override
+	public LayoutController getLayoutController() {
+		return this.layoutController;
+	}
+
+	@Override
+	public void setLayoutController(LayoutController controller) {
+		this.layoutController = controller;
+	}
     
     
 

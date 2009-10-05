@@ -16,7 +16,6 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
  *
  */
 public abstract class SectionView extends Section implements View{
-    private Controller controller;   
     private Enum<?> viewEnum;
     private String viewName;
 
@@ -28,15 +27,14 @@ public abstract class SectionView extends Section implements View{
      * @param name
      *            the view name
      */
-    public SectionView(Controller controller, Enum<?> viewEnum, String viewName) {
-        this.controller = controller;
+    public SectionView(LayoutController controller, Enum<?> viewEnum, String viewName) {
+    	super.setLayoutController(controller);
         this.viewEnum = viewEnum;
         this.viewName = viewName;
         sectionTitle = SectionTitle.generateH1Title(getName());
     }
 
     public SectionView(Enum<?> viewEnum, String viewName) {
-        this.controller = null;
         this.viewEnum = viewEnum;
         this.viewName = viewName;
         sectionTitle = SectionTitle.generateH1Title(getName());
@@ -78,7 +76,7 @@ public abstract class SectionView extends Section implements View{
      */
     @Override
     public Controller getController() {
-        return controller;
+        return super.getLayoutController();
     }
 
     /**
@@ -101,7 +99,11 @@ public abstract class SectionView extends Section implements View{
     }        
     
     public void setController(Controller controller) {
-        this.controller = controller;
+    	if (controller instanceof LayoutController) {
+    		super.setLayoutController((LayoutController) controller);
+    	} else {
+    		throw new IllegalArgumentException("Configurable UI sections require a LayoutController, not a base MVC controller");
+    	}
     }
 
 

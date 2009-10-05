@@ -132,13 +132,19 @@ public abstract class LayoutController extends Controller  {
     public static LayoutController findParentLayout(Widget w){
         LayoutController result = null;
         while (true) {
-            w = w.getParent();
             if (w == null) {
                 break;
-            } else if (w instanceof Controller) {
+            } else if (w instanceof HasLayoutController) {
+            	result = ((HasLayoutController)w).getLayoutController();
+            	if (result != null) {
+            		break;
+            	}
+            } else if (w instanceof LayoutController) {
                 result = (LayoutController) w;
                 break;
-            } 
+            }
+            w = w.getParent();
+            
         }
         return result;
     }
