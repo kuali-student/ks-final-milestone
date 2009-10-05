@@ -5,15 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
-
-import com.google.gwt.core.client.GWT;
 
 public class ModelDTOAdapter implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -250,9 +246,17 @@ public class ModelDTOAdapter implements Serializable{
     		System.out.println("Field key: " + k + " Name: " + fields.get(k).getFieldDescriptor().getName());
     	}*/
     	System.out.println("baseModelDTO:\n" + baseModelDTO.toString());
-    	System.out.println(((StringType) baseModelDTO.get("type")).get());
-    	System.out.println(((StringType) baseModelDTO.get("state")).get());
-    	Field field = dictionary.getField(objectKey, ((StringType) baseModelDTO.get("type")).get(), ((StringType) baseModelDTO.get("state")).get(), key);
+    	
+    	StringType dtoType = (StringType) baseModelDTO.get("type");
+    	StringType dtoState = (StringType) baseModelDTO.get("state");
+    	
+    	String dtoTypeString = (dtoType == null) ? null : dtoType.get();
+    	String dtoStateString = (dtoState == null) ? null : dtoState.get();
+    	
+    	Field field = null;
+    	if (dtoTypeString != null && dtoStateString != null) {
+    		field = dictionary.getField(objectKey, dtoTypeString, dtoStateString, key);
+    	}
     	
     	//System.out.println("Trying to get field with name: " + key + " from ObjectStructure: " + objectKey);
     	if(field != null && field.getFieldDescriptor() != null){
