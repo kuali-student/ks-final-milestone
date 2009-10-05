@@ -6,6 +6,8 @@ import java.util.Date;
 import org.kuali.student.common.ui.client.widgets.impl.KSDatePickerImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
@@ -19,7 +21,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team
  *
  */
-public class KSDatePicker extends KSDatePickerAbstract{ 
+public class KSDatePicker extends KSDatePickerAbstract { 
     KSDatePickerAbstract datePicker = GWT.create(KSDatePickerImpl.class);
     
     /**
@@ -66,6 +68,16 @@ public class KSDatePicker extends KSDatePickerAbstract{
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
         return datePicker.addValueChangeHandler(handler);
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return datePicker.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return datePicker.addBlurHandler(handler);
+	}
     
     
 }

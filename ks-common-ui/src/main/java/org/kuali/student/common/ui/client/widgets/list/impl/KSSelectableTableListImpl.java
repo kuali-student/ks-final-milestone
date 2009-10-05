@@ -13,7 +13,10 @@ import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
@@ -224,4 +227,26 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
     public void setPageSize(int pageSize){
         this.pageSize = pageSize;
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		// TODO fill in focus handling once this table is replaced with DynamicTable, which supports focus
+		return new HandlerRegistration() {
+			@Override
+			public void removeHandler() {
+				// do nothing, just here to prevent outside code from throwing an exception
+			}
+		};
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		// TODO fill in focus handling once this table is replaced with DynamicTable, which supports focus
+		return new HandlerRegistration() {
+			@Override
+			public void removeHandler() {
+				// do nothing, just here to prevent outside code from throwing an exception
+			}
+		};
+	}
 }

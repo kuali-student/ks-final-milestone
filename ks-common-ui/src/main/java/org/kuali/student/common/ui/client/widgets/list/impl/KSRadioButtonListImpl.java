@@ -7,15 +7,19 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSRadioButtonGroup;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.Idable;
 
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
 
 
@@ -33,7 +37,8 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     private int maxCols = 1; //default max columns
     
     private boolean enabled = true;
-
+    private final FocusGroup focus = new FocusGroup(this);
+    
     public KSRadioButtonListImpl() {
         radioGroup.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 
@@ -158,7 +163,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         radioButton.setFormValue(id);
         radioButton.addClickHandler(this);
         radioGroup.addRadioButton(radioButton);
-
+        focus.addWidget(radioButton);
         return radioButton;
     }
 
@@ -198,5 +203,15 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
     @Override
     public boolean isEnabled() {
         return enabled;
-    }    
+    }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focus.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return focus.addBlurHandler(handler);
+	}    
 }

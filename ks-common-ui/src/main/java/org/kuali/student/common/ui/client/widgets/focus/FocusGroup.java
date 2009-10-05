@@ -33,7 +33,8 @@ public class FocusGroup implements HasBlurHandlers, HasFocusHandlers, HasHandler
 	private final HandlerManager handlers;
 	private final Map<Widget, Boolean> focusTrackers = new HashMap<Widget, Boolean>();
 	private boolean focusEventPending = false;
-
+	private boolean suppressed = false;
+	
 	private boolean focused = false;
 
 	private final Command checkFocusState = new Command() {
@@ -48,7 +49,7 @@ public class FocusGroup implements HasBlurHandlers, HasFocusHandlers, HasHandler
 				}
 			}
 
-			if (focused ^ nowFocused) {
+			if (!suppressed && (focused ^ nowFocused)) {
 				if (nowFocused) {
 					// we weren't focused, but now we are
 					//					FocusEvent.fireNativeEvent(lastFocusEvent, FocusGroup.this);
@@ -110,4 +111,14 @@ public class FocusGroup implements HasBlurHandlers, HasFocusHandlers, HasHandler
 			DeferredCommand.addCommand(checkFocusState);
 		}
 	}
+
+	public boolean isSuppressed() {
+		return suppressed;
+	}
+
+	public void setSuppressed(boolean suppressed) {
+		this.suppressed = suppressed;
+	}
+	
+	
 }

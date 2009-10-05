@@ -11,6 +11,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
+// TODO implement some form of focus handling for SuggestBox
 public class KSSuggestBox extends SuggestBox{
     
     private IdableSuggestion currentSuggestion = null;

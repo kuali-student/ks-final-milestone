@@ -6,14 +6,18 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.Idable;
 
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -173,6 +177,8 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
         }
     };
     
+    private final FocusGroup focus = new FocusGroup(this);
+    
     public KSPickListImpl() {
         initWidget(panel);
         setupDefaultStyle();
@@ -196,6 +202,12 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
         pickListTable.getCellFormatter().setVerticalAlignment(1, 2, HasVerticalAlignment.ALIGN_TOP);
         
         panel.add(pickListTable);
+        focus.addWidget(this.add);
+        focus.addWidget(this.addAll);
+        focus.addWidget(this.remove);
+        focus.addWidget(this.removeAll);
+        focus.addWidget(this.selectedTable);
+        focus.addWidget(this.unselectedTable);
 
     }
     
@@ -291,5 +303,15 @@ public class KSPickListImpl extends KSSelectItemWidgetAbstract {
     public boolean isEnabled() {
         return enabled;
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focus.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return focus.addBlurHandler(handler);
+	}
 
 }

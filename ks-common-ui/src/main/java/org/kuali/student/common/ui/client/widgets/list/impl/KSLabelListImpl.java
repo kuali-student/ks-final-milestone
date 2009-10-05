@@ -10,8 +10,11 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.core.dto.Idable;
 
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlexTable;
 
 
@@ -22,7 +25,16 @@ import com.google.gwt.user.client.ui.FlexTable;
  *
  */
 public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements ClickHandler{
-    private FlexTable labels = new FlexTable();
+    
+    private static final HandlerRegistration NO_OP_REGISTRATION = new HandlerRegistration() {
+		@Override
+		public void removeHandler() {
+			// do nothing
+		}
+    };
+
+    
+	private FlexTable labels = new FlexTable();
     private List<String> selectedItems = new ArrayList<String>();
 
     private int maxCols = 1; //default max columns
@@ -179,5 +191,15 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
         setListItems(new SimpleListItems());
         redraw();
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return NO_OP_REGISTRATION;
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return NO_OP_REGISTRATION;
+	}
 
 }

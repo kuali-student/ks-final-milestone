@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class KSListBoxImpl extends KSSelectItemWidgetAbstract{ 
@@ -169,5 +170,15 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
     public boolean isEnabled() {
         return listBox.isEnabled();
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return listBox.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return listBox.addBlurHandler(handler);
+	}
 
 }

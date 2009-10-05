@@ -5,6 +5,7 @@ import java.util.Date;
 import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -12,6 +13,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -23,10 +26,12 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-public class KSDatePickerImpl extends KSDatePickerAbstract {
+public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHandlers, HasBlurHandlers{
 	private DatePicker picker = new DatePicker();
 	private KSTextBox dateField = new KSTextBox();
 	private PopupPanel popup = new PopupPanel(true);
@@ -34,11 +39,13 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
 	private Date currentDate = new Date();
 	private DateTimeFormat df = DateTimeFormat.getFormat("MM/dd/yyyy");
 	private boolean justPicked = false;
+	private final FocusGroup focus = new FocusGroup(this);
 	
 	
 	public KSDatePickerImpl(){ 
 		this.initWidget(dateField);
-		
+		focus.addWidget(picker);
+		focus.addWidget(dateField);
 		//pickerWrapper.add(picker);
 		popup.add(picker);
 		
@@ -61,6 +68,12 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
 				}
 				else{
 					popup.show();
+					DeferredCommand.addCommand(new Command(){
+						@Override
+						public void execute() {
+							focus.setSuppressed(true);
+						}
+					});
 				}
 				
 			}		
@@ -146,6 +159,7 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
 				dateField.setFocus(true);
 				popup.hide();
 				justPicked = true;
+				focus.setSuppressed(false);
 				fireValueChangeEvent();
 			}	
 		});
@@ -176,5 +190,15 @@ public class KSDatePickerImpl extends KSDatePickerAbstract {
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focus.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return focus.addBlurHandler(handler);
+	}
 	
 }

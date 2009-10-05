@@ -5,6 +5,8 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSPickListImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
@@ -96,6 +98,16 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
     public void redraw() {
         selectItemWidget.redraw();
     }
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return selectItemWidget.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return selectItemWidget.addBlurHandler(handler);
+	}
 
 
 }

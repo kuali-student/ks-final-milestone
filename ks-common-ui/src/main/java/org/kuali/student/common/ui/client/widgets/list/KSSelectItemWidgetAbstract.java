@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.kuali.student.core.dto.Idable;
 
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasName;
@@ -16,7 +18,7 @@ import com.google.gwt.user.client.ui.HasName;
  * @author Kuali Student Team
  *
  */
-public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName{
+public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName, HasFocusHandlers, HasBlurHandlers{
 	private ListItems listItems = null;
 	private String name;
 	
