@@ -114,10 +114,14 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         }
 		
         sections.add(section);
+        addSectionToLayout(section);
+    }
+
+	protected void addSectionToLayout(Section section){
         RowDescriptor row = new RowDescriptor();
         row.addSection(section);
-        rows.add(row);        
-    }
+        rows.add(row);
+	}
     
     @Override
     public void addField(final FieldDescriptor fieldDescriptor) {
@@ -136,10 +140,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         
         fields.add(fieldDescriptor);
 
-        RowDescriptor row = new RowDescriptor();
-        row.setCurrentFieldLabelType(this.labelType);
-        row.addField(fieldDescriptor);
-        rows.add(row);
+        addFieldToLayout(fieldDescriptor);
         
         //If fieldDescriptor.getFieldWidget() is not implementing the 
         //HasBlurHandlers. binding.bind does not do the bind.
@@ -166,6 +167,13 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         binding.bind(fieldDescriptor);
         
 
+    }
+    
+    protected void addFieldToLayout(FieldDescriptor fieldDescriptor){
+        RowDescriptor row = new RowDescriptor();
+        row.setCurrentFieldLabelType(this.labelType);
+        row.addField(fieldDescriptor);
+        rows.add(row);
     }
     
     @Override    

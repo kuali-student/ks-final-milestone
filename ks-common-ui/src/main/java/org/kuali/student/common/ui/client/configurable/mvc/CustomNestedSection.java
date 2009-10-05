@@ -37,14 +37,22 @@ public class CustomNestedSection extends Section{
     
     @Override
     public void addField(FieldDescriptor fieldDescriptor) {
-        fields.add(fieldDescriptor);
-        currentRow.addField(fieldDescriptor);
+    	super.addField(fieldDescriptor);
+    }
+    
+    @Override
+    protected void addFieldToLayout(FieldDescriptor fieldDescriptor) {
+    	currentRow.addField(fieldDescriptor);
     }
 
     @Override
     public void addSection(Section section) {
-        sections.add(section);
-        currentRow.addSection(section);
+    	super.addSection(section);
+    }
+    
+    @Override
+    protected void addSectionToLayout(Section section) {
+    	currentRow.addSection(section);
     }
 
     @Override
