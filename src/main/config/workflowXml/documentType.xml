@@ -101,8 +101,11 @@
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
           <requests name="Department Review" nextNode="Division Review" />
+<!--
           <requests name="Division Review" nextNode="Undergrad Affairs Review" />
           <requests name="Undergrad Affairs Review" nextNode="College Review" />
+-->
+          <requests name="Division Review" nextNode="College Review" />
           <requests name="College Review" nextNode="Senate Review" />
           <requests name="Senate Review" nextNode="Publication Review" />
           <requests name="Publication Review"  />
@@ -126,11 +129,13 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass>
         </role>
-
+        
+<!--
         <role name="Undergrad Affairs Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.UnderGradAffairsCommitteeQualifierResolver</qualifierResolverClass>
         </role>
+-->
         
         <!-- College Committee Reviewer Role -->
         <role name="College Review">

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -50,8 +51,35 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		String principalId = "testuser1";
 		WorkflowDocument doc = new WorkflowDocument(principalId, documentTypeName);
+		doc.saveDocument("");
 
+		// verify testuser1 has correct permissions as initiator
+		principalId = "testuser1";
+		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
+		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+
+		// send adhoc approve to 'testuser3'
+		doc.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_APPROVE_REQ, "", "testuser3", "", true);
+		
+		// verify testuser2 has no permissions
 		principalId = "testuser2";
+		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.FALSE);
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
+		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+
+		// verify testuser3 has no permissions
+		principalId = "testuser3";
+		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
+		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.TRUE);
+		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+
 		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
 		doc.routeDocument("");
 		
@@ -62,8 +90,8 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
 		
-		// verify testuser2 has correct permissions as router
-		principalId = "testuser2";
+		// verify testuser3 has correct permissions as router
+		principalId = "testuser3";
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
@@ -91,7 +119,6 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		principalId = "fred";
 		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
 		doc.approve("");
-		KIMServiceLocator.getRoleManagementService().flushRoleCaches();
 
 		// verify fred has no request for approval and correct permissions
 		principalId = "fred";
@@ -127,7 +154,6 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		principalId = "user1";
 		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
 		doc.approve("");
-		KIMServiceLocator.getRoleManagementService().flushRoleCaches();
 
 		// verify edna still has request for Acknoweldge and correct permissions
 		principalId = "edna";
@@ -141,7 +167,6 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// move document to FINAL
 		doc.acknowledge("");
-		KIMServiceLocator.getRoleManagementService().flushRoleCaches();
 
 		// verify edna has no request and correct permissions
 		principalId = "edna";

@@ -11,6 +11,9 @@
 	<name>KS Rice Standalone Server</name>
 	<description>Kuali Student Rice Standalone Server project for development</description>
 
+    <properties>
+        <kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
+    </properties>
 
 	<build>
 		<plugins>
@@ -67,14 +70,14 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-web</artifactId>
-			<version>KS-0928</version>
+			<version>${kuali.rice.version}</version>
 			<type>war</type>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>100-KS-M1-SNAPSHOT</version>
+			<version>${kuali.rice.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>htmlunit</groupId>
@@ -144,7 +147,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-impl</artifactId>
-					<version>100-KS-M1-SNAPSHOT</version>
+					<version>${kuali.rice.version}</version>
 					<exclusions>
 						<exclusion>
 							<groupId>org.springframework</groupId>

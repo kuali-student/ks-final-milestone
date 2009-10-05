@@ -14,7 +14,6 @@ import org.kuali.rice.core.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.lifecycle.Lifecycle;
 import org.kuali.rice.core.resourceloader.SpringResourceLoader;
 import org.kuali.rice.kew.batch.KEWXmlDataLoader;
-import org.kuali.rice.kew.batch.KEWXmlDataLoaderLifecycle;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.test.BaselineTestCase;
