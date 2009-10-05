@@ -307,6 +307,11 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
         startSectionView.beforeShow();        
         startSectionWindow.show();
     }
+    
+    public SectionView getStartSection(){
+        return startSectionView;
+    }
+    
     public Class<? extends ModelDTO> getModelDTOType() {
         return modelDTOType;
     }
