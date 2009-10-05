@@ -3307,9 +3307,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:desc>all course proposals name</dict:desc>
 						<dict:dataType>string</dict:dataType>
 					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-							<!-- 
+					<dict:constraintDescriptor> 
 							<dict:constraintRef bean="required"/>
+							<!--
 							<dict:constraintRef bean="single.line.text"/>
 							-->
 							<dict:constraintRef bean="single"/>
@@ -3323,9 +3323,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 						<dict:dataType>string</dict:dataType>
 					</dict:fieldDescriptor>
 					<dict:constraintDescriptor>
-							<!-- 
 							<dict:constraintRef bean="required"/>
-							-->
 							<dict:constraintRef bean="repeating"/>
 							<dict:constraintRef bean="related.personId"/>
 					</dict:constraintDescriptor>
