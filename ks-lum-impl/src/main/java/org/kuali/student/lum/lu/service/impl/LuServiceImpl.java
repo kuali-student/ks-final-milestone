@@ -2065,6 +2065,7 @@ public class LuServiceImpl implements LuService {
             }
             //Do Copy
             subjOrg.setOrgId(orgId);
+            subjOrg.setClu(clu);
             clu.getAcademicSubjectOrgs().add(subjOrg);
         }
 
