@@ -114,9 +114,12 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
      */
     @Override
     public void setValue(ModelDTOValue modelDTOValue) {
-        assert(modelDTOValue instanceof ModelDTOValue.ModelDTOType);
-        this.modelDTOValue = modelDTOValue;
-
+        //assert(modelDTOValue instanceof ModelDTOValue.ModelDTOType);
+        if(modelDTOValue instanceof ModelDTOType){
+	        if(state.equals(((ModelDTOType) modelDTOValue).get().get("state")) && type.equals(((ModelDTOType) modelDTOValue).get().get("type"))){
+	        	this.modelDTOValue = modelDTOValue;
+	        }
+        }
         redraw();
     }
 
