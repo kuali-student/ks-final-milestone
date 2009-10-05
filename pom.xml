@@ -433,8 +433,8 @@
 		</snapshotRepository>
 		<site>
 			<id>ks.site</id>
-			<url> 
-				scp://wsa135.uits.indiana.edu/opt/www/student/site/core/${project.version}
+			<url>
+                dav:https://www.kuali.org:8443/student/site/core/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
