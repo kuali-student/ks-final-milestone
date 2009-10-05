@@ -15,7 +15,7 @@ public class KeyValuePair {
     @Column(name = "ID")
 	private String id;
 
-	@Column(name = "KEY", nullable=false)
+	@Column(name = "APP_STATE_KEY", nullable=false)
 	private String key;
 
 	@Column(name = "VALUE", length=2000, nullable=false)

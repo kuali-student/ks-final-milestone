@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,7 +41,8 @@ public class ApplicationState {
 	@Column(name = "USER_ID", nullable=false)
 	private String userId;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="id")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="KS_APP_ST_JN_KEY_VALUE")	
 	private List<KeyValuePair> keyValueList;
 
 	/**
