@@ -82,12 +82,14 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
             // we need to catch it and re-throw because of the catch all exception below, otherwise KNFE will never propagate
             throw new KimUserNotFoundException("Invalid username");
             
-        } catch(Exception rre){
+        } 
+        
+/*        catch(Exception rre){
             //Added to handle the exception in case Rice service is not available. 
             // This is implemented because in development environment if rice service is not up then 
             // we deflect the authentication to DefaultUserDetailService.
             return null;
-        }
+        }*/
 
     }
     
