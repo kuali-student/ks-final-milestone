@@ -157,7 +157,8 @@ public class Validator {
 	    skipFields = list;	    
 	}
     private boolean isNullable(Field field){
-        List<ConstraintSelector> constraintList = field.getConstraintDescriptor().getConstraint();
+        ConstraintDescriptor cd = field.getConstraintDescriptor();
+        List<ConstraintSelector> constraintList = cd.getConstraint();
         for(ConstraintSelector cs: constraintList){
             if(cs.getMinOccurs() != null && cs.getMinOccurs() > 0){
                 return false;
