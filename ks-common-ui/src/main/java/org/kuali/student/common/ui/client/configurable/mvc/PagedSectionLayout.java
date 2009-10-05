@@ -227,6 +227,8 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	
 	public void addStartSection(final SectionView section){
 	    startSectionView = section;
+	    startSectionView.setController(this);
+	    
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
 	    
 	    VerticalPanel panel = new VerticalPanel();        	    
