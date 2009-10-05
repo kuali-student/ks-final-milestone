@@ -75,6 +75,17 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
 		}
 	}
 	
+    public void setFieldHasHadFocusFlags(boolean hadFocus) {
+		for(FieldDescriptor f: fields){
+			f.setHasHadFocus(hadFocus);
+		}
+		
+		for(Section s: sections){
+			s.setFieldHasHadFocusFlags(hadFocus);
+		}
+		
+	}
+    
     public void resetFieldInteractionFlags() {
 		for(FieldDescriptor f: fields){
 			f.setDirty(false);
