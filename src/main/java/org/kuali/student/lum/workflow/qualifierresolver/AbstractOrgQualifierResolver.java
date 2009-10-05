@@ -25,6 +25,7 @@ import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.role.XPathQualifierResolver;
 import org.kuali.rice.kew.rule.bo.RuleAttribute;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
@@ -47,29 +48,19 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	protected static final String KUALI_ORG_COC        			  = "kuali.org.COC";
 	protected static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
 	protected static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
-	
-	protected static final String DEPARTMENT_ID = "departmentId";
-	protected static final String DEPARTMENT    = "department";
-	protected static final String DIVISION      = "division";
-	protected static final String DIVISION_ID   = "divisionId";
-	protected static final String COLLEGE       = "college";
-	protected static final String COLLEGE_ID    = "collegeId";
-	protected static final String ORG_ID        = "orgId";
-	protected static final String ORG           = "org";
-	
+
 	protected OrganizationService orgService;
-	
+
 	protected static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
 										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
-										"<qualifier name=\"" + ORG_ID +  "\">" +
+										"<qualifier name=\"" + KualiStudentKimAttributes.QUALIFICATION_ORG_ID +  "\">" +
 											"<xPathExpression>./orgId</xPathExpression>" + 
 										"</qualifier>" +
 									"</resolverConfig>";
-	
-	
+
 	protected static RuleAttribute ruleAttribute = new RuleAttribute();
-	
+
 	static {
 		ruleAttribute.setXmlConfigData(ORG_RESOLVER_CONFIG);
 	}
@@ -169,8 +160,8 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 				if(orgIdKey!=null){
 					attributeSet.put(orgIdKey, resolvedOrgId);
 				}
-				attributeSet.put(ORG, resolvedOrgShortName);
-				attributeSet.put(ORG_ID, resolvedOrgId);
+				attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
+				attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
 				returnAttrSetList.add(attributeSet);
 			}
 		}

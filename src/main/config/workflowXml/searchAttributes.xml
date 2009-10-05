@@ -10,10 +10,11 @@
             <searchingConfig>
                 <fieldDef name="id" title="Organization">
                     <display>
-                        <type>text</type>
+                        <type>select</type>
+                           <values>kuali_values_finder_class(org.kuali.rice.student.lookup.keyvalues.OrgCocValuesFinder)</values>
                     </display>
                     <fieldEvaluation>
-                        <xpathexpression>//cluProposalDocInfo/orgId</xpathexpression>
+                        <xpathexpression>wf:xstreamsafe('//cluProposalDocInfo/orgId')</xpathexpression>
                     </fieldEvaluation>
                 </fieldDef>
             </searchingConfig>

@@ -7,6 +7,11 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="kimPermissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl">
+		<property name="permissionDao" ref="kimPermissionDao" />
+		<property name="roleService" ref="kimRoleService" />
+	</bean>
 	
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
@@ -61,7 +66,7 @@
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 
-	<!-- Org Derived role (anyone that's related to this org -->
+	<!-- Org Derived role (anyone that's related to this org) -->
 	<bean id="ksOrgCommitteeRoleTypeService"
 		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
 		<property name="excludedOrgPersonRelationTypes">
@@ -71,8 +76,18 @@
 		</property>
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
-
+	
 	<!-- impl for Rice Authentication Service  -->
 	<bean id="ksRiceAuthenticationService" class="org.kuali.student.security.KSRiceAuthenticationServiceImpl"/>
-	
+
+	<!-- Action Request Derived role -->
+	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSActionRequestDerivedRoleTypeServiceImpl"/>
+
+	<!-- Route Log Derived role -->
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl"/>
+
+	<!-- Hierarchy Derived role -->
+<!--
+	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
+-->
 </beans>

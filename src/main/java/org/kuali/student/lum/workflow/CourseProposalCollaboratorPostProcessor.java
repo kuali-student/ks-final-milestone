@@ -1,6 +1,7 @@
 package org.kuali.student.lum.workflow;
 
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -52,42 +53,43 @@ public class CourseProposalCollaboratorPostProcessor implements PostProcessor{
 
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent)
 			throws Exception {
-		if (statusChangeEvent.getNewRouteStatus().equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)) {			
+		if (statusChangeEvent.getNewRouteStatus().equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)) {
 			LOG.info("CourseProposalCollaboratorPostProcessor: Status change to PROCESSED");
 			WorkflowInfo workflowInfo = new WorkflowInfo();
 			DocumentContentDTO document = workflowInfo.getDocumentContent(statusChangeEvent.getRouteHeaderId());
-			addAdhocFYI(document);						
+			addAdhocFYI(document);
 		}
         return new ProcessDocReport(true, "");
 	}
 
-	public List<Long> getDocumentIdsToLock(DocumentLockingEvent arg0)
-			throws Exception {
+	public List<Long> getDocumentIdsToLock(DocumentLockingEvent arg0) throws Exception {
 		return null;
 	}
-	
+
     private void addAdhocFYI(DocumentContentDTO document) {
        	try {
 			JAXBContext context = JAXBContext.newInstance(CluProposalCollabRequestDocInfo.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 	        CluProposalCollabRequestDocInfo collabRequest = (CluProposalCollabRequestDocInfo) unmarshaller.unmarshal(new StringReader(document.getApplicationContent()));
-    	
+
 			String docId = collabRequest.getDocId();
 			String recipientPrincipalId = collabRequest.getPrincipalIdRoleAttribute().getRecipientPrincipalId();
 			String principalId = collabRequest.getPrincipalId();
 			String collaboratorType = collabRequest.getCollaboratorType();
-		
-			String annotation = "Collaborator Approved";
 
-			WorkflowDocument workflowDocument = new WorkflowDocument(principalId, new Long(docId));
+			WorkflowDocument workflowDocument = new WorkflowDocument(principalId, Long.decode(docId));
 			if (workflowDocument.getNodeNames().length == 0) {
-				throw new RuntimeException("No active nodes found on document");
+				throw new RuntimeException("No active nodes found on document id" + docId);
 			}
-			String collaborateAtNodeName = workflowDocument.getNodeNames()[0];
-			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, collaborateAtNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, collaboratorType);
+			String routeNodeName = collabRequest.getRouteNodeName();
+			if (!Arrays.asList(workflowDocument.getNodeNames()).contains(routeNodeName)) {
+				throw new RuntimeException("Route node '" + routeNodeName + "' not found as active node on document id " + docId);
+			}
+			String annotation = "Collaborator Approved";
+			workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, routeNodeName, annotation, recipientPrincipalId, "Request to Collaborate", true, collaboratorType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
     }
 }

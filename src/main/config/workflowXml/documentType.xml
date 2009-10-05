@@ -8,6 +8,38 @@
       <label>Kuali Student Parent Document</label>
       <active>true</active>
     </documentType>
+<!-- BEGIN TEST DOCUMENT FOR HIERARCHY ROUTING -->
+    <documentType>
+      <name>HierarchyNodeDocumentTest</name>
+      <parent>KualiStudentDocument</parent>
+      <label>HierarchyNodeDocumentTest</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+	    <policy>
+		  <name>DEFAULT_APPROVE</name>
+		  <value>true</value>
+	    </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="HierarchyNode" />
+          <role name="HierarchyNode"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="HierarchyNode">
+          <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+<!-- END TEST DOCUMENT FOR HIERARCHY ROUTING -->
     <documentType>
       <name>CollaboratorRequestDocument</name>
       <parent>KualiStudentDocument</parent>
@@ -44,7 +76,7 @@
       <parent>CollaboratorRequestDocument</parent>
       <description>Sample Clu Collaborator Request Document</description>
       <label>Sample Clu Collaborator Request Document</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/CollaboratorRequest.html</docHandler>
       <active>true</active>
       <attributes>
         <attribute>
@@ -69,8 +101,11 @@
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
           <requests name="Department Review" nextNode="Division Review" />
+<!--
           <requests name="Division Review" nextNode="Undergrad Affairs Review" />
           <requests name="Undergrad Affairs Review" nextNode="College Review" />
+-->
+          <requests name="Division Review" nextNode="College Review" />
           <requests name="College Review" nextNode="Senate Review" />
           <requests name="Senate Review" nextNode="Publication Review" />
           <requests name="Publication Review"  />
@@ -94,11 +129,13 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass>
         </role>
-
+        
+<!--
         <role name="Undergrad Affairs Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.UnderGradAffairsCommitteeQualifierResolver</qualifierResolverClass>
         </role>
+-->
         
         <!-- College Committee Reviewer Role -->
         <role name="College Review">

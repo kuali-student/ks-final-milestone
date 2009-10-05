@@ -10,6 +10,7 @@ import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
@@ -43,12 +44,12 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		validateRequiredAttributesAgainstReceived(qualification);
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		
-		String orgId = qualification.get("orgId");
-		String org = qualification.get("org");
+		String orgId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
+		String org = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG);
 		
 		//Put the org name into the attribute set
 		AttributeSet attributes = new AttributeSet();
-		attributes.put("org", org);
+		attributes.put(KualiStudentKimAttributes.QUALIFICATION_ORG, org);
 
 		try {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type

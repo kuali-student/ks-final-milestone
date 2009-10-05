@@ -93,11 +93,13 @@ public class CluPostProcessor implements PostProcessor{
 			Set<Long> uniquePendingCollagIds = new HashSet<Long>(pendingCollabIds);
         	for(Long pendingCollabId:uniquePendingCollagIds){
         		WorkflowDocument workflowDocument = new WorkflowDocument(KS_SYS_PRINCIPAL, pendingCollabId);
-        		String routeStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
-        		if(!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) &&
-        		   !KEWConstants.ROUTE_HEADER_APPROVED_CD.equals(routeStatus) &&
-        		   !KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) &&
-        		   !KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeStatus)){
+        		if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || 
+        			workflowDocument.stateIsEnroute() || workflowDocument.stateIsException()) {
+//         		String routeStatus = workflowDocument.getRouteHeader().getDocRouteStatus();
+//        		if(!KEWConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) &&
+//        		   !KEWConstants.ROUTE_HEADER_APPROVED_CD.equals(routeStatus) &&
+//        		   !KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) &&
+//        		   !KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeStatus)){
         			workflowDocument.superUserDisapprove("Collaboration request has been revoked because CluProposal status has changed");
         		}
         	}
