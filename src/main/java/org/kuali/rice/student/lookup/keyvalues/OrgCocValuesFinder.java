@@ -22,6 +22,11 @@ public class OrgCocValuesFinder extends KeyValuesBase{
                         "http://student.kuali.org/wsdl/organization",
                         "OrganizationService"));
 
+        List<String> types = new ArrayList<String>();
+        types.add("kuali.org.College");
+        types.add("kuali.org.Department");
+        types.add("kuali.org.Division");
+        
         List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
         QueryParamValue qpOrgType = new QueryParamValue();
         qpOrgType.setKey("org.queryParam.relationType");
@@ -29,18 +34,8 @@ public class OrgCocValuesFinder extends KeyValuesBase{
         queryParamValues.add(qpOrgType);
         
         qpOrgType = new QueryParamValue();
-        qpOrgType.setKey("org.queryParam.orgType1");
-        qpOrgType.setValue("kuali.org.College");
-        queryParamValues.add(qpOrgType);
-        
-        qpOrgType = new QueryParamValue();
-        qpOrgType.setKey("org.queryParam.orgType2");
-        qpOrgType.setValue("kuali.org.Department");
-        queryParamValues.add(qpOrgType);
-        
-        qpOrgType = new QueryParamValue();
-        qpOrgType.setKey("org.queryParam.orgType3");
-        qpOrgType.setValue("kuali.org.Division");
+        qpOrgType.setKey("org.queryParam.orgTypeList");
+        qpOrgType.setValue(types);
         queryParamValues.add(qpOrgType);
         
         qpOrgType = new QueryParamValue();
@@ -49,7 +44,7 @@ public class OrgCocValuesFinder extends KeyValuesBase{
         queryParamValues.add(qpOrgType);
 
         try {
-            List<Result> results = orgService.searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeMulti",
+            List<Result> results = orgService.searchForResults("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr",
                     queryParamValues);
 
             for (Result result : results) {
