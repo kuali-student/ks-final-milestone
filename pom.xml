@@ -15,7 +15,7 @@
 		<spring.version>2.5.4</spring.version>
 		<atomikos.version>3.4.1</atomikos.version>
 		<derby.version>10.4.2.0</derby.version>
-		<rice.version>1.0.0</rice.version>
+		<rice.version>1.0.0-ks-m1-SNAPSHOT</rice.version>
 	</properties>
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
