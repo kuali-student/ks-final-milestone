@@ -280,6 +280,16 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
 			s.processValidationResults(results);
 		}
 	}
+	
+	public void clearValidationMessages(){
+		for(RowDescriptor r: rows){
+			r.clearValidationMessages();
+		}
+		
+		for(Section s: sections){
+			s.clearValidationMessages();
+		}
+	}
 
     public FieldLabelType getLabelType() {
         return labelType;
