@@ -67,6 +67,7 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
             int nextSectionIndex = currSectionIdx + 1;
+            // FIXME this is not safe for all sorts of reasons, do not call handlers directly like this.
             sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
         }	    
     }
