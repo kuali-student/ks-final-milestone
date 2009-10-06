@@ -43,6 +43,7 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
 
 	private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
+	private final ArrayList<View> orderedSectionViews = new ArrayList<View>();
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
 	private final List<KSMenuItemData> toolMenuItems = new ArrayList<KSMenuItemData>();
@@ -65,8 +66,8 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 		
 	private KSButton nextButton = new KSButton("Next", new ClickHandler(){
         public void onClick(ClickEvent event) {
-            currSectionIdx++;
-            sectionMenuItems.get(currSectionIdx).setSelected(true);
+            int nextSectionIndex = currSectionIdx + 1;
+            sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
         }	    
     }
 	);
@@ -179,6 +180,7 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 		final KSMenuItemData sectionItem = new KSMenuItemData(section.getName());
 		current.addSubItem(sectionItem);
 		sectionMenuItems.add(sectionItem);
+		orderedSectionViews.add(section);
 		
 		sectionItem.setClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -271,7 +273,9 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	    } else {
 	        nextButton.setVisible(true);
 	    }
-	    contentPanel.setWidget((Widget)view); 
+	    contentPanel.setWidget((Widget)view);
+        currSectionIdx = orderedSectionViews.indexOf(view);
+	    sectionMenuItems.get(currSectionIdx).setSelected(true);
 	}	
 	
     /**
