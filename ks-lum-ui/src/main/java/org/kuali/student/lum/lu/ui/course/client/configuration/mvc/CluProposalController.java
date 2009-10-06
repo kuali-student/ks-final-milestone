@@ -140,21 +140,6 @@ public class CluProposalController extends PagedSectionLayout{
             }
         });
         
-        requestModel(CluProposalModelDTO.class, new ModelRequestCallback(){
-
-            @Override
-            public void onModelReady(Model model) {
-                CluProposalController.this.setModelDTO((ModelDTO)model.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());
-                
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                // TODO joeyin - THIS METHOD NEEDS JAVADOCS
-                
-            }
-            
-        });
     }
         
     /**
@@ -183,6 +168,8 @@ public class CluProposalController extends PagedSectionLayout{
             } else {
                 callback.onModelReady(cluProposalModel); 
             }
+            //Set it up for validation in layoutController
+            this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());
         } else if(modelType == ReferenceModel.class){
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
