@@ -290,6 +290,11 @@
 	</servlet-mapping>	
 	
 	<servlet-mapping>
+		<servlet-name>GWT-LUM</servlet-name>
+		<url-pattern>/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/*</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet-mapping>
 		<servlet-name>GWT-CORE</servlet-name>
 		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/*</url-pattern>
 	</servlet-mapping>	
