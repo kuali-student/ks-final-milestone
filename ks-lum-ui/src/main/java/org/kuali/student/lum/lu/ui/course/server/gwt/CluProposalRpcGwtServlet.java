@@ -38,16 +38,23 @@ import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
+import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.springframework.security.Authentication;
@@ -257,7 +264,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Lookup the workflowId from the cluId
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalInfo.getId());
             if(docDetail==null){
-            	throw new OperationFailedException("Error found gettting document. " );
+            	throw new OperationFailedException("Error found getting document. " );
             }
             
 	        String approveComment = "Approved by CluProposalService";
@@ -519,6 +526,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Convert cluInfo model dto to cluInfo object
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
+            
 
             //Create clu in LuService
             cluInfo = service.createClu(cluInfo.getType(), cluInfo);
@@ -526,9 +534,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //applicationStateManager.getApplicationState(cluProposalDTO);
 
             saveCourseFormats(cluInfo, cluProposalDTO);
-            saveCrossListedCourses(cluInfo, cluProposalDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
-            saveVersionCodes(cluInfo, cluProposalDTO);
             
             // now update the clu with whatever changes were made in save... methods
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
@@ -609,11 +615,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
             saveCourseFormats(cluInfo, cluProposalDTO);
-            saveCrossListedCourses(cluInfo, cluProposalDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
-            saveVersionCodes(cluInfo, cluProposalDTO);
             
-            // now update the clu with whatever changes were made in save... methods
+            // now update the clu with whatever changes were made
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             
             ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
@@ -658,8 +662,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
     
-    private void saveCourseFormats(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType) cluProposalDTO.get("courseFormats");
+    private void saveCourseFormats(CluInfo parentCluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType) cluProposalDTO.get("cluInfo/courseFormats");
         MapContext ctx = new MapContext();
         
         if (courseFormatListType != null) { 
@@ -673,7 +677,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
                 
                 CluInfo courseFormatShell = (CluInfo) ctx.fromModelDTO(courseFormatModelDTO);
 	        	
-		        ModelDTOValue.ListType activityListType = (ModelDTOValue.ListType) cluProposalDTO.get("activities");
+		        ModelDTOValue.ListType activityListType = (ModelDTOValue.ListType) courseFormatModelDTO.get("activities");
 		        if (null != activityListType) {
 		        	List<ModelDTOValue> activityList = activityListType.get();
 		        	
@@ -723,7 +727,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             // create the Clu->CourseFormat relationships
             for (String courseFormatId : courseFormatIds)  {
                 CluCluRelationInfo ccrInfo = new CluCluRelationInfo();
-                ccrInfo.setCluId(cluInfo.getId());
+                ccrInfo.setCluId(parentCluInfo.getId());
                 ccrInfo.setRelatedCluId(courseFormatId);
                 ccrInfo.setType(LUConstants.LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT);
                 // TODO - ccrInfo.setState("<some kind of 'draft'?");
@@ -735,28 +739,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //			remove one or more activities, or the course format as a whole?
             //        probably have to retrieve ...COURSE_FORMAT and ...CONTAINS LuLuRelations on entry, and delete
             //        those that aren't currently in the ModelDTO. Or, rethink the whole persistence flow...
+            //     or, probably, grab them all associated via the relationship types and delete those that aren't
+            //			currently in the ModelDTO (starting with CONTAINS and then up to COURSE_FORMAT
         }
     }
     
-    private void saveCrossListedCourses(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType crossListedListType = (ModelDTOValue.ListType)cluProposalDTO.get("alternateIdentifiers");
-        if (null != crossListedListType) {
-	        MapContext ctx = new MapContext();
-        	List<ModelDTOValue> crossListedList = crossListedListType.get();
-        	
-        	for (ModelDTOValue crossListedValue : crossListedList) {
-        		ModelDTO crossListedModelDTO = ((ModelDTOValue.ModelDTOType) crossListedValue).get();
-                
-                CluInfo crossListedCluInfo = (CluInfo) ctx.fromModelDTO(crossListedModelDTO);
-                // search for the cross-listed clu
-                
-                // if found, create a LU_LU_RELATION_TYPE_CROSS_LISTED CluCluRelation
-        	}
-        }
-    }
-    
-    private void saveCoursesOfferedJointly(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType)cluProposalDTO.get("offeredJointly");
+    private void saveCoursesOfferedJointly(CluInfo parentCluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
+        ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType) cluProposalDTO.get("cluInfo/offeredJointly");
         if (null != offeredJointlyListType) {
 	        MapContext ctx = new MapContext();
         	List<ModelDTOValue> offeredJointlyList = offeredJointlyListType.get();
@@ -764,18 +753,24 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	for (ModelDTOValue offeredJointlyValue : offeredJointlyList) {
         		ModelDTO offeredJointlyModelDTO = ((ModelDTOValue.ModelDTOType) offeredJointlyValue).get();
                 
-                CluInfo offeredJointlyCluInfo = (CluInfo) ctx.fromModelDTO(offeredJointlyModelDTO);
-                // search for the jointly-offeredclu
+                try {
+	                String offeredJointlyCluId = offeredJointlyModelDTO.getString("id");
                 
-                // if found, create a LU_LU_RELATION_TYPE_JOINTLY_OFFERED CluCluRelation
+	                service.getClu(offeredJointlyCluId);
+	                
+	                // Found it; create a LU_LU_RELATION_TYPE_JOINTLY_OFFERED CluCluRelation
+	                CluCluRelationInfo ccrInfo = new CluCluRelationInfo();
+	                ccrInfo.setCluId(parentCluInfo.getId());
+	                ccrInfo.setRelatedCluId(offeredJointlyCluId);
+	                ccrInfo.setType(LUConstants.LU_LU_RELATION_TYPE_CONTAINS);
+	                service.createCluCluRelation(parentCluInfo.getId(), offeredJointlyCluId, LUConstants.LU_LU_RELATION_TYPE_JOINTLY_OFFERED, ccrInfo);
+                } catch (DoesNotExistException dnee) {
+                	// TODO = let the user know there was no such Clu?
+                }
         	}
         }
     }
     
-    private void saveVersionCodes(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType versionCodeListType = (ModelDTOValue.ListType)cluProposalDTO.get("versionCodes");
-    }
-
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#deleteProposal(java.lang.String)
      */
@@ -823,7 +818,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
     /**
-     * Retreives a CluProposalMoelDTO given a proposal id.
+     * Retrieves a CluProposalModelDTO given a proposal id.
      * @throws OperationFailedException 
      */
     public CluProposalModelDTO getProposal(String proposalId) throws OperationFailedException{
@@ -859,9 +854,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             //Get clu
             CluInfo cluInfo = service.getClu(cluId);
             ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
-            cluModelDTO.copyFrom((ModelDTO)ctx.fromBean(cluInfo));
+            cluModelDTO.copyFrom((ModelDTO) ctx.fromBean(cluInfo));
             
-            getCourseFormats(cluProposalDTO);
+            hydrateCluModelDTO(cluInfo.getId(), cluProposalDTO);
 
         } catch (Exception e) {
             logger.error("Error getting Proposal. ",e);
@@ -874,8 +869,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
 
-    /**
-     * Retreives a CluProposalModelDTO given a clu id.
+	/**
+     * Retrieves a CluProposalModelDTO given a clu id.
      * @throws OperationFailedException 
      */
     public CluProposalModelDTO getClu(String cluId) throws OperationFailedException{
@@ -884,42 +879,106 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
         boolean authorized=true;
         try{
-        logger.debug("Retreiving clu with clu id " + cluId);
-               
-        try{
-            String QUALIFICATION_PROPOSAL_ID = "cluId";
-            String DOCUMENT_TYPE_NAME = "documentTypeName";
-            AttributeSet qualification = new AttributeSet();
-            qualification.put(QUALIFICATION_PROPOSAL_ID, cluId);
-            qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
-            authorized = permissionService.isAuthorized(getCurrentUser(), "KS-LUM", "Open Document", null, qualification);
-        }catch(Exception e){
-            logger.info("Error calling permission service. ", e);
-        }
-        
-        //Get clu
-        CluInfo cluInfo = service.getClu(cluId);
-//        CluInfo cluInfo = buildTestClu();
-        ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
-        cluModelDTO.copyFrom((ModelDTO)ctx.fromBean(cluInfo));
-        
-        getCourseFormats(cluProposalDTO);
-
-    } catch (Exception e) {
-        logger.error("Error getting Clu. ",e);
-    }
-
-    if(!authorized){
-        throw new OperationFailedException("User is not authorized to open this document");
-    }
+	        logger.debug("Retrieving clu with clu id " + cluId);
+	               
+	        try{
+	            String QUALIFICATION_PROPOSAL_ID = "cluId";
+	            String DOCUMENT_TYPE_NAME = "documentTypeName";
+	            AttributeSet qualification = new AttributeSet();
+	            qualification.put(QUALIFICATION_PROPOSAL_ID, cluId);
+	            qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
+	            authorized = permissionService.isAuthorized(getCurrentUser(), "KS-LUM", "Open Document", null, qualification);
+	        }catch(Exception e){
+	            logger.info("Error calling permission service. ", e);
+	        }
+	        
+	        //Get clu
+	        CluInfo cluInfo = service.getClu(cluId);
+	//        CluInfo cluInfo = buildTestClu();
+	        ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
+	        cluModelDTO.copyFrom((ModelDTO)ctx.fromBean(cluInfo));
+	        
+	        hydrateCluModelDTO(cluInfo.getId(), cluProposalDTO);
+	
+	    } catch (Exception e) {
+	        logger.error("Error getting Clu. ",e);
+	    }
+	
+	    if(!authorized){
+			throw new OperationFailedException("User is not authorized to open this document");
+	    }
         
         return cluProposalDTO;
     }
     
-    private void getCourseFormats(CluProposalModelDTO cluProposalDTO){
-        //TODO: Find all clu relations and load them
-    }
+    private void hydrateCluModelDTO(String parentCluId, ModelDTO cluModelDTO) throws OperationFailedException {
+        getCourseFormats(parentCluId, cluModelDTO);
+        getCoursesOfferedJointly(parentCluId, cluModelDTO);
+	}
+
+	private void getCourseFormats(String parentCluId, ModelDTO cluProposalDTO) {
+         
+        MapContext ctx = new MapContext();
+        ModelDTOValue.ListType courseFormatList = new ModelDTOValue.ListType();
+
+        try {	
+	        logger.debug("Retrieving course format clu(s) for clu with id: " + parentCluId);
+	        
+	        List<CluInfo> courseFormatCluInfos = service.getRelatedClusByCluId(parentCluId, LUConstants.LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT);
+	               
+	        for (CluInfo cfCluInfo : courseFormatCluInfos) {
+	        	ModelDTO cluInfoModelDTO = ctx.fromBean(cfCluInfo);
+	        	
+	        	ModelDTOValue.ModelDTOType cluInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
+	        	
+	        	cluInfoModelDTOValue.set(cluInfoModelDTO);
+	        	
+	        	courseFormatList.get().add(cluInfoModelDTOValue);
+	        	
+		        logger.debug("Retrieving activity clu(s) for clu with id: " + cfCluInfo.getId());
+		        List<CluInfo> activityCluInfos = service.getRelatedClusByCluId(cfCluInfo.getId(), LUConstants.LU_LU_RELATION_TYPE_CONTAINS);
+		        
+		        ModelDTOValue.ListType activityList = new ModelDTOValue.ListType();
+		        for (CluInfo activityCluInfo : activityCluInfos) {
+		        	ModelDTO activityCluDTO = ctx.fromBean(activityCluInfo);
+		        	ModelDTOValue.ModelDTOType activityCluDTOValue = new ModelDTOValue.ModelDTOType();
+		        	activityCluDTOValue.set(activityCluDTO);
+		        	activityList.get().add(activityCluDTOValue);
+		        }
+		        cluInfoModelDTO.put("activities", activityList);
+	        }
+	        cluProposalDTO.put("cluInfo/courseFormats", courseFormatList);
+	
+	    } catch (Exception e) {
+	        logger.error("Error getting Clu. " ,e);
+	    }
+	}
     
+	private void getCoursesOfferedJointly(String parentCluId, ModelDTO cluProposalDTO)  {
+        MapContext ctx = new MapContext();
+        ModelDTOValue.ListType courseList = new ModelDTOValue.ListType();
+
+		try {
+	        logger.debug("Retrieving course format clu(s) for clu with id: " + parentCluId);
+	        
+			List<CluInfo> jointlyOfferedCluInfos = service.getRelatedClusByCluId(parentCluId, LUConstants.LU_LU_RELATION_TYPE_JOINTLY_OFFERED);
+	        
+	        for (CluInfo cfCluInfo : jointlyOfferedCluInfos) {
+	        	ModelDTO cluInfoModelDTO = ctx.fromBean(cfCluInfo);
+	        	
+	        	ModelDTOValue.ModelDTOType cluInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
+	        	
+	        	cluInfoModelDTOValue.set(cluInfoModelDTO);
+	        	
+	        	courseList.get().add(cluInfoModelDTOValue);
+	        	
+	        }
+	        cluProposalDTO.put("cluInfo/offeredJointly", courseList);
+			
+	    } catch (Exception e) {
+	        logger.error("Error getting Clu. " ,e);
+	    }
+	}
 
 	private String getCurrentUser() {
         String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context

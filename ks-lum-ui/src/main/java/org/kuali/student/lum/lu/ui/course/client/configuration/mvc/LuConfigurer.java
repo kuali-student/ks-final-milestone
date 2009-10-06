@@ -33,7 +33,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -45,10 +44,10 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
@@ -247,9 +246,8 @@ public class LuConfigurer {
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY)); //Section title constants)
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING));//TODO OrgSearch goes here?
+        courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING)); //TODO OrgSearch goes here?
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", null, Type.STRING));
-        section.addSection(courseNumber);
         
         // TODO - hide cross-listed, offered jointly and version codes initially, with
         // clickable label to disclose them
@@ -258,7 +256,7 @@ public class LuConfigurer {
         VerticalSection crossListed = new VerticalSection();
         crossListed.setSectionTitle(SectionTitle.generateH3Title("Cross Listed (offered under alternate course numbers)"));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        crossListed.addField(new FieldDescriptor("alternateIdentifiers", null, Type.LIST, new CrossListedList()));
+        crossListed.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new CrossListedList()));
         crossListed.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(crossListed);
 
@@ -266,17 +264,14 @@ public class LuConfigurer {
         VerticalSection offeredJointly = new VerticalSection();
         offeredJointly.setSectionTitle(SectionTitle.generateH3Title("Offered Jointly (co-located with another course)"));
         // offeredJointly.setInstructions("Enter an existing course or proposal.");
-        // TODO - says 'alternateIdentifiers' in cluuifields spreadsheet
-        offeredJointly.addField(new FieldDescriptor("offeredJointly", null, Type.LIST, new OfferedJointlyList()));
+        offeredJointly.addField(new FieldDescriptor("cluInfo/offeredJointly", null, Type.LIST, new OfferedJointlyList()));
         offeredJointly.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(offeredJointly);
 
         //Version Codes
         VerticalSection versionCodes = new VerticalSection();
         versionCodes.setSectionTitle(SectionTitle.generateH3Title("Version Codes"));
-        
-        // TODO - says 'alternateIdentifiers' in cluuifields spreadsheet
-        versionCodes.addField(new FieldDescriptor("versionCodes", null, Type.LIST, new VersionCodeList()));
+        versionCodes.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new VersionCodeList()));
         versionCodes.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(versionCodes);
 
@@ -297,7 +292,7 @@ public class LuConfigurer {
         VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
         rationale.addField(new FieldDescriptor("cluInfo/marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
         
-        // section.addSection(courseNumber);
+        section.addSection(courseNumber);
         section.addSection(longTitle);
         section.addSection(shortTitle);
         section.addSection(description);
@@ -334,15 +329,17 @@ public class LuConfigurer {
         
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo"); // ??
-            
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
+            													"kuali.lu.type.CreditCourse.identifier.cross-listed",
+            													"active");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/department", "Department", Type.STRING, new OrgPicker()));//TODO OrgSearch goes here, wrong key
+            ns.addField(new FieldDescriptor("orgId", "Department", Type.STRING, new OrgPicker()));
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/division", "Subject Code", Type.STRING));//TODO OrgSearch goes here?
-            ns.addField(new FieldDescriptor("cluInfo/suffixCode", "Course Number", Type.STRING));
+            ns.addField(new FieldDescriptor("code", "Subject Code", Type.STRING));//TODO OrgSearch goes here?
+            ns.addField(new FieldDescriptor("suffixCode", "Course Number", Type.STRING));
+            
             multi.addSection(ns);
             
             return multi;
@@ -357,11 +354,11 @@ public class LuConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo"); // ??
+            MultiplicitySection multi = new MultiplicitySection("");
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/courseTitle", "Course Number or Title", Type.STRING /*, new CluPicker() */ ));
+            ns.addField(new FieldDescriptor("id", "Course Number or Title", Type.STRING /*, new CluPicker() */ ));
             multi.addSection(ns);
             
             return multi;
@@ -376,12 +373,13 @@ public class LuConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("CluInfo");//TODO Probably totally wrong
-            
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
+																"kuali.lu.type.CreditCourse.identifier.version",
+																"active");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/versionCode", "Code", Type.STRING));//TODO wrong key
-            ns.addField(new FieldDescriptor("cluInfo/title", "Title", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("variation", "Code", Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("shortName", "Title", Type.STRING));//TODO wrong key
             multi.addSection(ns);
             
             return multi;
@@ -409,7 +407,7 @@ public class LuConfigurer {
 
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
-        courseFormats.addField(new FieldDescriptor("courseFormats", null, Type.LIST, new CourseFormatList()));
+        courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
 
         section.addSection(credits);
         section.addSection(learningResults);
@@ -426,7 +424,7 @@ public class LuConfigurer {
         }
 
         public Widget createItem() {
-            MultiplicitySection item = new MultiplicitySection("CluInfo");
+            MultiplicitySection item = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
             //TODO: Do we need ability to add hidden fields, so key/value pairs can be set into ModelDTO
             //e.g. addHiddenField("type", "kuali.lu.type.CreditCourseFormatShell");
 
@@ -443,7 +441,7 @@ public class LuConfigurer {
         }
 
         public Widget createItem() {
-            MultiplicitySection item = new MultiplicitySection("CluInfo");
+            MultiplicitySection item = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
             CustomNestedSection activity = new CustomNestedSection();
             activity.addField(new FieldDescriptor("cluInfo/type", "Activity Type", Type.STRING, new CluActivityType()));
             activity.nextRow();

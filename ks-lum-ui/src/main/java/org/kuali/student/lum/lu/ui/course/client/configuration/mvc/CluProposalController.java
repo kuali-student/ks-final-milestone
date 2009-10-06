@@ -298,6 +298,7 @@ public class CluProposalController extends PagedSectionLayout{
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {
+                	result.setAdaptersCreated(false);
                     cluProposalModel.put(result);
                     saveActionEvent.doActionComplete();                    
                 }
@@ -313,6 +314,7 @@ public class CluProposalController extends PagedSectionLayout{
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {
+                	result.setAdaptersCreated(false);
                     cluProposalModel.put(result);
                     saveActionEvent.doActionComplete();                    
                 }
