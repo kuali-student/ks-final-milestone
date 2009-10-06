@@ -97,60 +97,14 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 
         sectionButtonPanel.add(nextButton);
         
-        //TEST CODE
-		List<ValidationResultContainer> vrList = new ArrayList<ValidationResultContainer>();
-		ValidationResultContainer vr1 = new ValidationResultContainer();
-		vr1.addMessage(ErrorLevel.ERROR, "Error Message 1");
-		vr1.addMessage(ErrorLevel.ERROR, "Error Message 2");
-		vr1.addMessage(ErrorLevel.WARN, "Warn Message");
-		vr1.addMessage(ErrorLevel.OK, "OK Message");
-		vr1.setElement("/officialIdentifier/longName");
+		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
+            @Override
+            public void onValidateResult(ValidateResultEvent event) {
+               List<ValidationResultContainer> list = event.getValidationResult();
+               startSectionView.processValidationResults(list);
+            }
+        });
 		
-		ValidationResultContainer vr2 = new ValidationResultContainer();
-		vr2.addError("Long Long Long Long Long Long Long Long Long Long Long Long Long Error Message 1");
-		vr2.addError("Error Message 2");
-		vr2.setElement("/officialIdentifier/shortName");
-		
-/*		ValidationResultContainer vr3 = new ValidationResultContainer();
-		vr3.addError("Error Message 1");
-		vr3.addError("Error Message 2");
-		vr3.setElement("/officialIdentifier/shortName");*/
-		
-		ValidationResultContainer vr4 = new ValidationResultContainer();
-		vr4.addError("Error Message 1");
-		vr4.addError("Error Message 2");
-		vr4.setElement("desc");
-		
-		ValidationResultContainer vr5 = new ValidationResultContainer();
-		vr5.addError("Error Message 1");
-		vr5.addError("Error Message 2");
-		vr5.setElement("marketingDesc");
-		
-		ValidationResultContainer vr6 = new ValidationResultContainer();
-		vr6.addError("Error Message 1");
-		vr6.addError("Error Message 2");
-		vr6.setElement("/officialIdentifier/division");
-		
-		ValidationResultContainer vr7 = new ValidationResultContainer();
-		vr7.addError("Error Message 1");
-		vr7.addError("Error Message 2");
-		vr7.setElement("/officialIdentifier/suffixCode");
-		
-		
-		vrList.add(vr1);
-		vrList.add(vr2);
-		//vrList.add(vr3);
-		vrList.add(vr4);
-		vrList.add(vr5);
-		vrList.add(vr6);
-		vrList.add(vr7);
-		
-		Collection<View> sections = sectionViewMap.values();
-        for(View v: sections){
-     	   if(v instanceof SectionView){
-     		   ((SectionView) v).processValidationResults(vrList);
-     	   }
-        }
 	}
 	
 	@Override
