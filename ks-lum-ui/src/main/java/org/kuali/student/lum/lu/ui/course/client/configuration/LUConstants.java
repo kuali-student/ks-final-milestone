@@ -32,8 +32,8 @@ public class LUConstants {
     public final static String LU_TYPE_CREDIT_COURSE = "luType.shell.course";
     
 	// found this in https://test.kuali.org/confluence/display/KULSTU/LuConfig.Types.LuLuRelationType
-    public final static String LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT = "luluRelationTYpe.hasCourseFormat";
-    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luluRelationTYpe.contains";
+    public final static String LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT = "luLuRelationType.hasCourseFormat";
+    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luLuRelationType.contains";
     public final static String LU_LU_RELATION_TYPE_CROSS_LISTED = "luLuRelationType.alias";
     public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
 

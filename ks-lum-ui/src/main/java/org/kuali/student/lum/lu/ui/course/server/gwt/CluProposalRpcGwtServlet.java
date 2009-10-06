@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -657,33 +659,40 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     
     private void saveCourseFormats(CluInfo parentCluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
         ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType) cluProposalDTO.get("cluInfo/courseFormats");
+        /* HACK for null adapter field in cluProposalDTO */
+        if (null == courseFormatListType) {
+        	// Object obj = cluProposalDTO.get("cluInfo");
+        	courseFormatListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("courseFormats");
+        }
         MapContext ctx = new MapContext();
         
         if (courseFormatListType != null) { 
             List<ModelDTOValue> courseFormatList = courseFormatListType.get();
             List<String> courseFormatIds = new ArrayList<String>();
             
-            for (ModelDTOValue courseFormatValue : courseFormatList){
+            for (ModelDTOValue courseFormatValue : courseFormatList) {
             	
-                ModelDTO courseFormatModelDTO = ((ModelDTOValue.ModelDTOType) courseFormatValue).get();
+                ModelDTOValue.ListType courseFormatModelDTO = (ModelDTOValue.ListType) courseFormatValue;
 	        	List<String> activityIds = new ArrayList<String>();
                 
-                CluInfo courseFormatShell = (CluInfo) ctx.fromModelDTO(courseFormatModelDTO);
+                CluInfo courseFormatShell = new CluInfo();
+                courseFormatShell.setType("kuali.lu.type.CreditCourseFormatShell");	// TODO - a constant somewhere?
+                courseFormatShell.setState("draft"); 							// TODO - a constant somewhere?
 	        	
-		        ModelDTOValue.ListType activityListType = (ModelDTOValue.ListType) courseFormatModelDTO.get("activities");
-		        if (null != activityListType) {
-		        	List<ModelDTOValue> activityList = activityListType.get();
+               
+		        List<ModelDTOValue> activityTypeList = ((ModelDTOValue.ListType) courseFormatValue).get();
+		        if (null != activityTypeList) {
 		        	
-		        	for (ModelDTOValue activityValue : activityList) {
+		        	for (ModelDTOValue activityValue : activityTypeList) {
 		        		ModelDTO activityModelDTO = ((ModelDTOValue.ModelDTOType) activityValue).get();
                 
 		                CluInfo activityCluInfo = (CluInfo) ctx.fromModelDTO(activityModelDTO);
 		                
 			            // Create or update clu via LuService
-		                try {
-			                activityCluInfo = service.updateClu(activityCluInfo.getType(), activityCluInfo);
-		                } catch (DoesNotExistException dnee) {
+		                if (null == activityCluInfo.getId()) {
 			                activityCluInfo = service.createClu(activityCluInfo.getType(), activityCluInfo);
+		                } else {
+			                activityCluInfo = service.updateClu(activityCluInfo.getId(), activityCluInfo);
 		                }
 		                
 			            ModelDTO newModelDTO = (ModelDTO) ctx.fromBean(activityCluInfo);
@@ -693,13 +702,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		        }
 		        
 	            // Create or update clu via LuService
-                try {
-	                courseFormatShell = service.updateClu(courseFormatShell.getType(), courseFormatShell);
-                } catch (DoesNotExistException dnee) {
+		        if (null == courseFormatShell.getId()) {
 	                courseFormatShell = service.createClu(courseFormatShell.getType(), courseFormatShell);
-                }
+		        }
+		        else {
+	                courseFormatShell = service.updateClu(courseFormatShell.getId(), courseFormatShell);
+		        }
+	                
 	            ModelDTO newModelDTO = (ModelDTO) ctx.fromBean(courseFormatShell);
-                courseFormatModelDTO.copyFrom(newModelDTO);
+                // courseFormatModelDTO.set(arg0);
 		                
                 // create the CourseFormat->Activity relationships
                 for (String activityId : activityIds)  {
@@ -728,17 +739,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	                service.createCluCluRelation(ccrInfo.getCluId(), ccrInfo.getRelatedCluId(), ccrInfo.getType(), ccrInfo);
                 } catch (AlreadyExistsException aee) {} // should't be a problem
             }
-            // TODO - what if they add a course format & associated activity(ies), and then
-            //			remove one or more activities, or the course format as a whole?
-            //        probably have to retrieve ...COURSE_FORMAT and ...CONTAINS LuLuRelations on entry, and delete
-            //        those that aren't currently in the ModelDTO. Or, rethink the whole persistence flow...
-            //     or, probably, grab them all associated via the relationship types and delete those that aren't
-            //			currently in the ModelDTO (starting with CONTAINS and then up to COURSE_FORMAT
+            // TODO - delete activity or course-format and associated activities when delete button is pressed in multiplicities
         }
     }
     
     private void saveCoursesOfferedJointly(CluInfo parentCluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
         ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType) cluProposalDTO.get("cluInfo/offeredJointly");
+        /* HACK for null adapter field in cluProposalDTO */
+        if (null == offeredJointlyListType) {
+        	// Object obj = cluProposalDTO.get("cluInfo");
+        	offeredJointlyListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("offeredJointly");
+        }
         if (null != offeredJointlyListType) {
 	        MapContext ctx = new MapContext();
         	List<ModelDTOValue> offeredJointlyList = offeredJointlyListType.get();
@@ -820,7 +831,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
         	boolean authorized=true;
         	try{
-            logger.debug("Retreiving clu proposal with proposal id " + proposalId);
+            logger.debug("Retrieving clu proposal with proposal id " + proposalId);
             
             //Get proposal
             ProposalInfo proposalInfo = proposalService.getProposal(proposalId);
@@ -926,12 +937,16 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        	
 	        	cluInfoModelDTOValue.set(cluInfoModelDTO);
 	        	
+	        	if (null == courseFormatList.get()) {
+	        		courseFormatList.set(new ArrayList<ModelDTOValue>());
+	        	}
 	        	courseFormatList.get().add(cluInfoModelDTOValue);
 	        	
 		        logger.debug("Retrieving activity clu(s) for clu with id: " + cfCluInfo.getId());
 		        List<CluInfo> activityCluInfos = service.getRelatedClusByCluId(cfCluInfo.getId(), LUConstants.LU_LU_RELATION_TYPE_CONTAINS);
 		        
 		        ModelDTOValue.ListType activityList = new ModelDTOValue.ListType();
+		        activityList.set(new ArrayList<ModelDTOValue>());
 		        for (CluInfo activityCluInfo : activityCluInfos) {
 		        	ModelDTO activityCluDTO = ctx.fromBean(activityCluInfo);
 		        	ModelDTOValue.ModelDTOType activityCluDTOValue = new ModelDTOValue.ModelDTOType();
@@ -940,7 +955,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		        }
 		        cluInfoModelDTO.put("activities", activityList);
 	        }
-	        cluProposalDTO.put("cluInfo/courseFormats", courseFormatList);
+	        // will only work when cluProposalDTO has an adapter
+	        // cluProposalDTO.put("cluInfo/courseFormats", courseFormatList);
+        	// HACK
+        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("courseFormats", courseFormatList);
 	
 	    } catch (Exception e) {
 	        logger.error("Error getting Clu. " ,e);
@@ -950,6 +968,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	private void getCoursesOfferedJointly(String parentCluId, ModelDTO cluProposalDTO)  {
         MapContext ctx = new MapContext();
         ModelDTOValue.ListType courseList = new ModelDTOValue.ListType();
+    	List<ModelDTOValue> courseModelDTOValueList = new ArrayList<ModelDTOValue>();;
 
 		try {
 	        logger.debug("Retrieving course format clu(s) for clu with id: " + parentCluId);
@@ -963,11 +982,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        	
 	        	cluInfoModelDTOValue.set(cluInfoModelDTO);
 	        	
-	        	courseList.get().add(cluInfoModelDTOValue);
-	        	
+				courseModelDTOValueList.add(cluInfoModelDTOValue);
 	        }
+        	courseList.set(courseModelDTOValueList);
+        	
+	        // will only work when cluProposalDTO has an adapter
+	        // cluProposalDTO.put("cluInfo/offeredJointly", courseList);
+        	// HACK
+        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("offeredJointly", courseList);
 	        cluProposalDTO.put("cluInfo/offeredJointly", courseList);
-			
 	    } catch (Exception e) {
 	        logger.error("Error getting Clu. " ,e);
 	    }

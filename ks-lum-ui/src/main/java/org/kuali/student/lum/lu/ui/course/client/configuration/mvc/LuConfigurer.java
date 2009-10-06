@@ -443,7 +443,7 @@ public class LuConfigurer {
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
             CustomNestedSection activity = new CustomNestedSection();
-            activity.addField(new FieldDescriptor("cluInfo/type", "Activity Type", Type.STRING, new CluActivityType()));
+            activity.addField(new FieldDescriptor("type", "Activity Type", Type.STRING, new CluActivityType()));
             activity.nextRow();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
@@ -456,13 +456,13 @@ public class LuConfigurer {
             */
 
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("cluInfo/term", "Term", Type.STRING, new AtpTypeList()));
-            activity.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO dropdown need here?
+            activity.addField(new FieldDescriptor("term", "Term", Type.STRING, new AtpTypeList()));
+            activity.addField(new FieldDescriptor("stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Contact Hours", Type.STRING));
+            activity.addField(new FieldDescriptor("intensity/timeQuantity", "Contact Hours", Type.STRING));
             //TODO PER WHATEVER
-            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Class Size", Type.STRING));
+            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Class Size", Type.INTEGER));
 
             item.addSection(activity);
 
