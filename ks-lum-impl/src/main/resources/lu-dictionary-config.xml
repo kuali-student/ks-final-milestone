@@ -1907,12 +1907,12 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 					<dict:fieldDescriptor>
 						<dict:name>course academicSubjectOrgs</dict:name>
 						<dict:desc>course ademicSubjectOrgs</dict:desc>
-						<dict:dataType>complex</dict:dataType>
+						<dict:dataType>string</dict:dataType>
 					</dict:fieldDescriptor>
 					<dict:constraintDescriptor>
 							<dict:constraintRef bean="optional"/>
 							<dict:constraintRef bean="repeating"/>
-							<dict:constraintRef bean="not.used"/>
+							<!-- <dict:constraintRef bean="not.used"/> -->
 					</dict:constraintDescriptor>
 				</dict:field>
 				
