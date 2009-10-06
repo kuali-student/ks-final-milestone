@@ -19,11 +19,8 @@
 			</map>
 		</property>
 	</bean>
-	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
-		<property name="properties" ref="configProperties" />
-	</bean>
 
-	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean">
+	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-lum-ui-config.xml</value>
