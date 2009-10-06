@@ -1,7 +1,10 @@
 <config>
 
     <param name="module.name">ks-lum-ui</param>
-
+    <param name="db.vendor">oracle</param>
+	<param name="jpa.vendor">hibernate</param>
+	
+	
     <param name="environment" override="false">dev</param>
     <param name="app.code" override="false">ks-lum</param>
 	<param name="app.context.name" override="false">${app.code}</param>
@@ -19,11 +22,15 @@
     <param name="rice.ksb.jpa.enabled">true</param>
 
     <param name="rice.ksb.registry.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
-    <param name="rice.ksb.registry.jpa.PersistenceUnitName">ksb-registry-identity-unit</param>
+     <param name="rice.ksb.registry.jpa.PersistenceUnitName.derby">ksb-registry-identity-unit</param>
+    <param name="rice.ksb.registry.jpa.PersistenceUnitName.oracle">ksb-registry-sequence-unit</param>
+    <param name="rice.ksb.registry.jpa.PersistenceUnitName">${rice.ksb.registry.jpa.PersistenceUnitName.${db.vendor}}</param>
     <param name="rice.ksb.registry.jpa.GenerateDdl">true</param>
 
     <param name="rice.ksb.message.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
-    <param name="rice.ksb.message.jpa.PersistenceUnitName">ksb-message-identity-unit</param>
+    <param name="rice.ksb.message.jpa.PersistenceUnitName.derby">ksb-message-identity-unit</param>
+    <param name="rice.ksb.message.jpa.PersistenceUnitName.oracle">ksb-message-sequence-unit</param>
+    <param name="rice.ksb.message.jpa.PersistenceUnitName">${rice.ksb.message.jpa.PersistenceUnitName.${db.vendor}}</param>
     <param name="rice.ksb.message.jpa.GenerateDdl">true</param>
 
     <!-- these are defaulted to false already, helpful to turn on for debug -->
@@ -35,18 +42,34 @@
     <param name="rice.jpa.UseSerialization">false</param>
     <param name="datasource.ojb.platform">Derby</param>
  
-    <param name="datasource.driver.name">org.apache.derby.jdbc.ClientDriver</param>
-    <param name="datasource.url">jdbc:derby://localhost:1527/derby/rice-db</param>
+    <param name="datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
+    <param name="datasource.url.derby">jdbc:derby://localhost:1527/derby/rice-db</param>
     <!--
     <param name="datasource.url">jdbc:derby:target/derby/rice-db;create=true</param>
     -->    
-    <param name="datasource.username">rice</param>
-    <param name="datasource.password">r1c3</param>
+    <param name="datasource.username.derby">rice</param>
+    <param name="datasource.password.derby">r1c3</param>
     <param name="datasource.pool.validationQuery">values(1)</param>
     <param name="datasource.pool.maxWait">600</param>
     <param name="datasource.pool.size">5</param>
     <param name="datasource.pool.maxSize">10</param>
     <param name="datasource.pool.minSize">10</param>
+    
+     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
+	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
+	<param name="datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="datasource.username.oracle">rice100br</param>
+	<param name="datasource.password.oracle">kuali</param>
+	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>
+	<param name="rice.ksb.jpa.enabled.oracle">true</param>  
+	
+	<param name="rice.jpa.DatabasePlatform">${rice.jpa.DatabasePlatform.${db.vendor}}</param>
+	<param name="datasource.driver.name">${datasource.driver.name.${db.vendor}}</param>
+	<param name="datasource.url">${datasource.url.${db.vendor}}</param>
+	<param name="datasource.username">${datasource.username.${db.vendor}}</param>
+	<param name="datasource.password">${datasource.password.${db.vendor}}</param>
+	<param name="datasource.pool.validationQuery">${datasource.pool.validationQuery.${db.vendor}}</param>
+	<param name="rice.ksb.jpa.enabled">${rice.ksb.jpa.enabled.${db.vendor}}</param>  
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>

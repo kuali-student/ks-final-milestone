@@ -8,7 +8,7 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
-    <import resource="classpath:META-INF/database-context.xml"/>
+    <import resource="classpath:database-context.xml"/>
 
     <!-- ApplicationStateManger Config -->
     <bean id="applicationStateDao"
@@ -41,6 +41,10 @@
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService">
 					<ref bean="LuRpcGwtServletController" />
+				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MessageService">
+					<ref bean="messageServiceGwtController" />
 				</entry>
 				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/OrgRpcService">
@@ -122,6 +126,11 @@
 		<property name="servletName" value="ServerPropertiesServlet" />
 		<property name="servletInstance" ref="ServerPropertiesServlet" />
 	</bean>
+	
+	<bean id="messageServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="messagesServiceGwt" />
+		<property name="servletInstance" ref="messagesServiceGwt" />
+	</bean>
 
 	<bean id="OrgRpcGwtServletController"
 		class="org.kuali.student.common.ws.ServletWrappingController">
@@ -196,6 +205,11 @@
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 	</bean>
 	
+	<bean id="messagesServiceGwt"
+		class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
+		<property name="serviceImpl" ref="messageClient" />
+	</bean>
+	
 	<bean id="CommentRpcGwtServlet"
 		class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
 		<property name="service" ref="commentClient" />
@@ -251,6 +265,11 @@
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+	
+	<bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.messages.service.MessageService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
