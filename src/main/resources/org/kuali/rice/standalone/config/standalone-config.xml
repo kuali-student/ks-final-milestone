@@ -74,6 +74,14 @@
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	
+	<!-- Rice Urls -->
+	<param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
+	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+    
+    <!-- LumUrls -->
+    <param name="ks.lum.MainEntryPoint">http://localhost:8081/ks-rice-dev/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
+   
+	
 	<!-- Lum DB settings -->
 <!--	<param name="ks.lum.datasource.driver.name">oracle.jdbc.OracleDriver</param>-->
 <!--	<param name="ks.lum.datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>-->
