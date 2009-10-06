@@ -277,6 +277,9 @@ public class CluProposalController extends PagedSectionLayout{
         if (proposalName == null){
             showStartSection();
         } else {
+            getStartSection().updateModel();
+            getCurrentView().updateModel();
+            
             processingSave=true;
             View v = getCurrentView();
         	if(v instanceof SectionView){
@@ -287,7 +290,6 @@ public class CluProposalController extends PagedSectionLayout{
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
-        getCurrentView().updateModel();
         ((ModelDTO)cluProposalModel.get()).commit();
         
         if(cluProposalModel.get().get("cluInfo/id") == null){
