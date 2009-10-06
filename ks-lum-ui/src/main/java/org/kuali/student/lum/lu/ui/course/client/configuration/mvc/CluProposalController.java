@@ -266,13 +266,13 @@ public class CluProposalController extends PagedSectionLayout{
         } else {
             getStartSection().updateModel();
             getCurrentView().updateModel();
-            
-            processingSave=true;
-            View v = getCurrentView();
-        	if(v instanceof SectionView){
-        		((SectionView) v).setFieldHasHadFocusFlags(true);
-        		this.validate((SectionView)v);
-        	}
+            saveProposalClu(saveActionEvent);
+//            processingSave=true;
+//            View v = getCurrentView();
+//        	if(v instanceof SectionView){
+//        		((SectionView) v).setFieldHasHadFocusFlags(true);
+//        		this.validate((SectionView)v);
+//        	}
         }
     }
     
