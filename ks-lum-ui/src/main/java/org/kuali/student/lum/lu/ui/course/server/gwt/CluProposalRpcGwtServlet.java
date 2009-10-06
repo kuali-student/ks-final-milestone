@@ -658,15 +658,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
     
     private void saveCourseFormats(CluInfo parentCluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType) cluProposalDTO.get("cluInfo/courseFormats");
-        /* HACK for null adapter field in cluProposalDTO */
-        if (null == courseFormatListType) {
-        	// Object obj = cluProposalDTO.get("cluInfo");
-        	courseFormatListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("courseFormats");
-        }
-        MapContext ctx = new MapContext();
+        ModelDTOValue.ListType courseFormatListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("courseFormats");
         
         if (courseFormatListType != null) { 
+	        MapContext ctx = new MapContext();
+	        
             List<ModelDTOValue> courseFormatList = courseFormatListType.get();
             List<String> courseFormatIds = new ArrayList<String>();
             
@@ -744,12 +740,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
     
     private void saveCoursesOfferedJointly(CluInfo parentCluInfo, CluProposalModelDTO cluProposalDTO) throws Exception{
-        ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType) cluProposalDTO.get("cluInfo/offeredJointly");
-        /* HACK for null adapter field in cluProposalDTO */
-        if (null == offeredJointlyListType) {
-        	// Object obj = cluProposalDTO.get("cluInfo");
-        	offeredJointlyListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("offeredJointly");
-        }
+        ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("offeredJointly");
+        
         if (null != offeredJointlyListType) {
 	        MapContext ctx = new MapContext();
         	List<ModelDTOValue> offeredJointlyList = offeredJointlyListType.get();
@@ -955,9 +947,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		        }
 		        cluInfoModelDTO.put("activities", activityList);
 	        }
-	        // will only work when cluProposalDTO has an adapter
-	        // cluProposalDTO.put("cluInfo/courseFormats", courseFormatList);
-        	// HACK
         	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("courseFormats", courseFormatList);
 	
 	    } catch (Exception e) {
@@ -986,11 +975,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        }
         	courseList.set(courseModelDTOValueList);
         	
-	        // will only work when cluProposalDTO has an adapter
-	        // cluProposalDTO.put("cluInfo/offeredJointly", courseList);
-        	// HACK
         	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("offeredJointly", courseList);
-	        cluProposalDTO.put("cluInfo/offeredJointly", courseList);
 	    } catch (Exception e) {
 	        logger.error("Error getting Clu. " ,e);
 	    }
