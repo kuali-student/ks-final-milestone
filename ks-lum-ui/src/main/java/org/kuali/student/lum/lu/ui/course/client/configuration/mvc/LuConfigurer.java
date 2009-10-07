@@ -169,7 +169,7 @@ public class LuConfigurer {
         startDate.addField(new FieldDescriptor("cluInfo/effectiveDate", "When will this course be active?", Type.DATE, new KSDatePicker()));
 
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
-        endDate.addField(new FieldDescriptor("cluInfo/expirationDate", "When will this course become inactive?", Type.DATE, new KSDatePicker()));
+        endDate.addField(new FieldDescriptor("cluInfo/expirationDate", "When will this course be inactive?", Type.DATE, new KSDatePicker()));
 
         section.addSection(startDate);
         section.addSection(endDate);
@@ -219,15 +219,13 @@ public class LuConfigurer {
         campus.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.STRING, new CampusLocationList()));
 
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORGS_LABEL_KEY), WITH_DIVIDER);    
-        adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new OrgPicker()));
+        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
+//        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         
-        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTORS_LABEL_KEY), WITH_DIVIDER);    
-        instructors.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", null, Type.STRING));
         
         section.addSection(oversight);
         section.addSection(campus);
         section.addSection(adminOrgs);
-        section.addSection(instructors);
 
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
@@ -391,6 +389,10 @@ public class LuConfigurer {
                 getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
 
+        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTORS_LABEL_KEY), WITH_DIVIDER);    
+        instructors.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", null, Type.STRING));
+//        instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
+
         //CREDITS
         VerticalSection credits = initSection(getH3Title(LUConstants.CREDITS_LABEL_KEY), WITH_DIVIDER);
         //TODO: These needs to be mapped to learning results
@@ -409,6 +411,7 @@ public class LuConfigurer {
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
         courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
 
+        section.addSection(instructors);
         section.addSection(credits);
         section.addSection(learningResults);
         section.addSection(scheduling);
@@ -558,6 +561,44 @@ public class LuConfigurer {
 		public HandlerRegistration addBlurHandler(BlurHandler handler) {
 			return orgPicker.addBlurHandler(handler);
 		}
+    }
+    
+    public static class AlternateAdminOrgList extends MultiplicityCompositeWithLabels {
+        {
+            setAddItemLabel("Add an Alternate Admin Organization");
+            setItemLabel("Organization ID ");
+        }
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection("");
+            
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("orgId", "Organization ID", Type.STRING, new OrgPicker() ));
+            multi.addSection(ns);
+            
+            return multi;
+        }
+    }
+    
+    public static class AlternateInstructorList extends MultiplicityCompositeWithLabels {
+        {
+            setAddItemLabel("Add an Alternate Instructor.");
+            setItemLabel("Instructor ID");
+        }
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection("");
+            
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("personId", "Instructor ID", Type.STRING /*, new InstructorPicker() */ ));
+            multi.addSection(ns);
+            
+            return multi;
+        }
     }
 
     //FIXME: Create a configurable checkbox list which can obtain values via RPC calls

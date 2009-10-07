@@ -22,7 +22,7 @@ public class CluDictionaryClassNameHelper {
 	public static final String CLU_INSTRUCTOR_INFO_CLASS = CluInstructorInfo.class.getName();
 	public static final String CLU_PUBLISHING_INFO_KEY = "cluPublishingInfo";
 	public static final String CLU_PUBLISHING_INFO_CLASS = CluPublishingInfo.class.getName();
-    public static final String CLU_ADMIN_ORG_INFO_KEY = "cluAdminOrgInfo";
+    public static final String CLU_ADMIN_ORG_INFO_KEY = "adminOrgInfo";
     public static final String CLU_ADMIN_ORG_INFO_CLASS = AdminOrgInfo.class.getName();
     public static final String CLU_TIME_AMOUNT_INFO_KEY = "timeAmountInfo";
     public static final String CLU_TIME_AMOUNT_INFO_CLASS = TimeAmountInfo.class.getName();
