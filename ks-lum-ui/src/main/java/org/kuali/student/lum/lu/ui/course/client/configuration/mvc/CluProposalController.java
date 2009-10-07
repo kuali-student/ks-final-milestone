@@ -15,12 +15,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -28,7 +25,6 @@ import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -336,7 +332,9 @@ public class CluProposalController extends PagedSectionLayout{
     }
     
     public void clear(){
+        super.clear();
         this.cluProposalModel = null;
+        this.setModelDTO(null, null);
         this.docId = null;
         this.proposalId = null;
         this.savedOnce=false;
