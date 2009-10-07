@@ -281,8 +281,10 @@ public class ViewCluConfigurer {
     
     private static VerticalSection generateAdminOrgs(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
+        section.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new KSLabel()));
+        //FIXME: need to switch to use the new fields once workflow is fixed
+//        section.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         return section;
     }
 
