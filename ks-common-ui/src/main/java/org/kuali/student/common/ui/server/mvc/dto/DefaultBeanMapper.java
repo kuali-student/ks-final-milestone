@@ -126,7 +126,7 @@ public class DefaultBeanMapper implements BeanMapper {
                         if (value.keySet().contains(propKey)) {
                             PropertyMapping pm = getPropertyMapping(propKey, defaultPropertyMappingInstance);
                             Object propValue = pm.fromModelDTOValue(value.get(propKey), context);
-                            if(pd.getWriteMethod() != null){    
+                            if(pd.getWriteMethod() != null & propValue != null){    
                                     pd.getWriteMethod().invoke(result, new Object[] {propValue});
                             }
                         }
