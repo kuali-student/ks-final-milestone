@@ -125,7 +125,10 @@ public class ModelDTO implements Serializable {
 			for(String mk: transientMap.keySet()){
 				ModelDTOValue value = transientMap.get(mk);
 				if(value instanceof ModelDTOType){
-					((ModelDTOType) value).get().commit();
+				    ModelDTO m =((ModelDTOType) value).get();  
+					if (m != null) {
+					    m.commit();
+					}
 				}
 				else if(value instanceof ListType){
 					listCommit(((ListType) value).get());
@@ -137,13 +140,18 @@ public class ModelDTO implements Serializable {
 	}
 	
 	private void listCommit(List<ModelDTOValue> list){
-		for(ModelDTOValue value : list){
-			if(value instanceof ModelDTOType){
-				((ModelDTOType) value).get().commit();
-			}
-			else if(value instanceof ListType){
-				listCommit(((ListType) value).get());
-			}
+	    if (list != null) {
+    		for(ModelDTOValue value : list){
+    			if(value instanceof ModelDTOType){
+    			    ModelDTO m =((ModelDTOType) value).get();  
+                    if (m != null) {
+                        m.commit();
+                    }
+    			}
+    			else if(value instanceof ListType){
+    				listCommit(((ListType) value).get());
+    			}
+    		}
 		}
 	}
 	
@@ -153,7 +161,10 @@ public class ModelDTO implements Serializable {
 			for(String mk: transientMap.keySet()){
 				ModelDTOValue value = transientMap.get(mk);
 				if(value instanceof ModelDTOType){
-					((ModelDTOType) value).get().rollback();
+				    ModelDTO m =((ModelDTOType) value).get();  
+                    if (m != null) {
+                        m.rollback();
+                    }
 				}
 			}
 		}
