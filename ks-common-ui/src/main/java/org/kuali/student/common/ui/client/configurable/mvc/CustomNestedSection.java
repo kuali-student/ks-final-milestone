@@ -1,9 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -23,8 +20,7 @@ public class CustomNestedSection extends Section{
 
     @Override
     public void clear() {
-        // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-        
+        super.clear();        
     }
     
     public FieldLabelType getCurrentFieldLabelType() {

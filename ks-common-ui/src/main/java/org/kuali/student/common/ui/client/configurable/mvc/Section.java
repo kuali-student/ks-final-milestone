@@ -258,7 +258,16 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         }
     }
 
-    public abstract void clear();
+    public void clear(){
+        for (Section s:sections){
+            s.clear();
+        }
+        
+        for (RowDescriptor rd:rows){
+            rd.clear();
+        }
+    }
+    
     public abstract void redraw();
     
 	public void processValidationResults(List<ValidationResultContainer> results) {	

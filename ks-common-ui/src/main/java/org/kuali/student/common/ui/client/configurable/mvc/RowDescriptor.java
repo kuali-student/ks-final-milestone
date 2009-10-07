@@ -126,4 +126,18 @@ public class RowDescriptor extends Composite{
     public void clearValidationMessages(){
     	validationPanel.clear();
     }
+    
+    public void clear(){
+        clearValidationMessages();
+        for (Section s:sections){
+            s.clear();
+        }
+        for (FieldDescriptor fd:fields){
+            //TODO: Only resettting multplicity composite, should approporiately reset clear all field widgets
+            Widget field = fd.getFieldWidget();
+            if (field instanceof MultiplicityComposite){
+                ((MultiplicityComposite)field).clear();
+            }
+        }
+    }
 }

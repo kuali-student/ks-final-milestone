@@ -69,10 +69,6 @@ public class VerticalSectionView extends SectionView {
         });
 	}
 	
-	public void clear(){
-	    //TODO: Reset the form...form will require clear/reset method();
-	}
-
     @Override	
 	public void redraw(){
 		super.updateView(model.get());

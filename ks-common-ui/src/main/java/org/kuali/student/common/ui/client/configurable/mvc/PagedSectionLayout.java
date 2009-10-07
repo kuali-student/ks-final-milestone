@@ -279,4 +279,10 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
         this.modelDTOType = modelDTOType;
     }
 
+    public void clear(){
+        for (View view:orderedSectionViews){
+            view.clear();            
+        }
+        
+    }
 }

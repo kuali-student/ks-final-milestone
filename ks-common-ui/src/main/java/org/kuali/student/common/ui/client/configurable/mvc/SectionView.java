@@ -1,10 +1,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 /**
  * 
@@ -88,15 +85,6 @@ public abstract class SectionView extends Section implements View{
     public String getName() {
         return viewName;
     }
-
-    /**
-     * Used to clear view 
-     * 
-     * @see org.kuali.student.common.ui.client.mvc.View#clear()
-     */
-    public void clear(){
-        //do nothing
-    }        
     
     public void setController(Controller controller) {
     	if (controller instanceof LayoutController) {
