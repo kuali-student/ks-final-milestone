@@ -31,7 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class OrgEntryPoint implements EntryPoint{
 
     ApplicationComposite app;
-    private OrgMenu orgMenu;
+    SimplePanel content = new SimplePanel();
+    private OrgMenu orgMenu = new OrgMenu(content);;
     
     public void onModuleLoad() {
         final ApplicationContext context = new ApplicationContext();
@@ -58,14 +59,12 @@ public class OrgEntryPoint implements EntryPoint{
     
     public Widget getContent(){
         DockPanel mainPanel = new DockPanel();
-        SimplePanel content = new SimplePanel();
         
         Label pageTitle = new Label("Organization Management");
         pageTitle.setStyleName("page-title");        
         mainPanel.setStyleName("ks-main");
         mainPanel.add(pageTitle, DockPanel.NORTH);
 
-        orgMenu = new OrgMenu(content); 
         mainPanel.add(orgMenu, DockPanel.WEST);
         mainPanel.setCellWidth(orgMenu, "200px");
         mainPanel.add(content, DockPanel.CENTER);
