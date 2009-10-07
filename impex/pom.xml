@@ -61,6 +61,18 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
+							<sqlCommand>CREATE USER "KSLUM" IDENTIFIED BY KSLUM
+								DEFAULT TABLESPACE "USERS"
+								TEMPORARY TABLESPACE "TEMP"/
+								GRANT RESOURCE to KSLUM/
+								GRANT CONNECT to KSLUM/
+								GRANT DBA to KSLUM/
+								CREATE USER "KSCORE" IDENTIFIED BY KSCORE
+								DEFAULT TABLESPACE "USERS"
+								TEMPORARY TABLESPACE "TEMP"/
+								GRANT RESOURCE to KSCORE/
+								GRANT CONNECT to KSCORE/
+								GRANT DBA to KSCORE</sqlCommand>
 							<srcFiles>
 								<srcFile>${project.build.directory}/impex-checkout/impex/create_kul_developer.sql</srcFile>
 								<srcFile>${project.build.directory}/impex-checkout/impex/system_grants.sql</srcFile>
@@ -84,7 +96,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -108,7 +120,7 @@
 
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
