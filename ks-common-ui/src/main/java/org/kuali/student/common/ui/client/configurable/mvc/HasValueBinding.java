@@ -13,12 +13,13 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.IntegerType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.LongType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasValue;
 
 public class HasValueBinding implements PropertyBinding<HasValue>{
     
     public static HasValueBinding INSTANCE = new HasValueBinding();
-    
+      
     private HasValueBinding(){}
     
     @Override
@@ -100,7 +101,11 @@ public class HasValueBinding implements PropertyBinding<HasValue>{
                 object.setValue(((DateType)value).get());
             }
         } else if (object != null){
-            object.setValue("");
+               try {
+                object.setValue("");
+            } catch (RuntimeException e) {
+                GWT.log("Warning: Ignoring error attempting to setValue for " + object.getClass().getName(), e);
+            }
         }
     }
 
