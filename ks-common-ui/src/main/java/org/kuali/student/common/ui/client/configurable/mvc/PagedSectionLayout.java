@@ -230,6 +230,9 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	    }
 	    contentPanel.setWidget((Widget)view);
         currSectionIdx = orderedSectionViews.indexOf(view);
+        if(currSectionIdx == -1){
+            return;
+        }
 	    sectionMenuItems.get(currSectionIdx).setSelected(true);
 	}	
 	
