@@ -629,6 +629,7 @@ public class LuConfigurer {
             activityTypes.addItem("kuali.lu.type.activity.WebDiscuss", "WebDiscuss");
 
             super.setListItems(activityTypes);
+            this.selectItem("kuali.lu.type.activity.Lecture");
         }
     }
 
