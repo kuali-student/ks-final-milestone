@@ -56,7 +56,7 @@
 				<executions>
 					<execution>
 						<id>SYS-SQL-Scripts</id>
-						<phase>compile</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
