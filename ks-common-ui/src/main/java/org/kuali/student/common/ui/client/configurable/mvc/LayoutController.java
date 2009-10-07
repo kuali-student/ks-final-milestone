@@ -112,6 +112,10 @@ public abstract class LayoutController extends Controller  {
         //getModel().keySet();
         ModelDTO model = getModel();
         for(String key: model.keySet()){
+            if(model.get(key) instanceof ModelDTOType == false){
+                continue;
+            }
+                
         	ModelDTO currentModel = ((ModelDTOType) model.get(key)).get();
         	String objectKey = classToObjectKeyMap.get(currentModel.getClassName());
         	ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
