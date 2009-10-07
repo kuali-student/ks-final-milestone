@@ -240,7 +240,7 @@ public class ModelDTO implements Serializable {
 	}
 
     /** 
-     * Gets a string value from a StringType value in the ModelDTO. 
+     * Gets a raw string value from a StringType value in the ModelDTO. 
      * This method will throw a ClassCastException if the key is not mapped to 
      * a StringType value
      * 
@@ -254,6 +254,20 @@ public class ModelDTO implements Serializable {
         } else {
             return null;
         }
+    }
+    
+    /**
+     * Gets the raw model dto list from ListType value in ModelDTO.
+     * This method will throw a ClassCastException if the key is not mapped to 
+     * a StringType value
+     */
+    public List<ModelDTOValue> getList(String key){
+        ListType listType = (ListType)get(key);
+        if (listType != null){
+            return listType.get();
+        } else {
+            return null;
+        }        
     }
 	
 	/**
