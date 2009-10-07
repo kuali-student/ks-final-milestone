@@ -18,7 +18,7 @@
 				<version>1.2</version>
 				<executions>
 					<execution>
-						<id></id>
+						<id>impex-checkout</id>
 						<phase>verify</phase>
 						<goals>
 							<goal>checkout</goal>
@@ -69,7 +69,7 @@
 					</execution>
 					<execution>
 						<id>KULUSERMAINT-SQL-Scripts</id>
-						<phase>compile</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
