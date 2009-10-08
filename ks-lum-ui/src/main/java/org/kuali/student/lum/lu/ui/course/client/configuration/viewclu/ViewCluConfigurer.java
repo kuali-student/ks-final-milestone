@@ -128,9 +128,10 @@ public class ViewCluConfigurer {
 
         section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY), WITH_DIVIDER));
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
-        section.addSection(generateCrossListed(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY), WITH_DIVIDER));
-        section.addSection(generateJointOfferings(getH3Title(LUConstants.JOINT_OFFERINGS_LABEL_KEY), WITH_DIVIDER));
-        section.addSection(generateVersionCodes(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY), WITH_DIVIDER));
+//        section.addSection(generateCrossListed(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY), WITH_DIVIDER));
+//        section.addSection(generateJointOfferings(getH3Title(LUConstants.JOINT_OFFERINGS_LABEL_KEY), WITH_DIVIDER));
+//        section.addSection(generateVersionCodes(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY), WITH_DIVIDER));
+        
         section.addSection(generateShortTitle(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateLongTitle(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER));
          section.addSection(generateDescription(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER));

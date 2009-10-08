@@ -201,6 +201,9 @@ public class LuConfigurer {
                 getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY)));
 
+        VerticalSection dummy = initSection(null, WITH_DIVIDER);
+        section.addSection(dummy);
+
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, section);
 
     }
