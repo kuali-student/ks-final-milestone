@@ -2092,8 +2092,10 @@ public class LuServiceImpl implements LuService {
             }
             //Do Copy
             location.setCampusLocation(locationName);
+            location.setClu(clu);
             clu.getCampusLocationList().add(location);
         }
+        
 
         //Now delete anything left over
         for(Entry<String, CluCampusLocation> entry:oldLocationsMap.entrySet()){
