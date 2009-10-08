@@ -131,8 +131,10 @@ public class ViewCluConfigurer {
         section.addSection(generateCrossListed(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateJointOfferings(getH3Title(LUConstants.JOINT_OFFERINGS_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateVersionCodes(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY), WITH_DIVIDER));
-        section.addSection(generateTitles(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER));
-         section.addSection(generateDescriptions(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateShortTitle(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateLongTitle(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER));
+         section.addSection(generateDescription(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER));
+         section.addSection(generateRationale(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER));
 
         return section;        
 
@@ -263,8 +265,10 @@ public class ViewCluConfigurer {
         information.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         information.setSectionTitle(getH4Title(LUConstants.INFORMATION_LABEL_KEY));
         information.addSection(generateIdentifiers(getH5Title(LUConstants.IDENTIFIERS_LABEL_KEY), NO_DIVIDER));
-        information.addSection(generateTitles(getH5Title(LUConstants.TITLE_LABEL_KEY), NO_DIVIDER));
-        information.addSection(generateDescriptions(getH5Title(LUConstants.DESCRIPTION_LABEL_KEY), NO_DIVIDER));
+        information.addSection(generateShortTitle(null, NO_DIVIDER));
+        information.addSection(generateLongTitle(null, NO_DIVIDER));
+        information.addSection(generateDescription(null, NO_DIVIDER));
+        information.addSection(generateRationale(null, NO_DIVIDER));
 //        section.addSection(generateRestrictionsSection());
 //        section.addSection(generateRequisitesSection());
 //        section.addSection(generateFinancialsSection());
@@ -274,7 +278,7 @@ public class ViewCluConfigurer {
         section.addSection(governance);
         section.addSection(logistics);
         section.addSection(information);
-        section.addSection(generateDates(getH5Title(LUConstants.ACTIVE_DATES_LABEL_KEY), NO_DIVIDER));
+        section.addSection(generateDates(getH5Title(LUConstants.ACTIVE_DATES_LABEL_KEY), WITH_DIVIDER));
 
         return section;
     }
@@ -348,17 +352,42 @@ public class ViewCluConfigurer {
         return section;
     }
 
-    private static VerticalSection generateDescriptions(SectionTitle title, boolean withDivider) {
+    private static VerticalSection generateDescription(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/desc/plain", "Description:    ", Type.STRING,  new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/marketingDesc/plain", "Rationale:    ", Type.STRING, new KSLabel()));
+        String fieldLabel = null;
+        if (title == null) {
+            fieldLabel = "Description:  ";           
+        }
+        section.addField(new FieldDescriptor("cluInfo/desc/plain", fieldLabel, Type.STRING,  new KSLabel()));
         return section;
     }
-
-    private static VerticalSection generateTitles(SectionTitle title, boolean withDivider) {
+    private static VerticalSection generateRationale(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", "Short Title:    ", Type.STRING, new KSLabel()));
-         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", "Title:  ", Type.STRING, new KSLabel()));
+        String fieldLabel = null;
+        if (title == null) {
+            fieldLabel = "Rationale:  ";           
+        }
+        section.addField(new FieldDescriptor("cluInfo/marketingDesc/plain", fieldLabel, Type.STRING, new KSLabel()));
+        return section;
+    }
+    
+    private static VerticalSection generateShortTitle(SectionTitle title, boolean withDivider) {
+        VerticalSection section = initSection(title, withDivider);
+        String fieldLabel = null;
+        if (title == null) {
+            fieldLabel = "Short Title:  ";           
+        }
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", fieldLabel, Type.STRING, new KSLabel()));
+        return section;
+    }
+    
+    private static VerticalSection generateLongTitle(SectionTitle title, boolean withDivider) {
+        VerticalSection section = initSection(title, withDivider);
+        String fieldLabel = null;
+        if (title == null) {
+            fieldLabel = "Title:  ";           
+        }
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", fieldLabel, Type.STRING, new KSLabel()));
         return section;
     }
 
