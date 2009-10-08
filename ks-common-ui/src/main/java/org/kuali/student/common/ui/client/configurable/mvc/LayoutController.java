@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
@@ -126,6 +127,7 @@ public abstract class LayoutController extends Controller  {
             //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
             //Validator val = new Validator(sectionbc, true);
             Validator val = new Validator(bc, true);
+            val.addMessages(Application.getApplicationContext().getMessages());
             val.setSkipFields(skip);
             List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
             e.addValidationResult(results);// filled by calling the real validate code
