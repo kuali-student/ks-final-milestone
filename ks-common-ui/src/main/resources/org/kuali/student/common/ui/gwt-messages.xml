@@ -63,6 +63,7 @@
         <property name="groupName"      value="validation" />
 	</bean>
 
+    <!-- need better messages than these -->
    	<bean parent="enValidation" p:id="validation.required"		p:value="Required"/>
    	<bean parent="enValidation" p:id="validation.requiresField"		p:value="${field1} requires ${field2}"/>
    	<bean parent="enValidation" p:id="validation.validCharsFailed"		p:value="Invalid Characters"/>
@@ -72,6 +73,16 @@
    	<bean parent="enValidation" p:id="validation.outOfRange"		p:value="Value out of range. Minimum: ${minValue} Maximum ${maxValue}"/>
    	<bean parent="enValidation" p:id="validation.maxValueFailed"		p:value="Value cannot be more than ${maxValue}"/>
    	<bean parent="enValidation" p:id="validation.minValueFailed"		p:value="Value cannot be less than ${minValue}"/>
+    <bean parent="enValidation" p:id="validation.maxOccurs"		p:value="May only occur ${maxOccurs} or fewer times"/>
+    <bean parent="enValidation" p:id="validation.minOccurs"		p:value="Must occur at least ${minOccurs} times"/>
+    <bean parent="enValidation" p:id="validation.mustBeBoolean"		p:value="Must be a boolean value"/>
+    <bean parent="enValidation" p:id="validation.mustBeDate"		p:value="Must be a date"/>
+    <bean parent="enValidation" p:id="validation.mustBeDouble"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.mustBeFloat"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.mustBeInteger"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.mustBeLong"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:id="validation.occurs"		p:value="Invalid number of occurrences."/>
+    
 
 	
 	
