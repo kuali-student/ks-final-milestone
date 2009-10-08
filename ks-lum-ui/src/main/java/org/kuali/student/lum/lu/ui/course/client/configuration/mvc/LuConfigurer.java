@@ -44,7 +44,6 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
@@ -405,7 +404,7 @@ public class LuConfigurer {
         learningResults.addField(new FieldDescriptor("cluInfo/evalType", "Evaluation Type", Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
 
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
-        scheduling.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", "Term", Type.STRING, new AtpTypeList()));
+        scheduling.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", "Term", Type.LIST, new AtpTypeList()));
         scheduling.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO DURATION ENUMERATION
 
         //COURSE FORMATS
@@ -460,7 +459,7 @@ public class LuConfigurer {
             */
 
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("term", "Term", Type.STRING, new AtpTypeList()));
+            activity.addField(new FieldDescriptor("term", "Term", Type.LIST, new AtpTypeList()));
             activity.addField(new FieldDescriptor("stdDuration/timeQuantity", "Duration", Type.INTEGER)); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -645,6 +644,11 @@ public class LuConfigurer {
             activityTypes.addItem("atpType.semester.winter", "Winter");
 
             super.setListItems(activityTypes);
+        }
+
+        //FIXME: This is a hack, since field is a list, but wireframe allows only single select
+        public boolean isMultipleSelect(){
+            return true;
         }
     }
 
