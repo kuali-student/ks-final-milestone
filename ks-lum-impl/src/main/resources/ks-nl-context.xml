@@ -4,6 +4,17 @@
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
+		
+	<bean id="janino-systemPropertyConfigurer"
+		class="org.kuali.student.common.util.SystemPropertyConfigurer">
+		<property name="properties">
+			<map>
+				<entry key="drools.compiler" value="JANINO"/>
+				<entry key="drools.dialect.java.compiler" value="JANINO"/>
+			</map>
+		</property>
+	</bean>
+	
     <bean id="courseListContext" class="org.kuali.student.lum.nlt.naturallanguage.context.CourseListContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
@@ -160,7 +171,7 @@
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.lum.nlt.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.lum.nlt.naturallanguage.translators.NaturalLanguageTranslatorImpl" depends-on="janino-systemPropertyConfigurer">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
         <property name="language" value="en" />
