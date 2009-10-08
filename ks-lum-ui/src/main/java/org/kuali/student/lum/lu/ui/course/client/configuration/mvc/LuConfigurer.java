@@ -606,10 +606,10 @@ public class LuConfigurer {
         public CampusLocationList(){
             SimpleListItems campusLocations = new SimpleListItems();
 
-            campusLocations.addItem("North County Campus", "North County Campus");
-            campusLocations.addItem("South County Campus", "South County Campus");
-            campusLocations.addItem("Extended Studies Campus", "Extended Studies Campus");
-            campusLocations.addItem("All Campuses", "All Campuses");
+            campusLocations.addItem("NorthCountyCampus", "North County Campus");
+            campusLocations.addItem("SouthCountyCampus", "South County Campus");
+            campusLocations.addItem("ExtendedStudiesCampus", "Extended Studies Campus");
+            campusLocations.addItem("AllCampuses", "All Campuses");
 
             super.setListItems(campusLocations);
         }
