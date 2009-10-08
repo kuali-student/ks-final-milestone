@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<oracle.system.password>kuali</oracle.system.password>
+		<import.admin.password>kuali</import.admin.password>
 	</properties>
 	<build>
 		<plugins>
@@ -16,6 +16,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
 				<version>1.2</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-svn</artifactId>
+						<version>1.0-beta-2</version>
+					</dependency>
+				</dependencies>
 				<executions>
 					<execution>
 						<id>impex-checkout</id>
@@ -49,7 +56,7 @@
 					<driver>oracle.jdbc.driver.OracleDriver</driver>
 					<url>jdbc:oracle:thin:@localhost:1521:XE</url>
 					<username>SYS as SYSDBA</username>
-					<password>${oracle.system.password}</password>
+					<password>${import.admin.password}</password>
 					<delimiter>/</delimiter>
 					<onError>continue</onError>
 				</configuration>
@@ -73,6 +80,11 @@
 								GRANT RESOURCE to KSCORE/
 								GRANT CONNECT to KSCORE/
 								GRANT DBA to KSCORE</sqlCommand>
+								<!-- 
+								-- add this in? --
+								alter system set processes=150 scope=spfile/
+   								alter system set sessions=150 scope=spfile/
+   								 -->
 							<srcFiles>
 								<srcFile>${project.build.directory}/impex-checkout/impex/create_kul_developer.sql</srcFile>
 								<srcFile>${project.build.directory}/impex-checkout/impex/system_grants.sql</srcFile>
@@ -96,31 +108,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-
-						<id>build-impex</id>
-						<phase>verify</phase>
-						<configuration>
-							<sourceRoot>target/impex-checkout/impex</sourceRoot>
-							<tasks>
-								<property name="build.compiler" value="extJavac" />
-								<property file="${user.home}/impex-build.properties" />
-								<ant antfile="build.xml"
-									dir="${project.build.directory}/impex-checkout/impex">
-									<target name="build" />
-								</ant>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-
-					</execution>
-				</executions>
-			</plugin>-->
 
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
