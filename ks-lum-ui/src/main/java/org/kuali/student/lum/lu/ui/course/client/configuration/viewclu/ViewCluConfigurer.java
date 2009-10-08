@@ -318,8 +318,8 @@ public class ViewCluConfigurer {
         section.addSection(ns);
         section.addField(new FieldDescriptor("cluInfo/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
         section.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration Time :   ", Type.STRING, new KSLabel())); 
-        section.addField(new FieldDescriptor("cluInfo/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
-        section.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
+//        section.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel()));
 
         return section;
     }
@@ -335,15 +335,15 @@ public class ViewCluConfigurer {
         section.addField(new FieldDescriptor("cluInfo/creditInfo/creditType", "Credit Type :   ", Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
         section.addField(new FieldDescriptor("cluInfo/creditInfo", "Credit Value :   ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/maxCredits", "Maximum Credits :   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
         return section;
     }
 
     private static VerticalSection generateInstructors(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         section.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
         return section;
     }
@@ -386,10 +386,10 @@ public class ViewCluConfigurer {
 
     private static VerticalSection generateIdentifiers(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Code:    ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Code:    ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", "Division:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
+//        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", "Suffix Code:    ", Type.STRING, new KSLabel()));
     
         section.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
@@ -443,7 +443,7 @@ public class ViewCluConfigurer {
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             ns.addField(new FieldDescriptor("personId", null, Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("orgId", null, Type.STRING, new KSLabel()));
+//            ns.addField(new FieldDescriptor("orgId", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
@@ -464,10 +464,10 @@ public class ViewCluConfigurer {
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("code", null, Type.STRING, new KSLabel()));
+//            ns.addField(new FieldDescriptor("code", null, Type.STRING, new KSLabel()));
             ns.addField(new FieldDescriptor("division", null, Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("level", null, Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("variation", null, Type.STRING, new KSLabel()));
+//            ns.addField(new FieldDescriptor("level", null, Type.STRING, new KSLabel()));
+//            ns.addField(new FieldDescriptor("variation", null, Type.STRING, new KSLabel()));
             ns.addField(new FieldDescriptor("suffixCode", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
