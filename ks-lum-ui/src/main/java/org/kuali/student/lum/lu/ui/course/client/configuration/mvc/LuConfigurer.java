@@ -433,7 +433,7 @@ public class LuConfigurer {
             //e.g. addHiddenField("type", "kuali.lu.type.CreditCourseFormatShell");
 
             item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
-            return new CourseActivityList();
+            return item;
         }
     }
 
