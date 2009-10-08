@@ -51,6 +51,13 @@ public class ModelDTO implements Serializable {
 	    	if(copy instanceof ModelDTOType){
 	    		((ModelDTOType) copy).get().copyMapToTransientMap();
 	    	}
+	    	else if(copy instanceof ListType){
+	    		for(ModelDTOValue listValue: ((ListType) copy).get()){
+	    			if(listValue instanceof ModelDTOType){
+	    				((ModelDTOType) listValue).get().copyMapToTransientMap();
+	    			}
+	    		}
+	    	}
 	    	transientMap.put(mk, copy);
     	}
     }
@@ -75,9 +82,83 @@ public class ModelDTO implements Serializable {
 			adapter.put(key, value);
 		}
 		else{
-			transientMap.put(key, value);					
+			transientMap.put(key, value);
+			//TODO put this back in later
+			//evaluatePutTransient(key, value);				
 		}		
 	}
+	
+	/*protected void evaluatePutTransient(String key, ModelDTOValue newValue){
+		if(this.transientMap.containsKey(key)){
+			ModelDTOValue oldValue = transientMap.get(key);
+			if(newValue instanceof ModelDTOType && oldValue instanceof ModelDTOType){
+				ModelDTO model = ((ModelDTOType) newValue).get();
+				ModelDTO oldModel = ((ModelDTOType) oldValue).get();
+				for(String k: model.keySet()){
+					oldModel.put(k, model.get(k));
+				}
+				((ModelDTOType)oldValue).set(oldModel);
+				transientMap.put(key, oldValue);
+			}
+			else if(newValue instanceof ListType && oldValue instanceof ListType){
+				List<ModelDTOValue> list = ((ListType) newValue).get();
+				List<ModelDTOValue> oldList = ((ListType) oldValue).get();
+				for(ModelDTOValue v: list ){
+					if(v instanceof ModelDTOType){
+						ModelDTO newModel = ((ModelDTOType) v).get();
+						ModelDTOValue id = newModel.get("id");
+						if(id != null){
+							String idValue = ((StringType)id).get();
+							ModelDTO oldModel = matchId(idValue, oldList);
+							if(oldModel != null){
+								for(String k: newModel.keySet()){
+									oldModel.put(k, newModel.get(k));
+								}
+							}
+							else{
+								oldList.add(v);
+							}
+						}
+						else{
+							oldList.add(v);
+						}
+					}
+					else{
+						//are lists of lists possible, potential problems maybe?
+						oldList = list;
+					}
+				}
+				((ListType)oldValue).set(oldList);
+				transientMap.put(key, oldValue);
+			}
+			else{
+				transientMap.put(key, newValue);
+			}
+		}
+		else{
+			transientMap.put(key, newValue);
+		}
+		
+	}
+	
+	private ModelDTO matchId(String idValue, List<ModelDTOValue> list){
+		for(ModelDTOValue v: list ){
+			if(v instanceof ModelDTOType){
+				ModelDTO vModel = ((ModelDTOType) v).get();
+				ModelDTOValue id = vModel.get("id");
+				if(id != null){
+					String currentId = ((StringType)id).get();
+					if(idValue.equals(currentId)){
+						return vModel;
+					}
+				}
+			}
+			else{
+				//bad list exception maybe, or nothing
+			}
+		}
+		return null;
+	}*/
 	
 	public void put(String key, ModelDTOValue value, boolean commitChange){
 		if(commitChange){

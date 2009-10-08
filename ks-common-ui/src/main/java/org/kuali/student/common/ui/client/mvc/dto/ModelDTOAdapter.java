@@ -118,7 +118,8 @@ public class ModelDTOAdapter implements Serializable{
             if(base.transientMap == null){
             	base.copyMapToTransientMap();
             }
-        	base.transientMap.put(key, value);
+            base.transientMap.put(key, value);
+        	//base.evaluatePutTransient(key, value);
         }
 	}
 	
