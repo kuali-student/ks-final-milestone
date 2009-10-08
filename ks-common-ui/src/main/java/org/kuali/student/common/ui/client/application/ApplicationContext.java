@@ -18,6 +18,7 @@ public class ApplicationContext {
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
+	private List<Message> messagesList = new ArrayList<Message>();
 	Map<String, ObjectStructure> dictionaryData = new HashMap<String, ObjectStructure>();
 	
 	private SecurityContext securityContext;
@@ -58,6 +59,7 @@ public class ApplicationContext {
        return dictionaryData.get(name);
     }
 	public void addMessages(List<Message> messages) {
+		messagesList.addAll(messages);
 	    for (Message m : messages) {
 	        String groupName = m.getGroupName();
 	        Map<String, String> group = this.messages.get(groupName);
@@ -74,6 +76,9 @@ public class ApplicationContext {
 	    return flatMessages.get(messageId);
     }
     
+	public List<Message> getMessages() {
+	    return messagesList;
+    }
     
 	
 	public String getMessage(String groupName, String messageId) {
