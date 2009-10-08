@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -22,18 +23,20 @@ public class LostFocusValidationEventBinding  implements ValidationEventBinding 
                 }
             });
         }
-        else if(w instanceof HasValueChangeHandlers){
-        	((HasValueChangeHandlers) w).addValueChangeHandler(new ValueChangeHandler(){
+        else {
+            //TODO address the exception
+          //  throw new IllegalArgumentException("It must implements HasBlurHandlers interface.");
+        }
+        //FIXME hack for orgPicker
+        if(w instanceof SuggestPicker){
+        	((SuggestPicker) w).addValueChangeHandler(new ValueChangeHandler<String>(){
 
 				@Override
-				public void onValueChange(ValueChangeEvent event) {
+				public void onValueChange(ValueChangeEvent<String> event) {
 					fd.setHasHadFocus(true);
 					fd.getValidationRequestCallback().exec(true);	
 				}
 			});
-        } else {
-            //TODO address the exception
-          //  throw new IllegalArgumentException("It must implements HasBlurHandlers interface.");
         }
     }
 }
