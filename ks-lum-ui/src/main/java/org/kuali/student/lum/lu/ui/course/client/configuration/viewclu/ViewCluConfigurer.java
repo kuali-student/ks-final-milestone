@@ -157,7 +157,10 @@ public class ViewCluConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY)));
 
-        section.addField(new FieldDescriptor("learningObjectives", "TO DO", Type.STRING, new KSLabel()));
+        VerticalSection loSection = initSection(null, WITH_DIVIDER);       
+        loSection.addField(new FieldDescriptor("learningObjectives", "TO DO", Type.STRING, new KSLabel()));
+        
+        section.addSection(loSection);
 
         return section;        
 
@@ -169,12 +172,10 @@ public class ViewCluConfigurer {
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
-        VerticalSection feeTypeSection = new VerticalSection();
-        feeTypeSection.setSectionTitle(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY));
+        VerticalSection feeTypeSection = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
         feeTypeSection.addField(new FieldDescriptor("cluInfo/feeinfo/feeType", null, Type.STRING, new KSLabel()));
 
-        VerticalSection feeAmountSection = new VerticalSection();
-        feeAmountSection.setSectionTitle(getH3Title(LUConstants.FEE_AMOUNT_LABEL_KEY));
+        VerticalSection feeAmountSection = initSection(getH3Title(LUConstants.FEE_AMOUNT_LABEL_KEY), WITH_DIVIDER);
         feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/feeAmount", "$ :   ", Type.STRING, new KSLabel()));
         feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/taxable", "Taxable :   ", Type.STRING, new KSLabel()));//TODO checkboxes go here instead
         feeAmountSection.addField(new FieldDescriptor("cluInfo/feeinfo/feeDesc", "Description :   ", Type.STRING, new KSLabel()));
@@ -189,7 +190,11 @@ public class ViewCluConfigurer {
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_RESTRICTIONS, getLabel(LUConstants.RESTRICTIONS_LABEL_KEY), CluProposalModelDTO.class);
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.RESTRICTIONS_LABEL_KEY)));
-        section.addField(new FieldDescriptor("courseRestrictions", "TO DO", Type.STRING, new KSLabel()));
+        
+        VerticalSection rstrSection = initSection(null, WITH_DIVIDER);       
+        rstrSection.addField(new FieldDescriptor("restrictions", "TO DO", Type.STRING, new KSLabel()));
+        
+        section.addSection(rstrSection);
 
         return section;        
 
@@ -200,12 +205,10 @@ public class ViewCluConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
 
-        VerticalSection preqSection = new VerticalSection();
-        preqSection.setSectionTitle(getH3Title(LUConstants.PREQS_LABEL_KEY));
+        VerticalSection preqSection = initSection(getH3Title(LUConstants.PREQS_LABEL_KEY), WITH_DIVIDER);
         preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
 
-        VerticalSection creqSection = new VerticalSection();
-        creqSection.setSectionTitle(getH3Title(LUConstants.CREQS_LABEL_KEY));
+        VerticalSection creqSection = initSection(getH3Title(LUConstants.CREQS_LABEL_KEY), WITH_DIVIDER);
         creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
 
         section.addSection(preqSection);
@@ -220,12 +223,10 @@ public class ViewCluConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY)));
 
-        VerticalSection generalReqSection = new VerticalSection();
-        generalReqSection.setSectionTitle(getH3Title(LUConstants.GENERAL_REQS_LABEL_KEY));
+        VerticalSection generalReqSection = initSection(getH3Title(LUConstants.GENERAL_REQS_LABEL_KEY), WITH_DIVIDER);
         generalReqSection.addField(new FieldDescriptor("genRequirements", "TO DO", Type.STRING, new KSLabel()));
 
-        VerticalSection deptReqSection = new VerticalSection();
-        deptReqSection.setSectionTitle(getH3Title(LUConstants.DEPT_REQS_LABEL_KEY));
+        VerticalSection deptReqSection = initSection(getH3Title(LUConstants.DEPT_REQS_LABEL_KEY), WITH_DIVIDER);
         deptReqSection.addField(new FieldDescriptor("deptRequirements", "TO DO", Type.STRING, new KSLabel()));
 
         section.addSection(generalReqSection);
