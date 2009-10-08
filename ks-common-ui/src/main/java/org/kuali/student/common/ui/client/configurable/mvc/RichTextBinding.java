@@ -52,6 +52,9 @@ public class RichTextBinding implements PropertyBinding<RichTextEditor>{
                 throw new UnsupportedOperationException("Richtext editors must have richTextInfo models as their values");
             }
         }
+        else if(value == null && object != null){
+        	object.setHTML("");
+        }
         
     }
 }
