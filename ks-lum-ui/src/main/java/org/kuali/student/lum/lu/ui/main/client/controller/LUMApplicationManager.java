@@ -100,6 +100,7 @@ public class LUMApplicationManager extends Controller{
                 if (viewCluView == null){
                     viewCluView = new DelegatingViewComposite(this, new ViewCluController());
                 }
+                viewCluController.showDefaultView();
                 return viewCluView;
             default:
                 return null;

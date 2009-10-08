@@ -141,8 +141,6 @@ public class ViewCluController extends PagedSectionLayout{
                     generateLayout();
 
                     getCurrentView().beforeShow();
-
-
                 }
             }); 
 
@@ -153,10 +151,12 @@ public class ViewCluController extends PagedSectionLayout{
     }
 
     private void generateLayout() {
+        super.removeSections();        
         ViewCluConfigurer.generateLayout(this);
     }
     
     public void clear(){
+        super.clear();
         this.cluProposalModel = null;
         this.cluId = null;
     }
