@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
@@ -22,7 +23,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class OrgPicker extends Composite implements HasValue<String>, HasFocusHandlers, HasBlurHandlers {
+public class OrgPicker extends Composite implements SuggestPicker {
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
