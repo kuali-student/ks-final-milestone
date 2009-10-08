@@ -44,6 +44,8 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
@@ -52,6 +54,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -510,7 +513,7 @@ public class LuConfigurer {
     //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
     //will be a multiple org select field, in which case we need a multiple org select picker widget.
     //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
-    public static class OrgListPicker extends KSSelectItemWidgetAbstract{
+    public static class OrgListPicker extends KSSelectItemWidgetAbstract implements SuggestPicker{
         private OrgPicker orgPicker;
 
         public OrgListPicker(){
@@ -563,6 +566,29 @@ public class LuConfigurer {
 		@Override
 		public HandlerRegistration addBlurHandler(BlurHandler handler) {
 			return orgPicker.addBlurHandler(handler);
+		}
+
+		@Override
+		public String getValue() {
+			return orgPicker.getValue();
+		}
+
+		@Override
+		public void setValue(String value) {
+			orgPicker.setValue(value);
+			
+		}
+
+		@Override
+		public void setValue(String value, boolean fireEvents) {
+			orgPicker.setValue(value, fireEvents);
+			
+		}
+
+		@Override
+		public HandlerRegistration addValueChangeHandler(
+				ValueChangeHandler<String> handler) {
+			return orgPicker.addValueChangeHandler(handler);
 		}
     }
     
