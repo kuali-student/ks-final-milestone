@@ -6,8 +6,10 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
@@ -36,8 +38,8 @@ public class KSSuggestBox extends SuggestBox{
                 String currentText = KSSuggestBox.this.getText();
                 if(currentText != null && currentText != "" && currentSuggestion == null){
                     currentSuggestion = KSSuggestBox.this.oracle.getSuggestionByText(currentText);
+                    ValueChangeEvent.fire(KSSuggestBox.this, currentSuggestion.getId());
                 }
-                
             }
         });
     }
@@ -75,6 +77,7 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void exec(IdableSuggestion result) {
                 currentSuggestion = result;
+                ValueChangeEvent.fire(KSSuggestBox.this, currentSuggestion.getId());
                 KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
                 
             }
