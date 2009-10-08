@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -528,6 +529,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             saveCourseFormats(cluInfo, cluInfoModelDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
+            saveDynamicAttributes(cluInfo, cluInfoModelDTO);
             
             // now update the clu with whatever changes were made in save... methods
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
@@ -654,6 +656,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 
         return cluProposalDTO;
+    }
+    
+    //TODO: Get rid of this, for now this is so we can save data somewhere
+    private void saveDynamicAttributes(CluInfo cluInfo, ModelDTO cluInfoModelDTO){        
+        Map<String,String> attributes = cluInfo.getAttributes();
+        attributes.put("creditType", cluInfoModelDTO.getString("creditType"));
+        attributes.put("creditValue", cluInfoModelDTO.getString("creditValue"));
+        attributes.put("maxCredits", cluInfoModelDTO.getString("maxCredits"));
+        attributes.put("evalType", cluInfoModelDTO.getString("evalType"));
     }
     
     private void saveCourseFormats(CluInfo parentCluInfo, ModelDTO cluInfoModelDTO) throws Exception{
@@ -850,7 +861,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             CluInfo cluInfo = service.getClu(cluId);
             ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
             cluModelDTO.copyFrom((ModelDTO) ctx.fromBean(cluInfo));
-            
+                     
+            getDynamicAttributes(cluInfo, cluModelDTO);
             hydrateCluModelDTO(cluInfo.getId(), cluProposalDTO);
 
         } catch (Exception e) {
@@ -893,6 +905,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        ModelDTO cluModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get(); 
 	        cluModelDTO.copyFrom((ModelDTO)ctx.fromBean(cluInfo));
 	        
+	        getDynamicAttributes(cluInfo, cluModelDTO);
+	        
 	        hydrateCluModelDTO(cluInfo.getId(), cluProposalDTO);
 	
 	    } catch (Exception e) {
@@ -911,7 +925,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         getCoursesOfferedJointly(parentCluId, cluModelDTO);
 	}
 
-	private void getCourseFormats(String parentCluId, ModelDTO cluProposalDTO) {
+	private void getDynamicAttributes(CluInfo cluInfo, ModelDTO cluModelDTO){
+	    Map<String, String> attributes = cluInfo.getAttributes();
+	    Set<String> keys = attributes.keySet();
+	    
+	    for (String key:keys){
+	        String value = attributes.get(key);
+	        cluModelDTO.put(key, value, true);
+	    }
+	}
+	
+    private void getCourseFormats(String parentCluId, ModelDTO cluProposalDTO) {
          
         MapContext ctx = new MapContext();
         ModelDTOValue.ListType courseFormatList = new ModelDTOValue.ListType();
