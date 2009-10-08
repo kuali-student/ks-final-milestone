@@ -38,7 +38,7 @@ public class KSSuggestBox extends SuggestBox{
                 String currentText = KSSuggestBox.this.getText();
                 if(currentText != null && currentText != "" && currentSuggestion == null){
                     currentSuggestion = KSSuggestBox.this.oracle.getSuggestionByText(currentText);
-                    ValueChangeEvent.fire(KSSuggestBox.this, currentSuggestion.getId());
+                    ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
                 }
             }
         });
@@ -77,7 +77,7 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void exec(IdableSuggestion result) {
                 currentSuggestion = result;
-                ValueChangeEvent.fire(KSSuggestBox.this, currentSuggestion.getId());
+                ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
                 KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
                 
             }
