@@ -13,6 +13,12 @@ Setting up Maven Run Configuration in Eclipse
 
 Run Services
 -------------
+	*** if you are not using rice, you will need to turn off authentication ***
+	create or update the file {user.home}\kuali\main\dev\ks-config.xml to include this: 
+	<config>
+		<param name="ks.ignore.rice.login">true</param>
+	</config>
+	
 	The following services are needed by the UI in addition to the LUM services in lum-web:
 	ks-core-web:
 	- MessageService
