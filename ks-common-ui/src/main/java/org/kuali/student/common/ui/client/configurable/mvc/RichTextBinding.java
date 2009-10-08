@@ -40,8 +40,15 @@ public class RichTextBinding implements PropertyBinding<RichTextEditor>{
                 String className = ((ModelDTOType) value).get().getClassName();
                 if(className.equalsIgnoreCase(RichTextInfo.class.getName())){
                     StringType formatted = (StringType) (((ModelDTOType) value).get()).get("formatted");
+                    StringType plain = (StringType) (((ModelDTOType) value).get()).get("plain");
                     if (formatted != null){
                         object.setHTML(formatted.get());
+                    }
+                    else if(plain != null){
+                    	object.setText(plain.get());
+                    }
+                    else{
+                    	object.setHTML("");
                     }
                 }
                 else{
