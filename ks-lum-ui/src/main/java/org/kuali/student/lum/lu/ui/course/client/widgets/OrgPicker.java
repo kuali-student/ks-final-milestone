@@ -79,14 +79,12 @@ public class OrgPicker extends Composite implements HasValue<String>, HasFocusHa
 
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-		// TODO Auto-generated method stub
-		return null;
+		return suggestBox.addValueChangeHandler(handler);
 	}
 
 	@Override
 	public void fireEvent(GwtEvent<?> event) {
-		// TODO Auto-generated method stub
-		
+		super.fireEvent(event);
 	}
 	
 	public void clear(){
