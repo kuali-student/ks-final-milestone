@@ -146,7 +146,7 @@ public class Header extends Composite {
         actionlistPanel.add(buildActionListPanel()); // Open Action List Panel from rice
         // Always have logout and preferences options
         linkItems.add(new HeaderLinkItem("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
-        linkItems.add(new HeaderLinkItem("Home", "Return to home page", "/"));
+        linkItems.add(new HeaderLinkItem("Home", "Return to home page", GWT.getModuleBaseURL() + "../"));
         linkItems.add(new HeaderLinkItem("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"/*"Logout not yet implemented"*/));
 
         for (HeaderLinkItem i : linkItems) {
