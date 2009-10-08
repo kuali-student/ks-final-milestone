@@ -164,8 +164,6 @@ public class CluProposalController extends PagedSectionLayout{
             } else {
                 callback.onModelReady(cluProposalModel); 
             }
-            //Set it up for validation in layoutController
-            this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());
         } else if(modelType == ReferenceModel.class){
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
@@ -213,6 +211,9 @@ public class CluProposalController extends PagedSectionLayout{
                 Window.alert("Error loading Proposal: "+docId+". "+caught.getMessage());
                 createNewCluProposalModel();
                 callback.onModelReady(cluProposalModel);
+                //Set it up for validation in layoutController
+                CluProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());
+
             }
 
             @Override
@@ -220,6 +221,7 @@ public class CluProposalController extends PagedSectionLayout{
                 cluProposalModel = new Model<CluProposalModelDTO>();
                 cluProposalModel.put(result);
                 callback.onModelReady(cluProposalModel);
+                CluProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());                
             }
             
         });              
@@ -234,12 +236,14 @@ public class CluProposalController extends PagedSectionLayout{
                 Window.alert("Error loading Proposal: "+caught.getMessage());
                 createNewCluProposalModel();
                 callback.onModelReady(cluProposalModel);
+                CluProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());                
             }
 
             public void onSuccess(CluProposalModelDTO result) {                    
                 cluProposalModel = new Model<CluProposalModelDTO>();
                 cluProposalModel.put(result);
                 callback.onModelReady(cluProposalModel);
+                CluProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());                
             }});                                        
     }
     
@@ -252,6 +256,7 @@ public class CluProposalController extends PagedSectionLayout{
 
         cluProposalModel.get().put("proposalInfo/type", PROPOSAL_TYPE);
         cluProposalModel.get().put("proposalInfo/state", PROPOSAL_STATE);
+        CluProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());        
     }
     
     public void doSaveAction(SaveActionEvent saveActionEvent){
