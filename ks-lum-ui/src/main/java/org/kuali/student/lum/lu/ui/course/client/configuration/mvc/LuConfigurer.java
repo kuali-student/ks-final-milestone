@@ -257,7 +257,7 @@ public class LuConfigurer {
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         crossListed.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new CrossListedList()));
         crossListed.addStyleName("KS-LUM-Section-Divider");
-        courseNumber.addSection(crossListed);
+        //courseNumber.addSection(crossListed);
 
         // Offered jointly
         VerticalSection offeredJointly = new VerticalSection();
@@ -265,14 +265,14 @@ public class LuConfigurer {
         // offeredJointly.setInstructions("Enter an existing course or proposal.");
         offeredJointly.addField(new FieldDescriptor("cluInfo/offeredJointly", null, Type.LIST, new OfferedJointlyList()));
         offeredJointly.addStyleName("KS-LUM-Section-Divider");
-        courseNumber.addSection(offeredJointly);
+        //courseNumber.addSection(offeredJointly);
 
         //Version Codes
         VerticalSection versionCodes = new VerticalSection();
         versionCodes.setSectionTitle(SectionTitle.generateH3Title("Version Codes"));
         versionCodes.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new VersionCodeList()));
         versionCodes.addStyleName("KS-LUM-Section-Divider");
-        courseNumber.addSection(versionCodes);
+        //courseNumber.addSection(versionCodes);
 
         VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
         KSTextArea textArea = new KSTextArea();
@@ -410,7 +410,7 @@ public class LuConfigurer {
 
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
-        courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
+        //courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
 
         section.addSection(instructors);
         section.addSection(credits);
