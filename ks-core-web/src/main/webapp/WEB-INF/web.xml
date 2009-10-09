@@ -41,7 +41,7 @@
 		<load-on-startup>2</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:ksb/gwt-context.xml</param-value>
+			<param-value>classpath:core-gwt-context.xml</param-value>
 		</init-param>		
 	</servlet>
 
