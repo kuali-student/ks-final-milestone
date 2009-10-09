@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSPR_PROPOSAL_REFERENCE
+        OBJECT_REFERENCE_ID="b63146cb-b37b-4c29-8424-f4d5b8d6b6f0"
+        REFERENCE_ID="804423e2-e3da-4526-b625-675005808b6f" TYPE="kuali.proposal.referenceType.clu"/>
+</dataset>
