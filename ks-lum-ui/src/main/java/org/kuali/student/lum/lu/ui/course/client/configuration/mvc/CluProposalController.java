@@ -169,8 +169,8 @@ public class CluProposalController extends PagedSectionLayout{
         		ReferenceModel ref = new ReferenceModel();
 
         		//FIXME: test code
-        		if(cluProposalModel.get() != null && cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY) != null){
-            		ref.setReferenceId(cluProposalModel.get().getString(CLU_PROPOSAL_ID_KEY));
+        		if(cluProposalModel.get() != null && cluProposalModel.get().getString("cluInfo/id") != null){
+            		ref.setReferenceId(cluProposalModel.get().getString("cluInfo/id"));
         		}
         		else{
         			ref.setReferenceId(null);
