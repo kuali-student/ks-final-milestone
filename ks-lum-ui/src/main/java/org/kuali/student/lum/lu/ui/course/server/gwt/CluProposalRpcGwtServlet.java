@@ -889,21 +889,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         MapContext ctx = new MapContext();
         CluProposalModelDTO cluProposalDTO = new CluProposalModelDTO();
 
-        boolean authorized=true;
         try{
 	        logger.debug("Retrieving clu with clu id " + cluId);
-	               
-	        try{
-	            String QUALIFICATION_PROPOSAL_ID = "cluId";
-	            String DOCUMENT_TYPE_NAME = "documentTypeName";
-	            AttributeSet qualification = new AttributeSet();
-	            qualification.put(QUALIFICATION_PROPOSAL_ID, cluId);
-	            qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
-	            authorized = permissionService.isAuthorized(getCurrentUser(), "KS-LUM", "Open Document", null, qualification);
-	        }catch(Exception e){
-	            logger.info("Error calling permission service. ", e);
-	        }
-	        
+        
 	        //Get clu
 	        CluInfo cluInfo = service.getClu(cluId);
 	//        CluInfo cluInfo = buildTestClu();
@@ -918,9 +906,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        logger.error("Error getting Clu. ",e);
 	    }
 	
-	    if(!authorized){
-			throw new OperationFailedException("User is not authorized to open this document");
-	    }
+
         
         return cluProposalDTO;
     }

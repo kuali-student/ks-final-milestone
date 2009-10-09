@@ -124,7 +124,11 @@ public class LUMApplicationManager extends Controller{
     }
 
     private View initCluProposalViewFromDocId(String docId){
-        initBlankCluProposalView();
+        if (cluProposalController == null){
+            cluProposalController = new CluProposalController(docId); 
+            createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);            
+        }
+        ((CluProposalController)cluProposalController).clear();
         ((CluProposalController)cluProposalController).setDocId(docId);
         return createCourseView;        
     }
