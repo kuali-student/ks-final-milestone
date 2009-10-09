@@ -20,6 +20,7 @@ import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.springframework.security.GrantedAuthority;
+import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
@@ -48,6 +49,10 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
+    
+    public UserDetails loadUserByUsernameAndToken(String username, UsernamePasswordAuthenticationToken authentication) throws UsernameNotFoundException {
         if(username==null || username.equals("")){
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
@@ -55,25 +60,33 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         Config config = ConfigContext.getCurrentContextConfig();
         String ksIgnoreRiceLogin = config.getProperty("ks.ignore.rice.login");
         
-        password = username;
-        
         // if property was not set in a config file then 
         // it will be null and it falls through to the identityService code.
         if(Boolean.valueOf(ksIgnoreRiceLogin) == true){
             return null;
         }
         
+        //password = username;
+        password = (String)authentication.getCredentials();
+        System.out.println("THE PASSWORD " + password);
+        System.out.println("IS AUTH ? " + authentication.isAuthenticated());
+        
         KimPrincipalInfo kimPrincipalInfo = null;
         try {
-	        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+            if(username.equalsIgnoreCase("admin")){
+              kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+            } else {
+                kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
+            }
+            
 	        if (null != kimPrincipalInfo) {
 	            username = kimPrincipalInfo.getPrincipalId();
 	        } else {
 	        // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
 	        // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
 	        // to do this we need to throw a KimUserNotFoundException and not UsernameNotFoundException.
-	        
-	            throw new KimUserNotFoundException("Invalid username");  
+	            System.out.println("kimPrincipalInfo is null ");
+	            throw new KimUserNotFoundException("Invalid username or password");  
 	        }
 	        ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
 	        return ksuser;

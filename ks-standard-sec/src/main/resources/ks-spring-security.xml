@@ -27,8 +27,6 @@
     	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
         <security:form-login />
-		<security:anonymous />
-		<security:http-basic />
         <security:logout/>
     </security:http>
 
@@ -37,12 +35,12 @@
 	<!--List of Custom Providers that can be registered with the default authentication manager -->
 	<!--If one returns null then the authentication control is passed onto the next	-->
   	<bean id="daoAuthenticationProvider" 
-      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+      	class="org.kuali.rice.kim.KimAuthenticationProvider">
       	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
     	<security:custom-authentication-provider />
    	</bean>
    	
-   	  <bean id="daoAuthenticationProvider2" 
+   	<bean id="daoAuthenticationProvider2" 
       	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
       	<property name="userDetailsService" ref="ksUserDetailsService"/>
     	<security:custom-authentication-provider />
