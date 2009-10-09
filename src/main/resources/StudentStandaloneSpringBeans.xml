@@ -82,4 +82,10 @@
 	<!-- impl for Rice Authentication Service  -->
 	<bean id="ksRiceAuthenticationService" class="org.kuali.student.security.KSRiceAuthenticationServiceImpl"/>
 	
+	<!-- Action Request Derived role -->
+	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSActionRequestDerivedRoleTypeServiceImpl"/>
+
+	<!-- Route Log Derived role -->
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl"/>
+	
 </beans>
