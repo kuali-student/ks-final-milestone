@@ -5,8 +5,12 @@ package org.kuali.student.lum.kim;
 
 import java.security.GeneralSecurityException;
 
+import javax.jws.WebService;
+
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.impl.IdentityServiceImpl;
+import org.kuali.rice.kim.util.KIMWebServiceConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
 
@@ -17,7 +21,8 @@ import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
  * @author delyea
  *
  */
-public class StudentIdentityServiceImpl extends IdentityServiceImpl {
+@WebService(endpointInterface = KIMWebServiceConstants.IdentityService.INTERFACE_CLASS, serviceName = KIMWebServiceConstants.IdentityService.WEB_SERVICE_NAME, portName = KIMWebServiceConstants.IdentityService.WEB_SERVICE_PORT, targetNamespace = KIMWebServiceConstants.MODULE_TARGET_NAMESPACE)
+public class StudentIdentityServiceImpl extends IdentityServiceImpl implements IdentityService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentServiceImpl.class);
 
 	/* (non-Javadoc)

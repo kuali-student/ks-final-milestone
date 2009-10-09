@@ -308,6 +308,9 @@
 			<version>${derby.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+        
+        
+        <!-- these are needed for rice jsp's to work properly -->
 		<dependency>
       		<groupId>tomcat</groupId>
       		<artifactId>jasper-compiler</artifactId>
