@@ -28,6 +28,7 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
                 currentSuggestion = (IdableSuggestion)(event.getSelectedItem());
+                ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
             }
         });
         
@@ -36,9 +37,22 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void onBlur(BlurEvent event) {
                 String currentText = KSSuggestBox.this.getText();
-                if(currentText != null && currentText != "" && currentSuggestion == null){
+                if(currentText != null && !currentText.equals("") && currentSuggestion == null){
                     currentSuggestion = KSSuggestBox.this.oracle.getSuggestionByText(currentText);
+                    if(currentSuggestion == null){
+                    	currentSuggestion = new IdableSuggestion();
+                    	currentSuggestion.setId("");
+                    	currentSuggestion.setDisplayString("");
+                    	currentSuggestion.setReplacementString("");
+                    }
                     ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+                }
+                else if(currentText == null || currentText.equals("")){
+                	currentSuggestion = new IdableSuggestion();
+                	currentSuggestion.setId("");
+                	currentSuggestion.setDisplayString("");
+                	currentSuggestion.setReplacementString("");
+                	ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
                 }
             }
         });
@@ -72,18 +86,55 @@ public class KSSuggestBox extends SuggestBox{
 
     @Override
     public void setValue(String id) {
-        oracle.getSuggestionByIdSearch(id, new Callback<IdableSuggestion>(){
-
-            @Override
-            public void exec(IdableSuggestion result) {
-                currentSuggestion = result;
-                ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
-                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
-                
-            }
-        });
+    	if(id == null || id.equals("")){
+        	currentSuggestion = new IdableSuggestion();
+        	currentSuggestion.setId("");
+        	currentSuggestion.setDisplayString("");
+        	currentSuggestion.setReplacementString("");
+    	}
+    	else
+    	{
+	        oracle.getSuggestionByIdSearch(id, new Callback<IdableSuggestion>(){
+	
+	            @Override
+	            public void exec(IdableSuggestion result) {
+	                currentSuggestion = result;
+	                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
+	                
+	            }
+	        });
+    	}
     }
     
+    
+    @Override
+    public void setValue(String id, boolean fireEvents) {
+    	if(fireEvents == true){
+	    	if(id == null || id.equals("")){
+	        	currentSuggestion = new IdableSuggestion();
+	        	currentSuggestion.setId("");
+	        	currentSuggestion.setDisplayString("");
+	        	currentSuggestion.setReplacementString("");
+	        	ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+	    	}
+	    	else
+	    	{
+		        oracle.getSuggestionByIdSearch(id, new Callback<IdableSuggestion>(){
+		
+		            @Override
+		            public void exec(IdableSuggestion result) {
+		                currentSuggestion = result;
+		                ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+		                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
+		                
+		            }
+		        });
+	    	}
+    	}
+    	else{
+    		this.setValue(id);
+    	}
+    }
     
     
 }
