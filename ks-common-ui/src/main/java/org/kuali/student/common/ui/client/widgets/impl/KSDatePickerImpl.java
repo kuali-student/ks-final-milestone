@@ -175,8 +175,12 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	}
 	
 	public void setValue(Date date){
-	    dateField.setText(df.format(date));
-        picker.setCurrentMonth(date);
+		if(null==date){
+			dateField.setText("");
+		}else{
+			dateField.setText(df.format(date));
+	        picker.setCurrentMonth(date);
+		}
         picker.setValue(date, false);
 	    selectedDate = date;
 	}

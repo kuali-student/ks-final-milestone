@@ -319,7 +319,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
             
             orgPersonRelationInfo.setType((String)orgPersonRelForm.getFieldValue("relType"));
             //TODO this should probably be done differently, especially the FAKE_ID constant in case FAKE_ID is part of institutions actual id structure
-            if(((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems().getItemAttribute(orgPersonRelationInfo.getType(), "id").startsWith(OrgPositionWidget.FAKE_ID)) {
+            if(((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems().getItemAttribute(orgPersonRelationInfo.getType(), "id")!=null&&((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems().getItemAttribute(orgPersonRelationInfo.getType(), "id").startsWith(OrgPositionWidget.FAKE_ID)) {
                 final ListItems checking = ((KSDropDown) orgPersonRelForm.getFieldWidget("relType")).getListItems();
                 DeferredCommand.addCommand(new IncrementalCommand() {
                     @Override
