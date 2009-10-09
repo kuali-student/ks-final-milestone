@@ -612,6 +612,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             saveCourseFormats(cluInfo, cluInfoModelDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
+            saveDynamicAttributes(cluInfo, cluInfoModelDTO);
             
             // now update the clu with whatever changes were made
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
