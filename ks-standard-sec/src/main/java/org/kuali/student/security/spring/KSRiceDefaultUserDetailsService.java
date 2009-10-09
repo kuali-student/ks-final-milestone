@@ -66,18 +66,11 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
             return null;
         }
         
-        //password = username;
         password = (String)authentication.getCredentials();
-        System.out.println("THE PASSWORD " + password);
-        System.out.println("IS AUTH ? " + authentication.isAuthenticated());
         
         KimPrincipalInfo kimPrincipalInfo = null;
         try {
-            if(username.equalsIgnoreCase("admin")){
-              kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
-            } else {
-                kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
-            }
+            kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
             
 	        if (null != kimPrincipalInfo) {
 	            username = kimPrincipalInfo.getPrincipalId();
