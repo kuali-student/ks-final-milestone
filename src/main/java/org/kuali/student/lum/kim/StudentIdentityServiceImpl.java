@@ -7,6 +7,7 @@ import java.security.GeneralSecurityException;
 
 import javax.jws.WebService;
 
+import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.impl.IdentityServiceImpl;
@@ -31,8 +32,7 @@ public class StudentIdentityServiceImpl extends IdentityServiceImpl implements I
 	@Override
 	public KimPrincipalInfo getPrincipalByPrincipalNameAndPassword(String principalName, String password) {
 		try {
-		    String hashPassword = KNSServiceLocator.getEncryptionService().hash(password);
-		    String finalPassword = hashPassword + "(&^HSH#&)";
+		    String finalPassword = KNSServiceLocator.getEncryptionService().hash(password)+ EncryptionService.HASH_POST_PREFIX;
 			return super.getPrincipalByPrincipalNameAndPassword(principalName, finalPassword);
 		} catch (GeneralSecurityException e) {
 			String message = "Caught Exception attempting to encrypt password (with length " + password.length() + ") for principalName: " + principalName;
