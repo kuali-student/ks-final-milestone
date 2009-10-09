@@ -1,0 +1,2685 @@
+
+
+  
+  Platform used: org.apache.torque.engine.platform.PlatformOracleImpl
+
+      
+  SQL file to be created: schema.sql
+
+  Creating Tables:
+      Table: KSLU_CLU
+    
+      Table: KSLU_CLUCLU_RELTN
+    
+      Table: KSLU_CLUCLU_RELTN_ATTR
+    
+      Table: KSLU_CLU_ACCRED
+    
+      Table: KSLU_CLU_ACCRED_ATTR
+    
+      Table: KSLU_CLU_ACCT
+    
+      Table: KSLU_CLU_ACCT_ATTR
+    
+      Table: KSLU_CLU_ADMIN_ORG
+    
+      Table: KSLU_CLU_ADMIN_ORG_ATTR
+    
+      Table: KSLU_CLU_ATP_TYPE_KEY
+    
+      Table: KSLU_CLU_ATTR
+    
+      Table: KSLU_CLU_CR
+    
+      Table: KSLU_CLU_FEE
+    
+      Table: KSLU_CLU_FEE_ATTR
+    
+      Table: KSLU_CLU_IDENT
+    
+      Table: KSLU_CLU_INSTR
+    
+      Table: KSLU_CLU_INSTR_ATTR
+    
+      Table: KSLU_CLU_JN_ALT_ADMIN_ORG
+    
+      Table: KSLU_CLU_JN_CAMP_LOC
+    
+      Table: KSLU_CLU_JN_CLU_ACCRED
+    
+      Table: KSLU_CLU_JN_CLU_IDENT
+    
+      Table: KSLU_CLU_JN_CLU_INSTR
+    
+      Table: KSLU_CLU_JN_LU_STMT
+    
+      Table: KSLU_CLU_JN_ORG
+    
+      Table: KSLU_CLU_JN_SUBJ_ORG
+    
+      Table: KSLU_CLU_PUBL
+    
+      Table: KSLU_CLU_PUBL_ATTR
+    
+      Table: KSLU_CLU_PUBL_JN_CLU_INSTR
+    
+      Table: KSLU_CLU_SET
+    
+      Table: KSLU_CLU_SET_ATTR
+    
+      Table: KSLU_CLU_SET_JN_CLU
+    
+      Table: KSLU_CLU_SET_JN_CLU_SET
+    
+      Table: KSLU_LO
+    
+      Table: KSLU_LO_ATTR
+    
+      Table: KSLU_LO_CATEGORY
+    
+      Table: KSLU_LO_CATEGORY_ATTR
+    
+      Table: KSLU_LO_HIERARCHY_ATTR
+    
+      Table: KSLU_LO_HIRCHY
+    
+      Table: KSLU_LO_JN_CLU
+    
+      Table: KSLU_LO_LO_EQUIV_RELTN
+    
+      Table: KSLU_LO_LO_HIRCHY_RELTN
+    
+      Table: KSLU_LO_TYPE
+    
+      Table: KSLU_LO_TYPE_ATTR
+    
+      Table: KSLU_LR_TYPE
+    
+      Table: KSLU_LR_TYPE_ATTR
+    
+      Table: KSLU_LUI
+    
+      Table: KSLU_LUILUI_RELTN
+    
+      Table: KSLU_LUILUI_RELTN_ATTR
+    
+      Table: KSLU_LUI_ATTR
+    
+      Table: KSLU_LULU_RELTN_TYPE
+    
+      Table: KSLU_LULU_RELTN_TYPE_ATTR
+    
+      Table: KSLU_LULU_RELTN_TYPE_JN_LU_TYP
+    
+      Table: KSLU_LUTYPE
+    
+      Table: KSLU_LU_CODE
+    
+      Table: KSLU_LU_CODE_ATTR
+    
+      Table: KSLU_LU_DOC_RELTN
+    
+      Table: KSLU_LU_DOC_RELTN_ATTR
+    
+      Table: KSLU_LU_DOC_RELTN_TYPE
+    
+      Table: KSLU_LU_DOC_RELTN_TYPE_ATTR
+    
+      Table: KSLU_LU_STMT_TYPE_JN_LU_TYPE
+    
+      Table: KSLU_LU_TYPE_ATTR
+    
+      Table: KSLU_REQCOMTYP_JN_REQCOMFLDTYP
+    
+      Table: KSLU_REQ_COM
+    
+      Table: KSLU_REQ_COM_FIELD
+    
+      Table: KSLU_REQ_COM_FIELD_TYPE
+    
+      Table: KSLU_REQ_COM_JN_REQ_COM_FIELD
+    
+      Table: KSLU_REQ_COM_TYPE
+    
+      Table: KSLU_REQ_COM_TYPE_ATTR
+    
+      Table: KSLU_REQ_COM_TYPE_NL_TMPL
+    
+      Table: KSLU_RSRC
+    
+      Table: KSLU_STMT
+    
+      Table: KSLU_STMT_ATTR
+    
+      Table: KSLU_STMT_JN_REQ_COM
+    
+      Table: KSLU_STMT_TYPE
+    
+      Table: KSLU_STMT_TYPE_ATTR
+    
+      Table: KSLU_STMT_TYPE_HEADER_TMPL
+    
+      Table: KSLU_STY_JN_LUSTY
+    
+      Table: KSLU_STY_JN_RQTY
+    
+      Table: KS_LO_RICH_TEXT_T
+    
+      Table: KS_RICH_TEXT_T
+    
+  
+  Creating Views
+
+    	View: CTX_CLASSES
+    
+    	View: CTX_INDEX_SETS
+    
+    	View: CTX_INDEX_SET_INDEXES
+    
+    	View: CTX_OBJECTS
+    
+    	View: CTX_OBJECT_ATTRIBUTES
+    
+    	View: CTX_OBJECT_ATTRIBUTE_LOV
+    
+    	View: CTX_PARAMETERS
+    
+    	View: CTX_PREFERENCES
+    
+    	View: CTX_PREFERENCE_VALUES
+    
+    	View: CTX_SECTIONS
+    
+    	View: CTX_SECTION_GROUPS
+    
+    	View: CTX_SQES
+    
+    	View: CTX_STOPLISTS
+    
+    	View: CTX_STOPWORDS
+    
+    	View: CTX_SUB_LEXERS
+    
+    	View: CTX_THESAURI
+    
+    	View: CTX_THES_PHRASES
+    
+    	View: CTX_TRACE_VALUES
+    
+    	View: CTX_USER_INDEXES
+    
+    	View: CTX_USER_INDEX_ERRORS
+    
+    	View: CTX_USER_INDEX_OBJECTS
+    
+    	View: CTX_USER_INDEX_PARTITIONS
+    
+    	View: CTX_USER_INDEX_SETS
+    
+    	View: CTX_USER_INDEX_SET_INDEXES
+    
+    	View: CTX_USER_INDEX_SUB_LEXERS
+    
+    	View: CTX_USER_INDEX_SUB_LEXER_VALS
+    
+    	View: CTX_USER_INDEX_VALUES
+    
+    	View: CTX_USER_PENDING
+    
+    	View: CTX_USER_PREFERENCES
+    
+    	View: CTX_USER_PREFERENCE_VALUES
+    
+    	View: CTX_USER_SECTIONS
+    
+    	View: CTX_USER_SECTION_GROUPS
+    
+    	View: CTX_USER_SQES
+    
+    	View: CTX_USER_STOPLISTS
+    
+    	View: CTX_USER_STOPWORDS
+    
+    	View: CTX_USER_SUB_LEXERS
+    
+    	View: CTX_USER_THESAURI
+    
+    	View: CTX_USER_THES_PHRASES
+    
+    	View: DRV$DELETE
+    
+    	View: DRV$DELETE2
+    
+    	View: DRV$ONLINE_PENDING
+    
+    	View: DRV$PENDING
+    
+    	View: DRV$UNINDEXED
+    
+    	View: DRV$UNINDEXED2
+    
+    	View: DRV$WAITING
+    
+    	View: WWV_FLOW_CLICKTHRU_LOG
+    
+    	View: WWV_FLOW_COLLECTIONS
+    
+    	View: WWV_FLOW_FILES
+    
+    	View: WWV_FLOW_GROUP_USERS
+    
+    	View: WWV_FLOW_HOURS_12
+    
+    	View: WWV_FLOW_HOURS_24
+    
+    	View: WWV_FLOW_MINUTES
+    
+    	View: WWV_FLOW_MINUTES_5
+    
+    	View: WWV_FLOW_MONTHS_MON
+    
+    	View: WWV_FLOW_MONTHS_MONTH
+    
+    	View: WWV_FLOW_PLSQL_JOBS
+    
+    	View: WWV_FLOW_USERS
+    
+    	View: WWV_FLOW_USER_ACTIVITY_LOG
+    
+    	View: WWV_FLOW_USER_MAIL_LOG
+    
+    	View: WWV_FLOW_USER_MAIL_QUEUE
+    
+    	View: WWV_FLOW_YEARS
+    
+    	View: ALL_GEOMETRY_COLUMNS
+    
+    	View: ALL_SDO_GEOM_METADATA
+    
+    	View: ALL_SDO_INDEX_INFO
+    
+    	View: ALL_SDO_INDEX_METADATA
+    
+    	View: ALL_SDO_LRS_METADATA
+    
+    	View: ALL_SDO_MAPS
+    
+    	View: ALL_SDO_STYLES
+    
+    	View: ALL_SDO_THEMES
+    
+    	View: ALL_SDO_TOPO_INFO
+    
+    	View: ALL_SDO_TOPO_METADATA
+    
+    	View: CS_SRS
+    
+    	View: DBA_SDO_MAPS
+    
+    	View: DBA_SDO_STYLES
+    
+    	View: DBA_SDO_THEMES
+    
+    	View: GEODETIC_SRIDS
+    
+    	View: MY_SDO_INDEX_METADATA
+    
+    	View: SDO_ANGLE_UNITS
+    
+    	View: SDO_AREA_UNITS
+    
+    	View: SDO_AVAILABLE_ELEM_OPS
+    
+    	View: SDO_AVAILABLE_NON_ELEM_OPS
+    
+    	View: SDO_AVAILABLE_OPS
+    
+    	View: SDO_COORD_REF_SYSTEM
+    
+    	View: SDO_CRS_COMPOUND
+    
+    	View: SDO_CRS_ENGINEERING
+    
+    	View: SDO_CRS_GEOCENTRIC
+    
+    	View: SDO_CRS_GEOGRAPHIC2D
+    
+    	View: SDO_CRS_GEOGRAPHIC3D
+    
+    	View: SDO_CRS_PROJECTED
+    
+    	View: SDO_CRS_VERTICAL
+    
+    	View: SDO_DATUMS_OLD_FORMAT
+    
+    	View: SDO_DATUM_ENGINEERING
+    
+    	View: SDO_DATUM_GEODETIC
+    
+    	View: SDO_DATUM_VERTICAL
+    
+    	View: SDO_DIST_UNITS
+    
+    	View: SDO_ELLIPSOIDS_OLD_FORMAT
+    
+    	View: SDO_PROJECTIONS_OLD_FORMAT
+    
+    	View: SDO_RELATEMASK_TABLE
+    
+    	View: SDO_TOPO_TRANSACT_DATA$
+    
+    	View: USER_GEOMETRY_COLUMNS
+    
+    	View: USER_SDO_GEOM_METADATA
+    
+    	View: USER_SDO_INDEX_INFO
+    
+    	View: USER_SDO_INDEX_METADATA
+    
+    	View: USER_SDO_LRS_METADATA
+    
+    	View: USER_SDO_MAPS
+    
+    	View: USER_SDO_STYLES
+    
+    	View: USER_SDO_THEMES
+    
+    	View: USER_SDO_TOPO_INFO
+    
+    	View: USER_SDO_TOPO_METADATA
+    
+    	View: ALL_ALL_TABLES
+    
+    	View: ALL_APPLY
+    
+    	View: ALL_APPLY_CONFLICT_COLUMNS
+    
+    	View: ALL_APPLY_DML_HANDLERS
+    
+    	View: ALL_APPLY_ENQUEUE
+    
+    	View: ALL_APPLY_ERROR
+    
+    	View: ALL_APPLY_EXECUTE
+    
+    	View: ALL_APPLY_KEY_COLUMNS
+    
+    	View: ALL_APPLY_PARAMETERS
+    
+    	View: ALL_APPLY_PROGRESS
+    
+    	View: ALL_APPLY_TABLE_COLUMNS
+    
+    	View: ALL_ARGUMENTS
+    
+    	View: ALL_ASSOCIATIONS
+    
+    	View: ALL_AWS
+    
+    	View: ALL_AW_PS
+    
+    	View: ALL_BASE_TABLE_MVIEWS
+    
+    	View: ALL_CAPTURE
+    
+    	View: ALL_CAPTURE_EXTRA_ATTRIBUTES
+    
+    	View: ALL_CAPTURE_PARAMETERS
+    
+    	View: ALL_CAPTURE_PREPARED_DATABASE
+    
+    	View: ALL_CAPTURE_PREPARED_SCHEMAS
+    
+    	View: ALL_CAPTURE_PREPARED_TABLES
+    
+    	View: ALL_CATALOG
+    
+    	View: ALL_CLUSTERS
+    
+    	View: ALL_CLUSTER_HASH_EXPRESSIONS
+    
+    	View: ALL_COLL_TYPES
+    
+    	View: ALL_COL_COMMENTS
+    
+    	View: ALL_COL_PRIVS
+    
+    	View: ALL_COL_PRIVS_MADE
+    
+    	View: ALL_COL_PRIVS_RECD
+    
+    	View: ALL_CONSTRAINTS
+    
+    	View: ALL_CONS_COLUMNS
+    
+    	View: ALL_CONS_OBJ_COLUMNS
+    
+    	View: ALL_CONTEXT
+    
+    	View: ALL_DB_LINKS
+    
+    	View: ALL_DEF_AUDIT_OPTS
+    
+    	View: ALL_DEPENDENCIES
+    
+    	View: ALL_DEQUEUE_QUEUES
+    
+    	View: ALL_DIMENSIONS
+    
+    	View: ALL_DIM_ATTRIBUTES
+    
+    	View: ALL_DIM_CHILD_OF
+    
+    	View: ALL_DIM_HIERARCHIES
+    
+    	View: ALL_DIM_JOIN_KEY
+    
+    	View: ALL_DIM_LEVELS
+    
+    	View: ALL_DIM_LEVEL_KEY
+    
+    	View: ALL_DIRECTORIES
+    
+    	View: ALL_ENCRYPTED_COLUMNS
+    
+    	View: ALL_ERRORS
+    
+    	View: ALL_EVALUATION_CONTEXTS
+    
+    	View: ALL_EVALUATION_CONTEXT_TABLES
+    
+    	View: ALL_EVALUATION_CONTEXT_VARS
+    
+    	View: ALL_EXTERNAL_LOCATIONS
+    
+    	View: ALL_EXTERNAL_TABLES
+    
+    	View: ALL_FILE_GROUPS
+    
+    	View: ALL_FILE_GROUP_EXPORT_INFO
+    
+    	View: ALL_FILE_GROUP_FILES
+    
+    	View: ALL_FILE_GROUP_TABLES
+    
+    	View: ALL_FILE_GROUP_TABLESPACES
+    
+    	View: ALL_FILE_GROUP_VERSIONS
+    
+    	View: ALL_INDEXES
+    
+    	View: ALL_INDEXTYPES
+    
+    	View: ALL_INDEXTYPE_ARRAYTYPES
+    
+    	View: ALL_INDEXTYPE_COMMENTS
+    
+    	View: ALL_INDEXTYPE_OPERATORS
+    
+    	View: ALL_IND_COLUMNS
+    
+    	View: ALL_IND_EXPRESSIONS
+    
+    	View: ALL_IND_PARTITIONS
+    
+    	View: ALL_IND_STATISTICS
+    
+    	View: ALL_IND_SUBPARTITIONS
+    
+    	View: ALL_INTERNAL_TRIGGERS
+    
+    	View: ALL_JOIN_IND_COLUMNS
+    
+    	View: ALL_LIBRARIES
+    
+    	View: ALL_LOBS
+    
+    	View: ALL_LOB_PARTITIONS
+    
+    	View: ALL_LOB_SUBPARTITIONS
+    
+    	View: ALL_LOB_TEMPLATES
+    
+    	View: ALL_LOG_GROUPS
+    
+    	View: ALL_LOG_GROUP_COLUMNS
+    
+    	View: ALL_METHOD_PARAMS
+    
+    	View: ALL_METHOD_RESULTS
+    
+    	View: ALL_MVIEWS
+    
+    	View: ALL_MVIEW_AGGREGATES
+    
+    	View: ALL_MVIEW_ANALYSIS
+    
+    	View: ALL_MVIEW_COMMENTS
+    
+    	View: ALL_MVIEW_DETAIL_RELATIONS
+    
+    	View: ALL_MVIEW_JOINS
+    
+    	View: ALL_MVIEW_KEYS
+    
+    	View: ALL_MVIEW_LOGS
+    
+    	View: ALL_MVIEW_REFRESH_TIMES
+    
+    	View: ALL_NESTED_TABLES
+    
+    	View: ALL_NESTED_TABLE_COLS
+    
+    	View: ALL_OBJECTS
+    
+    	View: ALL_OBJECT_TABLES
+    
+    	View: ALL_OBJ_COLATTRS
+    
+    	View: ALL_OPANCILLARY
+    
+    	View: ALL_OPARGUMENTS
+    
+    	View: ALL_OPBINDINGS
+    
+    	View: ALL_OPERATORS
+    
+    	View: ALL_OPERATOR_COMMENTS
+    
+    	View: ALL_PARTIAL_DROP_TABS
+    
+    	View: ALL_PART_COL_STATISTICS
+    
+    	View: ALL_PART_HISTOGRAMS
+    
+    	View: ALL_PART_INDEXES
+    
+    	View: ALL_PART_KEY_COLUMNS
+    
+    	View: ALL_PART_LOBS
+    
+    	View: ALL_PART_TABLES
+    
+    	View: ALL_PENDING_CONV_TABLES
+    
+    	View: ALL_PLSQL_OBJECT_SETTINGS
+    
+    	View: ALL_POLICIES
+    
+    	View: ALL_POLICY_CONTEXTS
+    
+    	View: ALL_POLICY_GROUPS
+    
+    	View: ALL_PROBE_OBJECTS
+    
+    	View: ALL_PROCEDURES
+    
+    	View: ALL_PROPAGATION
+    
+    	View: ALL_PUBLISHED_COLUMNS
+    
+    	View: ALL_QUEUES
+    
+    	View: ALL_QUEUE_PUBLISHERS
+    
+    	View: ALL_QUEUE_SUBSCRIBERS
+    
+    	View: ALL_QUEUE_TABLES
+    
+    	View: ALL_REFRESH
+    
+    	View: ALL_REFRESH_CHILDREN
+    
+    	View: ALL_REFRESH_DEPENDENCIES
+    
+    	View: ALL_REFS
+    
+    	View: ALL_REGISTERED_MVIEWS
+    
+    	View: ALL_REGISTERED_SNAPSHOTS
+    
+    	View: ALL_REGISTRY_BANNERS
+    
+    	View: ALL_REPAUDIT_ATTRIBUTE
+    
+    	View: ALL_REPAUDIT_COLUMN
+    
+    	View: ALL_REPCAT
+    
+    	View: ALL_REPCATLOG
+    
+    	View: ALL_REPCAT_REFRESH_TEMPLATES
+    
+    	View: ALL_REPCAT_TEMPLATE_OBJECTS
+    
+    	View: ALL_REPCAT_TEMPLATE_PARMS
+    
+    	View: ALL_REPCAT_TEMPLATE_SITES
+    
+    	View: ALL_REPCAT_USER_AUTHORIZATIONS
+    
+    	View: ALL_REPCAT_USER_PARM_VALUES
+    
+    	View: ALL_REPCOLUMN
+    
+    	View: ALL_REPCOLUMN_GROUP
+    
+    	View: ALL_REPCONFLICT
+    
+    	View: ALL_REPDDL
+    
+    	View: ALL_REPFLAVORS
+    
+    	View: ALL_REPFLAVOR_COLUMNS
+    
+    	View: ALL_REPFLAVOR_OBJECTS
+    
+    	View: ALL_REPGENERATED
+    
+    	View: ALL_REPGENOBJECTS
+    
+    	View: ALL_REPGROUP
+    
+    	View: ALL_REPGROUPED_COLUMN
+    
+    	View: ALL_REPGROUP_PRIVILEGES
+    
+    	View: ALL_REPKEY_COLUMNS
+    
+    	View: ALL_REPOBJECT
+    
+    	View: ALL_REPPARAMETER_COLUMN
+    
+    	View: ALL_REPPRIORITY
+    
+    	View: ALL_REPPRIORITY_GROUP
+    
+    	View: ALL_REPPROP
+    
+    	View: ALL_REPRESOLUTION
+    
+    	View: ALL_REPRESOLUTION_METHOD
+    
+    	View: ALL_REPRESOLUTION_STATISTICS
+    
+    	View: ALL_REPRESOL_STATS_CONTROL
+    
+    	View: ALL_REPSCHEMA
+    
+    	View: ALL_REPSITES
+    
+    	View: ALL_REWRITE_EQUIVALENCES
+    
+    	View: ALL_RULES
+    
+    	View: ALL_RULESETS
+    
+    	View: ALL_RULE_SETS
+    
+    	View: ALL_RULE_SET_RULES
+    
+    	View: ALL_SCHEDULER_CHAINS
+    
+    	View: ALL_SCHEDULER_CHAIN_RULES
+    
+    	View: ALL_SCHEDULER_CHAIN_STEPS
+    
+    	View: ALL_SCHEDULER_GLOBAL_ATTRIBUTE
+    
+    	View: ALL_SCHEDULER_JOBS
+    
+    	View: ALL_SCHEDULER_JOB_ARGS
+    
+    	View: ALL_SCHEDULER_JOB_CLASSES
+    
+    	View: ALL_SCHEDULER_JOB_LOG
+    
+    	View: ALL_SCHEDULER_JOB_RUN_DETAILS
+    
+    	View: ALL_SCHEDULER_PROGRAMS
+    
+    	View: ALL_SCHEDULER_PROGRAM_ARGS
+    
+    	View: ALL_SCHEDULER_RUNNING_CHAINS
+    
+    	View: ALL_SCHEDULER_RUNNING_JOBS
+    
+    	View: ALL_SCHEDULER_SCHEDULES
+    
+    	View: ALL_SCHEDULER_WINDOWS
+    
+    	View: ALL_SCHEDULER_WINDOW_DETAILS
+    
+    	View: ALL_SCHEDULER_WINDOW_GROUPS
+    
+    	View: ALL_SCHEDULER_WINDOW_LOG
+    
+    	View: ALL_SCHEDULER_WINGROUP_MEMBERS
+    
+    	View: ALL_SECONDARY_OBJECTS
+    
+    	View: ALL_SEC_RELEVANT_COLS
+    
+    	View: ALL_SEQUENCES
+    
+    	View: ALL_SNAPSHOTS
+    
+    	View: ALL_SNAPSHOT_LOGS
+    
+    	View: ALL_SOURCE
+    
+    	View: ALL_SOURCE_TABLES
+    
+    	View: ALL_SQLJ_TYPES
+    
+    	View: ALL_SQLJ_TYPE_ATTRS
+    
+    	View: ALL_SQLJ_TYPE_METHODS
+    
+    	View: ALL_SQLSET
+    
+    	View: ALL_SQLSET_BINDS
+    
+    	View: ALL_SQLSET_PLANS
+    
+    	View: ALL_SQLSET_REFERENCES
+    
+    	View: ALL_SQLSET_STATEMENTS
+    
+    	View: ALL_STORED_SETTINGS
+    
+    	View: ALL_STREAMS_GLOBAL_RULES
+    
+    	View: ALL_STREAMS_MESSAGE_CONSUMERS
+    
+    	View: ALL_STREAMS_MESSAGE_RULES
+    
+    	View: ALL_STREAMS_NEWLY_SUPPORTED
+    
+    	View: ALL_STREAMS_RULES
+    
+    	View: ALL_STREAMS_SCHEMA_RULES
+    
+    	View: ALL_STREAMS_TABLE_RULES
+    
+    	View: ALL_STREAMS_TRANSFORM_FUNCTION
+    
+    	View: ALL_STREAMS_UNSUPPORTED
+    
+    	View: ALL_SUBPARTITION_TEMPLATES
+    
+    	View: ALL_SUBPART_COL_STATISTICS
+    
+    	View: ALL_SUBPART_HISTOGRAMS
+    
+    	View: ALL_SUBPART_KEY_COLUMNS
+    
+    	View: ALL_SUBSCRIBED_COLUMNS
+    
+    	View: ALL_SUBSCRIBED_TABLES
+    
+    	View: ALL_SUBSCRIPTIONS
+    
+    	View: ALL_SUMDELTA
+    
+    	View: ALL_SUMMARIES
+    
+    	View: ALL_SUMMARY_AGGREGATES
+    
+    	View: ALL_SUMMARY_DETAIL_TABLES
+    
+    	View: ALL_SUMMARY_JOINS
+    
+    	View: ALL_SUMMARY_KEYS
+    
+    	View: ALL_SYNONYMS
+    
+    	View: ALL_TABLES
+    
+    	View: ALL_TAB_COLS
+    
+    	View: ALL_TAB_COLUMNS
+    
+    	View: ALL_TAB_COL_STATISTICS
+    
+    	View: ALL_TAB_COMMENTS
+    
+    	View: ALL_TAB_HISTOGRAMS
+    
+    	View: ALL_TAB_MODIFICATIONS
+    
+    	View: ALL_TAB_PARTITIONS
+    
+    	View: ALL_TAB_PRIVS
+    
+    	View: ALL_TAB_PRIVS_MADE
+    
+    	View: ALL_TAB_PRIVS_RECD
+    
+    	View: ALL_TAB_STATISTICS
+    
+    	View: ALL_TAB_STATS_HISTORY
+    
+    	View: ALL_TAB_SUBPARTITIONS
+    
+    	View: ALL_TRIGGERS
+    
+    	View: ALL_TRIGGER_COLS
+    
+    	View: ALL_TYPES
+    
+    	View: ALL_TYPE_ATTRS
+    
+    	View: ALL_TYPE_METHODS
+    
+    	View: ALL_TYPE_VERSIONS
+    
+    	View: ALL_UNUSED_COL_TABS
+    
+    	View: ALL_UPDATABLE_COLUMNS
+    
+    	View: ALL_USERS
+    
+    	View: ALL_USTATS
+    
+    	View: ALL_VARRAYS
+    
+    	View: ALL_VIEWS
+    
+    	View: ALL_WARNING_SETTINGS
+    
+    	View: ALL_XML_INDEXES
+    
+    	View: ALL_XML_SCHEMAS
+    
+    	View: ALL_XML_SCHEMAS2
+    
+    	View: ALL_XML_TABLES
+    
+    	View: ALL_XML_TAB_COLS
+    
+    	View: ALL_XML_VIEWS
+    
+    	View: ALL_XML_VIEW_COLS
+    
+    	View: CATALOG
+    
+    	View: COL
+    
+    	View: COLUMN_PRIVILEGES
+    
+    	View: DATABASE_COMPATIBLE_LEVEL
+    
+    	View: DATABASE_EXPORT_OBJECTS
+    
+    	View: DATABASE_PROPERTIES
+    
+    	View: DATAPUMP_DDL_TRANSFORM_PARAMS
+    
+    	View: DATAPUMP_OBJECT_CONNECT
+    
+    	View: DATAPUMP_PATHMAP
+    
+    	View: DATAPUMP_PATHS
+    
+    	View: DATAPUMP_REMAP_OBJECTS
+    
+    	View: DATAPUMP_TABLE_DATA
+    
+    	View: DBA_AUTO_SEGADV_CTL
+    
+    	View: DBA_AUTO_SEGADV_SUMMARY
+    
+    	View: DEFERRCOUNT
+    
+    	View: DICTIONARY
+    
+    	View: DICT_COLUMNS
+    
+    	View: EXPCOMPRESSEDPART
+    
+    	View: EXPCOMPRESSEDSUB
+    
+    	View: EXPCOMPRESSEDTAB
+    
+    	View: EXPEXEMPT
+    
+    	View: EXPGETENCCOLNAM
+    
+    	View: EXPTABSUBPART
+    
+    	View: EXPTABSUBPARTDATA_VIEW
+    
+    	View: EXPTABSUBPARTLOBFRAG
+    
+    	View: EXPTABSUBPARTLOB_VIEW
+    
+    	View: EXU102XTYPU
+    
+    	View: EXU10ADEFPSWITCHES
+    
+    	View: EXU10AOBJSWITCH
+    
+    	View: EXU10ASCU
+    
+    	View: EXU10CCLO
+    
+    	View: EXU10CCLU
+    
+    	View: EXU10COEU
+    
+    	View: EXU10DEFPSWITCHES
+    
+    	View: EXU10DOSO
+    
+    	View: EXU10IND_BASE
+    
+    	View: EXU10LNKU
+    
+    	View: EXU10MVL
+    
+    	View: EXU10MVLU
+    
+    	View: EXU10OBJSWITCH
+    
+    	View: EXU10R2DEFPSWITCHES
+    
+    	View: EXU10R2OBJSWITCH
+    
+    	View: EXU10SNAPLU
+    
+    	View: EXU10SNAPU
+    
+    	View: EXU10TABSU
+    
+    	View: EXU10TABU
+    
+    	View: EXU816MAXSQV
+    
+    	View: EXU816TGRU
+    
+    	View: EXU81ACTIONOBJ
+    
+    	View: EXU81ACTIONPKG
+    
+    	View: EXU81ASSOC
+    
+    	View: EXU81CSC
+    
+    	View: EXU81DOIU
+    
+    	View: EXU81IND
+    
+    	View: EXU81IND_BASE
+    
+    	View: EXU81ITYU
+    
+    	View: EXU81IXCPU
+    
+    	View: EXU81IXSPU
+    
+    	View: EXU81JAV
+    
+    	View: EXU81JAVT
+    
+    	View: EXU81LBCPU
+    
+    	View: EXU81LBPU
+    
+    	View: EXU81LBSPU
+    
+    	View: EXU81NOS
+    
+    	View: EXU81OBJECTPKG
+    
+    	View: EXU81OPRU
+    
+    	View: EXU81PLBU
+    
+    	View: EXU81PROCOBJ
+    
+    	View: EXU81PROCOBJINSTANCE
+    
+    	View: EXU81RGCU
+    
+    	View: EXU81RGSU
+    
+    	View: EXU81RLS
+    
+    	View: EXU81SCMU
+    
+    	View: EXU81SLFCU
+    
+    	View: EXU81SNAPLU
+    
+    	View: EXU81SNAPU
+    
+    	View: EXU81SPOKIU
+    
+    	View: EXU81SPOKU
+    
+    	View: EXU81SRTU
+    
+    	View: EXU81TABSU
+    
+    	View: EXU81TABU
+    
+    	View: EXU81TBCPU
+    
+    	View: EXU81TBSPU
+    
+    	View: EXU81TGRU
+    
+    	View: EXU81TYPU
+    
+    	View: EXU81USCIU
+    
+    	View: EXU8ANAL
+    
+    	View: EXU8ASCU
+    
+    	View: EXU8BSZ
+    
+    	View: EXU8CCLO
+    
+    	View: EXU8CCLU
+    
+    	View: EXU8CCOU
+    
+    	View: EXU8CGRU
+    
+    	View: EXU8CLUU
+    
+    	View: EXU8CMTU
+    
+    	View: EXU8COEU
+    
+    	View: EXU8COLU
+    
+    	View: EXU8CONU
+    
+    	View: EXU8COOU
+    
+    	View: EXU8CPO
+    
+    	View: EXU8CSET
+    
+    	View: EXU8CSNU
+    
+    	View: EXU8DIM
+    
+    	View: EXU8DIMU
+    
+    	View: EXU8FPTU
+    
+    	View: EXU8FUL
+    
+    	View: EXU8GLOB
+    
+    	View: EXU8GRNU
+    
+    	View: EXU8HSTU
+    
+    	View: EXU8ICO
+    
+    	View: EXU8ICOU
+    
+    	View: EXU8ICPLSQL
+    
+    	View: EXU8INDU
+    
+    	View: EXU8INKU
+    
+    	View: EXU8IOVU
+    
+    	View: EXU8IXPU
+    
+    	View: EXU8JBQU
+    
+    	View: EXU8LIBU
+    
+    	View: EXU8LNKU
+    
+    	View: EXU8LOBU
+    
+    	View: EXU8NTBU
+    
+    	View: EXU8NXPU
+    
+    	View: EXU8OIDU
+    
+    	View: EXU8OPT
+    
+    	View: EXU8ORD
+    
+    	View: EXU8ORDU
+    
+    	View: EXU8ORFS
+    
+    	View: EXU8PDSU
+    
+    	View: EXU8PNTU
+    
+    	View: EXU8POKIU
+    
+    	View: EXU8POKU
+    
+    	View: EXU8PSTU
+    
+    	View: EXU8REFU
+    
+    	View: EXU8RFSU
+    
+    	View: EXU8RGCU
+    
+    	View: EXU8RGSU
+    
+    	View: EXU8SCMU
+    
+    	View: EXU8SEQU
+    
+    	View: EXU8SLFCU
+    
+    	View: EXU8SLOGU
+    
+    	View: EXU8SNAPLU
+    
+    	View: EXU8SNAPU
+    
+    	View: EXU8SPSU
+    
+    	View: EXU8SPU
+    
+    	View: EXU8SRTU
+    
+    	View: EXU8STOU
+    
+    	View: EXU8SYNU
+    
+    	View: EXU8TABU
+    
+    	View: EXU8TBPU
+    
+    	View: EXU8TGRU
+    
+    	View: EXU8TNE
+    
+    	View: EXU8TNEB
+    
+    	View: EXU8TYPBU
+    
+    	View: EXU8TYPTU
+    
+    	View: EXU8TYPU
+    
+    	View: EXU8USCU
+    
+    	View: EXU8USRU
+    
+    	View: EXU8VDPTU
+    
+    	View: EXU8VER
+    
+    	View: EXU8VEWU
+    
+    	View: EXU8VINFU
+    
+    	View: EXU8VNCU
+    
+    	View: EXU92FPTPU
+    
+    	View: EXU92FPTU
+    
+    	View: EXU92TGRU
+    
+    	View: EXU92TSP
+    
+    	View: EXU92TSPL
+    
+    	View: EXU9ACTIONOBJ
+    
+    	View: EXU9BJF
+    
+    	View: EXU9BJW
+    
+    	View: EXU9CCLO
+    
+    	View: EXU9CCLU
+    
+    	View: EXU9COEU
+    
+    	View: EXU9COOU
+    
+    	View: EXU9DEFPSWITCHES
+    
+    	View: EXU9DOIU
+    
+    	View: EXU9DOSO
+    
+    	View: EXU9EIP
+    
+    	View: EXU9FGA
+    
+    	View: EXU9GSAS
+    
+    	View: EXU9IND
+    
+    	View: EXU9IND_BASE
+    
+    	View: EXU9INHCOLCONS
+    
+    	View: EXU9IXCPU
+    
+    	View: EXU9LBCPU
+    
+    	View: EXU9LBPU
+    
+    	View: EXU9LNKU
+    
+    	View: EXU9LOBU
+    
+    	View: EXU9MVL
+    
+    	View: EXU9MVLCDCCC
+    
+    	View: EXU9MVLCDCS
+    
+    	View: EXU9MVLCDCSC
+    
+    	View: EXU9MVLCDCST
+    
+    	View: EXU9MVLU
+    
+    	View: EXU9NLS
+    
+    	View: EXU9NOS
+    
+    	View: EXU9OBJSWITCH
+    
+    	View: EXU9OTNNULL
+    
+    	View: EXU9PCT
+    
+    	View: EXU9PDSU
+    
+    	View: EXU9PGP
+    
+    	View: EXU9PLBU
+    
+    	View: EXU9PTS
+    
+    	View: EXU9RLS
+    
+    	View: EXU9SNAPLU
+    
+    	View: EXU9SNAPU
+    
+    	View: EXU9STOU
+    
+    	View: EXU9SYNU
+    
+    	View: EXU9TABSU
+    
+    	View: EXU9TABU
+    
+    	View: EXU9TAB_UNUSED_COLS
+    
+    	View: EXU9TBCPU
+    
+    	View: EXU9TNE
+    
+    	View: EXU9TNEB
+    
+    	View: EXU9TYPTU
+    
+    	View: EXU9TYPTU2
+    
+    	View: EXU9TYPU
+    
+    	View: EXU9UTSU
+    
+    	View: EXU9XDBUID
+    
+    	View: EXU9XMLST
+    
+    	View: EXU9XTB
+    
+    	View: FLASHBACK_TRANSACTION_QUERY
+    
+    	View: GLOBAL_CONTEXT
+    
+    	View: GLOBAL_NAME
+    
+    	View: GV_$ACTIVE_INSTANCES
+    
+    	View: GV_$ACTIVE_SESS_POOL_MTH
+    
+    	View: GV_$AW_AGGREGATE_OP
+    
+    	View: GV_$AW_ALLOCATE_OP
+    
+    	View: GV_$AW_CALC
+    
+    	View: GV_$AW_LONGOPS
+    
+    	View: GV_$AW_OLAP
+    
+    	View: GV_$AW_SESSION_INFO
+    
+    	View: GV_$BH
+    
+    	View: GV_$BLOCKING_QUIESCE
+    
+    	View: GV_$LOADISTAT
+    
+    	View: GV_$LOADPSTAT
+    
+    	View: GV_$LOCK_ACTIVITY
+    
+    	View: GV_$MAX_ACTIVE_SESS_TARGET_MTH
+    
+    	View: GV_$NLS_PARAMETERS
+    
+    	View: GV_$NLS_VALID_VALUES
+    
+    	View: GV_$OPTION
+    
+    	View: GV_$PARALLEL_DEGREE_LIMIT_MTH
+    
+    	View: GV_$PQ_SESSTAT
+    
+    	View: GV_$PQ_TQSTAT
+    
+    	View: GV_$QUEUEING_MTH
+    
+    	View: GV_$RESTORE_POINT
+    
+    	View: GV_$RSRC_CONSUMER_GROUP
+    
+    	View: GV_$RSRC_CONSUME_GROUP_CPU_MTH
+    
+    	View: GV_$RSRC_CONS_GROUP_HISTORY
+    
+    	View: GV_$RSRC_PLAN
+    
+    	View: GV_$RSRC_PLAN_CPU_MTH
+    
+    	View: GV_$RSRC_PLAN_HISTORY
+    
+    	View: GV_$RSRC_SESSION_INFO
+    
+    	View: GV_$SESSION_LONGOPS
+    
+    	View: GV_$TEMPORARY_LOBS
+    
+    	View: GV_$TIMEZONE_FILE
+    
+    	View: GV_$TIMEZONE_NAMES
+    
+    	View: GV_$VERSION
+    
+    	View: IMP8CDTU
+    
+    	View: IMP8REPCAT
+    
+    	View: IMP8TTDU
+    
+    	View: IMP8UEC
+    
+    	View: IMP9COMPAT
+    
+    	View: IMP9SYN4
+    
+    	View: IMP9TVOID
+    
+    	View: IMP9USR
+    
+    	View: IMP_LOB_INFO
+    
+    	View: IMP_LOB_NOTNULL
+    
+    	View: IMP_TAB_TRIG
+    
+    	View: INDEX_HISTOGRAM
+    
+    	View: INDEX_STATS
+    
+    	View: KU$_10_1_COMMENT_VIEW
+    
+    	View: KU$_10_1_DBLINK_VIEW
+    
+    	View: KU$_10_1_FHTABLE_VIEW
+    
+    	View: KU$_10_1_HTABLE_VIEW
+    
+    	View: KU$_10_1_IND_STATS_VIEW
+    
+    	View: KU$_10_1_IOTABLE_VIEW
+    
+    	View: KU$_10_1_PFHTABLE_VIEW
+    
+    	View: KU$_10_1_PHTABLE_VIEW
+    
+    	View: KU$_10_1_PIOTABLE_VIEW
+    
+    	View: KU$_10_1_PROXY_VIEW
+    
+    	View: KU$_10_1_SYSGRANT_VIEW
+    
+    	View: KU$_10_1_TABLE_DATA_VIEW
+    
+    	View: KU$_10_1_TAB_STATS_VIEW
+    
+    	View: KU$_2NDTAB_INFO_VIEW
+    
+    	View: KU$_ALTER_FUNC_VIEW
+    
+    	View: KU$_ALTER_PKGBDY_VIEW
+    
+    	View: KU$_ALTER_PKGSPC_VIEW
+    
+    	View: KU$_ALTER_PROC_VIEW
+    
+    	View: KU$_ASSOC_VIEW
+    
+    	View: KU$_AUDIT_OBJ_VIEW
+    
+    	View: KU$_AUDIT_VIEW
+    
+    	View: KU$_CLUSTER_VIEW
+    
+    	View: KU$_CLU_TS_VIEW
+    
+    	View: KU$_COMMENT_VIEW
+    
+    	View: KU$_CONSTRAINT_VIEW
+    
+    	View: KU$_CONTEXT_VIEW
+    
+    	View: KU$_DBLINK_VIEW
+    
+    	View: KU$_DEFROLE_VIEW
+    
+    	View: KU$_DEPTYPES_VIEW
+    
+    	View: KU$_DEPVIEWS_VIEW
+    
+    	View: KU$_DIMENSION_VIEW
+    
+    	View: KU$_DIRECTORY_VIEW
+    
+    	View: KU$_DOMIDX_OBJNUM_VIEW
+    
+    	View: KU$_EXP_PKG_BODY_VIEW
+    
+    	View: KU$_EXP_TYPE_BODY_VIEW
+    
+    	View: KU$_EXTTAB_VIEW
+    
+    	View: KU$_FGA_POLICY_VIEW
+    
+    	View: KU$_FHTABLE_VIEW
+    
+    	View: KU$_FIND_HIDDEN_CONS_VIEW
+    
+    	View: KU$_FIND_SGC_VIEW
+    
+    	View: KU$_FULL_PKG_VIEW
+    
+    	View: KU$_FULL_TYPE_VIEW
+    
+    	View: KU$_FUNC_VIEW
+    
+    	View: KU$_HTABLE_DATA_VIEW
+    
+    	View: KU$_HTABLE_OBJNUM_VIEW
+    
+    	View: KU$_HTABLE_VIEW
+    
+    	View: KU$_HTPART_DATA_VIEW
+    
+    	View: KU$_HTSPART_DATA_VIEW
+    
+    	View: KU$_INC_TYPE_VIEW
+    
+    	View: KU$_INDEXTYPE_VIEW
+    
+    	View: KU$_INDEX_VIEW
+    
+    	View: KU$_IND_STATS_VIEW
+    
+    	View: KU$_IND_TS_VIEW
+    
+    	View: KU$_INSTANCE_CALLOUT_VIEW
+    
+    	View: KU$_IOTABLE_DATA_VIEW
+    
+    	View: KU$_IOTABLE_VIEW
+    
+    	View: KU$_IOTPART_DATA_VIEW
+    
+    	View: KU$_JAVA_CLASS_VIEW
+    
+    	View: KU$_JAVA_OBJNUM_VIEW
+    
+    	View: KU$_JAVA_RESOURCE_VIEW
+    
+    	View: KU$_JAVA_SOURCE_VIEW
+    
+    	View: KU$_JOB_VIEW
+    
+    	View: KU$_LIBRARY_VIEW
+    
+    	View: KU$_MONITOR_VIEW
+    
+    	View: KU$_MVL_TS_VIEW
+    
+    	View: KU$_MV_TS_VIEW
+    
+    	View: KU$_M_VIEW_FH_VIEW
+    
+    	View: KU$_M_VIEW_H_VIEW
+    
+    	View: KU$_M_VIEW_IOT_VIEW
+    
+    	View: KU$_M_VIEW_LOG_FH_VIEW
+    
+    	View: KU$_M_VIEW_LOG_H_VIEW
+    
+    	View: KU$_M_VIEW_LOG_PFH_VIEW
+    
+    	View: KU$_M_VIEW_LOG_PH_VIEW
+    
+    	View: KU$_M_VIEW_PFH_VIEW
+    
+    	View: KU$_M_VIEW_PH_VIEW
+    
+    	View: KU$_M_VIEW_PIOT_VIEW
+    
+    	View: KU$_M_VIEW_VIEW
+    
+    	View: KU$_NTABLE_DATA_VIEW
+    
+    	View: KU$_NTABLE_OBJNUM_VIEW
+    
+    	View: KU$_OBJGRANT_VIEW
+    
+    	View: KU$_OBJPKG_VIEW
+    
+    	View: KU$_OPERATOR_VIEW
+    
+    	View: KU$_OUTLINE_VIEW
+    
+    	View: KU$_PARTITION_EST_VIEW
+    
+    	View: KU$_PFHTABLE_VIEW
+    
+    	View: KU$_PHTABLE_VIEW
+    
+    	View: KU$_PIOTABLE_VIEW
+    
+    	View: KU$_PKGBDY_VIEW
+    
+    	View: KU$_PKG_VIEW
+    
+    	View: KU$_PLUGTS_BEGIN_VIEW
+    
+    	View: KU$_PLUGTS_BLK_VIEW
+    
+    	View: KU$_PLUGTS_CHECKPL_VIEW
+    
+    	View: KU$_PLUGTS_TSNAME_VIEW
+    
+    	View: KU$_POST_TABLE_VIEW
+    
+    	View: KU$_PRE_TABLE_VIEW
+    
+    	View: KU$_PROCACT_INSTANCE_VIEW
+    
+    	View: KU$_PROCACT_SCHEMA_VIEW
+    
+    	View: KU$_PROCDEPOBJ_AUDIT_VIEW
+    
+    	View: KU$_PROCDEPOBJ_GRANT_VIEW
+    
+    	View: KU$_PROCDEPOBJ_VIEW
+    
+    	View: KU$_PROCOBJ_AUDIT_VIEW
+    
+    	View: KU$_PROCOBJ_GRANT_VIEW
+    
+    	View: KU$_PROCOBJ_OBJNUM_VIEW
+    
+    	View: KU$_PROCOBJ_VIEW
+    
+    	View: KU$_PROC_VIEW
+    
+    	View: KU$_PROFILE_VIEW
+    
+    	View: KU$_PROXY_VIEW
+    
+    	View: KU$_QTRANS_VIEW
+    
+    	View: KU$_QUEUES_VIEW
+    
+    	View: KU$_QUEUE_TABLE_VIEW
+    
+    	View: KU$_REFGROUP_VIEW
+    
+    	View: KU$_REF_CONSTRAINT_VIEW
+    
+    	View: KU$_RLS_CONTEXT_VIEW
+    
+    	View: KU$_RLS_GROUP_VIEW
+    
+    	View: KU$_RLS_POLICY_VIEW
+    
+    	View: KU$_ROGRANT_VIEW
+    
+    	View: KU$_ROLE_VIEW
+    
+    	View: KU$_ROLLBACK_VIEW
+    
+    	View: KU$_SCHEMA_CALLOUT_VIEW
+    
+    	View: KU$_SEQUENCE_VIEW
+    
+    	View: KU$_STRMTABLE_VIEW
+    
+    	View: KU$_SUBPARTITION_EST_VIEW
+    
+    	View: KU$_SWITCH_COMPILER_VIEW
+    
+    	View: KU$_SYNONYM_VIEW
+    
+    	View: KU$_SYSGRANT_VIEW
+    
+    	View: KU$_TABLESPACE_VIEW
+    
+    	View: KU$_TABLE_DATA_VIEW
+    
+    	View: KU$_TABLE_EST_VIEW
+    
+    	View: KU$_TABLE_OBJNUM_VIEW
+    
+    	View: KU$_TAB_STATS_VIEW
+    
+    	View: KU$_TAB_TS_VIEW
+    
+    	View: KU$_TEMP_SUBPARTDATA_VIEW
+    
+    	View: KU$_TEMP_SUBPARTLOB_VIEW
+    
+    	View: KU$_TRIGGER_VIEW
+    
+    	View: KU$_TRLINK_VIEW
+    
+    	View: KU$_TSQUOTA_VIEW
+    
+    	View: KU$_TYPE_BODY_VIEW
+    
+    	View: KU$_TYPE_VIEW
+    
+    	View: KU$_USER_VIEW
+    
+    	View: KU$_VIEW_OBJNUM_VIEW
+    
+    	View: KU$_VIEW_STATUS_VIEW
+    
+    	View: KU$_VIEW_VIEW
+    
+    	View: KU$_XMLSCHEMA_VIEW
+    
+    	View: KU_NOEXP_VIEW
+    
+    	View: LOADER_COL_FLAGS
+    
+    	View: LOADER_COL_INFO
+    
+    	View: LOADER_COL_TYPE
+    
+    	View: LOADER_CONSTRAINT_INFO
+    
+    	View: LOADER_DIR_OBJS
+    
+    	View: LOADER_FILE_TS
+    
+    	View: LOADER_FULL_ATTR_NAME
+    
+    	View: LOADER_INTCOL_INFO
+    
+    	View: LOADER_LOB_FLAGS
+    
+    	View: LOADER_NESTED_VARRAYS
+    
+    	View: LOADER_OID_INFO
+    
+    	View: LOADER_PARAM_INFO
+    
+    	View: LOADER_PART_INFO
+    
+    	View: LOADER_REF_INFO
+    
+    	View: LOADER_SKIP_UNUSABLE_INDEXES
+    
+    	View: LOADER_TAB_INFO
+    
+    	View: LOADER_TRIGGER_INFO
+    
+    	View: NLS_DATABASE_PARAMETERS
+    
+    	View: NLS_INSTANCE_PARAMETERS
+    
+    	View: NLS_SESSION_PARAMETERS
+    
+    	View: ORA_KGLR7_DB_LINKS
+    
+    	View: ORA_KGLR7_DEPENDENCIES
+    
+    	View: ORA_KGLR7_IDL_CHAR
+    
+    	View: ORA_KGLR7_IDL_SB4
+    
+    	View: ORA_KGLR7_IDL_UB1
+    
+    	View: ORA_KGLR7_IDL_UB2
+    
+    	View: PRODUCT_COMPONENT_VERSION
+    
+    	View: PUBLICSYN
+    
+    	View: PUBLIC_DEPENDENCY
+    
+    	View: QUEUE_PRIVILEGES
+    
+    	View: RESOURCE_COST
+    
+    	View: ROLE_ROLE_PRIVS
+    
+    	View: ROLE_SYS_PRIVS
+    
+    	View: ROLE_TAB_PRIVS
+    
+    	View: SCHEMA_EXPORT_OBJECTS
+    
+    	View: SESSION_CONTEXT
+    
+    	View: SESSION_PRIVS
+    
+    	View: SESSION_ROLES
+    
+    	View: SM_$VERSION
+    
+    	View: SYNONYMS
+    
+    	View: SYSCATALOG
+    
+    	View: SYSFILES
+    
+    	View: SYSSEGOBJ
+    
+    	View: TAB
+    
+    	View: TABLESPACE_EXPORT_OBJECTS
+    
+    	View: TABLE_EXPORT_OBJECTS
+    
+    	View: TABLE_PRIVILEGES
+    
+    	View: TABQUOTAS
+    
+    	View: TRANSPORTABLE_EXPORT_OBJECTS
+    
+    	View: USER_ADVISOR_ACTIONS
+    
+    	View: USER_ADVISOR_DIRECTIVES
+    
+    	View: USER_ADVISOR_FINDINGS
+    
+    	View: USER_ADVISOR_JOURNAL
+    
+    	View: USER_ADVISOR_LOG
+    
+    	View: USER_ADVISOR_OBJECTS
+    
+    	View: USER_ADVISOR_PARAMETERS
+    
+    	View: USER_ADVISOR_RATIONALE
+    
+    	View: USER_ADVISOR_RECOMMENDATIONS
+    
+    	View: USER_ADVISOR_SQLA_REC_SUM
+    
+    	View: USER_ADVISOR_SQLA_WK_MAP
+    
+    	View: USER_ADVISOR_SQLA_WK_STMTS
+    
+    	View: USER_ADVISOR_SQLW_COLVOL
+    
+    	View: USER_ADVISOR_SQLW_JOURNAL
+    
+    	View: USER_ADVISOR_SQLW_PARAMETERS
+    
+    	View: USER_ADVISOR_SQLW_STMTS
+    
+    	View: USER_ADVISOR_SQLW_SUM
+    
+    	View: USER_ADVISOR_SQLW_TABLES
+    
+    	View: USER_ADVISOR_SQLW_TABVOL
+    
+    	View: USER_ADVISOR_SQLW_TEMPLATES
+    
+    	View: USER_ADVISOR_TASKS
+    
+    	View: USER_ADVISOR_TEMPLATES
+    
+    	View: USER_ALL_TABLES
+    
+    	View: USER_APPLICATION_ROLES
+    
+    	View: USER_AQ_AGENT_PRIVS
+    
+    	View: USER_ARGUMENTS
+    
+    	View: USER_ASSOCIATIONS
+    
+    	View: USER_ATTRIBUTE_TRANSFORMATIONS
+    
+    	View: USER_AUDIT_OBJECT
+    
+    	View: USER_AUDIT_SESSION
+    
+    	View: USER_AUDIT_STATEMENT
+    
+    	View: USER_AUDIT_TRAIL
+    
+    	View: USER_AWS
+    
+    	View: USER_AW_PS
+    
+    	View: USER_BASE_TABLE_MVIEWS
+    
+    	View: USER_CATALOG
+    
+    	View: USER_CHANGE_NOTIFICATION_REGS
+    
+    	View: USER_CLUSTERS
+    
+    	View: USER_CLUSTER_HASH_EXPRESSIONS
+    
+    	View: USER_CLU_COLUMNS
+    
+    	View: USER_COLL_TYPES
+    
+    	View: USER_COL_COMMENTS
+    
+    	View: USER_COL_PRIVS
+    
+    	View: USER_COL_PRIVS_MADE
+    
+    	View: USER_COL_PRIVS_RECD
+    
+    	View: USER_CONSTRAINTS
+    
+    	View: USER_CONS_COLUMNS
+    
+    	View: USER_CONS_OBJ_COLUMNS
+    
+    	View: USER_DATAPUMP_JOBS
+    
+    	View: USER_DB_LINKS
+    
+    	View: USER_DEPENDENCIES
+    
+    	View: USER_DIMENSIONS
+    
+    	View: USER_DIM_ATTRIBUTES
+    
+    	View: USER_DIM_CHILD_OF
+    
+    	View: USER_DIM_HIERARCHIES
+    
+    	View: USER_DIM_JOIN_KEY
+    
+    	View: USER_DIM_LEVELS
+    
+    	View: USER_DIM_LEVEL_KEY
+    
+    	View: USER_ENCRYPTED_COLUMNS
+    
+    	View: USER_EPG_DAD_AUTHORIZATION
+    
+    	View: USER_ERRORS
+    
+    	View: USER_EVALUATION_CONTEXTS
+    
+    	View: USER_EVALUATION_CONTEXT_TABLES
+    
+    	View: USER_EVALUATION_CONTEXT_VARS
+    
+    	View: USER_EXTENTS
+    
+    	View: USER_EXTERNAL_LOCATIONS
+    
+    	View: USER_EXTERNAL_TABLES
+    
+    	View: USER_FILE_GROUPS
+    
+    	View: USER_FILE_GROUP_EXPORT_INFO
+    
+    	View: USER_FILE_GROUP_FILES
+    
+    	View: USER_FILE_GROUP_TABLES
+    
+    	View: USER_FILE_GROUP_TABLESPACES
+    
+    	View: USER_FILE_GROUP_VERSIONS
+    
+    	View: USER_FREE_SPACE
+    
+    	View: USER_INDEXES
+    
+    	View: USER_INDEXTYPES
+    
+    	View: USER_INDEXTYPE_ARRAYTYPES
+    
+    	View: USER_INDEXTYPE_COMMENTS
+    
+    	View: USER_INDEXTYPE_OPERATORS
+    
+    	View: USER_IND_COLUMNS
+    
+    	View: USER_IND_EXPRESSIONS
+    
+    	View: USER_IND_PARTITIONS
+    
+    	View: USER_IND_STATISTICS
+    
+    	View: USER_IND_SUBPARTITIONS
+    
+    	View: USER_INTERNAL_TRIGGERS
+    
+    	View: USER_JOBS
+    
+    	View: USER_JOIN_IND_COLUMNS
+    
+    	View: USER_LIBRARIES
+    
+    	View: USER_LOBS
+    
+    	View: USER_LOB_PARTITIONS
+    
+    	View: USER_LOB_SUBPARTITIONS
+    
+    	View: USER_LOB_TEMPLATES
+    
+    	View: USER_LOG_GROUPS
+    
+    	View: USER_LOG_GROUP_COLUMNS
+    
+    	View: USER_METHOD_PARAMS
+    
+    	View: USER_METHOD_RESULTS
+    
+    	View: USER_MVIEWS
+    
+    	View: USER_MVIEW_AGGREGATES
+    
+    	View: USER_MVIEW_ANALYSIS
+    
+    	View: USER_MVIEW_COMMENTS
+    
+    	View: USER_MVIEW_DETAIL_RELATIONS
+    
+    	View: USER_MVIEW_JOINS
+    
+    	View: USER_MVIEW_KEYS
+    
+    	View: USER_MVIEW_LOGS
+    
+    	View: USER_MVIEW_REFRESH_TIMES
+    
+    	View: USER_NESTED_TABLES
+    
+    	View: USER_NESTED_TABLE_COLS
+    
+    	View: USER_OBJECTS
+    
+    	View: USER_OBJECT_SIZE
+    
+    	View: USER_OBJECT_TABLES
+    
+    	View: USER_OBJ_AUDIT_OPTS
+    
+    	View: USER_OBJ_COLATTRS
+    
+    	View: USER_OPANCILLARY
+    
+    	View: USER_OPARGUMENTS
+    
+    	View: USER_OPBINDINGS
+    
+    	View: USER_OPERATORS
+    
+    	View: USER_OPERATOR_COMMENTS
+    
+    	View: USER_OUTLINES
+    
+    	View: USER_OUTLINE_HINTS
+    
+    	View: USER_PARTIAL_DROP_TABS
+    
+    	View: USER_PART_COL_STATISTICS
+    
+    	View: USER_PART_HISTOGRAMS
+    
+    	View: USER_PART_INDEXES
+    
+    	View: USER_PART_KEY_COLUMNS
+    
+    	View: USER_PART_LOBS
+    
+    	View: USER_PART_TABLES
+    
+    	View: USER_PASSWORD_LIMITS
+    
+    	View: USER_PENDING_CONV_TABLES
+    
+    	View: USER_PLSQL_OBJECT_SETTINGS
+    
+    	View: USER_POLICIES
+    
+    	View: USER_POLICY_CONTEXTS
+    
+    	View: USER_POLICY_GROUPS
+    
+    	View: USER_PROCEDURES
+    
+    	View: USER_PROXIES
+    
+    	View: USER_PUBLISHED_COLUMNS
+    
+    	View: USER_QUEUES
+    
+    	View: USER_QUEUE_PUBLISHERS
+    
+    	View: USER_QUEUE_SCHEDULES
+    
+    	View: USER_QUEUE_SUBSCRIBERS
+    
+    	View: USER_QUEUE_TABLES
+    
+    	View: USER_RECYCLEBIN
+    
+    	View: USER_REFRESH
+    
+    	View: USER_REFRESH_CHILDREN
+    
+    	View: USER_REFS
+    
+    	View: USER_REGISTERED_MVIEWS
+    
+    	View: USER_REGISTERED_SNAPSHOTS
+    
+    	View: USER_REGISTRY
+    
+    	View: USER_REPAUDIT_ATTRIBUTE
+    
+    	View: USER_REPAUDIT_COLUMN
+    
+    	View: USER_REPCAT
+    
+    	View: USER_REPCATLOG
+    
+    	View: USER_REPCAT_REFRESH_TEMPLATES
+    
+    	View: USER_REPCAT_TEMPLATE_OBJECTS
+    
+    	View: USER_REPCAT_TEMPLATE_PARMS
+    
+    	View: USER_REPCAT_TEMPLATE_SITES
+    
+    	View: USER_REPCAT_USER_AUTHORIZATION
+    
+    	View: USER_REPCAT_USER_PARM_VALUES
+    
+    	View: USER_REPCOLUMN
+    
+    	View: USER_REPCOLUMN_GROUP
+    
+    	View: USER_REPCONFLICT
+    
+    	View: USER_REPDDL
+    
+    	View: USER_REPFLAVORS
+    
+    	View: USER_REPFLAVOR_COLUMNS
+    
+    	View: USER_REPFLAVOR_OBJECTS
+    
+    	View: USER_REPGENERATED
+    
+    	View: USER_REPGENOBJECTS
+    
+    	View: USER_REPGROUP
+    
+    	View: USER_REPGROUPED_COLUMN
+    
+    	View: USER_REPGROUP_PRIVILEGES
+    
+    	View: USER_REPKEY_COLUMNS
+    
+    	View: USER_REPOBJECT
+    
+    	View: USER_REPPARAMETER_COLUMN
+    
+    	View: USER_REPPRIORITY
+    
+    	View: USER_REPPRIORITY_GROUP
+    
+    	View: USER_REPPROP
+    
+    	View: USER_REPRESOLUTION
+    
+    	View: USER_REPRESOLUTION_METHOD
+    
+    	View: USER_REPRESOLUTION_STATISTICS
+    
+    	View: USER_REPRESOL_STATS_CONTROL
+    
+    	View: USER_REPSCHEMA
+    
+    	View: USER_REPSITES
+    
+    	View: USER_RESOURCE_LIMITS
+    
+    	View: USER_RESUMABLE
+    
+    	View: USER_REWRITE_EQUIVALENCES
+    
+    	View: USER_ROLE_PRIVS
+    
+    	View: USER_RSRC_CONSUMER_GROUP_PRIVS
+    
+    	View: USER_RSRC_MANAGER_SYSTEM_PRIVS
+    
+    	View: USER_RULES
+    
+    	View: USER_RULESETS
+    
+    	View: USER_RULE_SETS
+    
+    	View: USER_RULE_SET_RULES
+    
+    	View: USER_SCHEDULER_CHAINS
+    
+    	View: USER_SCHEDULER_CHAIN_RULES
+    
+    	View: USER_SCHEDULER_CHAIN_STEPS
+    
+    	View: USER_SCHEDULER_JOBS
+    
+    	View: USER_SCHEDULER_JOB_ARGS
+    
+    	View: USER_SCHEDULER_JOB_LOG
+    
+    	View: USER_SCHEDULER_JOB_RUN_DETAILS
+    
+    	View: USER_SCHEDULER_PROGRAMS
+    
+    	View: USER_SCHEDULER_PROGRAM_ARGS
+    
+    	View: USER_SCHEDULER_RUNNING_CHAINS
+    
+    	View: USER_SCHEDULER_RUNNING_JOBS
+    
+    	View: USER_SCHEDULER_SCHEDULES
+    
+    	View: USER_SECONDARY_OBJECTS
+    
+    	View: USER_SEC_RELEVANT_COLS
+    
+    	View: USER_SEGMENTS
+    
+    	View: USER_SEQUENCES
+    
+    	View: USER_SNAPSHOTS
+    
+    	View: USER_SNAPSHOT_LOGS
+    
+    	View: USER_SOURCE
+    
+    	View: USER_SOURCE_TABLES
+    
+    	View: USER_SQLJ_TYPES
+    
+    	View: USER_SQLJ_TYPE_ATTRS
+    
+    	View: USER_SQLJ_TYPE_METHODS
+    
+    	View: USER_SQLSET
+    
+    	View: USER_SQLSET_BINDS
+    
+    	View: USER_SQLSET_PLANS
+    
+    	View: USER_SQLSET_REFERENCES
+    
+    	View: USER_SQLSET_STATEMENTS
+    
+    	View: USER_SQLTUNE_BINDS
+    
+    	View: USER_SQLTUNE_PLANS
+    
+    	View: USER_SQLTUNE_RATIONALE_PLAN
+    
+    	View: USER_SQLTUNE_STATISTICS
+    
+    	View: USER_STORED_SETTINGS
+    
+    	View: USER_SUBPARTITION_TEMPLATES
+    
+    	View: USER_SUBPART_COL_STATISTICS
+    
+    	View: USER_SUBPART_HISTOGRAMS
+    
+    	View: USER_SUBPART_KEY_COLUMNS
+    
+    	View: USER_SUBSCRIBED_COLUMNS
+    
+    	View: USER_SUBSCRIBED_TABLES
+    
+    	View: USER_SUBSCRIPTIONS
+    
+    	View: USER_SUMMARIES
+    
+    	View: USER_SUMMARY_AGGREGATES
+    
+    	View: USER_SUMMARY_DETAIL_TABLES
+    
+    	View: USER_SUMMARY_JOINS
+    
+    	View: USER_SUMMARY_KEYS
+    
+    	View: USER_SYNONYMS
+    
+    	View: USER_SYS_PRIVS
+    
+    	View: USER_TABLES
+    
+    	View: USER_TABLESPACES
+    
+    	View: USER_TAB_COLS
+    
+    	View: USER_TAB_COLUMNS
+    
+    	View: USER_TAB_COL_STATISTICS
+    
+    	View: USER_TAB_COMMENTS
+    
+    	View: USER_TAB_HISTOGRAMS
+    
+    	View: USER_TAB_MODIFICATIONS
+    
+    	View: USER_TAB_PARTITIONS
+    
+    	View: USER_TAB_PRIVS
+    
+    	View: USER_TAB_PRIVS_MADE
+    
+    	View: USER_TAB_PRIVS_RECD
+    
+    	View: USER_TAB_STATISTICS
+    
+    	View: USER_TAB_STATS_HISTORY
+    
+    	View: USER_TAB_SUBPARTITIONS
+    
+    	View: USER_TRANSFORMATIONS
+    
+    	View: USER_TRIGGERS
+    
+    	View: USER_TRIGGER_COLS
+    
+    	View: USER_TS_QUOTAS
+    
+    	View: USER_TUNE_MVIEW
+    
+    	View: USER_TYPES
+    
+    	View: USER_TYPE_ATTRS
+    
+    	View: USER_TYPE_METHODS
+    
+    	View: USER_TYPE_VERSIONS
+    
+    	View: USER_UNUSED_COL_TABS
+    
+    	View: USER_UPDATABLE_COLUMNS
+    
+    	View: USER_USERS
+    
+    	View: USER_USTATS
+    
+    	View: USER_VARRAYS
+    
+    	View: USER_VIEWS
+    
+    	View: USER_WARNING_SETTINGS
+    
+    	View: USER_XML_COLUMN_NAMES
+    
+    	View: USER_XML_INDEXES
+    
+    	View: USER_XML_SCHEMAS
+    
+    	View: USER_XML_TABLES
+    
+    	View: USER_XML_TAB_COLS
+    
+    	View: USER_XML_VIEWS
+    
+    	View: USER_XML_VIEW_COLS
+    
+    	View: UTL_ALL_IND_COMPS
+    
+    	View: V$OBJECT_USAGE
+    
+    	View: V_$ACTIVE_INSTANCES
+    
+    	View: V_$ACTIVE_SESS_POOL_MTH
+    
+    	View: V_$ADVISOR_PROGRESS
+    
+    	View: V_$AW_AGGREGATE_OP
+    
+    	View: V_$AW_ALLOCATE_OP
+    
+    	View: V_$AW_CALC
+    
+    	View: V_$AW_LONGOPS
+    
+    	View: V_$AW_OLAP
+    
+    	View: V_$AW_SESSION_INFO
+    
+    	View: V_$BH
+    
+    	View: V_$BLOCKING_QUIESCE
+    
+    	View: V_$LOADISTAT
+    
+    	View: V_$LOADPSTAT
+    
+    	View: V_$LOCK_ACTIVITY
+    
+    	View: V_$MAX_ACTIVE_SESS_TARGET_MTH
+    
+    	View: V_$NLS_PARAMETERS
+    
+    	View: V_$NLS_VALID_VALUES
+    
+    	View: V_$OPTION
+    
+    	View: V_$PARALLEL_DEGREE_LIMIT_MTH
+    
+    	View: V_$PQ_SESSTAT
+    
+    	View: V_$PQ_TQSTAT
+    
+    	View: V_$QUEUEING_MTH
+    
+    	View: V_$RESTORE_POINT
+    
+    	View: V_$RSRC_CONSUMER_GROUP
+    
+    	View: V_$RSRC_CONSUMER_GROUP_CPU_MTH
+    
+    	View: V_$RSRC_CONS_GROUP_HISTORY
+    
+    	View: V_$RSRC_PLAN
+    
+    	View: V_$RSRC_PLAN_CPU_MTH
+    
+    	View: V_$RSRC_PLAN_HISTORY
+    
+    	View: V_$RSRC_SESSION_INFO
+    
+    	View: V_$SESSION_CONNECT_INFO
+    
+    	View: V_$SESSION_LONGOPS
+    
+    	View: V_$TEMPORARY_LOBS
+    
+    	View: V_$TIMEZONE_FILE
+    
+    	View: V_$TIMEZONE_NAMES
+    
+    	View: V_$VERSION
+    
+    	View: _ALL_FILE_GROUPS
+    
+    	View: _ALL_FILE_GROUP_EXPORT_INFO
+    
+    	View: _ALL_FILE_GROUP_FILES
+    
+    	View: _ALL_FILE_GROUP_TABLES
+    
+    	View: _ALL_FILE_GROUP_TABLESPACES
+    
+    	View: _ALL_FILE_GROUP_VERSIONS
+    
+    	View: _ALL_INSTANTIATION_DDL
+    
+    	View: _ALL_REPCOLUMN
+    
+    	View: _ALL_REPCOLUMN_GROUP
+    
+    	View: _ALL_REPCONFLICT
+    
+    	View: _ALL_REPEXTENSIONS
+    
+    	View: _ALL_REPFLAVOR_OBJECTS
+    
+    	View: _ALL_REPGROUPED_COLUMN
+    
+    	View: _ALL_REPPARAMETER_COLUMN
+    
+    	View: _ALL_REPRESOLUTION
+    
+    	View: _ALL_REPSITES_NEW
+    
+    	View: _ALL_SQLSET_STATEMENTS_ONLY
+    
+    	View: _ALL_SQLSET_STATEMENTS_PHV
+    
+    	View: _ALL_SQLSET_STATISTICS_ONLY
+    
+    	View: PRODUCT_PRIVS
+    
+    	View: PATH_VIEW
+    
+    	View: RESOURCE_VIEW
+    
+  
+  Creating Sequences
+
+    	Sequence WWV_FLOW_SESSION_SEQ
+    
+    	Sequence WWV_SEQ
+    
+    	Sequence SAMPLE_SEQ
+    
+    	Sequence SDO_IDX_TAB_SEQUENCE
+    
+    	Sequence SCHEDULER$_JOBSUFFIX_S
+    
+    	Sequence XDB$NAMESUFF_SEQ
+    
+    	Sequence DR$NUMBER_SEQUENCE
+    
+  
+  Creating Constraints File
+
+      	Constraints on Table: KSLU_CLU
+    
+    	Constraints on Table: KSLU_CLUCLU_RELTN
+    
+    	Constraints on Table: KSLU_CLUCLU_RELTN_ATTR
+    
+    	Constraints on Table: KSLU_CLU_ACCRED
+    
+    	Constraints on Table: KSLU_CLU_ACCRED_ATTR
+    
+    	Constraints on Table: KSLU_CLU_ACCT
+    
+    	Constraints on Table: KSLU_CLU_ACCT_ATTR
+    
+    	Constraints on Table: KSLU_CLU_ADMIN_ORG
+    
+    	Constraints on Table: KSLU_CLU_ADMIN_ORG_ATTR
+    
+    	Constraints on Table: KSLU_CLU_ATP_TYPE_KEY
+    
+    	Constraints on Table: KSLU_CLU_ATTR
+    
+    	Constraints on Table: KSLU_CLU_CR
+    
+    	Constraints on Table: KSLU_CLU_FEE
+    
+    	Constraints on Table: KSLU_CLU_FEE_ATTR
+    
+    	Constraints on Table: KSLU_CLU_IDENT
+    
+    	Constraints on Table: KSLU_CLU_INSTR
+    
+    	Constraints on Table: KSLU_CLU_INSTR_ATTR
+    
+    	Constraints on Table: KSLU_CLU_JN_ALT_ADMIN_ORG
+    
+    	Constraints on Table: KSLU_CLU_JN_CAMP_LOC
+    
+    	Constraints on Table: KSLU_CLU_JN_CLU_ACCRED
+    
+    	Constraints on Table: KSLU_CLU_JN_CLU_IDENT
+    
+    	Constraints on Table: KSLU_CLU_JN_CLU_INSTR
+    
+    	Constraints on Table: KSLU_CLU_JN_LU_STMT
+    
+    	Constraints on Table: KSLU_CLU_JN_ORG
+    
+    	Constraints on Table: KSLU_CLU_JN_SUBJ_ORG
+    
+    	Constraints on Table: KSLU_CLU_PUBL
+    
+    	Constraints on Table: KSLU_CLU_PUBL_ATTR
+    
+    	Constraints on Table: KSLU_CLU_PUBL_JN_CLU_INSTR
+    
+    	Constraints on Table: KSLU_CLU_SET
+    
+    	Constraints on Table: KSLU_CLU_SET_ATTR
+    
+    	Constraints on Table: KSLU_CLU_SET_JN_CLU
+    
+    	Constraints on Table: KSLU_CLU_SET_JN_CLU_SET
+    
+    	Constraints on Table: KSLU_LO
+    
+    	Constraints on Table: KSLU_LO_ATTR
+    
+    	Constraints on Table: KSLU_LO_CATEGORY
+    
+    	Constraints on Table: KSLU_LO_CATEGORY_ATTR
+    
+    	Constraints on Table: KSLU_LO_HIERARCHY_ATTR
+    
+    	Constraints on Table: KSLU_LO_HIRCHY
+    
+    	Constraints on Table: KSLU_LO_JN_CLU
+    
+    	Constraints on Table: KSLU_LO_LO_EQUIV_RELTN
+    
+    	Constraints on Table: KSLU_LO_LO_HIRCHY_RELTN
+    
+    	Constraints on Table: KSLU_LO_TYPE
+    
+    	Constraints on Table: KSLU_LO_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_LR_TYPE
+    
+    	Constraints on Table: KSLU_LR_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_LUI
+    
+    	Constraints on Table: KSLU_LUILUI_RELTN
+    
+    	Constraints on Table: KSLU_LUILUI_RELTN_ATTR
+    
+    	Constraints on Table: KSLU_LUI_ATTR
+    
+    	Constraints on Table: KSLU_LULU_RELTN_TYPE
+    
+    	Constraints on Table: KSLU_LULU_RELTN_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_LULU_RELTN_TYPE_JN_LU_TYP
+    
+    	Constraints on Table: KSLU_LUTYPE
+    
+    	Constraints on Table: KSLU_LU_CODE
+    
+    	Constraints on Table: KSLU_LU_CODE_ATTR
+    
+    	Constraints on Table: KSLU_LU_DOC_RELTN
+    
+    	Constraints on Table: KSLU_LU_DOC_RELTN_ATTR
+    
+    	Constraints on Table: KSLU_LU_DOC_RELTN_TYPE
+    
+    	Constraints on Table: KSLU_LU_DOC_RELTN_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_LU_STMT_TYPE_JN_LU_TYPE
+    
+    	Constraints on Table: KSLU_LU_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_REQCOMTYP_JN_REQCOMFLDTYP
+    
+    	Constraints on Table: KSLU_REQ_COM
+    
+    	Constraints on Table: KSLU_REQ_COM_FIELD
+    
+    	Constraints on Table: KSLU_REQ_COM_FIELD_TYPE
+    
+    	Constraints on Table: KSLU_REQ_COM_JN_REQ_COM_FIELD
+    
+    	Constraints on Table: KSLU_REQ_COM_TYPE
+    
+    	Constraints on Table: KSLU_REQ_COM_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_REQ_COM_TYPE_NL_TMPL
+    
+    	Constraints on Table: KSLU_RSRC
+    
+    	Constraints on Table: KSLU_STMT
+    
+    	Constraints on Table: KSLU_STMT_ATTR
+    
+    	Constraints on Table: KSLU_STMT_JN_REQ_COM
+    
+    	Constraints on Table: KSLU_STMT_TYPE
+    
+    	Constraints on Table: KSLU_STMT_TYPE_ATTR
+    
+    	Constraints on Table: KSLU_STMT_TYPE_HEADER_TMPL
+    
+    	Constraints on Table: KSLU_STY_JN_LUSTY
+    
+    	Constraints on Table: KSLU_STY_JN_RQTY
+    
+    	Constraints on Table: KS_LO_RICH_TEXT_T
+    
+    	Constraints on Table: KS_RICH_TEXT_T
+    
+    
