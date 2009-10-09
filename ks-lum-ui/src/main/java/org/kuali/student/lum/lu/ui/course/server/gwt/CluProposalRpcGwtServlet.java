@@ -576,6 +576,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	            	throw new OperationFailedException("Error found saving document: " + stdResp.getErrorMessage());
 	            }
             }
+
         }
         catch(Exception e){
             if ((e.getMessage()== null) || (!e.getMessage().contains("No remote services available"))){
@@ -665,6 +666,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         attributes.put("creditValue", cluInfoModelDTO.getString("creditValue"));
         attributes.put("maxCredits", cluInfoModelDTO.getString("maxCredits"));
         attributes.put("evalType", cluInfoModelDTO.getString("evalType"));
+        attributes.put("feeAmount", cluInfoModelDTO.getString("feeAmount"));
+        attributes.put("taxable", cluInfoModelDTO.getString("taxable"));
+        attributes.put("feeDesc", cluInfoModelDTO.getString("feeDesc"));
+        attributes.put("internalNotation", cluInfoModelDTO.getString("internalNotation"));
     }
     
     private void saveCourseFormats(CluInfo parentCluInfo, ModelDTO cluInfoModelDTO) throws Exception{

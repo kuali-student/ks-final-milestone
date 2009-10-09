@@ -88,7 +88,7 @@ public class LuConfigurer {
         addCourseRequisitesSection(layout);
         addActiveDatesSection(layout);
         addFinancialsSection(layout);
-        addProgramRequirements(layout);
+//        addProgramRequirements(layout);
         
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
@@ -159,7 +159,7 @@ public class LuConfigurer {
         enrollmentSection.addWidget(new KSButton());
         section.addSection(enrollmentSection);   */
 
-        layout.addSection(new String[] {getLabel(LUConstants.REQUISITES_LABEL_KEY)}, section);
+        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, section);
     }
 
     private static void addActiveDatesSection(ConfigurableLayout layout) {
@@ -188,7 +188,7 @@ public class LuConfigurer {
         VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
         feeType.addField(new FieldDescriptor("cluInfo/feeType", null, Type.STRING));
 
-        VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_AMOUNT_LABEL_KEY), WITH_DIVIDER);
+        VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_DESC_LABEL_KEY), WITH_DIVIDER);
         feeAmount.addField(new FieldDescriptor("cluInfo/feeAmount", "$", Type.STRING));
         feeAmount.addField(new FieldDescriptor("cluInfo/taxable", "Taxable", Type.STRING));//TODO checkboxes go here instead
         feeAmount.addField(new FieldDescriptor("cluInfo/feeDesc", "Description", Type.STRING, new KSTextArea()));
@@ -297,12 +297,12 @@ public class LuConfigurer {
         rationale.addField(new FieldDescriptor("cluInfo/marketingDesc", null, Type.MODELDTO, new KSRichEditor()));
         
         section.addSection(courseNumber);
-        section.addSection(longTitle);
         section.addSection(shortTitle);
+        section.addSection(longTitle);
         section.addSection(description);
         section.addSection(rationale);
 
-        layout.addSection(new String[] {getLabel(LUConstants.INFORMATION_LABEL_KEY)}, section);
+        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, section);
     }
 
 //    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD, final String objectKey){

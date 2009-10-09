@@ -121,7 +121,7 @@ public class LUConstants {
     public static final String FINANCIALS_LABEL_KEY = "cluFinancials";
     public static final String FEE_TYPE_LABEL_KEY = "cluFeeType";
     public static final String FEE_AMOUNT_LABEL_KEY = "cluFeeAmount";
-    public static final String FEE_DESC_LABEL_KEY = "cluFeeDesc";
+    public static final String FEE_DESC_LABEL_KEY = "cluFeeDescription";
     public static final String PROGRAM_REQUIREMENTS_LABEL_KEY = "cluProgramRequirements";
     public static final String GENERAL_REQS_LABEL_KEY = "cluGeneralRequirements";
     public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
