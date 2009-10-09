@@ -31,7 +31,9 @@ public class StudentIdentityServiceImpl extends IdentityServiceImpl implements I
 	@Override
 	public KimPrincipalInfo getPrincipalByPrincipalNameAndPassword(String principalName, String password) {
 		try {
-			return super.getPrincipalByPrincipalNameAndPassword(principalName, KNSServiceLocator.getEncryptionService().encrypt(password));
+		    String hashPassword = KNSServiceLocator.getEncryptionService().hash(password);
+		    String finalPassword = hashPassword + "(&^HSH#&)";
+			return super.getPrincipalByPrincipalNameAndPassword(principalName, finalPassword);
 		} catch (GeneralSecurityException e) {
 			String message = "Caught Exception attempting to encrypt password (with length " + password.length() + ") for principalName: " + principalName;
 			LOG.error(message, e);
