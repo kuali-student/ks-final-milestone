@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.kuali.student</groupId>
-	<artifactId>ks-rice-standalone</artifactId>
+	<artifactId>ks-all</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -17,11 +17,13 @@
 		<derby.version>10.4.2.0</derby.version>
 		<rice.version>1.0.0-ks-m1-SNAPSHOT</rice.version>
 	</properties>
+	
 	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-core</artifactId>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>ks-web</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<build>
 		<plugins>
 			<plugin>
