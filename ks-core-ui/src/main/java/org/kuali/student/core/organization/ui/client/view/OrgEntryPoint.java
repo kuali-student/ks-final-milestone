@@ -69,12 +69,12 @@ public class OrgEntryPoint implements EntryPoint{
         mainPanel.setCellWidth(orgMenu, "200px");
         mainPanel.add(content, DockPanel.CENTER);
         
-        mainPanel.add(new KSButton("Logout", new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                orgMenu.saveState();
-                Location.assign("http://localhost:18080/cas-server-webapp-3.3.2/login?service="+URL.encodeComponent(Location.getHref()));
-            }}), DockPanel.NORTH);
+//        mainPanel.add(new KSButton("Logout", new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                orgMenu.saveState();
+//                Location.assign("http://localhost:18080/cas-server-webapp-3.3.2/login?service="+URL.encodeComponent(Location.getHref()));
+//            }}), DockPanel.NORTH);
         
         return mainPanel;
     }
