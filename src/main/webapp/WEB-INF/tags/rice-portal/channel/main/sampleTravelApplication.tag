@@ -25,6 +25,10 @@
     <li><portal:portalLink displayTitle="true" title="Travel Account Type Lookup" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=edu.sampleu.travel.bo.TravelAccountType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
 -->
   </ul>
+<br/>
+  <ul class="chan">
+    <li><a href="${ConfigProperties.ks.logout.url}">Logout</a></li>
+  </ul>
   
 </div>
 <channel:portalChannelBottom />
