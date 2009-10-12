@@ -203,6 +203,12 @@
 
 	<bean id="ServerPropertiesServlet"
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
+		<property name="properties">
+			<map>
+				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>
+				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}"/>
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="messagesServiceGwt"
