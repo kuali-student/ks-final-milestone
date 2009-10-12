@@ -5,35 +5,41 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implements ServerPropertiesRpcService {
-    
-    Map<String,String> properties = new HashMap<String,String>();
+public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet
+		implements ServerPropertiesRpcService {
 
-    public Map<String, String> getProperties() {
-        return properties;
-    }
+	final Logger logger = Logger.getLogger(ServerPropertiesRpcGwtServlet.class);
 
-    public void setProperties(Map<String, String> properties) {
-        this.properties = properties;
-    }
+	Map<String, String> properties = new HashMap<String, String>();
 
-    @Override
-    public String get(String property) {
-        return properties.get(property);
-    }
+	public Map<String, String> getProperties() {
+		return properties;
+	}
 
-    @Override
-    public Map<String, String> get(List<String> properties) {
-        Map<String,String> map = new LinkedHashMap<String,String>();
-        for (String property : properties) {
-            map.put(property, get(property));
-        }
-        return map;
-    }
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
+	@Override
+	public String get(String property) {
+		String value = properties.get(property);
+		logger.info("Getting property: " + property + " with value: " + value);
+		return value;
+	}
+
+	@Override
+	public Map<String, String> get(List<String> properties) {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		for (String property : properties) {
+			map.put(property, get(property));
+		}
+		return map;
+	}
 
 }
