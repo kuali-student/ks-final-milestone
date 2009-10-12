@@ -5,20 +5,17 @@ import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
-import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 
@@ -31,7 +28,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -48,6 +44,8 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
 	private VerticalPanel collaboratorPanel = new VerticalPanel();
 	private KSTextBox userIdField = new KSTextBox();
+	private KSTextBox adHocUserIdField = new KSTextBox();
+
 	private KSTextBox respondByField = new KSTextBox();
 	private KSDropDown roleField = new KSDropDown();
 	private KSDropDown adhocRequests = new KSDropDown();
@@ -69,7 +67,9 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
     final KRUserSearchIFrame userSearch = new KRUserSearchIFrame();
 	
-    
+    private int userSearchReturnCode;
+    private static final int USER_SEARCH_RETURN_COLLAB = 0;
+    private static final int USER_SEARCH_RETURN_ADHOC = 1;
     
 	public Collaborators(){
 		super();
@@ -124,7 +124,11 @@ public class Collaborators extends Composite implements HasWorkflowId{
 
         userSearch.addSelectionHandler(new SelectionHandler<String>(){
 			public void onSelection(SelectionEvent<String> event) {
-				userIdField.setValue(event.getSelectedItem());
+				if(userSearchReturnCode==USER_SEARCH_RETURN_ADHOC){
+					adHocUserIdField.setValue(event.getSelectedItem());
+				}else{
+					userIdField.setValue(event.getSelectedItem());
+				}
 				searchUserDialog.hide();
 			}
         });
@@ -150,6 +154,16 @@ public class Collaborators extends Composite implements HasWorkflowId{
 		Hyperlink searchForPeopleLink = new Hyperlink("Advance Search","AdvancePeopleSearch");
         searchForPeopleLink.addClickHandler(new ClickHandler(){
         	public void onClick(ClickEvent event) {
+        		userSearchReturnCode=USER_SEARCH_RETURN_COLLAB;
+        		userSearch.setUrl(ricePersonLookupUrl);
+        		searchUserDialog.show();
+        	}
+        });
+        
+		Hyperlink adHocSearchForPeopleLink = new Hyperlink("Advance Search","AdvancePeopleSearch");
+		adHocSearchForPeopleLink.addClickHandler(new ClickHandler(){
+        	public void onClick(ClickEvent event) {
+        		userSearchReturnCode=USER_SEARCH_RETURN_ADHOC;
         		userSearch.setUrl(ricePersonLookupUrl);
         		searchUserDialog.show();
         	}
@@ -164,53 +178,66 @@ public class Collaborators extends Composite implements HasWorkflowId{
         });
 
         // Create the button that invites FYIs
-        KSButton adhocButton = new KSButton("Send");
+        KSButton adhocButton = new KSButton("AdHoc Request User");
         adhocButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                adhoc(userIdField.getValue(),adhocRequests.getSelectedItem(), "annotation");
+                adhoc(adHocUserIdField.getValue(),adhocRequests.getSelectedItem(), "annotation");
             }
         });
 
         //Assemble the layout
-        collaboratorPanel.add(new KSLabel("Collaborators & Delegates"));
+        KSLabel headerLabel = new KSLabel("Collaborators & Delegates");
+        headerLabel.addStyleName(KSStyles.KS_H1_SECTION_TITLE);
+        collaboratorPanel.add(headerLabel);
 
-        FlexTable table = new FlexTable();
-        table.getFlexCellFormatter().setColSpan(6, 0, 6);
-        table.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-//        table.getCellFormatter().setHorizontalAlignment(3, 1, HasHorizontalAlignment.ALIGN_RIGHT);
-    	table.setWidget(0, 0, new KSLabel("Name"));
-    	table.setWidget(0, 1, new KSLabel("Role"));
-    	table.setWidget(0, 2, new KSLabel("Participation"));
-    	table.setWidget(0, 3, new KSLabel("Respond by"));
-    	table.setWidget(1, 0, userIdField);
-    	table.setWidget(1, 1, roleField);
-    	table.setWidget(1, 2, participationField);
-    	table.setWidget(1, 3, respondByField);
-    	table.setWidget(2, 0, searchForPeopleLink);
-        table.setWidget(3, 0, inviteCollabButton);
-    	table.setWidget(4, 0, new KSLabel("AdHoc Request"));
-    	table.setWidget(5, 0, adhocRequests);
-    	table.setWidget(5, 1, adhocButton);
-    	
+        FlexTable collabTable = new FlexTable();
+//		table.getFlexCellFormatter().setColSpan(6, 0, 6);
+//		table.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+//      table.getCellFormatter().setHorizontalAlignment(3, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+        collabTable.setWidget(0, 0, new KSLabel("Name"));
+        collabTable.setWidget(0, 1, new KSLabel("Role"));
+//    	table.setWidget(0, 2, new KSLabel("Participation"));
+//    	table.setWidget(0, 3, new KSLabel("Respond by"));
+        collabTable.setWidget(1, 0, userIdField);
+        collabTable.setWidget(1, 1, roleField);
+        collabTable.setWidget(1, 2, inviteCollabButton);
+//    	table.setWidget(1, 2, participationField);
+//    	table.setWidget(1, 3, respondByField);
+        collabTable.setWidget(2, 0, searchForPeopleLink);
 
-
-        collaboratorPanel.add(table);
+        collaboratorPanel.add(collabTable);
 
     	//Add the list of current collaborators
+        coAuthorsLabel.addStyleName(KSStyles.KS_H2_SECTION_TITLE);
         currentCollaborators.add(coAuthorsLabel);
-    	currentCollaborators.add(new KSLabel("Co-Author can make edits to the proposal directly."));
+        KSLabel coAuthorsDescLabel = new KSLabel("Co-Author can make edits to the proposal directly.") ;
+        coAuthorsDescLabel.addStyleName(KSStyles.KS_H3_SECTION_TITLE);
+    	currentCollaborators.add(coAuthorsDescLabel);
+    	coAuthorUserIds.addStyleName(KSStyles.KS_H4_SECTION_TITLE);
     	currentCollaborators.add(coAuthorUserIds);
 
+    	commentorsLabel.addStyleName(KSStyles.KS_H2_SECTION_TITLE);
     	currentCollaborators.add(commentorsLabel);
-    	currentCollaborators.add(new KSLabel("Commentors can read and write commonts for the proposal."));
+    	KSLabel commentorsDescLabel = new KSLabel("Commentors can read and write commonts for the proposal.");
+    	commentorsDescLabel.addStyleName(KSStyles.KS_H3_SECTION_TITLE);
+        currentCollaborators.add(commentorsDescLabel);
+        commentorUserIds.addStyleName(KSStyles.KS_H4_SECTION_TITLE);
     	currentCollaborators.add(commentorUserIds);
 
+    	viewersLabel.addStyleName(KSStyles.KS_H2_SECTION_TITLE);
     	currentCollaborators.add(viewersLabel);
-    	currentCollaborators.add(new KSLabel("Viewers may see the document but not edit it."));
+    	KSLabel viewersDescLabel = new KSLabel("Viewers may see the document but not edit it.");
+    	viewersDescLabel.addStyleName(KSStyles.KS_H3_SECTION_TITLE);
+        currentCollaborators.add(viewersDescLabel);
+        viewersUserIds.addStyleName(KSStyles.KS_H4_SECTION_TITLE);
     	currentCollaborators.add(viewersUserIds);
 
+    	delegatesLabel.addStyleName(KSStyles.KS_H2_SECTION_TITLE);
     	currentCollaborators.add(delegatesLabel);
-    	currentCollaborators.add(new KSLabel("Delegates may make edits to the proposal and submit."));
+    	KSLabel delegatesDescLabel = new KSLabel("Delegates may make edits to the proposal and submit.");
+    	delegatesDescLabel.addStyleName(KSStyles.KS_H3_SECTION_TITLE);
+        currentCollaborators.add(delegatesDescLabel);
+        delegatesUserIds.addStyleName(KSStyles.KS_H4_SECTION_TITLE);
     	currentCollaborators.add(delegatesUserIds);
 
     	coAuthorsLabel.setText("Co-Authors (0)");
@@ -219,6 +246,24 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	delegatesLabel.setText("Delegates (0)");
 
         collaboratorPanel.add(currentCollaborators);
+        
+        KSLabel adHocHeaderLabel = new KSLabel("Ad Hoc Request");
+        adHocHeaderLabel.addStyleName(KSStyles.KS_H1_SECTION_TITLE);
+        collaboratorPanel.add(adHocHeaderLabel);
+        
+    	FlexTable adHocTable = new FlexTable();
+    	adHocTable.setWidget(0, 0, new KSLabel("Name"));
+    	adHocTable.setWidget(0, 1, new KSLabel("AdHoc Request Type"));
+    	adHocTable.setWidget(1, 0, adHocUserIdField);
+    	adHocTable.setWidget(1, 1, adhocRequests);
+    	adHocTable.setWidget(1, 2, adhocButton);
+    	adHocTable.setWidget(2, 0, adHocSearchForPeopleLink);
+    	
+        collaboratorPanel.add(adHocTable);
+        
+        KSLabel workflowActionsLabel = new KSLabel("Workflow Actions");
+        workflowActionsLabel.addStyleName(KSStyles.KS_H1_SECTION_TITLE);
+        collaboratorPanel.add(workflowActionsLabel);
         
         collaboratorPanel.add(new WorkflowButtonsWidget());
     }
@@ -271,6 +316,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
     	if(workflowId!=null){
 	        cluProposalRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<HashMap<String,ArrayList<String>>>(){
 				public void onFailure(Throwable caught) {
+					Window.alert("Getting Collaborators failed");
 				}
 				public void onSuccess(HashMap<String,ArrayList<String>> result) {
 					coAuthorUserIds.clear();

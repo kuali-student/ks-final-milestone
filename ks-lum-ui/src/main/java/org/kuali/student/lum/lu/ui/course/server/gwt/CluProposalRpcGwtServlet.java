@@ -108,7 +108,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	@Override
 	public String getWorkflowIdFromProposalId(String proposalId) throws OperationFailedException {
-        if(null==simpleDocService){
+    	logger.info("Looking up workflow for proposalId: "+proposalId);
+
+		if(null==simpleDocService){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
@@ -116,12 +118,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		try {
 			docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalId);
 	        if(null==docDetail){
+	        	logger.error("Nothing found for proposalId: "+proposalId);
 	        	return null;
 	        }
 	        Long workflowId=docDetail.getRouteHeaderId();
 	        return null==workflowId?null:workflowId.toString();
 		} catch (Exception e) {
-			logger.info("Call Failed getting workflowId for proposalId: "+proposalId, e);
+			logger.error("Call Failed getting workflowId for proposalId: "+proposalId, e);
 		}
 		return null;
     }
@@ -440,45 +443,50 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	@Override
     public HashMap<String, ArrayList<String>> getCollaborators(String docId) throws OperationFailedException{
 		try{
-        if(workflowUtilityService==null){
-        	throw new OperationFailedException("Workflow Service is unavailable");
-        }
+        	logger.info("Getting collaborators for docId: "+docId);
 
-		HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
-
-		ArrayList<String> coAuthors = new ArrayList<String>();
-		ArrayList<String> commentors= new ArrayList<String>();
-		ArrayList<String> viewers = new ArrayList<String>();
-		ArrayList<String> delegates = new ArrayList<String>();
-
-		ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
-        if(items!=null){
-        	for(ActionRequestDTO item:items){
-        		if (item.isActivated() && (!item.isDone())) {
-	        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
-	        			if(item.getRequestLabel().startsWith("Co-Author")){
-		        			coAuthors.add(item.getPrincipalId());
-		        		}
-		        		else if(item.getRequestLabel().startsWith("Commentor")){
-		        			commentors.add(item.getPrincipalId());
-		        		}
-		        		else if(item.getRequestLabel().startsWith("Viewer")){
-		        			viewers.add(item.getPrincipalId());
-		        		}
-		        		else if(item.getRequestLabel().startsWith("Delegate")){
-		        			delegates.add(item.getPrincipalId());
+	        if(workflowUtilityService==null){
+	        	logger.error("No workflow Utility Service is available.");
+	        	throw new OperationFailedException("Workflow Service is unavailable");
+	        }
+	
+			HashMap<String, ArrayList<String>> results = new HashMap<String, ArrayList<String>>();
+	
+			ArrayList<String> coAuthors = new ArrayList<String>();
+			ArrayList<String> commentors= new ArrayList<String>();
+			ArrayList<String> viewers = new ArrayList<String>();
+			ArrayList<String> delegates = new ArrayList<String>();
+	
+			ActionRequestDTO[] items= workflowUtilityService.getAllActionRequests(Long.parseLong(docId));
+	        if(items!=null){
+	        	for(ActionRequestDTO item:items){
+	        		if (item.isActivated() && (!item.isDone())) {
+		        		if(KEWConstants.ACTION_REQUEST_FYI_REQ.equals(item.getActionRequested())&&item.getRequestLabel()!=null){
+		        			if(item.getRequestLabel().startsWith("Co-Author")){
+			        			coAuthors.add(item.getPrincipalId());
+			        		}
+			        		else if(item.getRequestLabel().startsWith("Commentor")){
+			        			commentors.add(item.getPrincipalId());
+			        		}
+			        		else if(item.getRequestLabel().startsWith("Viewer")){
+			        			viewers.add(item.getPrincipalId());
+			        		}
+			        		else if(item.getRequestLabel().startsWith("Delegate")){
+			        			delegates.add(item.getPrincipalId());
+			        		}
 		        		}
 	        		}
-        		}
-        	}
-        }
-
-        results.put("Co-Authors", coAuthors);
-        results.put("Commentor", commentors);
-        results.put("Viewer", viewers);
-        results.put("Delegate", delegates);
-        return results;
+	        	}
+	        }
+	
+	        results.put("Co-Author", coAuthors);
+	        results.put("Commentor", commentors);
+	        results.put("Viewer", viewers);
+	        results.put("Delegate", delegates);
+	        logger.info("Returning collaborators: "+results.toString());
+	        return results;
 		}catch(Exception e){
+			logger.error("Error getting actions Requested.",e);
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
