@@ -18,7 +18,7 @@
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="serviceNamespace">KSCoreUI</param>    
 
-    <param name="config.location">${user.home}/ks-core-ui-config.xml</param> 
+    <param name="config.location">${user.home}/kuali/main/dev/ks-core-ui-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     
 </config>
