@@ -84,7 +84,7 @@
 	<param name="ks.rice.actionList.serviceAddress" override="false">${application.url}/kew/ActionList.do</param>
 
 	<!-- KS Urls -->
-	<param name="ks.logout.url" override="false">${application.url}/spring_security_logout</param>
+	<param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
 
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false">${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</param>
