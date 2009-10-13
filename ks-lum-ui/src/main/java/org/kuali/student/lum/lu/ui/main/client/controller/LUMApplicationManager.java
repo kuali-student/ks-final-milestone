@@ -94,7 +94,8 @@ public class LUMApplicationManager extends Controller{
                 //View setup should already be handled.
 
                 //FIXME: This is quick fix, need better way via config to set and show summary view.
-                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);
+                cluProposalController.showDefaultView(); 
+//                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);//FIXME this was causing the nav bar not to show up
                 return createCourseView;
             case VIEW_COURSE:
                 if (viewCluView == null){
