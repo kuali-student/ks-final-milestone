@@ -15,7 +15,7 @@
 		<spring.version>2.5.4</spring.version>
 		<atomikos.version>3.4.1</atomikos.version>
 		<derby.version>10.4.2.0</derby.version>
-		<rice.version>1.0.0-ks-m1-SNAPSHOT</rice.version>
+        <kuali.rice.version>1.0.0-ks-m1</kuali.rice.version>
 	</properties>
 	
 	<parent>
@@ -122,14 +122,14 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-web</artifactId>
-			<version>${rice.version}</version>
+			<version>${kuali.rice.version}</version>
 			<type>war</type>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>${rice.version}</version>
+			<version>${kuali.rice.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
