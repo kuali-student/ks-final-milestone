@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student</groupId>
-	<artifactId>ks-all</artifactId>
+	<artifactId>ks-integrate</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ks-integrate Maven Webapp</name>
@@ -27,7 +27,6 @@
 						<goals>
 							<goal>compile</goal>
 						</goals>
-<!--					<phase>none</phase>-->
 					</execution>
 				</executions>
 				<configuration>
@@ -89,11 +88,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>
 		</dependency>
@@ -143,11 +137,6 @@
 			<artifactId>ks-lum-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-	      	<groupId>org.kuali.rice</groupId>
-	      	<artifactId>rice-impl</artifactId>
-			<scope>runtime</scope>	      
-	    </dependency>	
 
 		<!--  Deps needed for LUM UI GWT -->
 		<dependency>

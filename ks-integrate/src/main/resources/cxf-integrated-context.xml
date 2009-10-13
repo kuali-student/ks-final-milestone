@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+	<import resource="classpath:cxf-lu-context.xml" />
+	<import resource="classpath:cxf-context.xml" />
+	<import resource="classpath:ks-spring-security.xml" />
+	<bean id="propertyConfigurer"
+		class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:ks-spring-security.properties</value>
+				<value>classpath:core-web.properties</value>
+			</list>
+		</property>
+		<property name="customConfigSystemProperty" value="ks.config.location"/>
+		<property name="order" value="0" />
+	</bean>
+</beans>
