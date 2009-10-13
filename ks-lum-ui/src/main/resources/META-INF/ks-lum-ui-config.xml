@@ -1,60 +1,24 @@
 <config>
 
     <param name="module.name">ks-lum-ui</param>
+    <param name="db.vendor">derby</param>
+	<param name="jpa.vendor">hibernate</param>
 
-    <param name="environment" override="false">dev</param>
+    <!-- ks-config is here so nested property overrides resolve correctly -->
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param>
+
+	<!-- KSB Configuration -->
+    <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param> 
+
+    <!-- Application configuration -->
     <param name="app.code" override="false">ks-lum</param>
 	<param name="app.context.name" override="false">${app.code}</param>
     <param name="http.port" override="false">8888</param>  
-    <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="serviceNamespace">KSLumUI</param>
     
-    <!-- this is dev only parameter, currently can't create quartz tables with jpa -->
-    <param name="useQuartzDatabase">false</param>
-
-    <!-- Datasource Configuration -->
-
-    <param name="rice.ksb.jpa.enabled">true</param>
-
-    <param name="rice.ksb.registry.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
-    <param name="rice.ksb.registry.jpa.PersistenceUnitName">ksb-registry-identity-unit</param>
-    <param name="rice.ksb.registry.jpa.GenerateDdl">true</param>
-
-    <param name="rice.ksb.message.jpa.PersistenceXmlLocation">META-INF/ks-ksb-persistence.xml</param>
-    <param name="rice.ksb.message.jpa.PersistenceUnitName">ksb-message-identity-unit</param>
-    <param name="rice.ksb.message.jpa.GenerateDdl">true</param>
-
-    <!-- these are defaulted to false already, helpful to turn on for debug -->
-    <param name="rice.jpa.JpaProperties.hibernate.show_sql">false</param>
-    <param name="rice.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
-    <param name="rice.jpa.JpaProperties.hibernate.format_sql">false</param>
-
-    <param name="rice.jpa.DatabasePlatform">org.hibernate.dialect.DerbyDialect</param>
-    <param name="rice.jpa.UseSerialization">false</param>
-    <param name="datasource.ojb.platform">Derby</param>
- 
-    <param name="datasource.driver.name">org.apache.derby.jdbc.ClientDriver</param>
-    <param name="datasource.url">jdbc:derby://localhost:1527/derby/rice-db</param>
-    <!--
-    <param name="datasource.url">jdbc:derby:target/derby/rice-db;create=true</param>
-    -->    
-    <param name="datasource.username">rice</param>
-    <param name="datasource.password">r1c3</param>
-    <param name="datasource.pool.validationQuery">values(1)</param>
-    <param name="datasource.pool.maxWait">600</param>
-    <param name="datasource.pool.size">5</param>
-    <param name="datasource.pool.maxSize">10</param>
-    <param name="datasource.pool.minSize">10</param>
-
-    <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
-    <param name="keystore.alias">rice</param>
-    <param name="keystore.password">r1c3pw</param>
-
     <param name="config.location">${user.home}/kuali/main/dev/ks-lum-ui-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
 
 </config>
