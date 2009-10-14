@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Kuali Student Exception Routing"
+        NM="Resolve Exception" NMSPC_CD="KS-SYS"
+        OBJ_ID="5ADFE1V2441D6320E04AAAA189D85169" RSP_ID="1"
+        RSP_TMPL_ID="2" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Department Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="DepartmentReview0000000000000RSP"
+        RSP_ID="300" RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for College Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="CollegeReview0000000000000000RSP"
+        RSP_ID="301" RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Division Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="DivisionReview000000000000000RSP"
+        RSP_ID="303" RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y" DESC_TXT="Responsibility for Senate Review"
+        NM="Review" NMSPC_CD="KS-LUM"
+        OBJ_ID="SenateReview00000000000000000RSP" RSP_ID="304"
+        RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Publication Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="PublicationReview000000000000RSP"
+        RSP_ID="305" RSP_TMPL_ID="1" VER_NBR="0"/>
+</dataset>
