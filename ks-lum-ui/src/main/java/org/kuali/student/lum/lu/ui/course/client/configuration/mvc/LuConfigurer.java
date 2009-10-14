@@ -172,7 +172,6 @@ public class LuConfigurer {
 
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         endDate.addField(new FieldDescriptor("cluInfo/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
-        endDate.addField(new FieldDescriptor("cluInfo/expirationDate", "When will this course be inactive?", Type.DATE, new KSDatePicker()));
 
         section.addSection(startDate);
         section.addSection(endDate);
@@ -224,7 +223,7 @@ public class LuConfigurer {
         VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
         campus.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.STRING, new CampusLocationList()));
 
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORGS_LABEL_KEY), WITH_DIVIDER);    
+        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
         adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
@@ -249,7 +248,7 @@ public class LuConfigurer {
         CustomNestedSection courseNumber = new CustomNestedSection();
         courseNumber.addStyleName(LUConstants.STYLE_SECTION);
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
-        courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY)); //Section title constants)
+        courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)); 
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING)); //TODO OrgSearch goes here?
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", null, Type.STRING));
@@ -354,7 +353,7 @@ public class LuConfigurer {
     public static class OfferedJointlyList extends MultiplicityCompositeWithLabels {
         {
 	        setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.JOINT_OFFER_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));
         }
 
         @Override
@@ -396,7 +395,7 @@ public class LuConfigurer {
                 getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
 
-        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTORS_LABEL_KEY), WITH_DIVIDER);    
+        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);    
         instructors.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", null, Type.STRING));
 //        instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
 
@@ -416,14 +415,14 @@ public class LuConfigurer {
 
 
         //COURSE FORMATS
-        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
+//        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
         //courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
 
         section.addSection(instructors);
         section.addSection(credits);
         section.addSection(learningResults);
         section.addSection(scheduling);
-        section.addSection(courseFormats);
+//        section.addSection(courseFormats);
 
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
@@ -431,7 +430,7 @@ public class LuConfigurer {
     public static class CourseFormatList extends MultiplicityComposite{
         {
             setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.COURSE_FORMAT_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
         }
 
         public Widget createItem() {

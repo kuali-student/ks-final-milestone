@@ -101,7 +101,7 @@ public class ViewCluConfigurer {
 
         section.addSection(generateCurriculumOversight(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateCampusLocation(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER));
-        section.addSection(generateAdminOrgs(getH3Title(LUConstants.ADMIN_ORGS_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateAdminOrgs(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER));
 
         return section;
 
@@ -112,7 +112,7 @@ public class ViewCluConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
 
-        section.addSection(generateInstructors(getH3Title(LUConstants.INSTRUCTORS_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateInstructors(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateCredits(getH3Title(LUConstants.CREDITS_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateLearningResults(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateScheduling(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER));
@@ -126,7 +126,7 @@ public class ViewCluConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.INFORMATION_LABEL_KEY)));
 
-        section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIERS_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateIdentifiers(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY), WITH_DIVIDER));
         // TODO Next 3 sections )advanced options) should be in a disclosure panel       
 //        section.addSection(generateCrossListed(getH3Title(LUConstants.CROSS_LISTED_LABEL_KEY), WITH_DIVIDER));
 //        section.addSection(generateJointOfferings(getH3Title(LUConstants.JOINT_OFFERINGS_LABEL_KEY), WITH_DIVIDER));
@@ -235,10 +235,10 @@ public class ViewCluConfigurer {
         VerticalSection governance = initSection(getH4Title(LUConstants.GOVERNANCE_LABEL_KEY), WITH_DIVIDER);
         governance.addSection(generateCurriculumOversight(getH5Title(getLabel(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY)), NO_DIVIDER));
         governance.addSection(generateCampusLocation(getH5Title(getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY)), NO_DIVIDER));
-        governance.addSection(generateAdminOrgs(getH5Title(getLabel(LUConstants.ADMIN_ORGS_LABEL_KEY)), NO_DIVIDER));
+        governance.addSection(generateAdminOrgs(getH5Title(getLabel(LUConstants.ADMIN_ORG_LABEL_KEY)), NO_DIVIDER));
 
         VerticalSection logistics = initSection(getH4Title(LUConstants.LOGISTICS_LABEL_KEY), WITH_DIVIDER);
-        logistics.addSection(generateInstructors((getH5Title(LUConstants.INSTRUCTORS_LABEL_KEY)), NO_DIVIDER));
+        logistics.addSection(generateInstructors((getH5Title(LUConstants.INSTRUCTOR_LABEL_KEY)), NO_DIVIDER));
         logistics.addSection(generateCredits(getH5Title(LUConstants.CREDITS_LABEL_KEY), NO_DIVIDER));
         logistics.addSection(generateLearningResults(getH5Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), NO_DIVIDER));
         logistics.addSection(generateScheduling(getH5Title(LUConstants.SCHEDULING_LABEL_KEY), NO_DIVIDER));
@@ -246,7 +246,7 @@ public class ViewCluConfigurer {
        
         
         VerticalSection information = initSection(getH4Title(LUConstants.INFORMATION_LABEL_KEY), WITH_DIVIDER);
-        information.addSection(generateIdentifiers(getH5Title(LUConstants.IDENTIFIERS_LABEL_KEY), NO_DIVIDER));
+        information.addSection(generateIdentifiers(getH5Title(LUConstants.IDENTIFIER_LABEL_KEY), NO_DIVIDER));
         information.addSection(generateShortTitle(null, NO_DIVIDER));
         information.addSection(generateLongTitle(null, NO_DIVIDER));
         information.addSection(generateDescription(null, NO_DIVIDER));
@@ -296,18 +296,18 @@ public class ViewCluConfigurer {
         VerticalSection section = initSection(title, withDivider);
         String fieldLabel = null;
         if (title == null) {
-            fieldLabel = "Fee Type:  ";           
+            fieldLabel = getLabel(LUConstants.FEE_TYPE_LABEL_KEY);           
         }
-        section.addField(new FieldDescriptor("cluInfo/feeType", "Fee Type:  ", Type.LIST, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/feeType", fieldLabel, Type.LIST, new KSLabel()));
         return section;
     }
     
     private static VerticalSection generateFeeDescription(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/feeAmount", "$ :   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/taxable", "Taxable :   ", Type.STRING, new KSLabel()));//TODO checkboxes go here instead
-        section.addField(new FieldDescriptor("cluInfo/feeDesc", "Description :   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/internalNotation", "Internal Fee Notation :   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/feeAmount", getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/taxable", getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY), Type.STRING, new KSLabel()));//TODO checkboxes go here instead
+        section.addField(new FieldDescriptor("cluInfo/feeDesc", getLabel(LUConstants.FEE_DESC_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/internalNotation", getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY), Type.STRING, new KSLabel()));
         return section;
     }
     
@@ -322,12 +322,12 @@ public class ViewCluConfigurer {
         
         CustomNestedSection ns = new CustomNestedSection();
         ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        ns.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", "Terms Offered :   ", Type.LIST, new OfferedAtpTypeList())); 
+        ns.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.LIST, new OfferedAtpTypeList())); 
         ns.nextRow();
  
         section.addSection(ns);
         section.addField(new FieldDescriptor("cluInfo/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
-        section.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration Time :   ", Type.STRING, new KSLabel())); 
+        section.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.STRING, new KSLabel())); 
 //        section.addField(new FieldDescriptor("cluInfo/intensity/atpDurationTypeKey", "Intensity Type :   ", Type.STRING, new KSLabel())); 
 //        section.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Intensity Time :   ", Type.STRING, new KSLabel()));
 
@@ -336,15 +336,15 @@ public class ViewCluConfigurer {
 
     private static VerticalSection generateLearningResults(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("evalType", "Evaluation Type :   ", Type.STRING, new KSLabel("evalType"))); //TODO EVAL TYPE ENUMERATION ????
+        section.addField(new FieldDescriptor("evalType", getLabel(LUConstants.EVALUATION_TYPE_LABEL_KEY), Type.STRING, new KSLabel("evalType"))); //TODO EVAL TYPE ENUMERATION ????
         return section;
     }
 
     private static VerticalSection generateCredits(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/creditType", "Credit Type :   ", Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
-        section.addField(new FieldDescriptor("cluInfo/creditValue", "Credit Value :   ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/maxCredits", "Maximum Credits :   ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/creditType", getLabel(LUConstants.CREDIT_LABEL_KEY), Type.STRING, new KSLabel()));//TODO CREDIT TYPE ENUMERATION
+        section.addField(new FieldDescriptor("cluInfo/creditValue", getLabel(LUConstants.CREDIT_VALUE_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/maxCredits", getLabel(LUConstants.MAX_CREDITS_LABEL_KEY), Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/defaultEnrollmentEstimate", "Default Enrollment :    ", Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/defaultMaximumEnrollment", "Maximum Enrollment :    ", Type.STRING, new KSLabel()));
         return section;
@@ -352,7 +352,11 @@ public class ViewCluConfigurer {
 
     private static VerticalSection generateInstructors(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
-        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", "Person ID :      ", Type.STRING, new KSLabel()));
+        String fieldLabel = null;
+        if (title == null) {
+            fieldLabel = getLabel(LUConstants.INSTRUCTOR_LABEL_KEY);           
+        }
+        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", fieldLabel, Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/primaryInstructor/orgId", "Org ID :      ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
         return section;
@@ -362,7 +366,7 @@ public class ViewCluConfigurer {
         VerticalSection section = initSection(title, withDivider);
         String fieldLabel = null;
         if (title == null) {
-            fieldLabel = "Description:  ";           
+            fieldLabel = getLabel(LUConstants.DESCRIPTION_LABEL_KEY);           
         }
         section.addField(new FieldDescriptor("cluInfo/desc/plain", fieldLabel, Type.STRING,  new KSLabel()));
         return section;
@@ -371,7 +375,7 @@ public class ViewCluConfigurer {
         VerticalSection section = initSection(title, withDivider);
         String fieldLabel = null;
         if (title == null) {
-            fieldLabel = "Rationale:  ";           
+            fieldLabel = getLabel(LUConstants.RATIONALE_LABEL_KEY);           
         }
         section.addField(new FieldDescriptor("cluInfo/marketingDesc/plain", fieldLabel, Type.STRING, new KSLabel()));
         return section;
@@ -381,7 +385,7 @@ public class ViewCluConfigurer {
         VerticalSection section = initSection(title, withDivider);
         String fieldLabel = null;
         if (title == null) {
-            fieldLabel = "Short Title:  ";           
+            fieldLabel = getLabel(LUConstants.SHORT_TITLE_LABEL_KEY);           
         }
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", fieldLabel, Type.STRING, new KSLabel()));
         return section;
@@ -391,7 +395,7 @@ public class ViewCluConfigurer {
         VerticalSection section = initSection(title, withDivider);
         String fieldLabel = null;
         if (title == null) {
-            fieldLabel = "Title:  ";           
+            fieldLabel = getLabel(LUConstants.TITLE_LABEL_KEY);
         }
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", fieldLabel, Type.STRING, new KSLabel()));
         return section;
@@ -422,10 +426,10 @@ public class ViewCluConfigurer {
     private static VerticalSection generateIdentifiers(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
 //        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/code", "Code:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", "Division:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", "Suffix Code:    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
     
         section.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
        return section;
@@ -434,8 +438,8 @@ public class ViewCluConfigurer {
     private static VerticalSection generateDates(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         
-        section.addField(new FieldDescriptor("cluInfo/effectiveDate", "Start Date:  ", Type.DATE, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/expirationDate", "End Date:   ", Type.DATE, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/effectiveDate", getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), Type.DATE, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSLabel()));
         return section;
     }
 
@@ -467,7 +471,7 @@ public class ViewCluConfigurer {
     private static class AlternateInstructorList extends MultiplicityComposite{
 
         protected AlternateInstructorList () {
-            this.setItemLabel("Alternate Instructor");      
+            this.setItemLabel(getLabel(LUConstants.INSTRUCTOR_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
@@ -489,7 +493,7 @@ public class ViewCluConfigurer {
     private static class AlternateIdentifierList extends MultiplicityComposite{
 
         protected AlternateIdentifierList () {
-            this.setItemLabel("Alternate Identifier");      
+            this.setItemLabel(getLabel(LUConstants.ALT_IDENTIFIER_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
@@ -514,7 +518,7 @@ public class ViewCluConfigurer {
     private static class AlternateAdminOrgList extends MultiplicityComposite{
 
         protected AlternateAdminOrgList () {
-            this.setItemLabel("Alternate Org ID");      
+            this.setItemLabel(getLabel(LUConstants.ALT_ADMIN_ORG_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
@@ -533,7 +537,7 @@ public class ViewCluConfigurer {
     }
     public static class CrossListedList extends MultiplicityComposite {        
         protected CrossListedList () {
-            this.setItemLabel("Cross Listed");      
+            this.setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));      
             this.setUpdateable(false);         
         }
         
@@ -543,11 +547,11 @@ public class ViewCluConfigurer {
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/department", "Department", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/department", getLabel(LUConstants.DEPT_LABEL_KEY), Type.STRING, new KSLabel()));
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/division", "Subject Code", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("cluInfo/suffixCode", "Course Number", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/division", getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/suffixCode", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
             multi.addSection(ns);
             
             return multi;
@@ -557,7 +561,7 @@ public class ViewCluConfigurer {
     public static class OfferedJointlyList extends MultiplicityComposite {
 
         protected OfferedJointlyList () {
-            this.setItemLabel("Joint Offering");      
+            this.setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
@@ -567,7 +571,7 @@ public class ViewCluConfigurer {
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/courseTitle", "Course Number or Title", Type.STRING , new KSLabel() ));
+            ns.addField(new FieldDescriptor("cluInfo/courseTitle", getLabel(LUConstants.TITLE_LABEL_KEY), Type.STRING , new KSLabel() ));
             multi.addSection(ns);
             
             return multi;
@@ -576,7 +580,7 @@ public class ViewCluConfigurer {
 
     public static class VersionCodeList extends MultiplicityComposite {
         protected VersionCodeList () {
-            this.setItemLabel("Version ");      
+            this.setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
@@ -586,8 +590,8 @@ public class ViewCluConfigurer {
             
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("cluInfo/versionCode", "Code", Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("cluInfo/title", "Title", Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/versionCode", getLabel(LUConstants.VERSION_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/title", getLabel(LUConstants.TITLE_LABEL_KEY), Type.STRING, new KSLabel()));
             multi.addSection(ns);
             
             return multi;
@@ -600,7 +604,7 @@ public class ViewCluConfigurer {
         public int formatNumber = 1;
 
         protected CourseFormatList () {
-            this.setItemLabel("Format");      
+            this.setItemLabel(getLabel(LUConstants.FORMATS_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
@@ -617,14 +621,14 @@ public class ViewCluConfigurer {
         public int activityNumber = 1;
 
         protected CourseActivityList () {
-            this.setItemLabel("Activity");      
+            this.setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));      
             this.setUpdateable(false);         
         }
 
         public Widget createItem() {
             MultiplicitySection item = new MultiplicitySection("CluInfo");
             CustomNestedSection activity = new CustomNestedSection();
-            activity.addField(new FieldDescriptor("cluInfo/type", "Activity Type", Type.STRING, new KSLabel()));
+            activity.addField(new FieldDescriptor("cluInfo/type", getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), Type.STRING, new KSLabel()));
             activity.nextRow();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
@@ -637,13 +641,13 @@ public class ViewCluConfigurer {
             */
 
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("cluInfo/term", "Term", Type.STRING, new KSLabel()));
-            activity.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", "Duration", Type.INTEGER, new KSLabel())); //TODO dropdown need here?
+            activity.addField(new FieldDescriptor("cluInfo/term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new KSLabel()));
+            activity.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER, new KSLabel())); //TODO dropdown need here?
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", "Contact Hours", Type.STRING, new KSLabel()));
+            activity.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), Type.STRING, new KSLabel()));
             //TODO PER WHATEVER
-            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", "Class Size", Type.STRING, new KSLabel()));
+            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), Type.STRING, new KSLabel()));
 
             item.addSection(activity);
 
