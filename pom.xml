@@ -34,12 +34,13 @@
     </issueManagement>
 
 
-    <modules>
+    <modules>        
         <module>ks-cxf</module>
         <module>ks-metro</module>
         <module>ks-eclipselink</module>
         <module>ks-hibernate</module>
         <module>ks-jta</module>
+        <module>ks-rice-lessdep</module>
         <module>ks-common-util</module>
         <module>ks-common-ui</module>
         <module>ks-common-test</module>
