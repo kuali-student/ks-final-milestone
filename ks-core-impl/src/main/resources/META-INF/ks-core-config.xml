@@ -27,6 +27,9 @@
     <param name="ks.core.datasource.username">${ks.core.datasource.username.${db.vendor}}</param>
     <param name="ks.core.datasource.password">${ks.core.datasource.password.${db.vendor}}</param>
     <param name="ks.core.datasource.validationQuery">${ks.core.datasource.validationQuery.${db.vendor}}</param>
+    
+    <param name="generateDdl">false</param>
+    <param name="hibernate.hbm2ddl.auto">validate</param>
 	
 	<!-- Core DB settings -->
 <!--	<param name="ks.core.datasource.driver.name">oracle.jdbc.OracleDriver</param>-->
