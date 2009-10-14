@@ -237,7 +237,7 @@
         OBJ_ID="9BD6785416434C4D9E5F05AF077DB9B7"
         PARM_DESC_TXT="Flag to show the backdoor login."
         PARM_DTL_TYP_CD="Backdoor" PARM_NM="SHOW_BACK_DOOR_LOGIN_IND"
-        PARM_TYP_CD="CONFG" TXT="Y" VER_NBR="1"/>
+        PARM_TYP_CD="CONFG" TXT="N" VER_NBR="1"/>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-WKFLW"
         OBJ_ID="AD71949E2CCF422D941AAA9D4CB44D10"
         PARM_DESC_TXT="Defines the target iframe name that the KEW internal portal uses for its menu links."
