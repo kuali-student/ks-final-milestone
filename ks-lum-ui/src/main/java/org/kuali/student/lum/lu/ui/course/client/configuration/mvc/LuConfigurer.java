@@ -45,7 +45,6 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
@@ -82,12 +81,14 @@ public class LuConfigurer {
 
     public static void configureCluProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){
         addCluStartSection(layout);
-        addGovernanceSection(layout);
-        addCourseLogistics(layout);
-        addCourseInfoSection(layout, objectKey, typeKey, stateKey);
-        addCourseRequisitesSection(layout);
-        addActiveDatesSection(layout);
-        addFinancialsSection(layout);
+
+        layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
+        layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
+        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+
 //        addProgramRequirements(layout);
         
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
@@ -143,7 +144,7 @@ public class LuConfigurer {
      * @param layout - a content pane to which this section is added to
      * @return
      */
-    private static void addCourseRequisitesSection(ConfigurableLayout layout) {
+    private static SectionView generateCourseRequisitesSection() {
         CustomSectionView section = new CustomSectionView(LuSections.COURSE_REQUISITES,
                 getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
@@ -158,11 +159,12 @@ public class LuConfigurer {
         enrollmentSection.addField(new FieldDescriptor("rules", "Rules", Type.STRING));
         enrollmentSection.addWidget(new KSButton());
         section.addSection(enrollmentSection);   */
+        
+        return section;
 
-        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, section);
     }
 
-    private static void addActiveDatesSection(ConfigurableLayout layout) {
+    private static SectionView generateActiveDatesSection() {
         VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES,
                 getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY)));
@@ -175,11 +177,12 @@ public class LuConfigurer {
 
         section.addSection(startDate);
         section.addSection(endDate);
+        
+        return section;
 
-        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, section);
     }
 
-    private static void addFinancialsSection(ConfigurableLayout layout) {
+    private static SectionView generateFinancialsSection() {
         VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS,
                 getLabel(LUConstants.FINANCIALS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
@@ -196,7 +199,8 @@ public class LuConfigurer {
 
         section.addSection(feeType);
         section.addSection(feeAmount);
-        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, section);
+        
+        return section;
     }
 
     private static void addProgramRequirements(ConfigurableLayout layout) {
@@ -211,7 +215,7 @@ public class LuConfigurer {
 
     }
 
-    public static void addGovernanceSection(ConfigurableLayout layout){
+    public static SectionView generateGovernanceSection(){
         VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE,
                 getLabel(LUConstants.GOVERNANCE_LABEL_KEY),
                 CluProposalModelDTO.class);
@@ -232,11 +236,12 @@ public class LuConfigurer {
         section.addSection(oversight);
         section.addSection(campus);
         section.addSection(adminOrgs);
+        
+        return section;
 
-        layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
     }
 
-    public static void addCourseInfoSection(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){
+    public static SectionView generateCourseInfoSection(){
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO,
                 getLabel(LUConstants.INFORMATION_LABEL_KEY),
                 CluProposalModelDTO.class);
@@ -302,7 +307,7 @@ public class LuConfigurer {
         section.addSection(description);
         section.addSection(rationale);
 
-        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, section);
+        return section;
     }
 
 //    public static Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD, final String objectKey){
@@ -390,7 +395,7 @@ public class LuConfigurer {
         }
     }
         
-    public static void addCourseLogistics(ConfigurableLayout layout){
+    public static SectionView generateCourseLogisticsSection(){
         VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS,
                 getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
@@ -424,7 +429,8 @@ public class LuConfigurer {
         section.addSection(scheduling);
 //        section.addSection(courseFormats);
 
-        layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, section);
+        
+        return section;
     }
 
     public static class CourseFormatList extends MultiplicityComposite{
