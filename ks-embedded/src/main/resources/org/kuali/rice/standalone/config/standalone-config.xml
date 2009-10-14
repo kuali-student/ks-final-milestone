@@ -63,19 +63,17 @@
 
 
 	<!-- additional config files -->
-	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/uber-config-override.xml-->
+	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/embedded-config.xml-->
 	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
 	<!--Set the came of the context file in order to load the particular project	-->
 	<param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml</param>
-	
-	<!--This is the override config file where data source parameters can be overridden	-->
-	<param name="config.location">${user.home}/kuali/main/${environment}/embedded-config.xml</param>
+
 	
 	<!-- additional config files -->
 	<param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
 	
 	<!-- default config files -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	
