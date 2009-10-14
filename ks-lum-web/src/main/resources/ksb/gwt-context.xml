@@ -7,10 +7,10 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
-    <import resource="classpath:ksb/gwt-database-context.xml"/>
+    <!--<import resource="classpath:ksb/gwt-database-context.xml"/>-->
 
     <!-- ApplicationStateManger Config -->
-    <bean id="applicationStateDao"
+    <!--<bean id="applicationStateDao"
         class="org.kuali.student.common.ui.server.applicationstate.dao.impl.ApplicationStateDaoImpl">
         <property name="em" ref="applicationStateEntityManager" />        
     </bean>
@@ -18,7 +18,7 @@
     <bean id="applicationStateManager"
         class="org.kuali.student.common.ui.server.applicationstate.ApplicationStateManagerImpl">
         <property name="applicationStateDao" ref="applicationStateDao"/>        
-    </bean>
+    </bean>-->
         
 	<!-- Spring to GWT servlet mapping -->
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -136,7 +136,7 @@
 		<property name="workflowUtilityService" ref="workflowUtilityClient"/>
 		<property name="orgService" ref="orgClient" />
 		<property name="proposalService" ref="proposalClient" />
-        <property name="applicationStateManager" ref="applicationStateManager" />
+        <!--<property name="applicationStateManager" ref="applicationStateManager" />-->
 		<property name="permissionService" ref="permissionServiceClient"/>
 	</bean>
 
