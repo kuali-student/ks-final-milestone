@@ -37,9 +37,9 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
         public static final Scope ORG_POSITIONS = make(2);
         public static final Scope ORG_RELATIONS = make(4);
         public static final Scope ORG_PERSON_RELATIONS = make(8);
-        public static final Scope ORG_CREATE_ALL = build(ORG, ORG_POSITIONS, ORG_RELATIONS, ORG_PERSON_RELATIONS);
+        public static final Scope ORG_CREATE_ALL = build(ORG, ORG_POSITIONS, ORG_RELATIONS);
         public static final Scope MODIFY = make(256);
-        public static final Scope ORG_MODIFY_ALL = build(ORG, ORG_POSITIONS, ORG_RELATIONS, ORG_PERSON_RELATIONS, MODIFY);
+        public static final Scope ORG_MODIFY_ALL = build(ORG, ORG_POSITIONS, ORG_RELATIONS, MODIFY);
 
         protected Scope() {}
 
