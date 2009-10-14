@@ -29,4 +29,7 @@
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
     
     <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
+    
+    <param name="generateDdl">false</param>
+    <param name="hibernate.hbm2ddl.auto">validate</param>
 </config>
