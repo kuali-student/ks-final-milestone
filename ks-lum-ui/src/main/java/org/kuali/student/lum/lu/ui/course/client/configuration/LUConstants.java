@@ -174,6 +174,7 @@ public class LUConstants {
     
     //Learning Objectives  labels
     public static final String LEARNING_OBJECTIVES_LABEL_KEY = "cluLearningObjectives";
+    public static final String LEARNING_OBJECTIVE_LABEL_KEY = "cluLearningObjective";
 //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
 
     //Requisites labels

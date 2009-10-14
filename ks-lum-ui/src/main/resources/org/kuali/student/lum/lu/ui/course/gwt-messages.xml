@@ -116,6 +116,7 @@
 	   		<bean parent="enCourse" p:id="cluDelegate"	    	p:value="Delegate:    "/>
 	   		<bean parent="enCourse" p:id="cluCollaborators"	    	p:value="Collaborators:    "/>
 	   	<bean parent="enCourse" p:id="cluLearningObjectives"		p:value="Learning Objectives"/>
+	   		<bean parent="enCourse" p:id="cluLearningObjective"	    	p:value="Learning Objective"/>
 
    	<bean parent="enCourse" p:id="cluStudentEligibility"		p:value="Student Eligibility"/>
 	 <bean parent="enCourse" p:id="cluCourseRestrictions"		p:value="Course Restrictions"/>

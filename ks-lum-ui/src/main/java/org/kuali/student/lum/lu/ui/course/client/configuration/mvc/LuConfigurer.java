@@ -48,6 +48,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CustomSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
@@ -85,6 +86,7 @@ public class LuConfigurer {
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
         layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
@@ -99,10 +101,8 @@ public class LuConfigurer {
     }
 
     public static SectionView generateSummarySection(){
-        VerticalSectionView section = new VerticalSectionView(LuSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CluProposalModelDTO.class);
-        section.addStyleName(LUConstants.STYLE_SECTION);
-        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.SUMMARY_LABEL_KEY)));
-
+        VerticalSectionView section = initSectionView(LuSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY); 
+            
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
         section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
         
@@ -114,7 +114,7 @@ public class LuConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(title);
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/longName", getLabel(LUConstants.TITLE_LABEL_KEY) +":    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("proposalInfo/name", getLabel(LUConstants.TITLE_LABEL_KEY) +":    ", Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/proposerPerson", getLabel(LUConstants.PROPOSER_LABEL_KEY), Type.LIST, new ProposerPersonList()));
@@ -128,9 +128,7 @@ public class LuConfigurer {
     } 
     
     public static void addCluStartSection(ConfigurableLayout layout){
-        VerticalSectionView section = new VerticalSectionView(LuSections.CLU_BEGIN, getLabel(LUConstants.START_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(LUConstants.SECTION_PROPOSAL_INFORMATION));
-        section.setInstructions(getLabel(LUConstants.PROPOSAL_DIRECTIONS_LABEL_KEY));
+        VerticalSectionView section = initSectionView(LuSections.CLU_BEGIN, LUConstants.START_LABEL_KEY); 
 
         section.addField(new FieldDescriptor("proposalInfo/name", getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY), Type.STRING));
         //This will need to be a person picker
@@ -145,9 +143,7 @@ public class LuConfigurer {
      * @return
      */
     private static SectionView generateCourseRequisitesSection() {
-        CustomSectionView section = new CustomSectionView(LuSections.COURSE_REQUISITES,
-                getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
+        VerticalSectionView section = initSectionView(LuSections.COURSE_REQUISITES, LUConstants.REQUISITES_LABEL_KEY); 
 
         VerticalSection startDate = new VerticalSection();
         startDate.setSectionTitle(SectionTitle.generateH2Title("Test"));
@@ -165,9 +161,7 @@ public class LuConfigurer {
     }
 
     private static SectionView generateActiveDatesSection() {
-        VerticalSectionView section = new VerticalSectionView(LuSections.ACTIVE_DATES,
-                getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.ACTIVE_DATES_LABEL_KEY)));
+        VerticalSectionView section = initSectionView(LuSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY); 
 
         VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
         startDate.addField(new FieldDescriptor("cluInfo/effectiveDate", getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
@@ -183,9 +177,7 @@ public class LuConfigurer {
     }
 
     private static SectionView generateFinancialsSection() {
-        VerticalSectionView section = new VerticalSectionView(LuSections.FINANCIALS,
-                getLabel(LUConstants.FINANCIALS_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.FINANCIALS_LABEL_KEY)));
+        VerticalSectionView section = initSectionView(LuSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY); 
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
@@ -203,23 +195,18 @@ public class LuConfigurer {
         return section;
     }
 
-    private static void addProgramRequirements(ConfigurableLayout layout) {
-        VerticalSectionView section = new VerticalSectionView(LuSections.PGM_REQUIREMENTS,
-                getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY)));
+    private static SectionView generateProgramRequirements() {
+        VerticalSectionView section = initSectionView(LuSections.PGM_REQUIREMENTS, LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY); 
 
         VerticalSection dummy = initSection(null, WITH_DIVIDER);
         section.addSection(dummy);
 
-        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, section);
 
+        return section;
     }
 
     public static SectionView generateGovernanceSection(){
-        VerticalSectionView section = new VerticalSectionView(LuSections.GOVERNANCE,
-                getLabel(LUConstants.GOVERNANCE_LABEL_KEY),
-                CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH2Title(getLabel(LUConstants.GOVERNANCE_LABEL_KEY)));
+        VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY); 
 
         VerticalSection oversight = initSection(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY), WITH_DIVIDER);    
         oversight.addField(new FieldDescriptor("cluInfo/academicSubjectOrgs", null, Type.STRING, new OrgListPicker()));
@@ -242,10 +229,7 @@ public class LuConfigurer {
     }
 
     public static SectionView generateCourseInfoSection(){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_INFO,
-                getLabel(LUConstants.INFORMATION_LABEL_KEY),
-                CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.INFORMATION_LABEL_KEY)));
+        VerticalSectionView section = initSectionView(LuSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY); 
 
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
@@ -330,75 +314,10 @@ public class LuConfigurer {
   //      };
    // }
     
-    public static class CrossListedList extends MultiplicityCompositeWithLabels {        
-        {
-            setAddItemLabel(getLabel(LUConstants.ADD_CROSS_LISTED_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));
-        }
-        
-        @Override
-        public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
-            													"kuali.lu.type.CreditCourse.identifier.cross-listed",
-            													"active");
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("orgId", getLabel(LUConstants.DEPT_LABEL_KEY), Type.STRING, new OrgPicker()));
-            ns.nextRow();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("code", getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), Type.STRING));//TODO OrgSearch goes here?
-            ns.addField(new FieldDescriptor("suffixCode", getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), Type.STRING));
-            
-            multi.addSection(ns);
-            
-            return multi;
-        }
-    }
-    
-    public static class OfferedJointlyList extends MultiplicityCompositeWithLabels {
-        {
-	        setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));
-        }
 
-        @Override
-        public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection("");
-            
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("id", getLabel(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), Type.STRING /*, new CluPicker() */ ));
-            multi.addSection(ns);
-            
-            return multi;
-        }
-    }
-    
-    public static class VersionCodeList extends MultiplicityCompositeWithLabels {
-        {
-	        setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
-        }
-
-        @Override
-        public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
-																"kuali.lu.type.CreditCourse.identifier.version",
-																"active");
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("variation", getLabel(LUConstants.CODE_LABEL_KEY), Type.STRING));//TODO wrong key
-            ns.addField(new FieldDescriptor("shortName", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), Type.STRING));//TODO wrong key
-            multi.addSection(ns);
-            
-            return multi;
-        }
-    }
         
     public static SectionView generateCourseLogisticsSection(){
-        VerticalSectionView section = new VerticalSectionView(LuSections.COURSE_LOGISTICS,
-                getLabel(LUConstants.LOGISTICS_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.LOGISTICS_LABEL_KEY)));
+        VerticalSectionView section = initSectionView(LuSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY); 
 
         VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);    
         instructors.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", null, Type.STRING));
@@ -433,6 +352,18 @@ public class LuConfigurer {
         return section;
     }
 
+    private static SectionView generateLearningObjectivesSection() {
+        VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY); 
+
+        VerticalSection loSection = initSection(null, WITH_DIVIDER);       
+        loSection.addField(new FieldDescriptor("learningObjectives", null, Type.STRING, new KSTextArea()));
+        
+        section.addSection(loSection);
+
+        return section;        
+
+    }
+    
     public static class CourseFormatList extends MultiplicityComposite{
         {
             setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
@@ -715,6 +646,71 @@ public class LuConfigurer {
         }
     }
     
+    public static class CrossListedList extends MultiplicityCompositeWithLabels {        
+        {
+            setAddItemLabel(getLabel(LUConstants.ADD_CROSS_LISTED_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));
+        }
+        
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
+                                                                "kuali.lu.type.CreditCourse.identifier.cross-listed",
+                                                                "active");
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("orgId", getLabel(LUConstants.DEPT_LABEL_KEY), Type.STRING, new OrgPicker()));
+            ns.nextRow();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("code", getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), Type.STRING));//TODO OrgSearch goes here?
+            ns.addField(new FieldDescriptor("suffixCode", getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), Type.STRING));
+            
+            multi.addSection(ns);
+            
+            return multi;
+        }
+    }
+    
+    public static class OfferedJointlyList extends MultiplicityCompositeWithLabels {
+        {
+            setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));
+        }
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection("");
+            
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("id", getLabel(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), Type.STRING /*, new CluPicker() */ ));
+            multi.addSection(ns);
+            
+            return multi;
+        }
+    }
+    
+    public static class VersionCodeList extends MultiplicityCompositeWithLabels {
+        {
+            setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
+        }
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
+                                                                "kuali.lu.type.CreditCourse.identifier.version",
+                                                                "active");
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("variation", getLabel(LUConstants.CODE_LABEL_KEY), Type.STRING));//TODO wrong key
+            ns.addField(new FieldDescriptor("shortName", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), Type.STRING));//TODO wrong key
+            multi.addSection(ns);
+            
+            return multi;
+        }
+    }
+    
     public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
             super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
@@ -726,6 +722,16 @@ public class LuConfigurer {
         }
 
     }
+    
+    private static VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CluProposalModelDTO.class);
+        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.setSectionTitle(getH1Title(labelKey));
+        
+        return section;
+
+    }
+    
     
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection();
@@ -741,6 +747,10 @@ public class LuConfigurer {
     private static String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(type, state, labelKey);
     }
+
+    private static SectionTitle getH1Title(String labelKey) {
+        return SectionTitle.generateH1Title(getLabel(labelKey));
+    } 
     
     private static SectionTitle getH2Title(String labelKey) {
         return SectionTitle.generateH2Title(getLabel(labelKey));
