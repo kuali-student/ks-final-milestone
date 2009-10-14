@@ -1152,7 +1152,25 @@
 	                    <artifactId>db-ojb</artifactId>
 	                </exclusion>
 	                -->
-	                
+
+	                <exclusion>
+	                    <groupId>com.oracle</groupId>
+	                    <artifactId>ojdbc14</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>mysql</groupId>
+	                    <artifactId>mysql-connector-java</artifactId>
+	                </exclusion>
+
+	                <exclusion>
+	                    <groupId>org.apache.geronimo.specs</groupId>
+	                    <artifactId>geronimo-activation_1.1_spec</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.apache.geronimo.specs</groupId>
+	                    <artifactId>geronimo-javamail_1.4_spec</artifactId>
+	                </exclusion>
+	                	                
 	                <!-- 
 	                	These dependencies conflict with gwt-dev for running hosted mode via eclipse launch file.
 	                -->

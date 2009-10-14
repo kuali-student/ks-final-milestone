@@ -40,6 +40,13 @@
 		        	<server>ks-core-web</server>
 		        	<port>8181</port>
 		        </configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>ojdbc14</artifactId>
+						<version>10.2.0.3.0</version>
+					</dependency>
+				</dependencies>
 		    </plugin>
 
     		<!-- <plugin>
@@ -145,14 +152,7 @@
 	      	<artifactId>rice-impl</artifactId>
 			<scope>runtime</scope>	      
 	    </dependency>					
-
-<!--  		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.3.0</version>
-		</dependency>-->
-				 		
-
+			 		
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
