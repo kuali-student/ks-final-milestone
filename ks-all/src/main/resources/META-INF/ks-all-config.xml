@@ -4,6 +4,8 @@
     <param name="db.vendor">oracle</param>
 	<param name="jpa.vendor">hibernate</param>
 
+    <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
 
     <param name="app.code" override="false">ks-all</param>
@@ -77,45 +79,7 @@
 	<param name="datasource.pool.validationQuery">${datasource.pool.validationQuery.${db.vendor}}</param>
 	<param name="rice.ksb.jpa.enabled">${rice.ksb.jpa.enabled.${db.vendor}}</param>  
     
-    <param name="ks.core.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
-    <param name="ks.core.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
-    <param name="ks.core.datasource.url.derby">jdbc:derby://localhost:1527/derby/core;create=true</param>
-    <param name="ks.core.datasource.username.derby">kscore</param>
-    <param name="ks.core.datasource.password.derby">kscore</param>
-    <param name="ks.core.datasource.validationQuery.derby">values(1)</param>
-    
-    <param name="ks.core.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
-    <param name="ks.core.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-    <param name="ks.core.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="ks.core.datasource.username.oracle">kscore</param>
-    <param name="ks.core.datasource.password.oracle">kscore</param>
-    <param name="ks.core.datasource.validationQuery.oracle">select 1 from dual</param>
-    
-   	<param name="ks.core.jpa.DatabasePlatform">${ks.core.jpa.DatabasePlatform.${db.vendor}}</param>
-    <param name="ks.core.datasource.driver.name">${ks.core.datasource.driver.name.${db.vendor}}</param>
-    <param name="ks.core.datasource.url">${ks.core.datasource.url.${db.vendor}}</param>
-    <param name="ks.core.datasource.username">${ks.core.datasource.username.${db.vendor}}</param>
-    <param name="ks.core.datasource.password">${ks.core.datasource.password.${db.vendor}}</param>
-    <param name="ks.core.datasource.validationQuery">${ks.core.datasource.validationQuery.${db.vendor}}</param>
-    
-    
-    <param name="ks.lum.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-	<param name="ks.lum.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
-	<param name="ks.lum.datasource.driver.name">${ks.lum.datasource.driver.name.${db.vendor}}</param>
-	
-	<param name="ks.lum.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.lum.datasource.url.derby">jdbc:derby://localhost:1527/derby/lum;create=true</param>
-	<param name="ks.lum.datasource.url">${ks.lum.datasource.url.${db.vendor}}</param>
-	
-	<param name="ks.lum.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
-	<param name="ks.lum.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
-	<param name="ks.lum.jpa.DatabasePlatform">${ks.lum.jpa.DatabasePlatform.${db.vendor}}</param>
-	
-	<param name="ks.lum.datasource.validationQuery.oracle">select 1 from dual</param>
-	<param name="ks.lum.datasource.validationQuery.derby">values(1)</param>
-	<param name="ks.lum.datasource.validationQuery">${ks.lum.datasource.validationQuery.${db.vendor}}</param>
-	<param name="ks.lum.datasource.username">kslum</param>
-    <param name="ks.lum.datasource.password">kslum</param>
+
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>

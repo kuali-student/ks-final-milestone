@@ -70,22 +70,15 @@
 	</bean>
 
     <!-- JTA -->
-    <bean id="jtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <property name="transactionManager" ref="jotm" />
-        <property name="userTransaction" ref="jotm"/>
-        <property name="allowCustomIsolationLevels" value="true"/>
-    </bean>
+<!--    <bean id="jtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">-->
+<!--        <property name="transactionManager" ref="jotm" />-->
+<!--        <property name="userTransaction" ref="jotm"/>-->
+<!--        <property name="allowCustomIsolationLevels" value="true"/>-->
+<!--    </bean>-->
+<!---->
+<!--    <tx:annotation-driven transaction-manager="jtaTxManager" />-->
+<!--	<aop:aspectj-autoproxy proxy-target-class="true" />-->
 
-    <tx:annotation-driven transaction-manager="jtaTxManager" />
-
-
-	
-
-
-
-
-
-	
 
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
@@ -118,6 +111,8 @@
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
+	
+	
 
 
 </beans>
