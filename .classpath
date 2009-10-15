@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/classes" path="ks-all/src/main/java"/>
 	<classpathentry kind="src" output="target/classes" path="ks-all/src/main/resources"/>
-	<classpathentry kind="src" output="target/test-classes" path="ks-all/src/test/java"/>
-	<classpathentry kind="src" output="target/test-classes" path="ks-all/src/test/resources"/>
 	<classpathentry kind="src" output="target/classes" path="ks-embedded/src/main/java"/>
 	<classpathentry kind="src" output="target/classes" path="ks-embedded/src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="ks-embedded/src/test/java"/>
