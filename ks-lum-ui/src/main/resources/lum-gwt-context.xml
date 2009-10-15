@@ -19,7 +19,18 @@
         class="org.kuali.student.common.ui.server.applicationstate.ApplicationStateManagerImpl">
         <property name="applicationStateDao" ref="applicationStateDao"/>        
     </bean>-->
-        
+    
+    
+     <bean id="propertyConfigurer"
+        class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:lum-ui.properties</value>
+            </list>
+        </property>
+        <property name="customConfigSystemProperty" value="ks.config.location"/>
+        <property name="customConfigFileLocation" value="file:${user.home}/kuali/main/dev/ks-lum-web.properties" />
+    </bean> 
 	<!-- Spring to GWT servlet mapping -->
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
