@@ -16,7 +16,7 @@
     <param name="portal.show.sample.app">true</param> <!-- used to show KS links in Rice Portal -->
 
     <param name="appserver.url">http://localhost:8081</param>
-    <param name="app.code">ks-rice</param>
+    <param name="app.code" override="false">ks-embedded</param>
     <param name="environment">dev</param>
 <!--
     <param name="app.context.name">${app.code}-${environment}</param>
@@ -49,8 +49,14 @@
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">RICEKS</param>
-    <param name="datasource.password">RICEKS</param>
+    <param name="datasource.username">ksall</param>
+    <param name="datasource.password">ksall</param>
+    
+    <param name="ks.lum.datasource.username">${datasource.username}</param>
+    <param name="ks.lum.datasource.password">${datasource.password}</param>
+    
+    <param name="ks.core.datasource.username">${datasource.username}</param>
+	<param name="ks.core.datasource.password">${datasource.password}</param> 
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
