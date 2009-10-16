@@ -21,16 +21,6 @@
     </bean>-->
     
     
-     <bean id="propertyConfigurer"
-        class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:lum-ui.properties</value>
-            </list>
-        </property>
-        <property name="customConfigSystemProperty" value="ks.config.location"/>
-        <property name="customConfigFileLocation" value="file:${user.home}/kuali/main/dev/ks-lum-web.properties" />
-    </bean> 
 	<!-- Spring to GWT servlet mapping -->
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -214,12 +204,7 @@
 
 	<bean id="ServerPropertiesServlet"
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
-		<property name="properties">
-			<map>
-				<entry key="ks.rice.personLookup.serviceAddress" value="${ks.rice.personLookup.serviceAddress}"/>
-				<entry key="ks.rice.actionList.serviceAddress" value="${ks.rice.actionList.serviceAddress}"/>
-			</map>
-		</property>
+
 	</bean>
 	
 	<bean id="messagesServiceGwt"
