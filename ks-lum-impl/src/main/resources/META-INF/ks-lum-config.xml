@@ -25,8 +25,8 @@
     <param name="ks.lum.datasource.password">kslum</param>
     
         <!-- Rice URLS -->
-    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
-	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded/kr/lookup.do</param>
+	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded/kew/ActionList.do</param>
     
     <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
     
