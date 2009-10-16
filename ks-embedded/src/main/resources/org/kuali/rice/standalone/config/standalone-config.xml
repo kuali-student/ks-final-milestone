@@ -17,12 +17,12 @@
 
     <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code" override="false">ks-embedded</param>
-    <param name="environment">dev</param>
-<!--
-    <param name="app.context.name">${app.code}-${environment}</param>
+
+
+    <param name="app.context.name">${app.code}</param>
     <param name="application.url">${appserver.url}/${app.context.name}</param>
     <param name="lum.application.url">${application.url}</param>
--->
+
 
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
@@ -57,6 +57,10 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
+	<!-- Rice Urls -->
+	<param name="ks.rice.personLookup.serviceAddress" >${application.url}/kr/lookup.do</param>
+	<param name="ks.rice.actionList.serviceAddress">${application.url}/kew/ActionList.do</param>
+
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
 <!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->
 <!--    <param name="filtermapping.login.1">/*</param>-->
@@ -83,9 +87,6 @@
     <param name="ks.core.datasource.username">${datasource.username}</param>
 	<param name="ks.core.datasource.password">${datasource.password}</param> 
 	
-	<!-- Rice Urls -->
-	<param name="ks.rice.personLookup.serviceAddress" override="false">${application.url}/kr/lookup.do</param>
-	<param name="ks.rice.actionList.serviceAddress" override="false">${application.url}/kew/ActionList.do</param>
 
 	<!-- KS Urls -->
 	<param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
