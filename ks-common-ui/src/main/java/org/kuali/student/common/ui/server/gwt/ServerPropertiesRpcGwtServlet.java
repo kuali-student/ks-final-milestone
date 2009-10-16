@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -30,6 +31,10 @@ public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet
 	public String get(String property) {
 		String value = properties.get(property);
 		logger.info("Getting property: " + property + " with value: " + value);
+		if(null==value){
+			value = ConfigContext.getCurrentContextConfig().getProperty(property);
+			logger.info("Property not found, looking in Context: " + property + " with value: " + value);
+		}
 		return value;
 	}
 
