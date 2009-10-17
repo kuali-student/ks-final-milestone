@@ -117,7 +117,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
         //1. show view HEADING
         SimplePanel headingPanel = new SimplePanel();
-        KSLabel heading = new KSLabel((addNewReqComp ? "Add" : "Edit") + " Prerequisite Rule");
+        KSLabel heading = new KSLabel((addNewReqComp ? "Add " : "Edit ") + getRuleTypeName() + " Rule");
         heading.setStyleName("KS-Rules-FullWidth");
         heading.setStyleName("KS-ReqMgr-Heading");
         headingPanel.add(heading);
@@ -334,16 +334,17 @@ public class RuleComponentEditorView extends ViewComposite {
                 editedReqComp.setType(selectedReqType.getId());
 
                 //add new req. component (rule) to the top level of the rule
-                RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
-                StatementVO statementVO = prereqInfo.getStatementVO();
-                // in the case when there is currently no statement...
-                // i.e. the user creates the rules from scratch.
+                RuleInfo reqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
+                StatementVO statementVO = reqInfo.getStatementVO();
+                
+                // Setup first statementVO if user just created the first req. component for this rule
                 if (statementVO == null) {
                     LuStatementInfo newLuStatementInfo = new LuStatementInfo();
                     statementVO = new StatementVO();
                     newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                    newLuStatementInfo.setType(reqInfo.getLuStatementTypeKey());
                     statementVO.setLuStatementInfo(newLuStatementInfo);
-                    prereqInfo.setStatementVO(statementVO);
+                    reqInfo.setStatementVO(statementVO);
                 }
                 statementVO.addReqComponentVO(editedReqCompVO);
                 statementVO.clearSelections();
@@ -855,4 +856,13 @@ public class RuleComponentEditorView extends ViewComposite {
     public void setCluSetsData(Map<String, String> cluSetsData) {
         this.cluSetsData = cluSetsData;
     }
+    
+    private String getRuleTypeName() {
+    	String luStatementTypeKey = RulesUtilities.getReqInfoModelObject(modelRuleInfo).getLuStatementTypeKey();
+        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
+        if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
+        if (luStatementTypeKey.contains("coreq")) return "Corequisite";
+        if (luStatementTypeKey.contains("antireq")) return "Antirequisite";
+        return "";
+    }       
 }

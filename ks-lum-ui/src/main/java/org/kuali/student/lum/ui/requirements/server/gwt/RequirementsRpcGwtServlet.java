@@ -37,7 +37,6 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 import org.kuali.student.lum.nlt.service.TranslationService;
-import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
@@ -84,6 +83,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                 
         //then get natural language for the statement
         String NLStatement = "";
+        cluId = (cluId.isEmpty() ? null : cluId);  //cluId can't be empty
         try {        
             NLStatement = translationService.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
         } catch (Exception ex) {
@@ -92,10 +92,6 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         }; 
         
         return NLStatement;
-    }
-    
-    public CourseRuleInfo getCourseAndRulesInfo(String cluId) throws Exception {       
-        return null;
     }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
@@ -250,7 +246,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                     tempStmtInfo = service.getLuStatement(stmtID);
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    throw new Exception("Unable to retrieve Lu Statemetn based on luStatementID: " + stmtID, ex);
+                    throw new Exception("Unable to retrieve Lu Statement based on luStatementID: " + stmtID, ex);
                 }
                 StatementVO tempStmtVO = new StatementVO(tempStmtInfo);
                 composeStatementVO(tempStmtInfo, tempStmtVO);

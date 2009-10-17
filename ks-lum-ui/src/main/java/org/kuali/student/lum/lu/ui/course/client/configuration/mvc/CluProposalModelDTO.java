@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
@@ -35,8 +36,7 @@ public class CluProposalModelDTO extends ModelDTO {
    private static final long serialVersionUID = 1L;
    private boolean adaptersCreated = false;
 
-
-private List<RuleInfo> ruleInfos;
+   private List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>();
 	   
    public CluProposalModelDTO() {
 		ModelDTO cluInfoModelDTO = new ModelDTO(CluDictionaryClassNameHelper.CLU_INFO_CLASS);

@@ -59,10 +59,10 @@ public class CourseReqManager extends Controller {
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
-    private Model<RuleInfo> ruleInfo;
+    private Model<RuleInfo> ruleInfo;                      //contains all rules, each rule has its own RuleInfo object
     private Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes; //all requirements type info (fields and NL templates) for given statement type
-    private String luStatementType = "unknown";
+    private String luStatementType = "unknown";             //type of rule that is being edited
     private Map<String, String> listOfAvailableClus = new HashMap<String, String>();   //temporary - will be replaced with search widgets
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
@@ -101,12 +101,12 @@ public class CourseReqManager extends Controller {
             ruleInfoGivenType.add(getRuleInfo(luStatementType));                        
             callback.onModelReady(ruleInfoGivenType);
         } else if (modelType.equals(ReqComponentTypeInfo.class)) {
-            if (reqComponentTypes == null) {
+          //  if (reqComponentTypes == null) {
                 retrieveModelData(ReqComponentTypeInfo.class, callback);
-            }
-            else {
-                callback.onModelReady(reqComponentTypes);
-            }
+          //  }
+          //  else {
+          //      callback.onModelReady(reqComponentTypes);
+          //  }
         } else if (modelType.equals(ReqComponentVO.class)) {
             callback.onModelReady(selectedReqCompVO);
         }

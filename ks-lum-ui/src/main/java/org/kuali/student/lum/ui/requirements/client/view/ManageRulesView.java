@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.ui.requirements.client.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -28,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
@@ -84,7 +86,7 @@ public class ManageRulesView extends ViewComposite {
     private HandlerRegistration textClickHandler = null;
     
     //view's data
-    private Model<RuleInfo> model;   
+    private Model<RuleInfo> model;   //contains only RuleInfo object for selected rule
     private boolean isInitialized = false;
 
     public ManageRulesView(Controller controller) {
@@ -147,8 +149,7 @@ public class ManageRulesView extends ViewComposite {
                             newOp = StatementOperatorTypeKey.AND;
                         }
                         statementVO.getLuStatementInfo().setOperator(newOp);
-                        RuleInfo prereqInfo = 
-                            RulesUtilities.getReqInfoModelObject(model);
+                        RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                         StatementVO unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
                         boolean structureChanged = prereqInfo.getStatementVO().simplify();
                         prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
@@ -405,6 +406,23 @@ public class ManageRulesView extends ViewComposite {
         
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
+                //store this new rule model in the top most model
+                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+
+                    @Override
+                    public void onModelReady(Model<CluProposalModelDTO> cluModel) {
+                    	RuleInfo managedRule = RulesUtilities.getReqInfoModelObject(model);
+                    	managedRule.setNaturalLanguage(naturalLanguage);
+                    	List<RuleInfo> ruleInfos = cluModel.get().getRuleInfos();
+                        ruleInfos.add(managedRule);
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert("Failed to request for CluProposalModelDTO");
+                    }
+                });            	
+            	
                 getController().showView(PrereqViews.RULES_LIST);
             }
         });        
@@ -435,7 +453,7 @@ public class ManageRulesView extends ViewComposite {
         
         SimplePanel tempPanel = new SimplePanel();
         tempPanel.setStyleName("KS-Rules-FullWidth");
-        KSLabel preReqHeading = new KSLabel("Manage Prerequisite Rules");
+        KSLabel preReqHeading = new KSLabel("Manage " + getRuleTypeName() + " Rules");
         preReqHeading.setStyleName("KS-ReqMgr-Heading");
         tempPanel.add(preReqHeading);
         complexView.add(tempPanel);
@@ -614,4 +632,13 @@ public class ManageRulesView extends ViewComposite {
             } 
         }); 
     }
+    
+    private String getRuleTypeName() {
+    	String luStatementTypeKey = RulesUtilities.getReqInfoModelObject(model).getLuStatementTypeKey();
+        if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
+        if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
+        if (luStatementTypeKey.contains("coreq")) return "Corequisite";
+        if (luStatementTypeKey.contains("antireq")) return "Antirequisite";
+        return "";
+    }    
 }

@@ -15,16 +15,15 @@
 package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
-import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -35,7 +34,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalMo
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.CourseRuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -56,6 +54,11 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseRequisiteView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
+    private final String KS_STATEMENT_TYPE_PREREQ = "kuali.luStatementType.prereqAcademicReadiness";
+    private final String KS_STATEMENT_TYPE_COREQ = "kuali.luStatementType.coreqAcademicReadiness";
+    private final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.luStatementType.antireqAcademicReadiness";
+    private final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.luStatementType.enrollAcademicReadiness";    
+    
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
     private final SimplePanel viewPanel = new SimplePanel();
@@ -72,13 +75,14 @@ public class CourseRequisiteView extends ViewComposite {
     private KSTextArea coreqRationaleTextArea = new KSTextArea();
     private KSTextArea antireqRationaleTextArea = new KSTextArea();
     private KSTextArea enrollRationaleTextArea = new KSTextArea();
+    private Map<String, KSButton> submitButtons = new  HashMap<String, KSButton>();
     
     private ButtonEventHandler handler = new ButtonEventHandler(); 
     
     //view's data
-  
-    private final Model<RuleInfo> courseRules = new Model<RuleInfo>();
+    private final Model<RuleInfo> courseRules = new Model<RuleInfo>();  //contains all rules, each rule has its own RuleInfo object
     private String cluId = null;
+    private static int id = 0;
     private boolean dataInitialized = false;
     
     public CourseRequisiteView(Controller controller) {
@@ -93,16 +97,15 @@ public class CourseRequisiteView extends ViewComposite {
                     @Override
                     public void onModelReady(Model<CluProposalModelDTO> model) {
                     	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
-                    	cluId = "CLU-NL-5"; //TODO: ((StringType)cluInfoModelDTO.get("/officialIdentifier/cluId")).getString();
-    }    
+                    	cluId = ""; //"CLU-NL-2"; //TODO ((StringType)cluInfoModelDTO.get("cluId")).getString();
+                        initializeView();
+                    }    
     
                     @Override
                     public void onRequestFail(Throwable cause) {
                         Window.alert("Failed to get CluProposalModelDTO");
                     }
-        });    	
-    	
-        initializeView();        
+        });    	            
     }    
     
     public void initializeView() {
@@ -113,32 +116,22 @@ public class CourseRequisiteView extends ViewComposite {
         
         layoutMainPanel(viewPanel);
         if ((cluId == null) || dataInitialized) {
+        	setRuleText(KS_STATEMENT_TYPE_PREREQ);
+        	setRuleText(KS_STATEMENT_TYPE_COREQ);
+        	setRuleText(KS_STATEMENT_TYPE_ANTIREQ);
+        	setRuleText(KS_STATEMENT_TYPE_ENROLLREQ);        	
             return;
         }        
         
-                RulesUtilities.clearModel(courseRules);
-                
-                retrieveRuleTypeData("kuali.luStatementType.prereqAcademicReadiness");
-                retrieveRuleTypeData("kuali.luStatementType.coreqAcademicReadiness");                           
-                retrieveRuleTypeData("kuali.luStatementType.antireqAcademicReadiness");
-                retrieveRuleTypeData("kuali.luStatementType.enrollAcademicReadiness");
-                
-                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
-
-                    @Override
-                    public void onModelReady(Model<CluProposalModelDTO> model) {
-                        List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>(courseRules.getValues());
-                        model.get().setRuleInfos(ruleInfos);
-                    }
-
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to request for CluProposalModelDTO");
-                    }
-                });
-                
-                dataInitialized = true;
-            }
+        //retrieve all rule data for each statement type
+        RulesUtilities.clearModel(courseRules);        
+        retrieveRuleTypeData(KS_STATEMENT_TYPE_PREREQ);
+        retrieveRuleTypeData(KS_STATEMENT_TYPE_COREQ);                           
+        retrieveRuleTypeData(KS_STATEMENT_TYPE_ANTIREQ);
+        retrieveRuleTypeData(KS_STATEMENT_TYPE_ENROLLREQ);       
+        
+        dataInitialized = true;
+    }
             
     private void retrieveRuleTypeData(final String luStatementTypeKey) {
         
@@ -154,16 +147,16 @@ public class CourseRequisiteView extends ViewComposite {
                
                 if (statementVO == null) {
                     loadRuleInfo(luStatementTypeKey);
-                    KSLabel preReqText = new KSLabel("No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules has been added.");
-                    preReqText.setStyleName("KS-ReqMgr-NoRuleText");
+                    KSLabel reqText = new KSLabel("No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules has been added.");
+                    reqText.setStyleName("KS-ReqMgr-NoRuleText");
                     SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
                     rulesText.clear();
-                    rulesText.add(preReqText);                    
+                    rulesText.add(reqText);                    
                     return;
                 }
                 
                 final RuleInfo ruleInfo = new RuleInfo();
-                ruleInfo.setId(cluId);
+                ruleInfo.setId(Integer.toString(id++));
                 ruleInfo.setCluId(cluId);
                 ruleInfo.setRationale("");
                 ruleInfo.setStatementVO(statementVO);
@@ -186,13 +179,44 @@ public class CourseRequisiteView extends ViewComposite {
                         loadRuleInfo(luStatementTypeKey);
                         SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
                         rulesText.clear();
-                        rulesText.add(new KSLabel(statementNaturalLanguage));                   
+                        rulesText.add(new KSLabel(statementNaturalLanguage));  
+                        
+                        //store this new rule model in the top most model
+                        getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+
+                            @Override
+                            public void onModelReady(Model<CluProposalModelDTO> model) {
+                                List<RuleInfo> ruleInfos = model.get().getRuleInfos();
+                                ruleInfos.retainAll(ruleInfos);
+                            }
+
+                            @Override
+                            public void onRequestFail(Throwable cause) {
+                                Window.alert("Failed to request for CluProposalModelDTO");
+                            }
+                        });                        
                     } 
                 });                                               
             } 
         });            
     }
     
+    private void setRuleText(String luStatementTypeKey) {
+    	String ruleText;
+    	RuleInfo rule = getRuleInfo(luStatementTypeKey);
+    	
+    	if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
+    		ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";
+        	submitButtons.get(luStatementTypeKey).setText("Add Rule");    		    		
+    	} else {
+    		ruleText = rule.getNaturalLanguage();
+        	submitButtons.get(luStatementTypeKey).setText("Manage rules");
+    	}
+
+        SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
+        rulesText.clear();
+        rulesText.add(new KSLabel(ruleText));
+    }
     
     private class ButtonEventHandler implements ClickHandler{
 
@@ -202,32 +226,32 @@ public class CourseRequisiteView extends ViewComposite {
             CourseReqManager courseReqManager = (CourseReqManager) getController();
             
             RuleInfo rule = getRuleInfo(sender.getTitle());
+            String statementType = null;
             
             if (sender.getTitle().contains("prereq")) {
-                courseReqManager.setLuStatementType("kuali.luStatementType.prereqAcademicReadiness");
+            	statementType = KS_STATEMENT_TYPE_PREREQ;
             } else if (sender.getTitle().contains("coreq")) {
-                courseReqManager.setLuStatementType("kuali.luStatementType.coreqAcademicReadiness");
+            	statementType = KS_STATEMENT_TYPE_COREQ;
             } else if (sender.getTitle().contains("enroll")) {
-                courseReqManager.setLuStatementType("kuali.luStatementType.enrollAcademicReadiness");
+            	statementType = KS_STATEMENT_TYPE_ENROLLREQ;
             } else if (sender.getTitle().contains("antireq")) {
-                courseReqManager.setLuStatementType("kuali.luStatementType.antireqAcademicReadiness");
+            	statementType = KS_STATEMENT_TYPE_ANTIREQ;
             }
+            courseReqManager.setLuStatementType(statementType);
             
-            if(rule == null) {
-                CluInfo newCourseInfo = new CluInfo();
-                newCourseInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID+1000));
-                
-                RulesUtilities.clearModel(courseRules);
+            if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {                
+                //RulesUtilities.clearModel(courseRules);
                 RuleInfo newPrereqInfo = new RuleInfo();
-                newPrereqInfo.setCluId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
-                newPrereqInfo.setId("CLU-NL-5"); //Integer.toString(tempCounterID-1));
+                newPrereqInfo.setId(Integer.toString(id++));
+                newPrereqInfo.setCluId(cluId);
                 newPrereqInfo.setStatementVO(null);
                 newPrereqInfo.setEditHistory(new EditHistory());
+                newPrereqInfo.setLuStatementTypeKey(statementType);
                 courseRules.add(newPrereqInfo);               
                 
                 courseReqManager.resetReqCompVOModel();
                 
-                  courseReqManager.setRuleInfoModel(courseRules);
+                courseReqManager.setRuleInfoModel(courseRules);
                 courseReqManager.showView(PrereqViews.CLAUSE_EDITOR);
             } else {
                 courseReqManager.setRuleInfoModel(courseRules);
@@ -236,22 +260,23 @@ public class CourseRequisiteView extends ViewComposite {
         }       
     }    
     
-    public void setRuleInfo(RuleInfo ruleInfo) {        
-        RuleInfo rule = getRuleInfo(ruleInfo.getLuStatementTypeKey());
-        if (rule != null) {
-            courseRules.remove(rule);
-        }        
+    public void setRuleInfo(RuleInfo ruleInfo) { 
+        RuleInfo origRule = getRuleInfo(ruleInfo.getLuStatementTypeKey());
+        if (origRule != null) {    	
+            courseRules.remove(origRule);
+        }               
         courseRules.add(ruleInfo);
     }
     
-    private RuleInfo getRuleInfo(String luStatementTypeKey) {
+    private RuleInfo getRuleInfo(String luStatementTypeKey) { 	
         if (courseRules.getValues() != null && !courseRules.getValues().isEmpty()) {
             for (RuleInfo ruleInfo : courseRules.getValues()) {
-                if (ruleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {
+                if (ruleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {              	
                     return ruleInfo;
                 }                
             }
-        } 
+        }     
+        GWT.log("Did not find RuleInfo for lu statement type: " + luStatementTypeKey, null);
         return null;
     }
     
@@ -339,10 +364,11 @@ public class CourseRequisiteView extends ViewComposite {
         rulesInfoPanel.add(rationalePanel3);           
                                    
         //add add or manage rules button
-        KSButton submit = new KSButton((rule == null ? "Add Rule" : "Manage rules"));
-        submit.setTitle(luStatementTypeKey);
-        submit.setStyleName("KS-Rules-Tight-Button");
-        submit.addClickHandler(handler);
+        KSButton submitButton = new KSButton(rule == null ? "Add Rule" : "Manage rules");
+        submitButtons.put(luStatementTypeKey, submitButton);
+        submitButton.setTitle(luStatementTypeKey);
+        submitButton.setStyleName("KS-Rules-Tight-Button");
+        submitButton.addClickHandler(handler);
         
         // TODO remove when done testing the save application state feature
 //        KSButton saveApplicationState = new KSButton("Save State");
@@ -368,7 +394,7 @@ public class CourseRequisiteView extends ViewComposite {
 //            }
 //        });
 //        rationalePanel3.add(saveApplicationState);
-        rationalePanel3.add(submit);
+        rationalePanel3.add(submitButtons.get(luStatementTypeKey));
     }
     
     public void saveApplicationState() {
@@ -378,19 +404,19 @@ public class CourseRequisiteView extends ViewComposite {
             public void onModelReady(Model<CluProposalModelDTO> model) {
                 model.get().putApplicationState(
                         "kuali.luStatementType.prereqAcademicReadiness.rationale", 
-                        getRationaleTextArea("kuali.luStatementType.prereqAcademicReadiness")
+                        getRationaleTextArea(KS_STATEMENT_TYPE_PREREQ)
                         .getText());
                 model.get().putApplicationState(
                         "kuali.luStatementType.coreqAcademicReadiness.rationale", 
-                        getRationaleTextArea("kuali.luStatementType.coreqAcademicReadiness")
+                        getRationaleTextArea(KS_STATEMENT_TYPE_COREQ)
                         .getText());
                 model.get().putApplicationState(
                         "kuali.luStatementType.antireqAcademicReadiness.rationale", 
-                        getRationaleTextArea("kuali.luStatementType.antireqAcademicReadiness")
+                        getRationaleTextArea(KS_STATEMENT_TYPE_ANTIREQ)
                         .getText());
                 model.get().putApplicationState(
                         "kuali.luStatementType.enrollAcademicReadiness.rationale", 
-                        getRationaleTextArea("kuali.luStatementType.enrollAcademicReadiness")
+                        getRationaleTextArea(KS_STATEMENT_TYPE_ENROLLREQ)
                         .getText());
             }
 

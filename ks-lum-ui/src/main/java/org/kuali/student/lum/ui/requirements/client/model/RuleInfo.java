@@ -26,8 +26,8 @@ public class RuleInfo implements Idable {
 
     private String id;
     private String cluId;
-    private StatementVO statementVO;
-    private String luStatementTypeKey;
+    private StatementVO statementVO;       //top-level statement (tree ROOT)
+    private String luStatementTypeKey;	   //statement (rule) type
     private String rationale;
     private String naturalLanguage;
     private String expression; // current state of rule expression
