@@ -5,9 +5,7 @@
 package org.kuali.student.comp.impl.swing;
 
 import org.kuali.student.comp.infc.KSContext;
-import org.kuali.student.comp.infc.KSSelectProposalType;
 import org.kuali.student.comp.infc.KSDisplayHomePage;
-import org.kuali.student.service.dto.ProposalTypeKey;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;

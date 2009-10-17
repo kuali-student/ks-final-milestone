@@ -5,7 +5,6 @@
 package org.kuali.student.comp.infc;
 
 import org.kuali.student.service.dto.CluField;
-import org.kuali.student.comp.*;
 import org.kuali.student.service.dto.LuStateKey;
 import org.kuali.student.service.dto.LuTypeKey;
 import java.util.List;

@@ -4,11 +4,6 @@
  */
 package org.kuali.student.comp.infc;
 
-import javax.servlet.http.HttpServletRequest;
-import org.kuali.rice.kim.service.AuthenticationService;
-import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.lum.lu.service.LuService;
-
 /**
  *
  * @author nwright

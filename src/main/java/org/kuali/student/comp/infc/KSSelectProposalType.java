@@ -6,7 +6,6 @@ package org.kuali.student.comp.infc;
 
 import org.kuali.student.service.dto.ProposalTypeKey;
 import java.util.List;
-import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**
  *

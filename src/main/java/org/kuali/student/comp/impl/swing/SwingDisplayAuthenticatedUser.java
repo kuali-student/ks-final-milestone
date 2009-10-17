@@ -7,7 +7,6 @@ package org.kuali.student.comp.impl.swing;
 
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.comp.infc.KSDisplayAuthenticatedUser;
-import org.kuali.student.comp.*;
 import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**

@@ -7,7 +7,6 @@ package org.kuali.student.comp.impl.swing;
 import org.kuali.student.comp.impl.ContextHelper;
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.comp.infc.KSSelectProposalType;
-import org.kuali.student.comp.*;
 import org.kuali.student.service.dto.ProposalTypeKey;
 import java.io.BufferedReader;
 import java.io.IOException;
