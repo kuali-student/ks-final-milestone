@@ -59,7 +59,7 @@
 		<site>
 			<id>ks.site</id>
 			<url>
-                dav:https://www.kuali.org:8443/student/site/lum/${project.version}
+                dav:https://student.kuali.org:8443/student/site/lum/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
@@ -77,7 +77,7 @@
 					<show>private</show>
 					<source>1.6</source>
 					<links>
-						<link>http://cxf.apache.org/javadoc/2.1/</link>
+						<link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
 						<link>
 							http://java.sun.com/javase/6/docs/api/
 						</link>
@@ -85,10 +85,10 @@
 							http://java.sun.com/javaee/5/docs/api/
 						</link>
 						<link>
-							http://static.springframework.org/spring/docs/2.5.x/api/
+							http://static.springframework.org/spring/docs/${spring.version}/api/
 						</link>
 						<link>
-							http://student.kuali.org/site/core/${ks.core.version}/apidocs/
+							http://student.kuali.org/site/core/${project.parent.version}/apidocs/
 						</link>
 					</links>
 				</configuration>
