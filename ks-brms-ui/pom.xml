@@ -144,7 +144,7 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -166,7 +166,7 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<type>pom</type>
 			<scope>runtime</scope>
 		</dependency>
@@ -279,10 +279,6 @@
 			<releases>
 				<enabled>false</enabled>
 			</releases>
-		</repository>
-		<repository>
-			<id>central</id>
-			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
 	</repositories>
 </project>

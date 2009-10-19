@@ -90,6 +90,7 @@
                 <dependency>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-hibernate</artifactId>
+                    <version>${ks-core.version}</version>
                     <type>pom</type>
                     <scope>runtime</scope>
                 </dependency>
@@ -104,6 +105,7 @@
                 <dependency>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-cxf</artifactId>
+                    <version>${ks-core.version}</version>
                     <type>pom</type>
                     <scope>runtime</scope>
                 </dependency>
@@ -184,12 +186,14 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
+            <version>${ks-core.version}</version>
 			<type>pom</type>
 		</dependency>	
 		
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-jta</artifactId>
+            <version>${ks-core.version}</version>
 			<type>pom</type>
   		</dependency>
   		
