@@ -12,7 +12,7 @@
 	<url>http://student.kuali.org/site/lum/${project.version}</url>
 	
 	<properties>
-		<ks.core.version>0.0.1-SNAPSHOT</ks.core.version>
+		<ks-core.version>0.0.1-SNAPSHOT</ks-core.version>
 	</properties>
 	
 	<parent>
@@ -88,7 +88,7 @@
 							http://static.springframework.org/spring/docs/${spring.version}/api/
 						</link>
 						<link>
-							http://student.kuali.org/site/core/${project.parent.version}/apidocs/
+							http://student.kuali.org/site/core/${ks-core.version}/apidocs/
 						</link>
                         <link>
                             http://rice.kuali.org/docs/1.0.0/site/apidocs/
