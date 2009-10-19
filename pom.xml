@@ -90,6 +90,9 @@
 						<link>
 							http://student.kuali.org/site/core/${project.parent.version}/apidocs/
 						</link>
+                        <link>
+                            http://rice.kuali.org/docs/1.0.0/site/apidocs/
+                        </link>
 					</links>
 				</configuration>
 				<reportSets>
