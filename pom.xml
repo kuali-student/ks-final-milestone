@@ -11,13 +11,13 @@
 	<url>http://student.kuali.org/site/lum/${project.version}</url>
 	
 	<properties>
-		<ks-core.version>0.0.1-SNAPSHOT</ks-core.version>
+		<ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
 	</properties>
 	
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
 	<modules>
