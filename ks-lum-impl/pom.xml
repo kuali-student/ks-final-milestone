@@ -48,19 +48,19 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 		</dependency>
 
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
