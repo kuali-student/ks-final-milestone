@@ -435,7 +435,7 @@
 		<site>
 			<id>ks.site</id>
 			<url>
-                dav:https://www.kuali.org:8443/student/site/core/${project.version}
+                dav:https://student.kuali.org:8443/student/site/core/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
@@ -471,7 +471,7 @@
 					<excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
 					<source>1.6</source>
 					<links>
-						<link>http://cxf.apache.org/javadoc/2.1/</link>
+						<link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
 						<link>
 							http://java.sun.com/javase/6/docs/api/
 						</link>
@@ -479,11 +479,14 @@
 							http://java.sun.com/javaee/5/docs/api/
 						</link>
 						<link>
-							http://static.springframework.org/spring/docs/2.5.x/api/
+							http://static.springframework.org/spring/docs/${spring.version}/api/
 						</link>
 						<link>
 							http://ehcache.sourceforge.net/javadoc/
 						</link>
+                        <link>
+                            http://rice.kuali.org/docs/1.0.0/site/apidocs/
+                        </link>
 					</links>
 				</configuration>
 				<reportSets>
