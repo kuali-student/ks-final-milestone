@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KS Core Web</name>
 	<description>KS Core Web</description>
@@ -12,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-m1-SNAPSHOT</version>
 	</parent>
 	
 	<build>
@@ -102,12 +101,12 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<type>jar</type>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
@@ -150,7 +149,7 @@
 		<dependency>
 			<groupId>org.kuali.student</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 			<type>pom</type>
 			<scope>runtime</scope>
 	    </dependency>					
@@ -160,27 +159,27 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-m1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	
