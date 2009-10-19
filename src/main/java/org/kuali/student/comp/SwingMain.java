@@ -2,8 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.comp.impl;
+package org.kuali.student.comp;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import org.kuali.student.comp.impl.Context;
+import org.kuali.student.comp.impl.gwt.GwtContextConfigurer;
+import org.kuali.student.comp.impl.swing.SwingContextConfigurer;
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.comp.infc.KSDisplayHomePage;
 import org.kuali.student.service.impl.mock.MockContextConfigurer;
@@ -12,15 +17,16 @@ import org.kuali.student.service.impl.mock.MockContextConfigurer;
  *
  * @author nwright
  */
-public class HomeMenu implements Runnable
+public class SwingMain implements Runnable
 {
 
- private KSContext context;
+ protected KSContext context;
 
- public HomeMenu ()
+ public SwingMain ()
  {
   context = new Context ();
   new MockContextConfigurer ().configure (context);
+  new SwingContextConfigurer ().configure (context);
  }
 
  @Override
@@ -34,6 +40,7 @@ public class HomeMenu implements Runnable
    @Override
    public void onDone ()
    {
+    System.out.println ("Exiting SwingMain");
     System.exit (0);
     return;
    }
@@ -49,8 +56,9 @@ public class HomeMenu implements Runnable
 
  public static void main (String[] args)
  {
-  HomeMenu menu = new HomeMenu ();
-  menu.run ();
+  JFrame.setDefaultLookAndFeelDecorated (true);
+  SwingMain swing = new SwingMain ();
+  SwingUtilities.invokeLater (swing);
  }
 
 }

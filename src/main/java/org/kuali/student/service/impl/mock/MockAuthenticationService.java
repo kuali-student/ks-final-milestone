@@ -5,9 +5,9 @@
 
 package org.kuali.student.service.impl.mock;
 
-import org.kuali.student.comp.impl.Context;
 import javax.servlet.http.HttpServletRequest;
 import org.kuali.rice.kim.service.AuthenticationService;
+import org.kuali.student.comp.infc.KSContext;
 
 /**
  *
@@ -16,9 +16,9 @@ import org.kuali.rice.kim.service.AuthenticationService;
 public class MockAuthenticationService implements AuthenticationService
 {
 
- private Context context;
+ private KSContext context;
  
- public MockAuthenticationService (Context context)
+ public MockAuthenticationService (KSContext context)
  {
   this.context = context;
  }

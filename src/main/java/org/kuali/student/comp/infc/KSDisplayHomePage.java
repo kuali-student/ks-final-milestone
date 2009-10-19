@@ -13,6 +13,8 @@ package org.kuali.student.comp.infc;
  */
 public interface KSDisplayHomePage extends KSUIContainer
 {
-
+ public void setDisplayAuthenticatedUser (KSDisplayAuthenticatedUser displayUser);
+ public void setDisplaySelectFromUserTaskList (KSDisplaySelectFromUserTaskList displayTaskList);
+ public void setDisplaySelectProposalTypesUserCanStart (KSDisplaySelectProposalTypesUserCanStart proposalTypes);
 
 }

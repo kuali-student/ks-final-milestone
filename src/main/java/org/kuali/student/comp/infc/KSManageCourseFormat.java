@@ -14,7 +14,7 @@ import org.kuali.student.lum.lu.dto.LuTypeInfo;
  *
  * @author nwright
  */
-public interface KSManageCourseFormatFunction
+public interface KSManageCourseFormat
 {
 
  public MainCourse getMainCourse ();

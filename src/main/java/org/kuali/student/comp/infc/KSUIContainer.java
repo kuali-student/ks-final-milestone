@@ -13,9 +13,6 @@ import java.util.List;
 public interface KSUIContainer <I> extends KSUIComponent
 {
 
- @Override
- public I getImpl ();
-
  public void add (KSUIComponent component);
 
  public boolean remove (KSUIComponent component);

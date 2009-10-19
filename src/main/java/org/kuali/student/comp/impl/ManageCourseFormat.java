@@ -4,7 +4,7 @@
  */
 package org.kuali.student.comp.impl;
 
-import org.kuali.student.comp.infc.KSManageCourseFormatFunction;
+import org.kuali.student.comp.infc.KSManageCourseFormat;
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.service.dto.AtpTypeKey;
 import java.util.ArrayList;
@@ -20,33 +20,33 @@ import org.kuali.student.lum.lu.dto.LuTypeInfo;
  *
  * @author nwright
  */
-public class KSManageCourseFormatComponent
- implements KSManageCourseFormatFunction
+public class ManageCourseFormat
+ implements KSManageCourseFormat
 {
 
  private KSContext context;
 
- public KSManageCourseFormatComponent (KSContext context)
+ public ManageCourseFormat (KSContext context)
  {
   this.context = context;
  }
 
- private KSManageCourseFormatFunction.MainCourse mainCourse;
+ private KSManageCourseFormat.MainCourse mainCourse;
 
  @Override
- public KSManageCourseFormatFunction.MainCourse getMainCourse ()
+ public KSManageCourseFormat.MainCourse getMainCourse ()
  {
   return mainCourse;
  }
 
  @Override
- public void setMainCourse (KSManageCourseFormatFunction.MainCourse mainCourse)
+ public void setMainCourse (KSManageCourseFormat.MainCourse mainCourse)
  {
   this.mainCourse = mainCourse;
  }
 
  public class MainCourse
-  implements KSManageCourseFormatFunction.MainCourse
+  implements KSManageCourseFormat.MainCourse
  {
 
   private CluInfo mainClu;
@@ -107,17 +107,17 @@ public class KSManageCourseFormatComponent
    this.term = term;
   }
 
-  private List<KSManageCourseFormatFunction.CourseFormat> formats =
+  private List<KSManageCourseFormat.CourseFormat> formats =
    new ArrayList ();
 
   @Override
-  public void addFormat (KSManageCourseFormatFunction.CourseFormat format)
+  public void addFormat (KSManageCourseFormat.CourseFormat format)
   {
    formats.add (format);
   }
 
   @Override
-  public List<KSManageCourseFormatFunction.CourseFormat> getFormats ()
+  public List<KSManageCourseFormat.CourseFormat> getFormats ()
   {
    return formats;
   }
@@ -144,7 +144,7 @@ public class KSManageCourseFormatComponent
   public List<ValidationResultInfo> validate ()
   {
    List<ValidationResultInfo> list = new ArrayList ();
-   for (KSManageCourseFormatFunction.CourseFormat format : formats)
+   for (KSManageCourseFormat.CourseFormat format : formats)
    {
     list.addAll (format.validate ());
    }
@@ -154,7 +154,7 @@ public class KSManageCourseFormatComponent
  }
 
  public class CourseFormat
-  implements KSManageCourseFormatFunction.CourseFormat
+  implements KSManageCourseFormat.CourseFormat
  {
 
   private CluInfo formatClu;
@@ -170,17 +170,17 @@ public class KSManageCourseFormatComponent
    this.formatClu = formatClu;
   }
 
-  private List<KSManageCourseFormatFunction.CourseActivity> activities =
+  private List<KSManageCourseFormat.CourseActivity> activities =
    new ArrayList ();
 
   @Override
-  public void addActivity (KSManageCourseFormatFunction.CourseActivity activity)
+  public void addActivity (KSManageCourseFormat.CourseActivity activity)
   {
    activities.add (activity);
   }
 
   @Override
-  public List<KSManageCourseFormatFunction.CourseActivity> getActivities ()
+  public List<KSManageCourseFormat.CourseActivity> getActivities ()
   {
    return activities;
   }
@@ -201,7 +201,7 @@ public class KSManageCourseFormatComponent
   public List<ValidationResultInfo> validate ()
   {
    List<ValidationResultInfo> list = new ArrayList ();
-   for (KSManageCourseFormatFunction.CourseActivity activity : activities)
+   for (KSManageCourseFormat.CourseActivity activity : activities)
    {
     list.addAll (activity.validate ());
    }
@@ -211,7 +211,7 @@ public class KSManageCourseFormatComponent
  }
 
  public class CourseActivity implements
-  KSManageCourseFormatFunction.CourseActivity
+  KSManageCourseFormat.CourseActivity
  {
 
   private CluInfo activityClu;

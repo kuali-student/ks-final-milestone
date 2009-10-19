@@ -11,9 +11,6 @@ package org.kuali.student.comp.infc;
 public interface KSUIField<I, V> extends KSUIComponent
 {
 
- @Override
- public I getImpl ();
-
  public void setLabel (String label);
 
  public String getLabel ();
@@ -29,5 +26,13 @@ public interface KSUIField<I, V> extends KSUIComponent
  public void setHelp (String help);
 
  public String getHelp ();
+
+ public boolean getRequired ();
+
+ public void setRequired (boolean required);
+
+ public boolean getReadOnly ();
+
+ public void setReadOnly (boolean readonly);
 
 }

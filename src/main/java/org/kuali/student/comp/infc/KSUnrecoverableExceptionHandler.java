@@ -4,15 +4,11 @@
  */
 package org.kuali.student.comp.infc;
 
-import org.kuali.student.core.exceptions.OperationFailedException;
-
 /**
  *
  * @author nwright
  */
-public interface KSDisplayAuthenticatedUser extends KSUIField
+public interface KSUnrecoverableExceptionHandler
 {
-
-
-
+ public void handle (String source, Exception ex);
 }

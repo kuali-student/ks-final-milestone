@@ -2,18 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.comp.impl.swing;
+package org.kuali.student.comp.impl.gwt;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.comp.infc.KSDisplayHomePage;
-import java.awt.event.WindowEvent;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.comp.infc.KSDisplayAuthenticatedUser;
 import org.kuali.student.comp.infc.KSDisplaySelectFromUserTaskList;
 import org.kuali.student.comp.infc.KSDisplaySelectProposalTypesUserCanStart;
@@ -22,42 +16,28 @@ import org.kuali.student.comp.infc.KSDisplaySelectProposalTypesUserCanStart;
  *
  * @author nwright
  */
-public class SwingDisplayHomePage extends AbstractSwingUIContainer
+public class GwtDisplayHomePage extends AbstractGwtUIContainer
  implements KSDisplayHomePage
 {
 
  private KSContext context;
 
- public SwingDisplayHomePage (KSContext context)
+ public GwtDisplayHomePage (KSContext context)
  {
-  super (new JFrame ());
+  super (new VerticalPanel ());
   this.context = context;
   init ();
  }
 
- private JFrame getFrame ()
+ private VerticalPanel getPanel ()
  {
-  return (JFrame) getContainer ();
+  return (VerticalPanel) getContainer ();
  }
 
  private void init ()
  {
-  //JDesktopPane desktop = new JDesktopPane ();
-  getFrame ().setContentPane (new Box (BoxLayout.Y_AXIS));
-
-  getFrame ().addWindowListener (new java.awt.event.WindowAdapter ()
-  {
-
-   @Override
-   public void windowClosing (WindowEvent winEvt)
-   {
-    getCallback ().onDone ();
-   }
-
-  });
-
-  getFrame ().setTitle ("KS Home Page");
-  getFrame ().getContentPane ().add (new JLabel ("Welcome to Kuali Student"));
+  getPanel ().setTitle ("KS Home Page");
+  getPanel ().add (new KSLabel ("Welcome to Kuali Student"));
  }
 
  private KSDisplayAuthenticatedUser displayUser;
@@ -103,16 +83,7 @@ public class SwingDisplayHomePage extends AbstractSwingUIContainer
   displayUser.display (callback);
   displayTaskList.display (callback);
   displayProposalTypes.display (callback);
-  //getFrame ().pack ();
-  //Make the big window be indented 50 pixels from each edge
-  //of the screen.
-  int inset = 50;
-  Dimension screenSize = Toolkit.getDefaultToolkit ().getScreenSize ();
-  getFrame ().setBounds (inset, inset,
-                   screenSize.width - inset * 2,
-                   screenSize.height - inset * 2);
-  //getFrame ().pack ();
-  getFrame ().setVisible (true);
+  getPanel ().setVisible (true);
  }
 
 }

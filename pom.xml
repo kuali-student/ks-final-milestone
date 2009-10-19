@@ -81,6 +81,11 @@
    <artifactId>ks-lum-api</artifactId>
    <version>0.0.1-SNAPSHOT</version>
   </dependency>
+  <dependency>
+   <groupId>org.kuali.student.core</groupId>
+   <artifactId>ks-common-ui</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+  </dependency>
  </dependencies>
 	
  <distributionManagement>
@@ -106,10 +111,27 @@
      <archive>
       <manifest>
        <addClasspath>true</addClasspath>
-       <mainClass>org.kuali.student.comp.HomeMenu</mainClass>
+       <mainClass>org.kuali.student.comp.Home</mainClass>
       </manifest>
      </archive>
     </configuration>
+   </plugin>
+   <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>gwt-maven-plugin</artifactId>
+    <configuration>
+     <runTarget>org.kuali.student.comp.GwtHome/GwtHome.jsp</runTarget>
+     <module>org.kuali.student.comp.GwtHome</module>
+     <localWorkers>2</localWorkers>
+    </configuration>
+    <executions>
+     <execution>
+      <phase>test</phase>
+      <goals>
+       <goal>run</goal>
+      </goals>
+     </execution>
+    </executions>
    </plugin>
   </plugins>
  </build>

@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.comp.impl.swing;
+package org.kuali.student.comp.impl.gwt;
 
-import javax.swing.JLabel;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.comp.impl.ContextHelper;
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.comp.infc.KSDisplayAuthenticatedUser;
@@ -16,22 +16,22 @@ import org.kuali.student.service.dto.PrincipalId;
  *
  * @author nwright
  */
-public class SwingDisplayAuthenticatedUser extends AbstractSwingUIIField
+public class GwtDisplayAuthenticatedUser extends AbstractGwtUIIField
  implements KSDisplayAuthenticatedUser
 {
 
  private KSContext context;
 
- public SwingDisplayAuthenticatedUser (KSContext context)
+ public GwtDisplayAuthenticatedUser (KSContext context)
  {
-  super (new JLabel ());
+  super (new KSLabel ());
   this.context = context;
   this.setLabel ("Hello");
  }
 
- private JLabel getJLabel ()
+ private KSLabel getKSLabel ()
  {
-  return (JLabel) getComponent ();
+  return (KSLabel) getWidget ();
  }
 
  private Callback callback;
@@ -69,13 +69,13 @@ public class SwingDisplayAuthenticatedUser extends AbstractSwingUIIField
  @Override
  public String getValue ()
  {
-  return getJLabel ().getText ();
+  return getKSLabel ().getText ();
  }
 
  @Override
  public void setValue (Object value)
  {
-  getJLabel ().setText (value.toString ());
+  getKSLabel ().setText (value.toString ());
  }
 
 }
