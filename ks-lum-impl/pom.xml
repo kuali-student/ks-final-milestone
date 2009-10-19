@@ -37,7 +37,7 @@
         <dependency>
           <groupId>org.kuali.student.brms</groupId>
           <artifactId>ks-brms-execution-impl</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
+          <version>${ks-brms.version}</version>
         </dependency>
 
 		<dependency>
