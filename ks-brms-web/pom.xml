@@ -1,16 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>ks-brms</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-m1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KS BRMS WEB</name>
 	<description>Web services</description>
@@ -129,22 +126,15 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <copy
-                                            file="src/main/resources/drools-repository/repository_oracle.xml"
+                                        <copy file="src/main/resources/drools-repository/repository_oracle.xml"
                                             tofile="${project.build.outputDirectory}/drools-repository/repository.xml" />
-                                        <delete
-                                            file="${project.build.outputDirectory}/application.properties" />
-                                        <copy
-                                            file="src/main/resources/application-oracle.properties"
+                                        <delete file="${project.build.outputDirectory}/application.properties" />
+                                        <copy file="src/main/resources/application-oracle.properties"
                                             tofile="${project.build.outputDirectory}/application.properties" />
-                                        <delete
-                                            file="${project.build.outputDirectory}/application-oracle.properties" />
-                                        <delete
-                                            file="${project.build.outputDirectory}/drools-repository/repository_derby_server.xml" />
-                                        <delete
-                                            file="${project.build.outputDirectory}/drools-repository/repository_derby.xml" />
-                                        <delete
-                                            file="${project.build.outputDirectory}/drools-repository/repository_oracle.xml" />
+                                        <delete file="${project.build.outputDirectory}/application-oracle.properties" />
+                                        <delete file="${project.build.outputDirectory}/drools-repository/repository_derby_server.xml" />
+                                        <delete file="${project.build.outputDirectory}/drools-repository/repository_derby.xml" />
+                                        <delete file="${project.build.outputDirectory}/drools-repository/repository_oracle.xml" />
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -159,22 +149,22 @@
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0-m1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0-m1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-execution-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0-m1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>ks-brms-execution-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0-m1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
