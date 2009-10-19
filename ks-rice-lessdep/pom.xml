@@ -4,8 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-rice-lessdep</artifactId>
-	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>KS Rice Less Dependencies</name>
 	<description>
 	This pom is intended to pull in the rice-impl with fewer transtive dependencies
 	Just enough to have a thin version of the ksb running.
