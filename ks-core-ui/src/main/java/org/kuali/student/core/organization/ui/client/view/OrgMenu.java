@@ -54,7 +54,7 @@ public class OrgMenu extends VerticalPanel implements ValueChangeHandler<String>
         if(menuPanel instanceof KSBasicMenu) { //I know it is, but just in case I switch back to AccordionMenu
             KSBasicMenu bmenu = (KSBasicMenu)menuPanel;
             bmenu.setTitle("Organization Menu");
-            bmenu.setDescription("create, modify, and browse orgies");
+            bmenu.setDescription("create, modify, and browse organizations");
         }
         
         List<KSMenuItemData> menuItems = new ArrayList<KSMenuItemData>();
