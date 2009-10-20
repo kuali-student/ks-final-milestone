@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+	<dict:fieldDescriptor id="baseString">
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>false</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="baseDate">
+		<dict:dataType>date</dict:dataType>
+		<dict:readOnly>false</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:objectStructure key="orgInfo">
+		<dict:type key="kuali.org.Program">
+			<dict:state id="kuali.org.orgInfo.Program.active" key="active">
+				<dict:field key="shortDesc">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Long Description</dict:name>
+						<dict:desc>Long Description of this Org.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="longDesc">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Short Description</dict:name>
+						<dict:desc>Short Description of this Org.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="longName">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Long Name</dict:name>
+						<dict:desc>The longer name for this Org.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="shortName">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Short Name</dict:name>
+						<dict:desc>The shorter name for this Org.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="sortName">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Sort Name</dict:name>
+						<dict:desc>The sorting name for this Org.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+
+				<dict:field key="effectiveDate">
+					<dict:fieldDescriptor parent="baseDate">
+						<dict:name>Effective Date</dict:name>
+						<dict:desc>Date on which an org becomes active.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="expirationDate">
+					<dict:fieldDescriptor parent="baseDate">
+						<dict:name>Expiration Date</dict:name>
+						<dict:desc>Date on which an org becomes inactive.</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+
+				<dict:field key="orgCodes">
+					<dict:fieldDescriptor>
+						<dict:dataType>complex</dict:dataType>
+						<dict:objectStructureRef bean="orgCodeInfo"/>
+					</dict:fieldDescriptor>
+				</dict:field>
+				
+				<!-- Dynamic Attribute -->
+				<dict:field key="alias">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Alias</dict:name>
+						<dict:desc>The alias for this Org.</dict:desc>
+					</dict:fieldDescriptor>
+					<dict:dynamic>true</dict:dynamic>
+				</dict:field>
+
+			</dict:state>
+			<dict:state key="proposed" parent="kuali.org.orgInfo.Program.active" />
+		</dict:type>
+		<dict:type key="kuali.org.College">
+			<dict:state key="updated active" parent="kuali.org.orgInfo.Program.active" />
+		</dict:type>
+	</dict:objectStructure>
+	
+	<dict:objectStructure key="orgCodeInfo" id="orgCodeInfo">
+		<dict:type key="default">
+			<dict:state key="default">
+				<dict:field key="desc">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Description</dict:name>
+						<dict:desc>The description of the code</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+				<dict:field key="value">
+					<dict:fieldDescriptor parent="baseString">
+						<dict:name>Value</dict:name>
+						<dict:desc>The code value</dict:desc>
+					</dict:fieldDescriptor>
+				</dict:field>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+</beans>
