@@ -686,6 +686,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         attributes.put("taxable", cluInfoModelDTO.getString("taxable"));
         attributes.put("feeDesc", cluInfoModelDTO.getString("feeDesc"));
         attributes.put("internalNotation", cluInfoModelDTO.getString("internalNotation"));
+        attributes.put("learningObjective", cluInfoModelDTO.getString("learningObjective"));
     }
     
     private void saveCourseFormats(CluInfo parentCluInfo, ModelDTO cluInfoModelDTO) throws Exception{

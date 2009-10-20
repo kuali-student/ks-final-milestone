@@ -71,7 +71,7 @@ public class ViewCluConfigurer {
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
 
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateInformationSection());
-//        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
 
 //        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateRestrictionsSection());
         layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateRequisitesSection());
@@ -242,7 +242,7 @@ public class ViewCluConfigurer {
         section.addSection(governance);
         section.addSection(logistics);
         section.addSection(information);
-//        section.addSection(generateLOs(getH4Title(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateLOs(getH4Title(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), WITH_DIVIDER));
         section.addSection(financials);
         
         section.addSection(generateDates(getH4Title(LUConstants.ACTIVE_DATES_LABEL_KEY), WITH_DIVIDER));
