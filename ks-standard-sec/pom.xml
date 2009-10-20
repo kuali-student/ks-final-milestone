@@ -54,13 +54,18 @@
 			<groupId>org.opensaml</groupId>
 			<artifactId>opensaml</artifactId>
 		</dependency>
-      	
+<!--
         <dependency>
         	<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<type>pom</type>
         </dependency>
-        
+-->        
+        <dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+		</dependency>
+		
          <dependency>
    			<groupId>org.apache.cxf</groupId>
    			<artifactId>cxf-rt-databinding-aegis</artifactId>

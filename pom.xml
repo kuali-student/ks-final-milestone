@@ -13,8 +13,6 @@
 	<modules>
         <module>ks-standard-sec</module>
     </modules>
-    
-<!--  CURRENTLY COPYING EVERYTHING FROM KS-CORE POM UNTIL WE FIGURE IF THERE IS A CIRCULAR DEPENDENCY -->
 
     <repositories>
         <repository>
@@ -52,8 +50,7 @@
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-        <gwt.plugin.version>2.0.1-ks26</gwt.plugin.version>
-		<gwt.codehaus.plugin.version>1.2-KS-0724</gwt.codehaus.plugin.version>
+		<gwt.codehaus.plugin.version>1.2-SNAPSHOT</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
     </properties>
 
@@ -201,45 +198,7 @@
                     </url>
                 </pluginRepository>
 			</pluginRepositories>
-		</profile>
-		
-		<!-- GWT Profiles - Dev environment properties -->
-		<profile>
-			<id>gwt-dev-windows</id>
-			<properties>
-				<platform>windows</platform>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<os>
-					<family>Windows</family>
-				</os>
-			</activation>
-		</profile>
-		<profile>
-			<id>gwt-dev-mac</id>
-			<properties>
-				<platform>mac</platform>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-		</profile>
-		<profile>
-			<id>gwt-dev-linux</id>
-			<properties>
-				<platform>linux</platform>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-				<os>
-					<name>Linux</name>
-				</os>
-			</activation>
-		</profile>		
+		</profile>	
 	</profiles>
 
 	<build>
@@ -252,13 +211,6 @@
 		</extensions>
 
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -276,6 +228,16 @@
 		
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<!-- Don't compile sources that are in jars -->
+						<compilerArgument>-implicit:none</compilerArgument>
+					</configuration>
+				</plugin>
+				
                 <!--  the site plugin is both build and reporting -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -321,62 +283,6 @@
 	        		<artifactId>tomcat-maven-plugin</artifactId>
 	        		<version>1.0-beta-1</version>
 			    </plugin>
-	
-				<!-- GWT Maven Plugin Configuration -->
-				<plugin>
-					<groupId>com.totsp.gwt</groupId>
-					<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-					<version>${gwt.plugin.version}</version>
-					<configuration>
-						<gwtVersion>${gwtVersion}</gwtVersion>
-						<logLevel>INFO</logLevel>
-						<extraJvmArgs>-Xmx512m</extraJvmArgs>					
-					</configuration>
-				</plugin>
-
-				<!-- Codehaus GWT Maven Plugin Configuration-->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>gwt-maven-plugin</artifactId>
-					<version>${gwt.codehaus.plugin.version}</version>
-					<configuration>
-						<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
-						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
-						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>unpack</id>
-							<phase>compile</phase>
-							<goals>
-								<goal>unpack</goal>
-							</goals>
-							<configuration>
-								<artifactItems>
-									<artifactItem>
-										<groupId>com.google.gwt</groupId>
-										<artifactId>gwt-dev</artifactId>
-										<version>${gwtVersion}</version>
-										<classifier>
-											${platform}-libs
-										</classifier>
-										<type>zip</type>
-										<overWrite>false</overWrite>
-										<outputDirectory>
-											${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}
-										</outputDirectory>
-									</artifactItem>
-								</artifactItems>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
 			</plugins>				
 		</pluginManagement>		
 	</build>
@@ -399,7 +305,7 @@
 		<site>
 			<id>ks.site</id>
 			<url> 
-				scp://wsa135.uits.indiana.edu/opt/www/student/site/core/${project.version}
+				dav:https://student.kuali.org:8443/student/site/core/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
@@ -431,11 +337,11 @@
 					<maxmemory>256m</maxmemory>
 					<aggregate>true</aggregate>
 					<show>private</show>
-					<bottom>Copyright &#169; 2009 The Kuali Foundation. All rights reserved.</bottom>
+					<bottom>Copyright © 2009 The Kuali Foundation. All rights reserved.</bottom>
 					<excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
 					<source>1.6</source>
 					<links>
-						<link>http://cxf.apache.org/javadoc/2.1/</link>
+						<link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
 						<link>
 							http://java.sun.com/javase/6/docs/api/
 						</link>
@@ -443,11 +349,14 @@
 							http://java.sun.com/javaee/5/docs/api/
 						</link>
 						<link>
-							http://static.springframework.org/spring/docs/2.5.x/api/
+							http://static.springframework.org/spring/docs/${spring.version}/api/
 						</link>
 						<link>
 							http://ehcache.sourceforge.net/javadoc/
 						</link>
+                        <link>
+                            http://rice.kuali.org/docs/1.0.0/site/apidocs/
+                        </link>
 					</links>
 				</configuration>
 				<reportSets>
@@ -489,84 +398,16 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.apache.derby</groupId>
-				<artifactId>derby</artifactId>
-				<version>${derby.version}</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-			</dependency>
-
-
-			<dependency>
 				<artifactId>servlet-api</artifactId>
 				<groupId>javax.servlet</groupId>
 				<version>2.5</version>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>javax.persistence</groupId>
-				<artifactId>persistence-api</artifactId>
-				<version>1.0</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.transaction</groupId>
-				<artifactId>jta</artifactId>
-				<version>1.0.1B</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cglib</groupId>
-				<artifactId>cglib-nodep</artifactId>
-				<version>2.1_3</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.eclipse.persistence</groupId>
-				<artifactId>eclipselink</artifactId>
-				<version>${eclipselink.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.openjpa</groupId>
-				<artifactId>openjpa</artifactId>
-				<version>1.2.1</version>
-			</dependency>
-
-			<!--  Hibernate -->
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-annotations</artifactId>
-				<version>3.4.0.GA</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>3.4.0.GA</version>
-			</dependency>
-
-
-			<!-- Hibernate Transitive Dependencies -->
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-				<version>1.6.1</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>
 				<version>3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>antlr</groupId>
-				<artifactId>antlr</artifactId>
-				<version>2.7.7</version>
 			</dependency>
 
 			<!-- Spring Dependencies -->
@@ -860,6 +701,16 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-databinding-jaxb</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>				
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-databinding-aegis</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.ws.security</groupId>
   				<artifactId>wss4j</artifactId>
   				<version>1.5.8</version>
@@ -868,45 +719,6 @@
             	<groupId>org.apache.santuario</groupId>
             	<artifactId>xmlsec</artifactId>
             	<version>1.4.2</version>
-        	</dependency>
-
-
-			<!--  Atomikos -->
-			<dependency>
-				<groupId>com.atomikos</groupId>
-				<artifactId>transactions-jdbc</artifactId>
-				<version>${atomikos.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.atomikos</groupId>
-				<artifactId>transactions-jta</artifactId>
-				<version>${atomikos.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.atomikos</groupId>
-				<artifactId>transactions-api</artifactId>
-				<version>${atomikos.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.atomikos</groupId>
-				<artifactId>transactions</artifactId>
-				<version>${atomikos.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.atomikos</groupId>
-				<artifactId>atomikos-util</artifactId>
-				<version>${atomikos.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.atomikos</groupId>
-				<artifactId>transactions-hibernate3</artifactId>
-				<version>${atomikos.version}</version>
-				<exclusions>
-					<exclusion>
-			            <groupId>org.hibernate</groupId>
-			            <artifactId>hibernate</artifactId>
-            		</exclusion>
-            	</exclusions>
         	</dependency>
 
 			<!--  Logging -->
@@ -930,104 +742,6 @@
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>			
-			</dependency>
-
-			<!-- Velocity (used by cxf & brms) -->
-			<dependency>
-				<groupId>velocity</groupId>
-				<artifactId>velocity</artifactId>
-				<version>1.4</version>
-			</dependency>
-
-			<!-- Pom dependencies for impl specific jars -->
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-jta</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-cxf</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-metro</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-eclipselink</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-hibernate</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<type>pom</type>
-			</dependency>
-			
-			<!-- GWT Dependencies -->
-			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.1</version>
-				<classifier>sources</classifier>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-incubator</artifactId>
-				<version>1.6</version>
-				<scope>provided</scope>
-	    	</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>${gwtVersion}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-dev</artifactId>
-				<version>${gwtVersion}</version>
-				<classifier>${platform}-libs</classifier>
-				<type>zip</type>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-dev</artifactId>
-				<version>${gwtVersion}</version>
-				<classifier>${platform}</classifier>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>${gwtVersion}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>junit</artifactId>
-						<groupId>com.google.gwt</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>	
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-visualization</artifactId>
-				<version>1.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-			    <groupId>com.google.code.gwtx</groupId>
-			    <artifactId>gwtx</artifactId>
-			    <version>1.5.3</version>
-			    <scope>provided</scope>
 			</dependency>
             
             <dependency>
