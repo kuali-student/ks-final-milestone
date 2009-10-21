@@ -5,16 +5,27 @@
 
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+    
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-m1-SNAPSHOT</version>
 	</parent>
+    
 	<modules>
 		<module>ks-all</module>
 		<module>ks-embedded</module>
 	</modules>
+    
+    <properties>
+        <spring.version>2.5.4</spring.version>
+        <atomikos.version>3.4.1</atomikos.version>
+        <derby.version>10.4.2.0</derby.version>
+        <kuali.rice.version>1.0.0-ks-m1</kuali.rice.version>
+        <ks-core.version>1.0.0-m1-SNAPSHOT</ks-core.version>
+        <ks-lum.version>1.0.0-m1-SNAPSHOT</ks-lum.version>
+    </properties>
 	
 </project>
