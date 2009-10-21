@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><database>
+	<table description="" javaName="" name="DOCUMENT_CATEGORY_DETAIL">
+		<column description="" javaName="" name="DOC_ID"/>
+		<column description="" javaName="" name="CATEGORY_ID"/>
+	</table>
+	<table description="" javaName="" name="ENUM_VAL_FLD_ENT">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="DATA_TYPE"/>
+		<column description="" javaName="" name="FLD_KEY"/>
+		<column description="" javaName="" name="INVLD_CHARS"/>
+		<column description="" javaName="" name="MAX_LGTH"/>
+		<column description="" javaName="" name="MAX_OCCRS"/>
+		<column description="" javaName="" name="MAX_VAL"/>
+		<column description="" javaName="" name="MIN_LGTH"/>
+		<column description="" javaName="" name="MIN_OCCRS"/>
+		<column description="" javaName="" name="MIN_VAL"/>
+		<column description="" javaName="" name="VALID_CHARS"/>
+		<column description="" javaName="" name="ENUM_META_ENT_ID"/>
+	</table>
+	<table description="Detailed information about a comment." javaName="Comment" name="KSCO_COMMENT">
+		<column description="Unique identifier for a comment. This is optional, due to the identifier being set at the time of creation. Once the comment has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this comment became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this comment expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="The current status of the comment. The values for this field are constrained to those in the commentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="STATE"/>
+		<column description="Narrative text of the comment" javaName="commentText" name="RT_DESCR_ID"/>
+		<column description="" javaName="reference" name="REFERENCE"/>
+		<column description="Unique identifier for a comment type." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="CommentAttribute" name="KSCO_COMMENT_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a comment type." javaName="CommentType" name="KSCO_COMMENT_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="CommentTypeAttribute" name="KSCO_COMMENT_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="Reference" name="KSCO_REFERENCE">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="referenceId" name="REFERENCE_ID"/>
+		<column description="" javaName="referenceType" name="REFERENCE_TYPE"/>
+	</table>
+	<table description="Detailed information about a reference type." javaName="ReferenceType" name="KSCO_REFERENCE_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="ReferenceTypeAttribute" name="KSCO_REFERENCE_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a tag." javaName="Tag" name="KSCO_TAG">
+		<column description="Unique identifier for a tag. This is optional, due to the identifier being set at the time of creation. Once the tag has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this tag became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this tag expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Namespace of the tag." javaName="namespace" name="NAME_SPACE"/>
+		<column description="Predicate of the tag." javaName="predicate" name="PREDICATE"/>
+		<column description="The current status of the tag. The values for this field are constrained to those in the tagState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="STATE"/>
+		<column description="Value of the tag." javaName="value" name="VAL"/>
+		<column description="" javaName="reference" name="REFERENCE"/>
+		<column description="Unique identifier for a tag type." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="TagAttribute" name="KSCO_TAG_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a tag type." javaName="TagType" name="KSCO_TAG_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="TagTypeAttribute" name="KSCO_TAG_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a document." javaName="Document" name="KSDO_DOCUMENT">
+		<column description="Unique identifier for a document. This is optional, due to the identifier being set at the time of creation. Once the document has been created, this should be seen as required." javaName="id" name="DOC_ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="document" name="DOCUMENT"/>
+		<column description="Date and time that this document became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this document expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Name of the document file" javaName="fileName" name="FILE_NAME"/>
+		<column description="Friendly name of the document" javaName="name" name="NAME"/>
+		<column description="The current status of the document. The values for this field are constrained to those in the documentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="STATE"/>
+		<column description="Narrative description of the document" javaName="desc" name="RT_DESCR_ID"/>
+		<column description="Unique identifier for a document type." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="DocumentAttribute" name="KSDO_DOCUMENT_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a document category." javaName="DocumentCategory" name="KSDO_DOCUMENT_CATEGORY">
+		<column description="Unique identifier for a document category." javaName="id" name="CATEGORY_ID"/>
+		<column description="Date and time that this document category became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this document category expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the document category." javaName="name" name="NAME"/>
+		<column description="Narrative description of the document category." javaName="desc" name="RT_DESCR_ID"/>
+	</table>
+	<table description="" javaName="DocumentCategoryAttribute" name="KSDO_DOCUMENT_CATEGORY_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a document type." javaName="DocumentType" name="KSDO_DOCUMENT_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="DocumentTypeAttribute" name="KSDO_DOCUMENT_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSEM_CTX_ENT">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="CTX_KEY"/>
+		<column description="" javaName="" name="CTX_VAL"/>
+		<column description="" javaName="" name="ENUM_ID"/>
+		<column description="" javaName="" name="ENUM_VAL_ENT_ID"/>
+	</table>
+	<table description="" javaName="" name="KSEM_CTX_META_ENT">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="DATA_TYPE"/>
+		<column description="" javaName="" name="ENUM_KEY"/>
+		<column description="" javaName="" name="MAX_LGTH"/>
+		<column description="" javaName="" name="MAX_OCCRS"/>
+		<column description="" javaName="" name="MIN_LGTH"/>
+		<column description="" javaName="" name="MIN_OCCRS"/>
+		<column description="" javaName="" name="TYPE"/>
+	</table>
+	<table description="" javaName="" name="KSEM_ENUM_META_ENT">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ENUM_KEY"/>
+		<column description="" javaName="" name="ENUM_META_KEY_DESC"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="" name="KSEM_ENUM_VAL_ENT">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ABBREV_VAL"/>
+		<column description="" javaName="" name="CD"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="ENUM_KEY"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="SORT_KEY"/>
+		<column description="" javaName="" name="VAL"/>
+	</table>
+	<table description="Detailed information about a single organization." javaName="Org" name="KSOR_ORG">
+		<column description="Unique identifier for an organization. This is optional, due to the identifier being set at the time of creation. Once the organization has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this organization became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this organization expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Narrative description of the organization." javaName="longDesc" name="LNG_DESCR"/>
+		<column description="Full name of the organization." javaName="longName" name="LNG_NAME"/>
+		<column description="A brief description of the organization." javaName="shortDesc" name="SHRT_DESCR"/>
+		<column description="Shortened format or abbreviation of the organization's name." javaName="shortName" name="SHRT_NAME"/>
+		<column description="The current status of the organization. The values for this field are constrained to those in the orgState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="Unique identifier for an organization type." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="OrgAttribute" name="KSOR_ORG_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information for an organization hierarchy." javaName="OrgHierarchy" name="KSOR_ORG_HIRCHY">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="desc" name="DESCR"/>
+		<column description="" javaName="effectiveDate" name="EFF_DT"/>
+		<column description="" javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="" javaName="name" name="NAME"/>
+		<column description="" javaName="rootOrg" name="ROOT_ORG"/>
+	</table>
+	<table description="" javaName="OrgHierarchyAttribute" name="KSOR_ORG_HIRCHY_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_HIRCHY_JN_ORG_TYPE">
+		<column description="" javaName="" name="ORG_HIRCHY_ID"/>
+		<column description="" javaName="" name="ORG_TYPE_ID"/>
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_JN_ORG_PERS_REL_TYPE">
+		<column description="" javaName="" name="ORG_ID"/>
+		<column description="" javaName="" name="ORG_PERS_RELTN_TYPE_ID"/>
+	</table>
+	<table description="Detailed information about a single organization to organization relationship." javaName="OrgOrgRelation" name="KSOR_ORG_ORG_RELTN">
+		<column description="Unique identifier for an organization to organization relationship. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this organization to organization relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this organization to organization relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="The current status of the organization to organization relationship. The values for this field are constrained to those in the orgOrgRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="org" name="ORG"/>
+		<column description="" javaName="relatedOrg" name="RELATED_ORG"/>
+		<column description="Unique identifier for an organization to organization relationship type." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="OrgOrgRelationAttribute" name="KSOR_ORG_ORG_RELTN_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about an organization to organization relationship type." javaName="OrgOrgRelationType" name="KSOR_ORG_ORG_RELTN_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+		<column description="Narrative description of the reverse of the organization to organization relationship type." javaName="revDesc" name="REV_DESCR"/>
+		<column description="Name for the reverse of the organization to organization relationship type. This is primarily to be used by developers and may end up translated in the end system." javaName="revName" name="REV_NAME"/>
+		<column description="" javaName="orgHierarchy" name="ORG_HIRCHY"/>
+	</table>
+	<table description="" javaName="OrgOrgRelationTypeAttribute" name="KSOR_ORG_ORG_RELTN_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about an organization to person relationship." javaName="OrgPersonRelation" name="KSOR_ORG_PERS_RELTN">
+		<column description="Unique identifier for an organization to person relationship. This is optional, due to the identifier being set at the time of creation. Once the relationship has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this organization to person relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this organization to person relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Identifier of the person in the relationship." javaName="personId" name="PERS_ID"/>
+		<column description="The current status of the organization to person relationship. The values for this field are constrained to those in the orgPersonRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="org" name="ORG"/>
+		<column description="" javaName="orgPersonRelationType" name="ORG_PERS_RELTN_TYPE"/>
+	</table>
+	<table description="" javaName="OrgPersonRelationAttribute" name="KSOR_ORG_PERS_RELTN_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information for an organization to person relationship type." javaName="OrgPersonRelationType" name="KSOR_ORG_PERS_RELTN_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="OrgPersonRelationTypeAttribute" name="KSOR_ORG_PERS_RELTN_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information which constrains/describes organization to person relationships of a particular type for an organization. These constraints/descriptions typically involve active relationships." javaName="OrgPositionRestriction" name="KSOR_ORG_POS_RESTR">
+		<column description="Unique identifier for the organization position restriction record. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. Once set by the service, this should be seen as read-only and immutable. This structure is not retrievable by this identifier to limit the number of active organization position restriction records visible through the service. It is strongly recommended that this identifier not be referenced by outside consumers." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Description of the restrictions and use of the relationship type within this particular organization. This should primarily focus on deviations from the standard use of the relationship type." javaName="desc" name="DESCR"/>
+		<column description="Acts as an upper bound on the number of relationships of this type expected for the organization. The values of this field are restricted to integer values and the string unbounded. If specified, this should be greater than or equal to the value of minNumRelations, with the value unbounded being automatically assumed to be greater." javaName="maxNumRelations" name="MAX_NUM_RELTN"/>
+		<column description="Acts as a lower bound on the number of relationships of this type expected for the organization. If specified, this should be less than or equal to the value of maxNumRelations" javaName="minNumRelations" name="MIN_NUM_RELTN"/>
+		<column description="" javaName="" name="ATPDURATIONTYPEKEY"/>
+		<column description="" javaName="" name="TIMEQUANTITY"/>
+		<column description="Title of organization person relationships of this type. This allows for distinction from the name of the relationship type itself, specific for the given organization." javaName="title" name="TTL"/>
+		<column description="" javaName="org" name="ORG"/>
+		<column description="" javaName="personRelationType" name="PERS_RELTN_TYPE"/>
+	</table>
+	<table description="" javaName="OrgPositionRestrictionAttribute" name="KSOR_ORG_POS_RESTR_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information for an organization type." javaName="OrgType" name="KSOR_ORG_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="OrgTypeAttribute" name="KSOR_ORG_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_TYPE_JN_ORG_PERRL_TYP">
+		<column description="" javaName="" name="ORG_TYPE_ID"/>
+		<column description="" javaName="" name="ORG_PERS_RELTN_TYPE_ID"/>
+	</table>
+	<table description="Detailed information about a proposal." javaName="Proposal" name="KSPR_PROPOSAL">
+		<column description="Unique identifier for a Proposal. This is optional, due to the identifier being set at the time of creation. Once the proposal has been created, this should be seen as required." javaName="id" name="PROPOSAL_ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Detailed description of the proposed changes." javaName="detailDesc" name="DETAIL_DESC"/>
+		<column description="Date and time that this proposal became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this proposal expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="The name or title of the proposal. Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer." javaName="name" name="NAME"/>
+		<column description="Brief explanation of the reason for the proposal" javaName="rationale" name="RATIONALE"/>
+		<column description="The current status of the proposal. The values for this field are constrained to those in the proposalState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="STATE"/>
+		<column description="Unique identifier for a proposal type." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="ProposalAttribute" name="KSPR_PROPOSAL_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about the proposal to document relation." javaName="ProposalDocRelation" name="KSPR_PROPOSAL_DOCREL">
+		<column description="Unique identifier for a proposal to document relation. This is optional, due to the identifier being set at the time of creation. Once the connection has been created, this should be seen as required." javaName="id" name="DOCREL_ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Unique identifier for a document." javaName="documentId" name="DOCUMENT_ID"/>
+		<column description="Date and time that this Proposal Doc Relation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this Proposal Doc Relation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="The current status of the Proposal to document relationship. The values for this field are constrained to those in the proposalDocRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="STATE"/>
+		<column description="The title of the document usage in the context of the Proposal." javaName="title" name="TITLE"/>
+		<column description="The description of the document usage in the context of the Proposal." javaName="desc" name="RT_DESCR_ID"/>
+		<column description="" javaName="proposal" name="PROPOSAL_ID"/>
+		<column description="Unique identifier for a proposal document relation type. Describes the type of usage of the document." javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="ProposalDocRelationAttribute" name="KSPR_PROPOSAL_DOCREL_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about a proposal document relation type." javaName="ProposalDocRelationType" name="KSPR_PROPOSAL_DOCREL_TYPE">
+		<column description="Unique identifier for a proposal document relation type." javaName="id" name="ID"/>
+		<column description="Narrative description of the proposal document relation type" javaName="desc" name="DESCRIPTION"/>
+		<column description="Date and time that this proposal document relation type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this proposal document relation type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the proposal document relation type" javaName="name" name="NAME"/>
+	</table>
+	<table description="" javaName="ProposalDocRelationTypeAttribute" name="KSPR_PROPOSAL_DOCREL_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="ProposalOrg" name="KSPR_PROPOSAL_JN_ORG">
+		<column description="" javaName="id" name="ORGREF_ID"/>
+		<column description="" javaName="orgId" name="ORG_ID"/>
+		<column description="" javaName="proposal" name="PROPOSAL_ID"/>
+	</table>
+	<table description="" javaName="ProposalPerson" name="KSPR_PROPOSAL_JN_PERSON">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="personId" name="PERSONREF_ID"/>
+		<column description="" javaName="proposal" name="PROPOSAL_ID"/>
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_JN_REFERENCE">
+		<column description="" javaName="" name="PROPOSAL_ID"/>
+		<column description="" javaName="" name="REFERENCE_ID"/>
+	</table>
+	<table description="" javaName="ProposalReference" name="KSPR_PROPOSAL_REFERENCE">
+		<column description="" javaName="id" name="REFERENCE_ID"/>
+		<column description="" javaName="objectReferenceId" name="OBJECT_REFERENCE_ID"/>
+		<column description="" javaName="type" name="TYPE"/>
+	</table>
+	<table description="" javaName="ProposalReferenceType" name="KSPR_PROPOSAL_REFTYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="ProposalReferenceTypeAttribute" name="KSPR_PROPOSAL_REFTYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about a proposal type." javaName="ProposalType" name="KSPR_PROPOSAL_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="ProposalTypeAttribute" name="KSPR_PROPOSAL_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="RichText" name="KS_RICH_TEXT_T">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="formatted" name="FORMATTED"/>
+		<column description="" javaName="plain" name="PLAIN"/>
+	</table>
+	<table description="" javaName="" name="MESSAGEENTITY">
+		<column description="" javaName="" name="DATABASEID"/>
+		<column description="" javaName="" name="GROUPNAME"/>
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="LOCALE"/>
+		<column description="" javaName="" name="VALUE"/>
+	</table>
+</database>
