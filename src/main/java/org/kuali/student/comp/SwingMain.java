@@ -7,7 +7,6 @@ package org.kuali.student.comp;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.kuali.student.comp.impl.Context;
-import org.kuali.student.comp.impl.gwt.GwtContextConfigurer;
 import org.kuali.student.comp.impl.swing.SwingContextConfigurer;
 import org.kuali.student.comp.infc.KSContext;
 import org.kuali.student.comp.infc.KSDisplayHomePage;
