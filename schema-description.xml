@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><database>
+	<table description="Detailed information about a single CLU." javaName="Clu" name="KSLU_CLU">
+		<column description="Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of creation. Once the CLU has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="The organization responsible for accrediting the program.&#10; &#10; Replaced by accreditationList" javaName="accreditingOrg" name="ACCRED_ORG_ID"/>
+		<column description="The primary organization (typically, an academic department) with administrative oversight over the CLU." javaName="adminOrg" name="ADMIN_ORG_ID"/>
+		<column description="" javaName="canCreateLui" name="CAN_CREATE_LUI"/>
+		<column description="Default enrollment estimate for this CLU." javaName="defaultEnrollmentEstimate" name="DEF_ENRL_EST"/>
+		<column description="Default maximum enrollment for this CLU." javaName="defaultMaximumEnrollment" name="DEF_MAX_ENRL"/>
+		<column description="Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this CLU expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="" javaName="hasEarlyDropDeadline" name="HAS_EARLY_DROP_DEDLN"/>
+		<column description="" javaName="" name="CLU_INTSTY_TYPE"/>
+		<column description="" javaName="" name="CLU_INTSTY_QTY"/>
+		<column description="" javaName="isEnrollable" name="IS_ENRL"/>
+		<column description="" javaName="isHazardousForDisabledStudents" name="IS_HAZR_DISBLD_STU"/>
+		<column description="When the next review should be" javaName="nextReviewPeriod" name="NEXT_REVIEW_PRD"/>
+		<column description="An URL for additional information about the CLU. This could be a reference to a document which might in turn have references to other documents (e.g. course syllabus provided by the faculty or department, standard schedule of classes, etc.)." javaName="referenceURL" name="REF_URL"/>
+		<column description="The current status of the clu. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation." javaName="state" name="ST"/>
+		<column description="" javaName="" name="ATPDURATIONTYPEKEY"/>
+		<column description="" javaName="" name="TIMEQUANTITY"/>
+		<column description="The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu." javaName="studySubjectArea" name="STDY_SUBJ_AREA"/>
+		<column description="" javaName="accounting" name="ACCT_ID"/>
+		<column description="" javaName="credit" name="CR_ID"/>
+		<column description="Narrative description of the CLU, used for the catalog." javaName="desc" name="RT_DESCR_ID"/>
+		<column description="" javaName="fee" name="FEE_ID"/>
+		<column description="" javaName="luType" name="LUTYPE_ID"/>
+		<column description="A publishable description of the LU to be used for advertising or marketing purposes" javaName="marketingDesc" name="RT_MKTG_DESCR_ID"/>
+		<column description="Information related to the official identification of the clu, typically in human readable form. Used to officially reference or publish." javaName="officialIdentifier" name="OFFIC_CLU_ID"/>
+		<column description="" javaName="primaryAdminOrg" name="PRI_ADMIN_ORG_ID"/>
+		<column description="Primary potential instructor for the clu. This is primarily for use in advertising the clu and may not be the actual instructor." javaName="primaryInstructor" name="PRI_INSTR_ID"/>
+		<column description="" javaName="publishing" name="PUBL_ID"/>
+	</table>
+	<table description="Detailed information about a CLU to CLU relationship." javaName="CluCluRelation" name="KSLU_CLUCLU_RELTN">
+		<column description="Unique identifier for a CLU to CLU relationship. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="cluRelationRequired" name="CLU_RELTN_REQ"/>
+		<column description="Date and time that this CLU to CLU relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this CLU to CLU relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Identifier for the current status of a CLU to CLU relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+		<column description="" javaName="luLuRelationType" name="LU_RELTN_TYPE_ID"/>
+		<column description="" javaName="relatedClu" name="RELATED_CLU_ID"/>
+	</table>
+	<table description="" javaName="CluCluRelationAttribute" name="KSLU_CLUCLU_RELTN_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="CluAccreditation" name="KSLU_CLU_ACCRED">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="effectiveDate" name="EFF_DT"/>
+		<column description="" javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="" javaName="orgId" name="ORG_ID"/>
+	</table>
+	<table description="" javaName="CluAccreditationAttribute" name="KSLU_CLU_ACCRED_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about accounting for a clu." javaName="CluAccounting" name="KSLU_CLU_ACCT">
+		<column description="" javaName="id" name="ID"/>
+	</table>
+	<table description="" javaName="CluAccountingAttribute" name="KSLU_CLU_ACCT_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="CluAdminOrg" name="KSLU_CLU_ADMIN_ORG">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="orgId" name="ORG_ID"/>
+	</table>
+	<table description="" javaName="CluAdminOrgAttribute" name="KSLU_CLU_ADMIN_ORG_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="CluAtpTypeKey" name="KSLU_CLU_ATP_TYPE_KEY">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="atpTypeKey" name="ATP_TYPE_KEY"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="CluAttribute" name="KSLU_CLU_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about credit for a CLU, including common data-driven constraints around repetition." javaName="CluCredit" name="KSLU_CLU_CR">
+		<column description="" javaName="id" name="ID"/>
+		<column description="The total credit hours for use in evaluating the Instructor, meant to cover the concept of Contact Hours" javaName="instructorUnits" name="INSTR_UNIT"/>
+		<column description="" javaName="" name="MAX_ALOW_INACV_ATP"/>
+		<column description="" javaName="" name="MAX_ALOW_INACV_TMQ"/>
+		<column description="" javaName="" name="MAX_TM_RSLT_RCGZ_ATP"/>
+		<column description="" javaName="" name="MAX_TM_RSLT_RCGZ_TMQ"/>
+		<column description="" javaName="" name="MAX_TM_TO_COMP_ATP"/>
+		<column description="" javaName="" name="MAX_TM_TO_COMP_TMQ"/>
+		<column description="The maximum total number of credits or units earned by the Student. This field will be used for calculations. If specified, should be greater than or equal to the minTotalUnits." javaName="maxTotalUnits" name="MAX_TOT_UNIT"/>
+		<column description="" javaName="" name="MIN_TM_TO_COMP_ATP"/>
+		<column description="" javaName="" name="MIN_TM_TO_COMP_TMQ"/>
+		<column description="The minimum total number of credits or units earned by the Student. This field will be used for calculations. If specified, should be less than or equal to the maxTotalUnits." javaName="minTotalUnits" name="MIN_TOT_UNIT"/>
+		<column description="The number of times a student may repeat the course for credit. The values of this field are restricted to integer values and the string unbounded." javaName="repeatCount" name="REPEAT_CNT"/>
+		<column description="" javaName="" name="REPEAT_TM_ATP"/>
+		<column description="" javaName="" name="REPEAT_TM_TMQ"/>
+		<column description="The total number of units for which the student may repeat this course." javaName="repeatUnits" name="REPEAT_UNIT"/>
+	</table>
+	<table description="Detailed information associated with this CLU related to the calculation of fees." javaName="CluFee" name="KSLU_CLU_FEE">
+		<column description="" javaName="id" name="ID"/>
+	</table>
+	<table description="" javaName="CluFeeAttribute" name="KSLU_CLU_FEE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about the human readable form of a CLU Identifier" javaName="CluIdentifier" name="KSLU_CLU_IDENT">
+		<column description="Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained." javaName="id" name="ID"/>
+		<column description="The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType." javaName="code" name="CD"/>
+		<column description="A code that indicates what school, program, major, subject area, etc. Examples: Chem, 18" javaName="division" name="DIV"/>
+		<column description="A code that indicates whether this is introductory, advanced, etc." javaName="level" name="LVL"/>
+		<column description="" javaName="longName" name="LNG_NAME"/>
+		<column description="" javaName="orgId" name="ORG_ID"/>
+		<column description="Abbreviated name of the CLU, commonly used on transcripts" javaName="shortName" name="SHRT_NAME"/>
+		<column description="Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration." javaName="state" name="ST"/>
+		<column description="" javaName="suffixCode" name="SUFX_CD"/>
+		<column description="Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)" javaName="type" name="TYPE"/>
+		<column description="A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier" javaName="variation" name="VARTN"/>
+	</table>
+	<table description="Information about a potential instructor for a clu." javaName="CluInstructor" name="KSLU_CLU_INSTR">
+		<column description="" javaName="id" name="ID"/>
+		<column description="Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu." javaName="orgId" name="ORG_ID"/>
+		<column description="Unique identifier for a person record." javaName="personId" name="PERS_ID"/>
+	</table>
+	<table description="" javaName="CluInstructorAttribute" name="KSLU_CLU_INSTR_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_JN_ALT_ADMIN_ORG">
+		<column description="" javaName="" name="CLU_ID"/>
+		<column description="" javaName="" name="ALT_ORG_ID"/>
+	</table>
+	<table description="" javaName="CluCampusLocation" name="KSLU_CLU_JN_CAMP_LOC">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="campusLocation" name="CAMP_LOC"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_JN_CLU_ACCRED">
+		<column description="" javaName="" name="CLU_ID"/>
+		<column description="" javaName="" name="ACCRED_ORG_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_JN_CLU_IDENT">
+		<column description="" javaName="" name="CLU_ID"/>
+		<column description="" javaName="" name="ALT_CLU_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_JN_CLU_INSTR">
+		<column description="" javaName="" name="CLU_ID"/>
+		<column description="" javaName="" name="CLU_INSTR_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_JN_LU_STMT">
+		<column description="" javaName="" name="LU_STMT_ID"/>
+		<column description="" javaName="" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="CluOrg" name="KSLU_CLU_JN_ORG">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="orgId" name="ORG_ID"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="CluAcademicSubjectOrg" name="KSLU_CLU_JN_SUBJ_ORG">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="orgId" name="ORG_ID"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="Detailed information about publishing a clu." javaName="CluPublishing" name="KSLU_CLU_PUBL">
+		<column description="Identifier for the publishing information. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not currently accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained." javaName="id" name="ID"/>
+		<column description="The end academic time period for when the CLU should be published in this type of usage. If specified, should be greater than or equal to startCycle." javaName="endCycle" name="END_CYCLE"/>
+		<column description="The start academic time period for when the CLU should be published in this type of usage. Should be less than or equal to endCycle." javaName="startCycle" name="START_CYCLE"/>
+		<column description="Current state of the information for this publication type. This value should be constrained to those within the cluPublishingState enumeration. In general, an active record for a type indicates that the clu should be published within that media, though that may be further constrained by the cycle information included." javaName="state" name="ST"/>
+		<column description="Type of publication for which this information should be used. This type should correspond more with usage than media." javaName="type" name="TYPE"/>
+		<column description="Primary potential instructor for the clu for the purpose of this publication." javaName="primaryInstructor" name="PRI_INSTR_ID"/>
+	</table>
+	<table description="" javaName="CluPublishingAttribute" name="KSLU_CLU_PUBL_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_PUBL_JN_CLU_INSTR">
+		<column description="" javaName="" name="CLU_PUBL_ID"/>
+		<column description="" javaName="" name="CLU_INSTR_ID"/>
+	</table>
+	<table description="Detailed information about a single CLU Set." javaName="CluSet" name="KSLU_CLU_SET">
+		<column description="Unique identifier for a CLU Set. This is optional, due to the identifier being set at the time of creation. Once the CLU Set has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="criteriaSet" name="CRIT_SET"/>
+		<column description="Date and time that this CLU Set became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this CLU Set expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the CLU Set." javaName="name" name="NAME"/>
+		<column description="Narrative description of the CLU Set." javaName="desc" name="RT_DESCR_ID"/>
+	</table>
+	<table description="" javaName="CluSetAttribute" name="KSLU_CLU_SET_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_SET_JN_CLU">
+		<column description="" javaName="" name="CLU_SET_ID"/>
+		<column description="" javaName="" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_CLU_SET_JN_CLU_SET">
+		<column description="" javaName="" name="CLU_SET_PARENT_ID"/>
+		<column description="" javaName="" name="CLU_SET_CHILD_ID"/>
+	</table>
+	<table description="Detailed information about a learning objective" javaName="Lo" name="KSLU_LO">
+		<column description="Unique identifier for a learning objective record. This is optional, due to the identifier being set at the time of creation. Once the learning objective has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this learning objective became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this learning objective expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the learning objective" javaName="name" name="NAME"/>
+		<column description="The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="Narrative description of the learning objective" javaName="desc" name="RT_DESCR_ID"/>
+		<column description="Unique identifier for a learning objective hierarchy. This value is immutable once set during creation." javaName="loHierarchy" name="LOHIRCHY_ID"/>
+		<column description="" javaName="loType" name="LOTYPE_ID"/>
+	</table>
+	<table description="" javaName="LoAttribute" name="KSLU_LO_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a learning objective category." javaName="LoCategory" name="KSLU_LO_CATEGORY">
+		<column description="Unique identifier for a learning objective category record. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this learning objective category became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this learning objective category expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the category" javaName="name" name="NAME"/>
+		<column description="Narrative description of the learning objective category" javaName="desc" name="RT_DESCR_ID"/>
+		<column description="Unique identifier for a learning objective hierarchy. Once set in creation, this is immutable." javaName="loHierarchy" name="LOHIRCHY_ID"/>
+	</table>
+	<table description="" javaName="LoCategoryAttribute" name="KSLU_LO_CATEGORY_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="LoHierarchyAttribute" name="KSLU_LO_HIERARCHY_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a learning objective hierarchy, including the root node." javaName="LoHierarchy" name="KSLU_LO_HIRCHY">
+		<column description="Unique identifier for a learning objective hierarchy." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this learning objective hierarchy became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this learning objective hierarchy expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the hierarchy" javaName="name" name="NAME"/>
+		<column description="Narrative description of the learning objective hierarchy" javaName="desc" name="RT_DESCR_ID"/>
+		<column description="" javaName="rootLo" name="LO_ROOT_ID"/>
+	</table>
+	<table description="" javaName="LearningObjective" name="KSLU_LO_JN_CLU">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="learningObjectiveId" name="LO_ID"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_LO_LO_EQUIV_RELTN">
+		<column description="" javaName="" name="LO_ID"/>
+		<column description="" javaName="" name="EQUIV_LO_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_LO_LO_HIRCHY_RELTN">
+		<column description="" javaName="" name="PARENT_LO_ID"/>
+		<column description="" javaName="" name="CHILD_LO_ID"/>
+	</table>
+	<table description="Information about a learning objective type." javaName="LoType" name="KSLU_LO_TYPE">
+		<column description="Unique identifier for a learning objective type." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="description" name="DESCR"/>
+		<column description="Date and time that this learning objective type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this learning objective type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Friendly name of the learning objective type" javaName="name" name="NAME"/>
+	</table>
+	<table description="" javaName="LoTypeAttribute" name="KSLU_LO_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about a learning result type." javaName="LrType" name="KSLU_LR_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="LrTypeAttribute" name="KSLU_LR_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Detailed information about a single LUI." javaName="Lui" name="KSLU_LUI">
+		<column description="Unique identifier for a Learning Unit Instance (LUI). This is optional, due to the identifier being set at the time of creation. Once the LUI has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Unique identifier for an Academic Time Period (ATP)." javaName="atpId" name="ATP_ID"/>
+		<column description="Date and time that this LUI became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this LUI expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXP_DT"/>
+		<column description="Code identifier/name for the LUI. This is typically used in human readable form (e.g. ENGL 100 section 123)." javaName="luiCode" name="LUI_CODE"/>
+		<column description="Maximum number of seats that the LUI will hold for registration." javaName="maxSeats" name="MAX_SEATS"/>
+		<column description="The current status of the LUI. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="Detailed information about a LUI to LUI relationship." javaName="LuiLuiRelation" name="KSLU_LUILUI_RELTN">
+		<column description="Unique identifier for a LUI to LUI relation. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Date and time that this LUI to LUI relationship type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this LUI to LUI relationship type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="The current status of the LUI to LUI relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="luLuRelationType" name="LULU_RELTN_TYPE_ID"/>
+		<column description="" javaName="lui" name="LUI_ID"/>
+		<column description="" javaName="relatedLui" name="RELATED_LUI_ID"/>
+	</table>
+	<table description="" javaName="LuiLuiRelationAttribute" name="KSLU_LUILUI_RELTN_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="LuiAttribute" name="KSLU_LUI_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="Information about a LU to LU relationship type." javaName="LuLuRelationType" name="KSLU_LULU_RELTN_TYPE">
+		<column description="Unique identifier for the LU to LU relation type." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Narrative description of the LU to LU relationship type." javaName="desc" name="DESCR"/>
+		<column description="Date and time that this LU to LU relationship type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this LU to LU relationship type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="Short name of the LU to LU relationship type. This is primarily to be used by developers and may end up translated in the end system." javaName="name" name="NAME"/>
+		<column description="Description of the reverse of the LU to LU relationship type" javaName="revDesc" name="REV_DESC"/>
+		<column description="Name for the reverse LU to LU relationship type. This is primarily to be used by developers and may end up translated in the end system." javaName="revName" name="REV_NAME"/>
+	</table>
+	<table description="" javaName="LuLuRelationTypeAttribute" name="KSLU_LULU_RELTN_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_LULU_RELTN_TYPE_JN_LU_TYP">
+		<column description="" javaName="" name="LULU_RELTN_TYPE_ID"/>
+		<column description="" javaName="" name="LU_TYPE_ID"/>
+	</table>
+	<table description="Detailed information about a single learning unit type." javaName="LuType" name="KSLU_LUTYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="Detailed information about learning unit codes." javaName="LuCode" name="KSLU_LU_CODE">
+		<column description="Unique identifier for an LU code record." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="The description of the code." javaName="desc" name="DESCR"/>
+		<column description="" javaName="type" name="TYPE"/>
+		<column description="The code value." javaName="value" name="VALUE"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="" javaName="LuCodeAttribute" name="KSLU_LU_CODE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="LuDocumentRelation" name="KSLU_LU_DOC_RELTN">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="" javaName="documentId" name="DOC_ID"/>
+		<column description="" javaName="effectiveDate" name="EFF_DT"/>
+		<column description="" javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="" javaName="state" name="ST"/>
+		<column description="" javaName="title" name="TITLE"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+		<column description="" javaName="desc" name="DESCR"/>
+		<column description="" javaName="luDocumentRelationType" name="LU_DOC_RELTN_TYPE_ID"/>
+	</table>
+	<table description="" javaName="LuDocumentRelationAttribute" name="KSLU_LU_DOC_RELTN_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="LuDocumentRelationType" name="KSLU_LU_DOC_RELTN_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="LuDocumentRelationTypeAttribute" name="KSLU_LU_DOC_RELTN_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_LU_STMT_TYPE_JN_LU_TYPE">
+		<column description="" javaName="" name="LU_STMT_TYPE_ID"/>
+		<column description="" javaName="" name="LU_TYPE_ID"/>
+	</table>
+	<table description="" javaName="LuTypeAttribute" name="KSLU_LU_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_REQCOMTYP_JN_REQCOMFLDTYP">
+		<column description="" javaName="" name="REQ_COMP_TYPE_ID"/>
+		<column description="" javaName="" name="REQ_COMP_FIELD_TYPE_ID"/>
+	</table>
+	<table description="Information about a requirement component." javaName="ReqComponent" name="KSLU_REQ_COM">
+		<column description="Unique identifier for a requirement component. This is optional, due to the identifier being set at the time of creation. Once the requirement component has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Narrative description of the requirement component." javaName="desc" name="DESCR"/>
+		<column description="Date and time that this requirement component became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date." javaName="effectiveDate" name="EFF_DT"/>
+		<column description="Date and time that this requirement component expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." javaName="expirationDate" name="EXPIR_DT"/>
+		<column description="The current status of the requirement component. The values for this field are constrained to those in the reqComponentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="requiredComponentType" name="REQ_COM_TYPE_ID"/>
+	</table>
+	<table description="" javaName="ReqComponentField" name="KSLU_REQ_COM_FIELD">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="key" name="REQ_COM_FIELD_KEY"/>
+		<column description="" javaName="value" name="VALUE"/>
+	</table>
+	<table description="" javaName="ReqComponentFieldType" name="KSLU_REQ_COM_FIELD_TYPE">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="" name="DATA_TYPE"/>
+		<column description="" javaName="" name="DESCR"/>
+		<column description="" javaName="" name="INVALID_CHARS"/>
+		<column description="" javaName="" name="MAX_LENGTH"/>
+		<column description="" javaName="" name="MAX_OCCURS"/>
+		<column description="" javaName="" name="MAX_VALUE"/>
+		<column description="" javaName="" name="MIN_LENGTH"/>
+		<column description="" javaName="" name="MIN_OCCURS"/>
+		<column description="" javaName="" name="MIN_VALUE"/>
+		<column description="" javaName="" name="NAME"/>
+		<column description="" javaName="" name="READ_ONLY"/>
+		<column description="" javaName="" name="VALID_CHARS"/>
+	</table>
+	<table description="" javaName="" name="KSLU_REQ_COM_JN_REQ_COM_FIELD">
+		<column description="" javaName="" name="REQ_COM_ID"/>
+		<column description="" javaName="" name="REQ_COM_FIELD_ID"/>
+	</table>
+	<table description="&#10;&#9;&#9;&#9;&#9;&#9;&#9;the reqCompFieldTypeInfos&#10;&#9;&#9;&#9;&#9;&#9;" javaName="ReqComponentType" name="KSLU_REQ_COM_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="ReqComponentTypeAttribute" name="KSLU_REQ_COM_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="ReqComponentTypeNLTemplate" name="KSLU_REQ_COM_TYPE_NL_TMPL">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="language" name="LANGUAGE"/>
+		<column description="" javaName="nlUsageTypeKey" name="NL_USUAGE_TYPE_KEY"/>
+		<column description="" javaName="template" name="TEMPLATE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="Resource" name="KSLU_RSRC">
+		<column description="" javaName="id" name="ID"/>
+		<column description="" javaName="resourceTypeId" name="RSRC_TYPE_ID"/>
+		<column description="" javaName="clu" name="CLU_ID"/>
+	</table>
+	<table description="Detailed information about a single LU statement." javaName="LuStatement" name="KSLU_STMT">
+		<column description="Unique identifier for a single LU statement record. This is optional, due to the identifier being set at the time of creation. Once the LU statement has been created, this should be seen as required." javaName="id" name="ID"/>
+		<column description="" javaName="" name="CREATEID"/>
+		<column description="" javaName="" name="CREATETIME"/>
+		<column description="" javaName="" name="UPDATEID"/>
+		<column description="" javaName="" name="UPDATETIME"/>
+		<column description="" javaName="" name="VERSIONIND"/>
+		<column description="Narrative description for the LU statement." javaName="desc" name="DESCR"/>
+		<column description="Friendly name for the LU statement." javaName="name" name="NAME"/>
+		<column description="Logical operator used to assemble statements. Acceptable values are restricted to AND and OR. This operator applies to both the LU statements and requirement components contained within this statement." javaName="operator" name="OPERATOR"/>
+		<column description="The current status of the LU statement. The values for this field are constrained to those in the luStatementState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value." javaName="state" name="ST"/>
+		<column description="" javaName="luStatementType" name="LU_STMT_TYPE_ID"/>
+		<column description="" javaName="parent" name="PARENT_LU_STMT_ID"/>
+	</table>
+	<table description="" javaName="LuStatementAttribute" name="KSLU_STMT_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_STMT_JN_REQ_COM">
+		<column description="" javaName="" name="LU_STMT_ID"/>
+		<column description="" javaName="" name="REQ_COM_ID"/>
+	</table>
+	<table description="" javaName="LuStatementType" name="KSLU_STMT_TYPE">
+		<column description="" javaName="" name="TYPE_KEY"/>
+		<column description="" javaName="" name="TYPE_DESC"/>
+		<column description="" javaName="" name="EFF_DT"/>
+		<column description="" javaName="" name="EXPIR_DT"/>
+		<column description="" javaName="" name="NAME"/>
+	</table>
+	<table description="" javaName="LuStatementTypeAttribute" name="KSLU_STMT_TYPE_ATTR">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="LuStatementTypeHeaderTemplate" name="KSLU_STMT_TYPE_HEADER_TMPL">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="ATTR_NAME"/>
+		<column description="" javaName="" name="ATTR_VALUE"/>
+		<column description="" javaName="language" name="LANGUAGE"/>
+		<column description="" javaName="nlUsageTypeKey" name="NL_USUAGE_TYPE_KEY"/>
+		<column description="" javaName="template" name="TEMPLATE"/>
+		<column description="" javaName="owner" name="OWNER"/>
+	</table>
+	<table description="" javaName="" name="KSLU_STY_JN_LUSTY">
+		<column description="" javaName="" name="LU_STMT_TYPE_ID"/>
+		<column description="" javaName="" name="CHLD_LU_STMT_TYPE_ID"/>
+	</table>
+	<table description="" javaName="" name="KSLU_STY_JN_RQTY">
+		<column description="" javaName="" name="LU_STMT_TYPE_ID"/>
+		<column description="" javaName="" name="REQ_COM_TYPE_ID"/>
+	</table>
+	<table description="" javaName="LoRichText" name="KS_LO_RICH_TEXT_T">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="FORMATTED"/>
+		<column description="" javaName="" name="PLAIN"/>
+	</table>
+	<table description="" javaName="" name="KS_RICH_TEXT_T">
+		<column description="" javaName="" name="ID"/>
+		<column description="" javaName="" name="FORMATTED"/>
+		<column description="" javaName="" name="PLAIN"/>
+	</table>
+</database>
