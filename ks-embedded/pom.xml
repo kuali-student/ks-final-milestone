@@ -206,12 +206,12 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.kuali.rice</groupId>
@@ -226,7 +226,7 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -253,7 +253,7 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
@@ -264,12 +264,12 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 		</dependency>
 		<!--  Atomikos -->
 		<dependency>
@@ -360,20 +360,20 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -381,26 +381,26 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>		
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>	

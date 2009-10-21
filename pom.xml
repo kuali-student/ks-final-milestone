@@ -12,6 +12,12 @@
 		<artifactId>ks-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
+	<properties>
+		<ks-core.version>0.0.1-SNAPSHOT</ks-core.version>
+		<ks-lum.version>0.0.1-SNAPSHOT</ks-lum.version>
+	</properties>
+	
 	<modules>
 		<module>ks-all</module>
 		<module>ks-embedded</module>

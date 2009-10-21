@@ -257,45 +257,47 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>GWT</servlet-name>
+		<servlet-name>GWT-CORE</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:embedded-gwt-context.xml</param-value>
+			<param-value>classpath:core-gwt-context.xml</param-value>
 		</init-param>		
 	</servlet>
-<!--	<servlet>-->
-<!--		<servlet-name>GWT-LUM</servlet-name>-->
-<!--		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
-<!--		<load-on-startup>2</load-on-startup>-->
-<!--		<init-param>-->
-<!--			<param-name>contextConfigLocation</param-name>-->
-<!--			<param-value>classpath:lum-gwt-context.xml</param-value>-->
-<!--		</init-param>		-->
-<!--	</servlet>-->
+	
+	<servlet>
+		<servlet-name>GWT-LUM</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:lum-gwt-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
 	<servlet-mapping>
-		<servlet-name>GWT</servlet-name>
+		<servlet-name>GWT-LUM</servlet-name>
 		<url-pattern>/org.kuali.student.lum.ui.requirements.Requirements/rpcservices/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>GWT</servlet-name>
+		<servlet-name>GWT-LUM</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.course.Course/rpcservices/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>GWT</servlet-name>
+		<servlet-name>GWT-LUM</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/*</url-pattern>
 	</servlet-mapping>	
 	
 	<servlet-mapping>
-		<servlet-name>GWT</servlet-name>
+		<servlet-name>GWT-LUM</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/*</url-pattern>
 	</servlet-mapping>	
 	
 	<servlet-mapping>
-		<servlet-name>GWT</servlet-name>
+		<servlet-name>GWT-CORE</servlet-name>
 		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/*</url-pattern>
 	</servlet-mapping>	
 

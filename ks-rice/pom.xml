@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.kuali.rice</groupId>
@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
 	</dependencies>
 
