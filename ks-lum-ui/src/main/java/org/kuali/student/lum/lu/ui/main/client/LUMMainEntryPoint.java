@@ -53,12 +53,17 @@ public class LUMMainEntryPoint implements EntryPoint{
         try {
             loadMessages(context);            
             
-            DictionaryLoader.loadDictionary();          
+            loadDictionary();          
             
             loadApp(context);
         } catch (Exception e) {
             e.printStackTrace();
         } 
+    }
+
+    private void loadDictionary() {
+        DictionaryLoader.loadDictionary("luTypes");
+        DictionaryLoader.loadDictionary("loTypes");
     }
 
     private void initScreen(){
@@ -72,7 +77,7 @@ public class LUMMainEntryPoint implements EntryPoint{
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {
         MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
-        MessageList lumMessageList =  getMsgSerializedObject("lumMessages" );
+        MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
         context.addMessages(commonMessageList.getMessages());
         context.addMessages(lumMessageList.getMessages());
  }
