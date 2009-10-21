@@ -72,7 +72,12 @@ public class ApplicationContext {
     public ObjectStructure getDictionaryData(String name){
        return dictionaryData.get(name);
     }
-	public void addMessages(List<Message> messages) {
+    
+    public boolean containsDictionaryKey(String key){
+        return dictionaryData.containsKey(key);
+    }
+
+    public void addMessages(List<Message> messages) {
 		messagesList.addAll(messages);
 	    for (Message m : messages) {
 	        String groupName = m.getGroupName();

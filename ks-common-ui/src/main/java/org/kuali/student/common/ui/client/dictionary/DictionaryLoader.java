@@ -27,12 +27,19 @@ import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 public class DictionaryLoader {
    
     public static void loadDictionary() {
+       loadDictionary("objectTypes");
+    }
+    
+    public static void loadDictionary(String jsKey) {
         try {
-            List<String> types = getDictSerializedObject("objectTypes");
+            List<String> types = getDictSerializedObject(jsKey);
             for (String key: types) {
-                ObjectStructure structure =  getDictSerializedObject( DictionaryHelper.buildJavaScriptKey(key));
-                DictionaryManager.getInstance().loadStructure(structure);
-                Application.getApplicationContext().addDictionaryData(key, structure);
+                // Don't need to serialize again if already done that key
+                if (!Application.getApplicationContext().containsDictionaryKey(key)) {
+                    ObjectStructure structure =  getDictSerializedObject( DictionaryHelper.buildJavaScriptKey(key));
+                    DictionaryManager.getInstance().loadStructure(structure);
+                    Application.getApplicationContext().addDictionaryData(key, structure);                   
+                }
             }
         } catch (SerializationException e) {
             GWT.log("loadDictionary failed " ,  e);
