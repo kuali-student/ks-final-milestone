@@ -34,6 +34,10 @@
 					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/SecurityRpcService">
 					<ref bean="SecurityRpcGwtServletController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/ServerPropertiesRpcService">
+					<ref bean="ServerPropertiesServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -69,6 +73,12 @@
 		<property name="servletInstance" ref="SecurityGwtServlet" />
 	</bean>
 	
+	<bean id="ServerPropertiesServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="ServerPropertiesServlet" />
+		<property name="servletInstance" ref="ServerPropertiesServlet" />
+	</bean>
+	
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
@@ -91,7 +101,11 @@
 	
 	<bean id="SecurityGwtServlet" class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
 	</bean>
-	
+
+	<bean id="ServerPropertiesServlet"
+		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
+	</bean>
+
 	<!-- Service Clients -->	
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
