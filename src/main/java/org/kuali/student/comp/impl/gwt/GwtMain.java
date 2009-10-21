@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.comp;
+package org.kuali.student.comp.impl.gwt;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dev.HostedMode;
