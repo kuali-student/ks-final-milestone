@@ -1,5 +1,7 @@
 package org.kuali.student.searchwidgettest.ui.client;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -13,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
@@ -22,7 +25,12 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,7 +44,7 @@ public class SearchUITest implements EntryPoint {
 	public void onModuleLoad() {
 		final KSFormLayoutPanel orgRelForm = new KSFormLayoutPanel();
 		final KSDropDown orgRelTypeDropDown = new KSDropDown();
-		VerticalPanel searchField = new VerticalPanel();
+		TextableVerticalPanel searchField = new TextableVerticalPanel();
 		final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync,  "org.search.orgByShortName", "org.queryParam.orgShortName",
                 "org.queryParam.orgId", "org.resultColumn.orgId", "org.resultColumn.orgShortName");		//
 		KSSuggestBox sb = new KSSuggestBox(oracle);
@@ -70,6 +78,24 @@ public class SearchUITest implements EntryPoint {
             }
         });
         
+        searchWindow.addSelectionHandler(new SelectionHandler<List<String>>() {
+			@Override
+			public void onSelection(SelectionEvent<List<String>> event) {
+				String orgId = event.getSelectedItem().get(0);
+                orgRpcServiceAsync.getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+
+                    public void onSuccess(OrgInfo orgInfo) {
+                        orgRelForm.setFieldValue("relOrgName", orgInfo.getLongName());
+                        orgRelForm.setFieldValue("relOrgId", orgInfo.getId());
+                        searchWindow.hide();
+                    }            
+                });   
+			}
+        });
+        
         final KSLightBox testLightBox = new KSLightBox();
         final VerticalPanel testLightBoxPanel = new VerticalPanel();
         KSButton close = new KSButton("Close", new
@@ -90,7 +116,7 @@ public class SearchUITest implements EntryPoint {
         testLightBoxPanel.add(close);
         testLightBox.setWidget(testLightBoxPanel);
         
-        searchField.add(sb);
+        searchField.addTextWidget(sb);
         searchField.add(advancedSearches);
         
         addFormField(searchField, "Organization", "relOrgName", orgRelForm);
@@ -125,5 +151,26 @@ public class SearchUITest implements EntryPoint {
         formPanel.addFormField(ff);
     }
 	
+	
+}
+
+class TextableVerticalPanel extends VerticalPanel implements HasText {
+	
+	private HasText textWidget;
+	
+	public void addTextWidget(Widget textWidget) {
+		this.textWidget = (HasText)textWidget;
+		add(textWidget);
+	}
+
+	@Override
+	public String getText() {
+		return textWidget.getText();
+	}
+
+	@Override
+	public void setText(String text) {
+		textWidget.setText(text);
+	}
 	
 }

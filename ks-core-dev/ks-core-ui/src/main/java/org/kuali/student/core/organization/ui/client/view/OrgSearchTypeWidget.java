@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,9 +18,15 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.gen2.table.client.CellRenderer;
+import com.google.gwt.gen2.table.client.ColumnDefinition;
+import com.google.gwt.gen2.table.client.DefaultCellRenderer;
+import com.google.gwt.gen2.table.client.RowRenderer;
+import com.google.gwt.gen2.table.client.TableDefinition;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>>{
     private enum SearchMode {
@@ -122,11 +129,29 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>>{
         
         addSearchModeHandlers();
         
+        RowRenderer<ResultRow> rowRenderer = new RowRenderer<ResultRow>() {
+    		@Override
+    		public void renderRowValue(ResultRow rowValue, TableDefinition.AbstractRowView<ResultRow> view) {
+    			view.setStyleAttribute("background", "white");
+    			view.setStyleAttribute("border", "none");
+    		}
+        };
+        CellRenderer<ResultRow, String> cellRenderer = new SearchCellRenderer<ResultRow, String>();
+        SelectionHandler<List<String>> selectionHandler = new SelectionHandler<List<String>>() {
+        	@Override
+        	public void onSelection(SelectionEvent<List<String>> event) {
+        		fireSelectEvent(event.getSelectedItem());
+        	}
+        }; 
         advancedSearch = new KSAdvancedSearchRpc(
-                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey);
+                advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey,
+                "KS-Button-Tight-Button", rowRenderer, cellRenderer);
+        advancedSearch.addSelectionHandler(selectionHandler);
         // "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId", "Find Organization");
         basicSearch = new KSAdvancedSearchRpc(basicSearchService, 
-                basicSearchTypeKey, basicSearchResultIdKey);
+                basicSearchTypeKey, basicSearchResultIdKey,
+                "KS-Button-Tight-Button", rowRenderer, cellRenderer);
+        basicSearch.addSelectionHandler(selectionHandler);
 
         selectedSearchMode = SearchMode.BASIC;
         setSelectedSearchMode(selectedSearchMode);
@@ -233,3 +258,22 @@ public class OrgSearchTypeWidget implements HasSelectionHandlers<List<String>>{
     }
 
 }
+
+class SearchCellRenderer<RowType, ColType> extends DefaultCellRenderer<RowType, ColType> {
+	@Override
+	public void renderRowValue(RowType rowValue,
+			ColumnDefinition<RowType, ColType> columnDef,
+			TableDefinition.AbstractCellView<RowType> view) {
+		Object cellValue = columnDef.getCellValue(rowValue);
+		if (cellValue == null) {
+			view.setText("");
+		} else if (cellValue instanceof Widget) {
+			view.setWidget((Widget) cellValue);
+		} else {
+			view.setText(cellValue.toString());
+			view.setStyleAttribute("border", "0px");
+			view.setStyleAttribute("borderRight", "5px solid white");
+		}
+	}
+}
+

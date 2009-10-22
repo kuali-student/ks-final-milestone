@@ -26,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
@@ -40,6 +41,9 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.gen2.table.client.CellRenderer;
+import com.google.gwt.gen2.table.client.RowRenderer;
+import com.google.gwt.gen2.table.client.TableDefinition;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -78,18 +82,14 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     private BaseRpcServiceAsync searchService;
     private String searchTypeKey;
     
-    /** 
-     * This constructs a search widget.
-     * 
-     * @param searchService - instance of rpc service implementing the base search/dictionary service methods
-     * @param searchTypeKey - the predefined search to use. The search results must return an id as first column.
-     */
-    public KSAdvancedSearchRpc(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
+    private void init(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, String buttonStyleName,
+    		RowRenderer<ResultRow> rowRenderer, CellRenderer<ResultRow, String> cellRenderer){
         this.searchService = searchService;
         this.searchTypeKey = searchTypeKey;
         
-        searchResultsTable = new SearchBackedTable(searchService, searchTypeKey, resultIdKey);
-        generateSearchLayout();
+        searchResultsTable = new SearchBackedTable(searchService, searchTypeKey, 
+        		resultIdKey, rowRenderer, cellRenderer);
+        generateSearchLayout(buttonStyleName);
                
         tabPanel.setSpacing(10);
         tabPanel.add(searchLayout);
@@ -115,8 +115,33 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         initWidget(tabPanel);
     }
     
+    /**
+     * 
+     * This constructs a search widget with the button style name and the row rendering options
+     * 
+     * @param searchService
+     * @param searchTypeKey
+     * @param resultIdKey
+     * @param buttonStyleName
+     * @param rowRender
+     */
+    public KSAdvancedSearchRpc(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, String buttonStyleName,
+    		RowRenderer<ResultRow> rowRenderer, CellRenderer<ResultRow, String> cellRenderer){
+    	init(searchService, searchTypeKey, resultIdKey, buttonStyleName, rowRenderer, cellRenderer);
+    }
     
-    private void generateSearchLayout() {
+    /** 
+     * This constructs a search widget.
+     * 
+     * @param searchService - instance of rpc service implementing the base search/dictionary service methods
+     * @param searchTypeKey - the predefined search to use. The search results must return an id as first column.
+     */
+    public KSAdvancedSearchRpc(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
+    	init(searchService, searchTypeKey, resultIdKey, null, null, null);
+    }
+    
+    
+    private void generateSearchLayout(final String buttonStyleName) {
         searchService.getSearchType(searchTypeKey, new AsyncCallback<SearchTypeInfo>(){
 
             public void onFailure(Throwable caught) {
@@ -158,7 +183,9 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                 column++;
                 //TODO: Messages
                 KSButton searchButton = new KSButton("Search");
-                searchButton.setStyleName("KS-Button-Tight-Button");
+                if (buttonStyleName != null) {
+                	searchButton.setStyleName(buttonStyleName);
+                }
                 
                 searchButton.addClickHandler(new ClickHandler(){
                     public void onClick(ClickEvent event) {
@@ -181,7 +208,9 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
 
                 //Add select button, this will only be visible if a select handler is directly added
                 //to this widget.
-                selectButton.setStyleName("KS-Button-Tight-Button");
+                if (buttonStyleName != null) {
+                	selectButton.setStyleName(buttonStyleName);
+                }
                 resultLayout.add(selectButton);
 //                selectButton.setVisible(hasSelectionHandlers);
             }            

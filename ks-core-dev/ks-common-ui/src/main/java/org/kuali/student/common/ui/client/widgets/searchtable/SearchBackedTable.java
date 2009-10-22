@@ -29,6 +29,7 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
+import com.google.gwt.gen2.table.client.CellRenderer;
 import com.google.gwt.gen2.table.client.PagingOptions;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.RowRenderer;
@@ -60,20 +61,17 @@ public class SearchBackedTable extends Composite{
         return pagingOptions;
     }
     
-    public SearchBackedTable(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
-        super();
+    private void init(BaseRpcServiceAsync searchService, String searchTypeKey, 
+    		String resultIdKey, final RowRenderer<ResultRow> rowRenderer, 
+    		final CellRenderer<ResultRow, String> cellRenderer){
         this.searchService = searchService;
         this.searchTypeKey = searchTypeKey;
         this.resultIdKey = resultIdKey;
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(400, 300);
-        builder.setRowRenderer(new RowRenderer<ResultRow>() {
-            @Override
-            public void renderRowValue(ResultRow rowValue, AbstractRowView<ResultRow> view) {
-                view.setStyleAttribute("background", "white");
-                view.setStyleAttribute("border", "none");
-            }
-        });
+        if (rowRenderer != null) {
+        	builder.setRowRenderer(rowRenderer);
+        }
         //builder.cacheTable(10, 10);
         searchService.getSearchType(searchTypeKey, new AsyncCallback<SearchTypeInfo>(){
 
@@ -89,7 +87,7 @@ public class SearchBackedTable extends Composite{
                     String header = r.getName();
                     String key = r.getKey();
                     if(!(r.getKey().equals(SearchBackedTable.this.resultIdKey))){
-                        columnDefs.add(new SearchColumnDefinition(header, key));
+                    	columnDefs.add(new SearchColumnDefinition(header, key, cellRenderer));
                     }
                 }
                 if(columnDefs.size() == 1){
@@ -113,6 +111,18 @@ public class SearchBackedTable extends Composite{
         });
         layout.setWidth("100%");
         initWidget(layout);
+    }
+    
+    public SearchBackedTable(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, 
+    		RowRenderer<ResultRow> rowRenderer, CellRenderer<ResultRow, String> cellRenderer
+    		){
+    	super();
+    	init(searchService, searchTypeKey, resultIdKey, rowRenderer, cellRenderer);
+    }
+    
+    public SearchBackedTable(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
+    	super();
+    	init(searchService, searchTypeKey, resultIdKey, null, null);
     }
     
     public void clearTable(){

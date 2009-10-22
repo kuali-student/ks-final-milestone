@@ -25,12 +25,25 @@ import com.google.gwt.user.client.ui.Widget;
 public class SearchColumnDefinition extends AbstractColumnDefinition<ResultRow, String> {
 
     private String columnKey;
-    public SearchColumnDefinition(String colHeader, String resultKey){
+    
+    private void init(String colHeader, String resultKey, CellRenderer<ResultRow, String> cellRenderer) {
         this.columnKey = resultKey;
-        setCellRenderer(new SearchCellRenderer<ResultRow, String>());
+        if (cellRenderer != null) {
+        	setCellRenderer(cellRenderer);
+//            setCellRenderer(new SearchCellRenderer<ResultRow, String>());
+        }
         setHeader(0,colHeader);
         setMinimumColumnWidth(colHeader.length());
         setColumnSortable(true);
+    }
+    
+    public SearchColumnDefinition(String colHeader, String resultKey,
+    		CellRenderer<ResultRow, String> cellRenderer){
+    	init(colHeader, resultKey, cellRenderer);
+    }
+    
+    public SearchColumnDefinition(String colHeader, String resultKey){
+    	init(colHeader, resultKey, null);
     }
     
     @Override
@@ -44,21 +57,20 @@ public class SearchColumnDefinition extends AbstractColumnDefinition<ResultRow, 
     }
 }
 
-class SearchCellRenderer<RowType, ColType> extends DefaultCellRenderer<RowType, ColType> {
-    @Override
-    public void renderRowValue(RowType rowValue,
-            ColumnDefinition<RowType, ColType> columnDef,
-            AbstractCellView<RowType> view) {
-        Object cellValue = columnDef.getCellValue(rowValue);
-        if (cellValue == null) {
-            view.setText("");
-        } else if (cellValue instanceof Widget) {
-            view.setWidget((Widget) cellValue);
-        } else {
-            view.setText(cellValue.toString());
-            view.setStyleAttribute("border", "0px");
-            view.setStyleAttribute("borderRight", "5px solid white");
-//            view.setStyleAttribute("borderRight", "1px solid");
-        }
-    }
-}
+//class SearchCellRenderer<RowType, ColType> extends DefaultCellRenderer<RowType, ColType> {
+//    @Override
+//    public void renderRowValue(RowType rowValue,
+//            ColumnDefinition<RowType, ColType> columnDef,
+//            AbstractCellView<RowType> view) {
+//        Object cellValue = columnDef.getCellValue(rowValue);
+//        if (cellValue == null) {
+//            view.setText("");
+//        } else if (cellValue instanceof Widget) {
+//            view.setWidget((Widget) cellValue);
+//        } else {
+//            view.setText(cellValue.toString());
+//            view.setStyleAttribute("border", "0px");
+//            view.setStyleAttribute("borderRight", "5px solid white");
+//        }
+//    }
+//}
