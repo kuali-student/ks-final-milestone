@@ -8,15 +8,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>KS Rice Standalone Server</name>
-	<description>Kuali Student Rice Standalone Server project for development</description>
-
-	<properties>
-		<spring.version>2.5.4</spring.version>
-		<atomikos.version>3.4.1</atomikos.version>
-		<derby.version>10.4.2.0</derby.version>
-        <kuali.rice.version>1.0.0-ks-m1</kuali.rice.version>
-	</properties>
+	<name>KS Embedded</name>
+	<description>Contains all KS modules and Rice</description>
 	
 	<parent>
 		<groupId>org.kuali.student</groupId>
@@ -81,44 +74,10 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>https://test.kuali.org/maven</url>
-		</repository>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://archiva.kuali.umd.edu/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -128,6 +87,7 @@
 			<type>war</type>
 			<scope>runtime</scope>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
@@ -203,6 +163,7 @@
                 </exclusion>
 			</exclusions>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
@@ -212,55 +173,18 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
 			<version>${ks-lum.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.kuali.rice</groupId>
-					<artifactId>rice-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-orm</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-impl</artifactId>
 			<version>${ks-lum.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-jpa</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-common-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-common-util</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-common-test</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.lum</groupId>
-					<artifactId>ks-lum-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<version>${ks-lum.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
@@ -271,63 +195,6 @@
 			<artifactId>ks-common-ui</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
-		<!--  Atomikos -->
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions-jdbc</artifactId>
-			<version>${atomikos.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions-jta</artifactId>
-			<version>${atomikos.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions-api</artifactId>
-			<version>${atomikos.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions</artifactId>
-			<version>${atomikos.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>atomikos-util</artifactId>
-			<version>${atomikos.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions-hibernate3</artifactId>
-			<version>${atomikos.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<version>${derby.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbynet</artifactId>
-			<version>${derby.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbyclient</artifactId>
-			<version>${derby.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-        
         
         <!-- these are needed for rice jsp's to work properly -->
 		<dependency>
@@ -377,18 +244,20 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-util</artifactId>
+            <version>${ks-core.version}</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<classifier>sources</classifier>
 			<version>${ks-lum.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.lum</groupId>
-			<artifactId>ks-lum-ui</artifactId>
-			<version>${ks-lum.version}</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>		
 			<groupId>org.kuali.student.lum</groupId>
@@ -397,13 +266,6 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-common-util</artifactId>
-			<version>${ks-core.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>	
 	</dependencies>
 
 </project>
