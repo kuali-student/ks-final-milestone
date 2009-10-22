@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -123,11 +124,18 @@ public class SearchUITest implements EntryPoint {
         KSTextBox relOrgId = new KSTextBox();
         relOrgId.setEnabled(true);
         addFormField(relOrgId, "Organization Id", "relOrgId", orgRelForm);
-        addFormField(orgRelTypeDropDown, "Relationship", "relType", orgRelForm);
-        addFormField(new KSDatePicker(), "Effective date", "relEffDate", orgRelForm);
-        addFormField(new KSDatePicker(), "Expiration date", "relExpDate", orgRelForm);
-        addFormField(new KSTextArea(), "Note", "relNote", orgRelForm);
         
+        SimplePanel verticalSpacer;
+        KSLabel orgSearchWidghtTitle = new KSLabel("Organization Search Widget");
+        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontWeight", "bold");
+        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontSize", "14pt");
+        verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("30px");
+        testPanel.add(verticalSpacer);
+        testPanel.add(orgSearchWidghtTitle);
+        verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("5px");
+        testPanel.add(verticalSpacer);
         testPanel.add(orgRelForm);
 
         //        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName",
