@@ -13,6 +13,7 @@
 
     <properties>
         <kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
+        <ks-lum.version>1.0.0-m1-SNAPSHOT</ks-lum.version>
     </properties>
 
 	<build>
