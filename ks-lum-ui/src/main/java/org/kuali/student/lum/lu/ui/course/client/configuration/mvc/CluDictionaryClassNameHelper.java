@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+//import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -42,7 +43,8 @@ public class CluDictionaryClassNameHelper {
     public static final String CLU_TIME_AMOUNT_INFO_CLASS = TimeAmountInfo.class.getName();
     public static final String PROPOSAL_INFO_KEY = "proposalInfo";
     public static final String PROPOSAL_INFO_CLASS = ProposalInfo.class.getName();
-
+    public static final String LO_INFO_KEY = LOInfoModelDTO.DTO_KEY;
+    public static final String LO_INFO_CLASS = "org.kuali.student.lum.lo.dto.LoInfo";
 	private static final Map<String, String> objectKeyToClassMap = new HashMap<String, String>(){
 		private static final long serialVersionUID = 1L;
 	{
@@ -53,6 +55,7 @@ public class CluDictionaryClassNameHelper {
         put(CLU_ADMIN_ORG_INFO_KEY, CLU_ADMIN_ORG_INFO_CLASS);
         put(CLU_TIME_AMOUNT_INFO_KEY, CLU_TIME_AMOUNT_INFO_CLASS);
         put(PROPOSAL_INFO_KEY, PROPOSAL_INFO_CLASS);
+        put(LO_INFO_KEY, LO_INFO_CLASS);
 	}};
 	
 	private static final Map<String, String> classToObjectKeyMap = new HashMap<String, String>(){
@@ -64,7 +67,8 @@ public class CluDictionaryClassNameHelper {
 		put(CLU_PUBLISHING_INFO_CLASS, CLU_PUBLISHING_INFO_KEY);
 	    put(CLU_ADMIN_ORG_INFO_CLASS, CLU_ADMIN_ORG_INFO_KEY);
 	    put(CLU_TIME_AMOUNT_INFO_CLASS, CLU_TIME_AMOUNT_INFO_KEY);
-	    put(PROPOSAL_INFO_CLASS, PROPOSAL_INFO_KEY);
+        put(PROPOSAL_INFO_CLASS, PROPOSAL_INFO_KEY);
+        put(LO_INFO_CLASS, LO_INFO_KEY);
 	}};
 	
 	public static Map<String, String> getObjectKeytoClassMap(){

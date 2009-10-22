@@ -51,6 +51,9 @@ public class CluProposalModelDTO extends ModelDTO {
 		
 		map.put("cluInfo", cluInfoModelDTOValue);
 		map.put("proposalInfo", proposalInfoModelDTOValue);
+		ModelDTOValue.ModelDTOType loInfoModelDTOValue = LOInfoModelDTO.createLOInfoModelDTOValue(LOInfoModelDTO.DTO_KEY);
+        map.put(LOInfoModelDTO.DTO_KEY, loInfoModelDTOValue);
+
 		//You MUST create adapters after, no dictionary for top level at this point
 		checkAndCreateAdapters();
 	}
@@ -92,6 +95,9 @@ public class CluProposalModelDTO extends ModelDTO {
 	    	//ProposalInfo
 	    	ModelDTO proposalInfoModelDTO = (ModelDTO) ((ModelDTOType) this.map.get("proposalInfo")).get();
 	    	proposalInfoModelDTO.setAdapter(new ModelDTOAdapter(proposalInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "proposalInfo"));
+	    	//LoInfo
+	    	ModelDTO loInfoModelDTO = (ModelDTO) ((ModelDTOType) this.map.get(LOInfoModelDTO.DTO_KEY)).get();
+	    	loInfoModelDTO.setAdapter(new ModelDTOAdapter(loInfoModelDTO,CluDictionaryClassNameHelper.getObjectKeytoClassMap(), LOInfoModelDTO.DTO_KEY));
 	    	adaptersCreated = true;
     	}
     }

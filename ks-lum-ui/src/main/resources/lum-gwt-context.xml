@@ -196,7 +196,8 @@
 		<property name="orgService" ref="orgClient" />
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
-		<property name="proposalService" ref="proposalClient" />
+        <property name="proposalService" ref="proposalClient" />
+        <property name="learningObjectiveService" ref="loClient" />
 		<property name="permissionService" ref="permissionServiceClient"/>
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
         <!--<property name="applicationStateManager" ref="applicationStateManager" />-->
@@ -274,10 +275,15 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService" />
 	</bean>
 
-	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
-	</bean>
+    <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
+    </bean>
+
+    <bean id="loClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
+    </bean>
 
 	<bean id="workflowUtilityClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.service.WorkflowUtility" />

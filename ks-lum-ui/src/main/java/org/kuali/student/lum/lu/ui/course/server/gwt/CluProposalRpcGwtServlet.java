@@ -49,6 +49,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
@@ -57,6 +59,7 @@ import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LOInfoModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
@@ -91,6 +94,20 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     //Core Services
     private OrganizationService orgService;
     private ProposalService proposalService;
+    private LearningObjectiveService learningObjectiveService;
+    /**
+     * @return the learningObjectiveService
+     */
+    public LearningObjectiveService getLearningObjectiveService() {
+        return learningObjectiveService;
+    }
+
+    /**
+     * @param learningObjectiveService the learningObjectiveService to set
+     */
+    public void setLearningObjectiveService(LearningObjectiveService learningObjectiveService) {
+        this.learningObjectiveService = learningObjectiveService;
+    }
 
     private ApplicationStateManager applicationStateManager;
 
@@ -377,6 +394,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return null;
 	}
 	
+    private LoInfo getLoInfo(CluProposalModelDTO cluProposal){
+        try {
+            MapContext ctx = new MapContext();//TODO should/can this be reused?
+            ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposal.get(LOInfoModelDTO.DTO_KEY)).get();
+            LoInfo loInfo;
+            loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
+            return loInfo;
+        } catch (Exception e) {
+            logger.warn("Error converting ProposalModelDTO to loInfo",e);
+        }
+        return null;
+    }	
 	@Override
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException{
         if(simpleDocService==null){
@@ -570,7 +599,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
 
+            //Convert loInfo model dto to LoInfo
+            ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
+            if(loInfoModelDTO != null) {
+                LoInfo loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
             
+            //Create lo in lo service
+                loInfo = learningObjectiveService.createLo(null, loInfo.getType(), loInfo);
+            }
             //Do Workflow Create and save docContent
             //get a user name
             String username=getCurrentUser();
@@ -620,7 +656,15 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
+            //Convert loInfo model dto to LoInfo
+            ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
+            if(loInfoModelDTO != null) {
+                LoInfo loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
             
+            //Create lo in lo service
+                loInfo = learningObjectiveService.updateLo(loInfo.getId(), loInfo);
+                loInfoModelDTO.copyFrom(loInfoModelDTO);
+            }            
             //Convert cluInfo model dto to cluInfo object
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
