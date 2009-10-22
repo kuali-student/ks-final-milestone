@@ -7,20 +7,52 @@
 	<artifactId>ks-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	 <name>KS Web</name>
+    <description>Project for building KS Reference Wars</description>
+    
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-m1-SNAPSHOT</version>
 	</parent>
-	
-	<properties>
-		<ks-core.version>0.0.1-SNAPSHOT</ks-core.version>
-		<ks-lum.version>0.0.1-SNAPSHOT</ks-lum.version>
-	</properties>
-	
+    
 	<modules>
 		<module>ks-all</module>
 		<module>ks-embedded</module>
 	</modules>
+    
+    <properties>
+        <derby.version>10.4.2.0</derby.version>
+        <kuali.rice.version>1.0.0-ks-m1</kuali.rice.version>
+        <ks-core.version>1.0.0-m1-SNAPSHOT</ks-core.version>
+        <ks-lum.version>1.0.0-m1-SNAPSHOT</ks-lum.version>
+    </properties>
+    
+    <scm>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1</developerConnection>
+    </scm>
+    
+    <repositories>
+        <repository>
+            <id>kuali</id>
+            <name>Kuali Repository</name>
+            <url>https://test.kuali.org/maven</url>
+        </repository>
+        <repository>
+            <id>kuali.release</id>
+            <url>http://archiva.kuali.umd.edu/repository/release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>kuali.snapshot</id>
+            <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
 	
 </project>
