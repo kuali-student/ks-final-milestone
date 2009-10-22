@@ -22,21 +22,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBoxWAdvSearch;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -44,7 +38,6 @@ import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -190,66 +183,7 @@ class OrgRelationWidget extends OrgMultiWidget {
 
         final KSDropDown orgRelTypeDropDown = new KSDropDown();
 
-        //setup search widget for organization
-        VerticalPanel searchField = new VerticalPanel();
-        
-        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync,  "org.search.orgByShortName", "org.queryParam.orgShortName",
-                                                                                        "org.queryParam.orgId", "org.resultColumn.orgId", "org.resultColumn.orgShortName");
-        KSSuggestBox sb = new KSSuggestBox(oracle);
-        oracle.setTextWidget(sb.getTextBox()); 
-    
-        HorizontalPanel advancedSearches = new HorizontalPanel();
-        final KSLabel searchLink = new KSLabel("Search");
-        searchLink.addStyleName("action");
-        final KSLabel browseLink = new KSLabel("Browse");
-        browseLink.addStyleName("action");
-        advancedSearches.add(searchLink);
-        final KSLabel orText = new KSLabel("or");
-        orText.addStyleName("non-action");
-        advancedSearches.add(orText);
-        advancedSearches.add(browseLink);
-        
-        final OrgSearchTypeWidget searchWindow = 
-            new OrgSearchTypeWidget(
-                  orgRpcServiceAsync, 
-                    "org.search.orgQuickLongViewByFirstLetter", 
-                    "org.resultColumn.orgId",
-                  orgRpcServiceAsync,
-                    "org.search.orgQuickViewByHierarchyShortName", 
-                    "org.resultColumn.orgId",
-                  "Find Organization");
-
-        searchLink.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                searchWindow.show();
-            }
-        });     
-            
-        
-        final KSLightBox testLightBox = new KSLightBox();
-        final VerticalPanel testLightBoxPanel = new VerticalPanel();
-        KSButton close = new KSButton("Close", new
-                ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        testLightBox.hide();
-                    }
-        });
-        browseLink.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                testLightBox.show();
-            }
-        });
-        testLightBoxPanel.add(new OrgLocateTree());
-        testLightBoxPanel.add(close);
-        testLightBox.setWidget(testLightBoxPanel);
-        
-        searchField.add(sb);
-        searchField.add(advancedSearches);
-
-        addFormField(searchField, "Organization", "relOrgName", orgRelForm);
+        addFormField(new KSTextBox(), "Organization", "relOrgName", orgRelForm);
         KSTextBox relOrgId = new KSTextBox();
         relOrgId.setEnabled(true);
         addFormField(relOrgId, "Organization Id", "relOrgId", orgRelForm);
@@ -259,31 +193,31 @@ class OrgRelationWidget extends OrgMultiWidget {
         addFormField(new KSTextArea(), "Note", "relNote", orgRelForm);
 
         panel.add(orgRelForm);
-//        panel.add(new KSButton("Find Org", new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                final KSAdvancedSearchWindow orgSearchPopup = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId", "Find Organization");
-//
-//                orgSearchPopup.addSelectionHandler(new SelectionHandler<List<String>>(){
-//                    @Override
-//                    public void onSelection(SelectionEvent<List<String>> event) {
-//                        String orgId = event.getSelectedItem().get(0);
-//                        orgRpcServiceAsync.getOrganization(orgId, new AsyncCallback<OrgInfo>(){
-//                            public void onFailure(Throwable caught) {
-//                                Window.alert(caught.getMessage());
-//                            }
-//
-//                            public void onSuccess(OrgInfo orgInfo) {
-//                                orgRelForm.setFieldValue("relOrgName", orgInfo.getLongName());
-//                                orgRelForm.setFieldValue("relOrgId", orgInfo.getId());
-//                                orgSearchPopup.hide();
-//                            }            
-//                        });                                        
-//                    }
-//                });
-//                
-//                orgSearchPopup.show();
-//            }}));
+        panel.add(new KSButton("Find Org", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                final KSAdvancedSearchWindow orgSearchPopup = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId", "Find Organization");
+
+                orgSearchPopup.addSelectionHandler(new SelectionHandler<List<String>>(){
+                    @Override
+                    public void onSelection(SelectionEvent<List<String>> event) {
+                        String orgId = event.getSelectedItem().get(0);
+                        orgRpcServiceAsync.getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+                            public void onFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                            }
+
+                            public void onSuccess(OrgInfo orgInfo) {
+                                orgRelForm.setFieldValue("relOrgName", orgInfo.getLongName());
+                                orgRelForm.setFieldValue("relOrgId", orgInfo.getId());
+                                orgSearchPopup.hide();
+                            }            
+                        });                                        
+                    }
+                });
+                
+                orgSearchPopup.show();
+            }}));
         
         final HashMap<String, Object> map = new HashMap<String, Object>();
         
