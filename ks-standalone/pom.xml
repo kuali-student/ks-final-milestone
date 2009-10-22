@@ -2,14 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student</groupId>
-	<artifactId>ks-all</artifactId>
+	<artifactId>ks-standalone</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ks-integrate Maven Webapp</name>
+	<name>ks-standalone</name>
 	<url>http://maven.apache.org</url>
 	<parent>
-		<groupId>org.kuali.student.lum</groupId>
-		<artifactId>ks-lum</artifactId>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>ks-web</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<build>
@@ -42,7 +42,8 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
-					<server>ks-lum-web</server>
+					<path>/ks-standalone</path>
+					<port>8080</port>
 				</configuration>
 
 				<dependencies>
