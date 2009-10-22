@@ -7,8 +7,8 @@
     <version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	
-	<name>ks-integrate Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<name>KS All</name>
+    <description>War containing all KS Modules.  Meant to run with a standalone Rice deployed.</description>
 	
     <parent>
         <groupId>org.kuali.student</groupId>

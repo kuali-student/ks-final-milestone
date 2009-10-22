@@ -8,8 +8,8 @@
 	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>KS Rice Standalone Server</name>
-	<description>Kuali Student Rice Standalone Server project for development</description>
+	<name>KS Embedded</name>
+	<description>Contains all KS modules and Rice</description>
 	
 	<parent>
 		<groupId>org.kuali.student</groupId>
@@ -78,17 +78,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -98,6 +87,7 @@
 			<type>war</type>
 			<scope>runtime</scope>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
@@ -183,49 +173,18 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
 			<version>${ks-lum.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.kuali.rice</groupId>
-					<artifactId>rice-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-orm</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-impl</artifactId>
 			<version>${ks-lum.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-jpa</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-common-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-common-util</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-common-test</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.kuali.student.lum</groupId>
-					<artifactId>ks-lum-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<version>${ks-lum.version}</version>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
@@ -292,6 +251,7 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
