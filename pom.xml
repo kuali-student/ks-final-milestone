@@ -17,7 +17,7 @@
 	</parent>
     
 	<modules>
-		<module>ks-all</module>
+		<module>ks-standalone</module>
 		<module>ks-embedded</module>
 	</modules>
     
