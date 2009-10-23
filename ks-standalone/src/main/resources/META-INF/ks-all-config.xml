@@ -1,6 +1,6 @@
 <config>
   
-    <param name="module.name">ks-all</param>
+    <param name="module.name">ks-standalone</param>
     <param name="db.vendor">oracle</param>
 	<param name="jpa.vendor">hibernate</param>
 
@@ -8,13 +8,13 @@
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param> 
 
-    <param name="app.code" override="false">ks-all</param>
+    <param name="app.code" override="false">ks-standalone</param>
 	<param name="app.context.name" override="false">${app.code}</param>
     <param name="http.port" override="false">8080</param>  
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:log4j.properties</param>
-    <param name="serviceNamespace">KSAll</param>
+    <param name="serviceNamespace">ks-standalone</param>
     
     <param name="application.host" override="false">localhost</param>
     <param name="application.http.scheme" override="false">http</param>
@@ -66,8 +66,8 @@
     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="datasource.username.oracle">rice100br</param>
-	<param name="datasource.password.oracle">kuali</param>
+	<param name="datasource.username.oracle">RICEKS</param>
+	<param name="datasource.password.oracle">RICEKS</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>
 	<param name="rice.ksb.jpa.enabled.oracle">true</param>  
 	
