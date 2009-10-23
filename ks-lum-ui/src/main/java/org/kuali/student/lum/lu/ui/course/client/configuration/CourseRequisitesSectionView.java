@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  *
  */
-public class CustomSectionView extends SectionView {
+public class CourseRequisitesSectionView extends SectionView {
     
     protected final VerticalPanel panel = new VerticalPanel();
 	private boolean loaded = false;
@@ -47,7 +47,7 @@ public class CustomSectionView extends SectionView {
 	
 	private Model<ModelDTO> model = null;
 		
-	public CustomSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
+	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
 		super(viewEnum, name);
 	    super.initWidget(panel);
 	    this.modelDTOType = modelDTOType; 
