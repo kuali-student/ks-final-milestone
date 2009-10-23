@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE database SYSTEM "database.dtd">
+<database>
+	<table description="" javaName="" name="DOCUMENT_CATEGORY_DETAIL">
+		<column description="" javaName="" name="DOC_ID" />
+		<column description="" javaName="" name="CATEGORY_ID" />
+	</table>
+	<table description="" javaName="" name="ENUM_VAL_FLD_ENT">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="DATA_TYPE" />
+		<column description="" javaName="" name="FLD_KEY" />
+		<column description="" javaName="" name="INVLD_CHARS" />
+		<column description="" javaName="" name="MAX_LGTH" />
+		<column description="" javaName="" name="MAX_OCCRS" />
+		<column description="" javaName="" name="MAX_VAL" />
+		<column description="" javaName="" name="MIN_LGTH" />
+		<column description="" javaName="" name="MIN_OCCRS" />
+		<column description="" javaName="" name="MIN_VAL" />
+		<column description="" javaName="" name="VALID_CHARS" />
+		<column description="" javaName="" name="ENUM_META_ENT_ID" />
+	</table>
+	<table description="" javaName="" name="KSCO_COMMENT">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="STATE" />
+		<column description="" javaName="" name="RT_DESCR_ID" />
+		<column description="" javaName="" name="REFERENCE" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSCO_COMMENT_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSCO_COMMENT_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSCO_COMMENT_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSCO_REFERENCE">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="REFERENCE_ID" />
+		<column description="" javaName="" name="REFERENCE_TYPE" />
+	</table>
+	<table description="" javaName="" name="KSCO_REFERENCE_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSCO_REFERENCE_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSCO_TAG">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME_SPACE" />
+		<column description="" javaName="" name="PREDICATE" />
+		<column description="" javaName="" name="STATE" />
+		<column description="" javaName="" name="VAL" />
+		<column description="" javaName="" name="REFERENCE" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSCO_TAG_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSCO_TAG_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSCO_TAG_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSDO_DOCUMENT">
+		<column description="" javaName="" name="DOC_ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="DOCUMENT" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="FILE_NAME" />
+		<column description="" javaName="" name="NAME" />
+		<column description="" javaName="" name="STATE" />
+		<column description="" javaName="" name="RT_DESCR_ID" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSDO_DOCUMENT_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSDO_DOCUMENT_CATEGORY">
+		<column description="" javaName="" name="CATEGORY_ID" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+		<column description="" javaName="" name="RT_DESCR_ID" />
+	</table>
+	<table description="" javaName="" name="KSDO_DOCUMENT_CATEGORY_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSDO_DOCUMENT_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSDO_DOCUMENT_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSEM_CTX_ENT">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CTX_KEY" />
+		<column description="" javaName="" name="CTX_VAL" />
+		<column description="" javaName="" name="ENUM_ID" />
+		<column description="" javaName="" name="ENUM_VAL_ENT_ID" />
+	</table>
+	<table description="" javaName="" name="KSEM_CTX_META_ENT">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="DATA_TYPE" />
+		<column description="" javaName="" name="ENUM_KEY" />
+		<column description="" javaName="" name="MAX_LGTH" />
+		<column description="" javaName="" name="MAX_OCCRS" />
+		<column description="" javaName="" name="MIN_LGTH" />
+		<column description="" javaName="" name="MIN_OCCRS" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSEM_ENUM_META_ENT">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ENUM_KEY" />
+		<column description="" javaName="" name="ENUM_META_KEY_DESC" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSEM_ENUM_VAL_ENT">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ABBREV_VAL" />
+		<column description="" javaName="" name="CD" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="ENUM_KEY" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="SORT_KEY" />
+		<column description="" javaName="" name="VAL" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="LNG_DESCR" />
+		<column description="" javaName="" name="LNG_NAME" />
+		<column description="" javaName="" name="SHRT_DESCR" />
+		<column description="" javaName="" name="SHRT_NAME" />
+		<column description="" javaName="" name="ST" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_HIRCHY">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="DESCR" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+		<column description="" javaName="" name="ROOT_ORG" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_HIRCHY_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_HIRCHY_JN_ORG_TYPE">
+		<column description="" javaName="" name="ORG_HIRCHY_ID" />
+		<column description="" javaName="" name="ORG_TYPE_ID" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_JN_ORG_PERS_REL_TYPE">
+		<column description="" javaName="" name="ORG_ID" />
+		<column description="" javaName="" name="ORG_PERS_RELTN_TYPE_ID" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_ORG_RELTN">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="ST" />
+		<column description="" javaName="" name="ORG" />
+		<column description="" javaName="" name="RELATED_ORG" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_ORG_RELTN_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_ORG_RELTN_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+		<column description="" javaName="" name="REV_DESCR" />
+		<column description="" javaName="" name="REV_NAME" />
+		<column description="" javaName="" name="ORG_HIRCHY" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_ORG_RELTN_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_PERS_RELTN">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="PERS_ID" />
+		<column description="" javaName="" name="ST" />
+		<column description="" javaName="" name="ORG" />
+		<column description="" javaName="" name="ORG_PERS_RELTN_TYPE" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_PERS_RELTN_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_PERS_RELTN_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_PERS_RELTN_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_POS_RESTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="DESCR" />
+		<column description="" javaName="" name="MAX_NUM_RELTN" />
+		<column description="" javaName="" name="MIN_NUM_RELTN" />
+		<column description="" javaName="" name="ATPDURATIONTYPEKEY" />
+		<column description="" javaName="" name="TIMEQUANTITY" />
+		<column description="" javaName="" name="TTL" />
+		<column description="" javaName="" name="ORG" />
+		<column description="" javaName="" name="PERS_RELTN_TYPE" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_POS_RESTR_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSOR_ORG_TYPE_JN_ORG_PERRL_TYP">
+		<column description="" javaName="" name="ORG_TYPE_ID" />
+		<column description="" javaName="" name="ORG_PERS_RELTN_TYPE_ID" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL">
+		<column description="" javaName="" name="PROPOSAL_ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="DETAIL_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+		<column description="" javaName="" name="RATIONALE" />
+		<column description="" javaName="" name="STATE" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_DOCREL">
+		<column description="" javaName="" name="DOCREL_ID" />
+		<column description="" javaName="" name="CREATEID" />
+		<column description="" javaName="" name="CREATETIME" />
+		<column description="" javaName="" name="UPDATEID" />
+		<column description="" javaName="" name="UPDATETIME" />
+		<column description="" javaName="" name="VERSIONIND" />
+		<column description="" javaName="" name="DOCUMENT_ID" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="STATE" />
+		<column description="" javaName="" name="TITLE" />
+		<column description="" javaName="" name="RT_DESCR_ID" />
+		<column description="" javaName="" name="PROPOSAL_ID" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_DOCREL_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_DOCREL_TYPE">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="DESCRIPTION" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_DOCREL_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_JN_ORG">
+		<column description="" javaName="" name="ORGREF_ID" />
+		<column description="" javaName="" name="ORG_ID" />
+		<column description="" javaName="" name="PROPOSAL_ID" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_JN_PERSON">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="PERSONREF_ID" />
+		<column description="" javaName="" name="PROPOSAL_ID" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_JN_REFERENCE">
+		<column description="" javaName="" name="PROPOSAL_ID" />
+		<column description="" javaName="" name="REFERENCE_ID" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_REFERENCE">
+		<column description="" javaName="" name="REFERENCE_ID" />
+		<column description="" javaName="" name="OBJECT_REFERENCE_ID" />
+		<column description="" javaName="" name="TYPE" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_REFTYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_REFTYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_TYPE">
+		<column description="" javaName="" name="TYPE_KEY" />
+		<column description="" javaName="" name="TYPE_DESC" />
+		<column description="" javaName="" name="EFF_DT" />
+		<column description="" javaName="" name="EXPIR_DT" />
+		<column description="" javaName="" name="NAME" />
+	</table>
+	<table description="" javaName="" name="KSPR_PROPOSAL_TYPE_ATTR">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="ATTR_NAME" />
+		<column description="" javaName="" name="ATTR_VALUE" />
+		<column description="" javaName="" name="OWNER" />
+	</table>
+	<table description="" javaName="" name="KS_RICH_TEXT_T">
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="FORMATTED" />
+		<column description="" javaName="" name="PLAIN" />
+	</table>
+	<table description="" javaName="" name="MESSAGEENTITY">
+		<column description="" javaName="" name="DATABASEID" />
+		<column description="" javaName="" name="GROUPNAME" />
+		<column description="" javaName="" name="ID" />
+		<column description="" javaName="" name="LOCALE" />
+		<column description="" javaName="" name="VALUE" />
+	</table>
+</database>

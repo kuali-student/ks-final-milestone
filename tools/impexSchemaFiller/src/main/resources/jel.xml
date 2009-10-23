@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<xs:jel xmlns:xs="http://xml.jeldoclet.com">
+	<xs:admin creation="Tue Oct 20 13:03:34 EDT 2009" xsdversion="1.0.0" version="1.0.0" />
+	<xs:jelclass superclass="MetaEntity" visibility="public" package="org.kuali.student.core.organization.entity" superclassfulltype="org.kuali.student.core.entity.MetaEntity" fulltype="org.kuali.student.core.organization.entity.Org" type="Org">
+		<xs:implements>
+			<xs:interface fulltype="org.kuali.student.core.entity.AttributeOwner" type="AttributeOwner" />
+		</xs:implements>
+		<xs:fields>
+			<xs:field visibility="private" name="id" fulltype="java.lang.String" type="String">
+				<xs:annotations>
+					<xs:annotation name="Column" value="ID" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="longName" fulltype="java.lang.String" type="String">
+				<xs:annotations>
+					<xs:annotation name="Column" value="LNG_NAME" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="shortName" fulltype="java.lang.String" type="String">
+				<xs:annotations>
+					<xs:annotation name="Column" value="SHRT_NAME" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="shortDesc" fulltype="java.lang.String" type="String">
+				<xs:annotations>
+					<xs:annotation name="Column" value="SHRT_DESCR" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="longDesc" fulltype="java.lang.String" type="String">
+				<xs:annotations>
+					<xs:annotation name="Column" value="LNG_DESCR" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="effectiveDate" fulltype="java.util.Date" type="Date">
+				<xs:annotations>
+					<xs:annotation name="Temporal" value="javax.persistence.TemporalType.TIMESTAMP" />
+					<xs:annotation name="Column" value="EFF_DT" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="expirationDate" fulltype="java.util.Date" type="Date">
+				<xs:annotations>
+					<xs:annotation name="Temporal" value="javax.persistence.TemporalType.TIMESTAMP" />
+					<xs:annotation name="Column" value="EXPIR_DT" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="attributes" fulltype="java.util.List" type="List">
+				<xs:annotations>
+					<xs:annotation name="OneToMany" value="javax.persistence.CascadeType.ALL" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="type" fulltype="org.kuali.student.core.organization.entity.OrgType" type="OrgType">
+				<xs:annotations>
+					<xs:annotation name="JoinColumn" value="TYPE" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="orgPersonRelationTypes" fulltype="java.util.List" type="List">
+				<xs:annotations>
+					<xs:annotation name="JoinTable" value="KSOR_ORG_JN_ORG_PERS_REL_TYPE" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="state" fulltype="java.lang.String" type="String">
+				<xs:annotations>
+					<xs:annotation name="Column" value="ST" />
+				</xs:annotations>
+			</xs:field>
+		</xs:fields>
+		<xs:methods>
+			<xs:constructor visibility="public" name="Org" />
+			<xs:method visibility="public" name="onPrePersist" fulltype="void" type="void">
+				<xs:comment>
+					<xs:description>AutoGenerate the Id</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="getAttributes" fulltype="java.util.List" type="List" />
+			<xs:method visibility="public" name="setAttributes" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="attributes" fulltype="java.util.List" type="List" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getId" fulltype="java.lang.String" type="String" />
+			<xs:method visibility="public" name="setId" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="id" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getLongName" fulltype="java.lang.String" type="String" />
+			<xs:method visibility="public" name="setLongName" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="longName" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getShortName" fulltype="java.lang.String" type="String" />
+			<xs:method visibility="public" name="setShortName" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="shortName" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getEffectiveDate" fulltype="java.util.Date" type="Date" />
+			<xs:method visibility="public" name="setEffectiveDate" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="effectiveDate" fulltype="java.util.Date" type="Date" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getExpirationDate" fulltype="java.util.Date" type="Date" />
+			<xs:method visibility="public" name="setExpirationDate" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="expirationDate" fulltype="java.util.Date" type="Date" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getType" fulltype="org.kuali.student.core.organization.entity.OrgType" type="OrgType" />
+			<xs:method visibility="public" name="setType" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="type" fulltype="org.kuali.student.core.organization.entity.OrgType" type="OrgType" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getState" fulltype="java.lang.String" type="String" />
+			<xs:method visibility="public" name="setState" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="state" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getOrgPersonRelationTypes" fulltype="java.util.List" type="List" />
+			<xs:method visibility="public" name="setOrgPersonRelationTypes" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="orgPersonRelationTypes" fulltype="java.util.List" type="List" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="setShortDesc" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="shortDesc" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getShortDesc" fulltype="java.lang.String" type="String" />
+			<xs:method visibility="public" name="setLongDesc" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="longDesc" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getLongDesc" fulltype="java.lang.String" type="String" />
+		</xs:methods>
+		<xs:annotations>
+			<xs:annotation name="Table" value="KSOR_ORG" />
+			<xs:annotation name="NamedQueries" value="@javax.persistence.NamedQuery(name=Org.getOrganizationsByIdList, query=SELECT o FROM Org o WHERE o.id IN (:orgIdList))" />
+		</xs:annotations>
+	</xs:jelclass>
+	<xs:jelclass superclass="Object" visibility="public" package="org.kuali.student.core.organization.dto" serializable="true" superclassfulltype="java.lang.Object" fulltype="org.kuali.student.core.organization.dto.OrgInfo" type="OrgInfo">
+		<xs:implements>
+			<xs:interface fulltype="java.io.Serializable" type="Serializable" />
+			<xs:interface fulltype="org.kuali.student.core.dto.Idable" type="Idable" />
+			<xs:interface fulltype="org.kuali.student.core.dto.HasTypeState" type="HasTypeState" />
+			<xs:interface fulltype="org.kuali.student.core.dto.HasAttributes" type="HasAttributes" />
+		</xs:implements>
+		<xs:comment>
+			<xs:description>Detailed information about a single organization.</xs:description>
+		</xs:comment>
+		<xs:fields>
+			<xs:field final="true" static="true" const="1" visibility="private" name="serialVersionUID" constexpr="1L" fulltype="long" type="long" />
+			<xs:field visibility="private" name="longName" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="shortName" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="sortName" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="shortDesc" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="longDesc" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="effectiveDate" fulltype="java.util.Date" type="Date">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="expirationDate" fulltype="java.util.Date" type="Date">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="orgCodes" fulltype="java.util.List" type="List">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="attributes" fulltype="java.util.Map" type="Map">
+				<xs:annotations>
+					<xs:annotation name="XmlJavaTypeAdapter" value="org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter.class" />
+				</xs:annotations>
+			</xs:field>
+			<xs:field visibility="private" name="metaInfo" fulltype="org.kuali.student.core.dto.MetaInfo" type="MetaInfo">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="type" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="state" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+			<xs:field visibility="private" name="id" fulltype="java.lang.String" type="String">
+				<xs:annotations />
+			</xs:field>
+		</xs:fields>
+		<xs:methods>
+			<xs:constructor visibility="public" name="OrgInfo" />
+			<xs:method visibility="public" name="getLongName" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>Full name of the organization.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setLongName" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="longName" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getShortName" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>Shortened format or abbreviation of the organization&apos;s name.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setShortName" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="shortName" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getSortName" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>The name used for sorting, for cases when alphabetical sorting by shortName or longName is undesirable.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setSortName" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="sortName" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getShortDesc" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>A brief description of the organization.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setShortDesc" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="shortDesc" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getLongDesc" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>Narrative description of the organization.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setLongDesc" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="longDesc" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getEffectiveDate" fulltype="java.util.Date" type="Date">
+				<xs:comment>
+					<xs:description>Date and time that this organization became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setEffectiveDate" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="effectiveDate" fulltype="java.util.Date" type="Date" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getExpirationDate" fulltype="java.util.Date" type="Date">
+				<xs:comment>
+					<xs:description>Date and time that this organization expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setExpirationDate" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="expirationDate" fulltype="java.util.Date" type="Date" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getOrgCodes" fulltype="java.util.List" type="List">
+				<xs:comment>
+					<xs:description>List of organization code info structures. These are structures so that many different types of codes can be associated with the org. This allows them to be put into categories.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setOrgCodes" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="orgCodes" fulltype="java.util.List" type="List" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getAttributes" fulltype="java.util.Map" type="Map">
+				<xs:comment>
+					<xs:description>List of key/value pairs, typically used for dynamic attributes.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setAttributes" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="attributes" fulltype="java.util.Map" type="Map" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getMetaInfo" fulltype="org.kuali.student.core.dto.MetaInfo" type="MetaInfo">
+				<xs:comment>
+					<xs:description>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setMetaInfo" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="metaInfo" fulltype="org.kuali.student.core.dto.MetaInfo" type="MetaInfo" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getType" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>Unique identifier for an organization type.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setType" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="type" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getState" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>The current status of the organization. The values for this field are constrained to those in the orgState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setState" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="state" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+			<xs:method visibility="public" name="getId" fulltype="java.lang.String" type="String">
+				<xs:comment>
+					<xs:description>Unique identifier for an organization. This is optional, due to the identifier being set at the time of creation. Once the organization has been created, this should be seen as required.</xs:description>
+				</xs:comment>
+			</xs:method>
+			<xs:method visibility="public" name="setId" fulltype="void" type="void">
+				<xs:params>
+					<xs:param name="id" fulltype="java.lang.String" type="String" />
+				</xs:params>
+			</xs:method>
+		</xs:methods>
+		<xs:annotations>
+			<xs:annotation name="XmlAccessorType" value="javax.xml.bind.annotation.XmlAccessType.FIELD" />
+		</xs:annotations>
+	</xs:jelclass>
+</xs:jel>
