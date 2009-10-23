@@ -1105,10 +1105,6 @@
                 <artifactId>rice-impl</artifactId>
                 <version>${kuali.rice.version}</version>
 	            <exclusions>
-	            	<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-core</artifactId>
-					</exclusion>
 	                <exclusion>
 	                    <groupId>org.springframework</groupId>
 	                    <artifactId>spring-dao</artifactId>
@@ -1134,10 +1130,6 @@
 	                    <artifactId>spring-mock</artifactId>
 	                </exclusion>
 	                <exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-aop</artifactId>
-					</exclusion>
-	                <exclusion>
 	                    <groupId>junit</groupId>
 	                    <artifactId>junit</artifactId>
 	                </exclusion>
@@ -1149,10 +1141,6 @@
 	                    <groupId>org.mortbay.jetty</groupId>
 	                    <artifactId>jetty</artifactId>
 	                </exclusion>
-	             	<exclusion>
-						<groupId>org.mortbay.jetty</groupId>
-						<artifactId>jetty-util</artifactId>
-					</exclusion>
 	                <!--<exclusion>
 	                    <groupId>org.springmodules</groupId>
 	                    <artifactId>spring-modules-ojb</artifactId>
