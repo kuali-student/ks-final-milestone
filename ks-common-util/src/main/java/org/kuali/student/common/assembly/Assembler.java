@@ -1,8 +1,7 @@
 package org.kuali.student.common.assembly;
 
-import groovy.lang.Tuple;
-
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public interface Assembler {
@@ -16,7 +15,7 @@ public interface Assembler {
 
 	Metadata getMetadata(String type, String state);
 
-	Tuple<Data, List<ValidationResultInfo>> save(Data data);
+	Map<Data, List<ValidationResultInfo>> save(Data data);
 
 	Data transform(Data data);
 
