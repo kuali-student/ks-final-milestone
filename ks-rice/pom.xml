@@ -15,6 +15,11 @@
         <kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
         <ks-lum.version>1.0.0-m1-SNAPSHOT</ks-lum.version>
     </properties>
+    
+    <scm>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1/ks-rice</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1/ks-rice</developerConnection>
+    </scm>
 
 	<build>
 		<plugins>
