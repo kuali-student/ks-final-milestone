@@ -40,7 +40,7 @@ import org.kuali.student.lum.lo.service.LearningObjectiveService;
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
 public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl", port = "8181", additionalContextFile = "classpath:lo-additional-context.xml")
+    @Client(value = "org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl", additionalContextFile = "classpath:lo-additional-context.xml")
     public LearningObjectiveService client;
 
     @Test

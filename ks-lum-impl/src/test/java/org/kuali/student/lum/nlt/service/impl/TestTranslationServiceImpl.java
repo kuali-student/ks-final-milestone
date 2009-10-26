@@ -43,7 +43,7 @@ import org.kuali.student.lum.nlt.service.TranslationService;
 @Daos({@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-nl.sql")})
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestTranslationServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl", port = "8181", additionalContextFile="classpath:nl-additional-context.xml")
+    @Client(value = "org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl", additionalContextFile="classpath:nl-additional-context.xml")
     public TranslationService client;
 
 	@Test

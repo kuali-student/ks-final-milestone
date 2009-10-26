@@ -55,7 +55,7 @@ import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 @Daos({@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql")})
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestLuDSLServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", port = "8181", additionalContextFile="classpath:lu-additional-context.xml")
+    @Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", additionalContextFile="classpath:lu-additional-context.xml")
     public LuService client;
 
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
