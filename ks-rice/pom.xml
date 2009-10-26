@@ -5,7 +5,7 @@
 
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-rice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>KS Rice Standalone Server</name>
@@ -33,6 +33,14 @@
 					<path>/ks-rice-dev</path>
 					<port>8081</port>
 				</configuration>
+                
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                        <version>10.2.0.3.0</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -63,11 +71,6 @@
 	</repositories>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.3.0</version>
-		</dependency>
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-web</artifactId>
