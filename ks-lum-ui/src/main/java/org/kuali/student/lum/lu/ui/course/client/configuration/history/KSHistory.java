@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.configurable.ConfigurableLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeHandler;
@@ -41,11 +40,9 @@ public class KSHistory implements ValueChangeHandler<String> {
     public static final String IDABLE_KEY = "id";
 
     private Controller controller;
-    private Map<Enum<?>, ConfigurableLayout<?>> layoutMap;
     
     public KSHistory(final Controller controller) {
         this.controller = controller;
-        layoutMap = new HashMap<Enum<?>, ConfigurableLayout<?>>();
         DeferredCommand.addCommand(new Command() {
             @Override
             public void execute() {
@@ -80,41 +77,7 @@ public class KSHistory implements ValueChangeHandler<String> {
             }});
     }
     
-    public void addLayoutToView(Enum<?> view, ConfigurableLayout<?> layout) {
-        if(view == null)
-            throw new NullPointerException("view cannot be null (not as worried about this one)");
-        if(layout == null) {
-            throw new NullPointerException("layout cannot be null");
-        }
-        if(layout == layoutMap.get(view)) { //is doing this by reference good? maybe...
-            return; //already added so don't want to get into recursion hell when appevents fired
-        }
-        layoutMap.put(view, layout);
-        layout.addApplicationEventHandler(ViewChangeEvent.TYPE, new ViewChangeHandler() {
-            String key = LAYOUT_KEY;
-            @Override
-            public void onViewChange(ViewChangeEvent event) {
-                Map<String, List<String>> params = buildListParamMap(History.getToken());
-                if(params.get(key) == null) {
-                    History.newItem((params.isEmpty()? "" : History.getToken()+"&")+key+"="+event.getNewView().getName(), false);
-                } else {
-                    String temp = "";
-                    for(String name : params.keySet()) {
-                        if(name.equals(key)) {
-                            temp += "&" + name + "=" + event.getNewView().getName();
-                        } else {
-                            String t = "&"+name+"=";
-                            List<String> values = params.get(name);
-                            for(String value : values) {
-                                temp += t + value;
-                            }
-                        }
-                    }
-                    History.newItem(temp.substring(1), false);
-                }
-            }});
-    }
-    
+   
     Enum<?> switchedView;
     
     @Override
@@ -138,7 +101,6 @@ public class KSHistory implements ValueChangeHandler<String> {
             }
             if(params.get(LAYOUT_KEY) != null && !params.get(LAYOUT_KEY).isEmpty()) {
                 String path = params.get(LAYOUT_KEY).get(0);
-                ConfigurableLayout<?> configurableLayout = layoutMap.get(view);
                 /*
                 if(configurableLayout instanceof DefaultCreateUpdateLayout)
                     ((DefaultCreateUpdateLayout<?>)configurableLayout).selectSection(path); //probably should just be moved up to superclass
