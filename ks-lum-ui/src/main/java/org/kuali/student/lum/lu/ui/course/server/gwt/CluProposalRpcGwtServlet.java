@@ -95,20 +95,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private OrganizationService orgService;
     private ProposalService proposalService;
     private LearningObjectiveService learningObjectiveService;
-    /**
-     * @return the learningObjectiveService
-     */
-    public LearningObjectiveService getLearningObjectiveService() {
-        return learningObjectiveService;
-    }
-
-    /**
-     * @param learningObjectiveService the learningObjectiveService to set
-     */
-    public void setLearningObjectiveService(LearningObjectiveService learningObjectiveService) {
-        this.learningObjectiveService = learningObjectiveService;
-    }
-
     private ApplicationStateManager applicationStateManager;
 
 	@Override
@@ -394,13 +380,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return null;
 	}
 	
-    private LoInfo getLoInfo(CluProposalModelDTO cluProposal){
+    private List<LoInfo> getLoInfo(CluProposalModelDTO cluProposal){
         try {
             MapContext ctx = new MapContext();//TODO should/can this be reused?
             ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposal.get(LOInfoModelDTO.DTO_KEY)).get();
             LoInfo loInfo;
             loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
-            return loInfo;
+            return null; // loInfo;
         } catch (Exception e) {
             logger.warn("Error converting ProposalModelDTO to loInfo",e);
         }
@@ -573,12 +559,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             saveCourseFormats(cluInfo, cluInfoModelDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
+            // saveLearningObjectives(cluInfo, cluProposalDTO);
             saveDynamicAttributes(cluInfo, cluInfoModelDTO);
             
             // now update the clu with whatever changes were made in save... methods
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             
-            // 
+            //Copy everything back from updated clu
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
             cluInfoModelDTO.copyFrom(cluModelDTO);
             
@@ -601,11 +588,11 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             //Convert loInfo model dto to LoInfo
             ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
-            if(loInfoModelDTO != null) {
+            if(loInfoModelDTO != null && loInfoModelDTO.size() > 0) {
                 LoInfo loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
             
-            //Create lo in lo service
-                loInfo = learningObjectiveService.createLo(null, loInfo.getType(), loInfo);
+	            //Create lo in lo service
+	            loInfo = learningObjectiveService.createLo(null, loInfo.getType(), loInfo);
             }
             //Do Workflow Create and save docContent
             //get a user name
@@ -639,7 +626,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
 
-    /**
+	/**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
@@ -652,10 +639,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(PROPOSAL_INFO_KEY)).get();
             ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
             
-            //Create proposal in proposalService
+            // Update proposal
             proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+            
+            // and copy updated proposal back into proposalInfo modeldto
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
+            
             //Convert loInfo model dto to LoInfo
             ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
             if(loInfoModelDTO != null) {
@@ -671,6 +661,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             saveCourseFormats(cluInfo, cluInfoModelDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
+            // saveLearningObjectives(cluInfo, cluProposalDTO);
             saveDynamicAttributes(cluInfo, cluInfoModelDTO);
             
             // now update the clu with whatever changes were made
@@ -719,20 +710,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
     
-    //TODO: Get rid of this, for now this is so we can save data somewhere
-    private void saveDynamicAttributes(CluInfo cluInfo, ModelDTO cluInfoModelDTO){        
-        Map<String,String> attributes = cluInfo.getAttributes();
-        attributes.put("creditType", cluInfoModelDTO.getString("creditType"));
-        attributes.put("creditValue", cluInfoModelDTO.getString("creditValue"));
-        attributes.put("maxCredits", cluInfoModelDTO.getString("maxCredits"));
-        attributes.put("evalType", cluInfoModelDTO.getString("evalType"));
-        attributes.put("feeAmount", cluInfoModelDTO.getString("feeAmount"));
-        attributes.put("taxable", cluInfoModelDTO.getString("taxable"));
-        attributes.put("feeDesc", cluInfoModelDTO.getString("feeDesc"));
-        attributes.put("internalNotation", cluInfoModelDTO.getString("internalNotation"));
-        attributes.put("learningObjective", cluInfoModelDTO.getString("learningObjective"));
-    }
-    
     private void saveCourseFormats(CluInfo parentCluInfo, ModelDTO cluInfoModelDTO) throws Exception{
         List<ModelDTOValue> courseFormatList =  cluInfoModelDTO.getList("courseFormats");
         
@@ -741,12 +718,16 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        
             List<String> courseFormatIds = new ArrayList<String>();
             
+            // for every 'Course Format' in the proposalDTO
             for (ModelDTOValue courseFormatValue : courseFormatList) {
                 //Convert course format shell model dto to clu info
                 ModelDTO courseFormatModelDTO = ((ModelDTOType)courseFormatValue).get();                
                 CluInfo courseFormatShell = (CluInfo)ctx.fromModelDTO(courseFormatModelDTO);                
+                
                 courseFormatShell.setType("kuali.lu.type.CreditCourseFormatShell");	// TODO - a constant somewhere?
                 courseFormatShell.setState("draft"); 							// TODO - a constant somewhere?
+                // TODO - what else should we set from the parentCluInfo?
+                // courseFormatShell.setAcademicSubjectOrgs(new ArrayList(parentCluInfo.getAcademicSubjectOrgs()));
 	        	
                 //Get activities
 		        List<ModelDTOValue> activityList = courseFormatModelDTO.getList("activities");
@@ -757,6 +738,29 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		        	for (ModelDTOValue activityValue : activityList) {
 		        		ModelDTO activityModelDTO = ((ModelDTOType) activityValue).get();                
 		                CluInfo activityCluInfo = (CluInfo) ctx.fromModelDTO(activityModelDTO);
+		                /* 
+		                // populate activity's fields from overarching CluInfo
+		                // could probably just copy some of these List's, rather than creating copies
+		                activityCluInfo.setAcademicSubjectOrgs(new ArrayList(parentCluInfo.getAcademicSubjectOrgs()));
+		                // activityCluInfo.setAccountingInfo(parentCluInfo.getAccountingInfo()); // ??
+		                activityCluInfo.setAccreditationList(parentCluInfo.getAccreditationList()); // ??
+		                activityCluInfo.setPrimaryAdminOrg(parentCluInfo.getPrimaryAdminOrg());
+		                activityCluInfo.setAlternateAdminOrgs(new ArrayList<AdminOrgInfo>(parentCluInfo.getAlternateAdminOrgs()));
+		                activityCluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>(parentCluInfo.getAlternateIdentifiers()));
+		                // activityCluInfo.setAttributes(new HashMap<String, String>(parentCluInfo.getAttributes()); // ??
+		                activityCluInfo.setCampusLocationList(new ArrayList<String>(parentCluInfo.getCampusLocationList()));
+		                // don't do this; this is one of the values set by proposer when creating the activity
+		                // activityCluInfo.setDefaultEnrollmentEstimate(...
+		                activityCluInfo.setDefaultMaximumEnrollment(parentCluInfo.getDefaultMaximumEnrollment());
+		                activityCluInfo.setDesc(parentCluInfo.getDesc()); // ??
+		                activityCluInfo.setEffectiveDate((Date) parentCluInfo.getEffectiveDate().clone());
+		                activityCluInfo.setExpirationDate((Date) parentCluInfo.getExpirationDate().clone());
+		                activityCluInfo.setFeeInfo(parentCluInfo.getFeeInfo()); // ??
+		                activityCluInfo.setHasEarlyDropDeadline(parentCluInfo.isHasEarlyDropDeadline());
+		                activityCluInfo.setHazardousForDisabledStudents(parentCluInfo.isHasEarlyDropDeadline());
+		                activityCluInfo.setInstructors(new ArrayList<CluInstructorInfo>(parentCluInfo.getInstructors());
+		                activityCluInfo.set
+		                */
 		                
 			            // Create or update clu via LuService
 		                if (null == activityCluInfo.getId()) {
@@ -843,6 +847,72 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
     }
     
+    //TODO: Get rid of this, for now this is so we can save data somewhere
+    private void saveDynamicAttributes(CluInfo cluInfo, ModelDTO cluInfoModelDTO){        
+        Map<String,String> attributes = cluInfo.getAttributes();
+        attributes.put("creditType", cluInfoModelDTO.getString("creditType"));
+        attributes.put("creditValue", cluInfoModelDTO.getString("creditValue"));
+        attributes.put("maxCredits", cluInfoModelDTO.getString("maxCredits"));
+        attributes.put("evalType", cluInfoModelDTO.getString("evalType"));
+        attributes.put("feeAmount", cluInfoModelDTO.getString("feeAmount"));
+        attributes.put("taxable", cluInfoModelDTO.getString("taxable"));
+        attributes.put("feeDesc", cluInfoModelDTO.getString("feeDesc"));
+        attributes.put("internalNotation", cluInfoModelDTO.getString("internalNotation"));
+        // TODO - get rid of this when LO's are in their own modeldto
+        // attributes.put("learningObjective", cluInfoModelDTO.getString("learningObjective"));
+    }
+    
+    private void saveLearningObjectives(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception {
+    /*	
+        MapContext ctx = new MapContext();
+        
+        //Convert loInfo model dto to LoInfo
+        // TODO - need all this in a saveLearningObjectives() method (like those above)
+        // 			which handles multiple LO's
+        LoInfo loInfo = null;
+        ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
+        
+        if (loInfoModelDTO != null && loInfoModelDTO.size() > 0) {
+        	ModelDTOValue.ListType loList = loInfoModelDTO.
+            loInfo = (LoInfo) ctx.fromModelDTO(loInfoModelDTO);
+            
+            //Create lo in lo service
+            loInfo = learningObjectiveService.createLo(null, loInfo.getType(), loInfo);
+        }
+            
+        // hook LO up to Clu
+        service.addOutcomeLoToClu(cluInfo.getId(), loInfo.getId());
+        
+        // example code to steal from when implementing this method
+        ModelDTOValue.ListType offeredJointlyListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("offeredJointly");
+        
+        if (null != offeredJointlyListType) {
+	        MapContext ctx = new MapContext();
+        	List<ModelDTOValue> offeredJointlyList = offeredJointlyListType.get();
+        	
+        	for (ModelDTOValue offeredJointlyValue : offeredJointlyList) {
+        		ModelDTO offeredJointlyModelDTO = ((ModelDTOValue.ModelDTOType) offeredJointlyValue).get();
+                
+                try {
+	                String offeredJointlyCluId = offeredJointlyModelDTO.getString("id");
+                
+	                service.getClu(offeredJointlyCluId);
+	                
+	                // Found it; create a LU_LU_RELATION_TYPE_JOINTLY_OFFERED CluCluRelation
+	                CluCluRelationInfo ccrInfo = new CluCluRelationInfo();
+	                ccrInfo.setCluId(parentCluInfo.getId());
+	                ccrInfo.setRelatedCluId(offeredJointlyCluId);
+	                ccrInfo.setType(LUConstants.LU_LU_RELATION_TYPE_CONTAINS);
+	                service.createCluCluRelation(parentCluInfo.getId(), offeredJointlyCluId, LUConstants.LU_LU_RELATION_TYPE_JOINTLY_OFFERED, ccrInfo);
+                } catch (DoesNotExistException dnee) {
+                	// TODO = let the user know there was no such Clu?
+                }
+        	}
+        }
+        // end example code
+    */
+	}
+
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#deleteProposal(java.lang.String)
      */
@@ -1191,4 +1261,17 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         this.applicationStateManager = applicationStateManager;
     } 
     
+    /**
+     * @return the learningObjectiveService
+     */
+    public LearningObjectiveService getLearningObjectiveService() {
+        return learningObjectiveService;
+    }
+
+    /**
+     * @param learningObjectiveService the learningObjectiveService to set
+     */
+    public void setLearningObjectiveService(LearningObjectiveService learningObjectiveService) {
+        this.learningObjectiveService = learningObjectiveService;
+    }
 }

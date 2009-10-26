@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.

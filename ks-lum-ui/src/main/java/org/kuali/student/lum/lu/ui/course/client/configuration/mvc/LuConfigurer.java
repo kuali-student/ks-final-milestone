@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
@@ -36,8 +37,8 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
-import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
@@ -71,6 +72,8 @@ public class LuConfigurer {
 
     private static boolean WITH_DIVIDER = true;
     private static boolean NO_DIVIDER = false;
+    private static final int NUM_INITIAL_LOS = 10;
+
 
 
     public enum LuSections{
@@ -312,12 +315,12 @@ public class LuConfigurer {
     
 
         
-    public static SectionView generateCourseLogisticsSection(){
+    public static SectionView generateCourseLogisticsSection() {
         VerticalSectionView section = initSectionView(LuSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY); 
 
         VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);    
         instructors.addField(new FieldDescriptor("cluInfo/primaryInstructor/personId", null, Type.STRING));
-//        instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
+//      instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
 
         //CREDITS
         VerticalSection credits = initSection(getH3Title(LUConstants.CREDITS_LABEL_KEY), WITH_DIVIDER);
@@ -335,8 +338,8 @@ public class LuConfigurer {
 
 
         //COURSE FORMATS
-//        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
-        //courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
+        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
+        courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
 
         section.addSection(instructors);
         section.addSection(credits);
@@ -351,16 +354,16 @@ public class LuConfigurer {
     private static SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY); 
 
-        VerticalSection loSection = initSection(null, WITH_DIVIDER);       
-        loSection.addField(new FieldDescriptor("cluInfo/learningObjective", null, Type.STRING, new KSTextArea()));
+        VerticalSection los = initSection(getH3Title(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), NO_DIVIDER);    
+
+        los.addField(new FieldDescriptor("loInfo", null, Type.LIST, new LearningObjectiveList()));
+        los.addStyleName("KS-LUM-Section-Divider");
         
-        section.addSection(loSection);
-
+        section.addSection(los);
         return section;        
-
     }
     
-    public static class CourseFormatList extends MultiplicityComposite{
+    public static class CourseFormatList extends MultiplicityComposite {
         {
             setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
@@ -376,7 +379,7 @@ public class LuConfigurer {
         }
     }
 
-    public static class CourseActivityList extends MultiplicityComposite{
+    public static class CourseActivityList extends MultiplicityComposite {
 
         {
             setAddItemLabel(getLabel(LUConstants.ADD_ACTIVITY_LABEL_KEY));
@@ -660,6 +663,36 @@ public class LuConfigurer {
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             ns.addField(new FieldDescriptor("code", getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), Type.STRING));//TODO OrgSearch goes here?
             ns.addField(new FieldDescriptor("suffixCode", getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), Type.STRING));
+            
+            multi.addSection(ns);
+            
+            return multi;
+        }
+    }
+    
+    public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
+		{
+            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
+        }
+
+		@Override
+		public void redraw() {
+			super.redraw();
+			// populate with at least NUM_INITIAL_LOS items,
+			// even if there aren't that many defined yet
+			int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
+            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
+            	addItem();
+            }
+		}
+        
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
+                                                                "kuali.lo.type.singleUse", "draft");
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("name", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING));
             
             multi.addSection(ns);
             
