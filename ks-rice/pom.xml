@@ -8,7 +8,7 @@
 	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>KS Rice Standalone Server</name>
+	<name>KS Rice</name>
 	<description>Kuali Student Rice Standalone Server project for development</description>
 
     <properties>
@@ -20,6 +20,31 @@
         <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1/ks-rice</connection>
         <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1/ks-rice</developerConnection>
     </scm>
+    
+    <distributionManagement>
+        <repository>
+            <id>kuali.release</id>
+            <name>Internal Release Repository</name>
+            <url>
+                dav:http://archiva.kuali.umd.edu/repository/release
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>kuali.snapshots</id>
+            <name>Internal Snapshot Repository</name>
+            <url>
+                dav:http://archiva.kuali.umd.edu/repository/snapshot
+            </url>
+        </snapshotRepository>
+        <site>
+            <id>ks.site</id>
+            <url>
+                dav:https://student.kuali.org:8443/student/site/web/${project.version}
+            </url>
+        </site>
+    </distributionManagement>
+
+    
 
 	<build>
 		<plugins>
