@@ -263,18 +263,25 @@ public class NestedConfigParserImpl implements ConfigParser {
 	    	    String s = System.getProperty(resolved);
                 if (s == null) {
                     
-                    // implement behavior for missing property here...e.g. return ""
-                    // returning null will result in the substitutor not substituting
-                    LOG.info("Property key: "+ resolved + " is not available and hence set to empty: ");
-                    s =  "";
+                	// HACK: defaulting environment to 'dev' here until parameter system is upgraded
+                	if("environment".equals(resolved)) {
+                		s = "dev";
+                	}
+                	else {
+	                    // implement behavior for missing property here...e.g. return ""
+	                    // returning null will result in the substitutor not substituting
+	                    LOG.info("Property key: "+ resolved + " is not available and hence set to empty: ");
+	                    s =  "";
+                	}
                 }
                 string = matcher.replaceFirst(Matcher.quoteReplacement(s));
-                matcher = matcher.reset(string);
-                return string;
 	    	}
-	    	String propertyValue = (String) props.get(resolved);
-	    	string = matcher.replaceFirst(Matcher.quoteReplacement(propertyValue));
-		    matcher = matcher.reset(string);
+	    	else {
+		    	String propertyValue = (String) props.get(resolved);
+		    	string = matcher.replaceFirst(Matcher.quoteReplacement(propertyValue));
+	    	}
+	    	
+	    	matcher = matcher.reset(string);
 	    }
 		return string;
 	}
