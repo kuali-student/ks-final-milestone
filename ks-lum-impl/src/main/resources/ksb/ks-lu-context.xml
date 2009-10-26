@@ -69,27 +69,13 @@
     </bean> 
 
     <tx:annotation-driven transaction-manager="jtaTxManager" />
-    
-
-	<!-- Default Datasource -->
-<!--	<bean id="lumDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">-->
-<!--        <property name="transactionManager" ref="jotm" />-->
-<!--        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />-->
-<!--        <property name="maxSize" value="10" />-->
-<!--        <property name="minSize" value="10" />-->
-<!--        <property name="maxWait" value="600" />-->
-<!--        <property name="validationQuery" value="values(1)" />-->
-<!--        <property name="url" value="jdbc:derby://localhost:1527/derby/lum;create=true" />-->
-<!--        <property name="username" value="kslum" />-->
-<!--        <property name="password" value="kslum" />        -->
-<!--	</bean>-->
 	
 	<bean id="lumDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
        <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="${ks.lum.datasource.driver.name}" />
-        <property name="maxSize" value="10" />
-        <property name="minSize" value="10" />
-        <property name="maxWait" value="600" />
+        <property name="maxSize" value="${ks.lum.datasource.maxSize}" />
+        <property name="minSize" value="${ks.lum.datasource.minSize}" />
+        <property name="maxWait" value="${ks.lum.datasource.maxWait}" />
         <property name="validationQuery" value="${ks.lum.datasource.validationQuery}" />
         <property name="url" value="${ks.lum.datasource.url}" />
         <property name="username" value="${ks.lum.datasource.username}" />
@@ -103,14 +89,14 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform"
                     value="${ks.lum.jpa.DatabasePlatform}" />
-                <property name="showSql" value="true" />
-                <property name="generateDdl" value="${generateDdl}" />
+                <property name="showSql" value="${ks.lum.jpa.showSql}" />
+                <property name="generateDdl" value="${ks.lum.jpa.generateDdl}" />
             </bean>
         </property>
         <property name="jpaPropertyMap">
             <map>
-                <entry key="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JOTMTransactionManagerLookup"/>
-                <entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.transaction.manager_lookup_class" value="${ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
             </map>
         </property>
     </bean>
@@ -163,7 +149,7 @@
                 <property name="serviceInterface" value="org.kuali.student.lum.lu.service.LuService" />
                 <property name="localServiceName" value="LuService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lu" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -176,7 +162,7 @@
                 <property name="serviceInterface" value="org.kuali.student.lum.nlt.service.TranslationService" />
                 <property name="localServiceName" value="TranslationService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/nlt" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -223,7 +209,7 @@
                 <property name="serviceInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService" />
                 <property name="localServiceName" value="LearningObjectiveService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lo" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
         </property>
     </bean>
