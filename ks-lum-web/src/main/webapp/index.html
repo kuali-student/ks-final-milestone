@@ -1,0 +1,115 @@
+<html>
+	<head>
+    <head>
+        <style type="text/css">
+          .KS-Header-Logo-Spacer {
+            width: 100%;
+            height:30px;
+            background-color: #dddddd;
+            color: #777777;
+            font: 30px helvetica, sans-serif;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            padding-left: 10px;
+          }
+          .KS-Header-Link {
+            color: #ffffff;
+            text-decoration: none;
+            font: 10px helvetica, sans-serif;
+            text-align: right;
+            padding-right: 0px;
+          }
+
+          .KS-Header-Link-Focus {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+          .page-title {
+            font: bold 18px helvetica, sans-serif;
+            border: solid thin #aaaaaa;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 1ex;
+            z-index: 99999999;
+            background-color: #eeeeee;
+          }
+          
+          .user-name {
+            width: 100%;
+            height:26px;
+            background-color: #999999;
+            padding-top: 0px;
+            text-align: right;
+          }
+           .user-Link {
+            position: relative;
+            top: 3px;
+            right: 60px;
+            color: #ffffff;
+            text-decoration: none;
+            font: 12px helvetica, sans-serif;
+            padding-right: 5px;
+          }   
+          
+         .user-button {
+            position: relative;
+            top: -16px;
+            right: 10px;
+          }  
+          .KS-apps-header {
+            color: #000000;
+            font: 12px helvetica, sans-serif;
+            height: 20px;
+          }   
+          .KS-apps-row {
+            height: 30px;
+          }   
+          .KS-Apps-Link {
+            color: #000000;
+            text-decoration: none;
+            font: 10px helvetica, sans-serif;
+            padding-right: 0px;
+          }
+          .mock-header {
+            font: 10px helvetica, sans-serif;
+            background-color: #ffffff;
+            position: absolute;
+            top: -12px;
+            left: 20px;
+          }
+          .mock-KEW {
+            position: absolute;
+            top: 120px;
+            left: 240px;
+            bottom: 300px;
+          }
+          .mock-row {
+            height: 250px;
+          }
+          .mock-actionlist {
+            border-collapse: collapse;
+            border: 1px solid #000;
+            text-align: center;
+            padding: 50px;
+            font: 36px helvetica, san-serif;
+            color: #aaaaaa;
+          }
+        </style>		
+	</head>
+	<body>
+	<div class="KS-Header-Logo-Spacer">Kuali Student</div>
+	<div class="user-name"><a href="http://localhost:8080/ks-lum-web" class="user-link">John&nbsp;Hayes&nbsp;&nbsp;|&nbsp;</a>&nbsp;<FORM class="user-button">
+<INPUT TYPE="BUTTON" VALUE="logout" ONCLICK="window.location.href='http://localhost:8080/ks-lum-web'"> 
+</FORM></div>
+	<table width="100" cellpadding="0" cellspacing="0">
+	  <tr class="KS-apps-row"><th colspan="2" class="KS-apps-header">Kuali&nbsp;Student&nbsp;Applications</th></tr>
+      <tr class="KS-apps-row"><td>&nbsp;&nbsp;</td><td><a href="org.kuali.student.lum.ui.requirements.Requirements/Requirements.html" class="KS-Apps-Link">Person&nbsp;Identity&nbsp;Management</a></td></tr>
+      <tr class="KS-apps-row"><td>&nbsp;&nbsp;</td><td><a href="org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp" class="KS-Apps-Link">Learning&nbsp;Unit&nbsp;Management</a></td></tr>
+      <tr class="KS-apps-row"><td>&nbsp;&nbsp;</td><td><a href="org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.html" class="KS-Apps-Link">Financal</a></td></tr>
+	</table>
+	<div class="mock-Kew">
+	<p class="mock-header">Tasklist</p>
+    <table><tr class="mock-row"><td class="mock-actionList">KEW action list</td></tr></table> 
+    </div>
+	</body>
+</html>
