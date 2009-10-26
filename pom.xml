@@ -73,6 +73,7 @@
     </repositories>
 
     <properties>
+    	<!-- artifact versions -->
         <atomikos.version>3.4.1</atomikos.version>
         <cxf.version>2.2</cxf.version>
         <gwtVersion>1.6.4</gwtVersion>
@@ -95,6 +96,9 @@
         <site.plugin.version>2.0-beta-7</site.plugin.version>
 		<gwt.codehaus.plugin.version>1.2-SNAPSHOT</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
+        
+        <!-- build properties -->
+        <ks.gwt.compile.phase>package</ks.gwt.compile.phase>
     </properties>
 
     <profiles>
@@ -371,9 +375,9 @@
 					<artifactId>gwt-maven-plugin</artifactId>
 					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
-						<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
-						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>		          
+						<hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
 						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
 					</configuration>
 				</plugin>

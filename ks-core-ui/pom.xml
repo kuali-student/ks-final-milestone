@@ -37,6 +37,9 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webappDirectory>target/${project.artifactId}-webapp</webappDirectory>
+						</configuration>
 						<executions>
 							<execution>
 								<phase>compile</phase>
