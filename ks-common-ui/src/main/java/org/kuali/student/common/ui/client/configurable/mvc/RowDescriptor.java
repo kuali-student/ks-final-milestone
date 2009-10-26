@@ -58,8 +58,8 @@ public class RowDescriptor extends Composite{
     
     public void addField(FieldDescriptor fieldDescriptor){
         fields.add(fieldDescriptor);
-        if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
-            MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
+        if (fieldDescriptor.getFieldWidget() instanceof SimpleMultiplicityComposite){
+            SimpleMultiplicityComposite listField = (SimpleMultiplicityComposite) fieldDescriptor.getFieldWidget(); 
             listField.redraw();
             rowPanel.add(listField);
         }
@@ -149,8 +149,8 @@ public class RowDescriptor extends Composite{
         for (FieldDescriptor fd:fields){
             //TODO: Only resettting multplicity composite, should approporiately reset clear all field widgets
             Widget field = fd.getFieldWidget();
-            if (field instanceof MultiplicityComposite){
-                ((MultiplicityComposite)field).clear();
+            if (field instanceof SimpleMultiplicityComposite){
+                ((SimpleMultiplicityComposite) field).clear();
             }
         }
     }

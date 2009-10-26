@@ -233,8 +233,8 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public void updateModel(ModelDTO modelDTO){
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof MultiplicityComposite){
-                ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
+            if (field.getFieldWidget() instanceof SimpleMultiplicityComposite){
+                ((SimpleMultiplicityComposite) field.getFieldWidget()).updateModelDTOValue();
             }
 
             PropertyBinding pBinding = field.getPropertyBinding();
@@ -254,9 +254,9 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public void updateView(ModelDTO modelDTO) {
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof MultiplicityComposite){
+            if (field.getFieldWidget() instanceof SimpleMultiplicityComposite){
                 ModelDTOValue value = modelDTO.get(field.getFieldKey());
-                ((MultiplicityComposite)field.getFieldWidget()).setValue(value);
+                ((SimpleMultiplicityComposite) field.getFieldWidget()).setValue(value);
             }
             PropertyBinding pBinding = field.getPropertyBinding();
             PropertyBinding wBinding = field.getWidgetBinding();
