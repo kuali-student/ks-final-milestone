@@ -29,6 +29,9 @@ public class QueryParamInfo implements Serializable {
 	private FieldDescriptor fieldDescriptor; 
 	@XmlAttribute
 	private String key; 
+	@XmlAttribute
+	private boolean optional;
+	
 	public FieldDescriptor getFieldDescriptor(){
 		return fieldDescriptor;
 	}
@@ -40,5 +43,11 @@ public class QueryParamInfo implements Serializable {
 	}
 	public void setKey(String key){
 		this.key = key;
+	}
+	public boolean isOptional() {
+		return optional;
+	}
+	public void setOptional(boolean optional) {
+		this.optional = optional;
 	}
 }
