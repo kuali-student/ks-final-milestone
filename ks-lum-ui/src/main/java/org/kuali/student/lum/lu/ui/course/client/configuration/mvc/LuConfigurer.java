@@ -356,7 +356,7 @@ public class LuConfigurer {
 
         VerticalSection los = initSection(getH3Title(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), NO_DIVIDER);    
 
-        los.addField(new FieldDescriptor("loInfo", null, Type.LIST, new LearningObjectiveList()));
+        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.LIST, new LearningObjectiveList()));
         los.addStyleName("KS-LUM-Section-Divider");
         
         section.addSection(los);
@@ -674,6 +674,28 @@ public class LuConfigurer {
 		{
             setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
         }
+
+		
+		@Override
+	    protected void onLoad() {
+	        super.onLoad();
+	        if (!loaded) {
+	            loaded = true;
+
+	            // TODO - what do we do when they delete an LO?
+	            // (as far as updating the model). If they clear
+	            // an LO textfield, I think we delete the item from
+	            // the multiplicity, and delete the LO via the service
+	            // if it exists
+	            
+				// populate with at least NUM_INITIAL_LOS items,
+				// even if there aren't that many defined yet
+				int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
+	            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
+	            	addItem();
+	            }
+	        }
+	    }
 
 		@Override
 		public void redraw() {
