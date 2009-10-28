@@ -14,6 +14,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
+import org.kuali.student.common.ui.client.event.ActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -43,9 +46,14 @@ public class WorkflowButtonsWidget extends Composite {
     private KSButton wfAcknowledgeButton;
     private KSButton wfStartWorkflowButton;
     
+    SaveActionEvent approveSaveActionEvent;
+    SaveActionEvent startWorkflowSaveActionEvent;
+    
     CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
     private VerticalPanel rootPanel = new VerticalPanel();
+    
+    Controller myController;
     
 	protected WorkflowButtonsWidget() {
 		super();
@@ -66,10 +74,10 @@ public class WorkflowButtonsWidget extends Composite {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		myController = Controller.findController(this);
 		if(null==cluProposalWorkflowModel){
-			
 			//Get the Model from the controller and register a model change handler when the workflow model is updated
-			Controller.findController(this).requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>(){
+			myController.requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>(){
 			
 				@Override
 				public void onModelReady(Model<CluProposalModelDTO> model) {
@@ -116,8 +124,10 @@ public class WorkflowButtonsWidget extends Composite {
 	}
 	
 	private void setupWFButtons() {
-    	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
-    		public void onClick(ClickEvent event) {
+
+		startWorkflowSaveActionEvent = new SaveActionEvent();
+		startWorkflowSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+			public void onActionComplete(ActionEvent action) {
     			CluProposalModelDTO model = cluProposalWorkflowModel.get();
     			if(model==null||model.get("cluInfo/adminOrg")==null||((StringType)model.get("cluInfo/adminOrg")).get()==null){
     				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
@@ -134,12 +144,19 @@ public class WorkflowButtonsWidget extends Composite {
 						}
 					});
     			}
+			}
+		});
+		
+    	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
+    		public void onClick(ClickEvent event) {
+    			myController.fireApplicationEvent(startWorkflowSaveActionEvent);
     		}
     	});
     	wfStartWorkflowButton.setVisible(false);
-    	
-		wfApproveButton = new KSButton("Approve", new ClickHandler(){
-			public void onClick(ClickEvent event) {
+
+		approveSaveActionEvent = new SaveActionEvent();
+		approveSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+			public void onActionComplete(ActionEvent action) {
     			CluProposalModelDTO model = cluProposalWorkflowModel.get();
 				cluProposalRpcServiceAsync.approveProposal(model, new AsyncCallback<Boolean>(){
 					public void onFailure(
@@ -152,8 +169,13 @@ public class WorkflowButtonsWidget extends Composite {
 						removeButton(wfApproveButton);
 						removeButton(wfDisApproveButton);
 					}
-					
 				});
+			}
+		});
+    	
+		wfApproveButton = new KSButton("Approve", new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				myController.fireApplicationEvent(approveSaveActionEvent);
 			}        
 		});
 		wfApproveButton.setVisible(false);

@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -265,7 +266,13 @@ public class CluProposalController extends PagedSectionLayout{
             showStartSection();
         } else {
             getStartSection().updateModel();
+            
             getCurrentView().updateModel();
+            
+            for(View sectionView : orderedSectionViews){
+            	sectionView.updateModel();
+            }
+            
             saveProposalClu(saveActionEvent);
 //            processingSave=true;
 //            View v = getCurrentView();
