@@ -59,6 +59,7 @@ public class LOPicker extends Composite { //implements SuggestPicker {
         HorizontalPanel searchPanel = new HorizontalPanel();
         searchPanel.addStyleName("KS-LO-Picker-Link-Panel");
         
+        
         KSLabel searchLink = new KSLabel("Search for LO");
         searchLink.addStyleName("KS-LO-Picker-Link");
         searchLink.addClickHandler(new ClickHandler() {
@@ -72,8 +73,11 @@ public class LOPicker extends Composite { //implements SuggestPicker {
             
         });
                
+        //FIXME: This text should be from message service
+        loSearchWindow.setInstructions("Search for these words in Learning Objectives");
+        loSearchWindow.setIgnoreCase(true);
+        loSearchWindow.setPartialMatch(true);
         loSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
-            //FIXME: This should take user to the course view screens
             public void onSelection(SelectionEvent<List<String>> event) {
                 final List<String> selected = event.getSelectedItem();
                 if (selected.size() > 0){
