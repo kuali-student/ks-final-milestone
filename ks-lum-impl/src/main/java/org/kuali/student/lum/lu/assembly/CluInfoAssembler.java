@@ -10,6 +10,7 @@ import org.kuali.student.common.assembly.Data;
 import org.kuali.student.common.assembly.Metadata;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.lu.assembly.data.client.CluInfoData;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;

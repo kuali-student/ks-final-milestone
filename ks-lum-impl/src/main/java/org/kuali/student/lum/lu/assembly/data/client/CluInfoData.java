@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.assembly;
+package org.kuali.student.lum.lu.assembly.data.client;
 
 import org.kuali.student.common.assembly.Data;
 
