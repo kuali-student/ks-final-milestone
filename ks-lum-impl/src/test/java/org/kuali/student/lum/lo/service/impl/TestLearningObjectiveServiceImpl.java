@@ -30,6 +30,10 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
@@ -455,4 +459,24 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertTrue(statusInfo.getSuccess());
     }
     */
+	@Test
+	public void testSearchForResults() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		String testLoName = "Navigate Wiki";
+		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+		QueryParamValue qpv1 = new QueryParamValue();
+		qpv1.setKey("lo.queryParam.loName");
+		qpv1.setValue(testLoName);
+		queryParamValues.add(qpv1);
+		List<Result> results = client.searchForResults("lo.search.loByName", queryParamValues);
+		assertEquals(1,results.size());
+		
+        List<ResultCell> resultCells = results.get(0).getResultCells();
+        assertEquals(2, resultCells.size());
+        ResultCell cell = resultCells.get(0);
+        assertEquals("lo.resultColumn.loId", cell.getKey());
+        assertEquals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", cell.getValue());
+        cell = resultCells.get(1);
+        assertEquals("lo.resultColumn.loName", cell.getKey());
+        assertEquals(testLoName, cell.getValue());
+	}
 }

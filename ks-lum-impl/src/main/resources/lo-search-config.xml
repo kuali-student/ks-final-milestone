@@ -10,6 +10,17 @@
 	 
 	<import resource="lo-dictionary-config.xml" />
 	
+    <search:searchType id="lo.search.loByName">
+        <search:name>LoSearchByName</search:name>
+        <search:desc>Retrieve LO by name</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lo.result.los" />
+        </search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lo.criteria.loName" />
+		</search:searchCriteriaTypeInfo>
+    </search:searchType>
+
     <search:searchType id="lo.search.los">
         <search:name>LO Search for all LOs</search:name>
         <search:desc>Returns all available LOs</search:desc>
@@ -20,6 +31,28 @@
            <ref bean="lo.criteria.all"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
+
+    <search:searchCriteriaTypeInfo id="lo.criteria.all">
+        <search:name>LoLo</search:name>
+        <search:desc>Placeholder Criteria</search:desc>
+    </search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lo.criteria.loName">
+		<search:name>LoSearchByNameCriteria</search:name>
+		<search:desc>Search criteria for searching for learning objectives by name</search:desc>
+        <search:queryParams>
+            <ref bean="lo.queryParam.loName" />
+        </search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+    <search:queryParam id="lo.queryParam.loName">
+        <dict:fieldDescriptor>
+            <dict:name>Learning Objective Name</dict:name>
+	        <dict:desc>Human-readable name for learning objective</dict:desc>
+	        <dict:dataType>string</dict:dataType>
+	        <dict:readOnly>true</dict:readOnly>
+        </dict:fieldDescriptor>
+    </search:queryParam>
 
     <search:searchResultTypeInfo id="lo.result.los">
         <search:name>Los</search:name>
@@ -42,16 +75,14 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:searchCriteriaTypeInfo id="lo.criteria.all">
-        <search:name>LoLo</search:name>
-        <search:desc>Placeholder Criteria</search:desc>
-    </search:searchCriteriaTypeInfo>
-	
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="lo.search.los">
 					<value>SELECT lo.id, lo.name FROM Lo lo </value>
+				</entry>
+				<entry key="lo.search.loByName">
+					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
             </map>
 		</property>
