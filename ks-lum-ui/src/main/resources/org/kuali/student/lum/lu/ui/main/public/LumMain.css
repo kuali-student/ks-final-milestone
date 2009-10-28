@@ -22,3 +22,14 @@
 .KS-LUM-Section-Divider {
 	border-top: 1px solid orange;
 }
+
+.KS-LO-Picker-Link-Panel {
+
+}
+
+.KS-LO-Picker-Link {
+	color: blue;
+	font-size: 70%;
+	cursor: pointer;
+
+}

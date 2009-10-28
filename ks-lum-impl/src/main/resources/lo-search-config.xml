@@ -31,6 +31,7 @@
            <ref bean="lo.criteria.all"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
+    
 
     <search:searchCriteriaTypeInfo id="lo.criteria.all">
         <search:name>LoLo</search:name>
@@ -63,6 +64,26 @@
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
+    <search:searchType id="lo.search.loByDesc">
+        <search:name>LO Search for all LOs matching supplied word</search:name>
+        <search:desc>Returns all matching LOs</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lo.result.loByDesc" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+           <ref bean="lo.criteria.loByDesc"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+ 
+    <search:searchResultTypeInfo id="lo.result.loByDesc">
+        <search:name>Los</search:name>
+        <search:desc>Lo descs</search:desc>
+        <search:resultColumns>
+            <ref bean="lo.resultColumn.loDescId" />
+            <ref bean="lo.resultColumn.loDescPlain" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
     <search:resultColumn id="lo.resultColumn.loId">
         <search:name>Lo Identifier</search:name>
         <search:desc>Identifier of an Lo</search:desc>
@@ -74,13 +95,48 @@
         <search:desc>Official name of an Lo</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+    
+    <search:resultColumn id="lo.resultColumn.loDescId">
+        <search:name>Desc Identifier</search:name>
+        <search:desc>Identifier of an LO desc </search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
 
+    <search:resultColumn id="lo.resultColumn.loDescPlain">
+        <search:name>Lo Desc</search:name>
+        <search:desc>Desc of an Lo</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByDesc">
+		<search:name>LoByFirstLetterCriteria</search:name>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loDescPlain" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+    <search:queryParam id="lo.queryParam.loDescPlain">
+        <dict:fieldDescriptor parent="parentFieldDescriptor">
+            <dict:name>Description</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+       
+    <dict:fieldDescriptor id="parentFieldDescriptor">
+        <dict:name>Comment Identifier</dict:name>
+        <dict:desc>Unique identifier for a desc.</dict:desc>
+        <dict:dataType>string</dict:dataType>
+        <dict:readOnly>true</dict:readOnly>
+    </dict:fieldDescriptor>
+    
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="lo.search.los">
 					<value>SELECT lo.id, lo.name FROM Lo lo </value>
 				</entry>
+				<entry key="lo.search.loByDesc">
+                    <value>SELECT loDesc.plain FROM Lo lo JOIN lo.desc loDesc WHERE loDesc.plain like :lo_queryParam_loDescPlain</value>
+				</entry>			
 				<entry key="lo.search.loByName">
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>

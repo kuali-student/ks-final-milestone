@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.AtpTypeList;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.CluActivityType;
@@ -274,7 +275,7 @@ public class ViewCluConfigurer {
     private static VerticalSection generateLOs(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         
-        section.addField(new FieldDescriptor("cluInfo/learningObjective", null, Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.STRING, new LearningObjectiveList()));
 
         return section;
     }
@@ -643,6 +644,27 @@ public class ViewCluConfigurer {
 
     }
 
+    
+    private static class LearningObjectiveList extends MultiplicityComposite{
+
+        protected LearningObjectiveList () {
+//            this.setUseItemHeader(false);      
+            this.setUpdateable(false);         
+        }
+
+        @Override
+        public Widget createItem() {
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS);
+
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.addField(new FieldDescriptor("desc/plain", null, Type.STRING, new KSLabel()));
+            multi.addSection(ns);
+
+            return multi;
+        }
+    }
+    
     // TODO look up field label and type from dictionary & messages
     private static FieldDescriptor createFieldDescriptor(String fieldName, 
             String objectKey, String type, String state  ) {

@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
@@ -30,7 +31,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -45,9 +45,11 @@ public class LOPicker extends Composite { //implements SuggestPicker {
 
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
     
-    final KSAdvancedSearchWindow loSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.los","lo.resultColumn.loId", "Find Learning Objectives");   
+    final KSAdvancedSearchWindow loSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId", "Find Learning Objectives");   
     
     VerticalPanel root = new VerticalPanel();
+    
+    KSTextArea loText = new KSTextArea();
     
 //    private final FocusGroup focus = new FocusGroup(this);
     
@@ -57,8 +59,7 @@ public class LOPicker extends Composite { //implements SuggestPicker {
         HorizontalPanel searchPanel = new HorizontalPanel();
         searchPanel.addStyleName("KS-LO-Picker-Link-Panel");
         
-
-        KSLabel searchLink = new KSLabel("Search for Learning Objectives");
+        KSLabel searchLink = new KSLabel("Search for LO");
         searchLink.addStyleName("KS-LO-Picker-Link");
         searchLink.addClickHandler(new ClickHandler() {
 
@@ -70,7 +71,18 @@ public class LOPicker extends Composite { //implements SuggestPicker {
             }
             
         });
-       
+               
+        loSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
+            //FIXME: This should take user to the course view screens
+            public void onSelection(SelectionEvent<List<String>> event) {
+                final List<String> selected = event.getSelectedItem();
+                if (selected.size() > 0){
+                    loText.setValue(selected.get(0));                    
+                    loSearchWindow.hide();
+                }                
+            }            
+        });
+        searchPanel.add(loText);
         searchPanel.add(searchLink);
                
         initWidget(root);

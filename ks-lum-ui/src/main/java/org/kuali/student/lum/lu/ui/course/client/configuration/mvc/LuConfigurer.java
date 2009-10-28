@@ -49,6 +49,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesS
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -72,7 +73,7 @@ public class LuConfigurer {
 
     private static boolean WITH_DIVIDER = true;
     private static boolean NO_DIVIDER = false;
-    private static final int NUM_INITIAL_LOS = 10;
+    private static final int NUM_INITIAL_LOS = 3;
 
 
 
@@ -354,7 +355,7 @@ public class LuConfigurer {
     private static SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY); 
 
-        VerticalSection los = initSection(getH3Title(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY), NO_DIVIDER);    
+        VerticalSection los = initSection(null, NO_DIVIDER);    
 
         los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.LIST, new LearningObjectiveList()));
         los.addStyleName("KS-LUM-Section-Divider");
@@ -714,7 +715,7 @@ public class LuConfigurer {
                                                                 "kuali.lo.type.singleUse", "draft");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("name", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING));
+            ns.addField(new FieldDescriptor("desc/plain", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, new LOPicker()));
             
             multi.addSection(ns);
             
