@@ -11,44 +11,11 @@
 	<name>KS Rice</name>
 	<description>Kuali Student Rice Standalone Server project for development</description>
 
-    <properties>
-        <kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
-        <ks-lum.version>1.0.0-m1-SNAPSHOT</ks-lum.version>
-    </properties>
     <parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>ks-web</artifactId>
 		<version>1.0.0-m1-SNAPSHOT</version>
 	</parent>
-    <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1/ks-rice</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-m1/ks-rice</developerConnection>
-    </scm>
-    
-    <distributionManagement>
-        <repository>
-            <id>kuali.release</id>
-            <name>Internal Release Repository</name>
-            <url>
-                dav:http://archiva.kuali.umd.edu/repository/release
-            </url>
-        </repository>
-        <snapshotRepository>
-            <id>kuali.snapshots</id>
-            <name>Internal Snapshot Repository</name>
-            <url>
-                dav:http://archiva.kuali.umd.edu/repository/snapshot
-            </url>
-        </snapshotRepository>
-        <site>
-            <id>ks.site</id>
-            <url>
-                dav:https://student.kuali.org:8443/student/site/web/${project.version}
-            </url>
-        </site>
-    </distributionManagement>
-
-    
 
 	<build>
 		<plugins>
@@ -122,48 +89,25 @@
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
-			<version>${kuali.rice.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>htmlunit</groupId>
-					<artifactId>htmlunit</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.mortbay.jetty</groupId>
-					<artifactId>jetty</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.mortbay.jetty</groupId>
-					<artifactId>jetty-util</artifactId>
-				</exclusion>
-			</exclusions>
+            <version>${kuali.rice.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
 			<version>${ks-lum.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.kuali.rice</groupId>
-					<artifactId>rice-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-orm</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
 			<version>${ks-lum.version}</version>
 		</dependency>
+        
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<profiles>
