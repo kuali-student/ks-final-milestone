@@ -5,9 +5,10 @@
 
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-m1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	 <name>KS Web</name>
+    
+    <name>KS Web</name>
     <description>Project for building KS Reference Wars</description>
     
 	<parent>
@@ -17,8 +18,9 @@
 	</parent>
     
 	<modules>
+        <module>ks-embedded</module>
 		<module>ks-standalone</module>
-		<module>ks-embedded</module>
+		<module>ks-rice</module>
 	</modules>
     
     <properties>
@@ -54,5 +56,6 @@
             </releases>
         </repository>
     </repositories>
+    
 	
 </project>
