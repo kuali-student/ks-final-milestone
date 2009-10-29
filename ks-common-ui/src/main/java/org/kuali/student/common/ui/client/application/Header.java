@@ -52,6 +52,7 @@ public class Header extends Composite {
 
     private final HorizontalPanel linksContentPanel = new HorizontalPanel();
     private final HorizontalPanel actionlistPanel = new HorizontalPanel();
+    private final HorizontalPanel docSearchPanel = new HorizontalPanel();
     private final DockPanel linksPanel = new DockPanel();
 
     private List<KSBreadcrumbItem> breadcrumbItems;
@@ -64,6 +65,7 @@ public class Header extends Composite {
     private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
 //    private  String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
     private  String actionListUrl;
+    private  String docSearchUrl;
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     
     private final KSLabel userId = new KSLabel();
@@ -131,6 +133,22 @@ public class Header extends Composite {
             }
             
         });
+        
+        // getting the rice doc search url from server properties
+        serverProperties.get("ks.rice.docSearch.serviceAddress", new AsyncCallback<String>() {
+
+            @Override
+            public void onFailure(Throwable caught) { //ignoring, we'll use the default
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                GWT.log("ServerProperties fetched for ks.rice.docSearch.serviceAddress: "+result, null);
+                if(result != null)
+                    docSearchUrl = result;
+            }
+            
+        });
         main.addStyleName("KS-Header");
     }
 
@@ -158,6 +176,7 @@ public class Header extends Composite {
 
         linksContentPanel.add(buildUserIdPanel());
         actionlistPanel.add(buildActionListPanel()); // Open Action List Panel from rice
+        docSearchPanel.add(buildDocSearchPanel()); // Open Doc Search Panel from rice
         // Always have logout and preferences options
         linkItems.add(new HeaderLinkItem("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
         linkItems.add(new HeaderLinkItem("Home", "Return to home page", GWT.getModuleBaseURL() + "../"));
@@ -170,9 +189,11 @@ public class Header extends Composite {
         
         linksContentPanel.addStyleName("KS-Header-Link-Panel");
         actionlistPanel.addStyleName("KS-Header-ActionListLink-Panel");
+        docSearchPanel.addStyleName("KS-Header-ActionListLink-Panel");
         //linksPanel is a spacer panel for right alignment of links
         
         linksPanel.add(actionlistPanel,DockPanel.WEST);
+        linksPanel.add(docSearchPanel,DockPanel.WEST);
         linksPanel.add(linksContentPanel ,DockPanel.EAST);        
         linksPanel.addStyleName("KS-Header-Link-Spacer");
         linksPanel.setHorizontalAlignment(DockPanel.ALIGN_RIGHT);
@@ -269,6 +290,42 @@ public class Header extends Composite {
         actionListLink.setStyleName("KS-Header-Hyperlink");
         
         return actionListLink;
+        
+    }
+    
+    //Method to build the light box for the doc search
+    private Widget buildDocSearchPanel(){
+        final KSLightBox docSearchDialog = new KSLightBox();
+        final Frame docSearch = new Frame(docSearchUrl);
+
+        docSearch.setSize("700px", "500px");
+        
+        VerticalPanel docSearchPanel = new VerticalPanel();
+        
+        docSearchPanel.add(docSearch);
+        
+        KSButton closeActionButton = new KSButton("Close");
+        closeActionButton.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                docSearchDialog.hide();
+            }
+        });
+        
+        docSearchPanel.add(closeActionButton);
+        
+        docSearchDialog.setWidget(docSearchPanel);
+        
+        //Create the button that opens the search dialog
+        Hyperlink docSearchLink = new Hyperlink("Doc Search ","DocSearch");
+        docSearchLink.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                docSearch.setUrl(docSearchUrl);
+                docSearchDialog.show();
+            }
+        });
+        docSearchLink.setStyleName("KS-Header-Hyperlink");
+        
+        return docSearchLink;
         
     }
 
