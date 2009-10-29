@@ -22,16 +22,17 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.home.client.view.FindPanel;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -41,7 +42,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
-public class LOPicker extends Composite { //implements SuggestPicker {
+public class LOPicker extends  Composite implements  HasValue<String>  { 
 
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
     
@@ -95,5 +96,29 @@ public class LOPicker extends Composite { //implements SuggestPicker {
 
     }
 
+    @Override
+    public String getValue() {
+        return loText.getValue();
+    }
 
+    @Override
+    public void setValue(String value) {
+        loText.setValue(value);
+    }
+
+    @Override
+    public void setValue(String value, boolean fireEvents) {
+        // TODO Auto-generated method stub
+        setValue(value);        
+    }
+
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+        return loText.addValueChangeHandler(handler);
+    }
+
+    @Override
+    public void fireEvent(GwtEvent<?> event) {
+        super.fireEvent(event);
+    }
 }
