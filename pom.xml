@@ -98,6 +98,7 @@
         <war.plugin.version>2.1-beta-1</war.plugin.version>
         
         <!-- build properties -->
+        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
         <ks.gwt.compile.phase>package</ks.gwt.compile.phase>
     </properties>
 
