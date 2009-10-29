@@ -8,6 +8,7 @@ import java.util.Set;
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.Data;
 import org.kuali.student.common.assembly.Metadata;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.CluInfoData;
@@ -17,6 +18,7 @@ import org.kuali.student.lum.lu.service.LuService;
 
 public class CluInfoAssembler implements Assembler {
 	private LuService luService;
+	private AtpService atpService;
 
 	@Override
 	public void chain(Assembler assembler) {
@@ -128,4 +130,7 @@ public class CluInfoAssembler implements Assembler {
 		this.luService = luService;
 	}
 
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
+	}
 }

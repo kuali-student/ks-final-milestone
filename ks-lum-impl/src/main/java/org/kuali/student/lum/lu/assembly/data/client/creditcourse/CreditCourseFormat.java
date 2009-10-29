@@ -3,12 +3,13 @@ package org.kuali.student.lum.lu.assembly.data.client.creditcourse;
 import org.kuali.student.common.assembly.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourse.Properties;
 
 public class CreditCourseFormat extends ModifiableData {
 	private static final long serialVersionUID = 1L;
 
 	public enum Properties implements PropertyEnum {
-		ACTIVITIES("activities"), STATE("state");
+		ID("id"), ACTIVITIES("activities"), STATE("state");
 
 		private final String key;
 
@@ -51,5 +52,13 @@ public class CreditCourseFormat extends ModifiableData {
 
 	public String getState() {
 		return super.get(Properties.STATE.getKey());
+	}
+	
+	public void setId(String id) {
+		super.set(Properties.ID.getKey(), id);
+	}
+	
+	public String getId() {
+		return super.get(Properties.ID.getKey());
 	}
 }

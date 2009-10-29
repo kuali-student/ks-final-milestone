@@ -9,11 +9,11 @@ public class CreditCourse extends ModifiableData {
 	private static final long serialVersionUID = 1L;
 
 	public enum Properties implements PropertyEnum {
-		FORMATS("formats"), STATE("state"), TERMS_OFFERED("termsOffered"), DURATION(
+		ID("id"), FORMATS("formats"), TERMS_OFFERED("termsOffered"), DURATION(
 				"duration"), TRANSCRIPT_TITLE("transcriptTitle"), COURSE_TITLE(
 				"courseTitle"), DESCRIPTION("description"), DEPARTMENT(
 				"department"), SUBJECT_AREA("subjectArea"), COURSE_NUMBER_SUFFIX(
-				"courseNumberSuffix");
+				"courseNumberSuffix"), STATE("state"), TYPE("type");
 
 		private final String key;
 
@@ -44,15 +44,6 @@ public class CreditCourse extends ModifiableData {
 		getFormats().add(format);
 	}
 
-	public void setState(String state) {
-		super.set(Properties.STATE.getKey(), state);
-		for (Property p : getFormats()) {
-			CreditCourseFormat format = p.getValue();
-			if (format != null) {
-				format.setState(state);
-			}
-		}
-	}
 
 	public Data getTermsOffered() {
 		Data result = super.get(Properties.TERMS_OFFERED.getKey());
@@ -128,5 +119,35 @@ public class CreditCourse extends ModifiableData {
 
 	public void setCourseNumberSuffix(String suffix) {
 		super.set(Properties.COURSE_NUMBER_SUFFIX.getKey(), suffix);
+	}
+	
+	public void setState(String state) {
+		super.set(Properties.STATE.getKey(), state);
+		for (Property p : getFormats()) {
+			CreditCourseFormat format = p.getValue();
+			if (format != null) {
+				format.setState(state);
+			}
+		}
+	}
+
+	public String getState() {
+		return super.get(Properties.STATE.getKey());
+	}
+	
+	public void setType(String type) {
+		super.set(Properties.TYPE.getKey(), type);
+	}
+	
+	public String getType() {
+		return super.get(Properties.TYPE.getKey());
+	}
+	
+	public void setId(String id) {
+		super.set(Properties.ID.getKey(), id);
+	}
+	
+	public String getId() {
+		return super.get(Properties.ID.getKey());
 	}
 }
