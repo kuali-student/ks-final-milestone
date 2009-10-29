@@ -11,6 +11,7 @@
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
+    
     <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-rice</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
@@ -40,8 +41,8 @@
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">RICEKS</param>
-    <param name="datasource.password">RICEKS</param>
+    <param name="datasource.username">KSRICE</param>
+    <param name="datasource.password">KSRICE</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
@@ -52,13 +53,14 @@
     <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 
+    <!-- additional config files -->
+    <param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
+    
     <!-- default config files -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
-    <param name="config.location">${rice.base}../../../conf/rice-config.xml</param>
-    <param name="config.location">${rice.base}../../conf/rice-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-
-	<!-- additional config files -->
-	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
+		
+	<!-- Set all services to /services instead of /remoting -->
+	<param name="serviceServletUrl">${application.url}/services/</param>
 </config>

@@ -4,13 +4,13 @@
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-standalone</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>ks-standalone</name>
 	<url>http://maven.apache.org</url>
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>ks-web</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<build>
 	
@@ -42,7 +42,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
-					<path>/ks-standalone</path>
+					<path>/ks-standalone-dev</path>
 					<port>8080</port>
 				</configuration>
 
@@ -52,6 +52,11 @@
 						<artifactId>ojdbc14</artifactId>
 						<version>10.2.0.3.0</version>
 					</dependency>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
 				</dependencies>
 			</plugin>
 		</plugins>
@@ -59,21 +64,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -86,68 +78,68 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-ui</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
+            <version>${ks-core.version}</version>
 			<type>pom</type>
 		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-cxf</artifactId>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-jta</artifactId>
-			<type>pom</type>
-		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+		
+        <dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui</artifactId>
+            <version>${ks-lum.version}</version>
+        </dependency>
+        
 		<dependency>
-	      	<groupId>org.kuali.rice</groupId>
-	      	<artifactId>rice-impl</artifactId>
-			<scope>runtime</scope>	      
+	      	<groupId>org.kuali.student</groupId>
+            <artifactId>ks-rice-lessdep</artifactId>
+			<version>${ks-core.version}</version>
+            <type>pom</type>	      
 	    </dependency>	
 
 		<!--  Deps needed for LUM UI GWT -->
@@ -155,26 +147,20 @@
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
 			<classifier>sources</classifier>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
-			<artifactId>ks-lum-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-lum.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
