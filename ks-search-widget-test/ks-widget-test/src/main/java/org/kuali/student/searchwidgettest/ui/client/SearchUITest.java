@@ -15,6 +15,8 @@ import org.kuali.student.common.ui.client.widgets.forms.KSFormField;
 import org.kuali.student.common.ui.client.widgets.forms.KSFormLayoutPanel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.core.atp.ui.client.service.AtpRpcService;
+import org.kuali.student.core.atp.ui.client.service.AtpRpcServiceAsync;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -39,18 +41,66 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SearchUITest implements EntryPoint {
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+	private AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
 	private VerticalPanel testPanel = new VerticalPanel();
 
 	@Override
 	public void onModuleLoad() {
+		KSFormLayoutPanel orgRelForm = null;
+		KSFormLayoutPanel atp = null;
+		
+		orgRelForm = setupOrgTestPanel();
+		atp = setupATPTestPanel();
+        SimplePanel verticalSpacer;
+
+        // org test
+        KSLabel orgSearchWidghtTitle = new KSLabel("Organization Search Widget");
+        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontWeight", "bold");
+        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontSize", "14pt");
+        verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("30px");
+        testPanel.add(verticalSpacer);
+        testPanel.add(orgSearchWidghtTitle);
+        verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("5px");
+        testPanel.add(verticalSpacer);
+        testPanel.add(orgRelForm);
+
+        // atp test
+        KSLabel atpSearchWidghtTitle = new KSLabel("ATP Search Widget");
+        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontWeight", "bold");
+        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontSize", "14pt");
+        verticalSpacer = new SimplePanel();
+        verticalSpacer.setHeight("30px");
+        testPanel.add(verticalSpacer);
+//        testPanel.add(atpSearchWidghtTitle);
+//        verticalSpacer = new SimplePanel();
+//        verticalSpacer.setHeight("5px");
+//        testPanel.add(verticalSpacer);
+        testPanel.add(atp);
+
+		RootPanel.get().add(testPanel);
+	}
+
+    protected static void addFormField(Widget w, String label, String name, KSFormLayoutPanel formPanel) {
+        KSFormField ff = new KSFormField();
+        ff.setLabelText(label);
+        ff.setWidget(w);
+        if (w instanceof HasName)
+            ((HasName) w).setName(name);
+        ff.setHelpInfo(new HelpInfo());
+        ff.setName(name);
+
+        formPanel.addFormField(ff);
+    }
+	
+    private KSFormLayoutPanel setupOrgTestPanel() {
 		final KSFormLayoutPanel orgRelForm = new KSFormLayoutPanel();
-		final KSDropDown orgRelTypeDropDown = new KSDropDown();
 		TextableVerticalPanel searchField = new TextableVerticalPanel();
 		final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync,  "org.search.orgByShortName", "org.queryParam.orgShortName",
                 "org.queryParam.orgId", "org.resultColumn.orgId", "org.resultColumn.orgShortName");		//
 		KSSuggestBox sb = new KSSuggestBox(oracle);
         oracle.setTextWidget(sb.getTextBox()); 
-		
         HorizontalPanel advancedSearches = new HorizontalPanel();
         final KSLabel searchLink = new KSLabel("Search");
         searchLink.addStyleName("action");
@@ -124,41 +174,69 @@ public class SearchUITest implements EntryPoint {
         KSTextBox relOrgId = new KSTextBox();
         relOrgId.setEnabled(true);
         addFormField(relOrgId, "Organization Id", "relOrgId", orgRelForm);
-        
-        SimplePanel verticalSpacer;
-        KSLabel orgSearchWidghtTitle = new KSLabel("Organization Search Widget");
-        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontWeight", "bold");
-        orgSearchWidghtTitle.getElement().getStyle().setProperty("fontSize", "14pt");
-        verticalSpacer = new SimplePanel();
-        verticalSpacer.setHeight("30px");
-        testPanel.add(verticalSpacer);
-        testPanel.add(orgSearchWidghtTitle);
-        verticalSpacer = new SimplePanel();
-        verticalSpacer.setHeight("5px");
-        testPanel.add(verticalSpacer);
-        testPanel.add(orgRelForm);
 
-        //        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName",
-//				"org.resultColumn.orgId", "Find Organization");
-//		searchWindow.show();
-		
-		RootPanel.get().add(testPanel);
-
-		//RootPanel.get().add(xxx);
-	}
-
-    protected static void addFormField(Widget w, String label, String name, KSFormLayoutPanel formPanel) {
-        KSFormField ff = new KSFormField();
-        ff.setLabelText(label);
-        ff.setWidget(w);
-        if (w instanceof HasName)
-            ((HasName) w).setName(name);
-        ff.setHelpInfo(new HelpInfo());
-        ff.setName(name);
-
-        formPanel.addFormField(ff);
+        return orgRelForm;
     }
-	
+    
+    private KSFormLayoutPanel setupATPTestPanel() {
+    	final KSFormLayoutPanel atp = new KSFormLayoutPanel();
+		TextableVerticalPanel atpField = new TextableVerticalPanel();
+		final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)atpRpcServiceAsync,  "atp.search.atpByShortName", "atp.queryParam.atpShortName",
+                "atp.queryParam.atpId", "atp.resultColumn.atpId", "atp.resultColumn.atpShortName");		//
+		KSSuggestBox sb = new KSSuggestBox(oracle);
+        oracle.setTextWidget(sb.getTextBox()); 
+        HorizontalPanel advancedSearches = new HorizontalPanel();
+        final KSLabel searchLink = new KSLabel("search");
+        searchLink.addStyleName("action");
+        final KSLabel browseLink = new KSLabel("choose by date");
+        browseLink.addStyleName("action");
+        advancedSearches.add(searchLink);
+        final KSLabel orText = new KSLabel(" | ");
+        orText.addStyleName("non-action");
+        advancedSearches.add(orText);
+        advancedSearches.add(browseLink);
+
+        final OrgSearchTypeWidget searchWindow = 
+        	new OrgSearchTypeWidget(
+        			atpRpcServiceAsync, 
+        			"atp.search.atpByShortName", 
+        			"atp.resultColumn.atpId",
+        			atpRpcServiceAsync,
+        			"atp.search.atpByShortName", 
+        			"atp.resultColumn.atpId",
+        	"Find Session");
+        
+        searchLink.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                searchWindow.show();
+            }
+        });
+        
+//        searchWindow.addSelectionHandler(new SelectionHandler<List<String>>() {
+//			@Override
+//			public void onSelection(SelectionEvent<List<String>> event) {
+//				String orgId = event.getSelectedItem().get(0);
+//                atpRpcServiceAsync.get(orgId, new AsyncCallback<OrgInfo>(){
+//                    public void onFailure(Throwable caught) {
+//                        Window.alert(caught.getMessage());
+//                    }
+//
+//                    public void onSuccess(OrgInfo orgInfo) {
+//                        atp.setFieldValue("relOrgName", orgInfo.getLongName());
+//                        atp.setFieldValue("relOrgId", orgInfo.getId());
+//                        searchWindow.hide();
+//                    }            
+//                });   
+//			}
+//        });
+
+        atpField.addTextWidget(sb);
+        atpField.add(advancedSearches);
+        addFormField(atpField, "Start Session", "relOrgName", atp);
+
+        return atp;
+    }
 	
 }
 

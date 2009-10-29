@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	
+	<search:searchType id="atp.search.atpByShortName">
+		<search:name>ShortName match</search:name>
+		<search:desc>Search on shortName only.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpByShortName" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="atp.result.atpQuickView">
+		<search:name>ATP Quick View</search:name>
+		<search:desc>Quick view of the ATP</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpId" />
+			<ref bean="atp.resultColumn.atpShortName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="atp.resultColumn.atpId">
+		<search:name>ATP Identifier</search:name>
+		<search:desc>Identifier for the ATP</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpShortName">
+		<search:name>ATP Short Name</search:name>
+		<search:desc>Short name for the ATP, recorded as the default
+				listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpByShortName">
+		<search:name>AtpByShortNameCriteria</search:name>
+		<search:desc>AtpByShortNameCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="atp.queryParam.atpShortName" />
+			<ref bean="atp.queryParam.atpId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="atp.queryParam.atpShortName">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>ATP Name</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.atpId">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>ATP Id</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="parentFieldDescriptor">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+	<dict:fieldDescriptor id="list">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>complex</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="childFieldDescriptor"
+		parent="parentFieldDescriptor">
+		<dict:name>Child CLU Identifier</dict:name>
+	</dict:fieldDescriptor>
+
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="atp.search.atpByShortName">
+					<value>SELECT atp.id, atp.name FROM Atp atp WHERE atp.name like :atp_queryParam_atpShortName or atp.id = :atp_queryParam_atpId</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

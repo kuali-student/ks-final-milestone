@@ -39,6 +39,9 @@
 				<entry key="/org.kuali.student.searchwidgettest.ui.SearchUITest/rpcservices/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
 				</entry>
+				<entry key="/org.kuali.student.searchwidgettest.ui.SearchUITest/rpcservices/AtpRpcService">
+					<ref bean="atpRpcServiceGwtController"/>
+				</entry>
 				<entry key="/org.kuali.student.searchwidgettest.ui.SearchUITest/rpcservices/PersonRpcService">
 					<ref bean="personRpcGwtServletController"/>
 				</entry>
@@ -65,6 +68,11 @@
 	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="orgRpcGwtServlet" />
 		<property name="servletInstance" ref="orgRpcGwtServlet" />
+	</bean>
+
+	<bean id="atpRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="atpRpcGwtServlet" />
+		<property name="servletInstance" ref="atpRpcGwtServlet" />
 	</bean>
 
 	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -98,6 +106,11 @@
 		<property name="service" ref="orgClient" />
 	</bean>
 
+	<bean id="atpRpcGwtServlet"
+		class="org.kuali.student.core.atp.ui.server.gwt.AtpRpcGwtServlet">
+		<property name="service" ref="atpClient" />
+	</bean>
+
 	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">	
 	</bean>
 	
@@ -120,6 +133,11 @@
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+
+	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 
 	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">

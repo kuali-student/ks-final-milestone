@@ -2,7 +2,8 @@
 
 	<!-- Inherit common-ui.                  -->
   	<inherits name="org.kuali.student.common.ui.CommonUI"/>
-	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>  	
+	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
+	<inherits name="org.kuali.student.core.atp.ui.AtpUI"/>  	
 
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="org.kuali.student.searchwidgettest.ui.client.SearchUITest"/>
