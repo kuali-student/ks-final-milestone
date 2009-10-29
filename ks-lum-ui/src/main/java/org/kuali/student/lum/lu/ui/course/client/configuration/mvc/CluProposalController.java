@@ -269,9 +269,9 @@ public class CluProposalController extends PagedSectionLayout{
             
             getCurrentView().updateModel();
             
-            for(View sectionView : orderedSectionViews){
-            	sectionView.updateModel();
-            }
+//            for(View sectionView : orderedSectionViews){
+//            	sectionView.updateModel();
+//            }
             
             saveProposalClu(saveActionEvent);
 //            processingSave=true;
