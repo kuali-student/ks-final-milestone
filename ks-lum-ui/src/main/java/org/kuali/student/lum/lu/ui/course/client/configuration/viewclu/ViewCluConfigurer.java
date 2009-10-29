@@ -698,7 +698,7 @@ public class ViewCluConfigurer {
     }    
 
     private static String getLabel(String fieldId) {
-        return Application.getApplicationContext().getUILabel(type, state, fieldId);
+        return Application.getApplicationContext().getUILabel(LUConstants.COURSE_GROUP_NAME, type, state, fieldId);   //FIXME: set proper group name
     }
 
     public static void setType(String type) {

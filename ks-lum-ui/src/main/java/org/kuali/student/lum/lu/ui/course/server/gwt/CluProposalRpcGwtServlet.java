@@ -674,6 +674,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
+            
             saveCourseFormats(cluInfo, cluInfoModelDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
             saveDynamicAttributes(cluInfo, cluInfoModelDTO);

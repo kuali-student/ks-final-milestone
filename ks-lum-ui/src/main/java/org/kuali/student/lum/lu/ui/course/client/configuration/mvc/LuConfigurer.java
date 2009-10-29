@@ -70,6 +70,7 @@ public class LuConfigurer {
     //FIXME:  Initialize type and state
 	private static String type;
     private static String state;
+    private static String groupName;
 
     private static boolean WITH_DIVIDER = true;
     private static boolean NO_DIVIDER = false;
@@ -79,17 +80,23 @@ public class LuConfigurer {
 
     public enum LuSections{
         CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
-        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, PGM_REQUIREMENTS, ATTACHMENTS, COMMENTS, DOCUMENTS,
+        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS, DOCUMENTS,
+        PROGRAM_INFO
     }
 
-    public static void configureCluProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){
+    public static void configureCourseProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey){
+    	
+    	type = typeKey;
+    	state = stateKey;
+    	groupName = LUConstants.COURSE_GROUP_NAME;
+    	
         addCluStartSection(layout);
 
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
         layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
-        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
-        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+    //    layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+    //    layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
 
@@ -192,16 +199,6 @@ public class LuConfigurer {
         section.addSection(feeType);
         section.addSection(feeAmount);
         
-        return section;
-    }
-
-    private static SectionView generateProgramRequirements() {
-        VerticalSectionView section = initSectionView(LuSections.PGM_REQUIREMENTS, LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY); 
-
-        VerticalSection dummy = initSection(null, WITH_DIVIDER);
-        section.addSection(dummy);
-
-
         return section;
     }
 
@@ -763,6 +760,36 @@ public class LuConfigurer {
         }
     }
     
+    /*
+     * Configuring Program specific screens.
+     */
+    public static void configureProgramProposal(ConfigurableLayout layout, String objectKey, String typeKey, String stateKey) {
+    	
+    	type = typeKey;
+    	state = stateKey;
+    	groupName = LUConstants.PROGRAM_GROUP_NAME;
+    	
+        addCluStartSection(layout);
+
+        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateProgramInfoSection());       
+        
+        layout.addTool(new CollaboratorTool());
+        layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
+        layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
+    }
+    
+    
+    public static SectionView generateProgramInfoSection(){
+        VerticalSectionView section = initSectionView(LuSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY); 
+
+        VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
+        shortTitle.addField(new FieldDescriptor("cluInfo/officialIdentifier/shortName", null, Type.STRING));       
+        
+        section.addSection(shortTitle);
+
+        return section;
+    }    
+    
     public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
             super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
@@ -797,9 +824,9 @@ public class LuConfigurer {
     }
     
     private static String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(type, state, labelKey);
+        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
-
+    
     private static SectionTitle getH1Title(String labelKey) {
         return SectionTitle.generateH1Title(getLabel(labelKey));
     } 

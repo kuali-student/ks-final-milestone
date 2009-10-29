@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
@@ -49,7 +50,7 @@ public class LUMApplicationManager extends Controller{
 
     private Controller cluProposalController = null;
     private Controller viewCluController = null;
-    private DelegatingViewComposite createCourseView;
+    private DelegatingViewComposite createCluView;
     private DelegatingViewComposite viewCluView;
 
     private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
@@ -69,7 +70,7 @@ public class LUMApplicationManager extends Controller{
                     String selectedId = selectedIds.get(0);
 
                     if (event.getViewType().equals(LUMViews.EDIT_COURSE_PROPOSAL)){
-                        initCluProposalViewFromProposalId(selectedId);                        
+                        initCluProposalViewFromProposalId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, selectedId);                        
                     }
 
                     if (event.getViewType().equals(LUMViews.VIEW_COURSE)) {
@@ -89,7 +90,7 @@ public class LUMApplicationManager extends Controller{
     }
 
     public enum LUMViews {
-        HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE
+        HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE, CREATE_PROGRAM
     }
 
     @Override
@@ -98,54 +99,62 @@ public class LUMApplicationManager extends Controller{
             case HOME_MENU:
                 return homeMenuView;
             case CREATE_COURSE:
-                initBlankCluProposalView();
+                initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE);
 
                 //FIXME: This is a quick fix, need better way to reset view
                 cluProposalController.showDefaultView();  
 
-                return createCourseView;
+                return createCluView;
             case EDIT_COURSE_PROPOSAL:
                 //View setup should already be handled.
 
                 //FIXME: This is quick fix, need better way via config to set and show summary view.
                 cluProposalController.showDefaultView(); 
 //                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);//FIXME this was causing the nav bar not to show up
-                return createCourseView;
+                return createCluView;
             case VIEW_COURSE:
                 if (viewCluView == null){
                     viewCluView = new DelegatingViewComposite(this, new ViewCluController());
                 }
                 viewCluController.showDefaultView();
                 return viewCluView;
+            case CREATE_PROGRAM:
+                initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE, LUConstants.CLU_TYPE_CREDIT_PROGRAM);  //FIXME replace with program specific constants
+
+                //FIXME: This is a quick fix, need better way to reset view
+                cluProposalController.showDefaultView();  
+
+                return createCluView; //createProgramView;                
             default:
                 return null;
         }
     }
 
-    private View initBlankCluProposalView(){
-        if (cluProposalController == null){
-            cluProposalController = new CluProposalController(); 
-            createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);            
-        }
-        ((CluProposalController)cluProposalController).clear();
+    private View initBlankCluProposalView(String proposalType, String cluType){
+       // if (cluProposalController == null){
+            cluProposalController = new CluProposalController(proposalType, cluType);           
+       // }
+       // ((CluProposalController)cluProposalController).clear(proposalType, cluType);
+        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);         
 
-        return createCourseView;
+        return createCluView;
     }
 
-    private View initCluProposalViewFromProposalId(String proposalId){
-        initBlankCluProposalView();
+    private View initCluProposalViewFromProposalId(String proposalType, String cluType, String proposalId){
+        initBlankCluProposalView(proposalType, cluType);
         ((CluProposalController)cluProposalController).setProposalId(proposalId);
-        return createCourseView;
+        return createCluView;
     }
 
-    private View initCluProposalViewFromDocId(String docId){
-        if (cluProposalController == null){
-            cluProposalController = new CluProposalController(docId); 
-            createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);            
-        }
-        ((CluProposalController)cluProposalController).clear();
+    private View initCluProposalViewFromDocId(String proposalType, String cluType, String docId){
+    //    if (cluProposalController == null){
+            cluProposalController = new CluProposalController(proposalType, cluType, docId);           
+    //    }
+   //     ((CluProposalController)cluProposalController).clear(proposalType, cluType);
         ((CluProposalController)cluProposalController).setDocId(docId);
-        return createCourseView;        
+        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController); 
+        
+        return createCluView;        
     }
 
     private View initViewCluViewFromCluId(String cluId){
@@ -164,8 +173,6 @@ public class LUMApplicationManager extends Controller{
 
         return viewCluView;
     }
-
-
     
     //Accessor for get view
     public <V extends Enum<?>> View getControllerView(V viewType){
@@ -199,13 +206,13 @@ public class LUMApplicationManager extends Controller{
                         if(!result){
                             Window.alert("Error with backdoor login");
                         }
-                        initCluProposalViewFromDocId(docId);
+                        initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
                         showView(LUMViews.EDIT_COURSE_PROPOSAL);
                     }
 
                 });
             }else{
-                initCluProposalViewFromDocId(docId);
+                initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
                 this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
             }
         }

@@ -204,5 +204,15 @@
 	  		<bean parent="esCourse" p:id="cluGeneralRequirements"		p:value="Requisitos del general, de la universidad y de la anchura"/>
 	  		<bean parent="esCourse" p:id="cluDeptRequirements"		p:value="Requisitos departamentales"/>
 	  		
+	<!-- Program proposal labels -->
+	  		
+	<bean id="enProgram" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="program" />
+	</bean>	  		
+
+   	<bean parent="enProgram" p:id="cluAcademicContent"		p:value="Academic Content"/>
+	   	<bean parent="enProgram" p:id="cluInformation"		p:value="Program Information"/>
+	   		<bean parent="enProgram" p:id="cluShortTitle"	    	p:value="Short Program Title"/>
 
 </beans>

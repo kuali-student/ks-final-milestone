@@ -18,7 +18,7 @@
     try {
         MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
         String commonMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common", "validation"});
-        String luMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course"});
+        String luMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course", "program"});
 
         DictionaryRPCPreloader luLoader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lu}LuService");
         DictionaryRPCPreloader loLoader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lo}LearningObjectiveService");
