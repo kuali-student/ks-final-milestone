@@ -108,6 +108,8 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  protected void writeSearchTypes ()
  {
+  println ("");
+  writeComment ("Search Types");
   for (SearchType st : sheet.getSearchTypes ())
   {
    SearchTypeWriter writer =
@@ -122,6 +124,8 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  protected void writeSearchResultTypes ()
  {
+  println ("");
+  writeComment ("Search Results");
   for (SearchResult sr : getSearchResults ())
   {
    SearchResultWriter writer =
@@ -151,6 +155,8 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  protected void writeSearchResultColumns ()
  {
+  println ("");
+  writeComment ("Search Result Columns");
   for (SearchResultColumn col : getSearchResultColumns ())
   {
    SearchResultColumnWriter writer =
@@ -183,6 +189,8 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  protected void writeSearchCriteria ()
  {
+  println ("");
+  writeComment ("Search Criteria");
   for (SearchCriteria sr : getSearchCriteria ())
   {
    SearchCriteriaWriter writer =
@@ -211,6 +219,8 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  protected void writeSearchCriteriaParameters ()
  {
+  println ("");
+  writeComment ("Search Criteria Parameters");
   for (SearchCriteriaParameter col : getSearchCriteriaParameters ())
   {
    SearchCriteriaParameterWriter writer =
@@ -243,21 +253,30 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  protected void writeSqlQueryMap ()
  {
+  println ("");
+  incrementIndent ();
+  writeComment ("Query Map");
   indentPrintln ("<bean id=\"queryMap\" class=\"org.springframework.beans.factory.config.MapFactoryBean\">");
   indentPrintln ("<property name=\"sourceMap\">");
   indentPrintln ("<map>");
+  incrementIndent ();
   for (SearchImplementation impl : getJPQLImplementations ())
   {
+   println ("");
    indentPrint ("<entry");
    writeAttribute ("key", impl.getKey ());
    indentPrintln (">");
    writeComment (impl.getComments ());
-   writeTag ("value", impl.getDescription ());
+   incrementIndent ();
+   writeTag ("value", "\n" + impl.getDescription () + "\n");
+   decrementIndent ();
    indentPrintln ("</entry>");
   }
+  decrementIndent ();
   indentPrintln ("</map>");
   indentPrintln ("</property>");
   indentPrintln ("</bean>");
+  decrementIndent ();
  }
 
  private List<SearchImplementation> getImplementations ()

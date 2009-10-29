@@ -35,6 +35,7 @@ public class SearchTypeWriter extends XmlWriter
 
  public void write ()
  {
+  println ("");
   indentPrint ("<search:searchType");
   //TODO: not sure what to put in the key attribute
   incrementIndent ();

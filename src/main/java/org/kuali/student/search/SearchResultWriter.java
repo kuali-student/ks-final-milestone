@@ -37,7 +37,7 @@ public class SearchResultWriter extends XmlWriter
  public void write ()
  {
 
-
+  println ("");
   indentPrint ("<search:searchResultTypeInfo");
   //TODO: not sure what to put in the key attribute
   writeAttribute ("id", searchResult.getKey ());

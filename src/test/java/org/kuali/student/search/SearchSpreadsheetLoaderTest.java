@@ -71,7 +71,7 @@ public class SearchSpreadsheetLoaderTest implements SearchTestConstants
  {
   System.out.println ("getSearchTypes");
   List<SearchType> list = instance.getSearchTypes ();
-  assertEquals (11, list.size ());
+  assertEquals (13, list.size ());
   SearchType searchType = list.get (0);
   assertEquals ("org.search.orgHierarchyIds", searchType.getKey ());
   assertEquals ("Search", searchType.getType ());

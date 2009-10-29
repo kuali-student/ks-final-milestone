@@ -36,6 +36,7 @@ public class SearchResultColumnWriter extends XmlWriter
 
  public void write ()
  {
+  println ("");
   indentPrint ("<search:resultColumn");
   //TODO: not sure what to put in the key attribute
   incrementIndent ();
@@ -48,8 +49,9 @@ public class SearchResultColumnWriter extends XmlWriter
   writeTag ("search:name", column.getName ());
   writeTag ("search:desc", column.getDescription ());
   writeTag ("search:dataType", column.getDataType ());
-  
+
   indentPrintln ("</search:resultColumn>");
   decrementIndent ();
  }
+
 }

@@ -36,6 +36,7 @@ public class SearchCriteriaParameterWriter extends XmlWriter
 
  public void write ()
  {
+  println ("");
   indentPrint ("<search:queryParam");
   //TODO: not sure what to put in the key attribute
   incrementIndent ();
