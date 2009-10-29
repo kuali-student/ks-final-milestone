@@ -19,10 +19,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
  <modelVersion>4.0.0</modelVersion>
  <groupId>org.kuali.student.mojo</groupId>
- <artifactId>maven-component-sandbox</artifactId>
+ <artifactId>maven-ksdictionary-generator-plugin</artifactId>
  <version>0.0.1-SNAPSHOT</version>
  <packaging>maven-plugin</packaging>
- <name>KS Tools - Component Sandbox</name>
+ <name>KS Tools - Dictionary Generator</name>
+
  <dependencies>
   <dependency>
    <groupId>net.sourceforge.jexcelapi</groupId>
@@ -66,6 +67,11 @@
    <version>1.0</version>
   </dependency>
   <dependency>
+   <groupId>org.kuali.student.lum</groupId>
+   <artifactId>ks-lum-rice</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
    <groupId>org.kuali.student.core</groupId>
    <artifactId>ks-core-api</artifactId>
    <version>0.0.1-SNAPSHOT</version>
@@ -73,11 +79,6 @@
   <dependency>
    <groupId>org.kuali.student.lum</groupId>
    <artifactId>ks-lum-api</artifactId>
-   <version>0.0.1-SNAPSHOT</version>
-  </dependency>
-  <dependency>
-   <groupId>org.kuali.student.core</groupId>
-   <artifactId>ks-common-ui</artifactId>
    <version>0.0.1-SNAPSHOT</version>
   </dependency>
  </dependencies>
@@ -100,32 +101,15 @@
    <plugin>
     <artifactId>maven-compiler-plugin</artifactId>
     <configuration>
-     <source>1.6</source>
-     <target>1.6</target>
+     <source>1.5</source>
+     <target>1.5</target>
      <archive>
       <manifest>
        <addClasspath>true</addClasspath>
-       <mainClass>org.kuali.student.comp.SwingMain</mainClass>
+       <mainClass>org.kuali.student.dictionary.DictionaryGeneratorFromCommandLine</mainClass>
       </manifest>
      </archive>
     </configuration>
-   </plugin>
-   <plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>gwt-maven-plugin</artifactId>
-    <configuration>
-     <runTarget>org.kuali.student.comp.GwtMain/GwtMain.jsp</runTarget>
-     <module>org.kuali.student.comp.GwtMain</module>
-     <localWorkers>2</localWorkers>
-    </configuration>
-    <executions>
-     <execution>
-      <phase>test</phase>
-      <goals>
-       <goal>run</goal>
-      </goals>
-     </execution>
-    </executions>
    </plugin>
   </plugins>
  </build>
