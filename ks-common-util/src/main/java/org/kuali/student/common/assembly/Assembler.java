@@ -5,19 +5,19 @@ import java.util.Map;
 
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public interface Assembler {
-	void chain(Assembler assembler);
+	void chain(Assembler assembler) throws AssemblyException;
 
-	Data createNew(String type, String state);
+	Data createNew(String type, String state) throws AssemblyException;
 
-	Data get(String id);
+	Data get(String id) throws AssemblyException;
 
-	Metadata getMetadata();
+	Metadata getMetadata() throws AssemblyException;
 
-	Metadata getMetadata(String type, String state);
+	Metadata getMetadata(String type, String state) throws AssemblyException;
 
-	Map<Data, List<ValidationResultInfo>> save(Data data);
+	Map<Data, List<ValidationResultInfo>> save(Data data) throws AssemblyException;
 
-	Data transform(Data data);
+	Data transform(Data data) throws AssemblyException;
 
-	List<ValidationResultInfo> validate(Data data);
+	List<ValidationResultInfo> validate(Data data) throws AssemblyException;
 }
