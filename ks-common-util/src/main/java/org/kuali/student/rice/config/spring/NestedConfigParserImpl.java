@@ -199,8 +199,14 @@ public class NestedConfigParserImpl implements ConfigParser {
             // accumulate all content (preserving any XML content)
             getNodeValue(name, location, param, content);
            
-            if(content.toString().contains("jpa")){
-            	int x=0;x++;
+            //Replace &amp; with &. This is required for properties in config files that have & characters replaced to 
+            // &amp; by the xml parsers.
+            if(content.toString().contains("&amp;")){
+                String property=content.toString();
+                String regExAmp = "&amp;";
+                property =property.replaceAll(regExAmp, "&");
+                content.setLength(0);
+                content.append(property);
             }
             
             String value = resolve(content.toString(),params);
