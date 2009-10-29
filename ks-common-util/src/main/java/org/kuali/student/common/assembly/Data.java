@@ -1026,4 +1026,11 @@ public class Data implements Serializable, Iterable<Data.Property> {
 		return map.size();
 	}
 
+	public boolean containsKey(Key key) {
+		return map.containsKey(key);
+	}
+	public boolean containsValue(Value value) {
+		return map.containsValue(value);
+	}
+	
 }
