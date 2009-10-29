@@ -74,9 +74,9 @@
 	<bean id="coreDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
         <property name="transactionManager" ref="jotm" />
         <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
-        <property name="maxSize" value="10" />
-        <property name="minSize" value="10" />
-        <property name="maxWait" value="600" />
+        <property name="maxSize" value="${ks.core.datasource.maxSize}" />
+        <property name="minSize" value="${ks.core.datasource.minSize}" />
+        <property name="maxWait" value="${ks.core.datasource.maxWait}" />
         <property name="validationQuery" value="${ks.core.datasource.validationQuery}" />
         <property name="url" value="${ks.core.datasource.url}" />
         <property name="username" value="${ks.core.datasource.username}" />
@@ -90,14 +90,14 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform"
                     value="${ks.core.jpa.DatabasePlatform}" />
-                <property name="showSql" value="true" />
-                <property name="generateDdl" value="${generateDdl}" />
+                <property name="showSql" value="${ks.core.jpa.showSql}" />
+                <property name="generateDdl" value="${ks.core.jpa.generateDdl}" />
             </bean>
         </property>
         <property name="jpaPropertyMap">
             <map>
-                <entry key="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JOTMTransactionManagerLookup"/>
-                <entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
             </map>
         </property>
     </bean>
@@ -144,7 +144,7 @@
                 <property name="serviceInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
                 <property name="localServiceName" value="OrganizationService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -180,7 +180,7 @@
                 <property name="serviceInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
                 <property name="localServiceName" value="EnumerationManagementService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/EnumerationManagementService" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -228,7 +228,7 @@
                 <property name="serviceInterface" value="org.kuali.student.core.comment.service.CommentService" />
                 <property name="localServiceName" value="CommentService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/comment" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -276,7 +276,7 @@
                 <property name="serviceInterface" value="org.kuali.student.core.document.service.DocumentService" />
                 <property name="localServiceName" value="DocumentService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/document" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -311,7 +311,7 @@
                 <property name="serviceInterface" value="org.kuali.student.core.messages.service.MessageService" />
                 <property name="localServiceName" value="MessageService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -361,7 +361,7 @@
                 <property name="serviceInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
                 <property name="localServiceName" value="ProposalService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/proposal" />
-                <property name="busSecurity" value="false"></property>
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
