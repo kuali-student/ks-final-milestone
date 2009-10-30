@@ -57,7 +57,7 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
 	private final Map<String, KSMenuItemData> menuHierarchyMap = new HashMap<String, KSMenuItemData>();
 
 	private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
-	private final ArrayList<View> orderedSectionViews = new ArrayList<View>();
+	protected final ArrayList<View> orderedSectionViews = new ArrayList<View>();
 	
 	private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
 	private final List<KSMenuItemData> toolMenuItems = new ArrayList<KSMenuItemData>();

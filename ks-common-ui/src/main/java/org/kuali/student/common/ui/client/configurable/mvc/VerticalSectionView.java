@@ -14,17 +14,12 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -110,8 +105,10 @@ public class VerticalSectionView extends SectionView {
     @Override
     @SuppressWarnings("unchecked")
     public void updateModel() {
-        ModelDTO modelDTO = model.get();
-        super.updateModel(modelDTO);
+    	if(model!=null){
+    		ModelDTO modelDTO = model.get();
+    		super.updateModel(modelDTO);
+    	}
     }
     
     public void updateView(){
