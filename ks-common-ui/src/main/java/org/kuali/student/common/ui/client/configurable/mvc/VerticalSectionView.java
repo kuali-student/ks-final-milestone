@@ -110,8 +110,10 @@ public class VerticalSectionView extends SectionView {
     @Override
     @SuppressWarnings("unchecked")
     public void updateModel() {
-        ModelDTO modelDTO = model.get();
-        super.updateModel(modelDTO);
+    	if(model!=null){
+    		ModelDTO modelDTO = model.get();
+    		super.updateModel(modelDTO);
+    	}
     }
     
     public void updateView(){
