@@ -1,11 +1,16 @@
 .KS-Basic-Menu-Parent-Container{
-	width: 190px;
+	width: 200px;
 	margin: 2px;
-	background-color: #b7ffd9;
-	border: 1px solid black;
+	background-color: white;
+	border-top: 1px solid #dedede;
+	border-right: 1px solid #dedede;
+	border-bottom: 1px solid #dedede;
 }
 .KS-Basic-Menu-Title-Panel{
-	background-color: #6db587;
+	background-color: #f4f4f4;
+	border-bottom: 2px solid #dedede;
+	border-top: 2px solid #dedede;
+	border-right: 2px solid #dedede;
 	width: 100%;
 	height: 40px;
 }
@@ -13,18 +18,18 @@
 	width: 100%;
 }
 .KS-Basic-Menu-Global-Indent{
-	margin-left: 10px;
+	margin-left: 5px;
 }
 .KS-Basic-Menu-Title-Label{
 	font-weight: bold;
 	font-size: 12pt;
-	color: white;
+	color: #990000;
 	margin-top: 5px;
 }
 .KS-Basic-Menu-Desc-Label{
 	margin-bottom: 5px;
 	font-size: 8pt;
-	color: white;
+	color: black;
 }
 .KS-Basic-Menu-Item-Label{
 	font-size: 10pt;
@@ -33,28 +38,31 @@
 }
 .KS-Basic-Menu-Toplevel-Item-Label{
 	font-weight: bold;
+	color: #990000;
 }
 .KS-Basic-Menu-Toplevel-Item-Panel{
 	margin-top: 10px;
 	 
 }
 .KS-Basic-Menu-Clickable-Item-Label{
-	color: #336484;
+	color: black;
 }
 .KS-Basic-Menu-Item-Panel{
 	width: 99%;
 	/*height: 20px; bad*/
 	margin-bottom: 3px;
+	border-left: 2px solid white;
 }
 .KS-Basic-Menu-Item-Panel-Selected{
-	background-color: white;
-	border: 1px solid #b8d7c8;
-	margin-bottom: 2px;
+	background-color: #dddddd;
+	border-left: 2px solid #666666;
 }
 .KS-Basic-Menu-Item-Label-Selected{
-	color: black;
+	color: #ab0000;
 }
 .KS-Basic-Menu-Item-Panel-Hover{
+	background-color: #f4f4f4;
+	border-left: 2px solid #990000;
 	cursor: pointer;
 }
 .KS-Basic-Menu-Item-Label-Hover{

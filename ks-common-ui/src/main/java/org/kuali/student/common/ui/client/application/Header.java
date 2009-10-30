@@ -43,7 +43,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
+@Deprecated
 public class Header extends Composite {
     private final VerticalPanel main = new VerticalPanel();
 
@@ -59,9 +59,9 @@ public class Header extends Composite {
 
     private KSBreadcrumb breadcrumb;
 
-    private final KSImage logo = new KSImage("images/KS_logo_on_grey.jpg");
-    private final KSImage separator1 = new KSImage("images/red_gradient_1.jpg");
-    private final KSImage separator2 = new KSImage("images/red_gradient_2.jpg");
+    private final KSImage logo = new KSImage("images/kru_banner2.jpg");//Theme.INSTANCE.getCommonImages().getHeaderLogo();
+    private final KSImage separator1 = new KSImage("");//Theme.INSTANCE.getCommonImages().getHeaderLineBreak();
+    private final KSImage separator2 = new KSImage("");//Theme.INSTANCE.getCommonImages().getHeaderLineBreak();
 //    private  String actionListUrl = "http://localhost:8081/ks-rice-dev/kew/ActionList.do";
     private  String actionListUrl;
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
@@ -105,10 +105,10 @@ public class Header extends Composite {
         buildLogoPanel();
         main.add(logoPanel);
 
-        main.add(separator1);
+        //main.add(separator1);
         buildLinksPanel();
         main.add(linksPanel);    
-        main.add(separator2);
+        //main.add(separator2);
 
         if (breadcrumbItems != null &&
                 !breadcrumbItems.isEmpty()) {

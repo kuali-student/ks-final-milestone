@@ -24,7 +24,7 @@ public class VerticalSection extends Section{
     
     public VerticalSection(){
         super.initWidget(panel);
-        setLabelType(FieldLabelType.LABEL_LEFT);
+        setLabelType(FieldLabelType.LABEL_TOP);
     }
         
     @Override
