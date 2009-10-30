@@ -95,5 +95,6 @@
     <!-- Rice URLS --> 
 	<param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
+	<param name="ks.rice.docSearch.serviceAddress">${workflow.documentsearch.base.url}</param>
     
 </config>
