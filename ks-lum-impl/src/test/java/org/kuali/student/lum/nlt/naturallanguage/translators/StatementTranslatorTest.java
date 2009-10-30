@@ -83,6 +83,38 @@ public class StatementTranslatorTest {
     }
 
 	@Test
+	public void testTranslateStatement1_English_EmptyCluId() throws Exception {
+		// Rule = R1
+		CustomLuStatementInfo stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.AND);
+
+		List<ReqCompFieldInfo> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		CustomReqComponentInfo reqComp = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		reqComp.setId("req-1");
+		reqComp.setReqCompFields(fieldList);
+		stmt1.setRequiredComponents(Arrays.asList(reqComp));
+
+		String translation = englishTranslator.translate("", stmt1, "KUALI.CATALOG");
+
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
+	}
+
+	@Test
+	public void testTranslateStatement1_English_NullCluId() throws Exception {
+		// Rule = R1
+		CustomLuStatementInfo stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.AND);
+
+		List<ReqCompFieldInfo> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		CustomReqComponentInfo reqComp = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		reqComp.setId("req-1");
+		reqComp.setReqCompFields(fieldList);
+		stmt1.setRequiredComponents(Arrays.asList(reqComp));
+
+		String translation = englishTranslator.translate(null, stmt1, "KUALI.CATALOG");
+
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
+	}
+
+	@Test
 	public void testTranslateStatement1_English() throws Exception {
 		// Rule = R1
 		CustomLuStatementInfo stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.AND);
@@ -490,6 +522,62 @@ public class StatementTranslatorTest {
 		stmt1.setChildren(Arrays.asList(stmt11, stmt12));
 		
 		return stmt1;
+	}
+
+	@Test
+	public void testTranslateStatementTree1_EmptyCluId() throws Exception {
+		// Rule: R1 AND R2
+		CustomLuStatementInfo stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.OR);
+		stmt1.setId("stmt-1");
+
+		List<ReqCompFieldInfo> fieldList1 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		CustomReqComponentInfo reqComp1 = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		reqComp1.setId("req-1");
+		reqComp1.setReqCompFields(fieldList1);
+		List<ReqCompFieldInfo> fieldList2 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		CustomReqComponentInfo reqComp2 = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		reqComp2.setId("req-2");
+		reqComp2.setReqCompFields(fieldList2);
+		
+		stmt1.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
+		
+		NLTranslationNodeInfo root = englishTranslator.translateToTree("", stmt1, "KUALI.CATALOG");
+
+		Assert.assertEquals("stmt-1", root.getId());
+		Assert.assertEquals(2, root.getChildNodes().size());
+		Assert.assertEquals("req-1", root.getChildNodes().get(0).getId());
+		Assert.assertEquals("req-2", root.getChildNodes().get(1).getId());
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", root.getChildNodes().get(0).getNLTranslation());
+		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getChildNodes().get(1).getNLTranslation());
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getNLTranslation());
+	}
+
+	@Test
+	public void testTranslateStatementTree1_NullCluId() throws Exception {
+		// Rule: R1 AND R2
+		CustomLuStatementInfo stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.OR);
+		stmt1.setId("stmt-1");
+
+		List<ReqCompFieldInfo> fieldList1 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", "CLUSET-NL-1");
+		CustomReqComponentInfo reqComp1 = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		reqComp1.setId("req-1");
+		reqComp1.setReqCompFields(fieldList1);
+		List<ReqCompFieldInfo> fieldList2 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("2", "greater_than_or_equal_to", "CLUSET-NL-2");
+		CustomReqComponentInfo reqComp2 = NaturalLanguageUtil.createCustomReqComponent("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+		reqComp2.setId("req-2");
+		reqComp2.setReqCompFields(fieldList2);
+		
+		stmt1.setRequiredComponents(Arrays.asList(reqComp1, reqComp2));
+		
+		NLTranslationNodeInfo root = englishTranslator.translateToTree(null, stmt1, "KUALI.CATALOG");
+
+		Assert.assertEquals("stmt-1", root.getId());
+		Assert.assertEquals(2, root.getChildNodes().size());
+		Assert.assertEquals("req-1", root.getChildNodes().get(0).getId());
+		Assert.assertEquals("req-2", root.getChildNodes().get(1).getId());
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", root.getChildNodes().get(0).getNLTranslation());
+		Assert.assertEquals("Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getChildNodes().get(1).getNLTranslation());
+		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", root.getNLTranslation());
 	}
 
 	@Test

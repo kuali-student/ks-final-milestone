@@ -53,7 +53,9 @@ public class TranslationServiceImpl implements TranslationService {
 
 	/**
 	 * <p>Translates and retrieves a statement directly attached to a CLU 
-	 * for a specific usuage type (context) into natural language.</p>
+	 * for a specific usuage type (context) into natural language. 
+	 * If <code>cluId</code> is null or empty then statement header is not
+	 * generated</p>
 	 * 
 	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
@@ -75,7 +77,6 @@ public class TranslationServiceImpl implements TranslationService {
 	public String getNaturalLanguageForLuStatement(String cluId, String luStatementId, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-		checkForNullOrEmptyParameter(cluId, "cluId");
 		checkForNullOrEmptyParameter(luStatementId, "luStatementId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
@@ -97,6 +98,8 @@ public class TranslationServiceImpl implements TranslationService {
 	/**
 	 * <p>Translates and retrieves a statement directly attached to a CLU 
 	 * for a specific usuage type (context) into natural language.</p>
+	 * If <code>cluId</code> is null or empty then statement header is not
+	 * generated</p>
 	 * 
 	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
@@ -121,7 +124,6 @@ public class TranslationServiceImpl implements TranslationService {
 	public String getNaturalLanguageForLuStatementInfo(String cluId, LuNlStatementInfo statementInfo, String nlUsageTypeKey, String language) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 
-		checkForNullOrEmptyParameter(cluId, "cluId");
 		checkForMissingParameter(statementInfo, "statementInfo");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
@@ -219,7 +221,8 @@ public class TranslationServiceImpl implements TranslationService {
 	/**
 	 * <p>Translates and retrieves a statement for a specific natural language 
 	 * usuage type (context) and language into a natural language 
-	 * tree structure.</p>
+	 * tree structure.</p> If <code>cluId</code> is null or empty then 
+	 * statement header is not generated</p>
 	 * 
 	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
@@ -237,7 +240,6 @@ public class TranslationServiceImpl implements TranslationService {
 	 * @throws OperationFailedException Translation fails
 	 */
 	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String luStatementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
-		checkForNullOrEmptyParameter(cluId, "cluId");
 		checkForNullOrEmptyParameter(luStatementId, "luStatementId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
@@ -258,6 +260,8 @@ public class TranslationServiceImpl implements TranslationService {
 	/**
 	 * Translates and retrieves a statement for a specific natural language 
 	 * usuage type (context) into a natural language tree structure.
+	 * If <code>cluId</code> is null or empty then statement header is not
+	 * generated</p>
 	 * 
 	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
@@ -277,7 +281,6 @@ public class TranslationServiceImpl implements TranslationService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
 	public NLTranslationNodeInfo getNaturalLanguageForStatementInfoAsTree(String cluId, LuStatementInfo statementInfo, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
-		checkForNullOrEmptyParameter(cluId, "cluId");
 		checkForMissingParameter(statementInfo, "statementInfo");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");

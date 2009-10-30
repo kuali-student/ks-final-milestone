@@ -127,14 +127,16 @@ public class StatementTranslator {
 	 */
 	public String translate(final String cluId, final CustomLuStatementInfo luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		if(luStatement == null) {
-//			return null;
     		throw new DoesNotExistException("LuStatement cannot be null");
 		}
 
 		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(luStatement);
 		List<ReqComponentReference> reqComponentList = this.statementParser.getLeafReqComponents(luStatement);
 		String message = buildMessage(nlUsageTypeKey, booleanExpression, reqComponentList);
-		String header = getHeader(luStatement, nlUsageTypeKey, cluId);
+		String header = "";
+		if(cluId != null && !cluId.isEmpty()) {
+			header = getHeader(luStatement, nlUsageTypeKey, cluId);
+		}
 		
 		return header + message;
 	}
