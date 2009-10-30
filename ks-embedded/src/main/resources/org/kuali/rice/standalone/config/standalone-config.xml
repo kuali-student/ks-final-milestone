@@ -85,6 +85,7 @@
     <!-- Rice Urls -->
     <param name="ks.rice.personLookup.serviceAddress" >${application.url}/kr/lookup.do</param>
     <param name="ks.rice.actionList.serviceAddress">${application.url}/kew/ActionList.do</param>
+    <param name="ks.rice.docSearch.serviceAddress">${workflow.documentsearch.base.url}</param>
     
 	<!-- KS Urls -->
 	<param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
