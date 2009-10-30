@@ -1,5 +1,5 @@
 // Reference Type
-INSERT INTO KSCO_REFERence_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.clu', 'Clu reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Clu')
+INSERT INTO KSCO_REFERENCE_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('referenceType.clu', 'Clu reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Clu')
 /
 
 // Comment Type
