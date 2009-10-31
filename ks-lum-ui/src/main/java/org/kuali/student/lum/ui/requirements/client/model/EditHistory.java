@@ -14,11 +14,13 @@
  */
 package org.kuali.student.lum.ui.requirements.client.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditHistory {
+public class EditHistory implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private List<StatementVO> histories = new ArrayList<StatementVO>();
     private final int MAX_NUM_HISTORIES = 5;
     private int currHistoryIndex = -1;
