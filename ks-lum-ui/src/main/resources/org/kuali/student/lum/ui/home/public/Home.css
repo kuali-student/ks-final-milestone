@@ -1,30 +1,13 @@
-.Course-Home-Menu-Item{
-	background-color: #dbdbdd;
-	background: url("images/Home-unselected-button.jpg") repeat-x;
-	font-weight: bold;
-	font-size: 10pt;
-	border: 1px solid #a2a3a5;
-	height: 40px;
-	width: 100%;
-	margin:0px;
-}
-
 .Course-Home-Menu-Label{
 	font-weight: bold;
 	font-size: 10pt;
-	color: #6b6d6a;
+	color: black;
 	margin-left:10px;
 	margin-left:5px;
 }
 
-.Course-Home-Menu-Item-Selected{
-	background-color: #233259;
-	background: url("images/Home-selected-button.jpg") repeat-x;
-	border-color: 1px solid #20335b;
-}
-
 .Course-Home-Menu-Label-Selected{
-	color: #96a6b6;
+	color: white;
 }
 
 .Course-Home-Menu-Item-Hover{
@@ -55,7 +38,8 @@
 .Home-Standard-Button{
 	color: black;
 	font-size:10pt;
-	width:175px;
+	width:250px;
+	white-space: normal;
 }
 
 .Home-Button-Row{

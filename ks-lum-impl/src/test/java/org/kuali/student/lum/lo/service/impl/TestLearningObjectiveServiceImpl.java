@@ -1,16 +1,34 @@
+/*
+ * Copyright 2009 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.lum.lo.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -29,22 +47,18 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoHierarchyInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
 public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl", additionalContextFile = "classpath:lo-additional-context.xml")
+    @Client(value = "org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl", port = "8181", additionalContextFile = "classpath:lo-additional-context.xml")
     public LearningObjectiveService client;
 
     @Test
@@ -61,14 +75,12 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
-        loInfo.setState("draft");
+        loInfo.setState("Active");
 
-        LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
+        LoInfo created = client.createLo(null, "loType.default", loInfo); 
         assertNotNull(created);
         String loId = created.getId();
         assertNotNull(loId);
-        
-        created = client.getLo(loId);
 
         RichTextInfo desc = created.getDesc();
         assertNotNull(desc);
@@ -79,8 +91,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         Map<String, String> newAttributes = created.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
-        assertEquals("kuali.lo.type.singleUse", created.getType()); 
-        assertEquals("draft", created.getState());
+        assertEquals("loType.default", created.getType()); 
+        assertEquals("Active", created.getState());
 
         loInfo = client.getLo(loId);
         loInfo.setName("Lo in the mid-30s");
@@ -97,8 +109,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         newAttributes = updated.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
-        assertEquals("kuali.lo.type.singleUse", updated.getType()); 
-        assertEquals("draft", updated.getState());
+        assertEquals("loType.default", updated.getType()); 
+        assertEquals("Active", updated.getState());
 
         try {
             client.updateLo(loId, loInfo);
@@ -118,221 +130,30 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         }
         */
         try {
-            client.createLo(null, "kuali.lo.type.singleUse", loInfo);
-            fail("MissingParameterException expected for loRepositoryId");
-        } catch (MissingParameterException e) {}
-        try {
-            client.createLo("kuali.loRepository.key.singleUse", null, loInfo);
+            client.createLo("parentloid", null, loInfo);
             fail("MissingParameterException expected for loTypeId");
         } catch (MissingParameterException e) {}
         try {
-            client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", null);
+            client.createLo("parentloid", "anytype", null);
             fail("MissingParameterException expected for loInfo");
         } catch (MissingParameterException e) {}
         
+        loInfo = client.createLo(loId, "loType.default", loInfo);
+        String childLoId = loInfo.getId();
         try {
-            client.getLo(null);
-            fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
+	        client.deleteLo(loId);
+	        fail("deleteLo() of Lo with child should have thrown DependentObjectsExistException");
+        } catch (DependentObjectsExistException doee) {}
         
-        try {
-            client.updateLo(null, loInfo);
-            fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
-        try {
-            client.updateLo(loId, null);
-            fail("MissingParameterException expected for loInfo");
-        } catch (MissingParameterException e) {}
-        
-        StatusInfo statusInfo = client.deleteLo(loId);
+        StatusInfo statusInfo = client.deleteLo(childLoId);
         assertTrue(statusInfo.getSuccess());
-    }
-    
-    @Test
-    public void testGetLoByIdList() throws DoesNotExistException, InvalidParameterException, OperationFailedException, MissingParameterException {
-    	List<LoInfo> loInfos = client.getLoByIdList(Arrays.asList("81ABEA67-3BCC-4088-8348-E265F3670145",
-    																"DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", 
-    																"91A91860-D796-4A17-976B-A6165B1A0B05"));
-    	assertEquals(3, loInfos.size());
-    }
-    
-    @Test
-    public void testGetRelatedLosByLoId() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
-    	List<LoInfo> relatedLos = null;
-    	try {
-    		relatedLos = client.getRelatedLosByLoId("81ABEA67-3BCC-4088-8348-E265F3670145", "kuali.lo.relation.type.includes");
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getRelatedLosByLoId(): " + e.getMessage());
-    	}
-    	assertNotNull(relatedLos);
-    	assertEquals(2, relatedLos.size());
-		assertTrue(relatedLos.get(0).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF") || relatedLos.get(1).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"));
+        statusInfo = client.deleteLo(loId);
+        assertTrue(statusInfo.getSuccess());
 
-        // Detecting expected errors
-        try {
-    		relatedLos = client.getRelatedLosByLoId(null, "kuali.lo.relation.type.includes");
-            fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
-        try {
-    		relatedLos = client.getRelatedLosByLoId("81ABEA67-3BCC-4088-8348-E265F3670145", null);
-            fail("MissingParameterException expected for loLoRelationTypeKey");
-        } catch (MissingParameterException e) {}
     }
     
     @Test
-    public void testGetLoRepositories() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
-    	List<LoRepositoryInfo> repos = null;
-    	try {
-    		repos = client.getLoRepositories();
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoRepositories(): " + e.getMessage());
-    	}
-    	assertNotNull(repos);
-    	assertEquals(3, repos.size());
-    	
-		boolean found = false;
-		String  repoId = "kuali.loRepository.key.state";
-		for (LoRepositoryInfo loRInfo : repos) {
-			if (loRInfo.getId().equals(repoId)) {
-				found = true;
-			}
-		}
-		if (!found) {
-			fail("Unable to find expected LoRepository with ID == " + repoId);
-		}
-    }
-    
-    @Test
-    public void testGetLoRepository() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
-    	LoRepositoryInfo repo = null;
-    	try {
-    		repo = client.getLoRepository("kuali.loRepository.key.state");
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoRepository(): " + e.getMessage());
-    	}
-    	assertNotNull(repo);
-    	assertEquals("Learning objectives mandated by the state", repo.getDesc().getPlain());
-        // Detecting expected errors
-        try {
-    		client.getLoRepository(null);
-            fail("MissingParameterException expected for loRepositoryKey");
-        } catch (MissingParameterException e) {}
-    }
-    
-    @Test
-    public void testGetLoTypesAndGetLoTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-        List<LoTypeInfo> loTypes = client.getLoTypes();
-        assertNotNull(loTypes);
-        assertTrue(!loTypes.isEmpty()); //this gets populated elsewhere
-        
-        LoTypeInfo loType = client.getLoType(loTypes.get(0).getId());
-        assertEquals(loTypes.get(0).getName(), loType.getName());
-        
-        loType = client.getLoType("kuali.lo.type.formal");
-        assertEquals("Formal", loType.getName());
-        
-        // Detecting expected errors
-        try {
-    		client.getLoType(null);
-            fail("MissingParameterException expected for loTypeKey");
-        } catch (MissingParameterException e) {}
-    }
-    
-    @Test
-    public void testGetLoLoRelationTypes()  {
-    	List<LoLoRelationTypeInfo> llrtInfos = null;
-    	try {
-    		llrtInfos = client.getLoLoRelationTypes();
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoLoRelationTypes(): " + e.getMessage());
-    	}
-    	assertNotNull(llrtInfos);
-    	assertEquals(2, llrtInfos.size());
-    	assertTrue(llrtInfos.get(0).getName().equals("inSupportOf") || llrtInfos.get(1).getName().equals("inSupportOf"));
-    			
-    }
-    
-    @Test
-    public void testGetLoLoRelation() throws OperationFailedException, DoesNotExistException, InvalidParameterException  {
-    	LoLoRelationInfo llrInfo = null;
-    	try {
-    		llrInfo = client.getLoLoRelation("61FF5B2C-5D2F-464B-B6D8-082FBF671FCB");
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoLoRelation(): " + e.getMessage());
-    	}
-    	assertNotNull(llrInfo);
-    	assertEquals("81ABEA67-3BCC-4088-8348-E265F3670145", llrInfo.getLo());
-    	assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", llrInfo.getRelatedLo());
-    	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals("draft", llrInfo.getState());
-        // Detecting expected errors
-        try {
-    		client.getLoLoRelation(null);
-            fail("MissingParameterException expected for loLoRelationId");
-        } catch (MissingParameterException e) {}
-    }
-    
-    @Test
-    public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException {
-    	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
-    	
-    	try {
-    		llrInfo = client.createLoLoRelation("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "91A91860-D796-4A17-976B-A6165B1A0B05", "kuali.lo.relation.type.includes", llrInfo);
-    	} catch (Exception e) {
-           fail("Exception caught when calling LearningObjectiveService.createLoLoRelation(): " + e.getMessage());
-    	}
-    	assertNotNull(llrInfo);
-    	llrInfo = client.getLoLoRelation(llrInfo.getId());
-    	assertEquals("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", llrInfo.getLo());
-    	assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", llrInfo.getRelatedLo());
-    	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals("draft", llrInfo.getState());
-        // Detecting expected errors
-        try {
-    		client.createLoLoRelation(null, "foo", "bar", llrInfo);
-            fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
-        try {
-    		client.createLoLoRelation("foo", null, "bar", llrInfo);
-            fail("MissingParameterException expected for relatedLoId");
-        } catch (MissingParameterException e) {}
-        try {
-    		client.createLoLoRelation("foo", "bar", null, llrInfo);
-            fail("MissingParameterException expected for loLoRelationType");
-        } catch (MissingParameterException e) {}
-        try {
-    		client.createLoLoRelation("foo", "bar", "baz", null);
-            fail("MissingParameterException expected for loLoRelationInfo");
-        } catch (MissingParameterException e) {}
-    }
-    
-    @Test
-    public void testGetLoLoRelationType() throws OperationFailedException, DoesNotExistException  {
-    	LoLoRelationTypeInfo llrtInfo = null;
-    	try {
-    		llrtInfo = client.getLoLoRelationType("kuali.lo.relation.type.includes");
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoLoRelationType(): " + e.getMessage());
-    	}
-    	assertNotNull(llrtInfo);
-    	assertEquals("includes", llrtInfo.getName());
-        // Detecting expected errors
-        try {
-    		client.getLoLoRelationType(null);
-            fail("MissingParameterException expected for loLoRelationTypeKey");
-        } catch (MissingParameterException e) {}
-    }
-    
-    @Test
-    public void testGetAllowedLoLoRelationTypesForLoType() {
-    	
-    }
-    
-    
-    
-    /*
-    @Test
-    public void testIncludedLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException {
+    public void testLoChild() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException {
         List<String> ancestors = client.getAncestors("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"); 
         assertTrue(!ancestors.contains("ABD8AE21-34E9-4858-A714-B04134F55D68"));
         
@@ -391,11 +212,65 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         assertTrue(!client.isDescendant("ABD8AE21-34E9-4858-A714-B04134F55D68", "7BCD7C0E-3E6B-4527-AC55-254C58CECC22"));
     }
-    */
     
-    /*
+    @Test
+    public void testLoEquivalency() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, PermissionDeniedException {
+        List<LoInfo> equivalents = client.getEquivalentLos("Bogus_LO_ID");
+        assertTrue(null == equivalents || equivalents.isEmpty());
+    	
+        // no LO's equivalent to 81ABEA67-3BCC-4088-8348-E265F3670145 currently
+        equivalents = client.getEquivalentLos("81ABEA67-3BCC-4088-8348-E265F3670145");
+        assertTrue(null == equivalents || equivalents.isEmpty()); 
+        
+        // now add one
+        StatusInfo result = client.addEquivalentLoToLo("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+        assertNotNull(result);
+        assertTrue(result.getSuccess());
+        
+        // make sure it was persisted
+        equivalents = client.getEquivalentLos("81ABEA67-3BCC-4088-8348-E265F3670145");
+        Collections.sort(equivalents, new Comparator<LoInfo>(){
+			public int compare(LoInfo o1, LoInfo o2) {
+				return o1.getId().compareTo(o1.getId());
+			}
+        });
+        assertEquals(1, equivalents.size());
+        assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", equivalents.get(0).getId());
+        
+        // test uni-directionality
+        assertTrue(client.isEquivalent("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", "81ABEA67-3BCC-4088-8348-E265F3670145"));
+        assertFalse(client.isEquivalent("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+        
+        equivalents = client.getLoEquivalents("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+        // there was one already from initial sql datafile load
+        assertEquals(2, equivalents.size());
+        Set<String> equivIds = new TreeSet<String>(Arrays.asList( equivalents.get(0).getId(), equivalents.get(1).getId() ));
+        // test that equiv from initial data load is there
+        assertTrue(equivIds.contains("ABD8AE21-34E9-4858-A714-B04134F55D68"));
+        // plus one we just added
+        assertTrue(equivIds.contains("81ABEA67-3BCC-4088-8348-E265F3670145"));
+        
+        try {
+            result = client.addEquivalentLoToLo("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+            fail("relationship should already exist and thus throw AlreadyExistsException");
+        } catch (AlreadyExistsException e) {
+        }
+        
+        result = client.removeEquivalentLoFromLo("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+        assertNotNull(result);
+        assertTrue(result.getSuccess());
+        
+        assertFalse(client.isEquivalent("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", "81ABEA67-3BCC-4088-8348-E265F3670145"));
+        assertFalse(client.isEquivalent("81ABEA67-3BCC-4088-8348-E265F3670145", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+    }
+    
     @Test
     public void testLoCategory() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, UnsupportedActionException {
+        StatusInfo statusInfo = null;
+        List<LoHierarchyInfo> hierarchies = client.getLoHierarchies();
+        assertNotNull(hierarchies);
+        assertFalse(hierarchies.isEmpty());
+        assertEquals(6, hierarchies.size());
         
         List<LoCategoryInfo> categories = client.getLoCategories("loHierarchy.empty.test");
         assertTrue(null == categories || categories.isEmpty());
@@ -413,8 +288,16 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         category.setAttributes(attributes);
         
+        LoHierarchyInfo loHierarchy = client.getLoHierarchy("loHierarchy.empty.test");
         
-        String categoryId = "7114D2A4-F66D-4D3A-9D41-A7AA4299C79";
+        LoCategoryInfo created = client.createLoCategory(loHierarchy.getId(), category);
+        assertNotNull(created);
+        String categoryId = created.getId();
+        assertNotNull(categoryId);
+        
+        categories = client.getLoCategories(loHierarchy.getId());
+        assertEquals(1, categories.size());
+        
         category = client.getLoCategory(categoryId);
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
         
@@ -430,7 +313,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         List<LoInfo> los = client.getLosByLoCategory(categoryId);
         assertTrue(null == los || los.isEmpty());
         
-        StatusInfo statusInfo = client.addLoCategoryToLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
+        statusInfo = client.addLoCategoryToLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
         assertTrue(statusInfo.getSuccess());
         
         los = client.getLosByLoCategory(categoryId);
@@ -458,25 +341,24 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         statusInfo = client.deleteLoCategory(categoryId);
         assertTrue(statusInfo.getSuccess());
     }
-    */
-	@Test
-	public void testSearchForResults() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		String testLoName = "Navigate Wiki";
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-		QueryParamValue qpv1 = new QueryParamValue();
-		qpv1.setKey("lo.queryParam.loName");
-		qpv1.setValue(testLoName);
-		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("lo.search.loByName", queryParamValues);
-		assertEquals(1,results.size());
-		
-        List<ResultCell> resultCells = results.get(0).getResultCells();
-        assertEquals(2, resultCells.size());
-        ResultCell cell = resultCells.get(0);
-        assertEquals("lo.resultColumn.loId", cell.getKey());
-        assertEquals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", cell.getValue());
-        cell = resultCells.get(1);
-        assertEquals("lo.resultColumn.loName", cell.getKey());
-        assertEquals(testLoName, cell.getValue());
-	}
+    
+    @Test
+    public void testLoType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        List<LoTypeInfo> loTypes = client.getLoTypes();
+        assertNotNull(loTypes);
+        assertTrue(!loTypes.isEmpty()); //this gets populated elsewhere
+        
+        LoTypeInfo loType = client.getLoType(loTypes.get(0).getId());
+        assertEquals(loTypes.get(0).getName(), loType.getName());
+    }
+    
+    @Test
+    public void testLoHierarchy() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        List<LoHierarchyInfo> loHierarchies = client.getLoHierarchies();
+        assertNotNull(loHierarchies);
+        assertTrue(!loHierarchies.isEmpty());
+        
+        LoHierarchyInfo loHierarchy = client.getLoHierarchy(loHierarchies.get(0).getId());
+        assertEquals(loHierarchies.get(0).getName(), loHierarchy.getName());
+    }
 }

@@ -410,9 +410,6 @@
                 <entry key="Document">
 					<value>classpath:ks-document.sql</value>
 				</entry>
-				<entry key="Lo">
-					<value>classpath:ks-lo.sql</value>
-				</entry>
 			</map>
 		</property>
 	</bean>

@@ -1,21 +1,43 @@
+/*
+ * Copyright 2009 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.lum.lo.dao.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
-import org.kuali.student.lum.lo.entity.LoRepository;
+import org.kuali.student.lum.lo.entity.LoCategory;
+import org.kuali.student.lum.lo.entity.LoHierarchy;
 
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
 public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
@@ -23,11 +45,14 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	public LoDao dao;
 
 	@Before
-	public void addLosToRepository() throws DoesNotExistException {
+	public void addLosToHierarchies() throws DoesNotExistException {
 		// set the hierarchy's root Lo; constraint violation if we do it in ks-lo.sql
-		LoRepository repository = dao.fetch(LoRepository.class, "kuali.loRepository.key.singleUse");
+		LoHierarchy hierarchy = dao.fetch(LoHierarchy.class, "loHierarchy.fsu");
 		Lo lo = dao.fetch(Lo.class, "81ABEA67-3BCC-4088-8348-E265F3670145");
-		repository.setRootLo(lo);
+		hierarchy.setRootLo(lo);
+		hierarchy = dao.fetch(LoHierarchy.class, "loHierarchy.kualiproject.common");
+		lo = dao.fetch(Lo.class, "7BCD7C0E-3E6B-4527-AC55-254C58CECC22");
+		hierarchy.setRootLo(lo);
 	}
 
 	@Test
@@ -41,32 +66,9 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		}
 		assertNotNull(lo);
 		assertEquals("Edit Wiki Message Structure", lo.getName());
-		assertEquals("singleUse", lo.getLoRepository().getName());
-		try {
-			lo = dao.fetch(Lo.class, "91A91860-D796-4A17-976B-A6165B1A0B05");
-		} catch (DoesNotExistException dnee) {
-			fail("Unable to find existing Learning Objective");
-		}
-		assertNotNull(lo);
-		assertEquals("Destroy Wiki", lo.getDesc().getPlain());
+		assertEquals("FSU", lo.getLoHierarchy().getName());
 	}
 	
-	@Test
-	public void testGetRelatedLosByLoId() 
-	{
-		String loId = "81ABEA67-3BCC-4088-8348-E265F3670145";
-		List<Lo> relatedLos = null;
-		try {
-			relatedLos = dao.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
-		} catch (DoesNotExistException dnee) {
-			fail("Unable to find existing Lo's related to Lo with ID == " + loId);
-		}
-		assertNotNull(relatedLos);
-		assertEquals(2, relatedLos.size());
-		assertTrue(relatedLos.get(0).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF") || relatedLos.get(1).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"));
-	}
-	
-	/*
 	@Test
 	public void getLoByIdList() {
 		List<Lo> los = dao.getLoByIdList(Arrays.asList("81ABEA67-3BCC-4088-8348-E265F3670145", "E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
@@ -310,5 +312,4 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		assertTrue(dao.removeEquivalentLoFromLo("E0619A90-66D6-4AF4-B357-E73AE44F7E88", "81ABEA67-3BCC-4088-8348-E265F3670145"));
 		assertEquals(0, dao.getLoChildren("E0619A90-66D6-4AF4-B357-E73AE44F7E88").size());
 	}
-	*/
 }

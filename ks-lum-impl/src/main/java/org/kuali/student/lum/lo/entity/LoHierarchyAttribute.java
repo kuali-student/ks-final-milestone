@@ -12,19 +12,33 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.lum.lu.ui.course.server.gwt;
+package org.kuali.student.lum.lo.entity;
 
-import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.kuali.student.core.entity.Attribute;
 
 /**
- * 
  * @author Kuali Student Team
  *
  */
-public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjectiveService> implements LoRpcService{
+@Entity
+@Table(name = "KSLU_LO_HIERARCHY_ATTR")
+public class LoHierarchyAttribute extends Attribute<LoHierarchy> {
+	@ManyToOne
+	@JoinColumn(name = "OWNER")
+	private LoHierarchy owner;
 
-    private static final long serialVersionUID = 1L;
-    
+	@Override
+	public LoHierarchy getOwner() {
+		return owner;
+	}
+
+	@Override
+	public void setOwner(LoHierarchy owner) {
+		this.owner = owner;
+	}
 }

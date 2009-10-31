@@ -32,7 +32,7 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LO_TYPE")
-public class LoType implements AttributeOwner<LoTypeAttribute> {
+public class LoType extends MetaEntity implements AttributeOwner<LoTypeAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -40,6 +40,9 @@ public class LoType implements AttributeOwner<LoTypeAttribute> {
 	@Column(name = "NAME")
 	private String name;
 	
+	// @ManyToOne(cascade = CascadeType.ALL)
+	// @JoinColumn(name = "RT_DESCR_ID")
+	// private RichText desc;
 	@Column(name = "DESCR")
 	private String description;
 	

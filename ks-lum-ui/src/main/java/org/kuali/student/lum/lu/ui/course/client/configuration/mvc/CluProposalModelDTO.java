@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
@@ -50,9 +51,6 @@ public class CluProposalModelDTO extends ModelDTO {
 		
 		map.put("cluInfo", cluInfoModelDTOValue);
 		map.put("proposalInfo", proposalInfoModelDTOValue);
-		// ModelDTOValue.ModelDTOType loInfoModelDTOValue = LOInfoModelDTO.createLOInfoModelDTOValue(LOInfoModelDTO.DTO_KEY);
-        // map.put(LOInfoModelDTO.DTO_KEY, loInfoModelDTOValue);
-
 		//You MUST create adapters after, no dictionary for top level at this point
 		checkAndCreateAdapters();
 	}
@@ -94,9 +92,6 @@ public class CluProposalModelDTO extends ModelDTO {
 	    	//ProposalInfo
 	    	ModelDTO proposalInfoModelDTO = (ModelDTO) ((ModelDTOType) this.map.get("proposalInfo")).get();
 	    	proposalInfoModelDTO.setAdapter(new ModelDTOAdapter(proposalInfoModelDTO, CluDictionaryClassNameHelper.getObjectKeytoClassMap(), "proposalInfo"));
-	    	//LoInfo
-	    	// ModelDTO loInfoModelDTO = (ModelDTO) ((ModelDTOType) this.map.get(LOInfoModelDTO.DTO_KEY)).get();
-	    	// loInfoModelDTO.setAdapter(new ModelDTOAdapter(loInfoModelDTO,CluDictionaryClassNameHelper.getObjectKeytoClassMap(), LOInfoModelDTO.DTO_KEY));
 	    	adaptersCreated = true;
     	}
     }

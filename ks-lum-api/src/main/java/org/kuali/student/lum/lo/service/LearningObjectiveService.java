@@ -36,12 +36,9 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoHierarchyInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.lum.lo.dto.LoTypeInfo;
 
 /**
@@ -56,22 +53,22 @@ import org.kuali.student.lum.lo.dto.LoTypeInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LearningObjectiveService extends DictionaryService, EnumerableService, SearchService { 
     /** 
-     * Retrieves the list of learning objective repositories known by this service.
-     * @return list of learning objective repository information
+     * Retrieves the list of learning objective hierarchies known by this service, including the root node for each hierarchy.
+     * @return list of learning objective hierarchy information
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LoRepositoryInfo> getLoRepositories() throws OperationFailedException;
+    public List<LoHierarchyInfo> getLoHierarchies() throws OperationFailedException;
 
     /** 
-     * Retrieves information about a particular learning objective repository.
-     * @param loRepositoryKey learning objective repository identifier
-     * @return information about a learning objective repository
-     * @throws DoesNotExistException specified learning objective repository not found
-     * @throws InvalidParameterException invalid loRepositoryKey
-     * @throws MissingParameterException loRepositoryKey not specified
+     * Retrieves information about a particular learning objective hierarchy.
+     * @param loHierarchyKey learning objective hierarchy identifier
+     * @return information about a learning objective hierarchy
+     * @throws DoesNotExistException specified learning objective hierarchy not found
+     * @throws InvalidParameterException invalid loHierarchyKey
+     * @throws MissingParameterException loHierarchyKey not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    public LoRepositoryInfo getLoRepository(@WebParam(name="loRepositoryKey")String loRepositoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public LoHierarchyInfo getLoHierarchy(@WebParam(name="loHierarchyKey")String loHierarchyKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of learning objective types known by this service.
@@ -92,44 +89,39 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
     public LoTypeInfo getLoType(@WebParam(name="loTypeKey")String loTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the complete list of LO to LO relation types
-     * @return list of LO to LO relation type information
+     * Validates a learning objective category. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective category (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective category can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
+     * @param validationType identifier of the extent of validation
+     * @param loCategoryInfo learning objective category information to be tested.
+     * @return results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, loCategoryInfo
+     * @throws MissingParameterException missing validationTypeKey, loCategoryInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LoLoRelationTypeInfo> getLoLoRelationTypes() throws OperationFailedException;
+    public List<ValidationResultContainer> validateLoCategory(@WebParam(name="validationType")String validationType, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the LO to LO relation type
-     * @param loLoRelationTypeKey Key of the LO to LO Relation Type
-     * @return LO to LO relation type information
-     * @throws OperationFailedException unable to complete request
-     * @throws MissingParameterException 
-     * @throws DoesNotExistException 
-	 */
-    public LoLoRelationTypeInfo getLoLoRelationType(@WebParam(name="loLoRelationTypeKey")String loLoRelationTypeKey) throws OperationFailedException, MissingParameterException, DoesNotExistException;
-
-    /** 
-     * Retrieves the list of allowed relation types between the two specified LO Types
-     * @param loTypeKey Key of the first LO Type
-     * @param relatedLoTypeKey Key of the second LO Type
-     * @return list of LO to LO relation types
-     * @throws DoesNotExistException loTypeKey, relatedLoTypeKey not found
-     * @throws InvalidParameterException invalid loTypeKey, relatedLoTypeKey
-     * @throws MissingParameterException missing loTypeKey, relatedLoTypeKey
+     * Validates a learning objective. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
+     * @param validationType identifier of the extent of validation
+     * @param loInfo learning objective information to be tested.
+     * @return results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, loInfo
+     * @throws MissingParameterException missing validationTypeKey, loInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getAllowedLoLoRelationTypesForLoType(@WebParam(name="loTypeKey")String loTypeKey, @WebParam(name="relatedLoTypeKey")String relatedLoTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultContainer> validateLo(@WebParam(name="validationType")String validationType, @WebParam(name="loInfo")LoInfo loInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves information about all the learning objective categories in a given learning objective repository.
-     * @param loRepositoryKey loRepository identifier
+     * Retrieves information about all the learning objective categories in a given learning objective hierarchy.
+     * @param loHierarchyKey loHierarchy identifier
      * @return list of learning objective category information
-     * @throws DoesNotExistException loRepositoryKey not found
-     * @throws InvalidParameterException invalid loRepositoryKey
-     * @throws MissingParameterException missing loRepositoryKey
+     * @throws DoesNotExistException loHierarchyKey not found
+     * @throws InvalidParameterException invalid loHierarchyKey
+     * @throws MissingParameterException missing loHierarchyKey
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LoCategoryInfo> getLoCategories(@WebParam(name="loRepositoryKey")String loRepositoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LoCategoryInfo> getLoCategories(@WebParam(name="loHierarchyKey")String loHierarchyKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves information about an learning objective category.
@@ -186,79 +178,111 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
     public List<LoInfo> getLosByLoCategory(@WebParam(name="loCategoryId")String loCategoryId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Retrieves the list of LO information for the LOs related to a specified LO Id with a certain LU to LU relation type (getRelatedLosByLoId from the other direction)
-     * @param relatedLoId identifier of the LO
-     * @param loLoRelationType the LO to LO relation type
-     * @return list of LO information
-     * @throws DoesNotExistException relatedLoId, loLoRelationType not found
-     * @throws InvalidParameterException invalid relatedLoId, loLoRelationType
-     * @throws MissingParameterException missing relatedLoId, loLoRelationType
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getLosByRelatedLoId(@WebParam(name="relatedLoId")String relatedLoId, @WebParam(name="loLoRelationType")String loLoRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of related LO information for the specified LO Id and LU to LU relation type (getLosByRelatedLoId from the other direction)
-     * @param loId identifier of the LO
-     * @param loLoRelationType the LO to LO relation type
-     * @return list of LO information
-     * @throws DoesNotExistException loId, loLoRelationType not found
-     * @throws InvalidParameterException invalid loId, loLoRelationType
-     * @throws MissingParameterException missing loId, loLoRelationType
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getRelatedLosByLoId(@WebParam(name="loId")String loId, @WebParam(name="loLoRelationTypeKey")String loLoRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the relationship information between LOs for a particular relationship identifier
-     * @param loLoRelationId identifier of the LO to LO relationship
-     * @return information on the relation between two LOs
-     * @throws DoesNotExistException loLoRelationId not found
-     * @throws InvalidParameterException invalid loLoRelationId
-     * @throws MissingParameterException missing loLoRelationId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoLoRelationInfo getLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the relationship information between LOs for a particular LO.
-     * @param loId identifier of the LO
-     * @return all relations (both directions) from an LO
+     * Retrieve the children (direct descendants) of a learning objective. The learning objective hierarchy is not listed as a parameter as it would be redundant in the current model. Learning objectives exist only in a single hierarchy at a time and parent/child connections are limited to that hierarchy.
+     * @param loId identifier of the learning objective
+     * @return list of learning objective information
      * @throws DoesNotExistException loId not found
      * @throws InvalidParameterException invalid loId
      * @throws MissingParameterException missing loId
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LoInfo> getLoChildren(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Validates a learning objective category. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective category (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective category can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param loCategoryInfo learning objective category information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, loCategoryInfo
-     * @throws MissingParameterException missing validationTypeKey, loCategoryInfo
+     * Retrieves the list of identifiers for the "descendant" learning objectives of the specified learning objective. Information about the distance from the specified learning objective is not passed in this call, so this can be seen as a flattened and de-duplicated representation. The learning objective hierarchy is not listed as a parameter as it would be redundant in the current model. Learning objectives exist only in a single hierarchy at a time and parent/child connections are limited to that hierarchy.
+     * @param loId identifier of the learning objective
+     * @return list of identifiers for the "descendant" learning objectives for the specified learning objective
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId
+     * @throws MissingParameterException missing loId
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultInfo> validateLoCategory(@WebParam(name="validationType")String validationType, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getAllDescendants(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
-     * Create a learning objective category in a particular learning objective repository.
-     * @param loRepositoryKey identifier of the learning objective repository
+     * Retrieve the parent learning objectives for an existing learning objective. The learning objective hierarchy is not listed as a parameter as it would be redundant in the current model. Learning objectives exist only in a single hierarchy at a time and parent/child connections are limited to that hierarchy.
+     * @param loId identifier of the learning objective
+     * @return list of learning objective information
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId
+     * @throws MissingParameterException missing loId
+     * @throws OperationFailedException unable to complete request
+	 */
+    public List<LoInfo> getLoParents(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Test if a learning objective is a descendant of another learning objective, returning true if the connection exists. This test is not only for direct children, but children through any number of intervening nodes. The learning objective hierarchy is not listed as a parameter as it would be redundant in the current model. Learning objectives exist only in a single hierarchy at a time and parent/child connections are limited to that hierarchy.
+     * @param loId identifier of the parent learning objective
+     * @param descendantLoId identifier of the potential descendant learning objective
+     * @return true if the connection exists.
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId, descendantLoId
+     * @throws MissingParameterException missing loId, descendantLoId
+     * @throws OperationFailedException unable to complete request
+	 */
+    public Boolean isDescendant(@WebParam(name="loId")String loId, @WebParam(name="descendantLoId")String descendantLoId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Retrieves the list of identifiers for "ancestor" learning objectives of the specified learning objective. Information about the distance from the specified learning objective is not passed in this call, so this can be seen as a flattened and de-duplicated representation. The learning objective hierarchy is not listed as a parameter as it would be redundant in the current model. Learning objectives exist only in a single hierarchy at a time and parent/child connections are limited to that hierarchy.
+     * @param loId identifier of the learning objective
+     * @return list of identifiers for the "ancestor" learning objectives of the specified learning objective
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId
+     * @throws MissingParameterException missing loId
+     * @throws OperationFailedException unable to complete request
+	 */
+    public List<String> getAncestors(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Retrieves all equivalent learning objectives of a learning objective. Note: Equivalency of learning objectives is uni-directional.
+     * @param loId identifier of the learning objective
+     * @return list of learning objectives
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId
+     * @throws MissingParameterException missing loId
+     * @throws OperationFailedException unable to complete request
+	 */
+    public List<LoInfo> getEquivalentLos(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Retrieves all learning objectives that a learning objective is equivalent to. Note: Equivalency of learning objectives is uni-directional.
+     * @param loId identifier of the learning objective
+     * @return list of learning objectives
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId
+     * @throws MissingParameterException missing loId
+     * @throws OperationFailedException unable to complete request
+	 */
+    public List<LoInfo> getLoEquivalents(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Tests that a learning objectives is equivalent to another. Note: Equivalency of learning objectives is uni-directional.
+     * @param loId identifier of the first learning objective
+     * @param equivalentLoId identifier of the second learning objective
+     * @return true if loId is equivalent to equivalentLoId
+     * @throws DoesNotExistException loId not found
+     * @throws InvalidParameterException invalid loId
+     * @throws MissingParameterException missing loId
+     * @throws OperationFailedException unable to complete request
+	 */
+    public Boolean isEquivalent(@WebParam(name="loId")String loId, @WebParam(name="equivalentLoId")String equivalentLoId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Create a learning objective category in a particular learning objective hierarchy.
+     * @param loHierarchyKey identifier of the learning objective hierarchy
      * @param loCategoryInfo information to create the learning objective category
      * @return information on the created learning objective category
      * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loRepositoryKey not found
-     * @throws InvalidParameterException invalid loRepositoryKey, loCategoryInfo
-     * @throws MissingParameterException missing loRepositoryKey, loCategoryInfo
+     * @throws DoesNotExistException loHierarchyKey not found
+     * @throws InvalidParameterException invalid loHierarchyKey, loCategoryInfo
+     * @throws MissingParameterException missing loHierarchyKey, loCategoryInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LoCategoryInfo createLoCategory(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LoCategoryInfo createLoCategory(@WebParam(name="loHierarchyKey")String loHierarchyKey, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Updates a learning objective category in a particular learning objective repository.
+     * Updates a learning objective category in a particular learning objective hierarchy.
      * @param loCategoryId the learning objective category identifier
      * @param loCategoryInfo information to create the learning objective category
      * @return information on the uppdated learning objective category
@@ -286,31 +310,19 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
     public StatusInfo deleteLoCategory(@WebParam(name="loCategoryId")String loCategoryId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates a learning objective. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param loInfo learning objective information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, loInfo
-     * @throws MissingParameterException missing validationTypeKey, loInfo
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ValidationResultInfo> validateLo(@WebParam(name="validationType")String validationType, @WebParam(name="loInfo")LoInfo loInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
      * Create a learning objective.
-     * @param loRepositoryKey identifier of the learning objective repository
+     * @param parentLoId identifier of the parent learning objective
      * @param loType type for the learning objective
      * @param loInfo information to create the learning objective
      * @return information on the created learning objective
      * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loRepositoryKey, loType not found
-     * @throws InvalidParameterException invalid loRepositoryKey, loType, loInfo
-     * @throws MissingParameterException missing loRepositoryKey, loType, loInfo
+     * @throws DoesNotExistException parentLoId, loType not found
+     * @throws InvalidParameterException invalid parentLoId, loType, loInfo
+     * @throws MissingParameterException missing parentLoId, loType, loInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LoInfo createLo(@WebParam(name="loRepositoryKey") String loRepositoryKey, @WebParam(name="loType") String loType, @WebParam(name="loInfo") LoInfo loInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LoInfo createLo(@WebParam(name="parentLoId")String parentLoId, @WebParam(name="loType")String loType, @WebParam(name="loInfo")LoInfo loInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Update a learning objective.
@@ -341,7 +353,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
     public StatusInfo deleteLo(@WebParam(name="loId")String loId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Add a existing learning objective category to an existing learning objective in the same repository.
+     * Add a existing learning objective category to an existing learning objective in the same hierarchy.
      * @param loCategoryId identifier of the learning objective category to add
      * @param loId identifier of the learning objective
      * @return status of the operation (success or failure)
@@ -351,12 +363,12 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws MissingParameterException missing loId, loCategoryId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws UnsupportedActionException loId, loCategoryId are not in the same repository
+     * @throws UnsupportedActionException loId, loCategoryId are not in the same hierarchy
 	 */
     public StatusInfo addLoCategoryToLo(@WebParam(name="loCategoryId")String loCategoryId, @WebParam(name="loId")String loId) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
-     * Remove a existing learning objective category from an existing learning objective in the same repository.
+     * Remove a existing learning objective category from an existing learning objective in the same hierarchy.
      * @param loCategoryId identifier of the learning objective category to remove
      * @param loId identifier of the learning objective
      * @return status of the operation (success or failure)
@@ -365,65 +377,65 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws MissingParameterException missing loId, loCategoryId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws UnsupportedActionException loId, loCategoryId are not in the same repository
+     * @throws UnsupportedActionException loId, loCategoryId are not in the same hierarchy
 	 */
     public StatusInfo removeLoCategoryFromLo(@WebParam(name="loCategoryId")String loCategoryId, @WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /** 
-     * Validates a loLoRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the loLoRelation (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the relationship can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param loLoRelationInfo loLoRelation information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, loLoRelationInfo
-     * @throws MissingParameterException missing validationTypeKey, loLoRelationInfo
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ValidationResultInfo> validateLoLoRelation(@WebParam(name="validationType")String validationType, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Create a directional relationship between two LOs
-     * @param loId identifier of the first LO in the relationship - The From or Parent of the relation
-     * @param relatedLoId identifier of the second LO in the relationship to be related to - the To or Child of the Relation
-     * @param loLoRelationType the type of the LO to LO relationship
-     * @param loLoRelationInfo information about the relationship between the two LOs
-     * @return the created LO to LO relation information
-     * @throws AlreadyExistsException relationship already exists
-     * @throws CircularRelationshipException Relation would create a loop (with ancestor Lo)
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loId, relatedLoId, luLuRelationType not found
-     * @throws InvalidParameterException invalid loId, relatedLoId, luluRelationType, loLoRelationInfo
-     * @throws MissingParameterException missing loId, relatedLoId, luluRelationType, loLoRelationInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public LoLoRelationInfo createLoLoRelation(@WebParam(name="loId")String loId, @WebParam(name="relatedLoId")String relatedLoId, @WebParam(name="loLoRelationType")String loLoRelationType, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Updates a relationship between two LOs
-     * @param loLoRelationId identifier of the LO to LO relation to be updated
-     * @param loLoRelationInfo changed information about the LO to LO relationship
-     * @return the updated LO to LO relation information
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loLoRelationId not found
-     * @throws InvalidParameterException invalid loLoRelationId, loLoRelationInfo
-     * @throws MissingParameterException missing loLoRelationId, loLoRelationInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
-	 */
-    public LoLoRelationInfo updateLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Deletes a relationship between two LOs
-     * @param loLoRelationId identifier of LO to LO relationship to delete
+     * Add a existing learning objective as a child to an existing learning objective in the same hierarchy.
+     * @param loId identifier of the learning objective to add
+     * @param parentLoId identifier of the parent learning objective
      * @return status of the operation (success or failure)
-     * @throws DoesNotExistException loLoRelationId not found
-     * @throws InvalidParameterException invalid loLoRelationId
-     * @throws MissingParameterException missing loLoRelationId
+     * @throws AlreadyExistsException loId is already set as a child to parentLoId
+     * @throws CircularRelationshipException circular relationship between the descendants and ancestors
+     * @throws DoesNotExistException loId, parentLoId not found
+     * @throws InvalidParameterException invalid loId, parentLoId
+     * @throws MissingParameterException missing loId, parentLoId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws UnsupportedActionException loId, parentId are not in the same hierarchy
+	 */
+    public StatusInfo addChildLoToLo(@WebParam(name="loId")String loId, @WebParam(name="parentLoId")String parentLoId) throws AlreadyExistsException, CircularReferenceException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /** 
+     * Remove a child learning objective from a parent learning objective.
+     * @param loId identifier of the child learning objective
+     * @param parentLoId identifier of the parent learning objective
+     * @return status of the operation (success or failure)
+     * @throws DependentObjectsExistException removing the learning objective will orphan this learning objective or orphan child learning objectives
+     * @throws DoesNotExistException loId, parentLoId not found
+     * @throws InvalidParameterException invalid loId, parentLoId
+     * @throws MissingParameterException missing loId, parentLoId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeChildLoFromLo(@WebParam(name="loId")String loId, @WebParam(name="parentLoId") String parentLoId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Set a learning objective as equivalent to another learning objective. The equivalency is unidirectional.
+     * @param loId identifier of the learning objective to add an equivalency to
+     * @param equivalentLoId identifier of the equivalent learning objective
+     * @return status of the operation (success or failure)
+     * @throws AlreadyExistsException equivalentLoId is already set as equivalent to loId
+     * @throws DoesNotExistException loId, equivalentLoId not found
+     * @throws InvalidParameterException invalid loId, equivalentLoId
+     * @throws MissingParameterException missing loId, equivalentLoId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public StatusInfo addEquivalentLoToLo(@WebParam(name="loId")String loId, @WebParam(name="equivalentLoId")String equivalentLoId) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Remove an equivalency defined with another learning objective.
+     * @param loId identifier of the learning objective to remove an equivalency from
+     * @param equivalentLoId identifier of the equivalent learning objective
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException loId, equivalentLoId not found
+     * @throws InvalidParameterException invalid loId, equivalentLoId
+     * @throws MissingParameterException missing loId, equivalentLoId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public StatusInfo removeEquivalentLoFromLo(@WebParam(name="loId")String loId, @WebParam(name="equivalentLoId")String equivalentLoId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

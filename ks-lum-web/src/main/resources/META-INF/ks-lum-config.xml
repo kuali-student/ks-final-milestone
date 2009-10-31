@@ -51,6 +51,7 @@
     <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+	<param name="ks.rice.docSearch.serviceAddress">http://localhost:8081/ks-rice-dev/kew/DocumentSearch.do?docFormKey=88888888&amp;returnLocation=http://localhost:8081/ks-rice-dev/portal.do&amp;hideReturnLink=true</param>
     
     <!-- LumUrls -->
     <param name="ks.lum.MainEntryPoint">http://localhost:8080/ks-lum-web/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>

@@ -14,7 +14,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,11 +49,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
@@ -97,7 +91,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     //Core Services
     private OrganizationService orgService;
     private ProposalService proposalService;
-    private LearningObjectiveService learningObjectiveService;
+
     private ApplicationStateManager applicationStateManager;
 
 	@Override
@@ -383,18 +377,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		return null;
 	}
 	
-    private List<LoInfo> getLoInfo(CluProposalModelDTO cluProposal){
-        try {
-            MapContext ctx = new MapContext();//TODO should/can this be reused?
-            ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposal.get("cluInfo/loInfos" /*LOInfoModelDTO.DTO_KEY*/)).get();
-            LoInfo loInfo;
-            loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
-            return null; // loInfo;
-        } catch (Exception e) {
-            logger.warn("Error converting ProposalModelDTO to loInfo",e);
-        }
-        return null;
-    }	
 	@Override
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException{
         if(simpleDocService==null){
@@ -567,16 +549,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             // now update the clu with whatever changes were made in save... methods
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
             
-            // saveLearningObjectives calls an LuService method that ends up
-            // updating the Clu to a new version
-            saveLearningObjectives(cluInfo, cluProposalDTO);
-            
-            // so now we need to re-load that new version
-            // TODO - this is heinous; far too much LuService interaction,
-            // but with separate services, what's to be done?
-            cluInfo = service.getClu(cluInfo.getId());
-            
-            //Copy everything back from updated clu
+            // 
             ModelDTO cluModelDTO = (ModelDTO)ctx.fromBean(cluInfo);
             cluInfoModelDTO.copyFrom(cluModelDTO);
             
@@ -597,16 +570,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
 
-            //Convert loInfo model dto to LoInfo
-            /*
-            ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
-            if(loInfoModelDTO != null && loInfoModelDTO.size() > 0) {
-                LoInfo loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
             
-	            //Create lo in lo service
-	            loInfo = learningObjectiveService.createLo(null, loInfo.getType(), loInfo);
-            }
-            */
             //Do Workflow Create and save docContent
             //get a user name
             String username=getCurrentUser();
@@ -639,7 +603,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
 
-	/**
+    /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#saveProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
@@ -652,44 +616,21 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             ModelDTO proposalInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(PROPOSAL_INFO_KEY)).get();
             ProposalInfo proposalInfo = (ProposalInfo)ctx.fromModelDTO(proposalInfoModelDTO);
             
-            // Update proposal
+            //Create proposal in proposalService
             proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
-            
-            // and copy updated proposal back into proposalInfo modeldto
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
             
-            /*
-            //Convert loInfo model dto to LoInfo
-            ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get("cluInfo/loInfos" LOInfoModelDTO.DTO_KEY)).get();
-            if(loInfoModelDTO != null) {
-                LoInfo loInfo = (LoInfo)ctx.fromModelDTO(loInfoModelDTO);
-            
-            //Create lo in lo service
-                loInfo = learningObjectiveService.updateLo(loInfo.getId(), loInfo);
-                loInfoModelDTO.copyFrom(loInfoModelDTO);
-            }            
-            */
             //Convert cluInfo model dto to cluInfo object
             ModelDTO cluInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(CLU_INFO_KEY)).get();
             CluInfo cluInfo = (CluInfo)ctx.fromModelDTO(cluInfoModelDTO);
 
-            
             saveCourseFormats(cluInfo, cluInfoModelDTO);
             saveCoursesOfferedJointly(cluInfo, cluProposalDTO);
             saveDynamicAttributes(cluInfo, cluInfoModelDTO);
             
-            // now update the clu with whatever changes were made in save... methods
+            // now update the clu with whatever changes were made
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
-            
-            // saveLearningObjectives calls an LuService method that ends up
-            // updating the Clu to a new version
-            saveLearningObjectives(cluInfo, cluProposalDTO);
-            
-            // so now we need to re-load that new version
-            // TODO - this is heinous; far too much LuService interaction,
-            // but with separate services, what's to be done?
-            cluInfo = service.getClu(cluInfo.getId());
             
             //Copy everything back from updated clu
             ModelDTO cluModelDTO = (ModelDTO) ctx.fromBean(cluInfo);
@@ -734,6 +675,19 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         return cluProposalDTO;
     }
     
+    //TODO: Get rid of this, for now this is so we can save data somewhere
+    private void saveDynamicAttributes(CluInfo cluInfo, ModelDTO cluInfoModelDTO){        
+        Map<String,String> attributes = cluInfo.getAttributes();
+        attributes.put("creditType", cluInfoModelDTO.getString("creditType"));
+        attributes.put("creditValue", cluInfoModelDTO.getString("creditValue"));
+        attributes.put("maxCredits", cluInfoModelDTO.getString("maxCredits"));
+        attributes.put("evalType", cluInfoModelDTO.getString("evalType"));
+        attributes.put("feeAmount", cluInfoModelDTO.getString("feeAmount"));
+        attributes.put("taxable", cluInfoModelDTO.getString("taxable"));
+        attributes.put("feeDesc", cluInfoModelDTO.getString("feeDesc"));
+        attributes.put("internalNotation", cluInfoModelDTO.getString("internalNotation"));
+    }
+    
     private void saveCourseFormats(CluInfo parentCluInfo, ModelDTO cluInfoModelDTO) throws Exception{
         List<ModelDTOValue> courseFormatList =  cluInfoModelDTO.getList("courseFormats");
         
@@ -742,16 +696,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        
             List<String> courseFormatIds = new ArrayList<String>();
             
-            // for every 'Course Format' in the proposalDTO
             for (ModelDTOValue courseFormatValue : courseFormatList) {
                 //Convert course format shell model dto to clu info
                 ModelDTO courseFormatModelDTO = ((ModelDTOType)courseFormatValue).get();                
                 CluInfo courseFormatShell = (CluInfo)ctx.fromModelDTO(courseFormatModelDTO);                
-                
                 courseFormatShell.setType("kuali.lu.type.CreditCourseFormatShell");	// TODO - a constant somewhere?
                 courseFormatShell.setState("draft"); 							// TODO - a constant somewhere?
-                // TODO - what else should we set from the parentCluInfo?
-                // courseFormatShell.setAcademicSubjectOrgs(new ArrayList(parentCluInfo.getAcademicSubjectOrgs()));
 	        	
                 //Get activities
 		        List<ModelDTOValue> activityList = courseFormatModelDTO.getList("activities");
@@ -762,29 +712,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		        	for (ModelDTOValue activityValue : activityList) {
 		        		ModelDTO activityModelDTO = ((ModelDTOType) activityValue).get();                
 		                CluInfo activityCluInfo = (CluInfo) ctx.fromModelDTO(activityModelDTO);
-		                /* 
-		                // populate activity's fields from overarching CluInfo
-		                // could probably just copy some of these List's, rather than creating copies
-		                activityCluInfo.setAcademicSubjectOrgs(new ArrayList(parentCluInfo.getAcademicSubjectOrgs()));
-		                // activityCluInfo.setAccountingInfo(parentCluInfo.getAccountingInfo()); // ??
-		                activityCluInfo.setAccreditationList(parentCluInfo.getAccreditationList()); // ??
-		                activityCluInfo.setPrimaryAdminOrg(parentCluInfo.getPrimaryAdminOrg());
-		                activityCluInfo.setAlternateAdminOrgs(new ArrayList<AdminOrgInfo>(parentCluInfo.getAlternateAdminOrgs()));
-		                activityCluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>(parentCluInfo.getAlternateIdentifiers()));
-		                // activityCluInfo.setAttributes(new HashMap<String, String>(parentCluInfo.getAttributes()); // ??
-		                activityCluInfo.setCampusLocationList(new ArrayList<String>(parentCluInfo.getCampusLocationList()));
-		                // don't do this; this is one of the values set by proposer when creating the activity
-		                // activityCluInfo.setDefaultEnrollmentEstimate(...
-		                activityCluInfo.setDefaultMaximumEnrollment(parentCluInfo.getDefaultMaximumEnrollment());
-		                activityCluInfo.setDesc(parentCluInfo.getDesc()); // ??
-		                activityCluInfo.setEffectiveDate((Date) parentCluInfo.getEffectiveDate().clone());
-		                activityCluInfo.setExpirationDate((Date) parentCluInfo.getExpirationDate().clone());
-		                activityCluInfo.setFeeInfo(parentCluInfo.getFeeInfo()); // ??
-		                activityCluInfo.setHasEarlyDropDeadline(parentCluInfo.isHasEarlyDropDeadline());
-		                activityCluInfo.setHazardousForDisabledStudents(parentCluInfo.isHasEarlyDropDeadline());
-		                activityCluInfo.setInstructors(new ArrayList<CluInstructorInfo>(parentCluInfo.getInstructors());
-		                activityCluInfo.set
-		                */
 		                
 			            // Create or update clu via LuService
 		                if (null == activityCluInfo.getId()) {
@@ -871,90 +798,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
     }
     
-    //TODO: Get rid of this, for now this is so we can save data somewhere
-    private void saveDynamicAttributes(CluInfo cluInfo, ModelDTO cluInfoModelDTO){        
-        Map<String,String> attributes = cluInfo.getAttributes();
-        attributes.put("creditType", cluInfoModelDTO.getString("creditType"));
-        attributes.put("creditValue", cluInfoModelDTO.getString("creditValue"));
-        attributes.put("maxCredits", cluInfoModelDTO.getString("maxCredits"));
-        attributes.put("evalType", cluInfoModelDTO.getString("evalType"));
-        attributes.put("feeAmount", cluInfoModelDTO.getString("feeAmount"));
-        attributes.put("taxable", cluInfoModelDTO.getString("taxable"));
-        attributes.put("feeDesc", cluInfoModelDTO.getString("feeDesc"));
-        attributes.put("internalNotation", cluInfoModelDTO.getString("internalNotation"));
-    }
-    
-    private void saveLearningObjectives(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception {
-        ModelDTOValue.ListType learningObjectiveListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("loInfos");
-        
-        if (null != learningObjectiveListType) {
-	        MapContext ctx = new MapContext();
-        	List<ModelDTOValue> learningObjectiveList = learningObjectiveListType.get();
-        	
-        	// going to assume here that cluInfo is for a valid Clu that's already been persisted
-        	// TODO - this needs to recursively navigate the LO tree(s) that the user has specified in the UI
-        	for (ModelDTOValue learningObjectiveValue : learningObjectiveList) {
-        		ModelDTO learningObjectiveModelDTO = ((ModelDTOValue.ModelDTOType) learningObjectiveValue).get();
-        		// for now, all we have is 'name' in the ModelDTO, and don't have an LoInfoModelDTO as such
-        		// (dictionary only has one; need a list)
-        		LoInfo info = (LoInfo) ctx.fromModelDTO(learningObjectiveModelDTO);
-        		String loName = info.getName();
-        		
-                if (null != loName && loName.length() > 0) {
-	                // does the LO already exist?
-	                String existingLoId = getLoIdByName(loName); 
-                	if (null == existingLoId) {
-                		// nope; create it
-                		// TODO - hardcoded Repo is just bad; somehow this needs to come from
-                		LoInfo createdLo = learningObjectiveService.createLo("kuali.loRepository.key.singleUse", info.getType(), info);
-                		// create Clu-Lo relation
-                		// TODO - this will be Clu-Lo or Lo-Lo, depending on where we are in the tree
-                		service.addOutcomeLoToClu(createdLo.getId(), cluInfo.getId());
-                	} else {
-                		// make sure the proper CluLoRelation exists
-                		try {
-                			// TODO - will need to be this call or
-                			// learningObjectiveService.createLoLoRelation() when doing multi-level LO's
-	            			service.addOutcomeLoToClu(existingLoId, cluInfo.getId());
-                		} catch (AlreadyExistsException aee) {
-                			// no worries; just checking
-                		}
-                	}
-                }
-        	}
-        }
-	}
-
-    
-    private String getLoIdByName(String learningObjectiveName) {
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
-		QueryParamValue qpLoName = new QueryParamValue();
-		qpLoName.setKey("lo.queryParam.loName");
-		qpLoName.setValue(learningObjectiveName);
-		queryParamValues.add(qpLoName);
-
-		try {
-			List<Result> results = learningObjectiveService.searchForResults("lo.search.loByName", queryParamValues);
-
-			if (null != results) {
-				switch (results.size()) {
-					case 0 :
-						return null;
-					case 1:
-				        List<ResultCell> resultCells = results.get(0).getResultCells();
-				        ResultCell cell = resultCells.get(0);
-				        return cell.getValue();
-					default:
-						throw new OperationFailedException("More than one LearningObjective with name: " + learningObjectiveName);
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return null;
-	}
-
-	/**
+    /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#deleteProposal(java.lang.String)
      */
     @Override
@@ -981,7 +825,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(WF_TYPE_CLU_DOCUMENT, proposalInfo.getId());
 
             if(docDetail==null){
-            	throw new OperationFailedException("Error found getting document. " );
+            	throw new OperationFailedException("Error found gettting document. " );
             }
 
             String routeComment = "Routed By CluProposalService";
@@ -1086,7 +930,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private void hydrateCluModelDTO(String parentCluId, ModelDTO cluModelDTO) throws OperationFailedException {
         getCourseFormats(parentCluId, cluModelDTO);
         getCoursesOfferedJointly(parentCluId, cluModelDTO);
-        getLearningObjectives(parentCluId, cluModelDTO);
 	}
 
 	private void getDynamicAttributes(CluInfo cluInfo, ModelDTO cluModelDTO){
@@ -1168,35 +1011,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	    }
 	}
 
-	private void getLearningObjectives(String parentCluId, ModelDTO cluProposalDTO) {
-        MapContext ctx = new MapContext();
-        ModelDTOValue.ListType loList = new ModelDTOValue.ListType();
-    	List<ModelDTOValue> loModelDTOValueList = new ArrayList<ModelDTOValue>();;
-
-		try {
-	        logger.debug("Retrieving learning objectives for clu with id: " + parentCluId);
-	        
-			List<String> loIds = service.getLoIdsByClu(parentCluId);
-	        
-	        for (String loId : loIds) {
-	        	LoInfo loInfo = learningObjectiveService.getLo(loId);
-	        	
-	        	ModelDTO loInfoModelDTO = ctx.fromBean(loInfo);
-	        	
-	        	ModelDTOValue.ModelDTOType loInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
-	        	
-	        	loInfoModelDTOValue.set(loInfoModelDTO);
-	        	
-				loModelDTOValueList.add(loInfoModelDTOValue);
-	        }
-        	loList.set(loModelDTOValueList);
-        	
-        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("loInfos", loList);
-	    } catch (Exception e) {
-	        logger.error("Error getting learning objective. ", e);
-	    }
-	}
-
 	private String getCurrentUser() {
         String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -1236,7 +1050,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		marshaller.marshal(docContent, writer);
     		return writer.toString();
 
-    	} catch(Exception e) {
+    	}catch(Exception e){
     		throw new OperationFailedException("Error creating Document content for Clu. ", e);
     	}
 	}
@@ -1332,17 +1146,4 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         this.applicationStateManager = applicationStateManager;
     } 
     
-    /**
-     * @return the learningObjectiveService
-     */
-    public LearningObjectiveService getLearningObjectiveService() {
-        return learningObjectiveService;
-    }
-
-    /**
-     * @param learningObjectiveService the learningObjectiveService to set
-     */
-    public void setLearningObjectiveService(LearningObjectiveService learningObjectiveService) {
-        this.learningObjectiveService = learningObjectiveService;
-    }
 }

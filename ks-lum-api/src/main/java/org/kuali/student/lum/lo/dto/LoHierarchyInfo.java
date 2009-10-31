@@ -26,23 +26,22 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
- * Detailed information about a learning objective
+ * Detailed information about a learning objective hierarchy, including the root node.
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Thu Jun 18 21:14:56 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loInfo+Structure">LoInfo</>
+ * @Since Thu Jun 18 21:14:26 PDT 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loHierarchyInfo+Structure">LoHierarchyInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class LoHierarchyInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,7 +52,7 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     private RichTextInfo desc;
 
     @XmlElement
-    private String loHierarchy;
+    private String rootLoId;
 
     @XmlElement
     private Date effectiveDate;
@@ -62,25 +61,17 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     private Date expirationDate;
 
     @XmlElement
-    // TODO - change to this when it's been added to Rice
-    // @XmlJavaTypeAdapter(StringToStringMapAdapter.class)
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
     @XmlElement
     private MetaInfo metaInfo;
 
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
+    @XmlAttribute(name="key")
     private String id;
 
     /**
-     * Friendly name of the learning objective
+     * Friendly name of the hierarchy
      */
     public String getName() {
         return name;
@@ -91,7 +82,7 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     }
 
     /**
-     * Narrative description of the learning objective
+     * Narrative description of the learning objective hierarchy
      */
     public RichTextInfo getDesc() {
         return desc;
@@ -102,18 +93,18 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     }
 
     /**
-     * Unique identifier for a learning objective hierarchy. This value is immutable once set during creation.
+     * Identifier for the root node of the learning objective hierarchy
      */
-    public String getLoHierarchy() {
-        return loHierarchy;
+    public String getRootLoId() {
+        return rootLoId;
     }
 
-    public void setLoHierarchy(String loHierarchy) {
-        this.loHierarchy = loHierarchy;
+    public void setRootLoId(String rootLoId) {
+        this.rootLoId = rootLoId;
     }
 
     /**
-     * Date and time that this learning objective became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time that this learning objective hierarchy became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
      */
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -124,7 +115,7 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     }
 
     /**
-     * Date and time that this learning objective expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this learning objective hierarchy expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
      */
     public Date getExpirationDate() {
         return expirationDate;
@@ -160,29 +151,7 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     }
 
     /**
-     * Unique identifier for a learning objective type.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for a learning objective record. This is optional, due to the identifier being set at the time of creation. Once the learning objective has been created, this should be seen as required.
+     * Unique identifier for a learning objective hierarchy.
      */
     public String getId() {
         return id;

@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -28,9 +29,12 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -42,6 +46,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -54,8 +59,6 @@ public class CluProposalController extends PagedSectionLayout{
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
 
 	private String docId = null;
-	private String proposalType = null;
-	private String cluType = null;
 	private SaveActionEvent currentSaveEvent = null;
     private boolean processingSave = false;
     private String proposalId = null;
@@ -64,6 +67,9 @@ public class CluProposalController extends PagedSectionLayout{
 	private final String CLU_PROPOSAL_NAME_KEY = "proposalInfo/name";
 
 	private String PROPOSAL_STATE = "draft.private";	
+    private String PROPOSAL_TYPE = "kuali.proposal.type.course.create";
+    
+	private final String CLU_TYPE = "kuali.lu.type.CreditCourse";
 	private final String CLU_STATE = "draft";
 	
 	private final String REFERENCE_TYPE = "referenceType.clu";
@@ -84,17 +90,14 @@ public class CluProposalController extends PagedSectionLayout{
         }
     });
     
-    public CluProposalController(String proposalType, String cluType, String docId) {
+    public CluProposalController(String docId) {
     	super();
-    	this.docId = docId;   	this.proposalType = proposalType;
-    	this.cluType = cluType;
+    	this.docId = docId;
     	init();
 	}
     
-    public CluProposalController(String proposalType, String cluType){
+    public CluProposalController(){
         super();
-    	this.proposalType = proposalType;
-    	this.cluType = cluType;        
         init();
     }
     
@@ -103,14 +106,7 @@ public class CluProposalController extends PagedSectionLayout{
         String typeKey ="type";
         String stateKey = "state";
         
-        if (proposalType == LUConstants.PROPOSAL_TYPE_COURSE_CREATE) {
-        	LuConfigurer.configureCourseProposal(this, objectKey, typeKey, stateKey);
-        } else if (proposalType == LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE) { 
-        	proposalType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE; //FIXME: remove when we have programs in dictionary...
-        	cluType = LUConstants.CLU_TYPE_CREDIT_COURSE; //FIXME: remove when we have programs in dictionary...
-        	LuConfigurer.configureProgramProposal(this, objectKey, typeKey, stateKey);
-        }
-        
+        LuConfigurer.configureCluProposal(this, objectKey, typeKey, stateKey);
         addButton(saveButton);
         addButton(quitButton);
         cluProposalModel = null;
@@ -187,7 +183,7 @@ public class CluProposalController extends PagedSectionLayout{
         		}
         		
         		ref.setReferenceTypeKey(REFERENCE_TYPE);
-        		ref.setReferenceType(cluType);
+        		ref.setReferenceType(CLU_TYPE);
         		ref.setReferenceState(CLU_STATE);
         		Model<ReferenceModel> model = new Model<ReferenceModel>();
         		model.put(ref);
@@ -261,10 +257,10 @@ public class CluProposalController extends PagedSectionLayout{
         cluProposalModel = new Model<CluProposalModelDTO>();                
         cluProposalModel.put(new CluProposalModelDTO());
         
-        cluProposalModel.get().put("cluInfo/type", cluType);
+        cluProposalModel.get().put("cluInfo/type", CLU_TYPE);
         cluProposalModel.get().put("cluInfo/state", CLU_STATE);
 
-        cluProposalModel.get().put("proposalInfo/type", proposalType);
+        cluProposalModel.get().put("proposalInfo/type", PROPOSAL_TYPE);
         cluProposalModel.get().put("proposalInfo/state", PROPOSAL_STATE);
         CluProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());        
     }
@@ -276,13 +272,10 @@ public class CluProposalController extends PagedSectionLayout{
             showStartSection();
         } else {
             getStartSection().updateModel();
-            
             getCurrentView().updateModel();
-            
             for(View sectionView : orderedSectionViews){
             	sectionView.updateModel();
             }
-            
             saveProposalClu(saveActionEvent);
 //            processingSave=true;
 //            View v = getCurrentView();
@@ -294,6 +287,23 @@ public class CluProposalController extends PagedSectionLayout{
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
+    	final KSLightBox saveWindow = new KSLightBox();
+    	VerticalPanel vp = new VerticalPanel();
+    	final KSLabel saveProgress = new KSLabel("Saving...");
+    	final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
+
+			@Override
+			public void exec(OkEnum result) {
+				saveWindow.hide();
+				
+			}
+		});
+    	buttonGroup.setWidth("250px");
+    	buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
+    	buttonGroup.setContent(saveProgress);
+    	saveWindow.setWidget(buttonGroup);
+    	saveWindow.show();
+    	
         ((ModelDTO)cluProposalModel.get()).commit();
         
         if(cluProposalModel.get().get("cluInfo/id") == null){
@@ -301,12 +311,16 @@ public class CluProposalController extends PagedSectionLayout{
                 public void onFailure(Throwable caught) {
                     caught.printStackTrace();
                     Window.alert(caught.getMessage());
+                    saveProgress.setText("Save Failed!  Please Try Again.");
+                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {
                 	result.setAdaptersCreated(false);
                     cluProposalModel.put(result);
-                    saveActionEvent.doActionComplete();                    
+                    saveActionEvent.doActionComplete();
+                    saveProgress.setText("Save Successful");
+                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                 }
             });
             savedOnce = true;
@@ -316,13 +330,17 @@ public class CluProposalController extends PagedSectionLayout{
             cluProposalRpcServiceAsync.saveProposal(cluProposalModel.get(), new AsyncCallback<CluProposalModelDTO>(){
                 public void onFailure(Throwable caught) {
                     caught.printStackTrace();          
-                    Window.alert(caught.getMessage());                    
+                    Window.alert(caught.getMessage());
+                    saveProgress.setText("Save Failed!  Please Try Again.");
+                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                 }
 
                 public void onSuccess(CluProposalModelDTO result) {
                 	result.setAdaptersCreated(false);
                     cluProposalModel.put(result);
-                    saveActionEvent.doActionComplete();                    
+                    saveActionEvent.doActionComplete();  
+                    saveProgress.setText("Save Successful");
+                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                 }
             });
         }        
@@ -352,10 +370,8 @@ public class CluProposalController extends PagedSectionLayout{
         this.cluProposalModel = null;        
     }
     
-    public void clear(String proposalType, String cluType){
+    public void clear(){
         super.clear();
-        this.proposalType = proposalType;
-        this.cluType = cluType;
         this.cluProposalModel = null;
         this.setModelDTO(null, null);
         this.docId = null;

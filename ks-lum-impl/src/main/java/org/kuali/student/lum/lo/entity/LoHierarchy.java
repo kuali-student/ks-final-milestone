@@ -25,11 +25,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -37,24 +37,23 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY")
-public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryAttribute> {
+@Table(name = "KSLU_LO_HIRCHY")
+public class LoHierarchy extends MetaEntity implements AttributeOwner<LoHierarchyAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
 
 	@Column(name = "NAME")
-	private
-	String name;
+	private String name;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
 	private LoRichText desc;
 	
-	@ManyToOne
-	@JoinColumn(name = "LOHIRCHY_ID")
-	private LoHierarchy loHierarchy;
-
+	@OneToOne
+	@JoinColumn(name = "LO_ROOT_ID")
+	private Lo rootLo;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
@@ -63,20 +62,113 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "loHierarchy")
+	private List<LoCategory> categories;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<LoCategoryAttribute> attributes;
+	private List<LoHierarchyAttribute> attributes;
 
+	/**
+	 * @param desc the desc to set
+	 */
+	public void setDesc(LoRichText desc) {
+		this.desc = desc;
+	}
+
+	/**
+	 * @return the desc
+	 */
+	public LoRichText getDesc() {
+		return desc;
+	}
+
+	/**
+	 * @param rootLo the rootLo to set
+	 */
+	public void setRootLo(Lo rootLo) {
+		this.rootLo = rootLo;
+	}
+
+	/**
+	 * @return the rootLo
+	 */
+	public Lo getRootLo() {
+		return rootLo;
+	}
+
+	/**
+	 * @param effectiveDate the effectiveDate to set
+	 */
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	/**
+	 * @return the effectiveDate
+	 */
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	/**
+	 * @param expirationDate the expirationDate to set
+	 */
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * @return the expirationDate
+	 */
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(List<LoCategory> categories) {
+		this.categories = categories;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public List<LoCategory> getCategories() {
+		return categories;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
+	 */
 	@Override
-	protected void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
+	public List<LoHierarchyAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<LoHierarchyAttribute>(0);
+		}
+		return attributes;
 	}
 
-	public String getId() {
-		return id;
+	/* (non-Javadoc)
+	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
+	 */
+	@Override
+	public void setAttributes(List<LoHierarchyAttribute> attributes) {
+		this.attributes = attributes;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -91,62 +183,5 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	 */
 	public String getName() {
 		return name;
-	}
-
-	public LoRichText getDesc() {
-		return desc;
-	}
-
-	public void setDesc(LoRichText desc) {
-		this.desc = desc;
-	}
-
-	/**
-	 * @param loHierarchy the loHierarchy to set
-	 */
-	public void setLoHierarchy(LoHierarchy loHierarchy) {
-		this.loHierarchy = loHierarchy;
-	}
-
-	/**
-	 * @return the loHierarchy
-	 */
-	public LoHierarchy getLoHierarchy() {
-		return loHierarchy;
-	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
-	 */
-	@Override
-	public List<LoCategoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoCategoryAttribute>(0);
-		}
-		return attributes;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
-	 */
-	@Override
-	public void setAttributes(List<LoCategoryAttribute> attributes) {
-		this.attributes = attributes;
 	}
 }

@@ -1,17 +1,16 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 package org.kuali.student.lum.lo.dto;
 
@@ -36,9 +35,8 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * Detailed information about a learning objective category.
  *
  * @Author KSContractMojo
- * @Author jimt
- * @Since Wed Oct 14 10:10:05 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTR/loCategoryInfo+Structure+v1.0-rc2">LoCategoryInfo</>
+ * @Since Thu Jun 18 21:14:47 PDT 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loCategoryInfo+Structure">LoCategoryInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -53,7 +51,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     private RichTextInfo desc;
 
     @XmlElement
-    private String loRepository;
+    private String loHierarchy;
 
     @XmlElement
     private Date effectiveDate;
@@ -94,14 +92,14 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page loRepositoryKey Structure does not exist. Once set in creation, this is immutable.
+     * Unique identifier for a learning objective hierarchy. Once set in creation, this is immutable.
      */
-    public String getLoRepository() {
-        return loRepository;
+    public String getLoHierarchy() {
+        return loHierarchy;
     }
 
-    public void setLoRepository(String loRepository) {
-        this.loRepository = loRepository;
+    public void setLoHierarchy(String loHierarchy) {
+        this.loHierarchy = loHierarchy;
     }
 
     /**
@@ -127,7 +125,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page attributeInfoList Structure does not exist.
+     * List of key/value pairs, typically used for dynamic attributes.
      */
     public Map<String, String> getAttributes() {
         if (attributes == null) {
@@ -141,7 +139,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page metaInfo Structure does not exist.
+     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
      */
     public MetaInfo getMetaInfo() {
         return metaInfo;
@@ -152,7 +150,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page loCategoryId Structure does not exist. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required.
+     * Unique identifier for a learning objective category record. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required.
      */
     public String getId() {
         return id;

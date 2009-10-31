@@ -1,17 +1,3 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- * 
- * http://www.osedu.org/licenses/ECL-2.0
- * 
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
 package org.kuali.student.lum.lu.ui.home.client.view;
 
 import java.util.ArrayList;
@@ -22,7 +8,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -45,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class HomeMenuController extends Controller{
     
     public enum MenuViews {
-        DEFAULT_VIEW, CREATE_COURSE_VIEW, FIND_VIEW, CREATE_PROGRAM_VIEW
+        DEFAULT_VIEW, CREATE_COURSE_VIEW, FIND_VIEW
     }
     
     public View defaultPanel = new DefaultPanel(this);
@@ -63,7 +48,6 @@ public class HomeMenuController extends Controller{
     public static String CREATE_CREDIT_COURSE = "Create an Academic Credit Course";
     public static String CREATE_NON_CREDIT_COURSE = "Create a Non Credit Course";
     public static String CREATE_GROUP = "Create a Group";
-    public static String CREATE_PROGRAM = "Create a Program";
     public static String MODIFY_COURSE = "Modify Course";
     public static String MODIFY_PROGRAM = "Modify a Program";
     public static String RETIRE_COURSE = "Retire a Course";
@@ -73,7 +57,6 @@ public class HomeMenuController extends Controller{
     private MenuItemPanel creditCourse = new MenuItemPanel(CREATE_CREDIT_COURSE);
     private MenuItemPanel nonCreditCourse = new MenuItemPanel(CREATE_NON_CREDIT_COURSE);
     private MenuItemPanel createGroup = new MenuItemPanel(CREATE_GROUP);
-    private MenuItemPanel createProgram = new MenuItemPanel(CREATE_PROGRAM);    
     private MenuItemPanel modifyCourse = new MenuItemPanel(MODIFY_COURSE);
     private MenuItemPanel modifyProgram = new MenuItemPanel(MODIFY_PROGRAM);
     private MenuItemPanel retireCourse = new MenuItemPanel(RETIRE_COURSE);
@@ -133,10 +116,6 @@ public class HomeMenuController extends Controller{
                 creditCourse.select();
                 showView(MenuViews.CREATE_COURSE_VIEW);
             }
-            else if (sender == createProgram.getPanel()) {
-            	createProgram.select();
-            	fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_PROGRAM));
-            }            
             else if(sender == find.getPanel()){
                 find.select();
                 showView(MenuViews.FIND_VIEW);
@@ -187,7 +166,6 @@ public class HomeMenuController extends Controller{
         addMenuItem(creditCourse);
         addMenuItem(nonCreditCourse);
         addMenuItem(createGroup);
-        addMenuItem(createProgram);        
         addMenuItem(modifyCourse);
         addMenuItem(modifyProgram);
         addMenuItem(retireCourse);
@@ -209,8 +187,6 @@ public class HomeMenuController extends Controller{
                 return defaultPanel;
             case CREATE_COURSE_VIEW:
                 return creditCoursePanel;
-            case CREATE_PROGRAM_VIEW:
-            	return defaultPanel;
             case FIND_VIEW:
                 return findPanel;
             default:
@@ -230,7 +206,8 @@ public class HomeMenuController extends Controller{
 
     @Override
     public void showDefaultView() {
-        showView(MenuViews.DEFAULT_VIEW);
+    	creditCourse.select();
+        showView(MenuViews.CREATE_COURSE_VIEW);
         
     }
 

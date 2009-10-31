@@ -111,14 +111,12 @@
 	
 	   		<bean parent="enCourse" p:id="cluRationale"	    	p:value="Course Rationale"/>
 	   		<bean parent="enCourse" p:id="cluDivision"	    	p:value="Division:    "/>
-	   		<bean parent="enCourse" p:id="cluSuffixCode"	    p:value="Suffix Code:    "/>
+	   		<bean parent="enCourse" p:id="cluSuffixCode"	    	p:value="Suffix Code:    "/>
 	   		<bean parent="enCourse" p:id="cluProposer"	    	p:value="Proposer:    "/>
 	   		<bean parent="enCourse" p:id="cluDelegate"	    	p:value="Delegate:    "/>
-	   		<bean parent="enCourse" p:id="cluCollaborators"	    p:value="Collaborators:    "/>
-		   	<bean parent="enCourse" p:id="cluLearningObjectives"		p:value="Learning Objectives"/>
-	   		<bean parent="enCourse" p:id="cluLearningObjective"	p:value="Learning Objective"/>
-	   		<bean parent="enCourse" p:id="cluAddLOs"			p:value="+ Add More Learning Objectives"/>
-	   		<bean parent="enCourse" p:id="cluLOName"			p:value="Name"/>
+	   		<bean parent="enCourse" p:id="cluCollaborators"	    	p:value="Collaborators:    "/>
+	   	<bean parent="enCourse" p:id="cluLearningObjectives"		p:value="Learning Objectives"/>
+	   		<bean parent="enCourse" p:id="cluLearningObjective"	    	p:value="Learning Objective"/>
 
    	<bean parent="enCourse" p:id="cluStudentEligibility"		p:value="Student Eligibility"/>
 	 <bean parent="enCourse" p:id="cluCourseRestrictions"		p:value="Course Restrictions"/>
@@ -204,15 +202,5 @@
 	  		<bean parent="esCourse" p:id="cluGeneralRequirements"		p:value="Requisitos del general, de la universidad y de la anchura"/>
 	  		<bean parent="esCourse" p:id="cluDeptRequirements"		p:value="Requisitos departamentales"/>
 	  		
-	<!-- Program proposal labels -->
-	  		
-	<bean id="enProgram" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
-        <property name="locale"         value="en" />
-        <property name="groupName"      value="program" />
-	</bean>	  		
-
-   	<bean parent="enProgram" p:id="cluAcademicContent"		p:value="Academic Content"/>
-	   	<bean parent="enProgram" p:id="cluInformation"		p:value="Program Information"/>
-	   		<bean parent="enProgram" p:id="cluShortTitle"	    	p:value="Short Program Title"/>
 
 </beans>

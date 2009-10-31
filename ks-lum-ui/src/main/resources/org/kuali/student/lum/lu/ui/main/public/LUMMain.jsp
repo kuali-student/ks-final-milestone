@@ -18,52 +18,39 @@
     try {
         MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
         String commonMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"common", "validation"});
-        String luMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course", "program"});
+        String lumMessageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en", new String[]{"course"});
 
-        DictionaryRPCPreloader luLoader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lu}LuService");
-        DictionaryRPCPreloader loLoader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lo}LearningObjectiveService");
+        DictionaryRPCPreloader preloader = new DictionaryRPCPreloader("{http://student.kuali.org/wsdl/lu}LuService");
         Map structures = new HashMap();
 
-        String luTypes = luLoader.getObjectTypesEncodedString();
-        String[] luKeys = luLoader.getObjectTypes();
-        for (int i = 0; i < luKeys.length; i++) {
-            String key = luKeys[i];
-            String s = luLoader.getObjectStructureEncodedString(key);
+        String objectTypes = preloader.getObjectTypesEncodedString();
+
+        String[] keys = preloader.getObjectTypes();
+
+        for (int i = 0; i < keys.length; i++) {
+            String key = keys[i];
+            String s = preloader.getObjectStructureEncodedString(key);
             structures.put(key, s);
+
         }
-        
-        String loTypes = loLoader.getObjectTypesEncodedString();
-        String[] loKeys = loLoader.getObjectTypes();
-        for (int i = 0; i < loKeys.length; i++) {
-            String key = loKeys[i];
-            String s = loLoader.getObjectStructureEncodedString(key);
-            structures.put(key, s);
-        }
- 
 %>
 <script type="text/javascript"> 
 	    var commonMessages = '<%=commonMessageData%>';
-	    var luMessages = '<%=luMessageData%>';
-	    var luTypes = '<%=luTypes%>';
-	    var loTypes = '<%=loTypes%>';
+	    var lumMessages = '<%=lumMessageData%>';
+	    var objectTypes = '<%=objectTypes%>';
 	 
-	 <%
-        for(int j=0; j<luKeys.length; j++) {                      
-            String newKey = DictionaryHelper.buildJavaScriptKey(luKeys[j]);              
+	    <%
+        for(int j=0; j<keys.length; j++) {           
+            
+            String newKey = DictionaryHelper.buildJavaScriptKey(keys[j]);
+              
      %>
-            var <%=newKey.toString()%> = '<%=structures.get(luKeys[j])%>';
+            var <%=newKey.toString()%> = '<%=structures.get(keys[j])%>';
      <% 
-         }         
+       } 
+        
      %>
-	 <%
-        for(int j=0; j<loKeys.length; j++) {                      
-            String newKey = DictionaryHelper.buildJavaScriptKey(loKeys[j]);              
-     %>
-            var <%=newKey.toString()%> = '<%=structures.get(loKeys[j])%>';
-     <% 
-         }         
-     %>
-     	</script>
+	</script>
 <%
     } catch (Exception e) {
 
