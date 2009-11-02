@@ -2,7 +2,7 @@ package org.kuali.student.lum.lu.assembly.data.client;
 
 
 public enum ModificationProperties implements PropertyEnum {
-		CREATED("crud_created"), DELETED("crud_deleted"), UPDATED("crud_updated");
+		CREATED("crud_created"), DELETED("crud_deleted"), UPDATED("crud_updated"), VERSION_INDICATOR("version_indicator");
 
 		private final String key;
 

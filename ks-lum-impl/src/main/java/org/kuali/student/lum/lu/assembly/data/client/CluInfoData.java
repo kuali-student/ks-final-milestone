@@ -3,20 +3,31 @@ package org.kuali.student.lum.lu.assembly.data.client;
 import org.kuali.student.common.assembly.Data;
 
 public class CluInfoData extends Data {
-
-	private static final long serialVersionUID = 1L;
-	public static final String CHILD_CLUS = "childClus";
-
-	public CluInfoData getChild(final int index) {
-		CluInfoData result = null;
-		final Data children = getChildren();
-		if (children != null && index < children.size()) {
-			result = children.get(index);
+	public enum Properties implements PropertyEnum {
+		CHILD_CLUS("childClus"), PARENT_RELATION_TYPE("parentRelationType");
+		
+		private final String key;
+		private Properties(final String key) {
+			this.key = key;
 		}
-		return result;
+		@Override
+		public String getKey() {
+			return this.key;
+		}
+		
+	}
+	private static final long serialVersionUID = 1L;
+	
+	public String getParentRelationType() {
+		return super.get(Properties.PARENT_RELATION_TYPE.getKey());
 	}
 
-	public Data getChildren() {
-		return super.get(CHILD_CLUS);
+	public Data getChildClus() {
+		Data result = super.get(Properties.CHILD_CLUS.getKey());
+		if (result == null) {
+			result = new Data();
+			super.set(Properties.CHILD_CLUS.getKey(), result);
+		}
+		return result;
 	}
 }

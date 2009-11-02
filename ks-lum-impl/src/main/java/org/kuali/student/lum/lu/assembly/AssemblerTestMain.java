@@ -7,9 +7,12 @@ import javax.xml.namespace.QName;
 import org.kuali.student.common.assembly.Data;
 import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
+import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
+import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
 
 public class AssemblerTestMain {
 
@@ -41,15 +44,43 @@ public class AssemblerTestMain {
 		luService.createCluCluRelation(clu.getId(), formatClu.getId(),
 				"luLuRelationType.hasCourseFormat", relation);
 
-		CluInfoAssembler cluAssembler = new CluInfoAssembler();
-
+		CluInfoHierarchyAssembler cluAssembler = getAssembler();
 		cluAssembler.setLuService(luService);
 
-		Data cluData = cluAssembler.get(clu.getId());
-
-		dump(cluData);
+		CluInfoHierarchy result = cluAssembler.get(clu.getId());
+		// TODO finish updating test with new structures
+		
+//		CluInfoHierarchy course = new CluInfoHierarchy();
+//		course.setCluInfo(clu);
+//		course.setModificationState(ModificationState.CREATED);
+//		
+//		CluInfoHierarchy format = new CluInfoHierarchy();
+//		format.setCluInfo(formatClu);
+//		format.setModificationState(ModificationState.CREATED);
+//		format.setParentRelationState("draft");
+//		format.setParentRelationType(CreditCourseProposalAssembler.FORMAT_RELATION_TYPE);
+//		course.getChildren().add(format);
+		
+		
+		
+//		Data cluData = cluAssembler.get(clu.getId());
+//
+//		dump(cluData);
 	}
 
+	private static CluInfoHierarchyAssembler getAssembler() {
+		CluInfoHierarchyAssembler cluAssembler = new CluInfoHierarchyAssembler();
+		RelationshipHierarchy course = new RelationshipHierarchy();
+		RelationshipHierarchy formats = new RelationshipHierarchy(CreditCourseProposalAssembler.FORMAT_RELATION_TYPE, "draft");
+		RelationshipHierarchy activities = new RelationshipHierarchy(CreditCourseProposalAssembler.ACTIVITY_RELATION_TYPE, "draft");
+		
+		course.addChild(formats);
+		formats.addChild(activities);
+		
+		cluAssembler = new CluInfoHierarchyAssembler();
+		cluAssembler.setHierarchy(course);
+		return cluAssembler;
+	}
 	private static void dump(final Data e) {
 		dump(e, 0);
 		System.out
@@ -94,4 +125,11 @@ public class AssemblerTestMain {
 
 		return luService;
 	}
+	
+	private static LuService aquireProposalService() throws Exception {
+		// TODO get proposal service
+		return null;
+	}
+
+	
 }

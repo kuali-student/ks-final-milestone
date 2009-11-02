@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.assembly.data.client.creditcourse;
 import org.kuali.student.common.assembly.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData;
 import org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData;
 
 public class CreditCourse extends ModifiableData {
@@ -54,9 +55,6 @@ public class CreditCourse extends ModifiableData {
 		return result;
 	}
 
-	public void addTermOffered(String term) {
-		getTermsOffered().add(term);
-	}
 
 	public TimeAmountInfoData getDuration() {
 		return super.get(Properties.DURATION.getKey());
@@ -88,11 +86,11 @@ public class CreditCourse extends ModifiableData {
 	 * 
 	 * @return
 	 */
-	public String getDescription() {
+	public RichTextInfoData getDescription() {
 		return super.get(Properties.DESCRIPTION.getKey());
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(RichTextInfoData description) {
 		super.set(Properties.DESCRIPTION.getKey(), description);
 	}
 

@@ -36,4 +36,14 @@ public class ModifiableData extends Data {
 		return (result != null && (boolean) result);
 	}
 	
+	public String getVersionIndicator() {
+		return super.get(ModificationProperties.VERSION_INDICATOR.getKey());
+	}
+	public void setVersionIndicator(String version) {
+		super.set(ModificationProperties.VERSION_INDICATOR.getKey(), version);
+	}
+	
+	public boolean isModified() {
+		return isCreated() || isUpdated() || isDeleted();
+	}
 }
