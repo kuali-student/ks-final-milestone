@@ -18,16 +18,12 @@
  */
 package org.kuali.student.common.assembly;
 
+
 /**
  * @author wilj
  *
  */
-public interface PathParser {
-	String format(QueryPath path);
-
-	String getWildCard();
-
-	String getPathSeparator();
-	
-	QueryPath parse(String path);
+public interface ModelDefinition {
+	public void ensurePath(final Data root, final QueryPath path, boolean includeLeafNode);
+	public String getType(final QueryPath path);
 }

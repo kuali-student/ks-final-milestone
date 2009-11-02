@@ -17,6 +17,8 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.Model;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
@@ -24,7 +26,6 @@ import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
@@ -32,7 +33,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class Section extends Composite implements ConfigurableLayoutSection{
-    
+        
     protected SectionTitle sectionTitle = SectionTitle.generateEmptyTitle();
     protected final Label instructionsLabel = new Label();
     protected LayoutController layoutController = null;
@@ -271,6 +272,14 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
             s.updateView(modelDTO);
         }
     }
+    
+    public void updateModel(Model model){
+        SectionBinding.INSTANCE.setModelValue(this, model, "");
+    }
+       
+    public void updateView(Model model) {
+        SectionBinding.INSTANCE.setWidgetValue(this, model, "");
+    }
 
     public void clear(){
         for (Section s:sections){
@@ -331,6 +340,10 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
 	public void setLayoutController(LayoutController controller) {
 		this.layoutController = controller;
 	}
+
+    public ArrayList<Section> getSections() {
+        return sections;
+    }
     
     
 

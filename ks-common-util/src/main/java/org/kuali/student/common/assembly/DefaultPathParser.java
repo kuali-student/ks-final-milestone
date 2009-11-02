@@ -26,6 +26,8 @@ import org.kuali.student.common.assembly.Data.Key;
  */
 public class DefaultPathParser implements PathParser {
 
+    private final String PATH_SEPARATOR = "/";
+    
 	/* (non-Javadoc)
 	 * @see com.johnsoncs.gwt.application.client.model.PathParser#format(com.johnsoncs.gwt.application.client.model.QueryPath)
 	 */
@@ -42,7 +44,7 @@ public class DefaultPathParser implements PathParser {
 				sb.append(key.toString());
 			}
 			if (itr.hasNext()) {
-				sb.append(".");
+				sb.append(PATH_SEPARATOR);
 			}
 		}
 		return sb.toString();
@@ -55,14 +57,14 @@ public class DefaultPathParser implements PathParser {
 	public String getWildCard() {
 		return "*";
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.johnsoncs.gwt.application.client.model.PathParser#parse(java.lang.String)
 	 */
 	@Override
 	public QueryPath parse(final String path) {
 		final QueryPath result = new QueryPath();
-		final String[] elements = path.split("\\.");
+		final String[] elements = path.split(PATH_SEPARATOR);
 		for (String element : elements) {
 			element = element.trim();
 			if (!element.isEmpty()) {
@@ -81,4 +83,9 @@ public class DefaultPathParser implements PathParser {
 		}
 		return result;
 	}
+
+    @Override
+    public String getPathSeparator() {
+        return PATH_SEPARATOR;
+    }
 }

@@ -1,21 +1,3 @@
-/*
- * Copyright 2009 Johnson Consulting Services
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * 
- */
 package org.kuali.student.common.assembly;
 
 import java.io.Serializable;
@@ -33,7 +15,20 @@ import java.util.Map.Entry;
  */
 @SuppressWarnings( { "serial", "unchecked" })
 public class Data implements Serializable, Iterable<Data.Property> {
-	public static class BooleanValue implements Value {
+    public enum DataType {
+        STRING,
+        CHARACTER,
+        INTEGER,
+        LONG,
+        FLOAT,
+        DOUBLE,
+        BYTE,
+        BOOLEAN,
+        DATE,
+        DATA
+    }
+    
+    public static class BooleanValue implements Value {
 		Boolean value;
 
 		protected BooleanValue() {
@@ -837,7 +832,9 @@ public class Data implements Serializable, Iterable<Data.Property> {
 			if (itr.hasNext()) {
 				d = d.get(k);
 			} else {
-				result = (T) d.get(k);
+			    if (d != null){  //The property may not have been set yet
+			        result = (T) d.get(k);
+			    }
 			}
 		}
 		return result;
@@ -847,6 +844,21 @@ public class Data implements Serializable, Iterable<Data.Property> {
 		return (T) query(QueryPath.parse(path));
 	}
 
+	public Class<?> getType(final QueryPath path){
+        Value result = null;
+        Data d = this;
+        for (final Iterator itr = path.iterator(); itr.hasNext();) {
+            final Key k = (Key) itr.next();
+            if (itr.hasNext()) {
+                d = d.get(k);
+            } else {
+                result = map.get(k);
+            }
+        }
+        return result.getType();
+
+	}
+	
 	public void set(final Integer key, final Boolean value) {
 		map.put(new IntegerKey(key), new BooleanValue(value));
 	}
@@ -1024,6 +1036,19 @@ public class Data implements Serializable, Iterable<Data.Property> {
 
 	public Integer size() {
 		return map.size();
+	}
+	
+	public String toString(){
+	    StringBuffer dataString = new StringBuffer();
+	    
+        dataString.append("{");
+	    for (Iterator itr = this.iterator(); itr.hasNext();) {
+            Property p = (Property) itr.next();
+            dataString.append(p.getKey() + "=" + p.getValue() + ", ");
+        }
+	    dataString.append("}");  	    
+	    
+	    return dataString.toString();	    
 	}
 
 	public boolean containsKey(Key key) {

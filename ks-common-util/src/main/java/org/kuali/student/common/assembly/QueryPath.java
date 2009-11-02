@@ -36,6 +36,10 @@ public class QueryPath extends ArrayList<Key> {
 	public static String getWildCard() {
 		return parser.getWildCard();
 	}
+	
+	public static String getPathSeparator(){
+	    return parser.getPathSeparator();
+	}
 
 	public static QueryPath parse(final String path) {
 		return parser.parse(path);
