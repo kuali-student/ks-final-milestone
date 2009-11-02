@@ -93,4 +93,12 @@ public class RemovableItem extends MultiplicityItem {
         }
     }
 
+    public void setItemLabel(String itemLabel) {
+        this.itemLabel = itemLabel;
+    }
+
+    public void setUseDeleteLabel(boolean useDeleteLabel) {
+        this.useDeleteLabel = useDeleteLabel;
+    }
+
 }

@@ -29,8 +29,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public abstract class UpdatableMultiplicityComposite extends MultiplicityComposite {
-    protected String addItemLabel;;
-    
+    protected String addItemLabel;
+    protected String itemLabel;    
     
     public UpdatableMultiplicityComposite(){
     }
@@ -40,14 +40,17 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      */
     @Override
     public MultiplicityItem getItemDecorator() {
-        return new RemovableItem();
+        RemovableItem item = new RemovableItem();
+        item.setItemLabel(itemLabel);            
+
+        return item;
     }
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite#generateAddWidget()
      */
     public Widget generateAddWidget() {
-        Label addWidget =  new Label("Add Item");
+        Label addWidget =  new Label(addItemLabel);
         addWidget.addStyleName("KS-Multiplicity-Labels");
         addWidget.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -65,6 +68,14 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
 
     public void setAddItemLabel(String addItemLabel) {
         this.addItemLabel = addItemLabel;
+    }
+
+    public String getItemLabel() {
+        return itemLabel;
+    }
+
+    public void setItemLabel(String itemLabel) {
+        this.itemLabel = itemLabel;
     }
     
 
