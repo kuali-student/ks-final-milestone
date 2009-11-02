@@ -1,23 +1,19 @@
 package org.kuali.student.common.assembly;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-public interface Assembler {
-	void chain(Assembler assembler) throws AssemblyException;
+public interface Assembler<TargetType, SourceType> {
 
-	Data createNew(String type, String state) throws AssemblyException;
-
-	Data get(String id) throws AssemblyException;
+	TargetType get(String id) throws AssemblyException;
 
 	Metadata getMetadata() throws AssemblyException;
 
-	Metadata getMetadata(String type, String state) throws AssemblyException;
+	SaveResult<TargetType> save(TargetType input) throws AssemblyException;
 
-	Map<Data, List<ValidationResultInfo>> save(Data data) throws AssemblyException;
+	TargetType assemble(SourceType input) throws AssemblyException;
 
-	Data transform(Data data) throws AssemblyException;
+	SourceType disassemble(TargetType input) throws AssemblyException;
 
-	List<ValidationResultInfo> validate(Data data) throws AssemblyException;
+	List<ValidationResultInfo> validate(TargetType input) throws AssemblyException;
 }
