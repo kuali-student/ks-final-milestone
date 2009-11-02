@@ -827,14 +827,12 @@ public class Data implements Serializable, Iterable<Data.Property> {
 	public <T> T query(final QueryPath path) {
 		T result = null;
 		Data d = this;
-		for (final Iterator itr = path.iterator(); itr.hasNext();) {
+		for (final Iterator itr = path.iterator(); itr.hasNext() && d != null;) {
 			final Key k = (Key) itr.next();
 			if (itr.hasNext()) {
 				d = d.get(k);
 			} else {
-			    if (d != null){  //The property may not have been set yet
-			        result = (T) d.get(k);
-			    }
+		        result = (T) d.get(k);
 			}
 		}
 		return result;
