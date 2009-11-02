@@ -1,24 +1,33 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.kuali.student.common.assembly.Data;
 import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
+import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
+import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
 
 public class AssemblerTestMain {
 
 	public static void main(String[] args) throws Exception {
 		LuService luService = aquireLuService();
-
+//		AtpService atpService = aquireAtpService();
+		ProposalService proposalService = aquireProposalService();
+		
+//		List<AtpDurationTypeInfo> atpTypes = atpService.getAtpDurationTypes();
+		List<ProposalTypeInfo> proposalTypes = proposalService.getProposalTypes();
+		
 		// Create some cluInfo
 		CluInfo clu = new CluInfo();
 		clu.setType("kuali.lu.type.CreditCourse");
@@ -68,6 +77,7 @@ public class AssemblerTestMain {
 //		dump(cluData);
 	}
 
+
 	private static CluInfoHierarchyAssembler getAssembler() {
 		CluInfoHierarchyAssembler cluAssembler = new CluInfoHierarchyAssembler();
 		RelationshipHierarchy course = new RelationshipHierarchy();
@@ -110,26 +120,40 @@ public class AssemblerTestMain {
 	private static LuService aquireLuService() throws Exception {
 		// Get client
 		JaxWsClientFactory client = new JaxWsClientFactoryBean();
-
-		String urlString = "http://localhost:8081/ks-embedded-dev/remoting/LuService";
-
+		String urlString = "http://localhost:8081/ks-embedded-dev/services/LuService";
 		client.setAddress(urlString);
 		client.setServiceEndpointInterface(LuService.class);
 		client.setServiceName(new QName("http://student.kuali.org/wsdl/lu",
 				"LuService"));
 		client
-				.setWsdlLocation("http://localhost:8081/ks-embedded-dev/remoting/LuService?wsdl"
-				/* "classpath:META-INF/wsdl/LuService.wsdl" */);
-
+				.setWsdlLocation("http://localhost:8081/ks-embedded-dev/services/LuService?wsdl");
 		LuService luService = (LuService) client.getObject();
-
 		return luService;
 	}
 	
-	private static LuService aquireProposalService() throws Exception {
-		// TODO get proposal service
-		return null;
+	private static ProposalService aquireProposalService() throws Exception {
+		JaxWsClientFactory client = new JaxWsClientFactoryBean();
+		String urlString = "http://localhost:8081/ks-embedded-dev/services/ProposalService";
+		client.setAddress(urlString);
+		client.setServiceEndpointInterface(ProposalService.class);
+		client.setServiceName(new QName("http://student.kuali.org/wsdl/proposal",
+				"ProposalService"));
+		client
+				.setWsdlLocation("http://localhost:8081/ks-embedded-dev/services/ProposalService?wsdl");
+		ProposalService proposalService = (ProposalService) client.getObject();
+		return proposalService;
 	}
 
+//	private static AtpService aquireAtpService() throws Exception{
+//		JaxWsClientFactory client = new JaxWsClientFactoryBean();
+//		String urlString = "http://localhost:8081/ks-embedded-dev/services/AtpService";
+//		client.setAddress(urlString);
+//		client.setServiceEndpointInterface(AtpService.class);
+//		client.setServiceName(new QName("http://student.kuali.org/wsdl/atp",
+//				"AtpService"));
+//		client.setWsdlLocation("http://localhost:8081/ks-embedded-dev/services/AtpService?wsdl");
+//		AtpService atpService = (AtpService) client.getObject();
+//		return atpService;
+//	}
 	
 }
