@@ -31,7 +31,7 @@ public abstract class MultiplicityItem extends Composite{
     private Widget itemWidget;
     private Callback<MultiplicityItem> removeCallback;
     
-    private boolean isExisting = false;
+    private boolean isCreated = true;
     private boolean isDeleted = false;
     
     public Integer getItemKey() {
@@ -58,12 +58,12 @@ public abstract class MultiplicityItem extends Composite{
         return removeCallback;
     }
         
-    public boolean isExisting() {
-        return isExisting;
+    public boolean isCreated() {
+        return isCreated;
     }
 
-    public void setExisting(boolean isExisting) {
-        this.isExisting = isExisting;
+    public void setCreated(boolean created) {
+        this.isCreated = created;
     }
 
     public boolean isDeleted() {

@@ -42,7 +42,13 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
         } else {
             GWT.log(itemPath + " has no widget binding.", null);
         }
+        
+        //Multiplicity metadata?
+        QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudCreated");
+        model.set(qPath, new Boolean(multiplicityItem.isCreated()));
 
+        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudDeleted");        
+        model.set(qPath, new Boolean(multiplicityItem.isDeleted()));    
     }
 
     /**
@@ -60,6 +66,15 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
         } else {
             GWT.log(itemPath + " has no widget binding.", null);
         }        
+
+        //Multiplicity metadata?
+        QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudCreated");
+        Boolean existing = model.get(qPath);
+        multiplicityItem.setCreated(existing.booleanValue());
+
+        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudDeleted");
+        Boolean deleted = model.get(qPath);
+        multiplicityItem.setCreated(deleted.booleanValue());    
     }
 
 }

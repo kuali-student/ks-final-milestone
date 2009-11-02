@@ -15,7 +15,12 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
+import java.util.Iterator;
+
+import org.kuali.student.common.assembly.Data;
 import org.kuali.student.common.assembly.Model;
+import org.kuali.student.common.assembly.QueryPath;
+import org.kuali.student.common.assembly.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 
@@ -46,12 +51,26 @@ public class MultiplicityCompositeBinding implements ModelWidgetBinding<Multipli
      */
     @Override
     public void setWidgetValue(MultiplicityComposite mcWidget, Model model, String path) {
-        for (MultiplicityItem item:mcWidget.getItems()){
-            MultiplicityItemBinding.INSTANCE.setWidgetValue(item, model, path);
+        mcWidget.clear();
+        
+        QueryPath qPath = QueryPath.parse(path);
+        Data data = model.get(qPath);
+
+        if (data != null){
+            Iterator<Property> itr = data.iterator();
+            while (itr.hasNext()){
+                Property p = (Property) itr.next();
+                
+                //FIXME: Not sure if this is a good way to get multiplicity item key            
+                if (p.getKey() instanceof Integer){
+                    MultiplicityItem item = mcWidget.addItem();        
+                    //FIXME: Is assumption correct that data passed to setValue() has already been persisted
+                    item.setCreated(false);
+                    item.setItemKey((Integer)p.getKey());
+                    MultiplicityItemBinding.INSTANCE.setWidgetValue(item, model, path);                
+                }
+            }
         }
-        
-        
-        
     }
 
 }

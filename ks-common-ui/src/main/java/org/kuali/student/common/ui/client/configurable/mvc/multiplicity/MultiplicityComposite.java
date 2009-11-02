@@ -50,7 +50,8 @@ public abstract class MultiplicityComposite extends Composite {
     protected Callback<MultiplicityItem> removeCallback = new Callback<MultiplicityItem>(){
 
         public void exec(MultiplicityItem itemToRemove) {
-            items.remove(itemToRemove);
+            //items.remove(itemToRemove);
+            itemToRemove.setDeleted(true);
             removed.add(itemToRemove);
             itemsPanel.remove(itemToRemove);
         }
@@ -95,6 +96,7 @@ public abstract class MultiplicityComposite extends Composite {
         itemsPanel.clear();
         items.clear();
         removed.clear();
+        itemCount = 0;
     }
    
     public void redraw(){
