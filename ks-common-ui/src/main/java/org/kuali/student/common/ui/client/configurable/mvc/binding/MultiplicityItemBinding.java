@@ -70,11 +70,15 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
         //Multiplicity metadata?
         QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudCreated");
         Boolean existing = model.get(qPath);
-        multiplicityItem.setCreated(existing.booleanValue());
+        if (existing != null){
+            multiplicityItem.setCreated(existing.booleanValue());
+        }
 
         qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudDeleted");
         Boolean deleted = model.get(qPath);
-        multiplicityItem.setCreated(deleted.booleanValue());    
+        if (existing != null){
+            multiplicityItem.setCreated(deleted.booleanValue());
+        }
     }
 
 }
