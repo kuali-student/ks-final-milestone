@@ -33,7 +33,7 @@ import com.google.gwt.user.server.rpc.RPC;
 
 public class MessageRPCPreloader {
     private final String MESSAGE_SERVICE_MOCK = "ks.messageServiceMock";
-	private final String MESSAGE_SERVICE = "{http://student.kuali.org/core/messages}MessageService";
+	private final String MESSAGE_SERVICE = "{http://student.kuali.org/wsdl/messages}MessageService";
     
     MessageService messageService;
     
