@@ -34,7 +34,7 @@
 						<goals>
 							<goal>compile</goal>
 						</goals>
-						<!--<phase>none</phase>-->
+						<phase>${ks.gwt.compile.phase}</phase>
 					</execution>
 				</executions>
 				<configuration>
