@@ -25,9 +25,9 @@ public class FieldValidator implements ModelValidator
 {
 
  private Field field;
- private DictionarySpreadsheet sheet;
+ private DictionaryModel sheet;
 
- public FieldValidator (Field field, DictionarySpreadsheet sheet)
+ public FieldValidator (Field field, DictionaryModel sheet)
  {
   this.field = field;
   this.sheet = sheet;

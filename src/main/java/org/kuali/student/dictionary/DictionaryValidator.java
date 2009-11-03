@@ -29,9 +29,9 @@ public class DictionaryValidator implements ModelValidator
 {
 
  private Dictionary dict;
- private DictionarySpreadsheet sheet;
+ private DictionaryModel sheet;
 
- public DictionaryValidator (Dictionary dict, DictionarySpreadsheet sheet)
+ public DictionaryValidator (Dictionary dict, DictionaryModel sheet)
  {
   this.dict = dict;
   this.sheet = sheet;

@@ -26,12 +26,12 @@ import org.kuali.student.dictionary.ModelValidator;
  * Validates the entire spreadsheet model
  * @author nwright
  */
-public class SearchSpreadsheetValidator implements ModelValidator
+public class SearchModelValidator implements ModelValidator
 {
 
- private SearchSpreadsheet sheet;
+ private SearchModel sheet;
 
- public SearchSpreadsheetValidator (SearchSpreadsheet sheet)
+ public SearchModelValidator (SearchModel sheet)
  {
   this.sheet = sheet;
  }

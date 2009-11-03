@@ -23,13 +23,13 @@ import java.util.List;
  * individual types or states but actually groups.
  * @author nwright
  */
-public class DictionarySpreadsheetExpanded implements DictionarySpreadsheet
+public class DictionaryModelExpanded implements DictionaryModel
 {
 
- private DictionarySpreadsheet spreadsheet;
+ private DictionaryModel spreadsheet;
  private DictionaryExpander expander;
 
- public DictionarySpreadsheetExpanded (DictionarySpreadsheet spreadsheet, DictionaryExpander expander)
+ public DictionaryModelExpanded (DictionaryModel spreadsheet, DictionaryExpander expander)
  {
   this.spreadsheet = spreadsheet;
   this.expander = expander;

@@ -28,12 +28,12 @@ import org.kuali.student.dictionary.XmlWriter;
  * This writes out the entire search xml file
  * @author nwright
  */
-public class SearchSpreadsheetWriter extends XmlWriter
+public class SearchModelWriter extends XmlWriter
 {
 
- private SearchSpreadsheet sheet;
+ private SearchModel sheet;
 
- public SearchSpreadsheetWriter (PrintStream out, SearchSpreadsheet sheet)
+ public SearchModelWriter (PrintStream out, SearchModel sheet)
  {
   super (out, 0);
   this.sheet = sheet;
@@ -45,7 +45,7 @@ public class SearchSpreadsheetWriter extends XmlWriter
   */
  public void write ()
  {
-  Collection<String> errors = new SearchSpreadsheetValidator (sheet).validate ();
+  Collection<String> errors = new SearchModelValidator (sheet).validate ();
   if (errors.size () > 0)
   {
    StringBuffer buf = new StringBuffer ();

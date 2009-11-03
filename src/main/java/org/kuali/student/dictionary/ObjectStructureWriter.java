@@ -27,8 +27,8 @@ import java.util.List;
 public class ObjectStructureWriter extends XmlWriter
 {
 
- private DictionarySpreadsheet spreadsheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel spreadsheet;
+ private ModelFinder finder;
  private XmlType xmlType;
  private List<Dictionary> dictionary;
  private boolean inline;
@@ -41,13 +41,13 @@ public class ObjectStructureWriter extends XmlWriter
   * @param dictionary list of entries to write out
   */
  public ObjectStructureWriter (PrintStream out, int indent,
-                               DictionarySpreadsheet spreadsheet, XmlType xmlType,
+                               DictionaryModel spreadsheet, XmlType xmlType,
                                List<Dictionary> dictionary, boolean inline,
                                State mainState)
  {
   super (out, indent);
   this.spreadsheet = spreadsheet;
-  this.finder = new SpreadsheetFinder (spreadsheet);
+  this.finder = new ModelFinder (spreadsheet);
   this.xmlType = xmlType;
   this.dictionary = dictionary;
   this.inline = inline;

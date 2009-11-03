@@ -18,11 +18,11 @@ import java.util.Collection;
 public class OrchestrationObjectWriter
 {
 
- private DictionarySpreadsheet sheet;
+ private DictionaryModel sheet;
  private String directory;
- private SpreadsheetFinder finder;
+ private ModelFinder finder;
 
- public OrchestrationObjectWriter (DictionarySpreadsheet sheet, String directory)
+ public OrchestrationObjectWriter (DictionaryModel sheet, String directory)
  {
   this.sheet = sheet;
   this.directory = directory;
@@ -51,7 +51,7 @@ public class OrchestrationObjectWriter
    throw new DictionaryValidationException (buf.toString ());
   }
 
-  this.finder = new SpreadsheetFinder (sheet);
+  this.finder = new ModelFinder (sheet);
 
 
   JCodeModel jcm = new JCodeModel ();

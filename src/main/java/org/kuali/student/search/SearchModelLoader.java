@@ -24,12 +24,12 @@ import org.kuali.student.dictionary.WorksheetReader;
  * Loads a spreadsheet using either a google or excel reader
  * @author nwright
  */
-public class SearchSpreadsheetLoader implements SearchSpreadsheet
+public class SearchModelLoader implements SearchModel
 {
 
  private SpreadsheetReader spreadsheetReader;
 
- public SearchSpreadsheetLoader (SpreadsheetReader spreadsheetReader)
+ public SearchModelLoader (SpreadsheetReader spreadsheetReader)
  {
   this.spreadsheetReader = spreadsheetReader;
  }

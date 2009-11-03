@@ -116,9 +116,9 @@ public class DictionaryGeneratorFromCommandLine
   try
   {
    reader = new ExcelSpreadsheetReader (inFile);
-   DictionarySpreadsheetLoader loader = new DictionarySpreadsheetLoader (reader, null);
-   DictionarySpreadsheet cache = new DictionarySpreadsheetCache (loader);
-   DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, cache);
+   DictionaryModelLoader loader = new DictionaryModelLoader (reader, null);
+   DictionaryModel cache = new DictionaryModelCache (loader);
+   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
    instance.write ();
   }
   finally

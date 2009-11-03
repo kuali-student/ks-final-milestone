@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelDictionarySpreadsheetLoaderTest implements TestConstants
+public class ExcelDictionaryModelLoaderTest implements TestConstants
 {
 
- public ExcelDictionarySpreadsheetLoaderTest ()
+ public ExcelDictionaryModelLoaderTest ()
  {
  }
 
@@ -48,7 +48,7 @@ public class ExcelDictionarySpreadsheetLoaderTest implements TestConstants
 
  private ExcelSpreadsheetReader dictReader;
  private ExcelSpreadsheetReader orchReader;
- private DictionarySpreadsheet instance;
+ private DictionaryModel instance;
 
  @Before
  public void setUp ()
@@ -56,7 +56,7 @@ public class ExcelDictionarySpreadsheetLoaderTest implements TestConstants
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
   dictReader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
   orchReader = new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
-  instance = new DictionarySpreadsheetLoader (dictReader, orchReader);
+  instance = new DictionaryModelLoader (dictReader, orchReader);
  }
 
  @After

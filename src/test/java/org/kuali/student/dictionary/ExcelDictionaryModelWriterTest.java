@@ -29,10 +29,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class GoogleDictionarySpreadsheetWriterTest
+public class ExcelDictionaryModelWriterTest implements TestConstants
 {
 
- public GoogleDictionarySpreadsheetWriterTest ()
+ public ExcelDictionaryModelWriterTest ()
  {
  }
 
@@ -58,28 +58,16 @@ public class GoogleDictionarySpreadsheetWriterTest
  {
  }
 
- //private static String USER_ID = "nwright@mit.edu";
- //private static String PASSWORD = "xxxxx";
- private static String SPREADSHEET_KEY = "tSdKqlIJ1piKNBie4_H0hoA";
 
  /**
   * Test of write method, of class DictionaryWriter.
   */
  @Test
- public void testTrue ()
+ public void testWriteExcelDictionary ()
  {
-  assertEquals (true, true);
- }
-
- /**
-  * Test of write method, of class DictionaryWriter.
-  */
-// @Test
- public void testWriteGoogleDictionary ()
- {
-  System.out.println ("writeGoogleDictionary");
+  System.out.println ("writeExcelDictionary");
   File file =
-   new File ("src/resources/dictionary/lu-dictionary-config-generated-google.xml");
+   new File ("src/test/resources/dictionary/lu-dictionary-config-generated-excel.xml");
   PrintStream out;
   try
   {
@@ -89,17 +77,19 @@ public class GoogleDictionarySpreadsheetWriterTest
   {
    throw new RuntimeException (ex);
   }
-  GoogleSpreadsheetReader reader = new GoogleSpreadsheetReader ();
-  // don't need user name and password if spreadsheet is published
-  //reader.setUserCredentials (USER_ID, PASSWORD);
-  reader.setKey (SPREADSHEET_KEY);
-  reader.setVisibility ("public");
-  reader.setProjection ("values");
-  DictionarySpreadsheet spreadsheet = new DictionarySpreadsheetLoader (reader, null);
-  spreadsheet = new DictionarySpreadsheetCache (spreadsheet);
-  DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, spreadsheet);
+  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  try
+  {
+  DictionaryModelLoader loader = new DictionaryModelLoader (reader, null);
+  DictionaryModel cache = new DictionaryModelCache (loader);
+  DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
   instance.write ();
-  out.close ();
+  }
+  finally
+  {
+   out.close ();
+   reader.close ();
+  }
   assertEquals (true, true);
  }
 

@@ -118,9 +118,9 @@ public class SearchGeneratorFromCommandLine
   try
   {
    reader = new ExcelSpreadsheetReader (inFile);
-   SearchSpreadsheetLoader loader = new SearchSpreadsheetLoader (reader);
-   SearchSpreadsheet cache = new SearchSpreadsheetCache (loader);
-   SearchSpreadsheetWriter instance = new SearchSpreadsheetWriter (out, cache);
+   SearchModelLoader loader = new SearchModelLoader (reader);
+   SearchModel cache = new SearchModelCache (loader);
+   SearchModelWriter instance = new SearchModelWriter (out, cache);
    instance.write ();
   }
   finally

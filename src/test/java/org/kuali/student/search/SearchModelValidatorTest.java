@@ -29,10 +29,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class SearchSpreadsheetValidatorTest implements SearchTestConstants
+public class SearchModelValidatorTest implements SearchTestConstants
 {
 
- public SearchSpreadsheetValidatorTest ()
+ public SearchModelValidatorTest ()
  {
  }
 
@@ -68,10 +68,10 @@ public class SearchSpreadsheetValidatorTest implements SearchTestConstants
   System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE);
   ExcelSpreadsheetReader reader =
    new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
-  SearchSpreadsheet spreadsheet =
-   new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
-  SearchSpreadsheetValidator instance =
-   new SearchSpreadsheetValidator (spreadsheet);
+  SearchModel spreadsheet =
+   new SearchModelCache (new SearchModelLoader (reader));
+  SearchModelValidator instance =
+   new SearchModelValidator (spreadsheet);
   Collection<String> expResult = new ArrayList ();
   Collection<String> result = instance.validate ();
   for (String error : result)
@@ -91,10 +91,10 @@ public class SearchSpreadsheetValidatorTest implements SearchTestConstants
   System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE_BAD);
   ExcelSpreadsheetReader reader =
    new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE_BAD);
-  SearchSpreadsheet spreadsheet =
-   new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
-  SearchSpreadsheetValidator instance =
-   new SearchSpreadsheetValidator (spreadsheet);
+  SearchModel spreadsheet =
+   new SearchModelCache (new SearchModelLoader (reader));
+  SearchModelValidator instance =
+   new SearchModelValidator (spreadsheet);
   Collection<String> expResult = new ArrayList ();
   expResult.add ("Error in overall spreadsheet: two criteria with the same key have different names, one is on row 16 the other is on row 75");
   expResult.add ("Error in overall spreadsheet: Two criteria with the same key have different descriptions, one is on row 16 the other is on row 75");

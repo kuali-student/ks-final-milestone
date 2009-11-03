@@ -31,10 +31,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExcelSearchSpreadsheetWriterTest implements SearchTestConstants
+public class ExcelSearchModelWriterTest implements SearchTestConstants
 {
 
- public ExcelSearchSpreadsheetWriterTest ()
+ public ExcelSearchModelWriterTest ()
  {
  }
 
@@ -81,9 +81,9 @@ public class ExcelSearchSpreadsheetWriterTest implements SearchTestConstants
   SpreadsheetReader reader = new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
   try
   {
-   SearchSpreadsheetLoader loader = new SearchSpreadsheetLoader (reader);
-   SearchSpreadsheet cache = new SearchSpreadsheetCache (loader);
-   SearchSpreadsheetWriter instance = new SearchSpreadsheetWriter (out, cache);
+   SearchModelLoader loader = new SearchModelLoader (reader);
+   SearchModel cache = new SearchModelCache (loader);
+   SearchModelWriter instance = new SearchModelWriter (out, cache);
    instance.write ();
   }
   finally

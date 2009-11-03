@@ -27,14 +27,14 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
 
  private List<Dictionary> oldDicts;
  private List<Dictionary> newDicts;
- private DictionarySpreadsheet spreadsheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel spreadsheet;
+ private ModelFinder finder;
 
- public DictionaryMainTypeExpander (DictionarySpreadsheet spreadsheet)
+ public DictionaryMainTypeExpander (DictionaryModel spreadsheet)
  {
   this.spreadsheet = spreadsheet;
   this.oldDicts = spreadsheet.getDictionary ();
-  this.finder = new SpreadsheetFinder (this.spreadsheet);
+  this.finder = new ModelFinder (this.spreadsheet);
  }
 
  @Override

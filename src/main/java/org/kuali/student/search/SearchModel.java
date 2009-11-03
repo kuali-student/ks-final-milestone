@@ -18,34 +18,21 @@ package org.kuali.student.search;
 import java.util.List;
 
 /**
- * This reads the supplied spreadsheet but then caches it so it doesn't have to
- * re-read it again.
+ * Abstration of the spreadsheet that holds the data so we can implement both
+ * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public class SearchSpreadsheetCache implements SearchSpreadsheet
+public interface SearchModel
 {
 
- private SearchSpreadsheet spreadsheet;
+ public String getSourceName ();
+
+ /**
+  * get search types
+  * @return
+  */
+ public List<SearchType> getSearchTypes ();
+
  
- public SearchSpreadsheetCache (SearchSpreadsheet spreadsheet)
- {
-  this.spreadsheet = spreadsheet;
- }
 
- private List<SearchType> searchTypes = null;
-
- @Override
- public List<SearchType> getSearchTypes ()
- {
-  if (searchTypes == null)
-  {
-   searchTypes = spreadsheet.getSearchTypes ();
-  }
-  return searchTypes;
- }
-
- public String getSourceName ()
- {
-  return spreadsheet.getSourceName ();
- }
 }

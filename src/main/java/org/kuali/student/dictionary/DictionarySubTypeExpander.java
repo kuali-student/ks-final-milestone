@@ -27,14 +27,14 @@ public class DictionarySubTypeExpander implements DictionaryExpander
 
  private List<Dictionary> oldDicts;
  private List<Dictionary> newDicts;
- private DictionarySpreadsheet spreadsheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel model;
+ private ModelFinder finder;
 
- public DictionarySubTypeExpander (DictionarySpreadsheet spreadsheet)
+ public DictionarySubTypeExpander (DictionaryModel model)
  {
-  this.spreadsheet = spreadsheet;
-  this.oldDicts = spreadsheet.getDictionary ();
-  this.finder = new SpreadsheetFinder (this.spreadsheet);
+  this.model = model;
+  this.oldDicts = model.getDictionary ();
+  this.finder = new ModelFinder (this.model);
  }
 
  public List<Dictionary> expand ()

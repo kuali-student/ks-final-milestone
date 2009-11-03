@@ -25,12 +25,12 @@ import java.util.Set;
  * TODO: refactor all the *Writer to use this instead of their own finds.
  * @author nwright
  */
-public class SpreadsheetFinder
+public class ModelFinder
 {
 
- private DictionarySpreadsheet spreadsheet;
+ private DictionaryModel spreadsheet;
 
- public SpreadsheetFinder (DictionarySpreadsheet spreadsheet)
+ public ModelFinder (DictionaryModel spreadsheet)
  {
   this.spreadsheet = spreadsheet;
  }

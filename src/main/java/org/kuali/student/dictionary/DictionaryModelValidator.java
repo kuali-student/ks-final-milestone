@@ -25,16 +25,16 @@ import java.util.Set;
  * Validates the entire spreadsheet model
  * @author nwright
  */
-public class DictionarySpreadsheetValidator implements ModelValidator
+public class DictionaryModelValidator implements ModelValidator
 {
 
- private DictionarySpreadsheet sheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel model;
+ private ModelFinder finder;
 
- public DictionarySpreadsheetValidator (DictionarySpreadsheet sheet)
+ public DictionaryModelValidator (DictionaryModel model)
  {
-  this.sheet = sheet;
-  this.finder = new SpreadsheetFinder (sheet);
+  this.model = model;
+  this.finder = new ModelFinder (model);
  }
 
  List<String> errors;
@@ -53,11 +53,11 @@ public class DictionarySpreadsheetValidator implements ModelValidator
 
  private void validateConstraints ()
  {
-  if (sheet.getConstraints ().size () == 0)
+  if (model.getConstraints ().size () == 0)
   {
    addError ("No constraints found");
   }
-  for (Constraint cons : sheet.getConstraints ())
+  for (Constraint cons : model.getConstraints ())
   {
    ConstraintValidator cv = new ConstraintValidator (cons);
    errors.addAll (cv.validate ());
@@ -66,13 +66,13 @@ public class DictionarySpreadsheetValidator implements ModelValidator
 
  private void validateFields ()
  {
-  if (sheet.getFields ().size () == 0)
+  if (model.getFields ().size () == 0)
   {
    addError ("No fields found");
   }
-  for (Field field : sheet.getFields ())
+  for (Field field : model.getFields ())
   {
-   FieldValidator fv = new FieldValidator (field, sheet);
+   FieldValidator fv = new FieldValidator (field, model);
    errors.addAll (fv.validate ());
   }
  }
@@ -85,7 +85,7 @@ public class DictionarySpreadsheetValidator implements ModelValidator
   }
   for (Dictionary dict : finder.findDefaultDictionary ())
   {
-   DictionaryValidator dv = new DictionaryValidator (dict, sheet);
+   DictionaryValidator dv = new DictionaryValidator (dict, model);
    errors.addAll (dv.validate ());
   }
  }
@@ -99,7 +99,7 @@ public class DictionarySpreadsheetValidator implements ModelValidator
   }
   for (Dictionary dict : finder.findStateOverrideDictionary ())
   {
-   DictionaryValidator dv = new DictionaryValidator (dict, sheet);
+   DictionaryValidator dv = new DictionaryValidator (dict, model);
    errors.addAll (dv.validate ());
   }
  }

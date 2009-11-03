@@ -28,13 +28,13 @@ import java.util.Set;
 public class OrchestrationModelValidator implements ModelValidator
 {
 
- private DictionarySpreadsheet sheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel sheet;
+ private ModelFinder finder;
 
- public OrchestrationModelValidator (DictionarySpreadsheet sheet)
+ public OrchestrationModelValidator (DictionaryModel sheet)
  {
   this.sheet = sheet;
-  this.finder = new SpreadsheetFinder (sheet);
+  this.finder = new ModelFinder (sheet);
  }
 
  List<String> errors;

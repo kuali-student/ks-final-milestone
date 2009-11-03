@@ -25,17 +25,17 @@ import java.util.List;
  * This writes out the entire dictionary xml file
  * @author nwright
  */
-public class DictionarySpreadsheetWriter extends XmlWriter
+public class DictionaryModelWriter extends XmlWriter
 {
 
- private DictionarySpreadsheet sheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel sheet;
+ private ModelFinder finder;
 
- public DictionarySpreadsheetWriter (PrintStream out, DictionarySpreadsheet sheet)
+ public DictionaryModelWriter (PrintStream out, DictionaryModel sheet)
  {
   super (out, 0);
   this.sheet = sheet;
-  this.finder = new SpreadsheetFinder (sheet);
+  this.finder = new ModelFinder (sheet);
  }
 
  /**
@@ -44,7 +44,7 @@ public class DictionarySpreadsheetWriter extends XmlWriter
   */
  public void write ()
  {
-  Collection<String> errors = new DictionarySpreadsheetValidator (sheet).validate ();
+  Collection<String> errors = new DictionaryModelValidator (sheet).validate ();
   if (errors.size () > 0)
   {
    StringBuffer buf = new StringBuffer ();
@@ -59,9 +59,9 @@ public class DictionarySpreadsheetWriter extends XmlWriter
    }
    throw new DictionaryValidationException (buf.toString ());
   }
-  sheet = new DictionarySpreadsheetExpanded (sheet, new DictionaryMainTypeExpander (sheet));
-  sheet = new DictionarySpreadsheetExpanded (sheet, new DictionarySubTypeExpander (sheet));
-  this.finder = new SpreadsheetFinder (sheet);
+  sheet = new DictionaryModelExpanded (sheet, new DictionaryMainTypeExpander (sheet));
+  sheet = new DictionaryModelExpanded (sheet, new DictionarySubTypeExpander (sheet));
+  this.finder = new ModelFinder (sheet);
   for (Dictionary d : sheet.getDictionary ())
   {
    if (d.getMainType ().endsWith ("*") || d.getMainType ().indexOf (",") != -1)

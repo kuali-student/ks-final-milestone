@@ -28,20 +28,20 @@ import java.util.Set;
 public class FieldWriter extends XmlWriter
 {
 
- private DictionarySpreadsheet spreadsheet;
- private SpreadsheetFinder finder;
+ private DictionaryModel spreadsheet;
+ private ModelFinder finder;
  private State mainState;
  private Dictionary origDict;
  private Dictionary dict;
  private Field field;
  private boolean inline;
 
- public FieldWriter (PrintStream out, int indent, DictionarySpreadsheet spreadsheet,
+ public FieldWriter (PrintStream out, int indent, DictionaryModel spreadsheet,
                      Dictionary origDict, State mainState, boolean inline)
  {
   super (out, indent);
   this.spreadsheet = spreadsheet;
-  this.finder = new SpreadsheetFinder (spreadsheet);
+  this.finder = new ModelFinder (spreadsheet);
   this.origDict = origDict;
   this.mainState = mainState;
   this.inline = inline;

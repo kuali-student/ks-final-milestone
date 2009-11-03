@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ExpandedDictionarySpreadsheetTest implements TestConstants
+public class ExpandedDictionaryModelTest implements TestConstants
 {
 
- public ExpandedDictionarySpreadsheetTest ()
+ public ExpandedDictionaryModelTest ()
  {
  }
 
@@ -47,15 +47,15 @@ public class ExpandedDictionarySpreadsheetTest implements TestConstants
  }
 
  private ExcelSpreadsheetReader reader;
- private DictionarySpreadsheet instance;
+ private DictionaryModel instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  instance = new DictionarySpreadsheetLoader (reader, null);
-  instance = new DictionarySpreadsheetCache (instance);
+  instance = new DictionaryModelLoader (reader, null);
+  instance = new DictionaryModelCache (instance);
  }
 
  @After
@@ -72,9 +72,9 @@ public class ExpandedDictionarySpreadsheetTest implements TestConstants
  {
   System.out.println ("getDictsWithMainTypeExpanded");
 
-  DictionarySpreadsheet sheet = instance;
+  DictionaryModel sheet = instance;
   sheet =
-   new DictionarySpreadsheetExpanded (sheet, new DictionaryMainTypeExpander (sheet));
+   new DictionaryModelExpanded (sheet, new DictionaryMainTypeExpander (sheet));
 //  List<Field> expResult = new ArrayList ();
   List<Dictionary> result = sheet.getDictionary ();
   boolean found = false;
@@ -112,12 +112,12 @@ public class ExpandedDictionarySpreadsheetTest implements TestConstants
  {
   System.out.println ("getDictsWithMainAndSubTypeExpanded");
 
-  DictionarySpreadsheet sheet = instance;
+  DictionaryModel sheet = instance;
   sheet =
-   new DictionarySpreadsheetExpanded (sheet, new DictionaryMainTypeExpander (sheet));
+   new DictionaryModelExpanded (sheet, new DictionaryMainTypeExpander (sheet));
   int before = sheet.getDictionary ().size ();
   sheet =
-   new DictionarySpreadsheetExpanded (sheet, new DictionarySubTypeExpander (sheet));
+   new DictionaryModelExpanded (sheet, new DictionarySubTypeExpander (sheet));
   int after = sheet.getDictionary ().size ();
   assertEquals (before, after);
 //  List<Field> expResult = new ArrayList ();

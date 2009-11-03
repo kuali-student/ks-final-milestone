@@ -28,10 +28,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class SearchSpreadsheetLoaderTest implements SearchTestConstants
+public class SearchModelLoaderTest implements SearchTestConstants
 {
 
- public SearchSpreadsheetLoaderTest ()
+ public SearchModelLoaderTest ()
  {
  }
 
@@ -48,14 +48,14 @@ public class SearchSpreadsheetLoaderTest implements SearchTestConstants
  }
 
  private ExcelSpreadsheetReader reader;
- private SearchSpreadsheet instance;
+ private SearchModel instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + ORG_SEARCH_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (ORG_SEARCH_EXCEL_FILE);
-  instance = new SearchSpreadsheetCache (new SearchSpreadsheetLoader (reader));
+  instance = new SearchModelCache (new SearchModelLoader (reader));
  }
 
  @After
