@@ -139,7 +139,7 @@ public class WorkflowButtonsWidget extends Composite {
 						}
 						public void onSuccess(
 								Boolean result) {
-							Window.alert("Proposal has been routed to workflow");
+//							Window.alert("Proposal has been routed to workflow");
 							removeButton(wfStartWorkflowButton);
 						}
 					});
